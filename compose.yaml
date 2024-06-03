@@ -1,0 +1,22 @@
+services:
+  rurema:
+    build:
+      context: .
+    volumes:
+      - "./db:/home/rurema/db"
+      - "./html/ja:/home/rurema/html/ja"
+      - "./tool:/home/rurema/tool"
+    command: "/bin/bash"
+    profiles:
+      - tools
+
+  rurema-search:
+    build:
+      context: .
+      dockerfile: Dockerfile.rurema-search
+    volumes:
+      - "./db:/home/rurema/db"
+      - "./tool:/home/rurema/tool"
+    command: "bundle exec rackup"
+    ports:
+      - "9292:9292"
