@@ -1,0 +1,25 @@
+names=parameters
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/TracePoint:510
+
+--- parameters -> [object]
+
+現在のフックが属するメソッドまたはブロックのパラメータ定義を返します。
+フォーマットは [[m:Method#parameters]] と同じです。
+
+@raise RuntimeError :call、:return、:b_call、:b_return、:c_call、:c_return
+                    イベントのためのイベントフックの外側で実行した場合に発生します。
+
+//emlist[例][ruby]{
+def foo(a, b = 2)
+end
+TracePoint.new(:call) do |tp|
+  p tp.parameters # => [[:req, :a], [:opt, :b]]
+end.enable do
+  foo(1)
+end
+//}
+
+@see [[m:Method#parameters]], [[m:UnboundMethod#parameters]], [[m:Proc#parameters]]
+

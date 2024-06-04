@@ -1,0 +1,41 @@
+names=each_strongly_connected_component
+visibility=public
+kind=defined
+source_location=refm/api/src/tsort.rd:394
+
+--- each_strongly_connected_component {|nodes| ...} -> nil
+--- each_strongly_connected_component -> Enumerator
+
+[[m:TSort#strongly_connected_components]] メソッドのイテレータ版です。
+obj.each_strongly_connected_component は
+obj.strongly_connected_components.each に似ていますが、
+ブロックの評価中に obj が変更された場合は予期しない結果になる
+ことがあります。
+
+each_strongly_connected_component は nil を返します。
+
+//emlist[使用例][ruby]{
+require 'tsort'
+
+class Hash
+  include TSort
+  alias tsort_each_node each_key
+  def tsort_each_child(node, &block)
+    fetch(node).each(&block)
+  end
+end
+
+non_sort = {1=>[2], 2=>[3, 4], 3=>[2], 4=>[]}
+
+non_sort.each_strongly_connected_component{|nodes|
+  p nodes
+}
+
+#出力
+#=> [4]
+#=> [2, 3]
+#=> [1]
+//}
+
+@see [[m:TSort.each_strongly_connected_component]]
+

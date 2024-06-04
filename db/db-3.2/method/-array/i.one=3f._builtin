@@ -1,0 +1,31 @@
+names=one?
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Array:1514
+
+--- one?                -> bool
+--- one?{|obj| ... }    -> bool
+--- one?(pattern)       -> bool
+
+ブロックを指定しない場合は、 配列の要素のうち
+ちょうど一つだけが真であれば、真を返します。
+そうでなければ偽を返します。
+
+ブロックを指定した場合は、配列の要素を
+ブロックで評価した結果、一つの要素だけが真であれば真を返します。
+そうでなければ偽を返します。
+
+@param pattern ブロックの代わりに各要素に対して pattern === item を評価します。
+
+//emlist[例][ruby]{
+%w{ant bear cat}.one? {|word| word.length == 4}   # => true
+%w{ant bear cat}.one? {|word| word.length > 4}    # => false
+%w{ant bear cat}.one?(/t/)                        # => false
+[ nil, true, 99 ].one?                            # => false
+[ nil, true, false ].one?                         # => true
+[ nil, true, 99 ].one?(Integer)                   # => true
+[].one?                                           # => false
+//}
+
+@see [[m:Enumerable#one?]]
+

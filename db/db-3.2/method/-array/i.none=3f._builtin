@@ -1,0 +1,32 @@
+names=none?
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Array:1487
+
+--- none?               -> bool
+--- none?{|obj| ... }   -> bool
+--- none?(pattern)      -> bool
+
+ブロックを指定しない場合は、 配列のすべての
+要素が偽であれば真を返します。そうでなければ偽を返します。
+
+ブロックを指定した場合は、配列のすべての要素を
+ブロックで評価した結果が、すべて偽であれば真を返します。
+そうでなければ偽を返します。
+
+要素の数が 0 である配列に対しては true を返します。
+
+@param pattern ブロックの代わりに各要素に対して pattern === item を評価します。
+
+//emlist[例][ruby]{
+%w{ant bear cat}.none? {|word| word.length == 5}  # => true
+%w{ant bear cat}.none? {|word| word.length >= 4}  # => false
+%w{ant bear cat}.none?(/d/)                       # => true
+[].none?                                          # => true
+[nil].none?                                       # => true
+[nil,false].none?                                 # => true
+[nil, false, true].none?                          # => false
+//}
+
+@see [[m:Enumerable#none?]]
+

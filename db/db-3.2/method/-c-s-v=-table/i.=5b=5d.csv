@@ -1,0 +1,51 @@
+names=[]
+visibility=public
+kind=defined
+source_location=refm/api/src/csv/CSV__Table:91
+
+--- [](index) -> CSV::Row | [String] | nil
+--- [](range) -> [CSV::Row]| [Array] | nil
+--- [](header) -> [String] | [nil]
+
+ミックスモードでは、このメソッドは引数に行番号を指定すれば行単位で動作
+し、ヘッダの名前を指定すれば列単位で動作します。
+
+このメソッドを呼び出す前に [[m:CSV::Table#by_col!]] を呼び出すとカラム
+モードになります。また [[m:CSV::Table#by_row!]] を呼び出すとロウモード
+になります。
+
+@param index ミックスモード・ロウモードでは、取得したい行の行番号を整数で指定します。
+             カラムモードでは、取得したい列の列番号を整数で指定します。
+@param range 取得したい範囲を整数の範囲で指定します。
+@param header 取得したい列のヘッダを文字列で指定します。ロウモードでは使用できません。
+
+//emlist[例][ruby]{
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+table = CSV::Table.new([row1, row2])
+
+# ミックスモード
+p table.mode       # => :col_or_row
+p table[0]         # => #<CSV::Row "header1":"row1_1" "header2":"row1_2">
+p table[1]         # => #<CSV::Row "header1":"row2_1" "header2":"row2_2">
+p table["header2"] # => ["row1_2", "row2_2"]
+p table[0..1]      # => [#<CSV::Row "header1":"row1_1" "header2":"row1_2">, #<CSV::Row "header1":"row2_1" "header2":"row2_2">]
+
+# カラムモード
+table.by_col!
+p table.mode       # => :col
+p table[0]         # => ["row1_1", "row2_1"]
+p table[1]         # => ["row1_2", "row2_2"]
+p table["header2"] # => ["row1_2", "row2_2"]
+p table[0..1]      # => [["row1_1", "row1_2"], ["row2_1", "row2_2"]]
+
+# ロウモード
+table.by_row!
+p table.mode       # => :row
+p table[0]         # => #<CSV::Row "header1":"row1_1" "header2":"row1_2">
+p table[1]         # => #<CSV::Row "header1":"row2_1" "header2":"row2_2">
+p table[0..1]      # => [#<CSV::Row "header1":"row1_1" "header2":"row1_2">, #<CSV::Row "header1":"row2_1" "header2":"row2_2">]
+//}
+
