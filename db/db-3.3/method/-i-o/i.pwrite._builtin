@@ -1,0 +1,28 @@
+names=pwrite
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/IO:2029
+
+--- pwrite(string, offset) -> Integer
+stringをoffsetの位置にpwrite()システムコールを使って書き込みます。
+
+[[m:IO#seek]]と[[m:IO#write]]の組み合わせと比べて、アトミックな操作に
+なるという点が優れていて、複数スレッド/プロセスから同じIOオブジェクトを
+様々な位置から読み込むことを許します。
+どのユーザー空間のIO層のバッファリングもバイパスします。
+
+@param string 書き込む文字列を指定します。
+@param offset ファイルポインタを変えずに書き込む位置を指定します。
+
+@return 書き込んだバイト数を返します。
+
+@raise Errno::EXXX シークまたは書き込みが失敗した場合に発生します。
+@raise NotImplementedError システムコールがサポートされていない OS で発生します。
+
+//emlist[例][ruby]{
+File.open("testfile", "w") do |f|
+  f.pwrite("ABCDEF", 3)   # => 6
+end
+
+File.read("testfile")     # => "\u0000\u0000\u0000ABCDEF"
+//}

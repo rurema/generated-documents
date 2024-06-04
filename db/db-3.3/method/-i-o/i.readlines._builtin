@@ -1,0 +1,39 @@
+names=readlines
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/IO:1536
+
+--- readlines(rs = $/, chomp: false)    -> [String]
+--- readlines(limit, chomp: false)      -> [String]
+--- readlines(rs, limit, chomp: false)  -> [String]
+
+データを全て読み込んで、その各行を要素としてもつ配列を返します。
+既に EOF に達していれば空配列 [] を返します。
+
+テキスト読み込みメソッドとして動作します。
+
+limit で最大読み込みバイト数を指定します。ただしマルチバイト文字が途中で
+切れないように余分に読み込む場合があります。
+
+@param rs 行の区切りを文字列で指定します。rs に nil を指定すると行区切りなしとみなします。
+          空文字列 "" を指定すると連続する改行を行の区切りとみなします(パラグラフモード)。
+@param limit 最大の読み込みバイト数
+@param chomp true を指定すると各行の末尾から rs を取り除きます。
+
+@raise IOError 自身が読み込み用にオープンされていなければ発生します。
+
+//emlist[例][ruby]{
+IO.write("testfile", "line1,\nline2,\nline3,\n")
+File.open("testfile") { |f| p f.readlines }      # => ["line1,\n", "line2,\n", "line3,\n"]
+File.open("testfile") { |f| p f.readlines(3) }   # => ["lin", "e1,", "\n", "lin", "e2,", "\n", "lin", "e3,", "\n"]
+File.open("testfile") { |f| p f.readlines(",") } # => ["line1,", "\nline2,", "\nline3,", "\n"]
+//}
+
+//emlist[例: rsを取り除く（chomp = true）][ruby]{
+IO.write("testfile", "line1,\rline2,\r\nline3,\n")
+File.open("testfile") { |f| p f.readlines(chomp: true) }       # => ["line1,\rline2,", "line3,"]
+File.open("testfile") { |f| p f.readlines("\r", chomp: true) } # => ["line1,", "line2,", "\nline3,\n"]
+//}
+
+@see [[m:$/]], [[m:IO#gets]]
+

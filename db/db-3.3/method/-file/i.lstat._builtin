@@ -1,0 +1,25 @@
+names=lstat
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/File:1307
+
+--- lstat    -> File::Stat
+
+ファイルの状態を含む [[c:File::Stat]] オブジェクトを生成して返します。
+シンボリックリンクに関してリンクそのものの情報を返します。
+[[man:lstat(2)]] を実装していないシステムでは、[[m:IO#stat]]と同じです。
+
+@raise Errno::EXXX 失敗した場合に発生します。
+
+@raise IOError 自身が close されている場合に発生します。
+
+//emlist[例][ruby]{
+# testlink は testfile のシンボリックリンク
+File.open("testlink") do |f|
+    p f.lstat == File.stat("testfile")  # => false
+    p f.stat == File.stat("testfile")   # => true
+end
+//}
+
+@see [[m:IO#stat]], [[m:File.stat]], [[m:File.lstat]]
+

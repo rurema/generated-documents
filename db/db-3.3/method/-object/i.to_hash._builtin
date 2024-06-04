@@ -1,0 +1,30 @@
+names=to_hash
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Object:390
+
+--- to_hash -> Hash
+
+オブジェクトの [[c:Hash]] への暗黙の変換が必要なときに内部で呼ばれます。
+デフォルトでは定義されていません。
+
+説明のためここに記載してありますが、
+このメソッドは実際には Object クラスには定義されていません。
+必要に応じてサブクラスで定義すべきものです。
+
+このメソッドを定義する条件は、
+ * ハッシュが使われるすべての場面で代置可能であるような、
+ * ハッシュそのものとみなせるようなもの
+という厳しいものになっています。
+
+//emlist[][ruby]{
+class Foo
+  def to_hash
+    {'as' => 24}
+  end
+end
+
+it = Foo.new
+p({:as => 12}.merge(it)) #=> {"as"=>24, :as=>12}
+//}
+

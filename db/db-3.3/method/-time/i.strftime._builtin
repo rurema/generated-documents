@@ -1,0 +1,115 @@
+names=strftime
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Time:572
+
+--- strftime(format)    -> String
+
+時刻を format 文字列に従って文字列に変換した結果を返します。
+
+@param format フォーマット文字列を指定します。使用できるものは 以下の通りです。
+
+  * %A: 曜日の名称(Sunday, Monday ... )
+  * %a: 曜日の省略名(Sun, Mon ... )
+  * %B: 月の名称(January, February ... )
+  * %b: 月の省略名(Jan, Feb ... )
+  * %C: 世紀 (2009年であれば 20)
+  * %c: 日付と時刻 (%a %b %e %T %Y)
+  * %D: 日付 (%m/%d/%y)
+  * %d: 日(01-31)
+  * %e: 日。一桁の場合、半角空白で埋める ( 1..31)
+  * %F: %Y-%m-%d と同等 (ISO 8601の日付フォーマット)
+  * %G: ISO 8601の暦週の年
+  * %g: ISO 8601の暦週の年の下2桁(00-99)
+  * %H: 24時間制の時(00-23)
+  * %h: %b と同等
+  * %I: 12時間制の時(01-12)
+  * %j: 年中の通算日(001-366)
+  * %k: 24時間制の時。一桁の場合、半角空白で埋める ( 0..23)
+  * %L: ミリ秒 (000..999)
+  * %l: 12時間制の時。一桁の場合、半角空白で埋める ( 0..12)
+  * %M: 分(00-59)
+  * %m: 月を表す数字(01-12)
+  * %n: 改行 (\n)
+  * %N: 秒の小数点以下。桁の指定がない場合は9桁 (ナノ秒)、%6N: マイクロ秒 (6桁)、%3N: ミリ秒 (3桁)
+  * %P: 午前または午後(am,pm)
+  * %p: 午前または午後(AM,PM)
+  * %Q: 1970-01-01 00:00:00 UTC からの経過ミリ秒 ([[m:Time#strftime]] は対応していませんが、[[m:Date#strftime]] で使えます)
+  * %R: 24時間制の時刻。%H:%M と同等。
+  * %r: 12時間制の時刻。%I:%M:%S %p と同等。
+  * %S: 秒(00-60) (60はうるう秒)
+  * %s: 1970-01-01 00:00:00 UTC からの経過秒
+  * %T: 24時間制の時刻。%H:%M:%S と同等。
+  * %t: タブ文字 (\t)
+  * %U: 週を表す数。最初の日曜日が第1週の始まり(00-53)
+  * %u: 月曜日を1とした、曜日の数値表現 (1..7)
+  * %V: ISO 8601形式の暦週 (01..53)
+  * %v: VMS形式の日付 (%e-%^b-%4Y)
+  * %W: 週を表す数。最初の月曜日が第1週の始まり(00-53)
+  * %w: 曜日を表す数。日曜日が0(0-6)
+  * %X: 時刻 (%Tと同等)
+  * %x: 日付 (%Dと同等)
+  * %Y: 西暦を表す数
+  * %y: 西暦の下2桁(00-99)
+  * %Z: タイムゾーン (環境依存)
+  * %z: タイムゾーン。UTCからのオフセット (例 +0900)
+  * %:z: タイムゾーン。コロンが入ったUTCからのオフセット (例 +09:00)
+  * %::z: タイムゾーン。コロンが入った秒まで含むUTCからのオフセット (例 +09:00:00)
+  * %%: %自身
+  * %+: [[man:date(1)]]の形式 (%a %b %e %H:%M:%S %Z %Y) ([[m:Time#strftime]] は対応していませんが、[[m:Date#strftime]] で使えます)
+
+このメソッドは [[man:strftime(3)]] や glibcの仕様を参考に作成されており、以下のオプションが利用できます。
+  * ^: 大文字で出力を行なう
+  * #: 小文字であれば大文字に、大文字であれば小文字に変更する
+  * -: 左寄せにする(0埋めや空白埋めを行わない)
+  * _: 空白埋めにする
+  * 0: 0埋めにする
+  * 数値: 表示桁数を指定する
+EとOは無視されます。
+
+//emlist[例][ruby]{
+p t = Time.new(2001,2,3,4,5,6,"+09:00")  # => 2001-02-03 04:05:06 +0900
+p t.strftime("Printed on %m/%d/%Y")      # => "Printed on 02/03/2001"
+p t.strftime("Printed on %m/%-d/%_6Y")   # => "Printed on 02/3/  2001"
+p t.strftime("at %I:%M%p")               # => "at 04:05AM"
+p t.strftime("at %I:%M%#p")              # => "at 04:05am"
+//}
+
+//emlist[様々なISO 8601形式][ruby]{
+t = Time.new(2001,2,3,4,5,6,"+09:00")
+p t.strftime("%Y%m%d")           # => 20010203                  Calendar date (basic)
+p t.strftime("%F")               # => 2001-02-03                Calendar date (extended)
+p t.strftime("%Y-%m")            # => 2001-02                   Calendar date, reduced accuracy, specific month
+p t.strftime("%Y")               # => 2001                      Calendar date, reduced accuracy, specific year
+p t.strftime("%C")               # => 20                        Calendar date, reduced accuracy, specific century
+p t.strftime("%Y%j")             # => 2001034                   Ordinal date (basic)
+p t.strftime("%Y-%j")            # => 2001-034                  Ordinal date (extended)
+p t.strftime("%GW%V%u")          # => 2001W056                  Week date (basic)
+p t.strftime("%G-W%V-%u")        # => 2001-W05-6                Week date (extended)
+p t.strftime("%GW%V")            # => 2001W05                   Week date, reduced accuracy, specific week (basic)
+p t.strftime("%G-W%V")           # => 2001-W05                  Week date, reduced accuracy, specific week (extended)
+p t.strftime("%H%M%S")           # => 040506                    Local time (basic)
+p t.strftime("%T")               # => 04:05:06                  Local time (extended)
+p t.strftime("%H%M")             # => 0405                      Local time, reduced accuracy, specific minute (basic)
+p t.strftime("%H:%M")            # => 04:05                     Local time, reduced accuracy, specific minute (extended)
+p t.strftime("%H")               # => 04                        Local time, reduced accuracy, specific hour
+p t.strftime("%H%M%S,%L")        # => 040506,000                Local time with decimal fraction, comma as decimal sign (basic)
+p t.strftime("%T,%L")            # => 04:05:06,000              Local time with decimal fraction, comma as decimal sign (extended)
+p t.strftime("%H%M%S.%L")        # => 040506.000                Local time with decimal fraction, full stop as decimal sign (basic)
+p t.strftime("%T.%L")            # => 04:05:06.000              Local time with decimal fraction, full stop as decimal sign (extended)
+p t.strftime("%H%M%S%z")         # => 040506+0900               Local time and the difference from UTC (basic)
+p t.strftime("%T%:z")            # => 04:05:06+09:00            Local time and the difference from UTC (extended)
+p t.strftime("%Y%m%dT%H%M%S%z")  # => 20010203T040506+0900      Date and time of day for calendar date (basic)
+p t.strftime("%FT%T%:z")         # => 2001-02-03T04:05:06+09:00 Date and time of day for calendar date (extended)
+p t.strftime("%Y%jT%H%M%S%z")    # => 2001034T040506+0900       Date and time of day for ordinal date (basic)
+p t.strftime("%Y-%jT%T%:z")      # => 2001-034T04:05:06+09:00   Date and time of day for ordinal date (extended)
+p t.strftime("%GW%V%uT%H%M%S%z") # => 2001W056T040506+0900      Date and time of day for week date (basic)
+p t.strftime("%G-W%V-%uT%T%:z")  # => 2001-W05-6T04:05:06+09:00 Date and time of day for week date (extended)
+p t.strftime("%Y%m%dT%H%M")      # => 20010203T0405             Calendar date and local time (basic)
+p t.strftime("%FT%R")            # => 2001-02-03T04:05          Calendar date and local time (extended)
+p t.strftime("%Y%jT%H%MZ")       # => 2001034T0405Z             Ordinal date and UTC of day (basic)
+p t.strftime("%Y-%jT%RZ")        # => 2001-034T04:05Z           Ordinal date and UTC of day (extended)
+p t.strftime("%GW%V%uT%H%M%z")   # => 2001W056T0405+0900        Week date and local time and difference from UTC (basic)
+p t.strftime("%G-W%V-%uT%R%:z")  # => 2001-W05-6T04:05+09:00    Week date and local time and difference from UTC (extended)
+//}
+
