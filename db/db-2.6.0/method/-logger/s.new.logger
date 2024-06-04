@@ -1,0 +1,48 @@
+names=new
+visibility=public
+kind=defined
+source_location=refm/api/src/logger.rd:233
+
+--- new(logdev, shift_age = 0, shift_size = 1048576, level: Logger::Severity::DEBUG, progname: nil, formatter: Formatter.new, datetime_format: nil, shift_period_suffix: '%Y%m%d') -> Logger
+
+Logger オブジェクトを生成します。
+
+@param logdev ログを書き込むファイル名か、 IO オブジェクト(STDOUT, STDERR など)を指定します。
+
+@param shift_age ログファイルを保持する数か、ログファイルを切り替える頻度を指定します。
+                 頻度には daily, weekly, monthly を文字列で指定することができます。
+                 省略すると、ログの保存先を切り替えません。
+
+@param shift_size shift_age を整数で指定した場合のみ有効です。
+                  このサイズでログファイルを切り替えます。
+
+@param level ログに記録する時のログレベルを指定します。省略した場合は
+             [[m:Logger::Severity::DEBUG]] です。
+
+@param progname ログに記録する時のプログラム名を指定します。省略した場合は nil です。
+
+@param formatter ログに記録する時のログのフォーマッタを指定します。
+                 省略した場合は [[c:Logger::Formatter]] インスタンスです。
+
+@param datetime_format ログに記録する時の日時のフォーマットを指定します。
+                       省略した場合は '%Y-%m-%d %H:%M:%S' です。
+
+@param shift_period_suffix daily、weekly、monthlyでログファイルの切り替
+                           えを行う時のログファイルの名の末尾に追加する
+                           文字列のフォーマットを指定します。
+                           省略した場合は '%Y%m%d' です。
+
+例:
+
+  require 'logger'
+  logger = Logger.new(STDERR)
+  logger = Logger.new(STDOUT)
+  logger = Logger.new('logfile.log')
+  
+  file = File.open('foo.log', File::WRONLY | File::APPEND | File::CREAT)
+  logger = Logger.new(file, 'daily')
+  logger = Logger.new(file, level: :info)
+  logger = Logger.new(file, progname: 'progname')
+  logger = Logger.new(file, formatter: formatter)
+  logger = Logger.new(file, datetime_format: '%Y-%m-%d %H:%M:%S')
+

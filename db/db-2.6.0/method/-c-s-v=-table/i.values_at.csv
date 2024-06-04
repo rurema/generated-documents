@@ -1,0 +1,37 @@
+names=values_at
+visibility=public
+kind=defined
+source_location=refm/api/src/csv/CSV__Table:481
+
+--- values_at(indices_or_headers) -> Array
+
+デフォルトのミックスモードでは、インデックスのリストを与えると行単位の
+参照を行い、行の配列を返します。他の方法は列単位の参照と見なします。行
+単位の参照では、返り値は行ごとの配列を要素に持つ配列です。
+
+探索方法を変更したい場合は [[m:CSV::Table#by_col!]],
+[[m:CSV::Table#by_row!]] を使用してください。
+
+アクセスモードを混在させることはできません。
+
+//emlist[例 ロウモード][ruby]{
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+table = CSV::Table.new([row1, row2])
+table.values_at(1) # => [#<CSV::Row "header1":"row2_1" "header2":"row2_2">]
+//}
+
+//emlist[例 カラムモード][ruby]{
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+table = CSV::Table.new([row1, row2])
+table.by_col!
+table.values_at(1) # => [["row1_2"], ["row2_2"]]
+//}
+
+@see [[m:CSV::Table#by_col!]], [[m:CSV::Table#by_row!]]
+

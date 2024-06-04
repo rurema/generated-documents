@@ -1,0 +1,49 @@
+names=max
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Array:2712
+
+--- max    -> object | nil
+--- max(n) -> Array
+
+最大の要素、もしくは最大の n 要素が降順に入った配列を返します。
+全要素が互いに <=> メソッドで比較できることを仮定しています。
+
+引数を指定しない形式では要素が存在しなければ nil を返します。
+引数を指定する形式では、空の配列を返します。
+
+//emlist[例][ruby]{
+[].max           #=> nil
+[].max(1)        #=> []
+[2, 5, 3].max    #=> 5
+[2, 5, 3].max(2) #=> [5, 3]
+//}
+
+@param n 取得する要素数。
+
+@see [[m:Enumerable#max]]
+
+--- max {|a, b| ... }    -> object | nil
+--- max(n) {|a, b| ... } -> Array
+
+ブロックの評価結果で各要素の大小判定を行い、最大の要素、もしくは最大の
+n 要素が降順に入った配列を返します。
+引数を指定しない形式では要素が存在しなければ nil を返します。
+引数を指定する形式では、空の配列を返します。
+
+ブロックの値は、a > b のとき正、
+a == b のとき 0、a < b のとき負の整数を、期待しています。
+
+//emlist[例][ruby]{
+[].max {|a, b| a <=> b }    #=> nil
+[].max(1) {|a, b| a <=> b } #=> []
+
+ary = %w(albatross dog horse)
+ary.max {|a, b| a.length <=> b.length }    #=> "albatross"
+ary.max(2) {|a, b| a.length <=> b.length } #=> ["albatross", "horse"]
+//}
+
+@param n 取得する要素数。
+
+@see [[m:Enumerable#max]]
+

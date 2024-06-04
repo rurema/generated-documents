@@ -1,0 +1,38 @@
+names=filter!,keep_if,select!
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Hash:1465
+
+--- keep_if -> Enumerator
+--- keep_if {|key, value| ... } -> self
+--- select! -> Enumerator
+--- select! {|key, value| ... } -> self | nil
+--- filter! -> Enumerator
+--- filter! {|key, value| ... }   -> self | nil
+
+キーと値を引数としてブロックを評価した結果が真であるような要素を self
+に残します。
+
+keep_if は常に self を返します。
+filter! と select! はオブジェクトが変更された場合に self を、
+されていない場合に nil を返します。
+
+ブロックが与えられなかった場合は、自身と keep_if から生成した
+[[c:Enumerator]] オブジェクトを返します。
+
+//emlist[例][ruby]{
+h1 = {}
+c = ("a".."g")
+c.each_with_index {|e, i| h1[i] = e }
+
+h2 = h1.dup
+h1.select!  # => #<Enumerator: {0=>"a", 1=>"b", 2=>"c", 3=>"d", 4=>"e", 5=>"f", 6=>"g"}:select!>
+
+h1.select! { |k, v| k % 3 == 0 }  # => {0=>"a", 3=>"d", 6=>"g"}
+h1.select! { |k, v| true }        # => nil
+h2.keep_if { |k, v| k % 3 == 0 }  # => {0=>"a", 3=>"d", 6=>"g"}
+h2.keep_if { |k, v| true }        # => {0=>"a", 3=>"d", 6=>"g"}
+//}
+
+@see [[m:Hash#select]], [[m:Hash#delete_if]], [[m:Hash#reject!]]
+

@@ -1,0 +1,38 @@
+names=const_set
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Module:636
+
+--- const_set(name, value) -> object
+
+モジュールに name で指定された名前の定数を value とい
+う値として定義し、value を返します。
+
+そのモジュールにおいてすでにその名前の定数が定義されている場合、警
+告メッセージが出力されます。
+
+@param name  [[c:Symbol]],[[c:String]] で定数の名前を指定します。
+@param value セットしたい値を指定します。
+
+//emlist[例][ruby]{
+module Foo; end
+
+# Symbolを指定した場合
+Foo.const_set(:FOO, 123)
+Foo::FOO # => 123
+
+# Stringを指定した場合
+Foo.const_set('BAR', 'abc')
+Foo::BAR # => "abc"
+
+# 既に定義されている定数の名前を指定した場合
+Foo.const_set('BAR', '123')
+# warning: already initialized constant Foo::BAR
+# warning: previous definition of BAR was here
+# => "123"
+
+# 不適切な定数名を指定した場合
+Foo.const_set('foo', 1) # => NameError: wrong constant name foo
+//}
+
+

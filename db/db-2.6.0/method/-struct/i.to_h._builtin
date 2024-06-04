@@ -1,0 +1,28 @@
+names=to_h
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Struct:415
+
+--- to_h -> Hash
+--- to_h {|member, value| block } -> Hash
+
+self のメンバ名([[c:Symbol]])と値の組を [[c:Hash]] にして返します。
+
+//emlist[例][ruby]{
+Customer = Struct.new(:name, :address, :zip)
+Customer.new("Joe Smith", "123 Maple, Anytown NC", 12345).to_h
+# => {:name=>"Joe Smith", :address=>"123 Maple, Anytown NC", :zip=>12345}
+//}
+
+ブロックを指定すると各ペアでブロックを呼び出し、
+その結果をペアとして使います。
+//emlist[ブロック付きの例][ruby]{
+Customer = Struct.new(:name, :address, :zip)
+Customer.new("Joe Smith", "123 Maple, Anytown NC", 12345).to_h {|member, value|
+  [member, value*2]
+} # => {:name=>"Joe SmithJoe Smith", :address=>"123 Maple, Anytown NC123 Maple, Anytown NC", :zip=>24690}
+//}
+
+[注意] 本メソッドの記述は Struct の下位クラスのインスタンスに対して呼び
+出す事を想定しています。Struct.new は Struct の下位クラスを作成する点に
+注意してください。

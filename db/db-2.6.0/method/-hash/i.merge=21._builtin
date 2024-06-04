@@ -1,0 +1,67 @@
+names=merge!,update
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Hash:1098
+
+--- merge!(*others) -> self
+--- merge!(*others) {|key, self_val, other_val| ... } -> self
+--- update(*others) -> self
+--- update(*others) {|key, self_val, other_val| ... } -> self
+
+selfとothersのハッシュの内容を順番にマージ(統合)します。
+
+デフォルト値はselfの設定のままです。
+
+self と others に同じキーがあった場合はブロック付きか否かで
+判定方法が違います。ブロック付きのときはブロックを呼び出して
+その返す値を重複キーに対応する値にします。ブロック付きでない
+場合は常に others の値を使います。
+
+othersがハッシュではない場合、othersのメソッドto_hashを使って暗黙の変換を試みます。
+
+@param others マージ用のハッシュまたはメソッド to_hash でハッシュに変換できるオブジェクトです。
+@return マージ後のselfを返します。
+
+//emlist[][ruby]{
+h1 = { "a" => 100, "b" => 200 }
+h1.merge!          #=> {"a"=>100, "b"=>200}
+h1                 #=> {"a"=>100, "b"=>200}
+//}
+
+//emlist[][ruby]{
+h1 = { "a" => 100, "b" => 200 }
+h2 = { "b" => 246, "c" => 300 }
+h1.merge!(h2)      #=> {"a"=>100, "b"=>246, "c"=>300}
+h1                 #=> {"a"=>100, "b"=>246, "c"=>300}
+//}
+
+//emlist[][ruby]{
+h1 = { "a" => 100, "b" => 200 }
+h2 = { "b" => 246, "c" => 300 }
+h3 = { "b" => 357, "d" => 400 }
+h1.merge!(h2, h3)  #=> {"a"=>100, "b"=>357, "c"=>300, "d"=>400}
+h1                 #=> {"a"=>100, "b"=>357, "c"=>300, "d"=>400}
+//}
+
+//emlist[][ruby]{
+h1 = { "a" => 100, "b" => 200 }
+h2 = { "b" => 246, "c" => 300 }
+h3 = { "b" => 357, "d" => 400 }
+h1.merge!(h2, h3) {|key, v1, v2| v1 }
+                   #=> {"a"=>100, "b"=>200, "c"=>300, "d"=>400}
+h1                 #=> {"a"=>100, "b"=>200, "c"=>300, "d"=>400}
+//}
+
+//emlist[][ruby]{
+foo = {1 => 'a', 2 => 'b', 3 => 'c'}
+bar = {2 => 'B', 3 => 'C', 4 => 'D'}
+
+p foo.update(bar) #=> {1=>"a", 2=>"B", 3=>"C", 4=>"D"}
+p foo  #=> {1=>"a", 2=>"B", 3=>"C", 4=>"D"}
+
+p foo.update(bar) {|key, foo_val, bar_val| foo_val + bar_val } # => {1=>"a", 2=>"BB", 3=>"CC", 4=>"DD"}
+p foo  # => {1=>"a", 2=>"BB", 3=>"CC", 4=>"DD"}
+//}
+
+@see [[m:Hash#merge]],[[m:Hash#replace]]
+

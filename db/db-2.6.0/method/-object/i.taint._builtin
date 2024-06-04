@@ -1,0 +1,34 @@
+names=taint
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Object:1606
+
+--- taint -> self
+
+このメソッドは Ruby 2.7 から deprecated で、Ruby 3.2 で削除予定です。
+
+オブジェクトの「汚染マーク」をセットします。
+
+環境変数（[[c:ENV]]で得られる文字列）など一部のオブジェクトは最初から汚染されています。
+オブジェクトの汚染に関しては[[d:spec/safelevel]]を参照してください。
+
+//emlist[][ruby]{
+$SAFE = 1
+
+some = "puts '@&%&(#!'"
+p some.tainted? #=> false
+eval(some) #=> @&%&(#!
+
+some.taint
+p some.tainted? #=> true
+eval(some) # Insecure operation - eval (SecurityError)
+
+some.untaint
+p some.tainted? #=> false
+eval(some) #=> @&%&(#!
+
+p ENV['OS'].tainted? #=> true
+//}
+
+@see [[m:Object#tainted?]],[[m:Object#untaint]],[[m:Object#freeze]]
+

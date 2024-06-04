@@ -1,0 +1,27 @@
+names=flush
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/IO:1160
+
+--- flush    -> self
+
+IO ポートの内部バッファをフラッシュします。
+
+このメソッドを使ったとき、即座にメタデータを更新することは保証されません(特にWindowsで)。
+即座にメタデータも更新したいときは [[m:IO#fsync]] を使います。
+
+@raise IOError 自身が書き込み用にオープンされていなければ発生します。
+
+@raise Errno::EXXX [[man:fflush(3)]] が失敗した場合に発生します。
+
+//emlist[例][ruby]{
+require "tempfile"
+
+Tempfile.open("testtmpfile") do |f|
+  f.print "test"
+  File.read(f.path) # => ""
+  f.flush
+  File.read(f.path) # => "test"
+end
+//}
+

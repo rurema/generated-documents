@@ -1,0 +1,28 @@
+names=fetch
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Thread:528
+
+--- fetch(name, default = nil) {|name| ... } -> object
+
+name に関連づけられたスレッドに固有のデータを返します。
+name に対応するスレッド固有データがない時には、引数 default が
+与えられていればその値を、ブロックが与えられていれば
+そのブロックを評価した値を返します。
+
+@param name スレッド固有データのキーを文字列か [[c:Symbol]] で指定します。
+@param default name に対応するスレッド固有データがない時の返り値を指定します。
+@raise KeyError 引数defaultもブロックも与えられてない時、
+                name に対応するスレッド固有データがないと発生します。
+
+//emlist[例][ruby]{
+th = Thread.new { Thread.current[:name] = 'A' }
+th.join
+th.fetch(:name)   # => "A"
+th.fetch(:fetch, 'B')   # => "B"
+th.fetch('name')  {|name| "Thread" + name}  # => "A"
+th.fetch('fetch') {|name| "Thread" + name}  # => "Threadfetch"
+//}
+
+@see [[m:Thread#[] ]]
+

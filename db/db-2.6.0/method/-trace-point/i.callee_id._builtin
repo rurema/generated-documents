@@ -1,0 +1,29 @@
+names=callee_id
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/TracePoint:365
+
+--- callee_id -> Symbol | nil
+
+イベントが発生したメソッドの呼ばれた名前を [[c:Symbol]] で返します。
+トップレベルであった場合は nil を返します。
+
+@raise RuntimeError イベントフックの外側で実行した場合に発生します。
+
+//emlist[][ruby]{
+class C
+  def method_name
+  end
+  alias alias_name method_name
+end
+
+trace = TracePoint.new(:call) do |tp|
+  p [tp.method_id, tp.callee_id] # => [:method_name, :alias_name]
+end
+trace.enable do
+  C.new.alias_name
+end
+//}
+
+@see [[m:TracePoint#method_id]]
+
