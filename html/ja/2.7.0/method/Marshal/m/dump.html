@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Marshal/m/dump.html">
+
+<title>Marshal.#dump (Ruby 2.7.0 リファレンスマニュアル)</title>
+<meta name="description" content="obj を指定された出力先に再帰的に出力します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.7.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Marshal.html","name":"Marshalモジュール","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Marshal/m/dump.html","name":"dump","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.7.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Marshal.html">Marshalモジュール</a>
+      </li>
+      <li>
+        dump 
+      </li>
+    </ol>
+  </nav>
+
+<h1>module function Marshal.#dump</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="M_DUMP"><code>dump(obj, port, limit = -1) -&gt; IO</code><span class="permalink">[<a href="../../../method/Marshal/m/dump.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.7.0/Marshal.html#method-c-dump">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Marshal#L13">edit</a>]</span></dt>
+<dt class="method-heading"><code>dump(obj, limit = -1) -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+obj を指定された出力先に再帰的に出力します。
+</p>
+<p>
+ファイルに書き出せないオブジェクトをファイルに書き出そうとすると例外 <a href="../../../class/TypeError.html">TypeError</a> が発生します。ファイルに書き出せないオブジェクトは以下の通りです。
+</p>
+<ul>
+<li>名前のついてない <a href="../../../class/Class.html">Class</a>/<a href="../../../class/Module.html">Module</a> オブジェクト。(この場
+合は、例外 <a href="../../../class/ArgumentError.html">ArgumentError</a> が発生します。無名クラスについて
+は、<a href="../../../method/Module/s/new.html">Module.new</a> を参照。)</li>
+<li>システムがオブジェクトの状態を保持するもの。具体的には以下のイン
+スタンス。<a href="../../../class/Dir.html">Dir</a>, <a href="../../../class/File=3a=3aStat.html">File::Stat</a>, <a href="../../../class/IO.html">IO</a> とそのサブクラス
+<a href="../../../class/File.html">File</a>, <a href="../../../class/Socket.html">Socket</a> など。</li>
+<li><a href="../../../class/MatchData.html">MatchData</a>, <a href="../../../class/Data.html">Data</a>, <a href="../../../class/Method.html">Method</a>, <a href="../../../class/UnboundMethod.html">UnboundMethod</a>,
+<a href="../../../class/Proc.html">Proc</a>, <a href="../../../class/Thread.html">Thread</a>, <a href="../../../class/ThreadGroup.html">ThreadGroup</a>, <a href="../../../class/Continuation.html">Continuation</a>
+のインスタンス。</li>
+<li>特異メソッドを定義したオブジェクト</li>
+</ul>
+<p>
+また、これらのオブジェクトを間接的に指すオブジェクトなども書き出せません。例えば、デフォルト値を求めるブロックを持った <a href="../../../class/Hash.html">Hash</a> は
+<a href="../../../class/Proc.html">Proc</a> を間接的に指していることになります。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">p</span> <span class="no">Marshal</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="no">Hash</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span><span class="p">}</span><span class="p">)</span>
+<span class="c1"># =&gt; -:1:in `dump': cannot dump hash with default proc (TypeError)
+</span></code></pre>
+<p>
+マーシャルの動作を任意に定義することもできます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] obj:</dt>
+<dd>
+ダンプする対象のオブジェクトを指定します。
+</dd>
+<dt class='method-param'>[PARAM] port:</dt>
+<dd>
+<a href="../../../class/IO.html">IO</a> かそのサブクラスのインスタンスを指定します。
+</dd>
+<dt class='method-param'>[PARAM] limit:</dt>
+<dd>
+指定した場合、limit 段以上深くリンクしたオブジェクトをダンプできません。負の limit を指定すると深さチェックを行いません。デフォルトは -1 です。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+port を省略すると、obj をダンプした <a href="../../../class/String.html">String</a> を返します。
+port を指定すると port を返します。
+</dd>
+<dt>[EXCEPTION] TypeError:</dt>
+<dd>
+ファイルに書き出せないオブジェクトをファイルに書きだそうとした場合に発生します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+名前の付いていない <a href="../../../class/Class.html">Class</a> や <a href="../../../class/Module.html">Module</a>
+オブジェクトをダンプしようとした場合に発生します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+limit 段以上深くリンクしたオブジェクトをダンプしようとした場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../../../method/Object/i/marshal_dump.html">Object#marshal_dump</a>, <a href="../../../method/Object/i/marshal_load.html">Object#marshal_load</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Marshal#L13">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

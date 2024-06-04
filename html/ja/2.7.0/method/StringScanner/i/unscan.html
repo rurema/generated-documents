@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/StringScanner/i/unscan.html">
+
+<title>StringScanner#unscan (Ruby 2.7.0 リファレンスマニュアル)</title>
+<meta name="description" content="//emlist[例][ruby]{
+require 'strscan'">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.7.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/strscan.html","name":"strscanライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/StringScanner.html","name":"StringScannerクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/StringScanner/i/unscan.html","name":"unscan","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.7.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/strscan.html">strscanライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/StringScanner.html">StringScannerクラス</a>
+      </li>
+      <li>
+        unscan 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method StringScanner#unscan</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_UNSCAN"><code>unscan -&gt; self</code><span class="permalink">[<a href="../../../method/StringScanner/i/unscan.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.7.0/StringScanner.html#method-i-unscan">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/strscan.rd#L1045">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+スキャンポインタを前回のマッチの前の位置に戻します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s1">'strscan'</span>
+
+s <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'test string'</span><span class="p">)</span>
+s<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\w+/</span><span class="p">)</span> <span class="c1"># =&gt; &quot;test&quot;
+</span>s<span class="p">.</span><span class="nf">unscan</span>
+s<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\w+/</span><span class="p">)</span> <span class="c1"># =&gt; &quot;test&quot;
+</span></code></pre>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+selfを返します。
+</dd>
+</dl>
+<p>
+このメソッドでポインタを戻せるのは 1 回分だけです。
+2 回分以上戻そうとしたときは例外 StringScanner::Error が発生します。また、まだマッチを一度も行っていないときや、前回のマッチが失敗していたときも例外 StringScanner::Error が発生します。
+</p>
+<dl>
+<dt>[EXCEPTION] StringScanner::Error:</dt>
+<dd>
+2 回分以上戻そうとした時や、まだマッチを一度も行っていない時、前回のマッチが失敗していた時に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s1">'strscan'</span>
+
+s <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'test string'</span><span class="p">)</span>
+<span class="k">begin</span>
+  <span class="c1"># マッチを一度も行っていないので、例外が発生する。
+</span>  s<span class="p">.</span><span class="nf">unscan</span>
+<span class="k">rescue</span> <span class="no">StringScanner</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> err
+  <span class="nb">puts</span> err
+  <span class="c1"># 出力例
+</span>  <span class="c1">#=&gt; unscan failed: previous match had failed
+</span><span class="k">end</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\w+/</span><span class="p">)</span> <span class="c1"># =&gt; &quot;test&quot;
+</span>s<span class="p">.</span><span class="nf">unscan</span>
+<span class="k">begin</span>
+  <span class="c1"># 二回以上戻そうとしたので、例外が発生する。
+</span>  s<span class="p">.</span><span class="nf">unscan</span>
+<span class="k">rescue</span> <span class="no">StringScanner</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> err
+  <span class="nb">puts</span> err
+  <span class="c1"># 出力例
+</span>  <span class="c1">#=&gt; unscan failed: previous match had failed
+</span><span class="k">end</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\w+/</span><span class="p">)</span> <span class="c1"># =&gt; &quot;test&quot;
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\w+/</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span><span class="k">begin</span>
+  <span class="c1"># 前回のマッチが失敗しているので、例外が発生する。
+</span>  s<span class="p">.</span><span class="nf">unscan</span>
+<span class="k">rescue</span> <span class="o">=&gt;</span> err
+  <span class="nb">puts</span> err
+  <span class="c1"># 出力例
+</span>  <span class="c1">#=&gt; unscan failed: previous match had failed
+</span><span class="k">end</span>
+</code></pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/strscan.rd#L1045">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
