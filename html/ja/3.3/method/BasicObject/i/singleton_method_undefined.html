@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/BasicObject/i/singleton_method_undefined.html">
+
+<title>BasicObject#singleton_method_undefined (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="特異メソッドが [[m:Module#undef_method]] または
+undef により未定義にされた時にインタプリタから呼び出されます。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/BasicObject.html","name":"BasicObjectクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/BasicObject/i/singleton_method_undefined.html","name":"singleton_method_undefined (private)","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/BasicObject.html">BasicObjectクラス</a>
+      </li>
+      <li>
+        singleton_method_undefined (private)
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method BasicObject#singleton_method_undefined</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_SINGLETON_METHOD_UNDEFINED"><code>singleton_method_undefined(name) -&gt; object</code><span class="permalink">[<a href="../../../method/BasicObject/i/singleton_method_undefined.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/BasicObject.html#method-i-singleton_method_undefined">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/BasicObject.private_methods_from_Object#L64">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+特異メソッドが <a href="../../../method/Module/i/undef_method.html">Module#undef_method</a> または
+undef により未定義にされた時にインタプリタから呼び出されます。
+</p>
+<p>
+通常のメソッドの未定義に対するフックには
+<a href="../../../method/Module/i/method_undefined.html">Module#method_undefined</a> を使います。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] name:</dt>
+<dd>
+未定義にされたメソッド名が <a href="../../../class/Symbol.html">Symbol</a> で渡されます。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">singleton_method_undefined</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="s2">singleton method \&quot;</span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">\&quot; was undefined</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+obj <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span>
+<span class="k">def</span> <span class="nf">obj</span><span class="p">.</span><span class="nf">foo</span>
+<span class="k">end</span>
+<span class="k">def</span> <span class="nf">obj</span><span class="p">.</span><span class="nf">bar</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="o">&lt;&lt;</span> obj
+  undef_method <span class="ss">:foo</span>
+<span class="k">end</span>
+obj<span class="p">.</span><span class="nf">instance_eval</span> <span class="p">{</span><span class="k">undef</span> bar<span class="p">}</span>
+
+<span class="c1">#=&gt; singleton method &quot;foo&quot; was undefined
+</span><span class="c1">#   singleton method &quot;bar&quot; was undefined
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/Module/i/method_undefined.html">Module#method_undefined</a>,<a href="../../../method/BasicObject/i/singleton_method_added.html">BasicObject#singleton_method_added</a>,<a href="../../../method/BasicObject/i/singleton_method_removed.html">BasicObject#singleton_method_removed</a> , <a href="../../../doc/spec=2fdef.html#undef">クラス／メソッドの定義/undef</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/BasicObject.private_methods_from_Object#L64">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

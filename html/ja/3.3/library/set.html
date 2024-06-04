@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/set.html">
+
+<title>library set (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="集合を表す Set クラスを提供します。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/set.html","name":"setライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        setライブラリ
+      </li>
+    </ol>
+  </nav>
+
+<h1>library set</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+<h2>要約</h2>
+<p>
+集合を表す Set クラスを提供します。
+</p>
+<p>
+集合とは重複のないオブジェクトの集まりです。
+<a href="../class/Array.html">Array</a> の持つ演算機能と <a href="../class/Hash.html">Hash</a> の高速な検索機能を合わせ持ちます。
+</p>
+<p>
+Set は内部記憶として <a href="../class/Hash.html">Hash</a> を使うため、集合要素の等価性は
+<a href="../method/Object/i/eql=3f.html">Object#eql?</a> と <a href="../method/Object/i/hash.html">Object#hash</a> を用いて判断されます。したがって、集合の各要素には、これらのメソッドが適切に定義されている必要があります。
+</p>
+<p>
+Set クラスでは、集合要素を取り出す際の順序は保証されません。
+</p>
+<p>
+また、set ライブラリを require すると <a href="../class/Enumerable.html">Enumerable</a> モジュールが拡張され、<a href="../method/Enumerable/i/to_set.html">Enumerable#to_set</a> の形で集合オブジェクトを生成できるようになります。
+</p>
+<h2 >注意事項</h2>
+<p>
+集合オブジェクトに対する freeze メソッドの効果は、内部記憶として保持するハッシュにも適用されます。
+</p>
+<h2 >例</h2>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'set'</span>
+
+set1 <span class="o">=</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span> <span class="p">[</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">baz</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span>
+
+<span class="nb">p</span> set1                  <span class="c1"># =&gt; #&lt;Set: {&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;}&gt;
+</span><span class="nb">p</span> set1<span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span>
+set1<span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="s2">"</span><span class="s2">heh</span><span class="s2">"</span><span class="p">)</span>
+set1<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> set1                  <span class="c1"># =&gt; #&lt;Set: {&quot;bar&quot;, &quot;baz&quot;, &quot;heh&quot;}&gt;
+</span></code></pre>
+
+
+<h2>クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Set.html">Set</a>
+</td>
+<td class="description"><p>
+集合を表すクラスです。要素の間に順序関係はありません。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+
+<h2>追加・再定義されるメソッド</h2>
+<p><code>
+
+<a href="../method/Enumerable/i/to_set.html">Enumerable#to_set</a>
+
+</code></p>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

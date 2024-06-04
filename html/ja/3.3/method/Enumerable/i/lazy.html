@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Enumerable/i/lazy.html">
+
+<title>Enumerable#lazy (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="自身を lazy な Enumerator に変換したものを返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Enumerable.html","name":"Enumerableモジュール","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Enumerable/i/lazy.html","name":"lazy","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Enumerable.html">Enumerableモジュール</a>
+      </li>
+      <li>
+        lazy 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method Enumerable#lazy</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_LAZY"><code>lazy -&gt; Enumerator::Lazy</code><span class="permalink">[<a href="../../../method/Enumerable/i/lazy.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Enumerable.html#method-i-lazy">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Enumerable#L1517">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身を lazy な Enumerator に変換したものを返します。
+</p>
+<p>
+この Enumerator は、以下のメソッドが遅延評価を行う (つまり、配列ではなくEnumeratorを返す) ように再定義されています。
+</p>
+<ul>
+<li>map/collect</li>
+<li>flat_map/collect_concat</li>
+<li>select/find_all</li>
+<li>reject</li>
+<li>grep</li>
+<li>take, take_while</li>
+<li>drop, drop_while</li>
+<li>zip (※一貫性のため、ブロックを渡さないケースのみlazy)</li>
+<li>cycle (※一貫性のため、ブロックを渡さないケースのみlazy)</li>
+</ul>
+<p>
+以下はピタゴラス数 (a**2 + b**2 = c**2 を満たす自然数 a, b, c の組) を列挙するプログラムです。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="k">def</span> <span class="nf">pythagorean_triples</span>
+  <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span><span class="p">)</span><span class="p">.</span><span class="nf">lazy</span><span class="p">.</span><span class="nf">flat_map</span> <span class="p">{</span><span class="o">|</span>z<span class="o">|</span>
+    <span class="p">(</span><span class="mi">1</span><span class="o">..</span>z<span class="p">)</span><span class="p">.</span><span class="nf">flat_map</span> <span class="p">{</span><span class="o">|</span>x<span class="o">|</span>
+      <span class="p">(</span>x<span class="o">..</span>z<span class="p">)</span><span class="p">.</span><span class="nf">select</span> <span class="p">{</span><span class="o">|</span>y<span class="o">|</span>
+        x<span class="o">**</span><span class="mi">2</span> <span class="o">+</span> y<span class="o">**</span><span class="mi">2</span> <span class="o">==</span> z<span class="o">**</span><span class="mi">2</span>
+      <span class="p">}</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>y<span class="o">|</span>
+        <span class="p">[</span>x, y, z<span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+<span class="c1"># 最初の10個のピタゴラス数を表示する
+</span><span class="nb">p</span> pythagorean_triples<span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">force</span> <span class="c1"># takeはlazyなので、forceが必要です
+</span><span class="nb">p</span> pythagorean_triples<span class="p">.</span><span class="nf">first</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="c1"># firstはeagerです
+</span><span class="c1"># 100より小さいピタゴラス数を表示する
+</span><span class="nb">p</span> pythagorean_triples<span class="p">.</span><span class="nf">take_while</span> <span class="p">{</span> <span class="o">|</span><span class="o">*</span>, z<span class="o">|</span> z <span class="o">&lt;</span> <span class="mi">100</span> <span class="p">}</span><span class="p">.</span><span class="nf">force</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../../../class/Enumerator=3a=3aLazy.html">Enumerator::Lazy</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Enumerable#L1517">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

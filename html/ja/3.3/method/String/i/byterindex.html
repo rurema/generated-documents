@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/String/i/byterindex.html">
+
+<title>String#byterindex (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="文字列のバイト単位のインデックス offset から左に向かって pattern を探索します。
+最初に見つかった部分文字列の左端のバイト単位のインデックスを返します。
+見つからなければ nil を返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/String.html","name":"Stringクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/String/i/byterindex.html","name":"byterindex","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/String.html">Stringクラス</a>
+      </li>
+      <li>
+        byterindex 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method String#byterindex</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_BYTERINDEX"><code>byterindex(pattern, offset = self.bytesize) -&gt; Integer | nil</code><span class="permalink">[<a href="../../../method/String/i/byterindex.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/String.html#method-i-byterindex">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/String#L2130">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+文字列のバイト単位のインデックス offset から左に向かって pattern を探索します。最初に見つかった部分文字列の左端のバイト単位のインデックスを返します。見つからなければ nil を返します。
+</p>
+<p>
+引数 pattern は探索する部分文字列または正規表現で指定します。
+</p>
+<p>
+offset が負の場合は、文字列の末尾から数えた位置から探索します。
+</p>
+<p>
+byterindex と <a href="../../../method/String/i/byteindex.html">String#byteindex</a> とでは、探索方向だけが逆になります。完全に左右が反転した動作をするわけではありません。探索はその開始位置を右から左にずらしながら行いますが、部分文字列の照合はどちらのメソッドも左から右に向かって行います。以下の例を参照してください。
+</p>
+<pre class="highlight ruby">
+<span class="caption">String#byteindex の場合</span>
+<code>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">stringstring</span><span class="s2">"</span><span class="p">.</span><span class="nf">byteindex</span><span class="p">(</span><span class="s2">"</span><span class="s2">ing</span><span class="s2">"</span>, <span class="mi">1</span><span class="p">)</span>    <span class="c1"># =&gt; 3
+</span>  <span class="c1"># ing            # ここから探索を始める
+</span>  <span class="c1">#  ing
+</span>  <span class="c1">#   ing          # 右にずらしていってここで見つかる
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">String#byterindex の場合</span>
+<code>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">stringstring</span><span class="s2">"</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s2">"</span><span class="s2">ing</span><span class="s2">"</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># =&gt; 9
+</span>  <span class="c1">#           ing    # インデックス -1 の文字から探索を始める
+</span>  <span class="c1">#          ing
+</span>  <span class="c1">#         ing      # 左にずらしていってここで見つかる
+</span></code></pre>
+<dl>
+<dt class='method-param'>[PARAM] pattern:</dt>
+<dd>
+探索する部分文字列または正規表現
+</dd>
+<dt class='method-param'>[PARAM] offset:</dt>
+<dd>
+探索を始めるバイト単位のインデックス
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'f'</span><span class="p">)</span> <span class="c1"># =&gt; 0
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'o'</span><span class="p">)</span> <span class="c1"># =&gt; 2
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'oo'</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'ooo'</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span>
+<span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="sr">/f/</span><span class="p">)</span> <span class="c1"># =&gt; 0
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="sr">/o/</span><span class="p">)</span> <span class="c1"># =&gt; 2
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="sr">/oo/</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="sr">/ooo/</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span>
+<span class="c1"># 右でのマッチが優先
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="sr">/o+/</span><span class="p">)</span> <span class="c1"># =&gt; 2
+</span><span class="vg">$~</span> <span class="c1">#=&gt; #&lt;MatchData &quot;o&quot;&gt;
+</span>
+<span class="c1"># 最長にするには否定戻り読み(negative look-behind)と組み合わせる
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="sr">/(?&lt;!o)o+/</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span><span class="vg">$~</span> <span class="c1">#=&gt; #&lt;MatchData &quot;oo&quot;&gt;
+</span>
+<span class="c1"># またはbyteindexを否定先読み(negative look-ahead)
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byteindex</span><span class="p">(</span><span class="sr">/o+(?!.*o)/</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span><span class="vg">$~</span> <span class="c1">#=&gt; #&lt;MatchData &quot;oo&quot;&gt;
+</span>
+<span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'o'</span>, <span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'o'</span>, <span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'o'</span>, <span class="mi">2</span><span class="p">)</span> <span class="c1"># =&gt; 2
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'o'</span>, <span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; 2
+</span>
+<span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'o'</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; 2
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'o'</span>, <span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'o'</span>, <span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">byterindex</span><span class="p">(</span><span class="s1">'o'</span>, <span class="o">-</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/String/i/rindex.html">String#rindex</a>, <a href="../../../method/String/i/byteindex.html">String#byteindex</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/String#L2130">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
