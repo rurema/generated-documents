@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/spec=2fpattern_matching.html">
+
+<title>パターンマッチ (Ruby 3.2 リファレンスマニュアル)</title>
+<meta name="description" content="* [[ref:patterns]]
+  * [[ref:variable_binding]]
+  * [[ref:variable_pinning]]
+  * [[ref:matching_non_primitive_objects]]
+  * [[ref:guard_clauses]]
+  * [[ref:current_feature_status]]
+  * [[ref:pattern_syntax]]
+  * [[ref:some_undefined_behavior_examples]]">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.2 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/spec=2fpattern_matching.html","name":"パターンマッチ","position":2}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 3.2 リファレンスマニュアル</a>
+        </li>
+        <li>
+          パターンマッチ
+        </li>
+      
+    </ol>
+  </nav>
+
+<h1>パターンマッチ</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/doc/spec/pattern_matching.rd#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+<ul>
+<li><a href="#patterns">パターン</a></li>
+<li><a href="#variable_binding">変数の束縛</a></li>
+<li><a href="#variable_pinning">変数のピン留め</a></li>
+<li><a href="#matching_non_primitive_objects">非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</a></li>
+<li><a href="#guard_clauses">ガード節</a></li>
+<li><a href="#current_feature_status">機能の現状</a></li>
+<li><a href="#pattern_syntax">付記A: パターンのシンタックス</a></li>
+<li><a href="#some_undefined_behavior_examples">付記B: `未定義` の振る舞いの例</a></li>
+</ul>
+<p>
+パターンマッチは、構造化された値に対して、構造をチェックし、マッチした部分をローカル変数に束縛するという、深いマッチを可能にする機能です。(『束縛』は、パターンマッチの輸入元である関数型言語の用語で、Ruby では代入と読み替えても問題ありません)
+</p>
+<p>
+Rubyでのパターンマッチは case/in 式を用いて実装されています。
+</p>
+<pre>
+case &lt;expression&gt;
+in &lt;pattern1&gt;
+  ...
+in &lt;pattern2&gt;
+  ...
+in &lt;pattern3&gt;
+  ...
+else
+  ...
+end
+</pre>
+<p>
+in 節と when 節は1つの case 式の中に混ぜて書くことはできません。
+</p>
+<p>
+『=&gt;』 演算子と in 演算子で、単体の式で使用することも可能です。
+</p>
+<pre>
+&lt;expression&gt; =&gt; &lt;pattern&gt;
+
+&lt;expression&gt; in &lt;pattern&gt;
+</pre>
+<p>
+case/in 式は 「網羅的」 です。もし case 式の値がどの節にもマッチせず else 節がない場合、例外 NoMatchingPatternError が発生します。
+</p>
+<p>
+そのため、条件付きのマッチや展開に case 式が使われることがあります。
+</p>
+<pre class="highlight ruby">
+<code>
+config <span class="o">=</span> <span class="p">{</span><span class="ss">db:</span> <span class="p">{</span><span class="ss">user:</span> <span class="s1">'admin'</span>, <span class="ss">password:</span> <span class="s1">'abc123'</span><span class="p">}</span><span class="p">}</span>
+
+<span class="k">case</span> config
+<span class="k">in</span> <span class="ss">db:</span> <span class="p">{</span><span class="ss">user:</span><span class="p">}</span> <span class="c1"># ネストしてハッシュにマッチして、その値を変数userに代入する
+</span>  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">Connect with user '</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="s2">'</span><span class="s2">"</span>
+<span class="k">in</span> <span class="ss">connection:</span> <span class="p">{</span><span class="ss">username:</span> <span class="p">}</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">Connect with user '</span><span class="si">#{</span><span class="n">username</span><span class="si">}</span><span class="s2">'</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">Unrecognized structure of config</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1"># &quot;Connect with user 'admin'&quot; と出力
+</span></code></pre>
+<p>
+一方、『=&gt;』 演算子は、期待されるデータ構造があらかじめ分かっている場合に、その一部を展開するのに有効です。
+</p>
+<pre>
+config = {db: {user: 'admin', password: 'abc123'}}
+
+config =&gt; {db: {user:}} # もし config の構造が期待したものでなかった場合には、例外が発生する
+
+puts &quot;Connect with user '#{user}'&quot;
+# Connect with user 'admin'&quot; と出力
+</pre>
+<p>
+『&lt;expression&gt; in &lt;pattern&gt;』 は 『&lt;expression&gt;; in &lt;pattern&gt;; true; else false; end』 と等価です。パターンにマッチするかどうかだけを知りたいときに使えます。
+</p>
+<pre>
+users = [{name: &quot;Alice&quot;, age: 12}, {name: &quot;Bob&quot;, age: 23}]
+users.any? {|user| user in {name: /B/, age: 20..} } #=&gt; true
+</pre>
+<p>
+構文の詳細な例と説明は以下を参照してください。
+</p>
+<h2 id='patterns'>パターン</h2>
+<p>
+パターンで利用できるものには次のものがあります。
+</p>
+<ul>
+<li>すべてのRubyオブジェクト (when と同じように、『===』演算子でマッチする) (「Value パターン」)</li>
+<li>Array パターン: 『[&lt;subpattern&gt;, &lt;subpattern&gt;, &lt;subpattern&gt;, ...]』 (「Array パターン」)</li>
+<li>Find パターン: 『[*variable, &lt;subpattern&gt;, &lt;subpattern&gt;, &lt;subpattern&gt;, ..., *variable]』 (「Find パターン」)</li>
+<li>Hash パターン: 『{key: &lt;subpattern&gt;, key: &lt;subpattern&gt;, ...}』 (「Hash パターン」)</li>
+<li>『|』 でのパターンの組み合わせ (「Alternative パターン」)</li>
+<li>変数のキャプチャ: 『&lt;pattern&gt; =&gt; variable』 または 『variable』 (「As パターン」, 「Variable パターン」)</li>
+</ul>
+<p>
+Array/Find/Hash パターンの中に 『&lt;subpattern&gt;』 と書かれている場所では任意のパターンをネストさせることができます。
+</p>
+<p>
+Array パターン と Find パターン は配列か deconstruct メソッド(後述)を持つオブジェクトにマッチします。
+</p>
+<p>
+Hash パターン はハッシュか deconstruct_keys メソッド(後述)を持つオブジェクトにマッチします。Hash パターン で利用できるキーはシンボルのみです。
+</p>
+<p>
+Array パターン と Hash パターン の挙動の重要な違いは Array パターンは配列の 「全ての」 要素がマッチする必要があるということです。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span>
+<span class="k">in</span> <span class="p">[</span><span class="no">Integer</span>, <span class="no">Integer</span><span class="p">]</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;not matched&quot;
+</span></code></pre>
+<p>
+一方 Hash パターン は一部のキーだけ指定している場合(指定しているキー以外にもキーが存在する場合)でもマッチします。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="k">in</span> <span class="p">{</span><span class="ss">a:</span> <span class="no">Integer</span><span class="p">}</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched&quot;
+</span></code></pre>
+<p>
+『{}』 だけはこのルールの例外です。『{}』 は空のハッシュのみマッチします。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="k">in</span> <span class="p">{</span><span class="p">}</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;not matched&quot;
+</span></code></pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="p">}</span>
+<span class="k">in</span> <span class="p">{</span><span class="p">}</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched&quot;
+</span></code></pre>
+<p>
+また、パターンで明示的に指定したキー以外のキーが存在しないハッシュにのみ、マッチさせたい場合には、『**nil』 を使います。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="k">in</span> <span class="p">{</span><span class="ss">a:</span> <span class="no">Integer</span>, <span class="o">**</span><span class="k">nil</span><span class="p">}</span> <span class="c1"># a: 以外のキーがある場合にはマッチしない
+</span>  <span class="s2">"</span><span class="s2">matched a part</span><span class="s2">"</span>
+<span class="k">in</span> <span class="p">{</span><span class="ss">a:</span> <span class="no">Integer</span>, <span class="ss">b:</span> <span class="no">Integer</span>, <span class="o">**</span><span class="k">nil</span><span class="p">}</span>
+  <span class="s2">"</span><span class="s2">matched a whole</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched a whole&quot;
+</span></code></pre>
+<p>
+Array パターン と Hash パターン ともに残りの部分にマッチする構文をサポートしています。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span>
+<span class="k">in</span> <span class="p">[</span><span class="no">Integer</span>, <span class="o">*</span><span class="p">]</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched&quot;
+</span></code></pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="k">in</span> <span class="p">{</span><span class="ss">a:</span> <span class="no">Integer</span>, <span class="o">**</span><span class="p">}</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched&quot;
+</span></code></pre>
+<p>
+Array パターン や Hash パターン は両端の 『[]』 や 『{}』 といった括弧を省略できます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
+<span class="k">in</span> <span class="no">Integer</span>, <span class="no">Integer</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched&quot;
+</span></code></pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="k">in</span> <span class="ss">a:</span> <span class="no">Integer</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched&quot;
+</span></code></pre>
+<p>
+『=&gt;』演算子と in 演算子で括弧を省略する例です。
+</p>
+<pre>
+[1, 2] =&gt; a, b
+</pre>
+<pre>
+[1, 2] in a, b
+</pre>
+<pre>
+{a: 1, b: 2, c: 3} =&gt; a:
+</pre>
+<pre>
+{a: 1, b: 2, c: 3} in a:
+</pre>
+<p>
+Find パターン は Array パターン に似ていますが、オブジェクトの一部の要素がマッチしていることを検査できます。
+</p>
+<pre>
+case [&quot;a&quot;, 1, &quot;b&quot;, &quot;c&quot;, 2]
+in [*, String, String, *]
+  &quot;matched&quot;
+else
+  &quot;not matched&quot;
+end
+</pre>
+<h2 id='variable_binding'>変数の束縛</h2>
+<p>
+深い構造検査の他のパターンマッチの重要な機能の1つにマッチした部分のローカル変数への束縛があります。束縛の基本的な形はマッチしたパターンの後ろに 『=&gt; 変数名』 と書くことです。(この形は rescue 節で 『rescue ExceptionClass =&gt; var』 の形で例外をローカル変数に格納する形に似ています)
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
+<span class="k">in</span> <span class="no">Integer</span> <span class="o">=&gt;</span> a, <span class="no">Integer</span>
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched: 1&quot;
+</span></code></pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="k">in</span> <span class="ss">a:</span> <span class="no">Integer</span> <span class="o">=&gt;</span> m
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">m</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched: 1&quot;
+</span></code></pre>
+<p>
+追加のチェックが不要で変数への束縛だけがしたい場合は、より簡潔な記法が利用できます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
+<span class="k">in</span> a, <span class="no">Integer</span>
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched: 1&quot;
+</span></code></pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="k">in</span> <span class="ss">a:</span> m
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">m</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched: 1&quot;
+</span></code></pre>
+<p>
+Hash パターンでは、もっと単純に書くこともできます。キーのみを指定することで、キーと同じ名前のローカル変数に値を束縛できます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="k">in</span> <span class="ss">a:</span>
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched: 1&quot;
+</span></code></pre>
+<p>
+ネストしたパターンの場合も同様に値の束縛を利用できます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">name:</span> <span class="s1">'John'</span>, <span class="ss">friends:</span> <span class="p">[</span><span class="p">{</span><span class="ss">name:</span> <span class="s1">'Jane'</span><span class="p">}</span>, <span class="p">{</span><span class="ss">name:</span> <span class="s1">'Rajesh'</span><span class="p">}</span><span class="p">]</span><span class="p">}</span>
+<span class="k">in</span> <span class="ss">name:</span>, <span class="ss">friends:</span> <span class="p">[</span><span class="p">{</span><span class="ss">name:</span> first_friend<span class="p">}</span>, <span class="o">*</span><span class="p">]</span>
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">first_friend</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched: Jane&quot;
+</span></code></pre>
+<p>
+パターンの残りの部分も同様に変数に束縛できます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span>
+<span class="k">in</span> a, <span class="o">*</span>rest
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">rest</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched: 1, [2, 3]&quot;
+</span></code></pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="k">in</span> <span class="ss">a:</span>, <span class="o">**</span>rest
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">rest</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched: 1, {:b=&gt;2, :c=&gt;3}&quot;
+</span></code></pre>
+<p>
+変数への束縛は現状、『|』 で結合される Alternative パターン と同時には利用できません。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="k">in</span> <span class="p">{</span><span class="ss">a:</span> <span class="p">}</span> <span class="o">|</span> <span class="no">Array</span>
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1"># SyntaxError (illegal variable in alternative pattern (a))
+</span></code></pre>
+<p>
+『_』 で始まる変数は例外で、Alternative パターン と同時に利用することができます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="k">in</span> <span class="p">{</span><span class="ss">a:</span> _, <span class="ss">b:</span> _foo<span class="p">}</span> <span class="o">|</span> <span class="no">Array</span>
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">_</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">_foo</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1"># =&gt; &quot;matched: 1, 2&quot;
+</span></code></pre>
+<p>
+しかし、『_』 で始まる変数の目的は利用しない値を意味するので、束縛された値を再利用することはオススメしません。
+</p>
+<h2 id='variable_pinning'>変数のピン留め</h2>
+<p>
+既に存在しているローカル変数は、サブパターン(Array/Find/Hashパターン構文の &lt;subpattern&gt; の部分) として変数の値をそのまま使うことができません。(これは、変数への束縛の機能を実現するための制限です。)
+</p>
+<pre class="highlight ruby">
+<code>
+expectation <span class="o">=</span> <span class="mi">18</span>
+
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
+<span class="k">in</span> expectation, <span class="o">*</span>rest
+  <span class="s2">"</span><span class="s2">matched. expectation was: </span><span class="si">#{</span><span class="n">expectation</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched. expectation was: </span><span class="si">#{</span><span class="n">expectation</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1"># 期待する動作：&quot;not matched. expectation was: 18&quot;
+</span><span class="c1"># 実際の動作：&quot;matched. expectation was: 1&quot; -- ローカル変数が上書きされてしまっている
+</span></code></pre>
+<p>
+この場合、Ruby に「この値をパターンの部品として利用するよ」ということを伝えるためにピン演算子 『^』 を利用することができます。
+</p>
+<pre class="highlight ruby">
+<code>
+expectation <span class="o">=</span> <span class="mi">18</span>
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
+<span class="k">in</span> <span class="o">^</span>expectation, <span class="o">*</span>rest
+  <span class="s2">"</span><span class="s2">matched. expectation was: </span><span class="si">#{</span><span class="n">expectation</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched. expectation was: </span><span class="si">#{</span><span class="n">expectation</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;not matched. expectation was: 18&quot;
+</span></code></pre>
+<p>
+ピン演算子の重要な用途の1つはパターンに複数回出てくる値を明記することです。
+</p>
+<pre class="highlight ruby">
+<code>
+jane <span class="o">=</span> <span class="p">{</span><span class="ss">school:</span> <span class="s1">'high'</span>, <span class="ss">schools:</span> <span class="p">[</span><span class="p">{</span><span class="ss">id:</span> <span class="mi">1</span>, <span class="ss">level:</span> <span class="s1">'middle'</span><span class="p">}</span>, <span class="p">{</span><span class="ss">id:</span> <span class="mi">2</span>, <span class="ss">level:</span> <span class="s1">'high'</span><span class="p">}</span><span class="p">]</span><span class="p">}</span>
+john <span class="o">=</span> <span class="p">{</span><span class="ss">school:</span> <span class="s1">'high'</span>, <span class="ss">schools:</span> <span class="p">[</span><span class="p">{</span><span class="ss">id:</span> <span class="mi">1</span>, <span class="ss">level:</span> <span class="s1">'middle'</span><span class="p">}</span><span class="p">]</span><span class="p">}</span>
+
+<span class="k">case</span> jane
+<span class="k">in</span> <span class="ss">school:</span>, <span class="ss">schools:</span> <span class="p">[</span><span class="o">*</span>, <span class="p">{</span><span class="ss">id:</span>, <span class="ss">level:</span> <span class="o">^</span>school<span class="p">}</span><span class="p">]</span> <span class="c1"># select the last school, level should match
+</span>  <span class="s2">"</span><span class="s2">matched. school: </span><span class="si">#{</span><span class="n">id</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched. school: 2&quot;
+</span>
+<span class="k">case</span> john <span class="c1"># 指定された school の level は &quot;high&quot; だが、最後の school はマッチしない
+</span><span class="k">in</span> <span class="ss">school:</span>, <span class="ss">schools:</span> <span class="p">[</span><span class="o">*</span>, <span class="p">{</span><span class="ss">id:</span>, <span class="ss">level:</span> <span class="o">^</span>school<span class="p">}</span><span class="p">]</span>
+  <span class="s2">"</span><span class="s2">matched. school: </span><span class="si">#{</span><span class="n">id</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;not matched&quot;
+</span></code></pre>
+<p>
+ローカル変数に加えてインスタンス変数やグローバル変数、クラス変数に対してもピン演算子は利用できます。
+</p>
+<pre>
+$gvar = 1
+class A
+  @ivar = 2
+  @@cvar = 3
+  case [1, 2, 3]
+  in ^$gvar, ^@ivar, ^@@cvar
+    &quot;matched&quot;
+  else
+    &quot;not matched&quot;
+  end
+  #=&gt; &quot;matched&quot;
+end
+</pre>
+<p>
+また、括弧を使って任意の式に対してピン演算子を利用できます
+</p>
+<pre>
+a = 1
+b = 2
+case 3
+in ^(a + b)
+  &quot;matched&quot;
+else
+  &quot;not matched&quot;
+end
+#=&gt; &quot;matched&quot;
+</pre>
+<h2 id='matching_non_primitive_objects'>非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</h2>
+<p>
+既に述べたように、Array/Find/Hash パターンは、配列やハッシュのリテラルの他に、deconstruct メソッド(Array/Find パターン) あるいは deconstruct_keys メソッド(Hash パターン) を定義しているオブジェクトに対しても、マッチを試みます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Point</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span>x, y<span class="p">)</span>
+    <span class="vi">@x</span>, <span class="vi">@y</span> <span class="o">=</span> x, y
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">deconstruct</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="s2">deconstruct called</span><span class="s2">"</span>
+    <span class="p">[</span><span class="vi">@x</span>, <span class="vi">@y</span><span class="p">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">deconstruct_keys</span><span class="p">(</span>keys<span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="s2">deconstruct_keys called with </span><span class="si">#{</span><span class="n">keys</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">{</span><span class="ss">x:</span> <span class="vi">@x</span>, <span class="ss">y:</span> <span class="vi">@y</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">case</span> <span class="no">Point</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">in</span> px, <span class="no">Integer</span>  <span class="c1"># パターンと変数への束縛も動きます
+</span>  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">px</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1"># &quot;deconstruct called&quot; と出力
+</span><span class="c1">#=&gt; &quot;matched: 1&quot;
+</span>
+<span class="k">case</span> <span class="no">Point</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">in</span> <span class="ss">x:</span> <span class="mi">0</span><span class="o">..</span> <span class="o">=&gt;</span> px
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">px</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1"># &quot;deconstruct_keys called with [:x]&quot; と出力
+</span><span class="c1">#=&gt; &quot;matched: 1&quot;
+</span></code></pre>
+<p>
+deconstruct_keys メソッドに引数 keys を渡すのは、マッチを行うクラスの実装側に最適化の余地を残すためです。もし、ハッシュのすべての要素を計算するのが重い処理になる場合には、keys で指定された、マッチに必要になる部分のみを計算するように実装しても良いでしょう。
+</p>
+<p>
+『**rest』 パターンが使われた場合には、keys の値として nil が渡されます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="no">Point</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">in</span> <span class="ss">x:</span> <span class="mi">0</span><span class="o">..</span> <span class="o">=&gt;</span> px, <span class="o">**</span>rest
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">px</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1"># &quot;deconstruct_keys called with nil&quot; と出力
+</span><span class="c1">#=&gt; &quot;matched: 1&quot;
+</span></code></pre>
+<p>
+さらに、カスタムクラスに対してマッチする場合には、期待するクラスをパターンの部品として指定することができます。これは 『===』 でチェックされます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">SuperPoint</span> <span class="o">&lt;</span> <span class="no">Point</span>
+<span class="k">end</span>
+
+<span class="k">case</span> <span class="no">Point</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">in</span> <span class="no">SuperPoint</span><span class="p">(</span><span class="ss">x:</span> <span class="mi">0</span><span class="o">..</span> <span class="o">=&gt;</span> px<span class="p">)</span>
+  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">px</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;not matched&quot;
+</span>
+<span class="k">case</span> <span class="no">SuperPoint</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">in</span> <span class="no">SuperPoint</span><span class="p">[</span><span class="ss">x:</span> <span class="mi">0</span><span class="o">..</span> <span class="o">=&gt;</span> px<span class="p">]</span> <span class="c1"># 括弧 [] か () が使える
+</span>  <span class="s2">"</span><span class="s2">matched: </span><span class="si">#{</span><span class="n">px</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched: 1&quot;
+</span></code></pre>
+<p>
+以下のクラスは deconstruct や deconstruct_keys を実装しています。
+</p>
+<p>
+<a href="../method/MatchData/i/deconstruct.html">MatchData#deconstruct</a>
+<a href="../method/MatchData/i/deconstruct_keys.html">MatchData#deconstruct_keys</a>
+<a href="../method/Time/i/deconstruct_keys.html">Time#deconstruct_keys</a>
+<a href="../method/Date/i/deconstruct_keys.html">Date#deconstruct_keys</a>
+<a href="../method/DateTime/i/deconstruct_keys.html">DateTime#deconstruct_keys</a>
+</p>
+<h2 id='guard_clauses'>ガード節</h2>
+<p>
+if を使って、パターンにマッチしたときに評価される追加の条件式(ガード節)を加えることができます。この条件式では、マッチした値を束縛した変数を使うこともできます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
+<span class="k">in</span> a, b <span class="k">if</span> b <span class="o">==</span> a<span class="o">*</span><span class="mi">2</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched&quot;
+</span></code></pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">1</span><span class="p">]</span>
+<span class="k">in</span> a, b <span class="k">if</span> b <span class="o">==</span> a<span class="o">*</span><span class="mi">2</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;not matched&quot;
+</span></code></pre>
+<p>
+unless も利用できます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">1</span><span class="p">]</span>
+<span class="k">in</span> a, b <span class="k">unless</span> b <span class="o">==</span> a<span class="o">*</span><span class="mi">2</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;matched&quot;
+</span></code></pre>
+<h2 id='current_feature_status'>機能の現状</h2>
+<h2 id='pattern_syntax'>付記A: パターンのシンタックス</h2>
+<p>
+おおよその構文は以下のとおりです。
+</p>
+<pre>
+pattern: value_pattern
+       | variable_pattern
+       | alternative_pattern
+       | as_pattern
+       | array_pattern
+       | find_pattern
+       | hash_pattern
+
+value_pattern: literal
+             | Constant
+             | ^local_variable
+             | ^instance_variable
+             | ^class_variable
+             | ^global_variable
+             | ^(expression)
+
+variable_pattern: variable
+
+alternative_pattern: pattern | pattern | ...
+
+as_pattern: pattern =&gt; variable
+
+array_pattern: [pattern, ..., *variable]
+             | Constant(pattern, ..., *variable)
+             | Constant[pattern, ..., *variable]
+
+find_pattern: [*variable, pattern, ..., *variable]
+            | Constant(*variable, pattern, ..., *variable)
+            | Constant[*variable, pattern, ..., *variable]
+
+hash_pattern: {key: pattern, key:, ..., **variable}
+            | Constant(key: pattern, key:, ..., **variable)
+            | Constant[key: pattern, key:, ..., **variable]
+</pre>
+<h2 id='some_undefined_behavior_examples'>付記B: `未定義` の振る舞いの例</h2>
+<p>
+将来的な最適化の余地を残すため、仕様には一部 `未定義` の振る舞いが含まれています。
+</p>
+<pre class="highlight ruby">
+<span class="caption">マッチしなかったパターンに指定していた変数を使う</span>
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="mi">0</span>, <span class="mi">1</span><span class="p">]</span>
+<span class="k">in</span> <span class="p">[</span>a, <span class="mi">2</span><span class="p">]</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">in</span> b
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">in</span> c
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+a <span class="c1">#=&gt; 未定義
+</span>c <span class="c1">#=&gt; 未定義
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">deconstruct メソッドや deconstruct_keys メソッドが呼び出された回数</span>
+<code>
+<span class="vg">$i</span> <span class="o">=</span> <span class="mi">0</span>
+ary <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">ary</span><span class="p">.</span><span class="nf">deconstruct</span>
+  <span class="vg">$i</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="nc">self</span>
+<span class="k">end</span>
+<span class="k">case</span> ary
+<span class="k">in</span> <span class="p">[</span><span class="mi">0</span>, <span class="mi">1</span><span class="p">]</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="vg">$i</span> <span class="c1">#=&gt; 未定義
+</span></code></pre>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/doc/spec/pattern_matching.rd#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
