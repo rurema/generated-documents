@@ -1,0 +1,32 @@
+names=load_stream
+visibility=public
+kind=defined
+source_location=refm/api/src/psych.rd:461
+
+--- load_stream(yaml, filename=nil) -> [object]
+--- load_stream(yaml, filename=nil){|obj| ... } -> ()
+複数の YAML ドキュメントを含むデータを
+Ruby のオブジェクトに変換します。
+
+ブロックなしの場合はオブジェクトの配列を返します。
+
+//emlist[例][ruby]{
+Psych.load_stream("--- foo\n...\n--- bar\n...") # => ['foo', 'bar']
+//}
+
+ブロックありの場合は各オブジェクト引数としてそのブロックを呼び出します。
+
+//emlist[例][ruby]{
+list = []
+Psych.load_stream("--- foo\n...\n--- bar\n...") do |ruby|
+  list << ruby
+end
+list # => ['foo', 'bar']
+//}
+
+filename はパース中に発生した例外のメッセージに用います。
+
+@param yaml YAML ドキュメント(文字列 or IO オブジェクト)
+@param filename [[c:Psych::SyntaxError]] 発生時にファイル名として表示する文字列。
+@raise Psych::SyntaxError YAMLドキュメントに文法エラーが発見されたときに発生します
+

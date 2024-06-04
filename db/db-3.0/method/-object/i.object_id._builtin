@@ -1,0 +1,39 @@
+names=object_id
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Object:628
+
+--- object_id -> Integer
+
+各オブジェクトに対して一意な整数を返します。あるオブジェクトに対し
+てどのような整数が割り当てられるかは不定です。
+
+Rubyでは、(Garbage Collectされていない)アクティブなオブジェクト間で
+重複しない整数(object_id)が各オブジェクトにひとつずつ割り当てられています。この
+メソッドはその値を返します。
+
+[[c:TrueClass]], [[c:FalseClass]], [[c:NilClass]], [[c:Symbol]], [[c:Integer]] クラス
+のインスタンスなど Immutable（変更不可）なオブジェクトの一部は同じ内容ならば必ず同じ object_id になります。
+
+これは、Immutable ならば複数の場所から参照されても`破壊的操作'による問題が発生しないので、
+同じ内容のインスタンスを複数生成しないという内部実装が理由です。
+
+//emlist[][ruby]{
+p "ruby".object_id #=> 60
+p "ruby".object_id #=> 80
+
+p [].object_id #=> 100
+p [].object_id #=> 120
+
+p :ruby.object_id #=> 710428
+p :ruby.object_id #=> 710428
+
+p 11.object_id #=> 23
+p 11.object_id #=> 23
+
+p true.object_id #=> 20
+p true.object_id #=> 20
+//}
+
+@see [[m:Object#equal?]],[[c:Symbol]]
+

@@ -1,0 +1,34 @@
+names=tokenize
+visibility=public
+kind=added
+source_location=refm/api/src/ripper/lexer.rd:110
+
+--- Ripper.tokenize(src, filename = '-', lineno = 1, raise_errors: false) -> [String]
+
+Ruby プログラム str をトークンに分割し、そのリストを返します。
+
+@param src Ruby プログラムを文字列か IO オブジェクトで指定します。
+
+@param filename src のファイル名を文字列で指定します。省略すると "-" になります。
+
+@param lineno src の開始行番号を指定します。省略すると 1 になります。
+
+@param raise_errors true を指定すると、src にエラーがある場合に例外(SyntaxError)を発生させます。省略すると false になります。
+
+@raise SyntaxError raise_errors が true で、src に文法エラーがある場合に発生します。
+
+//emlist[][ruby]{
+require 'ripper'
+
+p Ripper.tokenize("def m(a) nil end")
+# => ["def", " ", "m", "(", "a", ")", " ", "nil", " ", "end"]
+
+Ripper.tokenize("def req(true) end", raise_errors: true)
+# => SyntaxError (syntax error, unexpected `true', expecting ')')
+//}
+
+Ripper.tokenize は空白やコメントも含め、
+元の文字列にある文字は 1 バイトも残さずに分割します。
+ただし、ごく僅かな例外として、__END__ 以降の文字列は黙って捨てられます。
+これは現在のところ仕様と考えてください。
+

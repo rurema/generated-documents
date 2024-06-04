@@ -1,0 +1,30 @@
+names=rename
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/File:622
+
+--- rename(from, to)    -> 0
+
+ファイルの名前を変更します。ディレクトリが異なる場合には移動も行い
+ます。[[man:rename(2)]] を参照してください。移動先のファ
+イルが存在する時には上書きされます。
+
+ファイルの移動に成功した場合 0 を返します。失敗した場合は例外
+[[c:Errno::EXXX]] が発生します。
+
+@param from ファイルの名前を文字列で与えます。
+
+@param to 新しいファイル名を文字列で与えます。
+
+@raise Errno::EXXX 失敗した場合に発生します。
+
+//emlist[例][ruby]{
+begin
+  File.rename("testfile", "testfile.bak")   # => 0
+  File.rename("testfile", "testfile.bak")
+rescue
+  # 2回目の rename 時にすでに testfile が存在しないため例外が発生する
+  $! # => #<Errno::ENOENT: No such file or directory @ rb_file_s_rename - (testfile, testfile.bak)>
+end
+//}
+

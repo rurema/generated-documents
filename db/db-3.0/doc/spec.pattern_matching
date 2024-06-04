@@ -1,0 +1,592 @@
+title=パターンマッチ
+source_location=refm/doc/spec/pattern_matching.rd:1
+
+
+  * [[ref:patterns]]
+  * [[ref:variable_binding]]
+  * [[ref:variable_pinning]]
+  * [[ref:matching_non_primitive_objects]]
+  * [[ref:guard_clauses]]
+  * [[ref:current_feature_status]]
+  * [[ref:pattern_syntax]]
+  * [[ref:some_undefined_behavior_examples]]
+
+パターンマッチは、構造化された値に対して、構造をチェックし、マッチした部分をローカル変数に束縛するという、深いマッチを可能にする機能です。(『束縛』は、パターンマッチの輸入元である関数型言語の用語で、Ruby では代入と読み替えても問題ありません)
+
+Rubyでのパターンマッチは case/in 式を用いて実装されています。
+
+  case <expression>
+  in <pattern1>
+    ...
+  in <pattern2>
+    ...
+  in <pattern3>
+    ...
+  else
+    ...
+  end
+
+in 節と when 節は1つの case 式の中に混ぜて書くことはできません。
+
+『=>』 演算子と in 演算子で、単体の式で使用することも可能です。
+
+  <expression> => <pattern>
+
+  <expression> in <pattern>
+
+case/in 式は 「網羅的」 です。もし case 式の値がどの節にもマッチせず else 節がない場合、例外 NoMatchingPatternError が発生します。
+
+そのため、条件付きのマッチや展開に case 式が使われることがあります。
+
+//emlist[][ruby]{
+config = {db: {user: 'admin', password: 'abc123'}}
+
+case config
+in db: {user:} # ネストしてハッシュにマッチして、その値を変数userに代入する
+  puts "Connect with user '#{user}'"
+in connection: {username: }
+  puts "Connect with user '#{username}'"
+else
+  puts "Unrecognized structure of config"
+end
+# "Connect with user 'admin'" と出力
+//}
+
+一方、『=>』 演算子は、期待されるデータ構造があらかじめ分かっている場合に、その一部を展開するのに有効です。
+
+//emlist{
+config = {db: {user: 'admin', password: 'abc123'}}
+
+config => {db: {user:}} # もし config の構造が期待したものでなかった場合には、例外が発生する
+
+puts "Connect with user '#{user}'"
+# Connect with user 'admin'" と出力
+//}
+
+『<expression> in <pattern>』 は 『<expression>; in <pattern>; true; else false; end』 と等価です。
+パターンにマッチするかどうかだけを知りたいときに使えます。
+
+//emlist{
+users = [{name: "Alice", age: 12}, {name: "Bob", age: 23}]
+users.any? {|user| user in {name: /B/, age: 20..} } #=> true
+//}
+
+構文の詳細な例と説明は以下を参照してください。
+
+===[a:patterns] パターン
+
+パターンで利用できるものには次のものがあります。
+
+  * すべてのRubyオブジェクト (when と同じように、『===』演算子でマッチする) (「Value パターン」)
+  * Array パターン: 『[<subpattern>, <subpattern>, <subpattern>, ...]』 (「Array パターン」)
+  * Find パターン: 『[*variable, <subpattern>, <subpattern>, <subpattern>, ..., *variable]』 (「Find パターン」)
+  * Hash パターン: 『{key: <subpattern>, key: <subpattern>, ...}』 (「Hash パターン」)
+  * 『|』 でのパターンの組み合わせ (「Alternative パターン」)
+  * 変数のキャプチャ: 『<pattern> => variable』 または 『variable』 (「As パターン」, 「Variable パターン」)
+
+Array/Find/Hash パターンの中に 『<subpattern>』 と書かれている場所では任意のパターンをネストさせることができます。
+
+Array パターン と Find パターン は配列か deconstruct メソッド(後述)を持つオブジェクトにマッチします。
+
+Hash パターン はハッシュか deconstruct_keys メソッド(後述)を持つオブジェクトにマッチします。Hash パターン で利用できるキーはシンボルのみです。
+
+Array パターン と Hash パターン の挙動の重要な違いは Array パターンは配列の 「全ての」 要素がマッチする必要があるということです。
+
+//emlist[][ruby]{
+case [1, 2, 3]
+in [Integer, Integer]
+  "matched"
+else
+  "not matched"
+end
+#=> "not matched"
+//}
+
+一方 Hash パターン は一部のキーだけ指定している場合(指定しているキー以外にもキーが存在する場合)でもマッチします。
+
+//emlist[][ruby]{
+case {a: 1, b: 2, c: 3}
+in {a: Integer}
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+//}
+
+『{}』 だけはこのルールの例外です。『{}』 は空のハッシュのみマッチします。
+
+//emlist[][ruby]{
+case {a: 1, b: 2, c: 3}
+in {}
+  "matched"
+else
+  "not matched"
+end
+#=> "not matched"
+//}
+
+//emlist[][ruby]{
+case {}
+in {}
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+//}
+
+また、パターンで明示的に指定したキー以外のキーが存在しないハッシュにのみ、マッチさせたい場合には、『**nil』 を使います。
+
+//emlist[][ruby]{
+case {a: 1, b: 2}
+in {a: Integer, **nil} # a: 以外のキーがある場合にはマッチしない
+  "matched a part"
+in {a: Integer, b: Integer, **nil}
+  "matched a whole"
+else
+  "not matched"
+end
+#=> "matched a whole"
+//}
+
+Array パターン と Hash パターン ともに残りの部分にマッチする構文をサポートしています。
+
+//emlist[][ruby]{
+case [1, 2, 3]
+in [Integer, *]
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+//}
+
+//emlist[][ruby]{
+case {a: 1, b: 2, c: 3}
+in {a: Integer, **}
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+//}
+
+case 文 (in 文や => ではない) では、パターン の両端の 『[]』 や 『{}』 といった括弧を省略できます。
+
+//emlist[][ruby]{
+case [1, 2]
+in Integer, Integer
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+//}
+
+//emlist[][ruby]{
+case {a: 1, b: 2, c: 3}
+in a: Integer
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+//}
+
+
+
+
+Find パターン は Array パターン に似ていますが、オブジェクトの一部の要素がマッチしていることを検査できます。
+
+//emlist{
+case ["a", 1, "b", "c", 2]
+in [*, String, String, *]
+  "matched"
+else
+  "not matched"
+end
+//}
+
+===[a:variable_binding] 変数の束縛
+
+深い構造検査の他のパターンマッチの重要な機能の1つにマッチした部分のローカル変数への束縛があります。束縛の基本的な形はマッチしたパターンの後ろに 『=> 変数名』 と書くことです。(この形は rescue 節で 『rescue ExceptionClass => var』 の形で例外をローカル変数に格納する形に似ています)
+
+//emlist[][ruby]{
+case [1, 2]
+in Integer => a, Integer
+  "matched: #{a}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+//}
+
+//emlist[][ruby]{
+case {a: 1, b: 2, c: 3}
+in a: Integer => m
+  "matched: #{m}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+//}
+
+追加のチェックが不要で変数への束縛だけがしたい場合は、より簡潔な記法が利用できます。
+
+//emlist[][ruby]{
+case [1, 2]
+in a, Integer
+  "matched: #{a}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+//}
+
+//emlist[][ruby]{
+case {a: 1, b: 2, c: 3}
+in a: m
+  "matched: #{m}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+//}
+
+Hash パターンでは、もっと単純に書くこともできます。キーのみを指定することで、キーと同じ名前のローカル変数に値を束縛できます。
+
+//emlist[][ruby]{
+case {a: 1, b: 2, c: 3}
+in a:
+  "matched: #{a}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+//}
+
+ネストしたパターンの場合も同様に値の束縛を利用できます。
+
+//emlist[][ruby]{
+case {name: 'John', friends: [{name: 'Jane'}, {name: 'Rajesh'}]}
+in name:, friends: [{name: first_friend}, *]
+  "matched: #{first_friend}"
+else
+  "not matched"
+end
+#=> "matched: Jane"
+//}
+
+パターンの残りの部分も同様に変数に束縛できます。
+
+//emlist[][ruby]{
+case [1, 2, 3]
+in a, *rest
+  "matched: #{a}, #{rest}"
+else
+  "not matched"
+end
+#=> "matched: 1, [2, 3]"
+//}
+
+//emlist[][ruby]{
+case {a: 1, b: 2, c: 3}
+in a:, **rest
+  "matched: #{a}, #{rest}"
+else
+  "not matched"
+end
+#=> "matched: 1, {:b=>2, :c=>3}"
+//}
+
+変数への束縛は現状、『|』 で結合される Alternative パターン と同時には利用できません。
+
+//emlist[][ruby]{
+case {a: 1, b: 2}
+in {a: } | Array
+  "matched: #{a}"
+else
+  "not matched"
+end
+# SyntaxError (illegal variable in alternative pattern (a))
+//}
+
+『_』 で始まる変数は例外で、Alternative パターン と同時に利用することができます。
+
+//emlist[][ruby]{
+case {a: 1, b: 2}
+in {a: _, b: _foo} | Array
+  "matched: #{_}, #{_foo}"
+else
+  "not matched"
+end
+# => "matched: 1, 2"
+//}
+
+しかし、『_』 で始まる変数の目的は利用しない値を意味するので、束縛された値を再利用することはオススメしません。
+
+===[a:variable_pinning] 変数のピン留め
+
+既に存在しているローカル変数は、サブパターン(Array/Find/Hashパターン構文の <subpattern> の部分) として変数の値をそのまま使うことができません。(これは、変数への束縛の機能を実現するための制限です。)
+
+//emlist[][ruby]{
+expectation = 18
+
+case [1, 2]
+in expectation, *rest
+  "matched. expectation was: #{expectation}"
+else
+  "not matched. expectation was: #{expectation}"
+end
+# 期待する動作："not matched. expectation was: 18"
+# 実際の動作："matched. expectation was: 1" -- ローカル変数が上書きされてしまっている
+//}
+
+この場合、Ruby に「この値をパターンの部品として利用するよ」ということを伝えるためにピン演算子 『^』 を利用することができます。
+
+//emlist[][ruby]{
+expectation = 18
+case [1, 2]
+in ^expectation, *rest
+  "matched. expectation was: #{expectation}"
+else
+  "not matched. expectation was: #{expectation}"
+end
+#=> "not matched. expectation was: 18"
+//}
+
+ピン演算子の重要な用途の1つはパターンに複数回出てくる値を明記することです。
+
+//emlist[][ruby]{
+jane = {school: 'high', schools: [{id: 1, level: 'middle'}, {id: 2, level: 'high'}]}
+john = {school: 'high', schools: [{id: 1, level: 'middle'}]}
+
+case jane
+in school:, schools: [*, {id:, level: ^school}] # select the last school, level should match
+  "matched. school: #{id}"
+else
+  "not matched"
+end
+#=> "matched. school: 2"
+
+case john # 指定された school の level は "high" だが、最後の school はマッチしない
+in school:, schools: [*, {id:, level: ^school}]
+  "matched. school: #{id}"
+else
+  "not matched"
+end
+#=> "not matched"
+//}
+
+
+===[a:matching_non_primitive_objects] 非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド
+
+既に述べたように、Array/Find/Hash パターンは、配列やハッシュのリテラルの他に、deconstruct メソッド(Array/Find パターン) あるいは deconstruct_keys メソッド(Hash パターン) を定義しているオブジェクトに対しても、マッチを試みます。
+
+//emlist[][ruby]{
+class Point
+  def initialize(x, y)
+    @x, @y = x, y
+  end
+
+  def deconstruct
+    puts "deconstruct called"
+    [@x, @y]
+  end
+
+  def deconstruct_keys(keys)
+    puts "deconstruct_keys called with #{keys.inspect}"
+    {x: @x, y: @y}
+  end
+end
+
+case Point.new(1, -2)
+in px, Integer  # パターンと変数への束縛も動きます
+  "matched: #{px}"
+else
+  "not matched"
+end
+# "deconstruct called" と出力
+#=> "matched: 1"
+
+case Point.new(1, -2)
+in x: 0.. => px
+  "matched: #{px}"
+else
+  "not matched"
+end
+# "deconstruct_keys called with [:x]" と出力
+#=> "matched: 1"
+//}
+
+deconstruct_keys メソッドに引数 keys を渡すのは、マッチを行うクラスの実装側に最適化の余地を残すためです。もし、ハッシュのすべての要素を計算するのが重い処理になる場合には、keys で指定された、マッチに必要になる部分のみを計算するように実装しても良いでしょう。
+
+『**rest』 パターンが使われた場合には、keys の値として nil が渡されます。
+
+//emlist[][ruby]{
+case Point.new(1, -2)
+in x: 0.. => px, **rest
+  "matched: #{px}"
+else
+  "not matched"
+end
+# "deconstruct_keys called with nil" と出力
+#=> "matched: 1"
+//}
+
+さらに、カスタムクラスに対してマッチする場合には、期待するクラスをパターンの部品として指定することができます。これは 『===』 でチェックされます。
+
+//emlist[][ruby]{
+class SuperPoint < Point
+end
+
+case Point.new(1, -2)
+in SuperPoint(x: 0.. => px)
+  "matched: #{px}"
+else
+  "not matched"
+end
+#=> "not matched"
+
+case SuperPoint.new(1, -2)
+in SuperPoint[x: 0.. => px] # 括弧 [] か () が使える
+  "matched: #{px}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+//}
+
+
+===[a:guard_clauses] ガード節
+
+if を使って、パターンにマッチしたときに評価される追加の条件式(ガード節)を加えることができます。この条件式では、マッチした値を束縛した変数を使うこともできます。
+
+//emlist[][ruby]{
+case [1, 2]
+in a, b if b == a*2
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+//}
+
+//emlist[][ruby]{
+case [1, 1]
+in a, b if b == a*2
+  "matched"
+else
+  "not matched"
+end
+#=> "not matched"
+//}
+
+unless も利用できます。
+
+//emlist[][ruby]{
+case [1, 1]
+in a, b unless b == a*2
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+//}
+
+===[a:current_feature_status] 機能の現状
+
+Ruby 3.0 の時点では、1行パターンマッチ と Find パターンは 「実験的機能」 扱いです。1行パターンマッチ と Find パターンの構文は将来的に変更の可能性があります。これらの機能を利用する場合は毎回警告が出力されます。
+
+//emlist{
+[0] => [*, 0, *]
+# warning: Find pattern is experimental, and the behavior may change in future versions of Ruby!
+# warning: One-line pattern matching is experimental, and the behavior may change in future versions of Ruby!
+}
+
+この警告を抑制したければ、Warning::[]= メソッドが利用できます。
+
+//emlist{
+Warning[:experimental] = false
+eval('[0] => [*, 0, *]')
+# ...警告は出力されない...
+//}
+
+パターンマッチの警告はコンパイル時に発生するため、以下のような場合は警告は抑制できません。
+
+//emlist{
+Warning[:experimental] = false # この行を評価する段階では、構文解析とそれによる警告の発生は、既に終了している
+[0] => [*, 0, *]
+//}
+
+つまり、フラグの切り替えによって影響を受けるのは切り替え以降に load されたファイルや `eval` されたコードに限られます。
+
+代わりに、コマンドラインオプションとして 『-W:no-experimental』 を渡すことで "experimental" な機能に対する警告を出力させないようにできます。
+
+===[a:pattern_syntax] 付記A: パターンのシンタックス
+
+おおよその構文は以下のとおりです。
+
+  pattern: value_pattern
+         | variable_pattern
+         | alternative_pattern
+         | as_pattern
+         | array_pattern
+         | find_pattern
+         | hash_pattern
+
+  value_pattern: literal
+               | Constant
+               | ^variable
+
+  variable_pattern: variable
+
+  alternative_pattern: pattern | pattern | ...
+
+  as_pattern: pattern => variable
+
+  array_pattern: [pattern, ..., *variable]
+               | Constant(pattern, ..., *variable)
+               | Constant[pattern, ..., *variable]
+
+  find_pattern: [*variable, pattern, ..., *variable]
+              | Constant(*variable, pattern, ..., *variable)
+              | Constant[*variable, pattern, ..., *variable]
+
+  hash_pattern: {key: pattern, key:, ..., **variable}
+              | Constant(key: pattern, key:, ..., **variable)
+              | Constant[key: pattern, key:, ..., **variable]
+
+===[a:some_undefined_behavior_examples] 付記B: `未定義` の振る舞いの例
+
+将来的な最適化の余地を残すため、仕様には一部 `未定義` の振る舞いが含まれています。
+
+//emlist[マッチしなかったパターンに指定していた変数を使う][ruby]{
+case [0, 1]
+in [a, 2]
+  "not matched"
+in b
+  "matched"
+in c
+  "not matched"
+end
+a #=> 未定義
+c #=> 未定義
+//}
+
+//emlist[deconstruct メソッドや deconstruct_keys メソッドが呼び出された回数][ruby]{
+$i = 0
+ary = [0]
+def ary.deconstruct
+  $i += 1
+  self
+end
+case ary
+in [0, 1]
+  "not matched"
+in [0]
+  "matched"
+end
+$i #=> 未定義
+//}

@@ -1,0 +1,126 @@
+names=chunk
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Enumerable:1152
+
+--- chunk {|elt| ... } -> Enumerator
+
+要素を前から順にブロックで評価し、その結果によって
+要素をチャンクに分けた(グループ化した)要素を持つ
+[[c:Enumerator]] を返します。
+
+ブロックの評価値が同じ値が続くものを一つのチャンクとして
+取り扱います。すなわち、ブロックの評価値が一つ前と
+異なる所でチャンクが区切られます。
+
+返り値の [[c:Enumerator]] は各チャンクのブロック評価値と
+各チャンクの要素を持つ配列のペアを各要素とします。
+そのため、eachだと以下のようになります。
+
+//emlist[][ruby]{
+enum.chunk {|elt| key }.each {|key, ary| do_something }
+//}
+
+例として、整数列を連続する奇数/偶数に分ける例を見てみます。
+「n.even?」の値が切り替わるところで区切られているのがわかるでしょう。
+
+//emlist[例][ruby]{
+[3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5].chunk {|n|
+  n.even?
+}.each {|even, ary|
+  p [even, ary]
+}
+# => [false, [3, 1]]
+#    [true, [4]]
+#    [false, [1, 5, 9]]
+#    [true, [2, 6]]
+#    [false, [5, 3, 5]]
+//}
+
+このメソッドは各要素が既にソートされている場合に便利です。
+
+以下の例では、テキスト辞書ファイルに含まれる単語の頭文字の頻度を調べています。
+このファイルは、Linux や macOS などで、ソートされた英語（など）の単語の
+リストを改行で区切って収めたものです。
+大文字／小文字の違いを無視するため upcase しています。
+
+//emlist[例][ruby]{
+# ファイルのエンコーディングは実際のファイルに合わせてください。
+open("/usr/share/dict/words", "r:iso-8859-1") {|f|
+  f.chunk {|line| line[0].upcase }.each {|ch, lines| p [ch, lines.length] }
+}
+# => ["A", 17096]
+#    ["B", 11070]
+#    ["C", 19901]
+#    ["D", 10896]
+#    ...
+//}
+
+さらにこのメソッドは以下の値を特別扱いします。
+
+  * ブロックの評価値が nil もしくは :_separator であった場合、
+    その要素を捨てます。チャンクはこの前後で区切られます。
+  * ブロックの評価値 :_alone であった場合はその要素は
+    単独のチャンクをなすものと解釈されます。
+
+それ以外のアンダースコアで始まるシンボルを指定した場合は例外が発生します。
+
+//emlist[例][ruby]{
+[1, 2].chunk { |item| :_underscore }.to_a
+# => RuntimeError: symbols beginning with an underscore are reserved
+
+# 「.to_a」無しだと Enumerator を返すのみで例外は発生しない
+//}
+
+nil、 :_separator はある要素を無視したい場合に用います。
+例として svn log の出力のハイフンの所で区切りたい場合を考えます。
+
+//emlist[例][ruby]{
+sep = "-"*72 + "\n" # ハイフンが72個の行
+IO.popen("svn log README") {|f|
+  f.chunk {|line|
+    line != sep || nil
+  }.each {|_, lines|
+    pp lines
+  }
+}
+#=> ["r20018 | knu | 2008-10-29 13:20:42 +0900 (Wed, 29 Oct 2008) | 2 lines\n",
+#    "\n",
+#    "* README, README.ja: Update the portability section.\n",
+#    "\n"]
+#   ["r16725 | knu | 2008-05-31 23:34:23 +0900 (Sat, 31 May 2008) | 2 lines\n",
+#    "\n",
+#    "* README, README.ja: Add a note about default C flags.\n",
+#    "\n"]
+#   ...
+//}
+
+テキストを空行で区切られた段落に分けたい場合にも nil が使えます。
+
+//emlist[例][ruby]{
+File.foreach("README").chunk {|line|
+  /\A\s*\z/ !~ line || nil
+}.each {|_, lines|
+  pp lines
+}
+//}
+
+「:_alone」は要素を素通ししたい場合に用います。
+以下の例では「Foo#bar」という形式の行が連続している場合のみ
+チャンク化し、それ以外は素通しします。
+
+//emlist[例][ruby]{
+pat = /\A[A-Z][A-Za-z0-9_]+\#/
+open(filename) {|f|
+  f.chunk {|line| pat =~ line ? $& : :_alone }.each {|key, lines|
+    if key != :_alone
+      print lines.sort.join('')
+    else
+      print lines.join('')
+    end
+  }
+}
+//}
+
+@raise RuntimeError 予約されている値を用いた場合に発生します
+

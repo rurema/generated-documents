@@ -1,0 +1,36 @@
+names=shift
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Hash:573
+
+--- shift -> [object, object] | nil
+
+ハッシュからキーが追加された順で先頭の要素をひとつ取り除き、
+[key, value]という配列として返します。
+
+shiftは破壊的メソッドです。selfは要素を取り除かれた残りのハッシュに変更されます。
+
+ハッシュが空の場合、デフォルト値（[[m:Hash#default]]または[[m:Hash#default_proc]]のブロックの値か、どちらもnilならばnil）
+を返します(このとき、[key,value] という形式の値を返すわけではないことに注意)。
+
+将来のバージョン(Ruby 3.2を予定)ではデフォルト値に関わらず nil になる予定なので、デフォルト値を設定しているハッシュで
+shift を使う場合は注意してください。([[bug:16908]])
+
+//emlist[例][ruby]{
+h = {:ab => "some" , :cd => "all"}
+p h.shift               #=> [:ab, "some"]
+p h.shift               #=> [:cd, "all"]
+p h                     #=> {}
+p h.shift               #=> nil
+
+h1 = Hash.new("default value")
+p h1                    #=> {}
+p h1.shift              #=> "default value"
+
+h2 = Hash.new {|*arg| arg}
+p h2                    #=> {}
+p h2.shift              #=> [{}, nil]
+//}
+
+@see [[m:Array#shift]]
+
