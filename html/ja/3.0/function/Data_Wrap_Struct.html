@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/function/Data_Wrap_Struct.html">
+
+<title>macro Data_Wrap_Struct (Ruby 3.0 リファレンスマニュアル)</title>
+<meta name="description" content="C の構造体 sval をラップして klass クラスの
+インスタンスである Ruby オブジェクトを生成し、それを返します。
+mark、free はそれぞれ sval のマーク用・解放用の
+関数へのポインタです。どちらも、必要ないときはかわりに 0 を渡します。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/index.html","name":"関数一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/Data_Wrap_Struct.html","name":"Data_Wrap_Struct","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../function/index.html">関数一覧</a>
+      </li>
+      <li>
+        Data_Wrap_Struct 
+      </li>
+    </ol>
+  </nav>
+
+<h1>macro Data_Wrap_Struct</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/capi/src/ruby.h.rd#L98">edit</a>]</span>
+
+</header>
+
+<main>
+<dl class="functionlist">
+<dt>
+  <code>VALUE Data_Wrap_Struct(VALUE klass, RUBY_DATA_FUNC mark, RUBY_DATA_FUNC free, void *sval)</code>
+</dt>
+<dd>
+<dd class="function-description">
+<p>
+C の構造体 sval をラップして klass クラスのインスタンスである Ruby オブジェクトを生成し、それを返します。
+mark、free はそれぞれ sval のマーク用・解放用の関数へのポインタです。どちらも、必要ないときはかわりに 0 を渡します。
+</p>
+<p>
+また RUBY_DATA_FUNC の定義は以下のようです。
+</p>
+<pre>
+typedef void (*RUBY_DATA_FUNC)(void *st)
+</pre>
+<p>
+第一引数 st には sval が渡されます。
+</p>
+<p>
+使用例
+</p>
+<pre>
+struct mytype {
+    int i;
+    char *s;
+};
+
+VALUE
+my_s_new(klass)
+    VALUE klass;
+{
+    struct mytype *m = malloc(sizeof(struct mytype));
+    m-&gt;i = 0;
+    m-&gt;s = 0;
+    return Data_Wrap_Struct(MyClass, 0, free_my, m);
+}
+</pre>
+</dd>
+
+</dd>
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/capi/src/ruby.h.rd#L98">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

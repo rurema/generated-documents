@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/OpenSSL=3a=3aPKCS12.html">
+
+<title>class OpenSSL::PKCS12 (Ruby 3.0 リファレンスマニュアル)</title>
+<meta name="description" content="PKCS#12 (秘密鍵、証明書、関連するCA証明書を1つのファイルに保存する形式)
+を表すクラスです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/openssl.html","name":"opensslライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/OpenSSL=3a=3aPKCS12.html","name":"OpenSSL::PKCS12クラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/openssl.html">opensslライブラリ</a>
+      </li>
+      <li>
+        OpenSSL::PKCS12クラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class OpenSSL::PKCS12</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/PKCS12#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        OpenSSL::PKCS12
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+PKCS#12 (秘密鍵、証明書、関連するCA証明書を1つのファイルに保存する形式)
+を表すクラスです。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_CREATE">create</a></li>
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_CA_CERTS">ca_certs</a></li>
+
+<li><a href="#I_CERTIFICATE">certificate</a></li>
+
+<li><a href="#I_KEY">key</a></li>
+
+<li><a href="#I_TO_DER">to_der</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_CREATE"><code>create(pass, name, pkey, cert, ca=nil, key_nid=nil, cert_nid=nil, key_iter=nil, mac_iter=nil, keytype=nil) -&gt; OpenSSL::PKCS12</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKCS12/s/create.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OpenSSL/PKCS12.html#method-c-create">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/PKCS12#L13">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+PKCS#12 オブジェクトを生成します。
+</p>
+<p>
+pass はデータを暗号化するためのパスフレーズです。
+name は利用者の利便性のためにオブジェクトに与える名前です。
+pkey は秘密鍵、certは証明書、caはCA証明書の配列です。
+ca に nil を渡すのは空の配列を渡すのと同じ意味です。
+key_nid と cert_nid は 秘密鍵、証明書の暗号化方式を文字列で指定します。
+key_iter は暗号化アルゴリズムにイテレーション回数、
+mac_iter は MAC のイテレーション回数、
+keytype は鍵の種類を渡します。
+</p>
+<p>
+key_nid, cert_nid, key_iter, mac_iter, keytype すべてに nil を渡すとデフォルトとして、証明書は 40 bit RC2 で暗号化、秘密鍵は triple DES
+で暗号化、key_iter は2048、mac_iter は1、keytypeなしとなります。
+</p>
+<p>
+mac_iter がデフォルトで1なのは古いソフトウェアとの互換性のためです。互換性が問題でなければ 2048(PKCS12_DEFAULT_ITER)を用いてください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] pass:</dt>
+<dd>
+パスフレーズ文字列
+</dd>
+<dt class='method-param'>[PARAM] name:</dt>
+<dd>
+名前文字列
+</dd>
+<dt class='method-param'>[PARAM] pkey:</dt>
+<dd>
+秘密鍵(<a href="../class/OpenSSL=3a=3aPKey=3a=3aPKey.html">OpenSSL::PKey::PKey</a> のサブクラスのオブジェクト)
+</dd>
+<dt class='method-param'>[PARAM] cert:</dt>
+<dd>
+証明書(<a href="../class/OpenSSL=3a=3aX509=3a=3aCertificate.html">OpenSSL::X509::Certificate</a> のオブジェクト)
+</dd>
+<dt class='method-param'>[PARAM] ca:</dt>
+<dd>
+CA証明書群(<a href="../class/OpenSSL=3a=3aX509=3a=3aCertificate.html">OpenSSL::X509::Certificate</a> の配列)
+</dd>
+<dt class='method-param'>[PARAM] key_nid:</dt>
+<dd>
+秘密鍵の暗号化方式を表す文字列
+</dd>
+<dt class='method-param'>[PARAM] cert_nid:</dt>
+<dd>
+証明書の暗号化方式を表す文字列
+</dd>
+<dt class='method-param'>[PARAM] key_iter:</dt>
+<dd>
+暗号化アルゴリズムにイテレーション回数
+</dd>
+<dt class='method-param'>[PARAM] mac_iter:</dt>
+<dd>
+MAC のイテレーション回数
+</dd>
+<dt class='method-param'>[PARAM] keytype:</dt>
+<dd>
+鍵の種類(整数)
+</dd>
+<dt>[EXCEPTION] OpenSSL::PKCS12::PKCS12Error:</dt>
+<dd>
+オブジェクト生成に失敗した場合に発生します
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_NEW"><code>new(obj=nil, pass=nil) -&gt; OpenSSL::PKCS12</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKCS12/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OpenSSL/PKCS12.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/PKCS12#L48">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+文字列もしくは <a href="../class/IO.html">IO</a> オブジェクトから PKCS#12 オブジェクトを生成します。
+</p>
+<p>
+データは通常パスフレーズで暗号化されているため、pass でそのパスワードを渡します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] obj:</dt>
+<dd>
+PKCS#12データを読み込むオブジェクト(文字列もしくは IO)
+</dd>
+<dt class='method-param'>[PARAM] pass:</dt>
+<dd>
+パスフレーズ文字列
+</dd>
+<dt>[EXCEPTION] OpenSSL::PKCS12::PKCS12Error:</dt>
+<dd>
+データの読み込みに失敗した場合に発生します
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_CA_CERTS"><code>ca_certs -&gt; [OpenSSL::X509::Certificate]</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKCS12/i/ca_certs.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OpenSSL/PKCS12.html#method-i-ca_certs">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/PKCS12#L60">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身が保持しているCA証明書を配列で返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CERTIFICATE"><code>certificate -&gt; OpenSSL::X509::Certificate</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKCS12/i/certificate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OpenSSL/PKCS12.html#method-i-certificate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/PKCS12#L63">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身が保持している証明書を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_KEY"><code>key -&gt; OpenSSL::PKey::PKey</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKCS12/i/key.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OpenSSL/PKCS12.html#method-i-key">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/PKCS12#L66">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身が保持している鍵を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_DER"><code>to_der -&gt; String</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKCS12/i/to_der.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OpenSSL/PKCS12.html#method-i-to_der">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/PKCS12#L69">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身を DER 形式の文字列に変換します。
+</p>
+<dl>
+<dt>[EXCEPTION] OpenSSL::PKCS12::PKCS12Error:</dt>
+<dd>
+変換に失敗した場合に発生します
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/PKCS12#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
