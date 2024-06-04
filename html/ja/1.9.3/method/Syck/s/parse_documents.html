@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/method/Syck/s/parse_documents.html">
+  <title>singleton method Syck.parse_documents (Ruby 1.9.3)</title>
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 1.9.3 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/syck.html">syckライブラリ</a>
+&gt; <a href="../../../class/Syck.html">Syckモジュール</a>
+&gt; parse_documents
+
+</p>
+
+
+<h1>singleton method Syck.parse_documents</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_PARSE_DOCUMENTS"><code>parse_documents(io) {|obj| ...} -&gt; nil</code><span class="permalink">[<a href="../../../method/Syck/s/parse_documents.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.9.3/Syck.html#method-c-parse_documents">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられた io から YAML フォーマットの文書をパースし
+<a href="../../../class/Syck=3a=3aNode.html">Syck::Node</a>オブジェクトに変換し、
+生成したオブジェクトを引数としてブロックを評価していきます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] io:</dt>
+<dd>
+YAML フォーマットの文書の IO オブジェクトもしくは文字列
+</dd>
+</dl>
+<pre>
+require 'syck'
+require 'yaml'
+
+YAML.parse_documents(DATA){|doc|
+  doc.search('/dog//name').each {|node|
+    p node
+  }
+  p &quot;--&gt;&quot;
+}
+
+__END__
+cat:
+ - name: taro
+   age: 7
+ - name: jiro
+   age: 23
+---
+dog:
+ shiba:
+  - name: goro
+    age: 3
+  - name: rokuro
+    age: 1
+# end of sample
+
+#=&gt; &quot;--&gt;&quot;
+#=&gt; &quot;/dog/shiba/0/name&quot;
+#=&gt; &quot;/dog/shiba/1/name&quot;
+#=&gt; &quot;--&gt;&quot;
+</pre>
+<p>
+[注意] ブロックを指定しないと NoMethodError が発生する事に注意してください。
+</p>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

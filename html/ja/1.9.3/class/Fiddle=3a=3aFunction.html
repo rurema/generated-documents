@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/Fiddle=3a=3aFunction.html">
+  <title>class Fiddle::Function (Ruby 1.9.3)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.9.3 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/fiddle.html">fiddleライブラリ</a>
+&gt; Fiddle::Functionクラス
+</p>
+
+
+<h1>class Fiddle::Function</h1>
+<p>
+
+
+クラスの継承リスト: Fiddle::Function
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+      &lt; <a href="../class/BasicObject.html">BasicObject</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+C の関数を表すクラスです。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_NEW">new</a>
+
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+
+<a href="#I_ABI">abi</a>
+
+<a href="#I_CALL">call</a>
+
+</dd>
+
+<dt>定数</dt>
+<dd>
+
+<a href="#C_-D-E-F-A-U-L-T">DEFAULT</a>
+
+<a href="#C_-S-T-D-C-A-L-L">STDCALL</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(ptr, args, ret_type, abi=Fiddle::Function::DEFAULT) -&gt; Fiddle::Function</code><span class="permalink">[<a href="../method/Fiddle=3a=3aFunction/s/new.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.9.3/Fiddle/Function.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ptr (関数ポインタを表す整数)から Fiddle::Function オブジェクトを
+生成します。
+</p>
+<p>
+ptr には <a href="../class/DL=3a=3aHandle.html">DL::Handle</a> から <a href="../method/DL=3a=3aHandle/i/ptr.html">DL::Handle#ptr</a> で取りだした
+関数ポインタ(を表す整数)を渡します。
+</p>
+<p>
+args、ret_type で関数の引数と返り値の型を指定します。これには以下の
+定数が利用できます。「-TYPE_INT」 のように符号を反転させると unsigned を
+意味します。
+</p>
+<ul>
+<li><a href="../method/Fiddle/c/TYPE_VOID.html">Fiddle::TYPE_VOID</a></li>
+<li><a href="../method/Fiddle/c/TYPE_VOIDP.html">Fiddle::TYPE_VOIDP</a></li>
+<li><a href="../method/Fiddle/c/TYPE_CHAR.html">Fiddle::TYPE_CHAR</a></li>
+<li><a href="../method/Fiddle/c/TYPE_SHORT.html">Fiddle::TYPE_SHORT</a></li>
+<li><a href="../method/Fiddle/c/TYPE_INT.html">Fiddle::TYPE_INT</a></li>
+<li><a href="../method/Fiddle/c/TYPE_LONG.html">Fiddle::TYPE_LONG</a></li>
+<li><a href="../method/Fiddle/c/TYPE_LONG_LONG.html">Fiddle::TYPE_LONG_LONG</a></li>
+<li><a href="../method/Fiddle/c/TYPE_FLOAT.html">Fiddle::TYPE_FLOAT</a></li>
+<li><a href="../method/Fiddle/c/TYPE_DOUBLE.html">Fiddle::TYPE_DOUBLE</a></li>
+</ul>
+<p>
+abi で呼出規約を指定します。
+</p>
+<ul>
+<li><a href="../method/Fiddle=3a=3aFunction/c/DEFAULT.html">Fiddle::Function::DEFAULT</a></li>
+<li><a href="../method/Fiddle=3a=3aFunction/c/STDCALL.html">Fiddle::Function::STDCALL</a></li>
+</ul>
+<p>
+のどちらかを指定します。
+</p>
+<pre>
+require 'dl'
+require 'fiddle'
+
+include Fiddle
+
+libc = DL.dlopen(&quot;/lib/libc.so.6&quot;)
+f = Fiddle::Function.new(libc[&quot;strcpy&quot;], [TYPE_VOIDP, TYPE_VOIDP], TYPE_VOIDP)
+</pre>
+<dl>
+<dt class='method-param'>[PARAM] ptr:</dt>
+<dd>
+C の関数を指す <a href="../class/DL=3a=3aHandle.html">DL::Handle</a> オブジェクト
+</dd>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+引数の型を表す配列
+</dd>
+<dt class='method-param'>[PARAM] ret_type:</dt>
+<dd>
+返り値の型
+</dd>
+<dt class='method-param'>[PARAM] abi:</dt>
+<dd>
+呼出規約
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ABI"><code>abi -&gt; Integer</code><span class="permalink">[<a href="../method/Fiddle=3a=3aFunction/i/abi.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.9.3/Fiddle/Function.html#method-i-abi">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+呼出規約を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Fiddle=3a=3aFunction/s/new.html">Fiddle::Function.new</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CALL"><code>call(*args) -&gt; Integer|DL::CPtr|nil</code><span class="permalink">[<a href="../method/Fiddle=3a=3aFunction/i/call.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.9.3/Fiddle/Function.html#method-i-call">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+関数を呼び出します。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aFunction/s/new.html">Fiddle::Function.new</a> で指定した引数と返り値の型に基いて
+Ruby のオブジェクトを適切に C のデータに変換して C の関数を呼び出し、
+その返り値を Ruby のオブジェクトに変換して返します。
+</p>
+<p>
+引数の変換は以下の通りです。
+</p>
+<dl>
+<dt>void* (つまり任意のポインタ型)</dt>
+<dd>
+<p>
+nil ならば C の NULL に変換されます
+<a href="../class/DL=3a=3aCPtr.html">DL::CPtr</a> は保持している C ポインタに変換されます。
+適当に変換してから、C のポインタに変換します。
+文字列であればその先頭ポインタになります。
+<a href="../class/IO.html">IO</a> オブジェクトであれば FILE* が渡されます。
+整数であればそれがアドレスとみなされます。
+どれでもなければ to_ptr を呼び出し DL::CPtr オブジェクトに
+変換したのが用いられます。
+</p>
+</dd>
+<dt>(unsigned) char/short/int/long/long long</dt>
+<dd>
+<p>
+Ruby の整数を C の整数に変換します。
+</p>
+</dd>
+<dt>double/float</dt>
+<dd>
+<p>
+Ruby の整数 or 浮動小数点数を C の浮動小数点数に変換します
+
+</p>
+</dd>
+</dl>
+<p>
+返り値の変換は以下の通りです。
+</p>
+<dl>
+<dt>void</dt>
+<dd>
+<p>
+nil を返します
+</p>
+</dd>
+<dt>(unsigned) char/short/int/long/long long</dt>
+<dd>
+<p>
+C の整数を Ruby の整数に変換します
+</p>
+</dd>
+<dt>void*(つまり任意のポインタ型)</dt>
+<dd>
+<p>
+C のポインタを保持した <a href="../class/DL=3a=3aCPtr.html">DL::CPtr</a> を返します。
+</p>
+</dd>
+</dl>
+<dl>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+関数の引数
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Fiddle=3a=3aFunction/s/new.html">Fiddle::Function.new</a>
+</p>
+</dd>
+
+
+</dl>
+
+<h2>定数</h2>
+<dl>
+
+<dt class="method-heading" id="C_-D-E-F-A-U-L-T"><code>DEFAULT -&gt; Integer</code><span class="permalink">[<a href="../method/Fiddle=3a=3aFunction/c/DEFAULT.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.9.3/Fiddle/Function.html#method-c-DEFAULT">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+デフォルトの呼出規約を表します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Fiddle=3a=3aFunction/s/new.html">Fiddle::Function.new</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-S-T-D-C-A-L-L"><code>STDCALL -&gt; Integer</code><span class="permalink">[<a href="../method/Fiddle=3a=3aFunction/c/STDCALL.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.9.3/Fiddle/Function.html#method-c-STDCALL">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+Windows の stdcall 呼出規約を表します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Fiddle=3a=3aFunction/s/new.html">Fiddle::Function.new</a>
+</p>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>
