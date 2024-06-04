@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Object/i/initialize.html">
+
+<title>Object#initialize (Ruby 2.6.0 リファレンスマニュアル)</title>
+<meta name="description" content="ユーザ定義クラスのオブジェクト初期化メソッド。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.6.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Object.html","name":"Objectクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Object/i/initialize.html","name":"initialize (private)","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.6.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Object.html">Objectクラス</a>
+      </li>
+      <li>
+        initialize (private)
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method Object#initialize</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_INITIALIZE"><code>initialize(*args, &amp;block) -&gt; object</code><span class="permalink">[<a href="../../../method/Object/i/initialize.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.6.0/Object.html#method-i-initialize">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Object#L1751">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ユーザ定義クラスのオブジェクト初期化メソッド。
+</p>
+<p>
+このメソッドは <a href="../../../method/Class/i/new.html">Class#new</a> から新しく生成されたオブジェクトの初期化のために呼び出されます。他の言語のコンストラクタに相当します。デフォルトの動作ではなにもしません。
+</p>
+<p>
+initialize には
+<a href="../../../method/Class/i/new.html">Class#new</a> に与えられた引数がそのまま渡されます。
+</p>
+<p>
+サブクラスではこのメソッドを必要に応じて再定義されることが期待されています。
+</p>
+<p>
+initialize という名前のメソッドは自動的に private に設定されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+初期化時の引数です。
+</dd>
+<dt class='method-param'>[PARAM] block:</dt>
+<dd>
+初期化時のブロック引数です。必須ではありません。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="nb">name</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="s2">initialize Foo</span><span class="s2">"</span>
+    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Bar</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="nb">name</span>, pass
+    <span class="nb">puts</span> <span class="s2">"</span><span class="s2">initialize Bar</span><span class="s2">"</span>
+    <span class="k">super</span> <span class="nb">name</span>
+    <span class="vi">@pass</span> <span class="o">=</span> pass
+  <span class="k">end</span>
+<span class="k">end</span>
+
+it <span class="o">=</span> <span class="no">Bar</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'myname'</span>,<span class="s1">'0500'</span><span class="p">)</span>
+<span class="nb">p</span> it
+<span class="c1">#=&gt; initialize Bar
+</span><span class="c1">#   initialize Foo
+</span><span class="c1">#   #&lt;Bar:0x2b68f08 @name=&quot;myname&quot;, @pass=&quot;0500&quot;&gt;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/Class/i/new.html">Class#new</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Object#L1751">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

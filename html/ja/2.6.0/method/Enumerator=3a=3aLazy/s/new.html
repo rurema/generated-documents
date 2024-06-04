@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Enumerator=3a=3aLazy/s/new.html">
+
+<title>Enumerator::Lazy.new (Ruby 2.6.0 リファレンスマニュアル)</title>
+<meta name="description" content="Lazy Enumerator を作成します。[[m:Enumerator::Lazy#force]] メソッドなどに
+よって列挙が実行されたとき、objのeachメソッドが実行され、値が一つずつ
+ブロックに渡されます。ブロックは、yielder を使って最終的に yield される値を
+指定できます。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.6.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Enumerator=3a=3aLazy.html","name":"Enumerator::Lazyクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Enumerator=3a=3aLazy/s/new.html","name":"new","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.6.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Enumerator=3a=3aLazy.html">Enumerator::Lazyクラス</a>
+      </li>
+      <li>
+        new 
+      </li>
+    </ol>
+  </nav>
+
+<h1>singleton method Enumerator::Lazy.new</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_NEW"><code>new(obj, size=nil) {|yielder, *values| ... } -&gt; Enumerator::Lazy</code><span class="permalink">[<a href="../../../method/Enumerator=3a=3aLazy/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.6.0/Enumerator/Lazy.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Enumerator__Lazy#L58">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Lazy Enumerator を作成します。<a href="../../../method/Enumerator=3a=3aLazy/i/force.html">Enumerator::Lazy#force</a> メソッドなどによって列挙が実行されたとき、objのeachメソッドが実行され、値が一つずつブロックに渡されます。ブロックは、yielder を使って最終的に yield される値を指定できます。
+</p>
+<p>
+Enumerable#filter_map と、その遅延評価版を定義する例:
+</p>
+<pre>
+module Enumerable
+  def filter_map(&amp;block)
+    map(&amp;block).compact
+  end
+end
+
+class Enumerator::Lazy
+  def filter_map
+    Lazy.new(self) do |yielder, *values|
+      result = yield *values
+      yielder &lt;&lt; result if result
+    end
+  end
+end
+
+1.step.lazy.filter_map{|i| i*i if i.even?}.first(5)
+    # =&gt; [4, 16, 36, 64, 100]
+</pre>
+<dl>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+引数を指定しなかった場合、ブロックを指定しなかった場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../../../method/Enumerator/s/new.html">Enumerator.new</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Enumerator__Lazy#L58">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/webrick.html">
+
+<title>library webrick (Ruby 2.6.0 リファレンスマニュアル)</title>
+<meta name="description" content="汎用HTTPサーバーフレームワークです。HTTPサーバが簡単に作れます。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.6.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/webrick.html","name":"webrickライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 2.6.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        webrickライブラリ
+      </li>
+    </ol>
+  </nav>
+
+<h1>library webrick</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick.rd#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+<h2>要約</h2>
+<p>
+汎用HTTPサーバーフレームワークです。HTTPサーバが簡単に作れます。
+</p>
+<p>
+WEBrick はサーブレットによって機能します。サーブレットとはサーバの機能をオブジェクト化したものです。ファイルを読み込んで返す・forkしてスクリプトを実行する・テンプレートを適用するなど、「サーバが行なっている様々なこと」を抽象化しオブジェクトにしたものがサーブレットです。サーブレットは <a href="../class/WEBrick=3a=3aHTTPServlet=3a=3aAbstractServlet.html">WEBrick::HTTPServlet::AbstractServlet</a> のサブクラスのインスタンスとして実装されます。
+</p>
+<p>
+WEBrick はセッション管理の機能を提供しません。
+</p>
+<p>
+NOTE: WEBrick は Ruby 3.0 で標準ライブラリから削除されました。Ruby 3.0 以降で WEBrick を使いたい場合は rubygems から利用してください。
+</p>
+<h2 >WEBrick の概要</h2>
+<p>
+以下は Web サーバとして完全に動作するスクリプトです。
+</p>
+<pre>
+require 'webrick'
+srv = WEBrick::HTTPServer.new({ :DocumentRoot =&gt; './',
+                                :BindAddress =&gt; '127.0.0.1',
+                                :Port =&gt; 20080})
+srv.mount('/view.cgi', WEBrick::HTTPServlet::CGIHandler, 'view.rb')
+srv.mount('/foo.html', WEBrick::HTTPServlet::FileHandler, 'hoge.html')
+trap(&quot;INT&quot;){ srv.shutdown }
+srv.start
+</pre>
+<p>
+ブラウザで http://127.0.0.1:20080/ にアクセスすることによって確認できます。また http://127.0.0.1:20080/view.cgi にアクセスするとカレントディレクトリに置かれている
+view.rb がCGIスクリプトとして実行されます。http://127.0.0.1:20080/foo.html にアクセスするとカレントディレクトリ下の hoge.html の内容が表示されます。
+</p>
+<p>
+上のスクリプトでは以下のような流れで view.rb は実行されます。
+</p>
+<ol>
+<li>サーバのパス /view.cgi と CGIHandler がマウントにより結びつけられます。</li>
+<li>パス /view.cgi にアクセスがあるたびにサーバは 'view.rb' を引数として CGIHandler オブジェクトを生成します。</li>
+<li>サーバはリクエストオブジェクトを引数として CGIHandler#service メソッドを呼びます。</li>
+<li>CGIHandler オブジェクトは view.rb を CGI スクリプトとして実行します。</li>
+</ol>
+<p>
+このように WEBrick では Web サーバの機能の大部分がサーブレットの形で提供されています。またサーブレットを作成することにより新たな機能を Web サーバに追加することもできます。
+</p>
+
+
+<h2>クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aBasicLog.html">WEBrick::BasicLog</a>
+</td>
+<td class="description"><p>
+ログを取る機能を提供するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aLog.html">WEBrick::Log</a>
+</td>
+<td class="description"><p>
+ログを取る機能を提供するクラスです。
+<a href="../class/WEBrick=3a=3aBasicLog.html">WEBrick::BasicLog</a> との違いはログの各行の先頭に現在時刻が自動で挿入される点です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aCookie.html">WEBrick::Cookie</a>
+</td>
+<td class="description"><p>
+Cookie を表すクラスです。<a class="external" href="https://tools.ietf.org/html/rfc2109">[RFC2109]</a> に準拠しています。
+RFC2109 は <a class="external" href="https://tools.ietf.org/html/rfc2965">[RFC2965]</a> により破棄されましたが、WEBrick::Cookie クラスは RFC2965 に対応していません。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aDaemon.html">WEBrick::Daemon</a>
+</td>
+<td class="description"><p>
+サーバのタイプを表すクラスです。
+<a href="../method/WEBrick=3a=3aGenericServer/s/new.html">WEBrick::GenericServer.new</a> の設定の :ServerType の値として指定した場合サーバはデーモンとして動作します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aGenericServer.html">WEBrick::GenericServer</a>
+</td>
+<td class="description"><p>
+サーバの一般的な機能を提供するクラスです。
+<a href="../class/WEBrick=3a=3aHTTPServer.html">WEBrick::HTTPServer</a> のスーパークラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPServer.html">WEBrick::HTTPServer</a>
+</td>
+<td class="description"><p>
+HTTP サーバの機能を提供するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aBasicAuth.html">WEBrick::HTTPAuth::BasicAuth</a>
+</td>
+<td class="description"><p>
+HTTP の Basic 認証のためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aProxyBasicAuth.html">WEBrick::HTTPAuth::ProxyBasicAuth</a>
+</td>
+<td class="description"><p>
+プロクシの Basic 認証のためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aDigestAuth.html">WEBrick::HTTPAuth::DigestAuth</a>
+</td>
+<td class="description"><p>
+HTTP の Digest 認証のためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aProxyDigestAuth.html">WEBrick::HTTPAuth::ProxyDigestAuth</a>
+</td>
+<td class="description"><p>
+プロクシの Digest 認証のためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aHtdigest.html">WEBrick::HTTPAuth::Htdigest</a>
+</td>
+<td class="description"><p>
+Apache の htdigest 互換のクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aHtgroup.html">WEBrick::HTTPAuth::Htgroup</a>
+</td>
+<td class="description"><p>
+Apache で証認に使用するユーザグループの一覧が格納されているテキストファイルを読み書きするためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aHtpasswd.html">WEBrick::HTTPAuth::Htpasswd</a>
+</td>
+<td class="description"><p>
+Apache の htpasswd 互換のクラスです。
+.htpasswd ファイルを新しく作成することも出来ます。
+htpasswd -m (MD5) や -s (SHA) で作成された .htpasswd ファイルには対応していません。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPRequest.html">WEBrick::HTTPRequest</a>
+</td>
+<td class="description"><p>
+HTTP リクエストのためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPResponse.html">WEBrick::HTTPResponse</a>
+</td>
+<td class="description"><p>
+HTTP のレスポンスを表すためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPServer=3a=3aMountTable.html">WEBrick::HTTPServer::MountTable</a>
+</td>
+<td class="description"><p>
+サーバ上のパスとサーブレットの対応関係を管理するためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPServlet=3a=3aAbstractServlet.html">WEBrick::HTTPServlet::AbstractServlet</a>
+</td>
+<td class="description"><p>
+サーブレットの抽象クラスです。実装は AbstractServlet のサブクラスで行います。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPServlet=3a=3aCGIHandler.html">WEBrick::HTTPServlet::CGIHandler</a>
+</td>
+<td class="description"><p>
+CGI を扱うためのサーブレットです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPServlet=3a=3aDefaultFileHandler.html">WEBrick::HTTPServlet::DefaultFileHandler</a>
+</td>
+<td class="description"><p>
+通常のファイルサーバとしての機能を提供するためのサーブレットです。
+<a href="../class/WEBrick=3a=3aHTTPServlet=3a=3aFileHandler.html">WEBrick::HTTPServlet::FileHandler</a> の内部で利用しています。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPServlet=3a=3aERBHandler.html">WEBrick::HTTPServlet::ERBHandler</a>
+</td>
+<td class="description"><p>
+ERB を扱うためのサーブレットです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPServlet=3a=3aFileHandler.html">WEBrick::HTTPServlet::FileHandler</a>
+</td>
+<td class="description"><p>
+通常のファイルサーバとしての機能を提供するためのサーブレット。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPServlet=3a=3aProcHandler.html">WEBrick::HTTPServlet::ProcHandler</a>
+</td>
+<td class="description"><p>
+<a href="../class/Proc.html">Proc</a> を扱うためのサーブレット。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPVersion.html">WEBrick::HTTPVersion</a>
+</td>
+<td class="description"><p>
+HTTP のバージョンのための小さなクラスです。バージョン同士の比較のために使います。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aSimpleServer.html">WEBrick::SimpleServer</a>
+</td>
+<td class="description"><p>
+サーバのタイプを表すクラスです。
+<a href="../method/WEBrick=3a=3aGenericServer/s/new.html">WEBrick::GenericServer.new</a> の設定の :ServerType の値として指定した場合サーバは通常のプロセスとして動作します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPUtils=3a=3aFormData.html">WEBrick::HTTPUtils::FormData</a>
+</td>
+<td class="description"><p>
+クライアントがフォームへ入力した値を表すクラスです。multipart/form-data なデータを表すのにも使われます。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>モジュール</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick.html">WEBrick</a>
+</td>
+<td class="description"><p>
+ライブラリ webrick の各クラスを提供するモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aAccessLog.html">WEBrick::AccessLog</a>
+</td>
+<td class="description"><p>
+<a href="../class/WEBrick=3a=3aHTTPServer.html">WEBrick::HTTPServer</a> のアクセスログの形式を処理するために内部で使われるモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aConfig.html">WEBrick::Config</a>
+</td>
+<td class="description"><p>
+色々なクラスの設定のデフォルト値を提供するモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTMLUtils.html">WEBrick::HTMLUtils</a>
+</td>
+<td class="description"><p>
+HTML のためのユーティリティ関数を提供します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPAuth.html">WEBrick::HTTPAuth</a>
+</td>
+<td class="description"><p>
+ユーザ認証の機能を提供するモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aAuthenticator.html">WEBrick::HTTPAuth::Authenticator</a>
+</td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aProxyAuthenticator.html">WEBrick::HTTPAuth::ProxyAuthenticator</a>
+</td>
+<td class="description"><p>
+このモジュールはプロキシのためにダイジェスト認証とベーシック認証の両方の一般的なサポートを提供します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aUserDB.html">WEBrick::HTTPAuth::UserDB</a>
+</td>
+<td class="description"><p>
+<a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aBasicAuth.html">WEBrick::HTTPAuth::BasicAuth</a>, <a href="../class/WEBrick=3a=3aHTTPAuth=3a=3aDigestAuth.html">WEBrick::HTTPAuth::DigestAuth</a> で使用しているモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPStatus.html">WEBrick::HTTPStatus</a>
+</td>
+<td class="description"><p>
+HTTP のステータスを表す例外クラスを提供するモジュールです。ステータスコード 200 などの成功の場合も含まれます。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPUtils.html">WEBrick::HTTPUtils</a>
+</td>
+<td class="description"><p>
+HTTP のためのユーティリティ関数を提供します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aUtils.html">WEBrick::Utils</a>
+</td>
+<td class="description"><p>
+ライブラリ webrick のための小さなユーティリティ関数を提供するモジュールです。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>例外クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Errno=3a=3aECONNABORTED.html">Errno::ECONNABORTED</a>
+</td>
+<td class="description"><p>
+接続が中止された (POSIX.1)
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Errno=3a=3aECONNRESET.html">Errno::ECONNRESET</a>
+</td>
+<td class="description"><p>
+接続がリセットされた (POSIX.1)
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Errno=3a=3aEPROTO.html">Errno::EPROTO</a>
+</td>
+<td class="description"><p>
+プロトコル・エラー (POSIX.1)
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aAccessLog=3a=3aAccessLogError.html">WEBrick::AccessLog::AccessLogError</a>
+</td>
+<td class="description"><p>
+指定されたアクセスログの形式が正しくない場合に発生します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPServlet=3a=3aHTTPServletError.html">WEBrick::HTTPServlet::HTTPServletError</a>
+</td>
+<td class="description"><p>
+ユーザが作成したサーブレット内で例外を発生させるときに使うと便利かもしれません。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aEOFError.html">WEBrick::HTTPStatus::EOFError</a>
+</td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aStatus.html">WEBrick::HTTPStatus::Status</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコードの親クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aError.html">WEBrick::HTTPStatus::Error</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコードエラーの親クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aClientError.html">WEBrick::HTTPStatus::ClientError</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコードクライアントエラー 4XX の親クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aBadRequest.html">WEBrick::HTTPStatus::BadRequest</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 400 Bad Request を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aConflict.html">WEBrick::HTTPStatus::Conflict</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 409 Conflict を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aExpectationFailed.html">WEBrick::HTTPStatus::ExpectationFailed</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 417 Expectation Failed を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aForbidden.html">WEBrick::HTTPStatus::Forbidden</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 403 Forbidden を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aGone.html">WEBrick::HTTPStatus::Gone</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 410 Gone を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aLengthRequired.html">WEBrick::HTTPStatus::LengthRequired</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 411 Length Required を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aMethodNotAllowed.html">WEBrick::HTTPStatus::MethodNotAllowed</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 405 Method Not Allowed を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aNotAcceptable.html">WEBrick::HTTPStatus::NotAcceptable</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 406 Not Acceptable を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aNotFound.html">WEBrick::HTTPStatus::NotFound</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 404 Not Found を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aPaymentRequired.html">WEBrick::HTTPStatus::PaymentRequired</a>
+</td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aPreconditionFailed.html">WEBrick::HTTPStatus::PreconditionFailed</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 412 Precondition Failed を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aProxyAuthenticationRequired.html">WEBrick::HTTPStatus::ProxyAuthenticationRequired</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 407 Proxy Authentication Required を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aRequestEntityTooLarge.html">WEBrick::HTTPStatus::RequestEntityTooLarge</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 413 Request Entity Too Large を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aRequestRangeNotSatisfiable.html">WEBrick::HTTPStatus::RequestRangeNotSatisfiable</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 416 Requested Range Not Satisfiable を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aRequestTimeout.html">WEBrick::HTTPStatus::RequestTimeout</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 408 Request Timeout を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aRequestURITooLarge.html">WEBrick::HTTPStatus::RequestURITooLarge</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 414 Request-URI Too Long を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aUnauthorized.html">WEBrick::HTTPStatus::Unauthorized</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 401 Unauthorized を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aUnsupportedMediaType.html">WEBrick::HTTPStatus::UnsupportedMediaType</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 415 Unsupported Media Type を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aServerError.html">WEBrick::HTTPStatus::ServerError</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコードサーバエラー 5XX の親クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aBadGateway.html">WEBrick::HTTPStatus::BadGateway</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 502 Bad Gateway を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aGatewayTimeout.html">WEBrick::HTTPStatus::GatewayTimeout</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 504 Gateway Timeout を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aHTTPVersionNotSupported.html">WEBrick::HTTPStatus::HTTPVersionNotSupported</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 505 HTTP Version Not Supported を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aInternalServerError.html">WEBrick::HTTPStatus::InternalServerError</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 500 Internal Server Error を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aNotImplemented.html">WEBrick::HTTPStatus::NotImplemented</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 501 Not Implemented を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 3.0em;">
+<span style="display:none">&nbsp;&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aServiceUnavailable.html">WEBrick::HTTPStatus::ServiceUnavailable</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 503 Service Unavailable を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aInfo.html">WEBrick::HTTPStatus::Info</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード情報提供 1XX の親クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aContinue.html">WEBrick::HTTPStatus::Continue</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 100 Continue を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aSwitchingProtocols.html">WEBrick::HTTPStatus::SwitchingProtocols</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 101 Switching Protocols を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aRedirect.html">WEBrick::HTTPStatus::Redirect</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード転送 3XX の親クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aFound.html">WEBrick::HTTPStatus::Found</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 302 Found を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aMovedPermanently.html">WEBrick::HTTPStatus::MovedPermanently</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 301 Moved Permanently を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aMultipleChoices.html">WEBrick::HTTPStatus::MultipleChoices</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 300 Multiple Choices を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aNotModified.html">WEBrick::HTTPStatus::NotModified</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 304 Not Modified を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aSeeOther.html">WEBrick::HTTPStatus::SeeOther</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 303 See Other を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aTemporaryRedirect.html">WEBrick::HTTPStatus::TemporaryRedirect</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 307 Temporary Redirect を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aUseProxy.html">WEBrick::HTTPStatus::UseProxy</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 305 Use Proxy を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aSuccess.html">WEBrick::HTTPStatus::Success</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード成功 2XX の親クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aAccepted.html">WEBrick::HTTPStatus::Accepted</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 202 Accepted を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aCreated.html">WEBrick::HTTPStatus::Created</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 201 Created を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aNoContent.html">WEBrick::HTTPStatus::NoContent</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 204 No Content を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aNonAuthoritativeInformation.html">WEBrick::HTTPStatus::NonAuthoritativeInformation</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 203 Non-Authoritative Information を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aOK.html">WEBrick::HTTPStatus::OK</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 200 OK を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aPartialContent.html">WEBrick::HTTPStatus::PartialContent</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 206 Partial Content を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPStatus=3a=3aResetContent.html">WEBrick::HTTPStatus::ResetContent</a>
+</td>
+<td class="description"><p>
+HTTP のステータスコード 205 Reset Content を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/WEBrick=3a=3aServerError.html">WEBrick::ServerError</a>
+</td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/WEBrick=3a=3aHTTPServerError.html">WEBrick::HTTPServerError</a>
+</td>
+<td class="description"></td>
+</tr>
+
+</table>
+
+
+<h2>同時にrequireされるライブラリ</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature"><a href="../library/webrick=2faccesslog.html">webrick/accesslog</a></td>
+<td class="description"><p>
+WEBrick::HTTPServer のアクセスログの形式を処理するために内部で使われるライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fcompat.html">webrick/compat</a></td>
+<td class="description"><p>
+プラットフォーム間の互換性を確保するためのライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fconfig.html">webrick/config</a></td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fcookie.html">webrick/cookie</a></td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhtmlutils.html">webrick/htmlutils</a></td>
+<td class="description"><p>
+HTML のためのユーティリティ関数を提供します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpauth.html">webrick/httpauth</a></td>
+<td class="description"><p>
+ユーザ認証の機能を提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpauth=2fauthenticator.html">webrick/httpauth/authenticator</a></td>
+<td class="description"><p>
+HTTP 認証で利用するモジュールを提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpauth=2fbasicauth.html">webrick/httpauth/basicauth</a></td>
+<td class="description"><p>
+HTTP の Basic 認証のためのライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpauth=2fdigestauth.html">webrick/httpauth/digestauth</a></td>
+<td class="description"><p>
+HTTP の Digest 認証のためのライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpauth=2fhtdigest.html">webrick/httpauth/htdigest</a></td>
+<td class="description"><p>
+Apache の htdigest 互換機能を提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpauth=2fhtgroup.html">webrick/httpauth/htgroup</a></td>
+<td class="description"><p>
+Apache で証認に使用するユーザグループの一覧が格納されているテキストファイルを読み書きする機能を提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpauth=2fhtpasswd.html">webrick/httpauth/htpasswd</a></td>
+<td class="description"><p>
+Apache の htpasswd 互換のクラスを提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpauth=2fuserdb.html">webrick/httpauth/userdb</a></td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttprequest.html">webrick/httprequest</a></td>
+<td class="description"><p>
+HTTP リクエストのためのクラスを提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpresponse.html">webrick/httpresponse</a></td>
+<td class="description"><p>
+HTTP のレスポンスを表すためのクラスを提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpserver.html">webrick/httpserver</a></td>
+<td class="description"><p>
+HTTP サーバの機能を提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpservlet.html">webrick/httpservlet</a></td>
+<td class="description"><p>
+このファイルを <a href="../method/Kernel/m/require.html">Kernel.#require</a> すると、
+<a href="../class/WEBrick=3a=3aHTTPServlet=3a=3aFileHandler.html">WEBrick::HTTPServlet::FileHandler</a> に対して拡張子 .cgi と .rhtml のためのハンドラを設定します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpservlet=2fabstract.html">webrick/httpservlet/abstract</a></td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpservlet=2fcgihandler.html">webrick/httpservlet/cgihandler</a></td>
+<td class="description"><p>
+CGI を扱うためのサーブレットを提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpservlet=2ferbhandler.html">webrick/httpservlet/erbhandler</a></td>
+<td class="description"><p>
+ERB を扱うためのサーブレットを提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpservlet=2ffilehandler.html">webrick/httpservlet/filehandler</a></td>
+<td class="description"><p>
+通常のファイルサーバとしての機能を提供するためのサーブレットを提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpservlet=2fprochandler.html">webrick/httpservlet/prochandler</a></td>
+<td class="description"><p>
+<a href="../class/Proc.html">Proc</a> を扱うためのサーブレットを提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpstatus.html">webrick/httpstatus</a></td>
+<td class="description"><p>
+HTTP のステータスを表す例外クラスを提供します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttputils.html">webrick/httputils</a></td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpversion.html">webrick/httpversion</a></td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2flog.html">webrick/log</a></td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fserver.html">webrick/server</a></td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2futils.html">webrick/utils</a></td>
+<td class="description"></td>
+</tr>
+
+</table>
+
+<h2>サブライブラリ</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fcgi.html">webrick/cgi</a></td>
+<td class="description"><p>
+一般の CGI 環境で <a href="../library/webrick.html">webrick</a> ライブラリのサーブレットと同じように CGI スクリプトを書くためのライブラリです。サーバが WEBrick でなくても使うことが出来ます。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttpproxy.html">webrick/httpproxy</a></td>
+<td class="description"><p>
+プロクシの機能を提供するライブラリです。CONNECT メソッドにも対応しています。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fhttps.html">webrick/https</a></td>
+<td class="description"><p>
+<a href="../class/WEBrick=3a=3aHTTPServer.html">WEBrick::HTTPServer</a> を SSL/TLS に対応させるための実装。このファイルを <a href="../method/Kernel/m/require.html">Kernel.#require</a> すると <a href="../class/WEBrick=3a=3aHTTPServer.html">WEBrick::HTTPServer</a> が SSL/TLS 対応になります。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/webrick=2fssl.html">webrick/ssl</a></td>
+<td class="description"><p>
+<a href="../class/WEBrick=3a=3aGenericServer.html">WEBrick::GenericServer</a> を SSL/TLS に対応させるための実装。このファイルを require すると WEBrick::GenericServer が SSL/TLS 対応になる。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick.rd#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

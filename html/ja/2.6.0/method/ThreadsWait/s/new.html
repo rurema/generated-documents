@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/ThreadsWait/s/new.html">
+
+<title>ThreadsWait.new (Ruby 2.6.0 リファレンスマニュアル)</title>
+<meta name="description" content="指定されたスレッドの終了をまつための、スレッド同期オブジェクトをつくります。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.6.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/thwait.html","name":"thwaitライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/ThreadsWait.html","name":"ThreadsWaitクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/ThreadsWait/s/new.html","name":"new","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.6.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/thwait.html">thwaitライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/ThreadsWait.html">ThreadsWaitクラス</a>
+      </li>
+      <li>
+        new 
+      </li>
+    </ol>
+  </nav>
+
+<h1>singleton method ThreadsWait.new</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_NEW"><code>new(*threads) -&gt; ThreadsWait</code><span class="permalink">[<a href="../../../method/ThreadsWait/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.6.0/ThreadsWait.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/thwait.rd#L41">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+指定されたスレッドの終了をまつための、スレッド同期オブジェクトをつくります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] threads:</dt>
+<dd>
+終了を待つスレッドを一つもしくは複数指定します。
+</dd>
+</dl>
+<p>
+使用例
+</p>
+<pre>
+require 'thwait'
+
+threads = []
+5.times {|i|
+  threads &lt;&lt; Thread.new { sleep 1; p Thread.current }
+}
+
+thall = ThreadsWait.new(*threads)
+thall.all_waits{|th|
+  printf(&quot;end %s\n&quot;, th.inspect)
+}
+
+# 出力例
+#=&gt; #&lt;Thread:0x214bc run&gt;
+#=&gt; #&lt;Thread:0x21548 run&gt;
+#=&gt; #&lt;Thread:0x215d4 run&gt;
+#=&gt; #&lt;Thread:0x21660 run&gt;
+#=&gt; #&lt;Thread:0x21430 run&gt;
+#=&gt; end #&lt;Thread:0x214bc dead&gt;
+#=&gt; end #&lt;Thread:0x21548 dead&gt;
+#=&gt; end #&lt;Thread:0x215d4 dead&gt;
+#=&gt; end #&lt;Thread:0x21660 dead&gt;
+#=&gt; end #&lt;Thread:0x21430 dead&gt;
+</pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/thwait.rd#L41">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
