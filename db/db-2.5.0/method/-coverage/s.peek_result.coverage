@@ -1,0 +1,43 @@
+names=peek_result
+visibility=public
+kind=defined
+source_location=refm/api/src/coverage.rd:292
+
+--- peek_result -> Hash
+
+測定を止めることなく、測定中のその時の結果をハッシュで返します。
+測定結果の詳細は、[[lib:coverage]] ライブラリ を参照してください。
+
+
+@return 測定途中結果を表すハッシュ
+
+@raise RuntimeError [[m:Coverage.start]] を実行する前に実行された場合に
+                    発生します。
+
+//emlist[bool.rb][ruby]{
+def bool(obj)
+  if obj
+    true
+  else
+    false
+  end
+end
+//}
+
+//emlist[][ruby]{
+require "coverage"
+
+Coverage.start
+
+load "bool.rb"
+p Coverage.peek_result  #=> {"bool.rb"=>[1, 0, 0, nil, 0, nil, nil]}
+
+bool(true)
+p Coverage.peek_result  #=> {"bool.rb"=>[1, 1, 1, nil, 0, nil, nil]}
+
+bool(false)
+p Coverage.peek_result  #=> {"bool.rb"=>[1, 2, 1, nil, 1, nil, nil]}
+//}
+
+@see [[m:Coverage.result]]
+

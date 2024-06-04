@@ -1,0 +1,28 @@
+names=enter
+visibility=public
+kind=defined
+source_location=refm/api/src/monitor/Monitor:69
+
+--- enter -> ()
+[[m:MonitorMixin#mon_enter]] の別名です。
+
+[[m:Thread::Mutex#lock]] に相当します。
+Thread::Mutex#lock と違うのは現在のモニターの所有者が現在実行されているスレッドである場合、
+何度でもロックできる点です。ロックした回数だけ [[m:Monitor#exit]] を呼ばなければモニターは
+解放されません。
+
+//emlist[例][ruby]{
+require 'monitor'
+mon = Monitor.new
+mon.enter
+mon.enter
+//}
+
+Thread::Mutex#lock ではデッドロックが起きます。
+
+//emlist[Mutex でデッドロックする例][ruby]{
+m = Mutex.new
+m.lock
+m.lock # => deadlock; recursive locking (ThreadError)
+//}
+

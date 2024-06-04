@@ -1,0 +1,31 @@
+names=one?
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Enumerable:1033
+
+--- one?                -> bool
+--- one?{|obj| ... }    -> bool
+--- one?(pattern)       -> bool
+
+ブロックを指定しない場合は、 Enumerable オブジェクトの要素のうち
+ちょうど一つだけが真であれば、真を返します。
+そうでなければ偽を返します。
+
+ブロックを指定した場合は、Enumerable オブジェクトの要素を
+ブロックで評価した結果、一つの要素だけが真であれば真を返します。
+そうでなければ偽を返します。
+
+@param pattern ブロックの代わりに各要素に対して pattern === item を評価します。
+
+//emlist[例][ruby]{
+require 'set'
+Set['ant', 'bear', 'cat'].one? {|word| word.length == 4}  # => true
+Set['ant', 'bear', 'cat'].one? {|word| word.length > 4}   # => false
+Set['ant', 'bear', 'cat'].one?(/t/)                       # => false
+Set[nil, true, 99].one?                                   # => false
+Set[nil, true, false].one?                                # => true
+Set[nil, true, 99].one?(Integer)                          # => true
+Set[].one?                                                # => false
+//}
+
+

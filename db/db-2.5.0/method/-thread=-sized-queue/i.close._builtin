@@ -1,0 +1,24 @@
+names=close
+visibility=public
+kind=defined
+source_location=refm/api/src/thread/SizedQueue:179
+
+--- close -> self
+
+キューを close します。詳しくは [[m:Thread::Queue#close]] を参照してください。
+
+[[c:Thread::Queue]] とはキューにオブジェクトを追加するスレッドの動作が
+異なります。キューにオブジェクトを追加するスレッドを待機している場合は
+[[c:ClosedQueueError]] が発生して中断されます。
+
+//emlist[例][ruby]{
+q = SizedQueue.new(4)
+
+[:resource1, :resource2, :resource3, nil].each { |r| q.push(r) }
+
+q.closed? # => false
+q.close
+q.closed? # => true
+//}
+
+@see [[m:Thread::Queue#close]]

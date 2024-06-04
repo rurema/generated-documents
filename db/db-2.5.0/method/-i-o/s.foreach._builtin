@@ -1,0 +1,53 @@
+names=foreach
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/IO:308
+
+--- foreach(path, rs = $/, chomp: false) {|line| ... }    -> nil
+--- foreach(path, rs = $/, chomp: false)                  -> Enumerator
+
+path で指定されたファイルの各行を引数としてブロックを繰り返し実行します。
+path のオープンに成功すれば nil を返します。
+
+ブロックが与えられなかった場合は、path で指定されたファイルの各行を繰り返す
+[[c:Enumerator]] オブジェクトを生成して返します。
+
+テキスト読み込みメソッドとして動作します。
+
+path が空ファイルの場合、何もせずに nil を返します。
+[[m:Kernel.#open]] と同様 path の先頭が "|" ならば、"|" に続くコマンドの出力を読み取ります。
+
+@param path ファイル名を表す文字列か "|コマンド名" を指定します。
+
+@param rs 行の区切りを文字列で指定します。rs に nil を指定すると行区切りなしとみなします。
+          空文字列 "" を指定すると連続する改行を行の区切りとみなします(パラグラフモード)。
+
+@param chomp true を指定すると各行の末尾から "\n", "\r", または "\r\n" を取り除きます。
+
+@raise Errno::EXXX path のオープンに失敗した場合、発生します。
+
+//emlist[例:rs 指定なし][ruby]{
+IO.write("testfile", "line1\nline2,\nline3\n")
+IO.foreach("testfile")  # => #<Enumerator: IO:foreach("testfile")>
+IO.foreach("testfile") { |x| print "GOT ", x }
+# => GOT line1
+# GOT line2,
+# GOT line3
+//}
+
+//emlist[例:カンマを行の区切りに指定（ rs = "," ）][ruby]{
+IO.write("testfile", "line1,line2,line3")
+IO.foreach("testfile", ",") { |x| puts "GOT #{x}" }
+# => GOT line1,
+# GOT line2,
+# GOT line3
+//}
+
+//emlist[例: 各行の末尾から "\n", "\r", または "\r\n" を取り除く（chomp = true）][ruby]{
+IO.write("testfile", "line1\nline2,\nline3\n")
+IO.foreach("testfile", chomp: true) { |x| print "GOT ", x }
+# => GOT line1GOT line2,GOT line3
+//}
+
+@see [[m:$/]]
+

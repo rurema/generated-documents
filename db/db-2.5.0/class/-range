@@ -1,0 +1,77 @@
+type=class
+superclass=Object
+included=Enumerable
+extended=
+dynamically_included=
+dynamically_extended=
+library=_builtin
+aliases=
+aliasof=
+source_location=refm/api/src/_builtin/Range:1
+
+範囲オブジェクトのクラス。
+範囲オブジェクトは文字どおり何らかの意味での範囲を表します。数の範囲はもちろん、
+日付の範囲や、「"a" から "z" まで」といった文字列の範囲を表すこともできます。
+
+==== 作り方
+
+範囲オブジェクトは、[[m:Range.new]] を用いるほか、範囲演算子（`..' または `...'）を
+用いた [[ref:d:spec/operator#range]] で生成できます。
+いずれの方法でも始端と終端を与えます。
+
+//emlist[範囲オブジェクトの例][ruby]{
+Range.new(1, 5) # 1 以上 5 以下
+1..5            # 同上
+1...5           # 1 以上 5 未満
+//}
+
+この例で分かるように、範囲オブジェクトは終端を含む範囲も含まない範囲も表せます。
+
+
+==== 機能
+
+範囲オブジェクトは範囲を表しているので、基本的な機能として「ある値がその範囲に
+含まれるか否かを判定する」ということがあります。
+
+//emlist[値が範囲に含まれるかどうかを判定][ruby]{
+p (1..5).cover?(6)  # => false
+p (1..5).cover?(5)  # => true
+p (1...5).cover?(5) # => false
+//}
+
+[[m:Range#cover?]] メソッドでの判定には演算子 <=> が使われます。
+
+当然、始端と終端は <=> メソッドで比較可能である（nil 以外を返す）必要が
+あります。
+
+範囲オブジェクトのもう一つの基本的機能は繰り返しの範囲を表すことです。
+
+//emlist[繰り返しの範囲を範囲オブジェクトで表す][ruby]{
+(3..5).each{ |i| p i }
+# => 3
+#    4
+#    5
+
+(3...5).each{ |i| p i }
+# => 3
+#    4
+//}
+
+繰り返しの範囲を表す範囲オブジェクトは、始端が「次の値」を返す succ メソッドを
+持たなければなりません。
+
+Range クラスには [[c:Enumerable]] が include してあるので，[[m:Range#each]] に
+基づき、Enumerable モジュールが提供する多様なメソッドを使うことができます。
+
+=== 破壊的な変更
+
+Ruby の Range クラスは immutable です。
+つまり、オブジェクト自体を破壊的に変更することはできません。
+ですので、一度生成された Range のオブジェクトの指し示す範囲は
+決して変更することはできません。
+
+//emlist[][ruby]{
+range = 1..10
+range.first     # => 1
+range.first = 1 # => NoMethodError
+//}

@@ -1,0 +1,30 @@
+names=latest_gc_info
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/GC:418
+
+--- latest_gc_info(result_hash = {}) -> Hash
+--- latest_gc_info(key)              -> object
+
+最新のGCの情報を返します。
+
+@param result_hash 戻り値のためのハッシュを指定します。省略した場合は新
+                   しくハッシュを作成します。result_hash の内容は上書き
+                   されます。
+
+@param key 得られる情報から特定の情報を取得したい場合にキーを
+           [[c:Symbol]] で指定します。
+
+//emlist[例][ruby]{
+latest = GC.latest_gc_info
+latest # => {:major_by=>nil, :gc_by=>:newobj, :have_finalizer=>false, :immediate_sweep=>false, :state=>:sweeping}
+
+stat = GC.stat
+merged = GC.latest_gc_info(stat)
+merged == latest.merge(stat) # => true
+
+GC.latest_gc_info(:gc_by)    # => :newobj
+//}
+
+
+

@@ -1,0 +1,38 @@
+names=result
+visibility=public
+kind=defined
+source_location=refm/api/src/coverage.rd:230
+
+--- result  -> Hash
+
+対象ファイル名をキー、測定結果を値したハッシュを返します。
+測定結果の詳細は、[[lib:coverage]] ライブラリ を参照してください。
+
+resultメソッドが実行された後はカバレッジの測定を行いません。
+
+@return 測定結果を表すハッシュ
+
+@raise RuntimeError [[m:Coverage.start]] を実行する前に実行された場合に
+                    発生します。
+
+//emlist[bool.rb][ruby]{
+def bool(obj)
+  if obj
+    true
+  else
+    false
+  end
+end
+//}
+
+//emlist[][ruby]{
+require "coverage"
+Coverage.start
+load "bool.rb"
+p Coverage.result  #=> {"bool.rb"=>[1, 0, 0, nil, 0, nil, nil]}
+bool(0)
+p Coverage.result  # coverage measurement is not enabled (RuntimeError)
+//}
+
+
+@see [[m:Coverage.peek_result]]

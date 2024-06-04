@@ -1,0 +1,37 @@
+names=strongly_connected_components
+visibility=public
+kind=defined
+source_location=refm/api/src/tsort.rd:195
+
+--- strongly_connected_components(each_node, each_child) -> Array
+
+強連結成分の集まりを配列の配列として返します。
+この配列は子から親に向かってソートされています。
+各要素は強連結成分を表す配列です。
+
+引数 each_node と each_child でグラフを表します。
+
+@param each_node グラフ上の頂点をそれぞれ評価するcallメソッドを持つオブ
+                 ジェクトを指定します。
+
+@param each_child 引数で与えられた頂点の子をそれぞれ評価するcallメソッ
+                  ドを持つオブジェクトを指定します。
+
+//emlist[使用例][ruby]{
+require 'tsort'
+
+g = {1=>[2, 3], 2=>[4], 3=>[2, 4], 4=>[]}
+each_node = lambda {|&b| g.each_key(&b) }
+each_child = lambda {|n, &b| g[n].each(&b) }
+p TSort.strongly_connected_components(each_node, each_child)
+# => [[4], [2], [3], [1]]
+
+g = {1=>[2], 2=>[3, 4], 3=>[2], 4=>[]}
+each_node = lambda {|&b| g.each_key(&b) }
+each_child = lambda {|n, &b| g[n].each(&b) }
+p TSort.strongly_connected_components(each_node, each_child)
+# => [[4], [2, 3], [1]]
+//}
+
+@see [[m:TSort#strongly_connected_components]]
+

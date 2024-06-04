@@ -1,0 +1,37 @@
+names=reject
+visibility=public
+kind=defined
+source_location=refm/api/src/optparse/OptionParser:108
+
+--- reject(klass)    -> ()
+
+[[m:OptionParser.accept]] メソッドで登録したブロックを削除します。
+
+@param klass 削除したいクラスオブジェクトを指定します。
+
+//emlist[例][ruby]{
+require "optparse"
+require "time"
+
+def parse(option_parser)
+  option_parser.on("-t", "--time [TIME]", Time) do |time|
+    p time.class
+  end
+  option_parser.parse(ARGV)
+end
+
+OptionParser.accept(Time) do |s,|
+  begin
+    Time.parse(s) if s
+  rescue
+    raise OptionParser::InvalidArgument, s
+  end
+end
+
+opts1 = OptionParser.new
+parse(opts1) # => Time
+OptionParser.reject(Time)
+opts2 = OptionParser.new
+parse(opts2) # => unsupported argument type: Time (ArgumentError)
+//}
+

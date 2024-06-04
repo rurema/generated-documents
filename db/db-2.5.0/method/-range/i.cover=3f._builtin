@@ -1,0 +1,46 @@
+names=cover?
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Range:262
+
+--- cover?(obj) -> bool
+
+obj が範囲内に含まれている時に true を返します。
+
+[[m:Range#include?]] と異なり <=> メソッドによる演算により範囲内かどうかを判定します。
+[[m:Range#include?]] は原則として離散値を扱い、
+Range#cover? は連続値を扱います。
+（数値については、例外として [[m:Range#include?]] も連続的に扱います。）
+
+[[m:Range#exclude_end?]]がfalseなら「begin <= obj <= end」を、
+trueなら「begin <= obj < end」を意味します。
+
+@param obj 比較対象のオブジェクトを指定します。
+
+//emlist[数値は連続的に扱われているため、 include? / cover? が同じ結果を返す][ruby]{
+(1.1..2.3).include?(1.0)    # => false
+(1.1..2.3).include?(1.1)    # => true
+(1.1..2.3).include?(1.555)  # => true
+(1.1..2.3).cover?(1.0)      # => false
+(1.1..2.3).cover?(1.1)      # => true
+(1.1..2.3).cover?(1.555)    # => true
+//}
+
+//emlist[String の例][ruby]{
+('b'..'d').include?('d')    # => true
+('b'..'d').include?('ba')   # => false
+('b'..'d').cover?('d')      # => true
+('b'..'d').cover?('ba')     # => true
+//}
+
+//emlist[Date, DateTime の例][ruby]{
+require 'date'
+(Date.today - 365 .. Date.today + 365).include?(Date.today)    #=> true
+(Date.today - 365 .. Date.today + 365).include?(DateTime.now)  #=> false
+(Date.today - 365 .. Date.today + 365).cover?(Date.today)      #=> true
+(Date.today - 365 .. Date.today + 365).cover?(DateTime.now)    #=> true
+//}
+
+
+@see [[m:Range#include?]], [[m:Range#===]]
+

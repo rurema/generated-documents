@@ -1,0 +1,35 @@
+names=new
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/String:196
+
+--- new(string = "")                -> String
+--- new(string = "", encoding: string.encoding, capacity: 127) -> String
+--- new(string = "", encoding: string.encoding, capacity: string.bytesize) -> String
+
+string と同じ内容の新しい文字列を作成して返します。
+引数を省略した場合は空文字列を生成して返します。
+
+@param string   文字列
+@param encoding 作成する文字列のエンコーディングを文字列か
+                [[c:Encoding]] オブジェクトで指定します(変換は行われま
+                せん)。省略した場合は引数 string のエンコーディングと同
+                じになります(ただし、string が指定されていなかった場合は
+                [[m:Encoding::ASCII_8BIT]]になります)。
+@param capacity 内部バッファのサイズを指定します。
+                指定することで、なんども文字列連結する
+                (そしてreallocがなんども呼ばれる)ときの
+                パフォーマンスが改善されるかもしれません。
+                省略した場合、引数stringのバイト数が127未満であれば127、
+                それ以上であればstring.bytesizeになります。
+@return         引数 string と同じ内容の文字列オブジェクト
+
+//emlist[例][ruby]{
+text = "hoge".encode("EUC-JP")
+no_option = String.new(text)                             # => "hoge"
+no_option.encoding == Encoding::EUC_JP                   # => true
+with_encoding = String.new(text, encoding: "UTF-8")      # => "hoge"
+with_encoding.encoding == Encoding::UTF_8                # => true
+String.new("test", encoding: "UTF-8", capacity: 100_000) # => "test"
+//}
+

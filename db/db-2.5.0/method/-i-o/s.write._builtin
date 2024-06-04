@@ -1,0 +1,38 @@
+names=write
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/IO:719
+
+--- write(path, string, opt={}) -> Integer
+--- write(path, string, offset=nil, opt={}) -> Integer
+path で指定されるファイルを開き、string を書き込み、
+閉じます。
+
+[[m:Kernel.#open]] と同様 path の先頭が "|" ならば、"|" に続くコマンドを実行し、コマンドの出力を標準出力に書き込みます。
+
+offset を指定するとその位置までシークします。
+
+offset を指定しないと、書き込みの末尾でファイルを
+切り捨てます。
+
+引数最後のハッシュはファイルを開くときに使われます。
+エンコーディングなどを指定することができます。
+詳しくは [[m:IO.open]] を見てください。
+
+@param path ファイル名文字列
+@param string 書き込む文字列
+@param offset 書き込み開始位置
+@param opt ファイルを開くときのオプション引数
+
+//emlist[例][ruby]{
+text = "This is line one\nThis is line two\nThis is line three\nAnd so on...\n"
+IO.write("testfile", text)              # => 66
+IO.write("testfile", "0123456789", 20)  #=> 10
+IO.read("testfile")
+# => "This is line one\nThi0123456789two\nThis is line three\nAnd so on...\n"
+IO.write("testfile", "0123456789")      #=> 10
+IO.read("testfile")                     # => "0123456789"
+//}
+
+@see [[m:IO.binwrite]]
+

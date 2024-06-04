@@ -1,0 +1,35 @@
+names=header_convert
+visibility=public
+kind=defined
+source_location=refm/api/src/csv.rd:1202
+
+--- header_convert(name)
+--- header_convert{|field| ... }
+--- header_convert{|field, field_info| ... }
+
+[[m:CSV#convert]] に似ていますが、ヘッダ行用のメソッドです。
+
+このメソッドはヘッダ行を読み込む前に呼び出さなければなりません。
+
+@param name 変換器の名前を指定します。
+
+//emlist[例 name を指定][ruby]{
+require "csv"
+
+csv = CSV.new("header1,header2\nrow1_1,row1_2", { headers: true })
+csv.header_convert(:symbol)
+csv.first.headers # => [:header1, :header2]
+//}
+
+//emlist[例 ブロックを指定][ruby]{
+require "csv"
+
+csv = CSV.new("header1,header2\nrow1_1,row1_2", { headers: true })
+csv.header_convert do |field|
+  field.to_sym
+end
+csv.first.headers # => [:header1, :header2]
+//}
+
+@see [[m:CSV#header_converters]], [[m:CSV#convert]]
+
