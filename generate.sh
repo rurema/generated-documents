@@ -21,5 +21,7 @@ fi
 
 time docker compose build rurema
 
+time docker compose run --rm rurema ls -al
+
 time docker compose run --rm rurema tool/bc-setup-all.rb
 time docker compose run --rm rurema tool/bc-static-all.rb
