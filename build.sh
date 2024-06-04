@@ -33,5 +33,4 @@ time docker compose build
 time docker compose run --rm rurema tool/bc-setup-all.rb
 time docker compose run --rm rurema tool/bc-static-all.rb
 
-time docker compose run --rm rurema-search ../tool/update-rurema-index.rb
-# groonga-database/bitclust.db* var/lib/suggest/suggest.db* ができる
+# docker compose up -d
