@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Data/i/with.html">
+
+<title>Data#with (Ruby 3.2 リファレンスマニュアル)</title>
+<meta name="description" content="self をコピーしたオブジェクトを返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.2 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Data.html","name":"Dataクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Data/i/with.html","name":"with","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.2 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Data.html">Dataクラス</a>
+      </li>
+      <li>
+        with 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method Data#with</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_WITH"><code>with(**kwargs) -&gt; Data</code><span class="permalink">[<a href="../../../method/Data/i/with.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Data.html#method-i-with">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Data#L391">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self をコピーしたオブジェクトを返します。
+</p>
+<p>
+値オブジェクトのメンバのオブジェクトはコピーされません。つまり参照しているオブジェクトが変わらない「浅い(shallow)」コピーを行います。
+</p>
+<p>
+キーワード引数が指定された場合、引数に対応するメンバには引数の値が設定されます。存在しないメンバを指定した場合はエラーとなります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] kwargs:</dt>
+<dd>
+コピーされたオブジェクトに設定されるメンバの値を指定します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+存在しないメンバを指定した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Dog</span> <span class="o">=</span> <span class="no">Data</span><span class="p">.</span><span class="nf">define</span><span class="p">(</span><span class="ss">:name</span>, <span class="ss">:age</span><span class="p">)</span>
+dog1 <span class="o">=</span> <span class="no">Dog</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">Fred</span><span class="s2">"</span>, <span class="mi">5</span><span class="p">)</span>  <span class="c1"># =&gt; #&lt;data Dog name=&quot;Fred&quot;, age=5&gt;
+</span>dog2 <span class="o">=</span> dog1<span class="p">.</span><span class="nf">with</span><span class="p">(</span><span class="ss">age:</span> <span class="mi">6</span><span class="p">)</span>   <span class="c1"># =&gt; #&lt;data Dog name=&quot;Fred&quot;, age=6&gt;
+</span><span class="nb">p</span> dog1                     <span class="c1"># =&gt; #&lt;data Dog name=&quot;Fred&quot;, age=5&gt;
+</span>dog3 <span class="o">=</span> dog1<span class="p">.</span><span class="nf">with</span><span class="p">(</span><span class="ss">type:</span> <span class="s2">"</span><span class="s2">Terrier</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; ArgumentError (unknown keyword: :type)
+</span>
+<span class="c1"># メンバのオブジェクトはコピーされず、同じオブジェクトを参照する。
+</span>dog1<span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">upcase!</span>
+<span class="nb">p</span> dog1 <span class="c1"># =&gt; #&lt;data Dog name=&quot;FRED&quot;, age=5&gt;
+</span><span class="nb">p</span> dog2 <span class="c1"># =&gt; #&lt;data Dog name=&quot;FRED&quot;, age=6&gt;
+</span></code></pre>
+<p>
+[注意] 本メソッドの記述は Data のサブクラスのインスタンスに対して呼び出す事を想定しています。Data.define は Data のサブクラスを作成する点に注意してください。
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Data#L391">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

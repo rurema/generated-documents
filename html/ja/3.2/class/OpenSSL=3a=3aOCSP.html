@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/OpenSSL=3a=3aOCSP.html">
+
+<title>module OpenSSL::OCSP (Ruby 3.2 リファレンスマニュアル)</title>
+<meta name="description" content="OCSP(Online Certificate Status Protocol)を取り扱うための
+モジュールです。OCSP は [[RFC:2560]] で定義されています。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.2 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/openssl.html","name":"opensslライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/OpenSSL=3a=3aOCSP.html","name":"OpenSSL::OCSPモジュール","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.2 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/openssl.html">opensslライブラリ</a>
+      </li>
+      <li>
+        OpenSSL::OCSPモジュール
+      </li>
+    </ol>
+  </nav>
+
+<h1>module OpenSSL::OCSP</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+      <li>
+        OpenSSL::OCSP
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+OCSP(Online Certificate Status Protocol)を取り扱うためのモジュールです。OCSP は <a class="external" href="https://tools.ietf.org/html/rfc2560">[RFC2560]</a> で定義されています。
+</p>
+<p>
+このモジュールは OCSP のリクエストとレスポンスを取り扱う機能を持っています。
+</p>
+<p>
+OCSP レスポンダと通信する機能はありません。ユーザが例えば
+OCSP over http などを実装する必要があります。
+</p>
+<h2 >例</h2>
+<p>
+OCSP レスポンダにリクエストを送ってその返答を表示する
+</p>
+<pre>
+require 'openssl'
+require 'net/http'
+# ...
+subject # 問い合わせ対象の証明書(Certificate オブジェクト)
+issuer # subject の発行者の証明書(Certificate オブジェクト)
+store # 信頼している証明書ストア
+cid = OpenSSL::OCSP::CertificateId.new(subject, issuer)
+req = OpenSSL::OCSP::Request.new
+req.add_certid(cid)
+req.add_nonce
+
+http = Net::HTTP.new('ocsp.example.com', 80)
+httpres = http.post(&quot;/&quot;, req.to_der, 'content-type' =&gt; 'application/ocsp-request')
+raise &quot;HTTP error&quot; if !httpres.kind_of?(Net::HTTPOK)
+res = OpenSSL::OCSP::Response.new(httpres.body)
+
+puts &quot;Response status: #{res.status_string}&quot;
+exit if res.status != OpenSSL::OCSP::RESPONSE_STATUS_SUCCESSFUL
+
+basic_resp = res.basic
+raise &quot;nonce error&quot; unless [-1, 1].include?(req.check_nonce(basic_resp))
+unless basic_resp.verify([], store)
+  puts &quot;verify response fail&quot;
+end
+rescid, status, reason, revtime, thisupd, nextupd, exts = basic_resp.status.first
+STATUS2MESSAGE = {
+  OpenSSL::OCSP::V_CERTSTATUS_GOOD =&gt; &quot;OK&quot;,
+  OpenSSL::OCSP::V_CERTSTATUS_REVOKED =&gt; &quot;REVOKED&quot;,
+  OpenSSL::OCSP::V_CERTSTATUS_UNKNOWN =&gt; &quot;UNKNOWN&quot;,
+}
+puts &quot;status: #{STATUS2MESSAGE[status]}&quot;
+puts &quot;reason: #{reason}&quot; if status == OpenSSL::OCSP::V_CERTSTATUS_REVOKED
+puts &quot;revoked time: #{revtime}&quot; if status == OpenSSL::OCSP::V_CERTSTATUS_REVOKED
+puts &quot;response update: #{thisupd}&quot;
+puts &quot;response next update: #{nextupd}&quot;
+puts &quot;extensions: &quot;
+exts.each{|ext| p ext}
+</pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>定数</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#C_-N-O-C-A-S-I-G-N">NOCASIGN</a></li>
+
+<li><a href="#C_-N-O-C-E-R-T-S">NOCERTS</a></li>
+
+<li><a href="#C_-N-O-C-H-A-I-N">NOCHAIN</a></li>
+
+<li><a href="#C_-N-O-C-H-E-C-K-S">NOCHECKS</a></li>
+
+<li><a href="#C_-N-O-D-E-L-E-G-A-T-E-D">NODELEGATED</a></li>
+
+<li><a href="#C_-N-O-E-X-P-L-I-C-I-T">NOEXPLICIT</a></li>
+
+<li><a href="#C_-N-O-I-N-T-E-R-N">NOINTERN</a></li>
+
+<li><a href="#C_-N-O-S-I-G-S">NOSIGS</a></li>
+
+<li><a href="#C_-N-O-T-I-M-E">NOTIME</a></li>
+
+<li><a href="#C_-N-O-V-E-R-I-F-Y">NOVERIFY</a></li>
+
+<li><a href="#C_-R-E-S-P-I-D_-K-E-Y">RESPID_KEY</a></li>
+
+<li><a href="#C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-I-N-T-E-R-N-A-L-E-R-R-O-R">RESPONSE_STATUS_INTERNALERROR</a></li>
+
+<li><a href="#C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-M-A-L-F-O-R-M-E-D-R-E-Q-U-E-S-T">RESPONSE_STATUS_MALFORMEDREQUEST</a></li>
+
+<li><a href="#C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-S-I-G-R-E-Q-U-I-R-E-D">RESPONSE_STATUS_SIGREQUIRED</a></li>
+
+<li><a href="#C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-S-U-C-C-E-S-S-F-U-L">RESPONSE_STATUS_SUCCESSFUL</a></li>
+
+<li><a href="#C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-T-R-Y-L-A-T-E-R">RESPONSE_STATUS_TRYLATER</a></li>
+
+<li><a href="#C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-U-N-A-U-T-H-O-R-I-Z-E-D">RESPONSE_STATUS_UNAUTHORIZED</a></li>
+
+<li><a href="#C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-A-F-F-I-L-I-A-T-I-O-N-C-H-A-N-G-E-D">REVOKED_STATUS_AFFILIATIONCHANGED</a></li>
+
+<li><a href="#C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-C-A-C-O-M-P-R-O-M-I-S-E">REVOKED_STATUS_CACOMPROMISE</a></li>
+
+<li><a href="#C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-C-E-R-T-I-F-I-C-A-T-E-H-O-L-D">REVOKED_STATUS_CERTIFICATEHOLD</a></li>
+
+<li><a href="#C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-C-E-S-S-A-T-I-O-N-O-F-O-P-E-R-A-T-I-O-N">REVOKED_STATUS_CESSATIONOFOPERATION</a></li>
+
+<li><a href="#C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-K-E-Y-C-O-M-P-R-O-M-I-S-E">REVOKED_STATUS_KEYCOMPROMISE</a></li>
+
+<li><a href="#C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-N-O-S-T-A-T-U-S">REVOKED_STATUS_NOSTATUS</a></li>
+
+<li><a href="#C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-R-E-M-O-V-E-F-R-O-M-C-R-L">REVOKED_STATUS_REMOVEFROMCRL</a></li>
+
+<li><a href="#C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-S-U-P-E-R-S-E-D-E-D">REVOKED_STATUS_SUPERSEDED</a></li>
+
+<li><a href="#C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-U-N-S-P-E-C-I-F-I-E-D">REVOKED_STATUS_UNSPECIFIED</a></li>
+
+<li><a href="#C_-T-R-U-S-T-O-T-H-E-R">TRUSTOTHER</a></li>
+
+<li><a href="#C_-V_-C-E-R-T-S-T-A-T-U-S_-G-O-O-D">V_CERTSTATUS_GOOD</a></li>
+
+<li><a href="#C_-V_-C-E-R-T-S-T-A-T-U-S_-R-E-V-O-K-E-D">V_CERTSTATUS_REVOKED</a></li>
+
+<li><a href="#C_-V_-C-E-R-T-S-T-A-T-U-S_-U-N-K-N-O-W-N">V_CERTSTATUS_UNKNOWN</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+<h2>定数</h2>
+<dl>
+
+<dt class="method-heading" id="C_-N-O-C-A-S-I-G-N"><code>NOCASIGN -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/NOCASIGN.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-NOCASIGN">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L54">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このフラグ定数は使われていません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-N-O-C-E-R-T-S"><code>NOCERTS -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/NOCERTS.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-NOCERTS">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L62">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+署名時に署名データに証明書を含めないことを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-N-O-C-H-A-I-N"><code>NOCHAIN -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/NOCHAIN.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-NOCHAIN">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L65">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+証明書チェインを使わないことを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-N-O-C-H-E-C-K-S"><code>NOCHECKS -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/NOCHECKS.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-NOCHECKS">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L68">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+署名の検証における追加的なチェックを省略することを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-N-O-D-E-L-E-G-A-T-E-D"><code>NODELEGATED -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/NODELEGATED.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-NODELEGATED">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L71">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+delegated trust を許可しないことを意味します。
+</p>
+<p>
+このフラグ定数は使われていません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-N-O-E-X-P-L-I-C-I-T"><code>NOEXPLICIT -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/NOEXPLICIT.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-NOEXPLICIT">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L76">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+証明書ストア内の Root CA を信用しないことを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-N-O-I-N-T-E-R-N"><code>NOINTERN -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/NOINTERN.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-NOINTERN">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L79">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Request/Response の署名データに含まれている証明書から署名者の証明書を「探さない」ことを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-N-O-S-I-G-S"><code>NOSIGS -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/NOSIGS.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-NOSIGS">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L83">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+署名の検証を行わないことを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-N-O-T-I-M-E"><code>NOTIME -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/NOTIME.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-NOTIME">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L86">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+OCSP 応答の生成時刻を正しく設定しないことを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-N-O-V-E-R-I-F-Y"><code>NOVERIFY -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/NOVERIFY.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-NOVERIFY">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L89">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+署名に使った鍵の証明書の検証を行わないことを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-S-P-I-D_-K-E-Y"><code>RESPID_KEY -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/RESPID_KEY.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-RESPID_KEY">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L92">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+OCSP レスポンダ の ID として公開鍵のハッシュ値を用いることを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc2560">[RFC2560]</a> および X.509 を確認してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-I-N-T-E-R-N-A-L-E-R-R-O-R"><code>RESPONSE_STATUS_INTERNALERROR -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/RESPONSE_STATUS_INTERNALERROR.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-RESPONSE_STATUS_INTERNALERROR">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L98">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aResponse/i/status.html">OpenSSL::OCSP::Response#status</a> のステータスコードで 、
+OCSP レスポンダの内部エラーにより妥当な応答を返せないことを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc2560">[RFC2560]</a> 2.3 を見てください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-M-A-L-F-O-R-M-E-D-R-E-Q-U-E-S-T"><code>RESPONSE_STATUS_MALFORMEDREQUEST -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/RESPONSE_STATUS_MALFORMEDREQUEST.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-RESPONSE_STATUS_MALFORMEDREQUEST">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L105">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aResponse/i/status.html">OpenSSL::OCSP::Response#status</a> のステータスコードで 、リクエストの構文が正しくないことを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc2560">[RFC2560]</a> 2.3 を見てください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-S-I-G-R-E-Q-U-I-R-E-D"><code>RESPONSE_STATUS_SIGREQUIRED -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/RESPONSE_STATUS_SIGREQUIRED.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-RESPONSE_STATUS_SIGREQUIRED">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L112">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aResponse/i/status.html">OpenSSL::OCSP::Response#status</a> のステータスコードで 、サーバがクライアントにリクエストへの署名を要求していることを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc2560">[RFC2560]</a> 2.3 を見てください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-S-U-C-C-E-S-S-F-U-L"><code>RESPONSE_STATUS_SUCCESSFUL -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/RESPONSE_STATUS_SUCCESSFUL.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-RESPONSE_STATUS_SUCCESSFUL">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L119">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aResponse/i/status.html">OpenSSL::OCSP::Response#status</a> のステータスコードで 、正しく応答したことを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc2560">[RFC2560]</a> 2.3 を見てください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-T-R-Y-L-A-T-E-R"><code>RESPONSE_STATUS_TRYLATER -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/RESPONSE_STATUS_TRYLATER.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-RESPONSE_STATUS_TRYLATER">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L125">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aResponse/i/status.html">OpenSSL::OCSP::Response#status</a> のステータスコードで 、レスポンダが一時的に応答できないことを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc2560">[RFC2560]</a> 2.3 を見てください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-S-P-O-N-S-E_-S-T-A-T-U-S_-U-N-A-U-T-H-O-R-I-Z-E-D"><code>RESPONSE_STATUS_UNAUTHORIZED -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/RESPONSE_STATUS_UNAUTHORIZED.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-RESPONSE_STATUS_UNAUTHORIZED">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L131">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aResponse/i/status.html">OpenSSL::OCSP::Response#status</a> のステータスコードで 、クライアントからサーバへの応答が認可されていないことを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc2560">[RFC2560]</a> 2.3 を見てください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-A-F-F-I-L-I-A-T-I-O-N-C-H-A-N-G-E-D"><code>REVOKED_STATUS_AFFILIATIONCHANGED -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/REVOKED_STATUS_AFFILIATIONCHANGED.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-REVOKED_STATUS_AFFILIATIONCHANGED">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L137">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a> の失効理由コードで、証明書の記載内容が変更されたことを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc3280">[RFC3280]</a> や X.509 を参照してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-C-A-C-O-M-P-R-O-M-I-S-E"><code>REVOKED_STATUS_CACOMPROMISE -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/REVOKED_STATUS_CACOMPROMISE.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-REVOKED_STATUS_CACOMPROMISE">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L143">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a> の失効理由コードで、
+CA が危殆化したことを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc3280">[RFC3280]</a> や X.509 を参照してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-C-E-R-T-I-F-I-C-A-T-E-H-O-L-D"><code>REVOKED_STATUS_CERTIFICATEHOLD -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/REVOKED_STATUS_CERTIFICATEHOLD.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-REVOKED_STATUS_CERTIFICATEHOLD">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L149">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a> の失効理由コードで、一時的な保留を意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc3280">[RFC3280]</a> や X.509 を参照してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-C-E-S-S-A-T-I-O-N-O-F-O-P-E-R-A-T-I-O-N"><code>REVOKED_STATUS_CESSATIONOFOPERATION -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/REVOKED_STATUS_CESSATIONOFOPERATION.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-REVOKED_STATUS_CESSATIONOFOPERATION">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L155">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a> の失効理由コードで、証明書の運用を止めたことを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc3280">[RFC3280]</a> や X.509 を参照してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-K-E-Y-C-O-M-P-R-O-M-I-S-E"><code>REVOKED_STATUS_KEYCOMPROMISE -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/REVOKED_STATUS_KEYCOMPROMISE.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-REVOKED_STATUS_KEYCOMPROMISE">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L161">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a> の失効理由コードで、鍵が危殆化したことを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc3280">[RFC3280]</a> や X.509 を参照してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-N-O-S-T-A-T-U-S"><code>REVOKED_STATUS_NOSTATUS -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/REVOKED_STATUS_NOSTATUS.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-REVOKED_STATUS_NOSTATUS">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L168">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a> の失効理由コードで、
+BasicResponse にコードが含まれていないことを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-R-E-M-O-V-E-F-R-O-M-C-R-L"><code>REVOKED_STATUS_REMOVEFROMCRL -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/REVOKED_STATUS_REMOVEFROMCRL.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-REVOKED_STATUS_REMOVEFROMCRL">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L173">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a> の失効理由コードで、
+CRL からの削除を意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc3280">[RFC3280]</a> や X.509 を参照してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-S-U-P-E-R-S-E-D-E-D"><code>REVOKED_STATUS_SUPERSEDED -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/REVOKED_STATUS_SUPERSEDED.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-REVOKED_STATUS_SUPERSEDED">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L180">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a> の失効理由コードで、証明書が破棄されたことを意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc3280">[RFC3280]</a> や X.509 を参照してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-V-O-K-E-D_-S-T-A-T-U-S_-U-N-S-P-E-C-I-F-I-E-D"><code>REVOKED_STATUS_UNSPECIFIED -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/REVOKED_STATUS_UNSPECIFIED.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-REVOKED_STATUS_UNSPECIFIED">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L186">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a> の失効理由コードで、未指定を意味します。
+</p>
+<p>
+詳しくは <a class="external" href="https://tools.ietf.org/html/rfc3280">[RFC3280]</a> や X.509 を参照してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-T-R-U-S-T-O-T-H-E-R"><code>TRUSTOTHER -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/TRUSTOTHER.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-TRUSTOTHER">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L192">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+明示的に渡した証明書を検証なしで信用することを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-V_-C-E-R-T-S-T-A-T-U-S_-G-O-O-D"><code>V_CERTSTATUS_GOOD -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/V_CERTSTATUS_GOOD.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-V_CERTSTATUS_GOOD">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L195">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a>
+のステータスコードで証明書が有効であることを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-V_-C-E-R-T-S-T-A-T-U-S_-R-E-V-O-K-E-D"><code>V_CERTSTATUS_REVOKED -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/V_CERTSTATUS_REVOKED.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-V_CERTSTATUS_REVOKED">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L199">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a>
+のステータスコードで証明書が失効していることを意味します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-V_-C-E-R-T-S-T-A-T-U-S_-U-N-K-N-O-W-N"><code>V_CERTSTATUS_UNKNOWN -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aOCSP/c/V_CERTSTATUS_UNKNOWN.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/OCSP.html#method-c-V_CERTSTATUS_UNKNOWN">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L203">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aOCSP=3a=3aBasicResponse/i/status.html">OpenSSL::OCSP::BasicResponse#status</a>
+のステータスコードで証明書の有効性が不明であることを意味します。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/OCSP#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/cgi.html">
+
+<title>library cgi (Ruby 3.2 リファレンスマニュアル)</title>
+<meta name="description" content="CGI プログラムの支援ライブラリです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.2 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/cgi.html","name":"cgiライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.2 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        cgiライブラリ
+      </li>
+    </ol>
+  </nav>
+
+<h1>library cgi</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/cgi.rd#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+<h2>要約</h2>
+<p>
+CGI プログラムの支援ライブラリです。
+</p>
+<p>
+CGI プロトコルの詳細については以下の文書を参照してください。
+</p>
+<ul>
+<li><a class="external" href="https://tools.ietf.org/html/draft-coar-cgi-v11-03">https://tools.ietf.org/html/draft-coar-cgi-v11-03</a></li>
+<li><a class="external" href="https://tools.ietf.org/html/rfc3875">[RFC3875]</a>: The Common Gateway Interface (CGI) Version 1.1</li>
+<li><a class="external" href="https://www.w3.org/CGI/">https://www.w3.org/CGI/</a></li>
+</ul>
+<h2 >使用例</h2>
+<h3 >フォームフィールドの値を得る</h3>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span>
+values <span class="o">=</span> cgi<span class="p">[</span><span class="s1">'field_name'</span><span class="p">]</span>   <span class="c1"># &lt;== 'field_name' の配列
+</span><span class="c1"># 'field_name' が指定されていなかったら、 &quot;&quot;を返す。
+</span>fields <span class="o">=</span> cgi<span class="p">.</span><span class="nf">keys</span>            <span class="c1"># &lt;== field nameの配列
+</span>
+<span class="c1"># フォームに 'field_name' というfield nameがあるときに真
+</span>cgi<span class="p">.</span><span class="nf">has_key?</span><span class="p">(</span><span class="s1">'field_name'</span><span class="p">)</span>
+cgi<span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s1">'field_name'</span><span class="p">)</span>
+</code></pre>
+<h3 >フォームフィールドの値をハッシュとして得る</h3>
+<p>
+フォームの値をハッシュとして得るには CGI#params を使います。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span>
+params <span class="o">=</span> cgi<span class="p">.</span><span class="nf">params</span>
+</code></pre>
+<p>
+また CGI#params は毎回同じ Hash オブジェクトを返すので以下のような使いかたもできます。
+</p>
+<pre class="highlight ruby">
+<code>
+cgi<span class="p">.</span><span class="nf">params</span><span class="p">[</span><span class="s1">'new_field_name'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"</span><span class="s2">value</span><span class="s2">"</span><span class="p">]</span>  <span class="c1"># 新しいパラメータを加える
+</span>cgi<span class="p">.</span><span class="nf">params</span><span class="p">[</span><span class="s1">'field_name'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"</span><span class="s2">new_value</span><span class="s2">"</span><span class="p">]</span>  <span class="c1"># パラメータの値を変える
+</span>cgi<span class="p">.</span><span class="nf">params</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s1">'field_name'</span><span class="p">)</span>           <span class="c1"># パラメータを消去
+</span>cgi<span class="p">.</span><span class="nf">params</span><span class="p">.</span><span class="nf">clear</span>                          <span class="c1"># 全パラメータを消去
+</span></code></pre>
+<h3 >フォームフィールドの値をファイルに保存する</h3>
+<p>
+PStore を使うのが最も簡単です。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># 保存
+</span><span class="nb">require</span> <span class="s1">'pstore'</span>
+db <span class="o">=</span> <span class="no">PStore</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">query.db</span><span class="s2">"</span><span class="p">)</span>
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  db<span class="p">[</span><span class="s2">"</span><span class="s2">params</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> cgi<span class="p">.</span><span class="nf">params</span>
+<span class="k">end</span>
+
+<span class="c1"># 復帰
+</span><span class="nb">require</span> <span class="s1">'pstore'</span>
+db <span class="o">=</span> <span class="no">PStore</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">query.db</span><span class="s2">"</span><span class="p">)</span>
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  cgi<span class="p">.</span><span class="nf">params</span> <span class="o">=</span> db<span class="p">[</span><span class="s2">"</span><span class="s2">params</span><span class="s2">"</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+ただし、PStore は Ruby のバージョンによってデータ互換性がなくなることがあるので、長い期間データを保存することがある場合には検討が必要です。
+</p>
+<p>
+<a href="../class/PStore.html">PStore</a> も参照してください。
+</p>
+<h3 >マルチパートフィールドの値を取得する（ファイル送信）</h3>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span>
+value <span class="o">=</span> cgi<span class="p">.</span><span class="nf">params</span><span class="p">[</span><span class="s1">'field_name'</span><span class="p">]</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>   <span class="c1"># TempFile オブジェクト（10240バイト未満の場合は StringIOオブジェクト）
+</span>value<span class="p">.</span><span class="nf">read</span>                            <span class="c1"># 本文（送られてきたファイルの中身）
+</span>value<span class="p">.</span><span class="nf">local_path</span>                      <span class="c1"># ローカルファイルのパス
+</span>value<span class="p">.</span><span class="nf">original_filename</span>               <span class="c1"># 元の名前
+</span>value<span class="p">.</span><span class="nf">content_type</span>                    <span class="c1"># content_type
+</span></code></pre>
+<h3 >クライアントにクッキーを渡す</h3>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span>
+<span class="k">for</span> <span class="nb">name</span>, cookie <span class="k">in</span> cgi<span class="p">.</span><span class="nf">cookies</span>
+  cookie<span class="p">.</span><span class="nf">expires</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span> <span class="o">+</span> <span class="mi">30</span>
+<span class="k">end</span>
+cgi<span class="p">.</span><span class="nf">out</span><span class="p">(</span><span class="s2">"</span><span class="s2">cookie</span><span class="s2">"</span> <span class="o">=&gt;</span> cgi<span class="p">.</span><span class="nf">cookies</span><span class="p">)</span><span class="p">{</span><span class="s2">"</span><span class="s2">string</span><span class="s2">"</span><span class="p">}</span>
+
+cgi<span class="p">.</span><span class="nf">cookies</span> <span class="c1"># { &quot;name1&quot; =&gt; cookie1, &quot;name2&quot; =&gt; cookie2, ... }
+</span>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span>
+cgi<span class="p">.</span><span class="nf">cookies</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="p">.</span><span class="nf">expires</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span> <span class="o">+</span> <span class="mi">30</span>
+cgi<span class="p">.</span><span class="nf">out</span><span class="p">(</span><span class="s2">"</span><span class="s2">cookie</span><span class="s2">"</span> <span class="o">=&gt;</span> cgi<span class="p">.</span><span class="nf">cookies</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="p">)</span><span class="p">{</span><span class="s2">"</span><span class="s2">string</span><span class="s2">"</span><span class="p">}</span>
+</code></pre>
+<h3 >クライアントからクッキーを得る</h3>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span>
+values <span class="o">=</span> cgi<span class="p">.</span><span class="nf">cookies</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span>  <span class="c1"># values は name クッキーの値の配列。
+</span>                              <span class="c1"># name クッキーが存在しない場合は空配列を返す。
+</span>names <span class="o">=</span> cgi<span class="p">.</span><span class="nf">cookies</span><span class="p">.</span><span class="nf">keys</span>      <span class="c1"># 全てのクッキーの名前の配列
+</span></code></pre>
+<h3 >CGI に関連する環境変数の値を取得する</h3>
+<p>
+CGI に関連する環境変数の値は直接 ENV から得る他に、
+CGI クラスのメソッドで得ることもできます。基本的には環境変数の名前を downcase したメソッドにマップされます。例えば AUTH_TYPE には CGI#auth_type が対応します。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span>
+value <span class="o">=</span> cgi<span class="p">.</span><span class="nf">auth_type</span>
+</code></pre>
+<p>
+このような環境変数には以下のものがあります。
+</p>
+<ul>
+<li>AUTH_TYPE</li>
+<li>CONTENT_LENGTH</li>
+<li>CONTENT_TYPE</li>
+<li>GATEWAY_INTERFACE</li>
+<li>PATH_INFO</li>
+<li>PATH_TRANSLATED</li>
+<li>QUERY_STRING</li>
+<li>REMOTE_ADDR</li>
+<li>REMOTE_HOST</li>
+<li>REMOTE_IDENT</li>
+<li>REMOTE_USER</li>
+<li>REQUEST_METHOD</li>
+<li>SCRIPT_NAME</li>
+<li>SERVER_NAME</li>
+<li>SERVER_PORT</li>
+<li>SERVER_PROTOCOL</li>
+<li>SERVER_SOFTWARE</li>
+</ul>
+<p>
+#content_length と #server_port
+は整数を、その他のメソッドは文字列を返します。
+</p>
+<p>
+HTTP_COOKIE と HTTP_COOKIE2 にはそれぞれ raw_cookie と raw_cookie2 が対応します。
+</p>
+<pre class="highlight ruby">
+<code>
+value <span class="o">=</span> cgi<span class="p">.</span><span class="nf">raw_cookie</span>      <span class="c1"># ENV[&quot;HTTP_COOKIE&quot;]
+</span>value <span class="o">=</span> cgi<span class="p">.</span><span class="nf">raw_cookie2</span>     <span class="c1"># ENV[&quot;HTTP_COOKIE2&quot;]
+</span></code></pre>
+<p>
+最後に、以下の HTTP 関連の環境変数は HTTP_ を除いた部分を downcase
+したメソッド名が定義されています。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+value <span class="o">=</span> cgi<span class="p">.</span><span class="nf">accept</span>              <span class="c1"># ENV[&quot;HTTP_ACCEPT&quot;]
+</span>value <span class="o">=</span> cgi<span class="p">.</span><span class="nf">accept_charset</span>      <span class="c1"># ENV[&quot;HTTP_ACCEPT_CHARSET&quot;]
+</span></code></pre>
+<p>
+このような環境変数には以下のものがあります。
+</p>
+<ul>
+<li>HTTP_ACCEPT</li>
+<li>HTTP_ACCEPT_CHARSET</li>
+<li>HTTP_ACCEPT_ENCODING</li>
+<li>HTTP_ACCEPT_LANGUAGE</li>
+<li>HTTP_CACHE_CONTROL</li>
+<li>HTTP_FROM</li>
+<li>HTTP_HOST</li>
+<li>HTTP_NEGOTIATE</li>
+<li>HTTP_PRAGMA</li>
+<li>HTTP_REFERER</li>
+<li>HTTP_USER_AGENT</li>
+</ul>
+<p>
+CGI に関連する環境変数に関しては
+<a class="external" href="http://www.w3.org/CGI/">http://www.w3.org/CGI/</a> も参照してください。
+</p>
+<h3 >標準出力に HTTP ヘッダと HTML を出力する</h3>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html3</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># HTML生成メソッドを追加
+</span>cgi<span class="p">.</span><span class="nf">out</span><span class="p">(</span><span class="p">)</span> <span class="k">do</span>
+  cgi<span class="p">.</span><span class="nf">html</span><span class="p">(</span><span class="p">)</span> <span class="k">do</span>
+    cgi<span class="p">.</span><span class="nf">head</span><span class="p">{</span> cgi<span class="p">.</span><span class="nf">title</span><span class="p">{</span><span class="s2">"</span><span class="s2">TITLE</span><span class="s2">"</span><span class="p">}</span> <span class="p">}</span> <span class="o">+</span>
+    cgi<span class="p">.</span><span class="nf">body</span><span class="p">(</span><span class="p">)</span> <span class="k">do</span>
+      cgi<span class="p">.</span><span class="nf">form</span><span class="p">(</span><span class="p">)</span> <span class="k">do</span>
+        cgi<span class="p">.</span><span class="nf">textarea</span><span class="p">(</span><span class="s2">"</span><span class="s2">get_text</span><span class="s2">"</span><span class="p">)</span> <span class="o">+</span>
+        cgi<span class="p">.</span><span class="nf">br</span> <span class="o">+</span>
+        cgi<span class="p">.</span><span class="nf">submit</span>
+      <span class="k">end</span> <span class="o">+</span>
+      cgi<span class="p">.</span><span class="nf">pre</span><span class="p">(</span><span class="p">)</span> <span class="k">do</span>
+        <span class="no">CGI</span><span class="p">.</span><span class="nf">escapeHTML</span><span class="p">(</span>
+          <span class="s2">"</span><span class="s2">params: </span><span class="s2">"</span> <span class="o">+</span> cgi<span class="p">.</span><span class="nf">params</span><span class="p">.</span><span class="nf">inspect</span> <span class="o">+</span> <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span> <span class="o">+</span>
+          <span class="s2">"</span><span class="s2">cookies: </span><span class="s2">"</span> <span class="o">+</span> cgi<span class="p">.</span><span class="nf">cookies</span><span class="p">.</span><span class="nf">inspect</span> <span class="o">+</span> <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span> <span class="o">+</span>
+          <span class="no">ENV</span><span class="p">.</span><span class="nf">collect</span><span class="p">(</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>key, value<span class="o">|</span>
+            key <span class="o">+</span> <span class="s2">"</span><span class="s2"> --&gt; </span><span class="s2">"</span> <span class="o">+</span> value <span class="o">+</span> <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span>
+          <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="s2">"</span><span class="p">)</span>
+        <span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># HTML生成メソッドを追加
+</span><span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html3</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># html3.2
+</span><span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html4</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># html4.0 (Strict)
+</span><span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html4Tr</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># html4.0 Transitional
+</span><span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html4Fr</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># html4.0 Frameset
+</span></code></pre>
+<h3 >ファイルのアップロード</h3>
+<p>
+<a class="external" href="https://blade.ruby-lang.org/ruby-list/25399">[ruby-list:25399]</a> を参照してください。
+</p>
+<h2 >オフラインモード</h2>
+<p>
+cgi には、コマンドラインから CGI スクリプトを動かすための仕組み（オフラインモード）があります。コマンドラインから以下のように実行すると、
+</p>
+<pre>
+$ ruby -r cgi some_script.rb
+(offline mode: enter name=value pairs on standard input)
+</pre>
+<p>
+と聞いてくるので、
+</p>
+<pre>
+q=hoge&amp;v=foo
+</pre>
+<p>
+などと入力して下さい。クエリーに入力された値がセットされて、スクリプトが実行されます。
+</p>
+<p>
+なお、Windows 環境の場合、ただ値を入力して Enter を押すだけでは実行されません。キーボードから Ctrl + Z を入力する必要があります。
+</p>
+<h2 >HTMLエレメント出力用メソッド</h2>
+<p>
+新たな CGI オブジェクトを生成する際、引数として特定の文字列を与えることによって、そのオブジェクトに HTML 生成用のメソッドを追加することができます。これらのメソッドを利用することにより、「よりRuby的に」HTML 文書を出力することが可能になります。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html3</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># HTML3.2に準拠したHTML生成メソッドを追加
+</span>cgi<span class="p">.</span><span class="nf">h1</span>
+  <span class="c1"># &lt;H1&gt;&lt;/h1&gt;
+</span>cgi<span class="p">.</span><span class="nf">h1</span><span class="p">{</span> <span class="s2">"</span><span class="s2">content</span><span class="s2">"</span> <span class="p">}</span>
+  <span class="c1"># &lt;H1&gt;content&lt;/H1&gt;
+</span>cgi<span class="p">.</span><span class="nf">h1</span><span class="p">(</span><span class="p">{</span> <span class="s2">"</span><span class="s2">class</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">attr</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span> <span class="p">}</span><span class="p">)</span><span class="p">{</span> <span class="s2">"</span><span class="s2">content</span><span class="s2">"</span> <span class="p">}</span>
+  <span class="c1"># &lt;H1 class=&quot;foo&quot; attr=&quot;bar&quot;&gt;content&lt;/H1&gt;
+</span>
+<span class="c1"># HTML生成メソッドを追加
+</span><span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html3</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># html3.2
+</span><span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html4</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># html4.0 (Strict)
+</span><span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html4Tr</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># html4.0 Transitional
+</span><span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html4Fr</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># html4.0 Frameset
+</span></code></pre>
+<p>
+HTML 生成メソッドの引数としては、基本的に Hash オブジェクトが与えられる（あるいは何も与えられない）べきです。ただし以下に列挙されたメソッドでは、各メソッドの引数の形式に従って、 Hash オブジェクト以外のものを渡すこともできます。
+</p>
+
+
+<h2>クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI.html">CGI</a>
+</td>
+<td class="description"><p>
+CGI スクリプトを書くために必要な機能を提供するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI=3a=3aCookie.html">CGI::Cookie</a>
+</td>
+<td class="description"><p>
+クッキーを表すクラスです。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>モジュール</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI=3a=3aHtml3.html">CGI::Html3</a>
+</td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI=3a=3aHtml4.html">CGI::Html4</a>
+</td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI=3a=3aHtml4Fr.html">CGI::Html4Fr</a>
+</td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI=3a=3aHtml4Tr.html">CGI::Html4Tr</a>
+</td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI=3a=3aHtmlExtension.html">CGI::HtmlExtension</a>
+</td>
+<td class="description"><p>
+HTML を生成するためのメソッドを提供するモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI=3a=3aQueryExtension.html">CGI::QueryExtension</a>
+</td>
+<td class="description"><p>
+クエリ文字列を扱うためのメソッドを定義しているモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI=3a=3aQueryExtension=3a=3aValue.html">CGI::QueryExtension::Value</a>
+</td>
+<td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI=3a=3aTagMaker.html">CGI::TagMaker</a>
+</td>
+<td class="description"></td>
+</tr>
+
+</table>
+
+<h2>例外クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/CGI=3a=3aInvalidEncoding.html">CGI::InvalidEncoding</a>
+</td>
+<td class="description"><p>
+不正な文字エンコーディングが現れたときに発生する例外です。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+<h2>同時にrequireされるライブラリ</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature"><a href="../library/cgi=2fcookie.html">cgi/cookie</a></td>
+<td class="description"><p>
+HTTP クッキーを利用するためのクラスを定義したライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/cgi=2fcore.html">cgi/core</a></td>
+<td class="description"><p>
+cgi ライブラリのコア機能を提供するライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/cgi=2fhtml.html">cgi/html</a></td>
+<td class="description"><p>
+HTML を生成するためのメソッドを提供するモジュールを定義したライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/cgi=2futil.html">cgi/util</a></td>
+<td class="description"><p>
+CGI で利用するユーティリティメソッドを定義したライブラリです。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>サブライブラリ</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature"><a href="../library/cgi=2fsession.html">cgi/session</a></td>
+<td class="description"><p>
+CGI のセッション管理を行うライブラリ。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/cgi=2fsession=2fpstore.html">cgi/session/pstore</a></td>
+<td class="description"></td>
+</tr>
+
+</table>
+
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/cgi.rd#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

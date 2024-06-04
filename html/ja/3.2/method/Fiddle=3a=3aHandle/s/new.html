@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Fiddle=3a=3aHandle/s/new.html">
+
+<title>Fiddle::Handle.new (Ruby 3.2 リファレンスマニュアル)</title>
+<meta name="description" content="ライブラリ lib をオープンし、Handle オブジェクトとして返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.2 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/fiddle.html","name":"fiddleライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Fiddle=3a=3aHandle.html","name":"Fiddle::Handleクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Fiddle=3a=3aHandle/s/new.html","name":"new","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.2 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/fiddle.html">fiddleライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Fiddle=3a=3aHandle.html">Fiddle::Handleクラス</a>
+      </li>
+      <li>
+        new 
+      </li>
+    </ol>
+  </nav>
+
+<h1>singleton method Fiddle::Handle.new</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_NEW"><code>new(lib, flags=Fiddle::Handle::RTLD_LAZY|Fiddle::Handle::RTLD_GLOBAL) -&gt; Fiddle::Handle</code><span class="permalink">[<a href="../../../method/Fiddle=3a=3aHandle/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiddle/Handle.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/fiddle/2.0/Fiddle__Handle#L9">edit</a>]</span></dt>
+<dt class="method-heading"><code>new(lib, flags=Fiddle::Handle::RTLD_LAZY|Fiddle::Handle::RTLD_GLOBAL) {|handle| ... } -&gt; Fiddle::Handle</code></dt>
+<dd class="method-description">
+<p>
+ライブラリ lib をオープンし、Handle オブジェクトとして返します。
+</p>
+<p>
+ブロックを指定すれば、生成した Handle を引数としてブロックを実行します。
+Handle はブロックの終りで自動的にクローズされます。
+</p>
+<p>
+flags で <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/dlopen.html">dlopen(3)</a> の第2引数として渡すフラグを指定できます。
+<a href="../../../method/Fiddle=3a=3aHandle/c/RTLD_LAZY.html">Fiddle::Handle::RTLD_LAZY</a>、<a href="../../../method/Fiddle=3a=3aHandle/c/RTLD_NOW.html">Fiddle::Handle::RTLD_NOW</a>
+のどちらか一方を指定する必要があり、またそれに <a href="../../../method/Fiddle=3a=3aHandle/c/RTLD_GLOBAL.html">Fiddle::Handle::RTLD_GLOBAL</a> と OR を取ることができます。詳しい意味は manpage(<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/dlopen.html">dlopen(3)</a>) を参照してください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] lib:</dt>
+<dd>
+ライブラリを文字列で指定します。
+</dd>
+<dt class='method-param'>[PARAM] flags:</dt>
+<dd>
+フラグ
+</dd>
+<dt>[EXCEPTION] Fiddle::DLError:</dt>
+<dd>
+ライブラリのオープンに失敗した場合に発生します
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+require 'fiddle'
+
+h = Fiddle::Handle.new('libc.so.6')
+i = h.sym('strlen')
+func = Fiddle::Function.new(i, [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+p func.call(&quot;uxyz&quot;) # =&gt; 4
+</pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/fiddle/2.0/Fiddle__Handle#L9">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
