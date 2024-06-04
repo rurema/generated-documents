@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/String/i/scrub.html">
+  
+  <title>instance method String#scrub (Ruby 2.3.0)</title>
+  <meta name="description" content="self が不正なバイト列を含む場合に別の文字列に置き換えた新しい文字列を返します。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.3.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+&gt; <a href="../../../class/String.html">Stringクラス</a>
+&gt; scrub
+
+</p>
+
+
+<h1>instance method String#scrub</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_SCRUB"><code>scrub -&gt; String</code><span class="permalink">[<a href="../../../method/String/i/scrub.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.3.0/String.html#method-i-scrub">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>scrub(repl) -&gt; String</code></dt>
+<dt class="method-heading"><code>scrub {|bytes| ... } -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+self が不正なバイト列を含む場合に別の文字列に置き換えた新しい文字列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] repl:</dt>
+<dd>
+不正なバイト列を置き換える文字列を指定します。省略した場合
+は self の文字エンコーディングが <a href="../../../method/Encoding/c/UTF_16BE.html">Encoding::UTF_16BE</a>,
+<a href="../../../method/Encoding/c/UTF_16LE.html">Encoding::UTF_16LE</a>, <a href="../../../method/Encoding/c/UTF_32BE.html">Encoding::UTF_32BE</a>,
+<a href="../../../method/Encoding/c/UTF_32LE.html">Encoding::UTF_32LE</a>, <a href="../../../method/Encoding/c/UTF_8.html">Encoding::UTF_8</a> のいずれか
+の場合は &quot;\uFFFD&quot; を表す文字で、それ以外の場合は &quot;?&quot; で置き
+換えられます。ブロックが指定された場合は不正なバイト列はブ
+ロックの戻り値で置き換えられます。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="s2">"</span><span class="s2">abc\u3042\x81</span><span class="s2">"</span><span class="p">.</span><span class="nf">scrub</span>      <span class="c1"># =&gt; &quot;abc\u3042\uFFFD&quot;
+</span><span class="s2">"</span><span class="s2">abc\u3042\x81</span><span class="s2">"</span><span class="p">.</span><span class="nf">scrub</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;abc\u3042*&quot;
+</span><span class="s2">"</span><span class="s2">abc\u3042\xE3\x80</span><span class="s2">"</span><span class="p">.</span><span class="nf">scrub</span><span class="p">{</span><span class="o">|</span>bytes<span class="o">|</span> <span class="s1">'&lt;'</span><span class="o">+</span>bytes<span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s1">'H*'</span><span class="p">)</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">'&gt;'</span> <span class="p">}</span> <span class="c1"># =&gt; &quot;abc\u3042&lt;e380&gt;&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/String/i/scrub=21.html">String#scrub!</a>
+</p>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Net=3a=3aHTTPResponse/i/value.html">
+  
+  <title>instance method Net::HTTPResponse#value (Ruby 2.3.0)</title>
+  <meta name="description" content="@raise HTTPError レスポンスが 1xx であるか、 net/http が知らない
+                 種類のレスポンスである場合に発生します。
+@raise HTTPRetriableError レスポンスが 3xx である場合に発生します。
+@raise HTTPServerException レスポンスが 4xx である場合に発生します。
+@raise HTTPFatalError レスポンスが 5xx である場合に発生します。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.3.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/net=2fhttp.html">net/httpライブラリ</a>
+&gt; <a href="../../../class/Net=3a=3aHTTPResponse.html">Net::HTTPResponseクラス</a>
+&gt; value
+
+</p>
+
+
+<h1>instance method Net::HTTPResponse#value</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_VALUE"><code>value -&gt; nil</code><span class="permalink">[<a href="../../../method/Net=3a=3aHTTPResponse/i/value.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.3.0/Net/HTTPResponse.html#method-i-value">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+レスポンスが 2xx(成功)でなかった場合に、対応する
+例外を発生させます。
+</p>
+<dl>
+<dt>[EXCEPTION] HTTPError:</dt>
+<dd>
+レスポンスが 1xx であるか、 net/http が知らない
+種類のレスポンスである場合に発生します。
+</dd>
+<dt>[EXCEPTION] HTTPRetriableError:</dt>
+<dd>
+レスポンスが 3xx である場合に発生します。
+</dd>
+<dt>[EXCEPTION] HTTPServerException:</dt>
+<dd>
+レスポンスが 4xx である場合に発生します。
+</dd>
+<dt>[EXCEPTION] HTTPFatalError:</dt>
+<dd>
+レスポンスが 5xx である場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例 レスポンスが 2xx(成功)</span>
+<code>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+uri <span class="o">=</span> <span class="s2">"</span><span class="s2">http://www.example.com/index.html</span><span class="s2">"</span>
+response <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span><span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>uri<span class="p">)</span><span class="p">)</span>
+response<span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">例 レスポンスが 2xx以外</span>
+<code>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+uri <span class="o">=</span> <span class="s2">"</span><span class="s2">http://www.example.com/invalid.html</span><span class="s2">"</span>
+response <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span><span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>uri<span class="p">)</span><span class="p">)</span>
+<span class="k">begin</span>
+  response<span class="p">.</span><span class="nf">value</span>
+<span class="k">rescue</span> <span class="o">=&gt;</span> e
+  e<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; Net::HTTPServerException
+</span>  e<span class="p">.</span><span class="nf">message</span> <span class="c1"># =&gt; 404 &quot;Not Found&quot;
+</span><span class="k">end</span>
+</code></pre>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

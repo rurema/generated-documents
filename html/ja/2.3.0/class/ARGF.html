@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="stylesheet" type="text/css" href="../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/ARGF.html">
+  
+  <title>object ARGF (Ruby 2.3.0)</title>
+  <meta name="description" content="スクリプトに指定した引数
+([[m:Object::ARGV]] を参照) をファイル名とみなして、
+それらのファイルを連結した 1 つの仮想ファイルを表すオブジェクトです。
+ARGV が空なら標準入力を対象とします。
+ARGV を変更すればこのオブジェクトの動作に影響します。">
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 2.3.0 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/_builtin.html">組み込みライブラリ</a>
+&gt; ARGFオブジェクト
+</p>
+
+
+<h1>object ARGF</h1>
+<p>
+
+
+クラスの継承リスト: ARGF
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+スクリプトに指定した引数
+(<a href="../method/Object/c/ARGV.html">Object::ARGV</a> を参照) をファイル名とみなして、
+それらのファイルを連結した 1 つの仮想ファイルを表すオブジェクトです。
+ARGV が空なら標準入力を対象とします。
+ARGV を変更すればこのオブジェクトの動作に影響します。
+</p>
+<pre>
+while line = ARGF.gets
+  ....
+end
+</pre>
+<p>
+は、
+</p>
+<pre>
+while argv = ARGV.shift
+  File.open(argv) {|file|
+    while line = file.gets
+      ....
+    end
+  }
+end
+</pre>
+<p>
+のように動作します。
+</p>
+<p>
+ARGF を処理するごとに ARGV の要素は一つずつ取り除かれます。
+最後まで ARGF を読み込んだ後、再度 ARGF から内容を読むと
+(ARGV が空なので)標準入力からの読み込みとなります。
+</p>
+<pre>
+ARGV.replace %w(/tmp/foo /tmp/bar)
+ARGF.each {|line|
+    # 処理中の ARGV の内容を表示
+    p [ARGF.filename, ARGV]
+    ARGF.skip
+}
+    # =&gt; [&quot;/tmp/foo&quot;, [&quot;/tmp/bar&quot;]]
+    #    [&quot;/tmp/bar&quot;, []]
+# 最後まで読んだ後 (ARGV が空) の動作
+p ARGF.gets      # =&gt; nil
+p ARGF.filename  # =&gt; &quot;-&quot;
+</pre>
+<p>
+<a href="../method/Kernel/m/gets.html">Kernel.#gets</a> など一部の組み込み関数は
+ARGF.gets などこのオブジェクトをレシーバとしたメソッドの省略形です。
+</p>
+<p>
+また、ARGF は <a href="../class/ARGF=2eclass.html">ARGF.class</a> クラスのインスタンスです。
+各メソッドの詳細は <a href="../class/ARGF=2eclass.html">ARGF.class</a> を参照してください。
+</p>
+<h2 id='inplace'>インプレースエディットモード</h2>
+<p>
+インプレースエディット (in-place edit) モードは Ruby のコマンドライン引数に指定されたファイルの内容を置き換えます。
+</p>
+<p>
+コマンドラインオプションで -i を指定すると Ruby はこのモードで動作します。
+また <a href="../method/ARGF=2eclass/i/inplace_mode=3d.html">ARGF.class#inplace_mode=</a> を使用して起動後にモードに入ることも出来ます。
+</p>
+<p>
+このモードで動作中は <a href="../method/Kernel/v/stdout.html">$stdout</a> が処理対象への書き出しストリームで置き換えられます。
+実行例は <a href="../doc/spec=2frubycmd.html#cmd_option">Rubyの起動/コマンドラインオプション</a> や <a href="../method/ARGF=2eclass/i/inplace_mode=3d.html">ARGF.class#inplace_mode=</a> を参照してください。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+</dl>
+
+
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

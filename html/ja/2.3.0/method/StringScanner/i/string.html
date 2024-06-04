@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/StringScanner/i/string.html">
+  
+  <title>instance method StringScanner#string (Ruby 2.3.0)</title>
+  <meta name="description" content="使用例
+      require 'strscan'">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.3.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/strscan.html">strscanライブラリ</a>
+&gt; <a href="../../../class/StringScanner.html">StringScannerクラス</a>
+&gt; string
+
+</p>
+
+
+<h1>instance method StringScanner#string</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_STRING"><code>string -&gt; String</code><span class="permalink">[<a href="../../../method/StringScanner/i/string.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.3.0/StringScanner.html#method-i-string">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+スキャン対象にしている文字列を返します。
+</p>
+<p>
+使用例
+</p>
+<pre>
+require 'strscan'
+
+s = StringScanner.new('test string')
+s.string # =&gt; &quot;test string&quot;
+</pre>
+<p>
+返り値は freeze されていません。
+</p>
+<pre>
+require 'strscan'
+
+s = StringScanner.new('test string')
+s.string.frozen? # =&gt; false
+</pre>
+<p>
+なお、このメソッドは StringScanner.new に渡した
+文字列をそのまま返しますが、この仕様が将来に渡って保証されるわけではありません。
+この仕様に依存したコードを書かないようにしましょう。
+</p>
+<pre>
+require 'strscan'
+
+str = 'test string'
+s = StringScanner.new(str)
+s.string == str    # =&gt; true
+s.string.eql?(str) # =&gt; true (将来は false になる可能性がある)
+</pre>
+<p>
+また、返り値の文字列に対して破壊的な変更もできますが、
+この操作がスキャン対象の文字列を変更することも保証されません。
+この仕様に依存したコードを書かないでください。
+</p>
+<pre>
+require 'strscan'
+
+str = 'test string'
+s = StringScanner.new(str)
+s.string.replace(&quot;0123&quot;)
+s.scan(/\w+/)     # =&gt; &quot;0123&quot; (将来は &quot;test&quot; が返る可能性あり)
+str               # =&gt; &quot;0123&quot; (将来は &quot;test string&quot; が返る可能性あり)
+</pre>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

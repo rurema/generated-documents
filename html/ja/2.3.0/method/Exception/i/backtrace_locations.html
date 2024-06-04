@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Exception/i/backtrace_locations.html">
+  
+  <title>instance method Exception#backtrace_locations (Ruby 2.3.0)</title>
+  <meta name="description" content="バックトレース情報を返します。[[m:Exception#backtrace]]に似ていますが、
+[[c:Thread::Backtrace::Location]] の配列を返す点が異なります。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.3.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+&gt; <a href="../../../class/Exception.html">Exceptionクラス</a>
+&gt; backtrace_locations
+
+</p>
+
+
+<h1>instance method Exception#backtrace_locations</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_BACKTRACE_LOCATIONS"><code>backtrace_locations -&gt; [Thread::Backtrace::Location]</code><span class="permalink">[<a href="../../../method/Exception/i/backtrace_locations.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.3.0/Exception.html#method-i-backtrace_locations">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+バックトレース情報を返します。<a href="../../../method/Exception/i/backtrace.html">Exception#backtrace</a>に似ていますが、
+<a href="../../../class/Thread=3a=3aBacktrace=3a=3aLocation.html">Thread::Backtrace::Location</a> の配列を返す点が異なります。
+</p>
+<p>
+現状では <a href="../../../method/Exception/i/set_backtrace.html">Exception#set_backtrace</a> によって戻り値が変化する事はあり
+ません。
+</p>
+<p>
+例: test.rb
+</p>
+<pre>
+require &quot;date&quot;
+def check_long_month(month)
+  return if Date.new(2000, month, -1).day == 31
+  raise &quot;#{month} is not long month&quot;
+end
+
+def get_exception
+  return begin
+    yield
+  rescue =&gt; e
+    e
+  end
+end
+
+e = get_exception { check_long_month(2) }
+p e.backtrace_locations
+# =&gt; [&quot;test.rb:4:in `check_long_month'&quot;, &quot;test.rb:15:in `block in &lt;main&gt;'&quot;, &quot;test.rb:9:in `get_exception'&quot;, &quot;test.rb:15:in `&lt;main&gt;'&quot;]
+</pre>
+<p>
+[SEE_ALSO] <a href="../../../method/Exception/i/backtrace.html">Exception#backtrace</a>
+</p>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

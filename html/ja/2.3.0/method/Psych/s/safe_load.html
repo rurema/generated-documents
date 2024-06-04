@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Psych/s/safe_load.html">
+  
+  <title>singleton method Psych.safe_load (Ruby 2.3.0)</title>
+  <meta name="description" content="安全に YAML YAML フォーマットの文書を読み込み Ruby のオブジェクトを生成して返します。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.3.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/psych.html">psychライブラリ</a>
+&gt; <a href="../../../class/Psych.html">Psychモジュール</a>
+&gt; safe_load
+
+</p>
+
+
+<h1>singleton method Psych.safe_load</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_SAFE_LOAD"><code>safe_load(yaml, whitelist_classes = [], whitelist_symbols = [], aliases = false, filename = nil) -&gt; object</code><span class="permalink">[<a href="../../../method/Psych/s/safe_load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.3.0/Psych.html#method-c-safe_load">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+安全に YAML YAML フォーマットの文書を読み込み Ruby のオブジェクトを生成して返します。
+</p>
+<p>
+デフォルトでは以下のクラスのオブジェクトしか変換しません。
+</p>
+<ul>
+<li>TrueClass</li>
+<li>FalseClass</li>
+<li>NilClass</li>
+<li>Numeric</li>
+<li>String</li>
+<li>Array</li>
+<li>Hash</li>
+</ul>
+<p>
+再帰的なデータ構造はデフォルトでは許可されていません。
+任意のクラスを許可するには whitelist_classes を指定すると、
+そのクラスが追加されます。例えば Date クラスを許可するには
+以下のように書いてください:
+</p>
+<pre>
+Psych.safe_load(yaml, [Date])
+</pre>
+<p>
+すると上のクラス一覧に加えて Date クラスが読み込まれます。
+</p>
+<p>
+エイリアスは aliases パラメーターを変更することで明示的に許可できます。
+</p>
+<p>
+例:
+</p>
+<pre>
+x = []
+x &lt;&lt; x
+yaml = Psych.dump x
+Psych.safe_load yaml               # =&gt; 例外発生
+Psych.safe_load yaml, [], [], true # =&gt; エイリアスが読み込まれる
+</pre>
+<p>
+yaml にホワイトリストにないクラスが含まれていた場合は、
+Psych::DisallowedClass 例外が発生します。
+</p>
+<p>
+yaml がエイリアスを含んでいて aliases パラメーターが false の時、
+Psych::BadAlias 例外が発生します。
+</p>
+<p>
+filename はパース中に発生した例外のメッセージに用います。
+</p>
+<p>
+キーワード引数 symbolize_names に true を指定した場合はハッシュのキー
+を <a href="../../../class/Symbol.html">Symbol</a> に変換して返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] io:</dt>
+<dd>
+YAMLフォーマットの文書の読み込み先のIOオブジェクト。
+</dd>
+<dt class='method-param'>[PARAM] whitelist_classes:</dt>
+<dd>
+追加で読み込みを許可するクラスの配列。
+</dd>
+<dt class='method-param'>[PARAM] whitelist_symbols:</dt>
+<dd>
+引数 whitelist_classesに <a href="../../../class/Symbol.html">Symbol</a> を含む場
+合に読み込みを許可する <a href="../../../class/Symbol.html">Symbol</a> の配列。
+省略した場合は全ての <a href="../../../class/Symbol.html">Symbol</a> を許可します。
+</dd>
+<dt class='method-param'>[PARAM] aliases:</dt>
+<dd>
+エイリアスの読み込みを許可するかどうか。
+</dd>
+<dt class='method-param'>[PARAM] filename:</dt>
+<dd>
+<a href="../../../class/Psych=3a=3aSyntaxError.html">Psych::SyntaxError</a> 発生時にファイル名として表示する文字列。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

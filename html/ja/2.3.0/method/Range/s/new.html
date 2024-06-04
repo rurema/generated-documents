@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Range/s/new.html">
+  
+  <title>singleton method Range.new (Ruby 2.3.0)</title>
+  <meta name="description" content="first から last までの範囲オブジェクトを生成して返しま
+す。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.3.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+&gt; <a href="../../../class/Range.html">Rangeクラス</a>
+&gt; new
+
+</p>
+
+
+<h1>singleton method Range.new</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_NEW"><code>new(first, last, exclude_end = false) -&gt; Range</code><span class="permalink">[<a href="../../../method/Range/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.3.0/Range.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+first から last までの範囲オブジェクトを生成して返しま
+す。
+</p>
+<p>
+exclude_end が真ならば終端を含まない範囲オブジェクトを生
+成します。exclude_end 省略時には終端を含みます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] first:</dt>
+<dd>
+最初のオブジェクト
+</dd>
+<dt class='method-param'>[PARAM] last:</dt>
+<dd>
+最後のオブジェクト
+</dd>
+<dt class='method-param'>[PARAM] exclude_end:</dt>
+<dd>
+真をセットした場合終端を含まない範囲オブジェクトを生成します
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+first &lt;=&gt; last が nil の場合に発生します
+</dd>
+</dl>
+<p>
+例: 整数の範囲オブジェクトの場合
+</p>
+<pre>
+Range.new(1, 10)       # =&gt; 1..10
+Range.new(1, 10, true) # =&gt; 1...10
+</pre>
+<p>
+例: 日付オブジェクトの範囲オブジェクトの場合
+</p>
+<pre>
+require 'date'
+Range.new(Date.today, Date.today &gt;&gt; 1).each {|d| puts d }
+# =&gt; 2017-09-16
+     2017-09-17
+     ...
+     2017-10-16
+</pre>
+<p>
+例: IPアドレスの範囲オブジェクトの場合
+</p>
+<pre>
+require 'ipaddr'
+Range.new(IPAddr.new(&quot;192.0.2.1&quot;), IPAddr.new(&quot;192.0.2.3&quot;)).each {|ip| puts ip}
+# =&gt; 192.0.2.1
+     192.0.2.2
+     192.0.2.3
+</pre>
+<p>
+例: 自作のオブジェクトの場合
+</p>
+<pre>
+MyInteger = Struct.new(:value) do
+  def succ
+    self.class.new(value + 1)
+  end
+
+  def &lt;=&gt;(other)
+    value &lt;=&gt; other.value
+  end
+
+  def to_s
+    value.to_s
+  end
+end
+Range.new(MyInteger.new(1), MyInteger.new(3)).each {|i| puts i }
+# =&gt; 1
+     2
+     3
+</pre>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Enumerable/i/max_by.html">
+  
+  <title>instance method Enumerable#max_by (Ruby 2.3.0)</title>
+  <meta name="description" content="各要素を順番にブロックに渡して実行し、
+その評価結果を &lt;=&gt; で比較して、
+最大であった値に対応する元の要素、もしくは最大の n 要素を返します。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.3.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+&gt; <a href="../../../class/Enumerable.html">Enumerableモジュール</a>
+&gt; max_by
+
+</p>
+
+
+<h1>instance method Enumerable#max_by</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_MAX_BY"><code>max_by -&gt; Enumerator</code><span class="permalink">[<a href="../../../method/Enumerable/i/max_by.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.3.0/Enumerable.html#method-i-max_by">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>max_by(n) -&gt; Enumerator</code></dt>
+<dt class="method-heading"><code>max_by {|item| ... } -&gt; object | nil</code></dt>
+<dt class="method-heading"><code>max_by(n) {|item| ... } -&gt; Array</code></dt>
+<dd class="method-description">
+<p>
+各要素を順番にブロックに渡して実行し、
+その評価結果を &lt;=&gt; で比較して、
+最大であった値に対応する元の要素、もしくは最大の n 要素を返します。
+</p>
+<p>
+引数を指定しない形式では要素が存在しなければ nil を返します。
+引数を指定する形式では、空の配列を返します。
+該当する要素が複数存在する場合、どの要素を返すかは不定です。
+</p>
+<p>
+<a href="../../../method/Enumerable/i/max.html">Enumerable#max</a> と <a href="../../../method/Enumerable/i/max_by.html">Enumerable#max_by</a> の
+違いは <a href="../../../method/Enumerable/i/sort.html">Enumerable#sort</a> と <a href="../../../method/Enumerable/i/sort_by.html">Enumerable#sort_by</a> の違いと同じです。
+</p>
+<p>
+ブロックを省略した場合は <a href="../../../class/Enumerator.html">Enumerator</a> を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] n:</dt>
+<dd>
+取得する要素数。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+a = %w(albatross dog horse)
+a.max_by                    # =&gt; #&lt;Enumerator: [&quot;albatross&quot;, &quot;dog&quot;, &quot;horse&quot;]:max_by&gt;
+a.max_by { |x| x.length }   # =&gt; &quot;albatross&quot;
+</pre>
+<p>
+例:
+</p>
+<pre>
+a = %w[albatross dog horse]
+a.max_by(2)                 # =&gt; #&lt;Enumerator: [&quot;albatross&quot;, &quot;dog&quot;, &quot;horse&quot;]:max_by(2)&gt;
+a.max_by(2) {|x| x.length } # =&gt; [&quot;albatross&quot;, &quot;horse&quot;]
+</pre>
+<p>
+例: enum.max_by（n）は、重み付きランダムサンプリングを実装するために使用できます。次の実装例は、Enumerable#wsampleを使用します。
+</p>
+<pre>
+module Enumerable
+  # weighted random sampling.
+  #
+  # Pavlos S. Efraimidis, Paul G. Spirakis
+  # Weighted random sampling with a reservoir
+  # Information Processing Letters
+  # Volume 97, Issue 5 (16 March 2006)
+  def wsample(n)
+    self.max_by(n) {|v| rand ** (1.0/yield(v)) }
+  end
+end
+e = (-20..20).to_a*10000
+a = e.wsample(20000) {|x|
+  Math.exp(-(x/5.0)**2) # normal distribution
+}
+# a is 20000 samples from e.
+p a.length #=&gt; 20000
+h = a.group_by {|x| x }
+-10.upto(10) {|x| puts &quot;*&quot; * (h[x].length/30.0).to_i if h[x] }
+#=&gt; *
+#   ***
+#   ******
+#   ***********
+#   ******************
+#   *****************************
+#   *****************************************
+#   ****************************************************
+#   ***************************************************************
+#   ********************************************************************
+#   ***********************************************************************
+#   ***********************************************************************
+#   **************************************************************
+#   ****************************************************
+#   ***************************************
+#   ***************************
+#   ******************
+#   ***********
+#   *******
+#   ***
+#   *
+</pre>
+<p>
+[SEE_ALSO] <a href="../../../method/Enumerable/i/sort_by.html">Enumerable#sort_by</a>
+</p>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

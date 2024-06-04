@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="stylesheet" type="text/css" href="../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/function/Data_Wrap_Struct.html">
+  
+  <title>macro Data_Wrap_Struct (Ruby 2.3.0)</title>
+  <meta name="description" content="C の構造体 sval をラップして klass クラスの
+インスタンスである Ruby オブジェクトを生成し、それを返します。
+mark、free はそれぞれ sval のマーク用・解放用の
+関数へのポインタです。どちらも、必要ないときはかわりに 0 を渡します。">
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 2.3.0 リファレンスマニュアル</a>
+&gt; <a href="../function/index.html">関数一覧</a>
+&gt; Data_Wrap_Struct
+
+</p>
+
+
+<h1>macro Data_Wrap_Struct</h1>
+<dl class="functionlist">
+<dt>
+  <code>VALUE Data_Wrap_Struct(VALUE klass, RUBY_DATA_FUNC mark, RUBY_DATA_FUNC free, void *sval)</code>
+</dt>
+<dd>
+<dd class="function-description">
+<p>
+C の構造体 sval をラップして klass クラスの
+インスタンスである Ruby オブジェクトを生成し、それを返します。
+mark、free はそれぞれ sval のマーク用・解放用の
+関数へのポインタです。どちらも、必要ないときはかわりに 0 を渡します。
+</p>
+<p>
+また RUBY_DATA_FUNC の定義は以下のようです。
+</p>
+<pre>
+typedef void (*RUBY_DATA_FUNC)(void *st)
+</pre>
+<p>
+第一引数 st には sval が渡されます。
+</p>
+<p>
+使用例
+</p>
+<pre>
+struct mytype {
+    int i;
+    char *s;
+};
+
+VALUE
+my_s_new(klass)
+    VALUE klass;
+{
+    struct mytype *m = malloc(sizeof(struct mytype));
+    m-&gt;i = 0;
+    m-&gt;s = 0;
+    return Data_Wrap_Struct(MyClass, 0, free_my, m);
+}
+</pre>
+</dd>
+
+</dd>
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>
