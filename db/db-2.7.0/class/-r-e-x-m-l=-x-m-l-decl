@@ -1,0 +1,56 @@
+type=class
+superclass=REXML=Child
+included=REXML=Encoding
+extended=
+dynamically_included=
+dynamically_extended=
+library=rexml.document
+aliases=
+aliasof=
+source_location=refm/api/src/rexml/xmldecl.rd:4
+
+XML 宣言を表すクラス。
+
+文書から XML 宣言を取り出すには [[m:REXML::Document#xml_decl]] を使います。
+
+//emlist[][ruby]{
+require 'rexml/document'
+doc = REXML::Document.new(<<EOS)
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<e />
+EOS
+
+xml_decl = doc.xml_decl
+xml_decl.version # => "1.0"
+xml_decl.encoding # => "UTF-8"
+xml_decl.standalone # => "yes"
+xml_decl.writethis # => true
+//}
+
+
+//emlist[XML 宣言を省略した場合の例。][ruby]{
+require 'rexml/document'
+doc = REXML::Document.new(<<EOS)
+<e />
+EOS
+
+xml_decl = doc.xml_decl
+xml_decl.version # => "1.0"
+xml_decl.encoding # => "UTF-8"
+xml_decl.standalone # => nil
+xml_decl.writethis # => false
+//}
+
+//emlist[XML 宣言が encoding 属性を持たない場合の例][ruby]{
+require 'rexml/document'
+doc = REXML::Document.new(<<EOS)
+<?xml version="1.0" ?>
+<e />
+EOS
+
+xml_decl = doc.xml_decl
+xml_decl.version # => "1.0"
+xml_decl.encoding # => "UTF-8"
+xml_decl.standalone # => nil
+xml_decl.writethis # => true
+//}

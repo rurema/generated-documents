@@ -1,0 +1,26 @@
+names=exit,mon_exit
+visibility=public
+kind=defined
+source_location=refm/api/src/monitor/Monitor:101
+
+--- exit -> ()
+--- mon_exit -> ()
+モニターのロックを解放します。
+
+enter でロックした回数だけ exit を呼ばなければモニターは解放されません。
+
+モニターが解放されればモニターのロック待ちになっていた
+スレッドが一つ実行を再開します。
+
+@raise ThreadError ロックを持っていないスレッドが呼びだした場合に発生します
+
+//emlist[例][ruby]{
+require 'monitor'
+mon = Monitor.new
+mon.enter
+mon.enter
+mon.exit
+mon.exit
+mon.exit # => current thread not owner (ThreadError)
+//}
+

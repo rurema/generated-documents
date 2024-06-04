@@ -1,0 +1,83 @@
+names=max_by
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Enumerable:380
+
+--- max_by                  -> Enumerator
+--- max_by(n)               -> Enumerator
+--- max_by {|item| ... }    -> object | nil
+--- max_by(n) {|item| ... } -> Array
+
+各要素を順番にブロックに渡して実行し、
+その評価結果を <=> で比較して、
+最大であった値に対応する元の要素、もしくは最大の n 要素が降順で入った配列を返します。
+
+引数を指定しない形式では要素が存在しなければ nil を返します。
+引数を指定する形式では、空の配列を返します。
+該当する要素が複数存在する場合、どの要素を返すかは不定です。
+
+[[m:Enumerable#max]] と [[m:Enumerable#max_by]] の
+違いは [[m:Enumerable#sort]] と [[m:Enumerable#sort_by]] の違いと同じです。
+
+ブロックを省略した場合は [[c:Enumerator]] を返します。
+
+@param n 取得する要素数。
+
+//emlist[例][ruby]{
+a = %w(albatross dog horse)
+a.max_by                    # => #<Enumerator: ["albatross", "dog", "horse"]:max_by>
+a.max_by { |x| x.length }   # => "albatross"
+//}
+
+//emlist[例][ruby]{
+a = %w[albatross dog horse]
+a.max_by(2)                 # => #<Enumerator: ["albatross", "dog", "horse"]:max_by(2)>
+a.max_by(2) {|x| x.length } # => ["albatross", "horse"]
+//}
+
+//emlist[例: enum.max_by（n）は、重み付きランダムサンプリングを実装するために使用できます。次の実装例は、Enumerable#wsampleを使用します。][ruby]{
+module Enumerable
+  # weighted random sampling.
+  #
+  # Pavlos S. Efraimidis, Paul G. Spirakis
+  # Weighted random sampling with a reservoir
+  # Information Processing Letters
+  # Volume 97, Issue 5 (16 March 2006)
+  def wsample(n)
+    self.max_by(n) {|v| rand ** (1.0/yield(v)) }
+  end
+end
+e = (-20..20).to_a*10000
+a = e.wsample(20000) {|x|
+  Math.exp(-(x/5.0)**2) # normal distribution
+}
+# a is 20000 samples from e.
+p a.length #=> 20000
+h = a.group_by {|x| x }
+-10.upto(10) {|x| puts "*" * (h[x].length/30.0).to_i if h[x] }
+#=> *
+#   ***
+#   ******
+#   ***********
+#   ******************
+#   *****************************
+#   *****************************************
+#   ****************************************************
+#   ***************************************************************
+#   ********************************************************************
+#   ***********************************************************************
+#   ***********************************************************************
+#   **************************************************************
+#   ****************************************************
+#   ***************************************
+#   ***************************
+#   ******************
+#   ***********
+#   *******
+#   ***
+#   *
+//}
+
+@see [[m:Enumerable#sort_by]]
+
+

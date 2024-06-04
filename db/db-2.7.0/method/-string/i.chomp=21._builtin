@@ -1,0 +1,42 @@
+names=chomp!
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/String:997
+
+--- chomp!(rs = $/) -> self | nil
+
+self の末尾から rs で指定する改行コードを取り除きます。
+ただし rs が "\n" ($/ のデフォルト値) のときは、
+実行環境によらず "\r", "\r\n", "\n" のすべてを改行コードとみなして取り除きます。
+
+rs に nil を指定した場合、このメソッドは何もしません。
+
+rs に空文字列 ("") を指定した場合は「パラグラフモード」になり、
+実行環境によらず末尾の連続する改行コード("\r\n", "\n")をすべて取り除きます。
+
+@return chomp! は通常 self を返しますが、取り除く改行がなかった場合は nil を返します。
+
+//emlist[例][ruby]{
+buf = "string\n"
+buf.chomp!  # => nil
+p buf       # => "string"
+
+$/ = "\n"   # デフォルトと同じ
+p "foo\r".chomp!    # => "foo"
+p "foo\r\n".chomp!  # => "foo"
+p "foo\n".chomp!    # => "foo"
+p "foo\n\r".chomp!  # => "foo\n"
+
+buf = "string\n"
+buf.chomp!(nil)  # => nil
+p buf            # => "string\n"
+
+p "foo\r\n\n".chomp!("")  # => "foo"
+p "foo\n\r\n".chomp!("")  # => "foo"
+p "foo\n\r\r".chomp!("")  # => nil
+//}
+
+@see [[m:String#chomp]]
+@see [[m:String#chop!]]
+@see [[m:String#delete_suffix!]]
+

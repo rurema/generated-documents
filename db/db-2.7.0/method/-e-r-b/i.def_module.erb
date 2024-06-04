@@ -1,0 +1,25 @@
+names=def_module
+visibility=public
+kind=defined
+source_location=refm/api/src/erb.rd:315
+
+--- def_module(methodname='erb') -> Module
+
+変換した Ruby スクリプトをメソッドとして定義した無名のモジュールを返します。
+
+@param methodname メソッド名
+
+//emlist[例][ruby]{
+require 'erb'
+filename = 'example.rhtml'
+erb = ERB.new("test1<%= arg1 %>\ntest2<%= arg2 %>\n")
+erb.filename = filename
+MyModule = erb.def_module('render(arg1, arg2)')
+class MyClass
+  include MyModule
+end
+print MyClass.new.render('foo', 123)
+# test1foo
+# test2123
+//}
+

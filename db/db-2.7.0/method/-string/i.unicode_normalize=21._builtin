@@ -1,0 +1,28 @@
+names=unicode_normalize!
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/String:3822
+
+--- unicode_normalize!(form = :nfc) -> self
+
+self を NFC、NFD、NFKC、NFKD のいずれかの正規化形式で Unicode 正規化し
+た文字列に置き換えます。
+
+(gsub!などと異なり)変換が行なわれなくても self を返します。
+
+@param form 正規化形式を :nfc、:nfd、:nfkc、:nfkd のいずれかで指定しま
+            す。省略した場合は :nfc になります。
+
+@raise Encoding::CompatibilityError self が Unicode 文字列ではない場合
+                                    に発生します。
+
+//emlist[例][ruby]{
+text = "a\u0300"
+text.unicode_normalize!(:nfc)
+text == "\u00E0"              # => true
+text.unicode_normalize!(:nfd)
+text == "a\u0300"             # => true
+//}
+
+@see [[m:String#unicode_normalize]], [[m:String#unicode_normalized?]]
+

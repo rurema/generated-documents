@@ -1,0 +1,34 @@
+names=private_constant
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Module:1284
+
+--- private_constant(*name) -> self
+
+name で指定した定数の可視性を private に変更します。
+
+@param name 0 個以上の [[c:String]] か [[c:Symbol]] を指定します。
+
+@raise NameError 存在しない定数を指定した場合に発生します。
+
+@return self を返します。
+
+@see [[m:Module#public_constant]], [[m:Object#untrusted?]]
+
+//emlist[例][ruby]{
+module Foo
+  BAR = 'bar'
+  class Baz; end
+  QUX = 'qux'
+  class Quux; end
+
+  private_constant :QUX
+  private_constant :Quux
+end
+
+Foo::BAR  # => "bar"
+Foo::Baz  # => Foo::Baz
+Foo::QUX  # => NameError: private constant Foo::QUX referenced
+Foo::Quux # => NameError: private constant Foo::Quux referenced
+//}
+

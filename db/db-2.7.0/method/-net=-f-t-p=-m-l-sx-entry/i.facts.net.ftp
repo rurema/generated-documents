@@ -1,0 +1,43 @@
+names=facts
+visibility=public
+kind=defined
+source_location=refm/api/src/net/ftp.rd:971
+
+--- facts -> { String => String|Integer|Time }
+
+そのエントリの「facts」を返します。
+
+facts とはそのエントリに関するファイルサイズなどの様々な情報です。
+Net::FTP はこの情報を文字列をキーとするハッシュテーブルで
+返します。
+標準では以下のような facts が定義されています。これらの facts には
+対応するメソッドが定義されています。すべてのサーバでこれら
+の facts がすべて実装されているわけではありません。
+[[rfc:3659]] では
+modify, perm, type, size, unique はすべてのサーバで
+対応すべき(SHOULD)、とされています。
+
+
+  * "modify" : 変更時刻 (Time)
+  * "create": 作成時刻
+  * "perm": パーミッション(String)
+  * "type": 種類(String, "file", "dir", "cdir", "pdir" など)
+  * "size": ファイルサイズ (Integer, octet単位)
+  * "unique": ユニークID (String)
+  * "lang": ファイルの言語 (String)
+  * "media-type":  メディアタイプ (String)
+  * "charset": 文字エンコーディング (String)
+
+サーバが UNIX 系 OS の場合は以下のような facts が
+使える可能性があります。
+
+  * "unix.mode": ファイルモード(Integer)
+  * "unix.group": グループ(Integer)
+  * "unix.owner": ファイルのオーナー(Integer)
+  * "unix.atime": ファイルに最後にアクセスした時刻 (Time)
+  * "unix.ctime": ファイルを作成した時刻 (Time)
+
+これ以外の非標準的な fact を保持している場合もあります。
+
+詳しくは [[RFC:3659]] を参照してください。
+
