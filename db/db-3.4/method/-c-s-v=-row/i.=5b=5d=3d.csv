@@ -1,0 +1,62 @@
+names=[]=
+visibility=public
+kind=defined
+source_location=refm/api/src/csv/CSV__Row:124
+
+--- []=(header_or_index, value)
+
+ヘッダの名前かインデックスでフィールドを探し、値をセットします。
+
+末尾より後ろのインデックスを指定すると、ヘッダの名前は nil になります。
+存在しないヘッダを指定すると、新しい要素を末尾に追加します。
+
+@param header_or_index ヘッダの名前かインデックスを指定します。
+
+@param value 値を指定します。
+
+//emlist[例 ヘッダの名前で指定][ruby]{
+require "csv"
+
+row = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+
+row["header1"]  # => "row1_1"
+row["header1"] = "updated"
+row["header1"]  # => "updated"
+//}
+
+//emlist[例 ヘッダの index で指定][ruby]{
+require "csv"
+
+row = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+
+row["header1"]  # => "row1_1"
+row[0] = "updated"
+row["header1"]  # => "updated"
+//}
+
+//emlist[例 ヘッダの名前と offset で指定][ruby]{
+require "csv"
+
+row = CSV::Row.new(["header1", "header2", "header1"], ["row1_1", "row1_2", "row1_3"])
+
+row  # => #<CSV::Row "header1":"row1_1" "header2":"row1_2" "header1":"row1_3">
+row["header1", 1] = "updated"
+row  # => #<CSV::Row "header1":"row1_1" "header2":"row1_2" "header1":"updated">
+//}
+
+
+@see [[m:CSV::Row#field]]
+
+--- []=(header, offset, value)
+
+ヘッダの名前でフィールドを探し、値をセットします。
+
+@param header ヘッダの名前を指定します。
+
+@param offset このインデックスより後で、ヘッダの名前を探します。
+              重複しているヘッダがある場合に便利です。
+
+@param value 値を指定します。
+
+@see [[m:CSV::Row#field]]
+

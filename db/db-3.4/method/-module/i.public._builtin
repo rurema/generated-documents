@@ -1,0 +1,38 @@
+names=public
+visibility=private
+kind=defined
+source_location=refm/api/src/_builtin/Module:1978
+
+--- public() -> nil
+--- public(name) -> String | Symbol
+--- public(*name) -> Array
+--- public(names) -> Array
+
+メソッドを public に設定します。
+
+引数なしのときは今後このクラスまたはモジュール定義内で新規に定義さ
+れるメソッドをどんな形式でも呼び出せるように(public)設定します。
+
+引数が与えられた時には引数によって指定されたメソッドを public に設
+定します。
+
+可視性については [[ref:d:spec/def#limit]] を参照して下さい。
+
+@param name  0 個以上の [[c:String]] または [[c:Symbol]] を指定します。
+@param names 0 個以上の [[c:String]] または [[c:Symbol]] を [[c:Array]] で指定します。
+
+@raise NameError 存在しないメソッド名を指定した場合に発生します。
+
+//emlist[例][ruby]{
+def foo() 1 end
+p foo             # => 1
+# the toplevel default is private
+p self.foo        # => private method `foo' called for #<Object:0x401c83b0> (NoMethodError)
+
+def bar() 2 end
+public :bar       # visibility changed (all access allowed)
+p bar             # => 2
+p self.bar        # => 2
+//}
+
+

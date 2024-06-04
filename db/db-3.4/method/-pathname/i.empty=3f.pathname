@@ -1,0 +1,26 @@
+names=empty?
+visibility=public
+kind=defined
+source_location=refm/api/src/pathname.rd:1011
+
+--- empty? -> bool
+ディレクトリに対しては Dir.empty?(self.to_s) と同じ、他に対しては FileTest.empty?(self.to_s) と同じです。
+
+//emlist[例 ディレクトリの場合][ruby]{
+require "pathname"
+require 'tmpdir'
+
+Pathname("/usr/local").empty?               # => false
+Dir.mktmpdir { |dir| Pathname(dir).empty? } # => true
+//}
+
+//emlist[例 ファイルの場合][ruby]{
+require "pathname"
+require 'tempfile'
+
+Pathname("testfile").empty?                           # => false
+Tempfile.create("tmp") { |tmp| Pathname(tmp).empty? } # => true
+//}
+
+@see [[m:Dir.empty?]], [[m:FileTest.#empty?]], [[m:Pathname#zero?]]
+

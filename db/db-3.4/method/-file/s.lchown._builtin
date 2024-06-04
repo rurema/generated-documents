@@ -1,0 +1,29 @@
+names=lchown
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/File:154
+
+--- lchown(owner, group, *filename)    -> Integer
+
+[[m:File#chown]] と同様ですが、
+シンボリックリンクに関してリンクそのもののオーナー、
+グループを変更します。
+
+@param filename ファイル名を表す文字列を指定します。
+
+@param owner [[man:chown(2)]] と同様に数値で指定します。nil または -1 を指定することで、オーナーを現在のままにすることができます。
+
+@param group [[man:chown(2)]] と同様に数値で指定します。nil または -1 を指定することで、グループを現在のままにすることができます。
+
+@raise NotImplementedError [[man:lchown(2)]] を実装していないシステムでこのメソッドを呼び出すと発生します。
+
+//emlist[例][ruby]{
+IO.write("testfile", "test")
+File.symlink("testfile", "testlink")
+File.chown(501, -1, "testfile")
+File.lstat("testlink").ftype    # => "link"
+File.lchown(0, -1, "testlink")
+File.stat("testlink").uid       # => 501
+File.lstat("testlink").uid      # => 0
+//}
+

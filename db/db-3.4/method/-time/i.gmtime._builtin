@@ -1,0 +1,26 @@
+names=gmtime,utc
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Time:523
+
+--- gmtime    -> self
+--- utc       -> self
+
+タイムゾーンを協定世界時に設定します。
+
+このメソッドを呼び出した後は時刻変換を協定世界時として行ないます。
+
+[[m:Time#localtime]], [[m:Time#gmtime]] の挙動はシステムの
+[[man:localtime(3)]] の挙動に依存します。Time クラ
+スでは時刻を起算時からの経過秒数として保持していますが、ある特定の
+時刻までの経過秒は、システムがうるう秒を勘定するかどうかによって異
+なる場合があります。システムを越えて Time オブジェクトを受け
+渡す場合には注意する必要があります。
+
+//emlist[][ruby]{
+p t = Time.local(2000,1,1,20,15,1)   # => 2000-01-01 20:15:01 +0900
+p t.gmt?                             # => false
+p t.gmtime                           # => 2000-01-01 11:15:01 UTC
+p t.gmt?                             # => true
+//}
+

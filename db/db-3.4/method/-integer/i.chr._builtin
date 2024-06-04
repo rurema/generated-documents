@@ -1,0 +1,34 @@
+names=chr
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Integer:72
+
+--- chr -> String
+--- chr(encoding) -> String
+
+self を文字コードとして見た時に、引数で与えたエンコーディング encoding に対応する文字を返します。
+
+//emlist[][ruby]{
+p 65.chr
+# => "A"
+p 12354.chr
+# => `chr': 12354 out of char range (RangeError)
+
+p 12354.chr(Encoding::UTF_8)
+# => "あ"
+p 12354.chr(Encoding::EUC_JP)
+# => RangeError: invalid codepoint 0x3042 in EUC-JP
+//}
+
+引数無しで呼ばれた場合は self を US-ASCII、ASCII-8BIT、デフォルト内部エンコーディングの順で優先的に解釈します。
+
+//emlist[][ruby]{
+p 0x79.chr.encoding # => #<Encoding:US_ASCII>
+p 0x80.chr.encoding # => #<Encoding:ASCII_8BIT>
+//}
+
+@param encoding エンコーディングを表すオブジェクト。Encoding::UTF_8、'shift_jis' など。
+@return     一文字からなる文字列
+@raise RangeError self を与えられたエンコーディングで正しく解釈できない場合に発生します。
+@see [[m:String#ord]] [[m:Encoding.default_internal]]
+

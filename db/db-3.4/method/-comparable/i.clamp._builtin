@@ -1,0 +1,65 @@
+names=clamp
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Comparable:114
+
+--- clamp(min, max)  -> object
+--- clamp(range)     -> object
+
+self を範囲内に収めます。
+
+min と max の2つの引数が渡された場合は次のようになります。
+self <=> min が負数を返したときは min を、
+self <=> max が正数を返したときは max を、
+それ以外の場合は self を返します。
+
+min が nil の場合、min は self よりも小さい値として扱われます。
+max が nil の場合、max は self よりも大きい値として扱われます。
+
+range が1つ渡された場合は次のようになります。
+self <=> range.begin が負数を返したときは range.begin を、
+self <=> range.end が正数を返したときは range.end を、
+それ以外の場合は self を返します。
+
+range.begin が nil の場合、range.begin は self よりも小さい値として扱われます。
+range.end が nil の場合、range.end は self よりも大きい値として扱われます。
+
+@param min 範囲の下端を表すオブジェクトを指定します。
+
+@param max 範囲の上端を表すオブジェクトを指定します。
+
+@param range 範囲を表す Range オブジェクトを指定します。
+
+@raise ArgumentError rangeが終端を含まない範囲オブジェクトであり、
+                     終端が nil でないときに発生します。
+
+//emlist[例][ruby]{
+12.clamp(0, 100)         #=> 12
+523.clamp(0, 100)        #=> 100
+-3.123.clamp(0, 100)     #=> 0
+
+'d'.clamp('a', 'f')      #=> 'd'
+'z'.clamp('a', 'f')      #=> 'f'
+//}
+
+//emlist[nil を渡す例][ruby]{
+5.clamp(0, nil)          #=> 5
+5.clamp(nil, 0)          #=> 0
+5.clamp(nil, nil)        #=> 5
+//}
+
+//emlist[range を渡す例][ruby]{
+12.clamp(0..100)     #=> 12
+523.clamp(0..100)    #=> 100
+-3.123.clamp(0..100) #=> 0
+
+'d'.clamp('a'..'f')  #=> 'd'
+'z'.clamp('a'..'f')  #=> 'f'
+
+100.clamp(0...100)   # ArgumentError
+//}
+
+//emlist[range の始端か終端が nil の場合][ruby]{
+-20.clamp(0..)   #=> 0
+523.clamp(..100) #=> 100
+//}
