@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/OptionParser=3a=3aArguable/i/getopts.html">
+
+<title>OptionParser::Arguable#getopts (Ruby 2.5.0 リファレンスマニュアル)</title>
+<meta name="description" content="指定された short_opt や long_opt に応じて自身をパースし、結果を Hash として返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.5.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/optparse.html","name":"optparseライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/OptionParser=3a=3aArguable.html","name":"OptionParser::Arguableモジュール","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/OptionParser=3a=3aArguable/i/getopts.html","name":"getopts","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.5.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/optparse.html">optparseライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/OptionParser=3a=3aArguable.html">OptionParser::Arguableモジュール</a>
+      </li>
+      <li>
+        getopts 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method OptionParser::Arguable#getopts</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_GETOPTS"><code>getopts(short_opt, *long_opt) -&gt; Hash</code><span class="permalink">[<a href="../../../method/OptionParser=3a=3aArguable/i/getopts.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.5.0/OptionParser/Arguable.html#method-i-getopts">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/optparse/Arguable#L98">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+指定された short_opt や long_opt に応じて自身をパースし、結果を Hash として返します。
+</p>
+<p>
+コマンドラインに - もしくは -- を指定した場合、それ以降の解析を行ないません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] short_opt:</dt>
+<dd>
+ショートネームのオプション(-f や -fx)を文字列で指定します。オプションが -f と -x の
+2つの場合は &quot;fx&quot; の様に指定します。ここでオプションがないときは空文字列を指定します。オプションが引数をとる場合は直後に &quot;:&quot; を付けます。
+</dd>
+<dt class='method-param'>[PARAM] long_opt:</dt>
+<dd>
+ロングネームのオプション(--version や --bufsize=512)を文字列で指定をします。オプションが引数をとる場合は後ろに &quot;:&quot; を付けます。オプションの引数のデフォルト値を &quot;:&quot; の直後に指定することができます。例えば、&quot;bufsize:1024&quot; となります。
+</dd>
+<dt>[EXCEPTION] OptionParser::ParseError:</dt>
+<dd>
+自身のパースに失敗した場合、発生します。実際は OptionParser::ParseError のサブクラスの例外になります。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">t.rb</span>
+<code>
+<span class="nb">require</span> <span class="s1">'optparse'</span>
+params <span class="o">=</span> <span class="no">ARGV</span><span class="p">.</span><span class="nf">getopts</span><span class="p">(</span><span class="s2">"</span><span class="s2">ab:</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar:</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bufsize:1024</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> params
+</code></pre>
+<pre>
+# 実行結果
+$ ruby t.rb -b 1 --foo  --bar xxx -- -a
+{&quot;bufsize&quot;=&gt;&quot;1024&quot;, &quot;a&quot;=&gt;false, &quot;b&quot;=&gt;&quot;1&quot;, &quot;foo&quot;=&gt;true, &quot;bar&quot;=&gt;&quot;xxx&quot;}  # &quot;a&quot;=&gt;false であることに注意。
+</pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/optparse/Arguable#L98">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
