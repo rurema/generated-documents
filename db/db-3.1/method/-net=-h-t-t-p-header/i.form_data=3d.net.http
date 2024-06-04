@@ -1,0 +1,32 @@
+names=form_data=,set_form_data
+visibility=public
+kind=defined
+source_location=refm/api/src/net/http.rd:1799
+
+--- form_data=(params)
+--- set_form_data(params, sep = '&') -> ()
+HTMLのフォームのデータ params から
+ヘッダフィールドとボディを設定します。
+
+ヘッダフィールド Content-Type: には
+'application/x-www-form-urlencoded' が設定されます。
+
+@param params HTML のフォームデータの [[c:Hash]] を与えます。
+@param sep データのセパレータを文字列で与えます。
+
+//emlist[例 form_data][ruby]{
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+req.form_data = {"q" => ["ruby", "perl"], "lang" => "en"} # => {"q"=>["ruby", "perl"], "lang"=>"en"}
+//}
+
+//emlist[例 set_form_data][ruby]{
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+req.set_form_data({"q" => "ruby", "lang" => "en"}, ';') # => "application/x-www-form-urlencoded"
+//}
+
