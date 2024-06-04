@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/REXML=3a=3aFormatters=3a=3aTransitive.html">
+
+<title>class REXML::Formatters::Transitive (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="XMLドキュメントをテキストの内容を変えずに
+多少の整形を加えて出力するクラスです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/rexml=2fdocument.html","name":"rexml/documentライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/REXML=3a=3aFormatters=3a=3aTransitive.html","name":"REXML::Formatters::Transitiveクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/rexml=2fdocument.html">rexml/documentライブラリ</a>
+      </li>
+      <li>
+        REXML::Formatters::Transitiveクラス
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>class REXML::Formatters::Transitive</h1>
+
+
+
+  <nav>
+    クラスの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/REXML=3a=3aFormatters=3a=3aDefault.html">REXML::Formatters::Default</a>
+        </li>
+        
+      
+      <li>
+        REXML::Formatters::Transitive
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+XMLドキュメントをテキストの内容を変えずに多少の整形を加えて出力するクラスです。
+</p>
+<p>
+これが有用な場合はあまりないでしょう。整形されていない XML を整形したいが、テキストの空白は改行は変えたくない場合には役にたつかもしれません。ただ、ほとんどの場合は奇妙な出力結果になるでしょう。
+</p>
+<pre>
+require 'rexml/document'
+require 'rexml/formatters/transitive'
+doc = REXML::Document.new &lt;&lt;EOS
+&lt;root&gt;&lt;children&gt;
+&lt;grandchildren foo='bar' /&gt;
+&lt;/children&gt;&lt;/root&gt;
+EOS
+
+transitive_formatter = REXML::Formatters::Transitive.new
+output = StringIO.new
+transitive_formatter.write(doc, output)
+output.string
+# =&gt; &quot;&lt;root\n&gt;&lt;children\n  &gt;\n&lt;grandchildren foo='bar'\n    /&gt;\n&lt;/children\n  &gt;&lt;/root\n&gt;\n&quot;
+print output.string
+# &gt;&gt; &lt;root
+# &gt;&gt; &gt;&lt;children
+# &gt;&gt;   &gt;
+# &gt;&gt; &lt;grandchildren foo='bar'
+# &gt;&gt;     /&gt;
+# &gt;&gt; &lt;/children
+# &gt;&gt;   &gt;&lt;/root
+# &gt;&gt; &gt;
+
+output = StringIO.new
+transitive_formatter.write(REXML::XPath.first(doc, &quot;/root/children&quot;), output)
+output.string
+# =&gt; &quot;&lt;children\n&gt;\n&lt;grandchildren foo='bar'\n  /&gt;\n&lt;/children\n&gt;&quot;
+</pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+  <h2>継承しているメソッド</h2>
+<dl>
+  
+<dt>REXML::Formatters::Defaultから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/REXML=3a=3aFormatters=3a=3aDefault/i/write.html">write</a></li>
+      
+    
+  </ul>
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(indentation=2, ie_hack=false) -&gt; REXML::Formatter::Transitive</code><span class="permalink">[<a href="../method/REXML=3a=3aFormatters=3a=3aTransitive/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/REXML/Formatters/Transitive.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+フォーマッタオブジェクトを生成して返します。
+</p>
+<p>
+このフォーマッタによる出力は基本的にテキストの空白や改行を変化させないという制約のもと、出力を整形します。
+</p>
+<p>
+indentation でインデント幅を指定できます。
+</p>
+<p>
+ie_hack に真を渡すと、空のタグを閉じる前で空白を挿入します。これは特定のバージョンのIEのXMLパーサのバグを避けるための機能です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] indentation:</dt>
+<dd>
+インデント幅
+</dd>
+<dt class='method-param'>[PARAM] ie_hack:</dt>
+<dd>
+空のタグを閉じる所にスペースを入れるかどうかを指定します
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

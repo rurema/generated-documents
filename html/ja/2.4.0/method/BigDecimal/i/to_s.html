@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/BigDecimal/i/to_s.html">
+
+<title>BigDecimal#to_s (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="self を文字列に変換します (デフォルトは &quot;0.xxxxxEn&quot; の形になります)。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/bigdecimal.html","name":"bigdecimalライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/BigDecimal.html","name":"BigDecimalクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/BigDecimal/i/to_s.html","name":"to_s","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/bigdecimal.html">bigdecimalライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/BigDecimal.html">BigDecimalクラス</a>
+      </li>
+      <li>
+        to_s 
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>instance method BigDecimal#to_s</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_TO_S"><code>to_s -&gt; String</code><span class="permalink">[<a href="../../../method/BigDecimal/i/to_s.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/BigDecimal.html#method-i-to_s">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>to_s(n) -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+self を文字列に変換します (デフォルトは &quot;0.xxxxxEn&quot; の形になります)。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] n:</dt>
+<dd>
+出力の形式を <a href="../../../class/Integer.html">Integer</a> または <a href="../../../class/String.html">String</a> で指定します。
+</dd>
+</dl>
+<pre>
+require &quot;bigdecimal&quot;
+BigDecimal(&quot;1.23456&quot;).to_s  #  ==&gt; &quot;0.123456E1&quot;
+</pre>
+<p>
+引数 n に正の整数が指定されたときは、小数点で分けられる左右部分を、それぞれ n 桁毎に空白で区切ります。
+</p>
+<pre>
+require &quot;bigdecimal&quot;
+BigDecimal(&quot;0.1234567890123456789&quot;).to_s(10)   # =&gt; &quot;0.1234567890 123456789E0&quot;
+</pre>
+<p>
+引数 n に正の整数を表す文字列を指定することもできます。
+</p>
+<pre>
+require &quot;bigdecimal&quot;
+BigDecimal(&quot;0.1234567890123456789&quot;).to_s(&quot;10&quot;) # =&gt; &quot;0.1234567890 123456789E0&quot;
+</pre>
+<p>
+文字列の最初に '+' または ' ' を付けると、値が正の場合先頭に '+' または
+' ' が付きます。負の場合は常に '-' が付きます。
+</p>
+<pre>
+require &quot;bigdecimal&quot;
+BigDecimal(&quot;0.123456&quot;).to_s(&quot; 3&quot;) # =&gt; &quot; 0.123 456E0&quot;
+BigDecimal(&quot;0.123456&quot;).to_s(&quot;+3&quot;) # =&gt; &quot;+0.123 456E0&quot;
+BigDecimal(&quot;-0.123456&quot;).to_s(&quot;3&quot;) # =&gt; &quot;-0.123 456E0&quot;
+</pre>
+<p>
+さらに文字列の最後に指数形式 ('E' または 'e') か指数を使わない形式
+('F' または 'f') かを指定出来ます。デフォルトは指数形式です。
+</p>
+<pre>
+require &quot;bigdecimal&quot;
+BigDecimal(&quot;123.456&quot;).to_s(&quot;E&quot;)     # =&gt; &quot;0.123456E3&quot;
+BigDecimal(&quot;123.456&quot;).to_s(&quot;e&quot;)     # =&gt; &quot;0.123456E3&quot;
+                                    # (小文字で指定しても出力は 'E' になる)
+BigDecimal(&quot;123.456&quot;).to_s(&quot;F&quot;)     # =&gt; &quot;123.456&quot;
+BigDecimal(&quot;1234.5678&quot;).to_s(&quot;3F&quot;)  # =&gt; &quot;123 4.567 8&quot;
+</pre>
+</dd>
+
+
+</dl>
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

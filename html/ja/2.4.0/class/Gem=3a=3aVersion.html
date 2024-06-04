@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Gem=3a=3aVersion.html">
+
+<title>class Gem::Version (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="文字列で表現されたバージョンを比較可能 (Comparable) にするためのクラスです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/rubygems=2fversion.html","name":"rubygems/versionライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Gem=3a=3aVersion.html","name":"Gem::Versionクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/rubygems=2fversion.html">rubygems/versionライブラリ</a>
+      </li>
+      <li>
+        Gem::Versionクラス
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>class Gem::Version</h1>
+
+
+
+  <nav>
+    クラスの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Comparable.html">Comparable</a>
+        </li>
+        
+      
+      <li>
+        Gem::Version
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+文字列で表現されたバージョンを比較可能 (Comparable) にするためのクラスです。
+</p>
+<p>
+バージョンを文字列で表したとき、単純に <a href="../method/String/i/=3c=3d=3e.html">String#&lt;=&gt;</a> で比較すると、
+&quot;1.9&quot; のほうが &quot;1.10&quot; よりも大きい（バージョンが高い）ことになってしまい、正しく判定できません。
+Gem::Version はこの問題を解決します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">文字列での比較と Gem::Version での比較</span>
+<code>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">1.9</span><span class="s2">"</span> <span class="o">&lt;</span> <span class="s2">"</span><span class="s2">1.10</span><span class="s2">"</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.9</span><span class="s2">"</span><span class="p">)</span> <span class="o">&lt;</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.10</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+gem のバージョンを取り扱うためのクラスですが、バージョン表記が RubyGems の流儀に則っていれば RubyGems とは無関係に使うこともできます。
+</p>
+<pre class="highlight ruby">
+<span class="caption">バージョン表記のソートの例</span>
+<code>
+versions <span class="o">=</span> <span class="sx">%w[ 1.1  1.10  1.9  1.1.beta9  1.1.beta10 ]</span>
+
+<span class="nb">p</span> versions<span class="p">.</span><span class="nf">sort_by</span><span class="p">{</span> <span class="o">|</span>v<span class="o">|</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>v<span class="p">)</span> <span class="p">}</span>
+<span class="c1"># =&gt; [&quot;1.1.beta9&quot;, &quot;1.1.beta10&quot;, &quot;1.1&quot;, &quot;1.9&quot;, &quot;1.10&quot;]
+</span></code></pre>
+<p>
+上の例で、&quot;1.9&quot; と &quot;1.10&quot; では（数字列ではなく）整数として 9 より 10 が大きいので、&quot;1.10&quot; のほうが大きいと判定されています。
+</p>
+<p>
+また、&quot;1.1.beta9&quot; は &quot;beta9&quot; の部分が数字でないものを含んでいるので &quot;1.1&quot; の「プレリリース」バージョンであるとみなされます。この規則により、&quot;1.1&quot; と &quot;1.1.beta9&quot; では後者のほうが小さいと判定されています。
+</p>
+<p>
+&quot;1.1.beta9&quot; と &quot;1.1.beta10&quot; では、&quot;beta9&quot; と &quot;beta10&quot; の部分だけが違いますが、アルファベット部分と数字部分が分割され、数字部分は整数の大小比較になるため、後者のほうが大きいと判定されます。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_CORRECT--3F">correct?</a></li>
+
+<li><a href="#S_CREATE">create</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_--3C--3D--3E">&lt;=&gt;</a></li>
+
+<li><a href="#I_BUMP">bump</a></li>
+
+<li><a href="#I_EQL--3F">eql?</a></li>
+
+<li><a href="#I_MARSHAL_DUMP">marshal_dump</a></li>
+
+<li><a href="#I_MARSHAL_LOAD">marshal_load</a></li>
+
+<li><a href="#I_PRERELEASE--3F">prerelease?</a></li>
+
+<li><a href="#I_RELEASE">release</a></li>
+
+<li><a href="#I_TO_S">to_s</a></li>
+
+<li><a href="#I_TO_S">version</a></li>
+
+<li><a href="#I_VERSION--3D">version=</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+  <h2>継承しているメソッド</h2>
+<dl>
+  
+<dt>Comparableから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Comparable/i/=3c.html">&lt;</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3c=3d.html">&lt;=</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3d=3d.html">==</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3e.html">&gt;</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3e=3d.html">&gt;=</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/between=3f.html">between?</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/clamp.html">clamp</a></li>
+      
+    
+  </ul>
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_CORRECT--3F"><code>correct?(version) -&gt; bool</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/s/correct=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-c-correct-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+version が正しいバージョンであれば真を返します。そうでなければ偽を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] version:</dt>
+<dd>
+バージョンを文字列か数値で指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_CREATE"><code>create(input) -&gt; Gem::Version | nil</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/s/create.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-c-create">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../class/Gem=3a=3aVersion.html">Gem::Version</a> のインスタンスを作成するためのファクトリメソッドです。
+</p>
+<p>
+例:
+</p>
+<pre>
+ver1 = Gem::Version.create('1.3.17')   # =&gt; #&lt;Gem::Version &quot;1.3.17&quot;&gt;
+ver2 = Gem::Version.create(ver1)       # =&gt; #&lt;Gem::Version &quot;1.3.17&quot;&gt;
+ver3 = Gem::Version.create(nil)        # =&gt; nil
+</pre>
+<dl>
+<dt class='method-param'>[PARAM] input:</dt>
+<dd>
+<a href="../class/Gem=3a=3aVersion.html">Gem::Version</a> のインスタンスか文字列を指定します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+input がバージョンとして不正なオブジェクトである場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aVersion/s/correct=3f.html">Gem::Version.correct?</a>
+</p>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--3C--3D--3E"><code>self &lt;=&gt; other -&gt; Integer | nil</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/=3c=3d=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-i-3C-3D-3E">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+self と other を比較して、self が大きい時に 1
+等しい時に 0、小さい時に -1 の整数を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] other:</dt>
+<dd>
+比較対象の <a href="../class/Gem=3a=3aVersion.html">Gem::Version</a> のインスタンスを指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_BUMP"><code>bump -&gt; Gem::Version</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/bump.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-i-bump">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+最後の一桁を切り上げた新しい <a href="../class/Gem=3a=3aVersion.html">Gem::Version</a> のインスタンスを返します。
+</p>
+<p>
+例:
+</p>
+<pre>
+ver1 = Gem::Version.create('5.3.1') # =&gt; #&lt;Gem::Version &quot;5.3.1&quot;&gt;
+ver2 = ver1.bump                    # =&gt; #&lt;Gem::Version &quot;5.4&quot;&gt;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_EQL--3F"><code>eql?(other) -&gt; bool</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/eql=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-i-eql-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+self と other の <a href="../method/Gem=3a=3aVersion/i/version.html">Gem::Version#version</a> が等しいとき真を返します。そうでなければ偽を返します。
+</p>
+<p>
+例:
+</p>
+<pre>
+ver1 = Gem::Version.create('1.0')   # =&gt; #&lt;Gem::Version &quot;1.0&quot;&gt;
+ver2 = Gem::Version.create('1')     # =&gt; #&lt;Gem::Version &quot;1&quot;&gt;
+ver3 = Gem::Version.create('1.2.3') # =&gt; #&lt;Gem::Version &quot;1.2.3&quot;&gt;
+ver1.eql?(ver2)                     # =&gt; true
+ver1.eql?(ver3)                     # =&gt; false
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_MARSHAL_DUMP"><code>marshal_dump -&gt; Array</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/marshal_dump.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-i-marshal_dump">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+完全なオブジェクトではなく、バージョン文字列のみダンプします。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MARSHAL_LOAD"><code>marshal_load(array) -&gt; String</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/marshal_load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-i-marshal_load">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ダンプされた情報をロードします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] array:</dt>
+<dd>
+バージョン情報を含む配列を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_PRERELEASE--3F"><code>prerelease? -&gt; bool</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/prerelease=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-i-prerelease-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+self がプレリリースと思われる文字を含むバージョンかどうかを返します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'1.2.0a'</span><span class="p">)</span><span class="p">.</span><span class="nf">prerelease?</span> <span class="c1"># =&gt; true
+</span><span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'1.2.0'</span><span class="p">)</span><span class="p">.</span><span class="nf">prerelease?</span>  <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aVersion/i/release.html">Gem::Version#release</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_RELEASE"><code>release -&gt; Gem::Version</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/release.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-i-release">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+self をリリースバージョンにした <a href="../class/Gem=3a=3aVersion.html">Gem::Version</a> オブジェクトを返します。
+</p>
+<p>
+プレリリースではないバージョンであれば self を返します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'1.2.0a'</span><span class="p">)</span><span class="p">.</span><span class="nf">release</span> <span class="c1"># =&gt; #&lt;Gem::Version &quot;1.2.0&quot;&gt;
+</span><span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'1.2.0'</span><span class="p">)</span><span class="p">.</span><span class="nf">release</span>  <span class="c1"># =&gt; #&lt;Gem::Version &quot;1.2.0&quot;&gt;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aVersion/i/prerelease=3f.html">Gem::Version#prerelease?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_S"><code>version -&gt; String</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/to_s.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-i-to_s">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>to_s -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+バージョン情報を文字列として返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_VERSION--3D"><code>version=(version)</code><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/version=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Gem/Version.html#method-i-version-3D">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+self のバージョン情報を書き換えます。
+</p>
+<p class="todo">
+[TODO] Gem::Requirement に書く
+</p>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

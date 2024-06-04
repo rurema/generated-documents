@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/net=2fhttp.html">
+
+<title>library net/http (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="汎用データ転送プロトコル HTTP を扱うライブラリです。
+実装は [[RFC:2616]] に基きます。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/net=2fhttp.html","name":"net/httpライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        net/httpライブラリ
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>library net/http</h1>
+
+
+
+
+<h2>要約</h2>
+<p>
+汎用データ転送プロトコル HTTP を扱うライブラリです。実装は <a class="external" href="https://tools.ietf.org/html/rfc2616">[RFC2616]</a> に基きます。
+</p>
+<h2 >使用例</h2>
+<h3 >ウェブサーバからドキュメントを得る (GET)</h3>
+<p>
+例1: GET して 表示するだけ
+</p>
+<pre>
+require 'net/http'
+Net::HTTP.get_print 'www.example.com', '/index.html'
+</pre>
+<p>
+例2: <a href="../class/URI.html">URI</a> を使う
+</p>
+<pre>
+require 'net/http'
+require 'uri'
+Net::HTTP.get_print URI.parse('http://www.example.com/index.html')
+</pre>
+<p>
+例3: より汎用的な例
+</p>
+<pre>
+require 'net/http'
+require 'uri'
+
+url = URI.parse('http://www.example.com/index.html')
+res = Net::HTTP.start(url.host, url.port) {|http|
+  http.get('/index.html')
+}
+puts res.body
+</pre>
+<p>
+例4: 上の例よりさらに汎用的な例
+</p>
+<pre>
+require 'net/http'
+
+url = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(url.path)
+res = Net::HTTP.start(url.host, url.port) {|http|
+  http.request(req)
+}
+puts res.body
+</pre>
+<h3 >フォームの情報を送信する (POST)</h3>
+<pre>
+require 'net/http'
+require 'uri'
+
+#例1: POSTするだけ
+res = Net::HTTP.post_form(URI.parse('http://www.example.com/search'),
+                          {'q'=&gt;'ruby', 'max'=&gt;'50'})
+puts res.body
+
+#例2: 認証付きで POST する
+res = Net::HTTP.post_form(URI.parse('http://jack:pass@www.example.com/todo.cgi'),
+                          {'from'=&gt;'2005-01-01', 'to'=&gt;'2005-03-31'})
+puts res.body
+
+#例3: より細かく制御する
+url = URI.parse('http://www.example.com/todo.cgi')
+req = Net::HTTP::Post.new(url.path)
+req.basic_auth 'jack', 'pass'
+req.set_form_data({'from'=&gt;'2005-01-01', 'to'=&gt;'2005-03-31'}, ';')
+res = Net::HTTP.new(url.host, url.port).start {|http| http.request(req) }
+case res
+when Net::HTTPSuccess, Net::HTTPRedirection
+  # OK
+else
+  res.value
+end
+</pre>
+<h3 >プロクシ経由のアクセス</h3>
+<p>
+Net::HTTP は http_proxy 環境変数が存在するならば自動的にその URI を利用してプロクシを利用します。http_proxyを利用したくないならば
+<a href="../method/Net=3a=3aHTTP/s/new.html">Net::HTTP.new</a> や <a href="../method/Net=3a=3aHTTP/s/start.html">Net::HTTP.start</a> の proxy_addr 引数に
+nil を渡してください。
+</p>
+<p>
+<a href="../method/Net=3a=3aHTTP/s/new.html">Net::HTTP.new</a> や <a href="../method/Net=3a=3aHTTP/s/start.html">Net::HTTP.start</a> の proxy_addr や proxy_port
+を指定することでプログラムからプロクシを指定することもできます。
+</p>
+<pre>
+require 'net/http'
+
+proxy_addr = 'your.proxy.host'
+proxy_port = 8080
+
+Net::HTTP.new('example.com', nil, proxy_addr, proxy_port).start { |http|
+  # always proxy via your.proxy.addr:8080
+}
+</pre>
+<p>
+プロクシの認証をユーザ名とパスワードですることもできます。詳しくは <a href="../method/Net=3a=3aHTTP/s/new.html">Net::HTTP.new</a> を参照してください。
+</p>
+<h3 >リダイレクトに対応する</h3>
+<p>
+以下の例の fetch はリダイレクトに対応しています。
+limit 回数以上リダイレクトしたらエラーにします。
+</p>
+<pre>
+require 'net/http'
+require 'uri'
+
+def fetch(uri_str, limit = 10)
+  # You should choose better exception.
+  raise ArgumentError, 'HTTP redirect too deep' if limit == 0
+
+  response = Net::HTTP.get_response(URI.parse(uri_str))
+  case response
+  when Net::HTTPSuccess
+    response
+  when Net::HTTPRedirection
+    fetch(response['location'], limit - 1)
+  else
+    response.value
+  end
+end
+
+print fetch('http://www.example.org')
+</pre>
+<p>
+より詳しくは <a href="../class/Net=3a=3aHTTPResponse.html">Net::HTTPResponse</a>、 <a href="../class/Net=3a=3aHTTPSuccess.html">Net::HTTPSuccess</a>、
+<a href="../class/Net=3a=3aHTTPRedirection.html">Net::HTTPRedirection</a> を参照してください。
+</p>
+<h3 >Basic 認証</h3>
+<pre>
+require 'net/http'
+
+Net::HTTP.start('www.example.com') {|http|
+  req = Net::HTTP::Get.new('/secret-page.html')
+  req.basic_auth 'account', 'password'
+  response = http.request(req)
+  print response.body
+}
+</pre>
+<h2 >フォームの値の区切り文字について</h2>
+<p>
+POSTで application/x-www-form-urlencoded として複数のフォームの値を送る場合、現在広く行なわれているのは、 name0=value0&amp;name1=value1 のようにアンパサンド
+(`&amp;') で区切るやりかたです。この方法は、<a class="external" href="https://tools.ietf.org/html/rfc1866">[RFC1866]</a> Hypertext Markup Language - 2.0 で初めて公式に登場し、
+HTML 4.01 Specification の 17.13.4 Form content types
+でもそのように書かれています。
+</p>
+<p>
+ところが、同じ HTML 4.01 Specification の
+B.2.2 Ampersands in URI attribute values では、この `&amp;' がSGMLの文字実体参照で用いられることが指摘されており、
+CGIやサーバの実装者に対し `&amp;' の代わりにセミコロン `;' をサポートすることを奨めています。
+</p>
+<p>
+しかし、実際には `;' を解釈しないCGIやサーバもまだまだ見受けられるためこのリファレンスマニュアルでは例として `&amp;' を用いました。
+</p>
+<p>
+なお Ruby 標準の <a href="../library/cgi.html">cgi</a> ライブラリでは '&amp;' と ';' の両方サポートしていますので、
+<a href="../library/cgi.html">cgi</a> ライブラリを使って CGI スクリプトを書く場合はこれらの違いを気にする必要はありません。
+</p>
+
+
+<h2>クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/HTTPSession.html">HTTPSession</a>
+</td>
+<td class="description"><p>
+Alias of <a href="../class/Net=3a=3aHTTP.html">Net::HTTP</a>
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTP.html">Net::HTTP</a>
+</td>
+<td class="description"><p>
+HTTP のクライアントのためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTPGenericRequest.html">Net::HTTPGenericRequest</a>
+</td>
+<td class="description"><p>
+<a href="../class/Net=3a=3aHTTPRequest.html">Net::HTTPRequest</a> のスーパークラスです。このクラスは直接は使わないでください。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPRequest.html">Net::HTTPRequest</a>
+</td>
+<td class="description"><p>
+HTTP リクエストを抽象化するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aCopy.html">Net::HTTP::Copy</a>
+</td>
+<td class="description"><p>
+HTTP の COPY リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aDelete.html">Net::HTTP::Delete</a>
+</td>
+<td class="description"><p>
+HTTP の DELETE リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aGet.html">Net::HTTP::Get</a>
+</td>
+<td class="description"><p>
+HTTP の GET リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aHead.html">Net::HTTP::Head</a>
+</td>
+<td class="description"><p>
+HTTP の HEAD リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aLock.html">Net::HTTP::Lock</a>
+</td>
+<td class="description"><p>
+HTTP の LOCK リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aMkcol.html">Net::HTTP::Mkcol</a>
+</td>
+<td class="description"><p>
+HTTP の MKCOL リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aMove.html">Net::HTTP::Move</a>
+</td>
+<td class="description"><p>
+HTTP の MOVE リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aOptions.html">Net::HTTP::Options</a>
+</td>
+<td class="description"><p>
+HTTP の OPTIONS リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aPatch.html">Net::HTTP::Patch</a>
+</td>
+<td class="description"><p>
+HTTP の PATCH リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aPost.html">Net::HTTP::Post</a>
+</td>
+<td class="description"><p>
+HTTP の POST リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aPropfind.html">Net::HTTP::Propfind</a>
+</td>
+<td class="description"><p>
+HTTP の PROPFIND リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aProppatch.html">Net::HTTP::Proppatch</a>
+</td>
+<td class="description"><p>
+HTTP の PROPPATCH リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aPut.html">Net::HTTP::Put</a>
+</td>
+<td class="description"><p>
+HTTP の PUT リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aTrace.html">Net::HTTP::Trace</a>
+</td>
+<td class="description"><p>
+HTTP の TRACE リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTP=3a=3aUnlock.html">Net::HTTP::Unlock</a>
+</td>
+<td class="description"><p>
+HTTP の UNLOCK リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTPResponse.html">Net::HTTPResponse</a>
+</td>
+<td class="description"><p>
+HTTP レスポンスを表現するクラスです。
+Net::HTTP クラスは実際には HTTPResponse のサブクラスを返します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPClientError.html">Net::HTTPClientError</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 4xx (Client Error) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPBadRequest.html">Net::HTTPBadRequest</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 400 (Bad Request) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPConflict.html">Net::HTTPConflict</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 409 (Conflict) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPExpectationFailed.html">Net::HTTPExpectationFailed</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 417 (Expectation Failed) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPFailedDependency.html">Net::HTTPFailedDependency</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 424 (Failed Dependency) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPForbidden.html">Net::HTTPForbidden</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 403 (Forbidden) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPGone.html">Net::HTTPGone</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 410 (Gone) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPLengthRequired.html">Net::HTTPLengthRequired</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 411 (Length Required) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPLocked.html">Net::HTTPLocked</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 423 (Locked) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPMethodNotAllowed.html">Net::HTTPMethodNotAllowed</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 405  (Method Not Allowed) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPNotAcceptable.html">Net::HTTPNotAcceptable</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 406 (Not Acceptable) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPNotFound.html">Net::HTTPNotFound</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 404 (Not Found) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPPaymentRequired.html">Net::HTTPPaymentRequired</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 402 (Payment Required) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPPreconditionFailed.html">Net::HTTPPreconditionFailed</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 412 (Precondition Failed) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPPreconditionRequired.html">Net::HTTPPreconditionRequired</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 428 (Precondition Required) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPProxyAuthenticationRequired.html">Net::HTTPProxyAuthenticationRequired</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 407 (Proxy Authentication Required) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPRequestEntityTooLarge.html">Net::HTTPRequestEntityTooLarge</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 413 (Payload Too Large) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPRequestHeaderFieldsTooLarge.html">Net::HTTPRequestHeaderFieldsTooLarge</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 431 (Request Header Fields Too Large) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPRequestTimeOut.html">Net::HTTPRequestTimeOut</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 408 (Request Timeout) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPRequestURITooLarge.html">Net::HTTPRequestURITooLarge</a>
+</td>
+<td class="description"><p>
+Alias of <a href="../class/Net=3a=3aHTTPRequestURITooLong.html">Net::HTTPRequestURITooLong</a>
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPRequestURITooLong.html">Net::HTTPRequestURITooLong</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 414 (URI Too Large) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPRequestedRangeNotSatisfiable.html">Net::HTTPRequestedRangeNotSatisfiable</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 416 (Range Not Satisfiable) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPTooManyRequests.html">Net::HTTPTooManyRequests</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 429 (Too Many Requests) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPUnauthorized.html">Net::HTTPUnauthorized</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 401 (Unauthorized) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPUnavailableForLegalReasons.html">Net::HTTPUnavailableForLegalReasons</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 451 (Unavailable For Legal Reasons) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPUnprocessableEntity.html">Net::HTTPUnprocessableEntity</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 422 (Unprocessable Entity) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPUnsupportedMediaType.html">Net::HTTPUnsupportedMediaType</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 415 (Unsupported Media Type) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPUpgradeRequired.html">Net::HTTPUpgradeRequired</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 426 (Upgrade Required) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPInformation.html">Net::HTTPInformation</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 1xx (Informational) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPContinue.html">Net::HTTPContinue</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 100 (Continue) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPSwitchProtocol.html">Net::HTTPSwitchProtocol</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 101 (Switching Protocols) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPRedirection.html">Net::HTTPRedirection</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 3xx (Redirection) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPFound.html">Net::HTTPFound</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 302 (Found) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPMovedPermanently.html">Net::HTTPMovedPermanently</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 301 (Moved Permanently) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPMovedTemporarily.html">Net::HTTPMovedTemporarily</a>
+</td>
+<td class="description"><p>
+Alias of <a href="../class/Net=3a=3aHTTPFound.html">Net::HTTPFound</a>
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPMultipleChoice.html">Net::HTTPMultipleChoice</a>
+</td>
+<td class="description"><p>
+Alias of <a href="../class/Net=3a=3aHTTPMultipleChoices.html">Net::HTTPMultipleChoices</a>
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPMultipleChoices.html">Net::HTTPMultipleChoices</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 300 (Multiple Choices) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPNotModified.html">Net::HTTPNotModified</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 304 (Not Modified) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPPermanentRedirect.html">Net::HTTPPermanentRedirect</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 308 (Permanent Redirect) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPSeeOther.html">Net::HTTPSeeOther</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 303 (See Other) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPTemporaryRedirect.html">Net::HTTPTemporaryRedirect</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 307 (Temporary Redirect) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPUseProxy.html">Net::HTTPUseProxy</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 305 (Use Proxy) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPServerError.html">Net::HTTPServerError</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 5xx (Server Error) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPBadGateway.html">Net::HTTPBadGateway</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 502 (Bad Gateway) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPGatewayTimeOut.html">Net::HTTPGatewayTimeOut</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 504 (Gateway Timeout) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPInsufficientStorage.html">Net::HTTPInsufficientStorage</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 507 (Insufficient Storage) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPInternalServerError.html">Net::HTTPInternalServerError</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 500 (Internal Server Error) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPNetworkAuthenticationRequired.html">Net::HTTPNetworkAuthenticationRequired</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 511 (Network Authentication Required) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPNotImplemented.html">Net::HTTPNotImplemented</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 501 (Not Implemented) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPServiceUnavailable.html">Net::HTTPServiceUnavailable</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 503 (Service Unavailable) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPVersionNotSupported.html">Net::HTTPVersionNotSupported</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 505 (HTTP Version not supported) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPSuccess.html">Net::HTTPSuccess</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 2xx (Success) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPAccepted.html">Net::HTTPAccepted</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 202 (Accepted) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPCreated.html">Net::HTTPCreated</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 201 (Created) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPIMUsed.html">Net::HTTPIMUsed</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 226 (IM Used) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPMultiStatus.html">Net::HTTPMultiStatus</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 207 (Multi-Status) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPNoContent.html">Net::HTTPNoContent</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 204 (No Content) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPNonAuthoritativeInformation.html">Net::HTTPNonAuthoritativeInformation</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 203 (Non-Authoritative Information) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPOK.html">Net::HTTPOK</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 200 (OK) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPPartialContent.html">Net::HTTPPartialContent</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 206 (Partial Content) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPResetContent.html">Net::HTTPResetContent</a>
+</td>
+<td class="description"><p>
+HTTP レスポンス 205 (Reset Content) を表現するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aHTTPUnknownResponse.html">Net::HTTPUnknownResponse</a>
+</td>
+<td class="description"><p>
+このライブラリが知らないレスポンスを表現するクラスです。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>モジュール</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTPExceptions.html">Net::HTTPExceptions</a>
+</td>
+<td class="description"><p>
+HTTP 例外クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTPHeader.html">Net::HTTPHeader</a>
+</td>
+<td class="description"><p>
+HTTP ヘッダのためのモジュールです。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>例外クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTPBadResponse.html">Net::HTTPBadResponse</a>
+</td>
+<td class="description"><p>
+HTTP のレスポンスが不正であった場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTPHeaderSyntaxError.html">Net::HTTPHeaderSyntaxError</a>
+</td>
+<td class="description"><p>
+HTTP ヘッダの内容が不正である場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTPError.html">Net::HTTPError</a>
+</td>
+<td class="description"><p>
+HTTP ステータスコード 1xx を受け取ったという例外です。または、ステータスコードが未知のものである場合もこれに対応します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTPFatalError.html">Net::HTTPFatalError</a>
+</td>
+<td class="description"><p>
+HTTP ステータスコード 5xx を受け取ったという例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTPRetriableError.html">Net::HTTPRetriableError</a>
+</td>
+<td class="description"><p>
+HTTP ステータスコード 3xx を受け取ったという例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aHTTPServerException.html">Net::HTTPServerException</a>
+</td>
+<td class="description"><p>
+HTTP ステータスコード 4xx を受け取ったという例外です。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Kernel/m/Rational.html">
+
+<title>Kernel.#Rational (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="引数を有理数([[c:Rational]])に変換した結果を返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Kernel.html","name":"Kernelモジュール","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Kernel/m/Rational.html","name":"Rational","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Kernel.html">Kernelモジュール</a>
+      </li>
+      <li>
+        Rational 
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>module function Kernel.#Rational</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="M_-RATIONAL"><code>Rational(x, y = 1) -&gt; Rational</code><span class="permalink">[<a href="../../../method/Kernel/m/Rational.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Kernel.html#method-c-Rational">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数を有理数(<a href="../../../class/Rational.html">Rational</a>)に変換した結果を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] x:</dt>
+<dd>
+変換対象のオブジェクトです。
+</dd>
+<dt class='method-param'>[PARAM] y:</dt>
+<dd>
+変換対象のオブジェクトです。省略した場合は x だけを用いて
+<a href="../../../class/Rational.html">Rational</a> オブジェクトを作成します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+変換できないオブジェクトを指定した場合に発生します。
+</dd>
+</dl>
+<p>
+引数 x、y の両方を指定した場合、x/y した <a href="../../../class/Rational.html">Rational</a> オブジェクトを返します。
+</p>
+<pre>
+Rational(&quot;1/3&quot;)           # =&gt; (1/3)
+Rational(1, 3)            # =&gt; (1/3)
+Rational(&quot;0.1&quot;, &quot;0.3&quot;)    # =&gt; (1/3)
+Rational(Complex(1,2), 2) # =&gt; ((1/2)+(1/1)*i)
+</pre>
+<p>
+ただし、1.8系とは異なり、<a href="../../../class/Rational.html">Rational</a> オブジェクトは常に既約(それ以上約分できない状態)である事に注意してください。
+</p>
+<pre>
+Rational(2, 6)         # =&gt; (1/3)
+Rational(1, 3) * 3     # =&gt; (1/1)
+</pre>
+<p>
+引数に文字列を指定する場合、以下のいずれかの形式で指定します。
+</p>
+<ul>
+<li>&quot;1/3&quot; のような分数の形式</li>
+<li>&quot;0.3&quot; のような10進数の形式</li>
+<li>&quot;0.3E0&quot; のような x.xEn の形式</li>
+<li>数字をアンダースコアで繋いだ形式</li>
+</ul>
+<p>
+&quot;1.2/3&quot; のように、分子を実数にする事も可能ですが、分母には指定できません。また、<a href="../../../method/Kernel/m/Integer.html">Kernel.#Integer</a> とは違い &quot;0x10&quot; のような進数を表す接頭辞を含めた指定は行えません。
+</p>
+<p>
+例:
+</p>
+<pre>
+Rational(&quot;1/3&quot;)        # =&gt; (1/3)
+Rational(&quot;0.3&quot;)        # =&gt; (3/10)
+Rational('0.3E0')      # =&gt; (3/10)
+Rational('0.1E1/3')    # =&gt; (1/3)
+Rational('1.2/3')      # =&gt; (2/5)
+Rational('1/3.1')      # =&gt; ArgumentError
+Rational('3.0', '3.0') # =&gt; (1/1)
+Rational('3/3', '3/3') # =&gt; (1/1)
+Rational('1_234_567')  # =&gt; (1234567/1)
+Rational(&quot; \n10\t &quot;)   # =&gt; (10/1) # 空白類は無視される
+Rational(&quot;0x10&quot;)       # =&gt; ArgumentError
+</pre>
+<p>
+引数に変換できないオブジェクトを指定した場合には <a href="../../../class/ArgumentError.html">ArgumentError</a> が発生します。
+</p>
+<pre>
+Rational(Object.new)   # =&gt; ArgumentError
+Rational(&quot;&quot;)           # =&gt; ArgumentError
+Rational(nil)          # =&gt; ArgumentError
+</pre>
+<p>
+また、Rational('0.3') と Rational(0.3) は異なるオブジェクトを返す事に注意してください。前者は正確に 3/10 ですが、後者はそうではありません。
+</p>
+<pre>
+Rational('0.3')        # =&gt; (3/10)
+Rational(0.3)          # =&gt; (5404319552844595/18014398509481984)
+</pre>
+<p>
+[SEE_ALSO] <a href="../../../class/Rational.html">Rational</a>
+</p>
+</dd>
+
+
+</dl>
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

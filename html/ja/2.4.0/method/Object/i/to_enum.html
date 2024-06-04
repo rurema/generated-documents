@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Object/i/enum_for.html">
+
+<title>Object#enum_for (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="[[m:Enumerator.new]](self, method, *args) を返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Object.html","name":"Objectクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Object/i/enum_for.html","name":"enum_for","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Object.html">Objectクラス</a>
+      </li>
+      <li>
+        enum_for 
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>instance method Object#enum_for</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_ENUM_FOR"><code>to_enum(method = :each, *args) -&gt; Enumerator</code><span class="permalink">[<a href="../../../method/Object/i/enum_for.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Object.html#method-i-enum_for">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>enum_for(method = :each, *args) -&gt; Enumerator</code></dt>
+<dt class="method-heading"><code>to_enum(method = :each, *args) {|*args| ... } -&gt; Enumerator</code></dt>
+<dt class="method-heading"><code>enum_for(method = :each, *args) {|*args| ... } -&gt; Enumerator</code></dt>
+<dd class="method-description">
+<p>
+<a href="../../../method/Enumerator/s/new.html">Enumerator.new</a>(self, method, *args) を返します。
+</p>
+<p>
+ブロックを指定した場合は <a href="../../../method/Enumerator/i/size.html">Enumerator#size</a> がブロックの評価結果を返します。ブロックパラメータは引数 args です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] method:</dt>
+<dd>
+メソッド名の文字列かシンボルです。
+</dd>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+呼び出すメソッドに渡される引数です。
+</dd>
+</dl>
+<pre>
+str = &quot;xyz&quot;
+
+enum = str.enum_for(:each_byte)
+p(a = enum.map{|b| '%02x' % b }) #=&gt; [&quot;78&quot;, &quot;79&quot;, &quot;7a&quot;]
+
+# protects an array from being modified
+a = [1, 2, 3]
+p(a.to_enum) #=&gt; #&lt;Enumerator: [1, 2, 3]:each&gt;
+</pre>
+<p>
+例(ブロックを指定する場合):
+</p>
+<pre>
+module Enumerable
+  def repeat(n)
+    raise ArgumentError, &quot;#{n} is negative!&quot; if n &lt; 0
+    unless block_given?
+      # __method__ はここでは :repeat
+      return to_enum(__method__, n) do
+        # size メソッドが nil でなければ size * n を返す。
+        sz = size
+        sz * n if sz
+      end
+    end
+    each do |*val|
+      n.times { yield *val }
+    end
+  end
+end
+
+%i[hello world].repeat(2) { |w| puts w }
+# =&gt; 'hello', 'hello', 'world', 'world'
+enum = (1..14).repeat(3)
+# =&gt; #&lt;Enumerator: 1..14:repeat(3)&gt;
+enum.first(4) # =&gt; [1, 1, 1, 2]
+enum.size # =&gt; 42
+</pre>
+<p>
+[SEE_ALSO] <a href="../../../class/Enumerator.html">Enumerator</a>, <a href="../../../method/Enumerator/i/size.html">Enumerator#size</a>
+</p>
+</dd>
+
+
+</dl>
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

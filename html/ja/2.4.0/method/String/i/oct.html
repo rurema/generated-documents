@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/String/i/oct.html">
+
+<title>String#oct (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="文字列を 8 進文字列であると解釈して、整数に変換します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/String.html","name":"Stringクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/String/i/oct.html","name":"oct","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/String.html">Stringクラス</a>
+      </li>
+      <li>
+        oct 
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>instance method String#oct</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_OCT"><code>oct -&gt; Integer</code><span class="permalink">[<a href="../../../method/String/i/oct.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/String.html#method-i-oct">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+文字列を 8 進文字列であると解釈して、整数に変換します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">10</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span>  <span class="c1"># =&gt; 8
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">010</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span> <span class="c1"># =&gt; 8
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">8</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span>   <span class="c1"># =&gt; 0
+</span></code></pre>
+<p>
+oct は文字列の接頭辞 (&quot;0&quot;, &quot;0b&quot;, &quot;0B&quot;, &quot;0x&quot;, &quot;0X&quot;) に応じて
+8 進以外の変換も行います。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">0b10</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span>  <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">10</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span>    <span class="c1"># =&gt; 8
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">010</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span>   <span class="c1"># =&gt; 8
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">0x10</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span>  <span class="c1"># =&gt; 16
+</span></code></pre>
+<p>
+整数とみなせない文字があればそこまでを変換対象とします。変換対象が空文字列であれば 0 を返します。
+</p>
+<p>
+符号や _ が含まれる場合も変換対象になります。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">-010</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span>     <span class="c1"># =&gt; -8
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">-0x10</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span>    <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">-0b10</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span>    <span class="c1"># =&gt; 0
+</span>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">1_0_1x</span><span class="s2">"</span><span class="p">.</span><span class="nf">oct</span>   <span class="c1"># =&gt; 65
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/String/i/hex.html">String#hex</a>, <a href="../../../method/String/i/to_i.html">String#to_i</a>, <a href="../../../method/String/i/to_f.html">String#to_f</a>,
+<a href="../../../method/Kernel/m/Integer.html">Kernel.#Integer</a>, <a href="../../../method/Kernel/m/Float.html">Kernel.#Float</a>
+</p>
+<p>
+逆に、数値を文字列に変換するには<a href="../../../method/Kernel/m/sprintf.html">Kernel.#sprintf</a>,
+<a href="../../../method/String/i/=25.html">String#%</a>, <a href="../../../method/Integer/i/to_s.html">Integer#to_s</a> を使用します。
+</p>
+</dd>
+
+
+</dl>
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

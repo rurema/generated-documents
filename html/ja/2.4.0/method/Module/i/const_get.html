@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Module/i/const_get.html">
+
+<title>Module#const_get (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="name で指定される名前の定数の値を取り出します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Module.html","name":"Moduleクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Module/i/const_get.html","name":"const_get","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Module.html">Moduleクラス</a>
+      </li>
+      <li>
+        const_get 
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>instance method Module#const_get</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_CONST_GET"><code>const_get(name, inherit = true) -&gt; object</code><span class="permalink">[<a href="../../../method/Module/i/const_get.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Module.html#method-i-const_get">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+name で指定される名前の定数の値を取り出します。
+</p>
+<p>
+<a href="../../../method/Module/i/const_defined=3f.html">Module#const_defined?</a> と違って <a href="../../../class/Object.html">Object</a> を特別扱いすることはありません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] name:</dt>
+<dd>
+定数名。<a href="../../../class/String.html">String</a> か <a href="../../../class/Symbol.html">Symbol</a> で指定します。完全修飾名を指定しなかった場合はモジュールに定義されている
+name で指定される名前の定数の値を取り出します。
+</dd>
+<dt class='method-param'>[PARAM] inherit:</dt>
+<dd>
+false を指定するとスーパークラスや include したモジュールで定義された定数は対象にはなりません。
+</dd>
+<dt>[EXCEPTION] NameError:</dt>
+<dd>
+定数が定義されていないときに発生します。
+</dd>
+</dl>
+<pre>
+module Bar
+  BAR = 1
+end
+class Object
+  include Bar
+end
+# Object では include されたモジュールに定義された定数を見付ける
+p Object.const_get(:BAR)   # =&gt; 1
+
+class Baz
+  include Bar
+end
+# Object以外でも同様
+p Baz.const_get(:BAR)      # =&gt; 1
+# 定義されていない定数
+p Baz.const_get(:NOT_DEFINED) #=&gt; raise NameError
+# 第二引数に false を指定すると自分自身に定義された定数から探す
+p Baz.const_get(:BAR, false) #=&gt; raise NameError
+# 完全修飾名を指定すると include や自分自身へ定義されていない場合でも参照できる
+p Class.const_get(&quot;Bar::BAR&quot;) # =&gt; 1
+</pre>
+</dd>
+
+
+</dl>
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

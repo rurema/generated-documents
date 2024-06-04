@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/prettyprint.html">
+
+<title>library prettyprint (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="pretty printing アルゴリズムのためのライブラリです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/prettyprint.html","name":"prettyprintライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        prettyprintライブラリ
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>library prettyprint</h1>
+
+
+
+
+<h2>要約</h2>
+<p>
+pretty printing アルゴリズムのためのライブラリです。
+</p>
+<h2 >使い方</h2>
+<p>
+pretty printing アルゴリズムは読みやすいインデントと改行を決定するためのアルゴリズムです。インデントと改行はユーザによって与えられたツリー構造から決定されます。つまりユーザは以下のように表示したい内容を保持したツリーを作成する必要があります。
+</p>
+<ul>
+<li><a href="../method/PrettyPrint/s/new.html">PrettyPrint.new</a> でバッファを生成します。このとき、バッファの幅と改行文字を指定します。</li>
+<li><a href="../method/PrettyPrint/i/text.html">PrettyPrint#text</a> を使って、文字列を適宜 挿入します。</li>
+<li><a href="../method/PrettyPrint/i/group.html">PrettyPrint#group</a> を使って子ノードをつくります。同時に子ノードのインデントの深さも決めます。</li>
+<li><a href="../method/PrettyPrint/i/breakable.html">PrettyPrint#breakable</a> を使って改行しても良い場所を指定します。</li>
+</ul>
+<p>
+同じノード内で呼ばれた breakable は、改行するならば全て同時に改行します。
+</p>
+<pre>
+require 'prettyprint'
+
+p2 = PrettyPrint.new('', 10)
+s = 'hello'
+p2.text(s)
+p2.group(p2.indent + s.size + 1) do
+  p2.breakable
+  p2.text('a')
+  p2.breakable
+  p2.text('b')
+  p2.breakable
+  p2.text('c')
+end
+p2.flush
+puts p2.output
+#=&gt;
+hello
+      a
+      b
+      c
+</pre>
+<h2 >References</h2>
+<p>
+Christian Lindig, Strictly Pretty, March 2000,
+<a class="external" href="http://www.st.cs.uni-sb.de/~lindig/papers/pretty/strictly-pretty.html">http://www.st.cs.uni-sb.de/~lindig/papers/pretty/strictly-pretty.html</a>
+</p>
+<p>
+Philip Wadler, A prettier printer, March 1998,
+<a class="external" href="http://homepages.inf.ed.ac.uk/wadler/topics/language-design.html#prettier">http://homepages.inf.ed.ac.uk/wadler/topics/language-design.html#prettier</a>
+</p>
+
+
+<h2>クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/PrettyPrint.html">PrettyPrint</a>
+</td>
+<td class="description"><p>
+pretty printing アルゴリズムのためのクラスです。改行の位置を探し、きれいなインデントを施します。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

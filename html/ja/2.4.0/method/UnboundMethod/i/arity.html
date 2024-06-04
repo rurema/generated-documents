@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/UnboundMethod/i/arity.html">
+
+<title>UnboundMethod#arity (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="メソッドが受け付ける引数の数を返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/UnboundMethod.html","name":"UnboundMethodクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/UnboundMethod/i/arity.html","name":"arity","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/UnboundMethod.html">UnboundMethodクラス</a>
+      </li>
+      <li>
+        arity 
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>instance method UnboundMethod#arity</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_ARITY"><code>arity -&gt; Integer</code><span class="permalink">[<a href="../../../method/UnboundMethod/i/arity.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/UnboundMethod.html#method-i-arity">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+メソッドが受け付ける引数の数を返します。
+</p>
+<p>
+ただし、メソッドが可変長引数を受け付ける場合、負の整数
+</p>
+<pre>
+-(必要とされる引数の数 + 1)
+</pre>
+<p>
+を返します。C 言語レベルで実装されたメソッドが可変長引数を受け付ける場合、-1 を返します。
+</p>
+<pre>
+class C
+  def one;    end
+  def two(a); end
+  def three(*a);  end
+  def four(a, b); end
+  def five(a, b, *c);    end
+  def six(a, b, *c, &amp;d); end
+end
+
+p C.instance_method(:one).arity     #=&gt; 0
+p C.instance_method(:two).arity     #=&gt; 1
+p C.instance_method(:three).arity   #=&gt; -1
+p C.instance_method(:four).arity    #=&gt; 2
+p C.instance_method(:five).arity    #=&gt; -3
+p C.instance_method(:six).arity     #=&gt; -3
+
+
+String.instance_method(:size).arity      #=&gt; 0
+String.instance_method(:replace).arity   #=&gt; 1
+String.instance_method(:squeeze).arity   #=&gt; -1
+String.instance_method(:count).arity     #=&gt; -1
+</pre>
+</dd>
+
+
+</dl>
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

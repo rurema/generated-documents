@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Kernel/m/caller.html">
+
+<title>Kernel.#caller (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="start 段上の呼び出し元の情報を [[m:$@]]
+の形式のバックトレース(文字列の配列)として返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Kernel.html","name":"Kernelモジュール","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Kernel/m/caller.html","name":"caller","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Kernel.html">Kernelモジュール</a>
+      </li>
+      <li>
+        caller 
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>module function Kernel.#caller</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="M_CALLER"><code>caller(start = 1) -&gt; [String] | nil</code><span class="permalink">[<a href="../../../method/Kernel/m/caller.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Kernel.html#method-c-caller">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>caller(start, length) -&gt; [String] | nil</code></dt>
+<dt class="method-heading"><code>caller(range) -&gt; [String] | nil</code></dt>
+<dd class="method-description">
+<p>
+start 段上の呼び出し元の情報を <a href="../../../method/Kernel/v/=40.html">$@</a>
+の形式のバックトレース(文字列の配列)として返します。
+</p>
+<p>
+トップレベルでは空の配列を返します。caller の戻り値を <a href="../../../method/Kernel/v/=40.html">$@</a> に代入することで例外の発生位置を設定できます。
+</p>
+<p>
+引数で指定した値が範囲外の場合は nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] start:</dt>
+<dd>
+long の範囲を超えない正の整数でスタックレベルを指定します。
+</dd>
+<dt class='method-param'>[PARAM] length:</dt>
+<dd>
+取得するスタックの個数を指定します。
+</dd>
+<dt class='method-param'>[PARAM] range:</dt>
+<dd>
+取得したいスタックの範囲を示す <a href="../../../class/Range.html">Range</a> オブジェクトを指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../../../method/Kernel/m/set_trace_func.html">Kernel.#set_trace_func</a>,<a href="../../../method/Kernel/m/raise.html">Kernel.#raise</a>,
+<a href="../../../method/Kernel/m/caller_locations.html">Kernel.#caller_locations</a>
+</p>
+<pre>
+def foo
+  p caller(0)
+  p caller(1)
+  p caller(2)
+  p caller(3)
+  p caller(4)
+end
+
+def bar
+  foo
+end
+
+bar
+
+#=&gt; [&quot;-:2:in `foo'&quot;, &quot;-:10:in `bar'&quot;, &quot;-:13:in `&lt;main&gt;'&quot;]
+#   [&quot;-:10:in `bar'&quot;, &quot;-:13:in `&lt;main&gt;'&quot;]
+#   [&quot;-:13:in `&lt;main&gt;'&quot;]
+#   []
+#   nil
+</pre>
+<p>
+以下の関数は、caller の要素から [ファイル名, 行番号, メソッド名]
+を取り出して返します。
+</p>
+<pre>
+def parse_caller(at)
+  if /^(.+?):(\d+)(?::in `(.*)')?/ =~ at
+    file = $1
+    line = $2.to_i
+    method = $3
+    [file, line, method]
+  end
+end
+
+def foo
+  p parse_caller(caller.first)
+end
+
+def bar
+  foo
+  p parse_caller(caller.first)
+end
+
+bar
+p parse_caller(caller.first)
+
+#=&gt; [&quot;-&quot;, 15, &quot;bar&quot;]
+#   [&quot;-&quot;, 19, nil]
+#   nil
+</pre>
+<p>
+以下は、<a href="../../../method/Kernel/v/DEBUG.html">$DEBUG</a> が真の場合に役に立つ debug 関数のサンプルです。
+</p>
+<pre>
+$DEBUG = true
+
+def debug(*args)
+  p [caller.first, *args] if $DEBUG
+end
+
+debug &quot;debug information&quot;
+
+#=&gt; [&quot;-:7&quot;, &quot;debug information&quot;]
+</pre>
+</dd>
+
+
+</dl>
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

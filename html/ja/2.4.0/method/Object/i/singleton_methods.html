@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Object/i/singleton_methods.html">
+
+<title>Object#singleton_methods (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="inherited_too が真のときは継承した特異メソッドを含みます。
+継承した特異メソッドとは [[m:Object#extend]] によって追加された特異メソッドや、
+self がクラスの場合はスーパークラスのクラスメソッド([[c:Class]]のインスタンスの特異メソッド)などです。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Object.html","name":"Objectクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Object/i/singleton_methods.html","name":"singleton_methods","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Object.html">Objectクラス</a>
+      </li>
+      <li>
+        singleton_methods 
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>instance method Object#singleton_methods</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_SINGLETON_METHODS"><code>singleton_methods(inherited_too = true) -&gt; [Symbol]</code><span class="permalink">[<a href="../../../method/Object/i/singleton_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Object.html#method-i-singleton_methods">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+そのオブジェクトに対して定義されている特異メソッド名
+(public あるいは protected メソッド) の一覧を返します。
+</p>
+<p>
+inherited_too が真のときは継承した特異メソッドを含みます。継承した特異メソッドとは <a href="../../../method/Object/i/extend.html">Object#extend</a> によって追加された特異メソッドや、
+self がクラスの場合はスーパークラスのクラスメソッド(<a href="../../../class/Class.html">Class</a>のインスタンスの特異メソッド)などです。
+</p>
+<p>
+singleton_methods(false) は、<a href="../../../method/Object/i/methods.html">Object#methods</a>(false) と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] inherited_too:</dt>
+<dd>
+継承した特異メソッドを含める場合は真を、そうでない場合は偽を指定します。
+</dd>
+</dl>
+<pre>
+#例1:
+
+Parent = Class.new
+
+class &lt;&lt;Parent
+  private;   def private_class_parent() end
+  protected; def protected_class_parent() end
+  public;    def public_class_parent() end
+end
+
+Foo = Class.new(Parent)
+
+class &lt;&lt;Foo
+  private;   def private_class_foo() end
+  protected; def protected_class_foo() end
+  public;    def public_class_foo() end
+end
+
+module Bar
+  private;   def private_bar()   end
+  protected; def protected_bar() end
+  public;    def public_bar()    end
+end
+
+obj = Foo.new
+class &lt;&lt;obj
+  include Bar
+  private;   def private_self()   end
+  protected; def protected_self() end
+  public;    def public_self()    end
+end
+
+# あるオブジェクトの特異メソッドの一覧を得る。
+p obj.singleton_methods(false)
+p obj.methods(false)
+p Foo.singleton_methods(false)
+
+#実行結果
+
+[:protected_self, :public_self]
+[:protected_self, :public_self]
+[:protected_class_foo, :public_class_foo]
+
+
+#例2:
+
+# あるオブジェクトの特異メソッドの一覧を得る。
+# 親クラスのクラスメソッドも含まれるよう true を指定したが、
+# Object のクラスメソッドは一覧から排除している。
+
+p obj.singleton_methods(true)
+p Foo.singleton_methods(true) - Object.singleton_methods(true)
+
+#実行結果
+
+[:protected_self, :public_self, :protected_bar, :public_bar]
+[:protected_class_foo, :public_class_foo, :protected_class_parent, :public_class_parent]
+</pre>
+<p>
+[SEE_ALSO] <a href="../../../method/Object/i/methods.html">Object#methods</a>,<a href="../../../method/Object/i/extend.html">Object#extend</a>
+</p>
+</dd>
+
+
+</dl>
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>

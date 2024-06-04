@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Numeric/i/step.html">
+
+<title>Numeric#step (Ruby 2.4.0 リファレンスマニュアル)</title>
+<meta name="description" content="self からはじめ step を足しながら limit を越える
+前までブロックを繰り返します。step は負の数も指定できます。また、limit や step には [[c:Float]] なども
+指定できます。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Numeric.html","name":"Numericクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Numeric/i/step.html","name":"step","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Numeric.html">Numericクラス</a>
+      </li>
+      <li>
+        step 
+      </li>
+    </ol>
+  </nav>
+</header>
+
+
+<h1>instance method Numeric#step</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_STEP"><code>step(limit, step = 1) {|n| ... } -&gt; self</code><span class="permalink">[<a href="../../../method/Numeric/i/step.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Numeric.html#method-i-step">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>step(limit, step = 1) -&gt; Enumerator</code></dt>
+<dt class="method-heading"><code>step(by: 1, to: Float::INFINITY) {|n| ... } -&gt; self</code></dt>
+<dt class="method-heading"><code>step(by: 1, to: Float::INFINITY) -&gt; Enumerator</code></dt>
+<dt class="method-heading"><code>step(by:, to: -Float::INFINITY) {|n| ... } -&gt; self</code></dt>
+<dt class="method-heading"><code>step(by:, to: -Float::INFINITY) -&gt; Enumerator</code></dt>
+<dd class="method-description">
+<p>
+self からはじめ step を足しながら limit を越える前までブロックを繰り返します。step は負の数も指定できます。また、limit や step には <a href="../../../class/Float.html">Float</a> なども指定できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] limit:</dt>
+<dd>
+ループの上限あるいは下限を数値で指定します。step に負の数が指定された場合は、下限として解釈されます。
+</dd>
+<dt class='method-param'>[PARAM] step:</dt>
+<dd>
+各ステップの大きさを数値で指定します。負の数を指定することもできます。
+</dd>
+<dt class='method-param'>[PARAM] to:</dt>
+<dd>
+引数limitと同じですが、省略した場合はキーワード引数byが正の数であれば <a href="../../../method/Float/c/INFINITY.html">Float::INFINITY</a>、負の数であれば
+-<a href="../../../method/Float/c/INFINITY.html">Float::INFINITY</a>を指定したとみなされます。
+</dd>
+<dt class='method-param'>[PARAM] by:</dt>
+<dd>
+引数 step と同じです。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+ブロックが指定された時は self を返します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+ブロックが指定されなかった時は <a href="../../../class/Enumerator.html">Enumerator</a> を返します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+step に 0 を指定した場合に発生します。
+</dd>
+</dl>
+<pre>
+2.step(5){|n| p n}
+2
+3
+4
+5
+
+1.1.step(1.5, 0.1) {|n| p n}
+1.1
+1.2
+1.3
+1.4
+1.5
+
+10.step(6, -1){|n| p n}
+10
+9
+8
+7
+6
+
+3.step(by:2, to:10){|n| p n}
+3
+5
+7
+9
+</pre>
+<p>
+注：浮動小数点数の 0.1 は 2進数では正確な表現ができない(2進数で
+0.1は 0.00011001100....となる)ので、以下のようなループでは誤差が生じて意図した回数ループしないことがある。step はこの誤差を考慮して実装されている。
+</p>
+<pre>
+i = 1.1
+while i &lt;= 1.5
+  p i
+  i += 0.1
+end
+=&gt; 1.1
+   1.2
+   1.3
+   1.4   &lt;- 1.5 が表示されない
+</pre>
+<p>
+[SEE_ALSO] <a href="../../../method/Integer/i/downto.html">Integer#downto</a>
+</p>
+</dd>
+
+
+</dl>
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script></div>
+</body>
+</html>
