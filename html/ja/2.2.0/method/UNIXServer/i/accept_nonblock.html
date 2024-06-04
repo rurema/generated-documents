@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/UNIXServer/i/accept_nonblock.html">
+  
+  <title>instance method UNIXServer#accept_nonblock (Ruby 2.2.0)</title>
+  <meta name="description" content="接続した
+[[c:UNIXSocket]] のインスタンスを返します。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.2.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/socket.html">socketライブラリ</a>
+&gt; <a href="../../../class/UNIXServer.html">UNIXServerクラス</a>
+&gt; accept_nonblock
+
+</p>
+
+
+<h1>instance method UNIXServer#accept_nonblock</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_ACCEPT_NONBLOCK"><code>accept_nonblock -&gt; UnixSocket</code><span class="permalink">[<a href="../../../method/UNIXServer/i/accept_nonblock.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.2.0/UNIXServer.html#method-i-accept_nonblock">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ソケットをノンブロッキングモードに設定した後、
+<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/accept.html">accept(2)</a> を呼び出します。
+</p>
+<p>
+接続した
+<a href="../../../class/UNIXSocket.html">UNIXSocket</a> のインスタンスを返します。
+</p>
+<p>
+<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/accept.html">accept(2)</a> がエラーになった場合、<a href="../../../method/Socket/i/accept.html">Socket#accept</a> と同じ例外が
+発生します。
+</p>
+<p>
+<a href="../../../class/Errno=3a=3aEWOULDBLOCK.html">Errno::EWOULDBLOCK</a>, <a href="../../../class/Errno=3a=3aEAGAIN.html">Errno::EAGAIN</a>,
+<a href="../../../class/Errno=3a=3aECONNABORTED.html">Errno::ECONNABORTED</a>, <a href="../../../class/Errno=3a=3aEPROTO.html">Errno::EPROTO</a> のいずれかの例外が
+発生した場合は、その例外には <a href="../../../class/IO=3a=3aWaitReadable.html">IO::WaitReadable</a> が extend
+されます。それを利用してリトライ可能な例外を掴まえることができます。
+</p>
+<pre>
+require 'socket'
+serv = UNIXServer.new(&quot;/tmp/sock&quot;)
+begin # emulate blocking accept
+  sock = serv.accept_nonblock
+rescue IO::WaitReadable, Errno::EINTR
+  IO.select([serv])
+  retry
+end
+# sock is an accepted socket.
+</pre>
+<p>
+[SEE_ALSO] <a href="../../../method/UNIXServer/i/accept.html">UNIXServer#accept</a>
+</p>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

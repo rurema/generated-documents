@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Dir/s/new.html">
+  
+  <title>singleton method Dir.new (Ruby 2.2.0)</title>
+  <meta name="description" content="path に対するディレクトリストリームをオープンして返します。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.2.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+&gt; <a href="../../../class/Dir.html">Dirクラス</a>
+&gt; new
+
+</p>
+
+
+<h1>singleton method Dir.new</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_NEW"><code>new(path) -&gt; Dir</code><span class="permalink">[<a href="../../../method/Dir/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.2.0/Dir.html#method-c-new">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>new(path, encoding: Encoding.find(&quot;filesystem&quot;)) -&gt; Dir</code></dt>
+<dt class="method-heading"><code>open(path) -&gt; Dir</code></dt>
+<dt class="method-heading"><code>open(path, encoding: Encoding.find(&quot;filesystem&quot;)) -&gt; Dir</code></dt>
+<dt class="method-heading"><code>open(path) {|dir| ...} -&gt; object</code></dt>
+<dt class="method-heading"><code>open(path, encoding: Encoding.find(&quot;filesystem&quot;)) {|dir| ...} -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+path に対するディレクトリストリームをオープンして返します。
+</p>
+<p>
+ブロックを指定して呼び出した場合は、ディレクトリストリームを
+引数としてブロックを実行します。ブロックの実行が終了すると、
+ディレクトリは自動的にクローズされます。
+ブロックの実行結果を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] path:</dt>
+<dd>
+ディレクトリのパスを文字列で指定します。
+</dd>
+<dt class='method-param'>[PARAM] encoding:</dt>
+<dd>
+ディレクトリのエンコーディングを文字列か
+<a href="../../../class/Encoding.html">Encoding</a> オブジェクトで指定します。省略した場合は
+ファイルシステムのエンコーディングと同じになります。
+</dd>
+<dt>[EXCEPTION] Errno::EXXX:</dt>
+<dd>
+オープンに失敗した場合に発生します。
+</dd>
+</dl>
+<p>
+例: Dir.new
+</p>
+<pre>
+require 'tmpdir'
+
+Dir.mktmpdir do |tmpdir|
+  d = Dir.new(tmpdir)
+  p d.class         # =&gt; Dir
+  p d.read.encoding # =&gt; #&lt;Encoding:UTF-8&gt;
+  d.close
+
+  d = Dir.new(tmpdir, encoding: Encoding::UTF_8)
+  p d.class         # =&gt; Dir
+  p d.read.encoding # =&gt; #&lt;Encoding:UTF-8&gt;
+  d.close
+end
+</pre>
+<p>
+例: Dir.open
+</p>
+<pre>
+require 'tmpdir'
+
+Dir.mktmpdir do |tmpdir|
+  d = Dir.open(tmpdir, encoding: Encoding::UTF_8)
+  p d.class         # =&gt; Dir
+  p d.read.encoding # =&gt; #&lt;Encoding:UTF-8&gt;
+  d.close
+
+  Dir.open(tmpdir, encoding: Encoding::UTF_8) do |d|
+    p d.class         # =&gt; Dir
+    p d.read.encoding # =&gt; #&lt;Encoding:UTF-8&gt;
+  end
+end
+</pre>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

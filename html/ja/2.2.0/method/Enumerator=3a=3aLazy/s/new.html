@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Enumerator=3a=3aLazy/s/new.html">
+  
+  <title>singleton method Enumerator::Lazy.new (Ruby 2.2.0)</title>
+  <meta name="description" content="Lazy Enumerator を作成します。[[m:Enumerator::Lazy#force]] メソッドなどに
+よって列挙が実行されたとき、objのeachメソッドが実行され、値が一つずつ
+ブロックに渡されます。ブロックは、yielder を使って最終的に yield される値を
+指定できます。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.2.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+&gt; <a href="../../../class/Enumerator=3a=3aLazy.html">Enumerator::Lazyクラス</a>
+&gt; new
+
+</p>
+
+
+<h1>singleton method Enumerator::Lazy.new</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_NEW"><code>new(obj, size=nil) {|yielder, *values| ... } -&gt; Enumerator::Lazy</code><span class="permalink">[<a href="../../../method/Enumerator=3a=3aLazy/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.2.0/Enumerator/Lazy.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+Lazy Enumerator を作成します。<a href="../../../method/Enumerator=3a=3aLazy/i/force.html">Enumerator::Lazy#force</a> メソッドなどに
+よって列挙が実行されたとき、objのeachメソッドが実行され、値が一つずつ
+ブロックに渡されます。ブロックは、yielder を使って最終的に yield される値を
+指定できます。
+</p>
+<p>
+Enumerable#filter_map と、その遅延評価版を定義する例:
+</p>
+<pre>
+module Enumerable
+  def filter_map(&amp;block)
+    map(&amp;block).compact
+  end
+end
+
+class Enumerator::Lazy
+  def filter_map
+    Lazy.new(self) do |yielder, *values|
+      result = yield *values
+      yielder &lt;&lt; result if result
+    end
+  end
+end
+
+1.step.lazy.filter_map{|i| i*i if i.even?}.first(5)
+    # =&gt; [4, 16, 36, 64, 100]
+</pre>
+<dl>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+引数を指定しなかった場合、ブロックを指定しなかった場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../../../method/Enumerator/s/new.html">Enumerator.new</a>
+</p>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

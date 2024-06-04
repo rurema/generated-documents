@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/WIN32OLE_VARIANT/s/new.html">
+  
+  <title>singleton method WIN32OLE_VARIANT.new (Ruby 2.2.0)</title>
+  <meta name="description" content="@param val ラップするRubyオブジェクトを指定します。
+@param vartype 省略時はWIN32OLEが自動型変換を行います。指定する場合は
+               [[c:WIN32OLE::VARIANT]]の定数を指定してください。
+@return val引数を値として持つWIN32OLE_VARIANTオブジェクトを返します。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.2.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/win32ole.html">win32oleライブラリ</a>
+&gt; <a href="../../../class/WIN32OLE_VARIANT.html">WIN32OLE_VARIANTクラス</a>
+&gt; new
+
+</p>
+
+
+<h1>singleton method WIN32OLE_VARIANT.new</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_NEW"><code>new(val, vartype = nil) -&gt; WIN32OLE_VARIANT</code><span class="permalink">[<a href="../../../method/WIN32OLE_VARIANT/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.2.0/WIN32OLE_VARIANT.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+指定したオブジェクトを値とするWIN32OLE_VARIANTオブジェクトを生成します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] val:</dt>
+<dd>
+ラップするRubyオブジェクトを指定します。
+</dd>
+<dt class='method-param'>[PARAM] vartype:</dt>
+<dd>
+省略時はWIN32OLEが自動型変換を行います。指定する場合は
+<a href="../../../class/WIN32OLE=3a=3aVARIANT.html">WIN32OLE::VARIANT</a>の定数を指定してください。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+val引数を値として持つWIN32OLE_VARIANTオブジェクトを返します。
+</dd>
+<dt>[EXCEPTION] TypeError:</dt>
+<dd>
+val引数の型がArray、String、Integer、Float、Time、
+WIN32OLE、WIN32OLE_VARIANT、TrueClass、FalseClass、
+NilClass のいずれでもありません。
+</dd>
+</dl>
+<pre>
+shell = WIN32OLE.new('Shell.Application')
+folder = shell.NameSpace('C:\\Users\\Public\\Documents')
+item = folder.ParseName('test.txt')
+v = WIN32OLE_VARIANT.new('Delete')
+item.invokeVerb(v)     # =&gt; ゴミ箱への移動ダイアログを表示
+</pre>
+<p>
+バイト配列を生成するには、以下のようにvartype引数にVT_UI1 | VT_ARRAYを
+設定します。バイト配列の値のRuby表現はエンコーディングをASCII-8BITに設
+定した文字列となります。
+</p>
+<pre>
+include WIN32OLE::VARIANT
+bytes = WIN32OLE_VARIANT.new([1,2,3,4,5], VT_UI1 | VT_ARRAY)
+bytes.value          #=&gt; &quot;\x01\x02\x03\x04\x05&quot;
+bytes.value.encoding #=&gt; #&lt;Encoding:ASCII-8BIT&gt;
+</pre>
+<p>
+[SEE_ALSO] <a href="../../../class/WIN32OLE=3a=3aVARIANT.html">WIN32OLE::VARIANT</a>
+</p>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Fiddle=3a=3aImporter/i/union.html">
+  
+  <title>instance method Fiddle::Importer#union (Ruby 2.2.0)</title>
+  <meta name="description" content="共用体型を Ruby 上で定義する方法は [[m:Fiddle::Importer#struct]] と
+ほぼ同様です。C における
+  typedef union epoll_data
+  {
+    void *ptr;
+    int fd;
+    uint32_t u32;
+    uint64_t u64;
+  } epoll_data_t;
+は、Ruby上では
+  require 'fiddle/import'
+  
+  module M
+    extend Fiddle::Importer
+    dlload &quot;libc.so.6&quot;
+    typealias(&quot;uint32_t&quot;, &quot;unsigned int&quot;)
+    typealias(&quot;uint64_t&quot;, &quot;unsigned long long&quot;)
+  
+    EPollData = union([&quot;void *ptr&quot;,
+                       &quot;int fd&quot;,
+                       &quot;uint32_t u32&quot;,
+                       &quot;uint64_t u64&quot;,
+                      ])
+  end
+となります。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.2.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/fiddle=2fimport.html">fiddle/importライブラリ</a>
+&gt; <a href="../../../class/Fiddle=3a=3aImporter.html">Fiddle::Importerモジュール</a>
+&gt; union
+
+</p>
+
+
+<h1>instance method Fiddle::Importer#union</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_UNION"><code>union(signature) -&gt; Class</code><span class="permalink">[<a href="../../../method/Fiddle=3a=3aImporter/i/union.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.2.0/Fiddle/Importer.html#method-i-union">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+C の共用体型に対応する Ruby のクラスを構築して返します。
+</p>
+<p>
+共用体型を Ruby 上で定義する方法は <a href="../../../method/Fiddle=3a=3aImporter/i/struct.html">Fiddle::Importer#struct</a> と
+ほぼ同様です。C における
+</p>
+<pre>
+typedef union epoll_data
+{
+  void *ptr;
+  int fd;
+  uint32_t u32;
+  uint64_t u64;
+} epoll_data_t;
+</pre>
+<p>
+は、Ruby上では
+</p>
+<pre>
+require 'fiddle/import'
+
+module M
+  extend Fiddle::Importer
+  dlload &quot;libc.so.6&quot;
+  typealias(&quot;uint32_t&quot;, &quot;unsigned int&quot;)
+  typealias(&quot;uint64_t&quot;, &quot;unsigned long long&quot;)
+
+  EPollData = union([&quot;void *ptr&quot;,
+                     &quot;int fd&quot;,
+                     &quot;uint32_t u32&quot;,
+                     &quot;uint64_t u64&quot;,
+                    ])
+end
+</pre>
+<p>
+となります。
+</p>
+<p>
+返されるクラスは <a href="../../../class/Fiddle=3a=3aCUnion.html">Fiddle::CUnion</a> を継承しています。
+</p>
+<p>
+1.9.x ではこのメソッドで返されるクラスは正しく動作しません。
+2.0以降では修正されています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] signature:</dt>
+<dd>
+共用体の各要素を文字列で表現したものの配列
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

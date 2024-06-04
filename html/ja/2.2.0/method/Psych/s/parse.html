@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="stylesheet" type="text/css" href="../../../syntax-highlight.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  
+  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Psych/s/parse.html">
+  
+  <title>singleton method Psych.parse (Ruby 2.2.0)</title>
+  <meta name="description" content="入力に複数のドキュメントが含まれている場合は、先頭のものを AST に変換して
+返します。">
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 2.2.0 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/psych.html">psychライブラリ</a>
+&gt; <a href="../../../class/Psych.html">Psychモジュール</a>
+&gt; parse
+
+</p>
+
+
+<h1>singleton method Psych.parse</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_PARSE"><code>parse(yaml, filename = nil) -&gt; Psych::Nodes::Document</code><span class="permalink">[<a href="../../../method/Psych/s/parse.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.2.0/Psych.html#method-c-parse">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+YAML ドキュメントをパースし、YAML の AST を返します。
+</p>
+<p>
+入力に複数のドキュメントが含まれている場合は、先頭のものを AST に変換して
+返します。
+</p>
+<p>
+filename はパース中に発生した例外のメッセージに用います。
+</p>
+<p>
+AST については <a href="../../../class/Psych=3a=3aNodes.html">Psych::Nodes</a> を参照してください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] yaml:</dt>
+<dd>
+YAML ドキュメント(文字列 or IO オブジェクト)
+</dd>
+<dt class='method-param'>[PARAM] filename:</dt>
+<dd>
+<a href="../../../class/Psych=3a=3aSyntaxError.html">Psych::SyntaxError</a> 発生時にファイル名として表示する文字列。
+</dd>
+<dt>[EXCEPTION] Psych::SyntaxError:</dt>
+<dd>
+YAMLドキュメントに文法エラーが発見されたときに発生します
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../../../method/Psych/s/load.html">Psych.load</a>
+</p>
+<h2 >例</h2>
+<pre>
+Psych.parse(&quot;---\n - a\n - b&quot;) # =&gt; #&lt;Psych::Nodes::Document:...&gt;
+
+begin
+  Psych.parse(&quot;--- `&quot;, &quot;file.txt&quot;)
+rescue Psych::SyntaxError =&gt; ex
+  p ex.file    # =&gt; 'file.txt'
+  p ex.message # =&gt; &quot;(file.txt): found character that cannot start any token while scanning for the next token at line 1 column 5&quot;
+end
+</pre>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>
