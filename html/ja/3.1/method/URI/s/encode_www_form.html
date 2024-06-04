@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/URI/s/encode_www_form.html">
+
+<title>URI.encode_www_form (Ruby 3.1 リファレンスマニュアル)</title>
+<meta name="description" content="HTML5 で定義されている application/x-www-form-urlencoded 形式の
+文字列を生成します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/uri.html","name":"uriライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/URI.html","name":"URIモジュール","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/URI/s/encode_www_form.html","name":"encode_www_form","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/uri.html">uriライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/URI.html">URIモジュール</a>
+      </li>
+      <li>
+        encode_www_form 
+      </li>
+    </ol>
+  </nav>
+
+<h1>singleton method URI.encode_www_form</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_ENCODE_WWW_FORM"><code>encode_www_form(enum, enc=nil) -&gt; String</code><span class="permalink">[<a href="../../../method/URI/s/encode_www_form.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/URI.html#method-c-encode_www_form">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/uri/URI#L255">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+enum から URL-encoded form data を生成します。
+</p>
+<p>
+HTML5 で定義されている application/x-www-form-urlencoded 形式の文字列を生成します。
+</p>
+<p>
+enum には通常 [key, value] という形の配列の配列を渡します。以下の例を見てください。
+</p>
+<pre>
+require 'uri'
+URI.encode_www_form([[&quot;a&quot;, &quot;1&quot;], [&quot;b&quot;, &quot;2&quot;], [&quot;c&quot;, &quot;x yz&quot;]])
+# =&gt; &quot;a=1&amp;b=2&amp;c=x+yz&quot;
+</pre>
+<p>
+実際には、each のブロック呼び出しで [key, value] の形のデータを渡すものであれば何でも渡すことができます(例えば <a href="../../../class/Hash.html">Hash</a> など)。
+</p>
+<pre>
+require 'uri'
+URI.encode_www_form({&quot;a&quot;=&gt;&quot;1&quot;, &quot;b&quot;=&gt;&quot;2&quot;, &quot;c&quot;=&gt;&quot;x yz&quot;})
+# =&gt; &quot;a=1&amp;b=2&amp;c=x+yz&quot;
+</pre>
+<p>
+このメソッドは引数のエンコーディングを変換しません。そのため送るデータのエンコーディングを変換したい場合はあらかじめ変換しておいてください(例えば ASCII incompatible なものを
+UTF-8 に変換する場合など)。各要素のエンコーディングがばらばらの場合もあらかじめエンコーディングを揃えてからこのメソッドを使うべきです。
+</p>
+<p>
+このメソッドはファイルを入力にすることはできません。ファイルを送りたい場合は multipart/form-data をつかうべきでこのメソッドを使うべきではありません。
+</p>
+<p>
+このメソッドは内部的に
+<a href="../../../method/URI/s/encode_www_form_component.html">URI.encode_www_form_component</a>
+を使っています。
+</p>
+<p>
+このメソッドは
+<a class="external" href="https://url.spec.whatwg.org/#concept-urlencoded-serializer">https://url.spec.whatwg.org/#concept-urlencoded-serializer</a>
+にもとづいて実装されています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] enum:</dt>
+<dd>
+エンコードするデータ列([key, value] という形のデータの列)
+</dd>
+<dt class='method-param'>[PARAM] enc:</dt>
+<dd>
+指定された場合、パーセントエンコーディングする前に、このエンコーディングに変換
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../../../method/URI/s/encode_www_form_component.html">URI.encode_www_form_component</a>, <a href="../../../method/URI/s/decode_www_form.html">URI.decode_www_form</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/uri/URI#L255">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

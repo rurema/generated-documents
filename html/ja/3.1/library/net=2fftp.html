@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/net=2fftp.html">
+
+<title>library net/ftp (Ruby 3.1 リファレンスマニュアル)</title>
+<meta name="description" content="FTP プロトコルを扱うライブラリです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/net=2fftp.html","name":"net/ftpライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        net/ftpライブラリ
+      </li>
+    </ol>
+  </nav>
+
+<h1>library net/ftp</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/net/ftp.rd#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+<h2>要約</h2>
+<p>
+FTP プロトコルを扱うライブラリです。
+</p>
+<p>
+基本的には  unix の ftp コマンドのような
+command-line interface の FTP クライアントを使ったことのある人にとってわかりやすいインターフェースになっています。より「Ruby 的」であるインターフェースも用意しています。
+</p>
+<p>
+FTP については <a class="external" href="https://tools.ietf.org/html/rfc959">[RFC959]</a>、<a class="external" href="https://tools.ietf.org/html/rfc3659">[RFC3659]</a> を参考にしてください。
+</p>
+<h2 >バイナリモードとテキストモード</h2>
+<p>
+FTP のデータ転送にはテキストモードとバイナリモードがあります。テキストモードで転送する場合には改行を適宜CRLFに変換します。バイナリモードの場合は一切の変換をしません。
+</p>
+<p>
+通常はバイナリモード以外を使う必要はないでしょう。
+</p>
+<p>
+<a href="../method/Net=3a=3aFTP/i/get.html">Net::FTP#get</a>、<a href="../method/Net=3a=3aFTP/i/put.html">Net::FTP#put</a> は
+<a href="../method/Net=3a=3aFTP/i/binary.html">Net::FTP#binary</a> の値に従ってテキストモードとバイナリモードの一方を選びます。また、
+<a href="../method/Net=3a=3aFTP/i/getbinaryfile.html">Net::FTP#getbinaryfile</a>、<a href="../method/Net=3a=3aFTP/i/putbinaryfile.html">Net::FTP#putbinaryfile</a>
+は <a href="../method/Net=3a=3aFTP/i/binary.html">Net::FTP#binary</a> の値によらずバイナリモードで、
+<a href="../method/Net=3a=3aFTP/i/gettextfile.html">Net::FTP#gettextfile</a>、<a href="../method/Net=3a=3aFTP/i/puttextfile.html">Net::FTP#puttextfile</a> は
+<a href="../method/Net=3a=3aFTP/i/binary.html">Net::FTP#binary</a> の値によらずテキストモードでデータ転送が行われます。
+</p>
+<h2 >パッシブモードとアクティブモード</h2>
+<p>
+FTP はファイル転送やディレクトリ情報取得のためのデータ転送用の TCP コネクションを、サーバとの制御コマンドをやりとりするためのコネクションとは別に作成します。
+</p>
+<p>
+このデータ転送用コネクションを作成する際に、アクティブモードではサーバ側からクライアント側へコネクションを作り、パッシブモードではクライアント側からサーバ側へコネクションを作ります。
+</p>
+<p>
+そのため、アクティブモードではサーバ-クライアント間にファイアーウォールや NAT がある場合にはうまく接続できない場合があります。この時にはパッシブモードを利用してください。
+</p>
+<p>
+デフォルトモードは <a href="../method/Net=3a=3aFTP/s/default_passive=3d.html">Net::FTP.default_passive=</a> で指定することができます。パッシブモードがデフォルトです。
+</p>
+<h2 >例</h2>
+<p>
+例1:
+</p>
+<pre>
+require 'net/ftp'
+ftp = Net::FTP.new('ftp.example.org')
+ftp.login
+ftp.passive = true
+ftp.chdir('pub/ruby')
+files = ftp.list('ruby*')
+ftp.getbinaryfile('ruby-1.9.1-p243.tar.bz2', 'ruby.bz2', 1024)
+ftp.close
+</pre>
+<p>
+例2:
+</p>
+<pre>
+require 'net/ftp'
+Net::FTP.open('ftp.example.org') do |ftp|
+  ftp.login
+  ftp.passive = true
+  ftp.chdir('pub/ruby')
+  files = ftp.list('*.bz2')
+  ftp.getbinaryfile('ruby-1.9.1-p243.tar.bz2', 'ruby.bz2', 1024)
+end
+</pre>
+
+
+<h2>クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aFTP.html">Net::FTP</a>
+</td>
+<td class="description"><p>
+FTP を実装したクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aFTP=3a=3aMLSxEntry.html">Net::FTP::MLSxEntry</a>
+</td>
+<td class="description"><p>
+<a href="../method/Net=3a=3aFTP/i/mlsd.html">Net::FTP#mlsd</a>、<a href="../method/Net=3a=3aFTP/i/mlst.html">Net::FTP#mlst</a> の結果を保持するクラスです。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>例外クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Net=3a=3aFTPError.html">Net::FTPError</a>
+</td>
+<td class="description"><p>
+net/ftp ライブラリ関連のエラー全般を表す例外クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aFTPConnectionError.html">Net::FTPConnectionError</a>
+</td>
+<td class="description"><p>
+コネクションを確立する前に通信しようとした場合に発生する例外のクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aFTPPermError.html">Net::FTPPermError</a>
+</td>
+<td class="description"><p>
+FTP の応答コード 5yz
+(Permanent Negative Completion reply)
+を表す例外クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aFTPProtoError.html">Net::FTPProtoError</a>
+</td>
+<td class="description"><p>
+サーバの応答が FTP のプロトコルに沿っていない場合に発生する例外のクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aFTPReplyError.html">Net::FTPReplyError</a>
+</td>
+<td class="description"><p>
+FTPの応答が 1yz や 3yz であり、それが想定外であることを表わす例外クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Net=3a=3aFTPTempError.html">Net::FTPTempError</a>
+</td>
+<td class="description"><p>
+FTP の応答コード 4yz
+(Transient Negative Completion reply)
+を表す例外クラスです。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/net/ftp.rd#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

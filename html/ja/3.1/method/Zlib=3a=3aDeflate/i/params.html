@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Zlib=3a=3aDeflate/i/params.html">
+
+<title>Zlib::Deflate#params (Ruby 3.1 リファレンスマニュアル)</title>
+<meta name="description" content="圧縮ストリームの設定を変更します。詳しくは zlib.h を
+参照して下さい。設定の変更に伴うストリームからの出力は
+出力バッファに保存されます。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/zlib.html","name":"zlibライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Zlib=3a=3aDeflate.html","name":"Zlib::Deflateクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Zlib=3a=3aDeflate/i/params.html","name":"params","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/zlib.html">zlibライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Zlib=3a=3aDeflate.html">Zlib::Deflateクラス</a>
+      </li>
+      <li>
+        params 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method Zlib::Deflate#params</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_PARAMS"><code>params(level, strategy) -&gt; nil</code><span class="permalink">[<a href="../../../method/Zlib=3a=3aDeflate/i/params.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Zlib/Deflate.html#method-i-params">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/zlib/Deflate#L164">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+圧縮ストリームの設定を変更します。詳しくは zlib.h を参照して下さい。設定の変更に伴うストリームからの出力は出力バッファに保存されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] level:</dt>
+<dd>
+0-9の範囲の整数, または <a href="../../../method/Zlib/c/DEFAULT_COMPRESSION.html">Zlib::DEFAULT_COMPRESSION</a> を指定します。詳細はzlib.hを参照してください。
+</dd>
+<dt class='method-param'>[PARAM] strategy:</dt>
+<dd>
+<a href="../../../method/Zlib/c/FILTERED.html">Zlib::FILTERED</a>, <a href="../../../method/Zlib/c/HUFFMAN_ONLY.html">Zlib::HUFFMAN_ONLY</a>,
+<a href="../../../method/Zlib/c/DEFAULT_STRATEGY.html">Zlib::DEFAULT_STRATEGY</a> など指定します。詳細は zlib.h を参照してください。
+</dd>
+</dl>
+<pre>
+require 'zlib'
+
+def case1
+  dez = Zlib::Deflate.new
+  comp_str = dez.deflate('hoge'*5);
+  comp_str &lt;&lt; dez.deflate('0'*80)
+  comp_str &lt;&lt; dez.finish
+  p comp_str
+  p Zlib::Inflate.inflate(comp_str)
+end
+
+def case2
+  dez = Zlib::Deflate.new
+  comp_str = dez.deflate('hoge'*5);
+  dez.params(Zlib::BEST_COMPRESSION, Zlib::HUFFMAN_ONLY)
+  comp_str &lt;&lt; dez.deflate('0'*80)
+  comp_str &lt;&lt; dez.finish
+  p comp_str
+  p Zlib::Inflate.inflate(comp_str)
+end
+
+case1
+case2
+#=&gt; &quot;x\234\313\310OO\315@\303\006T\006\000D\367\0270&quot;
+#=&gt; &quot;hogehogehogehogehoge00000000000000000000000000000000000000000000000000000000000000000000000000000000&quot;
+#=&gt; &quot;x\234\005\3011\r\000\000\f\003 K\230j\326\257\376\277Aw\351.\335\245\273t\027\000\000\000\000\000\000\000\000\000\200\aD\367\0270&quot;
+#=&gt; &quot;hogehogehogehogehoge00000000000000000000000000000000000000000000000000000000000000000000000000000000&quot;
+</pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/zlib/Deflate#L164">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
