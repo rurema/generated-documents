@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/Range.html">
+  <title>class Range (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/_builtin.html">組み込みライブラリ</a>
+&gt; Rangeクラス
+</p>
+
+
+<h1>class Range</h1>
+<p>
+
+
+クラスの継承リスト: Range
+
+      &lt; <a href="../class/Enumerable.html">Enumerable</a>
+      
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+範囲オブジェクトのクラス。範囲オブジェクトは範囲演算子 .. または
+... によって生成されます。.. 演算子によって生成された範囲
+オブジェクトは終端を含み、... 演算子によって生成された範囲オブジェ
+クトは終端を含みません。
+</p>
+<h2 >例</h2>
+<pre>
+for i in 1..5
+   # 処理
+end
+</pre>
+<p>
+これは 1 から 5 までの範囲オブジェクトを生成して、それぞれの値に対して
+繰り返すと言う意味です。
+</p>
+<p>
+範囲演算子のオペランドは互いに &lt;=&gt; で比較できる必要があります。
+さらに <a href="../method/Range/i/each.html">Range#each</a> を実行するためには succ メソッ
+ドを実行できるものでなければいけません。
+</p>
+<h2 >破壊的な変更</h2>
+<p>
+Ruby の Range クラスは immutable です。
+つまり、オブジェクト自体を破壊的に変更することはできません。
+ですので、一度生成された Range のオブジェクトの指し示す範囲は
+決して変更することはできません。
+</p>
+<pre>
+range = 1..10
+range.first     #=&gt; 1
+range.first = 1 #=&gt; NoMethodError
+</pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_NEW">new</a>
+
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+
+<a href="#I_--3D--3D">==</a>
+
+<a href="#I_--3D--3D--3D">===</a>
+
+<a href="#I_--3D--3D--3D">include?</a>
+
+<a href="#I_--3D--3D--3D">member?</a>
+
+<a href="#I_BEGIN">begin</a>
+
+<a href="#I_BEGIN">first</a>
+
+<a href="#I_EACH">each</a>
+
+<a href="#I_END">end</a>
+
+<a href="#I_END">last</a>
+
+<a href="#I_EQL--3F">eql?</a>
+
+<a href="#I_EXCLUDE_END--3F">exclude_end?</a>
+
+<a href="#I_HASH">hash</a>
+
+<a href="#I_INSPECT">inspect</a>
+
+<a href="#I_STEP">step</a>
+
+<a href="#I_TO_S">to_s</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(first, last, exclude_end = false) -&gt; Range</code><span class="permalink">[<a href="../method/Range/s/new.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+first から last までの範囲オブジェクトを生成して返しま
+す。
+</p>
+<p>
+exclude_end が真ならば終端を含まない範囲オブジェクトを生
+成します。exclude_end 省略時には終端を含みます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] first:</dt>
+<dd>
+最初のオブジェクト
+</dd>
+<dt class='method-param'>[PARAM] last:</dt>
+<dd>
+最後のオブジェクト
+</dd>
+<dt class='method-param'>[PARAM] exclude_end:</dt>
+<dd>
+真をセットした場合終端を含まない範囲オブジェクトを生成します
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+first &lt;=&gt; last が nil の場合に発生します
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--3D--3D"><code>self == other -&gt; bool</code><span class="permalink">[<a href="../method/Range/i/=3d=3d.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-3D-3D">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+指定された other が Range クラスのインスタンスであり、
+始点と終点が == メソッドで比較して等しく、<a href="../method/Range/i/exclude_end=3f.html">Range#exclude_end?</a> が同じ場合に
+true を返します。そうでない場合に false を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] other:</dt>
+<dd>
+自身と比較したいオブジェクトを指定します。
+</dd>
+</dl>
+<pre>
+p (1..2) == (1..2)               #=&gt; true
+p (1..2) == (1...2)              #=&gt; false
+p (1..2) == Range.new(1.0, 2.0)  #=&gt; true
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_--3D--3D--3D"><code>self === obj -&gt; bool</code><span class="permalink">[<a href="../method/Range/i/=3d=3d=3d.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-3D-3D-3D">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>include?(obj) -&gt; bool</code></dt>
+<dt class="method-heading"><code>member?(obj) -&gt; bool</code></dt>
+<dd class="method-description">
+<p>
+obj が範囲内に含まれている時に真を返します。
+</p>
+<p>
+<a href="../method/Range/i/=3d=3d=3d.html">Range#===</a> は主に case 式での比較に用いられます。
+</p>
+<p>
+include? が、<a href="../method/Enumerable/i/include=3f.html">Enumerable#include?</a>,<a href="../method/Enumerable/i/member=3f.html">Enumerable#member?</a>
+と異なり &lt;=&gt; メソッドによる演算により範囲内かどうかを判定することに注意する必要があります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] obj:</dt>
+<dd>
+比較対象のオブジェクトを指定します。
+</dd>
+</dl>
+<pre>
+p (0.1 .. 0.2).include?(0.15) # =&gt; true
+# 1.8.1 以前
+p (0.1 .. 0.2).member?(0.15)  # =&gt; cannot iterate from Float (TypeError)
+# 1.8.2 以降
+p (0.1 .. 0.2).member?(0.15)  # =&gt; true
+
+# 文字列の場合、include? は辞書順の比較になる
+p (&quot;a&quot; .. &quot;c&quot;).include?(&quot;ba&quot;) # =&gt; true
+# 1.8.1 以前
+p (&quot;a&quot; .. &quot;c&quot;).member?(&quot;ba&quot;)  # =&gt; false
+# 1.8.2 以降
+p (&quot;a&quot; .. &quot;c&quot;).member?(&quot;ba&quot;)  # =&gt; true
+# 1.9.1 以降
+p (&quot;a&quot; .. &quot;c&quot;).include?(&quot;ba&quot;) # =&gt; false
+p (&quot;a&quot; .. &quot;c&quot;).member?(&quot;ba&quot;)  # =&gt; false
+</pre>
+<p>
+[SEE_ALSO] <a href="../doc/spec=2fcontrol.html#case">制御構造/case</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_BEGIN"><code>begin -&gt; object</code><span class="permalink">[<a href="../method/Range/i/begin.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-begin">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>first -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+始端の要素を返します。範囲オブジェクトが始端を含むかどうかは関係ありま
+せん。
+</p>
+<pre>
+p (1..5).begin # =&gt; 1
+p (1..0).begin # =&gt; 1
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_EACH"><code>each {|item|  ... } -&gt; self</code><span class="permalink">[<a href="../method/Range/i/each.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-each">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>each -&gt; Enumerable::Enumerator</code></dt>
+<dd class="method-description">
+<p>
+範囲内の要素に対して繰り返します。
+</p>
+<p>
+Range#each は各要素の succ メソッドを使用してイテレーションするようになりました。
+</p>
+<dl>
+<dt>[EXCEPTION] TypeError:</dt>
+<dd>
+succ メソッドを持たないクラスの範囲オブジェクトに対してこのメソッドを呼んだ場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_END"><code>end -&gt; object</code><span class="permalink">[<a href="../method/Range/i/end.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-end">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>last -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+終端の要素を返します。範囲オブジェクトが終端を含むかどうかは関係ありま
+せん。
+</p>
+<pre>
+(10..20).last      # =&gt; 20
+(10...20).last     # =&gt; 20
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_EQL--3F"><code>eql?(other) -&gt; bool</code><span class="permalink">[<a href="../method/Range/i/eql=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-eql-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+指定された other が Range クラスのインスタンスであり、
+始点と終点が eql? メソッドで比較して等しく、<a href="../method/Range/i/exclude_end=3f.html">Range#exclude_end?</a> が同じ場合に
+true を返します。そうでない場合に false を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] other:</dt>
+<dd>
+自身と比較したいオブジェクトを指定します。
+</dd>
+</dl>
+<pre>
+p (1..2).eql?(1..2)                 #=&gt; true
+p (1..2).eql?(1...2)                #=&gt; false
+p (1..2).eql?(Range.new(1.0, 2.0))  #=&gt; false
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_EXCLUDE_END--3F"><code>exclude_end? -&gt; bool</code><span class="permalink">[<a href="../method/Range/i/exclude_end=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-exclude_end-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲オブジェクトが終端を含まないとき真を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_HASH"><code>hash -&gt; Integer</code><span class="permalink">[<a href="../method/Range/i/hash.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-hash">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+始点と終点のハッシュ値と <a href="../method/Range/i/exclude_end=3f.html">Range#exclude_end?</a> の値からハッシュ値を計算して整数として返します。
+</p>
+<pre>
+p (1..2).hash    #=&gt; 5646
+p (1...2).hash   #=&gt; 16782863
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/Range/i/inspect.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-inspect">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+self を文字列に変換します(始点と終点のオブジェクトは #inspect メソッド
+で文字列に変換されます)。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Range/i/to_s.html">Range#to_s</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_STEP"><code>step(s = 1) {|item| ... } -&gt; self</code><span class="permalink">[<a href="../method/Range/i/step.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-step">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>step(s = 1) -&gt; Enumerable::Enumerator</code></dt>
+<dd class="method-description">
+<p>
+範囲内の要素を s おきに繰り返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] s:</dt>
+<dd>
+正の整数を指定します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+s に 0 または負の数を指定した場合に発生します
+</dd>
+</dl>
+<pre>
+(&quot;a&quot; .. &quot;f&quot;).step(2) {|v| p v}
+# =&gt; &quot;a&quot;
+     &quot;c&quot;
+     &quot;e&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_S"><code>to_s -&gt; String</code><span class="permalink">[<a href="../method/Range/i/to_s.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Range.html#method-i-to_s">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+self を文字列に変換します(始点と終点のオブジェクトは #to_s メソッドで文
+字列に変換されます)。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Range/i/inspect.html">Range#inspect</a>
+</p>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/Generator.html">
+  <title>class Generator (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/generator.html">generatorライブラリ</a>
+&gt; Generatorクラス
+</p>
+
+
+<h1>class Generator</h1>
+<p>
+
+
+クラスの継承リスト: Generator
+
+      &lt; <a href="../class/Enumerable.html">Enumerable</a>
+      
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+内部イテレータを外部イテレータに変えるためのクラスです。
+実装に callcc を使っているので遅いです。
+</p>
+<ul>
+<li><a href="../class/SyncEnumerator.html">SyncEnumerator</a></li>
+</ul>
+<p>
+例:
+</p>
+<pre>
+require 'generator'
+
+# Generator from an Enumerable object
+g = Generator.new(['A', 'B', 'C', 'Z'])
+
+while g.next?
+  puts g.next
+end
+
+# Generator from a block
+g = Generator.new { |g|
+  for i in 'A'..'C'
+    g.yield i
+  end
+
+  g.yield 'Z'
+}
+
+# The same result as above
+while g.next?
+  puts g.next
+end
+</pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_NEW">new</a>
+
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+
+<a href="#I_CURRENT">current</a>
+
+<a href="#I_EACH">each</a>
+
+<a href="#I_END--3F">end?</a>
+
+<a href="#I_INDEX">index</a>
+
+<a href="#I_INDEX">pos</a>
+
+<a href="#I_NEXT">next</a>
+
+<a href="#I_NEXT--3F">next?</a>
+
+<a href="#I_REWIND">rewind</a>
+
+<a href="#I_YIELD">yield</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(enum = nil) -&gt; Generator</code><span class="permalink">[<a href="../method/Generator/s/new.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Generator.html#method-c-new">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>new(enum = nil) {|g|  ... } -&gt; Generator</code></dt>
+<dd class="method-description">
+<p>
+<a href="../class/Enumerable.html">Enumerable</a> オブジェクトかブロックから Generator オブジェクトを生成します。
+</p>
+<p>
+ブロックは生成した Generator オブジェクトをブロック引数として呼ばれます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] enum:</dt>
+<dd>
+<a href="../class/Enumerable.html">Enumerable</a> をインクルードしたオブジェクトを与えます。
+enum とブロックを同時に与えた場合は、ブロックは無視されます。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_CURRENT"><code>current -&gt; object</code><span class="permalink">[<a href="../method/Generator/i/current.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Generator.html#method-i-current">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在の位置にある要素を返します。next と違い位置は移動しません。
+</p>
+<p>
+例:
+</p>
+<pre>
+g = Generator.new(['A', 'B', 'C', 'Z'])
+p g.current # =&gt; 'A'
+p g.current # =&gt; 'A'
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_EACH"><code>each {|e| ... } -&gt; self</code><span class="permalink">[<a href="../method/Generator/i/each.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Generator.html#method-i-each">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ジェネレータの要素を引数としてブロックを評価します。self を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_END--3F"><code>end? -&gt; bool</code><span class="permalink">[<a href="../method/Generator/i/end=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Generator.html#method-i-end-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+次の要素がなく、ジェネレータが終わりに達しているなら真を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INDEX"><code>index -&gt; Integer</code><span class="permalink">[<a href="../method/Generator/i/index.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Generator.html#method-i-index">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>pos -&gt; Integer</code></dt>
+<dd class="method-description">
+<p>
+現在の位置を返します。
+</p>
+<p>
+例:
+</p>
+<pre>
+g = Generator.new(['A', 'B', 'C', 'Z'])
+p g.pos     # =&gt; 0
+p g.next    # =&gt; 'A'
+p g.pos     # =&gt; 1
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_NEXT"><code>next -&gt; object</code><span class="permalink">[<a href="../method/Generator/i/next.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Generator.html#method-i-next">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在の位置にある要素を返し、位置を1つ進めます。
+</p>
+<dl>
+<dt>[EXCEPTION] EOFError:</dt>
+<dd>
+次の要素が無い場合に発生します。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+g = Generator.new() do |g|
+      ['A', 'B', 'C', 'Z'].each{|s|
+        g.yield s
+      }
+    end
+p g.next # =&gt; 'A'
+p g.next # =&gt; 'B'
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_NEXT--3F"><code>next? -&gt; bool</code><span class="permalink">[<a href="../method/Generator/i/next=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Generator.html#method-i-next-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+次の要素が存在するなら真を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_REWIND"><code>rewind -&gt; self</code><span class="permalink">[<a href="../method/Generator/i/rewind.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Generator.html#method-i-rewind">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ジェネレータを最初に巻き戻します。self を返します。
+</p>
+<p>
+例:
+</p>
+<pre>
+g = Generator.new() do |g|
+      ['A', 'B', 'C', 'Z'].each{|s|
+        g.yield s
+      }
+    end
+p g.next # =&gt; 'A'
+p g.next # =&gt; 'B'
+g.rewind
+p g.next # =&gt; 'A'
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_YIELD"><code>yield(val) -&gt; self</code><span class="permalink">[<a href="../method/Generator/i/yield.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Generator.html#method-i-yield">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+val をジェネレータに渡します。
+Generator.new() {|g|  ... } のブロックの中でしか呼ぶことができません。
+ジェネレータに渡された val は next などで取り出すことができます。
+</p>
+<p>
+例:
+</p>
+<pre>
+g = Generator.new() do |g|
+      n = 0
+      loop do
+        g.yield n
+        n += 1
+      end
+    end
+p g.next # =&gt; 0
+p g.next # =&gt; 1
+p g.next # =&gt; 2
+g.rewind
+p g.next # =&gt; 0
+</pre>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

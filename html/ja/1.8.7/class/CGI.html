@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/CGI.html">
+  <title>class CGI (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/cgi.html">cgiライブラリ</a>
+&gt; CGIクラス
+</p>
+
+
+<h1>class CGI</h1>
+<p>
+
+
+クラスの継承リスト: CGI
+
+      &lt; <a href="../class/CGI=3a=3aQueryExtension.html">CGI::QueryExtension</a>
+      
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+CGI スクリプトを書くために必要な機能を提供するクラスです。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_ESCAPE">escape</a>
+
+<a href="#S_ESCAPE-ELEMENT">escapeElement</a>
+
+<a href="#S_ESCAPE-H-T-M-L">escapeHTML</a>
+
+<a href="#S_PARSE">parse</a>
+
+<a href="#S_PRETTY">pretty</a>
+
+<a href="#S_RFC1123_DATE">rfc1123_date</a>
+
+<a href="#S_UNESCAPE">unescape</a>
+
+<a href="#S_UNESCAPE-ELEMENT">unescapeElement</a>
+
+<a href="#S_UNESCAPE-H-T-M-L">unescapeHTML</a>
+
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+
+<a href="#I_HEADER">header</a>
+
+<a href="#I_OUT">out</a>
+
+<a href="#I_PRINT">print</a>
+
+</dd>
+
+<dt>定数</dt>
+<dd>
+
+<a href="#C_-C-R">CR</a>
+
+<a href="#C_-E-O-L">EOL</a>
+
+<a href="#C_-H-T-T-P_-S-T-A-T-U-S">HTTP_STATUS</a>
+
+<a href="#C_-L-F">LF</a>
+
+<a href="#C_-P-A-T-H_-S-E-P-A-R-A-T-O-R">PATH_SEPARATOR</a>
+
+<a href="#C_-R-F-C822_-D-A-Y-S">RFC822_DAYS</a>
+
+<a href="#C_-R-F-C822_-M-O-N-T-H-S">RFC822_MONTHS</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_ESCAPE"><code>escape(string) -&gt; String</code><span class="permalink">[<a href="../method/CGI/s/escape.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-escape">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられた文字列を URL エンコードした文字列を新しく作成し返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] string:</dt>
+<dd>
+URL エンコードしたい文字列を指定します。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+require &quot;cgi&quot;
+
+p CGI.escape('@##')   #=&gt; &quot;%40%23%23&quot;
+
+url = &quot;http://www.example.com/register?url=&quot; +
+  CGI.escape('http://www.example.com/index.rss')
+p url
+#=&gt; &quot;http://www.example.com/register?url=http%3A%2F%2Fwww.example.com%2Findex.rss&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_ESCAPE-ELEMENT"><code>escapeElement(string, *elements) -&gt; String</code><span class="permalink">[<a href="../method/CGI/s/escapeElement.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-escapeElement">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+第二引数以降に指定したエレメントのタグだけを実体参照に置換します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] string:</dt>
+<dd>
+文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] elements:</dt>
+<dd>
+HTML タグの名前を一つ以上指定します。文字列の配列で指定することも出来ます。
+</dd>
+</dl>
+<p>
+例：
+</p>
+<pre>
+require &quot;cgi&quot;
+
+p CGI.escapeElement('&lt;BR&gt;&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;', &quot;A&quot;, &quot;IMG&quot;)
+     # =&gt; &quot;&lt;BR&gt;&amp;lt;A HREF=&quot;url&quot;&amp;gt;&amp;lt;/A&amp;gt&quot;
+
+p CGI.escapeElement('&lt;BR&gt;&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;', [&quot;A&quot;, &quot;IMG&quot;])
+     # =&gt; &quot;&lt;BR&gt;&amp;lt;A HREF=&quot;url&quot;&amp;gt;&amp;lt;/A&amp;gt&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_ESCAPE-H-T-M-L"><code>escapeHTML(string) -&gt; String</code><span class="permalink">[<a href="../method/CGI/s/escapeHTML.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-escapeHTML">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられた文字列中の &amp;&quot;&lt;&gt; を実体参照に置換した文字列を新しく作成し返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] string:</dt>
+<dd>
+文字列を指定します。
+</dd>
+</dl>
+<pre>
+require &quot;cgi&quot;
+
+p CGI.escapeHTML(&quot;3 &gt; 1&quot;)   #=&gt; &quot;3 &amp;gt; 1&quot;
+
+print('&lt;script type=&quot;text/javascript&quot;&gt;alert(&quot;警告&quot;)&lt;/script&gt;')
+
+p CGI.escapeHTML('&lt;script type=&quot;text/javascript&quot;&gt;alert(&quot;警告&quot;)&lt;/script&gt;')
+#=&gt; &quot;&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;alert(&amp;quot;警告&amp;quot;)&amp;lt;/script&amp;gt;&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_PARSE"><code>parse(query) -&gt; Hash</code><span class="permalink">[<a href="../method/CGI/s/parse.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-parse">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられたクエリ文字列をパースします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] query:</dt>
+<dd>
+クエリ文字列を指定します。
+</dd>
+</dl>
+<p>
+例：
+</p>
+<pre>
+require &quot;cgi&quot;
+
+params = CGI.parse(&quot;query_string&quot;)
+  # {&quot;name1&quot; =&gt; [&quot;value1&quot;, &quot;value2&quot;, ...],
+  #  &quot;name2&quot; =&gt; [&quot;value1&quot;, &quot;value2&quot;, ...], ... }
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_PRETTY"><code>pretty(string, shift = &quot;  &quot;) -&gt; String</code><span class="permalink">[<a href="../method/CGI/s/pretty.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-pretty">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+HTML を人間に見やすく整形しした文字列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] string:</dt>
+<dd>
+HTML を指定します。
+</dd>
+<dt class='method-param'>[PARAM] shift:</dt>
+<dd>
+インデントに使用する文字列を指定します。デフォルトは半角空白二つです。
+</dd>
+</dl>
+<p>
+例：
+</p>
+<pre>
+require &quot;cgi&quot;
+
+print CGI.pretty(&quot;&lt;HTML&gt;&lt;BODY&gt;&lt;/BODY&gt;&lt;/HTML&gt;&quot;)
+  # &lt;HTML&gt;
+  #   &lt;BODY&gt;
+  #   &lt;/BODY&gt;
+  # &lt;/HTML&gt;
+
+print CGI.pretty(&quot;&lt;HTML&gt;&lt;BODY&gt;&lt;/BODY&gt;&lt;/HTML&gt;&quot;, &quot;\t&quot;)
+  # &lt;HTML&gt;
+  #         &lt;BODY&gt;
+  #         &lt;/BODY&gt;
+  # &lt;/HTML&gt;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_RFC1123_DATE"><code>rfc1123_date(time) -&gt; String</code><span class="permalink">[<a href="../method/CGI/s/rfc1123_date.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-rfc1123_date">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられた時刻を <a class="external" href="http://www.ietf.org/rfc/rfc1123.txt">[RFC1123]</a> フォーマットに準拠した文字列に変換します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] time:</dt>
+<dd>
+<a href="../class/Time.html">Time</a> のインスタンスを指定します。
+</dd>
+</dl>
+<p>
+例：
+</p>
+<pre>
+require &quot;cgi&quot;
+
+CGI.rfc1123_date(Time.now)
+  # =&gt; Sat, 1 Jan 2000 00:00:00 GMT
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_UNESCAPE"><code>unescape(string) -&gt; String</code><span class="permalink">[<a href="../method/CGI/s/unescape.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-unescape">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられた文字列を URL デコードした文字列を新しく作成し返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] string:</dt>
+<dd>
+URL エンコードされている文字列を指定します。
+</dd>
+</dl>
+<pre>
+require &quot;cgi&quot;
+
+p CGI.unescape('%40%23%23')   #=&gt; &quot;@##&quot;
+
+p CGI.unescape(&quot;http%3A%2F%2Fwww.example.com%2Findex.rss&quot;)
+#=&gt; &quot;http://www.example.com/index.rss&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_UNESCAPE-ELEMENT"><code>unescapeElement(string, *elements) -&gt; String</code><span class="permalink">[<a href="../method/CGI/s/unescapeElement.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-unescapeElement">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+特定の要素だけをHTMLエスケープから戻す。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] string:</dt>
+<dd>
+文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] elements:</dt>
+<dd>
+HTML タグの名前を一つ以上指定します。文字列の配列で指定することも出来ます。
+</dd>
+</dl>
+<p>
+例：
+</p>
+<pre>
+require &quot;cgi&quot;
+
+print CGI.unescapeElement('&amp;lt;BR&amp;gt;&amp;lt;A HREF=&quot;url&quot;&amp;gt;&amp;lt;/A&amp;gt;', &quot;A&quot;, &quot;IMG&quot;)
+  # =&gt; &quot;&amp;lt;BR&amp;gt;&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;&quot;
+
+print CGI.unescapeElement('&amp;lt;BR&amp;gt;&amp;lt;A HREF=&quot;url&quot;&amp;gt;&amp;lt;/A&amp;gt;', %w(A IMG))
+  # =&gt; &quot;&amp;lt;BR&amp;gt;&lt;A HREF=&quot;url&quot;&gt;&lt;/A&gt;&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_UNESCAPE-H-T-M-L"><code>unescapeHTML(string) -&gt; String</code><span class="permalink">[<a href="../method/CGI/s/unescapeHTML.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-unescapeHTML">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられた文字列中の実体参照のうち、&amp;amp; &amp;gt; &amp;lt; &amp;quot;
+と数値指定がされているもの (&amp;#0ffff など) を元の文字列に置換します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] string:</dt>
+<dd>
+文字列を指定します。
+</dd>
+</dl>
+<pre>
+require &quot;cgi&quot;
+
+p CGI.unescapeHTML(&quot;3 &amp;gt; 1&quot;)   #=&gt; &quot;3 &gt; 1&quot;
+</pre>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_HEADER"><code>header(options = &quot;text/html&quot;) -&gt; String</code><span class="permalink">[<a href="../method/CGI/i/header.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-i-header">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+HTTP ヘッダを options に従って生成します。 <a href="../method/CGI/i/out.html">CGI#out</a> と違い、標準出力には出力しません。
+<a href="../method/CGI/i/out.html">CGI#out</a> を使わずに自力で HTML を出力したい場合などに使います。
+このメソッドは文字列エンコーディングを変換しません。
+</p>
+<p>
+ヘッダのキーとしては以下が利用可能です。
+</p>
+<dl>
+<dt>type</dt>
+<dd>
+<p>
+Content-Type ヘッダです。デフォルトは &quot;text/html&quot; です。
+</p>
+</dd>
+<dt>charset</dt>
+<dd>
+<p>
+ボディのキャラクタセットを Content-Type ヘッダに追加します。
+</p>
+</dd>
+<dt>nph</dt>
+<dd>
+<p>
+真偽値を指定します。真ならば、HTTP のバージョン、ステータスコード、
+Date ヘッダをセットします。また Server と Connection の各ヘッダにもデフォルト値をセットします。
+偽を指定する場合は、これらの値を明示的にセットしてください。
+</p>
+</dd>
+<dt>status</dt>
+<dd>
+<p>
+HTTP のステータスコードを指定します。
+このリストの下に利用可能なステータスコードのリストがあります。
+</p>
+</dd>
+<dt>server</dt>
+<dd>
+<p>
+サーバソフトウェアの名称指定します。Server ヘッダに対応します。
+</p>
+</dd>
+<dt>connection</dt>
+<dd>
+<p>
+接続の種類を指定します。Connection ヘッダに対応します。
+</p>
+</dd>
+<dt>length</dt>
+<dd>
+<p>
+送信するコンテンツの長さを指定します。Content-Length ヘッダに対応します。
+</p>
+</dd>
+<dt>language</dt>
+<dd>
+<p>
+送信するコンテンツの言語を指定します。Content-Language ヘッダに対応します。
+</p>
+</dd>
+<dt>expires</dt>
+<dd>
+<p>
+送信するコンテンツの有効期限を <a href="../class/Time.html">Time</a> のインスタンスで指定します。
+Expires ヘッダに対応します。
+</p>
+</dd>
+<dt>cookie</dt>
+<dd>
+<p>
+クッキーとして文字列か <a href="../class/CGI=3a=3aCookie.html">CGI::Cookie</a> のインスタンス、またはそれらの配列かハッシュを指定します。
+一つ以上の Set-Cookie ヘッダに対応します。
+</p>
+</dd>
+</dl>
+<p>
+status パラメータには以下の文字列が使えます。
+</p>
+<pre>
+&quot;OK&quot;                  --&gt; &quot;200 OK&quot;
+&quot;PARTIAL_CONTENT&quot;     --&gt; &quot;206 Partial Content&quot;
+&quot;MULTIPLE_CHOICES&quot;    --&gt; &quot;300 Multiple Choices&quot;
+&quot;MOVED&quot;               --&gt; &quot;301 Moved Permanently&quot;
+&quot;REDIRECT&quot;            --&gt; &quot;302 Found&quot;
+&quot;NOT_MODIFIED&quot;        --&gt; &quot;304 Not Modified&quot;
+&quot;BAD_REQUEST&quot;         --&gt; &quot;400 Bad Request&quot;
+&quot;AUTH_REQUIRED&quot;       --&gt; &quot;401 Authorization Required&quot;
+&quot;FORBIDDEN&quot;           --&gt; &quot;403 Forbidden&quot;
+&quot;NOT_FOUND&quot;           --&gt; &quot;404 Not Found&quot;
+&quot;METHOD_NOT_ALLOWED&quot;  --&gt; &quot;405 Method Not Allowed&quot;
+&quot;NOT_ACCEPTABLE&quot;      --&gt; &quot;406 Not Acceptable&quot;
+&quot;LENGTH_REQUIRED&quot;     --&gt; &quot;411 Length Required&quot;
+&quot;PRECONDITION_FAILED&quot; --&gt; &quot;412 Rrecondition Failed&quot;
+&quot;SERVER_ERROR&quot;        --&gt; &quot;500 Internal Server Error&quot;
+&quot;NOT_IMPLEMENTED&quot;     --&gt; &quot;501 Method Not Implemented&quot;
+&quot;BAD_GATEWAY&quot;         --&gt; &quot;502 Bad Gateway&quot;
+&quot;VARIANT_ALSO_VARIES&quot; --&gt; &quot;506 Variant Also Negotiates&quot;
+</pre>
+<dl>
+<dt class='method-param'>[PARAM] options:</dt>
+<dd>
+<a href="../class/Hash.html">Hash</a> か文字列で HTTP ヘッダを生成するための情報を指定します。
+</dd>
+</dl>
+<p>
+例：
+</p>
+<pre>
+header
+  # Content-Type: text/html
+
+header(&quot;text/plain&quot;)
+  # Content-Type: text/plain
+
+header({&quot;nph&quot;        =&gt; true,
+        &quot;status&quot;     =&gt; &quot;OK&quot;,  # == &quot;200 OK&quot;
+          # &quot;status&quot;     =&gt; &quot;200 GOOD&quot;,
+        &quot;server&quot;     =&gt; ENV['SERVER_SOFTWARE'],
+        &quot;connection&quot; =&gt; &quot;close&quot;,
+        &quot;type&quot;       =&gt; &quot;text/html&quot;,
+        &quot;charset&quot;    =&gt; &quot;iso-2022-jp&quot;,
+          # Content-Type: text/html; charset=iso-2022-jp
+        &quot;language&quot;   =&gt; &quot;ja&quot;,
+        &quot;expires&quot;    =&gt; Time.now + 30,
+        &quot;cookie&quot;     =&gt; [cookie1, cookie2],
+        &quot;my_header1&quot; =&gt; &quot;my_value&quot;
+        &quot;my_header2&quot; =&gt; &quot;my_value&quot;})
+</pre>
+<p>
+例：
+</p>
+<pre>
+cgi = CGI.new('html3')
+print cgi.header({&quot;charset&quot; =&gt; &quot;shift_jis&quot;, &quot;status&quot; =&gt; &quot;OK&quot;})
+print &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;TITLE&lt;/title&gt;&lt;/head&gt;\r\n&quot;
+print &quot;&lt;body&gt;BODY&lt;/body&gt;&lt;/html&gt;\r\n&quot;
+</pre>
+<p>
+[SEE_ALSO] <a class="external" href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/35911">[ruby-list:35911]</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_OUT"><code>out(options = &quot;text/html&quot;) { .... }</code><span class="permalink">[<a href="../method/CGI/i/out.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-i-out">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+HTTP ヘッダと、ブロックで与えられた文字列を標準出力に出力します。
+</p>
+<p>
+HEADリクエスト (REQUEST_METHOD == &quot;HEAD&quot;) の場合は HTTP ヘッダのみを出力します。
+</p>
+<p>
+charset が &quot;iso-2022-jp&quot;・&quot;euc-jp&quot;・&quot;shift_jis&quot; のいずれかで
+ある場合は文字列エンコーディングを自動変換し、language を &quot;ja&quot;にします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] options:</dt>
+<dd>
+<a href="../class/Hash.html">Hash</a> か文字列で HTTP ヘッダを生成するための情報を指定します。
+</dd>
+</dl>
+<p>
+例：
+</p>
+<pre>
+cgi = CGI.new
+cgi.out{ &quot;string&quot; }
+  # Content-Type: text/html
+  # Content-Length: 6
+  #
+  # string
+
+cgi.out(&quot;text/plain&quot;){ &quot;string&quot; }
+  # Content-Type: text/plain
+  # Content-Length: 6
+  #
+  # string
+
+cgi.out({&quot;nph&quot;        =&gt; true,
+         &quot;status&quot;     =&gt; &quot;OK&quot;,  # == &quot;200 OK&quot;
+         &quot;server&quot;     =&gt; ENV['SERVER_SOFTWARE'],
+         &quot;connection&quot; =&gt; &quot;close&quot;,
+         &quot;type&quot;       =&gt; &quot;text/html&quot;,
+         &quot;charset&quot;    =&gt; &quot;iso-2022-jp&quot;,
+           # Content-Type: text/html; charset=iso-2022-jp
+         &quot;language&quot;   =&gt; &quot;ja&quot;,
+         &quot;expires&quot;    =&gt; Time.now + (3600 * 24 * 30),
+         &quot;cookie&quot;     =&gt; [cookie1, cookie2],
+         &quot;my_header1&quot; =&gt; &quot;my_value&quot;,
+         &quot;my_header2&quot; =&gt; &quot;my_value&quot;}){ &quot;string&quot; }
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/CGI/i/header.html">CGI#header</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRINT"><code>print(*strings)</code><span class="permalink">[<a href="../method/CGI/i/print.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-i-print">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p class="todo">
+[TODO]
+</p>
+<p>
+引数の文字列を標準出力に出力します。
+cgi.print は $DEFAULT_OUTPUT.print と等価です。
+</p>
+<p>
+例：
+</p>
+<pre>
+cgi = CGI.new
+cgi.print &quot;This line is a part of content body.\r\n&quot;
+</pre>
+</dd>
+
+
+</dl>
+
+<h2>定数</h2>
+<dl>
+
+<dt class="method-heading" id="C_-C-R"><code>CR -&gt; String</code><span class="permalink">[<a href="../method/CGI/c/CR.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-CR">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+キャリッジリターンを表す文字列です。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-E-O-L"><code>EOL -&gt; String</code><span class="permalink">[<a href="../method/CGI/c/EOL.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-EOL">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+改行文字です。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-H-T-T-P_-S-T-A-T-U-S"><code>HTTP_STATUS -&gt; Hash</code><span class="permalink">[<a href="../method/CGI/c/HTTP_STATUS.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-HTTP_STATUS">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+HTTP のステータスコードを表すハッシュです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-L-F"><code>LF -&gt; String</code><span class="permalink">[<a href="../method/CGI/c/LF.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-LF">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ラインフィードを表す文字列です。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-P-A-T-H_-S-E-P-A-R-A-T-O-R"><code>PATH_SEPARATOR -&gt; Hash</code><span class="permalink">[<a href="../method/CGI/c/PATH_SEPARATOR.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-PATH_SEPARATOR">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+パスの区切り文字を格納します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-F-C822_-D-A-Y-S"><code>RFC822_DAYS -&gt; [String]</code><span class="permalink">[<a href="../method/CGI/c/RFC822_DAYS.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-RFC822_DAYS">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a class="external" href="http://www.ietf.org/rfc/rfc822.txt">[RFC822]</a> で定義されている曜日の略称を返します。
+</p>
+<p>
+[SEE_ALSO] <a class="external" href="http://www.ietf.org/rfc/rfc822.txt">[RFC822]</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-F-C822_-M-O-N-T-H-S"><code>RFC822_MONTHS -&gt; [String]</code><span class="permalink">[<a href="../method/CGI/c/RFC822_MONTHS.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CGI.html#method-c-RFC822_MONTHS">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a class="external" href="http://www.ietf.org/rfc/rfc822.txt">[RFC822]</a> で定義されている月名の略称を返します。
+</p>
+<p>
+[SEE_ALSO] <a class="external" href="http://www.ietf.org/rfc/rfc822.txt">[RFC822]</a>
+</p>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

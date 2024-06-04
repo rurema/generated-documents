@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/Mail.html">
+  <title>class Mail (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/mailread.html">mailreadライブラリ</a>
+&gt; Mailクラス
+</p>
+
+
+<h1>class Mail</h1>
+<p>
+
+
+クラスの継承リスト: Mail
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+Unix mbox 形式のメールファイルを解析するライブラリです。
+</p>
+<h2 >mailread の使い方</h2>
+<pre>
+require 'mailread'
+
+m = Mail.new('/var/mail/foo')
+puts 'From: ' + m['From'],
+     'Subject: ' + m['Subject'],
+     '--',
+     m.body[0,5]
+</pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_NEW">new</a>
+
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+
+<a href="#I_--5B--5D">[]</a>
+
+<a href="#I_BODY">body</a>
+
+<a href="#I_HEADER">header</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(file) -&gt; Mail</code><span class="permalink">[<a href="../method/Mail/s/new.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Mail.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+メールを解析します。
+file にはファイル名か <a href="../class/IO.html">IO</a> オブジェクトを渡します。
+このメソッドを実行した時点でヘッダと本文が切り分けられ、
+ヘッダのハッシュ(ヘッダフィールド単位)と本文の配列(行単位)が作られます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] file:</dt>
+<dd>
+ファイル名か <a href="../class/IO.html">IO</a> オブジェクトを指定します。
+</dd>
+</dl>
+<p>
+1ファイル複数メールの形式(Unix mbox 形式)に対応しています
+(この場合 open 済みの IO を渡す必要があることに注意)。
+例えば以下のようにして各メールの Subject を表示できます。
+</p>
+<p>
+例:
+</p>
+<pre>
+require 'mailread'
+require 'nkf'
+
+mailbox = File.open('/var/mail/foo')
+until (m = Mail.new(mailbox)).header.empty?
+  puts NKF.nkf('-me', m['subject'])
+end
+</pre>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--5B--5D"><code>self[field] -&gt; String | nil</code><span class="permalink">[<a href="../method/Mail/i/=5b=5d.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Mail.html#method-i-5B-5D">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ヘッダの field の値を返します。
+m.header[field.capitalize] と同じですので値取得の際は、
+フィールド名のアルファベットの大小を気にする必要はありません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] field:</dt>
+<dd>
+取得したいメールのヘッダフィールド名
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_BODY"><code>body -&gt; [ String ]</code><span class="permalink">[<a href="../method/Mail/i/body.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Mail.html#method-i-body">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+本文の各行を要素とする <a href="../class/Array.html">Array</a> を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_HEADER"><code>header -&gt; Hash</code><span class="permalink">[<a href="../method/Mail/i/header.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Mail.html#method-i-header">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ヘッダを <a href="../class/Hash.html">Hash</a> で返します。
+</p>
+<p>
+キーは 'From'、'Subject' などのフィールド名で、すべてのキーは
+<a href="../method/String/i/capitalize.html">String#capitalize</a> されています。
+</p>
+<p>
+値の末尾の改行は削除されます。
+複数行に分かれている場合、間に改行をはさみます(継続行を表す空白は削除されます)。
+MIME encoded-word のデコードなどを行いたい場合は <a href="../library/nkf.html">nkf</a> などを使用してください。
+</p>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

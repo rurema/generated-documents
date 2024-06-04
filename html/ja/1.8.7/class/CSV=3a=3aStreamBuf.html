@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/CSV=3a=3aStreamBuf.html">
+  <title>class CSV::StreamBuf (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/csv.html">csvライブラリ</a>
+&gt; CSV::StreamBufクラス
+</p>
+
+
+<h1>class CSV::StreamBuf</h1>
+<p>
+
+
+クラスの継承リスト: CSV::StreamBuf
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+ストリームバッファを扱うクラス。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_NEW">new</a>
+
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+
+<a href="#I_--5B--5D">[]</a>
+
+<a href="#I_DROP">drop</a>
+
+<a href="#I_IS_EOS--3F">is_eos?</a>
+
+<a href="#I_READ">read</a>
+
+<a href="#I_TERMINATE">terminate</a>
+
+</dd>
+
+<dt>privateメソッド</dt>
+<dd>
+
+<a href="#I_ADD_BUF">add_buf</a>
+
+<a href="#I_BUF_SIZE">buf_size</a>
+
+<a href="#I_IDX_IS_EOS--3F">idx_is_eos?</a>
+
+<a href="#I_REL_BUF">rel_buf</a>
+
+</dd>
+
+<dt>定数</dt>
+<dd>
+
+<a href="#C_-BUF-SIZE">BufSize</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new -&gt; self</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/s/new.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../class/CSV=3a=3aStreamBuf.html">CSV::StreamBuf</a>オブジェクトを生成します。
+</p>
+<h5 >注意</h5>
+<ul>
+<li>このメソッドを用いて<a href="../class/CSV=3a=3aStreamBuf.html">CSV::StreamBuf</a>クラスのオブジェクトを生成しないで下さい。
+必ず、<a href="../class/CSV=3a=3aStreamBuf.html">CSV::StreamBuf</a>クラスを継承したクラスからインスタンス生成してください。</li>
+<li>本メソッドからreadメソッドを呼び出すため、派生クラスではインスタンスメソッドreadを定義してください。</li>
+</ul>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--5B--5D"><code>self[idx, n = nil] -&gt; String</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/i/=5b=5d.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-i-5B-5D">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ストリームバッファから部分文字列を取り出します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] idx:</dt>
+<dd>
+取り出す部分文字列のスタート位置
+</dd>
+<dt class='method-param'>[PARAM] n:</dt>
+<dd>
+部分文字列のサイズ
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_DROP"><code>drop(n) -&gt; Fixnum</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/i/drop.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-i-drop">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ストリームからデータを削除します。
+</p>
+<p>
+引数で与えられたサイズのデータをストリームの先頭から削除します。
+実際に削除されたデータサイズを戻り値として返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] n:</dt>
+<dd>
+削除するデータのサイズ
+</dd>
+</dl>
+<h5 >注意</h5>
+<p>
+返り値として返す値は実際に削除したデータサイズと異なることがあることに注意すこと。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_IS_EOS--3F"><code>is_eos? -&gt; bool</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/i/is_eos=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-i-is_eos-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ストリームの終端かどうかをtrue/falseで返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_READ"><code>read(size) -&gt; []</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/i/read.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-i-read">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+NotImplementedError例外を発生させます。
+</p>
+<p>
+<a href="../class/CSV=3a=3aStreamBuf.html">CSV::StreamBuf</a> クラスを継承した場合は必ず、readメソッドをオーバーライドして下さい。
+その際の注意点として読み込み時に EndOfStream を検出した場合には nil を返してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TERMINATE"><code>terminate -&gt; nil</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/i/terminate.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-i-terminate">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ストリームの解放処理を行います。
+本メソッドはその他のメソッドの内部から呼ばれます。
+</p>
+</dd>
+
+
+</dl>
+
+<h2>privateメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ADD_BUF"><code>add_buf -&gt; bool</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/i/add_buf.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-i-add_buf">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ストリームバッファからデータを読み込み、true/falseを返します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+データの読み込みに成功した場合にはtrueを、読み込み失敗した場合にはfalseを返します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_BUF_SIZE"><code>buf_size(idx) -&gt; Fixnum</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/i/buf_size.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-i-buf_size">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+idxで指定したバッファのデータサイズを取得します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] idx:</dt>
+<dd>
+サイズを取得するデータのインデックス
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_IDX_IS_EOS--3F"><code>idx_is_eos?(idx)</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/i/idx_is_eos=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-i-idx_is_eos-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数idxで指定した位置がストリームの終端かどうかを判定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] idx:</dt>
+<dd>
+判定を行う位置インデックス
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_REL_BUF"><code>rel_buf -&gt; bool</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/i/rel_buf.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-i-rel_buf">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在処理中のストリームバッファを解放する。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+次のバッファが存在する場合にはtrueを、読み込み済みのバッファが存在しない場合にはfalseを返します。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>定数</h2>
+<dl>
+
+<dt class="method-heading" id="C_-BUF-SIZE"><code>BufSize</code><span class="permalink">[<a href="../method/CSV=3a=3aStreamBuf/c/BufSize.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV/StreamBuf.html#method-c-BufSize">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ストリームバッファの1回の読み込みデータサイズ
+1024 * 8 = 8192
+</p>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

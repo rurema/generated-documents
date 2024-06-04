@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/SyncEnumerator.html">
+  <title>class SyncEnumerator (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/generator.html">generatorライブラリ</a>
+&gt; SyncEnumeratorクラス
+</p>
+
+
+<h1>class SyncEnumerator</h1>
+<p>
+
+
+クラスの継承リスト: SyncEnumerator
+
+      &lt; <a href="../class/Enumerable.html">Enumerable</a>
+      
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+複数の <a href="../class/Enumerable.html">Enumerable</a> オブジェクトを並行して yield するためのクラスです。
+</p>
+<p>
+例:
+</p>
+<pre>
+require 'generator'
+
+s = SyncEnumerator.new([1,2,3], ['a', 'b', 'c'])
+
+# Yields [1, 'a'], [2, 'b'], and [3,'c']
+s.each { |row| puts row.join(', ') }
+</pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_NEW">new</a>
+
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+
+<a href="#I_EACH">each</a>
+
+<a href="#I_END--3F">end?</a>
+
+<a href="#I_LENGTH">length</a>
+
+<a href="#I_LENGTH">size</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(*enums) -&gt; SyncEnumerator</code><span class="permalink">[<a href="../method/SyncEnumerator/s/new.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/SyncEnumerator.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+SyncEnumerator オブジェクトを生成します。
+</p>
+<p>
+複数の <a href="../class/Enumerable.html">Enumerable</a> オブジェクトを与えます。
+Enumerable オブジェクトのサイズは異なっていても構いません。
+</p>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_EACH"><code>each {|elem| ... } -&gt; self</code><span class="permalink">[<a href="../method/SyncEnumerator/i/each.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/SyncEnumerator.html#method-i-each">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられた Enumerable オブジェクトのそれぞれの要素の配列を引数として
+ブロックを評価します。self を返します。
+</p>
+<p>
+要素がある Enumerable オブジェクトがひとつでもあれば、評価を続けます。
+要素のなくなった Enumerable オブジェクトの代わりに nil を配列の要素とします。
+全ての Enumerable オブジェクトの要素がなくなるとそこで、ブロックの評価を止めます。
+</p>
+<p>
+例:
+</p>
+<pre>
+s = SyncEnumerator.new([1, 2, 3], ['a', 'b'], ['X'])
+s.each{|arry| p arry}
+
+# =&gt; 結果
+# [1, &quot;a&quot;, &quot;X&quot;]
+# [2, &quot;b&quot;, nil]
+# [3, nil, nil]
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_END--3F"><code>end?(i = nil) -&gt; bool</code><span class="permalink">[<a href="../method/SyncEnumerator/i/end=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/SyncEnumerator.html#method-i-end-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+SyncEnumerator が終わりに達している場合は真を返します。
+</p>
+<p>
+i を与えた場合は、i 番目の Enumerable オブジェクトが終わりに
+達している場合、真を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LENGTH"><code>length -&gt; Integer</code><span class="permalink">[<a href="../method/SyncEnumerator/i/length.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/SyncEnumerator.html#method-i-length">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>size -&gt; Integer</code></dt>
+<dd class="method-description">
+<p>
+与えられた Enumerable オブジェクトの数を返します。
+</p>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/YAML=3a=3aStream.html">
+  <title>class YAML::Stream (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/yaml=2fstream.html">yaml/streamライブラリ</a>
+&gt; YAML::Streamクラス
+</p>
+
+
+<h1>class YAML::Stream</h1>
+<p>
+
+
+クラスの継承リスト: YAML::Stream
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+YAML ドキュメントを複数保持することができるストリームクラスです。
+</p>
+<h2 >参考</h2>
+<p>
+Rubyist Magazine: <a class="external" href="http://magazine.rubyist.net/">http://magazine.rubyist.net/</a>
+</p>
+<ul>
+<li>プログラマーのための YAML 入門 (中級編): <a class="external" href="http://magazine.rubyist.net/?0010-YAML">http://magazine.rubyist.net/?0010-YAML</a></li>
+</ul>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_NEW">new</a>
+
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+
+<a href="#I_--5B--5D">[]</a>
+
+<a href="#I_ADD">add</a>
+
+<a href="#I_DOCUMENTS">documents</a>
+
+<a href="#I_DOCUMENTS--3D">documents=</a>
+
+<a href="#I_EDIT">edit</a>
+
+<a href="#I_EMIT">emit</a>
+
+<a href="#I_OPTIONS">options</a>
+
+<a href="#I_OPTIONS--3D">options=</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(opts = {}) -&gt; YAML::Stream</code><span class="permalink">[<a href="../method/YAML=3a=3aStream/s/new.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/YAML/Stream.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ストリームを返します。ストリームはYAMLドキュメントを複数保持することができます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] opts:</dt>
+<dd>
+オプションを指定します。設定可能なオプションは
+<a href="../method/YAML/c/DEFAULTS.html">YAML::DEFAULTS</a> を参照してください。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/YAML=3a=3aStream/i/options.html">YAML::Stream#options</a>, <a href="../method/YAML=3a=3aStream/i/options=3d.html">YAML::Stream#options=</a>
+</p>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--5B--5D"><code>self[i] -&gt; object</code><span class="permalink">[<a href="../method/YAML=3a=3aStream/i/=5b=5d.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/YAML/Stream.html#method-i-5B-5D">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+i番目のドキュメントを参照します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] i:</dt>
+<dd>
+参照したいドキュメントの番号を指定します。
+</dd>
+</dl>
+<pre>
+require 'yaml'
+
+class Dog
+  attr_accessor :name
+  def initialize(name)
+    @name = name
+  end
+end
+
+ys = YAML::Stream.new
+begin
+  ys[0] = Dog.new(&quot;kuro&quot;)
+rescue
+  p $!
+  #=&gt; #&lt;NoMethodError: undefined method `[]=' for #&lt;YAML::Stream:0x2b07d48 @documents=[], @options={}&gt;&gt;
+end
+
+ys.add Dog.new(&quot;pochi&quot;)
+p ys[0]
+#=&gt; #&lt;Dog:0x2b07b04 @name=&quot;pochi&quot;&gt;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_ADD"><code>add(doc) -&gt; ()</code><span class="permalink">[<a href="../method/YAML=3a=3aStream/i/add.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/YAML/Stream.html#method-i-add">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+オブジェクトをドキュメントに追加します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] doc:</dt>
+<dd>
+適切なオブジェクトを指定します。
+</dd>
+</dl>
+<pre>
+require 'yaml'
+
+class Dog
+  attr_accessor :name
+  def initialize(name)
+    @name = name
+  end
+end
+
+str1=&lt;&lt;EOT
+--- !ruby/Dog
+name: pochi
+EOT
+
+ys = YAML.load_stream(str1)
+p ys.documents
+#=&gt; [#&lt;YAML::DomainType:0x2b07af0 @value={&quot;name&quot;=&gt;&quot;pochi&quot;}, @type_id=&quot;Dog&quot;, @domain=&quot;ruby.yaml.org,2002&quot;&gt;]
+ys.add(Dog.new(&quot;tama&quot;))
+p ys.documents
+#=&gt; [#&lt;YAML::DomainType:0x2b07af0 @value={&quot;name&quot;=&gt;&quot;pochi&quot;}, @type_id=&quot;Dog&quot;, @domain=&quot;ruby.yaml.org,2002&quot;&gt;, #&lt;Dog:0x2b079b0 @name=&quot;tama&quot;&gt;]
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_DOCUMENTS"><code>documents -&gt; Array</code><span class="permalink">[<a href="../method/YAML=3a=3aStream/i/documents.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/YAML/Stream.html#method-i-documents">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身のドキュメントを配列で返します。
+</p>
+<pre>
+require 'yaml'
+
+str1=&lt;&lt;EOT
+--- !ruby/Dog
+name: pochi
+---
+:age: 17
+:color: white
+EOT
+
+ys = YAML.load_stream(str1)
+p ys.documents.pop
+#=&gt; {:age=&gt;17, :color=&gt;&quot;white&quot;}
+p ys.documents.pop
+#=&gt; #&lt;YAML::DomainType:0x2b07e24 @type_id=&quot;Dog&quot;, @domain=&quot;ruby.yaml.org,2002&quot;, @value={&quot;name&quot;=&gt;&quot;pochi&quot;}&gt;
+p ys.documents.pop
+#=&gt; nil
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_DOCUMENTS--3D"><code>documents=(val)</code><span class="permalink">[<a href="../method/YAML=3a=3aStream/i/documents=3d.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/YAML/Stream.html#method-i-documents-3D">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のドキュメントを配列で設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] val:</dt>
+<dd>
+YAML に変換できる任意のオブジェクトを配列で指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_EDIT"><code>edit(doc_num, doc) -&gt; ()</code><span class="permalink">[<a href="../method/YAML=3a=3aStream/i/edit.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/YAML/Stream.html#method-i-edit">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+doc_num番目のドキュメントをdocに変更します。
+もし、doc_numが現在のドキュメント数より大きい場合は間にはnilが挿入されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] doc_num:</dt>
+<dd>
+変更されるドキュメントの番号
+</dd>
+<dt class='method-param'>[PARAM] doc:</dt>
+<dd>
+適切なオブジェクト
+</dd>
+</dl>
+<pre>
+require 'yaml'
+
+class Dog
+  attr_accessor :name
+  def initialize(name)
+    @name = name
+  end
+end
+
+ys = YAML::Stream.new
+ys.add(Dog.new(&quot;tama&quot;))
+ys.edit(1, Dog.new(&quot;pochi&quot;))
+ys.edit(5, Dog.new(&quot;jack&quot;))
+p ys.documents
+#=&gt; [#&lt;Dog:0x2b07c44 @name=&quot;tama&quot;&gt;, #&lt;Dog:0x2b07c1c @name=&quot;pochi&quot;&gt;, nil, nil, nil, #&lt;Dog:0x2b07bf4 @name=&quot;jack&quot;&gt;]
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_EMIT"><code>emit(io = nil) -&gt; IO | String</code><span class="permalink">[<a href="../method/YAML=3a=3aStream/i/emit.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/YAML/Stream.html#method-i-emit">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+ストリームに含まれる各ドキュメントを引数 io に YAML 形式で書き込みます。
+io が nil の場合は文字列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] io:</dt>
+<dd>
+書き込み先の IO オブジェクト
+</dd>
+</dl>
+<pre>
+require 'yaml'
+
+class Dog
+  attr_accessor :name
+  def initialize(name)
+    @name = name
+  end
+end
+
+ys = YAML::Stream.new
+ys.add(Dog.new(&quot;pochi&quot;))
+ys.edit(1, { :age =&gt; 17, :color =&gt; &quot;white&quot;})
+ys.edit(2, [ &quot;Chiba&quot;, &quot;Saitama&quot;])
+ys.emit.split(/\n/).each {|l|
+  puts l
+}
+
+#結果
+--- !ruby/object:Dog
+name: pochi
+---
+:age: 17
+:color: white
+---
+- Chiba
+- Saitama
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_OPTIONS"><code>options -&gt; {Symbol =&gt; object}</code><span class="permalink">[<a href="../method/YAML=3a=3aStream/i/options.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/YAML/Stream.html#method-i-options">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+オプションの一覧を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_OPTIONS--3D"><code>options=(val)</code><span class="permalink">[<a href="../method/YAML=3a=3aStream/i/options=3d.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/YAML/Stream.html#method-i-options-3D">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+オプションの一覧を設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] val:</dt>
+<dd>
+設定を <a href="../class/Hash.html">Hash</a> オブジェクトで指定します。設定可能なオプショ
+ンは <a href="../method/YAML/c/DEFAULTS.html">YAML::DEFAULTS</a> を参照してください。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

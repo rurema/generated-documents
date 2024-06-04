@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/Symbol.html">
+  <title>class Symbol (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/_builtin.html">組み込みライブラリ</a>
+&gt; Symbolクラス
+</p>
+
+
+<h1>class Symbol</h1>
+<p>
+
+
+クラスの継承リスト: Symbol
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+シンボルを表すクラス。シンボルは任意の文字列と一対一に対応するオブジェクトです。
+</p>
+<p>
+文字列の代わりに用いることもできますが、必ずしも文字列と同じ振る舞いをするわけではありません。
+同じ内容のシンボルはかならず同一のオブジェクトです。
+</p>
+<p>
+シンボルオブジェクトは以下のようなリテラルで得られます。
+</p>
+<pre>
+:symbol
+:'symbol'
+%s!symbol! # %記法
+</pre>
+<p>
+生成されたシンボルの一覧は <a href="../method/Symbol/s/all_symbols.html">Symbol.all_symbols</a> で得られます。
+一番目のリテラルでシンボルを表す場合、`:' の後に
+は識別子、メソッド名(`!',`?',`=' などの接尾辞を含む)、変数名
+(`$'などの接頭辞を含む)、再定義できる演算子のいずれかに適合する
+ものしか書くことはできません(そうでなければ文法エラーになります)。
+そうでない文字列をシンボルにしたい場合は残りの表記か <a href="../method/String/i/intern.html">String#intern</a> を使用してください。
+</p>
+<h2 >シンボルの実装と用途</h2>
+<h3 >実装</h3>
+<p>
+Rubyの内部実装では、メソッド名や変数名、定数名、クラス名など
+の`名前'を整数で管理しています。これは名前を直接文字列として処理するよりも
+速度面で有利だからです。そしてその整数をRubyのコード上で表現したものがシンボルです。
+</p>
+<p>
+シンボルは、ソース上では文字列のように見え、内部では整数として扱われる、両者を仲立ちするような存在です。
+</p>
+<p>
+名前を管理するという役割上、シンボルと文字列は一対一に対応します。
+また、文字列と違い、immutable (変更不可)であり、同値ならば必ず同一です。
+</p>
+<pre>
+p &quot;abc&quot; == &quot;abc&quot; #=&gt; true
+p &quot;abc&quot;.equal?(&quot;abc&quot;) #=&gt; false
+p :abc == :abc #=&gt; true
+p :abc.equal?(:abc) #=&gt; true ←同値ならば同一
+</pre>
+<h3 >用途</h3>
+<p>
+実用面では、シンボルは文字の意味を明確にします。`名前'を指し示す時など、
+文字列そのものが必要なわけではない時に用います。
+</p>
+<ul>
+<li>ハッシュのキー { :key =&gt; &quot;value&quot; }</li>
+<li>アクセサの引数で渡すインスタンス変数名 attr_reader :name</li>
+<li>メソッド引数で渡すメソッド名 __send__ :to_s</li>
+<li>C の enum 的な使用 (値そのものは無視してよい場合)</li>
+</ul>
+<p>
+シンボルを使うメリットは
+</p>
+<ul>
+<li>新しく文字列を生成しない分やや効率がよく、比較も高速。</li>
+<li>文字の意味がはっきりするのでコードが読みやすくなる</li>
+<li>immutable なので内容を書き換えられる心配がない</li>
+</ul>
+<p>
+大抵のメソッドはシンボルの代わりに文字列を引数として渡すこともできるようになっています。
+</p>
+<h3 >GC</h3>
+<p>
+内部的にシンボルは
+</p>
+<ul>
+<li>シンボルの情報を記録するテーブル</li>
+<li>そのテーブルの要素を指し示すポインタ</li>
+</ul>
+<p>
+の2つにより実装されています。そのため
+同じシンボル(同じ文字列から作られたシンボル)を
+複製しても同じ要素へのポインタが使われるだけなので
+メモリ使用量は普通の文字列と比べて少ないです。
+</p>
+<p>
+一方、テーブルに記録された情報はプログラムが動いている間
+はずっと保持しつづけられます。そのため、以下のようなコード
+</p>
+<pre>
+rng = Random.new
+100000.times do { rng.bytes(1000).intern }
+</pre>
+<p>
+はテーブルのサイズを増大させ、メモリを圧迫します。
+</p>
+<p>
+例えば web アプリケーションのようなプロセスを動かしつづけるような
+アプリケーションにおいて、ユーザからの入力を <a href="../method/String/i/intern.html">String#intern</a> で
+シンボルに変換するような実装をすると、DoSに弱くなる可能性があります。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_ALL_SYMBOLS">all_symbols</a>
+
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+
+<a href="#I_ID2NAME">id2name</a>
+
+<a href="#I_ID2NAME">to_s</a>
+
+<a href="#I_INSPECT">inspect</a>
+
+<a href="#I_TO_I">to_i</a>
+
+<a href="#I_TO_I">to_int</a>
+
+<a href="#I_TO_PROC">to_proc</a>
+
+<a href="#I_TO_SYM">to_sym</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_ALL_SYMBOLS"><code>all_symbols -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Symbol/s/all_symbols.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Symbol.html#method-c-all_symbols">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+定義済みの全てのシンボルオブジェクトの配列を返します。
+</p>
+<pre>
+p Symbol.all_symbols #=&gt; [:RUBY_PLATFORM, :RUBY_VERSION, ...]
+</pre>
+<p>
+リテラルで表記したシンボルのうち、コンパイル時に値が決まるものはその時に生成されます。
+それ以外の式展開を含むリテラルや、メソッドで表記されたものは式の評価時に生成されます。
+(何にも使われないシンボルは最適化により生成されないことがあります)
+</p>
+<pre>
+def number
+  'make_3'
+end
+
+p Symbol.all_symbols.select{|sym|sym.to_s.include? 'make'}
+#=&gt; [:make_1, :make_2]
+
+re  = #確実に生成されるように代入操作を行う
+:make_1,
+:'make_2',
+:&quot;#{number}&quot;,
+'make_4'.intern
+
+p Symbol.all_symbols.select{|sym|sym.to_s.include? 'make'}
+#=&gt; [:make_1, :make_2, :make_3, :make_4]
+</pre>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ID2NAME"><code>id2name -&gt; String</code><span class="permalink">[<a href="../method/Symbol/i/id2name.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Symbol.html#method-i-id2name">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>to_s -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+シンボルに対応する文字列を返します。
+</p>
+<p>
+逆に、文字列に対応するシンボルを得るには
+<a href="../method/String/i/intern.html">String#intern</a> を使います。
+</p>
+<pre>
+p :foo.id2name  # =&gt; &quot;foo&quot;
+p :foo.id2name.intern == :foo  # =&gt; true
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/String/i/intern.html">String#intern</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/Symbol/i/inspect.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Symbol.html#method-i-inspect">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身を人間に読みやすい文字列にして返します。
+</p>
+<pre>
+:fred.inspect   #=&gt; &quot;:fred&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_I"><code>to_i -&gt; Integer</code><span class="permalink">[<a href="../method/Symbol/i/to_i.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Symbol.html#method-i-to_i">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>to_int -&gt; Integer</code></dt>
+<dd class="method-description">
+<p>
+シンボルに対応する整数を返します。
+</p>
+<p>
+このメソッドで得られる整数は、内部実装で名前の管理に使われています。
+オブジェクトに対応する整数( <a href="../method/Object/i/object_id.html">Object#object_id</a> で得ら
+れます)と Symbol に対応する整数は別のものです。
+</p>
+<p>
+逆にこの整数から対応するシンボルを得るには
+<a href="../method/Fixnum/i/to_sym.html">Fixnum#to_sym</a> が使えます
+</p>
+<pre>
+id = :foo.to_i
+p id                  #=&gt; 8881
+p id.to_sym           #=&gt; :foo
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/Fixnum/i/to_sym.html">Fixnum#to_sym</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_PROC"><code>to_proc -&gt; Proc</code><span class="permalink">[<a href="../method/Symbol/i/to_proc.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Symbol.html#method-i-to_proc">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+self に対応する Proc オブジェクトを返します。
+</p>
+<p>
+生成される Proc オブジェクトを呼びだす(<a href="../method/Proc/i/call.html">Proc#call</a>)と、
+Proc#callの第一引数をレシーバとして、 self という名前のメソッドを
+残りの引数を渡して呼びだします。
+</p>
+<pre>
+:to_i.to_proc[&quot;ff&quot;, 16]  #=&gt; 255 ← &quot;ff&quot;.to_i(16)と同じです
+(1..3).collect(&amp;:to_s)  #=&gt; [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]
+(1..3).inject(&amp;:+)      #=&gt; 6
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_SYM"><code>to_sym -&gt; self</code><span class="permalink">[<a href="../method/Symbol/i/to_sym.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Symbol.html#method-i-to_sym">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+self を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/String/i/intern.html">String#intern</a>
+</p>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

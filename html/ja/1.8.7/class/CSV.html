@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/CSV.html">
+  <title>class CSV (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/csv.html">csvライブラリ</a>
+&gt; CSVクラス
+</p>
+
+
+<h1>class CSV</h1>
+<p>
+
+
+クラスの継承リスト: CSV
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+CSV (Comma Separated Values) を扱うクラスです。
+</p>
+<p>
+各メソッドの共通パラメタ
+</p>
+<pre>
+mode
+   'r', 'w', 'rb', 'wb' から指定可能です。
+
+   - 'r' 読み込み
+   - 'w' 書き込み
+   - 'b' バイナリモード
+fs
+   フィールドの区切り文字(あるいは文字列)。
+   数値(Integer#chr で変換可能な値のみ)を指定した場合は対応する文字が区切り文字になります。
+   デフォルトは ','。
+rs
+   行区切り文字。nil (デフォルト) で CrLf / Lf。
+   Cr で区切りたい場合は ?\r を渡します。
+</pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_FOREACH">foreach</a>
+
+<a href="#S_GENERATE">generate</a>
+
+<a href="#S_GENERATE_LINE">generate_line</a>
+
+<a href="#S_GENERATE_ROW">generate_row</a>
+
+<a href="#S_OPEN">open</a>
+
+<a href="#S_PARSE">parse</a>
+
+<a href="#S_PARSE_LINE">parse_line</a>
+
+<a href="#S_PARSE_ROW">parse_row</a>
+
+<a href="#S_READ">read</a>
+
+<a href="#S_READLINES">readlines</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_FOREACH"><code>foreach(path, rs = nil) {|row| ... } -&gt; nil</code><span class="permalink">[<a href="../method/CSV/s/foreach.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV.html#method-c-foreach">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+読み込みモードでファイルを開き、各行を配列でブロックに渡します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] path:</dt>
+<dd>
+パースするファイルのファイル名
+</dd>
+<dt class='method-param'>[PARAM] rs:</dt>
+<dd>
+行区切り文字の指定。nil (デフォルト) で CrLf / Lf。
+Cr を行区切りとしたい場合は ?\r を渡します。
+</dd>
+</dl>
+<h5 >注意</h5>
+<p>
+パース時に&quot;&quot;(空文字)と値なしを区別します。
+例えば、a, &quot;&quot;, , b の行をパースした場合には [&quot;a&quot;, &quot;&quot;, nil, &quot;b&quot;] の配列を返します。
+</p>
+<p>
+例:
+</p>
+<pre>
+CSV.foreach('test.csv'){|row|
+  puts row.join(':')
+}
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_GENERATE"><code>generate(path, fs = nil, rs = nil) -&gt; CSV::BasicWriter</code><span class="permalink">[<a href="../method/CSV/s/generate.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV.html#method-c-generate">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>generate(path, fs = nil, rs = nil) {|writer| ... } -&gt; nil</code></dt>
+<dd class="method-description">
+<p>
+path で指定されたファイルを書き込みモードで開き、ブロックに渡します。
+ブロック未指定の場合は <a href="../class/CSV=3a=3aBasicWriter.html">CSV::BasicWriter</a> を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] path:</dt>
+<dd>
+書き込みモードでopenするファイルのファイル名
+</dd>
+<dt class='method-param'>[PARAM] fs:</dt>
+<dd>
+フィールドセパレータの指定。
+nil (デフォルト) で ',' をセパレータとします。
+</dd>
+<dt class='method-param'>[PARAM] rs:</dt>
+<dd>
+行区切り文字の指定。nil (デフォルト) で CrLf / Lf。
+Cr を行区切りとしたい場合は ?\r を渡します。
+</dd>
+</dl>
+<h5 >注意</h5>
+<p>
+ファイル書き込み時に&quot;&quot;(空文字)と値なし(nil)を区別します。
+例えば、[&quot;a&quot;, &quot;&quot;, nil, &quot;b&quot;] の配列を渡した場合に a, &quot;&quot;, , b という行をファイルに書き込みます。
+</p>
+<p>
+例:
+</p>
+<pre>
+a = [&quot;1&quot;,&quot;ABC&quot;,&quot;abc&quot;]
+b = [&quot;2&quot;,&quot;DEF&quot;,&quot;def&quot;]
+c = [&quot;3&quot;,&quot;GHI&quot;,&quot;ghi&quot;]
+x = [a, b, c]
+
+CSV.generate(&quot;test2.csv&quot;){|writer|
+  x.each{|row|
+    writer &lt;&lt; row
+  }
+}
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_GENERATE_LINE"><code>generate_line(row, fs = nil, rs = nil) -&gt; String</code><span class="permalink">[<a href="../method/CSV/s/generate_line.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV.html#method-c-generate_line">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+row で指定された配列をパースし、fs で指定された文字をフィールドセパレータとして
+1行分の文字列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] row:</dt>
+<dd>
+パースする配列
+</dd>
+<dt class='method-param'>[PARAM] fs:</dt>
+<dd>
+フィールドセパレータの指定。
+nil (デフォルト) で ',' をセパレータとします。
+</dd>
+<dt class='method-param'>[PARAM] rs:</dt>
+<dd>
+無視されます。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_GENERATE_ROW"><code>generate_row(src, cells, out_dev, fs = nil, rs = nil) -&gt; Fixnum</code><span class="permalink">[<a href="../method/CSV/s/generate_row.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV.html#method-c-generate_row">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+src で指定された配列をパースして csv形式の文字列として(行区切り文字も含めて) out_dev に出力します。
+返り値として fs で区切ったフィールド(cell)の数を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] src:</dt>
+<dd>
+パースする配列
+</dd>
+<dt class='method-param'>[PARAM] cells:</dt>
+<dd>
+パースするフィールド数。
+</dd>
+<dt class='method-param'>[PARAM] out_dev:</dt>
+<dd>
+csv形式の文字列の出力先。
+</dd>
+<dt class='method-param'>[PARAM] fs:</dt>
+<dd>
+フィールドセパレータの指定。
+nil (デフォルト) で ',' をセパレータとします。
+</dd>
+<dt class='method-param'>[PARAM] rs:</dt>
+<dd>
+行区切り文字の指定。nil (デフォルト) で CrLf / Lf。
+Cr を行区切りとしたい場合は ?\r を渡します。
+</dd>
+</dl>
+<h5 >注意</h5>
+<p>
+配列のパース時に&quot;&quot;(空文字)と値なし(nil)を区別します。
+例えば、[&quot;a&quot;, &quot;&quot;, nil, &quot;b&quot;] の配列を渡した場合に a,&quot;&quot;, , b という文字列を生成します。
+</p>
+<p>
+例:
+</p>
+<pre>
+row1 = ['a', 'b', 'c']
+row2 = ['1', '2', '3']
+row3 = ['A', 'B', 'C']
+src = [row1, row2, row3]
+buf = ''
+src.each do |row|
+  parsed_cells = CSV.generate_row(row, 2, buf)
+end
+p buf #=&gt;&quot;a,b\n1,2\n,A,B\n&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_OPEN"><code>open(path, mode, fs = nil, rs = nil) {|row| ... } -&gt; nil</code><span class="permalink">[<a href="../method/CSV/s/open.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV.html#method-c-open">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>open(path, mode, fs = nil, rs = nil) -&gt; CSV::Reader | CSV::Writer</code></dt>
+<dd class="method-description">
+<p>
+CSVファイルを読み込んでパースします。
+</p>
+<p>
+読み込みモード時には path にあるファイルを開き各行を配列として
+ブロックに渡します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] path:</dt>
+<dd>
+パースするファイルのファイル名
+</dd>
+<dt class='method-param'>[PARAM] mode:</dt>
+<dd>
+処理モードの指定
+'r', 'w', 'rb', 'wb' から指定可能です。
+- 'r' 読み込み
+- 'w' 書き込み
+- 'b' バイナリモード
+</dd>
+<dt class='method-param'>[PARAM] fs:</dt>
+<dd>
+フィールドセパレータの指定。
+nil (デフォルト) で ',' をセパレータとします。
+</dd>
+<dt class='method-param'>[PARAM] rs:</dt>
+<dd>
+行区切り文字の指定。nil (デフォルト) で CRLF / LF。
+CR を行区切りとしたい場合は ?\r を渡します。
+</dd>
+</dl>
+<h5 >注意</h5>
+<p>
+パース時に&quot;&quot;(空文字)と値なし(nil)を区別します。
+例えば、読み込みモード時にa, &quot;&quot;, , b の行をパースした場合には [&quot;a&quot;, &quot;&quot;, nil, &quot;b&quot;] の配列を返します。
+</p>
+<p>
+例:
+</p>
+<pre>
+CSV.open(&quot;/temp/test.csv&quot;, 'r') do |row|
+  puts row.join(&quot;&lt;&gt;&quot;)
+end
+</pre>
+<p>
+tsv(Tab Separated Values)ファイルなどのセパレータをカンマ以外で指定
+</p>
+<pre>
+CSV.open(&quot;/temp/test.tsv&quot;, 'r', &quot;\t&quot;) do |row|
+  puts row.join(&quot;&lt;&gt;&quot;)
+end
+</pre>
+<p>
+ブロックを渡さなかった場合 CSV::Reader を返します。
+</p>
+<p>
+書き込みモード時には path にあるファイルを開き CSV::Writer をブロックに渡します。
+</p>
+<p>
+例:
+</p>
+<pre>
+CSV.open(&quot;/temp/test.csv&quot;, 'w') do |writer|
+  writer &lt;&lt; [&quot;ruby&quot;, &quot;perl&quot;, &quot;python&quot;]
+  writer &lt;&lt; [&quot;java&quot;, &quot;C&quot;, &quot;C++&quot;]
+end
+</pre>
+<p>
+ブロック未指定の場合 CSV::Writer を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_PARSE"><code>parse(str_or_readable, fs = nil, rs = nil) -&gt; Array</code><span class="permalink">[<a href="../method/CSV/s/parse.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV.html#method-c-parse">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>parse(str_or_readable, fs = nil, rs = nil) {|rows| ... } -&gt; nil</code></dt>
+<dd class="method-description">
+<p>
+str_or_readable で指定された文字列をパースし配列の配列に変換、ブロックに渡します。
+ブロック未指定の場合は変換された配列の配列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] str_or_readable:</dt>
+<dd>
+パースする文字列
+</dd>
+<dt class='method-param'>[PARAM] fs:</dt>
+<dd>
+フィールドセパレータの指定。
+nil (デフォルト) で ',' をセパレータとします。
+</dd>
+<dt class='method-param'>[PARAM] rs:</dt>
+<dd>
+行区切り文字の指定。nil (デフォルト) で CrLf / Lf。
+Cr を行区切りとしたい場合は ?\r を渡します。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+CSV.parse(&quot;A,B,C\nd,e,f\nG,H,I&quot;){|rows|
+  p rows
+}
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_PARSE_LINE"><code>parse_line(src, fs = nil, rs = nil) -&gt; Array</code><span class="permalink">[<a href="../method/CSV/s/parse_line.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV.html#method-c-parse_line">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+src で指定された文字列を1行分としてパースし配列に変換して返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] src:</dt>
+<dd>
+パースする文字列
+</dd>
+<dt class='method-param'>[PARAM] fs:</dt>
+<dd>
+フィールドセパレータの指定。
+nil (デフォルト) で ',' をセパレータとします。
+</dd>
+<dt class='method-param'>[PARAM] rs:</dt>
+<dd>
+行区切り文字の指定。nil (デフォルト) で CrLf / Lf。
+Cr を行区切りとしたい場合は ?\r を渡します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_PARSE_ROW"><code>parse_row(src, index, out_dev, fs = nil, rs = nil) -&gt; Array</code><span class="permalink">[<a href="../method/CSV/s/parse_row.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV.html#method-c-parse_row">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+CSV形式の文字列をパースしてCSV1行(row)分のデータを配列に変換し out_dev に出力します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] src:</dt>
+<dd>
+パースする文字列(CSV形式)
+</dd>
+<dt class='method-param'>[PARAM] index:</dt>
+<dd>
+パース開始位置
+</dd>
+<dt class='method-param'>[PARAM] out_dev:</dt>
+<dd>
+変換したデータの出力先。
+</dd>
+<dt class='method-param'>[PARAM] fs:</dt>
+<dd>
+フィールドセパレータの指定。
+nil (デフォルト) で ',' をセパレータとします。
+</dd>
+<dt class='method-param'>[PARAM] rs:</dt>
+<dd>
+行区切り文字の指定。nil (デフォルト) で CrLf / Lf。
+Cr を行区切りとしたい場合は ?\r を渡します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+変換したArrayのサイズと変換をした文字列の位置をArrayとして返します。
+</dd>
+</dl>
+<h5 >注意</h5>
+<p>
+パース時に&quot;&quot;(空文字)と値なしを区別します。
+例えば、a, &quot;&quot;, , b の行をパースした場合には [&quot;a&quot;, &quot;&quot;, nil, &quot;b&quot;] の配列を返します。
+</p>
+<p>
+例:
+</p>
+<pre>
+src = &quot;a,b,c\n1,2\nA,B,C,D&quot;
+i = 0
+
+x = [] #結果を格納する配列
+begin
+  parsed = []
+  parsed_cells, i = CSV.parse_row(src, i, parsed)
+  x.push(parsed)
+end while parsed_cells &gt; 0
+
+x.each{ |row|
+  p '-----'
+  row.each{ |cell|
+    p cell
+  }
+}
+</pre>
+<p>
+実行結果:
+</p>
+<pre>
+a
+b
+c
+-----
+1
+2
+-----
+A
+B
+C
+D
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_READ"><code>read(path, length = nil, offset = nil) -&gt; Array</code><span class="permalink">[<a href="../method/CSV/s/read.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV.html#method-c-read">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+path で指定された CSV ファイルを読み込み、配列の配列でデータを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] path:</dt>
+<dd>
+パースするファイルのファイル名
+</dd>
+<dt class='method-param'>[PARAM] length:</dt>
+<dd>
+対象ファイルの読み込みサイズ
+</dd>
+<dt class='method-param'>[PARAM] offset:</dt>
+<dd>
+読み込み開始位置
+</dd>
+</dl>
+<h5 >注意</h5>
+<p>
+パース時に&quot;&quot;(空文字)と値なしを区別します。
+例えば、a, &quot;&quot;, , b の行をパースした場合には [&quot;a&quot;, &quot;&quot;, nil, &quot;b&quot;] の配列を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_READLINES"><code>readlines(path, rs = nil) -&gt; Array</code><span class="permalink">[<a href="../method/CSV/s/readlines.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/CSV.html#method-c-readlines">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+path で指定された CSV ファイルを読み込み、配列の配列でデータを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] path:</dt>
+<dd>
+パースするファイルのファイル名
+</dd>
+<dt class='method-param'>[PARAM] rs:</dt>
+<dd>
+行区切り文字の指定。nil (デフォルト) で CrLf / Lf。
+Cr を行区切りとしたい場合は ?\r を渡します。
+</dd>
+</dl>
+<h5 >注意</h5>
+<p>
+パース時に&quot;&quot;(空文字)と値なしを区別します。
+例えば、a, &quot;&quot;, , b の行をパースした場合には [&quot;a&quot;, &quot;&quot;, nil, &quot;b&quot;] の配列を返します。
+</p>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

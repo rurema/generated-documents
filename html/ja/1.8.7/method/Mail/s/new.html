@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/method/Mail/s/new.html">
+  <title>singleton method Mail.new (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/mailread.html">mailreadライブラリ</a>
+&gt; <a href="../../../class/Mail.html">Mailクラス</a>
+&gt; new
+
+</p>
+
+
+<h1>singleton method Mail.new</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_NEW"><code>new(file) -&gt; Mail</code><span class="permalink">[<a href="../../../method/Mail/s/new.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Mail.html#method-c-new">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+メールを解析します。
+file にはファイル名か <a href="../../../class/IO.html">IO</a> オブジェクトを渡します。
+このメソッドを実行した時点でヘッダと本文が切り分けられ、
+ヘッダのハッシュ(ヘッダフィールド単位)と本文の配列(行単位)が作られます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] file:</dt>
+<dd>
+ファイル名か <a href="../../../class/IO.html">IO</a> オブジェクトを指定します。
+</dd>
+</dl>
+<p>
+1ファイル複数メールの形式(Unix mbox 形式)に対応しています
+(この場合 open 済みの IO を渡す必要があることに注意)。
+例えば以下のようにして各メールの Subject を表示できます。
+</p>
+<p>
+例:
+</p>
+<pre>
+require 'mailread'
+require 'nkf'
+
+mailbox = File.open('/var/mail/foo')
+until (m = Mail.new(mailbox)).header.empty?
+  puts NKF.nkf('-me', m['subject'])
+end
+</pre>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

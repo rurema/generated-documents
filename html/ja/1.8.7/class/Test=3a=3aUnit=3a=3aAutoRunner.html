@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <link rel="icon" type="image/png" href="../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/Test=3a=3aUnit=3a=3aAutoRunner.html">
+  <title>class Test::Unit::AutoRunner (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../library/test=2funit=2fautorunner.html">test/unit/autorunnerライブラリ</a>
+&gt; Test::Unit::AutoRunnerクラス
+</p>
+
+
+<h1>class Test::Unit::AutoRunner</h1>
+<p>
+
+
+クラスの継承リスト: Test::Unit::AutoRunner
+
+      &lt; <a href="../class/Object.html">Object</a>
+      
+
+      &lt; <a href="../class/Kernel.html">Kernel</a>
+      
+
+
+
+
+
+
+
+</p>
+
+<h2>要約</h2>
+<p>
+テストの実行を操作したいときにこの AutoRunner クラスを使います。
+大量のテストの中から特定のテストスクリプトのみを実行したい場合、
+特定のテストクラスのみを実行したい場合などに使います。
+AutoRunner は Collector::Dir オブジェクトなどの Collector に
+テストを集めさせて、UI::Console::TestRunner オブジェクトなどの
+Runner にテストを実行させているクラスです。
+</p>
+<h2 >例</h2>
+<p>
+ディレクトリ ./somedir 以下にある全てのテストを実行したい場合は次のよう
+なファイル(runner.rb)を用意して実行します。テストは test_*.rb というファ
+イル名である必要があります。
+</p>
+<p>
+第一引数に true を与えると、./somedir 以下にある全てのテストを実行します。
+</p>
+<pre>
+require 'test/unit'
+Test::Unit::AutoRunner.run(true, './somedir')
+</pre>
+<p>
+単に実行します。
+</p>
+<pre>
+$ ruby runner.rb
+</pre>
+<p>
+ディレクトリ ./somedir 以下にあるテストをファイル somefile を除いて実行
+したい場合は次のように runner.rb にオプションを与えます。
+</p>
+<pre>
+$ ruby runner.rb --exclude=somefile
+</pre>
+<p>
+同じことは、runner.rb に直接オプションを書いても実現できます。
+</p>
+<pre>
+require 'test/unit'
+Test::Unit::AutoRunner.run(true, './somedir', ['--exclude=somefile'])
+</pre>
+<p>
+上のやり方では拡張子が .rb のファイルしか集めません。拡張子が .rbx のファイルも
+テストとして集めたい場合は次のようにします。
+</p>
+<pre>
+require 'test/unit'
+Test::Unit::AutoRunner.run(true, './somedir', ['--pattern=/test_.*\.rbx\Z/'])
+</pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+
+<a href="#S_RUN">run</a>
+
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_RUN"><code>run(force_standalone = false, dir = '.', argv = ARGV) -&gt; bool</code><span class="permalink">[<a href="../method/Test=3a=3aUnit=3a=3aAutoRunner/s/run.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Test/Unit/AutoRunner.html#method-c-run">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+テストを実行します。全てのテストが成功した場合、true を返します。そうでない場合は、
+false を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] force_standalone:</dt>
+<dd>
+true を与えると、dir 以下にある全てのテストを実
+行します。false を与えた場合は既に読み込まれた
+ファイルの中からテストを探して実行します。テス
+トが読み込まれておらず、スクリプトを -e から実
+行している場合は、dir 以下にある全てのテストを
+実行します。デフォルトは false です。
+</dd>
+<dt class='method-param'>[PARAM] dir:</dt>
+<dd>
+force_standalone に true を与えた時に再帰的に探査するディレクトリ名を
+与えます。デフォルトではカレントディレクトリを再帰的に探査します。
+</dd>
+<dt class='method-param'>[PARAM] argv:</dt>
+<dd>
+オプションを配列として与えます。解釈するオプションは先に
+出てきたものと同じです。
+</dd>
+</dl>
+<pre>
+-r, --runner=RUNNER              Use the given RUNNER.
+                                 (c[onsole], f[ox], g[tk], g[tk]2, t[k])
+-b, --basedir=DIR                Base directory of test suites.
+-w, --workdir=DIR                Working directory to run tests.
+-n, --name=NAME                  Runs tests matching NAME.
+                                 (patterns may be used).
+-t, --testcase=TESTCASE          Runs tests in TestCases matching TESTCASE.
+                                 (patterns may be used).
+-v, --verbose=[LEVEL]            Set the output level (default is verbose).
+                                 (s[ilent], p[rogress], n[ormal], v[erbose])
+    --                           Stop processing options so that the
+                                 remaining options will be passed to the
+                                 test.
+-h, --help                       Display this help.
+</pre>
+<p>
+force_standalone に false を与えた時には次のオプションが追加されます。
+</p>
+<pre>
+-a, --add=TORUN                  Add TORUN to the list of things to run;
+                                 can be a file or a directory.
+-p, --pattern=PATTERN            Match files to collect against PATTERN.
+-x, --exclude=PATTERN            Ignore files to collect against PATTERN.
+</pre>
+<p>
+例
+</p>
+<pre>
+require 'test/unit'
+Test::Unit::AutoRunner.run(true, './', ['--runner=tk', '-v',
+                                        '--exclude=/test_hoge.*\.rb\Z/i'])
+</pre>
+<p>
+argv にデフォルトのまま ARGV を渡しておけばコマンドラインからオプションを
+指定できます。
+</p>
+<pre>
+require 'test/unit'
+Test::Unit::AutoRunner.run(true, './')
+</pre>
+<p>
+と、runner.rb に書いておいて、コマンドラインから以下のように実行。
+</p>
+<pre>
+$ ruby runner.rb --runner=tk -v --exclude=/test_hoge.\*\\.rb\\Z/i
+</pre>
+</dd>
+
+
+</dl>
+
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>

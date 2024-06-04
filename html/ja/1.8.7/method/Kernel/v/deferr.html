@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Language" content="ja-JP">
+  <link rel="stylesheet" type="text/css" href="../../../style.css">
+  <link rel="icon" type="image/png" href="../../../rurema.png">
+  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/method/Kernel/v/deferr.html">
+  <title>variable $deferr (Ruby 1.8.7)</title>
+</head>
+<body>
+
+<p>
+<a href="../../../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
+&gt; <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+&gt; <a href="../../../class/Kernel.html">Kernelモジュール</a>
+&gt; $deferr
+
+</p>
+
+
+<h1>variable $deferr</h1>
+<dl class="methodlist">
+
+<dt class="method-heading" id="V_DEFERR"><code>$stderr -&gt; object</code><span class="permalink">[<a href="../../../method/Kernel/v/deferr.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/1.8.7/Kernel.html#method-c-deferr">rdoc</a>]</span></dt>
+<dt class="method-heading"><code>$deferr -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+標準エラー出力です。
+</p>
+<p>
+Ruby インタプリタが出力するエラーメッセージや
+警告メッセージ、<a href="../../../method/Kernel/m/warn.html">Kernel.#warn</a> の出力先となります。
+初期値は <a href="../../../method/Object/c/STDERR.html">Object::STDERR</a> です。
+</p>
+<p>
+$stderr には $deferr という別名がありますが、
+$deferr は非推奨(obsolete)になったので、
+新しいコードでは常に $stderr を使ってください。
+</p>
+<p>
+$stderr に代入するオブジェクトには
+write という名前のメソッドが定義されていなければいけません。
+</p>
+<p>
+自プロセスの標準エラー出力をリダイレクトしたいときには、
+$stderr に代入すれば十分です。
+</p>
+<pre>
+# 標準エラー出力の出力先を /tmp/foo に変更
+$stderr = File.open(&quot;/tmp/foo&quot;, &quot;w&quot;)
+puts &quot;foo&quot;         # 出力する
+$stderr = STDERR   # 元に戻す
+</pre>
+<p>
+自プロセスだけでなく、子プロセスの標準エラー出力も
+リダイレクトしたいときは以下のように <a href="../../../method/IO/i/reopen.html">IO#reopen</a> を使います。
+</p>
+<pre>
+$stderr.reopen(&quot;/tmp/foo&quot;, &quot;w&quot;)
+</pre>
+<p>
+また、リダイレクトしたあと
+出力先をまた元に戻したい場合は以下のようにします。
+</p>
+<pre>
+stderr_old = $stderr.dup        # 元の $stderr を保存する
+$stderr.reopen(&quot;/tmp/foo&quot;)      # $stderr を /tmp/foo にリダイレクトする
+puts &quot;foo&quot;                      # /tmp/foo に出力
+$stderr.flush                   # 念のためフラッシュする
+$stderr.reopen stderr_old       # 元に戻す
+</pre>
+<p>
+$stderr はグローバルスコープです。
+</p>
+</dd>
+
+
+</dl>
+
+
+<div id="footer">
+  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+</div>
+</body>
+</html>
