@@ -1,0 +1,28 @@
+names=close
+visibility=public
+kind=defined
+
+--- close    -> nil
+
+入出力ポートをクローズします。
+
+以後このポートに対して入出力を行うと例外 [[c:IOError]] が発生しま
+す。ガーベージコレクトの際にはクローズされていない IO ポートはクロー
+ズされます。
+self がパイプでプロセスにつながっていれば、そのプロセスの終
+了を待ち合わせます。
+
+既に close されていた場合には単に無視されます。
+
+@raise Errno::EXXX close に失敗した場合に発生します。
+
+//emlist[例][ruby]{
+IO.write("testfile", "test")
+f = File.open("testfile")
+f.read   # => "test"
+f.close
+# f.read # => IOError (すでに close しているので read できない)
+//}
+
+@see [[m:IO#closed?]], [[m:IO#close_read]], [[m:IO#close_write]]
+

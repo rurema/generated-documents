@@ -1,0 +1,26 @@
+names=event
+visibility=public
+kind=defined
+
+--- event -> Symbol
+
+発生したイベントの種類を [[c:Symbol]] で返します。
+
+発生するイベントの詳細については、[[m:TracePoint.new]] を参照してくださ
+い。
+
+@raise RuntimeError イベントフックの外側で実行した場合に発生します。
+
+//emlist[例][ruby]{
+def foo(ret)
+  ret
+end
+trace = TracePoint.new(:call, :return) do |tp|
+  p tp.event
+end
+trace.enable
+foo 1
+# => :call
+# :return
+//}
+

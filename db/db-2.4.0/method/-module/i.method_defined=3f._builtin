@@ -1,0 +1,39 @@
+names=method_defined?
+visibility=public
+kind=defined
+
+--- method_defined?(name) -> bool
+
+モジュールにインスタンスメソッド name が定義されており、
+かつその可視性が public または protected であるときに
+true を返します。
+
+@param name [[c:Symbol]] か [[c:String]] を指定します。
+
+@see [[m:Module#public_method_defined?]], [[m:Module#private_method_defined?]], [[m:Module#protected_method_defined?]]
+
+//emlist[例][ruby]{
+module A
+  def method1()  end
+  def protected_method1()  end
+  protected :protected_method1
+end
+class B
+  def method2()  end
+  def private_method2()  end
+  private :private_method2
+end
+class C < B
+  include A
+  def method3()  end
+end
+
+A.method_defined? :method1              #=> true
+C.method_defined? "method1"             #=> true
+C.method_defined? "method2"             #=> true
+C.method_defined? "method3"             #=> true
+C.method_defined? "protected_method1"   #=> true
+C.method_defined? "method4"             #=> false
+C.method_defined? "private_method2"     #=> false
+//}
+

@@ -1,0 +1,35 @@
+names=start
+visibility=public
+kind=defined
+
+--- start(address, port = 80, proxy_addr = :ENV, proxy_port = nil, proxy_user=nil, proxy_pass=nil) -> Net::HTTP
+--- start(address, port = 80, proxy_addr = :ENV, proxy_port = nil, proxy_user=nil, proxy_pass=nil) {|http| .... } -> object
+
+新しい [[c:Net::HTTP]] オブジェクトを生成し、
+TCP コネクション、 HTTP セッションを開始します。
+
+ブロックを与えた場合には生成したオブジェクトをそのブロックに
+渡し、ブロックが終わったときに接続を閉じます。このときは
+ブロックの値を返り値とします。
+
+ブロックを与えなかった場合には生成したオブジェクトを渡します。
+利用後にはこのオブジェクトを [[m:Net::HTTP#finish]] してください。
+
+proxy_addr に :ENV を指定すると環境変数 http_proxy からプロクシの URI を
+取り出し利用します。環境変数 http_proxy が定義されていない場合には
+プロクシは利用しません。
+
+このメソッドは以下と同じです。
+
+  require 'net/http'
+  Net::HTTP.new(address, port, proxy_addr, proxy_port, proxy_user, proxy_pass).start(&block)
+
+@param address 接続するホスト名を文字列で指定します。
+@param port 接続するポート番号を指定します。
+@param proxy_addr プロクシのホスト名もしくはアドレスを文字列で指定します。:ENV を指定すると環境変数 http_proxy を利用してプロクシの設定をします。省略した場合には直接接続します。
+@param proxy_port プロクシのポートを指定します。
+@param proxy_user プロクシの認証のユーザ名を指定します。省略した場合には認証はなされません。
+@param proxy_pass プロクシの認証のパスワードを指定します。
+@raise Net::OpenTimeout 接続がタイムアウトしたときに発生します
+@see [[m:Net::HTTP.new]], [[m:Net::HTTP#start]]
+

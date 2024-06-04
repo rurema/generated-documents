@@ -1,0 +1,40 @@
+names=each,each_line
+visibility=public 
+kind=defined
+
+--- each(rs = $/) { |line| ... }             -> self
+--- each_line(rs = $/) { |line| ... }        -> self
+--- each(rs = $/, limit) { |line| ... }      -> self
+--- each_line(rs = $/, limit) { |line| ... } -> self
+--- each(rs = $/)                            -> Enumerator
+--- each_line(rs = $/)                       -> Enumerator
+--- each(rs = $/, limit)                     -> Enumerator
+--- each_line(rs = $/, limit)                -> Enumerator
+
+ARGFの現在位置から 1 行ずつ文字列として読み込み、それを引数として与えら
+れたブロックを実行します。
+
+ブロックが与えられなかった場合は、[[c:Enumerator]] オブジェクトを生成し
+て返します。
+
+このメソッドはスクリプトに指定した引数([[m:Object::ARGV]] を参照) をファ
+イル名とみなして、それらのファイルを連結した 1 つの仮想ファイルを表すオ
+ブジェクトです。そのため、最初のファイルを最後まで読んだ後は次のファイ
+ルの内容を返します。現在の行についてファイル名や行数を得るには
+[[m:ARGF.class#filename]] と [[m:ARGF.class#lineno]] を使用します。
+
+@param rs 行の区切りを文字列で指定します。nil を指定すると行区切りなし
+          とみなします。空文字列 "" を指定すると連続する改行を行の区切
+          りとみなします(パラグラフモード)。
+
+@param limit 各行の最大の読み込みバイト数
+
+例: ARGFの各ファイル名(最初に1回のみ)、行番号、内容を表示
+
+  ARGF.each_line do |line|
+    puts ARGF.filename if ARGF.lineno == 1
+    puts "#{ARGF.lineno}: #{line}"
+  end
+
+@see [[m:IO#each]], [[m:IO#each_line]]
+

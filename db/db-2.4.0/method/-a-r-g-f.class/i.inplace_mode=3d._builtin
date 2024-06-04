@@ -1,0 +1,39 @@
+names=inplace_mode=
+visibility=public 
+kind=defined
+
+--- inplace_mode=(ext)
+
+[[ref:c:ARGF#inplace]]時にバックアップファイルに付加する拡張子を設定します。
+ピリオドも含めて指定する必要があります。
+
+バックアップを残さない場合は空文字列を指定します。
+この機能は Windows では使用出来ません。
+
+設定が有効になるのは次のファイルの処理に移った時です。
+インプレースモードに入っていない場合はその時点でモードに入ります。
+
+Ruby 起動時の -i オプションで設定することも出来ます。
+
+@param ext インプレースモード時にバックアップファイルに付加する拡張子を
+           文字列で指定します。
+           ピリオドも含める必要があります。
+
+  $ ruby argf.rb file.txt
+
+  ---- argf.rb ----
+  # 引数のファイル中の各行の最初の "foo" を "bar" で置き換える
+  ARGF.inplace_mode = '.bak'
+  ARGF.lines do |line|
+    print line.sub("foo","bar")
+  end
+
+
+  ---- -i オプションを使う場合 ----
+  $ ruby -i.bak -p -e '$_.sub!("foo","bar")' file.txt
+
+  ---- -i オプションを使う場合その２ ----
+  $ ruby -i.bak -n -e 'print $_.sub("foo","bar")' file.txt
+
+@see [[ref:d:spec/rubycmd#cmd_option]], [[m:ARGF.class#inplace_mode]]
+

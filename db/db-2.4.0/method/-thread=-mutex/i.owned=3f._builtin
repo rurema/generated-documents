@@ -1,0 +1,20 @@
+names=owned?
+visibility=public
+kind=defined
+
+--- owned? -> bool
+
+self がカレントスレッドによってロックされている場合に true を返します。
+そうでない場合に false を返します。
+
+
+//emlist[例][ruby]{
+m = Mutex.new
+m.owned? # => false
+m.lock
+Thread.new do
+  m.owned? # => false
+end.join
+m.owned? # => true
+//}
+

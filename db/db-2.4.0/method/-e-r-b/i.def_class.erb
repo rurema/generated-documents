@@ -1,0 +1,32 @@
+names=def_class
+visibility=public
+kind=defined
+
+--- def_class(superklass=Object, methodname='erb') -> Class
+
+変換した Ruby スクリプトをメソッドとして定義した無名のクラスを返します。
+
+ 
+@param superklass 無名クラスのスーパークラス
+
+@param methodname メソッド名
+
+//emlist[例][ruby]{
+require 'erb'
+
+class MyClass_
+  def initialize(arg1, arg2)
+    @arg1 = arg1;  @arg2 = arg2
+  end
+end
+filename = 'example.rhtml'  # @arg1 と @arg2 が使われている example.rhtml
+
+erb = ERB.new(File.read(filename))
+erb.filename = filename
+MyClass = erb.def_class(MyClass_, 'render()')
+print MyClass.new('foo', 123).render()
+
+# => test1foo
+#    test2123
+//}
+

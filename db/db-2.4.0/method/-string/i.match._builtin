@@ -1,0 +1,30 @@
+names=match
+visibility=public
+kind=defined
+
+--- match(regexp, pos = 0) -> MatchData | nil
+--- match(regexp, pos = 0) {|m| ... } -> object
+
+regexp.match(self, pos) と同じです。
+regexp が文字列の場合は、正規表現にコンパイルします。
+詳しくは [[m:Regexp#match]] を参照してください。
+
+//emlist[例: regexp のみの場合][ruby]{
+'hello'.match('(.)\1')      # => #<MatchData "ll" 1:"l">
+'hello'.match('(.)\1')[0]   # => "ll"
+'hello'.match(/(.)\1/)[0]   # => "ll"
+'hello'.match('xx')         # => nil
+//}
+
+//emlist[例: regexp, pos を指定した場合][ruby]{
+'hoge hige hege bar'.match('h.ge', 0)     # => #<MatchData "hoge">
+'hoge hige hege bar'.match('h.ge', 1)     # => #<MatchData "hige">
+//}
+
+//emlist[例: ブロックを指定した場合][ruby]{
+'hello'.match('(.)\1'){|e|"match #{$1}"}  # => "match l"
+'hello'.match('xx'){|e|"match #{$1}"}     # マッチしないためブロックは実行されない
+//}
+
+@see [[m:Regexp#match]], [[m:Symbol#match]]
+

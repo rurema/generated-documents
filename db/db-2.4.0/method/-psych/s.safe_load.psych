@@ -1,0 +1,57 @@
+names=safe_load
+visibility=public
+kind=defined
+
+--- safe_load(yaml, whitelist_classes = [], whitelist_symbols = [], aliases = false, filename = nil) -> object
+
+安全に YAML フォーマットの文書を読み込み Ruby のオブジェクトを生成して返します。
+
+デフォルトでは以下のクラスのオブジェクトしか変換しません。
+
+ * TrueClass
+ * FalseClass
+ * NilClass
+ * Numeric
+ * String
+ * Array
+ * Hash
+
+再帰的なデータ構造はデフォルトでは許可されていません。
+任意のクラスを許可するには whitelist_classes を指定すると、
+そのクラスが追加されます。例えば Date クラスを許可するには
+以下のように書いてください:
+
+  Psych.safe_load(yaml, [Date])
+
+すると上のクラス一覧に加えて Date クラスが読み込まれます。
+
+エイリアスは aliases パラメーターを変更することで明示的に許可できます。
+
+例:
+
+  x = []
+  x << x
+  yaml = Psych.dump x
+  Psych.safe_load yaml               # => 例外発生
+  Psych.safe_load yaml, [], [], true # => エイリアスが読み込まれる
+
+yaml にホワイトリストにないクラスが含まれていた場合は、
+Psych::DisallowedClass 例外が発生します。
+
+yaml がエイリアスを含んでいて aliases パラメーターが false の時、
+Psych::BadAlias 例外が発生します。
+
+filename はパース中に発生した例外のメッセージに用います。
+
+キーワード引数 symbolize_names に true を指定した場合はハッシュのキー
+を [[c:Symbol]] に変換して返します。
+
+
+@param io YAMLフォーマットの文書の読み込み先のIOオブジェクト。
+@param whitelist_classes 追加で読み込みを許可するクラスの配列。
+@param whitelist_symbols 引数 whitelist_classesに [[c:Symbol]] を含む場
+                         合に読み込みを許可する [[c:Symbol]] の配列。
+                         省略した場合は全ての [[c:Symbol]] を許可します。
+@param aliases エイリアスの読み込みを許可するかどうか。
+@param filename [[c:Psych::SyntaxError]] 発生時にファイル名として表示する文字列。
+

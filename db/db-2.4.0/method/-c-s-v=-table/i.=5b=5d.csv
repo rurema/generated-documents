@@ -1,0 +1,31 @@
+names=[]
+visibility=public
+kind=defined
+
+--- [](index_or_header) -> object
+
+ミックスモードでは、このメソッドは引数に行番号を指定すれば行単位で動作
+し、ヘッダの名前を指定すれば列単位で動作します。
+
+このメソッドを呼び出す前に [[m:CSV::Table#by_col!]] を呼び出すとカラム
+モードになります。また [[m:CSV::Table#by_row!]] を呼び出すとロウモード
+になります。
+
+@param index_or_header 行番号かヘッダの名前を指定します。
+
+@return 値の配列を返します。この配列を変更しても元のデータには何の影響
+        もありません。
+
+//emlist[例][ruby]{
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+table = CSV::Table.new([row1, row2])
+table[0] # => #<CSV::Row "header1":"row1_1" "header2":"row1_2">
+table[1] # => #<CSV::Row "header1":"row2_1" "header2":"row2_2">
+table.by_col!
+table[0] # => ["row1_1", "row2_1"]
+table[1] # => ["row1_2", "row2_2"]
+//}
+

@@ -1,0 +1,46 @@
+names=broadcast
+visibility=public
+kind=defined
+
+--- broadcast -> [Thread]
+
+状態変数を待っているスレッドをすべて再開します。再開された
+スレッドは [[m:Thread::ConditionVariable#wait]]
+で指定した mutex のロックを試みます。
+
+@return 実行待ちしていたスレッドの配列を返します。
+
+//emlist[例][ruby]{
+mutex = Mutex.new
+cv = ConditionVariable.new
+flg = true
+
+3.times {
+  Thread.start {
+    mutex.synchronize {
+      puts "a1"
+      while (flg)
+        cv.wait(mutex)
+      end
+      puts "a2"
+    }
+  }
+}
+
+Thread.start {
+  mutex.synchronize {
+    flg = false
+    cv.broadcast
+  }
+}
+
+sleep 1
+
+# => a1
+# => a1
+# => a1
+# => a2
+# => a2
+# => a2
+//}
+

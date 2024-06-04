@@ -1,0 +1,33 @@
+names=inplace_mode
+visibility=public 
+kind=defined
+
+--- inplace_mode -> String | nil
+
+[[ref:c:ARGF#inplace]] で書き換えるファイルのバックアップに付加される拡
+張子を返します。拡張子が設定されていない場合は空文字列を返します。イン
+プレースモードでない場合は nil を返します。
+
+Ruby 起動時の -i オプション や [[m:ARGF.class#inplace_mode=]] で設定します。
+
+例:
+  # $ echo "test" > test.txt
+  # $ ruby -i.bak test.rb test.txt
+  # $ cat test.txt # => "TEST"
+  # $ cat test.txt.bak # => "test"
+
+  # test.rb
+  ARGF.inplace_mode                   # => ".bak"
+  ARGF.each_line {|e|print e.upcase}  # => "TEST"
+
+例:
+  # $ echo "test" > test.txt
+  # $ ruby test.rb test.txt
+  # $ cat test.txt # => "test"
+
+  # test.rb
+  ARGF.inplace_mode                   # => nil
+  ARGF.each_line {|e|print e.upcase}  # => "TEST"
+
+@see [[ref:d:spec/rubycmd#cmd_option]], [[m:ARGF.class#inplace_mode=]]
+

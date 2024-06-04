@@ -1,0 +1,35 @@
+names=tsort
+visibility=public
+kind=defined
+
+--- tsort(each_node, each_child) -> Array
+
+頂点をトポロジカルソートして得られる配列を返します。
+この配列は子から親に向かってソートされています。
+すなわち、最初の要素は子を持たず、最後の要素は親を持ちません。
+
+引数 each_node と each_child でグラフを表します。
+
+@param each_node グラフ上の頂点をそれぞれ評価するcallメソッドを持つオブ
+                 ジェクトを指定します。
+
+@param each_child 引数で与えられた頂点の子をそれぞれ評価するcallメソッ
+                  ドを持つオブジェクトを指定します。
+
+@raise TSort::Cyclic 閉路が存在するとき、発生します。
+
+使用例
+  require 'tsort'
+
+  g = {1=>[2, 3], 2=>[4], 3=>[2, 4], 4=>[]}
+  each_node = lambda {|&b| g.each_key(&b) }
+  each_child = lambda {|n, &b| g[n].each(&b) }
+  p TSort.tsort(each_node, each_child) # => [4, 2, 3, 1]
+
+  g = {1=>[2], 2=>[3, 4], 3=>[2], 4=>[]}
+  each_node = lambda {|&b| g.each_key(&b) }
+  each_child = lambda {|n, &b| g[n].each(&b) }
+  p TSort.tsort(each_node, each_child) # raises TSort::Cyclic
+
+@see [[m:TSort#tsort]]
+

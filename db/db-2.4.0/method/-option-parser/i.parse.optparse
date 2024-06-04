@@ -1,0 +1,40 @@
+names=parse
+visibility=public
+kind=defined
+
+--- parse(argv, into: nil)   -> [String]
+--- parse(*args, into: nil)  -> [String]
+
+与えられた argv をパースします。
+argv からオプションを取り除いたものを返します。
+
+[[m:OptionParser#permute]] と同様に振舞います。しかし、
+環境変数に POSIXLY_CORRECT が設定されている場合は、
+[[m:OptionParser#order]] と同様に振舞います。
+
+@param argv パースしたい引数を文字列の配列で指定します。
+
+@param args パースしたい引数を順に文字列として与えます。
+
+@param into オプションを格納するハッシュを指定します。
+            指定したハッシュにはオプションの名前をキーとして、[[m:OptionParser#on]]に渡されたブロックの値が格納されます。
+            キーの名前はロングオプションが定義されていればロングオプションの値を、
+            ショートオプションのみの場合はショートオプションの値から、先頭の "-" を除いてシンボル化した値が使用されます。
+
+@raise OptionParser::ParseError パースに失敗した場合、発生します。
+                                実際は OptionParser::ParseError のサブク
+                                ラスになります。
+
+//emlist[例][ruby]{
+require "optparse"
+
+opts = OptionParser.new do |opts|
+  opts.on_head("-i", "--init")
+  opts.on("-u", "--update")
+  opts.on_tail("-h", "--help")
+end
+
+ARGV             # => ["-i", "-u", "-h", "test"]
+opts.parse(ARGV) # => ["test"]
+//}
+

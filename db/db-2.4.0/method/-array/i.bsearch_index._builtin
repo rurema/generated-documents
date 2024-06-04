@@ -1,0 +1,34 @@
+names=bsearch_index
+visibility=public
+kind=defined
+
+--- bsearch_index { |x| ... } -> Integer | nil
+--- bsearch_index             -> Enumerator
+
+ブロックの評価結果で範囲内の各要素の判定を行い、条件を満たす値の位置を
+二分探索(計算量は O(log n))で検索します。要素が見つからない場合は nil
+を返します。self はあらかじめソートしておく必要があります。
+
+本メソッドは[[m:Array#bsearch]]と同様に、ブロックを評価した結果により2
+つのモードで動作します。[[m:Array#bsearch]] との違いは見つかった要素自
+身を返すか位置を返すかのみです。各モードのより詳細な違いについては
+[[m:Array#bsearch]] を参照してください。
+
+//emlist[例: find-minimum モード][ruby]{
+ary = [0, 4, 7, 10, 12]
+ary.bsearch_index { |x| x >=   4 } # => 1
+ary.bsearch_index { |x| x >=   6 } # => 2
+ary.bsearch_index { |x| x >=  -1 } # => 0
+ary.bsearch_index { |x| x >= 100 } # => nil
+//}
+
+//emlist[例: find-any モード][ruby]{
+ary = [0, 4, 7, 10, 12]
+# 4 <= v < 8 になる要素の位置を検索
+ary.bsearch_index { |x| 1 - x / 4 } # => 2
+# 8 <= v < 10 になる要素の位置を検索
+ary.bsearch_index { |x| 4 - x / 2 } # => nil
+//}
+
+@see [[m:Array#bsearch]]
+

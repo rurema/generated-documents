@@ -1,0 +1,41 @@
+names=each_strongly_connected_component
+visibility=public
+kind=defined
+
+--- each_strongly_connected_component(each_node, each_child) {|nodes| ...} -> nil
+--- each_strongly_connected_component(each_node, each_child) -> Enumerator
+
+[[m:TSort.strongly_connected_components]] メソッドのイテレータ版です。
+
+引数 each_node と each_child でグラフを表します。
+
+@param each_node グラフ上の頂点をそれぞれ評価するcallメソッドを持つオブ
+                 ジェクトを指定します。
+
+@param each_child 引数で与えられた頂点の子をそれぞれ評価するcallメソッ
+                  ドを持つオブジェクトを指定します。
+
+使用例
+  require 'tsort'
+
+  g = {1=>[2, 3], 2=>[4], 3=>[2, 4], 4=>[]}
+  each_node = lambda {|&b| g.each_key(&b) }
+  each_child = lambda {|n, &b| g[n].each(&b) }
+  TSort.each_strongly_connected_component(each_node, each_child) {|scc| p scc }
+
+  # => [4]
+  #    [2]
+  #    [3]
+  #    [1]
+
+  g = {1=>[2], 2=>[3, 4], 3=>[2], 4=>[]}
+  each_node = lambda {|&b| g.each_key(&b) }
+  each_child = lambda {|n, &b| g[n].each(&b) }
+  TSort.each_strongly_connected_component(each_node, each_child) {|scc| p scc }
+
+  # => [4]
+  #    [2, 3]
+  #    [1]
+
+@see [[m:TSort#each_strongly_connected_component]]
+

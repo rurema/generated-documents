@@ -1,0 +1,27 @@
+names=max_nesting
+visibility=public 
+kind=defined
+
+--- max_nesting -> Integer
+
+生成される JSON 形式の文字列のネストの深さの最大値を返します。
+
+この値がゼロである場合は、ネストの深さのチェックを行いません。
+
+//emlist[例 ネストの深さチェックを行う][ruby]{
+require "json"
+
+json_state = JSON::State.new(max_nesting: 2)
+json_state.max_nesting            # => 2
+JSON.generate([[]], json_state)
+JSON.generate([[[]]], json_state) # => JSON::NestingError
+//}
+
+//emlist[例 ネストの深さチェックを行わない][ruby]{
+require "json"
+
+json_state = JSON::State.new(max_nesting: 0)
+json_state.max_nesting            # => 0
+JSON.generate([[[[[[[[[[]]]]]]]]]], json_state)
+//}
+

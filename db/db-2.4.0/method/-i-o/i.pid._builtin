@@ -1,0 +1,21 @@
+names=pid
+visibility=public
+kind=defined
+
+--- pid    -> Integer | nil
+
+自身が [[m:IO.popen]] で作られたIOポートなら、子プロセスのプロセス ID を
+返します。それ以外は nil を返します。
+
+@raise IOError 既に close されている場合に発生します。
+
+//emlist[例][ruby]{
+IO.popen("-") do |pipe|
+  if pipe
+    $stderr.puts "In parent, child pid is #{pipe.pid}" # => In parent, child pid is 16013
+  else
+    $stderr.puts "In child, pid is #{$$}"              # => In child, pid is 16013
+  end
+end
+//}
+

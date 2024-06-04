@@ -1,0 +1,76 @@
+names=filter
+visibility=public
+kind=defined
+
+--- filter(options = Hash.new){|row| ... }
+--- filter(input, options = Hash.new){|row| ... }
+--- filter(input, output, options = Hash.new){|row| ... }
+
+このメソッドは CSV データに対して Unix のツール群のようなフィルタを構築
+するのに便利です。
+
+与えられたブロックに一行ずつ渡されます。ブロックに渡された行は必要であ
+れば変更することができます。ブロックの評価後に行を全て output に書き込
+みます。
+
+@param input [[c:String]] か [[c:IO]] のインスタンスを指定します。
+             デフォルトは [[c:ARGF]] です。
+
+@param output [[c:String]] か [[c:IO]] のインスタンスを指定します。
+              デフォルトは [[m:$stdout]] です。
+
+@param options ":in_", ":input_" で始まるキーは input にだけ適用されます。
+               ":out_", ":output_" で始まるキーは output にだけ適用されます。
+               それ以外のキーは両方に適用されます。
+               ":output_row_sep" のデフォルト値は [[m:$/]] です。
+
+//emlist[例: input, output は初期値][ruby]{
+# $ echo "header1,header2\nrow1_1,row1_2" > in.csv; ruby test.rb in.csv
+
+require "csv"
+
+options = { headers: true, return_headers: true, write_headers: true }
+
+CSV.filter(options) do |row|
+  if row.header_row?
+    row << "header3"
+    next
+  end
+  row << "row1_3"
+end
+
+# => header1,header2,header3
+# row1_1,row1_2,row1_3
+//}
+
+//emlist[例: input, output を指定する][ruby]{
+require "csv"
+content = <<EOS
+id,first name,last name,age
+1,taro,tanaka,20
+2,jiro,suzuki,18
+3,ami,sato,19
+4,yumi,adachi,21
+EOS
+
+File.write('test.csv',content)
+options = { headers: true, return_headers: true, write_headers: true }
+
+CSV.filter(File.open("test.csv"), File.open("out.csv", "w"), options) do |row|
+  if row.header_row?
+    row << "full name"
+    next
+  end
+  row << row["first name"] + " " + row["last name"]
+end
+
+# out.csv の内容
+# => id,first name,last name,age,full name
+#    1,taro,tanaka,20,taro tanaka
+#    2,jiro,suzuki,18,jiro suzuki
+#    3,ami,sato,19,ami sato
+#    4,yumi,adachi,21,yumi adachi
+//}
+
+@see [[m:CSV.new]]
+

@@ -1,0 +1,25 @@
+names=each,each_header
+visibility=public
+kind=defined
+
+--- each {|name, val| .... } -> ()
+--- each_header {|name, val| .... } -> ()
+
+保持しているヘッダ名とその値をそれぞれ
+ブロックに渡して呼びだします。
+
+ヘッダ名は小文字で統一されます。
+val は ", " で連結した文字列がブロックに渡されます。
+
+//emlist[例][ruby]{
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+req.each_header { |key,value| puts "#{key} = #{value}" }
+
+# => accept-encoding = gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+# => accept = */*
+# => user-agent = Ruby
+//}
+

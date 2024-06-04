@@ -1,0 +1,30 @@
+names=utime
+visibility=public
+kind=defined
+
+--- utime(atime, mtime, *filename)    -> Integer
+
+ファイルの最終アクセス時刻と更新時刻を変更します。
+
+@param atime 最終アクセス時刻を [[c:Time]] か、起算時からの経過秒数を数値で指定します。
+
+@param mtime 更新時刻を [[c:Time]] か、起算時からの経過秒数を数値で指定します。
+
+@param filename ファイル名を表す文字列を指定します。複数指定できます。
+
+@return 変更したファイルの数を返します。
+
+@raise Errno::EXXX 変更に失敗した場合に発生します。
+
+例: Time を指定
+  atime = Time.new(2018, 1, 2, 3, 4, 5)
+  mtime = Time.new(2018, 2, 3, 4, 5, 6)
+  File.utime(atime, mtime, "testfile")  # => 1
+  File.atime("testfile")                # => 2018-01-02 03:04:05 +0900
+  File.mtime("testfile")                # => 2018-02-03 04:05:06 +0900
+
+例: 経過秒数で指定
+  File.utime(1, 2, "testfile")  # => 1
+  File.atime("testfile")                # => 1970-01-01 09:00:01 +0900
+  File.mtime("testfile")                # => 1970-01-01 09:00:02 +0900
+

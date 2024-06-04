@@ -1,0 +1,36 @@
+names=new
+visibility=public
+kind=defined
+
+--- new(headers, fields, header_row = false) -> CSV::Row
+
+自身を初期化します。
+
+一方の配列が他方の配列よりも短い場合、不足しているところは nil になります。
+
+@param headers ヘッダの配列を指定します。
+
+@param fields フィールドの配列を指定します。
+
+@param header_row ヘッダ行である場合は真を指定します。そうでない場合は偽を指定します。
+                  デフォルトは偽です。
+
+//emlist[例 header_row = true のケース][ruby]{
+require "csv"
+
+header = CSV::Row.new(["header1", "header2"], [], header_row: true)
+table = CSV::Table.new([header])
+table.to_a # => [["header1", "header2"]]
+//}
+
+//emlist[例 header_row = false のケース][ruby]{
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+table = CSV::Table.new([row1, row2])
+table.to_a # => [["header1", "header2"], ["row1_1", "row1_2"], ["row2_1", "row2_2"]]
+//}
+
+@see [[m:CSV::Row#header_row?]], [[m:CSV::Row#field_row?]]
+

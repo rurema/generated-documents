@@ -1,0 +1,24 @@
+names=trace_object_allocations
+visibility=public
+kind=added
+
+--- trace_object_allocations { ... }
+
+与えられたブロック内でオブジェクトのトレースを行います。　
+
+//emlist[例][ruby]{
+require 'objspace'
+
+class C
+  include ObjectSpace
+
+  def foo
+    trace_object_allocations do
+      obj = Object.new
+      p "#{allocation_sourcefile(obj)}:#{allocation_sourceline(obj)}"
+    end
+  end
+end
+
+C.new.foo #=> "objtrace.rb:8"
+//}

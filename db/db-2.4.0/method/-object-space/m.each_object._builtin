@@ -1,0 +1,63 @@
+names=each_object
+visibility=public
+kind=defined
+
+--- each_object        {|object| ...}    -> Integer
+--- each_object(klass) {|object| ...}    -> Integer
+--- each_object                          -> Enumerator
+--- each_object(klass)                   -> Enumerator
+
+指定された klass と [[m:Object#kind_of?]] の関係にある全ての
+オブジェクトに対して繰り返します。引数が省略された時には全てのオブ
+ジェクトに対して繰り返します。
+繰り返した数を返します。
+
+ブロックが与えられなかった場合は、
+[[c:Enumerator]] オブジェクトを返します。
+
+次のクラスのオブジェクトについては繰り返しません
+
+ * [[c:Fixnum]]
+ * [[c:Symbol]]
+ * [[c:TrueClass]]
+ * [[c:FalseClass]]
+ * [[c:NilClass]]
+
+とくに、klass に [[c:Fixnum]] や [[c:Symbol]] などのクラスを指定した場合は、
+何も繰り返さないことになります。
+なお、[[c:Symbol]] については、かわりに [[m:Symbol.all_symbols]] が使用できます。
+
+@param klass クラスかモジュールを指定します。
+
+//emlist[例: ブロックなし][ruby]{
+p ObjectSpace.each_object
+# => #<Enumerator: ObjectSpace:each_object(false)>
+//}
+
+//emlist[例: 全てのオブジェクトを扱う][ruby]{
+ObjectSpace.each_object.take(5).each { |x| p x }
+count = ObjectSpace.each_object { |x| x }
+puts "Total count: #{count}"
+
+# => "scope"
+# => "scopes"
+# => "sym"
+# => "class_names"
+# => "@corrections"
+# => Total count: 9938
+//}
+
+//emlist[例: 任意のクラスを扱う][ruby]{
+Person = Struct.new(:name)
+s1 = Person.new("tanaka")
+s2 = Person.new("sato")
+
+count = ObjectSpace.each_object(Person) { |x| p x }
+puts "Total count: #{count}"
+
+# => #<struct Person name="sato">
+# => #<struct Person name="tanaka">
+# => Total count: 2
+//}
+
+
