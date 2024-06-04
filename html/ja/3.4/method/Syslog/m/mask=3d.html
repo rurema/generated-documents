@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Syslog/m/mask.html">
+
+<title>Syslog.#mask (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="ログの優先度のマスクを取得または設定します。
+マスクは永続的であり、
+Syslog.openやSyslog.close
+ではリセットされません。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/syslog.html","name":"syslogライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Syslog.html","name":"Syslogモジュール","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Syslog/m/mask.html","name":"mask","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/syslog.html">syslogライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Syslog.html">Syslogモジュール</a>
+      </li>
+      <li>
+        mask 
+      </li>
+    </ol>
+  </nav>
+
+<h1>module function Syslog.#mask</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="M_MASK"><code>mask -&gt; Integer | nil</code><span class="permalink">[<a href="../../../method/Syslog/m/mask.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog.html#method-c-mask">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog.rd#L197">edit</a>]</span></dt>
+<dt class="method-heading"><code>mask=(mask)</code></dt>
+<dd class="method-description">
+<p>
+ログの優先度のマスクを取得または設定します。マスクは永続的であり、
+Syslog.openやSyslog.close
+ではリセットされません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] mask:</dt>
+<dd>
+ログの優先度のマスクを設定します。
+</dd>
+<dt>[EXCEPTION] RuntimeError:</dt>
+<dd>
+syslog がオープンされていない場合、発生します。
+</dd>
+</dl>
+<p>
+使用例
+</p>
+<pre>
+require 'syslog'
+include Syslog::Constants
+# ログの場所は実行環境によって異なる。詳しくはsyslog.conf を参照
+log = '/var/log/ftp.log'
+
+Syslog.open('ftpd', LOG_PID | LOG_NDELAY, LOG_FTP)
+Syslog.mask = Syslog::LOG_UPTO(LOG_ERR)
+
+[ LOG_CRIT, LOG_ERR, LOG_WARNING,
+  LOG_NOTICE, LOG_INFO, LOG_DEBUG ].each_with_index { |c, i|
+  Syslog.log(c, &quot;test for syslog FTP #{c}, #{i}&quot;)
+}
+Syslog.close
+File.foreach(log){|line|
+  print line if line =~ /FTP/
+}
+</pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog.rd#L197">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

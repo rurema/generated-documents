@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/ObjectSpace/m/each_object.html">
+
+<title>ObjectSpace.#each_object (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="指定された klass と [[m:Object#kind_of?]] の関係にある全ての
+オブジェクトに対して繰り返します。引数が省略された時には全てのオブ
+ジェクトに対して繰り返します。
+繰り返した数を返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/ObjectSpace.html","name":"ObjectSpaceモジュール","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/ObjectSpace/m/each_object.html","name":"each_object","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/ObjectSpace.html">ObjectSpaceモジュール</a>
+      </li>
+      <li>
+        each_object 
+      </li>
+    </ol>
+  </nav>
+
+<h1>module function ObjectSpace.#each_object</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="M_EACH_OBJECT"><code>each_object {|object| ...} -&gt; Integer</code><span class="permalink">[<a href="../../../method/ObjectSpace/m/each_object.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-each_object">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/ObjectSpace#L107">edit</a>]</span></dt>
+<dt class="method-heading"><code>each_object(klass) {|object| ...} -&gt; Integer</code></dt>
+<dt class="method-heading"><code>each_object -&gt; Enumerator</code></dt>
+<dt class="method-heading"><code>each_object(klass) -&gt; Enumerator</code></dt>
+<dd class="method-description">
+<p>
+指定された klass と <a href="../../../method/Object/i/kind_of=3f.html">Object#kind_of?</a> の関係にある全てのオブジェクトに対して繰り返します。引数が省略された時には全てのオブジェクトに対して繰り返します。繰り返した数を返します。
+</p>
+<p>
+ブロックが与えられなかった場合は、
+<a href="../../../class/Enumerator.html">Enumerator</a> オブジェクトを返します。
+</p>
+<p>
+次のクラスのオブジェクトについては繰り返しません
+</p>
+<ul>
+<li><a href="../../../class/Fixnum.html">Fixnum</a></li>
+<li><a href="../../../class/Symbol.html">Symbol</a></li>
+<li><a href="../../../class/TrueClass.html">TrueClass</a></li>
+<li><a href="../../../class/FalseClass.html">FalseClass</a></li>
+<li><a href="../../../class/NilClass.html">NilClass</a></li>
+</ul>
+<p>
+とくに、klass に <a href="../../../class/Fixnum.html">Fixnum</a> や <a href="../../../class/Symbol.html">Symbol</a> などのクラスを指定した場合は、何も繰り返さないことになります。なお、<a href="../../../class/Symbol.html">Symbol</a> については、かわりに <a href="../../../method/Symbol/s/all_symbols.html">Symbol.all_symbols</a> が使用できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] klass:</dt>
+<dd>
+クラスかモジュールを指定します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例: ブロックなし</span>
+<code>
+<span class="nb">p</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">each_object</span>
+<span class="c1"># =&gt; #&lt;Enumerator: ObjectSpace:each_object(false)&gt;
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">例: 全てのオブジェクトを扱う</span>
+<code>
+<span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">each_object</span><span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> <span class="nb">p</span> x <span class="p">}</span>
+count <span class="o">=</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">each_object</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> x <span class="p">}</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">Total count: </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="c1"># =&gt; &quot;scope&quot;
+</span><span class="c1"># =&gt; &quot;scopes&quot;
+</span><span class="c1"># =&gt; &quot;sym&quot;
+</span><span class="c1"># =&gt; &quot;class_names&quot;
+</span><span class="c1"># =&gt; &quot;@corrections&quot;
+</span><span class="c1"># =&gt; Total count: 9938
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">例: 任意のクラスを扱う</span>
+<code>
+<span class="no">Person</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span>
+s1 <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">tanaka</span><span class="s2">"</span><span class="p">)</span>
+s2 <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">sato</span><span class="s2">"</span><span class="p">)</span>
+
+count <span class="o">=</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">each_object</span><span class="p">(</span><span class="no">Person</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> <span class="nb">p</span> x <span class="p">}</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">Total count: </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="c1"># =&gt; #&lt;struct Person name=&quot;sato&quot;&gt;
+</span><span class="c1"># =&gt; #&lt;struct Person name=&quot;tanaka&quot;&gt;
+</span><span class="c1"># =&gt; Total count: 2
+</span></code></pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/ObjectSpace#L107">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

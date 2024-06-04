@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/openssl.html">
+
+<title>library openssl (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="OpenSSL([[url:https://www.openssl.org/]])
+を Ruby から扱うためのライブラリです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/openssl.html","name":"opensslライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        opensslライブラリ
+      </li>
+    </ol>
+  </nav>
+
+<h1>library openssl</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl.rd#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+<h2>要約</h2>
+<p>
+OpenSSL(<a class="external" href="https://www.openssl.org/">https://www.openssl.org/</a>)
+を Ruby から扱うためのライブラリです。
+</p>
+<p>
+このドキュメントでは SSL/TLS の一般的事項については解説をしません。利用者は、SSL/TLSの各概念、例えば以下の事項について理解している必要があります。
+</p>
+<ul>
+<li>暗号と認証に関する一般的概念</li>
+<li>セキュリティに対する攻撃法</li>
+<li>公開鍵暗号と秘密鍵暗号</li>
+<li>署名の役割、署名の方法とその検証</li>
+<li>公開鍵基盤(PKI, Public Key Infrastructure)</li>
+<li>X.509 証明書</li>
+<li>暗号と乱数について</li>
+</ul>
+<p>
+SSLのようなセキュリティ技術は、その利用者に無条件に安全性を提供することはできません。利用者、とくにSSLでソフトウェアを実装するプログラマは、 SSL/TLS の技術、それが基づいている概念を理解し、ライブラリを適切に利用する必要があります。
+</p>
+<p>
+この文章の内容は無保証です。この文章は内容を検証して書かれていますが、間違っている可能性もあります。このライブラリをセキュリティ的に重大な用途に用いるのであれば、自分自身でこのドキュメントの内容を検証してください。
+</p>
+<p>
+OpenSSL は SSL/TLS による通信を提供する高水準なインターフェースとより基本的な機能を提供する低水準なインターフェースがあります。基本的には高水準なインターフェースのみを利用すべきです。
+</p>
+<p>
+低水準なインターフェースを利用する場合には、利用したい機能に関する十分な知識と注意深さが必要となります。
+</p>
+<h2 >例</h2>
+<p>
+自己署名証明書の作成の例です。自分の秘密鍵で自分の公開鍵に署名しているから自己署名です。
+</p>
+<pre>
+require 'openssl'
+
+key = OpenSSL::PKey::RSA.new(1024)
+digest = OpenSSL::Digest::SHA1.new()
+
+issu = sub = OpenSSL::X509::Name.new()
+sub.add_entry('C', 'JP')
+sub.add_entry('ST', 'Shimane')
+sub.add_entry('CN', 'Ruby Taro')
+
+cer = OpenSSL::X509::Certificate.new()
+cer.not_before = Time.at(0)
+cer.not_after = Time.at(0)
+cer.public_key = key  # &lt;= 署名する対象となる公開鍵
+cer.serial = 1
+cer.issuer = issu
+cer.subject = sub
+
+cer.sign(key, digest) # &lt;= 署名するのに使う秘密鍵とハッシュ関数
+print cer.to_text
+</pre>
+<h2 id='references'>参考文献</h2>
+<ul>
+<li><a class="external" href="https://tools.ietf.org/html/rfc5246">[RFC5246]</a></li>
+<li>Eric Rescorla. SSL and TLS : Designing and Building Secure Systems.
+邦訳, Eric Rescorla 著 齋藤孝道・鬼頭利之・古森貞監訳.
+マスタリングTCP/IP SSL/TLS編</li>
+<li>John Viega, Matt Messier and Pravir Chandra. Network Security with OpenSSL:
+Cryptography for Secure Communications.
+邦訳, John Viega, Matt Messier and Pravir Chandra 著 齋藤孝道監訳.
+OpenSSL -暗号・PKI・SSL/TLSライブラリの詳細-</li>
+</ul>
+
+
+<h2>クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aASN1Data.html">OpenSSL::ASN1::ASN1Data</a>
+</td>
+<td class="description"><p>
+ASN.1 データ型を表すクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aConstructive.html">OpenSSL::ASN1::Constructive</a>
+</td>
+<td class="description"><p>
+ASN.1 の構造型を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aSequence.html">OpenSSL::ASN1::Sequence</a>
+</td>
+<td class="description"><p>
+ASN.1 の Sequence 型(Universal タグのタグ番号16)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aSet.html">OpenSSL::ASN1::Set</a>
+</td>
+<td class="description"><p>
+ASN.1 の Set 型(Universal タグのタグ番号17)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aPrimitive.html">OpenSSL::ASN1::Primitive</a>
+</td>
+<td class="description"><p>
+ASN.1 の単純型を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aBMPString.html">OpenSSL::ASN1::BMPString</a>
+</td>
+<td class="description"><p>
+ASN.1 の BMPString 型(Universal タグのタグ番号30)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aBitString.html">OpenSSL::ASN1::BitString</a>
+</td>
+<td class="description"><p>
+ASN.1 の Bit String 型(Universal タグのタグ番号3)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aBoolean.html">OpenSSL::ASN1::Boolean</a>
+</td>
+<td class="description"><p>
+ASN.1 の Boolean 型(Universal タグのタグ番号1)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aEnumerated.html">OpenSSL::ASN1::Enumerated</a>
+</td>
+<td class="description"><p>
+ASN.1 の Enumerated 型(Universal タグのタグ番号10)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aGeneralString.html">OpenSSL::ASN1::GeneralString</a>
+</td>
+<td class="description"><p>
+ASN.1 の GeneralString 型(Universal タグのタグ番号27)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aGeneralizedTime.html">OpenSSL::ASN1::GeneralizedTime</a>
+</td>
+<td class="description"><p>
+ASN.1 の GeneralizedTime 型(Universal タグのタグ番号23)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aGraphicString.html">OpenSSL::ASN1::GraphicString</a>
+</td>
+<td class="description"><p>
+ASN.1 の GraphicString 型(Universal タグのタグ番号25)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aIA5String.html">OpenSSL::ASN1::IA5String</a>
+</td>
+<td class="description"><p>
+ASN.1 の IA5String 型(Universal タグのタグ番号22)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aISO64String.html">OpenSSL::ASN1::ISO64String</a>
+</td>
+<td class="description"><p>
+ASN.1 の ISO64String 型(Universal タグのタグ番号26)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aInteger.html">OpenSSL::ASN1::Integer</a>
+</td>
+<td class="description"><p>
+ASN.1 の Integer 型(Universal タグのタグ番号2)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aNull.html">OpenSSL::ASN1::Null</a>
+</td>
+<td class="description"><p>
+ASN.1 の Null 型(Universal タグのタグ番号5)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aNumericString.html">OpenSSL::ASN1::NumericString</a>
+</td>
+<td class="description"><p>
+ASN.1 の NumericString 型(Universal タグのタグ番号18)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aObjectId.html">OpenSSL::ASN1::ObjectId</a>
+</td>
+<td class="description"><p>
+ASN.1 のオブジェクト識別子を表すクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aOctetString.html">OpenSSL::ASN1::OctetString</a>
+</td>
+<td class="description"><p>
+ASN.1 の Octet String 型(Universal タグのタグ番号4)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aPrintableString.html">OpenSSL::ASN1::PrintableString</a>
+</td>
+<td class="description"><p>
+ASN.1 の PrintableString 型(Universal タグのタグ番号19)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aT61String.html">OpenSSL::ASN1::T61String</a>
+</td>
+<td class="description"><p>
+ASN.1 の T61String 型(Universal タグのタグ番号20)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aUTCTime.html">OpenSSL::ASN1::UTCTime</a>
+</td>
+<td class="description"><p>
+ASN.1 の UTCTime 型(Universal タグのタグ番号23)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aUTF8String.html">OpenSSL::ASN1::UTF8String</a>
+</td>
+<td class="description"><p>
+ASN.1 の UTF8String 型(Universal タグのタグ番号12)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aUniversalString.html">OpenSSL::ASN1::UniversalString</a>
+</td>
+<td class="description"><p>
+ASN.1 の UniversalString 型(Universal タグのタグ番号28)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aVideotexString.html">OpenSSL::ASN1::VideotexString</a>
+</td>
+<td class="description"><p>
+ASN.1 の VideotexString 型(Universal タグのタグ番号21)を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aBN.html">OpenSSL::BN</a>
+</td>
+<td class="description"><p>
+OpenSSL内で利用される多倍長整数クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aCipher.html">OpenSSL::Cipher</a>
+</td>
+<td class="description"><p>
+共通鍵暗号のために抽象化されたインターフェースを提供するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aAES.html">OpenSSL::Cipher::AES</a>
+</td>
+<td class="description"><p>
+AES 暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aAES128.html">OpenSSL::Cipher::AES128</a>
+</td>
+<td class="description"><p>
+鍵長 128 ビットの AES 暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aAES192.html">OpenSSL::Cipher::AES192</a>
+</td>
+<td class="description"><p>
+鍵長 192 ビットの AES 暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aAES256.html">OpenSSL::Cipher::AES256</a>
+</td>
+<td class="description"><p>
+鍵長 256 ビットの AES 暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aBF.html">OpenSSL::Cipher::BF</a>
+</td>
+<td class="description"><p>
+BF(BlowFish)暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aCAST5.html">OpenSSL::Cipher::CAST5</a>
+</td>
+<td class="description"><p>
+CAST5 暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aCipher.html">OpenSSL::Cipher::Cipher</a>
+</td>
+<td class="description"><p>
+このクラスは互換性のために存在します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aDES.html">OpenSSL::Cipher::DES</a>
+</td>
+<td class="description"><p>
+DES 暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aIDEA.html">OpenSSL::Cipher::IDEA</a>
+</td>
+<td class="description"><p>
+IDEA 暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aRC2.html">OpenSSL::Cipher::RC2</a>
+</td>
+<td class="description"><p>
+RC2 暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aRC4.html">OpenSSL::Cipher::RC4</a>
+</td>
+<td class="description"><p>
+RC4 暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aRC5.html">OpenSSL::Cipher::RC5</a>
+</td>
+<td class="description"><p>
+RC5 暗号を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aConfig.html">OpenSSL::Config</a>
+</td>
+<td class="description"><p>
+OpenSSL の設定ファイルを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aEngine.html">OpenSSL::Engine</a>
+</td>
+<td class="description"><p>
+OpenSSL の Engine (プラグイン)を表すオブジェクトです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aHMAC.html">OpenSSL::HMAC</a>
+</td>
+<td class="description"><p>
+HMAC を表すクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aNetscape=3a=3aSPKI.html">OpenSSL::Netscape::SPKI</a>
+</td>
+<td class="description"><p>
+Netscape SPKI、もしくは SPKAC(Signed Public Key And Challenge) と呼ばれるデータフォーマットを扱うためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aOCSP=3a=3aBasicResponse.html">OpenSSL::OCSP::BasicResponse</a>
+</td>
+<td class="description"><p>
+OCSP の Basic OCSP Response を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aOCSP=3a=3aCertificateId.html">OpenSSL::OCSP::CertificateId</a>
+</td>
+<td class="description"><p>
+失効状態を問い合わせたい個々の証明書を識別するためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aOCSP=3a=3aRequest.html">OpenSSL::OCSP::Request</a>
+</td>
+<td class="description"><p>
+OCSP リクエストを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aOCSP=3a=3aResponse.html">OpenSSL::OCSP::Response</a>
+</td>
+<td class="description"><p>
+OCSP レスポンダからのレスポンスを表わすオブジェクトです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aPKCS12.html">OpenSSL::PKCS12</a>
+</td>
+<td class="description"><p>
+PKCS#12 (秘密鍵、証明書、関連するCA証明書を1つのファイルに保存する形式)
+を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aPKCS7.html">OpenSSL::PKCS7</a>
+</td>
+<td class="description"><p>
+PKCS #7 クラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKCS7=3a=3aPKCS7.html">OpenSSL::PKCS7::PKCS7</a>
+</td>
+<td class="description"><p>
+このクラスは 1.8.6 以前との互換性のために存在します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aPKCS7=3a=3aRecipientInfo.html">OpenSSL::PKCS7::RecipientInfo</a>
+</td>
+<td class="description"><p>
+PKCS7 の送信先を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aPKCS7=3a=3aSigner.html">OpenSSL::PKCS7::Signer</a>
+</td>
+<td class="description"><p>
+Alias of <a href="../class/OpenSSL=3a=3aPKCS7=3a=3aSignerInfo.html">OpenSSL::PKCS7::SignerInfo</a>
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aPKCS7=3a=3aSignerInfo.html">OpenSSL::PKCS7::SignerInfo</a>
+</td>
+<td class="description"><p>
+署名者の情報を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aGroup.html">OpenSSL::PKey::EC::Group</a>
+</td>
+<td class="description"><p>
+楕円曲線から定義される群を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint.html">OpenSSL::PKey::EC::Point</a>
+</td>
+<td class="description"><p>
+楕円曲線暗号の公開鍵となる曲線上の点を表します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aPKey.html">OpenSSL::PKey::PKey</a>
+</td>
+<td class="description"><p>
+公開鍵暗号のための抽象クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aDH.html">OpenSSL::PKey::DH</a>
+</td>
+<td class="description"><p>
+Diffie-Hellman 鍵共有クラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aDSA.html">OpenSSL::PKey::DSA</a>
+</td>
+<td class="description"><p>
+DSA 公開鍵暗号クラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aEC.html">OpenSSL::PKey::EC</a>
+</td>
+<td class="description"><p>
+EC(Ellicptic Curve,楕円曲線)暗号鍵のクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aRSA.html">OpenSSL::PKey::RSA</a>
+</td>
+<td class="description"><p>
+RSA 暗号鍵のクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.html">OpenSSL::SSL::SSLContext</a>
+</td>
+<td class="description"><p>
+SSL コンテキストクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLServer.html">OpenSSL::SSL::SSLServer</a>
+</td>
+<td class="description"><p>
+SSL サーバーのためのクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.html">OpenSSL::SSL::SSLSocket</a>
+</td>
+<td class="description"><p>
+ソケットをラップして SSL での認証と暗号通信を実現するためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aSSL=3a=3aSession.html">OpenSSL::SSL::Session</a>
+</td>
+<td class="description"><p>
+SSL/TLS セッションを表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aAttribute.html">OpenSSL::X509::Attribute</a>
+</td>
+<td class="description"><p>
+X.509 証明書署名要求の attribute を表すクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aCRL.html">OpenSSL::X509::CRL</a>
+</td>
+<td class="description"><p>
+CRL(証明書失効リスト) クラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aCertificate.html">OpenSSL::X509::Certificate</a>
+</td>
+<td class="description"><p>
+X509 証明書クラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aExtension.html">OpenSSL::X509::Extension</a>
+</td>
+<td class="description"><p>
+X.509 v3 証明書の拡張領域のためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aExtensionFactory.html">OpenSSL::X509::ExtensionFactory</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aExtension.html">OpenSSL::X509::Extension</a> を簡便に生成するためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aName.html">OpenSSL::X509::Name</a>
+</td>
+<td class="description"><p>
+X.500の識別名(DN, Distinguished Name)を表わすクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aRequest.html">OpenSSL::X509::Request</a>
+</td>
+<td class="description"><p>
+X.509 の証明書署名要求(Certificate Signing Request, CSR)を表わすクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aRevoked.html">OpenSSL::X509::Revoked</a>
+</td>
+<td class="description"><p>
+失効した証明書のクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aStore.html">OpenSSL::X509::Store</a>
+</td>
+<td class="description"><p>
+証明書ストアクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aStoreContext.html">OpenSSL::X509::StoreContext</a>
+</td>
+<td class="description"><p>
+証明書ストアコンテキストクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aDigest.html">OpenSSL::Digest</a>
+</td>
+<td class="description"><p>
+ハッシュ関数のためのインターフェースを提供するクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aDSS.html">OpenSSL::Digest::DSS</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 DSS を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aDSS1.html">OpenSSL::Digest::DSS1</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 DSS1 を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aDigest.html">OpenSSL::Digest::Digest</a>
+</td>
+<td class="description"><p>
+このクラスは互換性のために存在します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aMD2.html">OpenSSL::Digest::MD2</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 MD2 を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aMD4.html">OpenSSL::Digest::MD4</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 MD4 を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aMD5.html">OpenSSL::Digest::MD5</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 MD5 を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aMDC2.html">OpenSSL::Digest::MDC2</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 MDC2 を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aRIPEMD160.html">OpenSSL::Digest::RIPEMD160</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 RIPEMD160 を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aSHA.html">OpenSSL::Digest::SHA</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 SHA を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aSHA1.html">OpenSSL::Digest::SHA1</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 SHA1 を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aSHA224.html">OpenSSL::Digest::SHA224</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 SHA224 を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aSHA256.html">OpenSSL::Digest::SHA256</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 SHA256 を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aSHA384.html">OpenSSL::Digest::SHA384</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 SHA384 を表すクラス
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aSHA512.html">OpenSSL::Digest::SHA512</a>
+</td>
+<td class="description"><p>
+ハッシュ関数 SHA512 を表すクラス
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>モジュール</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL.html">OpenSSL</a>
+</td>
+<td class="description"><p>
+OpenSSL のすべてのクラス、モジュール、メソッド、定数を保持しているモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aASN1.html">OpenSSL::ASN1</a>
+</td>
+<td class="description"><p>
+ASN.1(Abstract Syntax Notation One)
+のデータを取り扱うためのモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aBuffering.html">OpenSSL::Buffering</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.html">OpenSSL::SSL::SSLSocket</a> にバッファリング付きIO機能を提供するモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aOCSP.html">OpenSSL::OCSP</a>
+</td>
+<td class="description"><p>
+OCSP(Online Certificate Status Protocol)を取り扱うためのモジュールです。OCSP は <a class="external" href="https://tools.ietf.org/html/rfc2560">[RFC2560]</a> で定義されています。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aPKCS5.html">OpenSSL::PKCS5</a>
+</td>
+<td class="description"><p>
+OpenSSL PKCS#5 関連の機能を集めたモジュール
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aPKey.html">OpenSSL::PKey</a>
+</td>
+<td class="description"><p>
+公開鍵暗号関連を集めたモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aRandom.html">OpenSSL::Random</a>
+</td>
+<td class="description"><p>
+OpenSSL が利用する擬似乱数生成器関連のモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aSSL.html">OpenSSL::SSL</a>
+</td>
+<td class="description"><ul>
+<li><a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.html">OpenSSL::SSL::SSLContext</a></li>
+<li><a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLServer.html">OpenSSL::SSL::SSLServer</a></li>
+<li><a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.html">OpenSSL::SSL::SSLSocket</a></li>
+</ul>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aSSL=3a=3aSocketForwarder.html">OpenSSL::SSL::SocketForwarder</a>
+</td>
+<td class="description"><p>
+to_io で返されるソケットオブジェクトにメソッドをフォワードするモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aX509.html">OpenSSL::X509</a>
+</td>
+<td class="description"><p>
+OpenSSL の X509 証明書、CRL(証明書失効リスト)、
+CSR(証明書署名要求)、証明書ストアなどに関するモジュールです。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>例外クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/OpenSSL=3a=3aOpenSSLError.html">OpenSSL::OpenSSLError</a>
+</td>
+<td class="description"><p>
+すべての OpenSSL 関連の例外クラスのベースとなる例外クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aASN1=3a=3aASN1Error.html">OpenSSL::ASN1::ASN1Error</a>
+</td>
+<td class="description"><p>
+OpenSSLの ASN.1 関連のエラーが起きたときに発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aBNError.html">OpenSSL::BNError</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aBN.html">OpenSSL::BN</a> 関連のエラーを表す例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aCipher=3a=3aCipherError.html">OpenSSL::Cipher::CipherError</a>
+</td>
+<td class="description"><p>
+共通鍵暗号関連のエラーで発生する例外のクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aConfigError.html">OpenSSL::ConfigError</a>
+</td>
+<td class="description"><p>
+設定ファイル関連のエラーが生じた場合に発生する例外のクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aDigest=3a=3aDigestError.html">OpenSSL::Digest::DigestError</a>
+</td>
+<td class="description"><p>
+OpenSSL のハッシュ関数関連のエラーが起きたときに発生する例外のクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aEngine=3a=3aEngineError.html">OpenSSL::Engine::EngineError</a>
+</td>
+<td class="description"><p>
+Engine(<a href="../class/OpenSSL=3a=3aEngine.html">OpenSSL::Engine</a>) 関連のエラーが生じたときに発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aHMACError.html">OpenSSL::HMACError</a>
+</td>
+<td class="description"><p>
+OpenSSL の HMAC 関連のエラーが起きた場合に発生する例外
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aNetscape=3a=3aSPKIError.html">OpenSSL::Netscape::SPKIError</a>
+</td>
+<td class="description"><p>
+Netscape SPKI 関連のエラーが生じた場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aOCSP=3a=3aOCSPError.html">OpenSSL::OCSP::OCSPError</a>
+</td>
+<td class="description"><p>
+OCSP 関連のエラーが生じた場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKCS12=3a=3aPKCS12Error.html">OpenSSL::PKCS12::PKCS12Error</a>
+</td>
+<td class="description"><p>
+PKCS#12 関連のエラーが生じた場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKCS5=3a=3aPKCS5Error.html">OpenSSL::PKCS5::PKCS5Error</a>
+</td>
+<td class="description"><p>
+OpenSSL PKCS#5 関連のエラーが起きた場合に発生する例外
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKCS7=3a=3aPKCS7Error.html">OpenSSL::PKCS7::PKCS7Error</a>
+</td>
+<td class="description"><p>
+PKCS7 関連のエラーが生じた場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aGroup=3a=3aError.html">OpenSSL::PKey::EC::Group::Error</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aGroup.html">OpenSSL::PKey::EC::Group</a> 関連のエラーを表す例外クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint=3a=3aError.html">OpenSSL::PKey::EC::Point::Error</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint.html">OpenSSL::PKey::EC::Point</a> 関連のエラーを表す例外クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aPKeyError.html">OpenSSL::PKey::PKeyError</a>
+</td>
+<td class="description"><p>
+OpenSSL の公開鍵関連のエラーの場合に発生する例外
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aDHError.html">OpenSSL::PKey::DHError</a>
+</td>
+<td class="description"><p>
+DH 鍵共有プロトコル関連のエラーが生じた場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aDSAError.html">OpenSSL::PKey::DSAError</a>
+</td>
+<td class="description"><p>
+DSA 関連のエラーが起きた場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aECError.html">OpenSSL::PKey::ECError</a>
+</td>
+<td class="description"><p>
+楕円曲線暗号関連のエラーが生じた場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aPKey=3a=3aRSAError.html">OpenSSL::PKey::RSAError</a>
+</td>
+<td class="description"><p>
+RSA 関連のエラーが起きた場合に発生する例外のクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aRandom=3a=3aRandomError.html">OpenSSL::Random::RandomError</a>
+</td>
+<td class="description"><p>
+OpenSSL の乱数関連のエラーが起きた場合に発生する例外
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLError.html">OpenSSL::SSL::SSLError</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aSSL.html">OpenSSL::SSL</a> 関連のエラーが生じたときに発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aSSL=3a=3aSession=3a=3aSessionError.html">OpenSSL::SSL::Session::SessionError</a>
+</td>
+<td class="description"><p>
+セッション(<a href="../class/OpenSSL=3a=3aSSL=3a=3aSession.html">OpenSSL::SSL::Session</a>)関連のエラーが生じた場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aAttributeError.html">OpenSSL::X509::AttributeError</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aAttribute.html">OpenSSL::X509::Attribute</a> 関連のエラーが起きた場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aCRLError.html">OpenSSL::X509::CRLError</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aCRL.html">OpenSSL::X509::CRL</a> 関連のエラーが生じたときに発生します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aCertificateError.html">OpenSSL::X509::CertificateError</a>
+</td>
+<td class="description"><p>
+X509 証明書関連のエラーを表す例外くクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aExtensionError.html">OpenSSL::X509::ExtensionError</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aExtension.html">OpenSSL::X509::Extension</a> 関連のエラーが起きたときに発生します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aNameError.html">OpenSSL::X509::NameError</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aName.html">OpenSSL::X509::Name</a> 固有のエラーの場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aRequestError.html">OpenSSL::X509::RequestError</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aRequest.html">OpenSSL::X509::Request</a> 関連のエラーを表す例外クラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aRevokedError.html">OpenSSL::X509::RevokedError</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aRevoked.html">OpenSSL::X509::Revoked</a> 関連のエラーが生じたときに発生します。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aStoreError.html">OpenSSL::X509::StoreError</a>
+</td>
+<td class="description"><p>
+<a href="../class/OpenSSL=3a=3aX509=3a=3aStore.html">OpenSSL::X509::Store</a> 関連のエラーを表す例外クラスです。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+
+<h2>追加・再定義されるメソッド</h2>
+<p><code>
+
+<a href="../method/Integer/i/to_bn.html">Integer#to_bn</a>
+
+</code></p>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl.rd#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

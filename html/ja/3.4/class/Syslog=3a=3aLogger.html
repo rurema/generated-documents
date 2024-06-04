@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Syslog=3a=3aLogger.html">
+
+<title>class Syslog::Logger (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="[[c:Logger]] のようなインターフェイスを用いて syslog にログを記録するた
+めのクラスです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/syslog=2flogger.html","name":"syslog/loggerライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Syslog=3a=3aLogger.html","name":"Syslog::Loggerクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/syslog=2flogger.html">syslog/loggerライブラリ</a>
+      </li>
+      <li>
+        Syslog::Loggerクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Syslog::Logger</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L39">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Syslog::Logger
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+<a href="../class/Logger.html">Logger</a> のようなインターフェイスを用いて syslog にログを記録するためのクラスです。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_MAKE_METHODS">make_methods</a></li>
+
+<li><a href="#S_NEW">new</a></li>
+
+<li><a href="#S_SYSLOG">syslog</a></li>
+
+<li><a href="#S_SYSLOG--3D">syslog=</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_ADD">add</a></li>
+
+<li><a href="#I_DEBUG">debug</a></li>
+
+<li><a href="#I_DEBUG--3F">debug?</a></li>
+
+<li><a href="#I_ERROR">error</a></li>
+
+<li><a href="#I_ERROR--3F">error?</a></li>
+
+<li><a href="#I_FATAL">fatal</a></li>
+
+<li><a href="#I_FATAL--3F">fatal?</a></li>
+
+<li><a href="#I_FORMATTER">formatter</a></li>
+
+<li><a href="#I_FORMATTER--3D">formatter=</a></li>
+
+<li><a href="#I_INFO">info</a></li>
+
+<li><a href="#I_INFO--3F">info?</a></li>
+
+<li><a href="#I_LEVEL">level</a></li>
+
+<li><a href="#I_LEVEL--3D">level=</a></li>
+
+<li><a href="#I_UNKNOWN">unknown</a></li>
+
+<li><a href="#I_UNKNOWN--3F">unknown?</a></li>
+
+<li><a href="#I_WARN">warn</a></li>
+
+<li><a href="#I_WARN--3F">warn?</a></li>
+
+</ul>
+</dd>
+
+<dt>定数</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#C_-L-E-V-E-L_-M-A-P">LEVEL_MAP</a></li>
+
+<li><a href="#C_-V-E-R-S-I-O-N">VERSION</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_MAKE_METHODS"><code>make_methods(meth)</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/s/make_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-c-make_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L69">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ライブラリ内部で使用します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_NEW"><code>new(program_name = 'ruby') -&gt; Syslog::Logger</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L46">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> オブジェクトを初期化します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] program_name:</dt>
+<dd>
+<a href="../class/Logger.html">Logger</a> との互換性のために用意されています。プログラム名を文字列で指定できますが、最初の
+<a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> の初期化時のみ、指定した値がセットされます(syslog の仕様で 1 つのプログラム名のみが採用されます)。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_SYSLOG"><code>syslog -&gt; Syslog</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/s/syslog.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-c-syslog">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L56">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+内部の <a href="../class/Syslog.html">Syslog</a> オブジェクトを返します。
+</p>
+<p>
+デフォルトでは、最初の <a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> オブジェクトの作成時に作られたものを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_SYSLOG--3D"><code>syslog=(syslog)</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/s/syslog=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-c-syslog-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L63">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+内部の <a href="../class/Syslog.html">Syslog</a> オブジェクトを引数 syslog で指定したものに設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] syslog:</dt>
+<dd>
+<a href="../class/Syslog.html">Syslog</a> オブジェクトを指定します。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ADD"><code>add(severity, message = nil, progname = nil, &amp;block) -&gt; true</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/add.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-add">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L237">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+メッセージをログに記録します。<a href="../method/Logger/i/add.html">Logger#add</a> とほぼ同じ動作をします。
+</p>
+<p>
+ブロックを与えた場合はブロックを評価した返り値をメッセージとしてログに記録します。 ユーザがこのメソッドを直接使うことはあまりありません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] severity:</dt>
+<dd>
+ログレベル。Logger クラスで定義されている定数を指定します。この値がレシーバーに設定されているレベルよりも低い場合、メッセージは記録されません。
+</dd>
+<dt class='method-param'>[PARAM] message:</dt>
+<dd>
+ログに出力するメッセージを表すオブジェクトを指定します。省略すると nil が用いられます。
+</dd>
+<dt class='method-param'>[PARAM] progname:</dt>
+<dd>
+無視されます。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Logger/i/add.html">Logger#add</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DEBUG"><code>debug(message = nil, &amp;block) -&gt; true</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/debug.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-debug">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L165">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+DEBUG 情報を出力します。syslog の DEBUG の情報として記録されます。
+</p>
+<p>
+ブロックを与えなかった場合は、message をメッセージとしてログを出力します。
+</p>
+<p>
+ブロックを与えた場合は、ブロックを評価した結果をメッセージとして ログを出力します。
+</p>
+<p>
+引数とブロックを同時に与えた場合は、message をメッセージとしてログを出力します(ブロックは評価されません)。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Syslog=3a=3aLogger/c/LEVEL_MAP.html">Syslog::Logger::LEVEL_MAP</a>, <a href="../method/Logger/i/debug.html">Logger#debug</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DEBUG--3F"><code>debug? -&gt; bool</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/debug=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-debug-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L178">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self が DEBUG 以上の(syslog の debug)ログレベルのメッセージを記録する場合に true を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_ERROR"><code>error(message = nil, &amp;block) -&gt; true</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/error.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-error">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L111">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ERROR 情報を出力します。syslog の warning の情報として記録されます。
+</p>
+<p>
+ブロックを与えなかった場合は、message をメッセージとしてログを出力します。
+</p>
+<p>
+ブロックを与えた場合は、ブロックを評価した結果をメッセージとして ログを出力します。
+</p>
+<p>
+引数とブロックを同時に与えた場合は、message をメッセージとしてログを出力します(ブロックは評価されません)。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Syslog=3a=3aLogger/c/LEVEL_MAP.html">Syslog::Logger::LEVEL_MAP</a>, <a href="../method/Logger/i/error.html">Logger#error</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_ERROR--3F"><code>error? -&gt; bool</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/error=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-error-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L124">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self が ERROR 以上の(syslog の warning)ログレベルのメッセージを記録する場合に true を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_FATAL"><code>fatal(message = nil, &amp;block) -&gt; true</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/fatal.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-fatal">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L93">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+FATAL 情報を出力します。syslog の err の情報として記録されます。
+</p>
+<p>
+ブロックを与えなかった場合は、message をメッセージとしてログを出力します。
+</p>
+<p>
+ブロックを与えた場合は、ブロックを評価した結果をメッセージとして ログを出力します。
+</p>
+<p>
+引数とブロックを同時に与えた場合は、message をメッセージとしてログを出力します(ブロックは評価されません)。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Syslog=3a=3aLogger/c/LEVEL_MAP.html">Syslog::Logger::LEVEL_MAP</a>, <a href="../method/Logger/i/fatal.html">Logger#fatal</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_FATAL--3F"><code>fatal? -&gt; bool</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/fatal=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-fatal-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L106">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self が FATAL 以上の(syslog の err)ログレベルのメッセージを記録する場合に true を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_FORMATTER"><code>formatter -&gt; Logger::Formatter | Proc</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/formatter.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-formatter">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L199">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ログを出力する際に使用するフォーマッターを取得します。
+</p>
+<p>
+デフォルトでは <a href="../class/Logger=3a=3aFormatter.html">Logger::Formatter</a> オブジェクトを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Syslog=3a=3aLogger/i/formatter=3d.html">Syslog::Logger#formatter=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_FORMATTER--3D"><code>formatter=(formatter)</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/formatter=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-formatter-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L207">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ログを出力する際に使用するフォーマッターをセットします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] formatter:</dt>
+<dd>
+4 つの引数 (severity, time, program name, message) を受け取る call メソッドを 持つオブジェクトを指定します。
+</dd>
+</dl>
+<p>
+引数 formatter が持つ call メソッドは以下の 4 つの引数 (severity,
+time, program name, message) を受けとります。
+</p>
+<dl>
+<dt>severity</dt>
+<dd>
+<p>
+このメッセージのログレベル(<a href="../class/Logger=3a=3aSeverity.html">Logger::Severity</a> 参照)。
+</p>
+</dd>
+<dt>time</dt>
+<dd>
+<p>
+このメッセージが記録された時刻を表す <a href="../class/Time.html">Time</a> オブジェクト。
+</p>
+</dd>
+<dt>progname</dt>
+<dd>
+<p>
+無視されます。互換性のために用意されています。
+</p>
+</dd>
+<dt>message</dt>
+<dd>
+<p>
+記録するメッセージ。
+</p>
+</dd>
+</dl>
+<p>
+call メソッドは文字列を返す必要があります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Syslog=3a=3aLogger/i/formatter.html">Syslog::Logger#formatter</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INFO"><code>info(message = nil, &amp;block) -&gt; true</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/info.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-info">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L147">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+INFO 情報を出力します。syslog の info の情報として記録されます。
+</p>
+<p>
+ブロックを与えなかった場合は、message をメッセージとしてログを出力します。
+</p>
+<p>
+ブロックを与えた場合は、ブロックを評価した結果をメッセージとして ログを出力します。
+</p>
+<p>
+引数とブロックを同時に与えた場合は、message をメッセージとしてログを出力します(ブロックは評価されません)。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Syslog=3a=3aLogger/c/LEVEL_MAP.html">Syslog::Logger::LEVEL_MAP</a>, <a href="../method/Logger/i/info.html">Logger#info</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INFO--3F"><code>info? -&gt; bool</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/info=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-info-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L160">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self が INFO 以上の(syslog の info)ログレベルのメッセージを記録する場合に true を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LEVEL"><code>level -&gt; Integer</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/level.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-level">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L183">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self に設定されたログレベルを返します。
+</p>
+<p>
+ログレベルは <a href="../class/Logger.html">Logger</a> と互換性があります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Syslog=3a=3aLogger/i/level=3d.html">Syslog::Logger#level=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LEVEL--3D"><code>level=(val)</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/level=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-level-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L191">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self のログレベルを引数 val で指定した値に設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] val:</dt>
+<dd>
+ログレベルを指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Syslog=3a=3aLogger/i/level.html">Syslog::Logger#level</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_UNKNOWN"><code>unknown(message = nil, &amp;block) -&gt; true</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/unknown.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-unknown">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L75">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+UNKNOWN 情報を出力します。syslog の alert の情報として記録されます。
+</p>
+<p>
+ブロックを与えなかった場合は、message をメッセージとしてログを出力します。
+</p>
+<p>
+ブロックを与えた場合は、ブロックを評価した結果をメッセージとして ログを出力します。
+</p>
+<p>
+引数とブロックを同時に与えた場合は、message をメッセージとしてログを出力します(ブロックは評価されません)。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Syslog=3a=3aLogger/c/LEVEL_MAP.html">Syslog::Logger::LEVEL_MAP</a>, <a href="../method/Logger/i/unknown.html">Logger#unknown</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_UNKNOWN--3F"><code>unknown? -&gt; bool</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/unknown=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-unknown-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L88">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self が UNKNOWN 以上の(syslog の alert)ログレベルのメッセージを記録する場合に true を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_WARN"><code>warn(message = nil, &amp;block) -&gt; true</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/warn.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-warn">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L129">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+WARN 情報を出力します。syslog の notice の情報として記録されます。
+</p>
+<p>
+ブロックを与えなかった場合は、message をメッセージとしてログを出力します。
+</p>
+<p>
+ブロックを与えた場合は、ブロックを評価した結果をメッセージとして ログを出力します。
+</p>
+<p>
+引数とブロックを同時に与えた場合は、message をメッセージとしてログを出力します(ブロックは評価されません)。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Syslog=3a=3aLogger/c/LEVEL_MAP.html">Syslog::Logger::LEVEL_MAP</a>, <a href="../method/Logger/i/warn.html">Logger#warn</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_WARN--3F"><code>warn? -&gt; bool</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/i/warn=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-i-warn-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L142">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self が WARN 以上の(syslog の notice)ログレベルのメッセージを記録する場合に true を返します。
+</p>
+</dd>
+
+
+</dl>
+
+<h2>定数</h2>
+<dl>
+
+<dt class="method-heading" id="C_-L-E-V-E-L_-M-A-P"><code>LEVEL_MAP -&gt; {Integer =&gt; Integer}</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/c/LEVEL_MAP.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-c-LEVEL_MAP">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L261">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../class/Logger.html">Logger</a> のログレベルと <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/syslog.html">syslog(3)</a> のログレベルのマッピングを表す <a href="../class/Hash.html">Hash</a> オブジェクトです。
+</p>
+<p>
+<a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> では、Ruby アプリケーションからのメッセージはシステム上の他のデーモンからの <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/syslog.html">syslog(3)</a> に記録されるメッセージと比べて、ログレベルを 1 つ下げて記録されます
+(<a href="../method/Logger=3a=3aSeverity/c/DEBUG.html">Logger::Severity::DEBUG</a> と <a href="../method/Logger=3a=3aSeverity/c/INFO.html">Logger::Severity::INFO</a> は除く)。例えば、<a href="../method/Logger=3a=3aSeverity/c/FATAL.html">Logger::Severity::FATAL</a> として記録した場合、
+<a href="../method/Syslog=3a=3aLevel/c/LOG_ERR.html">Syslog::Level::LOG_ERR</a> として処理されます。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-V-E-R-S-I-O-N"><code>VERSION -&gt; String</code><span class="permalink">[<a href="../method/Syslog=3a=3aLogger/c/VERSION.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Syslog/Logger.html#method-c-VERSION">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L257">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> のバージョンを表す文字列です。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L39">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

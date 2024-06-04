@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/RubyVM=3a=3aInstructionSequence/s/of.html">
+
+<title>RubyVM::InstructionSequence.of (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="引数 body で指定した [[c:Proc]]、[[c:Method]] オブジェクトを元に
+[[c:RubyVM::InstructionSequence]] オブジェクトを作成して返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/RubyVM=3a=3aInstructionSequence.html","name":"RubyVM::InstructionSequenceクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/RubyVM=3a=3aInstructionSequence/s/of.html","name":"of","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/RubyVM=3a=3aInstructionSequence.html">RubyVM::InstructionSequenceクラス</a>
+      </li>
+      <li>
+        of 
+      </li>
+    </ol>
+  </nav>
+
+<h1>singleton method RubyVM::InstructionSequence.of</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_OF"><code>of(body) -&gt; RubyVM::InstructionSequence</code><span class="permalink">[<a href="../../../method/RubyVM=3a=3aInstructionSequence/s/of.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/RubyVM/InstructionSequence.html#method-c-of">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/RubyVM__InstructionSequence#L181">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数 body で指定した <a href="../../../class/Proc.html">Proc</a>、<a href="../../../class/Method.html">Method</a> オブジェクトを元に
+<a href="../../../class/RubyVM=3a=3aInstructionSequence.html">RubyVM::InstructionSequence</a> オブジェクトを作成して返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] body:</dt>
+<dd>
+<a href="../../../class/Proc.html">Proc</a>、<a href="../../../class/Method.html">Method</a> オブジェクトを指定します。
+</dd>
+</dl>
+<p>
+例1:irb で実行した場合
+</p>
+<pre>
+# proc
+&gt; p = proc { num = 1 + 2 }
+&gt; RubyVM::InstructionSequence.of(p)
+&gt; # =&gt; &lt;RubyVM::InstructionSequence:block in irb_binding@(irb)&gt;
+
+# method
+&gt; def foo(bar); puts bar; end
+&gt; RubyVM::InstructionSequence.of(method(:foo))
+&gt; # =&gt; &lt;RubyVM::InstructionSequence:foo@(irb)&gt;
+</pre>
+<p>
+例2: <a href="../../../method/RubyVM=3a=3aInstructionSequence/s/compile_file.html">RubyVM::InstructionSequence.compile_file</a> を使用した場合
+</p>
+<pre>
+# /tmp/iseq_of.rb
+def hello
+  puts &quot;hello, world&quot;
+end
+
+$a_global_proc = proc { str = 'a' + 'b' }
+
+# irb
+&gt; require '/tmp/iseq_of.rb'
+
+# hello メソッド
+&gt; RubyVM::InstructionSequence.of(method(:hello))
+&gt; # =&gt; #&lt;RubyVM::InstructionSequence:0x007fb73d7cb1d0&gt;
+
+# グローバル proc
+&gt; RubyVM::InstructionSequence.of($a_global_proc)
+&gt; # =&gt; #&lt;RubyVM::InstructionSequence:0x007fb73d7caf78&gt;
+</pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/RubyVM__InstructionSequence#L181">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

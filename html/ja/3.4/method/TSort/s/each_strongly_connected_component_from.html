@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/TSort/s/each_strongly_connected_component_from.html">
+
+<title>TSort.each_strongly_connected_component_from (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="node から到達可能な強連結成分についてのイテレータです。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/tsort.html","name":"tsortライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/TSort.html","name":"TSortモジュール","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/TSort/s/each_strongly_connected_component_from.html","name":"each_strongly_connected_component_from","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/tsort.html">tsortライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/TSort.html">TSortモジュール</a>
+      </li>
+      <li>
+        each_strongly_connected_component_from 
+      </li>
+    </ol>
+  </nav>
+
+<h1>singleton method TSort.each_strongly_connected_component_from</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_EACH_STRONGLY_CONNECTED_COMPONENT_FROM"><code>each_strongly_connected_component_from(node, each_child, id_map={}, stack=[]) {|nodes| ...} -&gt; ()</code><span class="permalink">[<a href="../../../method/TSort/s/each_strongly_connected_component_from.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/TSort.html#method-c-each_strongly_connected_component_from">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/tsort.rd#L267">edit</a>]</span></dt>
+<dt class="method-heading"><code>each_strongly_connected_component_from(node, each_child, id_map={}, stack=[]) -&gt; Enumerator</code></dt>
+<dd class="method-description">
+<p>
+node から到達可能な強連結成分についてのイテレータです。
+</p>
+<p>
+引数 node と each_child でグラフを表します。
+</p>
+<p>
+返す値は規定されていません。
+</p>
+<p>
+TSort.each_strongly_connected_component_fromは<a href="../../../class/TSort.html">TSort</a>をincludeしてグラフを表現する必要のないクラスメソッドです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] node:</dt>
+<dd>
+ノードを指定します。
+</dd>
+<dt class='method-param'>[PARAM] each_child:</dt>
+<dd>
+引数で与えられた頂点の子をそれぞれ評価するcallメソッドを持つオブジェクトを指定します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">使用例</span>
+<code>
+<span class="nb">require</span> <span class="s1">'tsort'</span>
+
+graph <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="o">=&gt;</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>, <span class="mi">2</span><span class="o">=&gt;</span><span class="p">[</span><span class="mi">3</span>, <span class="mi">4</span><span class="p">]</span>, <span class="mi">3</span><span class="o">=&gt;</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>, <span class="mi">4</span><span class="o">=&gt;</span><span class="p">[</span><span class="p">]</span><span class="p">}</span>
+each_child <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span><span class="o">|</span>n, <span class="o">&amp;</span>b<span class="o">|</span> graph<span class="p">[</span>n<span class="p">]</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span>b<span class="p">)</span> <span class="p">}</span>
+<span class="no">TSort</span><span class="p">.</span><span class="nf">each_strongly_connected_component_from</span><span class="p">(</span><span class="mi">1</span>, each_child<span class="p">)</span> <span class="p">{</span><span class="o">|</span>scc<span class="o">|</span>
+  <span class="nb">p</span> scc
+<span class="p">}</span>
+<span class="c1"># =&gt; [4]
+</span><span class="c1">#    [2, 3]
+</span><span class="c1">#    [1]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/TSort/i/each_strongly_connected_component_from.html">TSort#each_strongly_connected_component_from</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/tsort.rd#L267">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

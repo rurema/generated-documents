@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Enumerator/s/new.html">
+
+<title>Enumerator.new (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="Enumerator オブジェクトを生成して返します。与えられたブロックは [[c:Enumerator::Yielder]] オブジェクトを
+引数として実行されます。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Enumerator.html","name":"Enumeratorクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Enumerator/s/new.html","name":"new","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Enumerator.html">Enumeratorクラス</a>
+      </li>
+      <li>
+        new 
+      </li>
+    </ol>
+  </nav>
+
+<h1>singleton method Enumerator.new</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_NEW"><code>new(size=nil) {|y| ... } -&gt; Enumerator</code><span class="permalink">[<a href="../../../method/Enumerator/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Enumerator.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Enumerator#L56">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Enumerator オブジェクトを生成して返します。与えられたブロックは <a href="../../../class/Enumerator=3a=3aYielder.html">Enumerator::Yielder</a> オブジェクトを引数として実行されます。
+</p>
+<p>
+生成された Enumerator オブジェクトに対して each を呼ぶと、この生成時に指定されたブロックを実行し、Yielder オブジェクトに対して &lt;&lt; メソッドが呼ばれるたびに、
+each に渡されたブロックが繰り返されます。
+</p>
+<p>
+new に渡されたブロックが終了した時点で each の繰り返しが終わります。このときのブロックの返り値が each の返り値となります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] size:</dt>
+<dd>
+生成する Enumerator オブジェクトの要素数を指定します。
+<a href="../../../class/Integer.html">Integer</a>、<a href="../../../method/Float/c/INFINITY.html">Float::INFINITY</a>、<a href="../../../class/Proc.html">Proc</a> オブジェクト、nil のいずれかを指定します。<a href="../../../method/Enumerator/i/size.html">Enumerator#size</a> の実行時に参照されます。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+enum <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span><span class="o">|</span>y<span class="o">|</span>
+  <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span><span class="p">{</span><span class="o">|</span>i<span class="o">|</span>
+    y <span class="o">&lt;&lt;</span> i <span class="k">if</span> i <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+enum<span class="p">.</span><span class="nf">each</span><span class="p">{</span><span class="o">|</span>i<span class="o">|</span> <span class="nb">p</span> i <span class="p">}</span>
+
+<span class="c1">#=&gt;  5
+</span><span class="c1">#   10
+</span>
+
+fib <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span>y<span class="o">|</span>
+  a <span class="o">=</span> b <span class="o">=</span> <span class="mi">1</span>
+  <span class="nb">loop</span> <span class="p">{</span>
+    y <span class="o">&lt;&lt;</span> a
+    a, b <span class="o">=</span> b, a <span class="o">+</span> b
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">p</span> fib<span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">#=&gt; [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+</span></code></pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Enumerator#L56">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
