@@ -17,6 +17,15 @@ services:
     volumes:
       - "./db:/home/rurema/db"
       - "./tool:/home/rurema/tool"
-    command: "/bin/bash -c '../tool/update-rurema-index.rb && exec bundle exec rackup'"
+    command: "/bin/bash -c '../tool/update-rurema-index.rb && exec bundle exec rackup --server puma --host 0.0.0.0'"
     ports:
       - "9292:9292"
+
+  web:
+    image: nginx
+    volumes:
+      - "./repos/docs.ruby-lang.org/public:/usr/share/nginx/html:ro"
+      - "./html/ja:/usr/share/nginx/html/ja:ro"
+      - "./example/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro"
+    ports:
+      - "9000:80"
