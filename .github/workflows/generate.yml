@@ -11,22 +11,22 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - run: ./generate.sh
-    - name: Create Pull Request
-      id: cpr
-      uses: peter-evans/create-pull-request@v6
-      with:
-        branch: update-generated-documents
-        delete-branch: true
-        add-paths: |
-          db
-          html
-        title: 'Update generated documents'
-        body: >
-          This PR is auto-generated.
-    - name: Check outputs
-      if: ${{ steps.cpr.outputs.pull-request-number }}
-      run: |
-        echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-        echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+      - uses: actions/checkout@v4
+      - run: ./generate.sh
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: update-generated-documents
+          delete-branch: true
+          add-paths: |
+            db
+            html
+          title: 'Update generated documents'
+          body: >
+            This PR is auto-generated.
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
