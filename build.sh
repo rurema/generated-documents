@@ -24,3 +24,5 @@ fi
 cp repos/docs.ruby-lang.org/public/ja/index.html html/ja/index.html
 
 docker compose up -d
+
+docker compose exec -it rurema-search ../tool/update-rurema-index.rb

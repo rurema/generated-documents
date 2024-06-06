@@ -15,9 +15,11 @@ services:
       context: .
       dockerfile: Dockerfile.rurema-search
     volumes:
-      - "./db:/home/rurema/db"
-      - "./tool:/home/rurema/tool"
-    command: "/bin/bash -c '../tool/update-rurema-index.rb && exec bundle exec rackup --server puma --host 0.0.0.0'"
+      - "./db:/home/rurema/db:ro"
+      - "./tool:/home/rurema/tool:ro"
+      - "groonga-database:/home/rurema/rurema-search/groonga-database"
+      - "suggest:/home/rurema/rurema-search/var/lib/suggest"
+    command: "bundle exec rackup --server puma --host 0.0.0.0"
     ports:
       - "9292:9292"
 
@@ -28,4 +30,9 @@ services:
       - "./html/ja:/usr/share/nginx/html/ja:ro"
       - "./example/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro"
     ports:
+      # Related: base_url in example/rurema-search/document.yaml
       - "9000:80"
+
+volumes:
+  groonga-database:
+  suggest:
