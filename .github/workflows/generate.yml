@@ -27,13 +27,12 @@ jobs:
           title: 'Update generated documents'
           body: >
             This PR is auto-generated.
-      - name: Check outputs
+      - name: Enable auto-merge
         if: ${{ steps.cpr.outputs.pull-request-number }}
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
           echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
-      - name: Enable auto-merge
-        run: gh pr merge --auto --delete-branch --merge "$PR_URL"
+          gh pr merge --auto --delete-branch --merge "$PR_URL"
         env:
           PR_URL: "${{ steps.cpr.outputs.pull-request-url }}"
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
