@@ -290,6 +290,139 @@
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
+<h2 id='division'>除法と商・剰余</h2>
+<p>
+Numeric には除法（除算；割り算；division）に関わるメソッドがいくつもありますが、除法にはいくつか種類があるため、全貌が把握しづらくなっています。
+</p>
+<p>
+この節では除法の種類を説明し、各メソッドがどの除法に基づいているのかが分かるようにします。
+</p>
+<p>
+まず用語ですが、割られる数を被除数（dividend）、割る数を除数（divisor）、割った結果を商（quotient）と言います。
+</p>
+<p>
+除法は大きく分けて二つあります。
+</p>
+<p>
+そのうちの一つを、ここでは「普通の除法」と呼ぶことにします。
+</p>
+<p>
+普通の除法は、被除数を x、除数を y、商を q としたとき、x == q×y となるよう定義された除法です。
+7 割る 2 を 3.5 とする除法は普通の除法です。
+</p>
+<p>
+普通の除法における商をここでは「普通の商」と呼ぶことにしましょう。
+</p>
+<p>
+もう一つの除法は、商が必ず整数になるよう定義されるもので、これを「整除法」と言います。
+7 割る 2 を 3 余り 1 とする除法は整除法です。
+</p>
+<p>
+整除法における商をとくに「整商」と言います。
+</p>
+<p>
+整除法では、被除数を x、除数を y、商を q としたとき、x と q×y が一致する（つまり割り切れる）とは限りません。
+</p>
+<p>
+その差 x − q×y を剰余（余り；remainder）と言います。整除法は商と剰余がセットで決まる除法なので「剰余付き除法」とも呼ばれます。
+</p>
+<p>
+しばしば「整除法は整数の世界でしか成り立たない」と誤解されていますが、
+2.5 m の紐から 0.75 m の紐が何本取れて何 m の半端が出るか、という問題を考えれば、被除数・除数が整数でなくてもよいことが分かります。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例: Float の世界の整商と剰余</span>
+<code>
+<span class="nb">p</span> <span class="mf">2.5</span><span class="p">.</span><span class="nf">divmod</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span> <span class="c1"># =&gt; [3, 0.25]
+</span><span class="c1"># 2.5 m の紐から 0.75 m の紐が 3 本取れて 0.25 m 余る
+</span></code></pre>
+<p>
+ただし、複素数の世界では整商・剰余は考えないので、Complex に divmod などのメソッドは定義されていません。
+</p>
+<p>
+以下では、まず普通の除法に基づくメソッドについて述べます。
+</p>
+<p>
+普通の商を得るメソッドは <a href="../method/Numeric/i/quo.html">Numeric#quo</a> です。
+quo の返り値のクラスは、被除数・除数のクラスによって異なります。例えば、被除数・除数の一方が Integer、他方が Float なら返り値は Float です。
+</p>
+<p>
+普通の商を得るメソッドには、<a href="../method/Numeric/i/fdiv.html">Numeric#fdiv</a> もあります。これは商を Float で返します（被除数・除数の一方が Complex のときは
+Complex を返します）。
+</p>
+<p>
+整数同士の除法の場合、quo は厳密値を Rational で返しますが、
+fdiv では丸め誤差が生じうることに注意してください。
+</p>
+<p>
+次に整除法に基づくメソッドについて述べます。
+</p>
+<p>
+重要なことは、整除法の定義（言い換えれば整商・剰余の定義）がいくつもある、ということです。
+</p>
+<p>
+しかし、どの定義にも共通していることが二つあります。
+</p>
+<p>
+それは、被除数を x、除数を y としたときの整商を q、剰余を r とすると、第一に
+</p>
+<p>
+x == y * q + r （ただし q は整数）
+</p>
+<p>
+が成り立つということです。第二に、剰余 r は「半端」ですから、r の絶対値は y の絶対値より小さくなくてはならないということです。
+</p>
+<p>
+この二つを満たす整商・剰余の定義は何通りもありますが、
+Ruby では、剰余に関して二通りの定義を採用し、
+<a href="../method/Numeric/i/modulo.html">Numeric#modulo</a> メソッドと <a href="../method/Numeric/i/remainder.html">Numeric#remainder</a> メソッドとして実装されています。
+</p>
+<p>
+modulo は、
+</p>
+<ul>
+<li>y &gt; 0 のとき 0 &lt;= r &lt;  y</li>
+<li>y &lt; 0 のとき y &lt;  r &lt;= 0</li>
+</ul>
+<p>
+となるように定められた剰余です。定義からすぐ分かるとおり、剰余 r の符号は除数 y の符号と一致します。
+</p>
+<p>
+modulo の別名は % で、普通はメソッド呼び出しの形ではなく二項演算子の形で用います。
+</p>
+<p>
+modulo に対応する整商は <a href="../method/Numeric/i/div.html">Numeric#div</a> です。これは、普通の商を <a href="../method/Numeric/i/floor.html">Numeric#floor</a> で整数化したものと一致します。
+</p>
+<p>
+さきほどの例で出てきた <a href="../method/Numeric/i/divmod.html">Numeric#divmod</a> は、
+div と modulo の値を一度に配列で返すメソッドです。
+</p>
+<p>
+一方、remainder は
+</p>
+<ul>
+<li>x &gt; 0 のとき  0   &lt;= r &lt;  |y|</li>
+<li>x &lt; 0 のとき -|y| &lt;  r &lt;= 0</li>
+</ul>
+<p>
+となるように定められた剰余です。定義からすぐ分かるとおり、剰余 r の符号は被除数 x の符号と一致します。
+</p>
+<p>
+これに対応する整商を得るメソッドはありませんが、
+x.quo(y).truncate で得ることができます。
+</p>
+<p>
+x と y がともに正のときと、ともに負のとき、modulo と remainder は一致します。
+</p>
+<p>
+商を得るメソッドには <a href="../method/Numeric/i/=2f.html">Numeric#/</a> もあります。普通はメソッド呼び出しの形ではなく、二項演算子として用います。
+</p>
+<p>
+これは被除数・除数のクラスによって挙動が異なります。例えば Integer 同士なら div と同じ、Integer や Rational と Float なら quo と同じ、といった具合です。
+</p>
+<p>
+被除数のクラスの / メソッドの説明をご覧ください。
+</p>
 
 
 
@@ -433,7 +566,7 @@
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_--25"><code>modulo(other) -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/=25.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-25">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L644">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--25"><code>modulo(other) -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/=25.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-25">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L771">edit</a>]</span></dt>
 <dt class="method-heading"><code>self % other -&gt; Numeric</code></dt>
 <dd class="method-description">
 <p>
@@ -479,7 +612,7 @@ modulo はメソッド % の呼び出しとして定義されています。
 </dd>
 
 
-<dt class="method-heading" id="I_--2B--40"><code>+ self -&gt; self</code><span class="permalink">[<a href="../method/Numeric/i/=2b=40.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-2B-40">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L362">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--2B--40"><code>+ self -&gt; self</code><span class="permalink">[<a href="../method/Numeric/i/=2b=40.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-2B-40">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L489">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 単項演算子の + です。
@@ -497,7 +630,7 @@ self を返します。
 </dd>
 
 
-<dt class="method-heading" id="I_--2D--40"><code>- self -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/=2d=40.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-2D-40">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L375">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--2D--40"><code>- self -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/=2d=40.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-2D-40">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L502">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 単項演算子の - です。
@@ -512,7 +645,7 @@ self の符号を反転させたものを返します。
 </dd>
 
 
-<dt class="method-heading" id="I_--3C--3D--3E"><code>self &lt;=&gt; other -&gt; -1 | 0 | 1 | nil</code><span class="permalink">[<a href="../method/Numeric/i/=3c=3d=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-3C-3D-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L891">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--3C--3D--3E"><code>self &lt;=&gt; other -&gt; -1 | 0 | 1 | nil</code><span class="permalink">[<a href="../method/Numeric/i/=3c=3d=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-3C-3D-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1018">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身が other より大きい場合に 1 を、等しい場合に 0 を、小さい場合には -1 をそれぞれ返します。自身と other が比較できない場合には nil を返します。
@@ -537,7 +670,7 @@ Numeric のサブクラスは、上の動作を満たすよう このメソッ�
 </dd>
 
 
-<dt class="method-heading" id="I_ABS"><code>abs -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/abs.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-abs">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L386">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ABS"><code>abs -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/abs.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-abs">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L513">edit</a>]</span></dt>
 <dt class="method-heading"><code>magnitude -&gt; Numeric</code></dt>
 <dd class="method-description">
 <p>
@@ -553,7 +686,7 @@ Numeric のサブクラスは、上の動作を満たすよう このメソッ�
 </dd>
 
 
-<dt class="method-heading" id="I_ABS2"><code>abs2 -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/abs2.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-abs2">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L925">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ABS2"><code>abs2 -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/abs2.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-abs2">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1052">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身の絶対値の 2 乗を返します。
@@ -572,7 +705,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_ANGLE"><code>arg -&gt; 0 | Math::PI</code><span class="permalink">[<a href="../method/Numeric/i/angle.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-angle">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L939">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ANGLE"><code>arg -&gt; 0 | Math::PI</code><span class="permalink">[<a href="../method/Numeric/i/angle.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-angle">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1066">edit</a>]</span></dt>
 <dt class="method-heading"><code>angle -&gt; 0 | Math::PI</code></dt>
 <dt class="method-heading"><code>phase -&gt; 0 | Math::PI</code></dt>
 <dd class="method-description">
@@ -594,7 +727,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_CEIL"><code>ceil -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/ceil.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-ceil">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L397">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CEIL"><code>ceil -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/ceil.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-ceil">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L524">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身と等しいかより大きな整数のうち最小のものを返します。
@@ -613,7 +746,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_COERCE"><code>coerce(other) -&gt; [Numeric]</code><span class="permalink">[<a href="../method/Numeric/i/coerce.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-coerce">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L474">edit</a>]</span></dt>
+<dt class="method-heading" id="I_COERCE"><code>coerce(other) -&gt; [Numeric]</code><span class="permalink">[<a href="../method/Numeric/i/coerce.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-coerce">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L601">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身と other が同じクラスになるよう、自身か other を変換し [other, self] という配列にして返します。
@@ -669,7 +802,7 @@ super を呼んでいることに注意して下さい。
 </dd>
 
 
-<dt class="method-heading" id="I_CONJ"><code>conj -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/conj.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-conj">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L954">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CONJ"><code>conj -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/conj.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-conj">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1081">edit</a>]</span></dt>
 <dt class="method-heading"><code>conjugate -&gt; Numeric</code></dt>
 <dd class="method-description">
 <p>
@@ -694,7 +827,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_DENOMINATOR"><code>denominator -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/denominator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-denominator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L972">edit</a>]</span></dt>
+<dt class="method-heading" id="I_DENOMINATOR"><code>denominator -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/denominator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-denominator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1099">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を <a href="../class/Rational.html">Rational</a> に変換した時の分母を返します。
@@ -711,7 +844,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_DIV"><code>div(other) -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/div.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-div">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L523">edit</a>]</span></dt>
+<dt class="method-heading" id="I_DIV"><code>div(other) -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/div.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-div">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L650">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self を other で割った整数の商 q を返します。
@@ -753,7 +886,7 @@ div はメソッド / を呼びだし、floorを取ることで計算されま�
 </dd>
 
 
-<dt class="method-heading" id="I_DIVMOD"><code>divmod(other) -&gt; [Numeric]</code><span class="permalink">[<a href="../method/Numeric/i/divmod.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-divmod">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L548">edit</a>]</span></dt>
+<dt class="method-heading" id="I_DIVMOD"><code>divmod(other) -&gt; [Numeric]</code><span class="permalink">[<a href="../method/Numeric/i/divmod.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-divmod">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L675">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self を other で割った商 q と余り r を、
@@ -798,7 +931,7 @@ divmod が返す商は <a href="../method/Numeric/i/div.html">Numeric#div</a> �
 </dd>
 
 
-<dt class="method-heading" id="I_EQL--3F"><code>eql?(other) -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/eql=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-eql-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L907">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EQL--3F"><code>eql?(other) -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/eql=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-eql-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1034">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身と other のクラスが等しくかつ == メソッドで比較して等しい場合に true を返します。そうでない場合に false を返します。
@@ -826,7 +959,7 @@ hash メソッドを適切に定義する必要があります。
 </dd>
 
 
-<dt class="method-heading" id="I_FDIV"><code>fdiv(other) -&gt; Float | Complex</code><span class="permalink">[<a href="../method/Numeric/i/fdiv.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-fdiv">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L612">edit</a>]</span></dt>
+<dt class="method-heading" id="I_FDIV"><code>fdiv(other) -&gt; Float | Complex</code><span class="permalink">[<a href="../method/Numeric/i/fdiv.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-fdiv">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L739">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self を other で割った商を <a href="../class/Float.html">Float</a> で返します。ただし <a href="../class/Complex.html">Complex</a> が関わる場合は例外です。その場合も成分は Float になります。
@@ -853,7 +986,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_FINITE--3F"><code>finite? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/finite=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-finite-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L753">edit</a>]</span></dt>
+<dt class="method-heading" id="I_FINITE--3F"><code>finite? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/finite=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-finite-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L880">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self の絶対値が有限値の場合に true を、そうでない場合に false を返します。
@@ -873,7 +1006,7 @@ self の絶対値が有限値の場合に true を、そうでない場合に fa
 </dd>
 
 
-<dt class="method-heading" id="I_FLOOR"><code>floor(ndigits = 0) -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/floor.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-floor">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L412">edit</a>]</span></dt>
+<dt class="method-heading" id="I_FLOOR"><code>floor(ndigits = 0) -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/floor.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-floor">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L539">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身と等しいかより小さな整数のうち最大のものを返します。
@@ -901,7 +1034,7 @@ self の絶対値が有限値の場合に true を、そうでない場合に fa
 </dd>
 
 
-<dt class="method-heading" id="I_I"><code>i -&gt; Complex</code><span class="permalink">[<a href="../method/Numeric/i/i.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-i">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1083">edit</a>]</span></dt>
+<dt class="method-heading" id="I_I"><code>i -&gt; Complex</code><span class="permalink">[<a href="../method/Numeric/i/i.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-i">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1210">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 Complex(0, self) を返します。
@@ -920,7 +1053,7 @@ Complex(0, self) を返します。
 </dd>
 
 
-<dt class="method-heading" id="I_IMAG"><code>imag -&gt; 0</code><span class="permalink">[<a href="../method/Numeric/i/imag.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-imag">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L982">edit</a>]</span></dt>
+<dt class="method-heading" id="I_IMAG"><code>imag -&gt; 0</code><span class="permalink">[<a href="../method/Numeric/i/imag.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-imag">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1109">edit</a>]</span></dt>
 <dt class="method-heading"><code>imaginary -&gt; 0</code></dt>
 <dd class="method-description">
 <p>
@@ -943,7 +1076,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_INFINITE--3F"><code>infinite? -&gt; nil</code><span class="permalink">[<a href="../method/Numeric/i/infinite=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-infinite-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L767">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INFINITE--3F"><code>infinite? -&gt; nil</code><span class="permalink">[<a href="../method/Numeric/i/infinite=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-infinite-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L894">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 常に nil を返します。自身が <a href="../class/Float.html">Float</a> か<a href="../class/Complex.html">Complex</a>、もしくはそのサブクラスのインスタンスの場合は、self の絶対値が負の無限大の場合に-1を、正の無限大の場合に1を、有限値の場合に nil を返します。
@@ -960,7 +1093,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_INTEGER--3F"><code>integer? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/integer=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-integer-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L630">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INTEGER--3F"><code>integer? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/integer=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-integer-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L757">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身が <a href="../class/Integer.html">Integer</a> かそのサブクラスのインスタンスの場合にtrue を返します。そうでない場合に false を返します。
@@ -980,7 +1113,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_NEGATIVE--3F"><code>negative? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/negative=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-negative-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L688">edit</a>]</span></dt>
+<dt class="method-heading" id="I_NEGATIVE--3F"><code>negative? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/negative=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-negative-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L815">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self が 0 未満の場合に true を返します。そうでない場合に false を返します。
@@ -998,7 +1131,7 @@ self が 0 未満の場合に true を返します。そうでない場合に fa
 </dd>
 
 
-<dt class="method-heading" id="I_NONZERO--3F"><code>nonzero? -&gt; self | nil</code><span class="permalink">[<a href="../method/Numeric/i/nonzero=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-nonzero-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L730">edit</a>]</span></dt>
+<dt class="method-heading" id="I_NONZERO--3F"><code>nonzero? -&gt; self | nil</code><span class="permalink">[<a href="../method/Numeric/i/nonzero=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-nonzero-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L857">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身がゼロの時 nil を返し、非ゼロの時 self を返します。
@@ -1027,7 +1160,7 @@ b   <span class="c1">#=&gt; [&quot;A&quot;, &quot;a&quot;, &quot;AA&quot;, &quot
 </dd>
 
 
-<dt class="method-heading" id="I_NUMERATOR"><code>numerator -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/numerator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-numerator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L998">edit</a>]</span></dt>
+<dt class="method-heading" id="I_NUMERATOR"><code>numerator -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/numerator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-numerator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1125">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を <a href="../class/Rational.html">Rational</a> に変換した時の分子を返します。
@@ -1044,7 +1177,7 @@ b   <span class="c1">#=&gt; [&quot;A&quot;, &quot;a&quot;, &quot;AA&quot;, &quot
 </dd>
 
 
-<dt class="method-heading" id="I_POLAR"><code>polar -&gt; [Numeric, Numeric]</code><span class="permalink">[<a href="../method/Numeric/i/polar.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-polar">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1008">edit</a>]</span></dt>
+<dt class="method-heading" id="I_POLAR"><code>polar -&gt; [Numeric, Numeric]</code><span class="permalink">[<a href="../method/Numeric/i/polar.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-polar">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1135">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身の絶対値と偏角を配列にして返します。正の数なら [self, 0]、負の数なら [-self, <a href="../method/Math/c/PI.html">Math::PI</a>] を返します。
@@ -1066,7 +1199,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_POSITIVE--3F"><code>positive? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/positive=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-positive-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L676">edit</a>]</span></dt>
+<dt class="method-heading" id="I_POSITIVE--3F"><code>positive? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/positive=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-positive-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L803">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self が 0 より大きい場合に true を返します。そうでない場合に false を返します。
@@ -1084,7 +1217,7 @@ self が 0 より大きい場合に true を返します。そうでない場合
 </dd>
 
 
-<dt class="method-heading" id="I_QUO"><code>quo(other) -&gt; Rational | Float | Complex</code><span class="permalink">[<a href="../method/Numeric/i/quo.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-quo">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L578">edit</a>]</span></dt>
+<dt class="method-heading" id="I_QUO"><code>quo(other) -&gt; Rational | Float | Complex</code><span class="permalink">[<a href="../method/Numeric/i/quo.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-quo">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L705">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self を other で割った商を返します。整商を得たい場合は <a href="../method/Numeric/i/div.html">Numeric#div</a> を使ってください。
@@ -1119,7 +1252,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_REAL"><code>real -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/real.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-real">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1024">edit</a>]</span></dt>
+<dt class="method-heading" id="I_REAL"><code>real -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/real.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-real">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1151">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を返します。
@@ -1141,7 +1274,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_REAL--3F"><code>real? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/real=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-real-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1039">edit</a>]</span></dt>
+<dt class="method-heading" id="I_REAL--3F"><code>real? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/real=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-real-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1166">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 常に true を返します。(<a href="../class/Complex.html">Complex</a> またはそのサブクラスではないことを意味します。)
@@ -1163,7 +1296,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_RECT"><code>rect -&gt; [Numeric, Numeric]</code><span class="permalink">[<a href="../method/Numeric/i/rect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-rect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1054">edit</a>]</span></dt>
+<dt class="method-heading" id="I_RECT"><code>rect -&gt; [Numeric, Numeric]</code><span class="permalink">[<a href="../method/Numeric/i/rect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-rect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1181">edit</a>]</span></dt>
 <dt class="method-heading"><code>rectangular -&gt; [Numeric, Numeric]</code></dt>
 <dd class="method-description">
 <p>
@@ -1186,7 +1319,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_REMAINDER"><code>remainder(other) -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/remainder.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-remainder">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L701">edit</a>]</span></dt>
+<dt class="method-heading" id="I_REMAINDER"><code>remainder(other) -&gt; Numeric</code><span class="permalink">[<a href="../method/Numeric/i/remainder.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-remainder">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L828">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self を other で割った余り r を返します。
@@ -1230,7 +1363,7 @@ self を other で割った余り r を返します。
 </dd>
 
 
-<dt class="method-heading" id="I_ROUND"><code>round -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/round.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-round">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L446">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ROUND"><code>round -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/round.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-round">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L573">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身ともっとも近い整数を返します。
@@ -1252,7 +1385,7 @@ self を other で割った余り r を返します。
 </dd>
 
 
-<dt class="method-heading" id="I_STEP"><code>step(limit, step = 1) {|n| ... } -&gt; self</code><span class="permalink">[<a href="../method/Numeric/i/step.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-step">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L801">edit</a>]</span></dt>
+<dt class="method-heading" id="I_STEP"><code>step(limit, step = 1) {|n| ... } -&gt; self</code><span class="permalink">[<a href="../method/Numeric/i/step.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-step">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L928">edit</a>]</span></dt>
 <dt class="method-heading"><code>step(limit, step = 1) -&gt; Enumerator</code></dt>
 <dt class="method-heading"><code>step(limit, step = 1) -&gt; Enumerator::ArithmeticSequence</code></dt>
 <dt class="method-heading"><code>step(by: 1, to: Float::INFINITY) {|n| ... } -&gt; self</code></dt>
@@ -1353,7 +1486,7 @@ i <span class="o">=</span> <span class="mf">1.1</span>
 </dd>
 
 
-<dt class="method-heading" id="I_TO_C"><code>to_c -&gt; Complex</code><span class="permalink">[<a href="../method/Numeric/i/to_c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-to_c">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1070">edit</a>]</span></dt>
+<dt class="method-heading" id="I_TO_C"><code>to_c -&gt; Complex</code><span class="permalink">[<a href="../method/Numeric/i/to_c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-to_c">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L1197">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を複素数 (<a href="../class/Complex.html">Complex</a>) に変換します。Complex(self, 0) を返します。
@@ -1372,7 +1505,7 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 </dd>
 
 
-<dt class="method-heading" id="I_TO_INT"><code>to_int -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/to_int.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-to_int">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L780">edit</a>]</span></dt>
+<dt class="method-heading" id="I_TO_INT"><code>to_int -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/to_int.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-to_int">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L907">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self.to_i と同じです。
@@ -1386,7 +1519,7 @@ self.to_i と同じです。
 </dd>
 
 
-<dt class="method-heading" id="I_TRUNCATE"><code>truncate -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/truncate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-truncate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L461">edit</a>]</span></dt>
+<dt class="method-heading" id="I_TRUNCATE"><code>truncate -&gt; Integer</code><span class="permalink">[<a href="../method/Numeric/i/truncate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-truncate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L588">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 0 から 自身までの整数で、自身にもっとも近い整数を返します。
@@ -1405,7 +1538,7 @@ self.to_i と同じです。
 </dd>
 
 
-<dt class="method-heading" id="I_ZERO--3F"><code>zero? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/zero=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-zero-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L789">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ZERO--3F"><code>zero? -&gt; bool</code><span class="permalink">[<a href="../method/Numeric/i/zero=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Numeric.html#method-i-zero-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Numeric#L916">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身がゼロの時、trueを返します。そうでない場合は false を返します。
