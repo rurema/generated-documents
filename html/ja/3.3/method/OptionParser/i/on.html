@@ -92,11 +92,12 @@ opt.on('--require X', '--need', '--dependon'){|x| ... }
 <pre>
   on(&quot;-x&quot;){|boolean| ...}
 </pre>
-となります。コマンドラインにオプションが存在した場合 true を引数としてブロックを評価します。ショートオプションが引数をとる場合は、
+となります。コマンドラインにオプションが存在した場合 true を引数としてブロックを評価します。ショートオプションが引数をとる場合は、以下のようになります。
 <pre>
-  on(&quot;-x MANDATORY&quot;){|val| ...}
+  on(&quot;-x MANDATORY&quot;){|val| ...} # &quot; MANDATORY&quot; の部分は任意の文字列で構いません
+  on(&quot;-xSTRING&quot;){|val| ...} # スペース無しで任意の文字列を入れても同様
 </pre>
-となります。&quot;MANDATORY&quot; の部分は任意の文字列で構いません。オプションの引数が必須でない場合は [ ] をつけて、
+オプションの引数が必須でない場合は [ ] をつけて、
 <pre>
   on(&quot;-x [OPTIONAL]&quot;){|val| ...}
 </pre>
@@ -104,11 +105,13 @@ opt.on('--require X', '--need', '--dependon'){|x| ... }
 </dd>
 <dt class='method-param'>[PARAM] long:</dt>
 <dd>
-ロングオプションを表す文字列を指定します。ショートオプションの時と同様に、
+ロングオプションを表す文字列を指定します。ショートオプションの時とほぼ同様に、
 <pre>
-  on(&quot;--long&quot;){|boolean| ...}
-  on(&quot;--long MANDATORY&quot;){|val| ...}
-  on(&quot;--long [OPTIONAL]&quot;){|val| ...}
+  on(&quot;--long&quot;){|boolean| ...}  # オプションが引数をとらない場合。boolean には true が渡されます。
+  on(&quot;--long MANDATORY&quot;){|val| ...} # オプションが引数をとる場合。&quot; MANDATORY&quot; の部分は任意の文字列で構いません
+  on(&quot;--long=MANDATORY&quot;){|val| ...} # 空白のかわりに = を使って指定することもできます
+  # on(&quot;--longSTRING&quot;){|val| ...} # ロングオプションでは、ショートオプションの場合と違って空白が必ず必要です。このようにすると --longSTRING という名前の引数をとらないオプションになります。
+  on(&quot;--long [OPTIONAL]&quot;){|val| ...}  # 引数が必須でないオプション
 </pre>
 と指定できます。
 </dd>
