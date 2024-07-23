@@ -134,6 +134,10 @@
 
 <li><a href="#I_--5B--5D--3D">[]=</a></li>
 
+<li><a href="#I_DECONSTRUCT">deconstruct</a></li>
+
+<li><a href="#I_DECONSTRUCT_KEYS">deconstruct_keys</a></li>
+
 <li><a href="#I_DIG">dig</a></li>
 
 <li><a href="#I_EACH">each</a></li>
@@ -158,13 +162,13 @@
 
 <li><a href="#I_LENGTH">size</a></li>
 
-<li><a href="#I_TO_A">to_a</a></li>
+<li><a href="#I_DECONSTRUCT">to_a</a></li>
 
 <li><a href="#I_TO_H">to_h</a></li>
 
 <li><a href="#I_INSPECT">to_s</a></li>
 
-<li><a href="#I_TO_A">values</a></li>
+<li><a href="#I_DECONSTRUCT">values</a></li>
 
 <li><a href="#I_VALUES_AT">values_at</a></li>
 
@@ -548,7 +552,7 @@ false を指定されていたら false を返します。それ以外の場合�
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_--3D--3D"><code>self == other -&gt; bool</code><span class="permalink">[<a href="../method/Struct/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L397">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--3D--3D"><code>self == other -&gt; bool</code><span class="permalink">[<a href="../method/Struct/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L427">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self と other のクラスが同じであり、各メンバが == メソッドで比較して等しい場合に
@@ -661,7 +665,62 @@ joe<span class="p">.</span><span class="nf">name</span>   <span class="c1">#=&gt
 </dd>
 
 
-<dt class="method-heading" id="I_DIG"><code>dig(key, ...) -&gt; object | nil</code><span class="permalink">[<a href="../method/Struct/i/dig.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-dig">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L379">edit</a>]</span></dt>
+<dt class="method-heading" id="I_DECONSTRUCT"><code>values -&gt; [object]</code><span class="permalink">[<a href="../method/Struct/i/deconstruct.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-deconstruct">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L313">edit</a>]</span></dt>
+<dt class="method-heading"><code>to_a -&gt; [object]</code></dt>
+<dt class="method-heading"><code>deconstruct -&gt; [object]</code></dt>
+<dd class="method-description">
+<p>
+構造体のメンバの値を配列にいれて返します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Customer</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span>, <span class="ss">:address</span>, <span class="ss">:zip</span><span class="p">)</span>
+<span class="no">Customer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">Joe Smith</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">123 Maple, Anytown NC</span><span class="s2">"</span>, <span class="mi">12345</span><span class="p">)</span><span class="p">.</span><span class="nf">to_a</span>
+<span class="c1"># =&gt; [&quot;Joe Smith&quot;, &quot;123 Maple, Anytown NC&quot;, 12345]
+</span></code></pre>
+<p>
+[注意] 本メソッドの記述は Struct の下位クラスのインスタンスに対して呼び出す事を想定しています。Struct.new は Struct の下位クラスを作成する点に注意してください。
+</p>
+<p>
+[SEE_ALSO] <a href="../doc/spec=2fpattern_matching.html#matching_non_primitive_objects">パターンマッチ/非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(array_of_names) -&gt; Hash</code><span class="permalink">[<a href="../method/Struct/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L333">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self のメンバの名前と値の組を <a href="../class/Hash.html">Hash</a> で返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] array_of_names:</dt>
+<dd>
+返り値に含めるメンバの名前の配列を指定します。nil の場合は全てのメンバを意味します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Customer</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span>, <span class="ss">:address</span>, <span class="ss">:zip</span><span class="p">)</span>
+joe <span class="o">=</span> <span class="no">Customer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">Joe Smith</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">123 Maple, Anytown NC</span><span class="s2">"</span>, <span class="mi">12345</span><span class="p">)</span>
+h <span class="o">=</span> joe<span class="p">.</span><span class="nf">deconstruct_keys</span><span class="p">(</span><span class="p">[</span><span class="ss">:zip</span>, <span class="ss">:address</span><span class="p">]</span><span class="p">)</span>
+h <span class="c1"># =&gt; {:zip=&gt;12345, :address=&gt;&quot;123 Maple, Anytown NC&quot;}
+</span>
+<span class="c1"># 引数が nil の場合は全てのメンバを返します。
+</span>h <span class="o">=</span> joe<span class="p">.</span><span class="nf">deconstruct_keys</span><span class="p">(</span><span class="k">nil</span><span class="p">)</span>
+h <span class="c1"># =&gt; {:name=&gt;&quot;Joseph Smith, Jr.&quot;, :address=&gt;&quot;123 Maple, Anytown NC&quot;, :zip=&gt;12345}
+</span></code></pre>
+<p>
+[注意] 本メソッドの記述は Struct の下位クラスのインスタンスに対して呼び出す事を想定しています。Struct.new は Struct の下位クラスを作成する点に注意してください。
+</p>
+<p>
+[SEE_ALSO] <a href="../doc/spec=2fpattern_matching.html#matching_non_primitive_objects">パターンマッチ/非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DIG"><code>dig(key, ...) -&gt; object | nil</code><span class="permalink">[<a href="../method/Struct/i/dig.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-dig">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L409">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self 以下のネストしたオブジェクトを dig メソッドで再帰的に参照して返します。途中のオブジェクトが nil であった場合は nil を返します。
@@ -730,7 +789,7 @@ joe<span class="p">.</span><span class="nf">each</span> <span class="p">{</span>
 </dd>
 
 
-<dt class="method-heading" id="I_EQL--3F"><code>eql?(other) -&gt; bool</code><span class="permalink">[<a href="../method/Struct/i/eql=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-eql-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L418">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EQL--3F"><code>eql?(other) -&gt; bool</code><span class="permalink">[<a href="../method/Struct/i/eql=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-eql-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L448">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self と other のクラスが同じであり、各メンバが eql? メソッドで比較して等しい場合に
@@ -762,7 +821,7 @@ dog2 <span class="o">=</span> <span class="no">Dog</span><span class="p">.</span
 </dd>
 
 
-<dt class="method-heading" id="I_EQUAL--3F"><code>equal?(other) -&gt; bool</code><span class="permalink">[<a href="../method/Struct/i/equal=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-equal-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L439">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EQUAL--3F"><code>equal?(other) -&gt; bool</code><span class="permalink">[<a href="../method/Struct/i/equal=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-equal-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L469">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 指定された other が self 自身である場合のみ真を返します。これは <a href="../class/Object.html">Object</a> クラスで定義されたデフォルトの動作です。
@@ -776,7 +835,7 @@ dog2 <span class="o">=</span> <span class="no">Dog</span><span class="p">.</span
 </dd>
 
 
-<dt class="method-heading" id="I_FILTER"><code>select {|i| ... } -&gt; [object]</code><span class="permalink">[<a href="../method/Struct/i/filter.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-filter">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L338">edit</a>]</span></dt>
+<dt class="method-heading" id="I_FILTER"><code>select {|i| ... } -&gt; [object]</code><span class="permalink">[<a href="../method/Struct/i/filter.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-filter">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L368">edit</a>]</span></dt>
 <dt class="method-heading"><code>select -&gt; Enumerator</code></dt>
 <dt class="method-heading"><code>filter {|i| ... } -&gt; [object]</code></dt>
 <dt class="method-heading"><code>filter -&gt; Enumerator</code></dt>
@@ -803,7 +862,7 @@ l<span class="p">.</span><span class="nf">select</span> <span class="p">{</span>
 </dd>
 
 
-<dt class="method-heading" id="I_HASH"><code>hash -&gt; Integer</code><span class="permalink">[<a href="../method/Struct/i/hash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-hash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L451">edit</a>]</span></dt>
+<dt class="method-heading" id="I_HASH"><code>hash -&gt; Integer</code><span class="permalink">[<a href="../method/Struct/i/hash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-hash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L481">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self が保持するメンバのハッシュ値を元にして算出した整数を返します。
@@ -824,7 +883,7 @@ dog <span class="o">=</span> <span class="no">Dog</span><span class="p">.</span>
 </dd>
 
 
-<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/Struct/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L325">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/Struct/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L355">edit</a>]</span></dt>
 <dt class="method-heading"><code>to_s -&gt; String</code></dt>
 <dd class="method-description">
 <p>
@@ -879,26 +938,7 @@ joe<span class="p">.</span><span class="nf">length</span>   <span class="c1">#=&
 </dd>
 
 
-<dt class="method-heading" id="I_TO_A"><code>values -&gt; [object]</code><span class="permalink">[<a href="../method/Struct/i/to_a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-to_a">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L313">edit</a>]</span></dt>
-<dt class="method-heading"><code>to_a -&gt; [object]</code></dt>
-<dd class="method-description">
-<p>
-構造体のメンバの値を配列にいれて返します。
-</p>
-<pre class="highlight ruby">
-<span class="caption">例</span>
-<code>
-<span class="no">Customer</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span>, <span class="ss">:address</span>, <span class="ss">:zip</span><span class="p">)</span>
-<span class="no">Customer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">Joe Smith</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">123 Maple, Anytown NC</span><span class="s2">"</span>, <span class="mi">12345</span><span class="p">)</span><span class="p">.</span><span class="nf">to_a</span>
-<span class="c1"># =&gt; [&quot;Joe Smith&quot;, &quot;123 Maple, Anytown NC&quot;, 12345]
-</span></code></pre>
-<p>
-[注意] 本メソッドの記述は Struct の下位クラスのインスタンスに対して呼び出す事を想定しています。Struct.new は Struct の下位クラスを作成する点に注意してください。
-</p>
-</dd>
-
-
-<dt class="method-heading" id="I_TO_H"><code>to_h -&gt; Hash</code><span class="permalink">[<a href="../method/Struct/i/to_h.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-to_h">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L466">edit</a>]</span></dt>
+<dt class="method-heading" id="I_TO_H"><code>to_h -&gt; Hash</code><span class="permalink">[<a href="../method/Struct/i/to_h.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-to_h">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L496">edit</a>]</span></dt>
 <dt class="method-heading"><code>to_h {|member, value| block } -&gt; Hash</code></dt>
 <dd class="method-description">
 <p>
@@ -928,7 +968,7 @@ self のメンバ名(<a href="../class/Symbol.html">Symbol</a>)と値の組を <
 </dd>
 
 
-<dt class="method-heading" id="I_VALUES_AT"><code>values_at(*members) -&gt; [object]</code><span class="permalink">[<a href="../method/Struct/i/values_at.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-values_at">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L363">edit</a>]</span></dt>
+<dt class="method-heading" id="I_VALUES_AT"><code>values_at(*members) -&gt; [object]</code><span class="permalink">[<a href="../method/Struct/i/values_at.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Struct.html#method-i-values_at">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Struct#L393">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 引数で指定されたメンバの値の配列を返します。
