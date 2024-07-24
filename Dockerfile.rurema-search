@@ -1,19 +1,27 @@
-FROM ruby:3.3.4
+FROM phusion/passenger-ruby33:3.0.6
 
 ENV DEBIAN_FRONTEND=noninteractive
 # groonga-suggest-create-dataset がなくて止まるので apt install groonga しておく
 RUN apt-get update -qy && apt-get install groonga libgroonga-dev -qy
 
 RUN adduser --uid 1001 rurema
+# Fix Error opening '/home/rurema/rurema-search/Passengerfile.json' for reading: Permission denied (errno=13); This error means that the Nginx worker process (PID 53, running as UID 33) does not have permission to access this file. Please read this page to learn how to fix this problem: https://www.phusionpassenger.com/library/admin/nginx/troubleshooting/?a=upon-accessing-the-web-app-nginx-reports-a-permission-denied-error
+RUN chmod 755 /home/rurema
 WORKDIR /home/rurema
 USER rurema
 
 COPY --chown=rurema:rurema repos/rurema-search rurema-search
 
 WORKDIR /home/rurema/rurema-search
+RUN bundle config set path vendor/bundle
 RUN bundle install
 RUN bundle add net-smtp
-RUN bundle add puma
 COPY --chown=rurema:rurema example/rurema-search/document.yaml document.yaml
 COPY --chown=rurema:rurema example/rurema-search/production.yaml production.yaml
 RUN install -m 755 -o rurema -g rurema -d groonga-database var/lib/suggest
+
+# passenger
+USER root
+RUN rm /etc/nginx/sites-enabled/default
+COPY example/nginx/default.conf /etc/nginx/sites-enabled/rurema.conf
+RUN rm -f /etc/service/nginx/down
