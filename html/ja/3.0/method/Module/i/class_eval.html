@@ -73,7 +73,7 @@
 ただし、ローカル変数は module_eval/class_eval の外側のスコープと共有します。
 </p>
 <p>
-文字列が与えられた場合には、定数とクラス変数のスコープは自身のモジュール定義式内と同じスコープになります。ブロックが与えられた場合には、定数とクラス変数のスコープはブロックの外側のスコープになります。
+定数とクラス変数のスコープは、文字列が与えられた場合とブロックが与えられた場合で挙動が異なります。文字列が与えられた場合には、定数とクラス変数のスコープは自身のモジュール定義式内と同じスコープになります。ブロックが与えられた場合には、定数とクラス変数のスコープはブロックの外側のスコープになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] expr:</dt>
@@ -102,6 +102,26 @@ a <span class="o">=</span> <span class="mi">1</span>
 </span><span class="s2">}</span>
 
 <span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">m</span>        <span class="c1">#=&gt; [:m, 1]
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">定数のスコープが異なる例</span>
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C</span>
+<span class="k">end</span>
+
+<span class="c1"># ブロックが渡された場合は、ブロックの外側のスコープになる。
+</span><span class="c1"># つまり、この場合はトップレベルに定数 X を定義する。
+</span><span class="no">C</span><span class="p">.</span><span class="nf">class_eval</span> <span class="p">{</span> <span class="no">X</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">}</span>
+
+<span class="c1"># 文字列が渡された場合は、モジュール定義式内と同じスコープになる。つまり、この場合は
+</span><span class="c1"># class C
+</span><span class="c1">#   X = 2
+</span><span class="c1"># end
+</span><span class="c1"># と書いたのと同じ意味になる。
+</span><span class="no">C</span><span class="p">.</span><span class="nf">class_eval</span> <span class="s1">'X = 2'</span>
+
+<span class="nb">p</span> <span class="no">X</span>    <span class="c1">#=&gt; 1
+</span><span class="nb">p</span> <span class="no">C</span><span class="o">::</span><span class="no">X</span> <span class="c1">#=&gt; 2
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/BasicObject/i/instance_eval.html">BasicObject#instance_eval</a>, <a href="../../../method/Module/s/new.html">Module.new</a>, <a href="../../../method/Kernel/m/eval.html">Kernel.#eval</a>
