@@ -1032,7 +1032,7 @@ autoload?<span class="p">(</span><span class="ss">:Date</span><span class="p">)<
 ただし、ローカル変数は module_eval/class_eval の外側のスコープと共有します。
 </p>
 <p>
-文字列が与えられた場合には、定数とクラス変数のスコープは自身のモジュール定義式内と同じスコープになります。ブロックが与えられた場合には、定数とクラス変数のスコープはブロックの外側のスコープになります。
+定数とクラス変数のスコープは、文字列が与えられた場合とブロックが与えられた場合で挙動が異なります。文字列が与えられた場合には、定数とクラス変数のスコープは自身のモジュール定義式内と同じスコープになります。ブロックが与えられた場合には、定数とクラス変数のスコープはブロックの外側のスコープになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] expr:</dt>
@@ -1062,13 +1062,33 @@ a <span class="o">=</span> <span class="mi">1</span>
 
 <span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">m</span>        <span class="c1">#=&gt; [:m, 1]
 </span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">定数のスコープが異なる例</span>
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C</span>
+<span class="k">end</span>
+
+<span class="c1"># ブロックが渡された場合は、ブロックの外側のスコープになる。
+</span><span class="c1"># つまり、この場合はトップレベルに定数 X を定義する。
+</span><span class="no">C</span><span class="p">.</span><span class="nf">class_eval</span> <span class="p">{</span> <span class="no">X</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">}</span>
+
+<span class="c1"># 文字列が渡された場合は、モジュール定義式内と同じスコープになる。つまり、この場合は
+</span><span class="c1"># class C
+</span><span class="c1">#   X = 2
+</span><span class="c1"># end
+</span><span class="c1"># と書いたのと同じ意味になる。
+</span><span class="no">C</span><span class="p">.</span><span class="nf">class_eval</span> <span class="s1">'X = 2'</span>
+
+<span class="nb">p</span> <span class="no">X</span>    <span class="c1">#=&gt; 1
+</span><span class="nb">p</span> <span class="no">C</span><span class="o">::</span><span class="no">X</span> <span class="c1">#=&gt; 2
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/BasicObject/i/instance_eval.html">BasicObject#instance_eval</a>, <a href="../method/Module/s/new.html">Module.new</a>, <a href="../method/Kernel/m/eval.html">Kernel.#eval</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="I_CLASS_EXEC"><code>module_exec(*args) {|*vars| ... } -&gt; object</code><span class="permalink">[<a href="../method/Module/i/class_exec.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-class_exec">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1021">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CLASS_EXEC"><code>module_exec(*args) {|*vars| ... } -&gt; object</code><span class="permalink">[<a href="../method/Module/i/class_exec.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-class_exec">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1041">edit</a>]</span></dt>
 <dt class="method-heading"><code>class_exec(*args) {|*vars| ... } -&gt; object</code></dt>
 <dd class="method-description">
 <p>
@@ -1113,7 +1133,7 @@ t <span class="o">=</span> <span class="no">Thing</span><span class="p">.</span>
 </dd>
 
 
-<dt class="method-heading" id="I_CLASS_VARIABLE_DEFINED--3F"><code>class_variable_defined?(name) -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/class_variable_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-class_variable_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1507">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CLASS_VARIABLE_DEFINED--3F"><code>class_variable_defined?(name) -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/class_variable_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-class_variable_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1527">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 name で与えられた名前のクラス変数がモジュールに存在する場合 true を返します。
@@ -1138,7 +1158,7 @@ name で与えられた名前のクラス変数がモジュールに存在する
 </dd>
 
 
-<dt class="method-heading" id="I_CLASS_VARIABLE_GET"><code>class_variable_get(name) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/class_variable_get.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-class_variable_get">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1525">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CLASS_VARIABLE_GET"><code>class_variable_get(name) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/class_variable_get.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-class_variable_get">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1545">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 クラス／モジュールに定義されているクラス変数 name の値を返します。
@@ -1169,7 +1189,7 @@ end</span>
 </dd>
 
 
-<dt class="method-heading" id="I_CLASS_VARIABLE_SET"><code>class_variable_set(name, val) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/class_variable_set.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-class_variable_set">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1546">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CLASS_VARIABLE_SET"><code>class_variable_set(name, val) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/class_variable_set.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-class_variable_set">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1566">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 クラス／モジュールにクラス変数 name を定義して、その値として
@@ -1760,7 +1780,7 @@ self にインクルードされているモジュールの配列を返します
 </dd>
 
 
-<dt class="method-heading" id="I_INSPECT"><code>name -&gt; String | nil</code><span class="permalink">[<a href="../method/Module/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1057">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INSPECT"><code>name -&gt; String | nil</code><span class="permalink">[<a href="../method/Module/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1077">edit</a>]</span></dt>
 <dt class="method-heading"><code>to_s -&gt; String</code></dt>
 <dt class="method-heading"><code>inspect -&gt; String</code></dt>
 <dd class="method-description">
@@ -1846,7 +1866,7 @@ interpreter<span class="p">.</span><span class="nf">interpret</span><span class=
 </dd>
 
 
-<dt class="method-heading" id="I_INSTANCE_METHODS"><code>instance_methods(inherited_too = true) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/instance_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-instance_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1108">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INSTANCE_METHODS"><code>instance_methods(inherited_too = true) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/instance_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-instance_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1128">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 そのモジュールで定義されている public および protected メソッド名の一覧を配列で返します。
@@ -2053,7 +2073,7 @@ prepend する <a href="../class/Module.html">Module</a> を指定します
 </dd>
 
 
-<dt class="method-heading" id="I_PRIVATE_CLASS_METHOD"><code>private_class_method(*name) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/private_class_method.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-private_class_method">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1259">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PRIVATE_CLASS_METHOD"><code>private_class_method(*name) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/private_class_method.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-private_class_method">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1279">edit</a>]</span></dt>
 <dt class="method-heading"><code>private_class_method(names) -&gt; self</code></dt>
 <dd class="method-description">
 <p>
@@ -2083,7 +2103,7 @@ name で指定したクラスメソッド (クラスの特異メソッド) の�
 </dd>
 
 
-<dt class="method-heading" id="I_PRIVATE_CONSTANT"><code>private_constant(*name) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/private_constant.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-private_constant">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1284">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PRIVATE_CONSTANT"><code>private_constant(*name) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/private_constant.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-private_constant">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1304">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 name で指定した定数の可視性を private に変更します。
@@ -2126,7 +2146,7 @@ self を返します。
 </dd>
 
 
-<dt class="method-heading" id="I_PRIVATE_INSTANCE_METHODS"><code>private_instance_methods(inherited_too = true) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/private_instance_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-private_instance_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1215">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PRIVATE_INSTANCE_METHODS"><code>private_instance_methods(inherited_too = true) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/private_instance_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-private_instance_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1235">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 そのモジュールで定義されている private メソッド名の一覧を配列で返します。
@@ -2161,7 +2181,7 @@ false を指定するとそのモジュールで定義されているメソッ�
 </dd>
 
 
-<dt class="method-heading" id="I_PRIVATE_METHOD_DEFINED--3F"><code>private_method_defined?(name, inherit=true) -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/private_method_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-private_method_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1385">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PRIVATE_METHOD_DEFINED--3F"><code>private_method_defined?(name, inherit=true) -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/private_method_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-private_method_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1405">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 インスタンスメソッド name がモジュールに定義されており、しかもその可視性が private であるときに true を返します。そうでなければ false を返します。
@@ -2204,7 +2224,7 @@ false を指定するとそのモジュールで定義されているメソッ�
 </dd>
 
 
-<dt class="method-heading" id="I_PROTECTED_INSTANCE_METHODS"><code>protected_instance_methods(inherited_too = true) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/protected_instance_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-protected_instance_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1245">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PROTECTED_INSTANCE_METHODS"><code>protected_instance_methods(inherited_too = true) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/protected_instance_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-protected_instance_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1265">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 そのモジュールで定義されている protected メソッド名の一覧を配列で返します。
@@ -2221,7 +2241,7 @@ false を指定するとそのモジュールで定義されているメソッ�
 </dd>
 
 
-<dt class="method-heading" id="I_PROTECTED_METHOD_DEFINED--3F"><code>protected_method_defined?(name, inherit=true) -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/protected_method_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-protected_method_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1426">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PROTECTED_METHOD_DEFINED--3F"><code>protected_method_defined?(name, inherit=true) -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/protected_method_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-protected_method_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1446">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 インスタンスメソッド name がモジュールに定義されており、しかもその可視性が protected であるときに true を返します。そうでなければ false を返します。
@@ -2264,7 +2284,7 @@ false を指定するとそのモジュールで定義されているメソッ�
 </dd>
 
 
-<dt class="method-heading" id="I_PUBLIC_CLASS_METHOD"><code>public_class_method(*name) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/public_class_method.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public_class_method">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1317">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PUBLIC_CLASS_METHOD"><code>public_class_method(*name) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/public_class_method.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public_class_method">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1337">edit</a>]</span></dt>
 <dt class="method-heading"><code>public_class_method(names) -&gt; self</code></dt>
 <dd class="method-description">
 <p>
@@ -2299,7 +2319,7 @@ name で指定したクラスメソッド (クラスの特異メソッド) の�
 </dd>
 
 
-<dt class="method-heading" id="I_PUBLIC_CONSTANT"><code>public_constant(*name) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/public_constant.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public_constant">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1345">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PUBLIC_CONSTANT"><code>public_constant(*name) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/public_constant.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public_constant">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1365">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 name で指定した定数の可視性を public に変更します。
@@ -2348,7 +2368,7 @@ self を返します。
 </dd>
 
 
-<dt class="method-heading" id="I_PUBLIC_INSTANCE_METHOD"><code>public_instance_method(name) -&gt; UnboundMethod</code><span class="permalink">[<a href="../method/Module/i/public_instance_method.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public_instance_method">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1182">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PUBLIC_INSTANCE_METHOD"><code>public_instance_method(name) -&gt; UnboundMethod</code><span class="permalink">[<a href="../method/Module/i/public_instance_method.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public_instance_method">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1202">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self の public インスタンスメソッド name をオブジェクト化した <a href="../class/UnboundMethod.html">UnboundMethod</a> を返します。
@@ -2376,7 +2396,7 @@ protected メソッド名、 private メソッド名を引数として与える�
 </dd>
 
 
-<dt class="method-heading" id="I_PUBLIC_INSTANCE_METHODS"><code>public_instance_methods(inherited_too = true) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/public_instance_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public_instance_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1200">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PUBLIC_INSTANCE_METHODS"><code>public_instance_methods(inherited_too = true) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/public_instance_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public_instance_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1220">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 そのモジュールで定義されている public メソッド名の一覧を配列で返します。
@@ -2393,7 +2413,7 @@ false を指定するとそのモジュールで定義されているメソッ�
 </dd>
 
 
-<dt class="method-heading" id="I_PUBLIC_METHOD_DEFINED--3F"><code>public_method_defined?(name, inherit=true) -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/public_method_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public_method_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1467">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PUBLIC_METHOD_DEFINED--3F"><code>public_method_defined?(name, inherit=true) -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/public_method_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public_method_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1487">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 インスタンスメソッド name がモジュールに定義されており、しかもその可視性が public であるときに true を返します。そうでなければ false を返します。
@@ -2436,7 +2456,7 @@ false を指定するとそのモジュールで定義されているメソッ�
 </dd>
 
 
-<dt class="method-heading" id="I_REMOVE_CLASS_VARIABLE"><code>remove_class_variable(name) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/remove_class_variable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-remove_class_variable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1571">edit</a>]</span></dt>
+<dt class="method-heading" id="I_REMOVE_CLASS_VARIABLE"><code>remove_class_variable(name) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/remove_class_variable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-remove_class_variable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1591">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 引数で指定したクラス変数を取り除き、そのクラス変数に設定されていた値を返します。
@@ -2505,7 +2525,7 @@ Ruby 1.8.0 以降は複数のメソッド名を指定して一度に削除でき
 </dd>
 
 
-<dt class="method-heading" id="I_SINGLETON_CLASS--3F"><code>singleton_class? -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/singleton_class=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-singleton_class-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1595">edit</a>]</span></dt>
+<dt class="method-heading" id="I_SINGLETON_CLASS--3F"><code>singleton_class? -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/singleton_class=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-singleton_class-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1615">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self が特異クラスの場合に true を返します。そうでなければ false を返します。
@@ -2605,7 +2625,7 @@ self が特異クラスの場合に true を返します。そうでなければ
 <h2>privateメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_APPEND_FEATURES"><code>append_features(module_or_class) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/append_features.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-append_features">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1624">edit</a>]</span></dt>
+<dt class="method-heading" id="I_APPEND_FEATURES"><code>append_features(module_or_class) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/append_features.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-append_features">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1644">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 モジュール(あるいはクラス)に self の機能を追加します。
@@ -2632,7 +2652,7 @@ include を Ruby で書くと以下のように定義できます。
 </dd>
 
 
-<dt class="method-heading" id="I_CONST_ADDED"><code>const_added(name) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/const_added.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-const_added">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1725">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CONST_ADDED"><code>const_added(name) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/const_added.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-const_added">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1745">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 定数 name が追加された時にインタプリタがこのメソッドを呼び出します。
@@ -2651,7 +2671,7 @@ include を Ruby で書くと以下のように定義できます。
 </dd>
 
 
-<dt class="method-heading" id="I_EXTEND_OBJECT"><code>extend_object(obj) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/extend_object.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-extend_object">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1651">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EXTEND_OBJECT"><code>extend_object(obj) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/extend_object.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-extend_object">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1671">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 <a href="../method/Object/i/extend.html">Object#extend</a> の実体です。オブジェクトにモジュールの機能を追加します。
@@ -2690,7 +2710,7 @@ obj で指定されたオブジェクトを返します。
 </dd>
 
 
-<dt class="method-heading" id="I_EXTENDED"><code>extended(obj) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/extended.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-extended">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1677">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EXTENDED"><code>extended(obj) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/extended.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-extended">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1697">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self が他のオブジェクト に <a href="../method/Object/i/extend.html">Object#extend</a> されたときに呼ばれます。引数には extend を行ったオブジェクトが渡されます。
@@ -2720,7 +2740,7 @@ self が他のオブジェクト に <a href="../method/Object/i/extend.html">Ob
 </dd>
 
 
-<dt class="method-heading" id="I_INCLUDED"><code>included(class_or_module) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/included.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-included">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1703">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INCLUDED"><code>included(class_or_module) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/included.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-included">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1723">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self が <a href="../method/Module/i/include.html">Module#include</a> されたときに対象のクラスまたはモジュールを引数にしてインタプリタがこのメソッドを呼び出します。
@@ -2750,7 +2770,7 @@ self が <a href="../method/Module/i/include.html">Module#include</a> された�
 </dd>
 
 
-<dt class="method-heading" id="I_METHOD_ADDED"><code>method_added(name) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/method_added.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-method_added">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1740">edit</a>]</span></dt>
+<dt class="method-heading" id="I_METHOD_ADDED"><code>method_added(name) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/method_added.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-method_added">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1760">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 メソッド name が追加された時にインタプリタがこのメソッドを呼び出します。
@@ -2785,7 +2805,7 @@ self が <a href="../method/Module/i/include.html">Module#include</a> された�
 </dd>
 
 
-<dt class="method-heading" id="I_METHOD_REMOVED"><code>method_removed(name) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/method_removed.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-method_removed">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1769">edit</a>]</span></dt>
+<dt class="method-heading" id="I_METHOD_REMOVED"><code>method_removed(name) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/method_removed.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-method_removed">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1789">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 メソッドが <a href="../method/Module/i/remove_method.html">Module#remove_method</a> により削除された時にインタプリタがこのメソッドを呼び出します。
@@ -2819,7 +2839,7 @@ self が <a href="../method/Module/i/include.html">Module#include</a> された�
 </dd>
 
 
-<dt class="method-heading" id="I_METHOD_UNDEFINED"><code>method_undefined(name) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/method_undefined.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-method_undefined">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1799">edit</a>]</span></dt>
+<dt class="method-heading" id="I_METHOD_UNDEFINED"><code>method_undefined(name) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/method_undefined.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-method_undefined">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1819">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 このモジュールのインスタンスメソッド name が
@@ -2864,7 +2884,7 @@ method C#bar was undefined
 </dd>
 
 
-<dt class="method-heading" id="I_MODULE_FUNCTION"><code>module_function() -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/module_function.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-module_function">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1837">edit</a>]</span></dt>
+<dt class="method-heading" id="I_MODULE_FUNCTION"><code>module_function() -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/module_function.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-module_function">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1857">edit</a>]</span></dt>
 <dt class="method-heading"><code>module_function(name) -&gt; String | Symbol</code></dt>
 <dt class="method-heading"><code>module_function(*name) -&gt; Array</code></dt>
 <dd class="method-description">
@@ -2929,7 +2949,7 @@ module_function はメソッドに「モジュール関数」という属性を�
 </dd>
 
 
-<dt class="method-heading" id="I_PREPEND_FEATURES"><code>prepend_features(mod) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/prepend_features.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-prepend_features">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2142">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PREPEND_FEATURES"><code>prepend_features(mod) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/prepend_features.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-prepend_features">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2162">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 <a href="../method/Module/i/prepend.html">Module#prepend</a> から呼び出されるメソッドで、
@@ -2981,7 +3001,7 @@ mod が返されます
 </dd>
 
 
-<dt class="method-heading" id="I_PREPENDED"><code>prepended(class_or_module) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/prepended.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-prepended">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2181">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PREPENDED"><code>prepended(class_or_module) -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/prepended.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-prepended">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2201">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self が <a href="../method/Module/i/prepend.html">Module#prepend</a> されたときに対象のクラスまたはモジュールを引数にしてインタプリタがこのメソッドを呼び出します。
@@ -3011,7 +3031,7 @@ self が <a href="../method/Module/i/prepend.html">Module#prepend</a> された�
 </dd>
 
 
-<dt class="method-heading" id="I_PRIVATE"><code>private() -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/private.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-private">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1910">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PRIVATE"><code>private() -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/private.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-private">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1930">edit</a>]</span></dt>
 <dt class="method-heading"><code>private(name) -&gt; String | Symbol</code></dt>
 <dt class="method-heading"><code>private(*name) -&gt; Array</code></dt>
 <dt class="method-heading"><code>private(names) -&gt; Array</code></dt>
@@ -3058,7 +3078,7 @@ foo <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span>
 </dd>
 
 
-<dt class="method-heading" id="I_PROTECTED"><code>protected() -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/protected.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-protected">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1948">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PROTECTED"><code>protected() -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/protected.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-protected">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1968">edit</a>]</span></dt>
 <dt class="method-heading"><code>protected(name) -&gt; String | Symbol</code></dt>
 <dt class="method-heading"><code>protected(*name) -&gt; Array</code></dt>
 <dt class="method-heading"><code>protected(names) -&gt; Array</code></dt>
@@ -3096,7 +3116,7 @@ foo <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span>
 </dd>
 
 
-<dt class="method-heading" id="I_PUBLIC"><code>public() -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/public.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1978">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PUBLIC"><code>public() -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/public.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-public">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L1998">edit</a>]</span></dt>
 <dt class="method-heading"><code>public(name) -&gt; String | Symbol</code></dt>
 <dt class="method-heading"><code>public(*name) -&gt; Array</code></dt>
 <dt class="method-heading"><code>public(names) -&gt; Array</code></dt>
@@ -3143,7 +3163,7 @@ public <span class="ss">:bar</span>       <span class="c1"># visibility changed 
 </dd>
 
 
-<dt class="method-heading" id="I_REFINE"><code>refine(klass) { ... } -&gt; Module</code><span class="permalink">[<a href="../method/Module/i/refine.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-refine">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2072">edit</a>]</span></dt>
+<dt class="method-heading" id="I_REFINE"><code>refine(klass) { ... } -&gt; Module</code><span class="permalink">[<a href="../method/Module/i/refine.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-refine">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2092">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 引数 klass で指定したクラスまたはモジュールだけに対して、ブロックで指定した機能を提供できるモジュールを定義します。定義した機能は Module#refine を使用せずに直接 klass に対して変更を行う場合と異なり、限られた範囲のみ有効にできます。そのため、既存の機能を局所的に修正したい場合などに用いる事ができます。
@@ -3199,7 +3219,7 @@ x<span class="p">.</span><span class="nf">foo</span> <span class="c1"># =&gt; &q
 </dd>
 
 
-<dt class="method-heading" id="I_REMOVE_CONST"><code>remove_const(name) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/remove_const.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-remove_const">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2039">edit</a>]</span></dt>
+<dt class="method-heading" id="I_REMOVE_CONST"><code>remove_const(name) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/remove_const.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-remove_const">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2059">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 name で指定した定数を取り除き、その定数に設定されていた値を返します。
@@ -3239,7 +3259,7 @@ name で指定した定数を取り除き、その定数に設定されていた
 </dd>
 
 
-<dt class="method-heading" id="I_RUBY2_KEYWORDS"><code>ruby2_keywords(method_name, ...) -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/ruby2_keywords.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-ruby2_keywords">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2204">edit</a>]</span></dt>
+<dt class="method-heading" id="I_RUBY2_KEYWORDS"><code>ruby2_keywords(method_name, ...) -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/ruby2_keywords.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-ruby2_keywords">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2224">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 For the given method names, marks the method as passing keywords through
@@ -3278,7 +3298,7 @@ method will change so that it does not pass through keywords.
 </dd>
 
 
-<dt class="method-heading" id="I_USING"><code>using(module) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/using.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-using">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2237">edit</a>]</span></dt>
+<dt class="method-heading" id="I_USING"><code>using(module) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/using.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-using">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module#L2257">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 引数で指定したモジュールで定義された拡張を現在のクラス、モジュールで有効にします。
