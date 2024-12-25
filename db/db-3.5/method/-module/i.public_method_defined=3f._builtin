@@ -1,0 +1,38 @@
+names=public_method_defined?
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Module:1487
+
+--- public_method_defined?(name, inherit=true) -> bool
+
+インスタンスメソッド name がモジュールに定義されており、
+しかもその可視性が public であるときに true を返します。
+そうでなければ false を返します。
+
+@param name [[c:Symbol]] か [[c:String]] を指定します。
+@param inherit 真を指定するとスーパークラスや include したモジュールで
+       定義されたメソッドも対象になります。
+
+@see [[m:Module#method_defined?]], [[m:Module#private_method_defined?]], [[m:Module#protected_method_defined?]]
+
+//emlist[例][ruby]{
+module A
+  def method1()  end
+end
+class B
+  protected
+  def method2()  end
+end
+class C < B
+  include A
+  def method3()  end
+end
+
+A.method_defined? :method1                 #=> true
+C.public_method_defined? "method1"         #=> true
+C.public_method_defined? "method1", true   #=> true
+C.public_method_defined? "method1", false  #=> true
+C.public_method_defined? "method2"         #=> false
+C.method_defined? "method2"                #=> true
+//}
+

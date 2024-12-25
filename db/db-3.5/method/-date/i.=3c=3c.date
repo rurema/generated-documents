@@ -1,0 +1,37 @@
+names=<<
+visibility=public
+kind=defined
+source_location=refm/api/src/date/Date:470
+
+--- << (n) -> Date
+self より n ヶ月前の日付オブジェクトを返します。
+n は数値でなければなりません。
+
+//emlist[][ruby]{
+require 'date'
+Date.new(2001,2,3)  <<  1   #=> #<Date: 2001-01-03 ...>
+Date.new(2001,2,3)  << -2   #=> #<Date: 2001-04-03 ...>
+//}
+
+対応する月に同じ日が存在しない時は、代わりにその月の末日が使われます。
+
+//emlist[][ruby]{
+require 'date'
+Date.new(2001,3,28) << 1   #=> #<Date: 2001-02-28 ...>
+Date.new(2001,3,31) << 1   #=> #<Date: 2001-02-28 ...>
+//}
+
+このことは以下のように、もしかすると予期しない振る舞いをするかもしれません。
+
+//emlist[][ruby]{
+require 'date'
+Date.new(2001,3,31) << 2         #=> #<Date: 2001-01-31 ...>
+Date.new(2001,3,31) << 1 << 1    #=> #<Date: 2001-01-28 ...>
+
+Date.new(2001,3,31) << 1 << -1   #=> #<Date: 2001-03-28 ...>
+//}
+
+[[m:Date#prev_month]] も参照してください。
+
+@param n 月数
+

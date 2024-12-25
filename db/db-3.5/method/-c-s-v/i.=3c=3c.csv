@@ -1,0 +1,64 @@
+names=<<,add_row,puts
+visibility=public
+kind=defined
+source_location=refm/api/src/csv.rd:879
+
+--- <<(row)      -> self
+--- add_row(row) -> self
+--- puts(row)    -> self
+
+自身に row を追加します。
+
+データソースは書き込み用にオープンされていなければなりません。
+
+@param row 配列か [[c:CSV::Row]] のインスタンスを指定します。
+           [[c:CSV::Row]] のインスタンスが指定された場合は、[[m:CSV::Row#fields]] の値
+           のみが追加されます。
+
+//emlist[例 配列を指定][ruby]{
+require "csv"
+
+File.write("test.csv", <<CSV)
+id,first name,last name,age
+1,taro,tanaka,20
+2,jiro,suzuki,18
+3,ami,sato,19
+4,yumi,adachi,21
+CSV
+CSV.open("test.csv", "a") do |csv|
+  csv.puts(["5", "saburo", "kondo", "34"])
+end
+
+print File.read("test.csv")
+# => id,first name,last name,age
+#    1,taro,tanaka,20
+#    2,jiro,suzuki,18
+#    3,ami,sato,19
+#    4,yumi,adachi,21
+#    5,saburo,kondo,34
+//}
+
+//emlist[例 CSV::Row を指定][ruby]{
+require "csv"
+
+File.write("test.csv", <<CSV)
+id,first name,last name,age
+1,taro,tanaka,20
+2,jiro,suzuki,18
+3,ami,sato,19
+4,yumi,adachi,21
+CSV
+CSV.open("test.csv", "a") do |csv|
+  row = CSV::Row.new(["id", "first name", "last name", "age"], ["5", "saburo", "kondo", "34"])
+  csv.add_row(row)
+end
+
+print File.read("test.csv")
+# => "id", first name,last name,age
+#    1,taro,tanaka,20
+#    2,jiro,suzuki,18
+#    3,ami,sato,19
+#    4,yumi,adachi,21
+#    5,saburo,kondo,34
+//}
+

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/WEBrick=3a=3aHTTPUtils=3a=3aFormData.html">
+
+<title>class WEBrick::HTTPUtils::FormData (Ruby 3.5 リファレンスマニュアル)</title>
+<meta name="description" content="クライアントがフォームへ入力した値を表すクラスです。multipart/form-data なデータを表すのにも
+使われます。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.5 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/webrick=2fhttputils.html","name":"webrick/httputilsライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/WEBrick=3a=3aHTTPUtils=3a=3aFormData.html","name":"WEBrick::HTTPUtils::FormDataクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.5 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/webrick=2fhttputils.html">webrick/httputilsライブラリ</a>
+      </li>
+      <li>
+        WEBrick::HTTPUtils::FormDataクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class WEBrick::HTTPUtils::FormData</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Comparable.html">Comparable</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/String.html">String</a>
+        </li>
+        
+      
+      <li>
+        WEBrick::HTTPUtils::FormData
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+クライアントがフォームへ入力した値を表すクラスです。multipart/form-data なデータを表すのにも使われます。
+</p>
+<p>
+<a href="../method/WEBrick=3a=3aHTTPRequest/i/query.html">WEBrick::HTTPRequest#query</a> はリクエストのクエリーあるいはクライアントがフォームへ入力した値を保持した Hash を返しますが、その Hash のキーと値のうち値は FormData クラスのインスタンスになります。同じ名前のフィールドが複数ある場合、<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/list.html">WEBrick::HTTPUtils::FormData#list</a> や
+<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/each_data.html">WEBrick::HTTPUtils::FormData#each_data</a> によりそれぞれの値を取り出すことができます。
+</p>
+<p>
+通常のフォームデータ(application/x-www-form-urlencoded)は unescape されています。ただし multipart/form-data なフォームデータはユーザが content-transfer-encoding
+ヘッダを見て適切に処理する必要があります。
+</p>
+<h2 >リンク</h2>
+<ul>
+<li><a class="external" href="https://tools.ietf.org/html/rfc1867">[RFC1867]</a> Form-based File Upload in HTML.</li>
+<li><a class="external" href="https://tools.ietf.org/html/rfc2388">[RFC2388]</a> multipart/form-data の説明。</li>
+</ul>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_--3C--3C">&lt;&lt;</a></li>
+
+<li><a href="#I_--5B--5D">[]</a></li>
+
+<li><a href="#I_APPEND_DATA">append_data</a></li>
+
+<li><a href="#I_EACH_DATA">each_data</a></li>
+
+<li><a href="#I_FILENAME">filename</a></li>
+
+<li><a href="#I_FILENAME">filename=</a></li>
+
+<li><a href="#I_LIST">list</a></li>
+
+<li><a href="#I_NAME">name</a></li>
+
+<li><a href="#I_NAME">name=</a></li>
+
+<li><a href="#I_LIST">to_ary</a></li>
+
+<li><a href="#I_TO_S">to_s</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+  <h2>継承しているメソッド</h2>
+<dl>
+  
+<dt>Stringから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/String/i/=25.html">%</a></li>
+      
+    
+      <li><a href="../method/String/i/=2a.html">*</a></li>
+      
+    
+      <li><a href="../method/String/i/=2b.html">+</a></li>
+      
+    
+      <li><a href="../method/String/i/=2b=40.html">+@</a></li>
+      
+    
+      <li><a href="../method/String/i/=2d=40.html">-@</a></li>
+      
+    
+      <li><a href="../method/String/i/=3c=3d=3e.html">&lt;=&gt;</a></li>
+      
+    
+      <li><a href="../method/String/i/=3d=3d.html">==</a></li>
+      
+    
+      <li><a href="../method/String/i/=3d=3d.html">===</a></li>
+      
+    
+      <li><a href="../method/String/i/=3d=7e.html">=~</a></li>
+      
+    
+      <li><a href="../method/String/i/=5b=5d=3d.html">[]=</a></li>
+      
+    
+      <li><a href="../method/String/i/ascii_only=3f.html">ascii_only?</a></li>
+      
+    
+      <li><a href="../method/String/i/b.html">b</a></li>
+      
+    
+      <li><a href="../method/String/i/byteindex.html">byteindex</a></li>
+      
+    
+      <li><a href="../method/String/i/byterindex.html">byterindex</a></li>
+      
+    
+      <li><a href="../method/String/i/bytes.html">bytes</a></li>
+      
+    
+      <li><a href="../method/String/i/bytesize.html">bytesize</a></li>
+      
+    
+      <li><a href="../method/String/i/byteslice.html">byteslice</a></li>
+      
+    
+      <li><a href="../method/String/i/bytesplice.html">bytesplice</a></li>
+      
+    
+      <li><a href="../method/String/i/capitalize.html">capitalize</a></li>
+      
+    
+      <li><a href="../method/String/i/capitalize=21.html">capitalize!</a></li>
+      
+    
+      <li><a href="../method/String/i/casecmp.html">casecmp</a></li>
+      
+    
+      <li><a href="../method/String/i/casecmp=3f.html">casecmp?</a></li>
+      
+    
+      <li><a href="../method/String/i/center.html">center</a></li>
+      
+    
+      <li><a href="../method/String/i/chars.html">chars</a></li>
+      
+    
+      <li><a href="../method/String/i/chomp.html">chomp</a></li>
+      
+    
+      <li><a href="../method/String/i/chomp=21.html">chomp!</a></li>
+      
+    
+      <li><a href="../method/String/i/chop.html">chop</a></li>
+      
+    
+      <li><a href="../method/String/i/chop=21.html">chop!</a></li>
+      
+    
+      <li><a href="../method/String/i/chr.html">chr</a></li>
+      
+    
+      <li><a href="../method/String/i/clear.html">clear</a></li>
+      
+    
+      <li><a href="../method/String/i/codepoints.html">codepoints</a></li>
+      
+    
+      <li><a href="../method/String/i/=3c=3c.html">concat</a></li>
+      
+    
+      <li><a href="../method/String/i/count.html">count</a></li>
+      
+    
+      <li><a href="../method/String/i/crypt.html">crypt</a></li>
+      
+    
+      <li><a href="../method/String/i/=2d=40.html">dedup</a></li>
+      
+    
+      <li><a href="../method/String/i/delete.html">delete</a></li>
+      
+    
+      <li><a href="../method/String/i/delete=21.html">delete!</a></li>
+      
+    
+      <li><a href="../method/String/i/delete_prefix.html">delete_prefix</a></li>
+      
+    
+      <li><a href="../method/String/i/delete_prefix=21.html">delete_prefix!</a></li>
+      
+    
+      <li><a href="../method/String/i/delete_suffix.html">delete_suffix</a></li>
+      
+    
+      <li><a href="../method/String/i/delete_suffix=21.html">delete_suffix!</a></li>
+      
+    
+      <li><a href="../method/String/i/downcase.html">downcase</a></li>
+      
+    
+      <li><a href="../method/String/i/downcase=21.html">downcase!</a></li>
+      
+    
+      <li><a href="../method/String/i/dump.html">dump</a></li>
+      
+    
+      <li><a href="../method/String/i/each_byte.html">each_byte</a></li>
+      
+    
+      <li><a href="../method/String/i/each_char.html">each_char</a></li>
+      
+    
+      <li><a href="../method/String/i/each_codepoint.html">each_codepoint</a></li>
+      
+    
+      <li><a href="../method/String/i/each_grapheme_cluster.html">each_grapheme_cluster</a></li>
+      
+    
+      <li><a href="../method/String/i/each_line.html">each_line</a></li>
+      
+    
+      <li><a href="../method/String/i/empty=3f.html">empty?</a></li>
+      
+    
+      <li><a href="../method/String/i/encode.html">encode</a></li>
+      
+    
+      <li><a href="../method/String/i/encode=21.html">encode!</a></li>
+      
+    
+      <li><a href="../method/String/i/encoding.html">encoding</a></li>
+      
+    
+      <li><a href="../method/String/i/end_with=3f.html">end_with?</a></li>
+      
+    
+      <li><a href="../method/String/i/eql=3f.html">eql?</a></li>
+      
+    
+      <li><a href="../method/String/i/force_encoding.html">force_encoding</a></li>
+      
+    
+      <li><a href="../method/String/i/getbyte.html">getbyte</a></li>
+      
+    
+      <li><a href="../method/String/i/grapheme_clusters.html">grapheme_clusters</a></li>
+      
+    
+      <li><a href="../method/String/i/gsub.html">gsub</a></li>
+      
+    
+      <li><a href="../method/String/i/gsub=21.html">gsub!</a></li>
+      
+    
+      <li><a href="../method/String/i/hash.html">hash</a></li>
+      
+    
+      <li><a href="../method/String/i/hex.html">hex</a></li>
+      
+    
+      <li><a href="../method/String/i/include=3f.html">include?</a></li>
+      
+    
+      <li><a href="../method/String/i/index.html">index</a></li>
+      
+    
+      <li><a href="../method/String/i/insert.html">insert</a></li>
+      
+    
+      <li><a href="../method/String/i/inspect.html">inspect</a></li>
+      
+    
+      <li><a href="../method/String/i/intern.html">intern</a></li>
+      
+    
+      <li><a href="../method/String/i/length.html">length</a></li>
+      
+    
+      <li><a href="../method/String/i/lines.html">lines</a></li>
+      
+    
+      <li><a href="../method/String/i/ljust.html">ljust</a></li>
+      
+    
+      <li><a href="../method/String/i/lstrip.html">lstrip</a></li>
+      
+    
+      <li><a href="../method/String/i/lstrip=21.html">lstrip!</a></li>
+      
+    
+      <li><a href="../method/String/i/match.html">match</a></li>
+      
+    
+      <li><a href="../method/String/i/match=3f.html">match?</a></li>
+      
+    
+      <li><a href="../method/String/i/next.html">next</a></li>
+      
+    
+      <li><a href="../method/String/i/next=21.html">next!</a></li>
+      
+    
+      <li><a href="../method/String/i/oct.html">oct</a></li>
+      
+    
+      <li><a href="../method/String/i/ord.html">ord</a></li>
+      
+    
+      <li><a href="../method/String/i/partition.html">partition</a></li>
+      
+    
+      <li><a href="../method/String/i/prepend.html">prepend</a></li>
+      
+    
+      <li><a href="../method/String/i/replace.html">replace</a></li>
+      
+    
+      <li><a href="../method/String/i/reverse.html">reverse</a></li>
+      
+    
+      <li><a href="../method/String/i/reverse=21.html">reverse!</a></li>
+      
+    
+      <li><a href="../method/String/i/rindex.html">rindex</a></li>
+      
+    
+      <li><a href="../method/String/i/rjust.html">rjust</a></li>
+      
+    
+      <li><a href="../method/String/i/rpartition.html">rpartition</a></li>
+      
+    
+      <li><a href="../method/String/i/rstrip.html">rstrip</a></li>
+      
+    
+      <li><a href="../method/String/i/rstrip=21.html">rstrip!</a></li>
+      
+    
+      <li><a href="../method/String/i/scan.html">scan</a></li>
+      
+    
+      <li><a href="../method/String/i/scrub.html">scrub</a></li>
+      
+    
+      <li><a href="../method/String/i/scrub=21.html">scrub!</a></li>
+      
+    
+      <li><a href="../method/String/i/setbyte.html">setbyte</a></li>
+      
+    
+      <li><a href="../method/String/i/length.html">size</a></li>
+      
+    
+      <li><a href="../method/String/i/=5b=5d.html">slice</a></li>
+      
+    
+      <li><a href="../method/String/i/slice=21.html">slice!</a></li>
+      
+    
+      <li><a href="../method/String/i/split.html">split</a></li>
+      
+    
+      <li><a href="../method/String/i/squeeze.html">squeeze</a></li>
+      
+    
+      <li><a href="../method/String/i/squeeze=21.html">squeeze!</a></li>
+      
+    
+      <li><a href="../method/String/i/start_with=3f.html">start_with?</a></li>
+      
+    
+      <li><a href="../method/String/i/strip.html">strip</a></li>
+      
+    
+      <li><a href="../method/String/i/strip=21.html">strip!</a></li>
+      
+    
+      <li><a href="../method/String/i/sub.html">sub</a></li>
+      
+    
+      <li><a href="../method/String/i/sub=21.html">sub!</a></li>
+      
+    
+      <li><a href="../method/String/i/next.html">succ</a></li>
+      
+    
+      <li><a href="../method/String/i/next=21.html">succ!</a></li>
+      
+    
+      <li><a href="../method/String/i/sum.html">sum</a></li>
+      
+    
+      <li><a href="../method/String/i/swapcase.html">swapcase</a></li>
+      
+    
+      <li><a href="../method/String/i/swapcase=21.html">swapcase!</a></li>
+      
+    
+      <li><a href="../method/String/i/to_c.html">to_c</a></li>
+      
+    
+      <li><a href="../method/String/i/to_f.html">to_f</a></li>
+      
+    
+      <li><a href="../method/String/i/to_i.html">to_i</a></li>
+      
+    
+      <li><a href="../method/String/i/to_r.html">to_r</a></li>
+      
+    
+      <li><a href="../method/String/i/to_s.html">to_str</a></li>
+      
+    
+      <li><a href="../method/String/i/intern.html">to_sym</a></li>
+      
+    
+      <li><a href="../method/String/i/tr.html">tr</a></li>
+      
+    
+      <li><a href="../method/String/i/tr=21.html">tr!</a></li>
+      
+    
+      <li><a href="../method/String/i/tr_s.html">tr_s</a></li>
+      
+    
+      <li><a href="../method/String/i/tr_s=21.html">tr_s!</a></li>
+      
+    
+      <li><a href="../method/String/i/undump.html">undump</a></li>
+      
+    
+      <li><a href="../method/String/i/unicode_normalize.html">unicode_normalize</a></li>
+      
+    
+      <li><a href="../method/String/i/unicode_normalize=21.html">unicode_normalize!</a></li>
+      
+    
+      <li><a href="../method/String/i/unicode_normalized=3f.html">unicode_normalized?</a></li>
+      
+    
+      <li><a href="../method/String/i/unpack.html">unpack</a></li>
+      
+    
+      <li><a href="../method/String/i/unpack1.html">unpack1</a></li>
+      
+    
+      <li><a href="../method/String/i/upcase.html">upcase</a></li>
+      
+    
+      <li><a href="../method/String/i/upcase=21.html">upcase!</a></li>
+      
+    
+      <li><a href="../method/String/i/upto.html">upto</a></li>
+      
+    
+      <li><a href="../method/String/i/valid_encoding=3f.html">valid_encoding?</a></li>
+      
+    
+  </ul>
+</dd>
+
+<dt>Comparableから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Comparable/i/=3c.html">&lt;</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3c=3d.html">&lt;=</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3e.html">&gt;</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3e=3d.html">&gt;=</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/between=3f.html">between?</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/clamp.html">clamp</a></li>
+      
+    
+  </ul>
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(*args) -&gt; WEBrick::HTTPUtils::FormData</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/WEBrick/HTTPUtils/FormData.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L23">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+WEBrick::HTTPUtils の内部で使われます。ユーザがこのメソッドを直接呼ぶことはありません。
+</p>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--3C--3C"><code>self &lt;&lt; str -&gt; self</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/=3c=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/WEBrick/HTTPUtils/FormData.html#method-i-3C-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L80">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+WEBrick::HTTPUtils の内部で使われます。ユーザがこのメソッドを直接呼ぶことはありません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_--5B--5D"><code>self[header] -&gt; String | nil</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/WEBrick/HTTPUtils/FormData.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L63">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身が multipart/form-data なデータの場合に、header で指定されたヘッダの値を文字列で返します。無ければ nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] header:</dt>
+<dd>
+ヘッダ名を文字列で指定します。大文字と小文字を区別しません。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+require &quot;webrick/cgi&quot;
+class MyCGI &lt; WEBrick::CGI
+  def do_GET(req, res)
+    p req.query['q']['content-type']   #=&gt; &quot;plain/text&quot;
+  end
+end
+MyCGI.new.start()
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_APPEND_DATA"><code>append_data(data) -&gt; self</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/append_data.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/WEBrick/HTTPUtils/FormData.html#method-i-append_data">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L84">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+WEBrick::HTTPUtils の内部で使われます。ユーザがこのメソッドを直接呼ぶことはありません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_EACH_DATA"><code>each_data {|s| ... }</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/each_data.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/WEBrick/HTTPUtils/FormData.html#method-i-each_data">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L88">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身が表す各フォームデータを引数として、与えられたブロックを実行します。
+</p>
+<p>
+例:
+</p>
+<pre>
+require &quot;webrick/cgi&quot;
+class MyCGI &lt; WEBrick::CGI
+  def do_GET(req, res)
+    req.query['q'].each_data{|s|
+      p s
+    }
+    #=&gt; &quot;val1&quot;
+        &quot;val2&quot;
+        &quot;val3&quot;
+  end
+end
+MyCGI.new.start()
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_FILENAME"><code>filename -&gt; String | nil</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/filename.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/WEBrick/HTTPUtils/FormData.html#method-i-filename">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L46">edit</a>]</span></dt>
+<dt class="method-heading"><code>filename=(value)</code></dt>
+<dd class="method-description">
+<p>
+フォームデータの filename 属性を文字列で表すアクセサです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] value:</dt>
+<dd>
+フォームデータの filename 属性を文字列で指定します。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+require &quot;webrick/cgi&quot;
+class MyCGI &lt; WEBrick::CGI
+  def do_GET(req, res)
+    p req.query['q'].filename   #=&gt; &quot;my_file.txt&quot;
+  end
+end
+MyCGI.new.start()
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_LIST"><code>list -&gt; Array</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/list.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/WEBrick/HTTPUtils/FormData.html#method-i-list">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L107">edit</a>]</span></dt>
+<dt class="method-heading"><code>to_ary -&gt; Array</code></dt>
+<dd class="method-description">
+<p>
+自身が表す各フォームデータを収納した配列を生成して返します。
+</p>
+<p>
+例:
+</p>
+<pre>
+require &quot;webrick/cgi&quot;
+class MyCGI &lt; WEBrick::CGI
+  def do_GET(req, res)
+    p req.query['q'].list    #=&gt; [&quot;val1&quot;, &quot;val2&quot;, &quot;val3&quot;]
+  end
+end
+MyCGI.new.start()
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_NAME"><code>name -&gt; String | nil</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/name.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/WEBrick/HTTPUtils/FormData.html#method-i-name">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L29">edit</a>]</span></dt>
+<dt class="method-heading"><code>name=(value)</code></dt>
+<dd class="method-description">
+<p>
+フォームデータの name 属性を文字列で表すアクセサです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] value:</dt>
+<dd>
+フォームデータの name 属性を文字列で指定します。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+require &quot;webrick/cgi&quot;
+class MyCGI &lt; WEBrick::CGI
+  def do_GET(req, res)
+    p req.query['q'].name   #=&gt; &quot;q&quot;
+  end
+end
+MyCGI.new.start()
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_S"><code>to_s -&gt; String</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/to_s.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/WEBrick/HTTPUtils/FormData.html#method-i-to_s">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L122">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身が表すフォームデータのうちのひとつを文字列として返します。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/webrick/httputils/HTTPUtils__FormData#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

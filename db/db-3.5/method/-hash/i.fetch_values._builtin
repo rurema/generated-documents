@@ -1,0 +1,30 @@
+names=fetch_values
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Hash:419
+
+--- fetch_values(key, ...)               -> [object]
+--- fetch_values(key, ...) { |key| ... } -> [object]
+
+引数で指定されたキーに関連づけられた値の配列を返します。
+
+該当するキーが登録されていない時には、ブロックが与えられていればそのブ
+ロックを評価した値を返します。ブロックが与えられていない時は
+[[c:KeyError]] が発生します。
+
+self にデフォルト値が設定されていても無視されます（挙動に変化がありません）。
+
+@param key 探索するキーを任意個指定します。
+
+@raise KeyError ブロックが与えられてない時にキーの探索に失敗すると発生します。
+
+//emlist[例][ruby]{
+h = { "cat" => "feline", "dog" => "canine", "cow" => "bovine" }
+
+h.fetch_values("cow", "cat")                   # => ["bovine", "feline"]
+h.fetch_values("cow", "bird")                  # raises KeyError
+h.fetch_values("cow", "bird") { |k| k.upcase } # => ["bovine", "BIRD"]
+//}
+
+@see [[m:Hash#values_at]], [[m:Hash#fetch]]
+

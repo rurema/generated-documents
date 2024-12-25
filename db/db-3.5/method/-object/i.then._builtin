@@ -1,0 +1,40 @@
+names=then,yield_self
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Object:583
+
+--- yield_self {|x| ... } -> object
+--- yield_self            -> Enumerator
+--- then {|x| ... } -> object
+--- then            -> Enumerator
+
+self を引数としてブロックを評価し、ブロックの結果を返します。
+
+//emlist[例][ruby]{
+3.next.then {|x| x**x }.to_s             # => "256"
+"my string".yield_self {|s| s.upcase }   # => "MY STRING"
+//}
+
+値をメソッドチェインのパイプラインに次々と渡すのは良い使い方です。
+
+//emlist[メソッドチェインのパイプライン][ruby]{
+require 'open-uri'
+require 'json'
+
+construct_url(arguments).
+  yield_self {|url| URI(url).read }.
+  yield_self {|response| JSON.parse(response) }
+//}
+
+ブロックなしで呼び出されたときは Enumerator を返します。
+例えば条件によって値を捨てるのに使えます。
+
+//emlist[][ruby]{
+# 条件にあうので何もしない
+1.yield_self.detect(&:odd?)            # => 1
+# 条件に合わないので値を捨てる
+2.yield_self.detect(&:odd?)            # => nil
+//}
+
+@see [[m:Object#tap]]
+

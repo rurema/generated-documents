@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/syslog=2flogger.html">
+
+<title>library syslog/logger (Ruby 3.5 リファレンスマニュアル)</title>
+<meta name="description" content="[[c:Logger]] のようなインターフェイスを用いて syslog にログを記録するた
+めのサブライブラリです。[[c:Syslog::Logger]] を使って複数のマシンでログ
+を集約する事もできます。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.5 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/syslog=2flogger.html","name":"syslog/loggerライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.5 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        syslog/loggerライブラリ
+      </li>
+    </ol>
+  </nav>
+
+<h1>library syslog/logger</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+<h2>要約</h2>
+<p>
+<a href="../class/Logger.html">Logger</a> のようなインターフェイスを用いて syslog にログを記録するためのサブライブラリです。<a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> を使って複数のマシンでログを集約する事もできます。
+</p>
+<p>
+デフォルトでは、<a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> はプログラム名として 'ruby' を使用します。これを変更したい場合は <a href="../method/Syslog=3a=3aLogger/s/new.html">Syslog::Logger.new</a> の第一引数にプログラム名を渡してください。
+</p>
+<p>
+[注意] <a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> のプログラム名の変更は最初の初期化の時だけしか行う事ができません。これは <a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> が syslog を利用する上での制限です。(これは <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/syslog.html">syslog(3)</a> の制限でもあります)。一度
+<a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> オブジェクトを作成した後はプログラム名を変更しようとしても無視されます。
+</p>
+<h2 >例</h2>
+<p>
+ローカルマシンの syslogd にログを保存:
+</p>
+<pre>
+require 'syslog/logger'
+
+log = Syslog::Logger.new 'my_program'
+log.info 'this line will be logged via syslog(3)'
+</pre>
+<p>
+環境によっては syslog.conf の設定が必要である可能性があります。FreeBSD
+では、/etc/syslog.conf に以下のような記述が必要です。
+</p>
+<pre>
+!my_program
+*.*                                             /var/log/my_program.log
+</pre>
+<p>
+この場合、/var/log/my_program.log に touch して syslogd に HUP シグナルを送信する必要があります。(Free BSD だと killall -HUP syslogd)
+</p>
+<p>
+自動ロテートや自動圧縮などの細かい設定については、
+newsyslog.conf(5) や newsyslog(8) を参照してください。
+</p>
+
+
+<h2>クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a>
+</td>
+<td class="description"><p>
+<a href="../class/Logger.html">Logger</a> のようなインターフェイスを用いて syslog にログを記録するためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Syslog=3a=3aLogger=3a=3aFormatter.html">Syslog::Logger::Formatter</a>
+</td>
+<td class="description"><p>
+<a href="../class/Syslog=3a=3aLogger.html">Syslog::Logger</a> のデフォルトのログフォーマッタクラスです。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+<h2>同時にrequireされるライブラリ</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature"><a href="../library/logger.html">logger</a></td>
+<td class="description"><p>
+ログを記録するためのライブラリです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../library/syslog.html">syslog</a></td>
+<td class="description"><p>
+Unix系OS の syslog を扱うライブラリです。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/syslog/logger.rd#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

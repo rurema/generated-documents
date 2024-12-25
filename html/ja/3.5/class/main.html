@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/main.html">
+
+<title>object main (Ruby 3.5 リファレンスマニュアル)</title>
+<meta name="description" content="トップレベルでの self を表すオブジェクトです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.5 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/main.html","name":"mainオブジェクト","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.5 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        mainオブジェクト
+      </li>
+    </ol>
+  </nav>
+
+<h1>object main</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/main#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+      <li>
+        <a href="../class/main.html">main</a>
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+トップレベルでの self を表すオブジェクトです。
+</p>
+<p>
+main では参照できない事に注意してください。トップレベルで self から参照してください。
+</p>
+<p>
+トップレベルで定義したメソッドは <a href="../class/Object.html">Object</a> の private インスタンスメソッドとして定義されます。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例: トップレベルで定義したメソッドの確認</span>
+<code>
+basic_private_methods <span class="o">=</span> <span class="nb">private_methods</span><span class="p">(</span><span class="k">false</span><span class="p">)</span>
+basic_public_methods <span class="o">=</span> <span class="nb">public_methods</span><span class="p">(</span><span class="k">false</span><span class="p">)</span>
+private <span class="k">def</span> <span class="nf">explicit_private_method</span>
+<span class="k">end</span>
+
+<span class="c1"># トップレベルで定義したメソッドは main オブジェクトの private メソッドと して定義される
+</span><span class="k">def</span> <span class="nf">implicit_private_method</span>
+<span class="k">end</span>
+
+public <span class="k">def</span> <span class="nf">explicit_public_method</span>
+<span class="k">end</span>
+
+<span class="c1"># main オブジェクトで独自定義した private method のみを取得する
+</span><span class="nb">p</span> <span class="nb">private_methods</span><span class="p">(</span><span class="k">false</span><span class="p">)</span> <span class="o">-</span> basic_private_methods
+<span class="c1"># =&gt; [:explicit_private_method, :implicit_private_method]
+</span>
+<span class="c1"># main オブジェクトで独自定義した public method のみを取得する
+</span><span class="nb">p</span> <span class="nb">public_methods</span><span class="p">(</span><span class="k">false</span><span class="p">)</span> <span class="o">-</span> basic_public_methods
+<span class="c1"># =&gt; [:explicit_public_method]
+</span></code></pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_DEFINE_METHOD">define_method</a></li>
+
+<li><a href="#S_INCLUDE">include</a></li>
+
+<li><a href="#S_INSPECT">inspect</a></li>
+
+<li><a href="#S_PRIVATE">private</a></li>
+
+<li><a href="#S_PUBLIC">public</a></li>
+
+<li><a href="#S_INSPECT">to_s</a></li>
+
+<li><a href="#S_USING">using</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_DEFINE_METHOD"><code>define_method(name, method) -&gt; Symbol</code><span class="permalink">[<a href="../method/main/s/define_method.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/main.html#method-c-define_method">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/main#L114">edit</a>]</span></dt>
+<dt class="method-heading"><code>define_method(name) { ... } -&gt; Symbol</code></dt>
+<dd class="method-description">
+<p>
+インスタンスメソッド name を <a href="../class/Object.html">Object</a> に定義します。
+</p>
+<p>
+ブロックを与えた場合、定義したメソッドの実行時にブロックが
+<a href="../class/Object.html">Object</a> インスタンスの上で <a href="../method/BasicObject/i/instance_eval.html">BasicObject#instance_eval</a> されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] name:</dt>
+<dd>
+<a href="../class/String.html">String</a> または <a href="../class/Symbol.html">Symbol</a> を指定します。
+</dd>
+<dt class='method-param'>[PARAM] method:</dt>
+<dd>
+<a href="../class/Proc.html">Proc</a>、<a href="../class/Method.html">Method</a> あるいは <a href="../class/UnboundMethod.html">UnboundMethod</a> のいずれかのインスタンスを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+メソッド名を表す <a href="../class/Symbol.html">Symbol</a> を返します。
+</dd>
+<dt>[EXCEPTION] TypeError:</dt>
+<dd>
+method に同じクラス、サブクラス以外のメソッドを指定した場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/define_method.html">Module#define_method</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_INCLUDE"><code>include(*modules) -&gt; self</code><span class="permalink">[<a href="../method/main/s/include.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/main.html#method-c-include">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/main#L97">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数 modules で指定したモジュールを後ろから順番に <a href="../class/Object.html">Object</a> にインクルードします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] modules:</dt>
+<dd>
+<a href="../class/Module.html">Module</a> のインスタンス( <a href="../class/Enumerable.html">Enumerable</a> など)を指定します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+継承関係が循環してしまうような include を行った場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+include <span class="no">Math</span>
+
+hypot<span class="p">(</span><span class="mi">3</span>, <span class="mi">4</span><span class="p">)</span>  <span class="c1"># =&gt; 5.0
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/include.html">Module#include</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_INSPECT"><code>to_s -&gt; &quot;main&quot;</code><span class="permalink">[<a href="../method/main/s/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/main.html#method-c-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/main#L88">edit</a>]</span></dt>
+<dt class="method-heading"><code>inspect -&gt; &quot;main&quot;</code></dt>
+<dd class="method-description">
+<p>
+&quot;main&quot; を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_PRIVATE"><code>private() -&gt; nil</code><span class="permalink">[<a href="../method/main/s/private.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/main.html#method-c-private">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/main#L61">edit</a>]</span></dt>
+<dt class="method-heading"><code>private(name) -&gt; String | Symbol</code></dt>
+<dt class="method-heading"><code>private(*name) -&gt; Array</code></dt>
+<dt class="method-heading"><code>private(names) -&gt; Array</code></dt>
+<dd class="method-description">
+<p>
+メソッドを private に設定します。
+</p>
+<p>
+引数が与えられた時には引数によって指定されたメソッドを private に設定します。
+</p>
+<p>
+引数なしのときは今後このクラスまたはモジュール定義内で新規に定義されるメソッドを関数形式でだけ呼び出せるように(private)設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] name:</dt>
+<dd>
+0 個以上の <a href="../class/String.html">String</a> または <a href="../class/Symbol.html">Symbol</a> を指定します。
+</dd>
+<dt class='method-param'>[PARAM] names:</dt>
+<dd>
+0 個以上の <a href="../class/String.html">String</a> または <a href="../class/Symbol.html">Symbol</a> を <a href="../class/Array.html">Array</a> で指定します。
+</dd>
+<dt>[EXCEPTION] NameError:</dt>
+<dd>
+存在しないメソッド名を指定した場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/private.html">Module#private</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_PUBLIC"><code>public() -&gt; nil</code><span class="permalink">[<a href="../method/main/s/public.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/main.html#method-c-public">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/main#L33">edit</a>]</span></dt>
+<dt class="method-heading"><code>public(name) -&gt; String | Symbol</code></dt>
+<dt class="method-heading"><code>public(*name) -&gt; Array</code></dt>
+<dt class="method-heading"><code>public(names) -&gt; Array</code></dt>
+<dd class="method-description">
+<p>
+メソッドを public に設定します。
+</p>
+<p>
+引数なしのときは今後このクラスまたはモジュール定義内で新規に定義されるメソッドをどんな形式でも呼び出せるように(public)設定します。
+</p>
+<p>
+引数が与えられた時には引数によって指定されたメソッドを public に設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] name:</dt>
+<dd>
+0 個以上の <a href="../class/String.html">String</a> または <a href="../class/Symbol.html">Symbol</a> を指定します。
+</dd>
+<dt class='method-param'>[PARAM] names:</dt>
+<dd>
+0 個以上の <a href="../class/String.html">String</a> または <a href="../class/Symbol.html">Symbol</a> を <a href="../class/Array.html">Array</a> で指定します。
+</dd>
+<dt>[EXCEPTION] NameError:</dt>
+<dd>
+存在しないメソッド名を指定した場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/public.html">Module#public</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_USING"><code>using(module) -&gt; self</code><span class="permalink">[<a href="../method/main/s/using.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/main.html#method-c-using">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/main#L136">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数で指定したモジュールで定義された拡張を有効にします。
+</p>
+<p>
+有効にした拡張の有効範囲については以下を参照してください。
+</p>
+<ul>
+<li><a class="external" href="https://docs.ruby-lang.org/en/master/syntax/refinements_rdoc.html#label-Scope">https://docs.ruby-lang.org/en/master/syntax/refinements_rdoc.html#label-Scope</a></li>
+</ul>
+<dl>
+<dt class='method-param'>[PARAM] module:</dt>
+<dd>
+有効にするモジュールを指定します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="k">module</span> <span class="nn">Sloth</span>
+  refine <span class="no">String</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">downcase</span>
+      <span class="nc">self</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="s2">"</span><span class="s2">ABC</span><span class="s2">"</span><span class="p">.</span><span class="nf">downcase</span> <span class="c1"># =&gt; &quot;abc&quot;
+</span>
+using <span class="no">Sloth</span>
+
+<span class="s2">"</span><span class="s2">ABC</span><span class="s2">"</span><span class="p">.</span><span class="nf">downcase</span> <span class="c1"># =&gt; &quot;ABC&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/refine.html">Module#refine</a>, <a href="../method/Module/i/using.html">Module#using</a>
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/main#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
