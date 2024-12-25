@@ -4,6 +4,7 @@ VERSIONS = %w[
   3.2
   3.3
   3.4
+  3.5
 ]
 
 DB_BASE = File.expand_path("../db", __dir__)
