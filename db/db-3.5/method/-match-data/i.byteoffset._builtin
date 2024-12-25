@@ -1,0 +1,41 @@
+names=byteoffset
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/MatchData:219
+
+--- byteoffset(n) -> [Integer, Integer] | [nil, nil]
+
+n 番目の部分文字列のバイト単位のオフセットの
+配列 [start, end] を返します。
+
+n番目の部分文字列がマッチしていなければ [nil, nil] を返します。
+
+@param n 部分文字列を指定する数値
+
+@raise IndexError 範囲外の n を指定した場合に発生します。
+
+@see [[m:MatchData#offset]]
+
+--- byteoffset(name) -> [Integer, Integer] | [nil, nil]
+
+name という名前付きグループに対応する部分文字列のバイト単位のオフセットの
+配列 [start, end] を返します。
+
+nameの名前付きグループにマッチした部分文字列がなければ
+[nil, nil] を返します。
+
+@param name 名前(シンボルか文字列)
+
+@raise IndexError 正規表現中で定義されていない name を指定した場合に発生します。
+
+//emlist[例][ruby]{
+/(?<year>\d{4})年(?<month>\d{1,2})月(?:(?<day>\d{1,2})日)?/ =~ "2021年1月"
+p $~.byteoffset('year')    # => [0, 4]
+p $~.byteoffset(:year)     # => [0, 4]
+p $~.byteoffset('month')   # => [7, 8]
+p $~.byteoffset(:month)    # => [7, 8]
+p $~.byteoffset('day')     # => [nil, nil]
+p $~.byteoffset('century') # => `offset': undefined group name reference: century (IndexError)
+//}
+
+@see [[m:MatchData#offset]]

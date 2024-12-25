@@ -1,0 +1,50 @@
+names=parse
+visibility=public
+kind=defined
+source_location=refm/api/src/csv.rd:739
+
+--- parse(str, options = Hash.new){|row| ... } -> nil
+--- parse(str, options = Hash.new) -> Array
+
+このメソッドは文字列を簡単にパースすることができます。
+ブロックを与えた場合は、ブロックにそれぞれの行を渡します。
+ブロックを省略した場合は、配列の配列を返します。
+
+@param str 文字列を指定します。
+
+@param options [[m:CSV.new]] のオプションと同じオプションを指定できます。
+
+//emlist[例][ruby]{
+require 'csv'
+require 'pp'
+
+s = <<EOS
+id,first name,last name,age
+1,taro,tanaka,20
+2,jiro,suzuki,18
+EOS
+
+pp CSV.parse(s)
+# => [["id", "first name", "last name", "age"],
+#     ["1", "taro", "tanaka", "20"],
+#     ["2", "jiro", "suzuki", "18"]]
+
+CSV.parse(s, headers: true).each do |row|
+  p [row['first name'], row['age']]
+end
+# => ["taro", "20"]
+#    ["jiro", "18"]
+//}
+
+//emlist[例][ruby]{
+require "csv"
+
+csv = "id|first name|last name|age\n1|taro|tanaka|20\n2|jiro|suzuki|18"
+CSV.parse(csv, col_sep: '|') do |row|
+  p [row[1], row[2]]
+end
+# => ["first name", "last name"]
+# => ["taro", "tanaka"]
+# => ["jiro", "suzuki"]
+//}
+

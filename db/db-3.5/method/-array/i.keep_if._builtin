@@ -1,0 +1,30 @@
+names=keep_if
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Array:2552
+
+--- keep_if {|item| ... } -> self
+--- keep_if -> Enumerator
+
+ブロックが真を返した要素を残し、偽を返した要素を自身から削除します。
+
+//emlist[例][ruby]{
+a = %w{ a b c d e f }
+a.keep_if {|v| v =~ /[aeiou]/}   # => ["a", "e"]
+a # => ["a", "e"]
+//}
+
+keep_if は常に self を返しますが、[[m:Array#select!]] は要素が 1 つ以上削除されれば self を、
+1 つも削除されなければ nil を返します。
+
+//emlist[例][ruby]{
+a = %w{ a b c d e f }
+a.keep_if {|v| v =~ /[a-z]/ }   # => ["a", "b", "c", "d", "e", "f"]
+a # => ["a", "b", "c", "d", "e", "f"]
+//}
+
+ブロックが与えられなかった場合は、自身と keep_if から生成した
+[[c:Enumerator]] オブジェクトを返します。
+
+@see [[m:Array#select!]], [[m:Array#delete_if]]
+

@@ -1,0 +1,32 @@
+names=none?
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Enumerable:1004
+
+--- none?               -> bool
+--- none?{|obj| ... }   -> bool
+--- none?(pattern)      -> bool
+ブロックを指定しない場合は、 Enumerable オブジェクトのすべての
+要素が偽であれば真を返します。そうでなければ偽を返します。
+
+ブロックを指定した場合は、Enumerable オブジェクトのすべての要素を
+ブロックで評価した結果が、すべて偽であれば真を返します。
+そうでなければ偽を返します。
+
+自身に要素が存在しない場合は true を返します。
+
+@param pattern ブロックの代わりに各要素に対して pattern === item を評価します。
+
+//emlist[例][ruby]{
+require 'set'
+Set['ant', 'bear', 'cat'].none? {|word| word.length == 5}  # => true
+Set['ant', 'bear', 'cat'].none? {|word| word.length >= 4}  # => false
+Set['ant', 'bear', 'cat'].none?(/d/)                       # => true
+Set[].none?                                                # => true
+Set[nil].none?                                             # => true
+Set[nil,false].none?                                       # => true
+Set[nil, false, true].none?                                # => false
+//}
+
+@see [[m:Array#none?]]
+

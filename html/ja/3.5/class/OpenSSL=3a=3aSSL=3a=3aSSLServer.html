@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/OpenSSL=3a=3aSSL=3a=3aSSLServer.html">
+
+<title>class OpenSSL::SSL::SSLServer (Ruby 3.5 リファレンスマニュアル)</title>
+<meta name="description" content="SSL サーバーのためのクラス。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.5 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/openssl.html","name":"opensslライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/OpenSSL=3a=3aSSL=3a=3aSSLServer.html","name":"OpenSSL::SSL::SSLServerクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.5 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/openssl.html">opensslライブラリ</a>
+      </li>
+      <li>
+        OpenSSL::SSL::SSLServerクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class OpenSSL::SSL::SSLServer</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/SSL__SSLServer#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/OpenSSL=3a=3aSSL=3a=3aSocketForwarder.html">OpenSSL::SSL::SocketForwarder</a>
+        </li>
+        
+      
+      <li>
+        OpenSSL::SSL::SSLServer
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+SSL サーバーのためのクラス。
+</p>
+<p>
+<a href="../class/TCPServer.html">TCPServer</a> をラップするクラスで、TCPServer で接続したソケットを <a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.html">OpenSSL::SSL::SSLSocket</a> でラップする機能を持ちます。おおよそ TCPServer と同様のメソッドを持ちます。
+</p>
+<p>
+基本的には SSL サーバを簡単に実装するためのクラスであり、これを利用せずとも SSL サーバを実装することは可能です。
+</p>
+<p>
+以下はクライアントからの入力を標準出力に出力するだけのサーバです。
+</p>
+<pre>
+require 'socket'
+require 'openssl'
+
+include OpenSSL
+
+ctx = SSL::SSLContext.new()
+ctx.cert = X509::Certificate.new(File.read('cert.pem'))
+ctx.key = PKey::RSA.new(File.read('privkey.pem'))
+svr = TCPServer.new(2007)
+serv = SSL::SSLServer.new(svr, ctx)
+
+loop do
+  while soc = serv.accept
+    puts soc.read
+  end
+end
+</pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_ACCEPT">accept</a></li>
+
+<li><a href="#I_CLOSE">close</a></li>
+
+<li><a href="#I_LISTEN">listen</a></li>
+
+<li><a href="#I_SHUTDOWN">shutdown</a></li>
+
+<li><a href="#I_START_IMMEDIATELY">start_immediately</a></li>
+
+<li><a href="#I_START_IMMEDIATELY--3D">start_immediately=</a></li>
+
+<li><a href="#I_TO_IO">to_io</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+  <h2>継承しているメソッド</h2>
+<dl>
+  
+<dt>OpenSSL::SSL::SocketForwarderから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/addr.html">addr</a></li>
+      
+    
+      <li><a href="../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/closed=3f.html">closed?</a></li>
+      
+    
+      <li><a href="../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/do_not_reverse_lookup=3d.html">do_not_reverse_lookup=</a></li>
+      
+    
+      <li><a href="../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/fcntl.html">fcntl</a></li>
+      
+    
+      <li><a href="../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/getsockopt.html">getsockopt</a></li>
+      
+    
+      <li><a href="../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/peeraddr.html">peeraddr</a></li>
+      
+    
+      <li><a href="../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/setsockopt.html">setsockopt</a></li>
+      
+    
+  </ul>
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(svr, ctx) -&gt; OpenSSL::SSL::SSLServer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/OpenSSL/SSL/SSLServer.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/SSL__SSLServer#L34">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../class/TCPServer.html">TCPServer</a> オブジェクトをラップする SSLServer オブジェクトを生成します。
+</p>
+<p>
+svr にはラップする<a href="../class/TCPServer.html">TCPServer</a> オブジェクトを、
+ctx には SSL サーバが用いる  <a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.html">OpenSSL::SSL::SSLContext</a>
+オブジェクトを生成します。
+</p>
+<p>
+<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/listen.html">OpenSSL::SSL::SSLServer#listen</a> や <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/accept.html">OpenSSL::SSL::SSLServer#accept</a>
+は内部で svr で渡されたオブジェクトの
+<a href="../method/TCPServer/i/listen.html">TCPServer#listen</a> や <a href="../method/TCPServer/i/accept.html">TCPServer#accept</a> を呼び出します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] svr:</dt>
+<dd>
+利用する <a href="../class/TCPServer.html">TCPServer</a> オブジェクト
+</dd>
+<dt class='method-param'>[PARAM] ctx:</dt>
+<dd>
+SSL サーバとして用いる <a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.html">OpenSSL::SSL::SSLContext</a> オブジェクト
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ACCEPT"><code>accept -&gt; OpenSSL::SSL::SSLSocket</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/accept.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/OpenSSL/SSL/SSLServer.html#method-i-accept">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/SSL__SSLServer#L56">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+クライアントからの接続を受け付け、接続した
+SSLSocket オブジェクトを返します。
+</p>
+<p>
+<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/start_immediately.html">OpenSSL::SSL::SSLServer#start_immediately</a> が真ならば、
+SSLSocket#accept を呼び TLS/SSL ハンドシェイクを実行してから
+SSLSocket オブジェクトを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CLOSE"><code>close -&gt; nil</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/close.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/OpenSSL/SSL/SSLServer.html#method-i-close">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/SSL__SSLServer#L64">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+内部のサーバソケットを閉じます。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LISTEN"><code>listen(backlog=5) -&gt; 0</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/listen.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/OpenSSL/SSL/SSLServer.html#method-i-listen">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/SSL__SSLServer#L67">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ラップしている <a href="../class/TCPServer.html">TCPServer</a> の <a href="../method/TCPServer/i/listen.html">TCPServer#listen</a>
+を呼びだします。
+</p>
+<p>
+通常は TCPServer の初期化時に listen が呼びだされるため呼ぶ必要はないはずです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] backlog:</dt>
+<dd>
+クライアントからの接続要求を保留できる数
+</dd>
+<dt>[EXCEPTION] Errno::EXXX:</dt>
+<dd>
+<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/listen.html">listen(2)</a> が失敗すれば 例外 <a href="../class/Errno=3a=3aEXXX.html">Errno::EXXX</a> が発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_SHUTDOWN"><code>shutdown(how=Socket::SHUT_RDWR) -&gt; 0</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/shutdown.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/OpenSSL/SSL/SSLServer.html#method-i-shutdown">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/SSL__SSLServer#L96">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ソケットの以降の接続を終了させます。
+</p>
+<p>
+詳しくは <a href="../method/BasicSocket/i/shutdown.html">BasicSocket#shutdown</a> を参照してください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] how:</dt>
+<dd>
+接続の終了の仕方を Socket::SHUT_RD, Socket::SHUT_WR,
+Socket::SHUT_RDWR などで指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_START_IMMEDIATELY"><code>start_immediately -&gt; bool</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/start_immediately.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/OpenSSL/SSL/SSLServer.html#method-i-start_immediately">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/SSL__SSLServer#L77">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/accept.html">OpenSSL::SSL::SSLServer#accept</a> で
+accept したらすぐに TLS/SSL ハンドシェイクを実行するかどうかを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/start_immediately=3d.html">OpenSSL::SSL::SSLServer#start_immediately=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_START_IMMEDIATELY--3D"><code>start_immediately=(bool)</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/start_immediately=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/OpenSSL/SSL/SSLServer.html#method-i-start_immediately-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/SSL__SSLServer#L83">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/accept.html">OpenSSL::SSL::SSLServer#accept</a> で
+accept したらすぐに TLS/SSL ハンドシェイクを実行するかどうかを設定します。
+</p>
+<p>
+これを真に設定した場合は、<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/accept.html">OpenSSL::SSL::SSLServer#accept</a> で接続したソケットに対し <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/accept.html">OpenSSL::SSL::SSLSocket#accept</a> を呼び、ハンドシェイクを実行します。
+</p>
+<p>
+デフォルトでは true です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] bool:</dt>
+<dd>
+設定する真偽値。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/start_immediately.html">OpenSSL::SSL::SSLServer#start_immediately</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_IO"><code>to_io -&gt; TCPServer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLServer/i/to_io.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/OpenSSL/SSL/SSLServer.html#method-i-to_io">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/SSL__SSLServer#L53">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ラップしている <a href="../class/TCPServer.html">TCPServer</a> オブジェクトを返します。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/openssl/SSL__SSLServer#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

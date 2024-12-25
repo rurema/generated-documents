@@ -1,0 +1,41 @@
+names=**,pow
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Integer:724
+
+--- **(other) -> Numeric
+--- pow(other) -> Numeric
+--- pow(other, modulo) -> Integer
+
+算術演算子。冪(べき乗)を計算します。
+
+@param other 二項演算の右側の引数(対象)
+@param modulo 指定すると、計算途中に巨大な値を生成せずに (self**other) % modulo と同じ結果を返します。
+@return 計算結果
+@raise TypeError 2引数 pow で Integer 以外を指定した場合に発生します。
+@raise RangeError 2引数 pow で other に負の数を指定した場合に発生します。
+
+//emlist[][ruby]{
+2 ** 3 # => 8
+2 ** 0 # => 1
+0 ** 0 # => 1
+3.pow(3,  8)  # =>  3
+3.pow(3, -8)  # => -5
+3.pow(2, -2)  # => -1
+-3.pow(3,  8) # =>  5
+-3.pow(3, -8) # => -3
+5.pow(2, -8)  # => -7
+//}
+
+結果が巨大すぎる整数になりそうなとき、警告を出したうえで Float::INFINITY を返します。
+
+//emlist[計算を放棄して Float::INFINITY を返す例][ruby]{
+p 100**9999999
+# => warning: in a**b, b may be too big
+#    Infinity
+//}
+
+判定の閾値は変わりえます。
+
+@see [[m:BigDecimal#power]]
+

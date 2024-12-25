@@ -1,0 +1,33 @@
+names=any?
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Enumerable:50
+
+--- any?               -> bool
+--- any? {|item| ... } -> bool
+--- any?(pattern)      -> bool
+
+すべての要素が偽である場合に false を返します。
+真である要素があれば、ただちに true を返します。
+
+ブロックを伴う場合は、各要素に対してブロックを評価し、すべての結果
+が偽である場合に false を返します。ブロックが真を返した時点
+で、ただちに true を返します。
+
+自身に要素が存在しない場合は false を返します。
+
+@param pattern ブロックの代わりに各要素に対して pattern === item を評価します。
+
+//emlist[例][ruby]{
+require 'set'
+p Set[1, 2, 3].any? {|v| v > 3 }         # => false
+p Set[1, 2, 3].any? {|v| v > 1 }         # => true
+p Set[].any? {|v| v > 0 }                # => false
+p Set['ant', 'bear', 'cat'].any?(/d/)    # => false
+p Set[nil, true, 99].any?(Integer)       # => true
+p Set[nil, true, 99].any?                # => true
+p Set[].any?                             # => false
+//}
+
+@see [[m:Array#any?]]
+
