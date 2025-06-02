@@ -27,7 +27,7 @@
 
 
 <script type="application/ld+json">
-{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.5 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/set.html","name":"setライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Set.html","name":"Setクラス","position":4}]}
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.5 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Set.html","name":"Setクラス","position":4}]}
 </script>
 
 <header>
@@ -40,7 +40,7 @@
         <a href="../library/index.html">ライブラリ一覧</a>
       </li>
       <li>
-        <a href="../library/set.html">setライブラリ</a>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
       </li>
       <li>
         Setクラス
@@ -48,7 +48,7 @@
     </ol>
   </nav>
 
-<h1>class Set</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L60">edit</a>]</span>
+<h1>class Set</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L1">edit</a>]</span>
 
 </header>
 
@@ -100,6 +100,36 @@
 <p>
 集合を表すクラスです。要素の間に順序関係はありません。
 </p>
+<p>
+集合とは重複のないオブジェクトの集まりです。
+<a href="../class/Array.html">Array</a> の持つ演算機能と <a href="../class/Hash.html">Hash</a> の高速な検索機能を合わせ持ちます。
+</p>
+<p>
+Set は内部記憶として <a href="../class/Hash.html">Hash</a> を使うため、集合要素の等価性は
+<a href="../method/Object/i/eql=3f.html">Object#eql?</a> と <a href="../method/Object/i/hash.html">Object#hash</a> を用いて判断されます。
+</p>
+<p>
+したがって、集合の各要素には、これらのメソッドが適切に定義されている必要があります。
+</p>
+<p>
+Set クラスでは、集合要素を取り出す際の順序は保証されません。
+</p>
+<h2 >注意事項</h2>
+<p>
+集合オブジェクトに対する freeze メソッドの効果は、内部記憶として保持するハッシュにも適用されます。
+</p>
+<h2 >例</h2>
+<pre class="highlight ruby">
+<code>
+set1 <span class="o">=</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span> <span class="p">[</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">baz</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span>
+
+<span class="nb">p</span> set1                  <span class="c1"># =&gt; #&lt;Set: {&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;}&gt;
+</span><span class="nb">p</span> set1<span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span>
+set1<span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="s2">"</span><span class="s2">heh</span><span class="s2">"</span><span class="p">)</span>
+set1<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> set1                  <span class="c1"># =&gt; #&lt;Set: {&quot;bar&quot;, &quot;baz&quot;, &quot;heh&quot;}&gt;
+</span></code></pre>
 
 
 
@@ -397,6 +427,9 @@
       <li><a href="../method/Enumerable/i/to_h.html">to_h</a></li>
       
     
+      <li><a href="../method/Enumerable/i/to_set.html">to_set</a></li>
+      
+    
       <li><a href="../method/Enumerable/i/uniq.html">uniq</a></li>
       
     
@@ -412,7 +445,7 @@
 <h2>特異メソッド</h2>
 <dl>
 
-<dt class="method-heading" id="S_--5B--5D"><code>self[*ary] -&gt; Set</code><span class="permalink">[<a href="../method/Set/s/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-c-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L93">edit</a>]</span></dt>
+<dt class="method-heading" id="S_--5B--5D"><code>self[*ary] -&gt; Set</code><span class="permalink">[<a href="../method/Set/s/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-c-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L61">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられたオブジェクトを要素とする新しい集合を作ります。
@@ -425,13 +458,12 @@
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 <span class="nb">p</span> <span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span> <span class="c1"># =&gt; #&lt;Set: {1, 2}&gt;
 </span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="S_NEW"><code>new(enum = nil) -&gt; Set</code><span class="permalink">[<a href="../method/Set/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L67">edit</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new(enum = nil) -&gt; Set</code><span class="permalink">[<a href="../method/Set/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L36">edit</a>]</span></dt>
 <dt class="method-heading"><code>new(enum = nil) {|o| ... } -&gt; Set</code></dt>
 <dd class="method-description">
 <p>
@@ -459,7 +491,6 @@ enum には each メソッドが定義されている必要があります。
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 <span class="nb">p</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span>                      <span class="c1"># =&gt; #&lt;Set: {}&gt;
 </span><span class="nb">p</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">)</span>              <span class="c1"># =&gt; #&lt;Set: {1, 2}&gt;
 </span><span class="nb">p</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>o<span class="o">|</span> o <span class="o">*</span> <span class="mi">2</span><span class="p">}</span>  <span class="c1"># =&gt; #&lt;Set: {2, 4}&gt;
@@ -472,7 +503,7 @@ enum には each メソッドが定義されている必要があります。
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_--26"><code>intersection(enum) -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/=26.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-26">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L441">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--26"><code>intersection(enum) -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/=26.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-26">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L387">edit</a>]</span></dt>
 <dt class="method-heading"><code>self &amp; enum -&gt; Set</code></dt>
 <dd class="method-description">
 <p>
@@ -490,7 +521,6 @@ each メソッドが定義されたオブジェクトを指定します。
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s1 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">30</span><span class="p">]</span>
 s2 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">30</span>, <span class="mi">50</span><span class="p">]</span>
 <span class="nb">p</span> s1 <span class="o">&amp;</span> s2 <span class="c1">#=&gt; #&lt;Set: {10, 30}&gt;
@@ -501,7 +531,7 @@ s2 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><
 </dd>
 
 
-<dt class="method-heading" id="I_--2B"><code>union(enum) -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/=2b.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-2B">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L408">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--2B"><code>union(enum) -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/=2b.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-2B">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L356">edit</a>]</span></dt>
 <dt class="method-heading"><code>self + enum -&gt; Set</code></dt>
 <dt class="method-heading"><code>self | enum -&gt; Set</code></dt>
 <dd class="method-description">
@@ -520,14 +550,13 @@ each メソッドが定義されたオブジェクトを指定します。
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 <span class="nb">p</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">30</span><span class="p">]</span> <span class="o">+</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">40</span><span class="p">]</span>
 <span class="c1"># =&gt; #&lt;Set: {10, 20, 30, 40}&gt;
 </span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_--2D"><code>difference(enum) -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/=2d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-2D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L425">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--2D"><code>difference(enum) -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/=2d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-2D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L372">edit</a>]</span></dt>
 <dt class="method-heading"><code>self - enum -&gt; Set</code></dt>
 <dd class="method-description">
 <p>
@@ -545,14 +574,13 @@ each メソッドが定義されたオブジェクトを指定します。
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 <span class="nb">p</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">30</span><span class="p">]</span> <span class="o">-</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">40</span><span class="p">]</span>
 <span class="c1"># =&gt; #&lt;Set: {30}&gt;
 </span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_--3C--3C"><code>add(o) -&gt; self</code><span class="permalink">[<a href="../method/Set/i/=3c=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-3C-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L307">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--3C--3C"><code>add(o) -&gt; self</code><span class="permalink">[<a href="../method/Set/i/=3c=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-3C-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L260">edit</a>]</span></dt>
 <dt class="method-heading"><code>self &lt;&lt; o -&gt; self</code></dt>
 <dt class="method-heading"><code>add?(o) -&gt; self | nil</code></dt>
 <dd class="method-description">
@@ -574,7 +602,6 @@ nil を返します。
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
 s <span class="o">&lt;&lt;</span> <span class="mi">10</span>
 <span class="nb">p</span> s           <span class="c1"># =&gt; #&lt;Set: {1, 2, 10}&gt;
@@ -584,7 +611,7 @@ s <span class="o">&lt;&lt;</span> <span class="mi">10</span>
 </dd>
 
 
-<dt class="method-heading" id="I_--3D--3D"><code>self == set -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L480">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--3D--3D"><code>self == set -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L420">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 2 つの集合が等しいときに true を返します。
@@ -600,7 +627,6 @@ s <span class="o">&lt;&lt;</span> <span class="mi">10</span>
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s1 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">30</span><span class="p">]</span>
 s2 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">30</span>, <span class="mi">40</span><span class="p">]</span>
 s3 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">30</span>, <span class="mi">10</span>, <span class="mi">30</span>, <span class="mi">20</span><span class="p">]</span>
@@ -610,7 +636,7 @@ s3 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><
 </dd>
 
 
-<dt class="method-heading" id="I_--3D--3D--3D"><code>include?(o) -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/=3d=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-3D-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L213">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--3D--3D--3D"><code>include?(o) -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/=3d=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-3D-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L173">edit</a>]</span></dt>
 <dt class="method-heading"><code>member?(o) -&gt; bool</code></dt>
 <dt class="method-heading"><code>self === o -&gt; bool</code></dt>
 <dd class="method-description">
@@ -625,7 +651,6 @@ s3 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 set <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="s1">'hello'</span>, <span class="s1">'world'</span><span class="p">]</span>
 <span class="nb">p</span> set<span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s1">'world'</span><span class="p">)</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> set<span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s1">'bye'</span><span class="p">)</span>   <span class="c1"># =&gt; false
@@ -633,7 +658,7 @@ set <span class="o">=</span> <span class="no">Set</span><span class="p">[</span>
 </dd>
 
 
-<dt class="method-heading" id="I_--5E"><code>self ^ enum -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/=5e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-5E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L464">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--5E"><code>self ^ enum -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/=5e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-5E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L405">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 対称差、すなわち、2 つの集合のいずれか一方にだけ属するすべての要素からなる新しい集合を作ります。
@@ -650,7 +675,6 @@ each メソッドが定義されたオブジェクトを指定します。
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s1 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">30</span><span class="p">]</span>
 s2 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">30</span>, <span class="mi">50</span><span class="p">]</span>
 <span class="nb">p</span> s1 <span class="o">^</span> s2 <span class="c1"># =&gt; #&lt;Set: {50, 20}&gt;
@@ -658,7 +682,7 @@ s2 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><
 </dd>
 
 
-<dt class="method-heading" id="I_CLASSIFY"><code>classify {|o| ... } -&gt; Hash</code><span class="permalink">[<a href="../method/Set/i/classify.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-classify">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L500">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CLASSIFY"><code>classify {|o| ... } -&gt; Hash</code><span class="permalink">[<a href="../method/Set/i/classify.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-classify">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L439">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 集合をブロックの値によって分類し、結果をハッシュとして返します。
@@ -671,7 +695,6 @@ s2 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 numbers <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mf">4.5</span>, <span class="mi">20</span>, <span class="mi">30</span>, <span class="mf">31.2</span><span class="p">]</span>
 <span class="nb">p</span> numbers<span class="p">.</span><span class="nf">classify</span> <span class="p">{</span><span class="o">|</span>o<span class="o">|</span> o<span class="p">.</span><span class="nf">class</span><span class="p">}</span>
 <span class="c1"># =&gt; {Integer=&gt;#&lt;Set: {10, 20, 30}&gt;, Float=&gt;#&lt;Set: {4.5, 31.2}&gt;}
@@ -679,14 +702,13 @@ numbers <span class="o">=</span> <span class="no">Set</span><span class="p">[</s
 </dd>
 
 
-<dt class="method-heading" id="I_CLEAR"><code>clear -&gt; self</code><span class="permalink">[<a href="../method/Set/i/clear.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-clear">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L152">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CLEAR"><code>clear -&gt; self</code><span class="permalink">[<a href="../method/Set/i/clear.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-clear">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L116">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 集合の要素をすべて削除し、空にした後の self を返します。
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 <span class="nb">p</span> s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">30</span><span class="p">]</span> <span class="c1"># =&gt; #&lt;Set: {10, 20, 30}&gt;
 </span>s<span class="p">.</span><span class="nf">clear</span>
 <span class="nb">p</span> s <span class="c1"># =&gt; #&lt;Set: {}&gt;
@@ -694,7 +716,7 @@ numbers <span class="o">=</span> <span class="no">Set</span><span class="p">[</s
 </dd>
 
 
-<dt class="method-heading" id="I_CLONE"><code>clone -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/clone.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-clone">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L105">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CLONE"><code>clone -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/clone.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-clone">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L72">edit</a>]</span></dt>
 <dt class="method-heading"><code>dup -&gt; Set</code></dt>
 <dd class="method-description">
 <p>
@@ -709,7 +731,6 @@ Set クラスでは、dup と clone に共通して、内部記憶として用�
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s1 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span><span class="p">]</span>
 s2 <span class="o">=</span> s1<span class="p">.</span><span class="nf">dup</span>
 s2 <span class="o">&lt;&lt;</span> <span class="mi">30</span>
@@ -722,7 +743,7 @@ s2 <span class="o">&lt;&lt;</span> <span class="mi">30</span>
 </dd>
 
 
-<dt class="method-heading" id="I_COLLECT--21"><code>collect! {|o| ...} -&gt; self</code><span class="permalink">[<a href="../method/Set/i/collect=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-collect-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L293">edit</a>]</span></dt>
+<dt class="method-heading" id="I_COLLECT--21"><code>collect! {|o| ...} -&gt; self</code><span class="permalink">[<a href="../method/Set/i/collect=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-collect-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L247">edit</a>]</span></dt>
 <dt class="method-heading"><code>map! {|o| ...} -&gt; self</code></dt>
 <dd class="method-description">
 <p>
@@ -730,7 +751,6 @@ s2 <span class="o">&lt;&lt;</span> <span class="mi">30</span>
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 set <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="s1">'hello'</span>, <span class="s1">'world'</span><span class="p">]</span>
 set<span class="p">.</span><span class="nf">map!</span> <span class="p">{</span><span class="o">|</span>str<span class="o">|</span> str<span class="p">.</span><span class="nf">capitalize</span><span class="p">}</span>
 <span class="nb">p</span> set  <span class="c1"># =&gt; #&lt;Set: {&quot;Hello&quot;, &quot;World&quot;}&gt;
@@ -741,7 +761,7 @@ set<span class="p">.</span><span class="nf">map!</span> <span class="p">{</span>
 </dd>
 
 
-<dt class="method-heading" id="I_DELETE"><code>delete(o) -&gt; self</code><span class="permalink">[<a href="../method/Set/i/delete.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-delete">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L329">edit</a>]</span></dt>
+<dt class="method-heading" id="I_DELETE"><code>delete(o) -&gt; self</code><span class="permalink">[<a href="../method/Set/i/delete.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-delete">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L281">edit</a>]</span></dt>
 <dt class="method-heading"><code>delete?(o) -&gt; self | nil</code></dt>
 <dd class="method-description">
 <p>
@@ -761,7 +781,6 @@ delete? は、集合の要素が削除された場合には self を、変化が
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">30</span><span class="p">]</span>
 s<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="nb">p</span> s              <span class="c1"># =&gt; #&lt;Set: {20, 30}&gt;
@@ -771,7 +790,7 @@ s<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><
 </dd>
 
 
-<dt class="method-heading" id="I_DELETE_IF"><code>delete_if {|o| ... } -&gt; self</code><span class="permalink">[<a href="../method/Set/i/delete_if.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-delete_if">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L350">edit</a>]</span></dt>
+<dt class="method-heading" id="I_DELETE_IF"><code>delete_if {|o| ... } -&gt; self</code><span class="permalink">[<a href="../method/Set/i/delete_if.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-delete_if">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L301">edit</a>]</span></dt>
 <dt class="method-heading"><code>reject! {|o| ... } -&gt; self | nil</code></dt>
 <dd class="method-description">
 <p>
@@ -786,7 +805,6 @@ nil を返します。
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s1 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="s1">'hello.rb'</span>, <span class="s1">'test.rb'</span>, <span class="s1">'hello.rb.bak'</span><span class="p">]</span>
 s1<span class="p">.</span><span class="nf">delete_if</span> <span class="p">{</span><span class="o">|</span>str<span class="o">|</span> str <span class="o">=~</span> <span class="sr">/\.bak\z/</span><span class="p">}</span>
 <span class="nb">p</span> s1 <span class="c1"># =&gt; #&lt;Set: {&quot;hello.rb&quot;, &quot;test.rb&quot;}&gt;
@@ -801,7 +819,7 @@ s2 <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><
 </dd>
 
 
-<dt class="method-heading" id="I_DISJOINT--3F"><code>disjoint?(set) -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/disjoint=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-disjoint-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L595">edit</a>]</span></dt>
+<dt class="method-heading" id="I_DISJOINT--3F"><code>disjoint?(set) -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/disjoint=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-disjoint-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L524">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self と set が互いに素な集合である場合に true を返します。
@@ -821,7 +839,6 @@ Set オブジェクトを指定します。
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 <span class="nb">p</span> <span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">.</span><span class="nf">disjoint?</span> <span class="no">Set</span><span class="p">[</span><span class="mi">3</span>, <span class="mi">4</span><span class="p">]</span> <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">.</span><span class="nf">disjoint?</span> <span class="no">Set</span><span class="p">[</span><span class="mi">4</span>, <span class="mi">5</span><span class="p">]</span> <span class="c1"># =&gt; true
 </span></code></pre>
@@ -831,7 +848,7 @@ Set オブジェクトを指定します。
 </dd>
 
 
-<dt class="method-heading" id="I_DIVIDE"><code>divide {|o| ... } -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/divide.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-divide">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L517">edit</a>]</span></dt>
+<dt class="method-heading" id="I_DIVIDE"><code>divide {|o| ... } -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/divide.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-divide">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L455">edit</a>]</span></dt>
 <dt class="method-heading"><code>divide {|o1, o2| ... } -&gt; Set</code></dt>
 <dd class="method-description">
 <p>
@@ -848,7 +865,6 @@ o1 と o2 は同じ分割に属します。この場合、block.call(o1, o2) == 
 <pre class="highlight ruby">
 <span class="caption">例1</span>
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 numbers <span class="o">=</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">6</span><span class="p">)</span>
 set <span class="o">=</span> numbers<span class="p">.</span><span class="nf">divide</span> <span class="p">{</span><span class="o">|</span>i<span class="o">|</span> i <span class="o">%</span> <span class="mi">3</span><span class="p">}</span>
 <span class="nb">p</span> set
@@ -857,7 +873,6 @@ set <span class="o">=</span> numbers<span class="p">.</span><span class="nf">div
 <pre class="highlight ruby">
 <span class="caption">例2</span>
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 numbers <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">3</span>, <span class="mi">4</span>, <span class="mi">6</span>, <span class="mi">9</span>, <span class="mi">10</span>, <span class="mi">11</span><span class="p">]</span>
 set <span class="o">=</span> numbers<span class="p">.</span><span class="nf">divide</span> <span class="p">{</span><span class="o">|</span>i, j<span class="o">|</span> <span class="p">(</span>i <span class="o">-</span> j<span class="p">)</span><span class="p">.</span><span class="nf">abs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">}</span>
 <span class="nb">p</span> set     <span class="c1"># =&gt; #&lt;Set: {#&lt;Set: {1}&gt;,
@@ -868,8 +883,6 @@ set <span class="o">=</span> numbers<span class="p">.</span><span class="nf">div
 <pre class="highlight ruby">
 <span class="caption">応用例: 8x2 のチェス盤上で、ナイトが到達できる位置に関する分類を作成します。</span>
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
-
 board <span class="o">=</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span>
 m, n <span class="o">=</span> <span class="mi">8</span>, <span class="mi">2</span>
 <span class="k">for</span> i <span class="k">in</span> <span class="mi">1</span><span class="o">..</span>m
@@ -889,14 +902,13 @@ knight_move <span class="o">=</span> <span class="no">Set</span><span class="p">
 </dd>
 
 
-<dt class="method-heading" id="I_EACH"><code>each {|o| ... } -&gt; self</code><span class="permalink">[<a href="../method/Set/i/each.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-each">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L281">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EACH"><code>each {|o| ... } -&gt; self</code><span class="permalink">[<a href="../method/Set/i/each.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-each">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L236">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 集合の各要素についてブロックを実行します。
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span><span class="p">]</span>
 ary <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
 s<span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>num<span class="o">|</span> ary <span class="o">&lt;&lt;</span> num <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
@@ -905,21 +917,20 @@ s<span class="p">.</span><span class="nf">each</span> <span class="p">{</span><s
 </dd>
 
 
-<dt class="method-heading" id="I_EMPTY--3F"><code>empty? -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/empty=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-empty-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L142">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EMPTY--3F"><code>empty? -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/empty=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-empty-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L107">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 集合が要素を 1 つも持たないときに true を返します。
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 <span class="nb">p</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span><span class="p">]</span><span class="p">.</span><span class="nf">empty?</span> <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="no">Set</span><span class="p">[</span><span class="p">]</span><span class="p">.</span><span class="nf">empty?</span>       <span class="c1"># =&gt; true
 </span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_FILTER--21"><code>select! {|element| ... } -&gt; self | nil</code><span class="permalink">[<a href="../method/Set/i/filter=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-filter-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L620">edit</a>]</span></dt>
+<dt class="method-heading" id="I_FILTER--21"><code>select! {|element| ... } -&gt; self | nil</code><span class="permalink">[<a href="../method/Set/i/filter=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-filter-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L547">edit</a>]</span></dt>
 <dt class="method-heading"><code>filter! {|element| ... } -&gt; self | nil</code></dt>
 <dd class="method-description">
 <p>
@@ -934,7 +945,7 @@ s<span class="p">.</span><span class="nf">each</span> <span class="p">{</span><s
 </dd>
 
 
-<dt class="method-heading" id="I_FLATTEN"><code>flatten -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/flatten.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-flatten">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L180">edit</a>]</span></dt>
+<dt class="method-heading" id="I_FLATTEN"><code>flatten -&gt; Set</code><span class="permalink">[<a href="../method/Set/i/flatten.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-flatten">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L142">edit</a>]</span></dt>
 <dt class="method-heading"><code>flatten! -&gt; self | nil</code></dt>
 <dd class="method-description">
 <p>
@@ -954,7 +965,6 @@ flatten! は、元の集合を破壊的に平坦化します。集合の要素�
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="no">Set</span><span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span><span class="p">]</span>, <span class="mi">3</span><span class="p">]</span>
 <span class="nb">p</span> s<span class="p">.</span><span class="nf">flatten</span> <span class="c1"># =&gt; #&lt;Set: {1, 2, 3}&gt;
 </span><span class="nb">p</span> s         <span class="c1"># =&gt; #&lt;Set: {#&lt;Set: {1, 2}&gt;, 3}&gt;
@@ -967,7 +977,7 @@ s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><s
 </dd>
 
 
-<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/Set/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L568">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/Set/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L502">edit</a>]</span></dt>
 <dt class="method-heading"><code>to_s -&gt; String</code></dt>
 <dd class="method-description">
 <p>
@@ -975,14 +985,13 @@ s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><s
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 <span class="nb">puts</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="s1">'element1'</span>, <span class="s1">'element2'</span><span class="p">]</span><span class="p">)</span><span class="p">.</span><span class="nf">inspect</span>
 <span class="c1"># =&gt; #&lt;Set: {&quot;element1&quot;, &quot;element2&quot;}&gt;
 </span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_INTERSECT--3F"><code>intersect?(set) -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/intersect=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-intersect-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L582">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INTERSECT--3F"><code>intersect?(set) -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/intersect=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-intersect-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L512">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self と set の共通要素がある場合に true を返します。
@@ -998,7 +1007,6 @@ Set オブジェクトを指定します。
 </dd>
 </dl>
 <pre>
-require 'set'
 p Set[1, 2, 3].intersect?(Set[3, 4])  # =&gt; true
 p Set[1, 2, 3].intersect?(Set[4, 5])  # =&gt; false
 </pre>
@@ -1008,7 +1016,7 @@ p Set[1, 2, 3].intersect?(Set[4, 5])  # =&gt; false
 </dd>
 
 
-<dt class="method-heading" id="I_KEEP_IF"><code>keep_if {|element| ... } -&gt; self</code><span class="permalink">[<a href="../method/Set/i/keep_if.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-keep_if">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L614">edit</a>]</span></dt>
+<dt class="method-heading" id="I_KEEP_IF"><code>keep_if {|element| ... } -&gt; self</code><span class="permalink">[<a href="../method/Set/i/keep_if.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-keep_if">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L541">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 各要素に対してブロックを評価し、その結果が偽であった要素を self から削除します。
@@ -1022,7 +1030,7 @@ p Set[1, 2, 3].intersect?(Set[4, 5])  # =&gt; false
 </dd>
 
 
-<dt class="method-heading" id="I_LENGTH"><code>size -&gt; Integer</code><span class="permalink">[<a href="../method/Set/i/length.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-length">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L132">edit</a>]</span></dt>
+<dt class="method-heading" id="I_LENGTH"><code>size -&gt; Integer</code><span class="permalink">[<a href="../method/Set/i/length.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-length">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L98">edit</a>]</span></dt>
 <dt class="method-heading"><code>length -&gt; Integer</code></dt>
 <dd class="method-description">
 <p>
@@ -1030,13 +1038,12 @@ p Set[1, 2, 3].intersect?(Set[4, 5])  # =&gt; false
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 <span class="nb">p</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">30</span>, <span class="mi">10</span><span class="p">]</span><span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; 3
 </span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_MERGE"><code>merge(enum) -&gt; self</code><span class="permalink">[<a href="../method/Set/i/merge.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-merge">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L374">edit</a>]</span></dt>
+<dt class="method-heading" id="I_MERGE"><code>merge(enum) -&gt; self</code><span class="permalink">[<a href="../method/Set/i/merge.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-merge">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L324">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 元の集合に enum で与えられた要素を追加します。
@@ -1056,7 +1063,6 @@ p Set[1, 2, 3].intersect?(Set[4, 5])  # =&gt; false
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 set <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span><span class="p">]</span>
 set<span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">30</span><span class="p">]</span><span class="p">)</span>
 <span class="nb">p</span> set <span class="c1"># =&gt; #&lt;Set: {10, 20, 30}&gt;
@@ -1064,7 +1070,7 @@ set<span class="p">.</span><span class="nf">merge</span><span class="p">(</span>
 </dd>
 
 
-<dt class="method-heading" id="I_PROPER_SUBSET--3F"><code>subset?(set) -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/proper_subset=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-proper_subset-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L256">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PROPER_SUBSET--3F"><code>subset?(set) -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/proper_subset=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-proper_subset-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L212">edit</a>]</span></dt>
 <dt class="method-heading"><code>proper_subset?(set) -&gt; bool</code></dt>
 <dd class="method-description">
 <p>
@@ -1088,7 +1094,6 @@ proper_subset? は、2 つの集合が等しい場合には false を返しま�
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
 <span class="nb">p</span> s<span class="p">.</span><span class="nf">subset?</span><span class="p">(</span><span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">)</span>         <span class="c1"># =&gt; true
 </span><span class="nb">p</span> s<span class="p">.</span><span class="nf">subset?</span><span class="p">(</span><span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">4</span><span class="p">]</span><span class="p">)</span>            <span class="c1"># =&gt; false
@@ -1103,7 +1108,7 @@ s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><s
 </dd>
 
 
-<dt class="method-heading" id="I_PROPER_SUPERSET--3F"><code>superset?(set) -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/proper_superset=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-proper_superset-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L230">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PROPER_SUPERSET--3F"><code>superset?(set) -&gt; bool</code><span class="permalink">[<a href="../method/Set/i/proper_superset=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-proper_superset-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L187">edit</a>]</span></dt>
 <dt class="method-heading"><code>proper_superset?(set) -&gt; bool</code></dt>
 <dd class="method-description">
 <p>
@@ -1127,7 +1132,6 @@ proper_superset? は、2 つの集合が等しい場合には false を返しま
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span>
 <span class="nb">p</span> s<span class="p">.</span><span class="nf">superset?</span><span class="p">(</span><span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">)</span>            <span class="c1"># =&gt; true
 </span><span class="nb">p</span> s<span class="p">.</span><span class="nf">superset?</span><span class="p">(</span><span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">4</span><span class="p">]</span><span class="p">)</span>            <span class="c1"># =&gt; false
@@ -1142,7 +1146,7 @@ s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><s
 </dd>
 
 
-<dt class="method-heading" id="I_REPLACE"><code>replace(enum) -&gt; self</code><span class="permalink">[<a href="../method/Set/i/replace.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-replace">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L163">edit</a>]</span></dt>
+<dt class="method-heading" id="I_REPLACE"><code>replace(enum) -&gt; self</code><span class="permalink">[<a href="../method/Set/i/replace.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-replace">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L126">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 集合の要素をすべて削除し、enum で与えられた要素に置き換えます。
@@ -1162,7 +1166,6 @@ s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><s
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 <span class="nb">p</span> s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">30</span><span class="p">]</span> <span class="c1"># =&gt; #&lt;Set: {10, 20, 30}&gt;
 </span>s<span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="p">[</span><span class="mi">15</span>, <span class="mi">25</span><span class="p">]</span><span class="p">)</span>
 <span class="nb">p</span> s <span class="c1"># =&gt; #&lt;Set: {15, 25}&gt;
@@ -1170,7 +1173,7 @@ s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><s
 </dd>
 
 
-<dt class="method-heading" id="I_RESET"><code>reset -&gt; self</code><span class="permalink">[<a href="../method/Set/i/reset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-reset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L630">edit</a>]</span></dt>
+<dt class="method-heading" id="I_RESET"><code>reset -&gt; self</code><span class="permalink">[<a href="../method/Set/i/reset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-reset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L554">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 キーのハッシュ値を再計算します。
@@ -1187,7 +1190,7 @@ s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><s
 </dd>
 
 
-<dt class="method-heading" id="I_SUBTRACT"><code>subtract(enum) -&gt; self</code><span class="permalink">[<a href="../method/Set/i/subtract.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-subtract">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L391">edit</a>]</span></dt>
+<dt class="method-heading" id="I_SUBTRACT"><code>subtract(enum) -&gt; self</code><span class="permalink">[<a href="../method/Set/i/subtract.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-subtract">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L340">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 元の集合から、enum で与えられた要素を削除します。
@@ -1207,7 +1210,6 @@ s <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><s
 </dl>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 set <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">40</span><span class="p">]</span>
 set<span class="p">.</span><span class="nf">subtract</span><span class="p">(</span><span class="p">[</span><span class="mi">10</span>, <span class="mi">20</span>, <span class="mi">30</span><span class="p">]</span><span class="p">)</span>
 <span class="nb">p</span> set <span class="c1"># =&gt; #&lt;Set: {40}&gt;
@@ -1215,14 +1217,13 @@ set<span class="p">.</span><span class="nf">subtract</span><span class="p">(</sp
 </dd>
 
 
-<dt class="method-heading" id="I_TO_A"><code>to_a -&gt; Array</code><span class="permalink">[<a href="../method/Set/i/to_a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-to_a">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L204">edit</a>]</span></dt>
+<dt class="method-heading" id="I_TO_A"><code>to_a -&gt; Array</code><span class="permalink">[<a href="../method/Set/i/to_a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Set.html#method-i-to_a">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L165">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self を配列に変換します。要素の順序は不定です。
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'set'</span>
 set <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="s1">'hello'</span>, <span class="s1">'world'</span><span class="p">]</span>
 <span class="nb">p</span> set<span class="p">.</span><span class="nf">to_a</span> <span class="c1"># =&gt; [&quot;hello&quot;, &quot;world&quot;]
 </span></code></pre>
@@ -1240,7 +1241,7 @@ set <span class="o">=</span> <span class="no">Set</span><span class="p">[</span>
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   
-    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/set.rd#L60">このマニュアルを編集する</a>
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Set#L1">このマニュアルを編集する</a>
   
   <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
 </footer>
