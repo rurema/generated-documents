@@ -85,13 +85,13 @@
 <dt>1 バイトの空白文字 ' '</dt>
 <dd>
 <p>
-先頭と末尾の空白を除いたうえで、空白文字列で分割する。
+先頭の連続する空白を除いたうえで、連続する空白で分割する。
 </p>
 </dd>
 <dt>nil</dt>
 <dd>
 <p>
-常に $; で分割する。 $; も nil の場合は、先頭と末尾の空白を除いたうえで、空白文字列で分割する。
+常に $; で分割する。 $; も nil の場合は、1 バイトの空白文字を指定したのと同じ動作となる。
 </p>
 </dd>
 <dt>空文字列 '' あるいは空文字列にマッチする正規表現</dt>
@@ -190,6 +190,19 @@ sep が正規表現で、かつその正規表現に括弧が含まれている�
 <span class="caption">limit が負の数の場合は制限なく分割</span>
 <code>
 <span class="nb">p</span> <span class="s2">"</span><span class="s2">a,b,c,,,</span><span class="s2">"</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sr">/,/</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span>    <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;]
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">1 バイトの空白文字を指定した場合の挙動</span>
+<code>
+<span class="c1"># まず &quot;   a   b   &quot; から先頭の連続する空白を除き &quot;a   b   &quot; が分割対象となる。
+</span><span class="c1"># これを連続する空白で分割し、[&quot;a&quot;, &quot;b&quot;, &quot;&quot;] となる。
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">   a   b   </span><span class="s2">"</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' '</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;&quot;]
+</span>
+<span class="c1"># limit == -1 の場合と比べると、結果の配列末尾に含まれる空文字列が取り除かれている。
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">   a   b   </span><span class="s2">"</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' '</span>, <span class="mi">0</span><span class="p">)</span>  <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;]
+</span>
+<span class="c1"># limit == 1 の場合は元の文字列がそのまま含まれる。
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">   a   b   </span><span class="s2">"</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' '</span>, <span class="mi">1</span><span class="p">)</span>  <span class="c1"># =&gt; [&quot;   a   b   &quot;]
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/String/i/partition.html">String#partition</a>, <a href="../../../method/String/i/rpartition.html">String#rpartition</a>
