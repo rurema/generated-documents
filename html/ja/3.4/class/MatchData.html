@@ -122,6 +122,10 @@
 
 <li><a href="#I_BEGIN">begin</a></li>
 
+<li><a href="#I_BYTEBEGIN">bytebegin</a></li>
+
+<li><a href="#I_BYTEEND">byteend</a></li>
+
 <li><a href="#I_BYTEOFFSET">byteoffset</a></li>
 
 <li><a href="#I_CAPTURES">captures</a></li>
@@ -176,7 +180,7 @@
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_--3D--3D"><code>eql?(other) -&gt; bool</code><span class="permalink">[<a href="../method/MatchData/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L376">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--3D--3D"><code>eql?(other) -&gt; bool</code><span class="permalink">[<a href="../method/MatchData/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L448">edit</a>]</span></dt>
 <dt class="method-heading"><code>self == other -&gt; bool</code></dt>
 <dd class="method-description">
 <p>
@@ -342,6 +346,114 @@ n 番目の部分文字列がマッチしていなければ nilを返します�
 </dd>
 
 
+<dt class="method-heading" id="I_BYTEBEGIN"><code>bytebegin(n) -&gt; Integer | nil</code><span class="permalink">[<a href="../method/MatchData/i/bytebegin.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-bytebegin">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L258">edit</a>]</span></dt>
+<dt class="method-heading"><code>bytebegin(name) -&gt; Integer | nil</code></dt>
+<dd class="method-description">
+<p>
+n 番目の部分文字列先頭のバイトオフセットを返します。
+</p>
+<p>
+0 はマッチ全体を意味します。
+n 番目の部分文字列がマッチしていなければ nilを返します。
+</p>
+<p>
+引数に文字列またはシンボルを渡した場合は、対応する名前付きキャプチャの先頭のバイトオフセットを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] n:</dt>
+<dd>
+部分文字列を指定する数値。
+</dd>
+<dt class='method-param'>[PARAM] name:</dt>
+<dd>
+名前付きキャプチャを指定する文字列またはシンボル。
+</dd>
+<dt>[EXCEPTION] IndexError:</dt>
+<dd>
+範囲外の n を指定した場合に発生します。
+</dd>
+<dt>[EXCEPTION] IndexError:</dt>
+<dd>
+正規表現中で定義されていない name を指定した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="sr">/(c).*(いう).*(e.*)/</span> <span class="o">=~</span> <span class="s1">'abcあいうdef'</span>
+<span class="nb">p</span> <span class="vg">$~</span>              <span class="c1"># =&gt; #&lt;MatchData &quot;cあいうdef&quot; 1:&quot;c&quot; 2:&quot;いう&quot; 3:&quot;ef&quot;&gt;
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">bytebegin</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">bytebegin</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">bytebegin</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># =&gt; 6
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">bytebegin</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; 13
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">bytebegin</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># =&gt; index 4 out of matches (IndexError)
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">シンボルを指定する例</span>
+<code>
+<span class="sr">/(?&lt;key&gt;\S+):\s*(?&lt;value&gt;\S+)/</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">name: ruby</span><span class="s2">"</span>
+<span class="vg">$~</span>                   <span class="c1"># =&gt; #&lt;MatchData &quot;name: ruby&quot; key:&quot;name&quot; value:&quot;ruby&quot;&gt;
+</span><span class="vg">$~</span><span class="p">.</span><span class="nf">bytebegin</span><span class="p">(</span><span class="ss">:key</span><span class="p">)</span>   <span class="c1"># =&gt; 0
+</span><span class="vg">$~</span><span class="p">.</span><span class="nf">bytebegin</span><span class="p">(</span><span class="ss">:value</span><span class="p">)</span> <span class="c1"># =&gt; 6
+</span><span class="vg">$~</span><span class="p">.</span><span class="nf">bytebegin</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span>   <span class="c1"># =&gt; undefined group name reference: foo (IndexError)
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_BYTEEND"><code>byteend(n) -&gt; Integer | nil</code><span class="permalink">[<a href="../method/MatchData/i/byteend.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-byteend">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L292">edit</a>]</span></dt>
+<dt class="method-heading"><code>byteend(name) -&gt; Integer | nil</code></dt>
+<dd class="method-description">
+<p>
+n 番目の部分文字列終端のバイトオフセットを返します。
+</p>
+<p>
+0 はマッチ全体を意味します。
+n 番目の部分文字列がマッチしていなければ nilを返します。
+</p>
+<p>
+引数に文字列またはシンボルを渡した場合は、対応する名前付きキャプチャの終端のバイトオフセットを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] n:</dt>
+<dd>
+部分文字列を指定する数値。
+</dd>
+<dt class='method-param'>[PARAM] name:</dt>
+<dd>
+名前付きキャプチャを指定する文字列またはシンボル。
+</dd>
+<dt>[EXCEPTION] IndexError:</dt>
+<dd>
+範囲外の n を指定した場合に発生します。
+</dd>
+<dt>[EXCEPTION] IndexError:</dt>
+<dd>
+正規表現中で定義されていない name を指定した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="sr">/(c).*(いう).*(e.*)/</span> <span class="o">=~</span> <span class="s1">'abcあいうdef'</span>
+<span class="nb">p</span> <span class="vg">$~</span>            <span class="c1"># =&gt; #&lt;MatchData &quot;cあいうdef&quot; 1:&quot;c&quot; 2:&quot;いう&quot; 3:&quot;ef&quot;&gt;
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">byteend</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 15
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">byteend</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">byteend</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># =&gt; 12
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">byteend</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; 15
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">byteend</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># =&gt; index 4 out of matches (IndexError)
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">シンボルを指定する例</span>
+<code>
+<span class="sr">/(?&lt;key&gt;\S+):\s*(?&lt;value&gt;\S+)/</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">name: ruby</span><span class="s2">"</span>
+<span class="vg">$~</span>                 <span class="c1"># =&gt; #&lt;MatchData &quot;name: ruby&quot; key:&quot;name&quot; value:&quot;ruby&quot;&gt;
+</span><span class="vg">$~</span><span class="p">.</span><span class="nf">byteend</span><span class="p">(</span><span class="ss">:key</span><span class="p">)</span>   <span class="c1"># =&gt; 4
+</span><span class="vg">$~</span><span class="p">.</span><span class="nf">byteend</span><span class="p">(</span><span class="ss">:value</span><span class="p">)</span> <span class="c1"># =&gt; 10
+</span><span class="vg">$~</span><span class="p">.</span><span class="nf">byteend</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span>   <span class="c1"># =&gt; undefined group name reference: foo (IndexError)
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_BYTEOFFSET"><code>byteoffset(n) -&gt; [Integer, Integer] | [nil, nil]</code><span class="permalink">[<a href="../method/MatchData/i/byteoffset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-byteoffset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L219">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -488,7 +600,7 @@ n 番目の部分文字列がマッチしていなければ nil を返します�
 </dd>
 
 
-<dt class="method-heading" id="I_HASH"><code>hash -&gt; Integer</code><span class="permalink">[<a href="../method/MatchData/i/hash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-hash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L371">edit</a>]</span></dt>
+<dt class="method-heading" id="I_HASH"><code>hash -&gt; Integer</code><span class="permalink">[<a href="../method/MatchData/i/hash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-hash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L443">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self のマッチ対象になった文字列、元になった正規表現オブジェクト、マッチした位置を元にハッシュ値を計算して返します。
@@ -496,7 +608,7 @@ self のマッチ対象になった文字列、元になった正規表現オブ
 </dd>
 
 
-<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/MatchData/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L310">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/MatchData/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L382">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self の内容を人間に読みやすい文字列にして返します。
@@ -534,7 +646,7 @@ self の内容を人間に読みやすい文字列にして返します。
 </dd>
 
 
-<dt class="method-heading" id="I_NAMED_CAPTURES"><code>named_captures(symbolize_names: false) -&gt; Hash</code><span class="permalink">[<a href="../method/MatchData/i/named_captures.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-named_captures">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L413">edit</a>]</span></dt>
+<dt class="method-heading" id="I_NAMED_CAPTURES"><code>named_captures(symbolize_names: false) -&gt; Hash</code><span class="permalink">[<a href="../method/MatchData/i/named_captures.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-named_captures">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L485">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 名前付きキャプチャをHashで返します。
@@ -572,7 +684,7 @@ m<span class="p">.</span><span class="nf">named_captures</span><span class="p">(
 </dd>
 
 
-<dt class="method-heading" id="I_NAMES"><code>names -&gt; [String]</code><span class="permalink">[<a href="../method/MatchData/i/names.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-names">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L349">edit</a>]</span></dt>
+<dt class="method-heading" id="I_NAMES"><code>names -&gt; [String]</code><span class="permalink">[<a href="../method/MatchData/i/names.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-names">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L421">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 名前付きキャプチャの名前を文字列配列で返します。
@@ -661,7 +773,7 @@ name という名前付きグループに対応する部分文字列のオフセ
 </dd>
 
 
-<dt class="method-heading" id="I_POST_MATCH"><code>post_match -&gt; String</code><span class="permalink">[<a href="../method/MatchData/i/post_match.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-post_match">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L256">edit</a>]</span></dt>
+<dt class="method-heading" id="I_POST_MATCH"><code>post_match -&gt; String</code><span class="permalink">[<a href="../method/MatchData/i/post_match.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-post_match">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L328">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 マッチした部分より後ろの文字列を返します(<a href="../method/Kernel/v/=27.html">$'</a>と同じ)。
@@ -678,7 +790,7 @@ name という名前付きグループに対応する部分文字列のオフセ
 </dd>
 
 
-<dt class="method-heading" id="I_PRE_MATCH"><code>pre_match -&gt; String</code><span class="permalink">[<a href="../method/MatchData/i/pre_match.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-pre_match">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L267">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PRE_MATCH"><code>pre_match -&gt; String</code><span class="permalink">[<a href="../method/MatchData/i/pre_match.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-pre_match">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L339">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 マッチした部分より前の文字列を返します(<a href="../method/Kernel/v/=60.html">$`</a>と同じ)。
@@ -695,7 +807,7 @@ name という名前付きグループに対応する部分文字列のオフセ
 </dd>
 
 
-<dt class="method-heading" id="I_REGEXP"><code>regexp -&gt; Regexp</code><span class="permalink">[<a href="../method/MatchData/i/regexp.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-regexp">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L363">edit</a>]</span></dt>
+<dt class="method-heading" id="I_REGEXP"><code>regexp -&gt; Regexp</code><span class="permalink">[<a href="../method/MatchData/i/regexp.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-regexp">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L435">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身の元になった正規表現オブジェクトを返します。
@@ -709,7 +821,7 @@ m<span class="p">.</span><span class="nf">regexp</span> <span class="c1"># =&gt;
 </dd>
 
 
-<dt class="method-heading" id="I_STRING"><code>string -&gt; String</code><span class="permalink">[<a href="../method/MatchData/i/string.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-string">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L278">edit</a>]</span></dt>
+<dt class="method-heading" id="I_STRING"><code>string -&gt; String</code><span class="permalink">[<a href="../method/MatchData/i/string.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-string">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L350">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 マッチ対象になった文字列の複製を返します。
@@ -726,7 +838,7 @@ m<span class="p">.</span><span class="nf">string</span>   <span class="c1"># =&g
 </dd>
 
 
-<dt class="method-heading" id="I_TO_A"><code>to_a -&gt; [String]</code><span class="permalink">[<a href="../method/MatchData/i/to_a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-to_a">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L289">edit</a>]</span></dt>
+<dt class="method-heading" id="I_TO_A"><code>to_a -&gt; [String]</code><span class="permalink">[<a href="../method/MatchData/i/to_a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-to_a">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L361">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 <a href="../method/Kernel/v/=26.html">$&amp;</a>, <a href="../method/Kernel/v/1.html">$1</a>, <a href="../method/Kernel/v/2.html">$2</a>,... を格納した配列を返します。
@@ -743,7 +855,7 @@ m<span class="p">.</span><span class="nf">string</span>   <span class="c1"># =&g
 </dd>
 
 
-<dt class="method-heading" id="I_TO_S"><code>to_s -&gt; String</code><span class="permalink">[<a href="../method/MatchData/i/to_s.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-to_s">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L300">edit</a>]</span></dt>
+<dt class="method-heading" id="I_TO_S"><code>to_s -&gt; String</code><span class="permalink">[<a href="../method/MatchData/i/to_s.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-to_s">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L372">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 マッチした文字列全体を返します。
@@ -758,7 +870,7 @@ m<span class="p">.</span><span class="nf">string</span>   <span class="c1"># =&g
 </dd>
 
 
-<dt class="method-heading" id="I_VALUES_AT"><code>values_at(*index) -&gt; [String]</code><span class="permalink">[<a href="../method/MatchData/i/values_at.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-values_at">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L328">edit</a>]</span></dt>
+<dt class="method-heading" id="I_VALUES_AT"><code>values_at(*index) -&gt; [String]</code><span class="permalink">[<a href="../method/MatchData/i/values_at.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/MatchData.html#method-i-values_at">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L400">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 正規表現中の n 番目の括弧にマッチした部分文字列の配列を返します。
