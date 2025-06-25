@@ -25,6 +25,7 @@
   * [[ref:yield]]
   * [[ref:block_arg]]
   * [[ref:numbered_parameters]]
+  * [[ref:it]]
   * [[ref:call_method]]">
 <script src="../script.js"></script>
 </head>
@@ -61,6 +62,7 @@
 <li><a href="#yield">yield</a></li>
 <li><a href="#block_arg">ブロックパラメータの挙動</a></li>
 <li><a href="#numbered_parameters">番号指定パラメータ</a></li>
+<li><a href="#it">it</a></li>
 <li><a href="#call_method">.() および ::() 形式のメソッド呼び出し（callメソッドの糖衣構文）</a></li>
 </ul>
 <pre class="highlight ruby">
@@ -475,6 +477,62 @@ foo <span class="p">{</span><span class="o">|</span>a,b<span class="o">|</span>
 </span>  <span class="nb">p</span> b <span class="c1"># =&gt; &quot;b&quot;
 </span><span class="p">}</span>
 </code></pre>
+<h2 id='it'>it</h2>
+<p>
+ブロックに渡された値は it という名前で参照することもできます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> it <span class="o">*</span> <span class="mi">2</span> <span class="p">}</span> <span class="c1"># =&gt; [2, 4, 6]
+</span>
+<span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span><span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="nb">p</span> it <span class="p">}</span>
+<span class="c1"># =&gt; [:a, 1]
+</span><span class="c1">#    [:b, 2]
+</span></code></pre>
+<p>
+it は予約語ではありません。そのため、変数やメソッドの名前として it を使うこともできます。
+</p>
+<pre class="highlight ruby">
+<code>
+it <span class="o">=</span> <span class="mi">0</span> <span class="c1"># 警告されない
+</span>
+<span class="k">def</span> <span class="nf">it</span> <span class="c1"># 警告されない
+</span>  <span class="c1"># ...
+</span><span class="k">end</span>
+</code></pre>
+<p>
+ローカル変数 it が存在する場合、it はローカル変数の値を参照します。
+</p>
+<pre class="highlight ruby">
+<code>
+it <span class="o">=</span> <span class="mi">0</span>
+<span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> it <span class="o">*</span> <span class="mi">2</span> <span class="p">}</span> <span class="c1"># =&gt; [0, 0, 0]
+</span></code></pre>
+<p>
+it はネストすることができます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="p">[</span><span class="s1">'foo'</span>, <span class="s1">'bar'</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> it<span class="p">.</span><span class="nf">each_char</span> <span class="p">{</span> <span class="nb">p</span> it <span class="p">}</span> <span class="p">}</span>
+<span class="c1"># =&gt; &quot;f&quot;
+</span><span class="c1">#    &quot;o&quot;
+</span><span class="c1">#    &quot;o&quot;
+</span><span class="c1">#    &quot;b&quot;
+</span><span class="c1">#    &quot;a&quot;
+</span><span class="c1">#    &quot;r&quot;
+</span></code></pre>
+<p>
+通常のブロックパラメータを定義した場合、そのブロックでは it は使用できません。
+</p>
+<pre>
+[1, 2, 3].map { |x| it * 2 } # =&gt; SyntaxError: `it` is not allowed when an ordinary parameter is defined
+</pre>
+<p>
+1つのブロックで番号指定パラメータと it の両方を使うことはできません。
+</p>
+<pre>
+[1, 2, 3].map { _1 + it } # =&gt; SyntaxError: `it` is not allowed when a numbered parameter is already used
+</pre>
 <h2 id='call_method'>.() および ::() 形式のメソッド呼び出し（callメソッドの糖衣構文）</h2>
 <p>
 下記はcallメソッドの糖衣構文です。

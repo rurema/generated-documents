@@ -27,7 +27,11 @@ if [ -z "$(git status -s db/*.rev)" ]; then
     exit
 fi
 
-time docker compose build rurema
+# Ignore `docker compose build SERVICE` failed,
+# bacause docker compose 2.36.0 has the bug.
+# see https://github.com/docker/compose/issues/12825
+# https://github.com/actions/runner-images/blob/ubuntu24/20250602.3/images/ubuntu/Ubuntu2404-Readme.md
+time docker compose build rurema || :
 
 time docker compose run --rm rurema ls -al
 
