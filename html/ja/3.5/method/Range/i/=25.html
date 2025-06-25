@@ -69,7 +69,7 @@
 <dl>
 <dt class='method-param'>[PARAM] s:</dt>
 <dd>
-各ステップの大きさを数値で指定します。負の数を指定することもできます。
+次のステップへ遷移するたびに加算されるものを指定します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
@@ -87,10 +87,41 @@
 <pre class="highlight ruby">
 <span class="caption">例</span>
 <code>
-<span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span> <span class="o">..</span> <span class="s2">"</span><span class="s2">f</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>
+<span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>
+<span class="c1"># =&gt; 1
+</span><span class="c1">#    4
+</span><span class="c1">#    7
+</span><span class="c1">#    10
+</span>
+<span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">..</span><span class="s2">"</span><span class="s2">f</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>
 <span class="c1"># =&gt; &quot;a&quot;
 </span><span class="c1">#    &quot;c&quot;
 </span><span class="c1">#    &quot;e&quot;
+</span>
+<span class="p">(</span><span class="mi">10</span><span class="o">..</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>
+<span class="c1"># =&gt; 10
+</span><span class="c1">#     7
+</span><span class="c1">#     4
+</span><span class="c1">#     1
+</span></code></pre>
+<p>
+非数値の Range では、イテレーションに「要素 + s」を使用します。（文字列またはシンボルの Range で s に数値を指定した場合を除きます）
+</p>
+<pre class="highlight ruby">
+<span class="caption">数値以外の Range に対する例</span>
+<code>
+<span class="c1"># Time の Range は each でイテレートできない
+</span><span class="p">(</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">25</span><span class="p">)</span><span class="o">...</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">26</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span>t<span class="o">|</span> <span class="nb">p</span> t <span class="p">}</span>
+<span class="c1"># =&gt; 'Range#each': can't iterate from Time (TypeError)
+</span>
+<span class="c1"># step は使用可能
+</span><span class="p">(</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">25</span><span class="p">)</span><span class="o">...</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">26</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>t<span class="o">|</span> <span class="nb">p</span> t <span class="p">}</span>
+<span class="c1"># =&gt; 2024-12-25 00:00:00 UTC
+</span><span class="c1">#    2024-12-25 06:00:00 UTC
+</span><span class="c1">#    2024-12-25 12:00:00 UTC
+</span><span class="c1">#    2024-12-25 18:00:00 UTC
+</span>
+<span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">..</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;a*&quot;, &quot;a**&quot;]
 </span></code></pre>
 </dd>
 

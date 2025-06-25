@@ -14,6 +14,7 @@ source_location=refm/api/src/_builtin/Integer:724
 @return 計算結果
 @raise TypeError 2引数 pow で Integer 以外を指定した場合に発生します。
 @raise RangeError 2引数 pow で other に負の数を指定した場合に発生します。
+@raise ArgumentError 計算結果が巨大になりすぎる場合に発生します。
 
 //emlist[][ruby]{
 2 ** 3 # => 8
@@ -27,12 +28,12 @@ source_location=refm/api/src/_builtin/Integer:724
 5.pow(2, -8)  # => -7
 //}
 
-結果が巨大すぎる整数になりそうなとき、警告を出したうえで Float::INFINITY を返します。
 
-//emlist[計算を放棄して Float::INFINITY を返す例][ruby]{
-p 100**9999999
-# => warning: in a**b, b may be too big
-#    Infinity
+計算結果が巨大すぎるときは ArgumentError が発生します。
+
+//emlist[計算結果が巨大すぎる例][ruby]{
+p 100**9999999999999999999
+# => exponent is too large (ArgumentError)
 //}
 
 判定の閾値は変わりえます。
