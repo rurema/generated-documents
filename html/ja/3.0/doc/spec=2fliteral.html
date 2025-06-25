@@ -464,7 +464,8 @@ This line is a here document.
 EOS
 </pre>
 <p>
-開始ラベルを `&lt;&lt;-識別子' のように `-' を付けて書くことで終端行をインデントすることができます。これ以外では、終端行に、余分な空白やコメントさえも書くことはできません。
+開始ラベルを `&lt;&lt;-識別子' または `&lt;&lt;~識別子` のように
+`-' または `~' を付けて書くことで、終端行をインデントすることができます。このケースを除き、終端行には余分な空白やコメントさえも書くことはできません。
 </p>
 <pre class="highlight ruby">
 <code>
@@ -478,20 +479,45 @@ EOS
 </span><span class="k">end</span>
 </code></pre>
 <p>
-開始ラベルを `&lt;&lt;~識別子` のように `~` を付けて書くことで、以下のようなヒアドキュメントを書くことができます。
+`&lt;&lt;-識別子` の場合は、終端行をインデントしたとしてもヒアドキュメント中の先頭の空白はそのまま文字列に現れます。
+</p>
+<p>
+一方で `&lt;&lt;~識別子` の場合は、最もインデントが少ない行を基準にして、全ての行の先頭から空白を取り除きます。（「最もインデントが少ない行」には、終端行は含まれません。）
 </p>
 <pre class="highlight ruby">
 <code>
-expected_result <span class="o">=</span> <span class="no">&lt;&lt;~SQUIGGLY_HEREDOC</span>
-  <span class="sh">This would contain specially formatted text.
-</span><span class="sh">
-</span>  <span class="sh">That might span many lines
-</span><span class="no">SQUIGGLY_HEREDOC
-</span><span class="c1"># =&gt; &quot;This would contain specially formatted text.\n&quot; + &quot;\n&quot; + &quot;That might span many lines\n&quot;
-</span></code></pre>
+<span class="k">begin</span>
+  str_hyphen <span class="o">=</span> <span class="no">&lt;&lt;-EOS</span>
+<span class="sh">      aaa
+        bbb
+    ccc
+</span><span class="no">  EOS
+</span>
+  str_tilde <span class="o">=</span> <span class="no">&lt;&lt;~EOS</span>
+    <span class="sh">  aaa
+</span>    <span class="sh">    bbb
+</span>    <span class="sh">ccc
+</span><span class="no">  EOS
+</span>
+  <span class="nb">p</span> str_hyphen <span class="c1"># =&gt; &quot;      aaa\n        bbb\n    ccc\n&quot;
+</span>  <span class="nb">p</span> str_tilde  <span class="c1"># =&gt; &quot;  aaa\n    bbb\nccc\n&quot;
+</span><span class="k">end</span>
+</code></pre>
 <p>
-最もインデントが少ない行を基準にして、全ての行の先頭から空白を取り除きます。インデントの深さを決定するために主にタブやスペースで構成された行は無視されるので、注意してください。しかし、エスケープされたタブやスペースは、通常の文字と同じように扱われます。
+インデントの深さを決定するために主にタブやスペースで構成された行は無視されるので、注意してください。しかし、エスケープされたタブやスペースは、通常の文字と同じように扱われます。
 </p>
+<pre class="highlight ruby">
+<code>
+s <span class="o">=</span> <span class="no">&lt;&lt;~EOS</span>
+    <span class="sh">空白4つ
+</span>    <span class="sh">    空白8つ
+</span>  <span class="sh">
+</span><span class="no">EOS
+</span><span class="c1"># ↑EOSの上の行には空白2つがある
+</span>
+<span class="c1"># 「最もインデントが少ない行」は、空白2つの行ではなく空白4つの行になる。
+</span><span class="nb">p</span> s <span class="c1"># =&gt; &quot;空白4つ\n    空白8つ\n\n&quot;
+</span></code></pre>
 <p>
 一行に複数のヒアドキュメントを書くこともできます。
 </p>
