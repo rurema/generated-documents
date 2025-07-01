@@ -405,64 +405,130 @@ Unicode 以外の時は小文字に変換できる文字から始まる識別子
 </span></code></pre>
 <h3 id='prio'>定数参照の優先順位</h3>
 <p>
-親クラスとネストの外側のクラスで同名の定数が定義されているとネストの外側の定数の方を先に参照します。つまり、定数参照時の定数の探索順序は、最初にネスト関係を外側に向かって探索し、次に継承関係を上位に向かって探索します。
+定数参照時の定数の探索順序には、以下の3つの場合があります。
 </p>
-<pre class="highlight ruby">
-<span class="caption">例</span>
-<code>
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
-  <span class="no">CONST</span> <span class="o">=</span> <span class="s1">'Foo'</span>
-<span class="k">end</span>
-
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Bar</span>
-  <span class="no">CONST</span> <span class="o">=</span> <span class="s1">'Bar'</span>
-
-  <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Baz</span> <span class="o">&lt;</span> <span class="no">Foo</span>
-    <span class="nb">p</span> <span class="no">CONST</span>             <span class="c1"># =&gt; &quot;Bar&quot;      外側の定数
-</span>    <span class="c1"># この場合、親クラスの定数は明示的に指定しなければ見えない
-</span>    <span class="nb">p</span> <span class="no">Foo</span><span class="o">::</span><span class="no">CONST</span>        <span class="c1"># =&gt; &quot;Foo&quot;
-</span>  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre>
+<ul>
+<li>:: で始まる定数参照</li>
+<li>:: を含まない定数参照</li>
+<li>他の値から :: で繋げられた定数参照</li>
+</ul>
+<h4 >:: で始まる定数参照</h4>
 <p>
-トップレベルの定数定義はネストの外側とはみなされません。したがってトップレベルの定数は、継承関係を探索した結果で参照されるので優先順位は低いと言えます。
+定数参照が :: で始まる場合、Object クラスを起点としてそのスーパークラスを順番に探索し、最初に見つかった定数を参照します。
 </p>
 <pre class="highlight ruby">
-<span class="caption">例</span>
 <code>
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
-  <span class="no">CONST</span> <span class="o">=</span> <span class="s1">'Foo'</span>
-<span class="k">end</span>
-
-<span class="no">CONST</span> <span class="o">=</span> <span class="s1">'Object'</span>
-
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Bar</span> <span class="o">&lt;</span> <span class="no">Foo</span>
-  <span class="nb">p</span> <span class="no">CONST</span>               <span class="c1"># =&gt; &quot;Foo&quot;
+<span class="no">X</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># 以下のように書いても同じ
+</span><span class="c1"># class Object
+</span><span class="c1">#   X = 1
+</span><span class="c1"># end
+</span>
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="no">X</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="nb">p</span> <span class="o">::</span><span class="no">X</span> <span class="c1"># =&gt; 1
 </span><span class="k">end</span>
+</code></pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">BasicObject</span>
+  <span class="no">X</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">end</span>
 
-<span class="c1"># 以下のように明示的にネストしていれば規則通り Object の定数
-</span><span class="c1"># (ネストの外側)が先に探索される
-</span><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Object</span>
-  <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Bar</span> <span class="o">&lt;</span> <span class="no">Foo</span>
-    <span class="nb">p</span> <span class="no">CONST</span>             <span class="c1"># =&gt; &quot;Object&quot;
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="no">X</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="nb">p</span> <span class="o">::</span><span class="no">X</span> <span class="c1"># =&gt; 1
+</span><span class="k">end</span>
+</code></pre>
+<h4 >:: を含まない定数参照</h4>
+<p>
+定数参照が :: を含まない場合、定数参照の場所を起点としてソースコードにおけるクラス（あるいはモジュール。以下同じ）のネストを外側に向かって探索し、最初に見つかった定数を参照します。一番外側のクラスまで探索しても定数が見つからなかった場合、起点のクラスのスーパークラスを順番に探索します。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="no">X</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Object</span><span class="s2">"</span> <span class="c1"># Object::X として定義される
+</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C</span>
+  <span class="no">X</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">C</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">M1</span>
+  <span class="no">X</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">M1</span><span class="s2">"</span>
+  <span class="k">module</span> <span class="nn">M2</span>
+    <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C3</span> <span class="o">&lt;</span> <span class="no">C</span>
+      <span class="c1"># C3 -&gt; M2 -&gt; M1 -&gt; C -&gt; Object の順で探索される
+</span>      <span class="nb">p</span> <span class="no">X</span> <span class="c1"># =&gt; &quot;M1&quot;
+</span>    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+なお以下の例では X の参照箇所からソースコード上でクラスのネストを外側にたどると M2 のみに遭遇するため、
+M1 は探索されないことに注意してください。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="no">X</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Object</span><span class="s2">"</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C</span>
+  <span class="no">X</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">C</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">M1</span>
+  <span class="no">X</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">M1</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">M1::M2</span>
+  <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C3</span> <span class="o">&lt;</span> <span class="no">C</span>
+    <span class="c1"># C3 -&gt; M2 -&gt; C -&gt; Object の順で探索される
+</span>    <span class="nb">p</span> <span class="no">X</span> <span class="c1"># =&gt; &quot;C&quot;
 </span>  <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
 <p>
-上位のクラス(クラスの継承関係上、およびネストの関係上の上位クラス)の定数と同名の定数(下の例で CONST) に代入を行うと、上位の定数への代入ではなく、そのクラスの定数の定義になります。
+ネストしているクラスの一覧は <a href="../method/Class/s/nesting.html">Class.nesting</a>（あるいは<a href="../method/Module/s/nesting.html">Module.nesting</a>）で取得できます。
 </p>
 <pre class="highlight ruby">
-<span class="caption">例</span>
 <code>
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
-  <span class="no">CONST</span> <span class="o">=</span> <span class="s1">'Foo'</span>
+<span class="k">module</span> <span class="nn">M1</span>
+  <span class="k">module</span> <span class="nn">M2</span>
+    <span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">nesting</span> <span class="c1"># =&gt; [M1::M2, M1]
+</span>  <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Bar</span> <span class="o">&lt;</span> <span class="no">Foo</span>
-  <span class="nb">p</span> <span class="no">CONST</span>               <span class="c1"># =&gt; &quot;Foo&quot;
-</span>  <span class="no">CONST</span> <span class="o">=</span> <span class="s1">'Bar'</span>         <span class="c1"># Bar の定数 CONST を*定義*
-</span>  <span class="nb">p</span> <span class="no">CONST</span>               <span class="c1"># =&gt; &quot;Bar&quot;  (Foo::CONST は隠蔽される)
-</span>  <span class="nb">p</span> <span class="no">Foo</span><span class="o">::</span><span class="no">CONST</span>          <span class="c1"># =&gt; &quot;Foo&quot;  (:: 演算子で明示すれば見える)
+<span class="k">module</span> <span class="nn">M1::M2</span>
+  <span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">nesting</span> <span class="c1"># =&gt; [M1::M2]
+</span><span class="k">end</span>
+</code></pre>
+<h4 >他の値から :: で繋げられた定数参照</h4>
+<p>
+他の値から :: で繋げられた定数参照の場合、:: の前にあるクラスを起点としてそのスーパークラスを順番に探索し、最初に見つかった定数を参照します。ただし、Object クラスとそのスーパークラスは探索対象となりません。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="no">X</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Object</span><span class="s2">"</span>
+<span class="no">Y</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Object</span><span class="s2">"</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C</span>
+  <span class="no">X</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">C</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">D</span> <span class="o">&lt;</span> <span class="no">C</span>
+<span class="k">end</span>
+
+<span class="nb">p</span> <span class="no">D</span><span class="o">::</span><span class="no">X</span> <span class="c1"># =&gt; &quot;C&quot;
+</span><span class="nb">p</span> <span class="no">D</span><span class="o">::</span><span class="no">Y</span> <span class="c1"># =&gt; uninitialized constant D::Y (NameError)
+</span></code></pre>
+<p>
+:: を含まない定数参照と異なり、クラスのネストの外側は探索対象となりません。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="no">X</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">M</span><span class="s2">"</span>
+  <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C</span>
+  <span class="k">end</span>
+  <span class="nb">p</span> <span class="no">C</span><span class="o">::</span><span class="no">X</span> <span class="c1"># =&gt; uninitialized constant M::C::X (NameError)
 </span><span class="k">end</span>
 </code></pre>
 
