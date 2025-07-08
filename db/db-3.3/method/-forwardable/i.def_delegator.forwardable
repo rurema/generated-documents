@@ -1,7 +1,7 @@
 names=def_delegator,def_instance_delegator
 visibility=public
 kind=defined
-source_location=refm/api/src/forwardable.rd:80
+source_location=refm/api/src/forwardable.rd:82
 
 --- def_instance_delegator(accessor, method, ali = method) -> ()
 --- def_delegator(accessor, method, ali = method)          -> ()
@@ -21,23 +21,24 @@ source_location=refm/api/src/forwardable.rd:80
 
 def_delegator は def_instance_delegator の別名になります。
 
-例:
+//emlist[例][ruby]{
+require 'forwardable'
 
-  require 'forwardable'
-  class MyQueue
-    extend Forwardable
-    attr_reader :queue
-    def initialize
-      @queue = []
-    end
-
-    def_delegator :@queue, :push, :mypush
+class MyQueue
+  extend Forwardable
+  attr_reader :queue
+  def initialize
+    @queue = []
   end
 
-  q = MyQueue.new
-  q.mypush 42
-  q.queue    # => [42]
-  q.push 23  # => NoMethodError
+  def_delegator :@queue, :push, :mypush
+end
+
+q = MyQueue.new
+q.mypush 42
+q.queue    # => [42]
+q.push 23  # => NoMethodError
+//}
 
 @see [[m:Forwardable#def_delegators]]
 
