@@ -125,6 +125,46 @@ son.items = [&quot;candy&quot;,&quot;toy&quot;]
 p son.items       # =&gt; [&quot;candy&quot;,&quot;toy&quot;]
 p son             # =&gt; #&lt;OpenStruct name=&quot;Thomas&quot;, age=4, items=[&quot;candy&quot;, &quot;toy&quot;]&gt;
 </pre>
+<h2 id='caveats'>注意事項</h2>
+<p>
+OpenStruct は Ruby のメソッド探索を利用して、プロパティに必要なメソッドを見つけて定義します。これは <a href="../method/BasicObject/i/method_missing.html">BasicObject#method_missing</a> と <a href="../method/BasicObject/i/define_singleton_method.html">BasicObject#define_singleton_method</a> によって実現されます。
+</p>
+<p>
+作成されるオブジェクトのパフォーマンスに懸念がある場合は、この点を考慮する必要があります。<a href="../class/Hash.html">Hash</a> や <a href="../class/Struct.html">Struct</a> を使用する場合と比較して、これらのプロパティの設定にははるかに多くのオーバーヘッドがあるためです。小規模な <a href="../class/Hash.html">Hash</a> から <a href="../class/OpenStruct.html">OpenStruct</a> を作成し、いくつかの要素にアクセスした場合、直接ハッシュテーブルにアクセスするよりも 200 倍遅くなることがあります。
+</p>
+<p>
+これは潜在的なセキュリティ問題です。信頼されていないユーザーデータ（例：JSON を用いたリクエスト）から <a href="../class/OpenStruct.html">OpenStruct</a> を構築した場合、キーがメソッドを作成し、そのメソッド名が永久に GC されることがないため、DoS 攻撃を受ける可能性があります。
+</p>
+<p>
+これは、Ruby バージョン間の非互換性の原因にもなります：
+</p>
+<pre>
+o = OpenStruct.new
+o.then            # =&gt; Ruby &lt; 2.6 では nil、Ruby &gt;= 2.6 では Enumerator
+</pre>
+<p>
+以下の方法では、組み込みライブラリのメソッドが上書きされる可能性があり、バグやセキュリティ上の問題が発生する可能性があります：
+</p>
+<pre>
+o = OpenStruct.new
+o.methods         # =&gt; [:to_h, :marshal_load, :marshal_dump, :each_pair, ...]
+o.methods = [:foo, :bar]
+o.methods         # =&gt; [:foo, :bar]
+</pre>
+<p>
+衝突を避けるために <a href="../class/OpenStruct.html">OpenStruct</a> は ! で終わるメソッドは protected と private でのみ使用し、public な組み込みライブラリの ! で終わるメソッドはエイリアスを定義しています：
+</p>
+<pre>
+o = OpenStruct.new(make: 'Bentley', class: :luxury)
+o.class           # =&gt; :luxury
+o.class!          # =&gt; OpenStruct
+</pre>
+<p>
+! で終わるフィールドは使用しないことが推奨されます（ただし、強制ではありません）。サブクラスのメソッドを上書きすることはできませんし、! で終わる OpenStruct 自身のメソッドを上書きすることもできません。
+</p>
+<p>
+以上の理由から OpenStruct を一切使用しないことを検討してください。
+</p>
 
 
 
@@ -200,7 +240,7 @@ p son             # =&gt; #&lt;OpenStruct name=&quot;Thomas&quot;, age=4, items=
 <h2>特異メソッド</h2>
 <dl>
 
-<dt class="method-heading" id="S_NEW"><code>new(hash = nil) -&gt; OpenStruct</code><span class="permalink">[<a href="../method/OpenStruct/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L40">edit</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new(hash = nil) -&gt; OpenStruct</code><span class="permalink">[<a href="../method/OpenStruct/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L72">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 OpenStruct オブジェクトを生成します。
@@ -231,7 +271,7 @@ some1 = OpenStruct.new({:a =&gt;&quot;a&quot;,:b =&gt;&quot;b&quot;}) # =&gt; #&
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_--3D--3D"><code>self == other -&gt; bool</code><span class="permalink">[<a href="../method/OpenStruct/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L63">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--3D--3D"><code>self == other -&gt; bool</code><span class="permalink">[<a href="../method/OpenStruct/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L95">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身と比較対象のオブジェクトが等しい場合に真を返します。そうでない場合は、偽を返します。
@@ -245,7 +285,7 @@ some1 = OpenStruct.new({:a =&gt;&quot;a&quot;,:b =&gt;&quot;b&quot;}) # =&gt; #&
 </dd>
 
 
-<dt class="method-heading" id="I_--5B--5D"><code>self[name] -&gt; object</code><span class="permalink">[<a href="../method/OpenStruct/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L148">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--5B--5D"><code>self[name] -&gt; object</code><span class="permalink">[<a href="../method/OpenStruct/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L180">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 引数 name で指定した要素に対応する値を返します。
@@ -267,7 +307,7 @@ person[:age] # =&gt; 70, person.age と同じ
 </dd>
 
 
-<dt class="method-heading" id="I_--5B--5D--3D"><code>self[name] = value</code><span class="permalink">[<a href="../method/OpenStruct/i/=5b=5d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-5B-5D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L160">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--5B--5D--3D"><code>self[name] = value</code><span class="permalink">[<a href="../method/OpenStruct/i/=5b=5d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-5B-5D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L192">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 引数 name で指定した要素に対応する値に value をセットします。
@@ -294,7 +334,7 @@ person.age # =&gt; 42
 </dd>
 
 
-<dt class="method-heading" id="I_DELETE_FIELD"><code>delete_field(name) -&gt; object</code><span class="permalink">[<a href="../method/OpenStruct/i/delete_field.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-delete_field">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L101">edit</a>]</span></dt>
+<dt class="method-heading" id="I_DELETE_FIELD"><code>delete_field(name) -&gt; object</code><span class="permalink">[<a href="../method/OpenStruct/i/delete_field.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-delete_field">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L133">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 nameで指定された要素を削除します。
@@ -315,7 +355,7 @@ nameで指定された要素を削除します。
 </dd>
 
 
-<dt class="method-heading" id="I_DIG"><code>dig(key, ...) -&gt; object | nil</code><span class="permalink">[<a href="../method/OpenStruct/i/dig.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-dig">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L176">edit</a>]</span></dt>
+<dt class="method-heading" id="I_DIG"><code>dig(key, ...) -&gt; object | nil</code><span class="permalink">[<a href="../method/OpenStruct/i/dig.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-dig">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L208">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self 以下のネストしたオブジェクトを dig メソッドで再帰的に参照して返します。途中のオブジェクトが nil であった場合は nil を返します。
@@ -339,7 +379,7 @@ person.dig(:business_address, 'zip') # =&gt; nil
 </dd>
 
 
-<dt class="method-heading" id="I_EACH_PAIR"><code>each_pair -&gt; Enumerator</code><span class="permalink">[<a href="../method/OpenStruct/i/each_pair.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-each_pair">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L134">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EACH_PAIR"><code>each_pair -&gt; Enumerator</code><span class="permalink">[<a href="../method/OpenStruct/i/each_pair.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-each_pair">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L166">edit</a>]</span></dt>
 <dt class="method-heading"><code>each_pair { |key, value| } -&gt; self</code></dt>
 <dd class="method-description">
 <p>
@@ -360,7 +400,7 @@ data.each_pair.to_a  # =&gt; [[:country, &quot;Australia&quot;], [:population, 2
 </dd>
 
 
-<dt class="method-heading" id="I_EQL--3F"><code>eql?(other) -&gt; bool</code><span class="permalink">[<a href="../method/OpenStruct/i/eql=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-eql-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L72">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EQL--3F"><code>eql?(other) -&gt; bool</code><span class="permalink">[<a href="../method/OpenStruct/i/eql=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-eql-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L104">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self と other が等しい場合に true を返します。そうでない場合は false を返します。
@@ -379,7 +419,7 @@ true を返します。
 </dd>
 
 
-<dt class="method-heading" id="I_HASH"><code>hash -&gt; Integer</code><span class="permalink">[<a href="../method/OpenStruct/i/hash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-hash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L192">edit</a>]</span></dt>
+<dt class="method-heading" id="I_HASH"><code>hash -&gt; Integer</code><span class="permalink">[<a href="../method/OpenStruct/i/hash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-hash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L224">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self のハッシュ値を返します。
@@ -387,7 +427,7 @@ self のハッシュ値を返します。
 </dd>
 
 
-<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/OpenStruct/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L94">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/OpenStruct/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L126">edit</a>]</span></dt>
 <dt class="method-heading"><code>to_s -&gt; String</code></dt>
 <dd class="method-description">
 <p>
@@ -399,7 +439,7 @@ self のハッシュ値を返します。
 </dd>
 
 
-<dt class="method-heading" id="I_TO_H"><code>to_h -&gt; { Symbol =&gt; object }</code><span class="permalink">[<a href="../method/OpenStruct/i/to_h.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-to_h">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L111">edit</a>]</span></dt>
+<dt class="method-heading" id="I_TO_H"><code>to_h -&gt; { Symbol =&gt; object }</code><span class="permalink">[<a href="../method/OpenStruct/i/to_h.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-to_h">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L143">edit</a>]</span></dt>
 <dt class="method-heading"><code>to_h {|name, value| block } -&gt; Hash</code></dt>
 <dd class="method-description">
 <p>
@@ -425,7 +465,7 @@ data<span class="p">.</span><span class="nf">to_h</span>   <span class="c1"># =&
 <h2>protectedメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_MODIFIABLE"><code>modifiable -&gt; Hash</code><span class="permalink">[<a href="../method/OpenStruct/i/modifiable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-modifiable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L204">edit</a>]</span></dt>
+<dt class="method-heading" id="I_MODIFIABLE"><code>modifiable -&gt; Hash</code><span class="permalink">[<a href="../method/OpenStruct/i/modifiable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-modifiable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L236">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 このメソッドは内部的に使用されます。
@@ -442,7 +482,7 @@ data<span class="p">.</span><span class="nf">to_h</span>   <span class="c1"># =&
 </dd>
 
 
-<dt class="method-heading" id="I_NEW_OSTRUCT_MEMBER"><code>new_ostruct_member(name) -&gt; Symbol</code><span class="permalink">[<a href="../method/OpenStruct/i/new_ostruct_member.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-new_ostruct_member">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L215">edit</a>]</span></dt>
+<dt class="method-heading" id="I_NEW_OSTRUCT_MEMBER"><code>new_ostruct_member(name) -&gt; Symbol</code><span class="permalink">[<a href="../method/OpenStruct/i/new_ostruct_member.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-i-new_ostruct_member">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L247">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられた名前のアクセサメソッドを自身に定義します。
@@ -461,7 +501,7 @@ data<span class="p">.</span><span class="nf">to_h</span>   <span class="c1"># =&
 <h2>定数</h2>
 <dl>
 
-<dt class="method-heading" id="C_-INSPECT-KEY"><code>InspectKey -&gt; :__inspect_key__</code><span class="permalink">[<a href="../method/OpenStruct/c/InspectKey.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-c-InspectKey">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L224">edit</a>]</span></dt>
+<dt class="method-heading" id="C_-INSPECT-KEY"><code>InspectKey -&gt; :__inspect_key__</code><span class="permalink">[<a href="../method/OpenStruct/c/InspectKey.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenStruct.html#method-c-InspectKey">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/ostruct.rd#L256">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 内部的に使用する定数です。
