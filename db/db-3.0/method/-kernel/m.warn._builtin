@@ -1,9 +1,9 @@
 names=warn
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/functions:1664
+source_location=refm/api/src/_builtin/functions:1661
 
---- warn(*message, uplevel: nil) -> nil
+--- warn(*message, uplevel: nil, category: nil) -> nil
 
 message を 標準エラー出力 [[m:$stderr]] に出力します。 [[m:$VERBOSE]]
 フラグ が nil のときは何も出力しません。
@@ -21,6 +21,7 @@ nil
 
 @param message 出力するオブジェクトを任意個指定します。
 @param uplevel いくつ前の呼び出し元のファイル名と行番号を表示するかを0以上の数値で指定します。 nil の場合は表示しません。
+@param category 警告のカテゴリを指定します。サポートされている category については [[m:Warning.[] ]] を参照してください。
 @raise IOError 標準エラー出力が書き込み用にオープンされていなければ発生します。
 @raise Errno::EXXX 出力に失敗した場合に発生します。
 
@@ -39,6 +40,15 @@ end
 foo
 //}
 
+//emlist[category の例][ruby]{
+Warning[:deprecated] = true # 非推奨の警告を表示する
+warn("deprecated!!", category: :deprecated)
+# => deprecated!
+
+Warning[:deprecated] = false # 非推奨の警告を表示しない
+warn("deprecated!!", category: :deprecated)
+# 警告は出力されない
+//}
 
 @see [[m:Warning#warn]], [[m:$stderr]],[[m:$VERBOSE]]
 

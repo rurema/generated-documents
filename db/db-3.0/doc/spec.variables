@@ -162,6 +162,26 @@ end
 //}
 
 
+親クラスに、子クラスで既に定義されている同名のクラス変数を追加した場合、
+子クラスが、そのクラス変数を参照した際に例外 [[c:RuntimeError]] が発生します。
+
+//emlist[][ruby]{
+class Foo
+end
+
+class Bar < Foo
+  @@v = :bar
+end
+
+class Foo
+  @@v = :foo
+end
+
+class Bar
+  p @@v       #=> RuntimeError (class variable @@v of Bar is overtaken by Foo)
+end
+//}
+
 
 ====[a:class_var_scope] クラス変数のスコープ
 

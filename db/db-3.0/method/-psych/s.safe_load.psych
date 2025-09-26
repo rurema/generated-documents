@@ -1,9 +1,9 @@
 names=safe_load
 visibility=public
 kind=defined
-source_location=refm/api/src/psych.rd:186
+source_location=refm/api/src/psych.rd:183
 
---- safe_load(yaml, permitted_classes: [], permitted_symbols: [], aliases: false, filename: nil, fallback: nil, symbolize_names: false) -> object
+--- safe_load(yaml, permitted_classes: [], permitted_symbols: [], aliases: false, filename: nil, fallback: nil, symbolize_names: false, freeze: false) -> object
 --- safe_load(yaml, legacy_permitted_classes=[], legacy_permitted_symbols=[], legacy_aliases=false, legacy_filename=nil) -> object
 
 安全に YAML フォーマットの文書を読み込み Ruby のオブジェクトを生成して返します。
@@ -56,6 +56,25 @@ Psych.safe_load("---\n foo: bar")                         # => {"foo"=>"bar"}
 Psych.safe_load("---\n foo: bar", symbolize_names: true)  # => {:foo=>"bar"}
 //}
 
+キーワード引数 freeze に true を指定した場合は再帰的に
+[[m:Object#freeze]] したオブジェクトを返します。
+
+//emlist[freeze: true の例][ruby]{
+require "psych"
+
+data = <<~EOS
+aaa:
+  bbb: [hoge]
+EOS
+
+yaml = Psych.load(data, freeze: true)
+p yaml
+# => {"aaa"=>{"bbb"=>["hoge"]}}
+p yaml.frozen?                        # = true
+p yaml["aaa"].frozen?                 # = true
+p yaml["aaa"]["bbb"].frozen?          # = true
+p yaml["aaa"]["bbb"].first.frozen?    # = true
+//}
 
 また legacy_permitted_classes などのオプション引数は非推奨な引数となっています。
 [[m:$-w]] が true の時にオプション引数を渡すと警告が出力されます。
@@ -77,5 +96,7 @@ Psych.safe_load("", [Date])
                        を [[c:Symbol]] に変換するかどうかを指定します。
                        true を指定した場合は変換します。デフォルトでは
                        文字列に変換されます。
+@param freeze true を指定すると再帰的に freeze されたオブジェクトを返します。
+              デフォルトは false です。
 
 

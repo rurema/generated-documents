@@ -666,7 +666,7 @@ other がクラスやモジュールではない場合に発生します。
 </dd>
 
 
-<dt class="method-heading" id="I_ALIAS_METHOD"><code>alias_method(new, original) -&gt; self</code><span class="permalink">[<a href="../method/Module/i/alias_method.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Module.html#method-i-alias_method">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module.alias_method#L4">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ALIAS_METHOD"><code>alias_method(new, original) -&gt; Symbol</code><span class="permalink">[<a href="../method/Module/i/alias_method.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Module.html#method-i-alias_method">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module.alias_method#L2">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 メソッドの別名を定義します。
@@ -675,7 +675,8 @@ other がクラスやモジュールではない場合に発生します。
 <span class="caption">例</span>
 <code>
 <span class="k">module</span> <span class="nn">Kernel</span>
-  alias_method <span class="ss">:hoge</span>, <span class="ss">:puts</span> <span class="c1"># =&gt; Kernel
+  alias_method <span class="ss">:hoge</span>, <span class="ss">:puts</span> <span class="c1"># =&gt; :hoge
+</span>  alias_method <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="ss">:puts</span> <span class="c1"># =&gt; :foo
 </span><span class="k">end</span>
 </code></pre>
 <p>
@@ -699,7 +700,7 @@ alias との違いは以下の通りです。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-self を返します。
+作成したエイリアスのメソッド名を表す <a href="../class/Symbol.html">Symbol</a> を返します。
 </dd>
 </dl>
 <p>
@@ -745,13 +746,22 @@ foo <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span
 </dd>
 
 
-<dt class="method-heading" id="I_ATTR"><code>attr(*name) -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/attr.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Module.html#method-i-attr">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module.attr#L6">edit</a>]</span></dt>
-<dt class="method-heading"><code>attr(name, true) -&gt; nil</code></dt>
-<dt class="method-heading"><code>attr(name, false) -&gt; nil</code></dt>
+<dt class="method-heading" id="I_ATTR"><code>attr(*name) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/attr.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Module.html#method-i-attr">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module.attr#L2">edit</a>]</span></dt>
+<dt class="method-heading"><code>attr(name, true) -&gt; [Symbol]</code></dt>
+<dt class="method-heading"><code>attr(name, false) -&gt; [Symbol]</code></dt>
 <dd class="method-description">
 <p>
 インスタンス変数読み取りのためのインスタンスメソッド name を定義します。
 </p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">User</span>
+  attr <span class="ss">:name</span> <span class="c1"># =&gt; [:name]
+</span>  <span class="c1"># 複数の名前を渡すこともできる
+</span>  attr <span class="ss">:id</span>, <span class="ss">:age</span> <span class="c1"># =&gt; [:id, :age]
+</span><span class="k">end</span>
+</code></pre>
 <p>
 このメソッドで定義されるアクセスメソッドの定義は次の通りです。
 </p>
@@ -780,15 +790,28 @@ foo <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span
 <dd>
 <a href="../class/String.html">String</a> または <a href="../class/Symbol.html">Symbol</a> で指定します。
 </dd>
+<dt>[RETURN]</dt>
+<dd>
+定義されたメソッド名を <a href="../class/Symbol.html">Symbol</a> の配列で返します。
+</dd>
 </dl>
 </dd>
 
 
-<dt class="method-heading" id="I_ATTR_ACCESSOR"><code>attr_accessor(*name) -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/attr_accessor.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Module.html#method-i-attr_accessor">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module.attr#L50">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ATTR_ACCESSOR"><code>attr_accessor(*name) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/attr_accessor.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Module.html#method-i-attr_accessor">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module.attr#L48">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 インスタンス変数 name に対する読み取りメソッドと書き込みメソッドの両方を定義します。
 </p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">User</span>
+  <span class="nb">attr_accessor</span> <span class="ss">:name</span> <span class="c1"># =&gt; [:name, :name=]
+</span>  <span class="c1"># 複数の名前を渡すこともできる
+</span>  <span class="nb">attr_accessor</span> <span class="ss">:id</span>, <span class="ss">:age</span> <span class="c1"># =&gt; [:id, :id=, :age, :age=]
+</span><span class="k">end</span>
+</code></pre>
 <p>
 このメソッドで定義されるメソッドの定義は以下の通りです。
 </p>
@@ -807,15 +830,28 @@ foo <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span
 <dd>
 <a href="../class/String.html">String</a> または <a href="../class/Symbol.html">Symbol</a> を 1 つ以上指定します。
 </dd>
+<dt>[RETURN]</dt>
+<dd>
+定義されたメソッド名を <a href="../class/Symbol.html">Symbol</a> の配列で返します。
+</dd>
 </dl>
 </dd>
 
 
-<dt class="method-heading" id="I_ATTR_READER"><code>attr_reader(*name) -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/attr_reader.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Module.html#method-i-attr_reader">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module.attr#L85">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ATTR_READER"><code>attr_reader(*name) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/attr_reader.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Module.html#method-i-attr_reader">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module.attr#L83">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 インスタンス変数 name の読み取りメソッドを定義します。
 </p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">User</span>
+  <span class="nb">attr_reader</span> <span class="ss">:name</span> <span class="c1"># =&gt; [:name]
+</span>  <span class="c1"># 複数の名前を渡すこともできる
+</span>  <span class="nb">attr_reader</span> <span class="ss">:id</span>, <span class="ss">:age</span> <span class="c1"># =&gt; [:id, :age]
+</span><span class="k">end</span>
+</code></pre>
 <p>
 このメソッドで定義されるメソッドの定義は以下の通りです。
 </p>
@@ -831,15 +867,28 @@ foo <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span
 <dd>
 <a href="../class/String.html">String</a> または <a href="../class/Symbol.html">Symbol</a> を 1 つ以上指定します。
 </dd>
+<dt>[RETURN]</dt>
+<dd>
+定義されたメソッド名を <a href="../class/Symbol.html">Symbol</a> の配列で返します。
+</dd>
 </dl>
 </dd>
 
 
-<dt class="method-heading" id="I_ATTR_WRITER"><code>attr_writer(*name) -&gt; nil</code><span class="permalink">[<a href="../method/Module/i/attr_writer.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Module.html#method-i-attr_writer">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module.attr#L116">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ATTR_WRITER"><code>attr_writer(*name) -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Module/i/attr_writer.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Module.html#method-i-attr_writer">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Module.attr#L114">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 インスタンス変数 name への書き込みメソッド (name=) を定義します。
 </p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">User</span>
+  <span class="nb">attr_writer</span> <span class="ss">:name</span> <span class="c1"># =&gt; [:name=]
+</span>  <span class="c1"># 複数の名前を渡すこともできる
+</span>  <span class="nb">attr_writer</span> <span class="ss">:id</span>, <span class="ss">:age</span> <span class="c1"># =&gt; [:id=, :age=]
+</span><span class="k">end</span>
+</code></pre>
 <p>
 このメソッドで定義されるメソッドの定義は以下の通りです。
 </p>
@@ -854,6 +903,10 @@ foo <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span
 <dt class='method-param'>[PARAM] name:</dt>
 <dd>
 <a href="../class/String.html">String</a> または <a href="../class/Symbol.html">Symbol</a> を 1 つ以上指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+定義されたメソッド名を <a href="../class/Symbol.html">Symbol</a> の配列で返します。
 </dd>
 </dl>
 </dd>

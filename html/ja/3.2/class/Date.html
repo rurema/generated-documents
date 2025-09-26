@@ -268,6 +268,8 @@ yesterday <span class="o">=</span> <span class="no">Date</span><span class="p">.
 
 <li><a href="#I_DAY">day</a></li>
 
+<li><a href="#I_DECONSTRUCT_KEYS">deconstruct_keys</a></li>
+
 <li><a href="#I_DOWNTO">downto</a></li>
 
 <li><a href="#I_ENGLAND">england</a></li>
@@ -1339,6 +1341,58 @@ n は数値でなければなりません。
 <dd class="method-description">
 <p>
 月の日を返します (1-31)。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(array_of_names_or_nil) -&gt; Hash</code><span class="permalink">[<a href="../method/Date/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Date.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/date/Date#L816">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+パターンマッチに使用する名前と値の <a href="../class/Hash.html">Hash</a> を返します。
+</p>
+<p>
+キーに利用できる名前は以下の通りです。
+</p>
+<ul>
+<li>:year</li>
+<li>:month</li>
+<li>:day</li>
+<li>:yday</li>
+<li>:wday</li>
+</ul>
+<dl>
+<dt class='method-param'>[PARAM] array_of_names_or_nil:</dt>
+<dd>
+パターンマッチに使用する名前の配列を指定します。nil の場合は全てをパターンマッチに使用します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+d <span class="o">=</span> <span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2022</span>, <span class="mi">10</span>, <span class="mi">5</span><span class="p">)</span>
+
+<span class="k">if</span> d <span class="k">in</span> <span class="ss">wday:</span> <span class="mi">3</span>, <span class="ss">day:</span> <span class="o">..</span><span class="mi">7</span> <span class="c1"># deconstruct_keys が使われます
+</span>  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">first Wednesday of the month</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;first Wednesday of the month&quot; が出力される
+</span>
+<span class="k">case</span> d
+<span class="k">in</span> <span class="ss">year:</span> <span class="o">...</span><span class="mi">2022</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">too old</span><span class="s2">"</span>
+<span class="k">in</span> <span class="ss">month:</span> <span class="o">..</span><span class="mi">9</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">quarter 1-3</span><span class="s2">"</span>
+<span class="k">in</span> <span class="ss">wday:</span> <span class="mi">1</span><span class="o">..</span><span class="mi">5</span>, <span class="ss">month:</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">working day in month </span><span class="si">#{</span><span class="n">month</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;working day in month 10&quot; が出力される
+</span>
+<span class="c1"># クラスのチェックと組み合わせて利用することもできます
+</span><span class="k">if</span> d <span class="k">in</span> <span class="no">Date</span><span class="p">(</span><span class="ss">wday:</span> <span class="mi">3</span>, <span class="ss">day:</span> <span class="o">..</span><span class="mi">7</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">first Wednesday of the month</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../doc/spec=2fpattern_matching.html#matching_non_primitive_objects">パターンマッチ/非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</a>
 </p>
 </dd>
 

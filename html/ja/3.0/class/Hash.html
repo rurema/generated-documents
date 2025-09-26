@@ -222,6 +222,8 @@
 
 <li><a href="#I_EQUAL--3F">equal?</a></li>
 
+<li><a href="#I_EXCEPT">except</a></li>
+
 <li><a href="#I_FETCH">fetch</a></li>
 
 <li><a href="#I_FETCH_VALUES">fetch_values</a></li>
@@ -1475,6 +1477,25 @@ each_pair は each のエイリアスです。
 </dd>
 
 
+<dt class="method-heading" id="I_EXCEPT"><code>except(*keys) -&gt; Hash</code><span class="permalink">[<a href="../method/Hash/i/except.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Hash.html#method-i-except">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Hash#L1653">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数で指定された以外のキーとその値だけを含む Hash を返します。
+</p>
+<p>
+引数に指定されていて Hash に存在しないキーは無視されます。
+</p>
+<pre class="highlight ruby">
+<code>
+h <span class="o">=</span> <span class="p">{</span> <span class="ss">a:</span> <span class="mi">100</span>, <span class="ss">b:</span> <span class="mi">200</span>, <span class="ss">c:</span> <span class="mi">300</span> <span class="p">}</span>
+h<span class="p">.</span><span class="nf">except</span><span class="p">(</span><span class="ss">:a</span><span class="p">)</span> <span class="c1"># =&gt; {:b=&gt;200, :c=&gt;300}
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Hash/i/slice.html">Hash#slice</a>, <a href="../method/ENV/s/except.html">ENV.except</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_FETCH"><code>fetch(key) -&gt; object</code><span class="permalink">[<a href="../method/Hash/i/fetch.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Hash.html#method-i-fetch">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Hash#L387">edit</a>]</span></dt>
 <dt class="method-heading"><code>fetch(key, default) -&gt; object</code></dt>
 <dt class="method-heading"><code>fetch(key) {|key| ... } -&gt; object</code></dt>
@@ -2170,7 +2191,7 @@ h<span class="p">.</span><span class="nf">slice</span><span class="p">(</span><s
 </span>h<span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="ss">:b</span>, <span class="ss">:c</span>, <span class="ss">:d</span><span class="p">)</span>   <span class="c1"># =&gt; {:b=&gt;200, :c=&gt;300}
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/ENV/s/slice.html">ENV.slice</a>
+[SEE_ALSO] <a href="../method/Hash/i/except.html">Hash#except</a>, <a href="../method/ENV/s/slice.html">ENV.slice</a>
 </p>
 </dd>
 
@@ -2259,16 +2280,24 @@ h <span class="o">=</span> <span class="p">{</span><span class="mi">1</span> <sp
 
 
 <dt class="method-heading" id="I_TRANSFORM_KEYS"><code>transform_keys {|key| ... } -&gt; Hash</code><span class="permalink">[<a href="../method/Hash/i/transform_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Hash.html#method-i-transform_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Hash#L1575">edit</a>]</span></dt>
+<dt class="method-heading"><code>transform_keys(hash) -&gt; Hash</code></dt>
 <dt class="method-heading"><code>transform_keys -&gt; Enumerator</code></dt>
 <dd class="method-description">
 <p>
 すべてのキーに対してブロックを呼び出した結果で置き換えたハッシュを返します。値は変化しません。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] hash:</dt>
+<dd>
+置き換え前のキーから置き換え後のキーへのハッシュを指定します。
+</dd>
+</dl>
 <pre class="highlight ruby">
 <span class="caption">例</span>
 <code>
 h <span class="o">=</span> <span class="p">{</span> <span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span> <span class="p">}</span>
 h<span class="p">.</span><span class="nf">transform_keys</span> <span class="p">{</span><span class="o">|</span>k<span class="o">|</span> k<span class="p">.</span><span class="nf">to_s</span> <span class="p">}</span>   <span class="c1"># =&gt; {&quot;a&quot;=&gt;1, &quot;b&quot;=&gt;2, &quot;c&quot;=&gt;3}
+</span>h<span class="p">.</span><span class="nf">transform_keys</span><span class="p">(</span><span class="ss">a:</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="ss">d:</span> <span class="s2">"</span><span class="s2">d</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; {&quot;a&quot;=&gt;1, :b=&gt;2, :c=&gt;3}
 </span>h<span class="p">.</span><span class="nf">transform_keys</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_s</span><span class="p">)</span>         <span class="c1"># =&gt; {&quot;a&quot;=&gt;1, &quot;b&quot;=&gt;2, &quot;c&quot;=&gt;3}
 </span>h<span class="p">.</span><span class="nf">transform_keys</span><span class="p">.</span><span class="nf">with_index</span> <span class="p">{</span><span class="o">|</span>k, i<span class="o">|</span> <span class="s2">"</span><span class="si">#{</span><span class="n">k</span><span class="si">}</span><span class="s2">.</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
                                  <span class="c1"># =&gt; {&quot;a.0&quot;=&gt;1, &quot;b.1&quot;=&gt;2, &quot;c.2&quot;=&gt;3}
@@ -2286,12 +2315,17 @@ h<span class="p">.</span><span class="nf">transform_keys</span> <span class="p">
 
 
 <dt class="method-heading" id="I_TRANSFORM_KEYS--21"><code>transform_keys! {|key| ... } -&gt; self</code><span class="permalink">[<a href="../method/Hash/i/transform_keys=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Hash.html#method-i-transform_keys-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Hash#L1603">edit</a>]</span></dt>
+<dt class="method-heading"><code>transform_keys!(hash) -&gt; self</code></dt>
 <dt class="method-heading"><code>transform_keys! -&gt; Enumerator</code></dt>
 <dd class="method-description">
 <p>
 すべてのキーに対してブロックを呼び出した結果でハッシュのキーを変更します。値は変化しません。
 </p>
 <dl>
+<dt class='method-param'>[PARAM] hash:</dt>
+<dd>
+置き換え前のキーから置き換え後のキーへのハッシュを指定します。
+</dd>
 <dt>[RETURN]</dt>
 <dd>
 transform_keys! は常に self を返します。ブロックが与えられなかった場合は、<a href="../class/Enumerator.html">Enumerator</a> オブジェクトを返します。
@@ -2303,6 +2337,7 @@ transform_keys! は常に self を返します。ブロックが与えられな�
 h <span class="o">=</span> <span class="p">{</span> <span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span> <span class="p">}</span>
 h<span class="p">.</span><span class="nf">transform_keys!</span> <span class="p">{</span><span class="o">|</span>k<span class="o">|</span> k<span class="p">.</span><span class="nf">to_s</span> <span class="p">}</span>   <span class="c1"># =&gt; {&quot;a&quot;=&gt;1, &quot;b&quot;=&gt;2, &quot;c&quot;=&gt;3}
 </span>h<span class="p">.</span><span class="nf">transform_keys!</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_sym</span><span class="p">)</span>       <span class="c1"># =&gt; {:a=&gt;1, :b=&gt;2, :c=&gt;3}
+</span>h<span class="p">.</span><span class="nf">transform_keys!</span><span class="p">(</span><span class="ss">a:</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="ss">d:</span> <span class="s2">"</span><span class="s2">d</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; {&quot;a&quot;=&gt;1, :b=&gt;2, :c=&gt;3}
 </span>h<span class="p">.</span><span class="nf">transform_keys!</span><span class="p">.</span><span class="nf">with_index</span> <span class="p">{</span><span class="o">|</span>k, i<span class="o">|</span> <span class="s2">"</span><span class="si">#{</span><span class="n">k</span><span class="si">}</span><span class="s2">.</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
                                   <span class="c1"># =&gt; {&quot;a.0&quot;=&gt;1, &quot;b.1&quot;=&gt;2, &quot;c.2&quot;=&gt;3}
 </span></code></pre>

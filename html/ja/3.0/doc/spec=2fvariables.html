@@ -199,6 +199,26 @@ v <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <
   <span class="nb">p</span> <span class="vc">@@v</span>       <span class="c1">#=&gt; :foo
 </span><span class="k">end</span>
 </code></pre>
+<p>
+親クラスに、子クラスで既に定義されている同名のクラス変数を追加した場合、子クラスが、そのクラス変数を参照した際に例外 <a href="../class/RuntimeError.html">RuntimeError</a> が発生します。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Bar</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="vc">@@v</span> <span class="o">=</span> <span class="ss">:bar</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  <span class="vc">@@v</span> <span class="o">=</span> <span class="ss">:foo</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Bar</span>
+  <span class="nb">p</span> <span class="vc">@@v</span>       <span class="c1">#=&gt; RuntimeError (class variable @@v of Bar is overtaken by Foo)
+</span><span class="k">end</span>
+</code></pre>
 <h3 id='class_var_scope'>クラス変数のスコープ</h3>
 <p>
 クラス変数は、その場所を囲むもっとも内側の(特異クラスでない) class 式または module 式のボディをスコープとして持ちます。
