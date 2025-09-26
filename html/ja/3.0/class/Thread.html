@@ -277,6 +277,10 @@ p Thread.new {sleep 1} # =&gt; #&lt;Thread:0xa039de0 sleep&gt;
 
 <li><a href="#I_GROUP">group</a></li>
 
+<li><a href="#I_IGNORE_DEADLOCK">ignore_deadlock</a></li>
+
+<li><a href="#I_IGNORE_DEADLOCK--3D">ignore_deadlock=</a></li>
+
 <li><a href="#I_INSPECT">inspect</a></li>
 
 <li><a href="#I_JOIN">join</a></li>
@@ -1206,6 +1210,44 @@ th<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><
 p Thread.current.group == ThreadGroup::Default
 # =&gt; true
 </pre>
+</dd>
+
+
+<dt class="method-heading" id="I_IGNORE_DEADLOCK"><code>ignore_deadlock -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/ignore_deadlock.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Thread.html#method-i-ignore_deadlock">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Thread#L689">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+デッドロック検知を無視する機能のon/offを返します。
+</p>
+<p>
+デフォルト値はfalseで、デッドロックが検知されます。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Thread/i/ignore_deadlock=3d.html">Thread#ignore_deadlock=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_IGNORE_DEADLOCK--3D"><code>ignore_deadlock=(bool)</code><span class="permalink">[<a href="../method/Thread/i/ignore_deadlock=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Thread.html#method-i-ignore_deadlock-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Thread#L701">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+デッドロック検知を無視する機能をon/offします。デフォルト値はfalseです。
+</p>
+<p>
+trueを渡すとデッドロックを検知しなくなります。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">ignore_deadlock</span> <span class="o">=</span> <span class="k">true</span>
+queue <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
+
+<span class="nb">trap</span><span class="p">(</span><span class="ss">:SIGUSR1</span><span class="p">)</span><span class="p">{</span>queue<span class="p">.</span><span class="nf">push</span> <span class="s2">"</span><span class="s2">Received signal</span><span class="s2">"</span><span class="p">}</span>
+
+<span class="c1"># ignore_deadlockがfalseだとエラーが発生する
+</span><span class="nb">puts</span> queue<span class="p">.</span><span class="nf">pop</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread/i/ignore_deadlock.html">Thread#ignore_deadlock</a>
+</p>
 </dd>
 
 

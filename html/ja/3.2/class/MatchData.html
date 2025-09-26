@@ -126,6 +126,10 @@
 
 <li><a href="#I_CAPTURES">captures</a></li>
 
+<li><a href="#I_CAPTURES">deconstruct</a></li>
+
+<li><a href="#I_DECONSTRUCT_KEYS">deconstruct_keys</a></li>
+
 <li><a href="#I_END">end</a></li>
 
 <li><a href="#I_--3D--3D">eql?</a></li>
@@ -397,6 +401,7 @@ nameの名前付きグループにマッチした部分文字列がなければ
 
 
 <dt class="method-heading" id="I_CAPTURES"><code>captures -&gt; [String]</code><span class="permalink">[<a href="../method/MatchData/i/captures.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/MatchData.html#method-i-captures">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L112">edit</a>]</span></dt>
+<dt class="method-heading"><code>deconstruct -&gt; [String]</code></dt>
 <dd class="method-description">
 <p>
 <a href="../method/Kernel/v/1.html">$1</a>, <a href="../method/Kernel/v/2.html">$2</a>, ... を格納した配列を返します。
@@ -412,7 +417,38 @@ nameの名前付きグループにマッチした部分文字列がなければ
 </span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">captures</span>   <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;, nil]
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/MatchData/i/to_a.html">MatchData#to_a</a>, <a href="../method/MatchData/i/named_captures.html">MatchData#named_captures</a>
+[SEE_ALSO] <a href="../method/MatchData/i/to_a.html">MatchData#to_a</a>, <a href="../method/MatchData/i/named_captures.html">MatchData#named_captures</a>, <a href="../doc/spec=2fpattern_matching.html#matching_non_primitive_objects">パターンマッチ/非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(array_of_names) -&gt; Hash</code><span class="permalink">[<a href="../method/MatchData/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/MatchData.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/MatchData#L135">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数で指定された名前の名前付きキャプチャを <a href="../class/Hash.html">Hash</a> で返します。
+</p>
+<p>
+<a href="../class/Hash.html">Hash</a> のキーは名前付きキャプチャの名前のシンボル、値はキーの名前に対応した名前付きグループのうち最後にマッチした文字列です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] array_of_names:</dt>
+<dd>
+名前付きキャプチャの名前の配列を指定します。nil の場合は全ての名前付きキャプチャを意味します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+m <span class="o">=</span> <span class="sr">/(?&lt;hours&gt;\d{2}):(?&lt;minutes&gt;\d{2}):(?&lt;seconds&gt;\d{2})/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">18:37:22</span><span class="s2">"</span><span class="p">)</span>
+m<span class="p">.</span><span class="nf">deconstruct_keys</span><span class="p">(</span><span class="p">[</span><span class="ss">:hours</span>, <span class="ss">:minutes</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; {:hours =&gt; &quot;18&quot;, :minutes =&gt; &quot;37&quot;}
+</span>m<span class="p">.</span><span class="nf">deconstruct_keys</span><span class="p">(</span><span class="k">nil</span><span class="p">)</span> <span class="c1"># =&gt; {:hours =&gt; &quot;18&quot;, :minutes =&gt; &quot;37&quot;, :seconds =&gt; &quot;22&quot;}
+</span>
+<span class="c1"># 名前付きキャプチャが定義されていなかった場合は空のハッシュを返す
+</span>m <span class="o">=</span> <span class="sr">/(\d{2}):(\d{2}):(\d{2})/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">18:37:22</span><span class="s2">"</span><span class="p">)</span>
+m<span class="p">.</span><span class="nf">deconstruct_keys</span><span class="p">(</span><span class="k">nil</span><span class="p">)</span> <span class="c1"># =&gt; {}
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../doc/spec=2fpattern_matching.html#matching_non_primitive_objects">パターンマッチ/非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</a>
 </p>
 </dd>
 
@@ -528,7 +564,7 @@ m <span class="o">=</span> <span class="sr">/(?&lt;a&gt;x)|(?&lt;a&gt;y)/</span>
 m<span class="p">.</span><span class="nf">named_captures</span> <span class="c1"># =&gt; {&quot;a&quot; =&gt; &quot;x&quot;}
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/MatchData/i/captures.html">MatchData#captures</a>
+[SEE_ALSO] <a href="../method/MatchData/i/captures.html">MatchData#captures</a>, <a href="../method/MatchData/i/deconstruct_keys.html">MatchData#deconstruct_keys</a>
 </p>
 </dd>
 

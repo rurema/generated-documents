@@ -57,7 +57,7 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_SAFE_LOAD"><code>safe_load(yaml, permitted_classes: [], permitted_symbols: [], aliases: false, filename: nil, fallback: nil, symbolize_names: false) -&gt; object</code><span class="permalink">[<a href="../../../method/Psych/s/safe_load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Psych.html#method-c-safe_load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/psych.rd#L186">edit</a>]</span></dt>
+<dt class="method-heading" id="S_SAFE_LOAD"><code>safe_load(yaml, permitted_classes: [], permitted_symbols: [], aliases: false, filename: nil, fallback: nil, symbolize_names: false, freeze: false) -&gt; object</code><span class="permalink">[<a href="../../../method/Psych/s/safe_load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Psych.html#method-c-safe_load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/psych.rd#L183">edit</a>]</span></dt>
 <dt class="method-heading"><code>safe_load(yaml, legacy_permitted_classes=[], legacy_permitted_symbols=[], legacy_aliases=false, legacy_filename=nil) -&gt; object</code></dt>
 <dd class="method-description">
 <p>
@@ -122,6 +122,28 @@ filename はパース中に発生した例外のメッセージに用います�
 </span><span class="no">Psych</span><span class="p">.</span><span class="nf">safe_load</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n foo: bar</span><span class="s2">"</span>, <span class="ss">symbolize_names:</span> <span class="k">true</span><span class="p">)</span>  <span class="c1"># =&gt; {:foo=&gt;&quot;bar&quot;}
 </span></code></pre>
 <p>
+キーワード引数 freeze に true を指定した場合は再帰的に
+<a href="../../../method/Object/i/freeze.html">Object#freeze</a> したオブジェクトを返します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">freeze: true の例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">psych</span><span class="s2">"</span>
+
+data <span class="o">=</span> <span class="no">&lt;&lt;~EOS</span>
+<span class="sh">aaa:
+  bbb: [hoge]
+</span><span class="no">EOS
+</span>
+yaml <span class="o">=</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>data, <span class="ss">freeze:</span> <span class="k">true</span><span class="p">)</span>
+<span class="nb">p</span> yaml
+<span class="c1"># =&gt; {&quot;aaa&quot;=&gt;{&quot;bbb&quot;=&gt;[&quot;hoge&quot;]}}
+</span><span class="nb">p</span> yaml<span class="p">.</span><span class="nf">frozen?</span>                        <span class="c1"># = true
+</span><span class="nb">p</span> yaml<span class="p">[</span><span class="s2">"</span><span class="s2">aaa</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">frozen?</span>                 <span class="c1"># = true
+</span><span class="nb">p</span> yaml<span class="p">[</span><span class="s2">"</span><span class="s2">aaa</span><span class="s2">"</span><span class="p">]</span><span class="p">[</span><span class="s2">"</span><span class="s2">bbb</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">frozen?</span>          <span class="c1"># = true
+</span><span class="nb">p</span> yaml<span class="p">[</span><span class="s2">"</span><span class="s2">aaa</span><span class="s2">"</span><span class="p">]</span><span class="p">[</span><span class="s2">"</span><span class="s2">bbb</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">frozen?</span>    <span class="c1"># = true
+</span></code></pre>
+<p>
 また legacy_permitted_classes などのオプション引数は非推奨な引数となっています。
 <a href="../../../method/Kernel/v/=2dw.html">$-w</a> が true の時にオプション引数を渡すと警告が出力されます。
 </p>
@@ -161,6 +183,10 @@ YAMLフォーマットの文書の読み込み先のIOオブジェクト。
 ハッシュ(YAMLの仕様では正確にはマッピング)のキーを <a href="../../../class/Symbol.html">Symbol</a> に変換するかどうかを指定します。
 true を指定した場合は変換します。デフォルトでは文字列に変換されます。
 </dd>
+<dt class='method-param'>[PARAM] freeze:</dt>
+<dd>
+true を指定すると再帰的に freeze されたオブジェクトを返します。デフォルトは false です。
+</dd>
 </dl>
 </dd>
 
@@ -175,7 +201,7 @@ true を指定した場合は変換します。デフォルトでは文字列に
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   
-    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/psych.rd#L186">このマニュアルを編集する</a>
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/psych.rd#L183">このマニュアルを編集する</a>
   
   <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
 </footer>

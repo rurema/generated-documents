@@ -145,6 +145,10 @@
 
 <li><a href="#I_--5B--5D--3D">[]=</a></li>
 
+<li><a href="#I_DECONSTRUCT">deconstruct</a></li>
+
+<li><a href="#I_DECONSTRUCT_KEYS">deconstruct_keys</a></li>
+
 <li><a href="#I_DELETE">delete</a></li>
 
 <li><a href="#I_DELETE_IF">delete_if</a></li>
@@ -624,6 +628,64 @@ row  <span class="c1"># =&gt; #&lt;CSV::Row &quot;header1&quot;:&quot;row1_1&quo
 </dl>
 <p>
 [SEE_ALSO] <a href="../method/CSV=3a=3aRow/i/field.html">CSV::Row#field</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT"><code>deconstruct -&gt; [object]</code><span class="permalink">[<a href="../method/CSV=3a=3aRow/i/deconstruct.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/CSV/Row.html#method-i-deconstruct">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/csv/CSV__Row#L424">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+パターンマッチに使用する行の値の配列を返します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
+row <span class="o">=</span> <span class="no">CSV</span><span class="o">::</span><span class="no">Row</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">header1</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">header2</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">header3</span><span class="s2">"</span><span class="p">]</span>, <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">)</span>
+<span class="k">case</span> row
+<span class="k">in</span> <span class="p">[</span><span class="mi">2</span><span class="o">..</span>, <span class="mi">2</span><span class="o">..</span>, <span class="mi">2</span><span class="o">..</span><span class="p">]</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">all 2 or more</span><span class="s2">"</span>
+<span class="k">in</span> <span class="p">[</span><span class="o">...</span><span class="mi">2</span>, <span class="mi">2</span><span class="o">..</span>, <span class="mi">2</span><span class="o">..</span><span class="p">]</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">first column is less than 2, and rest columns are 2 or more</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;first column is less than 2, and rest columns are 2 or more&quot; が出力される
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../doc/spec=2fpattern_matching.html#matching_non_primitive_objects">パターンマッチ/非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(keys) -&gt; Hash</code><span class="permalink">[<a href="../method/CSV=3a=3aRow/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/CSV/Row.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/csv/CSV__Row#L442">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+パターンマッチに使用するヘッダの名前と値の <a href="../class/Hash.html">Hash</a> を返します。
+</p>
+<p>
+このメソッドはヘッダ名の型をシンボルに変換しないため、ヘッダ名が文字列かつ Hash パターン でパターンマッチしたい場合はキーをシンボルに変換する必要があります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] keys:</dt>
+<dd>
+パターンマッチに使用するヘッダの名前の配列を指定します。nil の場合は全てをパターンマッチに使用します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
+
+row <span class="o">=</span> <span class="no">CSV</span><span class="o">::</span><span class="no">Row</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="ss">:header1</span>, <span class="ss">:header2</span>, <span class="ss">:header3</span><span class="p">]</span>, <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">)</span>
+<span class="k">case</span> row
+<span class="k">in</span> <span class="p">{</span> <span class="ss">header1:</span> <span class="mi">2</span><span class="o">..</span>, <span class="ss">header2:</span> <span class="mi">2</span><span class="o">..</span>, <span class="ss">header3:</span> <span class="mi">2</span><span class="o">..</span> <span class="p">}</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">all 2 or more</span><span class="s2">"</span>
+<span class="k">in</span> <span class="p">{</span> <span class="ss">header1:</span> <span class="o">...</span><span class="mi">2</span>, <span class="ss">header2:</span> <span class="mi">2</span><span class="o">..</span>, <span class="ss">header3:</span> <span class="mi">2</span><span class="o">..</span> <span class="p">}</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">first column is less than 2, and rest columns are 2 or more</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1">#=&gt; &quot;first column is less than 2, and rest columns are 2 or more&quot; が出力される
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../doc/spec=2fpattern_matching.html#matching_non_primitive_objects">パターンマッチ/非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</a>
 </p>
 </dd>
 

@@ -148,3 +148,32 @@ TLS を使用したい場合は enable_tls を使用します。
   smtp.start do
     # send messages ...
   end
+
+サーバーが STARTTLS をサポートしている場合は自動的に STARTTLS を使用します。
+サーバーが STARTTLS をサポートしているのに STARTTLS を使用したくない場合は [[m:Net::SMTP#disable_starttls]] を使用します。
+
+  require 'net/smtp'
+  # STARTTLSを使用したくない例
+  smtp = Net::SMTP.new('smtp.example.com', 25)
+  smtp.disable_starttls
+  smtp.start do
+    # send messages ...
+  end
+
+デフォルトではサーバー証明書の検証を行い、正当な証明書でない場合は [[c:OpenSSL::SSL::SSLError]] 例外が発生します。
+証明書の検証を行いたくない場合は +tls_verify: false+ を指定します。
+
+  require 'net/smtp'
+  # 証明書の検証を行いたくない場合
+  Net::SMTP.start('192.168.1.1', 25, tls_verify: false) do |smtp|
+    # send messages ...
+  end
+
+サーバー証明書に引数で指定したホスト名が含まれていなければ [[c:OpenSSL::SSL::SSLError]] 例外が発生します。
+証明書に含まれない名前(IPアドレス等)で接続したい場合は、+tls_hostname+ で証明書のホスト名を指定します。
+
+  require 'net/smtp'
+  # 証明書と異なるホスト名で接続する場合
+  Net::SMTP.start('192.168.1.1', 25, tls_hostname: 'smtp.example.com') do |smtp|
+    # send messages ...
+  end

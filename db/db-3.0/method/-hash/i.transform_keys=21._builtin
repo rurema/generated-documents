@@ -4,11 +4,13 @@ kind=defined
 source_location=refm/api/src/_builtin/Hash:1603
 
 --- transform_keys! {|key| ... } -> self
+--- transform_keys!(hash)        -> self
 --- transform_keys!                -> Enumerator
 
 すべてのキーに対してブロックを呼び出した結果でハッシュのキーを変更します。
 値は変化しません。
 
+@param hash 置き換え前のキーから置き換え後のキーへのハッシュを指定します。
 @return transform_keys! は常に self を返します。
         ブロックが与えられなかった場合は、[[c:Enumerator]] オブジェクトを
         返します。
@@ -18,6 +20,7 @@ source_location=refm/api/src/_builtin/Hash:1603
 h = { a: 1, b: 2, c: 3 }
 h.transform_keys! {|k| k.to_s }   # => {"a"=>1, "b"=>2, "c"=>3}
 h.transform_keys!(&:to_sym)       # => {:a=>1, :b=>2, :c=>3}
+h.transform_keys!(a: "a", d: "d") # => {"a"=>1, :b=>2, :c=>3}
 h.transform_keys!.with_index {|k, i| "#{k}.#{i}" }
                                   # => {"a.0"=>1, "b.1"=>2, "c.2"=>3}
 //}

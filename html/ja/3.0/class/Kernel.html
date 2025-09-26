@@ -2421,7 +2421,7 @@ pattern で指定した文字列と置き換える文字列
 <span class="caption">例</span>
 <code>
 <span class="k">def</span> <span class="nf">foo</span> <span class="o">&amp;</span>block
-  <span class="nb">lambda</span><span class="p">(</span><span class="o">&amp;</span>block<span class="p">)</span>
+  <span class="nb">proc</span><span class="p">(</span><span class="o">&amp;</span>block<span class="p">)</span>
 <span class="k">end</span>
 
 it <span class="o">=</span> foo<span class="p">{</span><span class="nb">p</span> <span class="mi">12</span><span class="p">}</span>
@@ -3222,7 +3222,7 @@ range に含まれる数が無い場合は nil を返します。
 まだ <a href="../method/Kernel/m/srand.html">Kernel.#srand</a> が呼ばれていなければ自動的に呼び出します。
 </p>
 <p>
-擬似乱数生成器として <a href="../method/Random/c/DEFAULT.html">Random::DEFAULT</a> を使用します。これは <a href="../method/Random/s/rand.html">Random.rand</a> と共通です。
+擬似乱数生成器として <a href="../class/Random.html">Random</a> クラスオブジェクトを使用します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] max:</dt>
@@ -4788,7 +4788,7 @@ block <span class="o">=</span> <span class="nb">proc</span><span class="p">{</sp
 </dd>
 
 
-<dt class="method-heading" id="M_WARN"><code>warn(*message, uplevel: nil) -&gt; nil</code><span class="permalink">[<a href="../method/Kernel/m/warn.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Kernel.html#method-c-warn">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/functions#L1664">edit</a>]</span></dt>
+<dt class="method-heading" id="M_WARN"><code>warn(*message, uplevel: nil, category: nil) -&gt; nil</code><span class="permalink">[<a href="../method/Kernel/m/warn.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Kernel.html#method-c-warn">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/functions#L1661">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 message を 標準エラー出力 <a href="../method/Kernel/v/stderr.html">$stderr</a> に出力します。 <a href="../method/Kernel/v/VERBOSE.html">$VERBOSE</a>
@@ -4814,6 +4814,10 @@ uplevel を指定しない場合は、このメソッドは以下と同じです
 <dt class='method-param'>[PARAM] uplevel:</dt>
 <dd>
 いくつ前の呼び出し元のファイル名と行番号を表示するかを0以上の数値で指定します。 nil の場合は表示しません。
+</dd>
+<dt class='method-param'>[PARAM] category:</dt>
+<dd>
+警告のカテゴリを指定します。サポートされている category については <a href="../method/Warning/s/=5b=5d.html">Warning.[]</a> を参照してください。
 </dd>
 <dt>[EXCEPTION] IOError:</dt>
 <dd>
@@ -4841,6 +4845,17 @@ uplevel を指定しない場合は、このメソッドは以下と同じです
 </span><span class="k">end</span>
 foo
 </code></pre>
+<pre class="highlight ruby">
+<span class="caption">category の例</span>
+<code>
+<span class="no">Warning</span><span class="p">[</span><span class="ss">:deprecated</span><span class="p">]</span> <span class="o">=</span> <span class="k">true</span> <span class="c1"># 非推奨の警告を表示する
+</span><span class="nb">warn</span><span class="p">(</span><span class="s2">"</span><span class="s2">deprecated!!</span><span class="s2">"</span>, <span class="ss">category:</span> <span class="ss">:deprecated</span><span class="p">)</span>
+<span class="c1"># =&gt; deprecated!
+</span>
+<span class="no">Warning</span><span class="p">[</span><span class="ss">:deprecated</span><span class="p">]</span> <span class="o">=</span> <span class="k">false</span> <span class="c1"># 非推奨の警告を表示しない
+</span><span class="nb">warn</span><span class="p">(</span><span class="s2">"</span><span class="s2">deprecated!!</span><span class="s2">"</span>, <span class="ss">category:</span> <span class="ss">:deprecated</span><span class="p">)</span>
+<span class="c1"># 警告は出力されない
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Warning/i/warn.html">Warning#warn</a>, <a href="../method/Kernel/v/stderr.html">$stderr</a>,<a href="../method/Kernel/v/VERBOSE.html">$VERBOSE</a>
 </p>
