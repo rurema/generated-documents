@@ -86,22 +86,23 @@
 nroff を実行してその標準入力に man ページを送り込み処理させる。
 nroff プロセスの標準出力から処理結果を受け取る。
 </p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-stdin, stdout, stderr = *Open3.popen3('nroff -man')
-# こちらから書く
-Thread.fork {
-  File.foreach('/usr/man/man1/ruby.1') do |line|
-    stdin.print line
-  end
-  stdin.close    # または close_write
-}
-# こちらから読む
-stdout.each do |line|
-  print line
-end
-</pre>
+stdin, stdout, stderr <span class="o">=</span> <span class="o">*</span><span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="s1">'nroff -man'</span><span class="p">)</span>
+<span class="c1"># こちらから書く
+</span><span class="no">Thread</span><span class="p">.</span><span class="nf">fork</span> <span class="p">{</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s1">'/usr/man/man1/ruby.1'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>line<span class="o">|</span>
+    stdin<span class="p">.</span><span class="nf">print</span> line
+  <span class="k">end</span>
+  stdin<span class="p">.</span><span class="nf">close</span>    <span class="c1"># または close_write
+</span><span class="p">}</span>
+<span class="c1"># こちらから読む
+</span>stdout<span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>line<span class="o">|</span>
+  <span class="nb">print</span> line
+<span class="k">end</span>
+</code></pre>
 
 
 
@@ -148,7 +149,7 @@ end
 <h2>モジュール関数</h2>
 <dl>
 
-<dt class="method-heading" id="M_CAPTURE2"><code>capture2(*cmd) -&gt; [String, Process::Status]</code><span class="permalink">[<a href="../method/Open3/m/capture2.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-capture2">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L213">edit</a>]</span></dt>
+<dt class="method-heading" id="M_CAPTURE2"><code>capture2(*cmd) -&gt; [String, Process::Status]</code><span class="permalink">[<a href="../method/Open3/m/capture2.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-capture2">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L221">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 cmdで指定されたコマンドを実行し、そのプロセスの標準出力とプロセスの終了ステータスを表すオブジェクトを返します。
@@ -167,16 +168,15 @@ cmdで指定されたコマンドを実行し、そのプロセスの標準出�
 指定された引数はopts[:stdin_data]とopts[:binmode]以外は全て
 <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>に渡されます。opts[:stdin_data]は実行するコマンドの標準入力に渡されます。opts[:binmode]を真に指定されると内部で使用されるパイプをバイナリモードに指定します。
 </p>
-<p>
-例:
-</p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-# factorコマンドで与えられた数値(42)を素因数分解する。
-o, s = Open3.capture2(&quot;factor&quot;, :stdin_data=&gt;&quot;42&quot;)
-p o #=&gt; &quot;42: 2 3 7\n&quot;
-</pre>
+<span class="c1"># factorコマンドで与えられた数値(42)を素因数分解する。
+</span>o, s <span class="o">=</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">capture2</span><span class="p">(</span><span class="s2">"</span><span class="s2">factor</span><span class="s2">"</span>, <span class="ss">:stdin_data</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">42</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> o <span class="c1">#=&gt; &quot;42: 2 3 7\n&quot;
+</span></code></pre>
 <p>
 <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>と同様に引数に環境変数とオプションを指定してコマンドを実行する事ができます。
 </p>
@@ -186,7 +186,7 @@ p o #=&gt; &quot;42: 2 3 7\n&quot;
 </dd>
 
 
-<dt class="method-heading" id="M_CAPTURE2E"><code>capture2e(*cmd) -&gt; [String, Process::Status]</code><span class="permalink">[<a href="../method/Open3/m/capture2e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-capture2e">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L241">edit</a>]</span></dt>
+<dt class="method-heading" id="M_CAPTURE2E"><code>capture2e(*cmd) -&gt; [String, Process::Status]</code><span class="permalink">[<a href="../method/Open3/m/capture2e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-capture2e">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L249">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 cmdで指定されたコマンドを実行し、そのプロセスの標準出力と標準エラーを1
@@ -206,16 +206,15 @@ cmdで指定されたコマンドを実行し、そのプロセスの標準出�
 指定された引数はopts[:stdin_data]とopts[:binmode]以外は全て
 <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>に渡されます。opts[:stdin_data]は実行するコマンドの標準入力に渡されます。opts[:binmode]を真に指定されると内部で使用されるパイプをバイナリモードに指定します。
 </p>
-<p>
-例:
-</p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-o, s = Open3.capture2e(&quot;echo a; sort &gt;&amp;2&quot;, :stdin_data=&gt;&quot;foo\nbar\nbaz\n&quot;)
-p o #=&gt; &quot;a\nbar\nbaz\nfoo\n&quot;
-p s #=&gt; #&lt;Process::Status: pid 20574 exit 0&gt;
-</pre>
+o, s <span class="o">=</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">capture2e</span><span class="p">(</span><span class="s2">"</span><span class="s2">echo a; sort &gt;&amp;2</span><span class="s2">"</span>, <span class="ss">:stdin_data</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">foo\nbar\nbaz\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> o <span class="c1">#=&gt; &quot;a\nbar\nbaz\nfoo\n&quot;
+</span><span class="nb">p</span> s <span class="c1">#=&gt; #&lt;Process::Status: pid 20574 exit 0&gt;
+</span></code></pre>
 <p>
 <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>と同様に引数に環境変数とオプションを指定してコマンドを実行する事ができます。
 </p>
@@ -225,7 +224,7 @@ p s #=&gt; #&lt;Process::Status: pid 20574 exit 0&gt;
 </dd>
 
 
-<dt class="method-heading" id="M_CAPTURE3"><code>capture3(*cmd) -&gt; [String, String, Process::Status]</code><span class="permalink">[<a href="../method/Open3/m/capture3.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-capture3">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L184">edit</a>]</span></dt>
+<dt class="method-heading" id="M_CAPTURE3"><code>capture3(*cmd) -&gt; [String, String, Process::Status]</code><span class="permalink">[<a href="../method/Open3/m/capture3.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-capture3">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L192">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 cmdで指定されたコマンドを実行し、そのプロセスの標準出力と標準エラー、プロセスの終了ステータスを表すオブジェクトを返します。
@@ -244,17 +243,16 @@ cmdで指定されたコマンドを実行し、そのプロセスの標準出�
 指定された引数はopts[:stdin_data]とopts[:binmode]以外は全て
 <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>に渡されます。opts[:stdin_data]は実行するコマンドの標準入力に渡されます。opts[:binmode]を真に指定されると内部で使用されるパイプをバイナリモードに指定します。
 </p>
-<p>
-例:
-</p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-o, e, s = Open3.capture3(&quot;echo a; sort &gt;&amp;2&quot;, :stdin_data=&gt;&quot;foo\nbar\nbaz\n&quot;)
-p o #=&gt; &quot;a\n&quot;
-p e #=&gt; &quot;bar\nbaz\nfoo\n&quot;
-p s #=&gt; #&lt;Process::Status: pid 32682 exit 0&gt;
-</pre>
+o, e, s <span class="o">=</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">capture3</span><span class="p">(</span><span class="s2">"</span><span class="s2">echo a; sort &gt;&amp;2</span><span class="s2">"</span>, <span class="ss">:stdin_data</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">foo\nbar\nbaz\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> o <span class="c1">#=&gt; &quot;a\n&quot;
+</span><span class="nb">p</span> e <span class="c1">#=&gt; &quot;bar\nbaz\nfoo\n&quot;
+</span><span class="nb">p</span> s <span class="c1">#=&gt; #&lt;Process::Status: pid 32682 exit 0&gt;
+</span></code></pre>
 <p>
 <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>と同様に引数に環境変数とオプションを指定してコマンドを実行する事ができます。
 </p>
@@ -264,7 +262,7 @@ p s #=&gt; #&lt;Process::Status: pid 32682 exit 0&gt;
 </dd>
 
 
-<dt class="method-heading" id="M_PIPELINE"><code>pipeline(*cmds) -&gt; [Process::Status]</code><span class="permalink">[<a href="../method/Open3/m/pipeline.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-pipeline">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L426">edit</a>]</span></dt>
+<dt class="method-heading" id="M_PIPELINE"><code>pipeline(*cmds) -&gt; [Process::Status]</code><span class="permalink">[<a href="../method/Open3/m/pipeline.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-pipeline">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L434">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 指定したコマンドのリストをパイプで繋いで順番に実行します。
@@ -294,33 +292,31 @@ cmdname にはコマンド名を表す <a href="../class/String.html">String</a>
 実行したコマンドの終了ステータスを配列で返します。
 </dd>
 </dl>
-<p>
-例1:
-</p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<span class="caption">例1</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-fname = &quot;/usr/share/man/man1/ruby.1.gz&quot;
-p Open3.pipeline([&quot;zcat&quot;, fname], &quot;nroff -man&quot;, &quot;less&quot;)
-#=&gt; [#&lt;Process::Status: pid 11817 exit 0&gt;,
-#    #&lt;Process::Status: pid 11820 exit 0&gt;,
-#    #&lt;Process::Status: pid 11828 exit 0&gt;]
-</pre>
-<p>
-例2:
-</p>
-<pre>
-require &quot;open3&quot;
+fname <span class="o">=</span> <span class="s2">"</span><span class="s2">/usr/share/man/man1/ruby.1.gz</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">Open3</span><span class="p">.</span><span class="nf">pipeline</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">zcat</span><span class="s2">"</span>, fname<span class="p">]</span>, <span class="s2">"</span><span class="s2">nroff -man</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">less</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1">#=&gt; [#&lt;Process::Status: pid 11817 exit 0&gt;,
+</span><span class="c1">#    #&lt;Process::Status: pid 11820 exit 0&gt;,
+</span><span class="c1">#    #&lt;Process::Status: pid 11828 exit 0&gt;]
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">例2</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-Open3.pipeline([{&quot;LANG&quot;=&gt;&quot;C&quot;}, &quot;env&quot;], [&quot;grep&quot;, &quot;LANG&quot;], &quot;less&quot;)
-</pre>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">pipeline</span><span class="p">(</span><span class="p">[</span><span class="p">{</span><span class="s2">"</span><span class="s2">LANG</span><span class="s2">"</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">C</span><span class="s2">"</span><span class="p">}</span>, <span class="s2">"</span><span class="s2">env</span><span class="s2">"</span><span class="p">]</span>, <span class="p">[</span><span class="s2">"</span><span class="s2">grep</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">LANG</span><span class="s2">"</span><span class="p">]</span>, <span class="s2">"</span><span class="s2">less</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="M_PIPELINE_R"><code>pipeline_r(*cmds) -&gt; [IO, [Thread]]</code><span class="permalink">[<a href="../method/Open3/m/pipeline_r.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-pipeline_r">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L316">edit</a>]</span></dt>
+<dt class="method-heading" id="M_PIPELINE_R"><code>pipeline_r(*cmds) -&gt; [IO, [Thread]]</code><span class="permalink">[<a href="../method/Open3/m/pipeline_r.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-pipeline_r">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L324">edit</a>]</span></dt>
 <dt class="method-heading"><code>pipeline_r(*cmds) {|last_stdout, wait_thrs| ... } -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
@@ -351,25 +347,24 @@ cmdname にはコマンド名を表す <a href="../class/String.html">String</a>
 ブロックを指定した場合はブロックの最後に評価された値を返します。ブロックを指定しなかった場合は最後に実行するコマンドの標準出力、実行したプロセスを待つためのスレッドの配列を配列で返します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-Open3.pipeline_r(&quot;yes&quot;, &quot;head -10&quot;) {|r, ts|
-  p r.read      #=&gt; &quot;y\ny\ny\ny\ny\ny\ny\ny\ny\ny\n&quot;
-  p ts[0].value #=&gt; #&lt;Process::Status: pid 24910 SIGPIPE (signal 13)&gt;
-  p ts[1].value #=&gt; #&lt;Process::Status: pid 24913 exit 0&gt;
-}
-</pre>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">pipeline_r</span><span class="p">(</span><span class="s2">"</span><span class="s2">yes</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">head -10</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>r, ts<span class="o">|</span>
+  <span class="nb">p</span> r<span class="p">.</span><span class="nf">read</span>      <span class="c1">#=&gt; &quot;y\ny\ny\ny\ny\ny\ny\ny\ny\ny\n&quot;
+</span>  <span class="nb">p</span> ts<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">value</span> <span class="c1">#=&gt; #&lt;Process::Status: pid 24910 SIGPIPE (signal 13)&gt;
+</span>  <span class="nb">p</span> ts<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">value</span> <span class="c1">#=&gt; #&lt;Process::Status: pid 24913 exit 0&gt;
+</span><span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="M_PIPELINE_RW"><code>pipeline_rw(*cmds) -&gt; [IO, IO, [Thread]]</code><span class="permalink">[<a href="../method/Open3/m/pipeline_rw.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-pipeline_rw">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L270">edit</a>]</span></dt>
+<dt class="method-heading" id="M_PIPELINE_RW"><code>pipeline_rw(*cmds) -&gt; [IO, IO, [Thread]]</code><span class="permalink">[<a href="../method/Open3/m/pipeline_rw.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-pipeline_rw">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L278">edit</a>]</span></dt>
 <dt class="method-heading"><code>pipeline_rw(*cmds) {|first_stdin, last_stdout, wait_thrs| ... } -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
@@ -400,32 +395,31 @@ cmdname にはコマンド名を表す <a href="../class/String.html">String</a>
 ブロックを指定した場合はブロックの最後に評価された値を返します。ブロックを指定しなかった場合は最初に実行するコマンドの標準入力と最後に実行するコマンドの標準出力、実行したプロセスを待つためのスレッドの配列を配列で返します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-Open3.pipeline_rw(&quot;sort&quot;, &quot;cat -n&quot;) {|stdin, stdout, wait_thrs|
-  stdin.puts &quot;foo&quot;
-  stdin.puts &quot;bar&quot;
-  stdin.puts &quot;baz&quot;
+<span class="no">Open3</span><span class="p">.</span><span class="nf">pipeline_rw</span><span class="p">(</span><span class="s2">"</span><span class="s2">sort</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">cat -n</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>stdin, stdout, wait_thrs<span class="o">|</span>
+  stdin<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
+  stdin<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>
+  stdin<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">baz</span><span class="s2">"</span>
 
-  # sortコマンドにEOFを送る。
-  stdin.close
+  <span class="c1"># sortコマンドにEOFを送る。
+</span>  stdin<span class="p">.</span><span class="nf">close</span>
 
-  # stdinに渡した文字列をsortコマンドが並べ替えたものに、catコマンド
-  # が行番号を付けた文字列が表示される。
-  p stdout.read   #=&gt; &quot;     1\tbar\n     2\tbaz\n     3\tfoo\n&quot;
-}
-</pre>
+  <span class="c1"># stdinに渡した文字列をsortコマンドが並べ替えたものに、catコマンド
+</span>  <span class="c1"># が行番号を付けた文字列が表示される。
+</span>  <span class="nb">p</span> stdout<span class="p">.</span><span class="nf">read</span>   <span class="c1">#=&gt; &quot;     1\tbar\n     2\tbaz\n     3\tfoo\n&quot;
+</span><span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="M_PIPELINE_START"><code>pipeline_start(*cmds) -&gt; [Thread]</code><span class="permalink">[<a href="../method/Open3/m/pipeline_start.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-pipeline_start">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L388">edit</a>]</span></dt>
+<dt class="method-heading" id="M_PIPELINE_START"><code>pipeline_start(*cmds) -&gt; [Thread]</code><span class="permalink">[<a href="../method/Open3/m/pipeline_start.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-pipeline_start">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L396">edit</a>]</span></dt>
 <dt class="method-heading"><code>pipeline_start(*cmds) {|wait_thrs| ... } -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
@@ -456,27 +450,26 @@ cmdname にはコマンド名を表す <a href="../class/String.html">String</a>
 ブロックを指定した場合はブロックの最後に評価された値を返します。ブロックを指定しなかった場合は実行したプロセスを待つためのスレッドの配列を返します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-# xeyesを10秒だけ実行する。
-Open3.pipeline_start(&quot;xeyes&quot;) {|ts|
-  sleep 10
-  t = ts[0]
-  Process.kill(&quot;TERM&quot;, t.pid)
-  p t.value #=&gt; #&lt;Process::Status: pid 911 SIGTERM (signal 15)&gt;
-}
-</pre>
+<span class="c1"># xeyesを10秒だけ実行する。
+</span><span class="no">Open3</span><span class="p">.</span><span class="nf">pipeline_start</span><span class="p">(</span><span class="s2">"</span><span class="s2">xeyes</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>ts<span class="o">|</span>
+  <span class="nb">sleep</span> <span class="mi">10</span>
+  t <span class="o">=</span> ts<span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="no">Process</span><span class="p">.</span><span class="nf">kill</span><span class="p">(</span><span class="s2">"</span><span class="s2">TERM</span><span class="s2">"</span>, t<span class="p">.</span><span class="nf">pid</span><span class="p">)</span>
+  <span class="nb">p</span> t<span class="p">.</span><span class="nf">value</span> <span class="c1">#=&gt; #&lt;Process::Status: pid 911 SIGTERM (signal 15)&gt;
+</span><span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="M_PIPELINE_W"><code>pipeline_w(*cmds) -&gt; [IO, [Thread]]</code><span class="permalink">[<a href="../method/Open3/m/pipeline_w.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-pipeline_w">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L353">edit</a>]</span></dt>
+<dt class="method-heading" id="M_PIPELINE_W"><code>pipeline_w(*cmds) -&gt; [IO, [Thread]]</code><span class="permalink">[<a href="../method/Open3/m/pipeline_w.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-pipeline_w">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L361">edit</a>]</span></dt>
 <dt class="method-heading"><code>pipeline_w(*cmds) {|first_stdin, wait_thrs| ... } -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
@@ -507,23 +500,22 @@ cmdname にはコマンド名を表す <a href="../class/String.html">String</a>
 ブロックを指定した場合はブロックの最後に評価された値を返します。ブロックを指定しなかった場合は最初に実行するコマンドの標準入力、実行したプロセスを待つためのスレッドの配列を配列で返します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-Open3.pipeline_w(&quot;bzip2 -c&quot;, :out=&gt;&quot;/tmp/hello.bz2&quot;) {|w, ts|
-  w.puts &quot;hello&quot;
-}
-</pre>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">pipeline_w</span><span class="p">(</span><span class="s2">"</span><span class="s2">bzip2 -c</span><span class="s2">"</span>, <span class="ss">:out</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">/tmp/hello.bz2</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>w, ts<span class="o">|</span>
+  w<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span>
+<span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Open3/m/popen3.html">Open3.#popen3</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="M_POPEN2"><code>popen2(*cmd) -&gt; [IO, IO, Thread]</code><span class="permalink">[<a href="../method/Open3/m/popen2.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-popen2">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L148">edit</a>]</span></dt>
+<dt class="method-heading" id="M_POPEN2"><code>popen2(*cmd) -&gt; [IO, IO, Thread]</code><span class="permalink">[<a href="../method/Open3/m/popen2.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-popen2">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L156">edit</a>]</span></dt>
 <dt class="method-heading"><code>popen2(*cmd) {|stdin, stdout, wait_thr| ... } -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
@@ -548,7 +540,7 @@ cmdで指定されたコマンドを実行し、そのプロセスの標準入�
 </dd>
 
 
-<dt class="method-heading" id="M_POPEN2E"><code>popen2e(*cmd) -&gt; [IO, IO, Thread]</code><span class="permalink">[<a href="../method/Open3/m/popen2e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-popen2e">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L165">edit</a>]</span></dt>
+<dt class="method-heading" id="M_POPEN2E"><code>popen2e(*cmd) -&gt; [IO, IO, Thread]</code><span class="permalink">[<a href="../method/Open3/m/popen2e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-popen2e">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L173">edit</a>]</span></dt>
 <dt class="method-heading"><code>popen2e(*cmd) {|stdin, stdout_and_stderr, wait_thr| ... } -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
@@ -573,16 +565,17 @@ cmdで指定されたコマンドを実行し、そのプロセスの標準入�
 </dd>
 
 
-<dt class="method-heading" id="M_POPEN3"><code>popen3(*cmd) -&gt; [IO, IO, IO, Thread]</code><span class="permalink">[<a href="../method/Open3/m/popen3.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-popen3">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L34">edit</a>]</span></dt>
+<dt class="method-heading" id="M_POPEN3"><code>popen3(*cmd) -&gt; [IO, IO, IO, Thread]</code><span class="permalink">[<a href="../method/Open3/m/popen3.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.5/Open3.html#method-c-popen3">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L36">edit</a>]</span></dt>
 <dt class="method-heading"><code>popen3(*cmd) {|stdin, stdout, stderr, wait_thr| ... } -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
 外部プログラム cmd を実行し、そのプロセスの標準入力、標準出力、標準エラー出力に接続されたパイプと実行したプロセスを待つためのスレッドを 4 要素の配列で返します。
 </p>
-<pre>
-require 'open3'
-stdin, stdout, stderr, wait_thr = *Open3.popen3(&quot;/usr/bin/nroff -man&quot;)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'open3'</span>
+stdin, stdout, stderr, wait_thr <span class="o">=</span> <span class="o">*</span><span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="s2">"</span><span class="s2">/usr/bin/nroff -man</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] cmd:</dt>
 <dd>
@@ -596,18 +589,19 @@ stdin, stdout, stderr, wait_thr = *Open3.popen3(&quot;/usr/bin/nroff -man&quot;)
 <p>
 ブロックを指定するとパイプの配列を引数にブロックを実行し、最後にパイプを close します。この場合はブロックの最後の式の結果を返します。
 </p>
-<pre>
-require 'open3'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'open3'</span>
 
-Open3.popen3(&quot;read stdin; echo stdout; echo stderr &gt;&amp;2&quot;) {|stdin, stdout, stderr, wait_thr|
-  stdin.puts &quot;stdin&quot;
-  stdin.close     # または close_write
-  p stdout.read
-  p stderr.read
-}
-#=&gt; &quot;stdout\n&quot;
-    &quot;stderr\n&quot;
-</pre>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="s2">"</span><span class="s2">read stdin; echo stdout; echo stderr &gt;&amp;2</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>stdin, stdout, stderr, wait_thr<span class="o">|</span>
+  stdin<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">stdin</span><span class="s2">"</span>
+  stdin<span class="p">.</span><span class="nf">close</span>     <span class="c1"># または close_write
+</span>  <span class="nb">p</span> stdout<span class="p">.</span><span class="nf">read</span>
+  <span class="nb">p</span> stderr<span class="p">.</span><span class="nf">read</span>
+<span class="p">}</span>
+<span class="c1"># =&gt; &quot;stdout\n&quot;
+</span><span class="c1">#    &quot;stderr\n&quot;
+</span></code></pre>
 <p>
 stdin への入力が終わったらできる限り早く close か close_write
 で閉じるべきです。
@@ -620,41 +614,39 @@ stdin への入力が終わったらできる限り早く close か close_write
 引数 cmd はそのまま <a href="../method/Kernel/m/spawn.html">Kernel.#spawn</a> に渡されます。
 <a href="../method/Kernel/m/spawn.html">Kernel.#spawn</a>と同様に、引数リストの最初に環境変数をハッシュ形式で指定する事ができます。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'open3'
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s1">'open3'</span>
 
-Open3.popen3({&quot;foo&quot; =&gt; &quot;1&quot;, &quot;bar&quot; =&gt; &quot;2&quot;}, &quot;env&quot;) {|i, o, e, t|
-  i.close
-  print o.read
-}
-#=&gt; ...
-    foo=1
-    bar=2
-</pre>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">1</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">2</span><span class="s2">"</span><span class="p">}</span>, <span class="s2">"</span><span class="s2">env</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>i, o, e, t<span class="o">|</span>
+  i<span class="p">.</span><span class="nf">close</span>
+  <span class="nb">print</span> o<span class="p">.</span><span class="nf">read</span>
+<span class="p">}</span>
+<span class="c1">#=&gt; ...
+</span><span class="c1">#   foo=1
+</span><span class="c1">#   bar=2
+</span></code></pre>
 <p>
 <a href="../method/Kernel/m/spawn.html">Kernel.#spawn</a>と同様に、引数リストの最後にオプションをハッシュ形式で指定する事ができます。
 </p>
-<p>
-例:
-</p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-# オプションを指定した場合。
-Dir.chdir(&quot;/tmp&quot;)
-Open3.popen3(&quot;pwd&quot;, :chdir=&gt; &quot;/&quot;) {|i,o,e,t|
-  p o.read.chomp #=&gt; &quot;/&quot;
-}
+<span class="c1"># オプションを指定した場合。
+</span><span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="s2">"</span><span class="s2">pwd</span><span class="s2">"</span>, <span class="ss">:chdir</span><span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">/</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>i,o,e,t<span class="o">|</span>
+  <span class="nb">p</span> o<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">chomp</span> <span class="c1">#=&gt; &quot;/&quot;
+</span><span class="p">}</span>
 
-# オプションを指定しない場合。
-Dir.chdir(&quot;/tmp&quot;)
-Open3.popen3(&quot;pwd&quot;) {|i,o,e,t|
-  p o.read.chomp #=&gt; &quot;/tmp&quot;
-}
-</pre>
+<span class="c1"># オプションを指定しない場合。
+</span><span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="s2">"</span><span class="s2">pwd</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>i,o,e,t<span class="o">|</span>
+  <span class="nb">p</span> o<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">chomp</span> <span class="c1">#=&gt; &quot;/tmp&quot;
+</span><span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/m/spawn.html">Kernel.#spawn</a>
 </p>

@@ -1,7 +1,7 @@
 names=pipeline_r
 visibility=public
 kind=defined
-source_location=refm/api/src/open3.rd:316
+source_location=refm/api/src/open3.rd:324
 
 --- pipeline_r(*cmds) -> [IO, [Thread]]
 --- pipeline_r(*cmds) {|last_stdout, wait_thrs| ... } -> ()
@@ -28,15 +28,15 @@ source_location=refm/api/src/open3.rd:316
         ブロックを指定しなかった場合は最後に実行するコマンドの標準出力、
         実行したプロセスを待つためのスレッドの配列を配列で返します。
 
-例:
+//emlist[例][ruby]{
+require "open3"
 
-  require "open3"
-  
-  Open3.pipeline_r("yes", "head -10") {|r, ts|
-    p r.read      #=> "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\n"
-    p ts[0].value #=> #<Process::Status: pid 24910 SIGPIPE (signal 13)>
-    p ts[1].value #=> #<Process::Status: pid 24913 exit 0>
-  }
+Open3.pipeline_r("yes", "head -10") {|r, ts|
+  p r.read      #=> "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\n"
+  p ts[0].value #=> #<Process::Status: pid 24910 SIGPIPE (signal 13)>
+  p ts[1].value #=> #<Process::Status: pid 24913 exit 0>
+}
+//}
 
 @see [[m:Open3.#popen3]]
 

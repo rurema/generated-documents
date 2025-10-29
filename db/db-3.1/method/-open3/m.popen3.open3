@@ -1,7 +1,7 @@
 names=popen3
 visibility=public
 kind=defined
-source_location=refm/api/src/open3.rd:34
+source_location=refm/api/src/open3.rd:36
 
 --- popen3(*cmd) -> [IO, IO, IO, Thread]
 --- popen3(*cmd) {|stdin, stdout, stderr, wait_thr| ... } -> ()
@@ -10,8 +10,10 @@ source_location=refm/api/src/open3.rd:34
 出力に接続されたパイプと実行したプロセスを待つためのスレッドを 4 要素の
 配列で返します。
 
-  require 'open3'
-  stdin, stdout, stderr, wait_thr = *Open3.popen3("/usr/bin/nroff -man")
+//emlist[][ruby]{
+require 'open3'
+stdin, stdout, stderr, wait_thr = *Open3.popen3("/usr/bin/nroff -man")
+//}
 
 @param cmd 実行するコマンドを指定します。
 
@@ -23,16 +25,18 @@ source_location=refm/api/src/open3.rd:34
 ブロックを指定するとパイプの配列を引数にブロックを実行し、最後にパイプ
 を close します。この場合はブロックの最後の式の結果を返します。
 
-  require 'open3'
+//emlist[][ruby]{
+require 'open3'
 
-  Open3.popen3("read stdin; echo stdout; echo stderr >&2") {|stdin, stdout, stderr, wait_thr|
-    stdin.puts "stdin"
-    stdin.close     # または close_write
-    p stdout.read
-    p stderr.read
-  }
-  #=> "stdout\n"
-      "stderr\n"
+Open3.popen3("read stdin; echo stdout; echo stderr >&2") {|stdin, stdout, stderr, wait_thr|
+  stdin.puts "stdin"
+  stdin.close     # または close_write
+  p stdout.read
+  p stderr.read
+}
+# => "stdout\n"
+#    "stderr\n"
+//}
 
 
 stdin への入力が終わったらできる限り早く close か close_write
@@ -45,36 +49,36 @@ stdin への入力が終わったらできる限り早く close か close_write
 [[m:Kernel.#spawn]]と同様に、引数リストの最初に環境変数をハッシュ形式で
 指定する事ができます。
 
-例:
+//emlist[例][ruby]{
+require 'open3'
 
-  require 'open3'
-
-  Open3.popen3({"foo" => "1", "bar" => "2"}, "env") {|i, o, e, t|
-    i.close
-    print o.read
-  }
-  #=> ...
-      foo=1
-      bar=2
+Open3.popen3({"foo" => "1", "bar" => "2"}, "env") {|i, o, e, t|
+  i.close
+  print o.read
+}
+#=> ...
+#   foo=1
+#   bar=2
+//}
 
 [[m:Kernel.#spawn]]と同様に、引数リストの最後にオプションをハッシュ形式
 で指定する事ができます。
 
-例:
+//emlist[例][ruby]{
+require "open3"
 
-  require "open3"
-  
-  # オプションを指定した場合。
-  Dir.chdir("/tmp")
-  Open3.popen3("pwd", :chdir=> "/") {|i,o,e,t|
-    p o.read.chomp #=> "/"
-  }
-  
-  # オプションを指定しない場合。
-  Dir.chdir("/tmp")
-  Open3.popen3("pwd") {|i,o,e,t|
-    p o.read.chomp #=> "/tmp"
-  }
+# オプションを指定した場合。
+Dir.chdir("/tmp")
+Open3.popen3("pwd", :chdir=> "/") {|i,o,e,t|
+  p o.read.chomp #=> "/"
+}
+
+# オプションを指定しない場合。
+Dir.chdir("/tmp")
+Open3.popen3("pwd") {|i,o,e,t|
+  p o.read.chomp #=> "/tmp"
+}
+//}
 
 @see [[m:Kernel.#spawn]]
 
