@@ -59,16 +59,17 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="M_POPEN3"><code>popen3(*cmd) -&gt; [IO, IO, IO, Thread]</code><span class="permalink">[<a href="../../../method/Open3/m/popen3.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Open3.html#method-c-popen3">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L34">edit</a>]</span></dt>
+<dt class="method-heading" id="M_POPEN3"><code>popen3(*cmd) -&gt; [IO, IO, IO, Thread]</code><span class="permalink">[<a href="../../../method/Open3/m/popen3.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Open3.html#method-c-popen3">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L36">edit</a>]</span></dt>
 <dt class="method-heading"><code>popen3(*cmd) {|stdin, stdout, stderr, wait_thr| ... } -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
 外部プログラム cmd を実行し、そのプロセスの標準入力、標準出力、標準エラー出力に接続されたパイプと実行したプロセスを待つためのスレッドを 4 要素の配列で返します。
 </p>
-<pre>
-require 'open3'
-stdin, stdout, stderr, wait_thr = *Open3.popen3(&quot;/usr/bin/nroff -man&quot;)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'open3'</span>
+stdin, stdout, stderr, wait_thr <span class="o">=</span> <span class="o">*</span><span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="s2">"</span><span class="s2">/usr/bin/nroff -man</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] cmd:</dt>
 <dd>
@@ -82,18 +83,19 @@ stdin, stdout, stderr, wait_thr = *Open3.popen3(&quot;/usr/bin/nroff -man&quot;)
 <p>
 ブロックを指定するとパイプの配列を引数にブロックを実行し、最後にパイプを close します。この場合はブロックの最後の式の結果を返します。
 </p>
-<pre>
-require 'open3'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'open3'</span>
 
-Open3.popen3(&quot;read stdin; echo stdout; echo stderr &gt;&amp;2&quot;) {|stdin, stdout, stderr, wait_thr|
-  stdin.puts &quot;stdin&quot;
-  stdin.close     # または close_write
-  p stdout.read
-  p stderr.read
-}
-#=&gt; &quot;stdout\n&quot;
-    &quot;stderr\n&quot;
-</pre>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="s2">"</span><span class="s2">read stdin; echo stdout; echo stderr &gt;&amp;2</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>stdin, stdout, stderr, wait_thr<span class="o">|</span>
+  stdin<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">stdin</span><span class="s2">"</span>
+  stdin<span class="p">.</span><span class="nf">close</span>     <span class="c1"># または close_write
+</span>  <span class="nb">p</span> stdout<span class="p">.</span><span class="nf">read</span>
+  <span class="nb">p</span> stderr<span class="p">.</span><span class="nf">read</span>
+<span class="p">}</span>
+<span class="c1"># =&gt; &quot;stdout\n&quot;
+</span><span class="c1">#    &quot;stderr\n&quot;
+</span></code></pre>
 <p>
 stdin への入力が終わったらできる限り早く close か close_write
 で閉じるべきです。
@@ -106,41 +108,39 @@ stdin への入力が終わったらできる限り早く close か close_write
 引数 cmd はそのまま <a href="../../../method/Kernel/m/spawn.html">Kernel.#spawn</a> に渡されます。
 <a href="../../../method/Kernel/m/spawn.html">Kernel.#spawn</a>と同様に、引数リストの最初に環境変数をハッシュ形式で指定する事ができます。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'open3'
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s1">'open3'</span>
 
-Open3.popen3({&quot;foo&quot; =&gt; &quot;1&quot;, &quot;bar&quot; =&gt; &quot;2&quot;}, &quot;env&quot;) {|i, o, e, t|
-  i.close
-  print o.read
-}
-#=&gt; ...
-    foo=1
-    bar=2
-</pre>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">1</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">2</span><span class="s2">"</span><span class="p">}</span>, <span class="s2">"</span><span class="s2">env</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>i, o, e, t<span class="o">|</span>
+  i<span class="p">.</span><span class="nf">close</span>
+  <span class="nb">print</span> o<span class="p">.</span><span class="nf">read</span>
+<span class="p">}</span>
+<span class="c1">#=&gt; ...
+</span><span class="c1">#   foo=1
+</span><span class="c1">#   bar=2
+</span></code></pre>
 <p>
 <a href="../../../method/Kernel/m/spawn.html">Kernel.#spawn</a>と同様に、引数リストの最後にオプションをハッシュ形式で指定する事ができます。
 </p>
-<p>
-例:
-</p>
-<pre>
-require &quot;open3&quot;
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">open3</span><span class="s2">"</span>
 
-# オプションを指定した場合。
-Dir.chdir(&quot;/tmp&quot;)
-Open3.popen3(&quot;pwd&quot;, :chdir=&gt; &quot;/&quot;) {|i,o,e,t|
-  p o.read.chomp #=&gt; &quot;/&quot;
-}
+<span class="c1"># オプションを指定した場合。
+</span><span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="s2">"</span><span class="s2">pwd</span><span class="s2">"</span>, <span class="ss">:chdir</span><span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">/</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>i,o,e,t<span class="o">|</span>
+  <span class="nb">p</span> o<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">chomp</span> <span class="c1">#=&gt; &quot;/&quot;
+</span><span class="p">}</span>
 
-# オプションを指定しない場合。
-Dir.chdir(&quot;/tmp&quot;)
-Open3.popen3(&quot;pwd&quot;) {|i,o,e,t|
-  p o.read.chomp #=&gt; &quot;/tmp&quot;
-}
-</pre>
+<span class="c1"># オプションを指定しない場合。
+</span><span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">Open3</span><span class="p">.</span><span class="nf">popen3</span><span class="p">(</span><span class="s2">"</span><span class="s2">pwd</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>i,o,e,t<span class="o">|</span>
+  <span class="nb">p</span> o<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">chomp</span> <span class="c1">#=&gt; &quot;/tmp&quot;
+</span><span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/Kernel/m/spawn.html">Kernel.#spawn</a>
 </p>
@@ -157,7 +157,7 @@ Open3.popen3(&quot;pwd&quot;) {|i,o,e,t|
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   
-    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L34">このマニュアルを編集する</a>
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/open3.rd#L36">このマニュアルを編集する</a>
   
   <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
 </footer>

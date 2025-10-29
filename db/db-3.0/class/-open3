@@ -17,17 +17,19 @@ source_location=refm/api/src/open3.rd:6
 nroff を実行してその標準入力に man ページを送り込み処理させる。
 nroff プロセスの標準出力から処理結果を受け取る。
 
-  require "open3"
+//emlist[][ruby]{
+require "open3"
 
-  stdin, stdout, stderr = *Open3.popen3('nroff -man')
-  # こちらから書く
-  Thread.fork {
-    File.foreach('/usr/man/man1/ruby.1') do |line|
-      stdin.print line
-    end
-    stdin.close    # または close_write
-  }
-  # こちらから読む
-  stdout.each do |line|
-    print line
+stdin, stdout, stderr = *Open3.popen3('nroff -man')
+# こちらから書く
+Thread.fork {
+  File.foreach('/usr/man/man1/ruby.1') do |line|
+    stdin.print line
   end
+  stdin.close    # または close_write
+}
+# こちらから読む
+stdout.each do |line|
+  print line
+end
+//}
