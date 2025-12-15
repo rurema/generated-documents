@@ -1,0 +1,42 @@
+names=compile,new
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Regexp:37
+
+--- compile(string, option = nil) -> Regexp
+--- new(string, option = nil) -> Regexp
+
+文字列 string をコンパイルして正規表現オブジェクトを生成して返します。
+
+第一引数が正規表現であれば第一引数を複製して返します。第二引数は警告の上無視されます。
+
+@param string 正規表現を文字列として与えます。
+
+@param option [[m:Regexp::IGNORECASE]], [[m:Regexp::MULTILINE]],
+              [[m:Regexp::EXTENDED]]
+              の論理和を指定します。
+              [[c:Integer]] 以外であれば真偽値の指定として見なされ
+              、真(nil, false 以外)であれば
+              [[m:Regexp::IGNORECASE]] の指定と同じになります。
+
+@raise  RegexpError 正規表現のコンパイルに失敗した場合発生します。
+
+//emlist[例][ruby]{
+str = "This is Regexp"
+t1 = Regexp.compile("this is regexp", Regexp::IGNORECASE)
+t1.match(str)
+p $~ # => "This is Regexp"
+
+t2 = Regexp.compile('
+this         # ここは使用されない
+\ is
+\ regexp     # ここも使用されない
+', Regexp::EXTENDED | Regexp::IGNORECASE)
+t2.match(str)
+p Regexp.last_match # => "This is Regexp"
+
+str = "ふるいけや\nかわずとびこむ\nみずのおと"
+t2 = Regexp.compile("ふる.*?と", Regexp::MULTILINE)
+p t2.match(str)[0]  # => "ふるいけや\nかわずと"
+//}
+

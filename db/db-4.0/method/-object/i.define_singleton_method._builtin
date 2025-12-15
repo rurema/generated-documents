@@ -1,0 +1,35 @@
+names=define_singleton_method
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Object:1399
+
+--- define_singleton_method(symbol, method) -> Symbol
+--- define_singleton_method(symbol) { ... } -> Symbol
+
+self に特異メソッド name を定義します。
+
+@param symbol メソッド名を [[c:String]] または [[c:Symbol]] で指定します。
+
+@param method [[c:Proc]]、[[c:Method]] あるいは [[c:UnboundMethod]] の
+              いずれかのインスタンスを指定します。
+
+@return メソッド名を表す [[c:Symbol]] を返します。
+
+//emlist[][ruby]{
+class A
+  class << self
+    def class_name
+      to_s
+    end
+  end
+end
+A.define_singleton_method(:who_am_i) do
+  "I am: #{class_name}"
+end
+A.who_am_i   # ==> "I am: A"
+
+guy = "Bob"
+guy.define_singleton_method(:hello) { "#{self}: Hello there!" }
+guy.hello    #=>  "Bob: Hello there!"
+//}
+

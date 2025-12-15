@@ -1,0 +1,25 @@
+names=range_length
+visibility=public
+kind=defined
+source_location=refm/api/src/net/http.rd:1879
+
+--- range_length -> Integer|nil
+
+Content-Range: ヘッダフィールドの表している長さを整数で返します。
+
+ヘッダが設定されていない場合には nil を返します。
+
+@raise Net::HTTPHeaderSyntaxError Content-Range: ヘッダフィールド
+                                  の値が不正である場合に
+                                  発生します。
+                                  
+
+//emlist[例][ruby]{
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+req['Content-Range'] = "bytes 1-500/1000"
+req.range_length # => 500
+//}
+

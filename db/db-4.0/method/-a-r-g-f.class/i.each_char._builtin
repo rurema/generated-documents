@@ -1,0 +1,43 @@
+names=each_char
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/ARGF:309
+
+--- each_char { |c| ... } -> self
+--- each_char             -> Enumerator
+
+レシーバに含まれる文字を一文字ずつブロックに渡して評価します。
+
+このメソッドはスクリプトに指定した引数([[m:Object::ARGV]] を参照) をファ
+イル名とみなして、それらのファイルを連結した 1 つの仮想ファイルを表すオ
+ブジェクトです。そのため、最初のファイルを最後まで読んだ後は次のファイ
+ルの内容を返します。現在位置の1文字についてファイル名を得るには
+[[m:ARGF.class#filename]] を使用します。
+
+ブロックが与えられなかった場合は、[[c:Enumerator]] オブジェクトを生成し
+て返します。
+
+例:
+  # $ echo "line1\n" > test1.txt
+  # $ echo "line2\n" > test2.txt
+  # $ ruby test.rb test1.txt test2.txt
+
+  # test.rb
+  ARGF.each_char          # => #<Enumerator: ARGF:each_char>
+  ARGF.each_char{|e|p e}
+
+  # => "l"
+  #    "i"
+  #    "n"
+  #    "e"
+  #    "1"
+  #    "\n"
+  #    "l"
+  #    "i"
+  #    "n"
+  #    "e"
+  #    "2"
+  #    "\n"
+
+@see [[m:IO#each_char]]
+

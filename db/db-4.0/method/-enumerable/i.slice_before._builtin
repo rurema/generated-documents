@@ -1,0 +1,78 @@
+names=slice_before
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Enumerable:1347
+
+--- slice_before(pattern) -> Enumerator
+--- slice_before {|elt| bool } -> Enumerator
+
+パターンがマッチした要素、もしくはブロックが真を返した要素から
+次にマッチする手前までを
+チャンク化(グループ化)したものを繰り返す [[c:Enumerator]] を
+返します。
+
+パターンを渡した場合は各要素に対し === が呼び出され、
+それが真になったところをチャンクの先頭と見なします。
+ブロックを渡した場合は、各要素に対しブロックを適用し
+返り値が真であった要素をチャンクの先頭と見なします。
+
+より厳密にいうと、「先頭要素」の手前で分割していきます。
+最初の要素の評価は無視されます。
+
+各チャンクは配列として表現されます。
+
+[[m:Enumerable#to_a]] や [[m:Enumerable#map]] のようなメソッドを使うこ
+ともできます。
+
+//emlist[例][ruby]{
+# 偶数要素をチャンクの先頭と見なす
+[0,2,4,1,2,4,5,3,1,4,2].slice_before(&:even?).to_a
+# => [[0], [2], [4, 1], [2], [4, 5, 3, 1], [4], [2]]
+
+# 奇数要素をチャンクの先頭と見なす
+[0,2,4,1,2,4,5,3,1,4,2].slice_before(&:odd?).to_a
+# => [[0, 2, 4], [1, 2, 4], [5], [3], [1, 4, 2]]
+
+# ChangeLog のエントリーを順に取る
+open("ChangeLog") {|f|
+  f.slice_before(/\A\S/).each {|e| pp e}
+}
+
+# 上と同じだが、パターンでなくブロックを使う
+open("ChangeLog") {|f|
+  f.slice_before {|line| /\A\S/ === line }.each {|e| pp e}
+}
+
+# "svn proplist -R" の結果を分割する
+# これは一要素が複数行にまたがっている
+
+IO.popen([{"LC_ALL"=>"C"}, "svn", "proplist", "-R"]) {|f|
+  f.lines.slice_before(/\AProp/).each {|lines| p lines }
+}
+#=> ["Properties on '.':\n", "  svn:ignore\n", "  svk:merge\n"]
+#   ["Properties on 'goruby.c':\n", "  svn:eol-style\n"]
+#   ["Properties on 'complex.c':\n", "  svn:mime-type\n", "  svn:eol-style\n"]
+#   ["Properties on 'regparse.c':\n", "  svn:eol-style\n"]
+#   ...
+//}
+
+複数要素にわたる状態遷移が必要な場合は、ローカル変数でこれを実現する
+ことができます。例えば、連続に増える数値が3つ以上ある場合、これを
+まとめる処理をするためには以下のようにします
+([[m:Enumerable#chunk_while]] のより簡単な例も参照)。
+
+//emlist[][ruby]{
+a = [0,2,3,4,6,7,9]
+prev = a[0]
+p a.slice_before {|e|
+  prev, prev2 = e, prev
+  prev2 + 1 != e
+}.map {|es|
+  es.length <= 2 ? es.join(",") : "#{es.first}-#{es.last}"
+}.join(",")
+#=> "0,2-4,6,7,9"
+//}
+
+
+@see [[m:Enumerable#chunk]], [[m:Enumerable#slice_after]]
+

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Data/i/deconstruct_keys.html">
+
+<title>Data#deconstruct_keys (Ruby 4.0 リファレンスマニュアル)</title>
+<meta name="description" content="self のメンバの名前と値の組を Hash で返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Data.html","name":"Dataクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Data/i/deconstruct_keys.html","name":"deconstruct_keys","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Data.html">Dataクラス</a>
+      </li>
+      <li>
+        deconstruct_keys 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method Data#deconstruct_keys</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(array_of_names_or_nil) -&gt; Hash</code><span class="permalink">[<a href="../../../method/Data/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Data.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Data#L269">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self のメンバの名前と値の組を Hash で返します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Measure</span> <span class="o">=</span> <span class="no">Data</span><span class="p">.</span><span class="nf">define</span><span class="p">(</span><span class="ss">:amount</span>, <span class="ss">:unit</span><span class="p">)</span>
+
+distance <span class="o">=</span> <span class="no">Measure</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">10</span>, <span class="s1">'km'</span><span class="p">)</span>
+distance<span class="p">.</span><span class="nf">deconstruct_keys</span><span class="p">(</span><span class="k">nil</span><span class="p">)</span>       <span class="c1"># =&gt; {:amount=&gt;10, :unit=&gt;&quot;km&quot;}
+</span>distance<span class="p">.</span><span class="nf">deconstruct_keys</span><span class="p">(</span><span class="p">[</span><span class="ss">:amount</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; {:amount=&gt;10}
+</span></code></pre>
+<p>
+このメソッドは以下のようにパターンマッチで利用されます。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Measure</span> <span class="o">=</span> <span class="no">Data</span><span class="p">.</span><span class="nf">define</span><span class="p">(</span><span class="ss">:amount</span>, <span class="ss">:unit</span><span class="p">)</span>
+distance <span class="o">=</span> <span class="no">Measure</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">10</span>, <span class="s1">'km'</span><span class="p">)</span>
+
+<span class="k">case</span> distance
+<span class="k">in</span> <span class="ss">amount:</span>, <span class="ss">unit:</span> <span class="s1">'km'</span> <span class="c1"># 裏側で #deconstruct_keys を呼ぶ
+</span>  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">It is </span><span class="si">#{</span><span class="n">amount</span><span class="si">}</span><span class="s2"> kilometers away</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">Don't know how to handle it</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1"># &quot;It is 10 kilometers away&quot; が表示される
+</span>
+<span class="c1"># 以下のようにも書ける
+</span><span class="k">case</span> distance
+<span class="k">in</span> <span class="no">Measure</span><span class="p">(</span><span class="ss">amount:</span>, <span class="ss">unit:</span> <span class="s1">'km'</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">It is </span><span class="si">#{</span><span class="n">amount</span><span class="si">}</span><span class="s2"> kilometers away</span><span class="s2">"</span>
+<span class="c1"># ...
+</span><span class="k">end</span>
+</code></pre>
+<dl>
+<dt class='method-param'>[PARAM] array_of_names_or_nil:</dt>
+<dd>
+返り値に含めるメンバの名前の配列を指定します。nil の場合は全てのメンバを意味します。
+</dd>
+</dl>
+<p>
+[注意] 本メソッドの記述は Data のサブクラスのインスタンスに対して呼び出す事を想定しています。Data.define は Data のサブクラスを作成する点に注意してください。
+</p>
+<p>
+[SEE_ALSO] <a href="../../../doc/spec=2fpattern_matching.html#matching_non_primitive_objects">パターンマッチ/非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Data#L269">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

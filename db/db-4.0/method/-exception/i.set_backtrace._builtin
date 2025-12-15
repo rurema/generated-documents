@@ -1,0 +1,26 @@
+names=set_backtrace
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Exception:137
+
+--- set_backtrace(errinfo)    -> nil | String | [String]
+
+バックトレース情報に errinfo を設定し、設定されたバックトレース
+情報を返します。
+
+@param errinfo nil、[[c:String]] あるいは [[c:String]] の配列のいずれかを指定します。
+
+//emlist[例][ruby]{
+begin
+  begin
+    raise "inner"
+  rescue
+    raise "outer"
+  end
+rescue
+  $!.backtrace # => ["/path/to/test.rb:5:in `rescue in <main>'", "/path/to/test.rb:2:in `<main>'"]
+  $!.set_backtrace(["dummy1", "dummy2"])
+  $!.backtrace # => ["dummy1", "dummy2"]
+end
+//}
+

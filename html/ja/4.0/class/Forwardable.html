@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Forwardable.html">
+
+<title>module Forwardable (Ruby 4.0 リファレンスマニュアル)</title>
+<meta name="description" content="クラスに対し、メソッドの委譲機能を定義するモジュールです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/forwardable.html","name":"forwardableライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Forwardable.html","name":"Forwardableモジュール","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/forwardable.html">forwardableライブラリ</a>
+      </li>
+      <li>
+        Forwardableモジュール
+      </li>
+    </ol>
+  </nav>
+
+<h1>module Forwardable</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/forwardable.rd#L16">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+      <li>
+        Forwardable
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+クラスに対し、メソッドの委譲機能を定義するモジュールです。
+</p>
+<h2 >使い方</h2>
+<p>
+クラスに対して <a href="../method/Object/i/extend.html">Object#extend</a> して使います。<a href="../method/Module/i/include.html">Module#include</a> でないところに注意して下さい。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s1">'forwardable'</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  <span class="nb">extend</span> <span class="no">Forwardable</span>
+
+  def_delegators<span class="p">(</span><span class="s2">"</span><span class="s2">@out</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">printf</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">print</span><span class="s2">"</span><span class="p">)</span>
+  def_delegators<span class="p">(</span><span class="ss">:<span class="vi">@in</span>, <span class="ss">:gets</span><span class="p">)</span>
+  def_delegator</span><span class="p">(</span><span class="ss">:<span class="vi">@contents</span>, <span class="ss">:<span class="o">[]</span>, <span class="s2">"</span><span class="s2">content_at</span><span class="s2">"</span><span class="p">)</span>
+end</span>
+
+f</span> <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span>
+f<span class="p">.</span><span class="nf">printf</span> <span class="o">...</span>
+f<span class="p">.</span><span class="nf">gets</span>
+f<span class="p">.</span><span class="nf">content_at</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_DEBUG">debug</a></li>
+
+<li><a href="#S_DEBUG--3D">debug=</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_DEF_DELEGATOR">def_delegator</a></li>
+
+<li><a href="#I_DEF_DELEGATORS">def_delegators</a></li>
+
+<li><a href="#I_DEF_DELEGATOR">def_instance_delegator</a></li>
+
+<li><a href="#I_DEF_DELEGATORS">def_instance_delegators</a></li>
+
+<li><a href="#I_DELEGATE">delegate</a></li>
+
+<li><a href="#I_DELEGATE">instance_delegate</a></li>
+
+</ul>
+</dd>
+
+<dt>定数</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#C_-F-O-R-W-A-R-D-A-B-L-E_-V-E-R-S-I-O-N">FORWARDABLE_VERSION</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_DEBUG"><code>debug -&gt; bool</code><span class="permalink">[<a href="../method/Forwardable/s/debug.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Forwardable.html#method-c-debug">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/forwardable.rd#L43">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+委譲部分をバックトレースに含めるかどうかの状態を返します。
+</p>
+<p>
+バックトレースを含める設定となっている時、真を返します。デフォルトは含めない設定となっています。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_DEBUG--3D"><code>debug= -&gt; bool</code><span class="permalink">[<a href="../method/Forwardable/s/debug=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Forwardable.html#method-c-debug-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/forwardable.rd#L51">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+委譲部分をバックトレースに含めるかどうかの状態を設定します。
+</p>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_DEF_DELEGATOR"><code>def_instance_delegator(accessor, method, ali = method) -&gt; ()</code><span class="permalink">[<a href="../method/Forwardable/i/def_delegator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Forwardable.html#method-i-def_delegator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/forwardable.rd#L82">edit</a>]</span></dt>
+<dt class="method-heading"><code>def_delegator(accessor, method, ali = method) -&gt; ()</code></dt>
+<dd class="method-description">
+<p>
+メソッドの委譲先を設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] accessor:</dt>
+<dd>
+委譲先のオブジェクト
+</dd>
+<dt class='method-param'>[PARAM] method:</dt>
+<dd>
+委譲先のメソッド
+</dd>
+<dt class='method-param'>[PARAM] ali:</dt>
+<dd>
+委譲元のメソッド
+</dd>
+</dl>
+<p>
+委譲元のオブジェクトで ali が呼び出された場合に、委譲先のオブジェクトの method へ処理が委譲されるようになります。
+</p>
+<p>
+委譲元と委譲先のメソッド名が同じ場合は, ali を省略することが可能です。
+</p>
+<p>
+def_delegator は def_instance_delegator の別名になります。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s1">'forwardable'</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyQueue</span>
+  <span class="nb">extend</span> <span class="no">Forwardable</span>
+  <span class="nb">attr_reader</span> <span class="ss">:queue</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@queue</span> <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
+  <span class="k">end</span>
+
+  def_delegator <span class="ss">:<span class="vi">@queue</span>, <span class="ss">:push</span>, <span class="ss">:mypush</span>
+end</span>
+
+q <span class="o">=</span> <span class="no">MyQueue</span><span class="p">.</span><span class="nf">new</span>
+q<span class="p">.</span><span class="nf">mypush</span> <span class="mi">42</span>
+q<span class="p">.</span><span class="nf">queue</span>    <span class="c1"># =&gt; [42]
+</span>q<span class="p">.</span><span class="nf">push</span> <span class="mi">23</span>  <span class="c1"># =&gt; NoMethodError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Forwardable/i/def_delegators.html">Forwardable#def_delegators</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DEF_DELEGATORS"><code>def_instance_delegators(accessor, *methods) -&gt; ()</code><span class="permalink">[<a href="../method/Forwardable/i/def_delegators.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Forwardable.html#method-i-def_delegators">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/forwardable.rd#L58">edit</a>]</span></dt>
+<dt class="method-heading"><code>def_delegators(accessor, *methods) -&gt; ()</code></dt>
+<dd class="method-description">
+<p>
+メソッドの委譲先をまとめて設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] accessor:</dt>
+<dd>
+委譲先のオブジェクト
+</dd>
+<dt class='method-param'>[PARAM] methods:</dt>
+<dd>
+委譲するメソッドのリスト
+</dd>
+</dl>
+<p>
+委譲元のオブジェクトで methods のそれぞれのメソッドが呼び出された場合に、委譲先のオブジェクトの同名のメソッドへ処理が委譲されるようになります。
+</p>
+<p>
+def_delegators は def_instance_delegators の別名になります。
+</p>
+<p>
+また、以下の 2 つの例は同じ意味です。
+</p>
+<pre>
+def_delegators :@records, :size, :&lt;&lt;, :map
+
+def_delegator :@records, :size
+def_delegator :@records, :&lt;&lt;
+def_delegator :@records, :map
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/Forwardable/i/def_delegator.html">Forwardable#def_delegator</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DELEGATE"><code>instance_delegate(hash) -&gt; ()</code><span class="permalink">[<a href="../method/Forwardable/i/delegate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Forwardable.html#method-i-delegate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/forwardable.rd#L122">edit</a>]</span></dt>
+<dt class="method-heading"><code>delegate(hash) -&gt; ()</code></dt>
+<dd class="method-description">
+<p>
+メソッドの委譲先を設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] hash:</dt>
+<dd>
+委譲先のメソッドがキー、委譲先のオブジェクトが値の
+<a href="../class/Hash.html">Hash</a> を指定します。キーは <a href="../class/Symbol.html">Symbol</a>、
+<a href="../class/String.html">String</a> かその配列で指定します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="nb">require</span> <span class="s1">'forwardable'</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Zap</span>
+    <span class="nb">extend</span> <span class="no">Forwardable</span>
+    delegate <span class="ss">:length</span> <span class="o">=&gt;</span> <span class="ss">:<span class="vi">@str</span>
+    delegate</span> <span class="p">[</span><span class="ss">:first</span>, <span class="ss">:last</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="ss">:<span class="vi">@arr</span>
+    def</span> initialize
+      <span class="vi">@arr</span> <span class="o">=</span> <span class="sx">%w/foo bar baz/</span>
+      <span class="vi">@str</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">world</span><span class="s2">"</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+zap <span class="o">=</span> <span class="no">Zap</span><span class="p">.</span><span class="nf">new</span>
+zap<span class="p">.</span><span class="nf">length</span> <span class="c1"># =&gt; 5
+</span>zap<span class="p">.</span><span class="nf">first</span>  <span class="c1"># =&gt; &quot;foo&quot;
+</span>zap<span class="p">.</span><span class="nf">last</span>   <span class="c1"># =&gt; &quot;baz&quot;
+</span></code></pre>
+</dd>
+
+
+</dl>
+
+<h2>定数</h2>
+<dl>
+
+<dt class="method-heading" id="C_-F-O-R-W-A-R-D-A-B-L-E_-V-E-R-S-I-O-N"><code>FORWARDABLE_VERSION -&gt; String</code><span class="permalink">[<a href="../method/Forwardable/c/FORWARDABLE_VERSION.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Forwardable.html#method-c-FORWARDABLE_VERSION">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/forwardable.rd#L154">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../library/forwardable.html">forwardable</a> ライブラリのバージョンを返します。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/forwardable.rd#L16">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/WIN32OLE_EVENT/s/message_loop.html">
+
+<title>WIN32OLE_EVENT.message_loop (Ruby 4.0 リファレンスマニュアル)</title>
+<meta name="description" content="Windowsのメッセージポンプを実行します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/win32ole.html","name":"win32oleライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/WIN32OLE_EVENT.html","name":"WIN32OLE_EVENTクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/WIN32OLE_EVENT/s/message_loop.html","name":"message_loop","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/win32ole.html">win32oleライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/WIN32OLE_EVENT.html">WIN32OLE_EVENTクラス</a>
+      </li>
+      <li>
+        message_loop 
+      </li>
+    </ol>
+  </nav>
+
+<h1>singleton method WIN32OLE_EVENT.message_loop</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_MESSAGE_LOOP"><code>message_loop -&gt; ()</code><span class="permalink">[<a href="../../../method/WIN32OLE_EVENT/s/message_loop.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/WIN32OLE_EVENT.html#method-c-message_loop">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/win32ole/WIN32OLE_EVENT#L31">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Windowsのメッセージポンプを実行します。
+</p>
+<p>
+message_loopメソッドは、Windowsメッセージがキューイングされている限りメッセージの読み出しとディスパッチを実行します。
+</p>
+<p>
+COMのスレッド間/プロセス間通信はスレッド内で呼び出しをシリアライズするためにWindowsメッセージを利用します。このため、ほとんどのイベント処理は
+Windowsメッセージを読み取ってディスパッチすることで通知されます。
+</p>
+<pre>
+ie = WIN32OLE.new('InternetExplorer.Application.1')
+event = WIN32OLE_EVENT.new(ie, 'DWebBrowserEvents2')
+b = false
+event.on_event('DocumentComplete') do |disp, uri|
+  disp.document.getElementsByTagName('a').each do |e|
+    puts &quot;#{e.innerHTML}=#{e.href}&quot;   #=&gt; ダウンロード=http://www.ruby-lang.org/ja/downloads/ など
+  end
+  disp.quit
+  b = true
+end
+ie.Navigate2 'http://www.ruby-lang.org/ja/'
+loop do
+  break if b
+  WIN32OLE_EVENT.message_loop
+end
+</pre>
+<p>
+なお、メソッド名はloopですが、呼び出し時および既にキューイングされたメッセージの処理中にキューされたメッセージの処理が終わると呼び出し元に制御が戻ります。このため、イベント通知までに長い時間がかかる場合はすべてのイベントを受信するまでループを実行する必要があります。このとき他のスレッドに制御を与える必要があれば、<a href="../../../method/Kernel/m/sleep.html">Kernel.#sleep</a>などを呼び出してください。message_loopメソッドの呼び出し中はRubyのスレッドの切り替えは行われません。
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/win32ole/WIN32OLE_EVENT#L31">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,23 @@
+names=binding
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/TracePoint:434
+
+--- binding -> Binding | nil
+
+発生したイベントによって生成された [[c:Binding]] オブジェクトを返します。
+
+C で記述されたメソッドは binding を生成しないため、
+:c_call および :c_return イベントに対しては nil を返すことに注意してください。
+
+//emlist[例][ruby]{
+def foo(ret)
+  ret
+end
+trace = TracePoint.new(:call) do |tp|
+  p tp.binding.local_variables # => [:ret]
+end
+trace.enable
+foo 1
+//}
+

@@ -1,0 +1,40 @@
+names=public_constant
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Module:1138
+
+--- public_constant(*name) -> self
+
+name で指定した定数の可視性を public に変更します。
+
+@param name 0 個以上の [[c:String]] か [[c:Symbol]] を指定します。
+
+@raise NameError 存在しない定数を指定した場合に発生します。
+
+@return self を返します。
+
+//emlist[例][ruby]{
+module SampleModule
+  class SampleInnerClass
+  end
+
+  # => 非公開クラスであることを明示するために private にする
+  private_constant :SampleInnerClass
+end
+
+begin
+  SampleModule::SampleInnerClass
+rescue => e
+  e # => #<NameError: private constant SampleModule::SampleInnerClass referenced>
+end
+
+module SampleModule
+  # => 非公開クラスであることは承知で利用するために public にする
+  public_constant :SampleInnerClass
+end
+
+SampleModule::SampleInnerClass # => SampleModule::SampleInnerClass
+//}
+
+@see [[m:Module#private_constant]]
+

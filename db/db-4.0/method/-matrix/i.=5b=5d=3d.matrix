@@ -1,0 +1,38 @@
+names=[]=
+visibility=public
+kind=defined
+source_location=refm/api/src/matrix/Matrix:431
+
+--- []=(row, col, v)
+
+行が row、列が col である範囲を v に変更する。
+
+@param row  self の変更する行の範囲を [[c:Integer]] か [[c:Range]] で指定します。
+@param col  self の変更する列の範囲を [[c:Integer]] か [[c:Range]] で指定します。
+@param v  セットする要素を指定します。
+          v が [[c:Vector]] のとき、変更の対象範囲は [[c:Integer]] と [[c:Range]] で指定し、
+                                  サイズが同じである必要があります。
+          v が [[c:Matrix]] のとき、変更の対象範囲と行数・列数が同じである必要があります。
+          v が上記以外のとき、変更の対象範囲の全ての要素を v に変更します。
+
+//emlist[][ruby]{
+require 'matrix'
+
+m = Matrix[[0, 0], [0, 0]]
+m[0, 1] = 6
+m[-1, -1] = 9
+p m  # => Matrix[[0, 6], [0, 9]]
+
+m = Matrix[[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+m[0, 0..-1] = 5
+m[1, 0..1] = Vector[2, 4]
+m[2, 0..2] = Matrix[[3, 6, 9]]
+p m #=> Matrix[[5, 5, 5], [2, 4, 0], [3, 6, 9]]
+
+m = Matrix[[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+m[0..2, 0..1] = 9
+p m  # => Matrix[[9, 9, 0], [9, 9, 0], [9, 9, 0]]
+m[1..-1, 0..1] = Matrix[[1, 2], [3, 4]]
+p m  # => Matrix[[9, 9, 0], [1, 2, 0], [3, 4, 0]]
+//}
+
