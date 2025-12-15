@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/news=2f3_0_0.html">
+
+<title>NEWS for Ruby 3.0.0 (Ruby 4.0 リファレンスマニュアル)</title>
+<meta name="description" content="このドキュメントは前回リリース以降のバグ修正を除くユーザーに影響のある機能の変更のリストです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/news=2f3_0_0.html","name":"NEWS for Ruby 3.0.0","position":2}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a>
+        </li>
+        <li>
+          NEWS for Ruby 3.0.0
+        </li>
+      
+    </ol>
+  </nav>
+
+<h1>NEWS for Ruby 3.0.0</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/doc/news/3_0_0.rd#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+<p>
+このドキュメントは前回リリース以降のバグ修正を除くユーザーに影響のある機能の変更のリストです。
+</p>
+<p>
+それぞれのエントリーは参照情報があるため短いです。十分な情報と共に書かれた全ての変更のリストはリンク先を参照してください。
+</p>
+<h1 >言語仕様の変更</h1>
+<ul>
+<li>キーワード引数が位置引数から分離されるようになります。
+Ruby 2.7 では非推奨の警告を表示していましたが、ArgumentError を出力するか、異なる振る舞いをします。
+<a class="external" href="https://bugs.ruby-lang.org/issues/14183">[feature#14183]</a></li>
+<li>単一の rest 引数とキーワードを受け入れる Proc は、autosplat の対象ではなくなりました。
+これは、単一の rest 引数を受け入れキーワードを受け入れない Proc の振る舞いと一致するようになっています。
+<a class="external" href="https://bugs.ruby-lang.org/issues/16166">[feature#16166]</a></li>
+</ul>
+<pre class="highlight ruby">
+<code>
+pr <span class="o">=</span> <span class="nb">proc</span><span class="p">{</span><span class="o">|</span><span class="o">*</span>a, <span class="o">**</span>kw<span class="o">|</span> <span class="p">[</span>a, kw<span class="p">]</span><span class="p">}</span>
+
+pr<span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">)</span>
+<span class="c1"># 2.7 =&gt; [[1], {}]
+</span><span class="c1"># 3.0 =&gt; [[[1]], {}]
+</span>
+pr<span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span>, <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span><span class="p">}</span><span class="p">]</span><span class="p">)</span>
+<span class="c1"># 2.7 =&gt; [[1], {:a=&gt;1}] # and deprecation warning
+</span><span class="c1"># 3.0 =&gt; [[[1, {:a=&gt;1}]], {}]
+</span></code></pre>
+<ul>
+<li>引数委譲（...）は、先頭の引数をサポートするようになりました。
+<a class="external" href="https://bugs.ruby-lang.org/issues/16378">[feature#16378]</a></li>
+</ul>
+<pre>
+def method_missing(meth, ...)
+  send(:&quot;do_#{meth}&quot;, ...)
+end
+</pre>
+<ul>
+<li>パターンマッチ（case/in）が正式機能となりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/17260">[feature#17260]</a></li>
+<li>一行パターンマッチが実験的に再設計されました。 [EXPERIMENTAL]<ul>
+<li>=&gt; が導入されました。右代入のように使用できます。
+<a class="external" href="https://bugs.ruby-lang.org/issues/17260">[feature#17260]</a></li>
+</ul>
+</li>
+<li>in は true もしくは false を返すように変更されています。 <a class="external" href="https://bugs.ruby-lang.org/issues/17371">[feature#17371]</a></li>
+</ul>
+<pre>
+0 =&gt; a
+p a #=&gt; 0
+
+{b: 0, c: 1} =&gt; {b:}
+p b #=&gt; 0
+</pre>
+<pre>
+# version 3.0
+0 in 1 #=&gt; false
+
+# version 2.7
+0 in 1 #=&gt; raise NoMatchingPatternError
+</pre>
+<ul>
+<li>Find パターンが実験的に導入されています。 [EXPERIMENTAL]
+<a class="external" href="https://bugs.ruby-lang.org/issues/16828">[feature#16828]</a></li>
+</ul>
+<pre>
+case [&quot;a&quot;, 1, &quot;b&quot;, &quot;c&quot;, 2, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;, 3]
+in [*pre, String =&gt; x, String =&gt; y, *post]
+  p pre  #=&gt; [&quot;a&quot;, 1]
+  p x    #=&gt; &quot;b&quot;
+  p y    #=&gt; &quot;c&quot;
+  p post #=&gt; [2, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;, 3]
+end
+</pre>
+<ul>
+<li>end のないメソッド定義が実験的に導入されました。 [EXPERIMENTAL]
+<a class="external" href="https://bugs.ruby-lang.org/issues/16746">[feature#16746]</a></li>
+</ul>
+<pre>
+def square(x) = x * x
+</pre>
+<ul>
+<li># frozen-string-literal: true が使用されている場合、式展開を含む文字列リテラルは freeze されなくなりました。
+<a class="external" href="https://bugs.ruby-lang.org/issues/17104">[feature#17104]</a></li>
+<li>定数を freeze するためのマジックコメント shareable_constant_value が導入されました。
+詳細は <a href="../doc/spec=2fm17n.html#magic_comment">多言語化/magic comment</a> を参照してください。
+<a class="external" href="https://bugs.ruby-lang.org/issues/17273">[feature#17273]</a></li>
+<li>静的解析基盤が導入されました。<ul>
+<li>RBS が導入されました。
+RBS は Ruby プログラムのための型定義言語です。</li>
+<li>TypeProf が実験的にバンドルされました。
+TypeProf は Ruby プログラムのための型解析ツールです。</li>
+</ul>
+</li>
+<li>非推奨に関する警告がデフォルトで非表示になりました（Ruby 2.7.2 から導入されています）。
+-W:deprecated を指定すると表示されるようになります（もしくは、-w を指定すると異なる警告が表示されます）。
+<a class="external" href="https://bugs.ruby-lang.org/issues/16345">[feature#16345]</a></li>
+<li>$SAFE と $KCODE は特別扱いせずただのグローバル変数になりました。
+$SAFE に関係した C API メソッドは削除されました。
+<a class="external" href="https://bugs.ruby-lang.org/issues/16131">[feature#16131]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/17136">[feature#17136]</a></li>
+<li>メソッド内のシングルトンクラス定義中の yield は警告ではなく SyntaxError になりました。
+メソッド外のクラス定義中の yield は LocalJumpError ではなく SyntaxError になりました。
+<a class="external" href="https://bugs.ruby-lang.org/issues/15575">[feature#15575]</a></li>
+<li>スーパークラス/スーパーモジュールでクラス変数を再定義した場合、RuntimeError を起こすようになりました
+（今までは verbose モードでのみ警告を出していました）。
+さらにトップレベルでクラス変数にアクセスすると RuntimeError になりました。
+<a class="external" href="https://bugs.ruby-lang.org/issues/14541">[bug#14541]</a></li>
+<li>Numbered parameter への代入が警告ではなく SyntaxError になりました。</li>
+</ul>
+<h1 >コマンドラインオプション</h1>
+<h2 >--help オプション</h2>
+<p>
+環境変数 RUBY_PAGER または PAGER が空ではない文字列を指定され、標準入出力が tty である場合、--help オプションはページャーを通してヘルプメッセージを表示するようになりました。
+<a class="external" href="https://bugs.ruby-lang.org/issues/16754">[feature#16754]</a>
+</p>
+<h2 >--backtrace-limit オプション</h2>
+<p>
+--backtrace-limit オプションはバックトレースの最大行数を指定できるようになりました。
+<a class="external" href="https://bugs.ruby-lang.org/issues/8661">[feature#8661]</a>
+</p>
+<h1 >組み込みクラスの更新</h1>
+<p>
+注目すべきもののみ記載します。
+</p>
+<ul>
+<li>Array<ul>
+<li>以下のメソッドは、サブクラスインスタンスで呼び出された場合、配列インスタンスを返すようになりました: <a class="external" href="https://bugs.ruby-lang.org/issues/6087">[bug#6087]</a><ul>
+<li>Array#drop</li>
+<li>Array#drop_while</li>
+<li>Array#flatten</li>
+<li>Array#slice!</li>
+<li>Array#slice / Array#[]</li>
+<li>Array#take</li>
+<li>Array#take_while</li>
+<li>Array#uniq</li>
+<li>Array#*</li>
+</ul>
+</li>
+<li>Enumerator::ArithmeticSequence でスライスできます。</li>
+</ul>
+</li>
+</ul>
+<pre class="highlight ruby">
+<code>
+dirty_data <span class="o">=</span> <span class="p">[</span><span class="s1">'--'</span>, <span class="s1">'data1'</span>, <span class="s1">'--'</span>, <span class="s1">'data2'</span>, <span class="s1">'--'</span>, <span class="s1">'data3'</span><span class="p">]</span>
+dirty_data<span class="p">[</span><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="p">]</span> <span class="c1"># take each second element
+</span><span class="c1"># =&gt; [&quot;data1&quot;, &quot;data2&quot;, &quot;data3&quot;]
+</span></code></pre>
+<ul>
+<li>Binding<ul>
+<li>1 引数で呼び出された Binding#eval は、コード評価時に __FILE__ には &quot;(eval)&quot; を、__LINE__ には 1 を使うようになります。<a class="external" href="https://bugs.ruby-lang.org/issues/4352">[bug#4352]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/17419">[bug#17419]</a></li>
+</ul>
+</li>
+<li>ConditionVariable<ul>
+<li>ConditionVariable#wait はノンブロッキングコンテキストで block/unblock スケジューラーフックを呼び出せるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/16786">[feature#16786]</a></li>
+</ul>
+</li>
+<li>Dir<ul>
+<li>Dir.glob および Dir.[] は出力結果をデフォルトでソートするようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/8709">[feature#8709]</a></li>
+</ul>
+</li>
+<li>ENV<ul>
+<li>ENV.except が導入されました。与えられたキーとそれらの値を除外したハッシュを返すようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/15822">[feature#15822]</a></li>
+<li>Windows: ENV の名前と値を UTF-8 でエンコードされた文字列として読み取ります。<a class="external" href="https://bugs.ruby-lang.org/issues/12650">[feature#12650]</a></li>
+</ul>
+</li>
+<li>Encoding<ul>
+<li>新しく IBM720 というエンコーディングが導入されました。<a class="external" href="https://bugs.ruby-lang.org/issues/16233">[feature#16233]</a></li>
+<li>Windows では Encoding.default_external のデフォルトが UTF-8 になりました。<a class="external" href="https://bugs.ruby-lang.org/issues/16604">[feature#16604]</a></li>
+</ul>
+</li>
+<li>Fiber<ul>
+<li>Fiber.new(blocking: true/false) は、ノンブロッキング実行コンテキストを生成することを許可するようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/16786">[feature#16786]</a></li>
+<li>Fiber#blocking? は fiber がノンブロッキングであるかを返します。<a class="external" href="https://bugs.ruby-lang.org/issues/16786">[feature#16786]</a></li>
+<li>Fiber#backtrace および Fiber#backtrace_locations は fiber ごとのバックトレースを提供するようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/16815">[feature#16815]</a></li>
+<li>Fiber#transfer の制限が緩和されました。<a class="external" href="https://bugs.ruby-lang.org/issues/17221">[bug#17221]</a></li>
+</ul>
+</li>
+<li>GC<ul>
+<li>コンパクションが実行されるタイミングを制御するために GC.auto_compact= および GC.auto_compact が導入されました。
+auto_compact= を true に設定すると、メジャー GC 中にコンパクションが発生します。
+現時点では、コンパクションによってメジャー GC にかなりのオーバーヘッドが追加されます。よって、まず最初にテストしてください！
+<a class="external" href="https://bugs.ruby-lang.org/issues/17176">[feature#17176]</a></li>
+</ul>
+</li>
+<li>Hash<ul>
+<li>Hash#transform_keys および Hash#transform_keys! はキーを新しいキーにマッピングするハッシュを受け入れるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/16274">[feature#16274]</a></li>
+<li>Hash#except が導入されました。与えられたキーとそれらの値を除外したハッシュを返すようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/15822">[feature#15822]</a></li>
+</ul>
+</li>
+<li>IO<ul>
+<li>IO#nonblock? のデフォルト値が true になりました。<a class="external" href="https://bugs.ruby-lang.org/issues/16786">[feature#16786]</a></li>
+<li>IO#wait_readable, IO#wait_writable, IO#read, IO#write およびその他関連するメソッド（例 IO#puts, IO#gets）は、ノンブロッキング実行コンテキストでスケジューラフック #io_wait(io, events, timeout) を呼び出す場合があります。<a class="external" href="https://bugs.ruby-lang.org/issues/16786">[feature#16786]</a></li>
+</ul>
+</li>
+<li>Kernel<ul>
+<li>キーワード引数 freeze: false 付きで呼び出された Kernel#clone は、キーワード引数 freeze: false 付きで #initialize_clone を呼び出すようになります。<a class="external" href="https://bugs.ruby-lang.org/issues/14266">[bug#14266]</a></li>
+<li>キーワード引数 freeze: true 付きで呼び出された Kernel#clone は、キーワード引数 freeze: true 付きで #initialize_clone を呼び出すようになります。そして、Kernel#clone は、レシーバが freeze されていない場合、freeze された複製を返すようになります。<a class="external" href="https://bugs.ruby-lang.org/issues/16175">[feature#16175]</a></li>
+<li>2 引数で呼び出された場合の Kernel#eval は、コード評価時に __FILE__ では &quot;(eval)&quot; を、__LINE__ では 1 を使うようになります。<a class="external" href="https://bugs.ruby-lang.org/issues/4352">[bug#4352]</a></li>
+<li>Kernel#lambda は、リテラルブロックなしで呼び出された場合、警告を出すようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/15973">[feature#15973]</a></li>
+<li>Kernel.sleep はノンブロッキング実行コンテキストでスケジューラフック #kernel_sleep(...) を呼び出すようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/16786">[feature#16786]</a></li>
+</ul>
+</li>
+<li>Module<ul>
+<li>Module#include および Module#prepend はレシーバがすでに include されている、もしくは、prepend されているクラスとモジュールに影響を与えるようになります。そして、他のモジュールやクラスが include される、もしくは、prepend される前に、引数がレシーバに include されるような振る舞いをミラーリングします。<a class="external" href="https://bugs.ruby-lang.org/issues/9573">[feature#9573]</a></li>
+<li>Module#public, Module#protected, Module#private, Module#public_class_method, Module#private_class_method, およびトップレベルの &quot;private&quot;/&quot;public&quot; メソッドが、メソッド名一覧が入った単一の配列引数を受け取れるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/17314">[feature#17314]</a></li>
+<li>Module#attr_accessor, Module#attr_reader, Module#attr_writer および Module#attr メソッドは、定義されたメソッドのシンボルの配列を返すようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/17314">[feature#17314]</a></li>
+<li>Module#alias_method は、定義されたエイリアスのシンボルを返すようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/17314">[feature#17314]</a></li>
+</ul>
+</li>
+</ul>
+<pre class="highlight ruby">
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C</span>; <span class="k">end</span>
+<span class="k">module</span> <span class="nn">M1</span>; <span class="k">end</span>
+<span class="k">module</span> <span class="nn">M2</span>; <span class="k">end</span>
+<span class="no">C</span><span class="p">.</span><span class="nf">include</span> <span class="no">M1</span>
+<span class="no">M1</span><span class="p">.</span><span class="nf">include</span> <span class="no">M2</span>
+<span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">ancestors</span> <span class="c1">#=&gt; [C, M1, M2, Object, Kernel, BasicObject]
+</span></code></pre>
+<ul>
+<li>Mutex<ul>
+<li>Mutex は、Thread ごとではなく Fiber ごとに取得されるようになりました。
+この変更は、基本的に全てのユースケースで互換性があるべきで、スケジューラーを使用する際のブロッキングを回避する必要があります。
+<a class="external" href="https://bugs.ruby-lang.org/issues/16792">[feature#16792]</a></li>
+</ul>
+</li>
+<li>Proc<ul>
+<li>Proc#== および Proc#eql? は、Proc が同じブロックから作成される場合、異なる Proc インスタンスに対して true を返すように定義されました。<a class="external" href="https://bugs.ruby-lang.org/issues/14267">[feature#14267]</a></li>
+</ul>
+</li>
+<li>Queue / SizedQueue<ul>
+<li>Queue#pop, SizedQueue#push および関連したメソッドは、ノンブロッキングコンテキストで block/unblock スケジューラーフックを呼び出す場合があります。<a class="external" href="https://bugs.ruby-lang.org/issues/16786">[feature#16786]</a></li>
+</ul>
+</li>
+<li>Ractor<ul>
+<li>並列処理を可能にする新しいクラスが追加されました。詳細は <a class="external" href="https://docs.ruby-lang.org/en/master/ractor_md.html">https://docs.ruby-lang.org/en/master/ractor_md.html</a> を参照してください。</li>
+</ul>
+</li>
+<li>Random<ul>
+<li>Random::DEFAULT は Random インスタンスではなく Random クラスをさすようになりました。よって、Ractor で機能します。<a class="external" href="https://bugs.ruby-lang.org/issues/17322">[feature#17322]</a></li>
+<li>Random::DEFAULT は、その値がわかりにくくグローバルではなくなったため、非推奨になりました。代わりに Kernel.rand/Random.rand を直接使用するか、Random.new を使用して Random インスタンスを生成してください。<a class="external" href="https://bugs.ruby-lang.org/issues/17351">[feature#17351]</a></li>
+</ul>
+</li>
+<li>String<ul>
+<li>以下のメソッドは、サブクラスのインスタンスで呼び出された場合、サブクラスのインスタンスではなく String インスタンスを返す、または yield  するようになりました: <a class="external" href="https://bugs.ruby-lang.org/issues/10845">[bug#10845]</a><ul>
+<li>String#*</li>
+<li>String#capitalize</li>
+<li>String#center</li>
+<li>String#chomp</li>
+<li>String#chop</li>
+<li>String#delete</li>
+<li>String#delete_prefix</li>
+<li>String#delete_suffix</li>
+<li>String#downcase</li>
+<li>String#dump</li>
+<li>String#each_char</li>
+<li>String#each_grapheme_cluster</li>
+<li>String#each_line</li>
+<li>String#gsub</li>
+<li>String#ljust</li>
+<li>String#lstrip</li>
+<li>String#partition</li>
+<li>String#reverse</li>
+<li>String#rjust</li>
+<li>String#rpartition</li>
+<li>String#rstrip</li>
+<li>String#scrub</li>
+<li>String#slice!</li>
+<li>String#slice / String#[]</li>
+<li>String#split</li>
+<li>String#squeeze</li>
+<li>String#strip</li>
+<li>String#sub</li>
+<li>String#succ / String#next</li>
+<li>String#swapcase</li>
+<li>String#tr</li>
+<li>String#tr_s</li>
+<li>String#upcase</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Symbol<ul>
+<li>Symbol#to_proc は lambda となる Proc を返すようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/16260">[feature#16260]</a></li>
+<li>Symbol#name が導入されました。 シンボルの名前がある場合は、その名前を返します。返された文字列は freeze されています。<a class="external" href="https://bugs.ruby-lang.org/issues/16150">[feature#16150]</a></li>
+</ul>
+</li>
+<li>Fiber<ul>
+<li>ブロッキングオペレーションをインターセプトするための Fiber.set_scheduler、および現在のスケジューラーにアクセスするための Fiber.scheduler が導入されました。
+詳細は <a href="../class/Fiber.html">Fiber</a> のサポートされているオペレーションとスケジューラーフックの実装方法を参照してください。 <a class="external" href="https://bugs.ruby-lang.org/issues/16786">[feature#16786]</a></li>
+<li>Fiber.blocking? は、現在の実行コンテキストがブロックされているかどうかを知らせてくれます。<a class="external" href="https://bugs.ruby-lang.org/issues/16786">[feature#16786]</a></li>
+</ul>
+</li>
+<li>Thread<ul>
+<li>Thread#join はノンブロッキングコンテキストで block/unblock スケジューラーフックを呼び出します。 <a class="external" href="https://bugs.ruby-lang.org/issues/16786">[feature#16786]</a></li>
+<li>シグナルハンドラーを使用してデッドロックを解消するという使い方を許すため、デフォルトのデッドロック検出を無効にできる Thread.ignore_deadlock アクセッサが導入されました。<a class="external" href="https://bugs.ruby-lang.org/issues/13768">[bug#13768]</a></li>
+</ul>
+</li>
+<li>Warning<ul>
+<li>Warning#warn は category キーワード引数をサポートするようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/17122">[feature#17122]</a></li>
+</ul>
+</li>
+</ul>
+<h1 >標準添付ライブラリの更新</h1>
+<p>
+注目すべきもののみ記載します。
+</p>
+<ul>
+<li>BigDecimal<ul>
+<li>BigDecimal 3.0.0 に更新されました。</li>
+<li>このバージョンは Ractor と互換性があります。</li>
+</ul>
+</li>
+<li>Bundler<ul>
+<li>Bundler 2.2.3 に更新されました。</li>
+</ul>
+</li>
+<li>CGI<ul>
+<li>0.2.0 に更新されました。</li>
+<li>このバージョンは Ractor と互換性があります。</li>
+</ul>
+</li>
+<li>CSV<ul>
+<li>CSV 3.1.9 に更新されました。</li>
+</ul>
+</li>
+<li>Date<ul>
+<li>Date 3.1.1 に更新されました。</li>
+<li>このバージョンは Ractor と互換性があります。</li>
+</ul>
+</li>
+<li>Digest<ul>
+<li>Digest 3.0.0 に更新されました。</li>
+<li>このバージョンは Ractor と互換性があります。</li>
+</ul>
+</li>
+<li>Etc<ul>
+<li>Etc 1.2.0 に更新されました。</li>
+<li>このバージョンは Ractor と互換性があります。</li>
+</ul>
+</li>
+<li>Fiddle<ul>
+<li>Fiddle 1.0.5 に更新されました。</li>
+</ul>
+</li>
+<li>IRB<ul>
+<li>IRB 1.2.6 に更新されました。</li>
+</ul>
+</li>
+<li>JSON<ul>
+<li>JSON 2.5.0 に更新されました。</li>
+<li>このバージョンは Ractor と互換性があります。</li>
+</ul>
+</li>
+<li>Set<ul>
+<li>set 1.0.0 に更新されました。</li>
+<li>SortedSet は依存関係とパフォーマンス上の理由から削除されました。</li>
+<li>Set#join が、.to_a.join の省略形として導入されました。</li>
+<li>Set#&lt;=&gt; が導入されました。</li>
+</ul>
+</li>
+<li>Socket<ul>
+<li>TCPSocket.new に :connect_timeout が導入されました。<a class="external" href="https://bugs.ruby-lang.org/issues/17187">[feature#17187]</a></li>
+</ul>
+</li>
+<li>Net::HTTP<ul>
+<li>Net::HTTP#verify_hostname= および Net::HTTP#verify_hostname が、ホスト名の検証をスキップするために導入されました。<a class="external" href="https://bugs.ruby-lang.org/issues/16555">[feature#16555]</a></li>
+<li>Net::HTTP.get, Net::HTTP.get_response, および Net::HTTP.get_print は、最初の引数が URI の場合、2 番目の引数でリクエストヘッダーをハッシュとして受け取れるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/16686">[feature#16686]</a></li>
+</ul>
+</li>
+<li>Net::SMTP<ul>
+<li>SNI サポートが導入されました。</li>
+<li>Net::SMTP.start の引数がキーワード引数になりました。</li>
+<li>TLS はデフォルトでホスト名をチェックしなくなりました。</li>
+</ul>
+</li>
+<li>OpenStruct<ul>
+<li>初期化はもはや lazy ではありません。<a class="external" href="https://bugs.ruby-lang.org/issues/12136">[bug#12136]</a></li>
+<li>組み込みメソッドは安全に上書き可能になりました。<a class="external" href="https://bugs.ruby-lang.org/issues/15409">[bug#15409]</a></li>
+<li>実装では、 ! で終わるメソッドでのみ使用されます。</li>
+<li>Ractor 互換</li>
+<li>YAML のサポートが改善されました。<a class="external" href="https://bugs.ruby-lang.org/issues/8382">[bug#8382]</a></li>
+<li>公式には使用を推奨しなくなりました。<a href="../class/OpenStruct.html#caveats">OpenStruct/注意事項</a>を参照してください。</li>
+</ul>
+</li>
+<li>Pathname<ul>
+<li>Ractor 互換</li>
+</ul>
+</li>
+<li>Psych<ul>
+<li>Psych 3.3.0 に更新されました。</li>
+<li>このバージョンは Ractor と互換性があります。</li>
+</ul>
+</li>
+<li>Reline<ul>
+<li>Reline 0.1.5 に更新されました。</li>
+</ul>
+</li>
+<li>RubyGems<ul>
+<li>RubyGems 3.2.3 に更新されました。</li>
+</ul>
+</li>
+<li>StringIO<ul>
+<li>StringIO 3.0.0 に更新されました。</li>
+<li>このバージョンは Ractor と互換性があります。</li>
+</ul>
+</li>
+<li>StringScanner<ul>
+<li>StringScanner 3.0.0 に更新されました。</li>
+<li>このバージョンは Ractor と互換性があります。</li>
+</ul>
+</li>
+</ul>
+<h1 >互換性</h1>
+<p>
+機能追加とバグ修正は除いています。
+</p>
+<ul>
+<li>正規表現リテラルとすべての Range オブジェクトは freeze されるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/8948">[feature#8948]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/16377">[feature#16377]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/15504">[feature#15504]</a></li>
+</ul>
+<pre class="highlight ruby">
+<code>
+<span class="sr">/foo/</span><span class="p">.</span><span class="nf">frozen?</span> <span class="c1">#=&gt; true
+</span><span class="p">(</span><span class="mi">42</span><span class="o">...</span><span class="p">)</span><span class="p">.</span><span class="nf">frozen?</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<ul>
+<li>EXPERIMENTAL: Hash#each が常に 2 要素配列を yield するようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/12706">[bug#12706]</a><ul>
+<li>{ a: 1 }.each(&amp;-&gt;(k, v) { }) は lambda のアリティチェックが原因で、ArgumentError を起こすようになりました。</li>
+</ul>
+</li>
+<li>パイプがクローズされた後に標準出力へ出力しようとしても、EPIPE 例外を発生しないようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/14413">[feature#14413]</a></li>
+<li>TRUE/FALSE/NIL 各定数が定義されないようになりました。</li>
+<li>Integer#zero? は最適化のために Numeric#zero? をオーバーライドするようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/16961">[misc#16961]</a></li>
+<li>Enumerable#grep および Enumerable#grep_v は、正規表現が渡され、かつ、ブロックがない場合、Regexp.last_match を変更しなくなりました。<a class="external" href="https://bugs.ruby-lang.org/issues/17030">[bug#17030]</a></li>
+<li>'open-uri' を require しても Kernel#open は再定義されなくなりました。代わりに URI.open を直接呼び出すか URI#open を使用してください。<a class="external" href="https://bugs.ruby-lang.org/issues/15893">[misc#15893]</a></li>
+<li>依存関係とパフォーマンス上の理由から、SortedSet が削除されました。</li>
+</ul>
+<h1 >標準添付ライブラリの互換性</h1>
+<ul>
+<li>Default gems<ul>
+<li>以下のライブラリが新たに default gem になりました。<ul>
+<li>English</li>
+<li>abbrev</li>
+<li>base64</li>
+<li>drb</li>
+<li>debug</li>
+<li>erb</li>
+<li>find</li>
+<li>net-ftp</li>
+<li>net-http</li>
+<li>net-imap</li>
+<li>net-protocol</li>
+<li>open-uri</li>
+<li>optparse</li>
+<li>pp</li>
+<li>prettyprint</li>
+<li>resolv-replace</li>
+<li>resolv</li>
+<li>rinda</li>
+<li>set</li>
+<li>securerandom</li>
+<li>shellwords</li>
+<li>tempfile</li>
+<li>tmpdir</li>
+<li>time</li>
+<li>tsort</li>
+<li>un</li>
+<li>weakref</li>
+</ul>
+</li>
+<li>以下の拡張ライブラリが新たに default gem になりました。<ul>
+<li>digest</li>
+<li>io-nonblock</li>
+<li>io-wait</li>
+<li>nkf</li>
+<li>pathname</li>
+<li>syslog</li>
+<li>win32ole</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Bundled gems<ul>
+<li>net-telnet および xmlrpc は、バンドルされた gem から削除されました。
+これらを保守したい場合は、<a class="external" href="https://github.com/ruby/xmlrpc">https://github.com/ruby/xmlrpc</a> もしくは <a class="external" href="https://github.com/ruby/net-telnet">https://github.com/ruby/net-telnet</a> にあなたのプランをコメントしてください。</li>
+</ul>
+</li>
+<li>SDBM は Ruby 標準添付ライブラリから削除されました。<a class="external" href="https://bugs.ruby-lang.org/issues/8446">[bug#8446]</a><ul>
+<li>sdbm の課題は、<a class="external" href="https://github.com/ruby/sdbm">https://github.com/ruby/sdbm</a> で処理される予定です。</li>
+</ul>
+</li>
+<li>WEBrick は Ruby 標準添付ライブラリから削除されました。<a class="external" href="https://bugs.ruby-lang.org/issues/17303">[feature#17303]</a><ul>
+<li>WEBrick の課題は、[[url:https://github.com/ruby/webrick] で処理される予定です。</li>
+</ul>
+</li>
+</ul>
+<h1 >C API の更新</h1>
+<ul>
+<li>$SAFE に関連する C API 関数は削除されました。<a class="external" href="https://bugs.ruby-lang.org/issues/16131">[feature#16131]</a></li>
+<li>ruby/ruby.h は分割されました。<a class="external" href="https://github.com/ruby/ruby/pull/2991">https://github.com/ruby/ruby/pull/2991</a>
+これは拡張ライブラリに影響はないはずです。しかし、コンパイルが遅くなる可能性があります。</li>
+<li>Memory view interface [EXPERIMENTAL]<ul>
+<li>メモリビューインタフェースは、数値配列やビットマップ画像などの生のメモリ領域を、拡張ライブラリ間で交換するための C API セットです。
+拡張ライブラリは、数値配列の次元数や要素型などの性質を記述するメタデータも共有できます。
+これらのメタデータを使用して、拡張ライブラリは多次元配列でさえ適切に共有できます。
+この機能は、Python のバッファプロトコルを参考にして設計されています。
+<a class="external" href="https://bugs.ruby-lang.org/issues/13767">[feature#13767]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/14722">[feature#14722]</a></li>
+</ul>
+</li>
+<li>&quot;include/ruby/ractor.h&quot; に C API 関連の Ractor が実験的に導入されました。</li>
+</ul>
+<h1 >実装の改善</h1>
+<ul>
+<li>Ractor のためにメソッドキャッシュが刷新されました。<a class="external" href="https://bugs.ruby-lang.org/issues/16614">[feature#16614]</a><ul>
+<li>ISeq からポイントされたインラインメソッドキャッシュは、複数の Ractor から並行してアクセスでき、メソッドキャッシュの場合でも同期が必要です。
+しかしながら、このような同期はオーバーヘッドになる可能性があるため、(1) 使い捨てできる (2) クラスごとにキャッシュできる (3) 新規の無効化する機構を新しいインラインキャッシュメソッドに導入しました。(1) はアトミックな処理を使用するのみなので、メソッドごとに呼び出す同期を回避できます。
+詳細はチケットを参照してください。</li>
+</ul>
+</li>
+<li>メソッド呼び出しでキーワード引数を使用するときに割り当てられるハッシュの数が最大 1 に減り、特定のキーワードを受け取るメソッドにキーワード引数を渡してもハッシュを割り当てなくなりました。</li>
+<li>super は、refinements, attr_reader, attr_writer ではない場合、前回と同じ型のメソッドが呼び出されたときに最適化されます。</li>
+</ul>
+<h2 >JIT</h2>
+<ul>
+<li>JIT されたコードのパフォーマンス改善<ul>
+<li>マイクロアーキテクチャの最適化<ul>
+<li>複数のメソッドによって共有されるネイティブ関数は、JIT コンパクションで重複排除されます。</li>
+<li>いくつかの最適化とコールドパスの分割により、ホットパスのコードサイズを減らしています。</li>
+</ul>
+</li>
+<li>インスタンス変数<ul>
+<li>いくつかの冗長なチェックを削除しています。</li>
+<li>可能であれば、メソッド内のクラスとオブジェクトの複数回チェックをスキップしています。</li>
+<li>Hash のような一部のコアクラスやそのサブクラスのアクセスを最適化しています。</li>
+</ul>
+</li>
+<li>一部の C メソッドのサポートをインライン化するメソッド<ul>
+<li>Kernel: #class, #frozen?</li>
+<li>Integer: #-@, #~, #abs, #bit_length, #even?, #integer?, #magnitude, #odd?, #ord, #to_i, #to_int, #zero?</li>
+<li>Struct: 10 番目以降のメンバー用リーダーメソッド</li>
+</ul>
+</li>
+<li>定数の参照がインライン化されました。</li>
+<li>レシーバクラスに応じて ==, nil?, および ! には常に適切なコードを生成するようになりました。</li>
+<li>分岐やメソッドからのリターンでの PC アクセス回数が削減されました。</li>
+<li>C メソッド呼び出しが少し最適化されました。</li>
+</ul>
+</li>
+<li>コンパイルプロセスの改善<ul>
+<li>/tmp ディレクトリに一時ファイルを保持しなくなりました。</li>
+<li>JIT されたコードの GC とコンパクションが抑制されるようになりました。</li>
+<li>必要ではない場合、JIT されたコードの GC は回避されるようになりました。</li>
+<li>JIT されたコードの GC はバックグラウンドスレッドで実行されるようになりました。</li>
+<li>Ruby と JIT スレッド間でのロックの回数が削減されました。</li>
+</ul>
+</li>
+</ul>
+<h1 >静的解析</h1>
+<h2 >RBS</h2>
+<ul>
+<li>RBS は Ruby プログラムのための新しい型定義言語です。
+共用体型、オーバーロード、ジェネリクス、およびダックタイピングのような「インタフェース型」を含む進化した型のクラスやモジュールを記述できるようになりました。</li>
+<li>Ruby は core/stdlib クラスの型定義を同梱しています。</li>
+<li>rbs gem は RBS ファイルをロードして処理するためにバンドルされています。</li>
+</ul>
+<h2 >TypeProf</h2>
+<ul>
+<li>TypeProf は抽象解釈に基づいた Ruby コード用の型解析ツールです。<ul>
+<li>型注釈のない Ruby コードを読み取り、その型シグネチャを推測しようと試み、そして RBS フォーマットで分析結果を出力します。</li>
+<li>まだ Ruby 言語のサブセットしかサポートしていませんが、言語機能のカバレッジ、分析パフォーマンス、およびユーザビリティを継続的に改善する予定です。</li>
+</ul>
+</li>
+</ul>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># test.rb
+</span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span>x<span class="p">)</span>
+  <span class="k">if</span> x <span class="o">&gt;</span> <span class="mi">10</span>
+    x<span class="p">.</span><span class="nf">to_s</span>
+  <span class="k">else</span>
+    <span class="k">nil</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+foo<span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</code></pre>
+<pre>
+$ typeprof test.rb
+# Classes
+class Object
+  def foo : (Integer) -&gt; String?
+end
+</pre>
+<h1 >その他の変更</h1>
+<ul>
+<li>ruby2_keywords を使用するメソッドは、空のキーワード引数を保持しなくなります。これらは ruby2_keywords を使用しないメソッドの場合と同様に削除されるようになりました。</li>
+<li>デフォルトのハンドラーで例外がキャッチされた場合、エラーメッセージとバックトレースが最も深い順に出力されるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/8661">[feature#8661]</a></li>
+<li>初期化されていないインスタンス変数にアクセスしても、冗長モードで警告が表示されなくなりました。<a class="external" href="https://bugs.ruby-lang.org/issues/17055">[feature#17055]</a></li>
+</ul>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/doc/news/3_0_0.rd#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

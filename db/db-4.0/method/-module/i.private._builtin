@@ -1,0 +1,37 @@
+names=private
+visibility=private
+kind=defined
+source_location=refm/api/src/_builtin/Module:1631
+
+--- private() -> nil
+--- private(name) -> String | Symbol
+--- private(*name) -> Array
+--- private(names) -> Array
+
+メソッドを private に設定します。
+
+引数なしのときは今後このクラスまたはモジュール定義内で新規に定義さ
+れるメソッドを関数形式でだけ呼び出せるように(private)設定します。
+
+引数が与えられた時には引数によって指定されたメソッドを private に
+設定します。
+
+可視性については [[ref:d:spec/def#limit]] を参照して下さい。
+
+@param name  0 個以上の [[c:String]] または [[c:Symbol]] を指定します。
+@param names 0 個以上の [[c:String]] または [[c:Symbol]] を [[c:Array]] で指定します。
+
+@raise NameError 存在しないメソッド名を指定した場合に発生します。
+
+//emlist[例][ruby]{
+class Foo
+  def foo1() 1 end      # デフォルトでは public
+  private               # 可視性を private に変更
+  def foo2() 2 end      # foo2 は private メソッド
+end
+
+foo = Foo.new
+p foo.foo1          # => 1
+p foo.foo2          # => private method `foo2' called for #<Foo:0x401b7628> (NoMethodError)
+//}
+

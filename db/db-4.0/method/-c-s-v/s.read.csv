@@ -1,0 +1,57 @@
+names=read,readlines
+visibility=public
+kind=defined
+source_location=refm/api/src/csv.rd:807
+
+--- read(path, options = Hash.new) -> [Array] | CSV::Table
+--- readlines(path, options = Hash.new) -> [Array] | CSV::Table
+
+CSV ファイルを配列の配列にするために使います。
+headers オプションに偽でない値を指定した場合は [[c:CSV::Table]] オブジェクトを返します。
+
+@param path CSV ファイルのパスを指定します。
+
+@param options [[m:CSV.new]] のオプションと同じオプションを指定できます。
+               :encoding というキーを使用すると入力のエンコーディングを指定することができます。
+               入力のエンコーディングが [[m:Encoding.default_external]] と異なる場合は
+               必ず指定しなければなりません。
+
+//emlist[例][ruby]{
+require "csv"
+require "pp"
+
+File.write("test.csv", <<CSV)
+id,first name,last name,age
+1,taro,tanaka,20
+2,jiro,suzuki,18
+3,ami,sato,19
+4,yumi,adachi,21
+CSV
+
+pp CSV.read("test.csv")
+
+# => [["id", "first name", "last name", "age"],
+#    ["1", "taro", "tanaka", "20"],
+#    ["2", "jiro", "suzuki", "18"],
+#    ["3", "ami", "sato", "19"],
+#    ["4", "yumi", "adachi", "21"]]
+//}
+
+//emlist[例][ruby]{
+require "csv"
+
+File.write("test.csv", <<CSV)
+id,first name,last name,age
+1,taro,tanaka,20
+2,jiro,suzuki,18
+3,ami,sato,19
+4,yumi,adachi,21
+CSV
+
+table = CSV.read("test.csv", headers: true)
+p table.class # => CSV::Table
+p table[0]    # => #<CSV::Row "id":"1" "first name":"taro" "last name":"tanaka" "age":"20">
+//}
+
+@see [[m:CSV.new]], [[m:CSV.table]]
+

@@ -1,0 +1,24 @@
+names=delete,unlink
+visibility=public
+kind=defined
+source_location=refm/api/src/tempfile.rd:219
+
+--- delete -> self
+--- unlink -> self
+
+テンポラリファイルをクローズせずに、削除します。
+UNIXライクなシステムでは、
+作成したテンポラリファイルが他のプログラムに使用される機会をなくすために、
+テンポラリファイルを作成しオープンした後、
+すぐに削除するということがしばしばおこなわれます。
+
+
+//emlist[][ruby]{
+require "tempfile"
+tf = Tempfile.new("foo")
+tf.unlink
+p tf.path # => nil
+tf.print("foobar,hoge\n")
+tf.rewind
+p tf.gets("\n") # => "foobar,hoge\n"
+//}

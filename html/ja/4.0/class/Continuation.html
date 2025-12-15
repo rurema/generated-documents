@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Continuation.html">
+
+<title>class Continuation (Ruby 4.0 リファレンスマニュアル)</title>
+<meta name="description" content="継続を表すクラスです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/continuation.html","name":"continuationライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Continuation.html","name":"Continuationクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/continuation.html">continuationライブラリ</a>
+      </li>
+      <li>
+        Continuationクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Continuation</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Continuation#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Continuation
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+継続を表すクラスです。
+</p>
+<p>
+<a href="../method/Kernel/m/callcc.html">Kernel.#callcc</a> { |cont| ... } の呼び出しは、直前の状態(ローカル変数の定義、スタックフレーム)を cont に記憶してブロックを実行します。cont は、Continuation クラスのインスタンスで、<a href="../method/Continuation/i/call.html">Continuation#call</a> メソッドを実行することでいつでも記憶した状態を継続することができます。
+</p>
+<p>
+C 言語の setjmp()/longjmp() がわかる人は
+</p>
+<pre>
+setjmp() == callcc {|c| }
+longjmp() == c.call
+</pre>
+<p>
+と考えれば、わかりやすいかも知れません(ただし、callcc はスタックが深くなる方向にもジャンプ出来るという違いがあります)
+</p>
+<p>
+callcc() は、ブロックの戻り値を返しますが、Continuation#call(args)
+が呼び出されたときは args を返します。
+</p>
+<p>
+例:
+</p>
+<pre>
+以下は、Continuationによる無限ループの例
+
+def LOOP
+  c = nil
+  yield callcc {|cnt| c = cnt; true }
+  c.call(false)
+end
+
+LOOP {|v| p v}
+
+=&gt; true
+   false
+   false
+   false
+     :
+     :
+</pre>
+<p>
+callcc とは、call-with-current-continuation の略です。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_--5B--5D">[]</a></li>
+
+<li><a href="#I_--5B--5D">call</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--5B--5D"><code>self[*ret] -&gt; ()</code><span class="permalink">[<a href="../method/Continuation/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Continuation.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Continuation#L44">edit</a>]</span></dt>
+<dt class="method-heading"><code>call(*ret) -&gt; ()</code></dt>
+<dd class="method-description">
+<p>
+self が記憶した状態を継続します。引数は そのまま
+<a href="../method/Kernel/m/callcc.html">Kernel.#callcc</a> の戻り値になります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] ret:</dt>
+<dd>
+継続に復帰した時に返す値を指定します。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Continuation#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

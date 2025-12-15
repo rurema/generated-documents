@@ -1,0 +1,39 @@
+names=read,readlines
+visibility=public
+kind=defined
+source_location=refm/api/src/csv.rd:1403
+
+--- read -> [Array] | CSV::Table
+--- readlines -> [Array] | CSV::Table
+
+残りの行を読み込んで配列の配列を返します。
+self の生成時に headers オプションに偽でない値が指定されていた場合は [[c:CSV::Table]] オブジェクトを返します。
+
+データソースは読み込み用にオープンされている必要があります。
+
+//emlist[例 headers: false][ruby]{
+require "csv"
+
+csv = CSV.new(DATA.read)
+csv.read
+# => [["header1", "header2"], ["row1_1", "row1_2"], ["row2_1", "row2_2"]]
+
+__END__
+header1,header2
+row1_1,row1_2
+row2_1,row2_2
+//}
+
+//emlist[例 headers: true][ruby]{
+require "csv"
+
+csv = CSV.new(DATA.read, headers: true)
+csv.read
+# => #<CSV::Table mode:col_or_row row_count:3>
+
+__END__
+header1,header2
+row1_1,row1_2
+row2_1,row2_2
+//}
+

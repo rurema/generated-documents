@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/WIN32OLE/i/ole_free.html">
+
+<title>WIN32OLE#ole_free (Ruby 4.0 リファレンスマニュアル)</title>
+<meta name="description" content="selfが参照するCOMオブジェクトを解放します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/win32ole.html","name":"win32oleライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/WIN32OLE.html","name":"WIN32OLEクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/WIN32OLE/i/ole_free.html","name":"ole_free","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/win32ole.html">win32oleライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/WIN32OLE.html">WIN32OLEクラス</a>
+      </li>
+      <li>
+        ole_free 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method WIN32OLE#ole_free</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_OLE_FREE"><code>ole_free -&gt; ()</code><span class="permalink">[<a href="../../../method/WIN32OLE/i/ole_free.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/WIN32OLE.html#method-i-ole_free">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/win32ole/WIN32OLE#L755">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+selfが参照するCOMオブジェクトを解放します。
+</p>
+<p>
+selfが参照するCOMオブジェクトのIUnknown::Releaseを呼び出すことで、COMオブジェクトを開放します。ole_freeを呼び出した後は、このオブジェクトに対する操作は行えません。
+</p>
+<pre>
+excel = WIN32OLE.new('Excel.Application')
+excel.ole_free  # オブジェクトの解放
+excel.Quit      #=&gt; RuntimeError (failed to get Dispatch Interface)
+</pre>
+<p>
+通常は利用されなくなったWIN32OLEオブジェクトはGCのタイミングで自動的に解放されるため、当メソッドを呼び出す必要はありません。Officeのような外部プロセスサーバ呼び出し時に、スクリプト終了後もサーバが解放されない場合に強制的にサーバを終了するために当メソッドを利用できます。ただし、現実には途中で生成される子オブジェクトからの逆参照などがあるため、
+WIN32OLEがIUnknown::Releaseを呼び出してもオブジェクトが解放されるとは限りません。
+</p>
+<pre>
+excel = WIN32OLE.new('Excel.Application')
+workbook = excel.Workbooks.Open('workbook.xls')
+workbook.Close(:SaveChanges =&gt; false)
+workbook.ole_free
+excel.ole_free
+# この時点でExcel.EXEは終了しない
+</pre>
+<p>
+上の例では、excel.Workbooks.Openの行で、excel.Workbooksオブジェクトが生成されています。しかし、後続の処理で該当オブジェクトが解放されていないため、Workbooksオブジェクトによって参照されているexcelオブジェクトは解放されません。それに対して下の例では正しく解放されます。
+</p>
+<pre>
+excel = WIN32OLE.new('Excel.Application')
+books = excel.Workbooks
+workbook = books.Open('workbook.xls')
+books.ole_free
+workbook.Close(:SaveChanges =&gt; false)
+workbook.ole_free
+excel.ole_free
+</pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/win32ole/WIN32OLE#L755">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
