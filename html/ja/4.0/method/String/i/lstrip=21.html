@@ -58,7 +58,7 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_LSTRIP--21"><code>lstrip! -&gt; self | nil</code><span class="permalink">[<a href="../../../method/String/i/lstrip=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/String.html#method-i-lstrip-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/String#L2524">edit</a>]</span></dt>
+<dt class="method-heading" id="I_LSTRIP--21"><code>lstrip!(*selectors) -&gt; self | nil</code><span class="permalink">[<a href="../../../method/String/i/lstrip=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/String.html#method-i-lstrip-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/String#L2629">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 文字列の先頭にある空白文字を全て破壊的に取り除きます。空白文字の定義は &quot; \t\r\n\f\v\0&quot; です。
@@ -66,6 +66,24 @@
 <p>
 lstrip! は self を変更して返します。ただし取り除く空白がなかったときは nil を返します。
 </p>
+<p>
+selectors を与えた場合、空白文字として selectors で指定された文字を取り除きます。
+</p>
+<p>
+selectors の形式は <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/utilities/tr.html">tr(1)</a> と同じです。つまり、「&quot;a-c&quot;」は文字 a から c を意味し、「&quot;^0-9&quot;」のように文字列の先頭が「^」の場合は指定文字以外を意味します。
+</p>
+<p>
+文字「-」は文字列の両端にない場合にだけ範囲指定の意味になります。同様に、「^」も文字列の先頭にあるときだけ否定の効果を発揮します。また、「-」「^」「\」はバックスラッシュ (「\」) によりエスケープできます。
+</p>
+<p>
+引数を複数指定した場合は、すべての引数にマッチした文字だけを数えます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] selectors:</dt>
+<dd>
+取り除く文字。
+</dd>
+</dl>
 <pre class="highlight ruby">
 <span class="caption">例</span>
 <code>
@@ -76,6 +94,17 @@ str <span class="o">=</span> <span class="s2">"</span><span class="s2">  abc</sp
 str <span class="o">=</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>
 <span class="nb">p</span> str<span class="p">.</span><span class="nf">lstrip!</span>   <span class="c1"># =&gt; nil
 </span><span class="nb">p</span> str           <span class="c1"># =&gt; &quot;abc&quot;
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">取り除く文字を指定</span>
+<code>
+<span class="s2">"</span><span class="s2">---abc+++</span><span class="s2">"</span><span class="p">.</span><span class="nf">lstrip!</span><span class="p">(</span><span class="s2">"</span><span class="s2">-+</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;abc+++&quot;
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">範囲、否定、複数の指定</span>
+<code>
+<span class="s2">"</span><span class="s2">01234abc56789</span><span class="s2">"</span><span class="p">.</span><span class="nf">lstrip!</span><span class="p">(</span><span class="s2">"</span><span class="s2">0-9</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># &quot;abc56789&quot;
+</span><span class="s2">"</span><span class="s2">01234abc56789</span><span class="s2">"</span><span class="p">.</span><span class="nf">lstrip!</span><span class="p">(</span><span class="s2">"</span><span class="s2">0-9</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">^4-6</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># &quot;4abc56789&quot;
 </span></code></pre>
 </dd>
 
@@ -90,7 +119,7 @@ str <span class="o">=</span> <span class="s2">"</span><span class="s2">abc</span
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   
-    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/String#L2524">このマニュアルを編集する</a>
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/String#L2629">このマニュアルを編集する</a>
   
   <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
 </footer>
