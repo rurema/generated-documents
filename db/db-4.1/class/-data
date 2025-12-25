@@ -1,0 +1,42 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=_builtin
+aliases=
+aliasof=
+source_location=refm/api/src/_builtin/Data:1
+
+「値オブジェクト(value object)」の定義に利用できるクラスです。
+
+以下のような特徴があります。
+
+  * オブジェクト同士の比較は、型の比較およびメンバの値の比較によって行われます。
+  * オブジェクトはイミュータブルになります。すなわち、オブジェクト生成時に設定されたメンバはその後上書きされることはありません。
+
+[[m:Data.define]] でオブジェクトのクラスを定義できます。定義されたクラスは Data のサブクラスとなります。
+Data のサブクラスでは、メンバに対するアクセスメソッドが定義されています。
+
+Data と似たクラスに [[c:Struct]] があります。Struct はメンバの書き換えや列挙が可能であるなど、
+よりコンテナ風の API を提供するクラスです。
+
+//emlist[例][ruby]{
+# Dogクラスを定義
+Dog = Data.define(:name, :age)
+
+# Dogクラスのインスタンスを作成
+fred = Dog.new("Fred", 5)
+
+# メンバにアクセスできる
+p fred.name # => "Fred"
+
+# キーワード引数でも構築できる
+p Dog.new(name: "Terry", age: 3)
+
+# メンバの値を書き換えることはできない
+fred.age = 6 # => NoMethodError
+//}
+
+なお、Ruby 2.7 以前に存在し Ruby 3.0 で削除された Data クラスとは異なります。

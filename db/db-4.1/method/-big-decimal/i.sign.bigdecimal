@@ -1,0 +1,37 @@
+names=sign
+visibility=public
+kind=defined
+source_location=refm/api/src/bigdecimal/BigDecimal:681
+
+--- sign -> -3 | -2 | -1 | 0 | 1 | 2 | 3
+
+自身の符号等の性質に応じて、[[c:Integer]] を返します。
+
+符号が正であれば正の整数を返し、負であれば負の整数を返し、NaN であれば 0 を返します。
+
+  NaN        であれば、 0。 BigDecimal::SIGN_NaN と同じです。
+  +0         であれば、 1。 BigDecimal::SIGN_POSITIVE_ZERO と同じです。
+  -0         であれば、-1。 BigDecimal::SIGN_NEGATIVE_ZERO と同じです。
+  有限の正の値 であれば、 2。 BigDecimal::SIGN_POSITIVE_FINITE と同じです。
+  有限の負の値 であれば、-2。 BigDecimal::SIGN_NEGATIVE_FINITE と同じです。
+  +Infinity  であれば、 3。 BigDecimal::SIGN_POSITIVE_INFINITE と同じです。
+  -Infinity  であれば、-3。 BigDecimal::SIGN_NEGATIVE_INFINITE と同じです。
+
+BigDecimal は、 0 であっても、+ か - の符号を持つことに注意して下さい。
+(「[[ref:lib:bigdecimal#internal_structure]]」を参照)
+
+//emlist[][ruby]{
+require "bigdecimal"
+
+p BigDecimal("NaN").sign       # =>  0
+p BigDecimal("0").sign         # =>  1
+p BigDecimal("100").sign       # =>  2
+p BigDecimal("Infinity").sign  # =>  3
+p BigDecimal("-0").sign        # => -1
+p BigDecimal("-5").sign        # => -2
+p BigDecimal("-Infinity").sign # => -3
+
+p BigDecimal("0").sign == BigDecimal::SIGN_POSITIVE_ZERO  # => true
+//}
+
+

@@ -1,0 +1,52 @@
+names=new,open
+visibility=public
+kind=defined
+source_location=refm/api/src/tempfile.rd:27
+
+--- new(basename = '', tempdir = nil, mode: 0, **options) -> Tempfile
+--- open(basename = '', tempdir = nil, mode: 0, **options) -> Tempfile
+--- open(basename = '', tempdir = nil, mode: 0, **options){|fp| ...} -> object
+
+テンポラリファイルを作成し、それを表す Tempfile オブジェクトを生成して返します。
+ファイル名のプレフィクスには指定された basename が使われます。
+ファイルは指定された tempdir に作られます。
+open にブロックを指定して呼び出した場合は、Tempfile オブジェクトを引数として ブロックを実行します。ブロックの実行が終了すると、ファイルは自動的に クローズされ、
+ブロックの値をかえします。
+new にブロックを指定した場合は無視されます。
+
+@param basename ファイル名のプレフィクスを文字列で指定します。
+                文字列の配列を指定した場合、先頭の要素がファイル名のプレフィックス、次の要素が
+                サフィックスとして使われます。
+
+@param tempdir テンポラリファイルが作られるディレクトリです。
+               このデフォルト値は、[[m:Dir.tmpdir]] の値となります。
+
+@param mode ファイルのモードを定数の論理和で指定します。[[m:IO.open]]
+            と同じ([[m:Kernel.#open]]と同じ)ものが指定できます。
+
+@param options ファイルのオプション引数を指定します。[[m:IO.open]] と同
+               じものが指定できます。ただし、:permオプションは無視され
+               ます。
+
+//emlist[例][ruby]{
+require "tempfile"
+t = Tempfile.open(['hoge', 'bar'])
+p t.path                            #=> "/tmp/hoge20080518-6961-5fnk19-0bar"
+t2 = Tempfile.open(['t', '.xml'])
+p t2.path                           #=> "/tmp/t20080518-6961-xy2wvx-0.xml"
+//}
+
+//emlist[例：ブロックを与えた場合][ruby]{
+require 'tempfile'
+
+tf = Tempfile.open("temp"){|fp|
+  fp.puts "hoge"
+  fp
+}
+# テンポラリファイルへのパスを表示
+p tf.path
+p File.read(tf.path) #=> "hoge\n"
+//}
+
+@see [[m:Tempfile.create]]
+

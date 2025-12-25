@@ -1,0 +1,60 @@
+names=deq,pop,shift
+visibility=public
+kind=defined
+source_location=refm/api/src/thread/Queue:134
+
+--- pop(non_block = false) -> object
+--- shift(non_block = false) -> object
+--- deq(non_block = false) -> object
+
+キューからひとつ値を取り出します。キューが空の時、呼出元のスレッドは停止します。
+
+@param non_block true を与えると、キューが空の時に例外 [[c:ThreadError]] が発生します。
+
+//emlist[例][ruby]{
+require 'thread'
+
+q = Queue.new
+
+th1 = Thread.start do
+  while resource = q.pop
+    puts resource
+  end
+end
+
+[:resource1, :resource2, :resource3, nil].each { |r|
+  q.push(r)
+}
+
+th1.join
+//}
+
+//emlist[例: nonblock = true][ruby]{
+require 'thread'
+
+q = Queue.new
+
+th1 = Thread.start do
+  while resource = q.pop
+    puts resource
+  end
+end
+
+[:resource1, :resource2, :resource3, nil].each { |r|
+  q.push(r)
+}
+
+begin
+  th1.join
+  q.pop(true)
+rescue => e
+  p e
+end
+
+# => resource1
+# resource2
+# resource3
+# => #<ThreadError: queue empty>
+# => "queue empty"
+//}
+

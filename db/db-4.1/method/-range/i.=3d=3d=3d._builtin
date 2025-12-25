@@ -1,0 +1,49 @@
+names====
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Range:215
+
+--- ===(obj) -> bool
+
+始端と終端の中に obj があるとき、true を返します。
+そうでないとき、false を返します。
+
+[[m:Range#===]] は主に case 式での比較に用いられます。
+
+//emlist[例][ruby]{
+p (0...50) === 79  #=> false
+p (60...80) === 79 #=> true
+
+case 79
+when  0...60  then  puts "low"
+when 60...80  then  puts "medium" # => medium
+when 80..100  then  puts "high"
+end
+//}
+
+2.5 以前は、単純に [[m:Range#include?]] メソッドを内部で呼んでいました。
+
+しかし、2.6 以降では、(文字列を除いて) [[m:Range#cover?]] と同様の処理をするように切り替わりました。
+
+ただし、=== は、[[m:Range#cover?]] のように Range オブジェクトを引数にとる設計はありません。
+
+//emlist[例][ruby]{
+require 'date'
+p (Date.today - 100...Date.today + 100).include?(DateTime.now)  #=> false
+p (Date.today - 100...Date.today + 100).cover?(DateTime.now)    #=> true
+p (Date.today - 100...Date.today + 100) ===  DateTime.now       #=> true
+# 2.5 以前は、=== は、include? と同じく比較できず false を返していました。
+//}
+
+2.7 以降の === は、文字列も [[m:Range#cover?]] と同様の処理をするようになりました。
+
+//emlist[例][ruby]{
+p ('a'..'z').include? 'at'  #=> false
+p ('a'..'z').cover? 'at'    #=> true
+p ('a'..'z') === 'at'       #=> true
+# 2.6 以前は、=== は、include? と同じく比較できず false を返していました。
+//}
+
+@see [[ref:d:spec/control#case]]
+@see [[m:Range#include?]], [[m:Range#cover?]]
+

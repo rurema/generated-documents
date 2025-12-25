@@ -1,0 +1,28 @@
+names=body_stream,body_stream=
+visibility=public
+kind=defined
+source_location=refm/api/src/net/Net__HTTPRequest:60
+
+--- body_stream -> object
+--- body_stream=(f)
+
+サーバに送るリクエストのエンティティボディを
+[[c:IO]] オブジェクトなどのストリームで設定します。
+f は read(size) メソッドが定義されている必要があります。
+
+@param f エンティティボディのデータを得るストリームオブジェクトを与えます。
+
+//emlist[例][ruby]{
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+post = Net::HTTP::Post.new(uri.request_uri)
+File.open("/path/to/test", 'rb') do |f|
+  # 大きなファイルを扱う際にメモリ消費を少なくできる
+  post.body_stream = f
+  post["Content-Length"] = f.size
+end
+post.body_stream # => #<File:/path/to/test (closed)>
+//}
+
+

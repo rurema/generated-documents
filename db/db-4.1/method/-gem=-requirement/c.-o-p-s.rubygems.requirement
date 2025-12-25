@@ -1,0 +1,29 @@
+names=OPS
+visibility=public
+kind=defined
+source_location=refm/api/src/rubygems/requirement.rd:17
+
+--- OPS -> Hash
+
+比較演算子と対応する処理を格納したハッシュです。次の内容と等価です。
+
+//emlist[][ruby]{
+OPS = { #:nodoc:
+  "="  =>  lambda {|v, r| v == r },
+  "!=" =>  lambda {|v, r| v != r },
+  ">"  =>  lambda {|v, r| v >  r },
+  "<"  =>  lambda {|v, r| v <  r },
+  ">=" =>  lambda {|v, r| v >= r },
+  "<=" =>  lambda {|v, r| v <= r },
+  "~>" =>  lambda {|v, r| v >= r && v.release < r.bump },
+}.freeze
+//}
+
+次のように、[[c:Gem::Version]] どうしを比較します。
+
+//emlist[][ruby]{
+p Gem::Requirement::OPS["="].call(Gem::Version.new('3.1'), Gem::Version.new('3.0'))   # => false
+p Gem::Requirement::OPS["~>"].call(Gem::Version.new('3.1'), Gem::Version.new('3.0'))  # => true
+//}
+
+

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Fiddle=3a=3aClosure=3a=3aBlockCaller.html">
+
+<title>class Fiddle::Closure::BlockCaller (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="Ruby のブロックをラップしたコールバック関数を表すクラスです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/fiddle.html","name":"fiddleライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Fiddle=3a=3aClosure=3a=3aBlockCaller.html","name":"Fiddle::Closure::BlockCallerクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/fiddle.html">fiddleライブラリ</a>
+      </li>
+      <li>
+        Fiddle::Closure::BlockCallerクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Fiddle::Closure::BlockCaller</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/fiddle/2.0/Fiddle__Function#L171">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Fiddle=3a=3aClosure.html">Fiddle::Closure</a>
+        </li>
+        
+      
+      <li>
+        Fiddle::Closure::BlockCaller
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+Ruby のブロックをラップしたコールバック関数を表すクラスです。
+</p>
+<p>
+Ruby のブロックを C の関数ポインタとして表現するためのクラスです。
+</p>
+<pre>
+require 'fiddle'
+include Fiddle
+
+libc = Fiddle.dlopen(&quot;/lib/libc.so.6&quot;)
+qs = Fiddle::Function.new(libc[&quot;qsort&quot;],
+                          [TYPE_VOIDP, TYPE_INT, TYPE_INT, TYPE_VOIDP],
+                          TYPE_VOID)
+compare = Fiddle::Closure::BlockCaller.new(TYPE_INT, [TYPE_VOIDP, TYPE_VOIDP]){|x, y|
+  # qsort の比較関数は 型が int(*)(void*, void*) であるため、
+  # このブロックには DL::CPtr オブジェクトが渡される。
+  # そのポインタが指す先は比較している文字なので、
+  # DL::CPtr#to_s で1文字の文字列に変換している
+  x.to_s(1) &lt;=&gt; y.to_s(1)
+}
+s = &quot;7x0cba(Uq)&quot;
+qs.call(s, s.size, 1, compare)
+p s # =&gt;  &quot;()07Uabcqx&quot;
+</pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_CALL">call</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+  <h2>継承しているメソッド</h2>
+<dl>
+  
+<dt>Fiddle::Closureから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Fiddle=3a=3aClosure/i/args.html">args</a></li>
+      
+    
+      <li><a href="../method/Fiddle=3a=3aClosure/i/ctype.html">ctype</a></li>
+      
+    
+      <li><a href="../method/Fiddle=3a=3aClosure/i/to_i.html">to_i</a></li>
+      
+    
+  </ul>
+</dd>
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(ret, args, abi=Fiddle::Function::DEFAULT) { ... } -&gt; Fiddle::Closure::BlockCaller</code><span class="permalink">[<a href="../method/Fiddle=3a=3aClosure=3a=3aBlockCaller/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiddle/Closure/BlockCaller.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/fiddle/2.0/Fiddle__Function#L195">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Ruby のブロックを呼び出す Fiddle::Closure オブジェクトを返します。
+</p>
+<p>
+args、ret で関数の引数と返り値の型を指定します。指定は <a href="../method/Fiddle=3a=3aFunction/s/new.html">Fiddle::Function.new</a> と同様なので、そちらを参照してください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] ret:</dt>
+<dd>
+返り値の型
+</dd>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+引数の型を表す配列
+</dd>
+<dt class='method-param'>[PARAM] abi:</dt>
+<dd>
+呼出規約
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_CALL"><code>call(*args) -&gt; object</code><span class="permalink">[<a href="../method/Fiddle=3a=3aClosure=3a=3aBlockCaller/i/call.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiddle/Closure/BlockCaller.html#method-i-call">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/fiddle/2.0/Fiddle__Function#L209">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+wrap しているブロックを呼び出します。
+</p>
+<p>
+そのブロックの返り値がこのメソッドの返り値となります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+引数
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/fiddle/2.0/Fiddle__Function#L171">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,32 @@
+names=sleep
+visibility=public
+kind=defined
+source_location=refm/api/src/thread/Mutex:146
+
+--- sleep(timeout = nil)    -> Integer
+
+与えられた秒数の間ロックを解除してスリープして、実行後にまたロックします。
+
+@param timeout スリープする秒数を指定します。省略するとスリープし続けます。
+
+@return タイムアウトした時は nil を、それ以外はスリープしていた秒数を返します。
+
+@raise ThreadError 自身がカレントスレッドによってロックされていない場合に発生します。
+
+[注意] 2.0 以降ではスリープ中でも、シグナルを受信した場合などに実行が再
+開(spurious wakeup)される場合がある点に注意してください。
+
+//emlist[例][ruby]{
+m = Mutex.new
+th = Thread.new do
+  m.lock
+  m.sleep(2)
+end
+th.status # => "run"
+sleep 1
+th.status # => "sleep"
+sleep 1
+th.status # => false
+//}
+
+

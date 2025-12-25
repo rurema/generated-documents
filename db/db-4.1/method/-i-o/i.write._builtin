@@ -1,0 +1,34 @@
+names=write
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/IO:1933
+
+--- write(*str)     -> Integer
+
+IOポートに対して str を出力します。str が文字列でなけ
+れば to_s による文字列化を試みます。
+実際に出力できたバイト数を返します。
+
+[[m:IO#syswrite]] を除く全ての出力メソッドは、最終的に
+"write" という名のメソッドを呼び出すので、このメソッドを置き換える
+ことで出力関数の挙動を変更することができます。
+
+@param str 自身に書き込みたい文字列を指定します。
+
+@raise IOError 自身が書き込み用にオープンされていなければ発生します。
+
+@raise Errno::EXXX 出力に失敗した場合に発生します。
+
+//emlist[例][ruby]{
+File.open("textfile", "w+") do |f|
+  f.write("This is")  # => 7
+end
+File.read("textfile") # => "This is"
+//}
+//emlist[複数引数の例][ruby]{
+File.open("textfile", "w+") do |f|
+  f.write("This is", " a test\n")  # => 15
+end
+File.read("textfile")              # => "This is a test\n"
+//}
+
