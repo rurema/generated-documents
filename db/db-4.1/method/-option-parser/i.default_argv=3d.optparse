@@ -1,0 +1,31 @@
+names=default_argv=
+visibility=public
+kind=defined
+source_location=refm/api/src/optparse/OptionParser:1150
+
+--- default_argv=(argv)
+
+自身がデフォルトでパースする引数を文字列の配列で指定します。
+
+[[m:OptionParser#parse]] の引数が指定されなかったときに使われます。
+
+@param argv デフォルトでパースしたい文字列の配列を指定します。
+
+//emlist[例][ruby]{
+require "optparse"
+
+config = {}
+opts = OptionParser.new
+opts.on("-r", "--require LIBRARY"){|lib| config[:lib] = lib }
+
+# パラメーター指定なしで実行
+opts.default_argv # => []
+opts.parse!
+p config          # => {}
+
+opts.default_argv = ["--require", "lib1"] # => ["--require", "lib"]
+opts.default_argv # => ["--require", "param1"]
+opts.parse!
+p config          # => {:lib=>"lib1"}
+//}
+

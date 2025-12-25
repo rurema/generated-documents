@@ -1,0 +1,169 @@
+requires=
+classes=Coverage
+methods=
+sublibraries=
+is_sublibrary=false
+category=Development
+source_location=refm/api/src/coverage.rd:1
+
+カバレッジを測定するためのライブラリです。
+
+=== 基本的な使い方
+
+以下のようにして測定を行います。
+
+  (1) require "coverage" で、ライブラリを読み込む。
+  (2) Coverage.start を実行し、測定を開始する。
+  (3) require や load で測定対象のファイルを実行する。
+  (4) Coverage.result や Coverage.peek_result で結果を確認する。
+
+Coverage.result は、ファイル名をキーとし、カバレッジ測定結果を値とするハッシュを返します。
+
+==== 簡単な例
+
+まず測定対象のソースを用意します。
+
+//emlist[foo.rb][ruby]{
+s = 0
+10.times do |x|
+  s += x
+end
+
+if s == 45
+  p :ok
+else
+  p :ng
+end
+//}
+
+以下のようにして測定を行います。
+
+//emlist[][ruby]{
+require "coverage"
+Coverage.start
+load "foo.rb"
+p Coverage.result  # => {"foo.rb"=>[1, 1, 10, nil, nil, 1, 1, nil, 0, nil]}
+//}
+
+この Coverage.result["foo.rb"] から得られる配列は各行の実行回数になっています。
+
+
+=== カバレッジモードの指定
+
+Ruby 2.5 以降では、Coverage.start の引数で、計測対象の種類を変更するモード機能があります。
+
+==== linesカバレッジモード
+
+linesカバレッジモードでは、各行の実行された回数を計測します。得られる結果の情報は、引数でモードを明示的にしない場合と同じです。
+
+//emlist[][ruby]{
+require "coverage"
+Coverage.start(lines: true)
+load "foo.rb"
+p Coverage.result  # => {"foo.rb"=>{:lines=>[1, 1, 10, nil, nil, 1, 1, nil, 0, nil]}}
+//}
+
+キーの :lines が指す値は、各行が実行された回数を示す配列です。この配列の順序は重要です。たとえば、この配列の最初の要素は、カバレッジ計測中にファイルの 1 行目が実行された回数を示しています(この例では 1 回)。
+
+なお、空行、コメント、end のような行はカバレッジの計測対象外で、nil となっています。
+
+
+==== oneshot_linesカバレッジモード
+
+oneshot_linesカバレッジモードでは、カバレッジの計測中に実行された行を記録します。実行回数は計測せず、実行されたこと行番号を記録します。
+
+//emlist[][ruby]{
+require "coverage"
+Coverage.start(oneshot_lines: true)
+load "foo.rb"
+p Coverage.result  # => {"foo.rb"=>{:oneshot_lines=>[1, 2, 3, 6, 7]}}
+//}
+
+oneshot_linesキーの指す値は、実行された行番号を列挙した配列です。
+
+
+==== branchesカバレッジモード
+
+branchesカバレッジモードでは、各条件分岐のそれぞれの分岐(branch)の実行された回数を計測します。
+
+//emlist[][ruby]{
+require "coverage"
+Coverage.start(branches: true)
+load "foo.rb"
+pp Coverage.result
+# {"foo.rb"=>
+#   {:branches=>
+#     {[:if, 0, 6, 0, 10, 3]=>
+#       {[:then, 1, 7, 2, 7, 7]=>1, [:else, 2, 9, 2, 9, 7]=>0}}}}
+//}
+
+キーの :branches が指すハッシュの各キーは条件分岐(の識別情報)であり、
+その条件分岐のキーが指すハッシュはその条件分岐の分岐(の識別情報)とその分岐の実行回数です。
+
+分岐の識別情報であるキーを構成する要素は、左から右に向かって以下の通りです。
+
+  1. 枝や条件分岐の種類を示すラベル
+  2. ID(固有の識別子)
+  3. ファイル内での開始行
+  4. ファイル内での開始列
+  5. ファイル内での終了行
+  6. ファイル内での終了列
+
+==== methodsカバレッジモード
+
+methodsカバレッジモードでは、各メソッドの実行回数を計測します。
+
+//emlist[foo_method.rb][ruby]{
+class Greeter
+  def greet
+    "welcome!"
+  end
+end
+
+def hello
+  "Hi"
+end
+
+hello()
+Greeter.new.greet()
+//}
+
+//emlist[][ruby]{
+require "coverage"
+Coverage.start(methods: true)
+load "foo_method.rb"
+pp Coverage.result
+# {"foo_method.rb"=>
+#   {:methods=>
+#     {[Object, :hello, 7, 0, 9, 3]=>1, [Greeter, :greet, 2, 2, 4, 5]=>1}}}
+//}
+
+キーの :methods が指すハッシュの各キーはメソッド(の識別情報)を表し、値はメソッドの実行回数です。
+
+メソッドの識別情報であるキーを構成する要素は、左から右に向かって以下の通りです。
+
+  1. クラス名
+  2. メソッド名
+  3. ファイル内でのメソッドの開始行
+  4. ファイル内でのメソッドの開始列
+  5. ファイル内でのメソッドの終了行
+  6. ファイル内でのメソッドの終了列
+
+==== 全指定の all
+
+このモードでは、全てのカレッジモードを同時に実行することができます。
+
+ただし、oneshot_linesカバレッジモードは実行されません。これは、linesカバレッジモードにより各行の実行回数が計測され、行が実行されたかどうかわかるためです。
+
+//emlist[][ruby]{
+require "coverage"
+Coverage.start(:all)
+load "foo.rb"
+pp Coverage.result
+# {"foo.rb"=>
+#   {:lines=>[1, 1, 10, nil, nil, 1, 1, nil, 0, nil],
+#    :branches=>
+#     {[:if, 0, 6, 0, 10, 3]=>
+#       {[:then, 1, 7, 2, 7, 7]=>1, [:else, 2, 9, 2, 9, 7]=>0}},
+#    :methods=>{}}}
+//}

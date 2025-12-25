@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/IO/s/pipe.html">
+
+<title>IO.pipe (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="[[man:pipe(2)]] を実行して、相互につながった2つの
+[[c:IO]] オブジェクトを要素とする配列を返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/IO.html","name":"IOクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/IO/s/pipe.html","name":"pipe","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/IO.html">IOクラス</a>
+      </li>
+      <li>
+        pipe 
+      </li>
+    </ol>
+  </nav>
+
+<h1>singleton method IO.pipe</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_PIPE"><code>pipe -&gt; [IO]</code><span class="permalink">[<a href="../../../method/IO/s/pipe.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO.html#method-c-pipe">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/IO#L369">edit</a>]</span></dt>
+<dt class="method-heading"><code>pipe(ext_enc) -&gt; [IO]</code></dt>
+<dt class="method-heading"><code>pipe(enc_str, **opts) -&gt; [IO]</code></dt>
+<dt class="method-heading"><code>pipe(ext_enc, int_enc, **opts) -&gt; [IO]</code></dt>
+<dt class="method-heading"><code>pipe {|read_io, write_io| ... } -&gt; object</code></dt>
+<dt class="method-heading"><code>pipe(ext_enc) {|read_io, write_io| ... } -&gt; object</code></dt>
+<dt class="method-heading"><code>pipe(enc_str, **opts) {|read_io, write_io| ... } -&gt; object</code></dt>
+<dt class="method-heading"><code>pipe(ext_enc, int_enc, **opts) {|read_io, write_io| ... } -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/pipe.html">pipe(2)</a> を実行して、相互につながった2つの
+<a href="../../../class/IO.html">IO</a> オブジェクトを要素とする配列を返します。
+</p>
+<p>
+戻り値の配列は最初の要素が読み込み側で、次の要素が書き込み側です。
+</p>
+<p>
+ブロックが渡された場合は、そのブロックに2つの IO オブジェクトが渡され、ブロックの返り値がこのメソッドの返り値となります。ブロック終了時に IO オブジェクトがもし close されていないならば
+close します(close されていてるオブジェクトはそのままです)。
+</p>
+<p>
+得られる2つの IO オブジェクトのエンコーディングを引数で指定することができます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] enc_str:</dt>
+<dd>
+読み込み側の外部エンコーディングを文字列で指定します。文字列がコロンを挟んだ二つのエンコーディング名 &quot;A:B&quot; である場合最初のものが外部エンコーディング、次が内部エンコーディングを意味します。
+</dd>
+<dt class='method-param'>[PARAM] ext_enc:</dt>
+<dd>
+読み込み側の外部エンコーディングを Encoding オブジェクトで指定します。
+</dd>
+<dt class='method-param'>[PARAM] int_enc:</dt>
+<dd>
+読み込み側の内部エンコーディングを Encoding オブジェクトで指定します。
+</dd>
+<dt class='method-param'>[PARAM] opts:</dt>
+<dd>
+エンコーディングなどを設定するキーワード引数(see <a href="../../../method/IO/s/new.html">IO.new</a>)
+</dd>
+<dt>[EXCEPTION] Errno::EXXX:</dt>
+<dd>
+IO オブジェクトの作成に失敗した場合に発生します。
+</dd>
+</dl>
+<pre>
+r, w = IO.pipe
+p [r, w]            # =&gt; [#&lt;IO:0x401b90f8&gt;, #&lt;IO:0x401b7718&gt;]
+Thread.new do
+  w.puts &quot;foo&quot;
+  w.close
+end
+p r.gets           # =&gt; &quot;foo\n&quot;
+</pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/IO#L369">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

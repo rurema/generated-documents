@@ -1,0 +1,47 @@
+names=produce
+visibility=public
+kind=defined
+source_location=refm/api/src/_builtin/Enumerator:98
+
+--- produce(initial = nil) { |prev| ... } -> Enumerator
+
+与えられたブロックを呼び出し続ける、停止しない Enumerator を返します。
+ブロックの戻り値が、次にブロックを呼び出す時に引数として渡されます。
+initial 引数が渡された場合、最初にブロックを呼び出す時にそれがブロック
+呼び出しの引数として渡されます。initial が渡されなかった場合は nil が
+渡されます。
+
+ブロックが例外 [[c:StopIteration]]を投げた場合、繰り返しが終了します。
+
+@param initial ブロックに最初に渡される値です。任意のオブジェクトを渡せます。
+
+//emlist[例][ruby]{
+# 1, 2, 3, 4, ... と続く Enumerator
+Enumerator.produce(1, &:succ)
+
+# next を呼ぶたびランダムな数値を返す Enumerator
+Enumerator.produce { rand(10) }
+
+# ツリー構造の祖先ノードを列挙する Enumerator
+ancestors = Enumerator.produce(node) { |prev| node = prev.parent or raise StopIteration }
+enclosing_section = ancestors.find { |n| n.type == :section }
+//}
+
+このメソッドは Enumerable の各メソッドと組み合わせて使うことで、
+while や until ループのような処理を実装できます。
+例えば [[m:Enumerable#detect]], [[m:Enumerable#slice_after]], [[m:Enumerable#take_while]]
+などと合わせて使えるでしょう。
+
+//emlist[Enumerable のメソッドと組み合わせる例][ruby]{
+# 次の火曜日を返す例
+require "date"
+Enumerator.produce(Date.today, &:succ).detect(&:tuesday?)
+
+# シンプルなレキサーの例
+require "strscan"
+scanner = StringScanner.new("7+38/6")
+PATTERN = %r{\d+|[-/+*]}
+Enumerator.produce { scanner.scan(PATTERN) }.slice_after { scanner.eos? }.first
+# => ["7", "+", "38", "/", "6"]
+//}
+

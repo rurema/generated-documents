@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/logger.html">
+
+<title>library logger (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="ログを記録するためのライブラリです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/logger.html","name":"loggerライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        loggerライブラリ
+      </li>
+    </ol>
+  </nav>
+
+<h1>library logger</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/logger.rd#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+<h2>要約</h2>
+<p>
+ログを記録するためのライブラリです。
+</p>
+<h2 >説明</h2>
+<p>
+6段階のログレベルに分けてログを記録します。
+</p>
+<dl>
+<dt>UNKNOWN</dt>
+<dd>
+<p>
+常に記録されるべき不明なエラー
+</p>
+</dd>
+<dt>FATAL</dt>
+<dd>
+<p>
+プログラムをクラッシュさせるような制御不可能なエラー
+</p>
+</dd>
+<dt>ERROR</dt>
+<dd>
+<p>
+制御可能なエラー
+</p>
+</dd>
+<dt>WARN</dt>
+<dd>
+<p>
+警告
+</p>
+</dd>
+<dt>INFO</dt>
+<dd>
+<p>
+一般的な情報
+</p>
+</dd>
+<dt>DEBUG</dt>
+<dd>
+<p>
+低レベルの情報
+</p>
+</dd>
+</dl>
+<p>
+全てのメッセージは必ずログレベルを持ちます。また Logger オブジェクトも同じようにログレベルを持ちます。メッセージのログレベルが Logger オブジェクトのログレベルよりも低い場合メッセージは記録されません。
+</p>
+<p>
+普段は INFO しか記録していないが、デバッグ情報が必要になった時には、
+Logger オブジェクトのログレベルを DEBUG に下げるなどという使い方をします。
+</p>
+<h3 >例</h3>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'logger'</span>
+logger <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+logger<span class="p">.</span><span class="nf">level</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">::</span><span class="no">WARN</span>
+
+logger<span class="p">.</span><span class="nf">debug</span><span class="p">(</span><span class="s2">"</span><span class="s2">Created logger</span><span class="s2">"</span><span class="p">)</span>
+logger<span class="p">.</span><span class="nf">info</span><span class="p">(</span><span class="s2">"</span><span class="s2">Program started</span><span class="s2">"</span><span class="p">)</span>
+logger<span class="p">.</span><span class="nf">warn</span><span class="p">(</span><span class="s2">"</span><span class="s2">Nothing to do!</span><span class="s2">"</span><span class="p">)</span>
+
+path <span class="o">=</span> <span class="s2">"</span><span class="s2">a_non_existent_file</span><span class="s2">"</span>
+
+<span class="k">begin</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span>path<span class="p">)</span> <span class="k">do</span> <span class="o">|</span>line<span class="o">|</span>
+    <span class="k">unless</span> line <span class="o">=~</span> <span class="sr">/^(\w+) = (.*)$/</span>
+      logger<span class="p">.</span><span class="nf">error</span><span class="p">(</span><span class="s2">"</span><span class="s2">Line in wrong format: </span><span class="si">#{</span><span class="n">line</span><span class="p">.</span><span class="nf">chomp</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">rescue</span> <span class="o">=&gt;</span> err
+  logger<span class="p">.</span><span class="nf">fatal</span><span class="p">(</span><span class="s2">"</span><span class="s2">Caught exception; exiting</span><span class="s2">"</span><span class="p">)</span>
+  logger<span class="p">.</span><span class="nf">fatal</span><span class="p">(</span>err<span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+上の例ではログにはWARN、ERROR、FATALのみが記録されます。例外オブジェクトも記録するメッセージとして使えます。下が出力例です。
+</p>
+<pre>
+W, [2017-12-07T02:22:53.649000 #11601]  WARN -- : Nothing to do!
+F, [2017-12-07T02:22:53.649172 #11601] FATAL -- : Caught exception; exiting
+F, [2017-12-07T02:22:53.649222 #11601] FATAL -- : No such file or directory @ rb_sysopen - a_non_existent_file (Errno::ENOENT)
+logger_sample.rb:12:in `foreach'
+logger_sample.rb:12:in `&lt;main&gt;'
+</pre>
+<p>
+これは log.level が <a href="../method/Logger/c/WARN.html">Logger::WARN</a> になっているためです。WARN、
+ERROR、FATALログのみが記録の対象になります。DEBUG、INFOログは無視されます。
+</p>
+<h3 >機能</h3>
+<p>
+<a href="../class/Logger.html">Logger</a> はログファイルの自動切り替え、ログフォーマットの設定、ログと一緒に記録するプログラム名の指定といった有用な機能があります。以降ではその使い方について説明します。
+</p>
+<h2 >使い方</h2>
+<h3 >loggerの作成</h3>
+<p>
+以下のいずれかの方法でloggerを作成する事ができます(<a href="../method/Logger/s/new.html">Logger.new</a> も参照)。
+</p>
+<p>
+1. STDERR/STDOUTに出力するように指定
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'logger'</span>
+logger <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">STDERR</span><span class="p">)</span>
+logger <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+</code></pre>
+<p>
+2. ログファイル名を指定
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'logger'</span>
+logger <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'logfile.log'</span><span class="p">)</span>
+</code></pre>
+<p>
+3. <a href="../class/File.html">File</a> オブジェクトを指定
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'logger'</span>
+file <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'foo.log'</span>, <span class="no">File</span><span class="o">::</span><span class="no">WRONLY</span> <span class="o">|</span> <span class="no">File</span><span class="o">::</span><span class="no">APPEND</span><span class="p">)</span>
+<span class="c1"># (古いファイルを削除する)新しいログファイルを作成する場合、以下のよ
+</span><span class="c1"># うに File::CREAT を指定。
+</span><span class="c1"># file = File.open('foo.log', File::WRONLY | File::APPEND | File::CREAT)
+</span>logger <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>file<span class="p">)</span>
+</code></pre>
+<p>
+4. 指定したファイルサイズに達したらログファイルの切り替えを行うように指定。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'logger'</span>
+<span class="c1"># 約1,024,000バイトの&quot;古い&quot;ログファイルを10個残す
+</span>logger <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'foo.log'</span>, <span class="mi">10</span>, <span class="mi">1024000</span><span class="p">)</span>
+</code></pre>
+<p>
+5. ログファイルの切り替えを daily/weekly/monthly に指定
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'logger'</span>
+logger <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'foo.log'</span>, <span class="s1">'daily'</span><span class="p">)</span>
+logger <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'foo.log'</span>, <span class="s1">'weekly'</span><span class="p">)</span>
+logger <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'foo.log'</span>, <span class="s1">'monthly'</span><span class="p">)</span>
+</code></pre>
+<h3 >ログの記録</h3>
+<p>
+ログをレベルごとに記録するのに <a href="../method/Logger/i/fatal.html">Logger#fatal</a>、<a href="../method/Logger/i/error.html">Logger#error</a>、
+<a href="../method/Logger/i/warn.html">Logger#warn</a>、<a href="../method/Logger/i/info.html">Logger#info</a>、<a href="../method/Logger/i/debug.html">Logger#debug</a> メソッドを使用します。動的に任意のログレベルを設定したい場合は <a href="../method/Logger/i/add.html">Logger#add</a> を使用します。
+</p>
+<p>
+1. ブロックを指定
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">fatal</span> <span class="p">{</span> <span class="s2">"</span><span class="s2">Argument 'foo' not given.</span><span class="s2">"</span> <span class="p">}</span>
+</code></pre>
+<p>
+2. 文字列を指定
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">error</span> <span class="s2">"</span><span class="s2">Argument </span><span class="si">#{</span><span class="vi">@foo</span><span class="si">}</span><span class="s2"> mismatch.</span><span class="s2">"</span>
+</code></pre>
+<p>
+3. プログラム名を指定
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">info</span><span class="p">(</span><span class="s1">'initialize'</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"</span><span class="s2">Initializing...</span><span class="s2">"</span> <span class="p">}</span>
+</code></pre>
+<p>
+4. ログレベルを指定
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="no">Logger</span><span class="o">::</span><span class="no">FATAL</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'Fatal error!'</span> <span class="p">}</span>
+</code></pre>
+<p>
+ブロック形式だと潜在的に複雑なログを記録する場合に評価をログの記録のタイミングまで遅延させる事ができます。例えば以下のようにすると、
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">debug</span> <span class="p">{</span> <span class="s2">"</span><span class="s2">This is a </span><span class="s2">"</span> <span class="o">+</span> potentially <span class="o">+</span> <span class="s2">"</span><span class="s2"> expensive operation</span><span class="s2">"</span> <span class="p">}</span>
+</code></pre>
+<p>
+もしログレベルが INFO 以上であった場合、デバッグメッセージが記録されないだけでなくブロックが評価される事もありません(以下だと記録が行われないのは同じですが、評価されます)。
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">debug</span><span class="p">(</span><span class="s2">"</span><span class="s2">This is a </span><span class="s2">"</span> <span class="o">+</span> potentially <span class="o">+</span> <span class="s2">"</span><span class="s2"> expensive operation</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
+<h3 >loggerのclose</h3>
+<pre>
+logger.close
+</pre>
+<h3 >ログレベル設定</h3>
+<p>
+1. オリジナルインターフェイス
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">sev_threshold</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">::</span><span class="no">WARN</span>
+</code></pre>
+<p>
+2. (ある程度の) Log4r 互換インターフェイス
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">level</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">::</span><span class="no">INFO</span>
+
+<span class="c1"># DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL &lt; UNKNOWN
+</span></code></pre>
+<p>
+3. <a href="../class/Symbol.html">Symbol</a> か <a href="../class/String.html">String</a>(大文字小文字の区別を行わない)
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">level</span> <span class="o">=</span> <span class="ss">:info</span>
+logger<span class="p">.</span><span class="nf">level</span> <span class="o">=</span> <span class="s1">'INFO'</span>
+
+<span class="c1"># :debug &lt; :info &lt; :warn &lt; :error &lt; :fatal &lt; :unknown
+</span></code></pre>
+<p>
+4. コンストラクタ
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'logger'</span>
+<span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>logdev, <span class="ss">level:</span> <span class="no">Logger</span><span class="o">::</span><span class="no">INFO</span><span class="p">)</span>
+<span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>logdev, <span class="ss">level:</span> <span class="ss">:info</span><span class="p">)</span>
+<span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>logdev, <span class="ss">level:</span> <span class="s1">'INFO'</span><span class="p">)</span>
+</code></pre>
+<h2 >フォーマット</h2>
+<p>
+ログはデフォルトでは特定のフォーマットで記録されます。デフォルトのフォーマットとその場合のログの例は以下のようになります。
+</p>
+<p>
+フォーマット:
+</p>
+<pre>
+SeverityID, [DateTime #pid] SeverityLabel -- ProgName: message
+</pre>
+<p>
+例:
+</p>
+<pre>
+I, [1999-03-03T02:34:24.895701 #19074]  INFO -- Main: info.
+</pre>
+<p>
+<a href="../method/Logger/i/datetime_format=3d.html">Logger#datetime_format=</a> を用いてログに記録する時の日時のフォーマットを変更することもできます。
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">datetime_format</span> <span class="o">=</span> <span class="s1">'%Y-%m-%d %H:%M:%S'</span>
+<span class="c1"># e.g. &quot;2004-01-03 00:54:26&quot;
+</span></code></pre>
+<p>
+コンストラクタでも同様にできます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'logger'</span>
+<span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>logdev, <span class="ss">datetime_format:</span> <span class="s1">'%Y-%m-%d %H:%M:%S'</span><span class="p">)</span>
+</code></pre>
+<p>
+<a href="../method/Logger/i/formatter=3d.html">Logger#formatter=</a> を用いてフォーマットを変更することもできます。
+</p>
+<pre class="highlight ruby">
+<code>
+logger<span class="p">.</span><span class="nf">formatter</span> <span class="o">=</span> <span class="nb">proc</span> <span class="k">do</span> <span class="o">|</span>severity, datetime, progname, msg<span class="o">|</span>
+  <span class="s2">"</span><span class="si">#{</span><span class="n">datetime</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">msg</span><span class="si">}</span><span class="s2">\n</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1"># =&gt; &quot;2005-09-22 08:51:08 +0900: hello world&quot;
+</span></code></pre>
+<p>
+コンストラクタでも同様にできます。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'logger'</span>
+<span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>logdev, <span class="ss">formatter:</span> <span class="nb">proc</span> <span class="p">{</span><span class="o">|</span>severity, datetime, progname, msg<span class="o">|</span>
+  <span class="s2">"</span><span class="si">#{</span><span class="n">datetime</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">msg</span><span class="si">}</span><span class="s2">\n</span><span class="s2">"</span>
+<span class="p">}</span><span class="p">)</span>
+</code></pre>
+<h2 >参考</h2>
+<dl>
+<dt>Rubyist Magazine</dt>
+<dd>
+<p>
+<a class="external" href="https://magazine.rubyist.net/">https://magazine.rubyist.net/</a>
+</p>
+</dd>
+<dt>標準添付ライブラリ紹介【第 2 回】</dt>
+<dd>
+<p>
+<a class="external" href="https://magazine.rubyist.net/articles/0008/0008-BundledLibraries.html">https://magazine.rubyist.net/articles/0008/0008-BundledLibraries.html</a>
+</p>
+</dd>
+</dl>
+
+
+<h2>クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Logger.html">Logger</a>
+</td>
+<td class="description"><p>
+ログを記録するためのクラスです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Logger=3a=3aFormatter.html">Logger::Formatter</a>
+</td>
+<td class="description"><p>
+ロガーのフォーマット文字列を扱うクラス。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Logger=3a=3aLogDevice.html">Logger::LogDevice</a>
+</td>
+<td class="description"><p>
+<a href="../class/Logger.html">Logger</a> の内部で使用するログの出力先を表すクラスです。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>モジュール</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Logger=3a=3aSeverity.html">Logger::Severity</a>
+</td>
+<td class="description"><p>
+<a href="../library/logger.html">logger</a> で使用するログレベルを定義したモジュール。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>例外クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/Logger=3a=3aError.html">Logger::Error</a>
+</td>
+<td class="description"><p>
+このライブラリで使用する例外です。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 1.0em;">
+<span style="display:none">&nbsp;</span>
+<a href="../class/Logger=3a=3aShiftingError.html">Logger::ShiftingError</a>
+</td>
+<td class="description"><p>
+ログファイルの切り替えに失敗した場合に発生する例外です。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/logger.rd#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

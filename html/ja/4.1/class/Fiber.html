@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Fiber.html">
+
+<title>class Fiber (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="ノンプリエンプティブな軽量スレッド(以下ファイバーと呼ぶ)を提供します。
+他の言語では coroutine あるいは semicoroutine と呼ばれることもあります。
+[[c:Thread]] と違いユーザレベルスレッドとして実装されています。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Fiber.html","name":"Fiberクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        Fiberクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Fiber</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Fiber#L5">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Fiber
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+ノンプリエンプティブな軽量スレッド(以下ファイバーと呼ぶ)を提供します。他の言語では coroutine あるいは semicoroutine と呼ばれることもあります。
+<a href="../class/Thread.html">Thread</a> と違いユーザレベルスレッドとして実装されています。
+</p>
+<p>
+<a href="../class/Thread.html">Thread</a> クラスが表すスレッドと違い、明示的に指定しない限りファイバーのコンテキストは切り替わりません。またファイバーは親子関係を持ちます。Fiber#resume を呼んだファイバーが親になり呼ばれたファイバーが子になります。親子関係を壊すような遷移(例えば自分の親の親のファイバーへ切り替えるような処理)はできません。例外 FiberError が発生します。できることは
+</p>
+<ul>
+<li>Fiber#resume により子へコンテキストを切り替える</li>
+<li>Fiber.yield により親へコンテキストを切り替える</li>
+</ul>
+<p>
+の二通りです。この親子関係は一時的なものであり親ファイバーへコンテキストを切り替えた時点で解消されます。
+</p>
+<p>
+ファイバーが終了するとその親にコンテキストが切り替わります。
+</p>
+<p>
+Ruby 3.1 から fiber を require しなくても、コンテキストの切り替えに制限のない <a href="../method/Fiber/i/transfer.html">Fiber#transfer</a> が使えます。任意のファイバーにコンテキストを切り替えることができます。
+</p>
+<h2 >例外</h2>
+<p>
+ファイバー実行中に例外が発生した場合、親ファイバーに例外が伝播します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="nb">raise</span> <span class="no">StandardError</span>, <span class="s2">"</span><span class="s2">hoge</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="k">begin</span>
+f<span class="p">.</span><span class="nf">resume</span>     <span class="c1"># ここでも StandardError が発生する。
+</span><span class="k">rescue</span> <span class="o">=&gt;</span> e
+<span class="nb">p</span> e<span class="p">.</span><span class="nf">message</span>  <span class="c1">#=&gt; &quot;hoge&quot;
+</span><span class="k">end</span>
+</code></pre>
+<h2 >ショートチュートリアル</h2>
+<p>
+ファイバーは処理のあるポイントで他のルーチンにコンテキストを切り替え、またそのポイントから再開するという目的のために使います。
+<a href="../method/Fiber/s/new.html">Fiber.new</a> により与えられたブロックとともにファイバーを生成します。生成したファイバーに対して <a href="../method/Fiber/i/resume.html">Fiber#resume</a> を呼ぶことによりコンテキストを切り替えます。子ファイバーのブロック中で <a href="../method/Fiber/s/yield.html">Fiber.yield</a> を呼ぶと親にコンテキストを切り替えます。
+Fiber.yield の引数が、親での Fiber#resume の返り値になります。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  n <span class="o">=</span> <span class="mi">0</span>
+  <span class="nb">loop</span> <span class="k">do</span>
+    <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span><span class="p">(</span>n<span class="p">)</span>
+    n <span class="o">+=</span> <span class="mi">1</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="mi">5</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+ <span class="nb">p</span> f<span class="p">.</span><span class="nf">resume</span>
+<span class="k">end</span>
+
+<span class="c1">#=&gt; 0
+</span>    <span class="mi">1</span>
+    <span class="mi">2</span>
+    <span class="mi">3</span>
+    <span class="mi">4</span>
+</code></pre>
+<p>
+以下は内部イテレータを外部イテレータに変換する例です。実際 <a href="../class/Enumerator.html">Enumerator</a> は Fiber を用いて実装されています。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+<span class="k">def</span> <span class="nf">enum2gen</span><span class="p">(</span>enum<span class="p">)</span>
+  <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+    enum<span class="p">.</span><span class="nf">each</span><span class="p">{</span><span class="o">|</span>i<span class="o">|</span>
+      <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span><span class="p">(</span>i<span class="p">)</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+ 
+g <span class="o">=</span> enum2gen<span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="p">)</span>
+ 
+<span class="nb">p</span> g<span class="p">.</span><span class="nf">resume</span>  <span class="c1">#=&gt; 1
+</span><span class="nb">p</span> g<span class="p">.</span><span class="nf">resume</span>  <span class="c1">#=&gt; 2
+</span><span class="nb">p</span> g<span class="p">.</span><span class="nf">resume</span>  <span class="c1">#=&gt; 3
+</span></code></pre>
+<h2 >注意</h2>
+<p>
+Thread クラスが表すスレッド間をまたがるファイバーの切り替えはできません。例外 FiberError が発生します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+f <span class="o">=</span> <span class="k">nil</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span><span class="p">}</span>
+<span class="k">end</span><span class="p">.</span><span class="nf">join</span>
+f<span class="p">.</span><span class="nf">resume</span>
+<span class="c1">#=&gt; t.rb:5:in `resume': fiber called across threads (FiberError)
+</span><span class="c1">#      from t.rb:5:in `&lt;main&gt;'
+</span></code></pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_CURRENT">current</a></li>
+
+<li><a href="#S_NEW">new</a></li>
+
+<li><a href="#S_YIELD">yield</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_ALIVE--3F">alive?</a></li>
+
+<li><a href="#I_RAISE">raise</a></li>
+
+<li><a href="#I_RESUME">resume</a></li>
+
+<li><a href="#I_TRANSFER">transfer</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_CURRENT"><code>current -&gt; Fiber</code><span class="permalink">[<a href="../method/Fiber/s/current.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiber.html#method-c-current">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Fiber.current#L2">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このメソッドが評価されたコンテキストにおける <a href="../class/Fiber.html">Fiber</a> のインスタンスを返します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+fr <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+ <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span>
+<span class="k">end</span>
+
+fb <span class="o">=</span> fr<span class="p">.</span><span class="nf">resume</span>
+<span class="nb">p</span> fb<span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>fr<span class="p">)</span> <span class="c1"># =&gt; true
+</span>
+<span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span> <span class="c1"># =&gt; #&lt;Fiber:0x91345e4&gt;
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span> <span class="c1"># =&gt; #&lt;Fiber:0x91345e4&gt;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_NEW"><code>new {|obj| ... } -&gt; Fiber</code><span class="permalink">[<a href="../method/Fiber/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiber.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Fiber#L117">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられたブロックとともにファイバーを生成して返します。ブロックは <a href="../method/Fiber/i/resume.html">Fiber#resume</a> に与えられた引数をその引数として実行されます。
+</p>
+<p>
+ブロックが終了した場合は親にコンテキストが切り替わります。その時ブロックの評価値が返されます。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+a <span class="o">=</span> <span class="k">nil</span>
+f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>obj<span class="o">|</span>
+  a <span class="o">=</span> obj
+  <span class="ss">:hoge</span>
+<span class="k">end</span>
+  
+b <span class="o">=</span> f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span>
+<span class="nb">p</span> a  <span class="c1">#=&gt; :foo
+</span><span class="nb">p</span> b  <span class="c1">#=&gt; :hoge
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_YIELD"><code>yield(*arg = nil) -&gt; object</code><span class="permalink">[<a href="../method/Fiber/s/yield.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiber.html#method-c-yield">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Fiber#L137">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のファイバーの親にコンテキストを切り替えます。
+</p>
+<p>
+コンテキストの切り替えの際に <a href="../method/Fiber/i/resume.html">Fiber#resume</a> に与えられた引数を yield メソッドは返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] arg:</dt>
+<dd>
+現在のファイバーの親に渡したいオブジェクトを指定します。
+</dd>
+<dt>[EXCEPTION] FiberError:</dt>
+<dd>
+Fiber でのルートファイバーで呼ばれた場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+a <span class="o">=</span> <span class="k">nil</span>
+f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  a <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span><span class="p">(</span><span class="p">)</span>
+<span class="k">end</span>
+  
+f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span>
+
+<span class="nb">p</span> a  <span class="c1">#=&gt; :foo
+</span></code></pre>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ALIVE--3F"><code>alive? -&gt; bool</code><span class="permalink">[<a href="../method/Fiber/i/alive=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiber.html#method-i-alive-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Fiber.alive_p#L1">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ファイバーが「生きている」時、真を返します。
+</p>
+<p>
+このメソッドが真を返すのは以下の場合です。
+</p>
+<ul>
+<li>まだ <a href="../method/Fiber/i/resume.html">Fiber#resume</a> されていない</li>
+<li>ブロック内の評価が終了していない (<a href="../method/Fiber/s/yield.html">Fiber.yield</a> が呼ばれていない)</li>
+</ul>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+fr <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span>
+<span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span>
+<span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>
+<span class="p">}</span>
+
+<span class="nb">p</span> fr<span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; true
+</span>fr<span class="p">.</span><span class="nf">resume</span>   <span class="c1"># Fiber.yieldで戻ってくる
+</span><span class="nb">p</span> fr<span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; true
+</span>fr<span class="p">.</span><span class="nf">resume</span>   <span class="c1"># ブロック内の評価を終えて戻ってくる
+</span><span class="nb">p</span> fr<span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_RAISE"><code>raise -&gt; object</code><span class="permalink">[<a href="../method/Fiber/i/raise.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiber.html#method-i-raise">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Fiber#L166">edit</a>]</span></dt>
+<dt class="method-heading"><code>raise(message) -&gt; object</code></dt>
+<dt class="method-heading"><code>raise(exception, message = nil, backtrace = nil) -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+selfが表すファイバーが最後に <a href="../method/Fiber/s/yield.html">Fiber.yield</a> を呼んだ場所で例外を発生させます。
+</p>
+<p>
+Fiber.yield が呼ばれていないかファイバーがすでに終了している場合、
+<a href="../class/FiberError.html">FiberError</a> が発生します。
+</p>
+<p>
+引数を渡さない場合、<a href="../class/RuntimeError.html">RuntimeError</a> が発生します。
+message 引数を渡した場合、message 引数をメッセージとした RuntimeError
+が発生します。
+</p>
+<p>
+その他のケースでは、最初の引数は <a href="../class/Exception.html">Exception</a> か Exception
+のインスタンスを返す exception メソッドを持ったオブジェクトである必要があります。この場合、2つ目の引数に例外のメッセージを渡せます。また3つ目の引数に例外発生時のスタックトレースを指定できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] message:</dt>
+<dd>
+例外のメッセージとなる文字列です。
+</dd>
+<dt class='method-param'>[PARAM] exception:</dt>
+<dd>
+発生させる例外です。
+</dd>
+<dt class='method-param'>[PARAM] backtrace:</dt>
+<dd>
+例外発生時のスタックトレースです。文字列の配列で指定します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span> <span class="p">}</span>
+f<span class="p">.</span><span class="nf">resume</span>
+f<span class="p">.</span><span class="nf">raise</span> <span class="s2">"</span><span class="s2">Error!</span><span class="s2">"</span> <span class="c1"># =&gt; Error! (RuntimeError)
+</span></code></pre>
+<pre class="highlight ruby">
+<span class="caption">ファイバー内のイテレーションを終了させる例</span>
+<code>
+f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="nb">loop</span> <span class="k">do</span>
+    <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span><span class="p">(</span><span class="ss">:loop</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="ss">:exit</span>
+<span class="k">end</span>
+
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">resume</span>              <span class="c1"># =&gt; :loop
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">raise</span> <span class="no">StopIteration</span> <span class="c1"># =&gt; :exit
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_RESUME"><code>resume(*arg = nil) -&gt; object</code><span class="permalink">[<a href="../method/Fiber/i/resume.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiber.html#method-i-resume">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Fiber#L208">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身が表すファイバーへコンテキストを切り替えます。自身は resume を呼んだファイバーの子となります。
+</p>
+<p>
+ただし、<a href="../method/Fiber/i/transfer.html">Fiber#transfer</a> を呼び出した後に resume を呼び出す事はできません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] arg:</dt>
+<dd>
+self が表すファイバーに渡したいオブジェクトを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+コンテキストの切り替えの際に <a href="../method/Fiber/s/yield.html">Fiber.yield</a> に与えられた引数を返します。ブロックの終了まで実行した場合はブロックの評価結果を返します。
+</dd>
+<dt>[EXCEPTION] FiberError:</dt>
+<dd>
+自身が既に終了している場合、コンテキストの切替が
+Thread クラスが表すスレッド間をまたがる場合、自身が resume を呼んだファイバーの親かその祖先である場合に発生します。また、<a href="../method/Fiber/i/transfer.html">Fiber#transfer</a> を呼び出した後に resume を呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+
+f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span><span class="p">(</span><span class="ss">:hoge</span><span class="p">)</span>
+  <span class="ss">:fuga</span>
+<span class="k">end</span>
+  
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="p">)</span> <span class="c1">#=&gt; :hoge
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="p">)</span> <span class="c1">#=&gt; :fuga
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="p">)</span> <span class="c1">#=&gt; FiberError: dead fiber called
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TRANSFER"><code>transfer(*args) -&gt; object</code><span class="permalink">[<a href="../method/Fiber/i/transfer.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiber.html#method-i-transfer">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Fiber.transfer#L1">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身が表すファイバーへコンテキストを切り替えます。
+</p>
+<p>
+自身は <a href="../method/Fiber/i/resume.html">Fiber#resume</a> を呼んだファイバーの子となります。
+<a href="../method/Fiber/i/resume.html">Fiber#resume</a> との違いは、ファイバーが終了したときや <a href="../method/Fiber/s/yield.html">Fiber.yield</a> が呼ばれたときは、ファイバーの親へ戻らずにメインファイバーへ戻ります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+メインファイバーから呼び出した <a href="../method/Fiber/i/resume.html">Fiber#resume</a> メソッドの返り値として渡したいオブジェクトを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+コンテキスト切り替えの際に、<a href="../method/Fiber/i/resume.html">Fiber#resume</a> メソッドに与えられた引数を返します。
+</dd>
+<dt>[EXCEPTION] FiberError:</dt>
+<dd>
+自身が既に終了している場合、コンテキストの切り替えが <a href="../class/Thread.html">Thread</a> クラスが表すスレッド間をまたがる場合、
+<a href="../method/Fiber/i/resume.html">Fiber#resume</a> を呼んだファイバーがその親か先祖である場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<span class="caption">例:</span>
+<code>
+<span class="nb">require</span> <span class="s1">'fiber'</span>
+
+fr1 <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>v<span class="o">|</span>
+<span class="ss">:fugafuga</span>
+<span class="k">end</span>
+
+fr2 <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>v<span class="o">|</span>
+fr1<span class="p">.</span><span class="nf">transfer</span>
+<span class="ss">:fuga</span>
+<span class="k">end</span>
+
+fr3 <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>v<span class="o">|</span>
+fr2<span class="p">.</span><span class="nf">resume</span>
+<span class="ss">:hoge</span>
+<span class="k">end</span>
+
+<span class="nb">p</span> fr3<span class="p">.</span><span class="nf">resume</span> <span class="c1"># =&gt; :fugafuga
+</span></code></pre>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Fiber#L5">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

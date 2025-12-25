@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/UNIXServer/i/accept_nonblock.html">
+
+<title>UNIXServer#accept_nonblock (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="接続した
+[[c:UNIXSocket]] のインスタンスを返します。">
+<script src="../../../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/socket.html","name":"socketライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/UNIXServer.html","name":"UNIXServerクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/UNIXServer/i/accept_nonblock.html","name":"accept_nonblock","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/socket.html">socketライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/UNIXServer.html">UNIXServerクラス</a>
+      </li>
+      <li>
+        accept_nonblock 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method UNIXServer#accept_nonblock</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_ACCEPT_NONBLOCK"><code>accept_nonblock -&gt; UnixSocket</code><span class="permalink">[<a href="../../../method/UNIXServer/i/accept_nonblock.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/UNIXServer.html#method-i-accept_nonblock">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/socket/UNIXServer#L50">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ソケットをノンブロッキングモードに設定した後、
+<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/accept.html">accept(2)</a> を呼び出します。
+</p>
+<p>
+接続した
+<a href="../../../class/UNIXSocket.html">UNIXSocket</a> のインスタンスを返します。
+</p>
+<p>
+<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/accept.html">accept(2)</a> がエラーになった場合、<a href="../../../method/Socket/i/accept.html">Socket#accept</a> と同じ例外が発生します。
+</p>
+<p>
+<a href="../../../class/Errno=3a=3aEWOULDBLOCK.html">Errno::EWOULDBLOCK</a>, <a href="../../../class/Errno=3a=3aEAGAIN.html">Errno::EAGAIN</a>,
+<a href="../../../class/Errno=3a=3aECONNABORTED.html">Errno::ECONNABORTED</a>, <a href="../../../class/Errno=3a=3aEPROTO.html">Errno::EPROTO</a> のいずれかの例外が発生した場合は、その例外には <a href="../../../class/IO=3a=3aWaitReadable.html">IO::WaitReadable</a> が extend
+されます。それを利用してリトライ可能な例外を掴まえることができます。
+</p>
+<pre>
+require 'socket'
+serv = UNIXServer.new(&quot;/tmp/sock&quot;)
+begin # emulate blocking accept
+  sock = serv.accept_nonblock
+rescue IO::WaitReadable, Errno::EINTR
+  IO.select([serv])
+  retry
+end
+# sock is an accepted socket.
+</pre>
+<p>
+[SEE_ALSO] <a href="../../../method/UNIXServer/i/accept.html">UNIXServer#accept</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/socket/UNIXServer#L50">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

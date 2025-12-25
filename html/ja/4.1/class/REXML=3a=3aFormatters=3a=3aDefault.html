@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/REXML=3a=3aFormatters=3a=3aDefault.html">
+
+<title>class REXML::Formatters::Default (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="XMLドキュメントを(文字列として)出力するクラスです。">
+<script src="../script.js"></script>
+</head>
+<body>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/rexml=2fdocument.html","name":"rexml/documentライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/REXML=3a=3aFormatters=3a=3aDefault.html","name":"REXML::Formatters::Defaultクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/rexml=2fdocument.html">rexml/documentライブラリ</a>
+      </li>
+      <li>
+        REXML::Formatters::Defaultクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class REXML::Formatters::Default</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/rexml/formatters/default.rd#L1">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        REXML::Formatters::Default
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+XMLドキュメントを(文字列として)出力するクラスです。
+</p>
+<p>
+<a href="../class/REXML=3a=3aFormatters=3a=3aPretty.html">REXML::Formatters::Pretty</a> と異なりテキストの改行や空白を修正せずにそのまま出力します。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rexml/document'</span>
+<span class="nb">require</span> <span class="s1">'rexml/formatters/default'</span>
+doc <span class="o">=</span> <span class="no">REXML</span><span class="o">::</span><span class="no">Document</span><span class="p">.</span><span class="nf">new</span> <span class="no">&lt;&lt;EOS</span>
+<span class="sh">&lt;root&gt;
+&lt;children&gt;
+  &lt;grandchildren/&gt;
+&lt;/children&gt;
+&lt;/root&gt;
+</span><span class="no">EOS
+</span>
+default_formatter <span class="o">=</span> <span class="no">REXML</span><span class="o">::</span><span class="no">Formatters</span><span class="o">::</span><span class="no">Default</span><span class="p">.</span><span class="nf">new</span>
+output <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</span><span class="nf">new</span>
+default_formatter<span class="p">.</span><span class="nf">write</span><span class="p">(</span>doc, output<span class="p">)</span>
+output<span class="p">.</span><span class="nf">string</span>
+<span class="c1"># =&gt; &quot;&lt;root&gt;\n&lt;children&gt;\n  &lt;grandchildren/&gt;\n&lt;/children&gt;\n&lt;/root&gt;\n&quot;
+</span>
+output <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</span><span class="nf">new</span>
+default_formatter<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="no">REXML</span><span class="o">::</span><span class="no">XPath</span><span class="p">.</span><span class="nf">first</span><span class="p">(</span>doc, <span class="s2">"</span><span class="s2">/root/children</span><span class="s2">"</span><span class="p">)</span>, output<span class="p">)</span>
+output<span class="p">.</span><span class="nf">string</span>
+<span class="c1"># =&gt; &quot;&lt;children&gt;\n  &lt;grandchildren/&gt;\n&lt;/children&gt;&quot;
+</span>
+ie_hack_formatter <span class="o">=</span> <span class="no">REXML</span><span class="o">::</span><span class="no">Formatters</span><span class="o">::</span><span class="no">Default</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+output <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</span><span class="nf">new</span>
+ie_hack_formatter<span class="p">.</span><span class="nf">write</span><span class="p">(</span>doc, output<span class="p">)</span>
+output<span class="p">.</span><span class="nf">string</span>
+<span class="c1"># =&gt; &quot;&lt;root&gt;\n&lt;children&gt;\n  &lt;grandchildren /&gt;\n&lt;/children&gt;\n&lt;/root&gt;\n&quot;
+</span></code></pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_WRITE">write</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(ie_hack=false) -&gt; REXML::Formatter::Default</code><span class="permalink">[<a href="../method/REXML=3a=3aFormatters=3a=3aDefault/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/REXML/Formatters/Default.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/rexml/formatters/default.rd#L38">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+フォーマッタオブジェクトを生成して返します。
+</p>
+<p>
+このフォーマッタによる出力は基本的にテキストの空白や改行を変化させません。
+</p>
+<p>
+ie_hack に真を渡すと、空のタグを閉じる前で空白を挿入します。これは特定のバージョンのIEのXMLパーサのバグを避けるための機能です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] ie_hack:</dt>
+<dd>
+空のタグを閉じる所にスペースを入れるかどうかを指定します
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_WRITE"><code>write(node, output) -&gt; ()</code><span class="permalink">[<a href="../method/REXML=3a=3aFormatters=3a=3aDefault/i/write.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/REXML/Formatters/Default.html#method-i-write">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/rexml/formatters/default.rd#L49">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+XML のノード node を output に出力します。
+</p>
+<p>
+node には任意のXMLノードを指定できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] node:</dt>
+<dd>
+出力するノード
+</dd>
+<dt class='method-param'>[PARAM] output:</dt>
+<dd>
+出力先(IO など &lt;&lt; で出力できるオブジェクト)
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/rexml/formatters/default.rd#L1">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
