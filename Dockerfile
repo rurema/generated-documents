@@ -1,4 +1,4 @@
-FROM ruby:4.0.1
+FROM ruby:4.0.2
 
 RUN apt-get update -qy && apt-get install rsync -qy
 
