@@ -1,7 +1,7 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd:196
+source_location=refm/api/src/rdoc/markdown.rd:194
 
 --- new(extensions = DEFAULT_EXTENSIONS, debug = false)
 

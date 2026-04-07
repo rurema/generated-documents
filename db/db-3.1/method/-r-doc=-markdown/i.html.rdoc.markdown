@@ -1,7 +1,7 @@
 names=html
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd:249
+source_location=refm/api/src/rdoc/markdown.rd:247
 
 --- html -> bool
 

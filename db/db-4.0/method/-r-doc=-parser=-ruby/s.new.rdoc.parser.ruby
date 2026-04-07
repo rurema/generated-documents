@@ -1,7 +1,7 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/parser/../parsers/parse_rb.rd:136
+source_location=refm/api/src/rdoc/parser/../parsers/parse_rb.rd:133
 
 --- new(top_level, file_name, body, options, stats) -> RDoc::Parser::Ruby
 

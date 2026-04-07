@@ -1,7 +1,7 @@
 names=notes
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd:259
+source_location=refm/api/src/rdoc/markdown.rd:257
 
 --- notes -> bool
 
