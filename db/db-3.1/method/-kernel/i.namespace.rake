@@ -1,7 +1,7 @@
 names=namespace
 visibility=private
 kind=added
-source_location=refm/api/src/rake/core_ext:182
+source_location=refm/api/src/rake/core_ext:181
 
 --- namespace(name = nil){ ... } -> Rake::NameSpace
 

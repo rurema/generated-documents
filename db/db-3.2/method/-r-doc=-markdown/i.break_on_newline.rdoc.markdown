@@ -1,7 +1,7 @@
 names=break_on_newline
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd:207
+source_location=refm/api/src/rdoc/markdown.rd:205
 
 --- break_on_newline -> bool
 
