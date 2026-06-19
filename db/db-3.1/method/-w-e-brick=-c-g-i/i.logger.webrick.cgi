@@ -1,7 +1,7 @@
 names=logger
 visibility=public
 kind=defined
-source_location=refm/api/src/webrick/cgi.rd:205
+source_location=refm/api/src/webrick/cgi.rd
 
 --- logger     -> WEBrick::BasicLog 
 

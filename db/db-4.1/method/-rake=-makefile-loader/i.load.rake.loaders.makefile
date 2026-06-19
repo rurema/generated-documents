@@ -1,7 +1,7 @@
 names=load
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/loaders/makefile.rd:9
+source_location=refm/api/src/rake/loaders/makefile.rd
 
 --- load(filename)
 

@@ -1,7 +1,7 @@
 names=description
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:66
+source_location=refm/api/src/rubygems/command.rd
 
 --- description -> String
 

@@ -4,7 +4,7 @@ methods=
 sublibraries=
 is_sublibrary=true
 category=
-source_location=refm/api/src/rdoc/parser/c.rd:1
+source_location=refm/api/src/rdoc/parser/c.rd
 
 C 言語で記述されたソースコードから組み込みクラス/モジュールのドキュメン
 トを解析するためのサブライブラリです。

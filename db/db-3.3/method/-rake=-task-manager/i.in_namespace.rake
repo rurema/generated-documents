@@ -1,7 +1,7 @@
 names=in_namespace
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskManager:98
+source_location=refm/api/src/rake/Rake__TaskManager
 
 --- in_namespace(name){|name_space| ... } -> Array
 

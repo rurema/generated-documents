@@ -1,7 +1,7 @@
 names=synthesize_file_task
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskManager:215
+source_location=refm/api/src/rake/Rake__TaskManager
 
 --- synthesize_file_task(task_name) -> Rake::FileTask | nil
 

@@ -1,7 +1,7 @@
 names=new_scope
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskArguments:56
+source_location=refm/api/src/rake/Rake__TaskArguments
 
 --- new_scope(names) -> Rake::TaskArguments
 

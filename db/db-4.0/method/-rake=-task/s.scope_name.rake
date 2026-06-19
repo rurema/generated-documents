@@ -1,7 +1,7 @@
 names=scope_name
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task:175
+source_location=refm/api/src/rake/Rake__Task
 
 --- scope_name(scope, task_name) -> String
 

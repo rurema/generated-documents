@@ -1,7 +1,7 @@
 names=parse
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd:267
+source_location=refm/api/src/rdoc/markdown.rd
 
 --- parse(markdown) -> RDoc::Markup::Document
 

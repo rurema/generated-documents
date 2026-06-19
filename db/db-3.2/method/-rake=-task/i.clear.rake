@@ -1,7 +1,7 @@
 names=clear
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task:37
+source_location=refm/api/src/rake/Rake__Task
 
 --- clear -> self
 

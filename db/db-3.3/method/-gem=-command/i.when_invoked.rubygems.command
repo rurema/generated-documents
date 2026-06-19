@@ -1,7 +1,7 @@
 names=when_invoked
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:160
+source_location=refm/api/src/rubygems/command.rd
 
 --- when_invoked{ ... } -> Proc
 

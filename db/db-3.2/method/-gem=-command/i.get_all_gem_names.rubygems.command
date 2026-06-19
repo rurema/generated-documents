@@ -1,7 +1,7 @@
 names=get_all_gem_names
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:78
+source_location=refm/api/src/rubygems/command.rd
 
 --- get_all_gem_names -> Array
 

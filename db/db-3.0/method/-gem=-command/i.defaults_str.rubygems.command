@@ -1,7 +1,7 @@
 names=defaults_str
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:59
+source_location=refm/api/src/rubygems/command.rd
 
 --- defaults_str -> String
 

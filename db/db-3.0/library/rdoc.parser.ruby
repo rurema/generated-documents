@@ -4,7 +4,7 @@ methods=
 sublibraries=
 is_sublibrary=true
 category=
-source_location=refm/api/src/rdoc/parser/ruby.rd:1
+source_location=refm/api/src/rdoc/parser/ruby.rd
 
 Ruby のソースコードを解析するためのサブライブラリです。
 

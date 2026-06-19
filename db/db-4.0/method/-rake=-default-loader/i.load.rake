@@ -1,7 +1,7 @@
 names=load
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__DefaultLoader:7
+source_location=refm/api/src/rake/Rake__DefaultLoader
 
 --- load(filename)
 

@@ -1,7 +1,7 @@
 names=define_task
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskManager:70
+source_location=refm/api/src/rake/Rake__TaskManager
 
 --- define_task(task_class, *args){ ... } -> Rake::Task
 

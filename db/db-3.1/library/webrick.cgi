@@ -4,7 +4,7 @@ methods=
 sublibraries=
 is_sublibrary=true
 category=
-source_location=refm/api/src/webrick/cgi.rd:1
+source_location=refm/api/src/webrick/cgi.rd
 
 一般の CGI 環境で [[lib:webrick]] ライブラリのサーブレットと同じように CGI スクリプトを書くための
 ライブラリです。サーバが WEBrick でなくても使うことが出来ます。

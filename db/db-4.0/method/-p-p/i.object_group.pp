@@ -1,7 +1,7 @@
 names=object_group
 visibility=public
 kind=defined
-source_location=refm/api/src/pp.rd:215
+source_location=refm/api/src/pp.rd
 
 --- object_group(obj) { ... }    -> ()
 

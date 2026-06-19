@@ -1,7 +1,7 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__NameSpace:46
+source_location=refm/api/src/rake/Rake__NameSpace
 
 --- new(task_manager, scope_list)
 

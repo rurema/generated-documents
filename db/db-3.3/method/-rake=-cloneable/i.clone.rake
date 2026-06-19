@@ -1,7 +1,7 @@
 names=clone
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Cloneable:8
+source_location=refm/api/src/rake/Rake__Cloneable
 
 --- clone -> object
 

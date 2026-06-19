@@ -1,7 +1,7 @@
 names=invoke
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:108
+source_location=refm/api/src/rubygems/command.rd
 
 --- invoke(*args)
 与えられた引数を使用してコマンドを呼び出します。

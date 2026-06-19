@@ -4,7 +4,7 @@ methods=
 sublibraries=rdoc.markdown.entities
 is_sublibrary=true
 category=
-source_location=refm/api/src/rdoc/markdown.rd:1
+source_location=refm/api/src/rdoc/markdown.rd
 
 Markdown 形式で記述されたドキュメントを [[lib:rdoc]] 上で解析するための
 サブライブラリです。

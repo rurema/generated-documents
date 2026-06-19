@@ -1,7 +1,7 @@
 names=extra_args=
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:220
+source_location=refm/api/src/rubygems/command.rd
 
 --- extra_args=(value)
 

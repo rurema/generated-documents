@@ -1,7 +1,7 @@
 names=enhance
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task:61
+source_location=refm/api/src/rake/Rake__Task
 
 --- enhance(deps = nil){ ... }  -> self
 

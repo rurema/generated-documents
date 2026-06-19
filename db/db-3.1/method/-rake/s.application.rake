@@ -1,7 +1,7 @@
 names=application
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake:7
+source_location=refm/api/src/rake/Rake
 
 --- application -> Rake::Application
 

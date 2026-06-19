@@ -1,7 +1,7 @@
 names=safe_ln
 visibility=public
 kind=added
-source_location=refm/api/src/rake/core_ext:274
+source_location=refm/api/src/rake/core_ext
 
 --- safe_ln(*args)
 

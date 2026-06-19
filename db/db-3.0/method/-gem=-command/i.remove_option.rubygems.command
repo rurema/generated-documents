@@ -1,7 +1,7 @@
 names=remove_option
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:135
+source_location=refm/api/src/rubygems/command.rd
 
 --- remove_option(name)
 

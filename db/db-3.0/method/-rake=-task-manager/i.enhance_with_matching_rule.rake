@@ -1,7 +1,7 @@
 names=enhance_with_matching_rule
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskManager:87
+source_location=refm/api/src/rake/Rake__TaskManager
 
 --- enhance_with_matching_rule(task_name, level = 0) -> Rake::Task | nil
 

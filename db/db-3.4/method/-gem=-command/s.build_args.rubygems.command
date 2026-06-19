@@ -1,7 +1,7 @@
 names=build_args
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:200
+source_location=refm/api/src/rubygems/command.rd
 
 --- build_args -> Array
 

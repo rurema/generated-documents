@@ -1,7 +1,7 @@
 names=redirector
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/ext/builder.rd:30
+source_location=refm/api/src/rubygems/ext/builder.rd
 
 --- redirector -> String
 @todo
