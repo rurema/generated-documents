@@ -1,7 +1,7 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__InvocationChain:66
+source_location=refm/api/src/rake/Rake__InvocationChain
 
 --- new(task_name, tail)
 

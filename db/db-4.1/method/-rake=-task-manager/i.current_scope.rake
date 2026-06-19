@@ -1,7 +1,7 @@
 names=current_scope
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskManager:57
+source_location=refm/api/src/rake/Rake__TaskManager
 
 --- current_scope -> Array
 

@@ -1,7 +1,7 @@
 names=lookup
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskManager:185
+source_location=refm/api/src/rake/Rake__TaskManager
 
 --- lookup(task_name, initial_scope = nil) -> Rake::Task | nil
 

@@ -1,7 +1,7 @@
 names=extension
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd:280
+source_location=refm/api/src/rdoc/markdown.rd
 
 --- extension(name, enable) -> ()
 

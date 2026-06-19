@@ -1,7 +1,7 @@
 names=add_specific_extra_args
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:190
+source_location=refm/api/src/rubygems/command.rd
 
 --- add_specific_extra_args(cmd, args)
 

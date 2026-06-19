@@ -1,7 +1,7 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/webrick/cgi.rd:160
+source_location=refm/api/src/webrick/cgi.rd
 
 --- new(config = {}, *options)    -> WEBrick::CGI
 

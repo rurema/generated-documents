@@ -1,7 +1,7 @@
 names=get_one_optional_argument
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:90
+source_location=refm/api/src/rubygems/command.rd
 
 --- get_one_optional_argument -> String
 

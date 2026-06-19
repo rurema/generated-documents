@@ -1,7 +1,7 @@
 names=run
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/ext/builder.rd:35
+source_location=refm/api/src/rubygems/ext/builder.rd
 
 --- run(command, results)
 @todo

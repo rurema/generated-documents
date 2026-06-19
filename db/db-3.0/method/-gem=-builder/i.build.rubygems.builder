@@ -1,7 +1,7 @@
 names=build
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/builder.rd:21
+source_location=refm/api/src/rubygems/builder.rd
 
 --- build -> String
 

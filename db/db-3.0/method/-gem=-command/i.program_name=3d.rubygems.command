@@ -1,7 +1,7 @@
 names=program_name=
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:129
+source_location=refm/api/src/rubygems/command.rd
 
 --- program_name=(name)
 

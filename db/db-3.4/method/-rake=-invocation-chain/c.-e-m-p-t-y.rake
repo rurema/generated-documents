@@ -1,7 +1,7 @@
 names=EMPTY
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__InvocationChain:107
+source_location=refm/api/src/rake/Rake__InvocationChain
 
 --- EMPTY -> Rake::InvocationChain::EmptyInvocationChain
 

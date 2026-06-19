@@ -1,7 +1,7 @@
 names=handles?
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:102
+source_location=refm/api/src/rubygems/command.rd
 
 --- handles?(args) -> bool
 

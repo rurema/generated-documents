@@ -1,7 +1,7 @@
 names=make
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/ext/builder.rd:17
+source_location=refm/api/src/rubygems/ext/builder.rd
 
 --- make(dest_path, results)
 @todo

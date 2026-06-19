@@ -4,6 +4,6 @@ methods=
 sublibraries=
 is_sublibrary=true
 category=
-source_location=refm/api/src/rdoc/parser/rd.rd:1
+source_location=refm/api/src/rdoc/parser/rd.rd
 
 RD 形式で記述されたファイルを解析するためのサブライブラリです。

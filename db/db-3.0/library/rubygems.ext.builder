@@ -4,6 +4,6 @@ methods=
 sublibraries=
 is_sublibrary=true
 category=
-source_location=refm/api/src/rubygems/ext/builder.rd:1
+source_location=refm/api/src/rubygems/ext/builder.rd
 
 拡張ライブラリをビルドするためのクラスを扱うライブラリです。

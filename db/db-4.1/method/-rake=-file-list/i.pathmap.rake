@@ -1,7 +1,7 @@
 names=pathmap
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList:193
+source_location=refm/api/src/rake/Rake__FileList
 
 --- pathmap(spec = nil) -> Rake::FileList
 

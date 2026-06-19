@@ -1,7 +1,7 @@
 names=get_one_gem_name
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:84
+source_location=refm/api/src/rubygems/command.rd
 
 --- get_one_gem_name -> String
 

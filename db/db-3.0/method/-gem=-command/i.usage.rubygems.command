@@ -1,7 +1,7 @@
 names=usage
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:155
+source_location=refm/api/src/rubygems/command.rd
 
 --- usage -> String
 

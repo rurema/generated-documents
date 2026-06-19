@@ -4,6 +4,6 @@ methods=
 sublibraries=
 is_sublibrary=true
 category=
-source_location=refm/api/src/rubygems/builder.rd:1
+source_location=refm/api/src/rubygems/builder.rd
 
 [[c:Gem::Specification]] のインスタンスから Gem パッケージを作成するためのライブラリです。

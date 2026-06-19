@@ -1,7 +1,7 @@
 names=success
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/builder.rd:27
+source_location=refm/api/src/rubygems/builder.rd
 
 --- success -> String
 

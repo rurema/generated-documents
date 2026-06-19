@@ -1,7 +1,7 @@
 names=is_a?,kind_of?
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList:97
+source_location=refm/api/src/rake/Rake__FileList
 
 --- is_a?(klass) -> bool
 --- kind_of?(klass) -> bool

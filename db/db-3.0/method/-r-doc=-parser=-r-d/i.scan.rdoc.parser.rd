@@ -1,7 +1,7 @@
 names=scan
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/parser/rd.rd:12
+source_location=refm/api/src/rdoc/parser/rd.rd
 
 --- scan -> RDoc::TopLevel
 

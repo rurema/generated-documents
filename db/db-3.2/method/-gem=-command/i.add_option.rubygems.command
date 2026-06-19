@@ -1,7 +1,7 @@
 names=add_option
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:18
+source_location=refm/api/src/rubygems/command.rd
 
 --- add_option(*opts){|value, options| ... }
 

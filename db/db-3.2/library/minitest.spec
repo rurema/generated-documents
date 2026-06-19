@@ -4,7 +4,7 @@ methods=
 sublibraries=
 is_sublibrary=false
 category=Development
-source_location=refm/api/src/minitest/spec.rd:1
+source_location=refm/api/src/minitest/spec.rd
 
 BDD 風にテストを書くためのクラスやメソッドを定義するためのライブラリです。
 

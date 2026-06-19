@@ -1,7 +1,7 @@
 names=config
 visibility=public
 kind=defined
-source_location=refm/api/src/webrick/cgi.rd:199
+source_location=refm/api/src/webrick/cgi.rd
 
 --- config     -> Hash
 

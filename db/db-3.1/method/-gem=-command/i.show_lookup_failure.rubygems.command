@@ -1,7 +1,7 @@
 names=show_lookup_failure
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:169
+source_location=refm/api/src/rubygems/command.rd
 
 --- show_lookup_failure(gem_name, version, errors = nil) -> ()
 

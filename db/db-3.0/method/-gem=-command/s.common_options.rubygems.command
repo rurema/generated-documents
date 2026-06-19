@@ -1,7 +1,7 @@
 names=common_options
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:212
+source_location=refm/api/src/rubygems/command.rd
 
 --- common_options -> Array
 

@@ -1,7 +1,7 @@
 names=sexp_raw
 visibility=public
 kind=added
-source_location=refm/api/src/ripper/sexp.rd:52
+source_location=refm/api/src/ripper/sexp.rd
 
 --- Ripper.sexp_raw(src, filename = '-', lineno = 1) -> object
 

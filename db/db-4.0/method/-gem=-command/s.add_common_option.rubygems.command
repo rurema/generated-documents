@@ -1,7 +1,7 @@
 names=add_common_option
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:183
+source_location=refm/api/src/rubygems/command.rd
 
 --- add_common_option(*args){|value, options| ... }
 

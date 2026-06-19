@@ -1,7 +1,7 @@
 names=begins?
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:37
+source_location=refm/api/src/rubygems/command.rd
 
 --- begins?(long, short) -> bool
 

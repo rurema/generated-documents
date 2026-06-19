@@ -1,7 +1,7 @@
 names=merge_options
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd:114
+source_location=refm/api/src/rubygems/command.rd
 
 --- merge_options(new_options) -> Hash
 

@@ -1,7 +1,7 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/builder.rd:12
+source_location=refm/api/src/rubygems/builder.rd
 
 --- new(spec) -> Gem::Builder
 

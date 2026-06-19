@@ -1,7 +1,7 @@
 names=DEFAULT_EXTENSIONS
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd:174
+source_location=refm/api/src/rdoc/markdown.rd
 
 --- DEFAULT_EXTENSIONS -> [Symbol]
 
