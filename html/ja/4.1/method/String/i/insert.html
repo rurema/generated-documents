@@ -21,8 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/String/i/insert.html">
 
 <title>String#insert (Ruby 4.1 リファレンスマニュアル)</title>
-<meta name="description" content="pos 番目の文字の直前に文字列 other を挿入します。
-self[pos, 0] = other と同じ操作です。">
+<meta name="description" content="文字列 other を self に挿入して self を返します。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -77,8 +76,14 @@ self[pos, 0] = other と同じ操作です。">
 <dt class="method-heading" id="I_INSERT"><code>insert(pos, other) -&gt; self</code><span class="permalink">[<a href="../../../method/String/i/insert.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/String.html#method-i-insert">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/String">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-pos 番目の文字の直前に文字列 other を挿入します。
+文字列 other を self に挿入して self を返します。
+</p>
+<p>
+pos が正の場合、pos 番目の文字の直前に文字列 other を挿入します。
 self[pos, 0] = other と同じ操作です。
+</p>
+<p>
+pos が負の場合、self の末尾から逆方向に数えて pos+1 (self[index] の後) に other を挿入します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] pos:</dt>
@@ -93,9 +98,13 @@ self[pos, 0] = other と同じ操作です。
 <pre class="highlight ruby">
 <span class="caption">例</span>
 <code>
-str <span class="o">=</span> <span class="s2">"</span><span class="s2">foobaz</span><span class="s2">"</span>
-str<span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="mi">3</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">p</span> str   <span class="c1"># =&gt; &quot;foobarbaz&quot;
+<span class="c1"># pos が正の場合、String#insert と String#[]= は同じ操作を行う
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="mi">1</span>, <span class="s1">'bar'</span><span class="p">)</span>               <span class="c1"># =&gt; &quot;fbaroo&quot;
+</span>str <span class="o">=</span> <span class="s1">'foo'</span>; str<span class="p">[</span><span class="mi">1</span>, <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bar'</span>; str  <span class="c1"># =&gt; &quot;fbaroo&quot;
+</span>
+<span class="c1"># pos が負の場合、String#insert と String#[]= は異なる操作を行う
+</span><span class="s1">'foo'</span><span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span>, <span class="s1">'bar'</span><span class="p">)</span>              <span class="c1"># =&gt; &quot;foobar&quot;
+</span>str <span class="o">=</span> <span class="s1">'foo'</span>; str<span class="p">[</span><span class="o">-</span><span class="mi">1</span>, <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bar'</span>; str <span class="c1"># =&gt; &quot;fobaro&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/String/i/=5b=5d=3d.html">String#[]=</a>

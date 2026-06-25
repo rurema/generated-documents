@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Ractor.html">
+
+<title>class Ractor (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="並列プログラミングの仕組みを提供するクラスです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+</head>
+<body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Ractor.html","name":"Ractorクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        Ractorクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Ractor</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Ractor
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+並列プログラミングの仕組みを提供するクラスです。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_--5B--5D">[]</a></li>
+
+<li><a href="#S_--5B--5D--3D">[]=</a></li>
+
+<li><a href="#S_COUNT">count</a></li>
+
+<li><a href="#S_CURRENT">current</a></li>
+
+<li><a href="#S_MAIN">main</a></li>
+
+<li><a href="#S_MAIN--3F">main?</a></li>
+
+<li><a href="#S_MAKE_SHAREABLE">make_shareable</a></li>
+
+<li><a href="#S_NEW">new</a></li>
+
+<li><a href="#S_RECEIVE">receive</a></li>
+
+<li><a href="#S_RECEIVE_IF">receive_if</a></li>
+
+<li><a href="#S_RECEIVE">recv</a></li>
+
+<li><a href="#S_SELECT">select</a></li>
+
+<li><a href="#S_SHAREABLE--3F">shareable?</a></li>
+
+<li><a href="#S_STORE_IF_ABSENT">store_if_absent</a></li>
+
+<li><a href="#S_YIELD">yield</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_--3C--3C">&lt;&lt;</a></li>
+
+<li><a href="#I_NAME">name</a></li>
+
+<li><a href="#I_--3C--3C">send</a></li>
+
+<li><a href="#I_TAKE">take</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_--5B--5D"><code>self[sym] -&gt; object | nil</code><span class="permalink">[<a href="../method/Ractor/s/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このメソッドを呼び出した Ractor の Ractor-local storage の sym に対応するデータを取り出します。
+sym に対応するデータがなければ nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] sym:</dt>
+<dd>
+Ractor-local storage のキーを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+Ractor-local storage に格納されている値を返します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_--5B--5D--3D"><code>self[sym] = val</code><span class="permalink">[<a href="../method/Ractor/s/=5b=5d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-5B-5D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<dl>
+<dt class='method-param'>[PARAM] sym:</dt>
+<dd>
+Ractor-local storage のキーを指定します。
+</dd>
+<dt class='method-param'>[PARAM] val:</dt>
+<dd>
+格納するデータを指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_COUNT"><code>count -&gt; Integer</code><span class="permalink">[<a href="../method/Ractor/s/count.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-count">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+実行中の Ractor の数を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_CURRENT"><code>current -&gt; Ractor</code><span class="permalink">[<a href="../method/Ractor/s/current.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-current">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このメソッドを呼び出された Ractor を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_MAIN"><code>main -&gt; Ractor</code><span class="permalink">[<a href="../method/Ractor/s/main.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-main">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+main Ractor（プログラムの実行が開始された Ractor）を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_MAIN--3F"><code>main? -&gt; bool</code><span class="permalink">[<a href="../method/Ractor/s/main=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-main-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このメソッドを呼び出した Ractor が main Ractor であるとき、true を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_MAKE_SHAREABLE"><code>make_shareable(obj, copy: false) -&gt; object</code><span class="permalink">[<a href="../method/Ractor/s/make_shareable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-make_shareable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+obj が shareable になるよう変換します。
+</p>
+<p>
+obj が shareable でない場合、obj と obj が参照する shareable でないオブジェクトをすべて freeze します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] obj:</dt>
+<dd>
+Shareable にしたいオブジェクトを指定します。
+</dd>
+<dt class='method-param'>[PARAM] copy:</dt>
+<dd>
+true の場合、obj を変更する代わりに obj のコピーを作成し shareable にします。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_NEW"><code>new(*args, name: nil) {|*args| ... } -&gt; Ractor</code><span class="permalink">[<a href="../method/Ractor/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Ractor を生成して、ブロックの評価を開始します。生成した Ractor を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+ブロックの引数として渡されます。値が shareable である場合はそのインスタンスが、そうでない場合はコピーが試みられた値が渡されます。コピーできない値であった場合は例外が発生します。
+</dd>
+<dt class='method-param'>[PARAM] name:</dt>
+<dd>
+Ractor の名前を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_RECEIVE"><code>receive -&gt; object</code><span class="permalink">[<a href="../method/Ractor/s/receive.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-receive">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dt class="method-heading"><code>recv -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+このメソッドを呼び出した Ractor が受信したメッセージを取り出して返します。メッセージが届くまでブロックします。
+</p>
+<p>
+他の Ractor から <a href="../method/Ractor/i/send.html">Ractor#send</a> で送られたメッセージを受信します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_RECEIVE_IF"><code>receive_if {|msg| ... } -&gt; object</code><span class="permalink">[<a href="../method/Ractor/s/receive_if.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-receive_if">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このメソッドを呼び出した Ractor が受信したメッセージのうち、ブロックの評価結果が真になる最初のメッセージを受信して返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_SELECT"><code>select(*ractors, yield_value: nil, move: false) -&gt; [object, object]</code><span class="permalink">[<a href="../method/Ractor/s/select.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-select">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数で指定した Ractor のいずれかが <a href="../method/Ractor/s/yield.html">Ractor.yield</a> などで送信可能になるまで待ち、その Ractor と受信したオブジェクトの配列 [Ractor, obj] を返します。受信したのが現在の Ractor 自身であった場合は、Ractor の代わりに :receive シンボルが返ります。
+yield_value を指定すると、他の Ractor が <a href="../method/Ractor/i/take.html">Ractor#take</a> を呼んだときにその値が yield され、
+[:yield, nil] が返ります。move が真のとき yield_value は移動されます。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_SHAREABLE--3F"><code>shareable?(obj) -&gt; bool</code><span class="permalink">[<a href="../method/Ractor/s/shareable=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-shareable-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+obj が shareable である場合、true を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] obj:</dt>
+<dd>
+Shareable であるか判定したいオブジェクトを指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_STORE_IF_ABSENT"><code>store_if_absent(key) { ... } -&gt; object</code><span class="permalink">[<a href="../method/Ractor/s/store_if_absent.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-store_if_absent">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このメソッドを呼び出した Ractor の Ractor-local storage の key データがない場合、ブロックを評価した結果を格納します。格納した値を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] key:</dt>
+<dd>
+Ractor-local storage のキーを指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_YIELD"><code>yield(obj, move: false) -&gt; object</code><span class="permalink">[<a href="../method/Ractor/s/yield.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-c-yield">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在の Ractor の outgoing port に obj を送信します。別の Ractor が <a href="../method/Ractor/i/take.html">Ractor#take</a> でこのメッセージを受信するまでブロックします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] obj:</dt>
+<dd>
+送信するオブジェクトを指定します。
+</dd>
+<dt class='method-param'>[PARAM] move:</dt>
+<dd>
+obj を「移動」する場合は true を指定します。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--3C--3C"><code>self &lt;&lt; msg, move: false -&gt; self</code><span class="permalink">[<a href="../method/Ractor/i/=3c=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-i-3C-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dt class="method-heading"><code>send(msg, move: false) -&gt; self</code></dt>
+<dd class="method-description">
+<p>
+self にメッセージを送信します。送られたメッセージは self が <a href="../method/Ractor/s/receive.html">Ractor.receive</a> で受信できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] msg:</dt>
+<dd>
+送信するメッセージを指定します。
+</dd>
+<dt class='method-param'>[PARAM] move:</dt>
+<dd>
+msg を「移動」する場合は true を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_NAME"><code>name -&gt; String</code><span class="permalink">[<a href="../method/Ractor/i/name.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-i-name">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self の名前を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Ractor/s/new.html">Ractor.new</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TAKE"><code>take -&gt; object</code><span class="permalink">[<a href="../method/Ractor/i/take.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Ractor.html#method-i-take">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self の outgoing port からメッセージを受信します。
+self が <a href="../method/Ractor/s/yield.html">Ractor.yield</a> で送ったメッセージ、または self のブロックが返した値を受け取ります。メッセージが届くまでブロックします。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/refm/api/src/_builtin/Ractor">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
