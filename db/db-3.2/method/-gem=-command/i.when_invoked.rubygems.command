@@ -1,9 +1,9 @@
 names=when_invoked
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd
+source_location=manual/api/rubygems/command.md
 
---- when_invoked{ ... } -> Proc
+### def when_invoked{ ... } -> Proc
 
 コマンドが実行されたときに評価するブロックを登録します。
 

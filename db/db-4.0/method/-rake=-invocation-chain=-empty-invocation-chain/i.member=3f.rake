@@ -1,9 +1,9 @@
 names=member?
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__InvocationChain
+source_location=manual/api/rake/Rake__InvocationChain.md
 
---- member?(task_name) -> bool
+### def member?(task_name) -> bool
 
 偽を返します。
 

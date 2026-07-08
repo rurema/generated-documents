@@ -1,9 +1,9 @@
 names=clear_prerequisites
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- clear_prerequisites -> self
+### def clear_prerequisites -> self
 
 自身に登録されている事前タスクをクリアします。
 

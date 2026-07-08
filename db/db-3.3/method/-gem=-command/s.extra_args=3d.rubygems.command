@@ -1,11 +1,11 @@
 names=extra_args=
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd
+source_location=manual/api/rubygems/command.md
 
---- extra_args=(value)
+### def extra_args=(value)
 
 追加の引数をセットします。
 
-@param value 配列を指定します。
+- **param** `value` -- 配列を指定します。
 

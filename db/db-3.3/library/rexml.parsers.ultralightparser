@@ -4,16 +4,16 @@ methods=
 sublibraries=
 is_sublibrary=true
 category=
-source_location=refm/api/src/rexml/parsers/ultralightparser.rd
+source_location=manual/api/rexml/parsers/ultralightparser.md
 
 パース結果を配列で作られた木構造により返すパーサ。
 
-[[m:REXML::Parsers::UltraLightParser.new]] でパーサオブジェクトを
-生成し、[[m:REXML::Parsers::UltraLightParser#parse]] でパースし
+[m:REXML::Parsers::UltraLightParser.new] でパーサオブジェクトを
+生成し、[m:REXML::Parsers::UltraLightParser#parse] でパースし
 その結果の木構造を返します。
 
-===[a:nodes] ノードの表現
-[[m:REXML::Parsers::UltraLightParser#parse]] が返す
+### ノードの表現 {#nodes}
+[m:REXML::Parsers::UltraLightParser#parse] が返す
 XML の各ノードは配列で表現されます。
 配列の最初の要素はシンボルでノードの種類を表わし、2番目以降の要素で
 そのノードの情報を保持しています。
@@ -21,7 +21,7 @@ XML の各ノードは配列で表現されます。
 表現されます。XML 要素のように子ノードを持つ場合、
 それらの子ノードもこの配列の要素として保持されます。
 
-[[m:REXML::Parsers::UltraLightParser#parse]] の返り値となる
+[m:REXML::Parsers::UltraLightParser#parse] の返り値となる
 木のルートは特別で、ノードの種類を表すシンボルを持ちません。
 XML宣言、DTD、ルート要素、テキストノードの配列です。例も確認してください。
 木のルートの配列に含まれるテキストノードはあまり意味がないので
@@ -29,37 +29,37 @@ XML宣言、DTD、ルート要素、テキストノードの配列です。例�
 
 各ノードは以下のような配列で表現されます。
 
-: [:start_element, 親ノード, 要素名, 属性, *子ノード]
-  XML要素。属性は { 属性名文字列 => 属性値文字列 } という [[c:Hash]]。
+- **[:start_element, 親ノード, 要素名, 属性, *子ノード]**:
+  XML要素。属性は { 属性名文字列 => 属性値文字列 } という [c:Hash]。
   子ノードの配列は node[4..-1] で得られる。
-: [:text, 正規化文字列]
+- **[:text, 正規化文字列]**:
   テキストノード
-: [:processing_instruction, ターゲット文字列, 内容文字列 | nil]
+- **[:processing_instruction, ターゲット文字列, 内容文字列 | nil]**:
   XML処理命令(Processing Instruction, PI)
-: [:comment ,コメント文字列]
+- **[:comment ,コメント文字列]**:
   コメント
-: [:start_doctype, 親ノード, ルート要素名, "SYSTEM" | "PUBLIC" | nil, システム識別子 | nil, 公開識別子 | nil, *子ノード]
+- **[:start_doctype, 親ノード, ルート要素名, "SYSTEM" | "PUBLIC" | nil, システム識別子 | nil, 公開識別子 | nil, *子ノード]**:
   DTD。子ノードの配列は node[6..-1] で得られる。
-: [:attlistdecl, 要素名, 属性名とデフォルト値, 宣言文字列]
-  DTDの属性リスト宣言。属性名とデフォルト値 は { 属性名文字列 => デフォルト値文字列(なければnil) } という [[c:Hash]]
-: [:elementdecl, 宣言文字列]
+- **[:attlistdecl, 要素名, 属性名とデフォルト値, 宣言文字列]**:
+  DTDの属性リスト宣言。属性名とデフォルト値 は { 属性名文字列 => デフォルト値文字列(なければnil) } という [c:Hash]
+- **[:elementdecl, 宣言文字列]**:
   DTDの要素宣言
-: [:entitydecl, *パラメータ]
+- **[:entitydecl, *パラメータ]**:
   DTDの実体宣言
-: [:notationdecl, 記法名文字列, "PUBLIC" | "SYSTEM" | nil, 公開識別子文字列 | nil, URI文字列 | nil]
+- **[:notationdecl, 記法名文字列, "PUBLIC" | "SYSTEM" | nil, 公開識別子文字列 | nil, URI文字列 | nil]**:
   DTDの記法宣言
-: [:cdata, テキスト文字列]
+- **[:cdata, テキスト文字列]**:
   cdata セクション
-: [:xmldecl, バージョン文字列, エンコーディング文字列 | nil, standalone ("yes" | "no" | nil)]
+- **[:xmldecl, バージョン文字列, エンコーディング文字列 | nil, standalone ("yes" | "no" | nil)]**:
   XML宣言
-: [:externalentity,エンティティ文字列]
+- **[:externalentity,エンティティ文字列]**:
   doctype内のパラメータ実体参照。
 
-=== 例
+### 例
 以下の例は簡単な XML をパースし、その結果を返しています。[...]の部分は親
 ノードを指しているので、pp の表示では省略されています。
 
-//emlist[][ruby]{
+```ruby
 require 'rexml/parsers/ultralightparser'
 require 'pp'
 parser = REXML::Parsers::UltraLightParser.new(<<XML)
@@ -82,4 +82,4 @@ pp parser.parse
 # >>   [:start_element, [...], "b", {"m"=>"2"}],
 # >>   [:text, "\n"]],
 # >>  [:text, "\n"]]
-//}
+```

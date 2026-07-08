@@ -1,15 +1,15 @@
 names=[]
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__NameSpace
+source_location=manual/api/rake/Rake__NameSpace.md
 
---- [](name) -> Rake::Task
+### def [](name) -> Rake::Task
 
 与えられた名前のタスクを返します。
 
-@param name タスクの名前を指定します。
+- **param** `name` -- タスクの名前を指定します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 namespace :ns do |ns|
@@ -21,5 +21,5 @@ namespace :ns do |ns|
   ns[:ts1] # => <Rake::Task ns:ts1 => []>
   ns[:ts2] # => <Rake::Task ns:ts2 => []>
 end
-//}
+```
 

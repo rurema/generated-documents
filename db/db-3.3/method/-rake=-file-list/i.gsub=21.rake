@@ -1,14 +1,14 @@
 names=gsub!
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- gsub!(pattern, replace) -> self
+### def gsub!(pattern, replace) -> self
 
-自身に含まれるファイルリストのそれぞれのエントリに対して [[m:String#gsub]] を実行します。
+自身に含まれるファイルリストのそれぞれのエントリに対して [m:String#gsub] を実行します。
 自身を破壊的に変更します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 IO.write("test1.rb", "test")
@@ -20,5 +20,5 @@ task :test_rake_app do
   file_list.gsub!(/\.rb/, ".erb") # => ["test1.erb", "test2.erb", "test3.erb"]
   file_list                       # => ["test1.erb", "test2.erb", "test3.erb"]
 end
-//}
+```
 

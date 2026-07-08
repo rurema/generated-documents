@@ -1,15 +1,15 @@
 names=[]
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskArguments
+source_location=manual/api/rake/Rake__TaskArguments.md
 
---- [](key) -> object
+### def [](key) -> object
 
 与えられたパラメータ名に対応する値を返します。
 
-@param key パラメータの名前を指定します。
+- **param** `key` -- パラメータの名前を指定します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app
@@ -18,5 +18,5 @@ task :test_rake_app do
   arguments["name1"] # => "value1"
   arguments["name2"] # => "value2"
 end
-//}
+```
 

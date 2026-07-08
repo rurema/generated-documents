@@ -1,23 +1,23 @@
 names=autoload
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Module
+source_location=manual/api/_builtin/Module.md
 
---- autoload(const_name, feature) -> nil
+### def autoload(const_name, feature) -> nil
 
-定数 const_name を最初に参照した時に feature を [[m:Kernel.#require]] するように設定します。
+定数 const_name を最初に参照した時に feature を [m:Kernel?.require] するように設定します。
 
 const_name が autoload 設定されていて、まだ定義されてない(ロードされていない)ときは、
 autoload する対象を置き換えます。
 const_name が(autoloadではなく)既に定義されているときは何もしません。
 
-@param const_name [[c:String]] または [[c:Symbol]] で指定します。
+- **param** `const_name` -- [c:String] または [c:Symbol] で指定します。
        なお、const_name には、"::" 演算子を含めることはできません。
        つまり、self の直下に定義された定数しか指定できません。
 
-@param feature [[m:Kernel.#require]] と同様な方法で autoload する対象を指定する。
+- **param** `feature` -- [m:Kernel?.require] と同様な方法で autoload する対象を指定する。
 
-//emlist[例][ruby]{
+```ruby title="例"
 # ------- /tmp/foo.rb ---------
 class Foo
   class Bar
@@ -29,11 +29,11 @@ class Foo
   autoload :Bar, '/tmp/foo'
 end
 p Foo::Bar #=> Foo::Bar
-//}
+```
 
 以下のようにモジュールを明示的にレシーバとして呼び出すこともできます。
 
-//emlist[例][ruby]{
+```ruby title="例"
 # ------- /tmp/foo.rb ---------
 class Foo
   class Bar
@@ -45,12 +45,12 @@ class Foo
 end
 Foo.autoload :Bar, '/tmp/foo'
 p Foo::Bar #=> Foo::Bar
-//}
+```
 
 以下のように、autoload したライブラリがネストした定数を定義しない場
 合、NameError が発生します。
 
-//emlist[例][ruby]{
+```ruby title="例"
 # ------- /tmp/bar.rb ---------
 class Bar
 end
@@ -61,7 +61,7 @@ class Foo
 end
 p Foo::Bar
 #=> -:4:in '<main>': uninitialized constant Foo::Bar (NameError)
-//}
+```
 
-@see [[m:Kernel.#autoload]]
+- **SEE** [m:Kernel?.autoload]
 

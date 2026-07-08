@@ -1,55 +1,55 @@
 names=spawn
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/functions
+source_location=manual/api/_builtin/functions.md
 
---- spawn(command, options={}) -> Integer
---- spawn(env, command, options={}) -> Integer
+### module_function def spawn(command, options={}) -> Integer
+### module_function def spawn(env, command, options={}) -> Integer
 
 引数を外部コマンドとして実行しますが、生成した
 子プロセスの終了を待ち合わせません。生成した子プロセスのプロセスIDを返します。
 
 
-=== 引数の解釈
+### 引数の解釈
 
 この形式では command が shell のメタ文字
-//emlist{
+```
   * ? {} [] <> () ~ & | \ $ ; ' ` " \n
-//}
+```
 を含む場合、shell 経由で実行されます。
 そうでなければインタプリタから直接実行されます。
 
 
-@param command コマンドを文字列で指定します。
-@param env 更新する環境変数を表す Hash
-@param options オプションパラメータ Hash
-@raise Errno::EXXX 起動に失敗し、ruby インタプリタに制御が戻った場合に発生します。
+- **param** `command` -- コマンドを文字列で指定します。
+- **param** `env` -- 更新する環境変数を表す Hash
+- **param** `options` -- オプションパラメータ Hash
+- **raise** `Errno::EXXX` -- 起動に失敗し、ruby インタプリタに制御が戻った場合に発生します。
 
-@raise Errno::EXXX コマンドが実行できなかった場合に発生します。
+- **raise** `Errno::EXXX` -- コマンドが実行できなかった場合に発生します。
 
 
-@see [[m:Kernel.#system]],[[m:Kernel.#exec]]
+- **SEE** [m:Kernel?.system],[m:Kernel?.exec]
 
---- spawn(program, *args) -> Integer
---- spawn(env, program, *args, options={}) -> Integer
+### module_function def spawn(program, *args) -> Integer
+### module_function def spawn(env, program, *args, options={}) -> Integer
 
 引数を外部コマンドとして実行しますが、生成した
 子プロセスの終了を待ち合わせません。生成した子プロセスのプロセスIDを返します。
 
-env に Hash を渡すことで、[[man:exec(2)]] で子プロセス内で
+env に Hash を渡すことで、[man:exec(2)] で子プロセス内で
 ファイルを実行する前に環境変数を変更できます。
 Hash のキーは環境変数名文字列、Hash の値に設定する値とします。
-nil とすることで環境変数が削除([[man:unsetenv(3)]])されます。
-//emlist[例][ruby]{
+nil とすることで環境変数が削除([man:unsetenv(3)])されます。
+```ruby title="例"
 # FOO を BAR にして BAZ を削除する
 pid = spawn({"FOO"=>"BAR", "BAZ"=>nil}, command)
-//}
+```
 
-親プロセスは [[m:Process.#waitpid]] で子プロセスの終了を待ち合わせるか
-もしくは [[m:Process.#detach]] で子プロセスを切り離すかしてください。
+親プロセスは [m:Process?.waitpid] で子プロセスの終了を待ち合わせるか
+もしくは [m:Process?.detach] で子プロセスを切り離すかしてください。
 そうでないとゾンビプロセスが残る場合があります。
 
-=== 引数の解釈
+### 引数の解釈
 
 この形式で呼び出した場合、空白や shell のメタキャラクタも
 そのまま program の引数に渡されます。
@@ -58,105 +58,105 @@ pid = spawn({"FOO"=>"BAR", "BAZ"=>nil}, command)
 グラム名になります。
 また、第1要素はフルパスで指定しなくても環境変数 PATH から探します。
 
-=== option引数の概要
+### option引数の概要
 Hash を options として渡すことで、起動される子プロセスの
-  * プロセスグループ
-  * resource limit
-  * カレントディレクトリ
-  * umask
-  * 子プロセスでのリダイレクト
+  - プロセスグループ
+  - resource limit
+  - カレントディレクトリ
+  - umask
+  - 子プロセスでのリダイレクト
 などを変更できます。環境変数のクリアなども指定できます。
 
 以下のオプションが指定できます。
 
-: :unsetenv_others
+- **`:unsetenv_others`**:
   これを true にすると、envで指定した環境変数以外をすべてクリアします。
   false だとクリアしません。false がデフォルトです。
 
-: :pgroup
+- **`:pgroup`**:
   引数に true or 0 を渡すと新しいプロセスグループを作成し、そこで動きます。
   整数を渡すと、指定したプロセスグループに属します。
   nil を渡すとプロセスグループを変更しません。デフォルトは nil です。
 
-: :rlimit_core, :rlimit_cpu, etc
-  resource limit を設定します。詳しくは [[m:Process.#setrlimit]] を見て
+- **`:rlimit_core, :rlimit_cpu, etc`**:
+  resource limit を設定します。詳しくは [m:Process?.setrlimit] を見て
   ください。引数には整数、もしくは整数2つの配列を渡します。
 
-: :chdir
+- **`:chdir`**:
   指定した文字列をカレントディレクトリにします。
 
-: :umask
+- **`:umask`**:
   指定した整数を umask に設定します。
 
-: リダイレクト関連
+- **リダイレクト関連**:
 
   Hash のキーに子プロセス側のファイルデスクリプタを、
   対応する値に親プロセス側のファイルデスクリプタや
   ファイル名を指定することでリダイレクトを実現できます。
 
-: :close_others
+- **`:close_others`**:
   これを true に設定すると
   リダイレクトされていない、0(stdin), 1(stdout), 2(stderr) 以外の
   ファイルデスクリプタをすべて閉じます。
   false がデフォルトです。
 
-: :exception
-  [[m:Kernel.#system]] のみで指定できます。
+- **`:exception`**:
+  [m:Kernel?.system] のみで指定できます。
   これを true に設定すると、nil や false を返す代わりに例外が発生します。
   false がデフォルトです。
 
-=== option引数によるリダイレクトの概要
+### option引数によるリダイレクトの概要
 Hash のキー(子プロセス側)には以下のいずれかが指定できます。
-  * 単一のファイルデスクリプタ
-  * ファイルデスクリプタの配列
+  - 単一のファイルデスクリプタ
+  - ファイルデスクリプタの配列
 配列を渡すことで複数のファイルデスクリプタを同時にリダイレクトできます。
 
 Hash の値(親プロセス側)には以下のいずれかが指定できます。
-  * 単一のファイルデスクリプタ
-  * リダイレクト先のファイル名文字列
-  * [リダイレクト先のファイル名文字列]、配列の要素にすることで
-    [[m:File::Constants::RDONLY]] でファイルを開いてリダイレクトします。
-  * [リダイレクト先のファイル名文字列, モード文字列]
+  - 単一のファイルデスクリプタ
+  - リダイレクト先のファイル名文字列
+  - [リダイレクト先のファイル名文字列]、配列の要素にすることで
+    [m:File::Constants::RDONLY] でファイルを開いてリダイレクトします。
+  - [リダイレクト先のファイル名文字列, モード文字列]
     open(ファイル名, モード, 0644) でファイルを開いてリダイレクト
     します。
-  * [リダイレクト先のファイル名文字列, モード文字列, パーミション(整数)]
+  - [リダイレクト先のファイル名文字列, モード文字列, パーミション(整数)]
     open(ファイル名, モード, パーミッション) でファイルを
     開いてリダイレクトします。
-  * [:child, ファイルデスクリプタ]
+  - [:child, ファイルデスクリプタ]
     子プロセス側のファイルデスクリプタを指定できます。
-  * :close キーで指定したファイルデスクリプタを子プロセス側で閉じます
+  - :close キーで指定したファイルデスクリプタを子プロセス側で閉じます
 
 ファイルデスクリプタを表すためには、以下が利用できます。
-  * :in  標準入力, ファイルデスクリプタ0
-  * :out 標準出力, ファイルデスクリプタ1
-  * :err 標準エラー出力, ファイルデスクリプタ2
-  * 整数 指定した整数が表すファイルデスクリプタ
-  * [[c:IO]] [[m:IO#fileno]] で表されるファイルデスクリプタ
+  - :in  標準入力, ファイルデスクリプタ0
+  - :out 標準出力, ファイルデスクリプタ1
+  - :err 標準エラー出力, ファイルデスクリプタ2
+  - 整数 指定した整数が表すファイルデスクリプタ
+  - [c:IO] [m:IO#fileno] で表されるファイルデスクリプタ
 
-=== option引数の詳細および例
+### option引数の詳細および例
 
 「:unsetenv_others」を使うと、envで指定したもの以外の環境変数を
 クリアします。
-//emlist[][ruby]{
+```ruby
 # すべての環境変数をクリア
 pid = spawn(command, :unsetenv_others=>true)
 # FOO だけ
 pid = spawn({"FOO"=>"BAR"}, command, :unsetenv_others=>true)
-//}
+```
 
 「:pgroup」でプロセスグループを指定できます。
-//emlist[][ruby]{
+```ruby
 # true, 0 で新しいプロセスグループを作りそのリーダーになります。
 pid = spawn(command, :pgroup => true)
 # 整数を渡すとそのグループに所属します。
 pid = spawn(command, :pgroup => 10)
-//}
+```
 
 「:rlimit_core」「:rlimit_cpu」などで、resource limit を指定します。
-詳しくは [[m:Process.#setrlimit]] を見てください。
+詳しくは [m:Process?.setrlimit] を見てください。
 このオプションには 整数 or 整数2つの配列、を渡すことができます。
-それぞれ [[m:Process.#setrlimit]] の引数が2個、3個の場合に対応します。
-//emlist[][ruby]{
+それぞれ [m:Process?.setrlimit] の引数が2個、3個の場合に対応します。
+```ruby
 # 現プロセスの core の resource limit を取得
 cur, max = Process.getrlimit(:CORE)
 # 一時的に子プロセスの core dump を止める
@@ -165,44 +165,44 @@ pid = spawn(command, :rlimit_core=>[0,max]) # disable core temporary.
 pid = spawn(command, :rlimit_core=>max) # enable core dump
 # 子プロセスで core dump を出せなくする
 pid = spawn(command, :rlimit_core=>0) # never dump core.
-//}
+```
 
 「:chdir」で子プロセスのカレントディレクトリを変更できます。
-//emlist[][ruby]{
+```ruby
 pid = spawn(command, :chdir=>"/var/tmp")
-//}
+```
 
 「:umask」で子プロセスの umask を指定できます。
-//emlist[][ruby]{
+```ruby
 pid = spawn(command, :umask=>077)
-//}
+```
 
 リダイレクトは様々なやりかたが使えます。
 Hash のキーが子プロセス側、値が親プロセス側です。
-//emlist[][ruby]{
+```ruby
 # 以下の例はすべて stderr を stdout にリダイレクトします
 pid = spawn(command, :err=>:out)
 pid = spawn(command, 2=>1)
 pid = spawn(command, STDERR=>:out)
 pid = spawn(command, STDERR=>STDOUT)
-//}
+```
 この例では子プロセス側の stdout には触れていないので、
 親プロセスから引き継がれます。
 
 Hash の値にはファイル名も指定できます。
-//emlist[][ruby]{
+```ruby
 pid = spawn(command, :in=>"/dev/null") # read mode
 pid = spawn(command, :out=>"/dev/null") # write mode
 pid = spawn(command, :err=>"log") # write mode
 pid = spawn(command, 3=>"/dev/null") # read mode
-//}
+```
 stdout と stderr をリダイレクトした場合は、
 ファイルは write mode で open されます。それ以外の場合は
 read mode で open されます。
 
 ファイルのフラグ(write/read mode)やパーミッションを明示したい
 場合は、配列を用います。
-//emlist[][ruby]{
+```ruby
 # なにも指定がなければデフォルトで read mode が使われる。
 pid = spawn(command, :in=>["file"])
 # read mode で file を open し、リダイレクトする。
@@ -214,13 +214,13 @@ pid = spawn(command, :out=>["log", "w"]) # 0644 assumed
 pid = spawn(command, :out=>["log", "w", 0600])
 # flagを文字列でなくビットで指定する
 pid = spawn(command, :out=>["log", File::WRONLY|File::EXCL|File::CREAT, 0600])
-//}
+```
 
 配列で複数のファイルデスクリプタを同時にリダイレクトできます。
-//emlist[][ruby]{
+```ruby
 # stdout と stderr を "log" ファイルにリダイレクト
 pid = spawn(command, [:out, :err]=>["log", "w"])
-//}
+```
 
 複数のファイルデスクリプタを合わせてリダイレクトするには、
 [ :child, FileDescriptor ] を使うこともできます。
@@ -228,16 +228,20 @@ pid = spawn(command, [:out, :err]=>["log", "w"])
 これはファイルデスクリプタを直接指定するのと異なるということに
 注意してください。
 例えば、
-  :err => :out
+`````
+:err => :out
+`````
 とすると、子プロセスの stderr を親プロセスの stdout にリダイレクトします。
-  :err => [:child, :out]
+`````
+:err => [:child, :out]
+`````
 とすると、子プロセスの stderr を子プロセスの stdout にリダイレクトします。
-これを用いて、[[m:IO.popen]] で、子プロセスの
+これを用いて、[m:IO.popen] で、子プロセスの
 stderr と stdout を混ぜる例を以下に示します。
-//emlist[][ruby]{
+```ruby
 io = IO.popen(["sh", "-c", "echo out; echo err >&2", :err=>[:child, :out]])
 p io.read #=> "out\nerr\n
-//}
+```
 
 spawn と IO.popen では
 デフォルトでは非標準的なファイルデスクリプタ(3以降)を閉じません。
@@ -249,30 +253,30 @@ spawn と IO.popen では
 デフォルトでは close_on_exec が設定されていて、自動的に
 閉じられることに注意してください。
 
-//emlist[][ruby]{
+```ruby
 pid = spawn(command, :close_others=>true)  # close 3,4,5,...
 pid = spawn(command, :close_others=>false) # don't close 3,4,5,... (default)
-//}
+```
 
-これを利用して spawn を [[m:IO.popen]] のように使うことができます。
-//emlist[][ruby]{
+これを利用して spawn を [m:IO.popen] のように使うことができます。
+```ruby
 # similar to r = IO.popen(command)
 r, w = IO.pipe
 pid = spawn(command, :out=>w)   # r は子プロセスで閉じられる
 w.close
-//}
+```
 
 「:close」を使ってファイルデスクリプタを明示的に閉じることもできます。
-//emlist[][ruby]{
+```ruby
 f = open(foo)
 # f は継承されない
 # system は :close_others=>false がデフォルトなのでそれ以外は継承される
 system(command, f=>:close)        # don't inherit f.
-//}
+```
 
 spawn で特定のファイルデスクリプタだけを継承したい場合は、
 io => io という形のオプションを指定します。
-//emlist[][ruby]{
+```ruby
 # valgrind は --log-fd というオプションでログの出力先を指定できます。
 # これで指定したファイルデスクリプタは親プロセスから
 # 子プロセスに継承されなければならないため、 log_w=>log_w とします。
@@ -280,13 +284,13 @@ log_r, log_w = IO.pipe
 pid = spawn("valgrind", "--log-fd=#{log_w.fileno}", "echo", "a", log_w=>log_w)
 log_w.close
 p log_r.read
-//}
+```
 
 ファイルデスクリプタを入れ替えることもできます。
-//emlist[][ruby]{
+```ruby
 # stdout と stderr を入れ替えリダイレクト
 pid = spawn(command, :out=>:err, :err=>:out)
-//}
+```
 このような相互参照を解決するため、spawnの内部で新しい
 ファイルデスクリプタを作り、利用します。
 
@@ -297,14 +301,14 @@ pid = spawn(command, :out=>:err, :err=>:out)
 渡されるので :close_others や :close オプションは意味を持ちません。
 
 
-@param env 更新する環境変数を表す Hash
-@param program 文字列か2要素の配列を指定します。
-@param args 渡される引数です。0 個以上の文字列を指定します。
-@param options オプションパラメータ Hash
+- **param** `env` -- 更新する環境変数を表す Hash
+- **param** `program` -- 文字列か2要素の配列を指定します。
+- **param** `args` -- 渡される引数です。0 個以上の文字列を指定します。
+- **param** `options` -- オプションパラメータ Hash
 
-@raise ArgumentError 第一引数が配列かつ要素数が 2 でない場合に発生します。
+- **raise** `ArgumentError` -- 第一引数が配列かつ要素数が 2 でない場合に発生します。
 
-@raise Errno::EXXX コマンドが実行できなかった場合に発生します。
+- **raise** `Errno::EXXX` -- コマンドが実行できなかった場合に発生します。
 
-@see [[m:Kernel.#system]],[[m:Kernel.#exec]]
+- **SEE** [m:Kernel?.system],[m:Kernel?.exec]
 

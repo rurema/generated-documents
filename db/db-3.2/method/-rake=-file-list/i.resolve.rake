@@ -1,13 +1,13 @@
 names=resolve
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- resolve -> self
+### def resolve -> self
 
 追加リストと除外リストを評価します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 IO.write("test.rb", "test")
@@ -21,5 +21,5 @@ task :test_rake_app do
   file_list.exclude("*.js")
   file_list.resolve # => ["test.rb", "test.java"]
 end
-//}
+```
 

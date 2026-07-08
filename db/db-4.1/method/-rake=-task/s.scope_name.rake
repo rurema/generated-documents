@@ -1,9 +1,9 @@
 names=scope_name
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- scope_name(scope, task_name) -> String
+### def scope_name(scope, task_name) -> String
 
 与えられたスコープとタスク名をコロンで連結して返します。
 

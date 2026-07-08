@@ -1,15 +1,15 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/rexml/text.rd
+source_location=manual/api/rexml/text.md
 
---- new(arg, respect_whitespace = false, parent = nil, raw = nil, entity_filter = nil, illegal = REXML::Text::NEEDS_A_SECOND_CHECK)
+### def new(arg, respect_whitespace = false, parent = nil, raw = nil, entity_filter = nil, illegal = REXML::Text::NEEDS_A_SECOND_CHECK)
 
 テキストノードオブジェクトを生成します。
 
 arg でノードの内容を指定します。
 文字列の場合はそれが内容として使われます。
-[[c:REXML::Text]] オブジェクトの場合はその内容が複製されます。
+[c:REXML::Text] オブジェクトの場合はその内容が複製されます。
 
 respect_whitespace に真を指定すると、arg に含まれる空白文字は保存されます。
 偽の場合は空白はまとめられます。
@@ -31,35 +31,35 @@ entity_filter は置き換えたい実体のリストを文字列の配列で指
 これは raw が false のときのみ意味を持ちます。
 entity_filter が nil の場合(デフォルトの場合)、
 テキストがどのようにエスケープされるかは、そのノードが属する
-文書([[c:REXML::Document]])の
-DTD([[c:REXML::DocType]], [[m:REXML::Document#doctype]])
+文書([c:REXML::Document])の
+DTD([c:REXML::DocType], [m:REXML::Document#doctype])
 で定義されます。DTD が与えられていない場合は、XMLの規格上
 以下の実体参照/対応文字がデフォルトで使われます。
-  * &amp; &
-  * &lt; <
-  * &gt; >
-  * &quot; "
-  * &apos; '
+  - &amp; &
+  - &lt; <
+  - &gt; >
+  - &quot; "
+  - &apos; '
 
 illegal は内部用なので使わないでください。
 
-@param arg テキストデータ(文字列)もしくは元データの [[c:REXML::Text]] オブジェクト
-@param respect_whitespace 空白を保存するかどうかを決める真偽値
-@param parent 親ノード
-@param raw テキストのエスケープの挙動を決める値
-@param entity_filter 置換したい実体の名前の配列
-@param illegal ライブラリ内部用
-@raise RuntimeError テキストがXMLのテキストとして不正な
+- **param** `arg` -- テキストデータ(文字列)もしくは元データの [c:REXML::Text] オブジェクト
+- **param** `respect_whitespace` -- 空白を保存するかどうかを決める真偽値
+- **param** `parent` -- 親ノード
+- **param** `raw` -- テキストのエスケープの挙動を決める値
+- **param** `entity_filter` -- 置換したい実体の名前の配列
+- **param** `illegal` -- ライブラリ内部用
+- **raise** `RuntimeError` -- テキストがXMLのテキストとして不正な
        文字を含んでいる場合に発生します。
 
-//emlist[doctype なしの場合][ruby]{
+```ruby title="doctype なしの場合"
 p REXML::Text.new("<&", false, nil, false).to_s  # => "&lt;&amp;"
 p REXML::Text.new("&lt;&amp;", false, nil, false).to_s # => "&amp;lt;&amp;amp;"
 p REXML::Text.new("&lt;&amp;", false, nil, true).to_s # => "&lt;&amp;"
 p REXML::Text.new("<&", false, nil, true).to_s # parse error
-//}
+```
 
-//emlist[doctype があり、実体が宣言されている場合][ruby]{
+```ruby title="doctype があり、実体が宣言されている場合"
 require 'rexml/document'
 doc = REXML::Document.new(<<EOS)
 doctype = REXML::Document.new(<<EOS).doctype
@@ -71,7 +71,7 @@ doctype = REXML::Document.new(<<EOS).doctype
 EOS
 REXML::Text.new("&quzz", false, doc.root, false).to_s # => "&amp;&q;"
 REXML::Text.new("quzz", false, doc.root, true).to_s # => "quzz"
-//}
+```
 
 
 

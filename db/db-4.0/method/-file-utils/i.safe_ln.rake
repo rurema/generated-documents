@@ -1,15 +1,15 @@
 names=safe_ln
 visibility=public
 kind=added
-source_location=refm/api/src/rake/core_ext
+source_location=manual/api/rake/FileUtils.md
 
---- safe_ln(*args)
+### def safe_ln(*args)
 
 安全にリンクを作成します。
 
 リンクの作成に失敗した場合はファイルをコピーします。
 
-@param args [[m:FileUtils.#cp]], [[m:FileUtils.#ln]] に渡す引数を指定します。
+- **param** `args` -- [m:FileUtils?.cp], [m:FileUtils?.ln] に渡す引数を指定します。
 
-@see [[m:FileUtils.#cp]], [[m:FileUtils.#ln]]
+- **SEE** [m:FileUtils?.cp], [m:FileUtils?.ln]
 

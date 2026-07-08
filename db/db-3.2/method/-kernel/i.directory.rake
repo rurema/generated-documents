@@ -1,15 +1,17 @@
 names=directory
 visibility=private
 kind=added
-source_location=refm/api/src/rake/core_ext
+source_location=manual/api/rake/Kernel.md
 
---- directory(dir) -> ()
+### def directory(dir) -> ()
 
 与えられたディレクトリを作成するタスクを定義します。
 
-@param dir 作成するディレクトリを指定します。
+- **param** `dir` -- 作成するディレクトリを指定します。
 
 例:
-  directory 'testdata/doc'
+`````
+directory 'testdata/doc'
+`````
 
 

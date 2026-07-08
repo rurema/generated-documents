@@ -1,9 +1,9 @@
 names=exclude
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- exclude(*patterns){|entry| ... } -> self
+### def exclude(*patterns){|entry| ... } -> self
 
 自身から取り除くべきファイル名のパターンを自身の除外リストに登録します。
 
@@ -15,12 +15,14 @@ source_location=refm/api/src/rake/Rake__FileList
 グロブパターンではそのファイルをリストから削除しません。
 
 例:
-  FileList['a.c', 'b.c'].exclude("a.c") # => ['b.c']
-  FileList['a.c', 'b.c'].exclude(/^a/)  # => ['b.c']
+`````
+FileList['a.c', 'b.c'].exclude("a.c") # => ['b.c']
+FileList['a.c', 'b.c'].exclude(/^a/)  # => ['b.c']
 
-  # If "a.c" is a file, then ...
-  FileList['a.c', 'b.c'].exclude("a.*") # => ['b.c']
+# If "a.c" is a file, then ...
+FileList['a.c', 'b.c'].exclude("a.*") # => ['b.c']
 
-  # If "a.c" is not a file, then ...
-  FileList['a.c', 'b.c'].exclude("a.*") # => ['a.c', 'b.c']
+# If "a.c" is not a file, then ...
+FileList['a.c', 'b.c'].exclude("a.*") # => ['a.c', 'b.c']
+`````
 

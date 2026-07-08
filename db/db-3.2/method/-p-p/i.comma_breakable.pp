@@ -1,15 +1,15 @@
 names=comma_breakable
 visibility=public
 kind=defined
-source_location=refm/api/src/pp.rd
+source_location=manual/api/pp.md
 
---- comma_breakable    -> ()
+### def comma_breakable    -> ()
 
 以下と等価な働きをするもので簡便のために用意されています。
-//emlist[][ruby]{
+```ruby
 text ','
 breakable
-//}
+```
 
-@see [[m:PrettyPrint#text]], [[m:PrettyPrint#breakable]]
+- **SEE** [m:PrettyPrint#text], [m:PrettyPrint#breakable]
 

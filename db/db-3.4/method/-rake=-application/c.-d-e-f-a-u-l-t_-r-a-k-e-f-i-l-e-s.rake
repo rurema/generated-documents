@@ -1,9 +1,9 @@
 names=DEFAULT_RAKEFILES
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Application
+source_location=manual/api/rake/Rake__Application.md
 
---- DEFAULT_RAKEFILES -> Array
+### const DEFAULT_RAKEFILES -> Array
 
 デフォルトで Rakefile として扱うファイル名の配列を返します。
 

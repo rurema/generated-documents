@@ -1,27 +1,27 @@
 names=slice_when
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Enumerable
+source_location=manual/api/_builtin/Enumerable.md
 
---- slice_when {|elt_before, elt_after| bool } -> Enumerator
+### def slice_when {|elt_before, elt_after| bool } -> Enumerator
 
 要素を前から順にブロックで評価し、その結果によって要素をチャンクに分け
-た(グループ化した)要素を持つ[[c:Enumerator]] を返します。
+た(グループ化した)要素を持つ[c:Enumerator] を返します。
 
 隣り合う値をブロックパラメータ elt_before、elt_after に渡し、ブロックの
 評価値が真になる所でチャンクを区切ります。
 
 ブロックは self の長さ - 1 回呼び出されます。
 
-@return チャンクごとの配列をブロックパラメータに渡す [[c:Enumerator]]
+- **return** -- チャンクごとの配列をブロックパラメータに渡す [c:Enumerator]
         を返します。eachメソッドは以下のように呼び出します。
-//emlist{
+```
   enum.slice_when { |elt_before, elt_after| bool }.each { |ary| ... }
-//}
-        to_a や map などのその他の [[c:Enumerable]] モジュールのメソッ
+```
+        to_a や map などのその他の [c:Enumerable] モジュールのメソッ
         ドも有用です。
 
-//emlist[例][ruby]{
+```ruby title="例"
 # 1ずつ増加する部分配列ごとに分ける。
 a = [1,2,4,9,10,11,12,15,16,19,20,21]
 b = a.slice_when {|i, j| i+1 != j }
@@ -52,10 +52,10 @@ p a.slice_when {|i, j| i.even? != j.even? }.to_a
 lines = ["foo\n", "bar\n", "\n", "baz\n", "qux\n"]
 p lines.slice_when {|l1, l2| /\A\s*\z/ =~ l1 && /\S/ =~ l2 }.to_a
 # => [["foo\n", "bar\n", "\n"], ["baz\n", "qux\n"]]
-//}
+```
 
-[[m:Enumerable#chunk_while]] はブロックの戻り値が偽ではなく真の時に要
+[m:Enumerable#chunk_while] はブロックの戻り値が偽ではなく真の時に要
 素を分ける事を除いて同じ処理を行います。
 
-@see [[m:Enumerable#chunk_while]], [[m:Enumerable#chunk]]
+- **SEE** [m:Enumerable#chunk_while], [m:Enumerable#chunk]
 

@@ -7,7 +7,7 @@ dynamically_extended=
 library=win32ole
 aliases=
 aliasof=
-source_location=refm/api/src/win32ole/WIN32OLE_EVENT
+source_location=manual/api/win32ole/WIN32OLE_EVENT.md
 
 OLEオートメーションサーバからのイベント通知を制御するクラスです。
 
@@ -17,20 +17,22 @@ OLEオートメーションサーバによっては、サーバの処理の過�
 すると、ブロックの形式でイベントを受け取るメソッドをサーバへ登録できま
 す。
 
-=== サンプルコード
+### サンプルコード
 
-  ie = WIN32OLE.new('InternetExplorer.Application.1')
-  event = WIN32OLE_EVENT.new(ie, 'DWebBrowserEvents2')
-  b = false
-  event.on_event('DocumentComplete') do |disp, uri|
-    disp.document.getElementsByTagName('a').each do |e|
-      puts "#{e.innerHTML}=#{e.href}"   #=> ダウンロード=http://www.ruby-lang.org/ja/downloads/ など
-    end
-    disp.quit
-    b = true
+`````
+ie = WIN32OLE.new('InternetExplorer.Application.1')
+event = WIN32OLE_EVENT.new(ie, 'DWebBrowserEvents2')
+b = false
+event.on_event('DocumentComplete') do |disp, uri|
+  disp.document.getElementsByTagName('a').each do |e|
+    puts "#{e.innerHTML}=#{e.href}"   #=> ダウンロード=http://www.ruby-lang.org/ja/downloads/ など
   end
-  ie.Navigate2 'http://www.ruby-lang.org/ja/'
-  loop do
-    break if b
-    WIN32OLE_EVENT.message_loop
-  end
+  disp.quit
+  b = true
+end
+ie.Navigate2 'http://www.ruby-lang.org/ja/'
+loop do
+  break if b
+  WIN32OLE_EVENT.message_loop
+end
+`````

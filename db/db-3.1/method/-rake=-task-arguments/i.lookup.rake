@@ -1,12 +1,12 @@
 names=lookup
 visibility=protected
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskArguments
+source_location=manual/api/rake/Rake__TaskArguments.md
 
---- lookup(name) -> object
+### def lookup(name) -> object
 
 与えられた名前に対応する値を返します。
 
-@param name パラメータ名を指定します。
+- **param** `name` -- パラメータ名を指定します。
 
 

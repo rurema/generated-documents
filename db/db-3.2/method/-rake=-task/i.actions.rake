@@ -1,9 +1,9 @@
 names=actions
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- actions -> Array
+### def actions -> Array
 
 自身に関連するアクションのリストを返します。
 

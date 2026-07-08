@@ -1,21 +1,21 @@
 names=primitive_errinfo
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Encoding__Converter
+source_location=manual/api/_builtin/Encoding__Converter.md
 
---- primitive_errinfo -> Array
-直前の [[m:Encoding::Converter#primitive_convert]] による変換の結果を保持する五要素の配列を返します。
+### def primitive_errinfo -> Array
+直前の [m:Encoding::Converter#primitive_convert] による変換の結果を保持する五要素の配列を返します。
 
-@return [result, enc1, enc2, error_bytes, readagain_bytes] という五要素の配列
+- **return** -- [result, enc1, enc2, error_bytes, readagain_bytes] という五要素の配列
 
 result は直前の primitive_convert の戻り値です。
 それ以外の四要素は :invalid_byte_sequence か :incomplete_input か :undefined_conversion だった場合に意味を持ちます。
 enc1 はエラーの発生した原始変換の変換元のエンコーディング、enc2 は変換先のエンコーディングです。
 error_bytes はエラーの発生原因となったバイト列、readagain_bytes は先読みによって変換器内部に保持されているバイト列です。
 
-primitive_errinfo はもっぱら [[m:Encoding::Converter#primitive_convert]] と組み合わせて使います。[[m:Encoding::Converter#convert]] を用いている場合にも取得することはできますが、有用な使い方は難しいでしょう。
+primitive_errinfo はもっぱら [m:Encoding::Converter#primitive_convert] と組み合わせて使います。[m:Encoding::Converter#convert] を用いている場合にも取得することはできますが、有用な使い方は難しいでしょう。
 
-//emlist[][ruby]{
+```ruby
 # \xff is invalid as EUC-JP.
 ec = Encoding::Converter.new("EUC-JP", "Shift_JIS")
 ec.primitive_convert(src="\xff", dst="", nil, 10)
@@ -64,5 +64,5 @@ p ec.primitive_errinfo
 #=> [:invalid_byte_sequence, "UTF-16LE", "UTF-8", "\x00\xD8", "@\x00"]
 p src
 #=> ""
-//}
+```
 

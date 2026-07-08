@@ -1,9 +1,9 @@
 names=MUST_NOT_DEFINE
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- MUST_NOT_DEFINE -> Array
+### const MUST_NOT_DEFINE -> Array
 
 委譲してはいけないメソッドのリストです。
 

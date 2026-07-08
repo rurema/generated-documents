@@ -1,14 +1,14 @@
 names=existing!
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- existing! -> self
+### def existing! -> self
 
 自身に含まれるファイルのうちファイルシステムに存在するファイルのみを
 含むように自身を変更して返します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 IO.write("test1.rb", "test")
@@ -20,5 +20,5 @@ task :test_rake_app do
   file_list.existing! # => ["test1.rb", "test2.rb"]
   file_list           # => ["test1.rb", "test2.rb"]
 end
-//}
+```
 

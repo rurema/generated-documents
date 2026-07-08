@@ -1,43 +1,47 @@
 names=of
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/RubyVM__InstructionSequence
+source_location=manual/api/_builtin/RubyVM__InstructionSequence.md
 
---- of(body) -> RubyVM::InstructionSequence
+### def of(body) -> RubyVM::InstructionSequence
 
-引数 body で指定した [[c:Proc]]、[[c:Method]] オブジェクトを元に
-[[c:RubyVM::InstructionSequence]] オブジェクトを作成して返します。
+引数 body で指定した [c:Proc]、[c:Method] オブジェクトを元に
+[c:RubyVM::InstructionSequence] オブジェクトを作成して返します。
 
-@param body [[c:Proc]]、[[c:Method]] オブジェクトを指定します。
+- **param** `body` -- [c:Proc]、[c:Method] オブジェクトを指定します。
 
 例1:irb で実行した場合
 
-  # proc
-  > p = proc { num = 1 + 2 }
-  > RubyVM::InstructionSequence.of(p)
-  > # => <RubyVM::InstructionSequence:block in irb_binding@(irb)>
+`````
+# proc
+> p = proc { num = 1 + 2 }
+> RubyVM::InstructionSequence.of(p)
+> # => <RubyVM::InstructionSequence:block in irb_binding@(irb)>
 
-  # method
-  > def foo(bar); puts bar; end
-  > RubyVM::InstructionSequence.of(method(:foo))
-  > # => <RubyVM::InstructionSequence:foo@(irb)>
+# method
+> def foo(bar); puts bar; end
+> RubyVM::InstructionSequence.of(method(:foo))
+> # => <RubyVM::InstructionSequence:foo@(irb)>
+`````
 
-例2: [[m:RubyVM::InstructionSequence.compile_file]] を使用した場合
+例2: [m:RubyVM::InstructionSequence.compile_file] を使用した場合
 
-  # /tmp/iseq_of.rb
-  def hello
-    puts "hello, world"
-  end
+`````
+# /tmp/iseq_of.rb
+def hello
+  puts "hello, world"
+end
 
-  $a_global_proc = proc { str = 'a' + 'b' }
+$a_global_proc = proc { str = 'a' + 'b' }
 
-  # irb
-  > require '/tmp/iseq_of.rb'
+# irb
+> require '/tmp/iseq_of.rb'
 
-  # hello メソッド
-  > RubyVM::InstructionSequence.of(method(:hello))
-  > # => #<RubyVM::InstructionSequence:0x007fb73d7cb1d0>
+# hello メソッド
+> RubyVM::InstructionSequence.of(method(:hello))
+> # => #<RubyVM::InstructionSequence:0x007fb73d7cb1d0>
 
-  # グローバル proc
-  > RubyVM::InstructionSequence.of($a_global_proc)
-  > # => #<RubyVM::InstructionSequence:0x007fb73d7caf78>
+# グローバル proc
+> RubyVM::InstructionSequence.of($a_global_proc)
+> # => #<RubyVM::InstructionSequence:0x007fb73d7caf78>
+`````

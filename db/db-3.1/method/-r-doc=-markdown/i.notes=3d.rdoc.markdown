@@ -1,9 +1,9 @@
 names=notes=
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd
+source_location=manual/api/rdoc/markdown.md
 
---- notes=(val)
+### def notes=(val)
 
 脚注の出力を有効にするかどうかを設定します。
 

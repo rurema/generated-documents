@@ -1,15 +1,15 @@
 names=load
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/loaders/makefile.rd
+source_location=manual/api/rake/loaders/makefile.md
 
---- load(filename)
+### def load(filename)
 
 与えられた Makefile をロードします。
 
-@param filename 読み込む Makefile の名前を指定します。
+- **param** `filename` -- 読み込む Makefile の名前を指定します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 require "rake/loaders/makefile"
 
@@ -37,4 +37,4 @@ task :test_rake_app do |task|
   p Rake::Task.task_defined?("a") # => true
   p Rake::Task.tasks[0] # => <Rake::FileTask a => [a1, a2, a3, a4, a5, a6, a7]>
 end
-//}
+```

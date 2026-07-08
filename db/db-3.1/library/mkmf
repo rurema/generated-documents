@@ -4,7 +4,7 @@ methods=Kernel/i.xsystem.mkmf,Kernel/i.xpopen.mkmf,Kernel/i.log_src.mkmf,Kernel/
 sublibraries=
 is_sublibrary=false
 category=Development
-source_location=refm/api/src/mkmf.rd
+source_location=manual/api/mkmf.md
 
 Ruby の拡張ライブラリのための Makefile を作成するライブラリです。
 
@@ -20,77 +20,83 @@ Ruby のアーカイブに含まれる doc/extension.rdoc (日本語版は doc/e
 システム間の差異を調べシステムに適した Makefile を生成するために
 これらのメソッドが必要となります。
 
-=== 使い方
+### 使い方
 
 架空の拡張ライブラリ foo.so を作成することを考えます。
 この拡張ライブラリを作成するためには、
 ヘッダファイル bar.h とライブラリ libbar.a の関数 baz() が必要だとします。
 このための extconf.rb は以下のように書きます。
 
-  require 'mkmf'
+`````
+require 'mkmf'
 
-  dir_config('bar')
-  if have_header('bar.h') and have_library('bar', 'baz')
-    create_makefile('foo')
-  end
+dir_config('bar')
+if have_header('bar.h') and have_library('bar', 'baz')
+  create_makefile('foo')
+end
+`````
 
 拡張ライブラリ foo.so を作成、インストールするには以下のようにします。
 
-  $ ruby extconf.rb
-  $ make
-  $ make site-install
+`````
+$ ruby extconf.rb
+$ make
+$ make site-install
+`````
 
 foo.so の extconf.rb では dir_config('bar') を実行しているので、
 ユーザは以下のようにコマンドラインオプション --with-bar-dir
 などを使って、ヘッダファイルのパスやライブラリのパスを指定できます。
 
-  $ ruby extconf.rb --with-bar-include=/usr/local/include \
-                    --with-bar-lib=/usr/local/lib
+`````
+$ ruby extconf.rb --with-bar-include=/usr/local/include \
+                  --with-bar-lib=/usr/local/lib
 
-  または
+または
 
-  $ ruby extconf.rb --with-bar-dir=/usr/local
+$ ruby extconf.rb --with-bar-dir=/usr/local
+`````
 
 dir_config 関数の詳細については
-[[m:Kernel#dir_config]] を参照してください。
+[m:Kernel#dir_config] を参照してください。
 
-=== configure オプション
+### configure オプション
 
 configure オプションとは Ruby インタプリタのコンパイル時に指定された
 configure スクリプトのオプション、
 または extconf.rb 実行時のオプションのことです。
 
 extconf.rb の作成者は任意のオプションを定義できます。
-[[m:Kernel#arg_config]] も参照してください。
+[m:Kernel#arg_config] も参照してください。
 
 また、以下のオプションがデフォルトで利用可能です。
 
-: --with-opt-include=DIR
+- **`--with-opt-include=DIR`**:
     ヘッダファイルを探索するディレクトリ DIR を追加します。
 
-: --with-opt-lib=DIR
+- **`--with-opt-lib=DIR`**:
     ライブラリファイルを探索するディレクトリ DIR を追加します。
 
-: --with-opt-dir=DIR
+- **`--with-opt-dir=DIR`**:
 
     ヘッダファイル、ライブラリファイルを探索するディレクトリ
     DIR/include、DIR/lib をそれぞれ追加します。
 
-: --with-TARGET-include=DIR
+- **`--with-TARGET-include=DIR`**:
 
     ヘッダファイルを探索するディレクトリ DIR を追加します。
 
     extconf.rb の中で dir_config(TARGET)
     を実行していればこのオプションを指定できます。
 
-: --with-TARGET-lib=DIR
+- **`--with-TARGET-lib=DIR`**:
 
     ライブラリを探索するディレクトリ DIR を追加します。
 
     extconf.rb の中で dir_config(TARGET)
     を実行していればこのオプションを指定できます。
 
-: --with-TARGET-dir=DIR
+- **`--with-TARGET-dir=DIR`**:
 
     ヘッダファイル、ライブラリファイルを探索するディレクトリ
     DIR/include、DIR/lib をそれぞれ追加します。
@@ -98,7 +104,7 @@ extconf.rb の作成者は任意のオプションを定義できます。
     extconf.rb の中で dir_config(TARGET)
     を実行していればこのオプションを指定できます。
 
-=== depend ファイル
+### depend ファイル
 
 カレントディレクトリに depend という名前のファイルがある場合、
 生成される Makefile の最後に depend ファイルの内容が追加されます。
@@ -108,7 +114,9 @@ depend ファイルはソースファイルの依存関係を記述するため�
 foo.h が更新されたときにも foo.c を再コンパイルしたいでしょう。
 このような依存関係を記述するには depend ファイルに以下の 1 行を書きます。
 
-  foo.o: foo.c foo.h
+`````
+foo.o: foo.c foo.h
+`````
 
 このように書くと、foo.o が foo.c と foo.h に依存していることを示します。
 つまり、foo.c か foo.h のどちらかが更新された場合に
@@ -119,7 +127,9 @@ C コンパイラによっては、このような記述を自動生成できま
 「-M」オプションを持つ C コンパイラを使っている場合は、
 以下のコマンドを実行するだけで適切な depend が生成できます。
 
-  $ cc -M *.c > depend
+`````
+$ cc -M *.c > depend
+`````
 
 gcc には、-M オプションを改善した -MM というオプションもあります。
 このオプションは、通常更新することのない stdio.h など、
@@ -130,29 +140,31 @@ gcc には、-M オプションを改善した -MM というオプションも�
 gcc の -MM オプションを使う場合は、
 以下のコマンドを実行すれば適切な depend が生成できます。
 
-  $ gcc -MM *.c > depend
+`````
+$ gcc -MM *.c > depend
+`````
 
 なお、depend ファイルを依存関係の記述以外に使うべきではありません。
 mkmf.rb が depend ファイルを Makefile に連結するときに、
 その内容を加工する場合があるからです。
 
-=== extconf.rb が生成する make ターゲット
+### extconf.rb が生成する make ターゲット
 
 extconf.rb が生成する Makefile には以下のターゲットが定義されています。
 
-: all
+- **`all`**:
     拡張ライブラリを作成します。
 
-: clean
+- **`clean`**:
     作成した拡張ライブラリ、オブジェクトファイルなどを削除します。
 
-: distclean
-: realclean
+- **`distclean`**:
+- **`realclean`**:
     clean ターゲットが削除するファイルに加えて、
     Makefile, extconf.h, core, ruby なども削除します。
 
-: install
-: site-install
+- **`install`**:
+- **`site-install`**:
     作成した拡張ライブラリを $sitearchdir にインストールします。
     カレントディレクトリにディレクトリ lib があれば
     その配下の ruby スクリプト (*.rb ファイル) を、

@@ -1,9 +1,9 @@
 names=ole_query_interface
 visibility=public
 kind=defined
-source_location=refm/api/src/win32ole/WIN32OLE
+source_location=manual/api/win32ole/WIN32OLE.md
 
---- ole_query_interface(iid) -> WIN32OLE
+### def ole_query_interface(iid) -> WIN32OLE
 
 IID（インターフェイスID）を指定してオブジェクトの別のインターフェイスを
 持つオブジェクトを取得します。
@@ -12,12 +12,14 @@ IID（インターフェイスID）を指定してオブジェクトの別のイ
 メソッドを利用して既定のインターフェイスとは異なるインターフェイスを取
 得します。
 
-@param iid 取得するインターフェイスのIIDを文字列で指定します。
-@return iidパラメータで指定したインターフェイスを持つWIN32OLEオブジェクト
-@raise WIN32OLERuntimeError 指定したIIDをオブジェクトが持たない場合に通知されます。
+- **param** `iid` -- 取得するインターフェイスのIIDを文字列で指定します。
+- **return** -- iidパラメータで指定したインターフェイスを持つWIN32OLEオブジェクト
+- **raise** `WIN32OLERuntimeError` -- 指定したIIDをオブジェクトが持たない場合に通知されます。
 
-    ie = WIN32OLE.new('InternetExplorer.Application')
-    ie_web_app = ie.ole_query_interface('{0002DF05-0000-0000-C000-000000000046}')
+```````
+ie = WIN32OLE.new('InternetExplorer.Application')
+ie_web_app = ie.ole_query_interface('{0002DF05-0000-0000-C000-000000000046}')
+```````
 
 上例のie_web_appは、ieと同じインスタンスとなります。
 
@@ -39,7 +41,7 @@ COMの仕様では1つのインターフェイスについて同じIID問い合�
 ば追加のメソッドが呼び出せません。
 
 たとえば、当メソッドの存在理由である
-[[url:http://www.ruby-forum.com/topic/109954]]（なお、元のパッチと異な
+[url:http://www.ruby-forum.com/topic/109954]（なお、元のパッチと異な
 りGUIDの統一フォーマットを利用するように改造されているため、IIDの前後に
 {}が必要です）には、Solutionオブジェクトに対してSolution2オブジェクトの
 取得を依頼するために、必要ということになっています。実際、Solutionプロ
@@ -52,7 +54,7 @@ Solutionインターフェイスを返すことになっているため、静的
 動的なメソッド検索が行われます。このため、Solutionオブジェクト（しかし
 その実態はSolution2オブジェクト）に対してSolution2で追加されたメソッド
 （たとえばGetProjectTemplate）を指定したとしても正しく呼び出せます。つ
-まり、[[url:http://www.ruby-forum.com/topic/109954]]で例示されているよ
+まり、[url:http://www.ruby-forum.com/topic/109954]で例示されているよ
 うなole_query_interfaceメソッドの呼び出しは不要です。
 
 もし、当メソッドの呼び出しが本当に必要なのであれば、まず、該当するOLEオー
@@ -64,25 +66,27 @@ Solutionインターフェイスを返すことになっているため、静的
 なお、サポートしているインターフェイスのバージョンを調べたい場合に、以
 下のような方法で、インターフェイスのバージョンを調べることができます。
 
-  def check_solution_version(obj)
-    [['{CDA7305C-78B6-4D9D-90AD-93EBE71F9341}', 4],
-     ['{DF23915F-FDA3-4DD5-9CAA-2E1372C2BB16}', 3],
-     ['{FA238614-FBB1-4314-A7F7-49AE8BB6C6BA}', 2]].each do |iid, ver|
-      begin
-        intf = obj.ole_query_interface(iid)
-        intf.ole_free
-        return ver
-      rescue WIN32OLERuntimeError
-      end
+`````
+def check_solution_version(obj)
+  [['{CDA7305C-78B6-4D9D-90AD-93EBE71F9341}', 4],
+   ['{DF23915F-FDA3-4DD5-9CAA-2E1372C2BB16}', 3],
+   ['{FA238614-FBB1-4314-A7F7-49AE8BB6C6BA}', 2]].each do |iid, ver|
+    begin
+      intf = obj.ole_query_interface(iid)
+      intf.ole_free
+      return ver
+    rescue WIN32OLERuntimeError
     end
-    1
   end
+  1
+end
+`````
 
 しかし、ole_query_interfaceのような特異なメソッドを利用するよりも、
 WIN32OLE.new('VisualStudio.DTE.8.0') のように生成時にバージョン番号（こ
 の例では8.0）を指定するほうが良いスタイルです。
 
 また、単に特定のメソッドをサポートしているかどうかを知りたいだけであれ
-ば、[[m:WIN32OLE#ole_respond_to?]]を利用したダックタイピングをしてくだ
+ば、[m:WIN32OLE#ole_respond_to?]を利用したダックタイピングをしてくだ
 さい。
 

@@ -1,9 +1,9 @@
 names=EMPTY
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__InvocationChain
+source_location=manual/api/rake/Rake__InvocationChain.md
 
---- EMPTY -> Rake::InvocationChain::EmptyInvocationChain
+### const EMPTY -> Rake::InvocationChain::EmptyInvocationChain
 
-[[c:Rake::InvocationChain::EmptyInvocationChain]] のインスタンスを表します。
+[c:Rake::InvocationChain::EmptyInvocationChain] のインスタンスを表します。
 

@@ -1,11 +1,11 @@
 names=file_create
 visibility=private
 kind=added
-source_location=refm/api/src/rake/core_ext
+source_location=manual/api/rake/Kernel.md
 
---- file_create(*args){ ... } -> Rake::FileCreationTask
+### def file_create(*args){ ... } -> Rake::FileCreationTask
 
 ファイルを作成するタスクを定義します。
 
-主に [[m:Kernel.#directory]] を定義するために使用します。
+主に [m:Kernel?.directory] を定義するために使用します。
 

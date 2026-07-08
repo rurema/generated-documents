@@ -1,27 +1,27 @@
 names=value
 visibility=public
 kind=defined
-source_location=refm/api/src/net/Net__HTTPResponse
+source_location=manual/api/net/Net__HTTPResponse.md
 
---- value -> nil
+### def value -> nil
 レスポンスが 2xx(成功)でなかった場合に、対応する
 例外を発生させます。
 
-@raise HTTPError レスポンスが 1xx であるか、 net/http が知らない
+- **raise** `HTTPError` -- レスポンスが 1xx であるか、 net/http が知らない
                  種類のレスポンスである場合に発生します。
-@raise HTTPRetriableError レスポンスが 3xx である場合に発生します。
-@raise HTTPServerException レスポンスが 4xx である場合に発生します。
-@raise HTTPFatalError レスポンスが 5xx である場合に発生します。
+- **raise** `HTTPRetriableError` -- レスポンスが 3xx である場合に発生します。
+- **raise** `HTTPServerException` -- レスポンスが 4xx である場合に発生します。
+- **raise** `HTTPFatalError` -- レスポンスが 5xx である場合に発生します。
 
-//emlist[例 レスポンスが 2xx(成功)][ruby]{
+```ruby title="例 レスポンスが 2xx(成功)"
 require 'net/http'
 
 uri = "http://www.example.com/index.html"
 response = Net::HTTP.get_response(URI.parse(uri))
 response.value # => nil
-//}
+```
 
-//emlist[例 レスポンスが 2xx以外][ruby]{
+```ruby title="例 レスポンスが 2xx以外"
 require 'net/http'
 
 uri = "http://www.example.com/invalid.html"
@@ -32,6 +32,6 @@ rescue => e
   e.class # => Net::HTTPServerException
   e.message # => 404 "Not Found"
 end
-//}
+```
 
 

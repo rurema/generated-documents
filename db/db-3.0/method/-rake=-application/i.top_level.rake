@@ -1,14 +1,14 @@
 names=top_level
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Application
+source_location=manual/api/rake/Rake__Application.md
 
---- top_level
+### def top_level
 
 Rake アプリケーションに与えられたトップレベルのタスク
 (コマンドラインで指定されたタスク) を実行します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test1
@@ -21,5 +21,5 @@ end
 Rake.application.top_level
 
 # => "test2"
-//}
+```
 

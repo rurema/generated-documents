@@ -1,9 +1,9 @@
 names=definition_lists
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd
+source_location=manual/api/rdoc/markdown.md
 
---- definition_lists -> bool
+### def definition_lists -> bool
 
 定義リストを解釈するかどうかを返します。
 

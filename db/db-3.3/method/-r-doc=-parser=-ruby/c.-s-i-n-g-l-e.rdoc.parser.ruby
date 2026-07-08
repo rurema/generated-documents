@@ -1,9 +1,9 @@
 names=SINGLE
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/parser/../parsers/parse_rb.rd
+source_location=manual/api/rdoc/parser/../parsers/parse_rb.md
 
---- SINGLE -> "<<"
+### const SINGLE -> "<<"
 
 RDoc::SingleClass type
 

@@ -1,11 +1,11 @@
 names=logger
 visibility=public
 kind=defined
-source_location=refm/api/src/webrick/cgi.rd
+source_location=manual/api/webrick/cgi.md
 
---- logger     -> WEBrick::BasicLog 
+### def logger     -> WEBrick::BasicLog 
 
 設定されているログオブジェクトを返します。
 
-デフォルトでは [[c:WEBrick::BasicLog]].new($stderr) です。
+デフォルトでは [c:WEBrick::BasicLog].new($stderr) です。
 

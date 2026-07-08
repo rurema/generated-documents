@@ -1,16 +1,18 @@
 names=ruby
 visibility=public
 kind=added
-source_location=refm/api/src/rake/core_ext
+source_location=manual/api/rake/FileUtils.md
 
---- ruby(*args){|result, status| ... }
+### def ruby(*args){|result, status| ... }
 
 与えられた引数で Ruby インタプリタを実行します。
 
-@param args Ruby インタプリタに与える引数を指定します。
+- **param** `args` -- Ruby インタプリタに与える引数を指定します。
 
 例:
-   ruby %{-pe '$_.upcase!' <README}
+``````
+ruby %{-pe '$_.upcase!' <README}
+``````
 
-@see [[m:Kernel.#sh]]
+- **SEE** [m:Kernel?.sh]
 

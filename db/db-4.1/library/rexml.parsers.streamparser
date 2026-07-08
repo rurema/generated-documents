@@ -4,37 +4,37 @@ methods=
 sublibraries=
 is_sublibrary=true
 category=
-source_location=refm/api/src/rexml/parsers/streamparser.rd
+source_location=manual/api/rexml/parsers/streamparser.md
 
 ストリーム式の XML パーサ。
 
 rexml の XML パーサの中では高速ですが、機能は限定的です。
 もう少し高機能なストリーム式パーサが必要な場合は
-[[c:REXML::Parsers::SAX2Parser]] を用いてください。
+[c:REXML::Parsers::SAX2Parser] を用いてください。
 
 パーサからはコールバックによってパースした情報を受け取ります。
-[[c:REXML::StreamListener]] を include し、
+[c:REXML::StreamListener] を include し、
 必要なメソッドをオーバーライドしたクラスのオブジェクトを
-コールバックオブジェクトとして [[m:REXML::Parsers::StreamParser.new]]
+コールバックオブジェクトとして [m:REXML::Parsers::StreamParser.new]
 に渡します。
 
-[[m:REXML::Parsers::StreamParser#parse]] を呼び出すと
+[m:REXML::Parsers::StreamParser#parse] を呼び出すと
 パースが開始しその結果によってコールバックが呼び出されます。
 
-コールバックされるメソッドは [[c:REXML::StreamListener]] になにもしない
+コールバックされるメソッドは [c:REXML::StreamListener] になにもしない
 メソッドとして定義されています。どのようなコールバックがあるかは
 そちらを参照してください。
 
 パーサはXML文書の各構成要素を前から順に処理し、
 その順にコールバックメソッドを呼び出します。順が前後することはありません。
 
-===[a:example] StreamParserの例
+### StreamParserの例 {#example}
 
 この例では tag_start と text をオーバーライドして
 開始タグとテキストの情報を受け取れるようにしています。
 空白や改行もテキストであることに注意してください。
 
-//emlist[][ruby]{
+```ruby
 require 'rexml/parsers/baseparser'
 require 'rexml/parsers/streamparser'
 require 'rexml/streamlistener'
@@ -77,16 +77,16 @@ listener.events
 #     "tag_start[member]",
 #     "text[\n]",
 #     "text[\n]"]
-//}
+```
 
-=== コールバック仕様確認サンプル
+### コールバック仕様確認サンプル
 以下の例では様々なXMLの構成要素を含むXML文書を
 StreamParser で処理したときに、どのコールバックメソッドがどのような
 引数で呼び出されるかを示すためのサンプルです。
 実体参照は定義済みのものを除いては変換処理されていないことなどが
 わかります。
 
-//emlist[][ruby]{
+```ruby
 require 'rexml/parsers/baseparser'
 require 'rexml/parsers/streamparser'
 require 'rexml/streamlistener'
@@ -145,4 +145,4 @@ REXML::Parsers::StreamParser.new(xml, Listener.new).parse
 # >> [:text, " &bar;\n"]
 # >> [:tag_end, "root"]
 # >> [:text, "\n"]
-//}
+```

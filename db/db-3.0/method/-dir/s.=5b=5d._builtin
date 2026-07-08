@@ -1,11 +1,11 @@
 names=[],glob
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Dir
+source_location=manual/api/_builtin/Dir.md
 
---- [](*pattern, base: nil, sort: true)                            -> [String]
---- glob(pattern, flags = 0, base: nil, sort: true)                -> [String]
---- glob(pattern, flags = 0, base: nil, sort: true) {|file| ...}   -> nil
+### def [](*pattern, base: nil, sort: true)                            -> [String]
+### def glob(pattern, flags = 0, base: nil, sort: true)                -> [String]
+### def glob(pattern, flags = 0, base: nil, sort: true) {|file| ...}   -> nil
 
 ワイルドカードの展開を行い、
 パターンにマッチするファイル名を文字列の配列として返します。
@@ -14,21 +14,21 @@ source_location=refm/api/src/_builtin/Dir
 ブロックが与えられたときはワイルドカードにマッチしたファイルを
 引数にそのブロックを 1 つずつ評価して nil を返します
 
-@param pattern パターンを文字列か配列で指定します。
+- **param** `pattern` -- パターンを文字列か配列で指定します。
                配列を指定すると複数のパターンを指定できます。
 
-@param flags [[m:File.fnmatch]] に指定できるフラグと同様のフラグを指定できます。
+- **param** `flags` -- [m:File.fnmatch] に指定できるフラグと同様のフラグを指定できます。
              このフラグを指定することでマッチの挙動を変更できます。
 
-//emlist[][ruby]{
+```ruby
 Dir.glob("*")                      #=> ["bar", "foo"]
 Dir.glob("*", File::FNM_DOTMATCH)  #=> [".", "..", "bar", "foo"]
-//}
+```
 
-@param base カレントディレクトリの代わりに相対パスの基準にするベースディレクトリを指定します。
+- **param** `base` -- カレントディレクトリの代わりに相対パスの基準にするベースディレクトリを指定します。
             指定した場合、結果の頭にはベースディレクトリはつかないので、
             絶対パスが必要な場合はベースディレクトリを追加する必要があるでしょう。
-@param sort true ならワイルドカードや文字セット(鈎括弧)にマッチした結果を
+- **param** `sort` -- true ならワイルドカードや文字セット(鈎括弧)にマッチした結果を
             バイナリとして昇順にソートします。
             false を指定するとソートせず2.7以前と同じ挙動になります。
             true の場合でも、配列で指定した複数のパターンや波括弧での順番は保存されます。
@@ -38,17 +38,17 @@ Dir.glob("*", File::FNM_DOTMATCH)  #=> [".", "..", "bar", "foo"]
 重にエスケープする必要があることに注意してください。
 ワイルドカードはデフォルトではファイル名の先頭の "." にマッチしません。
 
-: *
+- **`*`**:
     空文字列を含む任意の文字列と一致します。
-: ?
+- **`?`**:
     任意の一文字と一致します。
-: [ ]
+- **`[ ]`**:
     鈎括弧内のいずれかの文字と一致します。- でつな
     がれた文字は範囲を表します。鈎括弧の中の最初の文字が
     ^ である時には含まれない文字と一致します。
     ^ の代わりに ksh や POSIX shell のように ! も同じ意
     味で使えます。
-: { }
+- **`{ }`**:
     コンマで区切られた文字列の組合せに展開します。例えば、
     foo{a,b,c} は fooa, foob, fooc
     に展開されそれぞれに対してマッチ判定を行います。
@@ -56,7 +56,7 @@ Dir.glob("*", File::FNM_DOTMATCH)  #=> [".", "..", "bar", "foo"]
     括弧は入れ子にできます。例えば、
     {foo,bar{foo,bar}} は foo, barfoo, barbar
     のそれぞれにマッチします。
-: **/
+- **`**/`**:
     ワイルドカード */ の0回以上の繰り返しを意味し、
     ディレクトリを再帰的にたどってマッチを行います。
     例えば,
@@ -64,7 +64,7 @@ Dir.glob("*", File::FNM_DOTMATCH)  #=> [".", "..", "bar", "foo"]
     foo/*/*/bar ... (以下無限に続く)に対してそれぞれ
     マッチ判定を行います。
 
-//emlist[][ruby]{
+```ruby
 # 一般的な例
 p Dir.glob("*")          #=> ["foo", "bar", "baz"]
 p Dir.glob("./b*")       #=> ["./bar", "./baz"]      先頭に "./" が付いている。
@@ -93,5 +93,5 @@ Dir.glob(rbfiles)                   #=> ["main.rb",
                                     #    "lib/song/karaoke.rb"]
 Dir.glob(rbfiles, base: "lib")      #=> ["song.rb",
                                     #    "song/karaoke.rb"]
-//}
+```
 

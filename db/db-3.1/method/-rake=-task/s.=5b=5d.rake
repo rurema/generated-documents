@@ -1,9 +1,9 @@
 names=[]
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- [](task_name) -> Rake::Task
+### def [](task_name) -> Rake::Task
 
 与えられた名前のタスクを返します。
 
@@ -11,5 +11,5 @@ source_location=refm/api/src/rake/Rake__Task
 ルールからタスク名を合成出来なかったが、与えられたタスク名にマッチするファイルが存在する
 場合は、ファイルタスクがアクションや事前タスク無しで存在していると仮定します。
 
-@param task_name タスクの名前を指定します。
+- **param** `task_name` -- タスクの名前を指定します。
 

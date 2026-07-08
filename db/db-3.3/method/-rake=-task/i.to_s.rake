@@ -1,9 +1,9 @@
 names=to_s
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- to_s -> String
+### def to_s -> String
 
 自身の名前を返します。
 

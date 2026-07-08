@@ -1,9 +1,9 @@
 names=defaults
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd
+source_location=manual/api/rubygems/command.md
 
---- defaults -> Hash
+### def defaults -> Hash
 
 デフォルトのオプションを返します。
 

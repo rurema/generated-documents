@@ -1,9 +1,9 @@
 names=needed?
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileTask
+source_location=manual/api/rake/Rake__FileTask.md
 
---- needed? -> bool
+### def needed? -> bool
 
 このタスクが必要である場合は真を返します。
 そうでない場合は偽を返します。
@@ -11,7 +11,7 @@ source_location=refm/api/src/rake/Rake__FileTask
 このタスクで作成しようとしているファイルが存在しない場合や、
 このタスクで作成しようとしているファイルが古い場合に真を返します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: "test.txt"
@@ -21,5 +21,5 @@ file "test.txt" do |task|
   IO.write("test.txt", "test")
   task.needed? # => false
 end
-//}
+```
 

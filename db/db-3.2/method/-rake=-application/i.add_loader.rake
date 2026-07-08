@@ -1,18 +1,18 @@
 names=add_loader
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Application
+source_location=manual/api/rake/Rake__Application.md
 
---- add_loader(ext, loader)
+### def add_loader(ext, loader)
 
 与えられた拡張子で終わるファイル名のファイルをロードするためのローダーを
 自身に追加します。
 
-@param ext 拡張子を指定します。
+- **param** `ext` -- 拡張子を指定します。
 
-@param loader ローダーを指定します。
+- **param** `loader` -- ローダーを指定します。
 
-//emlist[例][ruby]{
+```ruby title="例"
 require "rake/loaders/makefile"
 
 # Rakefile での記載例とする
@@ -31,7 +31,7 @@ Rake.application.add_import("sample.mf")
 Rake::Task.task_defined?("a") # => false
 Rake.application.load_imports
 Rake::Task.task_defined?("a") # => true
-//}
+```
 
 
 

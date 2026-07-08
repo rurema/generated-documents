@@ -1,9 +1,9 @@
 names=getpeereid
 visibility=public
 kind=defined
-source_location=refm/api/src/socket/BasicSocket
+source_location=manual/api/socket/BasicSocket.md
 
---- getpeereid -> [Integer, Integer]
+### def getpeereid -> [Integer, Integer]
 Unix ドメインソケットにおいて接続相手の euid と egid を
 返します。
 
@@ -12,19 +12,21 @@ Unix ドメインソケットにおいて接続相手の euid と egid を
 ソケットが Unix ドメインソケットでない場合の返り値は
 不定です。
 
-  require 'socket'
+`````
+require 'socket'
 
-  Socket.unix_server_loop("/tmp/sock") {|s|
-    begin
-      euid, egid = s.getpeereid
+Socket.unix_server_loop("/tmp/sock") {|s|
+  begin
+    euid, egid = s.getpeereid
       
-      # Check the connected client is myself or not.
-      next if euid != Process.uid
+    # Check the connected client is myself or not.
+    next if euid != Process.uid
       
-      # do something about my resource.
-    ensure
-      s.close
-    end
-  }
+    # do something about my resource.
+  ensure
+    s.close
+  end
+}
+`````
   
 

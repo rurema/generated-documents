@@ -1,21 +1,21 @@
 names=pretty_print
 visibility=public
 kind=added
-source_location=refm/api/src/pp.rd
+source_location=manual/api/pp.md
 
---- pretty_print(pp)    -> ()
+### def pretty_print(pp)    -> ()
 
-[[m:PP.pp]] や [[m:Kernel.#pp]] がオブジェクトの内容を出力するときに
-呼ばれるメソッドです。[[c:PP]] オブジェクト pp を引数として呼ばれます。
+[m:PP.pp] や [m:Kernel?.pp] がオブジェクトの内容を出力するときに
+呼ばれるメソッドです。[c:PP] オブジェクト pp を引数として呼ばれます。
 
 あるクラスの pp の出力をカスタマイズしたい場合は、このメソッドを再定義します。
 そのとき pretty_print メソッドは指定された pp に対して表示したい自身の内容を追加して
 いかなければいけません。いくつかの組み込みクラスについて、
-[[lib:pp]] ライブラリはあらかじめ pretty_print メソッドを定義しています。
+[lib:pp] ライブラリはあらかじめ pretty_print メソッドを定義しています。
 
-@param pp [[c:PP]] オブジェクトです。
+- **param** `pp` -- [c:PP] オブジェクトです。
 
-//emlist[][ruby]{
+```ruby
 class Array
   def pretty_print(q)
     q.group(1, '[', ']') {
@@ -25,7 +25,7 @@ class Array
     }
   end
 end
-//}
+```
 
-@see [[m:Object#pretty_print_cycle]], [[m:Object#inspect]], [[m:PrettyPrint#text]], [[m:PrettyPrint#group]], [[m:PrettyPrint#breakable]]
+- **SEE** [m:Object#pretty_print_cycle], [m:Object#inspect], [m:PrettyPrint#text], [m:PrettyPrint#group], [m:PrettyPrint#breakable]
 

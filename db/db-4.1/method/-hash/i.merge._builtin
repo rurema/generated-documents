@@ -1,10 +1,10 @@
 names=merge
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Hash
+source_location=manual/api/_builtin/Hash.md
 
---- merge(*others) -> Hash
---- merge(*others) {|key, self_val, other_val| ... } -> Hash
+### def merge(*others) -> Hash
+### def merge(*others) {|key, self_val, other_val| ... } -> Hash
 
 selfとothersのハッシュの内容を順番にマージ(統合)した結果を返します。
 デフォルト値はselfの設定のままです。
@@ -16,10 +16,10 @@ self と others に同じキーがあった場合はブロック付きか否か�
 
 othersがハッシュではない場合、othersのメソッドto_hashを使って暗黙の変換を試みます。
 
-@param others マージ用のハッシュまたはメソッド to_hash でハッシュに変換できるオブジェクトです。
-@return マージした結果を返します
+- **param** `others` -- マージ用のハッシュまたはメソッド to_hash でハッシュに変換できるオブジェクトです。
+- **return** -- マージした結果を返します
 
-//emlist[][ruby]{
+```ruby
 h1 = { "a" => 100, "b" => 200 }
 h2 = { "b" => 246, "c" => 300 }
 h3 = { "b" => 357, "d" => 400 }
@@ -31,9 +31,9 @@ h1.merge(h2) {|key, oldval, newval| newval - oldval}
 h1.merge(h2, h3) {|key, oldval, newval| newval - oldval}
                   #=> {"a"=>100, "b"=>311, "c"=>300, "d"=>400}
 h1                #=> {"a"=>100, "b"=>200}
-//}
+```
 
-//emlist[][ruby]{
+```ruby
 foo = {1 => 'a', 2 => 'b', 3 => 'c'}
 bar = {2 => 'B', 3 => 'C', 4 => 'D'}
 
@@ -44,9 +44,9 @@ p foo  # => {1=>"a", 2=>"b", 3=>"c"}
 p foo.merge!(bar) {|key, foo_val, bar_val| foo_val + bar_val }
        # => {1=>"a", 2=>"bB", 3=>"cC", 4=>"D"}
 p foo  # => {1=>"a", 2=>"bB", 3=>"cC", 4=>"D"}
-//}
+```
 
-//emlist[][ruby]{
+```ruby
 class Foo
   def to_hash
     {:Australia => 'Sydney',
@@ -62,7 +62,7 @@ h = {:Germany => 'Berlin',
 
 # 暗黙の変換
 p h.merge(Foo.new) # => {:Germany=>"Berlin", :Australia=>"Sydney", :France=>"Paris"}
-//}
+```
 
-@see [[m:Hash#update]],[[m:Hash#replace]]
+- **SEE** [m:Hash#update],[m:Hash#replace]
 

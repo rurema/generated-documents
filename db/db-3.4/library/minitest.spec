@@ -4,13 +4,13 @@ methods=
 sublibraries=
 is_sublibrary=false
 category=Development
-source_location=refm/api/src/minitest/spec.rd
+source_location=manual/api/minitest/spec.md
 
 BDD 風にテストを書くためのクラスやメソッドを定義するためのライブラリです。
 
 このライブラリはbundled gem(gemファイルのみを同梱)です。詳しい内容は下
 記のページを参照してください。
 
-  * rubygems.org: [[url:https://rubygems.org/gems/minitest]]
-  * プロジェクトページ: [[url:https://github.com/seattlerb/minitest]]
-  * リファレンス: [[url:https://www.rubydoc.info/gems/minitest]]
+  - rubygems.org: [url:https://rubygems.org/gems/minitest]
+  - プロジェクトページ: [url:https://github.com/seattlerb/minitest]
+  - リファレンス: [url:https://www.rubydoc.info/gems/minitest]

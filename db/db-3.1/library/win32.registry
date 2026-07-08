@@ -1,15 +1,15 @@
 requires=
-classes=Win32=Registry,Win32=Registry=API,Win32=Registry=Error,Win32=Registry=PredefinedKey,Win32=Registry=Constants
+classes=Win32=Registry,Win32=Registry=API,Win32=Registry=Constants,Win32=Registry=Error,Win32=Registry=PredefinedKey
 methods=
 sublibraries=
 is_sublibrary=false
 category=Windows
-source_location=refm/api/src/win32/registry.rd
+source_location=manual/api/win32/registry.md
 
 win32/registry は Win32 プラットフォームでレジストリをアクセスするための
-ライブラリです。Win32 API の呼び出しに [[c:Win32API]] を使います。
+ライブラリです。Win32 API の呼び出しに [c:Win32API] を使います。
 
-//emlist{
+```
 require 'win32/registry'
 
 Win32::Registry::HKEY_CURRENT_USER.open('SOFTWARE\foo') do |reg|
@@ -27,16 +27,18 @@ Win32::Registry::HKEY_CURRENT_USER.open('SOFTWARE\foo') do |reg|
   reg.delete_key('foo')                            # サブキーの削除
   reg.delete_key('foo', true)                      # サブキーの再帰削除
 end
-//}
+```
 
-=== WSH を用いたレジストリアクセス
+### WSH を用いたレジストリアクセス
 
-レジストリをアクセスするには [[c:WIN32OLE]] を使って WScript.Shell オブジェクト経由でアクセスする方法もあります。
+レジストリをアクセスするには [c:WIN32OLE] を使って WScript.Shell オブジェクト経由でアクセスする方法もあります。
 
-  require 'win32ole'
+`````
+require 'win32ole'
 
-  wsh = WIN32OLE.new('WScript.Shell')
-  value = wsh.RegRead 'HKLM\Software\Microsoft\Windows\...'
-  wsh.RegWrite 'HKCU\Software\foo\barfile\shell\open\command\\', '"C:\..." "%1"', 'REG_SZ'
+wsh = WIN32OLE.new('WScript.Shell')
+value = wsh.RegRead 'HKLM\Software\Microsoft\Windows\...'
+wsh.RegWrite 'HKCU\Software\foo\barfile\shell\open\command\\', '"C:\..." "%1"', 'REG_SZ'
+`````
 
 ただし，キーを列挙したり，自由なバイナリ値を読み書きできません。

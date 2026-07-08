@@ -1,11 +1,11 @@
 names=summary=
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd
+source_location=manual/api/rubygems/command.md
 
---- summary=(description)
+### def summary=(description)
 
 コマンドの短い説明をセットします。
 
-@param description コマンドの短い説明を指定します。
+- **param** `description` -- コマンドの短い説明を指定します。
 

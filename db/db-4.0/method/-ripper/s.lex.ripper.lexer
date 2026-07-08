@@ -1,26 +1,26 @@
 names=lex
 visibility=public
 kind=added
-source_location=refm/api/src/ripper/lexer.rd
+source_location=manual/api/ripper/lexer.md
 
---- Ripper.lex(src, filename = '-', lineno = 1, raise_errors: false) -> [[Integer, Integer], Symbol, String, Ripper::Lexer::State]
+### def Ripper.lex(src, filename = '-', lineno = 1, raise_errors: false) -> [[Integer, Integer], Symbol, String, Ripper::Lexer::State]
 
 Ruby プログラム str をトークンに分割し、そのリストを返します。
-ただし [[m:Ripper.tokenize]] と違い、トークンの種類と位置情報も付属します。
+ただし [m:Ripper.tokenize] と違い、トークンの種類と位置情報も付属します。
 
-@param src Ruby プログラムを文字列か IO オブジェクトで指定します。
+- **param** `src` -- Ruby プログラムを文字列か IO オブジェクトで指定します。
 
-@param filename src のファイル名を文字列で指定します。省略すると "-" になります。
+- **param** `filename` -- src のファイル名を文字列で指定します。省略すると "-" になります。
 
-@param lineno src の開始行番号を指定します。省略すると 1 になります。
+- **param** `lineno` -- src の開始行番号を指定します。省略すると 1 になります。
 
-@param raise_errors true を指定すると、src にエラーがある場合に例外(SyntaxError)を発生させます。省略すると false になります。
+- **param** `raise_errors` -- true を指定すると、src にエラーがある場合に例外(SyntaxError)を発生させます。省略すると false になります。
 
-@raise SyntaxError raise_errors が true で、src に文法エラーがある場合に発生します。
+- **raise** `SyntaxError` -- raise_errors が true で、src に文法エラーがある場合に発生します。
 
 
 
-//emlist[][ruby]{
+```ruby
 require 'ripper'
 
 pp Ripper.lex("def m(a) nil end")
@@ -37,18 +37,18 @@ pp Ripper.lex("def m(a) nil end")
 
 Ripper.lex("def req(true) end", raise_errors: true)
 # => SyntaxError (syntax error, unexpected 'true', expecting ')')
-//}
+```
 
 Ripper.lex は分割したトークンを詳しい情報とともに返します。
 返り値の配列の要素は 4 要素の配列 (概念的にはタプル) です。
 その内訳を以下に示します。
 
-: 位置情報 (Integer,Integer)
+- **位置情報 (Integer,Integer)**:
     トークンが置かれている行 (1-origin) と桁 (0-origin) の 2 要素の配列です。
-: 種類 (Symbol)
+- **種類 (Symbol)**:
     トークンの種類が「:on_XXX」の形式のシンボルで渡されます。
-: トークン (String)
+- **トークン (String)**:
     トークン文字列です。
-: ステート (Ripper::Lexer::State)
+- **ステート (Ripper::Lexer::State)**:
     トークンの状態を表す Ripper::Lexer::State のインスタンスです。
 

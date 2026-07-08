@@ -1,8 +1,8 @@
 names=scope_name
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileTask
+source_location=manual/api/rake/Rake__FileTask.md
 
---- scope_name(scope, task_name) -> String
+### def scope_name(scope, task_name) -> String
 
 ファイルタスクはスコープを無視します。

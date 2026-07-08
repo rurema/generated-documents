@@ -1,9 +1,9 @@
 names=import
 visibility=private
 kind=added
-source_location=refm/api/src/rake/core_ext
+source_location=manual/api/rake/Kernel.md
 
---- import(*filenames)
+### def import(*filenames)
 
 分割された Rakefile をインポートします。
 
@@ -14,9 +14,11 @@ source_location=refm/api/src/rake/core_ext
 
 このメソッドは依存関係を定義したファイルを読み込むのによく使われます。
 
-@param filenames インポートする Rakefile を指定します。
+- **param** `filenames` -- インポートする Rakefile を指定します。
 
 例:
-   import ".depend", "my_rules"
+``````
+import ".depend", "my_rules"
+``````
 
 

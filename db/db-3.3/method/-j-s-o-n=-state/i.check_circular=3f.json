@@ -1,14 +1,14 @@
 names=check_circular?
 visibility=public
 kind=defined
-source_location=refm/api/src/json/JSON__State
+source_location=manual/api/json/JSON__State.md
 
---- check_circular? -> bool
+### def check_circular? -> bool
 
 循環参照のチェックを行う場合は、真を返します。
 そうでない場合は偽を返します。
 
-//emlist[例 ネストをチェックするケース][ruby]{
+```ruby title="例 ネストをチェックするケース"
 require "json"
 
 a = [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[0]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
@@ -18,14 +18,14 @@ begin
 rescue JSON::NestingError => e
   [e, s.max_nesting, s.check_circular?] # => [#<JSON::NestingError: nesting of 100 is too deep>, 100, true]
 end
-//}
+```
 
-//emlist[例 ネストをチェックしないケース][ruby]{
+```ruby title="例 ネストをチェックしないケース"
 require "json"
 
 a = [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[0]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
 s2 = JSON.state.new(max_nesting: 0)
 json = JSON.generate(a, s2)
 [json, s2.max_nesting, s2.check_circular?] # => ["[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[0]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]", 0, false]
-//}
+```
 

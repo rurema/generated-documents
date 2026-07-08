@@ -1,9 +1,9 @@
 names=execute
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- execute(args = nil)
+### def execute(args = nil)
 
 自身に関連付けられているアクションを実行します。
 

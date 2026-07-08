@@ -1,13 +1,13 @@
 names=tasks
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskManager
+source_location=manual/api/rake/Rake__TaskManager.md
 
---- tasks -> Array
+### def tasks -> Array
 
 全てのタスクリストを返します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 require 'pp'
 
@@ -22,5 +22,4 @@ task :test_rake_app2 do |task|
   #    <Rake::Task test_rake_app1 => []>,
   #    <Rake::Task test_rake_app2 => []>]
 end
-//}
-
+```

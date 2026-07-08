@@ -1,17 +1,17 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__NameSpace
+source_location=manual/api/rake/Rake__NameSpace.md
 
---- new(task_manager, scope_list)
+### def new(task_manager, scope_list)
 
 自身を初期化します。
 
-@param task_manager [[c:Rake::Application]] のインスタンスを指定します。
+- **param** `task_manager` -- [c:Rake::Application] のインスタンスを指定します。
 
-@param scope_list 名前空間のリストを指定します。
+- **param** `scope_list` -- 名前空間のリストを指定します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app
@@ -19,4 +19,4 @@ task :test_rake_app do
   name_space = Rake::NameSpace.new(Rake.application, Rake::Scope.new("sample"))
   name_space.scope # => LL("sample")
 end
-//}
+```

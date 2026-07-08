@@ -4,6 +4,6 @@ methods=
 sublibraries=
 is_sublibrary=true
 category=
-source_location=refm/api/src/rake/loaders/makefile.rd
+source_location=manual/api/rake/loaders/makefile.md
 
 Makefile をロードするためのライブラリです。

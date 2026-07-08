@@ -1,21 +1,23 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- new(*patterns){|self| ... }
+### def new(*patterns){|self| ... }
 
 与えられたパターンをもとにして自身を初期化します。
 
 ブロックが与えられている場合は、自身をブロックパラメータとしてブロックを評価します。
 
-@param patterns パターンを指定します。
+- **param** `patterns` -- パターンを指定します。
 
 例:
-   file_list = FileList.new('lib/**/*.rb', 'test/test*.rb')
+``````
+file_list = FileList.new('lib/**/*.rb', 'test/test*.rb')
 
-   pkg_files = FileList.new('lib/**/*') do |fl|
-     fl.exclude(/\bCVS\b/)
-   end
+pkg_files = FileList.new('lib/**/*') do |fl|
+  fl.exclude(/\bCVS\b/)
+end
+``````
 
 

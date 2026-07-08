@@ -1,9 +1,9 @@
 names=common_options
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd
+source_location=manual/api/rubygems/command.md
 
---- common_options -> Array
+### def common_options -> Array
 
 共通の引数を返します。
 

@@ -1,9 +1,9 @@
 names=pathmap_partial
 visibility=protected
 kind=added
-source_location=refm/api/src/rake/core_ext
+source_location=manual/api/rake/String.md
 
---- pathmap_partial(n) -> String
+### def pathmap_partial(n) -> String
 
 自身から与えられた階層分パスを抜粋します。
 

@@ -1,33 +1,33 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Hash
+source_location=manual/api/_builtin/Hash.md
 
---- new(ifnone = nil) -> Hash
+### def new(ifnone = nil) -> Hash
 
 空の新しいハッシュを生成します。ifnone はキーに対
-応する値が存在しない時のデフォルト値です。設定したデフォルト値は[[m:Hash#default]]で参照できます。
+応する値が存在しない時のデフォルト値です。設定したデフォルト値は[m:Hash#default]で参照できます。
 
 ifnoneを省略した Hash.new は {} と同じです。
 
 デフォルト値として、毎回同一のオブジェクトifnoneを返します。
 それにより、一箇所のデフォルト値の変更が他の値のデフォルト値にも影響します。
 
-//emlist[][ruby]{
+```ruby
 h = Hash.new([])
 h[0] << 0
 h[1] << 1
 p h.default #=> [0, 1]
-//}
+```
 
 これを避けるには、破壊的でないメソッドで再代入する必要が有ります。
 また、このようなミスを防ぐためにもifnoneは freeze して破壊的操作を禁止しておくのが無難です。
 
 
 
-@param ifnone キーに対応する値が存在しない時のデフォルト値です。
+- **param** `ifnone` -- キーに対応する値が存在しない時のデフォルト値です。
 
-//emlist[例][ruby]{
+```ruby title="例"
 h = Hash.new([])
 
 p h[1]                  #=> []
@@ -45,20 +45,20 @@ h = Hash.new([].freeze)
 h[0] += [0] #破壊的でないメソッドはOK
 h[1] << 1
 # エラー: can't modify frozen Array (FrozenError)
-//}
+```
 
---- new {|hash, key| ... } -> Hash
+### def new {|hash, key| ... } -> Hash
 空の新しいハッシュを生成します。ブロックの評価結果がデフォルト値になりま
-す。設定したデフォルト値は[[m:Hash#default_proc]]で参照できます。
+す。設定したデフォルト値は[m:Hash#default_proc]で参照できます。
 
 値が設定されていないハッシュ要素を参照するとその都度ブロックを
 実行し、その結果を返します。
 ブロックにはそのハッシュとハッシュを参照したときのキーが渡されます。
 
 
-@raise ArgumentError ifnone などの位置引数とブロックを同時に与えると発生します。
+- **raise** `ArgumentError` -- ifnone などの位置引数とブロックを同時に与えると発生します。
 
-//emlist[例][ruby]{
+```ruby title="例"
 # ブロックではないデフォルト値は全部同一のオブジェクトなので、
 # 破壊的変更によって他のキーに対応する値も変更されます。
 h = Hash.new("foo")
@@ -93,7 +93,7 @@ h = Hash.new {|hash, key|
              }
 h[1]
 # エラー hash[1] has no value (IndexError)
-//}
+```
 
-@see [[m:Hash#default=]],[[m:Hash#default]],[[m:Hash#default_proc]]
+- **SEE** [m:Hash#default=],[m:Hash#default],[m:Hash#default_proc]
 

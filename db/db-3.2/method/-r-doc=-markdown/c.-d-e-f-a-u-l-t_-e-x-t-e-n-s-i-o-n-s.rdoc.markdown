@@ -1,9 +1,9 @@
 names=DEFAULT_EXTENSIONS
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd
+source_location=manual/api/rdoc/markdown.md
 
---- DEFAULT_EXTENSIONS -> [Symbol]
+### const DEFAULT_EXTENSIONS -> [Symbol]
 
-デフォルトで有効になっている拡張の一覧を [[c:Symbol]] の配列で返します。
+デフォルトで有効になっている拡張の一覧を [c:Symbol] の配列で返します。
 

@@ -1,12 +1,12 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/builder.rd
+source_location=manual/api/rubygems/builder.md
 
---- new(spec) -> Gem::Builder
+### def new(spec) -> Gem::Builder
 
-与えられた [[c:Gem::Specification]] のインスタンスによって
-[[c:Gem::Builder]] のインスタンスを生成します。
+与えられた [c:Gem::Specification] のインスタンスによって
+[c:Gem::Builder] のインスタンスを生成します。
 
-@param spec [[c:Gem::Specification]] のインスタンスを指定します。
+- **param** `spec` -- [c:Gem::Specification] のインスタンスを指定します。
 
