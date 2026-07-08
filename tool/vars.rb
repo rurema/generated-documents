@@ -11,7 +11,7 @@ VERSIONS = %w[
 DB_BASE = File.expand_path("../db", __dir__)
 
 DOC_BASE = File.expand_path("../doctree", __dir__)
-REF_BASE = "refm" # was "#{DOC_BASE}/refm"
+MANUAL_BASE = "manual" # was REF_BASE = "refm"
 
 TMP_HTML_BASE = File.expand_path("../tmp/html", __dir__)
 
