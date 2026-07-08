@@ -1,10 +1,10 @@
 names=unix
 visibility=public
 kind=defined
-source_location=refm/api/src/socket/Socket
+source_location=manual/api/socket/Socket.md
 
---- unix(path) -> Socket
---- unix(path){|sock| ... } -> object
+### def unix(path) -> Socket
+### def unix(path){|sock| ... } -> object
 Unix クライアントソケットを生成します。
 
 ブロックが省略されたときは、生成されたソケットが返されます。
@@ -12,16 +12,18 @@ Unix クライアントソケットを生成します。
 ブロックが渡されたときは、生成されたソケットを
 引数としてブロックを呼び出します。メソッドの返り値は
 ブロックの評価値となります。また、ブロックの終了後に
-ソケットを [[m:IO#close]] します。
+ソケットを [m:IO#close] します。
 
-  require 'socket'
+`````
+require 'socket'
 
-  # /tmp/sock と通信する
-  Socket.unix("/tmp/sock") {|sock|
-    t = Thread.new { IO.copy_stream(sock, STDOUT) }
-    IO.copy_stream(STDIN, sock)
-    t.join
-  }
+# /tmp/sock と通信する
+Socket.unix("/tmp/sock") {|sock|
+  t = Thread.new { IO.copy_stream(sock, STDOUT) }
+  IO.copy_stream(STDIN, sock)
+  t.join
+}
+`````
 
-@param path 接続対象のパス(文字列)
+- **param** `path` -- 接続対象のパス(文字列)
 

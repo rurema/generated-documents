@@ -1,13 +1,13 @@
 names=last_description=
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskManager
+source_location=manual/api/rake/Rake__TaskManager.md
 
---- last_description=(description)
+### def last_description=(description)
 
 最新の詳細説明をセットします。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app1
@@ -22,5 +22,5 @@ end
 desc "test2"
 task :test_rake_app2 do |task|
 end
-//}
+```
 

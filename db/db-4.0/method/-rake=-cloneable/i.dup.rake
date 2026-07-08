@@ -1,14 +1,14 @@
 names=dup
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Cloneable
+source_location=manual/api/rake/Rake__Cloneable.md
 
---- dup -> object
+### def dup -> object
 
 自身と同じクラスのオブジェクトを作成後、自身のインスタンス変数を
 全て新たに作成したオブジェクトにコピーします。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app
@@ -20,4 +20,4 @@ task :test_rake_app do
   dup.exclude("a.c")   # => ["b.c"]
   clone.exclude("a.c") # => can't modify frozen Rake::FileList
 end
-//}
+```

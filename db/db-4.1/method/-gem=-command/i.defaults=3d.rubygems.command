@@ -1,11 +1,11 @@
 names=defaults=
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd
+source_location=manual/api/rubygems/command.md
 
---- defaults=(hash)
+### def defaults=(hash)
 
 コマンドで使用するデフォルトのオプションをセットします。
 
-@param hash オプションをハッシュで指定します。
+- **param** `hash` -- オプションをハッシュで指定します。
 

@@ -1,29 +1,31 @@
 names=sh
 visibility=public
 kind=added
-source_location=refm/api/src/rake/core_ext
+source_location=manual/api/rake/FileUtils.md
 
---- sh(*cmd){|result, status| ... }
+### def sh(*cmd){|result, status| ... }
 
 与えられたコマンドを実行します。
 
 与えられた引数が複数の場合、シェルを経由しないでコマンドを実行します。
 
-@param cmd 引数の解釈に関しては [[m:Kernel.#exec]] を参照してください。
+- **param** `cmd` -- 引数の解釈に関しては [m:Kernel?.exec] を参照してください。
 
 
 例:
-   sh %{ls -ltr}
+``````
+sh %{ls -ltr}
    
-   sh 'ls', 'file with spaces'
+sh 'ls', 'file with spaces'
    
-   # check exit status after command runs
-   sh %{grep pattern file} do |ok, res|
-     if ! ok
-       puts "pattern not found (status = #{res.exitstatus})"
-     end
-   end
+# check exit status after command runs
+sh %{grep pattern file} do |ok, res|
+  if ! ok
+    puts "pattern not found (status = #{res.exitstatus})"
+  end
+end
+``````
 
-@see [[m:Kernel.#exec]], [[m:Kernel.#system]]
+- **SEE** [m:Kernel?.exec], [m:Kernel?.system]
 
 

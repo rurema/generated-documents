@@ -1,44 +1,44 @@
 names=primitive_convert
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Encoding__Converter
+source_location=manual/api/_builtin/Encoding__Converter.md
 
---- primitive_convert(source_buffer, destination_buffer) -> Symbol
---- primitive_convert(source_buffer, destination_buffer, destination_byteoffset) -> Symbol
---- primitive_convert(source_buffer, destination_buffer, destination_byteoffset, destination_bytesize) -> Symbol
---- primitive_convert(source_buffer, destination_buffer, destination_byteoffset, destination_bytesize, options) -> Symbol
+### def primitive_convert(source_buffer, destination_buffer) -> Symbol
+### def primitive_convert(source_buffer, destination_buffer, destination_byteoffset) -> Symbol
+### def primitive_convert(source_buffer, destination_buffer, destination_byteoffset, destination_bytesize) -> Symbol
+### def primitive_convert(source_buffer, destination_buffer, destination_byteoffset, destination_bytesize, options) -> Symbol
 
 エンコーディング変換のためのメソッドの中で、もっとも細かな扱いが可能なメソッドです。
 
 可搬性を確保しつつ、不正なバイトや変換先で未定義な文字の扱いを細かに指定したいときは、Encoding::Converter#primitive_convert が唯一の方法になります。
 
-@param source_buffer 変換元文字列のバッファ
-@param destination_buffer 変換先文字列を格納するバッファ
-@param destination_byteoffset 変換先バッファでのオフセット
-@param destination_bytesize 変換先バッファの容量
-@param options 変換の詳細を指定する定数やハッシュ
-@return 変換結果を表す Symbol
+- **param** `source_buffer` -- 変換元文字列のバッファ
+- **param** `destination_buffer` -- 変換先文字列を格納するバッファ
+- **param** `destination_byteoffset` -- 変換先バッファでのオフセット
+- **param** `destination_bytesize` -- 変換先バッファの容量
+- **param** `options` -- 変換の詳細を指定する定数やハッシュ
+- **return** -- 変換結果を表す Symbol
 
 options には以下が指定できます。
 
-: hash form
+- **`hash form`**:
   :partial_input => true           # source buffer may be part of larger source
   :after_output => true            # stop conversion after output before input
-: integer form
+- **`integer form`**:
   Encoding::Converter::PARTIAL_INPUT
   Encoding::Converter::AFTER_OUTPUT
 
 戻り値は以下のうちのどれかです。
 
-  * :invalid_byte_sequence
-  * :incomplete_input
-  * :undefined_conversion
-  * :after_output
-  * :destination_buffer_full
-  * :source_buffer_empty
-  * :finished
+  - :invalid_byte_sequence
+  - :incomplete_input
+  - :undefined_conversion
+  - :after_output
+  - :destination_buffer_full
+  - :source_buffer_empty
+  - :finished
 
-//emlist[][ruby]{
+```ruby
 ec = Encoding::Converter.new("UTF-8", "EUC-JP")
 src = "abc\x81あいう\u{20bb7}\xe3"
 dst = ''
@@ -60,7 +60,7 @@ begin
   end
   break
 end while nil
-//}
+```
 
-不正なバイトや変換先で未定義なバイトをエスケープしつつ変換する例です。以上のように、戻り値で分岐させつつ、[[m:Encoding::Converter#primitive_errinfo]] の情報を参照して処理していくことになります。
+不正なバイトや変換先で未定義なバイトをエスケープしつつ変換する例です。以上のように、戻り値で分岐させつつ、[m:Encoding::Converter#primitive_errinfo] の情報を参照して処理していくことになります。
 

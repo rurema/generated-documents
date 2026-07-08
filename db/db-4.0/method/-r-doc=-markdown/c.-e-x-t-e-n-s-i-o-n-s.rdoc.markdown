@@ -1,9 +1,9 @@
 names=EXTENSIONS
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd
+source_location=manual/api/rdoc/markdown.md
 
---- EXTENSIONS -> [Symbol]
+### const EXTENSIONS -> [Symbol]
 
-サポートする拡張の一覧を [[c:Symbol]] の配列で返します。
+サポートする拡張の一覧を [c:Symbol] の配列で返します。
 

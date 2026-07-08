@@ -1,13 +1,13 @@
 names=tasks
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__NameSpace
+source_location=manual/api/rake/Rake__NameSpace.md
 
---- tasks -> Array
+### def tasks -> Array
 
 タスクのリストを返します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 namespace :ns do |ns|
@@ -18,5 +18,5 @@ namespace :ns do |ns|
 
   ns.tasks # => [<Rake::Task ns:ts1 => []>, <Rake::Task ns:ts2 => []>]
 end
-//}
+```
 

@@ -7,24 +7,26 @@ dynamically_extended=
 library=zlib
 aliases=
 aliasof=
-source_location=refm/api/src/zlib/GzipWriter
+source_location=manual/api/zlib/GzipWriter.md
 
 gzip 形式の圧縮ファイルを書き出すラッパークラスです。
 IO クラスのインスタンス (又は IO クラスのインスタンスと同じメソッドを
 持つオブジェクト) と関連付けて使用します。
 
-  require 'zlib'
+`````
+require 'zlib'
 
-  Zlib::GzipWriter.open('hoge.gz') {|gz|
-    gz.write 'jugemu jugemu gokou no surikire...'
-  }
-  
-  f = File.open('hoge.gz', 'w')
-  gz = Zlib::GzipWriter.new(f)
+Zlib::GzipWriter.open('hoge.gz') {|gz|
   gz.write 'jugemu jugemu gokou no surikire...'
-  gz.close
+}
+  
+f = File.open('hoge.gz', 'w')
+gz = Zlib::GzipWriter.new(f)
+gz.write 'jugemu jugemu gokou no surikire...'
+gz.close
+`````
 
 なお、Ruby の finalizer の制約のため、GzipWriter オブジェクトは必ず
-[[m:Zlib::GzipWriter#close]] 等を用いてクローズしてください。
+[m:Zlib::GzipWriter#close] 等を用いてクローズしてください。
 そうしなければフッターを書き出すことができず、壊れた gzip ファイルを
 生成してしまう可能性があります。

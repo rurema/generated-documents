@@ -1,16 +1,16 @@
 names=verbose_flag=
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/RakeFileUtils
+source_location=manual/api/rake/RakeFileUtils.md
 
---- verbose_flag=(flag)
+### def verbose_flag=(flag)
 
 詳細を表示するかどうか設定します。
 
-@param flag 詳細を表示するかどうか指定します。真を指定すると詳細を表示します。
+- **param** `flag` -- 詳細を表示するかどうか指定します。真を指定すると詳細を表示します。
 
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :sample_file_task
@@ -21,5 +21,4 @@ file :sample_file_task do |t|
   RakeFileUtils.verbose_flag = false
   p RakeFileUtils.verbose_flag # => false
 end
-//}
-
+```

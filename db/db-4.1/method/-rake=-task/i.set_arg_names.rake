@@ -1,11 +1,11 @@
 names=set_arg_names
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- set_arg_names(args)
+### def set_arg_names(args)
 
 自身のパラメータの名前のリストをセットします。
 
-@param args シンボルのリストを指定します。
+- **param** `args` -- シンボルのリストを指定します。
 

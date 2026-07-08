@@ -1,34 +1,34 @@
 names=getnameinfo
 visibility=public
 kind=defined
-source_location=refm/api/src/socket/Socket
+source_location=manual/api/socket/Socket.md
 
---- getnameinfo(sa, flags = 0) -> Array
+### def getnameinfo(sa, flags = 0) -> Array
 
-[[RFC:2553]] で定義された getnameinfo() の機能を提供するク
+[RFC:2553] で定義された getnameinfo() の機能を提供するク
 ラスメソッド。 gethostbyaddr() や getservbyport() の代
 わりとして用意されています。IPのバージョンに依存しないプログラムを
 書くための標準的なAPIです。
 
-@param sa 文字列か配列を与えます。
+- **param** `sa` -- 文字列か配列を与えます。
 
-@param flags 省略可能な第2引数 flags には [[man:getnameinfo(3)]] の第7番目の引数に指定する flags に相当する [[c:Fixnum]] を与えます。
+- **param** `flags` -- 省略可能な第2引数 flags には [man:getnameinfo(3)] の第7番目の引数に指定する flags に相当する [c:Fixnum] を与えます。
 
-@return 配列を返し、その要素はアドレスとポートを表す文字列です。
+- **return** -- 配列を返し、その要素はアドレスとポートを表す文字列です。
 
-@raise SocketError [[man:getnameinfo(3)]] がエラーを起こした場合に生じる例外
+- **raise** `SocketError` -- [man:getnameinfo(3)] がエラーを起こした場合に生じる例外
 
-@see [[m:Addrinfo#getnameinfo]]
+- **SEE** [m:Addrinfo#getnameinfo]
 
-=== 引数 sa について
+### 引数 sa について
 引数 sa には文字列か配列を与えます。文字列の場合は sockaddr 構造体
-のパック文字列を与えます。具体的には [[m:BasicSocket#getsockname]]
+のパック文字列を与えます。具体的には [m:BasicSocket#getsockname]
 の値が利用できます。配列を与える場合には、要素が3つの場合と4つの場合
 があります。
 
-  * 要素が3つの場合:
+  - 要素が3つの場合:
        [アドレスファミリー, サービス, ホスト]
-  * 要素が4つの場合:
+  - 要素が4つの場合:
        [アドレスファミリー, サービス, 任意, アドレスを表す文字列]
 
 アドレスファミリーには Socket::AF_INET 等の定数の他に文字列
@@ -38,15 +38,15 @@ source_location=refm/api/src/socket/Socket
 nil を指定することは Socket::AF_UNSPEC を指定すること
 と等価です。
 
-サービス、ホストの指定に関しては [[ref:lib:socket#service_format]]、
-[[ref:lib:socket#host_format]]を参照してください。
+サービス、ホストの指定に関しては [ref:lib:socket#service_format]、
+[ref:lib:socket#host_format]を参照してください。
 
 要素が3つの場合でも、ホストにはアドレスを指定できますが、要素が4つ
 の場合には、最後の要素を名前解決しないことが保証されます。
 
-=== 引数flagsについて
-省略可能な第2引数 flags には [[man:getnameinfo(3)]]
-の第7番目の引数に指定する flags に相当する [[c:Fixnum]] を与えます。
+### 引数flagsについて
+省略可能な第2引数 flags には [man:getnameinfo(3)]
+の第7番目の引数に指定する flags に相当する [c:Fixnum] を与えます。
 
 引数flagsを構成するための定数として
 Socket::NI_MAXHOST、
@@ -58,16 +58,18 @@ Socket::NI_NUMERICSERV、
 Socket::NI_DGRAM
 が用意されている場合があります。
 
-これらの定数の意味については [[man:getnameinfo(3)]]を参照
+これらの定数の意味については [man:getnameinfo(3)]を参照
 して下さい。
 
-=== 使用例
+### 使用例
 
-  require 'socket'
+`````
+require 'socket'
 
-  Socket.getnameinfo(Socket.sockaddr_in('21','127.0.0.1'))
-  #=> ["localhost", "ftp"]
+Socket.getnameinfo(Socket.sockaddr_in('21','127.0.0.1'))
+#=> ["localhost", "ftp"]
   
-  Socket.getnameinfo([nil, 21,'127.0.0.1'])
-  #=> ["localhost", "ftp"]
+Socket.getnameinfo([nil, 21,'127.0.0.1'])
+#=> ["localhost", "ftp"]
+`````
 

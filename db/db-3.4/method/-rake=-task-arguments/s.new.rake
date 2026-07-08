@@ -1,19 +1,19 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskArguments
+source_location=manual/api/rake/Rake__TaskArguments.md
 
---- new(names, values, parent = nil)
+### def new(names, values, parent = nil)
 
 自身を初期化します。
 
-@param names パラメータの名前のリストを指定します。
+- **param** `names` -- パラメータの名前のリストを指定します。
 
-@param values パラメータの値のリストを指定します。
+- **param** `values` -- パラメータの値のリストを指定します。
 
-@param parent 親となる [[c:Rake::TaskArguments]] を指定します。
+- **param** `parent` -- 親となる [c:Rake::TaskArguments] を指定します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app
@@ -25,4 +25,4 @@ task :test_rake_app do
   p arguments2["name1"] # => "value1"
   p arguments2["name3"] # => "value3"
 end
-//}
+```

@@ -1,16 +1,16 @@
 names=add_option
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd
+source_location=manual/api/rubygems/command.md
 
---- add_option(*opts){|value, options| ... }
+### def add_option(*opts){|value, options| ... }
 
 コマンドに対するコマンドラインオプションとハンドラを追加します。
 
 ブロックには、コマンドライン引数の値とそのオプションが渡されます。
 オプションはハッシュになっています。
 
-@param opts オプションを指定します。
+- **param** `opts` -- オプションを指定します。
 
-@see [[m:OptionParser#make_switch]]
+- **SEE** [m:OptionParser#make_switch]
 

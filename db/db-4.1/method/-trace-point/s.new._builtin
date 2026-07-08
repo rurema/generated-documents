@@ -1,14 +1,14 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/TracePoint
+source_location=manual/api/_builtin/TracePoint.md
 
---- new(*events) {|obj| ... } -> TracePoint
+### def new(*events) {|obj| ... } -> TracePoint
 
-新しい [[c:TracePoint]] オブジェクトを作成して返します。トレースを有効
-にするには [[m:TracePoint#enable]] を実行してください。
+新しい [c:TracePoint] オブジェクトを作成して返します。トレースを有効
+にするには [m:TracePoint#enable] を実行してください。
 
-//emlist[例:irb で実行した場合][ruby]{
+```ruby title="例:irb で実行した場合"
 trace = TracePoint.new(:call) do |tp|
     p [tp.lineno, tp.defined_class, tp.method_id, tp.event]
 end
@@ -21,94 +21,94 @@ puts "Hello, TracePoint!"
 # ...
 # [69, IRB::Notifier::AbstractNotifier, :printf, :call]
 # ...
-//}
+```
 
-トレースを無効にするには [[m:TracePoint#disable]] を実行してください。
+トレースを無効にするには [m:TracePoint#disable] を実行してください。
 
-//emlist[][ruby]{
+```ruby
 trace.disable
-//}
+```
 
-@param events トレースするイベントを [[c:String]] か [[c:Symbol]] で任
+- **param** `events` -- トレースするイベントを [c:String] か [c:Symbol] で任
               意の数指定します。
 
-: :line
+- **`:line`**:
 
   式の評価。
 
-: :class
+- **`:class`**:
 
   クラス定義、特異クラス定義、モジュール定義への突入。
 
-: :end
+- **`:end`**:
 
    クラス定義、特異クラス定義、モジュール定義の終了。
 
-: :call
+- **`:call`**:
 
   Ruby で記述されたメソッドの呼び出し。
 
-: :return
+- **`:return`**:
 
   Ruby で記述されたメソッド呼び出しからのリターン。
 
-: :c_call
+- **`:c_call`**:
 
   C で記述されたメソッドの呼び出し。
 
-: :c_return
+- **`:c_return`**:
 
   C で記述されたメソッド呼び出しからのリターン。
 
-: :raise
+- **`:raise`**:
 
   例外の発生。
 
-: :b_call
+- **`:b_call`**:
 
   ブロックの開始。
 
-: :b_return
+- **`:b_return`**:
 
   ブロックの終了。
 
-: :thread_begin
+- **`:thread_begin`**:
 
   スレッドの開始。
 
-: :thread_end
+- **`:thread_end`**:
 
   スレッドの終了。
 
-: :fiber_switch
+- **`:fiber_switch`**:
 
   ファイバーの切り替え。
 
-: :script_compiled
+- **`:script_compiled`**:
 
   スクリプトのコンパイル
 
 指定イベントに関連しない情報を取得するメソッドを実行した場合には
-[[c:RuntimeError]] が発生します。
+[c:RuntimeError] が発生します。
 
-//emlist[例][ruby]{
+```ruby title="例"
 TracePoint.trace(:line) do |tp|
     p tp.raised_exception
 end
 # => RuntimeError: 'raised_exception' not supported by this event
-//}
+```
 
 イベントフックの外側で、発生したイベントに関連する情報を取得するメソッ
-ドを実行した場合には [[c:RuntimeError]] が発生します。
+ドを実行した場合には [c:RuntimeError] が発生します。
 
-//emlist[例][ruby]{
+```ruby title="例"
 TracePoint.trace(:line) do |tp|
   $tp = tp
 end
 $tp.lineno # => access from outside (RuntimeError)
-//}
+```
 
 他のスレッドから参照する事も禁じられています。
 
-@raise ArgumentError ブロックを指定しなかった場合に発生します。
+- **raise** `ArgumentError` -- ブロックを指定しなかった場合に発生します。
 

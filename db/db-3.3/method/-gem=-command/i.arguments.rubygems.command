@@ -1,9 +1,9 @@
 names=arguments
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd
+source_location=manual/api/rubygems/command.md
 
---- arguments -> String
+### def arguments -> String
 
 このメソッドはサブクラスで再定義されます。
 コマンドが取る引数の説明を表示するために使用します。

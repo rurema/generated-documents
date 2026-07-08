@@ -1,9 +1,9 @@
 names=needed?
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- needed? -> true
+### def needed? -> true
 
 このタスクが必要ならば真を返します。
 

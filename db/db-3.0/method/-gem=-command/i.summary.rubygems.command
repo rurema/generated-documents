@@ -1,9 +1,9 @@
 names=summary
 visibility=public
 kind=defined
-source_location=refm/api/src/rubygems/command.rd
+source_location=manual/api/rubygems/command.md
 
---- summary -> String
+### def summary -> String
 
 コマンドの短い説明を返します。
 

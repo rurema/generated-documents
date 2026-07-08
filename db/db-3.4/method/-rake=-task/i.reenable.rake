@@ -1,9 +1,9 @@
 names=reenable
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- reenable -> false
+### def reenable -> false
 
 自身をもう一度実行出来るようにします。
 

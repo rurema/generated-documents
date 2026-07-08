@@ -1,9 +1,9 @@
 names=create_rule
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- create_rule(*args){ ... } -> Rake::Task
+### def create_rule(*args){ ... } -> Rake::Task
 
 タスクを合成するためのルールを作成します。
 

@@ -4,6 +4,6 @@ methods=
 sublibraries=
 is_sublibrary=true
 category=
-source_location=refm/api/src/rubygems/command.rd
+source_location=manual/api/rubygems/command.md
 
 gem コマンドを扱うためのライブラリです。

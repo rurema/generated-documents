@@ -1,12 +1,12 @@
 names=pathmap_explode
 visibility=protected
 kind=added
-source_location=refm/api/src/rake/core_ext
+source_location=manual/api/rake/String.md
 
---- pathmap_explode -> Array
+### def pathmap_explode -> Array
 
 自身をパスを表す部分ごとに分解して配列にして返します。
-[[m:String#pathmap]] で利用される protected メソッドです。
+[m:String#pathmap] で利用される protected メソッドです。
 
-@see [[m:String#pathmap]]
+- **SEE** [m:String#pathmap]
 

@@ -1,32 +1,34 @@
 names=new
 visibility=public
 kind=defined
-source_location=refm/api/src/zlib/GzipReader
+source_location=manual/api/zlib/GzipReader.md
 
---- new(io) -> Zlib::GzipReader
+### def new(io) -> Zlib::GzipReader
 
 io と関連付けられた GzipReader オブジェクトを作成します。
 
 GzipReader オブジェクトは io からデータを逐次リードして
-解析/展開を行います。io には少なくとも、[[m:IO#read]] と
+解析/展開を行います。io には少なくとも、[m:IO#read] と
 同じ動作をする read メソッドが定義されている必要があります。
 
-@param io IO オブジェクト、もしくは少なくとも [[m:IO#read]] と同じ動作を
+- **param** `io` -- IO オブジェクト、もしくは少なくとも [m:IO#read] と同じ動作を
           する read メソッドが定義されているオブジェクト
 
-@raise Zlib::GzipFile::Error ヘッダーの解析に失敗した場合発生します。
+- **raise** `Zlib::GzipFile::Error` -- ヘッダーの解析に失敗した場合発生します。
 
-  require 'zlib'
+`````
+require 'zlib'
 
-  File.open('hoge.txt', "w") { |fp|
-    fp.puts 'hoge'
-  }
+File.open('hoge.txt', "w") { |fp|
+  fp.puts 'hoge'
+}
 
-  f = File.open('hoge.txt')
-  begin
-    Zlib::GzipReader.new(f)
-  rescue Zlib::GzipFile::Error => err
-    puts "error", err #=> error
-                      #=> not in gzip format
-  end
+f = File.open('hoge.txt')
+begin
+  Zlib::GzipReader.new(f)
+rescue Zlib::GzipFile::Error => err
+  puts "error", err #=> error
+                    #=> not in gzip format
+end
+`````
 

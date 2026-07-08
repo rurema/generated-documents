@@ -1,14 +1,14 @@
 names=is_a?,kind_of?
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- is_a?(klass) -> bool
---- kind_of?(klass) -> bool
+### def is_a?(klass) -> bool
+### def kind_of?(klass) -> bool
 
-自身に [[c:Array]] のフリをさせます。
+自身に [c:Array] のフリをさせます。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app
@@ -17,5 +17,5 @@ task :test_rake_app do
   file_list.is_a?(Array)  # => true
   file_list.is_a?(String) # => false
 end
-//}
+```
 

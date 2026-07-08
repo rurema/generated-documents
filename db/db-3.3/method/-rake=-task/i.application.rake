@@ -1,9 +1,9 @@
 names=application
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- application -> Rake::Application
+### def application -> Rake::Application
 
-自身を所有している [[c:Rake::Application]] のインスタンスを返します。
+自身を所有している [c:Rake::Application] のインスタンスを返します。
 

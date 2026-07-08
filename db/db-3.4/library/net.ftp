@@ -4,7 +4,7 @@ methods=
 sublibraries=
 is_sublibrary=false
 category=Network
-source_location=refm/api/src/net/ftp.rd
+source_location=manual/api/net/ftp.md
 
 FTP プロトコルを扱うライブラリです。
 
@@ -13,9 +13,9 @@ command-line interface の FTP クライアントを使ったことのある
 人にとってわかりやすいインターフェースになっています。
 より「Ruby 的」であるインターフェースも用意しています。
 
-FTP については [[RFC:959]]、[[RFC:3659]] を参考にしてください。
+FTP については [RFC:959]、[RFC:3659] を参考にしてください。
 
-=== バイナリモードとテキストモード
+### バイナリモードとテキストモード
 FTP のデータ転送にはテキストモードとバイナリモード
 があります。テキストモードで転送する場合には
 改行を適宜CRLFに変換します。バイナリモードの場合は
@@ -23,16 +23,16 @@ FTP のデータ転送にはテキストモードとバイナリモード
 
 通常はバイナリモード以外を使う必要はないでしょう。
 
-[[m:Net::FTP#get]]、[[m:Net::FTP#put]] は
-[[m:Net::FTP#binary]] の値に従ってテキストモードと
+[m:Net::FTP#get]、[m:Net::FTP#put] は
+[m:Net::FTP#binary] の値に従ってテキストモードと
 バイナリモードの一方を選びます。また、
-[[m:Net::FTP#getbinaryfile]]、[[m:Net::FTP#putbinaryfile]]
-は [[m:Net::FTP#binary]] の値によらずバイナリモードで、
-[[m:Net::FTP#gettextfile]]、[[m:Net::FTP#puttextfile]] は
-[[m:Net::FTP#binary]] の値によらずテキストモードで
+[m:Net::FTP#getbinaryfile]、[m:Net::FTP#putbinaryfile]
+は [m:Net::FTP#binary] の値によらずバイナリモードで、
+[m:Net::FTP#gettextfile]、[m:Net::FTP#puttextfile] は
+[m:Net::FTP#binary] の値によらずテキストモードで
 データ転送が行われます。
 
-=== パッシブモードとアクティブモード
+### パッシブモードとアクティブモード
 FTP はファイル転送やディレクトリ情報取得のための
 データ転送用の TCP コネクションを、
 サーバとの制御コマンドをやりとり
@@ -48,26 +48,30 @@ FTP はファイル転送やディレクトリ情報取得のための
 ファイアーウォールや NAT がある場合にはうまく接続できない
 場合があります。この時にはパッシブモードを利用してください。
 
-デフォルトモードは [[m:Net::FTP.default_passive=]] で指定できます。パッシブモードがデフォルトです。
+デフォルトモードは [m:Net::FTP.default_passive=] で指定できます。パッシブモードがデフォルトです。
 
-=== 例
+### 例
 
 例1:
-  require 'net/ftp'
-  ftp = Net::FTP.new('ftp.example.org')
+`````
+require 'net/ftp'
+ftp = Net::FTP.new('ftp.example.org')
+ftp.login
+ftp.passive = true
+ftp.chdir('pub/ruby')
+files = ftp.list('ruby*')
+ftp.getbinaryfile('ruby-1.9.1-p243.tar.bz2', 'ruby.bz2', 1024)
+ftp.close
+`````
+
+例2:
+`````
+require 'net/ftp'
+Net::FTP.open('ftp.example.org') do |ftp|
   ftp.login
   ftp.passive = true
   ftp.chdir('pub/ruby')
-  files = ftp.list('ruby*')
+  files = ftp.list('*.bz2')
   ftp.getbinaryfile('ruby-1.9.1-p243.tar.bz2', 'ruby.bz2', 1024)
-  ftp.close
-
-例2:
-  require 'net/ftp'
-  Net::FTP.open('ftp.example.org') do |ftp|
-    ftp.login
-    ftp.passive = true
-    ftp.chdir('pub/ruby')
-    files = ftp.list('*.bz2')
-    ftp.getbinaryfile('ruby-1.9.1-p243.tar.bz2', 'ruby.bz2', 1024)
-  end
+end
+`````

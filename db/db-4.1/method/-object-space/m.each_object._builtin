@@ -1,41 +1,41 @@
 names=each_object
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/ObjectSpace
+source_location=manual/api/_builtin/ObjectSpace.md
 
---- each_object        {|object| ...}    -> Integer
---- each_object(klass) {|object| ...}    -> Integer
---- each_object                          -> Enumerator
---- each_object(klass)                   -> Enumerator
+### module_function def each_object        {|object| ...}    -> Integer
+### module_function def each_object(klass) {|object| ...}    -> Integer
+### module_function def each_object                          -> Enumerator
+### module_function def each_object(klass)                   -> Enumerator
 
-指定された klass と [[m:Object#kind_of?]] の関係にある全ての
+指定された klass と [m:Object#kind_of?] の関係にある全ての
 オブジェクトに対して繰り返します。引数が省略された時には全てのオブ
 ジェクトに対して繰り返します。
 繰り返した数を返します。
 
 ブロックが与えられなかった場合は、
-[[c:Enumerator]] オブジェクトを返します。
+[c:Enumerator] オブジェクトを返します。
 
 次のクラスのオブジェクトについては繰り返しません
 
- * [[c:Fixnum]]
- * [[c:Symbol]]
- * [[c:TrueClass]]
- * [[c:FalseClass]]
- * [[c:NilClass]]
+ - [c:Fixnum]
+ - [c:Symbol]
+ - [c:TrueClass]
+ - [c:FalseClass]
+ - [c:NilClass]
 
-とくに、klass に [[c:Fixnum]] や [[c:Symbol]] などのクラスを指定した場合は、
+とくに、klass に [c:Fixnum] や [c:Symbol] などのクラスを指定した場合は、
 何も繰り返さないことになります。
-なお、[[c:Symbol]] については、かわりに [[m:Symbol.all_symbols]] が使用できます。
+なお、[c:Symbol] については、かわりに [m:Symbol.all_symbols] が使用できます。
 
-@param klass クラスかモジュールを指定します。
+- **param** `klass` -- クラスかモジュールを指定します。
 
-//emlist[例: ブロックなし][ruby]{
+```ruby title="例: ブロックなし"
 p ObjectSpace.each_object
 # => #<Enumerator: ObjectSpace:each_object(false)>
-//}
+```
 
-//emlist[例: 全てのオブジェクトを扱う][ruby]{
+```ruby title="例: 全てのオブジェクトを扱う"
 ObjectSpace.each_object.take(5).each { |x| p x }
 count = ObjectSpace.each_object { |x| x }
 puts "Total count: #{count}"
@@ -46,9 +46,9 @@ puts "Total count: #{count}"
 # => "class_names"
 # => "@corrections"
 # => Total count: 9938
-//}
+```
 
-//emlist[例: 任意のクラスを扱う][ruby]{
+```ruby title="例: 任意のクラスを扱う"
 Person = Struct.new(:name)
 s1 = Person.new("tanaka")
 s2 = Person.new("sato")
@@ -59,6 +59,6 @@ puts "Total count: #{count}"
 # => #<struct Person name="sato">
 # => #<struct Person name="tanaka">
 # => Total count: 2
-//}
+```
 
 

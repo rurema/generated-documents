@@ -1,17 +1,17 @@
 names=append
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__InvocationChain
+source_location=manual/api/rake/Rake__InvocationChain.md
 
---- append(task_name, chain) -> Rake::InvocationChain
+### def append(task_name, chain) -> Rake::InvocationChain
 
-与えられたタスク名を第二引数の [[c:Rake::InvocationChain]] に追加します。
+与えられたタスク名を第二引数の [c:Rake::InvocationChain] に追加します。
 
-@param task_name タスク名を指定します。
+- **param** `task_name` -- タスク名を指定します。
 
-@param chain 既に存在する [[c:Rake::InvocationChain]] のインスタンスを指定します。
+- **param** `chain` -- 既に存在する [c:Rake::InvocationChain] のインスタンスを指定します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app
@@ -20,5 +20,5 @@ task :test_rake_app do
   b = Rake::InvocationChain.append("task_a", chain)
   b.to_s # => "TOP => task_a"
 end
-//}
+```
 

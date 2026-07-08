@@ -1,9 +1,9 @@
 names=load_rakefile
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Application
+source_location=manual/api/rake/Rake__Application.md
 
---- load_rakefile
+### def load_rakefile
 
 Rakefile を探してロードします。
 

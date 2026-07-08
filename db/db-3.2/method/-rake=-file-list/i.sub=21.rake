@@ -1,14 +1,14 @@
 names=sub!
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- sub!(pattern, replace) -> self
+### def sub!(pattern, replace) -> self
 
-自身に含まれるファイルリストのそれぞれのエントリに対して [[m:String#sub]] を実行します。
+自身に含まれるファイルリストのそれぞれのエントリに対して [m:String#sub] を実行します。
 自身を破壊的に変更します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app
@@ -17,5 +17,5 @@ task :test_rake_app do
   file_list.sub!(/\.c$/, '.o') # => ['a.o', 'b.o']
   file_list                    # => ['a.o', 'b.o']
 end
-//}
+```
 

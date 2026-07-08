@@ -1,15 +1,15 @@
 names=clone
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Cloneable
+source_location=manual/api/rake/Rake__Cloneable.md
 
---- clone -> object
+### def clone -> object
 
 自身を複製します。
 
 自身がフリーズされていれば返されるオブジェクトもフリーズされています。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app
@@ -20,5 +20,5 @@ task :test_rake_app do
   clone.exclude("a.c")
   clone == file_list    # => false
 end
-//}
+```
 

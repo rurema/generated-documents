@@ -1,21 +1,21 @@
 names=each
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Enumerator
+source_location=manual/api/_builtin/Enumerator.md
 
---- each {...}        -> object
---- each              -> self
---- each(*args) {...} -> object
---- each(*args)       -> Enumerator
+### def each {...}        -> object
+### def each              -> self
+### def each(*args) {...} -> object
+### def each(*args)       -> Enumerator
 
 生成時のパラメータに従ってブロックを繰り返します。
 *args を渡した場合は、生成時のパラメータ内引数末尾へ *args を追加した状態で繰り返します。
 ブロック付きで呼び出された場合は、
 生成時に指定したイテレータの戻り値をそのまま返します。
 
-@param args 末尾へ追加する引数
+- **param** `args` -- 末尾へ追加する引数
 
-//emlist[例1][ruby]{
+```ruby title="例1"
 str = "Yet Another Ruby Hacker"
 
 enum = Enumerator.new {|y| str.scan(/\w+/) {|w| y << w }}
@@ -28,9 +28,9 @@ str.scan(/\w+/) {|word| p word }        # => "Yet"
                                         #    "Another"
                                         #    "Ruby"
                                         #    "Hacker"
-//}
+```
 
-//emlist[例2][ruby]{
+```ruby title="例2"
 "Hello, world!".scan(/\w+/)                     # => ["Hello", "world"]
 "Hello, world!".to_enum(:scan, /\w+/).to_a      # => ["Hello", "world"]
 "Hello, world!".to_enum(:scan).each(/\w+/).to_a # => ["Hello", "world"]
@@ -53,5 +53,5 @@ enum.each { |elm| elm }         # => :method_returned
 enum.each(:y, :z).to_a          # => [:a, :x, [:y, :z]]
 enum.each(:y, :z).equal?(enum)  # => false
 enum.each(:y, :z) { |elm| elm } # => :method_returned
-//}
+```
 

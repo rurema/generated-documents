@@ -1,11 +1,11 @@
 names=config
 visibility=public
 kind=defined
-source_location=refm/api/src/webrick/cgi.rd
+source_location=manual/api/webrick/cgi.md
 
---- config     -> Hash
+### def config     -> Hash
 
 自身の設定を保持したハッシュを返します。
 
-@see [[m:WEBrick::CGI.new]]
+- **SEE** [m:WEBrick::CGI.new]
 

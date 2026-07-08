@@ -1,10 +1,10 @@
 names=switch
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Process__UID
+source_location=manual/api/_builtin/Process__UID.md
 
---- switch          -> Integer
---- switch { .... } -> object
+### module_function def switch          -> Integer
+### module_function def switch { .... } -> object
 
 実効ユーザ ID を一時的に変更するために使います。
 
@@ -19,19 +19,21 @@ source_location=refm/api/src/_builtin/Process__UID
 なお、保存ユーザ ID を持たない環境でこのメソッドを実行すると
 実ユーザ ID が変化します。
 
-@raise Errno::EPERM 各ユーザ ID がこのメソッドを実行するのに適切な状態でない場合、
+- **raise** `Errno::EPERM` -- 各ユーザ ID がこのメソッドを実行するのに適切な状態でない場合、
                     つまり、実ユーザ ID・実効ユーザ ID・保存ユーザ ID が全て
                     同じ場合に発生します。ブロック付きの場合は、なんらかの原因で元の
                     権限に復帰できないにも発生します。ブロック内でユーザ ID が変更
                     されたなどの理由が挙げられます。
 
-@raise NotImplementedError メソッドが現在のプラットフォームで実装されていない場合に発生します。
+- **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
 
- include Process
- # (r, e, s) == (500, 505, 505)
- p [uid, euid]           #=> [500, 505]
- Process::UID.switch do
-   p [uid, euid]         #=> [500, 500]
- end
- p [uid, euid]           #=> [500, 505]
+````
+include Process
+# (r, e, s) == (500, 505, 505)
+p [uid, euid]           #=> [500, 505]
+Process::UID.switch do
+  p [uid, euid]         #=> [500, 500]
+end
+p [uid, euid]           #=> [500, 505]
+````
 

@@ -1,10 +1,10 @@
 names=scan
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/parser/../parsers/parse_rb.rd
+source_location=manual/api/rdoc/parser/../parsers/parse_rb.md
 
---- scan -> RDoc::TopLevel
+### def scan -> RDoc::TopLevel
 
 Ruby のソースコードからクラス/モジュールのドキュメントを解析します。
 
-@return [[c:RDoc::TopLevel]] オブジェクトを返します。
+- **return** -- [c:RDoc::TopLevel] オブジェクトを返します。

@@ -1,9 +1,9 @@
 names=ole_free
 visibility=public
 kind=defined
-source_location=refm/api/src/win32ole/WIN32OLE
+source_location=manual/api/win32ole/WIN32OLE.md
 
---- ole_free -> ()
+### def ole_free -> ()
 
 selfが参照するCOMオブジェクトを解放します。
 
@@ -11,9 +11,11 @@ selfが参照するCOMオブジェクトのIUnknown::Releaseを呼び出すこ�
 ブジェクトを開放します。ole_freeを呼び出した後は、このオブジェクトに対
 する操作は行えません。
 
-  excel = WIN32OLE.new('Excel.Application')
-  excel.ole_free  # オブジェクトの解放
-  excel.Quit      #=> RuntimeError (failed to get Dispatch Interface)
+`````
+excel = WIN32OLE.new('Excel.Application')
+excel.ole_free  # オブジェクトの解放
+excel.Quit      #=> RuntimeError (failed to get Dispatch Interface)
+`````
 
 通常は利用されなくなったWIN32OLEオブジェクトはGCのタイミングで自動的に
 解放されるため、当メソッドを呼び出す必要はありません。Officeのような外
@@ -23,23 +25,27 @@ selfが参照するCOMオブジェクトのIUnknown::Releaseを呼び出すこ�
 WIN32OLEがIUnknown::Releaseを呼び出してもオブジェクトが解放されるとは限
 りません。
 
-  excel = WIN32OLE.new('Excel.Application')
-  workbook = excel.Workbooks.Open('workbook.xls') 
-  workbook.Close(:SaveChanges => false)
-  workbook.ole_free
-  excel.ole_free
-  # この時点でExcel.EXEは終了しない
+`````
+excel = WIN32OLE.new('Excel.Application')
+workbook = excel.Workbooks.Open('workbook.xls') 
+workbook.Close(:SaveChanges => false)
+workbook.ole_free
+excel.ole_free
+# この時点でExcel.EXEは終了しない
+`````
 
 上の例では、excel.Workbooks.Openの行で、excel.Workbooksオブジェクトが生
 成されています。しかし、後続の処理で該当オブジェクトが解放されていない
 ため、Workbooksオブジェクトによって参照されているexcelオブジェクトは解
 放されません。それに対して下の例では正しく解放されます。
 
-  excel = WIN32OLE.new('Excel.Application')
-  books = excel.Workbooks
-  workbook = books.Open('workbook.xls')
-  books.ole_free
-  workbook.Close(:SaveChanges => false)
-  workbook.ole_free
-  excel.ole_free
+`````
+excel = WIN32OLE.new('Excel.Application')
+books = excel.Workbooks
+workbook = books.Open('workbook.xls')
+books.ole_free
+workbook.Close(:SaveChanges => false)
+workbook.ole_free
+excel.ole_free
+`````
 

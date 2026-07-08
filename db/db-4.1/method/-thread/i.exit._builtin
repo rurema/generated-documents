@@ -1,35 +1,37 @@
 names=exit,kill,terminate
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Thread
+source_location=manual/api/_builtin/Thread.md
 
---- exit         -> self
---- kill         -> self
---- terminate    -> self
+### def exit         -> self
+### def kill         -> self
+### def terminate    -> self
 
 スレッドの実行を終了させます。終了時に ensure 節が実行されます。
 
 ただし、スレッドは終了処理中(aborting)にはなりますが、
 直ちに終了するとは限りません。すでに終了している場合は何もしません。このメソッドにより
-終了したスレッドの [[m:Thread#value]] の返り値は不定です。
-自身がメインスレッドであるか最後のスレッドである場合は、プロセスを [[m:Kernel.#exit]](0) 
+終了したスレッドの [m:Thread#value] の返り値は不定です。
+自身がメインスレッドであるか最後のスレッドである場合は、プロセスを [m:Kernel?.exit](0) 
 により終了します。
 
-[[m:Kernel.#exit]] と違い例外  [[c:SystemExit]] を発生しません。
+[m:Kernel?.exit] と違い例外  [c:SystemExit] を発生しません。
 
-  th1 = Thread.new do
-    begin
-      sleep 10
-    ensure
-      p "this will be displayed"
-    end
+`````
+th1 = Thread.new do
+  begin
+    sleep 10
+  ensure
+    p "this will be displayed"
   end
+end
 
-  sleep 0.1
-  th1.kill
+sleep 0.1
+th1.kill
 
-  #=> "this will be displayed"
+#=> "this will be displayed"
+`````
 
-@see [[m:Kernel.#exit]], [[m:Kernel.#exit!]]
+- **SEE** [m:Kernel?.exit], [m:Kernel?.exit!]
 
 

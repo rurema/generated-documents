@@ -1,10 +1,10 @@
 names=switch
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Process__GID
+source_location=manual/api/_builtin/Process__GID.md
 
---- switch               -> Integer
---- switch {...}    -> object
+### module_function def switch               -> Integer
+### module_function def switch {...}    -> object
 
 実効グループ ID を一時的に変更するために使います。
 
@@ -19,19 +19,21 @@ source_location=refm/api/src/_builtin/Process__GID
 なお、保存グループ ID を持たない環境でこのメソッドを実行すると
 実グループ ID が変化します。
 
-@raise Errno::EPERM 各グループ ID がこのメソッドを実行するのに適切な状態でない場合、
+- **raise** `Errno::EPERM` -- 各グループ ID がこのメソッドを実行するのに適切な状態でない場合、
                     つまり、実グループ ID・実効グループ ID・保存グループ ID が全て
                     同じ場合に発生します。ブロック付きの場合は、なんらかの原因で元の
                     権限に復帰できないにも発生します。ブロック内でグループ ID が変更
                     されたなどの理由が挙げられます。
 
-@raise NotImplementedError メソッドが現在のプラットフォームで実装されていない場合に発生します。
+- **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
 
- include Process
- # (r, e, s) == (500, 505, 505)
- p [gid, egid]           #=> [500, 505]
- Process::GID.switch do
-   p [gid, egid]         #=> [500, 500]
- end
- p [gid, egid]           #=> [500, 505]
+````
+include Process
+# (r, e, s) == (500, 505, 505)
+p [gid, egid]           #=> [500, 505]
+Process::GID.switch do
+  p [gid, egid]         #=> [500, 500]
+end
+p [gid, egid]           #=> [500, 505]
+````
 

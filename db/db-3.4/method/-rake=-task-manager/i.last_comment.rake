@@ -1,14 +1,14 @@
 names=last_comment,last_description
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskManager
+source_location=manual/api/rake/Rake__TaskManager.md
 
---- last_description -> String
---- last_comment -> String
+### def last_description -> String
+### def last_comment -> String
 
 Rakefile 内の最新の詳細説明を追跡するためのメソッドです。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app1
@@ -21,5 +21,5 @@ end
 desc "test2"
 task :test_rake_app2 do |task|
 end
-//}
+```
 

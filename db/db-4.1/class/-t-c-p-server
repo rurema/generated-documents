@@ -7,7 +7,7 @@ dynamically_extended=
 library=socket
 aliases=
 aliasof=
-source_location=refm/api/src/socket/TCPServer
+source_location=manual/api/socket/TCPServer.md
 
 TCP/IP ストリーム型接続のサーバ側のソケットのクラスです。
 
@@ -15,50 +15,54 @@ TCP/IP ストリーム型接続のサーバ側のソケットのクラスです�
 
 例えば echo サーバは以下のようになります。
 
-  require "socket"
+`````
+require "socket"
   
-  gs = TCPServer.open(0)
-  socks = [gs]
-  addr = gs.addr
-  addr.shift
-  printf("server is on %s\n", addr.join(":"))
+gs = TCPServer.open(0)
+socks = [gs]
+addr = gs.addr
+addr.shift
+printf("server is on %s\n", addr.join(":"))
   
-  while true
-    nsock = select(socks)
-    next if nsock == nil
-    for s in nsock[0]
-      if s == gs
-        socks.push(s.accept)
-        print(s, " is accepted\n")
+while true
+  nsock = select(socks)
+  next if nsock == nil
+  for s in nsock[0]
+    if s == gs
+      socks.push(s.accept)
+      print(s, " is accepted\n")
+    else
+      if s.eof?
+        print(s, " is gone\n")
+        s.close
+        socks.delete(s)
       else
-        if s.eof?
-          print(s, " is gone\n")
-          s.close
-          socks.delete(s)
-        else
-          str = s.gets
-          s.write(str)
-        end
+        str = s.gets
+        s.write(str)
       end
     end
   end
+end
+`````
 
 Thread を使えばもっと短くなります。
 
-  require "socket"
+`````
+require "socket"
   
-  gs = TCPServer.open(0)
-  addr = gs.addr
-  addr.shift
-  printf("server is on %s\n", addr.join(":"))
+gs = TCPServer.open(0)
+addr = gs.addr
+addr.shift
+printf("server is on %s\n", addr.join(":"))
   
-  while true
-    Thread.start(gs.accept) do |s|       # save to dynamic variable
-      print(s, " is accepted\n")
-      while s.gets
-        s.write($_)
-      end
-      print(s, " is gone\n")
-      s.close
+while true
+  Thread.start(gs.accept) do |s|       # save to dynamic variable
+    print(s, " is accepted\n")
+    while s.gets
+      s.write($_)
     end
+    print(s, " is gone\n")
+    s.close
   end
+end
+`````

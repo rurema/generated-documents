@@ -1,39 +1,41 @@
 names=pathmap
 visibility=public
 kind=added
-source_location=refm/api/src/rake/core_ext
+source_location=manual/api/rake/String.md
 
---- pathmap(spec = nil){ ... } -> String
+### def pathmap(spec = nil){ ... } -> String
 
 与えられた書式指定文字列に応じてパス(自身)を変換します。
 
 与えられた書式指定文字列は変換の詳細を制御します。
 指定できる書式指定文字列は以下の通りです。
 
-: %p
+- **`%p`**:
   完全なパスを表します。
-: %f
+- **`%f`**:
   拡張子付きのファイル名を表します。ディレクトリ名は含まれません。
-: %n
+- **`%n`**:
   拡張子なしのファイル名を表します。
-: %d
+- **`%d`**:
   パスに含まれるディレクトリのリストを表します。
-: %x
+- **`%x`**:
   パスに含まれるファイルの拡張子を表します。拡張子が無い場合は空文字列を表します。
-: %X
+- **`%X`**:
   拡張子以外すべてを表します。
-: %s
+- **`%s`**:
   定義されていれば、代替のファイルセパレータを表します。
   定義されてい無い場合は、標準のファイルセパレータを表します。
-: %%
+- **`%%`**:
   パーセント自身を表します。
 
 
 %d は数値のプレフィクスを取ることができます。
 
 例:
-   'a/b/c/d/file.txt'.pathmap("%2d")  # => 'a/b'
-   'a/b/c/d/file.txt'.pathmap("%-2d") # => 'c/d'
+``````
+'a/b/c/d/file.txt'.pathmap("%2d")  # => 'a/b'
+'a/b/c/d/file.txt'.pathmap("%-2d") # => 'c/d'
+``````
 
 また、%d, %p, %f, %n, %x, %X には単純な文字列置換を行うための
 置換パターンを表すパラメータを指定することが出来ます。
@@ -46,14 +48,18 @@ source_location=refm/api/src/rake/core_ext
 中括弧、コンマ、セミコロンはパターンと置換文字列に使用しないでください。
 
 例:
-    "src/org/onestepback/proj/A.java".pathmap("%{^src,bin}X.class")
-    #=> "bin/org/onestepback/proj/A.class"
+```````
+"src/org/onestepback/proj/A.java".pathmap("%{^src,bin}X.class")
+#=> "bin/org/onestepback/proj/A.class"
+```````
 
 置換文字列に '*' を指定した場合は、置換文字列を計算するためにブロックを評価します。
 
 例:
 
-   "/path/to/file.TXT".pathmap("%X%{.*,*}x") { |ext| ext.downcase }
-   #=> "/path/to/file.txt"
+``````
+"/path/to/file.TXT".pathmap("%X%{.*,*}x") { |ext| ext.downcase }
+#=> "/path/to/file.txt"
+``````
 
 

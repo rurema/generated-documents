@@ -1,21 +1,21 @@
 names=fork
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/functions
+source_location=manual/api/_builtin/functions.md
 
---- fork -> Integer | nil
---- fork { ... } -> Integer | nil
+### module_function def fork -> Integer | nil
+### module_function def fork { ... } -> Integer | nil
 
-[[man:fork(2)]] システムコールを使ってプロセスの複製を作
+[man:fork(2)] システムコールを使ってプロセスの複製を作
 ります。親プロセスでは子プロセスのプロセスIDを、子プロセスでは
 nil を返します。ブロックを指定して呼び出した場合には、生成し
 た子プロセスでブロックを評価します。
 
-fork 前に STDOUT と STDERR を [[m:IO#flush]] します。
+fork 前に STDOUT と STDERR を [m:IO#flush] します。
 
-@raise NotImplementedError 実行環境がこのメソッドに対応していないとき発生します。
+- **raise** `NotImplementedError` -- 実行環境がこのメソッドに対応していないとき発生します。
 
-//emlist[ブロックを指定しなかった場合][ruby]{
+```ruby title="ブロックを指定しなかった場合"
 if child_pid = fork
   puts "parent process. pid: #{Process.pid}, child pid: #{child_pid}"
   # => parent process. pid: 81060, child pid: 81329
@@ -32,9 +32,9 @@ else
   # 子プロセスでの処理
   sleep(1)
 end
-//}
+```
 
-//emlist[ブロックを指定した場合][ruby]{
+```ruby title="ブロックを指定した場合"
 child_pid = fork do
   puts "child process. pid: #{Process.pid}"
   # => child process. pid: 79602
@@ -51,8 +51,8 @@ puts "parent process. pid: #{Process.pid}, child pid: #{child_pid}"
 
 # 子プロセスの終了を待って終了。
 Process.waitpid(child_pid)
-//}
+```
 
 
-@see [[m:IO.popen]],[[m:IO.pipe]],[[m:Kernel.#at_exit]],[[m:Kernel.#exit!]], [[man:fork(2)]]
+- **SEE** [m:IO.popen],[m:IO.pipe],[m:Kernel?.at_exit],[m:Kernel?.exit!], [man:fork(2)]
 

@@ -1,7 +1,7 @@
 names=scope
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- scope
+### def scope
 

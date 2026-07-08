@@ -1,9 +1,9 @@
 names=github
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd
+source_location=manual/api/rdoc/markdown.md
 
---- github -> bool
+### def github -> bool
 
 Github Flavored Markdown 拡張の一部を有効にして出力を行うかどうかを返し
 ます。

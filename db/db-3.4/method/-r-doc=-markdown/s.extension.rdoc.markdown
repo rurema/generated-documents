@@ -1,9 +1,9 @@
 names=extension
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/markdown.rd
+source_location=manual/api/rdoc/markdown.md
 
---- extension(name) -> nil
+### def extension(name) -> nil
 
 引数 name で指定した拡張を有効/無効にするためのインスタンスメソッドを定
 義します。

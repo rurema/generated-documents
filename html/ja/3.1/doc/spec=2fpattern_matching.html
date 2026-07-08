@@ -67,7 +67,7 @@
     </ol>
   </nav>
 
-<h1>パターンマッチ</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/refm/doc/spec/pattern_matching.rd">edit</a>]</span>
+<h1>パターンマッチ</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/doc/spec/pattern_matching.md">edit</a>]</span>
 
 </header>
 
@@ -654,41 +654,48 @@ Ruby 3.1 の時点では、Find パターンは 「実験的機能」 扱いで�
 Warning[:experimental] = false
 eval('[0] =&gt; [*, 0, *]')
 # ...警告は出力されない...
-</pre>
-<p>
+```
+
 パターンマッチの警告はコンパイル時に発生するため、以下のような場合は警告は抑制できません。
-</p>
-<pre>
+
+```
 Warning[:experimental] = false # この行を評価する段階では、構文解析とそれによる警告の発生は、既に終了している
 [0] =&gt; [*, 0, *]
-</pre>
-<p>
-つまり、フラグの切り替えによって影響を受けるのは切り替え以降に load されたファイルや `eval` されたコードに限られます。
-</p>
-<p>
+```
+
+つまり、フラグの切り替えによって影響を受けるのは切り替え以降に load されたファイルや \`eval\` されたコードに限られます。
+
 代わりに、コマンドラインオプションとして 『-W:no-experimental』 を渡すことで &quot;experimental&quot; な機能に対する警告を出力させないようにできます。
-</p>
-<h2 id='pattern_syntax'>付記A: パターンのシンタックス</h2>
-<p>
+
+### 付記A: パターンのシンタックス {#pattern_syntax}
+
 おおよその構文は以下のとおりです。
-</p>
-<pre>
+
+`````
 pattern: value_pattern
        | variable_pattern
        | alternative_pattern
        | as_pattern
        | array_pattern
-       | find_pattern
+`````
+````````````
+| find_pattern
+````````````
+`````
        | hash_pattern
 
 value_pattern: literal
              | Constant
-             | ^local_variable
-             | ^instance_variable
-             | ^class_variable
-             | ^global_variable
-             | ^(expression)
+`````
+``````````````````
+| ^local_variable
+| ^instance_variable
+| ^class_variable
+| ^global_variable
+| ^(expression)
+``````````````````
 
+`````
 variable_pattern: variable
 
 alternative_pattern: pattern | pattern | ...
@@ -698,50 +705,53 @@ as_pattern: pattern =&gt; variable
 array_pattern: [pattern, ..., *variable]
              | Constant(pattern, ..., *variable)
              | Constant[pattern, ..., *variable]
+`````
 
+`````
 find_pattern: [*variable, pattern, ..., *variable]
             | Constant(*variable, pattern, ..., *variable)
             | Constant[*variable, pattern, ..., *variable]
+`````
 
+`````
 hash_pattern: {key: pattern, key:, ..., **variable}
             | Constant(key: pattern, key:, ..., **variable)
             | Constant[key: pattern, key:, ..., **variable]
+`````
+
+### 付記B: \`未定義\` の振る舞いの例 {#some_undefined_behavior_examples}
+
+将来的な最適化の余地を残すため、仕様には一部 \`未定義\` の振る舞いが含まれています。
+
+```ruby title=&quot;マッチしなかったパターンに指定していた変数を使う&quot;
+case [0, 1]
+in [a, 2]
+  &quot;not matched&quot;
+in b
+  &quot;matched&quot;
+in c
+  &quot;not matched&quot;
+end
+a #=&gt; 未定義
+c #=&gt; 未定義
+```
+
+```ruby title=&quot;deconstruct メソッドや deconstruct_keys メソッドが呼び出された回数&quot;
+$i = 0
+ary = [0]
+def ary.deconstruct
+  $i += 1
+  self
+end
+case ary
+in [0, 1]
+  &quot;not matched&quot;
+in [0]
+  &quot;matched&quot;
+end
+$i #=&gt; 未定義
+```
 </pre>
-<h2 id='some_undefined_behavior_examples'>付記B: `未定義` の振る舞いの例</h2>
-<p>
-将来的な最適化の余地を残すため、仕様には一部 `未定義` の振る舞いが含まれています。
-</p>
-<pre class="highlight ruby">
-<span class="caption">マッチしなかったパターンに指定していた変数を使う</span>
-<code>
-<span class="k">case</span> <span class="p">[</span><span class="mi">0</span>, <span class="mi">1</span><span class="p">]</span>
-<span class="k">in</span> <span class="p">[</span>a, <span class="mi">2</span><span class="p">]</span>
-  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
-<span class="k">in</span> b
-  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
-<span class="k">in</span> c
-  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
-<span class="k">end</span>
-a <span class="c1">#=&gt; 未定義
-</span>c <span class="c1">#=&gt; 未定義
-</span></code></pre>
-<pre class="highlight ruby">
-<span class="caption">deconstruct メソッドや deconstruct_keys メソッドが呼び出された回数</span>
-<code>
-<span class="vg">$i</span> <span class="o">=</span> <span class="mi">0</span>
-ary <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="k">def</span> <span class="nf">ary</span><span class="p">.</span><span class="nf">deconstruct</span>
-  <span class="vg">$i</span> <span class="o">+=</span> <span class="mi">1</span>
-  <span class="nc">self</span>
-<span class="k">end</span>
-<span class="k">case</span> ary
-<span class="k">in</span> <span class="p">[</span><span class="mi">0</span>, <span class="mi">1</span><span class="p">]</span>
-  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
-<span class="k">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="vg">$i</span> <span class="c1">#=&gt; 未定義
-</span></code></pre>
 
 </main>
 
@@ -752,7 +762,7 @@ ary <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><s
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   
-    / <a href="https://github.com/rurema/doctree/edit/master/refm/doc/spec/pattern_matching.rd">このマニュアルを編集する</a>
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/doc/spec/pattern_matching.md">このマニュアルを編集する</a>
   
   <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
 </footer>

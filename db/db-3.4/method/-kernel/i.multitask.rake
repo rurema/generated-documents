@@ -1,14 +1,16 @@
 names=multitask
 visibility=private
 kind=added
-source_location=refm/api/src/rake/core_ext
+source_location=manual/api/rake/Kernel.md
 
---- multitask(args){ ... } -> Rake::MultiTask
+### def multitask(args){ ... } -> Rake::MultiTask
 
 事前タスクを並列実行するタスクを定義します。
 
 与えられた事前タスクを実行する順序は不定です。
 
 例:
-  multitask :deploy => [:deploy_gem, :deploy_rdoc]
+`````
+multitask :deploy => [:deploy_gem, :deploy_rdoc]
+`````
 

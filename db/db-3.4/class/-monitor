@@ -7,16 +7,16 @@ dynamically_extended=
 library=monitor
 aliases=
 aliasof=
-source_location=refm/api/src/monitor/Monitor
+source_location=manual/api/monitor/Monitor.md
 
 スレッドの同期機構としてのモニター機能を提供するクラスです。
 また同じスレッドから何度も lock できる Mutex としての機能も提供します。
 
-[[c:MonitorMixin]] を include し、いくつかの別名を定義したクラスです。
+[c:MonitorMixin] を include し、いくつかの別名を定義したクラスです。
 
-=== 例
+### 例
 
-//emlist[消費者、生産者問題の例][ruby]{
+```ruby title="消費者、生産者問題の例"
 require 'monitor'
 
 buf = []
@@ -40,26 +40,26 @@ while line = ARGF.gets
     empty_cond.signal
   end
 end
-//}
+```
 
 2回ロックしてもデッドロックにならない例です。
 
-//emlist[デッドロックにならない例][ruby]{
+```ruby title="デッドロックにならない例"
 require 'monitor'
 mon = Monitor.new
 mon.synchronize {
   mon.synchronize {
   }
 }
-//}
+```
 
-[[c:Thread::Mutex]] ではデッドロックになります。
+[c:Thread::Mutex] ではデッドロックになります。
 
-//emlist[Mutex でデッドロックになる例][ruby]{
+```ruby title="Mutex でデッドロックになる例"
 mx = Mutex.new
 mx.synchronize {
   mx.synchronize {
   }
 }
 # => deadlock; recursive locking (ThreadError)
-//}
+```

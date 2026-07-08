@@ -1,15 +1,15 @@
 names=new_scope
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskArguments
+source_location=manual/api/rake/Rake__TaskArguments.md
 
---- new_scope(names) -> Rake::TaskArguments
+### def new_scope(names) -> Rake::TaskArguments
 
-与えられたパラメータ名のリストを使用して新しい [[c:Rake::TaskArguments]] を作成します。
+与えられたパラメータ名のリストを使用して新しい [c:Rake::TaskArguments] を作成します。
 
-@param names パラメータ名のリストを指定します。
+- **param** `names` -- パラメータ名のリストを指定します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app
@@ -19,5 +19,5 @@ task :test_rake_app do
   p new_arguments         # => #<Rake::TaskArguments >
   p new_arguments.names   # => ["name3", "name4"]
 end
-//}
+```
 

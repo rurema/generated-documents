@@ -1,12 +1,12 @@
 names=progress=
 visibility=public
 kind=defined
-source_location=refm/api/src/rdoc/parser/../parsers/parse_c.rd
+source_location=manual/api/rdoc/parser/../parsers/parse_c.md
 
---- progress=(val)
+### def progress=(val)
 
-進捗を出力する [[c:IO]] を指定します。
+進捗を出力する [c:IO] を指定します。
 
-@param val 進捗を出力する [[c:IO]] を指定します。指定しなかった場合は
-           [[m:$stderr]] が使われます。
+- **param** `val` -- 進捗を出力する [c:IO] を指定します。指定しなかった場合は
+           [m:$stderr] が使われます。
 

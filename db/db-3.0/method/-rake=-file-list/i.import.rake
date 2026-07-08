@@ -1,15 +1,15 @@
 names=import
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- import(array) -> self
+### def import(array) -> self
 
 与えられた配列を自身にインポートします。
 
-@param array ファイル名のリストを指定します。
+- **param** `array` -- ファイル名のリストを指定します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 IO.write("test1.rb", "test")
@@ -21,5 +21,5 @@ task :test_rake_app do
   file_list.import(["test4.rb", "test5.rb"]) # => ["test4.rb", "test5.rb", "test1.rb", "test2.rb", "test3.rb"]
   file_list                                  # => ["test4.rb", "test5.rb", "test1.rb", "test2.rb", "test3.rb"]
 end
-//}
+```
 

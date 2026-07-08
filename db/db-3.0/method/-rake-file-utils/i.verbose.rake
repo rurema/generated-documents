@@ -1,17 +1,19 @@
 names=verbose
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/RakeFileUtils
+source_location=manual/api/rake/RakeFileUtils.md
 
---- verbose(value = nil){ ... }
+### def verbose(value = nil){ ... }
 
 詳細を出力するかどうかを制御します。
 
-@param value 真を指定すると詳細を出力します。
+- **param** `value` -- 真を指定すると詳細を出力します。
 
 例
-    verbose              # 現在の状態を返します。
-    verbose(v)           # 与えられた状態に変更します。
-    verbose(v) { code }  # ブロックを評価する間だけ与えられた状態に変更します。
-                         # ブロックの評価が終わると元の値に戻します。
+```````
+verbose              # 現在の状態を返します。
+verbose(v)           # 与えられた状態に変更します。
+verbose(v) { code }  # ブロックを評価する間だけ与えられた状態に変更します。
+                     # ブロックの評価が終わると元の値に戻します。
+```````
 

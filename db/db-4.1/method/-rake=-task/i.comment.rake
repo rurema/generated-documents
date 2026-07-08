@@ -1,9 +1,9 @@
 names=comment
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- comment -> String
+### def comment -> String
 
 自身の短いコメントを返します。
 

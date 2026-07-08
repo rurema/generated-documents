@@ -1,13 +1,13 @@
 names=application
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake
+source_location=manual/api/rake/Rake.md
 
---- application -> Rake::Application
+### def application -> Rake::Application
 
 現在の Rake アプリケーションを返します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 require 'pp'
@@ -39,5 +39,5 @@ end
 #     @terminal_columns=0,
 #     @top_level_tasks=["default"],
 #     @tty_output=false>
-//}
+```
 

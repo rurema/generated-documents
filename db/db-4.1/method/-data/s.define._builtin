@@ -1,34 +1,34 @@
 names=define
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Data
+source_location=manual/api/_builtin/Data.md
 
---- define(*args)       -> Class
---- define(*args) {|subclass| block } -> Class
+### def define(*args)       -> Class
+### def define(*args) {|subclass| block } -> Class
 
-[[c:Data]] クラスに新しいサブクラスを作って、それを返します。
+[c:Data] クラスに新しいサブクラスを作って、それを返します。
 
 サブクラスでは値オブジェクトのメンバに対するアクセスメソッドが定義されています。
 
-//emlist[例][ruby]{
+```ruby title="例"
 Dog = Data.define(:name, :age)
 fred = Dog.new("Fred", 5)
 p fred.name # => "Fred"
 p fred.age  # => 5
-//}
+```
 
 メンバの値を書き換えることはできません。
 
-//emlist[例][ruby]{
+```ruby title="例"
 Dog = Data.define(:name, :age)
 fred = Dog.new("Fred", 5)
 fred.age = 6 # => NoMethodError
-//}
+```
 
 メンバを持たないサブクラスも定義可能です。
 以下のように、パターンマッチに利用できます。
 
-//emlist[例][ruby]{
+```ruby title="例"
 class HTTPFetcher
   Response = Data.define(:body)
   NotFound = Data.define
@@ -55,32 +55,32 @@ end
 
 p fetch("http://example.com/")     # => "Current time is 2023-01-10 10:00:53 +0900"
 p fetch("http://example.com/404")  # => :NotFound
-//}
+```
 
-@param args 値オブジェクトのクラスを定義するための可変長引数。[[c:Symbol]] または [[c:String]] を指定します。
+- **param** `args` -- 値オブジェクトのクラスを定義するための可変長引数。[c:Symbol] または [c:String] を指定します。
 
-@return Data のサブクラスを返します。
+- **return** -- Data のサブクラスを返します。
 
-@raise TypeError 引数に [[c:Symbol]], [[c:String]] (String に暗黙の型変換が行われるオブジェクトを含む) 以外を指定した場合に発生します。
+- **raise** `TypeError` -- 引数に [c:Symbol], [c:String] (String に暗黙の型変換が行われるオブジェクトを含む) 以外を指定した場合に発生します。
 
-=== ブロックを指定した場合
+### ブロックを指定した場合
 
 Data.define にブロックを指定した場合は定義した Data をコンテキストにブロックを評価します。
 また、定義した Data はブロックパラメータにも渡されます。
 
-//emlist[例][ruby]{
+```ruby title="例"
 Customer = Data.define(:name, :address) do
   def greeting
     "Hello #{name}!"
   end
 end
 p Customer.new("Dave", "123 Main").greeting # => "Hello Dave!"
-//}
+```
 
 なお、Dataのサブクラスのインスタンスを生成する際にオプション引数を使用したいときは、
 initialize メソッドをオーバーライドすることで実現できます。
 
-//emlist[例][ruby]{
+```ruby title="例"
 Point = Data.define(:x, :y) do
   def initialize(x:, y: 0)
     super
@@ -89,5 +89,5 @@ end
 
 p Point.new(x: 1)        # => #<data Point x=1, y=0>
 p Point.new(x: 1, y: 2)  # => #<data Point x=1, y=2>
-//}
+```
 

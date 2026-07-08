@@ -1,17 +1,17 @@
 names=tty_output=
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Application
+source_location=manual/api/rake/Rake__Application.md
 
---- tty_output=(tty_output_state)
+### def tty_output=(tty_output_state)
 
 TTY に対する出力状態を上書きします。
 
 大抵の場合、テストのために使用します。
 
-@param tty_output_state 変更後の状態を指定します
+- **param** `tty_output_state` -- 変更後の状態を指定します
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 task default: :test_rake_app
@@ -20,7 +20,7 @@ task :test_rake_app do
   Rake.application.tty_output = "debug output" # => "debug output"
   Rake.application.tty_output?                 # => "debug output"
 end
-//}
+```
 
 
 

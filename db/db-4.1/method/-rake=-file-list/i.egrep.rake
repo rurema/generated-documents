@@ -1,9 +1,9 @@
 names=egrep
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- egrep(pattern){|filename, count, line| ... }
+### def egrep(pattern){|filename, count, line| ... }
 
 与えられたパターンをファイルリストから grep のように検索します。
 
@@ -11,9 +11,9 @@ source_location=refm/api/src/rake/Rake__FileList
 ブロックに渡されてブロックが評価されます。ブロックが与えられなかった場合は、
 標準出力に、ファイル名:行番号:マッチした行を出力します。
 
-@param pattern 正規表現を指定します。
+- **param** `pattern` -- 正規表現を指定します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 IO.write("sample1", "line1\nline2\nline3\n")
@@ -37,5 +37,5 @@ end
 # => "filename = sample2, count = 2, line = line2\n"
 # => "filename = sample2, count = 3, line = line3\n"
 # => "filename = sample2, count = 4, line = line4\n"
-//}
+```
 

@@ -1,10 +1,10 @@
 names=clone,dup
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/Object
+source_location=manual/api/_builtin/Object.md
 
---- clone(freeze: nil) -> object
---- dup -> object
+### def clone(freeze: nil) -> object
+### def dup -> object
 
 オブジェクトの複製を作成して返します。
 
@@ -13,14 +13,14 @@ clone はそれに加えて freeze, 特異メソッドなどの情報も含め�
 
 clone や dup は浅い(shallow)コピーであることに注意してください。後述。
 
-[[c:TrueClass]], [[c:FalseClass]], [[c:NilClass]], [[c:Symbol]], そして [[c:Numeric]] クラスのインスタンスなど一部のオブジェクトは複製ではなくインスタンス自身を返します。
+[c:TrueClass], [c:FalseClass], [c:NilClass], [c:Symbol], そして [c:Numeric] クラスのインスタンスなど一部のオブジェクトは複製ではなくインスタンス自身を返します。
 
-@param freeze true を指定すると freeze されたコピーを返します。
+- **param** `freeze` -- true を指定すると freeze されたコピーを返します。
               false を指定すると freeze されていないコピーを返します。
               nil を指定すると、レシーバが freeze されていれば freeze されたコピーを、freeze されていなければ freeze されていないコピーを返します。
-@raise ArgumentError [[c:TrueClass]] などの常に freeze されているオブジェクトの freeze されていないコピーを作成しようとしたときに発生します。
+- **raise** `ArgumentError` -- [c:TrueClass] などの常に freeze されているオブジェクトの freeze されていないコピーを作成しようとしたときに発生します。
 
-//emlist[][ruby]{
+```ruby
 obj = "string"
 def obj.fuga
 end
@@ -44,24 +44,24 @@ p(obj.equal?(obj_d))        #=> false
 p(obj == obj_d)             #=> true
 p(obj_d.frozen?)            #=> false
 p(obj_d.respond_to?(:fuga)) #=> false
-//}
+```
 
-@see [[m:Object#initialize_copy]]
+- **SEE** [m:Object#initialize_copy]
 
-=== 深いコピーと浅いコピー
+### 深いコピーと浅いコピー
 
 clone や dup はオブジェクト自身を複製するだけで、オブジェクトの指し
 ている先(たとえば配列の要素など)までは複製しません。これを浅いコピー(shallow copy)といいます。
 
 深い(deep)コピーが必要な場合には、
-[[c:Marshal]]モジュールを利用して
-//emlist[][ruby]{
+[c:Marshal]モジュールを利用して
+```ruby
 Marshal.load(Marshal.dump(obj))
-//}
+```
 このように複製を作成する方法があります。ただしMarshal出来ないオブジェクトが
 含まれている場合には使えません。
 
-//emlist[][ruby]{
+```ruby
 obj = ["a","b","c"]
 
 obj_d = obj.dup
@@ -75,5 +75,5 @@ obj_m[1] << "PLUS"
 
 p obj   #=> ["aPLUS", "b", "c"]
 p obj_m #=> ["aPLUS", "bPLUS", "c"]
-//}
+```
 

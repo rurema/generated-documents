@@ -1,20 +1,20 @@
 names=parse
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/RubyVM__AbstractSyntaxTree
+source_location=manual/api/_builtin/RubyVM__AbstractSyntaxTree.md
 
---- parse(string) -> RubyVM::AbstractSyntaxTree::Node
---- parse(string, keep_script_lines: false, error_tolerant: false, keep_tokens: false) -> RubyVM::AbstractSyntaxTree::Node
+### def parse(string) -> RubyVM::AbstractSyntaxTree::Node
+### def parse(string, keep_script_lines: false, error_tolerant: false, keep_tokens: false) -> RubyVM::AbstractSyntaxTree::Node
 
 文字列を抽象構文木にパースし、その木の根ノードを返します。
 
-@param string パースする対象の Ruby のコードを文字列で指定します。
-@param keep_script_lines true を指定すると、 Node#script_lines でノードと関連づけられたソースコードのテキストを取得できます。
-@param keep_tokens true を指定すると、 Node#token が利用できます。
-@param error_tolerant true を指定すると、構文エラーが発生した際にエラー箇所を type が :ERROR であるようなノードに置き換えてツリーを生成します。
-@raise SyntaxError string が Ruby のコードとして正しくない場合に発生します。
+- **param** `string` -- パースする対象の Ruby のコードを文字列で指定します。
+- **param** `keep_script_lines` -- true を指定すると、 Node#script_lines でノードと関連づけられたソースコードのテキストを取得できます。
+- **param** `keep_tokens` -- true を指定すると、 Node#token が利用できます。
+- **param** `error_tolerant` -- true を指定すると、構文エラーが発生した際にエラー箇所を type が :ERROR であるようなノードに置き換えてツリーを生成します。
+- **raise** `SyntaxError` -- string が Ruby のコードとして正しくない場合に発生します。
 
-//emlist[][ruby]{
+```ruby
 pp RubyVM::AbstractSyntaxTree.parse("x = 1 + 2")
 # => (SCOPE@1:0-1:9
 #     tbl: [:x]
@@ -27,5 +27,5 @@ pp RubyVM::AbstractSyntaxTree.parse("x = 1; p(x; y=2", error_tolerant: true)
 #      tbl: [:x, :y]
 #      args: nil
 #      body: (BLOCK@1:0-1:15 (LASGN@1:0-1:5 :x (LIT@1:4-1:5 1)) (ERROR@1:7-1:11) (LASGN@1:12-1:15 :y (LIT@1:14-1:15 2))))
-//}
+```
 

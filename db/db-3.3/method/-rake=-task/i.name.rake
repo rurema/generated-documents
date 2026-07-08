@@ -1,9 +1,9 @@
 names=name
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- name -> String
+### def name -> String
 
 ネームスペースを含むタスクの名前を返します。
 

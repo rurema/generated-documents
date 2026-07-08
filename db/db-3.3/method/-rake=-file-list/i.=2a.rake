@@ -1,12 +1,12 @@
 names=*
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__FileList
+source_location=manual/api/rake/Rake__FileList.md
 
---- *(other) -> Array | String
+### def *(other) -> Array | String
 
-[[m:Array#*]] と動作を合わせるために再定義しています。
+[m:Array#*] と動作を合わせるために再定義しています。
 
 
-@see [[m:Array#*]]
+- **SEE** [m:Array#*]
 

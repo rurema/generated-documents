@@ -1,15 +1,15 @@
 names=application=
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake
+source_location=manual/api/rake/Rake.md
 
---- application=(app)
+### def application=(app)
 
 現在の Rake アプリケーションをセットします。
 
-@param app [[c:Rake::Application]] のインスタンスを指定します。
+- **param** `app` -- [c:Rake::Application] のインスタンスを指定します。
 
-//emlist[][ruby]{
+```ruby
 # Rakefile での記載例とする
 
 require 'pp'
@@ -43,5 +43,5 @@ end
 #     @terminal_columns=0,
 #     @top_level_tasks=[],
 #     @tty_output=true>
-//}
+```
 

@@ -1,9 +1,9 @@
 names=source
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__Task
+source_location=manual/api/rake/Rake__Task.md
 
---- source -> String
+### def source -> String
 
-[[m:Rake::Task#sources]] の最初の要素を返します。
+[m:Rake::Task#sources] の最初の要素を返します。
 

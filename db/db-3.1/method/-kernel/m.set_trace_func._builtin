@@ -1,31 +1,31 @@
 names=set_trace_func
 visibility=public
 kind=defined
-source_location=refm/api/src/_builtin/functions
+source_location=manual/api/_builtin/functions.md
 
---- set_trace_func(proc) -> Proc
+### module_function def set_trace_func(proc) -> Proc
 
-Ruby インタプリタのイベントをトレースする [[c:Proc]] オブジェクトとして
+Ruby インタプリタのイベントをトレースする [c:Proc] オブジェクトとして
 指定された proc を登録します。 nil を指定するとトレースがオフになります。
 
 Ruby インタプリタがプログラムを実行する過程で、メソッドの呼び出しや
 式の評価などのイベントが発生する度に、以下で説明する6個の引数とともに
-登録された [[c:Proc]] オブジェクトを実行します。
+登録された [c:Proc] オブジェクトを実行します。
 
-標準添付の [[lib:debug]]、[[lib:tracer]]、
-[[lib:profile]] はこの組み込み関数を利用して実現されています。
+標準添付の [lib:debug]、[lib:tracer]、
+[lib:profile] はこの組み込み関数を利用して実現されています。
 
-=== ブロックパラメータの意味
+### ブロックパラメータの意味
 
 渡す Proc オブジェクトのパラメータは
-//emlist[][ruby]{
+```ruby
 proc{|event, file, line, id, binding, klass| "..." }
-//}
+```
 で、意味は以下の通りです。
 
-: event
+- **`event`**:
  実行のタイプを表す、以下のいずれかの文字列。
-//emlist{
+```
   "line":      式の評価。
   "call":      メソッドの呼び出し。
   "return":    メソッド呼び出しからのリターン。
@@ -34,17 +34,17 @@ proc{|event, file, line, id, binding, klass| "..." }
   "class":     クラス定義、特異クラス定義、モジュール定義への突入。
   "end":       クラス定義、特異クラス定義、モジュール定義の終了。
   "raise":     例外の発生。
-//}
-: file
+```
+- **`file`**:
  実行中のプログラムのソースファイル名 (文字列)。
 
-: line
+- **`line`**:
  実行中のプログラムのソースファイル上の行番号 (整数)。
 
-: id
+- **`id`**:
  event に応じ、以下のものが渡されます。
  第六ブロック引数の klass と対応しています。
-//emlist{
+```
     line
         最後に呼び出されたメソッドを表す Symbol オブジェクト。
         トップレベルでは nil。
@@ -55,14 +55,14 @@ proc{|event, file, line, id, binding, klass| "..." }
     raise
         最後に呼び出されたメソッドを表す Symbol オブジェクト。
         トップレベルでは nil。
-//}
-: binding
- 実行中のプログラムのコンテキストを表す [[c:Binding]] オブジェクト。
+```
+- **`binding`**:
+ 実行中のプログラムのコンテキストを表す [c:Binding] オブジェクト。
 
-: klass
+- **`klass`**:
  event に応じ、以下のものが渡されます。
  第四ブロック引数の id と対応しています。
-//emlist{
+```
     line
         最後に呼び出されたメソッドが属するクラスを表す
         Class オブジェクト。トップレベルでは nil。
@@ -74,12 +74,12 @@ proc{|event, file, line, id, binding, klass| "..." }
     raise
         最後に呼び出されたメソッドが属するクラスを表す
         Class オブジェクト。トップレベルでは nil。
-//}
-@param proc トレース用 [[c:Proc]] オブジェクトを指定します。nil を指定した場合、トレースをオフにします。
+```
+- **param** `proc` -- トレース用 [c:Proc] オブジェクトを指定します。nil を指定した場合、トレースをオフにします。
 
-@return proc を返します。
+- **return** -- proc を返します。
 
-//emlist[例][ruby]{
+```ruby title="例"
 set_trace_func lambda {|*arg|
   p arg
 }
@@ -97,7 +97,7 @@ end
 # ["line", "..", 6, nil, #<Binding:0x10cb1e0>, nil]
 # ["c-call", "..", 6, :to_s, #<Binding:0x10cafd0>, Fixnum]
 # ["c-return", "..", 6, :to_s, #<Binding:0x10cad78>, Fixnum]
-//}
+```
 
-@see [[m:Kernel.#caller]]
+- **SEE** [m:Kernel?.caller]
 

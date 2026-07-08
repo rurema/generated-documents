@@ -1,12 +1,12 @@
 names=each
 visibility=public
 kind=defined
-source_location=refm/api/src/rake/Rake__TaskArguments
+source_location=manual/api/rake/Rake__TaskArguments.md
 
---- each{|key, val| ... } -> Hash
+### def each{|key, val| ... } -> Hash
 
 自身に含まれるパラメータ名とそれに対応する値をブロックパラメータとしてブロックを評価します。
 
 
-@see [[m:Hash#each]]
+- **SEE** [m:Hash#each]
 
