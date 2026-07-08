@@ -8,8 +8,8 @@ def setup_db(version)
     db = "#{DB_BASE}/db-#{version}"
     FileUtils.rm_rf db
     system(*%W"bundle exec bitclust -d #{db} init version=#{version} encoding=utf-8")
-    system(*%W"bundle exec bitclust -d #{db} update --stdlibtree=#{REF_BASE}/api/src")
-    system(*%W"bundle exec bitclust -d #{db} --capi update" + Dir.glob("#{REF_BASE}/capi/src/*"))
+    system(*%W"bundle exec bitclust -d #{db} update --markdowntree=#{MANUAL_BASE}/api")
+    system(*%W"bundle exec bitclust -d #{db} --capi update --markdowntree=#{MANUAL_BASE}/capi")
     puts "#{version} is done."
   end
 end
