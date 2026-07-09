@@ -1,0 +1,11 @@
+names=extra_args=
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.Phg2K5/src/refm/api/src/rubygems/command.rd
+
+--- extra_args=(value)
+
+追加の引数をセットします。
+
+@param value 配列を指定します。
+

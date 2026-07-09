@@ -1,0 +1,20 @@
+names=escape
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.ryNQ5k/src/refm/api/src/webrick/httputils/HTTPUtils
+
+--- escape(str) -> String
+
+与えられた文字列を数値参照文字列に変換します。
+
+以下の正規表現を使用して変換します。
+
+  control  = (0x0..0x1f).collect{|c| c.chr }.join + "\x7f"
+  space    = " "
+  delims   = '<>#%"'
+  unwise   = '{}|\\^[]`'
+  nonascii = (0x80..0xff).collect{|c| c.chr }.join
+  /[#{Regexp.escape(control + space + delims + unwise + nonascii)}]/n
+
+@param str 文字列を指定します。
+

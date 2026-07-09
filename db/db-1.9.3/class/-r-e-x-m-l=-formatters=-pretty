@@ -1,0 +1,32 @@
+type=class
+superclass=REXML=Formatters=Default
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=rexml.document
+aliases=
+aliasof=
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.ZtgaSH/src/refm/api/src/rexml/formatters/pretty.rd
+
+XMLドキュメントを(文字列として)見た目良く出力するクラスです。
+
+[[c:REXML::Formatters::Default]] と
+異なり見た目のためテキストの改行や空白を修正して出力します。
+
+  require 'rexml/document'
+  require 'rexml/formatters/pretty'
+  doc = REXML::Document.new <<EOS
+  <root>
+  <children>
+    <grandchildren foo='bar'/>
+  </children>
+  </root>
+  EOS
+  
+  pretty_formatter = REXML::Formatters::Pretty.new
+  output = StringIO.new
+  pretty_formatter.write(doc, output)
+  output.string 
+  # => "<root>\n  <children>\n    <grandchildren foo='bar'/>\n  </children>\n</root>"
+  # この出力結果は入力のXMLよりも空白が増えている

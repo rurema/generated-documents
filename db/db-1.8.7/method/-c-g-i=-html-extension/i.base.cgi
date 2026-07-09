@@ -1,0 +1,15 @@
+names=base
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.jfEaAt/src/refm/api/src/cgi/html.rd
+
+--- base(href = "") -> String
+
+base 要素を生成します。
+
+@param href 文字列を指定します。属性をハッシュで指定することもできます。
+
+例:
+  base("http://www.example.com/cgi")
+    # => "<BASE HREF=\"http://www.example.com/cgi\">"
+

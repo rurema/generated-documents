@@ -1,0 +1,37 @@
+names=disable
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.wG7wMH/src/refm/api/src/_builtin/TracePoint
+
+--- disable         -> bool
+--- disable { ... } -> object
+
+self のトレースを無効にします。
+
+実行前の [[m:TracePoint#enabled?]] を返します。(トレースが既に有効であっ
+た場合は true を返します。そうでなければ false を返します)
+
+  trace.enabled? # => true
+  trace.disable  # => false (実行前の状態)
+  trace.enabled? # => false
+  trace.disable  # => false
+
+ブロックが与えられた場合、ブロック内でのみトレースが無効になります。
+この場合はブロックの評価結果を返します。
+
+  trace.enabled?   # => true
+
+  trace.disable do
+    trace.enabled? # => false
+  end
+
+  trace.enabled?   # => true
+
+[注意] イベントフックのためのメソッドに、ブロックの外側で参照した場合は
+[[c:RuntimeError]] が発生する事に注意してください。
+
+  trace.enable { p trace.lineno }
+  # => RuntimeError: access from outside
+
+@see [[m:TracePoint#enable]], [[m:TracePoint#enabled?]]
+

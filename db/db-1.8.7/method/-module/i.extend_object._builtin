@@ -1,0 +1,29 @@
+names=extend_object
+visibility=private
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.jfEaAt/src/refm/api/src/_builtin/Module
+
+--- extend_object(obj) -> object
+
+[[m:Object#extend]] の実体です。オブジェクトにモジュールの機能を追加します。
+
+[[m:Object#extend]] は、Ruby で書くと以下のように定義できます。
+
+  def extend(*modules)
+    modules.reverse_each do |mod|
+      # extend_object や extended はプライベートメソッドなので
+      # 直接 mod.extend_object(self) などとは書けない
+      mod.__send__(:extend_object, self)
+      mod.__send__(:extended, self)
+    end
+  end
+
+extend_object のデフォルトの実装では、self に定義されて
+いるインスタンスメソッドを obj の特異メソッドとして追加します。
+
+@param obj self の機能を追加するオブジェクトを指定します。
+
+@return obj で指定されたオブジェクトを返します。
+
+@see [[m:Module#extended]]
+

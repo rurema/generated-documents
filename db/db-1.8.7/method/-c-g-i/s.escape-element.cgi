@@ -1,0 +1,21 @@
+names=escapeElement
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.jfEaAt/src/refm/api/src/cgi/util.rd
+
+--- escapeElement(string, *elements) -> String
+第二引数以降に指定したエレメントのタグだけを実体参照に置換します。
+
+@param string 文字列を指定します。
+
+@param elements HTML タグの名前を一つ以上指定します。文字列の配列で指定することも出来ます。
+
+例：
+        require "cgi"
+
+        p CGI.escapeElement('<BR><A HREF="url"></A>', "A", "IMG")
+             # => "<BR>&lt;A HREF="url"&gt;&lt;/A&gt"
+
+        p CGI.escapeElement('<BR><A HREF="url"></A>', ["A", "IMG"])
+             # => "<BR>&lt;A HREF="url"&gt;&lt;/A&gt"
+

@@ -1,0 +1,31 @@
+names=load
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.Phg2K5/src/refm/api/src/optparse/OptionParser
+
+--- load(filename = nil)     -> bool
+
+指定された filename を読み込んで各行をまとめたものに対して [[m:OptionParser#parse]] を行ないます。
+
+パースが成功した場合に true を返します。
+ファイルが存在しなかった場合に false を返します。
+
+@param filename 各行をパースしたいファイルの名前を文字列で指定します。
+                指定されないか nil である場合、~/.options/ に
+                プログラムのサフィックスを付けた '~/.options/コマンド名' というファイルをパースします。
+
+//emlist[例][ruby]{
+require "optparse"
+
+IO.write("options.txt", %w(-a --b).join("\n"))
+options = { a: false, b: false }
+OptionParser.new do |opt|
+  opt.on('-a') { |v| options[:a] = v }
+  opt.on('--b') {|v| options[:b] = v }
+  opt.load("options.txt")   # => true
+  opt.load("not_exist.txt") # => false
+end
+
+p options # => {:a=>true, :b=>true}
+//}
+

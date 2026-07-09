@@ -1,0 +1,40 @@
+names=force_quotes?
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.wG7wMH/src/refm/api/src/csv.rd
+
+--- force_quotes? -> bool
+
+出力される全てのフィールドがクオートされる場合は、真を返します。
+
+//emlist[例][ruby]{
+require "csv"
+
+rows = [["header1", "header2"], ["row1_1,", "row1_2"]]
+result = CSV.generate(force_quotes: false) do |csv|
+  rows.each { |row| csv << row }
+  csv.force_quotes? # => false
+end
+print result
+
+# => header1,header2
+#    "row1_1,",row1_2
+//}
+
+//emlist[例][ruby]{
+require "csv"
+
+rows = [["header1", "header2"], ["row1_1,", "row1_2"]]
+result = CSV.generate(force_quotes: true) do |csv|
+  rows.each { |row| csv << row }
+  csv.force_quotes? # => true
+end
+print result
+
+# => true
+# => "header1","header2"
+#    "row1_1,","row1_2"
+//}
+
+@see [[m:CSV.new]]
+

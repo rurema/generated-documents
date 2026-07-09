@@ -1,0 +1,26 @@
+names=getsockopt
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.jfEaAt/src/refm/api/src/socket/BasicSocket
+
+--- getsockopt(level, optname) -> String
+
+ソケットのオプションを取得します。[[man:getsockopt(2)]]
+を参照してください。
+取得したオプションのデータをパックした文字列を
+返します。
+
+
+@param level    [[man:getsockopt(2)]] の 第二引数のlevel 
+@param optname  [[man:getsockopt(2)]] の 第三引数のoption_name 
+@see [[m:BasicSocket#setsockopt]]
+
+例:
+
+  serv = TCPServer.open("", 0)
+  c = TCPSocket.open(*Socket.unpack_sockaddr_in(serv.getsockname).reverse)
+  s = serv.accept
+  opt = c.getsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY)
+  p opt #=> "\000\000\000\000"
+  p opt.unpack("i")[0] #=> 0   (Nagle アルゴリズム有効)
+

@@ -1,0 +1,34 @@
+names=loop
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.xqkPhh/src/refm/api/src/_builtin/functions
+
+--- loop         -> Enumerator
+--- loop { ... } -> object | nil
+(中断されない限り)永遠にブロックの評価を繰り返します。
+ブロックが指定されなければ、代わりに [[c:Enumerator]] を返します。
+
+  loop do
+    print "Input: "
+    line = gets
+    break if !line or line =~ /^qQ/
+    # ...
+  end
+
+与えられたブロック内で [[c:StopIteration]] を [[m:Kernel.#raise]] すると
+ループを終了して [[c:Enumerator]] が最後に返した値を返します。
+ループを終了させる場合、通常は break を使用してください。
+
+  enum = Enumerator.new { |y|
+    y << "one"
+    y << "two"
+    :ok
+  }
+
+  result = loop {
+    puts enum.next
+  } # => :ok
+
+
+@return break の引数など、ループ脱出時の値を返します。
+

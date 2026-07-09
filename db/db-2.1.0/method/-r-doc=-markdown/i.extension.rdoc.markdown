@@ -1,0 +1,14 @@
+names=extension
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.Phg2K5/src/refm/api/src/rdoc/markdown.rd
+
+--- extension(name, enable) -> ()
+
+引数 name で指定した拡張の有効/無効を設定します。
+
+@param name 拡張の名前を [[c:Symbol]] で指定します。
+
+@param enable 有効にする場合は true を、無効にする場合は false を指定し
+              ます。
+

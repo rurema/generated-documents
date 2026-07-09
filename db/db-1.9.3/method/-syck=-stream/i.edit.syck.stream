@@ -1,0 +1,29 @@
+names=edit
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.ZtgaSH/src/refm/api/src/syck/../yaml/stream.rd
+
+--- edit(doc_num, doc) -> ()
+
+doc_num番目のドキュメントをdocに変更します。
+もし、doc_numが現在のドキュメント数より大きい場合は間にはnilが挿入されます。
+
+@param doc_num 変更されるドキュメントの番号
+@param doc 適切なオブジェクト
+
+  require 'yaml'
+  
+  class Dog
+    attr_accessor :name
+    def initialize(name)
+      @name = name
+    end
+  end
+  
+  ys = YAML::Stream.new
+  ys.add(Dog.new("tama"))
+  ys.edit(1, Dog.new("pochi"))
+  ys.edit(5, Dog.new("jack"))
+  p ys.documents
+  #=> [#<Dog:0x2b07c44 @name="tama">, #<Dog:0x2b07c1c @name="pochi">, nil, nil, nil, #<Dog:0x2b07bf4 @name="jack">]
+

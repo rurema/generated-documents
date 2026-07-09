@@ -1,0 +1,12 @@
+names=progress=
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.ZtgaSH/src/refm/api/src/rdoc/parser/../parsers/parse_c.rd
+
+--- progress=(val)
+
+進捗を出力する [[c:IO]] を指定します。
+
+@param val 進捗を出力する [[c:IO]] を指定します。指定しなかった場合は
+           [[m:$stderr]] が使われます。
+

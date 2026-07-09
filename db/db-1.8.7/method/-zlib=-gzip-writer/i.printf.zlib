@@ -1,0 +1,29 @@
+names=printf
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.jfEaAt/src/refm/api/src/zlib/GzipWriter
+
+--- printf(format, *args) -> nil
+
+C 言語の printf と同じように、format に従い引数
+を文字列に変換して、自身に出力します。
+
+@param format フォーマット文字列を指定します。[[d:print_format]] を参照してください。
+
+@param args フォーマットされるオブジェクトを指定します。
+
+  require 'zlib'
+
+  filename='hoge1.gz'
+  fw = File.open(filename, "w")
+  Zlib::GzipWriter.wrap(fw, Zlib::BEST_COMPRESSION){|gz|
+    gz.printf("\n%9s", "bar")
+  }
+  fr = File.open(filename)
+  Zlib::GzipReader.wrap(fr){|gz|
+    puts gz.read
+  }
+  #=>       bar
+
+@see [[m:IO#printf]], [[m:Kernel.#printf]]
+

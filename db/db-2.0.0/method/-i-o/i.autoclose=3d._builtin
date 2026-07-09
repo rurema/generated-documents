@@ -1,0 +1,25 @@
+names=autoclose=
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.ryNQ5k/src/refm/api/src/_builtin/IO
+
+--- autoclose=(bool)
+
+auto-close フラグを設定します。
+
+フラグが設定されているオブジェクトは
+close時/GCでのファイナライザ呼出時にファイルデスクリプタを close します。
+設定されていない場合は close しません。
+
+@param bool 真偽値でフラグを設定します
+@see [[m:IO#autoclose?]]
+
+   f = open("/dev/null")
+   IO.for_fd(f.fileno)
+   # ...
+   f.gets # may cause IOError
+
+   f = open("/dev/null")
+   IO.for_fd(f.fileno).autoclose = true
+   # ...
+   f.gets # won't cause IOError

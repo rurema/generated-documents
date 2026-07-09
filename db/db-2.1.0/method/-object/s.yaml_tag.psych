@@ -1,0 +1,47 @@
+names=yaml_tag
+visibility=public
+kind=added
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.Phg2K5/src/refm/api/src/psych/core_ext.rd
+
+--- yaml_tag(tag) -> ()
+クラスと tag の間を関連付けます。
+
+これによって tag 付けされた YAML ドキュメントを Ruby のオブジェクトに
+変換したりその逆をしたりすることができます。
+
+@param tag 対象のクラスに関連付けるタグの文字列
+
+=== Example
+  require 'psych'
+  
+  class Foo
+    def initialize(x)
+      @x = x
+    end
+  
+    attr_reader :x
+  end
+  
+  # Dumps Ruby object normally  
+  p Psych.dump(Foo.new(3)) 
+  # =>
+  # --- !ruby/object:Foo
+  # x: 3
+  
+  # Registers tag with class Foo
+  Foo.yaml_as("tag:example.com,2013:foo")
+  # ... and dumps the object of Foo class
+  Psych.dump(Foo.new(3), STDOUT)
+  # =>
+  # --- !<tag:example.com,2013:foo>
+  # x: 3 
+  
+  # Loads the object from the tagged YAML node
+  p Psych.load(<<EOS)
+  --- !<tag:example.com,2012:foo>
+  x: 8
+  EOS
+  # => #<Foo:0x0000000130f48 @x=8>
+
+   
+ 

@@ -1,0 +1,34 @@
+names=write_headers?
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.xqkPhh/src/refm/api/src/csv.rd
+
+--- write_headers? -> bool
+
+ヘッダを出力先に書き込む場合は真を返します。
+そうでない場合は偽を返します。
+
+//emlist[例][ruby]{
+require "csv"
+
+csv = CSV.new("date1,date2\n2018-07-09,2018-07-10")
+csv.write_headers? # => nil
+
+header = ["header1", "header2"]
+row = ["row1_1", "row1_2"]
+result = CSV.generate(headers: header, write_headers: false) do |csv|
+  csv.write_headers? # => false
+  csv << row
+end
+result # => "row1_1,row1_2\n"
+
+result = CSV.generate(headers: header, write_headers: true) do |csv|
+  csv.write_headers? # => true
+  csv << row
+end
+result # => "header1,header2\nrow1_1,row1_2\n"
+//}
+
+@see [[m:CSV.new]]
+
+

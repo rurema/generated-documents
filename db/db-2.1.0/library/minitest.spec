@@ -1,0 +1,18 @@
+requires=
+classes=MiniTest=Unit=TestCase,MiniTest=Spec
+methods=Module/i.infect_with_assertions.minitest.spec,Object/i.must_be_empty.minitest.spec,Object/i.must_equal.minitest.spec,Object/i.must_be_close_to.minitest.spec,Object/i.must_be_within_epsilon.minitest.spec,Object/i.must_include.minitest.spec,Object/i.must_be_instance_of.minitest.spec,Object/i.must_be_kind_of.minitest.spec,Object/i.must_match.minitest.spec,Object/i.must_be_nil.minitest.spec,Object/i.must_be.minitest.spec,Object/i.must_raise.minitest.spec,Object/i.must_respond_to.minitest.spec,Object/i.must_be_same_as.minitest.spec,Object/i.must_send.minitest.spec,Object/i.must_throw.minitest.spec,Kernel/i.describe.minitest.spec
+sublibraries=
+is_sublibrary=false
+category=Development
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.Phg2K5/src/refm/api/src/minitest/spec.rd
+
+BDD 風にテストを書くためのクラスやメソッドを定義するためのライブラリです。
+
+このライブラリは [[c:Object]] に BDD (Behavior Driven Development) 用の検査メソッドを追加します。
+追加されるメソッドは [[c:MiniTest::Assertions]] に定義されているメソッドへの
+薄いラッパーになっています。
+
+
+=== 注意
+
+このライブラリは 2.2.0 で bundled gem(gemファイルのみを同梱)になりました。

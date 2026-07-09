@@ -27,6 +27,13 @@ if [ -z "$(git status -s db/*.rev)" ]; then
     exit
 fi
 
+# 凍結版（FROZEN_VERSIONS）の DB は固定なので、静的 HTML の再生成が必要になるのは
+# bitclust（テンプレート）が変わったときだけ
+BITCLUST_CHANGED=0
+if [ -n "$(git status -s db/bitclust.rev)" ]; then
+    BITCLUST_CHANGED=1
+fi
+
 # Ignore `docker compose build SERVICE` failed,
 # bacause docker compose 2.36.0 has the bug.
 # see https://github.com/docker/compose/issues/12825
@@ -37,4 +44,7 @@ time docker compose run --rm rurema ls -al
 
 time docker compose run --rm rurema tool/bc-setup-all.rb
 time docker compose run --rm rurema tool/bc-static-all.rb
+if [ "$BITCLUST_CHANGED" = 1 ]; then
+    time docker compose run --rm rurema tool/bc-static-frozen.rb
+fi
 time docker compose run --rm rurema tool/bc-search-page.rb
