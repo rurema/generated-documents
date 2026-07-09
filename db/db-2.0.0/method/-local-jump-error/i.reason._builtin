@@ -1,0 +1,39 @@
+names=reason
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.ryNQ5k/src/refm/api/src/_builtin/LocalJumpError
+
+--- reason -> Symbol
+
+例外を発生させた原因をシンボルで返します。
+
+返す値は以下のいずれかです。
+
+  * :break
+  * :redo
+  * :retry
+  * :next
+  * :return
+
+例:
+
+  def foo
+    proc { return 10 }
+  end
+  
+  begin
+    foo.call
+  rescue LocalJumpError => err
+    p err              # => #<LocalJumpError: return from block-closure>
+    p err.reason       # => :return
+    p err.exit_value   # => 10
+  end
+
+  begin
+    Block.new { break 5 }.call
+  rescue LocalJumpError => err
+    p err              # => #<LocalJumpError: break from block-closure>
+    p err.reason       # => :break
+    p err.exit_value   # => 5
+  end
+
