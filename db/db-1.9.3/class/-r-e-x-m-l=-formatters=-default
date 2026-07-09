@@ -1,0 +1,42 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=rexml.document
+aliases=
+aliasof=
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.ZtgaSH/src/refm/api/src/rexml/formatters/default.rd
+
+XMLドキュメントを(文字列として)出力するクラスです。
+
+[[c:REXML::Formatters::Pretty]] と
+異なりテキストの改行や空白を修正せずにそのまま出力します。
+
+  require 'rexml/document'
+  require 'rexml/formatters/default'
+  doc = REXML::Document.new <<EOS
+  <root>
+  <children>
+    <grandchildren/>
+  </children>
+  </root>
+  EOS
+  
+  default_formatter = REXML::Formatters::Default.new
+  output = StringIO.new
+  default_formatter.write(doc, output)
+  output.string 
+  # => "<root>\n<children>\n  <grandchildren/>\n</children>\n</root>\n"
+  
+  output = StringIO.new
+  default_formatter.write(REXML::XPath.first(doc, "/root/children"), output)
+  output.string 
+  # => "<children>\n  <grandchildren/>\n</children>"
+  
+  ie_hack_formatter = REXML::Formatters::Default.new(true)
+  output = StringIO.new
+  ie_hack_formatter.write(doc, output)
+  output.string 
+  # => "<root>\n<children>\n  <grandchildren />\n</children>\n</root>\n"
