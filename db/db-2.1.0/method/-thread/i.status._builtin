@@ -1,0 +1,27 @@
+names=status
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.Phg2K5/src/refm/api/src/_builtin/Thread
+
+--- status    -> String | false | nil
+
+生きているスレッドの状態を文字列 "run"、"sleep", "aborting" のいず
+れかで返します。正常終了したスレッドに対して false、例外によ
+り終了したスレッドに対して nil を返します。
+
+[[m:Thread#alive?]] が真を返すなら、このメソッドも真です。
+
+例:
+  a = Thread.new { raise("die now") }
+  b = Thread.new { Thread.stop }
+  c = Thread.new { Thread.exit }
+  d = Thread.new { sleep }
+  d.kill                  #=> #<Thread:0x401b3678 aborting>
+  a.status                #=> nil
+  b.status                #=> "sleep"
+  c.status                #=> false
+  d.status                #=> "aborting"
+  Thread.current.status   #=> "run"
+
+@see [[m:Thread#alive?]], [[m:Thread#stop?]]
+

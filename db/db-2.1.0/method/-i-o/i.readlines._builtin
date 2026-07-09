@@ -1,0 +1,33 @@
+names=readlines
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.Phg2K5/src/refm/api/src/_builtin/IO
+
+--- readlines(rs = $/)    -> [String]
+--- readlines(limit)      -> [String]
+--- readlines(rs, limit)  -> [String]
+
+データを全て読み込んで、その各行を要素としてもつ配列を返します。
+既に EOF に達していれば空配列 [] を返します。
+
+テキスト読み込みメソッドとして動作します。
+
+limit で最大読み込みバイト数を指定します。ただしマルチバイト文字が途中で
+切れないように余分に読み込む場合があります。
+
+@param rs 行の区切りを文字列で指定します。rs に nil を指定すると行区切りなしとみなします。
+          空文字列 "" を指定すると連続する改行を行の区切りとみなします(パラグラフモード)。
+@param limit 最大の読み込みバイト数
+
+@raise IOError 自身が読み込み用にオープンされていなければ発生します。
+
+//emlist[例][ruby]{
+IO.write("testfile", "line1,\nline2,\nline3,\n")
+File.open("testfile") { |f| p f.readlines }      # => ["line1,\n", "line2,\n", "line3,\n"]
+File.open("testfile") { |f| p f.readlines(3) }   # => ["lin", "e1,", "\n", "lin", "e2,", "\n", "lin", "e3,", "\n"]
+File.open("testfile") { |f| p f.readlines(",") } # => ["line1,", "\nline2,", "\nline3,", "\n"]
+//}
+
+
+@see [[m:$/]], [[m:IO#gets]]
+

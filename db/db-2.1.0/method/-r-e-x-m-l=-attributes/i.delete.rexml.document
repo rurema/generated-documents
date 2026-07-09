@@ -1,0 +1,32 @@
+names=delete
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.Phg2K5/src/refm/api/src/rexml/element.rd
+
+--- delete(attribute) -> REXML::Element
+
+指定した属性を取り除きます。
+
+attribute で取り除く属性を指定します。
+文字列もしくは [[c:REXML::Attribute]] オブジェクトを指定します
+
+self が属する要素([[c:REXML::Element]])を返します。
+
+@param attribute 取り除く属性(文字列もしくは REXML::Attribute オブジェクト)
+
+=== 例
+  require 'rexml/document'
+  
+  doc = REXML::Document.new(<<-EOS)
+  <root xmlns:foo="http://example.org/foo"
+        xmlns:bar="http://example.org/bar">
+    <a foo:att='1' bar:att='2' att='&lt;'/>
+  </root>
+  EOS
+  a = doc.get_elements("/root/a").first
+  
+  a.attributes.delete("att")     # => <a foo:att='1' bar:att='2'/>
+  a.attributes.delete("foo:att") # => <a bar:att='2'/>
+  attr = a.attributes.get_attribute("bar:att")
+  a.attributes.delete(attr)      # => <a/>
+

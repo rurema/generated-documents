@@ -1,0 +1,22 @@
+names=bind
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.Phg2K5/src/refm/api/src/socket/Addrinfo
+
+--- bind -> Socket
+--- bind{|sock| ... } -> object
+
+自身のアドレスにバインドされたソケットを作成します。
+
+ブロックが渡されたときにはそのブロックに生成された [[c:Socket]]
+オブジェクトが渡されます。ブロックの返り値がメソッドの返り値となります。
+ブロックを省略した場合は、生成された [[c:Socket]]
+オブジェクトが返されます。
+
+  require 'socket'
+
+  Addrinfo.udp("0.0.0.0", 9981).bind {|s|
+    s.local_address.connect {|s| s.send "hello", 0 }
+    p s.recv(10) #=> "hello"
+  }
+
