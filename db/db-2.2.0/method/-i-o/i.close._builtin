@@ -1,0 +1,29 @@
+names=close
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.wG7wMH/src/refm/api/src/_builtin/IO
+
+--- close    -> nil
+
+入出力ポートをクローズします。
+
+以後このポートに対して入出力を行うと例外 [[c:IOError]] が発生しま
+す。ガーベージコレクトの際にはクローズされていない IO ポートはクロー
+ズされます。
+self がパイプでプロセスにつながっていれば、そのプロセスの終
+了を待ち合わせます。
+
+
+@raise Errno::EXXX close に失敗した場合に発生します。
+@raise IOError 既に close されていた場合に発生します。
+
+//emlist[例][ruby]{
+IO.write("testfile", "test")
+f = File.open("testfile")
+f.read   # => "test"
+f.close
+# f.read # => IOError (すでに close しているので read できない)
+//}
+
+@see [[m:IO#closed?]], [[m:IO#close_read]], [[m:IO#close_write]]
+

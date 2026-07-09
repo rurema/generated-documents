@@ -1,0 +1,29 @@
+names=delete,unlink
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.wG7wMH/src/refm/api/src/_builtin/File
+
+--- delete(*filename)    -> Integer
+--- unlink(*filename)    -> Integer
+
+ファイルを削除します。削除したファイルの数を返します。
+削除に失敗した場合は例外 [[c:Errno::EXXX]] が発生します。
+
+このメソッドは通常ファイルの削除用で、ディレクトリの削除には
+[[m:Dir.rmdir]] を使います。
+
+@param filename ファイル名を表す文字列を指定します。
+
+@raise Errno::EXXX 失敗した場合に発生します。
+
+例:
+  IO.write("test.txt", "test")
+  p File.exist?("test.txt")  # => true
+  p File.delete("test.txt")   # => 1
+  p File.exist?("test.txt")  # => false
+  begin
+    File.delete("test.txt")
+  rescue
+    p $!  # => #<Errno::ENOENT: No such file or directory @ unlink_internal - test.txt>
+  end
+

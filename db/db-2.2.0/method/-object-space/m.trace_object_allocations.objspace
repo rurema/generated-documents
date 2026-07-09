@@ -1,0 +1,25 @@
+names=trace_object_allocations
+visibility=public
+kind=added
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.wG7wMH/src/refm/api/src/objspace.rd
+
+--- trace_object_allocations { ... }
+
+与えられたブロック内でオブジェクトのトレースを行います。　
+
+//emlist[例][ruby]{
+require 'objspace'
+
+class C
+  include ObjectSpace
+
+  def foo
+    trace_object_allocations do
+      obj = Object.new
+      p "#{allocation_sourcefile(obj)}:#{allocation_sourceline(obj)}"
+    end
+  end
+end
+
+C.new.foo #=> "objtrace.rb:8"
+//}
