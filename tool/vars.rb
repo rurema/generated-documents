@@ -1,3 +1,26 @@
+# 凍結版: サポートが終了し、ドキュメントの更新を止めたバージョン。
+# db/db-<version> は Import された固定 DB で、bc-setup-all では再構築しない。
+# 静的 HTML は bitclust 更新時（テンプレート変更時）のみ再生成し
+# （tool/bc-static-frozen.rb）、検索ページには常に含める。
+# 各版の DB 生成に使った doctree のソースは frozen-<version> タグ
+# （修正が必要になったらそこからブランチを作り、DB を再構築して Import し直す。
+# doctree の docs/OldVersionArchives.md 参照）
+FROZEN_VERSIONS = %w[
+  1.8.7
+  1.9.3
+  2.0.0
+  2.1.0
+  2.2.0
+  2.3.0
+  2.4.0
+  2.5.0
+  2.6.0
+  2.7.0
+]
+
+# 毎日 doctree HEAD の manual/ から DB を再構築するバージョン。
+# あるバージョンを凍結するときは、ここから FROZEN_VERSIONS へ移し、
+# doctree に frozen-<version> タグを打つ
 VERSIONS = %w[
   3.0
   3.1
@@ -7,6 +30,8 @@ VERSIONS = %w[
   4.0
   4.1
 ]
+
+ALL_VERSIONS = FROZEN_VERSIONS + VERSIONS
 
 DB_BASE = File.expand_path("../db", __dir__)
 

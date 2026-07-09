@@ -8,7 +8,8 @@ require_relative 'vars'
 # ページ一式を html/ja/search/ に生成する。
 # bitclust の searchpage サブコマンドが必要（master マージ後に有効化する）。
 outputdir = "#{DOC_ROOT}/search"
-databases = VERSIONS.map { |version| "#{DB_BASE}/db-#{version}" }
+# 凍結版（1.8.7〜）も含めた全バージョンを横断検索の対象にする
+databases = ALL_VERSIONS.map { |version| "#{DB_BASE}/db-#{version}" }
 
 FileUtils.rm_rf outputdir
 system("bundle", "exec", "bitclust", "searchpage",
