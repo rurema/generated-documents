@@ -1,0 +1,15 @@
+names=parse
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.jfEaAt/src/refm/api/src/cgi/cookie.rd
+
+--- parse(raw_cookie) -> Hash
+
+クッキー文字列をパースします。
+
+@param raw_cookie 生のクッキーを表す文字列を指定します。
+
+        例：
+        cookies = CGI::Cookie.parse("raw_cookie_string")
+          # { "name1" => cookie1, "name2" => cookie2, ... }
+

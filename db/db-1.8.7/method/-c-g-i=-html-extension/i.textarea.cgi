@@ -1,0 +1,27 @@
+names=textarea
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.jfEaAt/src/refm/api/src/cgi/html.rd
+
+--- textarea(name = "", cols = 70, rows = 10) -> String
+textarea 要素を生成します。
+
+@param name name 属性の値を指定します。
+
+@param cols cols 属性の値を指定します。
+
+@param rows rows 属性の値を指定します。
+
+例:
+   textarea("name")
+     # = textarea({ "NAME" => "name", "COLS" => 70, "ROWS" => 10 })
+
+--- textarea(attributes) -> String
+textarea 要素を生成します。
+
+@param attributes 属性をハッシュで指定します。
+
+例:
+   textarea("name", 40, 5)
+     # = textarea({ "NAME" => "name", "COLS" => 40, "ROWS" => 5 })
+

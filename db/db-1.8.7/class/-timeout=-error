@@ -1,0 +1,34 @@
+type=class
+superclass=Interrupt
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=timeout
+aliases=TimeoutError
+aliasof=
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.jfEaAt/src/refm/api/src/timeout.rd
+
+[[lib:timeout]] で定義される例外クラスです。
+関数 timeout がタイムアウトすると発生します。
+
+[[lib:timeout]] を使うライブラリを作成する場合は、ユーザが指定した
+timeout を捕捉しないようにライブラリ内で [[c:TimeoutError]] のサブクラスを
+定義して使用した方が無難です。
+
+        ==> foo.rb <==
+        require 'timeout.rb'
+        class Foo
+          FooTimeoutError = Class.new(TimeoutError)
+          def longlongtime_method
+            timeout(100, FooTimeoutError) {
+               ...
+            }
+          end
+        end
+
+        ==> main.rb <==
+        require 'foo'
+        timeout(5) {
+          Foo.new.longlongtime_method
+        }
