@@ -1,0 +1,12 @@
+names=defaults_str
+visibility=public
+kind=defined
+source_location=/tmp/claude-1000/-home-debian-rurema/3717a77b-67d6-4a40-b15e-a41ca141ab34/scratchpad/frozen.xqkPhh/src/refm/api/src/rubygems/command.rd
+
+--- defaults_str -> String
+
+このメソッドはサブクラスで再定義されます。
+コマンドのオプションで使用するデフォルト値を表示するために使用する文字列を返します。
+
+@see [[m:Gem::Command#arguments]]
+
