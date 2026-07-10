@@ -39,6 +39,16 @@ ALL_VERSIONS = FROZEN_VERSIONS + VERSIONS
 # （一次データは ruby/www.ruby-lang.org の _data/branches.yml）を参照して更新する
 MINIMUM_SUPPORTED_RUBY_VERSION = Gem::Version.new("3.3")
 
+# サンプルコードの RUN ボタン（bitclust statichtml --run-ruby-wasm）を有効に
+# するバージョン → 実行に使う ruby.wasm の URL。ruby.wasm 側に
+# @ruby/X.Y-wasm-wasi パッケージが存在するバージョンのみ列挙する
+# （https://github.com/ruby/ruby.wasm 参照）。凍結版・未リリース版は含めない
+# npm 上の安定版は「<パッケージ版>-<ruby.wasm版>」形式（latest dist-tag の値）
+RUBY_WASM_NPM_VERSION = "2.9.3-2.9.4"
+RUBY_WASM_URLS = %w[3.2 3.3 3.4 4.0].to_h { |v|
+  [v, "https://cdn.jsdelivr.net/npm/@ruby/#{v}-wasm-wasi@#{RUBY_WASM_NPM_VERSION}/dist/ruby+stdlib.wasm"]
+}
+
 DB_BASE = File.expand_path("../db", __dir__)
 
 DOC_BASE = File.expand_path("../doctree", __dir__)
