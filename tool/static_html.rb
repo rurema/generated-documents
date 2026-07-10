@@ -4,7 +4,9 @@ require_relative 'vars'
 
 # edit_base_url: nil を渡すと編集リンクを出さない（凍結版。
 # 対応するソースが doctree の master に存在しないため）
-def create_document(version, edit_base_url: "https://github.com/rurema/doctree/edit/master/")
+# stop_on_syntax_error: false を渡すとサンプルコードの
+# シンタックスハイライト失敗を無視する（素のコードで描画して続行）
+def create_document(version, edit_base_url: "https://github.com/rurema/doctree/edit/master/", stop_on_syntax_error: true)
   db = "#{DB_BASE}/db-#{version}"
   outputdir = "#{TMP_HTML_BASE}/#{version}"
   command = [
@@ -23,6 +25,7 @@ def create_document(version, edit_base_url: "https://github.com/rurema/doctree/e
     "--quiet",
   ]
   command << "--edit-base-url=#{edit_base_url}" if edit_base_url
+  command << "--no-stop-on-syntax-error" unless stop_on_syntax_error
   system(*command, chdir: DOC_BASE) or raise
   system("rsync", "-acvi", "--no-times", "--delete", outputdir, DOC_ROOT) or raise
   FileUtils.rm_rf outputdir
