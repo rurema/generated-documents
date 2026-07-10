@@ -33,6 +33,12 @@ VERSIONS = %w[
 
 ALL_VERSIONS = FROZEN_VERSIONS + VERSIONS
 
+# メンテナンスが継続している最古のバージョン。これより古い版の静的 HTML には
+# EOL 警告バナーを表示する（bitclust statichtml --eol-warning）。
+# EOL 状況は https://www.ruby-lang.org/ja/downloads/branches/
+# （一次データは ruby/www.ruby-lang.org の _data/branches.yml）を参照して更新する
+MINIMUM_SUPPORTED_RUBY_VERSION = Gem::Version.new("3.3")
+
 DB_BASE = File.expand_path("../db", __dir__)
 
 DOC_BASE = File.expand_path("../doctree", __dir__)
