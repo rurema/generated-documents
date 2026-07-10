@@ -1,23 +1,73 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="icon" type="image/png" href="../rurema.png">
-  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/doc/spec=2flambda_proc.html">
-  <title>手続きオブジェクトの挙動の詳細 (Ruby 1.9.3)</title>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/spec=2flambda_proc.html">
+
+<title>手続きオブジェクトの挙動の詳細 (Ruby 1.9.3 リファレンスマニュアル)</title>
+<meta name="description" content="* [[ref:def]]
+ * [[ref:should_use_next]]
+ * [[ref:orphan]]
+ * [[ref:block]]
+ * [[ref:lambda_proc]]">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 1.9.3 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
 
-<a href="../doc/index.html">Ruby 1.9.3 リファレンスマニュアル</a>
-&gt; 手続きオブジェクトの挙動の詳細
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 1.9.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/spec=2flambda_proc.html","name":"手続きオブジェクトの挙動の詳細","position":2}]}
+</script>
 
-</p>
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 1.9.3 リファレンスマニュアル</a>
+        </li>
+        <li>
+          手続きオブジェクトの挙動の詳細
+        </li>
+      
+    </ol>
+  </nav>
 
 <h1>手続きオブジェクトの挙動の詳細</h1>
+</header>
+
+<main>
 
 <ul>
 <li><a href="#def">手続きオブジェクトとは</a></li>
@@ -28,13 +78,11 @@
 </ul>
 <h2 id='def'>手続きオブジェクトとは</h2>
 <p>
-手続きオブジェクトとはブロックをコンテキスト(ローカル変数のスコープやスタックフレーム)と
-ともにオブジェクトしたものです。<a href="../class/Proc.html">Proc</a> クラスのインスタンスとして実現されています。
+手続きオブジェクトとはブロックをコンテキスト(ローカル変数のスコープやスタックフレーム)とともにオブジェクトしたものです。<a href="../class/Proc.html">Proc</a> クラスのインスタンスとして実現されています。
 </p>
 <p>
 ブロック内では、新たなスコープが導入されるとともに、外側のローカル変数を参照できます。
-Proc オブジェクトがローカル変数のスコープを保持していることは以下の例で変数 var を
-参照できていることからわかります。
+Proc オブジェクトがローカル変数のスコープを保持していることは以下の例で変数 var を参照できていることからわかります。
 </p>
 <p>
 例:
@@ -70,10 +118,7 @@ p foo().call       #=&gt; 1
 </pre>
 <h2 id='block'>Proc オブジェクトをブロック付きメソッド呼び出しに使う</h2>
 <p>
-ブロック付きメソッドに対して Proc オブジェクトを `&amp;' を指定して渡すと
-呼び出しブロックのように動作します。
-しかし、厳密には以下の違いがあります
-これらは、Proc オブジェクトが呼び出しブロックとして振舞う際の制限です。
+ブロック付きメソッドに対して Proc オブジェクトを `&amp;' を指定して渡すと呼び出しブロックのように動作します。しかし、厳密には以下の違いがありますこれらは、Proc オブジェクトが呼び出しブロックとして振舞う際の制限です。
 </p>
 <pre>
 # 問題なし
@@ -85,14 +130,10 @@ pr = Proc.new { break }
 </pre>
 <h2 id='lambda_proc'>lambda と proc と Proc.new とイテレータの違い</h2>
 <p>
-<a href="../method/Kernel/m/lambda.html">Kernel.#lambda</a> と <a href="../method/Proc/s/new.html">Proc.new</a> はどちらも <a href="../class/Proc.html">Proc</a> クラスのインスタンス(手続きオブジェクト)を生成しますが、
-生成された手続きオブジェクトはいくつかの場面で挙動が異なります。 lambda の生成する手続きオブジェクトのほうが
-よりメソッドに近い働きをするように設計されています。
+<a href="../method/Kernel/m/lambda.html">Kernel.#lambda</a> と <a href="../method/Proc/s/new.html">Proc.new</a> はどちらも <a href="../class/Proc.html">Proc</a> クラスのインスタンス(手続きオブジェクト)を生成しますが、生成された手続きオブジェクトはいくつかの場面で挙動が異なります。 lambda の生成する手続きオブジェクトのほうがよりメソッドに近い働きをするように設計されています。
 </p>
 <p>
-<a href="../method/Kernel/m/proc.html">Kernel.#proc</a> は Proc.new と同じになります。
-引数に &amp; を付けることで手続きオブジェクト化したブロックは、Proc.new で生成されたそれと
-同じにように振る舞います。
+<a href="../method/Kernel/m/proc.html">Kernel.#proc</a> は Proc.new と同じになります。引数に &amp; を付けることで手続きオブジェクト化したブロックは、Proc.new で生成されたそれと同じにように振る舞います。
 </p>
 <h3 >引数の扱い</h3>
 <p>
@@ -122,8 +163,7 @@ b2.call(2, 4)
 </p>
 <h3 >ジャンプ構文の挙動の違い</h3>
 <p>
-return と break は、lambda と Proc.new では挙動が異なります。
-例えば return を行った場合、lambda では手続きオブジェクト自身を抜けますが、
+return と break は、lambda と Proc.new では挙動が異なります。例えば return を行った場合、lambda では手続きオブジェクト自身を抜けますが、
 Proc.new では手続きオブジェクトを囲むメソッドを抜けます。
 </p>
 <p>
@@ -156,8 +196,7 @@ p bar()  #=&gt; nil
 p hoge() #=&gt; :hoge
 </pre>
 <p>
-以下の表は、手続きオブジェクトの実行を上の例と同じように、手続きオブジェクトが定義されたのと
-同じメソッド内で行った場合の結果です。
+以下の表は、手続きオブジェクトの実行を上の例と同じように、手続きオブジェクトが定義されたのと同じメソッド内で行った場合の結果です。
 </p>
 <pre>
                return                          next                        break
@@ -170,9 +209,7 @@ lambda     手続きオブジェクトを抜ける  手続きオブジェクト�
 <p>
 Proc を生成したメソッドから脱出した後、手続きオブジェクトからの
 return, break
-は例外 <a href="../class/LocalJumpError.html">LocalJumpError</a> を発生させます。
-ただし、上でも説明した通り lambda で生成した手続きオブジェクトはメソッドと同じように振る舞う
-ことを意図されているため、例外 <a href="../class/LocalJumpError.html">LocalJumpError</a> は発生しません。
+は例外 <a href="../class/LocalJumpError.html">LocalJumpError</a> を発生させます。ただし、上でも説明した通り lambda で生成した手続きオブジェクトはメソッドと同じように振る舞うことを意図されているため、例外 <a href="../class/LocalJumpError.html">LocalJumpError</a> は発生しません。
 </p>
 <p>
 例:
@@ -186,8 +223,7 @@ foo.call
 # =&gt; in `call': return from proc-closure (LocalJumpError)
 </pre>
 <p>
-以下の表は、手続きオブジェクトの実行を上の例と同じように、手続きオブジェクトが定義されたメソッドを
-脱出してから行った場合の結果です。
+以下の表は、手続きオブジェクトの実行を上の例と同じように、手続きオブジェクトが定義されたメソッドを脱出してから行った場合の結果です。
 </p>
 <pre>
                return                          next                        break
@@ -196,11 +232,16 @@ proc       例外が発生する              手続きオブジェクトを抜�
 lambda     手続きオブジェクトを抜ける  手続きオブジェクトを抜ける   手続きオブジェクトを抜ける
 </pre>
 
+</main>
 
-<div id="footer">
-  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>

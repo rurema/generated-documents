@@ -1,45 +1,87 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="icon" type="image/png" href="../rurema.png">
-  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/doc/spec=2fregexp.html">
-  <title>正規表現 (Ruby 1.9.3)</title>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/spec=2fregexp.html">
+
+<title>正規表現 (Ruby 1.9.3 リファレンスマニュアル)</title>
+<meta name="description" content="正規表現(regular expression)は文字列のパターンを記述するための言語です。
+また、この言語で記述されたパターンも正規表現と呼びます。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 1.9.3 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
 
-<a href="../doc/index.html">Ruby 1.9.3 リファレンスマニュアル</a>
-&gt; 正規表現
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 1.9.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/spec=2fregexp.html","name":"正規表現","position":2}]}
+</script>
 
-</p>
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 1.9.3 リファレンスマニュアル</a>
+        </li>
+        <li>
+          正規表現
+        </li>
+      
+    </ol>
+  </nav>
 
 <h1>正規表現</h1>
+</header>
+
+<main>
 
 <p>
-正規表現(regular expression)は文字列のパターンを記述するための言語です。
-また、この言語で記述されたパターンも正規表現と呼びます。
+正規表現(regular expression)は文字列のパターンを記述するための言語です。また、この言語で記述されたパターンも正規表現と呼びます。
 </p>
 <p>
-正規表現を用いると、文字列が指定したパターンを含んでいるかどうかを判定し、
-また含んでいるならばそれが文字列中のどの場所であるかを知ることができます。
+正規表現を用いると、文字列が指定したパターンを含んでいるかどうかを判定し、また含んでいるならばそれが文字列中のどの場所であるかを知ることができます。
 </p>
 <pre>
 /pat/
 %r{pat}
 </pre>
 <p>
-などの正規表現リテラルや <a href="../method/Regexp/s/new.html">Regexp.new</a> などで正規表現
-オブジェクトを得ることができます。
+などの正規表現リテラルや <a href="../method/Regexp/s/new.html">Regexp.new</a> などで正規表現オブジェクトを得ることができます。
 </p>
 <h2 >メタ文字列とリテラル、メタ文字とエスケープ</h2>
 <p>
-正規表現の文法には、正規表現内で特別な働きをする文字列と、それ以外の
-その文字列そのものにマッチするような文字列があります。
-前者をメタ文字列(meta string)、後者をリテラル(文字列)(literal string)と呼びます。
+正規表現の文法には、正規表現内で特別な働きをする文字列と、それ以外のその文字列そのものにマッチするような文字列があります。前者をメタ文字列(meta string)、後者をリテラル(文字列)(literal string)と呼びます。
 </p>
 <pre>
 /京都|大阪|神戸/
@@ -56,13 +98,10 @@
 ( ) [ ] { } . ? + * | \
 </pre>
 <p>
-これらの文字をリテラルのようにその文字としてマッチさせるためには、
-バックスラッシュ「\」を前に付けます。「\\」はバックスラッシュ1文字に
-マッチします。
+これらの文字をリテラルのようにその文字としてマッチさせるためには、バックスラッシュ「\」を前に付けます。「\\」はバックスラッシュ1文字にマッチします。
 </p>
 <p>
-メタ文字以外の文字も、メタ文字に続けて置くことで特別な働きをするよう
-になる場合があります。つまりメタ文字列を構成します。例えば
+メタ文字以外の文字も、メタ文字に続けて置くことで特別な働きをするようになる場合があります。つまりメタ文字列を構成します。例えば
 </p>
 <pre>
 /[a-z]/
@@ -73,16 +112,14 @@
 </p>
 <h2 >式展開</h2>
 <p>
-正規表現内では、#{式} という形式で式を評価した文字列を埋め込むことが
-できます。
+正規表現内では、#{式} という形式で式を評価した文字列を埋め込むことができます。
 </p>
 <pre>
 place = &quot;東京都&quot;
 /#{place}/.match(&quot;Go to 東京都&quot;) # =&gt; #&lt;MatchData &quot;東京都&quot;&gt;
 </pre>
 <p>
-埋め込んだ文字列にメタ文字が含まれているならば、それは
-メタ文字として認識されます。
+埋め込んだ文字列にメタ文字が含まれているならば、それはメタ文字として認識されます。
 </p>
 <pre>
 number = &quot;(\\d+)&quot;
@@ -91,17 +128,11 @@ operator = &quot;(\\+|-|\\*|/)&quot;
 # =&gt; #&lt;MatchData &quot;43+291&quot; 1:&quot;43&quot; 2:&quot;+&quot; 3:&quot;291&quot;&gt;
 </pre>
 <p>
-埋め込む文字列をリテラルとして認識させたい場合は <a href="../method/Regexp/s/quote.html">Regexp.quote</a> を
-使います。
+埋め込む文字列をリテラルとして認識させたい場合は <a href="../method/Regexp/s/quote.html">Regexp.quote</a> を使います。
 </p>
 <h2 >文字</h2>
 <p>
-正規表現内では、「\」の後に文字列を置くことで、
-ある特定の文字を表現することができます。
-これは、改行のように Ruby の文法で特別な意味を持つ文字を埋め込む
-ためなどに用いられます。
-文字列リテラルの記法とほぼ同様(<a href="../doc/spec=2fliteral.html#backslash">リテラル/バックスラッシュ記法</a>)で、
-以下の記法が利用可能です。
+正規表現内では、「\」の後に文字列を置くことで、ある特定の文字を表現することができます。これは、改行のように Ruby の文法で特別な意味を持つ文字を埋め込むためなどに用いられます。文字列リテラルの記法とほぼ同様(<a href="../doc/spec=2fliteral.html#backslash">リテラル/バックスラッシュ記法</a>)で、以下の記法が利用可能です。
 </p>
 <pre>
 \t           水平タブ            horizontal tab (0x09)
@@ -121,12 +152,10 @@ operator = &quot;(\\+|-|\\*|/)&quot;
 \u{HHHHHH HHHHHH ....} ユニコード文字列 (HHHHHH は16進数1桁から6桁まで指定可能)
 </pre>
 <p>
-\b は文字クラス内でのみ有効な表現です。文字クラスの外では
-単語の区切りを表すメタ文字列と解釈されます。
+\b は文字クラス内でのみ有効な表現です。文字クラスの外では単語の区切りを表すメタ文字列と解釈されます。
 </p>
 <p>
-「\s」は文字列では空白(0x20)を意味しますが、正規表現では
-タブなどを含む空白文字全般にマッチするメタ文字列です。
+「\s」は文字列では空白(0x20)を意味しますが、正規表現ではタブなどを含む空白文字全般にマッチするメタ文字列です。
 </p>
 <h2 >任意の1文字</h2>
 <p>
@@ -138,8 +167,7 @@ operator = &quot;(\\+|-|\\*|/)&quot;
 <h2 id='string'>文字クラス</h2>
 <p>
 文字クラス(character class)
-とは角括弧 [ と ] で囲まれ、1個以上の文字を列挙したもので、
-いずれかの1文字にマッチします。
+とは角括弧 [ と ] で囲まれ、1個以上の文字を列挙したもので、いずれかの1文字にマッチします。
 </p>
 <pre>
 /W[aeiou]rd/
@@ -148,14 +176,10 @@ operator = &quot;(\\+|-|\\*|/)&quot;
 は Ward, Werd, Wird, Word, Wurd のいずれかにマッチします。
 </p>
 <p>
-文字クラス内のハイフン(-)は文字の範囲を表すメタ文字です。
-例えば [abcd] という文字クラスは [a-d] と表すことができます。
-複数の範囲指定をすることもできます。例えば [abcdpqrs] は [a-dp-s]と
-表すこともできます。
+文字クラス内のハイフン(-)は文字の範囲を表すメタ文字です。例えば [abcd] という文字クラスは [a-d] と表すことができます。複数の範囲指定をすることもできます。例えば [abcdpqrs] は [a-dp-s]と表すこともできます。
 </p>
 <p>
-文字クラスの [ の直後の文字がキャレット(^)である場合、列挙「されていない」
-文字にマッチするようになります(これは否定文字クラスと呼ばれます)。
+文字クラスの [ の直後の文字がキャレット(^)である場合、列挙「されていない」文字にマッチするようになります(これは否定文字クラスと呼ばれます)。
 </p>
 <pre>
 [^a-d]
@@ -165,9 +189,7 @@ operator = &quot;(\\+|-|\\*|/)&quot;
 </p>
 <p>
 文字クラス内に別の文字クラスを含めることができます。
-[a-z[0-9]] は [a-z0-9]と同じ意味を持ちます。これだけではあまり意味が
-ありませんが、文字クラスは &amp;&amp; という、共通部分を取る演算をサポートして
-いるため、これと組合せることで意味を持ちます。
+[a-z[0-9]] は [a-z0-9]と同じ意味を持ちます。これだけではあまり意味がありませんが、文字クラスは &amp;&amp; という、共通部分を取る演算をサポートしているため、これと組合せることで意味を持ちます。
 </p>
 <pre>
 /[a-z[0-9]]/.match(&quot;y&quot;) # =&gt; #&lt;MatchData &quot;y&quot;&gt;
@@ -182,8 +204,7 @@ r.match(&quot;w&quot;) # =&gt; #&lt;MatchData &quot;w&quot;&gt;
 r.match(&quot;z&quot;) # =&gt; nil
 </pre>
 <p>
-文字クラスでは、否定(^)範囲(-)共通部分(&amp;&amp;)列挙(並べる)という
-演算が可能ですが、これらは - &gt; (列挙) &gt; &amp;&amp; &gt; ^ という順の結合強度を持ちます。
+文字クラスでは、否定(^)範囲(-)共通部分(&amp;&amp;)列挙(並べる)という演算が可能ですが、これらは - &gt; (列挙) &gt; &amp;&amp; &gt; ^ という順の結合強度を持ちます。
 </p>
 <p>
 文字クラス内の3つのメタ文字を通常の文字の意味で使用したい場合には、
@@ -204,9 +225,7 @@ r.match(&quot;z&quot;) # =&gt; nil
 <li>\H 非16進数字 [^0-9a-fA-F]</li>
 </ul>
 <p>
-これらの「空白」「数字」などは ASCII の範囲の文字のみを対象としています。
-いわゆる「全角アルファベット」「全角空白」「全角数字」などは
-ここの空白、数字、には含まれません。
+これらの「空白」「数字」などは ASCII の範囲の文字のみを対象としています。いわゆる「全角アルファベット」「全角空白」「全角数字」などはここの空白、数字、には含まれません。
 </p>
 <pre>
 /\w+/.match(&quot;ＡＢＣｄｅｆ&quot;) # =&gt; nil
@@ -224,8 +243,7 @@ r.match(&quot;7&quot;) # =&gt; nil
 </pre>
 <h3 >Unicode プロパティによる文字クラス指定</h3>
 <p>
-また、Unicodeのプロパティ(属性情報)による文字クラス指定も可能です。
-以下の記法が使えます。
+また、Unicodeのプロパティ(属性情報)による文字クラス指定も可能です。以下の記法が使えます。
 </p>
 <ul>
 <li>\p{property-name}</li>
@@ -234,20 +252,14 @@ r.match(&quot;7&quot;) # =&gt; nil
 </ul>
 <p>
 サポートされているプロパティのリストは
-<a class="external" href="https://github.com/k-takata/Onigmo/blob/master/doc/UnicodeProps.txt">https://github.com/k-takata/Onigmo/blob/master/doc/UnicodeProps.txt</a> を
-参考にしてください。また、プロパティの意味は Unicode の仕様を参照してください。
+<a class="external" href="https://github.com/k-takata/Onigmo/blob/master/doc/UnicodeProps.txt">https://github.com/k-takata/Onigmo/blob/master/doc/UnicodeProps.txt</a> を参考にしてください。また、プロパティの意味は Unicode の仕様を参照してください。
 </p>
 <pre>
 /\p{Letter}+/.match(&quot;.|あaＡＢｃ123&quot;) # =&gt; #&lt;MatchData &quot;あaＡＢｃ&quot;&gt;
 </pre>
 <h3 >POSIX 文字クラス</h3>
 <p>
-Unicodeプロパティと
-似た機能を持つ記法として、POSIX 文字クラスと呼ばれるものがあります。
-これらは上の省略記法とは異なり、文字クラスの中でしか用いることが
-できません。これらは [:クラス名:] という記法を持ちます。
-また、[:^クラス名:]という記法でその否定を意味します。
-以下の括弧では実際にどの文字にマッチするかが Unicode プロパティや
+Unicodeプロパティと似た機能を持つ記法として、POSIX 文字クラスと呼ばれるものがあります。これらは上の省略記法とは異なり、文字クラスの中でしか用いることができません。これらは [:クラス名:] という記法を持ちます。また、[:^クラス名:]という記法でその否定を意味します。以下の括弧では実際にどの文字にマッチするかが Unicode プロパティや
 Unicode コードポイントで示されています。
 </p>
 <ul>
@@ -279,28 +291,20 @@ ASCIIコード範囲外の空白などを考慮に入れます。
 /[[:print:]&amp;&amp;[:^lower:]]/.match(&quot; &quot;) # =&gt; #&lt;MatchData &quot; &quot;&gt;
 </pre>
 <p>
-注: POSIX ではここで言う文字クラスのことを「ブラケット表現」と
-呼び、[:xxx:] というのを文字クラス、と呼んでいいます。よって、
-POSIX文字クラス、というのは厳密には
-「POSIXブラケット表現における文字クラス」と呼ぶべきものですが、
-ここでは「POSIX文字クラス」と呼ぶことにします。
+注: POSIX ではここで言う文字クラスのことを「ブラケット表現」と呼び、[:xxx:] というのを文字クラス、と呼んでいます。よって、
+POSIX文字クラス、というのは厳密には「POSIXブラケット表現における文字クラス」と呼ぶべきものですが、ここでは「POSIX文字クラス」と呼ぶことにします。
 </p>
 <p>
 注: [:word:] と [:ascii:] は POSIX では定義されていません。
 Ruby/Oniguruma/Onigmo独自のものです。
 </p>
 <p>
-注: エンコーディングによってこれらの POSIX 文字クラスの挙動が
-異なります。上に書いている「マッチする文字」は Unicode 系統の
-エンコーディングで使われるものです。
-Unicode 系統以外のものは Onigmo の
-ドキュメントを参照してください。
+注: エンコーディングによってこれらの POSIX 文字クラスの挙動が異なります。上に書いている「マッチする文字」は Unicode 系統のエンコーディングで使われるものです。
+Unicode 系統以外のものは Onigmo のドキュメントを参照してください。
 </p>
 <h2 >繰り返し</h2>
 <p>
-以下のメタ文字列は繰り返しを表現します。
-直前の部分式を何回繰り返すかを指定します。このような繰り返しを
-表すメタ文字列を量指定子(quantifier)と呼びます。
+以下のメタ文字列は繰り返しを表現します。直前の部分式を何回繰り返すかを指定します。このような繰り返しを表すメタ文字列を量指定子(quantifier)と呼びます。
 </p>
 <ul>
 <li>* 0回以上</li>
@@ -320,16 +324,13 @@ Unicode 系統以外のものは Onigmo の
 &quot;Hello&quot;.match(/[[:upper:]]+[[:lower:]]+l{2}o/) # =&gt; #&lt;MatchData &quot;Hello&quot;&gt;
 </pre>
 <p>
-これらは「欲張り(greedy)」にマッチします。
-マッチが成功する、最長の文字列にマッチしようとします。
-そのため、これらの量指定子は特に最大量指定子(greedy quantifier)
+これらは「欲張り(greedy)」にマッチします。マッチが成功する、最長の文字列にマッチしようとします。そのため、これらの量指定子は特に最大量指定子(greedy quantifier)
 と呼ばれます。
 </p>
 <h3 >最小量指定子(reluctant quantifier)</h3>
 <p>
 一方、以下のメタ文字列(普通の繰り返しメタ文字列に ? を付加したもの)
-はマッチが成功する、最短の文字列にマッチします。そのため、これらの
-量指定子は特に最小量指定子(reluctant quantifier)と呼ばれます。
+はマッチが成功する、最短の文字列にマッチします。そのため、これらの量指定子は特に最小量指定子(reluctant quantifier)と呼ばれます。
 </p>
 <ul>
 <li>*? 0回以上</li>
@@ -354,12 +355,9 @@ Unicode 系統以外のものは Onigmo の
 %r{&lt;b&gt;.*&lt;/b&gt;}.match(&quot;&lt;b&gt;x&lt;/b&gt;y&lt;b&gt;z&lt;/b&gt;&quot;) # =&gt; #&lt;MatchData &quot;&lt;b&gt;x&lt;/b&gt;y&lt;b&gt;z&lt;/b&gt;&quot;&gt;
 %r{&lt;b&gt;.*?&lt;/b&gt;}.match(&quot;&lt;b&gt;x&lt;/b&gt;y&lt;b&gt;z&lt;/b&gt;&quot;) # =&gt; #&lt;MatchData &quot;&lt;b&gt;x&lt;/b&gt;&quot;&gt;
 </pre>
-<h3 >絶対最大量指定子(possessive qualifier)</h3>
+<h3 >絶対最大量指定子(possessive quantifier)</h3>
 <p>
-以下のメタ文字列は、最大量指定子のように最長のマッチをしますが、
-一度マッチすると、その後マッチに失敗してもバックトラックしません。
-つまりマッチ済みの文字列を手放さずにマッチに失敗します。
-これらの量指定子は絶対最大量指定子と呼ばれます。
+以下のメタ文字列は、最大量指定子のように最長のマッチをしますが、一度マッチすると、その後マッチに失敗してもバックトラックしません。つまりマッチ済みの文字列を手放さずにマッチに失敗します。これらの量指定子は絶対最大量指定子と呼ばれます。
 </p>
 <ul>
 <li>*+ 0回以上</li>
@@ -371,22 +369,14 @@ Unicode 系統以外のものは Onigmo の
 </p>
 <h2 >キャプチャ</h2>
 <p>
-丸括弧 ( ) によってキャプチャをすることができます。
-括弧に囲まれた部分正規表現にマッチした
-前からn番目の開き括弧によって囲まれた部分式にマッチした
-文字列を後で参照することができます。
+丸括弧 ( ) によってキャプチャをすることができます。括弧に囲まれた部分正規表現にマッチした前からn番目の開き括弧によって囲まれた部分式にマッチした文字列を後で参照することができます。
 </p>
 <p>
-正規表現内では \1, \2, ... という記法で後方参照できます。
-また、\k&lt;1&gt;, \k&lt;2&gt;, ... や \k'1', \k'2', ... という記法を使うこと
-もできます(10を越える数字を渡すことができます)。
-また、<a href="../method/Regexp/i/match.html">Regexp#match</a> で得られた
+正規表現内では \1, \2, ... という記法で後方参照できます。また、\k&lt;1&gt;, \k&lt;2&gt;, ... や \k'1', \k'2', ... という記法を使うこともできます(10を越える数字を渡すことができます)。また、<a href="../method/Regexp/i/match.html">Regexp#match</a> で得られた
 MatchData からは <a href="../method/MatchData/i/=5b=5d.html">MatchData#[]</a>で取り出せます。
 </p>
 <p>
-また、<a href="../method/Kernel/v/1.html">$1</a>, $2, ... という特殊変数によって n 番目の括弧にマッチした
-部分文字列を参照できます。これらの特殊変数はマッチ処理が終わったあとで
-しか使えないことに注意してください。
+また、<a href="../method/Kernel/v/1.html">$1</a>, $2, ... という特殊変数によって n 番目の括弧にマッチした部分文字列を参照できます。これらの特殊変数はマッチ処理が終わったあとでしか使えないことに注意してください。
 </p>
 <pre>
 # (..) に at がマッチしたのを \1 で参照し、マッチが成功している。
@@ -398,8 +388,7 @@ m[1] # =&gt; &quot;at&quot;
 <p>
 1,2,... ではなく、名前を付けることができます。
 (?&lt;name&gt;pat)もしくは(?'name'pat)と記述します。キャプチャした文字列は
-<a href="../method/MatchData/i/=5b=5d.html">MatchData#[]</a> に <a href="../class/Symbol.html">Symbol</a> を渡すことで参照できます。
-これは名前付きキャプチャと呼ばれます。
+<a href="../method/MatchData/i/=5b=5d.html">MatchData#[]</a> に <a href="../class/Symbol.html">Symbol</a> を渡すことで参照できます。これは名前付きキャプチャと呼ばれます。
 </p>
 <pre>
 m = /\$(?&lt;dollars&gt;\d+)\.(?&lt;cents&gt;\d+)/.match(&quot;$3.67&quot;)
@@ -418,9 +407,7 @@ m[:cents] # =&gt; &quot;67&quot;
 注: 名前付きキャプチャと数字によるキャプチャは併用できません。
 </p>
 <p>
-リテラル正規表現内に名前付きキャプチャがあり、 =~ の左辺で用いた
-場合には、その名前のローカル変数にキャプチャした文字列を
-代入します。
+リテラル正規表現内に名前付きキャプチャがあり、 =~ の左辺で用いた場合には、その名前のローカル変数にキャプチャした文字列を代入します。
 </p>
 <pre>
 /\$(?&lt;dollars&gt;\d+)\.(?&lt;cents&gt;\d+)/ =~ &quot;$3.67&quot; # =&gt; 0
@@ -428,21 +415,19 @@ dollars # =&gt; &quot;3&quot;
 cents # =&gt; &quot;67&quot;
 </pre>
 <p>
+注: ローカル変数への代入が行われるのは、左辺の正規表現リテラルが#{}による式展開を含んでいない場合に限られます。
+</p>
+<p>
 数字による後方参照では、負の数による、
 \k&lt;-1&gt;, \k&lt;-2&gt;, ... や
-\k'-1', \k'-2', ... という記法での
-相対的な指定が可能です。-1 は後方参照が書かれた位置の1つ手前の
-位置にあるキャプチャを表し、-2, -3, で2つ手前、3つ手前を表します。
-これは非常に多くのキャプチャを持つような正規表現を記述するためや、
-正規表現に別の正規表現を式展開で埋め込む場合などに便利です。
+\k'-1', \k'-2', ... という記法での相対的な指定が可能です。-1 は後方参照が書かれた位置の1つ手前の位置にあるキャプチャを表し、-2, -3, で2つ手前、3つ手前を表します。これは非常に多くのキャプチャを持つような正規表現を記述するためや、正規表現に別の正規表現を式展開で埋め込む場合などに便利です。
 </p>
 <pre>
 /(.)(.)\k&lt;-2&gt;\k&lt;-1&gt;/.match(&quot;xyzyz&quot;) # =&gt; #&lt;MatchData &quot;yzyz&quot; 1:&quot;y&quot; 2:&quot;z&quot;&gt;
 </pre>
 <h2 >グループ</h2>
 <p>
-丸括弧は部分式をグループ化するためにも使えます。( ) で囲まれた
-部分式は一つのものとして取り扱われ、量指定子などを続けて書くことができます。
+丸括弧は部分式をグループ化するためにも使えます。( ) で囲まれた部分式は一つのものとして取り扱われ、量指定子などを続けて書くことができます。
 </p>
 <pre>
 # The pattern below matches a vowel followed by 2 word characters:
@@ -454,8 +439,7 @@ cents # =&gt; &quot;67&quot;
     #=&gt; #&lt;MatchData &quot;enor&quot; 1:&quot;or&quot;&gt;
 </pre>
 <p>
-(?:pat) という記法を使うとキャプチャせずにグループ化することができます。
-性能が多少改善する場合がありますが、多少見にくくなります。
+(?:pat) という記法を使うとキャプチャせずにグループ化することができます。性能が多少改善する場合がありますが、多少見にくくなります。
 </p>
 <pre>
 # 最初のキャプチャは n で二番目のキャプチャが ti であり、
@@ -473,19 +457,10 @@ cents # =&gt; &quot;67&quot;
 (?&gt;pat) という記法で「アトミック」なグループを作れます。
 </p>
 <p>
-通常の正規表現では、ある部分式がマッチに成功した後、
-続く式がマッチに失敗した場合、
-バックトラックによって成功した部分の一部を手放して
-マッチにリトライします。
-しかし、アトミックなグループがマッチした後、
-後続の式がマッチに失敗した場合、一部だけを
-バックトラックで巻き戻すのではなく、
-このグループのマッチ全体を巻き戻します。
-つまり、正規表現のマッチのバックトラックを抑制します。
+通常の正規表現では、ある部分式がマッチに成功した後、続く式がマッチに失敗した場合、バックトラックによって成功した部分の一部を手放してマッチにリトライします。しかし、アトミックなグループがマッチした後、後続の式がマッチに失敗した場合、一部だけをバックトラックで巻き戻すのではなく、このグループのマッチ全体を巻き戻します。つまり、正規表現のマッチのバックトラックを抑制します。
 </p>
 <p>
-典型的にアトミックグループはバックトラックの回数を減らし
-正規表現を高速化するために用います。
+典型的にアトミックグループはバックトラックの回数を減らし正規表現を高速化するために用います。
 </p>
 <pre>
 # 以下のマッチはまず .* が Quote&quot; にマッチした後、
@@ -507,20 +482,13 @@ cents # =&gt; &quot;67&quot;
 <h2 >部分式呼び出し(subexpression call)</h2>
 <p>
 \g&lt;name&gt; もしくは \g'name'
-という記法で、nameと名付けられた部分正規表現にマッチしようとします。
-この記法は、部分式呼び出しと呼ばれます。
-name には名前、数字、のいずれを用いることもできます。
-これは後方参照とは異なります。後方参照は前でマッチした文字列と
-同じ文字列にマッチしようとしますが、部分式呼び出しは
+という記法で、nameと名付けられた部分正規表現にマッチしようとします。この記法は、部分式呼び出しと呼ばれます。
+name には名前、数字、のいずれを用いることもできます。これは後方参照とは異なります。後方参照は前でマッチした文字列と同じ文字列にマッチしようとしますが、部分式呼び出しは
 nameと名付けられた「部分正規表現」にマッチしようとします。
 </p>
 <p>
-部分式呼び出しの記法は正規表現内に再帰的記述を可能とし、
-通常の正規表現では記述不可能な処理(例えば対応した括弧の検出)
-を可能とします。以下の例では実際に何回かっこがネストしていても
-マッチに成功します。ただし、再帰的な正規表現を書く場合は、
-無限ループに陥る可能性があるため、停止条件に注意して
-この機能を使ってください。
+部分式呼び出しの記法は正規表現内に再帰的記述を可能とし、通常の正規表現では記述不可能な処理(例えば対応した括弧の検出)
+を可能とします。以下の例では実際に何回かっこがネストしていてもマッチに成功します。ただし、再帰的な正規表現を書く場合は、無限ループに陥る可能性があるため、停止条件に注意してこの機能を使ってください。
 </p>
 <pre>
 /\A(?&lt;paren&gt;\(\g&lt;paren&gt;*\))*\z/ =~ '(())' # =&gt; 0
@@ -549,16 +517,12 @@ nameと名付けられた「部分正規表現」にマッチしようとしま�
 # 10. 文字列の末尾へのマッチに成功する
 </pre>
 <p>
-また、パターン全体は特別に \g&lt;0&gt; もしくは \g'0' という記法で再帰呼び出し
-できます。番号指定による呼出も可能で、\g&lt;n&gt; もしくは \g'n' という
-記法が使えます。相対番号で部分式を指定することもでき、これは
+また、パターン全体は特別に \g&lt;0&gt; もしくは \g'0' という記法で再帰呼び出しできます。番号指定による呼出も可能で、\g&lt;n&gt; もしくは \g'n' という記法が使えます。相対番号で部分式を指定することもでき、これは
 \g&lt;-n&gt; \g'-n' (前側での相対位置) や
 \g&lt;+n&gt; \g'+n' (後側での相対位置) という記法を用います。
 </p>
 <p>
-以下の記法を用いて、
-部分式呼び出しでの上のレベル、下のレベルでのマッチにアクセスすること
-ができます。levelで呼出しのネストレベルを、nで位置を指定できます。
+以下の記法を用いて、部分式呼び出しでの上のレベル、下のレベルでのマッチにアクセスすることができます。levelで呼出しのネストレベルを、nで位置を指定できます。
 </p>
 <ul>
 <li>\k&lt;n+level&gt;     (n &gt;= 1)</li>
@@ -610,8 +574,7 @@ r.match('&lt;foo&gt;f&lt;bar&gt;bbb&lt;/bar&gt;f&lt;/foo&gt;').captures
 </pre>
 <h2 >選択</h2>
 <p>
-縦棒 | によって2つの部分正規表現のどちらか一方にマッチすれば良い
-部分正規表現を記述できます。
+縦棒 | によって2つの部分正規表現のどちらか一方にマッチすれば良い部分正規表現を記述できます。
 </p>
 <pre>
 /\w(and|or)\w/.match(&quot;Feliformia&quot;) # =&gt; #&lt;MatchData &quot;form&quot; 1:&quot;or&quot;&gt;
@@ -623,10 +586,7 @@ r.match('&lt;foo&gt;f&lt;bar&gt;bbb&lt;/bar&gt;f&lt;/foo&gt;').captures
 </p>
 <h2 >アンカー</h2>
 <p>
-アンカーは幅0の文字列にマッチするメタ文字列です。
-幅0とは文字と文字の間、文字列の先頭、文字列の末尾、
-などを意味します。
-ある特定の条件を満たす「位置」にマッチします。
+アンカーは幅0の文字列にマッチするメタ文字列です。幅0とは文字と文字の間、文字列の先頭、文字列の末尾、などを意味します。ある特定の条件を満たす「位置」にマッチします。
 </p>
 <ul>
 <li>^ 行頭にマッチします。行頭とは、文字列の先頭もしくは改行の次を
@@ -653,10 +613,7 @@ r.match('&lt;foo&gt;f&lt;bar&gt;bbb&lt;/bar&gt;f&lt;/foo&gt;').captures
 /\breal/.match(&quot;surrealist&quot;) # =&gt; nil
 </pre>
 <p>
-単語を成す文字、成さない文字の定義はエンコードによって
-異なります。以下の例で「全角」括弧は EUC-JP では
-単語を成す文字と見なされますが、UTF-8 では見なされません。
-その結果、以下のような挙動をします。
+単語を成す文字、成さない文字の定義はエンコードによって異なります。以下の例で「全角」括弧は EUC-JP では単語を成す文字と見なされますが、UTF-8 では見なされません。その結果、以下のような挙動をします。
 </p>
 <pre>
 # -*- coding:utf-8 -*-
@@ -667,19 +624,14 @@ r.match('&lt;foo&gt;f&lt;bar&gt;bbb&lt;/bar&gt;f&lt;/foo&gt;').captures
 /\bfoo\b/.match(&quot;（foo）&quot;) # =&gt; #&lt;MatchData &quot;foo&quot;&gt;
 </pre>
 <p>
-Unicode の規格では、単語を成す文字を Word というプロパティで
-定義しています。
+Unicode の規格では、単語を成す文字を Word というプロパティで定義しています。
 </p>
 <h3 >先読み、後読み(lookahead, lookbehind)</h3>
 <p>
-ある位置から続く文字列が
-ある部分式にマッチするならばその位置にマッチする
-という正規表現を書くことができます。
+ある位置から続く文字列がある部分式にマッチするならばその位置にマッチするという正規表現を書くことができます。
 </p>
 <p>
-「ある位置から続く文字列(先読み、lookahead)/ある位置の手前までの文字列(後読み、lookbehind)」
-と「マッチする(肯定、positive)/マッチしない(否定、negative)」
-の組み合わせで4つのパターンがあります。
+「ある位置から続く文字列(先読み、lookahead)/ある位置の手前までの文字列(後読み、lookbehind)」と「マッチする(肯定、positive)/マッチしない(否定、negative)」の組み合わせで4つのパターンがあります。
 </p>
 <ul>
 <li>(?=pat) 肯定先読み(positive lookahead)</li>
@@ -696,8 +648,7 @@ Unicode の規格では、単語を成す文字を Word というプロパティ
 </pre>
 <h2 id='option'>オプション</h2>
 <p>
-/pat/という正規表現の直後に以下のアルファベットを
-置くことで、正規表現にオプションを指定することができます。
+/pat/という正規表現の直後に以下のアルファベットを置くことで、正規表現にオプションを指定することができます。
 </p>
 <ul>
 <li>/pat/i 大文字小文字を無視する</li>
@@ -706,18 +657,14 @@ Unicode の規格では、単語を成す文字を Word というプロパティ
 <li>/pat/o パターン内の #{} の展開を1回限りしかしない。</li>
 </ul>
 <p>
-i, m, x のオプションは (?on:pat) もしくは (?on-off:pat) という記法で
-部分正規表現にのみ適用することができます。on、offにはi,m,xのいずれか
-を置きます。onにはpatの中でのみ局所的に有効にしたいオプションを、offには
-局所的に無効化したいオプションを指定します。
+i, m, x のオプションは (?on:pat) もしくは (?on-off:pat) という記法で部分正規表現にのみ適用することができます。on、offにはi,m,xのいずれかを置きます。onにはpatの中でのみ局所的に有効にしたいオプションを、offには局所的に無効化したいオプションを指定します。
 </p>
 <pre>
 /a(?i:b)c/.match(&quot;aBc&quot;) # =&gt; #&lt;MatchData &quot;aBc&quot;&gt;
 /a(?i:b)c/.match(&quot;abc&quot;) # =&gt; #&lt;MatchData &quot;abc&quot;&gt;
 </pre>
 <p>
-(?on) もしくは (?on-off) という形式を使うと、そこから後の
-部分正規表現のみオプションを有効化することができます。
+(?on) もしくは (?on-off) という形式を使うと、そこから後の部分正規表現のみオプションを有効化することができます。
 </p>
 <pre>
 /a(?i)bc/.match(&quot;aBc&quot;) # =&gt; #&lt;MatchData &quot;aBc&quot;&gt;
@@ -737,10 +684,7 @@ Regexp.new(&quot;abc&quot;, Regexp::IGNORECASE | Regexp::MULTILINE) # =&gt; /abc
 </pre>
 <h2 >エンコーディング</h2>
 <p>
-通常、正規表現のエンコーディングはソースコードエンコーディングと
-同じであると見なされます。
-ただし正規表現が ascii 互換の文字しか含まない場合は
-エンコーディングは US-ASCII になります。
+通常、正規表現のエンコーディングはソースコードエンコーディングと同じであると見なされます。ただし正規表現が ascii 互換の文字しか含まない場合はエンコーディングは US-ASCII になります。
 </p>
 <p>
 以下のオプションで変更することができます。
@@ -752,8 +696,7 @@ Regexp.new(&quot;abc&quot;, Regexp::IGNORECASE | Regexp::MULTILINE) # =&gt; /abc
 <li>/pat/n ASCII-8bit</li>
 </ul>
 <p>
-正規表現オブジェクトのエンコーディングは <a href="../method/Regexp/i/encoding.html">Regexp#encoding</a> で
-取得できます。
+正規表現オブジェクトのエンコーディングは <a href="../method/Regexp/i/encoding.html">Regexp#encoding</a> で取得できます。
 </p>
 <pre>
 # -*- coding:utf-8 -*-
@@ -762,20 +705,13 @@ Regexp.new(&quot;abc&quot;, Regexp::IGNORECASE | Regexp::MULTILINE) # =&gt; /abc
 /abc/u.encoding # =&gt; #&lt;Encoding:UTF-8&gt;
 </pre>
 <p>
-正規表現のエンコーディングと文字列のエンコーディングが非互換で
-ある場合、<a href="../class/Encoding=3a=3aCompatibilityError.html">Encoding::CompatibilityError</a> が発生します。
+正規表現のエンコーディングと文字列のエンコーディングが非互換である場合、<a href="../class/Encoding=3a=3aCompatibilityError.html">Encoding::CompatibilityError</a> が発生します。
 </p>
 <p>
 エンコーディングについては <a href="../doc/spec=2fm17n.html">多言語化</a> も参考にしてください。
 </p>
 <p>
-<a href="../method/Regexp/i/fixed_encoding=3f.html">Regexp#fixed_encoding?</a> で正規表現のエンコーディングが
-「固定」さているかどうかを調べることができます。
-これが真である場合には文字列とのエンコーディングが一致していないと
-マッチ時に例外が発生します。
-これが偽である場合にはASCII互換な文字列であればマッチの判定をさせる
-ことができます。<a href="../method/Regexp/s/new.html">Regexp.new</a> に <a href="../method/Regexp/c/FIXEDENCODING.html">Regexp::FIXEDENCODING</a> を
-指定することで明示的に指定することが可能です。
+<a href="../method/Regexp/i/fixed_encoding=3f.html">Regexp#fixed_encoding?</a> で正規表現のエンコーディングが「固定」さているかどうかを調べることができます。これが真である場合には文字列とのエンコーディングが一致していないとマッチ時に例外が発生します。これが偽である場合にはASCII互換な文字列であればマッチの判定をさせることができます。<a href="../method/Regexp/s/new.html">Regexp.new</a> に <a href="../method/Regexp/c/FIXEDENCODING.html">Regexp::FIXEDENCODING</a> を指定することで明示的に指定することが可能です。
 </p>
 <pre>
 # -*- coding:utf-8 -*-
@@ -788,14 +724,11 @@ Regexp.new(&quot;abc&quot;, Regexp::IGNORECASE | Regexp::MULTILINE) # =&gt; /abc
 </pre>
 <h2 >コメント</h2>
 <p>
-(?#comment here) という記法で正規表現内にコメントを書くことができます。
-この記法はフリーフォーマットモードでは使えません。
-かわりに # で行末までがコメントになります。
+(?#comment here) という記法で正規表現内にコメントを書くことができます。この記法はフリーフォーマットモードでは使えません。かわりに # で行末までがコメントになります。
 </p>
 <h2 >フリーフォーマットモード</h2>
 <p>
-上に説明している x オプションを使うと空白を無視するようになります。
-これをフリーフォマットモード(free format mode, free spacing modeとも)
+上に説明している x オプションを使うと空白を無視するようになります。これをフリーフォマットモード(free format mode, free spacing modeとも)
 と呼びます。
 </p>
 <p>
@@ -977,11 +910,16 @@ Rubyで利用可能なメタ文字、メタ文字列の一覧です。
 <li>Ruby の tarball に含まれている doc/re.rdoc or doc/regexp.rdoc</li>
 </ul>
 
+</main>
 
-<div id="footer">
-  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>

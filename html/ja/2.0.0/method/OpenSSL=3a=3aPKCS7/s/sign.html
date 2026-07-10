@@ -1,38 +1,103 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../../../style.css">
-  <link rel="icon" type="image/png" href="../../../rurema.png">
-  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/method/OpenSSL=3a=3aPKCS7/s/sign.html">
-  <title>singleton method OpenSSL::PKCS7.sign (Ruby 2.0.0)</title>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="stylesheet" href="../../../search.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/OpenSSL=3a=3aPKCS7/s/sign.html">
+
+<title>OpenSSL::PKCS7.sign (Ruby 2.0.0 リファレンスマニュアル)</title>
+<meta name="description" content="cert に署名に使う証明書を、key にその証明書に対応する秘密鍵を
+渡します。certs に [[c:OpenSSL::X509::Certificate]] オブジェクトの配列 を
+渡すと [[c:OpenSSL::PKCS7]] オブジェクトにそれらの証明書が追加で保持されます。
+例えば中間 CA 証明書などを渡します。
+flags は以下の値の OR を渡します。
+  * [[m:OpenSSL::PKCS7::TEXT]] 
+      text/plain 用の MIME ヘッダをデータに付け加える。
+  * [[m:OpenSSL::PKCS7::NOCERTS]]
+      署名者の証明書を署名に含めません。送り先がすでに証明書をもっている場合
+      など、他の方法で証明書を手に入れることができる場合に
+      データ量を減らすために用います。
+  * [[m:OpenSSL::PKCS7::DETACHED]]
+      クリア署名(multipart/signed)をする。
+  * [[m:OpenSSL::PKCS7::BINARY]]
+      data に MIME 正規化を施さない。
+  * [[m:OpenSSL::PKCS7::NOATTR]]
+      PKCS#7 autenticatedAttributes (署名時刻など)をオブジェクトに含めない。
+  * [[m:OpenSSL::PKCS7::NOSMIMECAP]]
+      署名者が使用可能な暗号アルゴリズムの情報など(SMIMECapabilities)を省略する。">
+<script src="../../../script.js"></script>
+<script>var index_rel_prefix = "../../../";</script>
+<script src="../../../js/search_data.js"></script>
+<script src="../../../js/search_navigation.js"></script>
+<script src="../../../js/search_ranker.js"></script>
+<script src="../../../js/search_controller.js"></script>
+<script src="../../../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../../../doc/index.html">Ruby 2.0.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
-<a href="../../../doc/index.html">Ruby 2.0.0 リファレンスマニュアル</a>
-&gt; <a href="../../../library/index.html">ライブラリ一覧</a>
-&gt; <a href="../../../library/openssl.html">opensslライブラリ</a>
-&gt; <a href="../../../class/OpenSSL=3a=3aPKCS7.html">OpenSSL::PKCS7クラス</a>
-&gt; sign
 
-</p>
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.0.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/openssl.html","name":"opensslライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/OpenSSL=3a=3aPKCS7.html","name":"OpenSSL::PKCS7クラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/OpenSSL=3a=3aPKCS7/s/sign.html","name":"sign","position":5}]}
+</script>
 
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 2.0.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/openssl.html">opensslライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/OpenSSL=3a=3aPKCS7.html">OpenSSL::PKCS7クラス</a>
+      </li>
+      <li>
+        sign 
+      </li>
+    </ol>
+  </nav>
 
 <h1>singleton method OpenSSL::PKCS7.sign</h1>
+</header>
+
+<main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_SIGN"><code>sign(cert, key, data, certs = [], flags = 0) -&gt; OpenSSL::PKCS7</code><span class="permalink">[<a href="../../../method/OpenSSL=3a=3aPKCS7/s/sign.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.0.0/OpenSSL/PKCS7.html#method-c-sign">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_SIGN"><code>sign(cert, key, data, certs = [], flags = 0) -&gt; OpenSSL::PKCS7</code><span class="permalink">[<a href="../../../method/OpenSSL=3a=3aPKCS7/s/sign.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.0.0/OpenSSL/PKCS7.html#method-c-sign">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 data に証明書と秘密鍵で署名します。
 </p>
 <p>
-cert に署名に使う証明書を、key にその証明書に対応する秘密鍵を
-渡します。certs に <a href="../../../class/OpenSSL=3a=3aX509=3a=3aCertificate.html">OpenSSL::X509::Certificate</a> オブジェクトの配列 を
-渡すと <a href="../../../class/OpenSSL=3a=3aPKCS7.html">OpenSSL::PKCS7</a> オブジェクトにそれらの証明書が追加で保持されます。
-例えば中間 CA 証明書などを渡します。
+cert に署名に使う証明書を、key にその証明書に対応する秘密鍵を渡します。certs に <a href="../../../class/OpenSSL=3a=3aX509=3a=3aCertificate.html">OpenSSL::X509::Certificate</a> オブジェクトの配列 を渡すと <a href="../../../class/OpenSSL=3a=3aPKCS7.html">OpenSSL::PKCS7</a> オブジェクトにそれらの証明書が追加で保持されます。例えば中間 CA 証明書などを渡します。
 flags は以下の値の OR を渡します。
 </p>
 <ul>
@@ -84,12 +149,16 @@ PKCS#7 autenticatedAttributes (署名時刻など)をオブジェクトに含め
 
 
 </dl>
+</main>
 
-
-<div id="footer">
-  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>

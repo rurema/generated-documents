@@ -14,3 +14,4 @@ source_location=manual/api/pp.md
 - **raise** `RuntimeError` -- 出力する全てのオブジェクトに [m:Object#pretty_print] が定義されて
                     いない場合に発生します。
 
+

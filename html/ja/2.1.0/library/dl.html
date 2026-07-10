@@ -1,25 +1,70 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="icon" type="image/png" href="../rurema.png">
-  
-  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/dl.html">
-  
-  <title>library dl (Ruby 2.1.0)</title>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/dl.html">
+
+<title>library dl (Ruby 2.1.0 リファレンスマニュアル)</title>
+<meta name="description" content="*.dllや*.soなど、ダイナミックリンクライブラリを扱うためのライブラリです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 2.1.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
-<a href="../doc/index.html">Ruby 2.1.0 リファレンスマニュアル</a>
-&gt; <a href="../library/index.html">ライブラリ一覧</a>
-&gt; dlライブラリ
-</p>
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.1.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/dl.html","name":"dlライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 2.1.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        dlライブラリ
+      </li>
+    </ol>
+  </nav>
 
 <h1>library dl</h1>
+</header>
 
+<main>
 
 
 
@@ -45,10 +90,7 @@ module M
 end
 </pre>
 <p>
-以後、このモジュールで dlload や extern などのメソッドが使用できるようになります。
-以下のように dlload を使ってライブラリをロードし、
-使用したいライブラリ関数に対して extern メソッドを呼んで
-ラッパーメソッドを定義します。
+以後、このモジュールで dlload や extern などのメソッドが使用できるようになります。以下のように dlload を使ってライブラリをロードし、使用したいライブラリ関数に対して extern メソッドを呼んでラッパーメソッドを定義します。
 </p>
 <pre>
 require &quot;dl/import&quot;
@@ -116,8 +158,7 @@ p buff #=&gt;   &quot;7654321&quot;
 </p>
 <h3 >ポインタを扱う</h3>
 <p>
-引数としてポインタを受け取る関数に対しては、ポインタの変わりに
-文字列を渡します。文字列はポインタが指すメモリ領域として扱われます。
+引数としてポインタを受け取る関数に対しては、ポインタの変わりに文字列を渡します。文字列はポインタが指すメモリ領域として扱われます。
 </p>
 <pre>
 require 'dl/import'
@@ -136,6 +177,8 @@ p s                    #=&gt; &quot;abcyyyzzz&quot;
 char * 以外の型のポインタを受け取る関数に対しても文字列を渡します。
 </p>
 <pre>
+require 'dl/import'
+
 module M
   extend DL::Importer
   dlload 'libm.so.6'
@@ -148,8 +191,7 @@ p s.unpack('d')[0]  #=&gt; 1.0
 </pre>
 <h3 >関数の引数と返り値</h3>
 <p>
-dl でインポートした C の関数を呼び出すとき、
-その引数と返り値はインポートする際に指定した型と
+dl でインポートした C の関数を呼び出すとき、その引数と返り値はインポートする際に指定した型と
 Ruby のオブジェクトの種類によって変換されます。
 </p>
 <p>
@@ -160,14 +202,8 @@ Ruby のオブジェクトの種類によって変換されます。
 <dd>
 <p>
 nil ならば C の NULL に変換されます
-<a href="../class/DL=3a=3aCPtr.html">DL::CPtr</a> は保持している C ポインタに変換されます。
-適当に変換してから、C のポインタに変換します。
-文字列であればその先頭ポインタになります。
-<a href="../class/IO.html">IO</a> オブジェクトであれば FILE* が渡されます。
-整数であればそれがアドレスとみなされます。
-どれでもなければ to_ptr を呼び出し DL::CPtr オブジェクトに
-変換したのが用いられます。
-
+<a href="../class/DL=3a=3aCPtr.html">DL::CPtr</a> は保持している C ポインタに変換されます。適当に変換してから、C のポインタに変換します。文字列であればその先頭ポインタになります。
+<a href="../class/IO.html">IO</a> オブジェクトであれば FILE* が渡されます。整数であればそれがアドレスとみなされます。どれでもなければ to_ptr を呼び出し DL::CPtr オブジェクトに変換したのが用いられます。
 </p>
 </dd>
 <dt>(unsigned) char/short/int/long/long long</dt>
@@ -180,7 +216,6 @@ Ruby の整数を C の整数に変換します。
 <dd>
 <p>
 Ruby の整数 or 浮動小数点数を C の浮動小数点数に変換します
-
 </p>
 </dd>
 </dl>
@@ -209,9 +244,7 @@ C のポインタを保持した <a href="../class/DL=3a=3aCPtr.html">DL::CPtr</
 </dl>
 <h3 >fiddle との関係</h3>
 <p>
-<a href="../library/fiddle.html">fiddle</a> が利用可能な環境では、DL 内部的に fiddle を利用し、
-関数呼び出しを実現します。DL 単体では例えば x86_64 のような環境では
-正しく動作しませんが、fiddle によってうまく動きます。
+<a href="../library/fiddle.html">fiddle</a> が利用可能な環境では、DL 内部的に fiddle を利用し、関数呼び出しを実現します。DL 単体では例えば x86_64 のような環境では正しく動作しませんが、fiddle によってうまく動きます。
 </p>
 
 
@@ -224,8 +257,7 @@ C のポインタを保持した <a href="../class/DL=3a=3aCPtr.html">DL::CPtr</
 <a href="../class/DL=3a=3aCFunc.html">DL::CFunc</a>
 </td>
 <td class="description"><p>
-ダイナミックライブラリの関数を表すクラスです。通常、このクラスを直接使わずに
-ラッパークラスである <a href="../class/DL=3a=3aFunction.html">DL::Function</a> を使います。
+ダイナミックライブラリの関数を表すクラスです。通常、このクラスを直接使わずにラッパークラスである <a href="../class/DL=3a=3aFunction.html">DL::Function</a> を使います。
 </p>
 </td>
 </tr>
@@ -322,12 +354,16 @@ C の型の別名を定義するライブラリです。
 </table>
 
 
+</main>
 
-
-<div id="footer">
+<footer id="footer">
   <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
     <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>
