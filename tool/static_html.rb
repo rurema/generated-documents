@@ -26,6 +26,7 @@ def create_document(version, edit_base_url: "https://github.com/rurema/doctree/e
   ]
   command << "--edit-base-url=#{edit_base_url}" if edit_base_url
   command << "--no-stop-on-syntax-error" unless stop_on_syntax_error
+  command << "--eol-warning" if MINIMUM_SUPPORTED_RUBY_VERSION > version
   system(*command, chdir: DOC_BASE) or raise
   system("rsync", "-acvi", "--no-times", "--delete", outputdir, DOC_ROOT) or raise
   FileUtils.rm_rf outputdir
