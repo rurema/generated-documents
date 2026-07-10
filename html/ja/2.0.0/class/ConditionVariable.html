@@ -1,37 +1,100 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="icon" type="image/png" href="../rurema.png">
-  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/class/ConditionVariable.html">
-  <title>class ConditionVariable (Ruby 2.0.0)</title>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/ConditionVariable.html">
+
+<title>class ConditionVariable (Ruby 2.0.0 リファレンスマニュアル)</title>
+<meta name="description" content="スレッドの同期機構の一つである状態変数を実現するクラスです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 2.0.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
-<a href="../doc/index.html">Ruby 2.0.0 リファレンスマニュアル</a>
-&gt; <a href="../library/index.html">ライブラリ一覧</a>
-&gt; <a href="../library/thread.html">threadライブラリ</a>
-&gt; ConditionVariableクラス
-</p>
 
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.0.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/thread.html","name":"threadライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/ConditionVariable.html","name":"ConditionVariableクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 2.0.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/thread.html">threadライブラリ</a>
+      </li>
+      <li>
+        ConditionVariableクラス
+      </li>
+    </ol>
+  </nav>
 
 <h1>class ConditionVariable</h1>
-<p>
+</header>
+
+<main>
 
 
-クラスの継承リスト: ConditionVariable
 
-      &lt; <a href="../class/Object.html">Object</a>
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
       
-
-      &lt; <a href="../class/Kernel.html">Kernel</a>
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
       
-
-      &lt; <a href="../class/BasicObject.html">BasicObject</a>
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
       
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        ConditionVariable
+      </li>
+    </ol>
+  </nav>
 
 
 
@@ -39,7 +102,9 @@
 
 
 
-</p>
+
+
+
 
 <h2>要約</h2>
 <p>
@@ -53,20 +118,14 @@
 </p>
 <h2 >Condition Variable とは</h2>
 <p>
-あるスレッド A が排他領域で動いていたとします。スレッド A は現在空いていない
-リソースが必要になったので空くまで待つことにしたとします。これはうまくいきません。
-なぜなら、スレッド A は排他領域で動いているわけですから、他のスレッドは動くことが
-できません。リソースを空けることもできません。スレッド A がリソースの空きを
-待っていても、いつまでも空くことはありません。
+あるスレッド A が排他領域で動いていたとします。スレッド A は現在空いていないリソースが必要になったので空くまで待つことにしたとします。これはうまくいきません。なぜなら、スレッド A は排他領域で動いているわけですから、他のスレッドは動くことができません。リソースを空けることもできません。スレッド A がリソースの空きを待っていても、いつまでも空くことはありません。
 </p>
 <p>
 以上のような状況を解決するのが Condition Variable です。
 </p>
 <p>
-スレッド a で条件(リソースが空いているかなど)が満たされるまで wait メソッドで
-スレッドを止めます。他のスレッド b において条件が満たされたなら signal
-メソッドでスレッド a に対して条件が成立したことを通知します。これが典型的な
-使用例です。
+スレッド a で条件(リソースが空いているかなど)が満たされるまで wait メソッドでスレッドを止めます。他のスレッド b において条件が満たされたなら signal
+メソッドでスレッド a に対して条件が成立したことを通知します。これが典型的な使用例です。
 </p>
 <pre>
 mutex = Mutex.new
@@ -90,8 +149,7 @@ b = Thread.start {
 }
 </pre>
 <p>
-以下は <a class="external" href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/14445">[ruby-list:14445]</a> で紹介されている例です。@q が空になった場合、
-あるいは満たんになった場合に Condition Variable を使って wait しています。
+以下は <a class="external" href="https://blade.ruby-lang.org/ruby-list/14445">[ruby-list:14445]</a> で紹介されている例です。@q が空になった場合、あるいは満たんになった場合に Condition Variable を使って wait しています。
 </p>
 <pre>
 require 'thread'
@@ -183,21 +241,30 @@ recv Milk
 
 <dt>特異メソッド</dt>
 <dd>
+<ul class="class-toc">
 
-<a href="#S_NEW">new</a>
+<li><a href="#S_NEW">new</a></li>
 
+</ul>
 </dd>
 
 <dt>インスタンスメソッド</dt>
 <dd>
+<ul class="class-toc">
 
-<a href="#I_BROADCAST">broadcast</a>
+<li><a href="#I_BROADCAST">broadcast</a></li>
 
-<a href="#I_SIGNAL">signal</a>
+<li><a href="#I_SIGNAL">signal</a></li>
 
-<a href="#I_WAIT">wait</a>
+<li><a href="#I_WAIT">wait</a></li>
 
+</ul>
 </dd>
+
+</dl>
+
+
+
 
 </dl>
 
@@ -205,7 +272,7 @@ recv Milk
 <h2>特異メソッド</h2>
 <dl>
 
-<dt class="method-heading" id="S_NEW"><code>new -&gt; ConditionVariable</code><span class="permalink">[<a href="../method/ConditionVariable/s/new.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.0.0/ConditionVariable.html#method-c-new">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new -&gt; ConditionVariable</code><span class="permalink">[<a href="../method/ConditionVariable/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.0.0/ConditionVariable.html#method-c-new">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 状態変数を生成して返します。
@@ -218,11 +285,10 @@ recv Milk
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_BROADCAST"><code>broadcast -&gt; [Thread]</code><span class="permalink">[<a href="../method/ConditionVariable/i/broadcast.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.0.0/ConditionVariable.html#method-i-broadcast">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_BROADCAST"><code>broadcast -&gt; [Thread]</code><span class="permalink">[<a href="../method/ConditionVariable/i/broadcast.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.0.0/ConditionVariable.html#method-i-broadcast">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-状態変数を待っているスレッドをすべて再開します。再開された
-スレッドは <a href="../method/ConditionVariable/i/wait.html">ConditionVariable#wait</a>
+状態変数を待っているスレッドをすべて再開します。再開されたスレッドは <a href="../method/ConditionVariable/i/wait.html">ConditionVariable#wait</a>
 で指定した mutex のロックを試みます。
 </p>
 <dl>
@@ -234,30 +300,27 @@ recv Milk
 </dd>
 
 
-<dt class="method-heading" id="I_SIGNAL"><code>signal -&gt; Thread | nil</code><span class="permalink">[<a href="../method/ConditionVariable/i/signal.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.0.0/ConditionVariable.html#method-i-signal">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_SIGNAL"><code>signal -&gt; Thread | nil</code><span class="permalink">[<a href="../method/ConditionVariable/i/signal.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.0.0/ConditionVariable.html#method-i-signal">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-状態変数を待っているスレッドを1つ再開します。再開された
-スレッドは <a href="../method/ConditionVariable/i/wait.html">ConditionVariable#wait</a>
+状態変数を待っているスレッドを1つ再開します。再開されたスレッドは <a href="../method/ConditionVariable/i/wait.html">ConditionVariable#wait</a>
 で指定した mutex のロックを試みます。
 </p>
 <dl>
 <dt>[RETURN]</dt>
 <dd>
-状態を待っているスレッドがあった場合は、そのスレッドを返します。
-そうでなければ nil を返します。
+状態を待っているスレッドがあった場合は、そのスレッドを返します。そうでなければ nil を返します。
 </dd>
 </dl>
 </dd>
 
 
-<dt class="method-heading" id="I_WAIT"><code>wait(mutex, timeout = nil) -&gt; self</code><span class="permalink">[<a href="../method/ConditionVariable/i/wait.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.0.0/ConditionVariable.html#method-i-wait">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_WAIT"><code>wait(mutex, timeout = nil) -&gt; self</code><span class="permalink">[<a href="../method/ConditionVariable/i/wait.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.0.0/ConditionVariable.html#method-i-wait">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 mutex のロックを解放し、カレントスレッドを停止します。
 <a href="../method/ConditionVariable/i/signal.html">ConditionVariable#signal</a>または、
-<a href="../method/ConditionVariable/i/broadcast.html">ConditionVariable#broadcast</a>で送られたシグナルを
-受け取ると、mutexのロックを取得し、実行状態となります。
+<a href="../method/ConditionVariable/i/broadcast.html">ConditionVariable#broadcast</a>で送られたシグナルを受け取ると、mutexのロックを取得し、実行状態となります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] mutex:</dt>
@@ -266,9 +329,7 @@ mutex のロックを解放し、カレントスレッドを停止します。
 </dd>
 <dt class='method-param'>[PARAM] timeout:</dt>
 <dd>
-スリープする秒数を指定します。この場合はシグナルを受け取
-らなかった場合でも指定した秒数が経過するとスリープを終了
-します。省略するとスリープし続けます。
+スリープする秒数を指定します。この場合はシグナルを受け取らなかった場合でも指定した秒数が経過するとスリープを終了します。省略するとスリープし続けます。
 </dd>
 </dl>
 </dd>
@@ -276,12 +337,16 @@ mutex のロックを解放し、カレントスレッドを停止します。
 
 </dl>
 
+</main>
 
-
-<div id="footer">
-  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>

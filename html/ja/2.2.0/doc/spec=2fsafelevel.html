@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -10,52 +10,77 @@
 
   gtag('config', 'UA-620926-3');
 </script>
-  
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="stylesheet" type="text/css" href="../syntax-highlight.css">
-  <link rel="icon" type="image/png" href="../rurema.png">
-  
-  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/spec=2fsafelevel.html">
-  
-  <title>セキュリティモデル (Ruby 2.2.0)</title>
-  <meta name="description" content="RubyにはCGI等のプログラミングを安全に行うことを助ける為に、セキュリティ
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/spec=2fsafelevel.html">
+
+<title>セキュリティモデル (Ruby 2.2.0 リファレンスマニュアル)</title>
+<meta name="description" content="RubyにはCGI等のプログラミングを安全に行うことを助ける為に、セキュリティ
 機構が備わっています。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 2.2.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
 
-<a href="../doc/index.html">Ruby 2.2.0 リファレンスマニュアル</a>
-&gt; セキュリティモデル
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.2.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/spec=2fsafelevel.html","name":"セキュリティモデル","position":2}]}
+</script>
 
-</p>
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 2.2.0 リファレンスマニュアル</a>
+        </li>
+        <li>
+          セキュリティモデル
+        </li>
+      
+    </ol>
+  </nav>
 
 <h1>セキュリティモデル</h1>
+</header>
+
+<main>
 
 <p>
-RubyにはCGI等のプログラミングを安全に行うことを助ける為に、セキュリティ
-機構が備わっています。
+RubyにはCGI等のプログラミングを安全に行うことを助ける為に、セキュリティ機構が備わっています。
 </p>
 <p>
-Rubyのセキュリティモデルは「オブジェクトの汚染」と「セーフレベル」という
-仕組みによってなりたっています。
+Rubyのセキュリティモデルは「オブジェクトの汚染」と「セーフレベル」という仕組みによってなりたっています。
 </p>
 <h2 >オブジェクトの汚染</h2>
 <p>
-Rubyではオブジェクトは「汚染されている」とみなされることがあります。この
-しくみは大きく分けて二つの使われ方をします。
+Rubyではオブジェクトは「汚染されている」とみなされることがあります。このしくみは大きく分けて二つの使われ方をします。
 </p>
 <p>
-ひとつ目は、信用できない入力をもとに作られたオブジェクトを「汚染されてい
-る」とみなし、「危険な操作」の引数として使えないようにすることです。悪意
-あるデータによって、プログラムが意図しない動作をする事を防ぐことを目的と
-しています。
+ひとつ目は、信用できない入力をもとに作られたオブジェクトを「汚染されている」とみなし、「危険な操作」の引数として使えないようにすることです。悪意あるデータによって、プログラムが意図しない動作をする事を防ぐことを目的としています。
 </p>
 <p>
-もうひとつは、信用しているオブジェクト(汚染されていないオブジェクト)を
-信用できないプログラムから守るという使い方です。
+もうひとつは、信用しているオブジェクト(汚染されていないオブジェクト)を信用できないプログラムから守るという使い方です。
 </p>
 <p>
 オブジェクトの汚染に関連するメソッド
@@ -82,12 +107,10 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
 </dl>
 <h2 >セーフレベル</h2>
 <p>
-各スレッドは固有の「セーフレベル」を持っています。セーフレベルが高くなるほ
-ど、行える操作は制限されます。セーフレベルはスレッドローカル変数 <a href="../method/Kernel/v/SAFE.html">$SAFE</a> で
-設定します。
+各スレッドは固有の「セーフレベル」を持っています。セーフレベルが高くなるほど、行える操作は制限されます。セーフレベルはスレッドローカル変数 <a href="../method/Kernel/v/SAFE.html">$SAFE</a> で設定します。
 </p>
 <p>
-<a class="external" href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/37415">[ruby-list:37415]</a>
+<a class="external" href="https://blade.ruby-lang.org/ruby-list/37415">[ruby-list:37415]</a>
 </p>
 <p>
 <a href="../method/Kernel/v/SAFE.html">$SAFE</a> に関するルール
@@ -96,15 +119,16 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
 <li>プログラム開始時の$SAFEの値は0</li>
 <li>各スレッドは作られた時点での親スレッドの$SAFEの値を引き継ぐ</li>
 </ul>
-<pre>
-      $SAFE = 1
-      th = Thread.new{
-        p $SAFE #=&gt; 1
-        $SAFE = 3
-      }
-      th.join
-      p $SAFE #=&gt; 1
-</pre>
+<pre class="highlight ruby">
+<code>
+      <span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">0</span>
+      th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span>
+        <span class="nb">p</span> <span class="vg">$SAFE</span> <span class="c1"># =&gt; 0
+</span>        <span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="p">}</span>
+      th<span class="p">.</span><span class="nf">join</span>
+      <span class="nb">p</span> <span class="vg">$SAFE</span> <span class="c1"># =&gt; 0
+</span></code></pre>
 <ul>
 <li>$SAFE の値を現在の値より小さく変更する事はできない</li>
 </ul>
@@ -113,8 +137,7 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
       -e:1: tried to downgrade safe level from 1 to 0 (SecurityError)
 </pre>
 <p>
-原則として、各セキュリティレベルにはそれ以下のセキュリティレベルの制限も
-適用されます。たとえばレベル1で許されない操作はレベル2でも行えません。
+原則として、各セキュリティレベルにはそれ以下のセキュリティレベルの制限も適用されます。たとえばレベル1で許されない操作はレベル2でも行えません。
 </p>
 <h3 >レベル 0</h3>
 <p>
@@ -132,9 +155,7 @@ true
 環境変数PATHだけは例外で、値に危険なパスを含む場合のみ汚染されます。
 </p>
 <p>
-ここでは危険なパスとは誰でも変更／書き込みが可能なパスをいいます。
-ルートディレクトリから階層が順番にチェックされ、一箇所でも誰でも
-変更可能な個所があればそのパスは危険とみなされます。
+ここでは危険なパスとは誰でも変更／書き込みが可能なパスをいいます。ルートディレクトリから階層が順番にチェックされ、一箇所でも誰でも変更可能な個所があればそのパスは危険とみなされます。
 </p>
 <p>
 なお、DOSISH(DOSとWindows)、cygwin では権限をチェックしません。
@@ -242,27 +263,24 @@ CGI等でユーザからの入力を処理するのに適しています。
 </ul>
 <h2 >使用例</h2>
 <p>
-一旦高くした$SAFEレベルを低く変更する事はできませんが、以下のようにスレッ
-ドを使うことで、プログラムの一部だけを高いセーフレベルで実行することが可
-能です。
+一旦高くした$SAFEレベルを低く変更する事はできませんが、以下のようにスレッドを使うことで、プログラムの一部だけを高いセーフレベルで実行することが可能です。
 </p>
-<p>
-例:
-</p>
-<pre>
-def safe(level)
-  result = nil
-  Thread.start {
-    $SAFE = level
-    result = yield
-  }.join
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="k">def</span> <span class="nf">safe</span><span class="p">(</span>level<span class="p">)</span>
+  result <span class="o">=</span> <span class="k">nil</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">start</span> <span class="p">{</span>
+    <span class="vg">$SAFE</span> <span class="o">=</span> level
+    result <span class="o">=</span> <span class="k">yield</span>
+  <span class="p">}</span><span class="p">.</span><span class="nf">join</span>
   result
-end
+<span class="k">end</span>
 
-lib = &quot;insecure_library&quot;.taint # 外部から受け取った文字列(仮)
-safe(1) { require lib }        # $SAFE が 1 なので例外
-require lib                    # 外側は影響を受けない
-</pre>
+lib <span class="o">=</span> <span class="s2">"</span><span class="s2">insecure_library</span><span class="s2">"</span><span class="p">.</span><span class="nf">taint</span> <span class="c1"># 外部から受け取った文字列(仮)
+</span>safe<span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="nb">require</span> lib <span class="p">}</span>        <span class="c1"># $SAFE が 1 なので例外
+</span><span class="nb">require</span> lib                    <span class="c1"># 外側は影響を受けない
+</span></code></pre>
 <h2 >拡張ライブラリでの扱い</h2>
 <ul>
 <li>拡張ライブラリではオブジェクトの汚染状態を適切に伝播させる必要があります。</li>
@@ -270,14 +288,19 @@ require lib                    # 外側は影響を受けない
 チェックする必要があります。</li>
 </ul>
 <p>
-@see <a class="external" href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/37407">[ruby-list:37407]</a>
+[SEE_ALSO] <a class="external" href="https://blade.ruby-lang.org/ruby-list/37407">[ruby-list:37407]</a>
 </p>
 
+</main>
 
-<div id="footer">
+<footer id="footer">
   <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
     <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>

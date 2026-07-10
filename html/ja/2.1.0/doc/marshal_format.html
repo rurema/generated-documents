@@ -1,25 +1,69 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="icon" type="image/png" href="../rurema.png">
-  
-  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/marshal_format.html">
-  
-  <title>Marshal フォーマット (Ruby 2.1.0)</title>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/marshal_format.html">
+
+<title>Marshal フォーマット (Ruby 2.1.0 リファレンスマニュアル)</title>
+<meta name="description" content="2002-04-04 ドラフトのドラフトのドラフトの....">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 2.1.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
 
-<a href="../doc/index.html">Ruby 2.1.0 リファレンスマニュアル</a>
-&gt; Marshal フォーマット
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.1.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/marshal_format.html","name":"Marshal フォーマット","position":2}]}
+</script>
 
-</p>
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 2.1.0 リファレンスマニュアル</a>
+        </li>
+        <li>
+          Marshal フォーマット
+        </li>
+      
+    </ol>
+  </nav>
 
 <h1>Marshal フォーマット</h1>
+</header>
+
+<main>
 
 <p>
 2002-04-04 ドラフトのドラフトのドラフトの....
@@ -89,8 +133,7 @@ p Marshal.dump(nil).unpack(&quot;x2 a*&quot;) # =&gt; [&quot;0&quot;]
 'i' に続けて Fixnum を表すデータ構造が続きます。
 </p>
 <p>
-数値部分を表す形式(これは Fixnum に限らず他の箇所でも使われます)は、
-数値 n に対して
+数値部分を表す形式(これは Fixnum に限らず他の箇所でも使われます)は、数値 n に対して
 </p>
 <p>
 形式 1:
@@ -101,8 +144,7 @@ n == 0:       0
 -124 &lt; n &lt; 0: n - 5
 </pre>
 <p>
-という数値(1 byte)を格納します。5 を足したり引いたりするのは下記の
-形式との区別のためです。
+という数値(1 byte)を格納します。5 を足したり引いたりするのは下記の形式との区別のためです。
 </p>
 <p>
 例:
@@ -125,8 +167,7 @@ p Marshal.dump(2).unpack(&quot;x2 a*&quot;)  # =&gt; &quot;i\a&quot;   (&quot;i\
 byte        bytes
 </pre>
 <p>
-len の値は -4 〜 -1, 1 〜 4 で。符号と後続のデータが n1 〜 n|len| ま
-であることを示します。
+len の値は -4 〜 -1, 1 〜 4 で。符号と後続のデータが n1 〜 n|len| まであることを示します。
 </p>
 <pre>
 # もっとうまい式を...
@@ -221,9 +262,7 @@ p Marshal.dump(Foo.new).unpack(&quot;x2 a a c a*&quot;)
 'u'
 </p>
 <p>
-_dump、_load を定義していれば 'u' になる。
-インスタンス変数は dump されなくなるので、_dump/_load で対応する必要
-がある。
+_dump、_load を定義していれば 'u' になる。インスタンス変数は dump されなくなるので、_dump/_load で対応する必要がある。
 </p>
 <pre>
 | 'u' | クラス名(Symbol)の dump | _dump の結果の長さ(Fixnum形式) |
@@ -247,8 +286,7 @@ p Marshal.dump(Foo.new).unpack(&quot;x2 a aca3 c a*&quot;)
 'U'  ((&lt;ruby 1.8 feature&gt;))
 </p>
 <p>
-marshal_dump、marshal_load を定義していれば 'U' になる。
-インスタンス変数は dump されなくなるので、marshal_dump/marshal_load
+marshal_dump、marshal_load を定義していれば 'U' になる。インスタンス変数は dump されなくなるので、marshal_dump/marshal_load
 で対応する必要がある。
 </p>
 <pre>
@@ -327,9 +365,7 @@ p Marshal.dump(-0.0).unpack(&quot;x2 a c a*&quot;)   # =&gt; [&quot;f&quot;, 9, 
 </pre>
 <p>
 ((-((&lt;ruby 1.7 feature&gt;)): version 1.6 では、nan などの出力は
-<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/sprintf.html">sprintf(3)</a> に依存している。読み込みは現在のとこ
-ろ &quot;nan&quot;, &quot;inf&quot;, &quot;-inf&quot; 以外は <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/strtod.html">strtod(3)</a> に依存
-している。-&gt; 1.7 では、sprintf(3)/strtod(3) への依存はなくなった-))
+<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/sprintf.html">sprintf(3)</a> に依存している。読み込みは現在のところ &quot;nan&quot;, &quot;inf&quot;, &quot;-inf&quot; 以外は <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/strtod.html">strtod(3)</a> に依存している。-&gt; 1.7 では、sprintf(3)/strtod(3) への依存はなくなった-))
 </p>
 </dd>
 <dt>Bignum</dt>
@@ -572,9 +608,7 @@ p Marshal.dump(:foo).unpack(&quot;x2 a c a*&quot;)
 | ';' | Symbolの実態を指す番号(Fixnum形式) |
 </pre>
 <p>
-対応するシンボル名が既に dump/load されている場合に使用される。番号
-は内部管理のもの。(dump/load 時に Symbol 管理用にハッシュテーブルが
-作られる。そのレコード位置)
+対応するシンボル名が既に dump/load されている場合に使用される。番号は内部管理のもの。(dump/load 時に Symbol 管理用にハッシュテーブルが作られる。そのレコード位置)
 </p>
 <p>
 例:
@@ -601,8 +635,7 @@ p Marshal.dump([:foo, :foo, :bar, :bar]).
 | インスタンス変数名(Symbol) のdump(n) | 値(n) |
 </pre>
 <p>
-Object のインスタンスはそれ自身がインスタンス変数の構造を持つので
-別形式で dump される ([[unknown:Marshalフォーマット/Object]] 参照)
+Object のインスタンスはそれ自身がインスタンス変数の構造を持つので別形式で dump される ([[unknown:Marshalフォーマット/Object]] 参照)
 この形式は、Array や String のインスタンス用。
 </p>
 <p>
@@ -615,8 +648,7 @@ p Marshal.dump(obj).unpack(&quot;x2 a ac c a c a4 aca*&quot;)
 # =&gt; [&quot;I&quot;, &quot;\&quot;&quot;, 0, 6, &quot;:&quot;, 9, &quot;@foo&quot;, &quot;\&quot;&quot;, 8, &quot;bar&quot;]
 </pre>
 <p>
-クラスやモジュール(Class/Module のインスタンス)は、
-インスタンス変数の情報を dump しない。
+クラスやモジュール(Class/Module のインスタンス)は、インスタンス変数の情報を dump しない。
 ([[unknown:Marshalフォーマット/&quot;Class/Module&quot;]] 参照)
 </p>
 </dd>
@@ -629,9 +661,7 @@ p Marshal.dump(obj).unpack(&quot;x2 a ac c a c a4 aca*&quot;)
 | '@' | オブジェクトの実態を指す番号(Fixnum形式 |
 </pre>
 <p>
-対応するオブジェクトが既に dump/load されている場合に使用される。番
-号は内部管理のもの。(dump/load 時に オブジェクト管理用にハッシュテー
-ブルが作られる。そのレコード位置)
+対応するオブジェクトが既に dump/load されている場合に使用される。番号は内部管理のもの。(dump/load 時に オブジェクト管理用にハッシュテーブルが作られる。そのレコード位置)
 </p>
 <p>
 例:
@@ -651,32 +681,27 @@ p Marshal.dump(ary).unpack(&quot;x2 acac&quot;)
 </dl>
 <h2 >Marshal のバグ</h2>
 <p>
-過去の ruby version 1.6 には、それぞれのバージョンで以下のバグがありま
-した。括弧()内の記述は本来の挙動(1.7 の振るまい)です。
+過去の ruby version 1.6 には、それぞれのバージョンで以下のバグがありました。括弧()内の記述は本来の挙動(1.7 の振るまい)です。
 </p>
 <dl>
 <dt>&lt;= 1.6.7</dt>
 <dd>
 <p>
-* クラスを clone したもののインスタンスはダンプできるが、ロー
-ドできない(無名クラスのオブジェクトになるのでダンプできない)
-* 無名 Module の include/extend により特異メソッドが定義された
-オブジェクトをダンプ、ロードできる(無名モジュールを include
+* クラスを clone したもののインスタンスはダンプできるが、ロードできない(無名クラスのオブジェクトになるのでダンプできない)
+* 無名 Module の include/extend により特異メソッドが定義されたオブジェクトをダンプ、ロードできる(無名モジュールを include
 したオブジェクトはダンプできない)
 </p>
 </dd>
 <dt>1.6.6, 1.6.7</dt>
 <dd>
 <p>
-* インスタンス変数を持つ Array や String はダンプできるが、
-ロードできない(ダンプ、ロードできる)
+* インスタンス変数を持つ Array や String はダンプできるが、ロードできない(ダンプ、ロードできる)
 </p>
 </dd>
 <dt>&lt;= 1.6.5</dt>
 <dd>
 <p>
-* クラスを clone したもののインスタンスはダンプできるが、ロー
-ドすると変なオブジェクトができる(?)
+* クラスを clone したもののインスタンスはダンプできるが、ロードすると変なオブジェクトができる(?)
 * 特異クラスは、特異でないクラスにダンプされる(特異クラスはダンプできない)
 * 無名クラスは、ダンプできるがロードできない(無名クラスはダンプできない)
 </p>
@@ -685,8 +710,7 @@ p Marshal.dump(ary).unpack(&quot;x2 acac&quot;)
 <dd>
 <p>
 * モジュールはダンプできるがロードできない(ロードできる)
-* 無名モジュールは、ダンプできるがロードできない(無名モジュー
-ルはダンプできない)
+* 無名モジュールは、ダンプできるがロードできない(無名モジュールはダンプできない)
 </p>
 </dd>
 <dt>&lt;= 1.6.3</dt>
@@ -704,8 +728,7 @@ p Marshal.dump(ary).unpack(&quot;x2 acac&quot;)
 <dt>1.6.2, 1.6.3</dt>
 <dd>
 <p>
-* 1.6.2, 1.6.3のみBignum をダンプしたものをロードできない
-この関連バグは他にもあったと思うが再現スクリプトが不明。
+* 1.6.2, 1.6.3のみBignum をダンプしたものをロードできないこの関連バグは他にもあったと思うが再現スクリプトが不明。
 </p>
 </dd>
 <dt>&lt;= 1.6.1</dt>
@@ -1146,11 +1169,16 @@ class TestMarshal &lt; RUNIT::TestCase
 end
 </pre>
 
+</main>
 
-<div id="footer">
+<footer id="footer">
   <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
     <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>

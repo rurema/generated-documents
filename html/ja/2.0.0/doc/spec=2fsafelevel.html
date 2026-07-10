@@ -1,48 +1,86 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="icon" type="image/png" href="../rurema.png">
-  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/doc/spec=2fsafelevel.html">
-  <title>セキュリティモデル (Ruby 2.0.0)</title>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/spec=2fsafelevel.html">
+
+<title>セキュリティモデル (Ruby 2.0.0 リファレンスマニュアル)</title>
+<meta name="description" content="RubyにはCGI等のプログラミングを安全に行うことを助ける為に、セキュリティ
+機構が備わっています。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 2.0.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
 
-<a href="../doc/index.html">Ruby 2.0.0 リファレンスマニュアル</a>
-&gt; セキュリティモデル
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.0.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/spec=2fsafelevel.html","name":"セキュリティモデル","position":2}]}
+</script>
 
-</p>
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 2.0.0 リファレンスマニュアル</a>
+        </li>
+        <li>
+          セキュリティモデル
+        </li>
+      
+    </ol>
+  </nav>
 
 <h1>セキュリティモデル</h1>
+</header>
+
+<main>
 
 <p>
-RubyにはCGI等のプログラミングを安全に行うことを助ける為に、セキュリティ
-機構が備わっています。
+RubyにはCGI等のプログラミングを安全に行うことを助ける為に、セキュリティ機構が備わっています。
 </p>
 <p>
-Rubyのセキュリティモデルは「オブジェクトの汚染」と「セーフレベル」という
-仕組みによってなりたっています。
+Rubyのセキュリティモデルは「オブジェクトの汚染」と「セーフレベル」という仕組みによってなりたっています。
 </p>
 <h2 >オブジェクトの汚染</h2>
 <p>
-Rubyではオブジェクトは「汚染されている」とみなされることがあります。この
-しくみは大きく分けて二つの使われ方をします。
+Rubyではオブジェクトは「汚染されている」とみなされることがあります。このしくみは大きく分けて二つの使われ方をします。
 </p>
 <p>
-ひとつ目は、信用できない入力をもとに作られたオブジェクトを「汚染されてい
-る」とみなし、「危険な操作」の引数として使えないようにすることです。悪意
-あるデータによって、プログラムが意図しない動作をする事を防ぐことを目的と
-しています。
+ひとつ目は、信用できない入力をもとに作られたオブジェクトを「汚染されている」とみなし、「危険な操作」の引数として使えないようにすることです。悪意あるデータによって、プログラムが意図しない動作をする事を防ぐことを目的としています。
 </p>
 <p>
-もうひとつは、信用しているオブジェクト(汚染されていないオブジェクト)を
-信用できないプログラムから守るという使い方です。
-セーフレベル4で汚染されていないオブジェクトへの操作が大幅に制限されるの
-はこの事を意図しています。
+もうひとつは、信用しているオブジェクト(汚染されていないオブジェクト)を信用できないプログラムから守るという使い方です。セーフレベル4で汚染されていないオブジェクトへの操作が大幅に制限されるのはこの事を意図しています。
 </p>
 <p>
 オブジェクトの汚染に関連するメソッド
@@ -69,12 +107,10 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
 </dl>
 <h2 >セーフレベル</h2>
 <p>
-各スレッドは固有の「セーフレベル」を持っています。セーフレベルが高くなるほ
-ど、行える操作は制限されます。セーフレベルはスレッドローカル変数 <a href="../method/Kernel/v/SAFE.html">$SAFE</a> で
-設定します。
+各スレッドは固有の「セーフレベル」を持っています。セーフレベルが高くなるほど、行える操作は制限されます。セーフレベルはスレッドローカル変数 <a href="../method/Kernel/v/SAFE.html">$SAFE</a> で設定します。
 </p>
 <p>
-<a class="external" href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/37415">[ruby-list:37415]</a>
+<a class="external" href="https://blade.ruby-lang.org/ruby-list/37415">[ruby-list:37415]</a>
 </p>
 <p>
 <a href="../method/Kernel/v/SAFE.html">$SAFE</a> に関するルール
@@ -100,8 +136,7 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
       -e:1: tried to downgrade safe level from 1 to 0 (SecurityError)
 </pre>
 <p>
-原則として、各セキュリティレベルにはそれ以下のセキュリティレベルの制限も
-適用されます。たとえばレベル1で許されない操作はレベル2でも行えません。
+原則として、各セキュリティレベルにはそれ以下のセキュリティレベルの制限も適用されます。たとえばレベル1で許されない操作はレベル2でも行えません。
 </p>
 <h3 >レベル 0</h3>
 <p>
@@ -119,9 +154,7 @@ true
 環境変数PATHだけは例外で、値に危険なパスを含む場合のみ汚染されます。
 </p>
 <p>
-ここでは危険なパスとは誰でも変更／書き込みが可能なパスをいいます。
-ルートディレクトリから階層が順番にチェックされ、一箇所でも誰でも
-変更可能な個所があればそのパスは危険とみなされます。
+ここでは危険なパスとは誰でも変更／書き込みが可能なパスをいいます。ルートディレクトリから階層が順番にチェックされ、一箇所でも誰でも変更可能な個所があればそのパスは危険とみなされます。
 </p>
 <p>
 なお、DOSISH(DOSとWindows)、cygwin では権限をチェックしません。
@@ -186,8 +219,7 @@ CGI等でユーザからの入力を処理するのに適しています。
 </ul>
 <h3 >レベル 3</h3>
 <p>
-生成される全てのオブジェクトが汚染されます。
-レベル4でプログラムを実行する環境を作り上げるのに適しています。
+生成される全てのオブジェクトが汚染されます。レベル4でプログラムを実行する環境を作り上げるのに適しています。
 </p>
 <h4 >汚染されるオブジェクト</h4>
 <ul>
@@ -205,12 +237,10 @@ CGI等でユーザからの入力を処理するのに適しています。
 信用することのできないプログラムを実行するためのレベルです。
 </p>
 <p>
-レベル4は信頼できないプログラムによる危険な操作をほぼ全て検出できますが、
-完全な安全性は保証されません。
+レベル4は信頼できないプログラムによる危険な操作をほぼ全て検出できますが、完全な安全性は保証されません。
 </p>
 <p>
-このレベルではレベル3では禁止されている「汚染された文字列のeval」が許可
-されています。(<a href="../method/Kernel/m/eval.html">Kernel.#eval</a> で実行すると危険な操作は全て禁止されているからです。)
+このレベルではレベル3では禁止されている「汚染された文字列のeval」が許可されています。(<a href="../method/Kernel/m/eval.html">Kernel.#eval</a> で実行すると危険な操作は全て禁止されているからです。)
 </p>
 <h4 >汚染されるオブジェクト</h4>
 <ul>
@@ -265,9 +295,7 @@ CGI等でユーザからの入力を処理するのに適しています。
 </ul>
 <h2 >使用例</h2>
 <p>
-一旦高くした$SAFEレベルを低く変更する事はできませんが、以下のようにスレッ
-ドを使うことで、プログラムの一部だけを高いセーフレベルで実行することが可
-能です。
+一旦高くした$SAFEレベルを低く変更する事はできませんが、以下のようにスレッドを使うことで、プログラムの一部だけを高いセーフレベルで実行することが可能です。
 </p>
 <p>
 例:
@@ -293,14 +321,19 @@ require lib                    # 外側は影響を受けない
 チェックする必要があります。</li>
 </ul>
 <p>
-@see <a class="external" href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/37407">[ruby-list:37407]</a>
+[SEE_ALSO] <a class="external" href="https://blade.ruby-lang.org/ruby-list/37407">[ruby-list:37407]</a>
 </p>
 
+</main>
 
-<div id="footer">
-  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>

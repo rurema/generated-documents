@@ -1,23 +1,70 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="icon" type="image/png" href="../rurema.png">
-  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/library/dl.html">
-  <title>library dl (Ruby 1.8.7)</title>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/dl.html">
+
+<title>library dl (Ruby 1.8.7 リファレンスマニュアル)</title>
+<meta name="description" content="*.dllや*.soなど、ダイナミックリンクライブラリを扱うためのライブラリです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
-<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
-&gt; <a href="../library/index.html">ライブラリ一覧</a>
-&gt; dlライブラリ
-</p>
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 1.8.7 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/dl.html","name":"dlライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        dlライブラリ
+      </li>
+    </ol>
+  </nav>
 
 <h1>library dl</h1>
+</header>
 
+<main>
 
 
 
@@ -32,14 +79,11 @@
 </p>
 <p>
 Ruby/DL は、UNIX の <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/dlopen.html">dlopen(3)</a> や
-Windows の LoadLibrary() などの
-ダイナミックリンカへのインタフェースを提供します。
+Windows の LoadLibrary() などのダイナミックリンカへのインタフェースを提供します。
 </p>
 <h2 >Using Ruby/DL</h2>
 <p>
-通常は、<a href="../class/DL=3a=3aImportable.html">DL::Importable</a> モジュールを使用します。
-これは <a href="../class/DL.html">DL</a> モジュールの便利なラッパーです。
-ある Ruby のモジュールを拡張するには以下のように使用します。
+通常は、<a href="../class/DL=3a=3aImportable.html">DL::Importable</a> モジュールを使用します。これは <a href="../class/DL.html">DL</a> モジュールの便利なラッパーです。ある Ruby のモジュールを拡張するには以下のように使用します。
 </p>
 <pre>
 require &quot;dl/import&quot;
@@ -48,10 +92,7 @@ module LIBC
 end
 </pre>
 <p>
-以後、このモジュールの dlload と extern メソッドを使用できます。
-以下のように dlload 使ってライブラリをロードし、
-それぞれのライブラリ関数に対して extern を使用することで
-ラッパーメソッドを定義します。
+以後、このモジュールの dlload と extern メソッドを使用できます。以下のように dlload 使ってライブラリをロードし、それぞれのライブラリ関数に対して extern を使用することでラッパーメソッドを定義します。
 </p>
 <pre>
 module LIBC
@@ -64,9 +105,7 @@ end
 p LIBC.strlen('abc') #=&gt; 3
 </pre>
 <p>
-LIBC.strlen を使用することで、ライブラリ関数 strlen() を使用できます。
-与えられた関数名の最初の文字が大文字なら、
-定義されるメソッド名の最初の文字は小文字になります。
+LIBC.strlen を使用することで、ライブラリ関数 strlen() を使用できます。与えられた関数名の最初の文字が大文字なら、定義されるメソッド名の最初の文字は小文字になります。
 </p>
 <h3 >構造体を扱う</h3>
 <p>
@@ -144,11 +183,7 @@ p ap.to_a('P').map{|s| s.to_s } #=&gt; [&quot;2a&quot;, &quot;1b&quot;, &quot;3c
 ここで M::COMPARE は、ブロックを呼ぶ <a href="../class/DL=3a=3aSymbol.html">DL::Symbol</a> オブジェクトです。
 </p>
 <p>
-DL::Importable モジュールはとても便利です。
-しかし、ときにはdlsym() のような低レベル関数を
-直接使わなければならない場面に遭遇します。
-このような場合には DL モジュールの関数を使用することになるでしょう。
-これについては <a href="../class/DL.html">DL</a> で説明します。
+DL::Importable モジュールはとても便利です。しかし、ときにはdlsym() のような低レベル関数を直接使わなければならない場面に遭遇します。このような場合には DL モジュールの関数を使用することになるでしょう。これについては <a href="../class/DL.html">DL</a> で説明します。
 </p>
 
 
@@ -200,8 +235,7 @@ DL::Importable モジュールはとても便利です。
 <a href="../class/DL.html">DL</a>
 </td>
 <td class="description"><p>
-UNIX の <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/dlopen.html">dlopen(3)</a> や Windows の LoadLibrary() などのダイナミックリンカへの低レベルな
-インターフェースを提供するモジュールです。
+UNIX の <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/dlopen.html">dlopen(3)</a> や Windows の LoadLibrary() などのダイナミックリンカへの低レベルなインターフェースを提供するモジュールです。
 </p>
 </td>
 </tr>
@@ -290,12 +324,16 @@ Ruby/DL が <a href="../class/Win32API.html">Win32API</a> と互換性を持つ�
 
 </code></p>
 
+</main>
 
-
-<div id="footer">
-  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>

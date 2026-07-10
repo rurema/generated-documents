@@ -1,23 +1,72 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="icon" type="image/png" href="../rurema.png">
-  <link rel="canonical" href="http://docs.ruby-lang.org/ja/latest/doc/spec=2fcall.html">
-  <title>メソッド呼び出し(super・ブロック付き・yield) (Ruby 1.8.7)</title>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/spec=2fcall.html">
+
+<title>メソッド呼び出し(super・ブロック付き・yield) (Ruby 1.8.7 リファレンスマニュアル)</title>
+<meta name="description" content="* [[ref:super]]
+  * [[ref:block]]
+  * [[ref:yield]]
+  * [[ref:block_arg]]">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
 
-<a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
-&gt; メソッド呼び出し(super・ブロック付き・yield)
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 1.8.7 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/spec=2fcall.html","name":"メソッド呼び出し(super・ブロック付き・yield)","position":2}]}
+</script>
 
-</p>
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 1.8.7 リファレンスマニュアル</a>
+        </li>
+        <li>
+          メソッド呼び出し(super・ブロック付き・yield)
+        </li>
+      
+    </ol>
+  </nav>
 
 <h1>メソッド呼び出し(super・ブロック付き・yield)</h1>
+</header>
+
+<main>
 
 <ul>
 <li><a href="#super">super</a></li>
@@ -45,9 +94,7 @@ Class::new
 [式 `::'] 識別子 [`(' 式 ... [`*' [式]],[`&amp;' 式] `)']
 </pre>
 <p>
-メソッド呼び出し式はレシーバ(`.' の左側の式の値)のメソッドを呼び
-出します。レシーバが指定されない時は self のメソッドを呼び出しま
-す。
+メソッド呼び出し式はレシーバ(`.' の左側の式の値)のメソッドを呼び出します。レシーバが指定されない時は self のメソッドを呼び出します。
 </p>
 <p>
 `.' と `::' とはほぼ同じ意味です。但し、定数を表す場合は、
@@ -58,8 +105,7 @@ Klass::Foo
 </pre>
 <p>
 とした場合、常に定数と見なされるという制限があります。
-`::' を、クラスメソッド呼び出しに使うという流儀がありますが、
-この点は要注意です。大文字で始まるメソッド名を使用する場合は
+`::' を、クラスメソッド呼び出しに使うという流儀がありますが、この点は要注意です。大文字で始まるメソッド名を使用する場合は
 </p>
 <pre>
 Klass.Foo
@@ -74,14 +120,11 @@ Klass::Foo()
 と括弧でメソッド呼び出しであることを明示する必要があります。
 </p>
 <p>
-メソッド名には通常の識別子の他、識別子に ? または ! の続い
-たものが許されます。慣習として、述語(真偽値を返すメソッド)には ?
-を、同名の(! の無い)メソッドに比べてより破壊的な作用をもつメソッ
-ド(例: tr と tr!)には ! をつけるようになっています。
+メソッド名には通常の識別子の他、識別子に ? または ! の続いたものが許されます。慣習として、述語(真偽値を返すメソッド)には ?
+を、同名の(! の無い)メソッドに比べてより破壊的な作用をもつメソッド(例: tr と tr!)には ! をつけるようになっています。
 </p>
 <p>
-最後の引数の直前に * がついている場合、その引数の値が展開されて
-渡されます。展開はメソッド to_a を経由して行なわれます。つまり:
+最後の引数の直前に * がついている場合、その引数の値が展開されて渡されます。展開はメソッド to_a を経由して行なわれます。つまり:
 </p>
 <pre>
 foo(1,*[2,3,4])
@@ -98,15 +141,10 @@ foo(1)
 と同じです。
 </p>
 <p>
-最後の引数の直前に &amp; がついている場合、その引数で指定した手続き
-オブジェクト(<a href="../class/Proc.html">Proc</a>)やメソッドオブジェクト(<a href="../class/Method.html">Method</a>)がブロック
-としてメソッドに渡されます。詳細は <a href="#block">ブロック付きメソッド呼び出し</a> を参照してください。
+最後の引数の直前に &amp; がついている場合、その引数で指定した手続きオブジェクト(<a href="../class/Proc.html">Proc</a>)やメソッドオブジェクト(<a href="../class/Method.html">Method</a>)がブロックとしてメソッドに渡されます。詳細は <a href="#block">ブロック付きメソッド呼び出し</a> を参照してください。
 </p>
 <p>
-メソッド呼び出しの際、private なメソッドは関数形式(レシーバを省
-略した形式)でしか呼び出すことができません。また protected なメソッ
-ドはそのメソッドを持つオブジェクトのメソッド定義式内でなければ呼び出せ
-ません。<a href="../doc/spec=2fdef.html#limit">クラス／メソッドの定義/呼び出し制限</a> を参照して下さい。
+メソッド呼び出しの際、private なメソッドは関数形式(レシーバを省略した形式)でしか呼び出すことができません。また protected なメソッドはそのメソッドを持つオブジェクトのメソッド定義式内でなければ呼び出せません。<a href="../doc/spec=2fdef.html#limit">クラス／メソッドの定義/呼び出し制限</a> を参照して下さい。
 </p>
 <h2 id='super'>super</h2>
 <p>
@@ -124,9 +162,7 @@ super
 super(式, ... )
 </pre>
 <p>
-super は現在のメソッドがオーバーライドしているメソッドを呼び出し
-ます。括弧と引数が省略された場合には現在のメソッドの引数がそのまま引き
-渡されます。引数を渡さずにオーバーライドしたメソッドを呼び出すには
+super は現在のメソッドがオーバーライドしているメソッドを呼び出します。括弧と引数が省略された場合には現在のメソッドの引数がそのまま引き渡されます。引数を渡さずにオーバーライドしたメソッドを呼び出すには
 super() と括弧を明示します。
 </p>
 <p>
@@ -168,25 +204,19 @@ method(arg1, arg2, ...) `{' [`|' 式 ... `|'] 式 ... `}'
 method(arg1, arg2, ..., `&amp;' proc_object)
 </pre>
 <p>
-ブロック付きメソッドとは制御構造の抽象化のために用いられる
-メソッドです。最初はループの抽象化のために用いられていたため、
-特にイテレータと呼ばれることもあります。
+ブロック付きメソッドとは制御構造の抽象化のために用いられるメソッドです。最初はループの抽象化のために用いられていたため、特にイテレータと呼ばれることもあります。
 do ... end または { ... }  で囲まれたコードの断片
-(ブロックと呼ばれる)を後ろに付けてメソッドを呼び出すと、その
-メソッドの内部からブロックを評価できます。
-ブロック付きメソッドを自分で定義するには yield 式を使います。
+(ブロックと呼ばれる)を後ろに付けてメソッドを呼び出すと、そのメソッドの内部からブロックを評価できます。ブロック付きメソッドを自分で定義するには yield 式を使います。
 </p>
 <p>
-{ ...  } の方が do ...  end ブロックよりも強く結合します。
-次に例を挙げますが、このような違いが影響するコードは読み辛いので避けましょう:
+{ ...  } の方が do ...  end ブロックよりも強く結合します。次に例を挙げますが、このような違いが影響するコードは読み辛いので避けましょう:
 </p>
 <pre>
 foobar a, b do .. end   # foobarの引数はa, bの値とブロック
 foobar a, b { .. }      # ブロックはメソッドbの引数、aの値とbの返り値とがfoobarの引数
 </pre>
 <p>
-ブロックの中で初めて代入された(宣言された)ローカル変数はその
-ブロックの中でだけ有効です。例えば:
+ブロックの中で初めて代入された(宣言された)ローカル変数はそのブロックの中でだけ有効です。例えば:
 </p>
 <pre>
 foobar {
@@ -209,12 +239,7 @@ i = 10
 end
 </pre>
 <p>
-ブロックの部分だけを先に定義して変数に保存しておき、後からブロック付きメソッドに渡すことも出来ます。
-それを実現するのが手続きオブジェクト(<a href="../class/Proc.html">Proc</a>)です。
-それをブロックとして渡すにはブロック付きメソッドの最後の引数として `&amp;' で修飾した手続きオブジェクトを渡
-します。Proc の代わりにメソッドオブジェクト(<a href="../class/Method.html">Method</a>)を渡す
-ことも出来ます。この場合、そのメソッドを呼ぶ手続きオブジェクトが生成さ
-れ渡されます。
+ブロックの部分だけを先に定義して変数に保存しておき、後からブロック付きメソッドに渡すことも出来ます。それを実現するのが手続きオブジェクト(<a href="../class/Proc.html">Proc</a>)です。それをブロックとして渡すにはブロック付きメソッドの最後の引数として `&amp;' で修飾した手続きオブジェクトを渡します。Proc の代わりにメソッドオブジェクト(<a href="../class/Method.html">Method</a>)を渡すことも出来ます。この場合、そのメソッドを呼ぶ手続きオブジェクトが生成され渡されます。
 </p>
 <pre>
 # 1引数の手続き(その働きは引数をpで印字すること)を生成し、変数pobjに格納
@@ -229,9 +254,7 @@ pobj = proc {|v|
 </pre>
 <p>
 to_proc メソッドを持つオブジェクトならば、`&amp;'
-修飾した引数として渡すことができます。デフォルトで Proc、Method オブジェ
-クトは共に to_proc メソッドを持ちます。to_proc はメソッド呼び出し時に実
-行され、Proc オブジェクトを返すことが期待されます。
+修飾した引数として渡すことができます。デフォルトで Proc、Method オブジェクトは共に to_proc メソッドを持ちます。to_proc はメソッド呼び出し時に実行され、Proc オブジェクトを返すことが期待されます。
 </p>
 <pre>
 class Foo
@@ -256,8 +279,7 @@ break に引数を指定した場合はその値がブロック付きメソッ�
 <h2 id='yield'>yield</h2>
 <p>
 自分で定義したブロック付きメソッドでブロックを呼び出すときに使います。
-yield に渡された値はブロック記法において | と | の間にはさまれた
-変数(ブロックパラメータ)に代入されます。
+yield に渡された値はブロック記法において | と | の間にはさまれた変数(ブロックパラメータ)に代入されます。
 </p>
 <p>
 例:
@@ -273,8 +295,7 @@ yield `(' [式 [`,' 式 ... ]] `)'
 yield [式 [`,' 式 ... ]]
 </pre>
 <p>
-引数をブロックパラメータとして渡してブロックを評価します。yield は
-イテレータを定義するために <a href="../doc/spec=2fdef.html#method">クラス／メソッドの定義/メソッド定義</a> 内で使用します。
+引数をブロックパラメータとして渡してブロックを評価します。yield はイテレータを定義するために <a href="../doc/spec=2fdef.html#method">クラス／メソッドの定義/メソッド定義</a> 内で使用します。
 </p>
 <pre>
 # ブロック付きメソッドの定義、
@@ -327,8 +348,7 @@ iich([1, 4, 9, 16, 25]) {|elem|
 p sum # =&gt; 55
 </pre>
 <p>
-ブロックパラメータの代入は<a href="../doc/spec=2foperator.html#multiassign">演算子式/多重代入</a>と同じルールで行われます。
-また yield を実行したメソッドにブロックが渡されていない
+ブロックパラメータの代入は<a href="../doc/spec=2foperator.html#multiassign">演算子式/多重代入</a>と同じルールで行われます。また yield を実行したメソッドにブロックが渡されていない
 (ブロック付きメソッド呼び出しではない)時は例外 <a href="../class/LocalJumpError.html">LocalJumpError</a> が発生します。
 </p>
 <p>
@@ -341,12 +361,10 @@ next に引数を指定した場合はその値が yield の戻り値になり�
 </p>
 <h3 id='block_arg'>ブロックパラメータの挙動</h3>
 <p>
-メソッド呼び出しと挙動が異なります。例えば引数の数が違っても例外が
-発生しません。
+メソッド呼び出しと挙動が異なります。例えば引数の数が違っても例外が発生しません。
 </p>
 <p>
-ブロックパラメータの受渡しは、以下の点に関して将来変更されるかもしれま
-せん。現在は警告が出ます。
+ブロックパラメータの受渡しは、以下の点に関して将来変更されるかもしれません。現在は警告が出ます。
 </p>
 <pre>
 def foo
@@ -380,11 +398,16 @@ v = 1,2,3
 は現在のところ警告は出ませんが使用しない方がよいでしょう。
 </p>
 
+</main>
 
-<div id="footer">
-  <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" />
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>

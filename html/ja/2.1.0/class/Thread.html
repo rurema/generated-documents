@@ -1,39 +1,101 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Language" content="ja-JP">
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link rel="icon" type="image/png" href="../rurema.png">
-  
-  <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Thread.html">
-  
-  <title>class Thread (Ruby 2.1.0)</title>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-620926-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-620926-3');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Thread.html">
+
+<title>class Thread (Ruby 2.1.0 リファレンスマニュアル)</title>
+<meta name="description" content="スレッドを表すクラスです。スレッドとはメモリ空間を共有して同時に実行される制御の流れです。
+Thread を使うことで並行プログラミングが可能になります。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
 </head>
 <body>
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 2.1.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
 
-<p>
-<a href="../doc/index.html">Ruby 2.1.0 リファレンスマニュアル</a>
-&gt; <a href="../library/index.html">ライブラリ一覧</a>
-&gt; <a href="../library/_builtin.html">組み込みライブラリ</a>
-&gt; Threadクラス
-</p>
 
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 2.1.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Thread.html","name":"Threadクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 2.1.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        Threadクラス
+      </li>
+    </ol>
+  </nav>
 
 <h1>class Thread</h1>
-<p>
+</header>
+
+<main>
 
 
-クラスの継承リスト: Thread
 
-      &lt; <a href="../class/Object.html">Object</a>
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
       
-
-      &lt; <a href="../class/Kernel.html">Kernel</a>
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
       
-
-      &lt; <a href="../class/BasicObject.html">BasicObject</a>
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
       
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Thread
+      </li>
+    </ol>
+  </nav>
 
 
 
@@ -41,7 +103,9 @@
 
 
 
-</p>
+
+
+
 
 <h2>要約</h2>
 <p>
@@ -50,38 +114,24 @@ Thread を使うことで並行プログラミングが可能になります。
 </p>
 <h2 >実装</h2>
 <p>
-ネイティブスレッドを用いて実装されていますが、
-現在の実装では Ruby VM は Giant VM lock (GVL) を有しており、同時に実行される
-ネイティブスレッドは常にひとつです。
-ただし、IO 関連のブロックする可能性があるシステムコールを行う場合には
-GVL を解放します。その場合にはスレッドは同時に実行され得ます。
-また拡張ライブラリから GVL を操作できるので、複数のスレッドを
-同時に実行するような拡張ライブラリは作成可能です。
+ネイティブスレッドを用いて実装されていますが、現在の実装では Ruby VM は Giant VM lock (GVL) を有しており、同時に実行されるネイティブスレッドは常にひとつです。ただし、IO 関連のブロックする可能性があるシステムコールを行う場合には
+GVL を解放します。その場合にはスレッドは同時に実行され得ます。また拡張ライブラリから GVL を操作できるので、複数のスレッドを同時に実行するような拡張ライブラリは作成可能です。
 </p>
 <h2 >スケジューリング</h2>
 <p>
-Ruby のスレッドスケジューリングはネイティブスレッドのそれを利用しています。
-よって詳細はプラットフォームに依存します。
+Ruby のスレッドスケジューリングはネイティブスレッドのそれを利用しています。よって詳細はプラットフォームに依存します。
 </p>
 <h2 >メインスレッド</h2>
 <p>
-プログラムの開始と同時に生成されるスレッドを「メインスレッド」と呼
-びます。なんらかの理由でメインスレッドが終了する時には、他の全てのスレッ
-ドもプログラム全体も終了します。ユーザからの割込みによって発生した例外
-はメインスレッドに送られます。
+プログラムの開始と同時に生成されるスレッドを「メインスレッド」と呼びます。なんらかの理由でメインスレッドが終了する時には、他の全てのスレッドもプログラム全体も終了します。ユーザからの割込みによって発生した例外はメインスレッドに送られます。
 </p>
 <h2 >スレッドの終了</h2>
 <p>
-スレッドの起動時に指定したブロックの実行が終了するとスレッドの実行も終
-了します。ブロックの終了は正常な終了も例外などによる異常終了も含みます。
+スレッドの起動時に指定したブロックの実行が終了するとスレッドの実行も終了します。ブロックの終了は正常な終了も例外などによる異常終了も含みます。
 </p>
 <h2 id='exception'>例外発生時のスレッドの振る舞い</h2>
 <p>
-あるスレッドで例外が発生し、そのスレッド内で rescue で捕捉されなかっ
-た場合、通常はそのスレッドだけがなにも警告なしに終了されます。ただ
-しその例外で終了するスレッドを <a href="../method/Thread/i/join.html">Thread#join</a> で待っている他の
-スレッドがある場合、その待っているスレッドに対して、同じ例外が再度
-発生します。
+あるスレッドで例外が発生し、そのスレッド内で rescue で捕捉されなかった場合、通常はそのスレッドだけがなにも警告なしに終了されます。ただしその例外で終了するスレッドを <a href="../method/Thread/i/join.html">Thread#join</a> で待っている他のスレッドがある場合、その待っているスレッドに対して、同じ例外が再度発生します。
 </p>
 <pre>
 begin
@@ -95,9 +145,7 @@ rescue
 end
 </pre>
 <p>
-また、以下の 3 つの方法により、いずれかのスレッドが例外によって終
-了した時に、インタプリタ全体を中断させるように指定することができま
-す。
+また、以下の 3 つの方法により、いずれかのスレッドが例外によって終了した時に、インタプリタ全体を中断させるように指定することができます。
 </p>
 <ul>
 <li>組み込み変数 <a href="../method/Kernel/v/DEBUG.html">$DEBUG</a> を真に設定する(デバッグモード)
@@ -112,8 +160,7 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 </p>
 <h2 >スレッド終了時の ensure 節の実行</h2>
 <p>
-スレッド終了時には ensure 節が実行されます。
-これはスレッドが正常に終了する時はもちろんですが、他のスレッドから <a href="../method/Thread/i/kill.html">Thread#kill</a>
+スレッド終了時には ensure 節が実行されます。これはスレッドが正常に終了する時はもちろんですが、他のスレッドから <a href="../method/Thread/i/kill.html">Thread#kill</a>
 などによって終了させられた時も同様に実行されます。
 </p>
 <p>
@@ -134,8 +181,7 @@ p Thread.new {sleep 1} # =&gt; #&lt;Thread:0xa039de0 sleep&gt;
 <p>
 生成されたばかりのスレッドや <a href="../method/Thread/i/run.html">Thread#run</a> や
 <a href="../method/Thread/i/wakeup.html">Thread#wakeup</a> で起こされたスレッドはこの状態です。
-<a href="../method/Thread/i/join.html">Thread#join</a> でスレッドの終了を待っているスレッドもスレッドの
-終了によりこの状態になります。
+<a href="../method/Thread/i/join.html">Thread#join</a> でスレッドの終了を待っているスレッドもスレッドの終了によりこの状態になります。
 
 この状態のスレッドは「生きて」います。
 </p>
@@ -143,8 +189,7 @@ p Thread.new {sleep 1} # =&gt; #&lt;Thread:0xa039de0 sleep&gt;
 <dt>sleep (停止状態)</dt>
 <dd>
 <p>
-<a href="../method/Thread/s/stop.html">Thread.stop</a> や <a href="../method/Thread/i/join.html">Thread#join</a> により停止されたスレッ
-ドはこの状態になります。
+<a href="../method/Thread/s/stop.html">Thread.stop</a> や <a href="../method/Thread/i/join.html">Thread#join</a> により停止されたスレッドはこの状態になります。
 
 この状態のスレッドは「生きて」います。
 </p>
@@ -152,8 +197,7 @@ p Thread.new {sleep 1} # =&gt; #&lt;Thread:0xa039de0 sleep&gt;
 <dt>aborting (終了処理中)</dt>
 <dd>
 <p>
-<a href="../method/Thread/i/kill.html">Thread#kill</a> 等で終了されるスレッドは一時的にこの状態になりま
-す。この状態から停止状態(sleep)になることもあります。
+<a href="../method/Thread/i/kill.html">Thread#kill</a> 等で終了されるスレッドは一時的にこの状態になります。この状態から停止状態(sleep)になることもあります。
 
 この状態のスレッドはまだ「生きて」います。
 </p>
@@ -161,9 +205,7 @@ p Thread.new {sleep 1} # =&gt; #&lt;Thread:0xa039de0 sleep&gt;
 <dt>dead (終了状態)</dt>
 <dd>
 <p>
-<a href="../method/Thread/i/kill.html">Thread#kill</a> 等で終了したスレッドはこの状態になります。この状
-態のスレッドはどこからも参照されていなければ GC によりメモリ上から
-なくなります。
+<a href="../method/Thread/i/kill.html">Thread#kill</a> 等で終了したスレッドはこの状態になります。この状態のスレッドはどこからも参照されていなければ GC によりメモリ上からなくなります。
 
 この状態のスレッドは「死んで」います。
 </p>
@@ -181,114 +223,125 @@ p Thread.new {sleep 1} # =&gt; #&lt;Thread:0xa039de0 sleep&gt;
 
 <dt>特異メソッド</dt>
 <dd>
+<ul class="class-toc">
 
-<a href="#S_-D-E-B-U-G">DEBUG</a>
+<li><a href="#S_-D-E-B-U-G">DEBUG</a></li>
 
-<a href="#S_-D-E-B-U-G--3D">DEBUG=</a>
+<li><a href="#S_-D-E-B-U-G--3D">DEBUG=</a></li>
 
-<a href="#S_ABORT_ON_EXCEPTION">abort_on_exception</a>
+<li><a href="#S_ABORT_ON_EXCEPTION">abort_on_exception</a></li>
 
-<a href="#S_ABORT_ON_EXCEPTION">abort_on_exception=</a>
+<li><a href="#S_ABORT_ON_EXCEPTION">abort_on_exception=</a></li>
 
-<a href="#S_CURRENT">current</a>
+<li><a href="#S_CURRENT">current</a></li>
 
-<a href="#S_EXCLUSIVE">exclusive</a>
+<li><a href="#S_EXCLUSIVE">exclusive</a></li>
 
-<a href="#S_EXIT">exit</a>
+<li><a href="#S_EXIT">exit</a></li>
 
-<a href="#S_FORK">fork</a>
+<li><a href="#S_FORK">fork</a></li>
 
-<a href="#S_FORK">start</a>
+<li><a href="#S_HANDLE_INTERRUPT">handle_interrupt</a></li>
 
-<a href="#S_HANDLE_INTERRUPT">handle_interrupt</a>
+<li><a href="#S_KILL">kill</a></li>
 
-<a href="#S_KILL">kill</a>
+<li><a href="#S_LIST">list</a></li>
 
-<a href="#S_LIST">list</a>
+<li><a href="#S_MAIN">main</a></li>
 
-<a href="#S_MAIN">main</a>
+<li><a href="#S_NEW">new</a></li>
 
-<a href="#S_NEW">new</a>
+<li><a href="#S_PASS">pass</a></li>
 
-<a href="#S_PASS">pass</a>
+<li><a href="#S_PENDING_INTERRUPT--3F">pending_interrupt?</a></li>
 
-<a href="#S_PENDING_INTERRUPT--3F">pending_interrupt?</a>
+<li><a href="#S_FORK">start</a></li>
 
-<a href="#S_STOP">stop</a>
+<li><a href="#S_STOP">stop</a></li>
 
+</ul>
 </dd>
 
 <dt>インスタンスメソッド</dt>
 <dd>
+<ul class="class-toc">
 
-<a href="#I_--5B--5D">[]</a>
+<li><a href="#I_--5B--5D">[]</a></li>
 
-<a href="#I_--5B--5D--3D">[]=</a>
+<li><a href="#I_--5B--5D--3D">[]=</a></li>
 
-<a href="#I_ABORT_ON_EXCEPTION">abort_on_exception</a>
+<li><a href="#I_ABORT_ON_EXCEPTION">abort_on_exception</a></li>
 
-<a href="#I_ABORT_ON_EXCEPTION">abort_on_exception=</a>
+<li><a href="#I_ABORT_ON_EXCEPTION">abort_on_exception=</a></li>
 
-<a href="#I_ADD_TRACE_FUNC">add_trace_func</a>
+<li><a href="#I_ADD_TRACE_FUNC">add_trace_func</a></li>
 
-<a href="#I_ALIVE--3F">alive?</a>
+<li><a href="#I_ALIVE--3F">alive?</a></li>
 
-<a href="#I_BACKTRACE">backtrace</a>
+<li><a href="#I_BACKTRACE">backtrace</a></li>
 
-<a href="#I_BACKTRACE_LOCATIONS">backtrace_locations</a>
+<li><a href="#I_BACKTRACE_LOCATIONS">backtrace_locations</a></li>
 
-<a href="#I_EXIT">exit</a>
+<li><a href="#I_EXIT">exit</a></li>
 
-<a href="#I_EXIT">kill</a>
+<li><a href="#I_GROUP">group</a></li>
 
-<a href="#I_EXIT">terminate</a>
+<li><a href="#I_INSPECT">inspect</a></li>
 
-<a href="#I_GROUP">group</a>
+<li><a href="#I_JOIN">join</a></li>
 
-<a href="#I_INSPECT">inspect</a>
+<li><a href="#I_KEY--3F">key?</a></li>
 
-<a href="#I_JOIN">join</a>
+<li><a href="#I_KEYS">keys</a></li>
 
-<a href="#I_KEY--3F">key?</a>
+<li><a href="#I_EXIT">kill</a></li>
 
-<a href="#I_KEYS">keys</a>
+<li><a href="#I_PENDING_INTERRUPT--3F">pending_interrupt?</a></li>
 
-<a href="#I_PENDING_INTERRUPT--3F">pending_interrupt?</a>
+<li><a href="#I_PRIORITY">priority</a></li>
 
-<a href="#I_PRIORITY">priority</a>
+<li><a href="#I_PRIORITY">priority=</a></li>
 
-<a href="#I_PRIORITY">priority=</a>
+<li><a href="#I_RAISE">raise</a></li>
 
-<a href="#I_RAISE">raise</a>
+<li><a href="#I_RUN">run</a></li>
 
-<a href="#I_RUN">run</a>
+<li><a href="#I_SAFE_LEVEL">safe_level</a></li>
 
-<a href="#I_SAFE_LEVEL">safe_level</a>
+<li><a href="#I_SET_TRACE_FUNC">set_trace_func</a></li>
 
-<a href="#I_SET_TRACE_FUNC">set_trace_func</a>
+<li><a href="#I_STATUS">status</a></li>
 
-<a href="#I_STATUS">status</a>
+<li><a href="#I_STOP--3F">stop?</a></li>
 
-<a href="#I_STOP--3F">stop?</a>
+<li><a href="#I_EXIT">terminate</a></li>
 
-<a href="#I_THREAD_VARIABLE--3F">thread_variable?</a>
+<li><a href="#I_THREAD_VARIABLE--3F">thread_variable?</a></li>
 
-<a href="#I_THREAD_VARIABLE_GET">thread_variable_get</a>
+<li><a href="#I_THREAD_VARIABLE_GET">thread_variable_get</a></li>
 
-<a href="#I_THREAD_VARIABLE_SET">thread_variable_set</a>
+<li><a href="#I_THREAD_VARIABLE_SET">thread_variable_set</a></li>
 
-<a href="#I_VALUE">value</a>
+<li><a href="#I_VALUE">value</a></li>
 
-<a href="#I_WAKEUP">wakeup</a>
+<li><a href="#I_WAKEUP">wakeup</a></li>
 
+</ul>
 </dd>
 
 <dt>定数</dt>
 <dd>
+<ul class="class-toc">
 
-<a href="#C_-M-U-T-E-X_-F-O-R_-T-H-R-E-A-D_-E-X-C-L-U-S-I-V-E">MUTEX_FOR_THREAD_EXCLUSIVE</a>
+<li><a href="#C_-M-U-T-E-X_-F-O-R_-T-H-R-E-A-D_-E-X-C-L-U-S-I-V-E">MUTEX_FOR_THREAD_EXCLUSIVE</a></li>
 
+</ul>
 </dd>
+
+</dl>
+
+
+
 
 </dl>
 
@@ -296,36 +349,51 @@ p Thread.new {sleep 1} # =&gt; #&lt;Thread:0xa039de0 sleep&gt;
 <h2>特異メソッド</h2>
 <dl>
 
-<dt class="method-heading" id="S_-D-E-B-U-G"><code>DEBUG -&gt; Integer</code><span class="permalink">[<a href="../method/Thread/s/DEBUG.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-DEBUG">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_-D-E-B-U-G"><code>DEBUG -&gt; Integer</code><span class="permalink">[<a href="../method/Thread/s/DEBUG.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-DEBUG">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 スレッドのデバッグレベルを返します。
 </p>
 <p>
-使用するためには、THREAD_DEBUG を -1 にして Ruby をコンパイルする必要が
-あります。
+スレッドのデバッグレベルが 0 のときはなにもしません。それ以外の場合は、スレッドのデバッグログを標準出力に出力します。初期値は 0 です。使用するためには、THREAD_DEBUG を -1 にして Ruby をコンパイルする必要があります。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 0
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread/s/DEBUG=3d.html">Thread.DEBUG=</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="S_-D-E-B-U-G--3D"><code>DEBUG=(val)</code><span class="permalink">[<a href="../method/Thread/s/DEBUG=3d.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-DEBUG-3D">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_-D-E-B-U-G--3D"><code>DEBUG=(val)</code><span class="permalink">[<a href="../method/Thread/s/DEBUG=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-DEBUG-3D">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 スレッドのデバッグレベルを val に設定します。
 </p>
 <p>
-使用するためには、THREAD_DEBUG を -1 にして Ruby をコンパイルする必要が
-あります。
+val が 真 のときは Integer に変換してから設定します。偽 のときは 0 を設定します。使用するためには、THREAD_DEBUG を -1 にして Ruby をコンパイルする必要があります。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 0
+</span><span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 1
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread/s/DEBUG.html">Thread.DEBUG</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="S_ABORT_ON_EXCEPTION"><code>abort_on_exception -&gt; bool</code><span class="permalink">[<a href="../method/Thread/s/abort_on_exception.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-abort_on_exception">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_ABORT_ON_EXCEPTION"><code>abort_on_exception -&gt; bool</code><span class="permalink">[<a href="../method/Thread/s/abort_on_exception.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-abort_on_exception">rdoc</a>]</span></dt>
 <dt class="method-heading"><code>abort_on_exception=(newstate)</code></dt>
 <dd class="method-description">
 <p>
-真の時は、いずれかのスレッドが例外によって終了した時に、インタプリタ
-全体を中断させます。false の場合、あるスレッドで起こった例外は、<a href="../method/Thread/i/join.html">Thread#join</a>
+真の時は、いずれかのスレッドが例外によって終了した時に、インタプリタ全体を中断させます。false の場合、あるスレッドで起こった例外は、<a href="../method/Thread/i/join.html">Thread#join</a>
 などで検出されない限りそのスレッドだけをなにも警告を出さずに終了させます。
 </p>
 <p>
@@ -340,10 +408,17 @@ p Thread.new {sleep 1} # =&gt; #&lt;Thread:0xa039de0 sleep&gt;
 スレッド実行中に例外発生した場合、インタプリタ全体を終了させるかどうかを true か false で指定します。
 </dd>
 </dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; false
+</span><span class="no">Thread</span><span class="p">.</span><span class="nf">abort_on_exception</span> <span class="o">=</span> <span class="k">true</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; true
+</span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="S_CURRENT"><code>current -&gt; Thread</code><span class="permalink">[<a href="../method/Thread/s/current.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-current">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_CURRENT"><code>current -&gt; Thread</code><span class="permalink">[<a href="../method/Thread/s/current.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-current">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 現在実行中のスレッド(カレントスレッド)を返します。
@@ -354,7 +429,7 @@ p Thread.current #=&gt; #&lt;Thread:0x4022e6fc run&gt;
 </dd>
 
 
-<dt class="method-heading" id="S_EXCLUSIVE"><code>exclusive { ... } -&gt; object</code><span class="permalink">[<a href="../method/Thread/s/exclusive.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-exclusive">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_EXCLUSIVE"><code>exclusive { ... } -&gt; object</code><span class="permalink">[<a href="../method/Thread/s/exclusive.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-exclusive">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 VM グローバルの Mutex をロックし、ブロックを実行します。
@@ -368,7 +443,7 @@ synchronize を呼び出しているだけで、Thread.exclusive していない
 </dd>
 
 
-<dt class="method-heading" id="S_EXIT"><code>exit -&gt; ()</code><span class="permalink">[<a href="../method/Thread/s/exit.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-exit">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_EXIT"><code>exit -&gt; ()</code><span class="permalink">[<a href="../method/Thread/s/exit.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-exit">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 カレントスレッドに対して <a href="../method/Thread/i/exit.html">Thread#exit</a> を呼びます。
@@ -376,12 +451,11 @@ synchronize を呼び出しているだけで、Thread.exclusive していない
 </dd>
 
 
-<dt class="method-heading" id="S_FORK"><code>start(*arg) {|*arg| ... } -&gt; Thread</code><span class="permalink">[<a href="../method/Thread/s/fork.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-fork">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_FORK"><code>start(*arg) {|*arg| ... } -&gt; Thread</code><span class="permalink">[<a href="../method/Thread/s/fork.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-fork">rdoc</a>]</span></dt>
 <dt class="method-heading"><code>fork(*arg) {|*arg| ... } -&gt; Thread</code></dt>
 <dd class="method-description">
 <p>
-スレッドを生成して、ブロックの評価を開始します。
-生成したスレッドを返します。
+スレッドを生成して、ブロックの評価を開始します。生成したスレッドを返します。
 </p>
 <p>
 基本的に <a href="../method/Thread/s/new.html">Thread.new</a> と同じですが、
@@ -390,8 +464,7 @@ new メソッドと違い initialize メソッドを呼びません。
 <dl>
 <dt class='method-param'>[PARAM] arg:</dt>
 <dd>
-引数 arg はそのままブロックに渡されます。スレッドの開始と同時にその
-スレッド固有のローカル変数に値を渡すために使用します。
+引数 arg はそのままブロックに渡されます。スレッドの開始と同時にそのスレッド固有のローカル変数に値を渡すために使用します。
 </dd>
 <dt>[EXCEPTION] ThreadError:</dt>
 <dd>
@@ -402,8 +475,7 @@ new メソッドと違い initialize メソッドを呼びません。
 注意:
 </p>
 <p>
-例えば、以下のコードは間違いです。スレッドの実行が開始される前に
-変数 i が書き変わる可能性があるからです。
+例えば、以下のコードは間違いです。スレッドの実行が開始される前に変数 i が書き変わる可能性があるからです。
 </p>
 <pre>
 for i in 1..5
@@ -421,11 +493,10 @@ end
 </dd>
 
 
-<dt class="method-heading" id="S_HANDLE_INTERRUPT"><code>handle_interrupt(hash) { ... } -&gt; object</code><span class="permalink">[<a href="../method/Thread/s/handle_interrupt.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-handle_interrupt">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_HANDLE_INTERRUPT"><code>handle_interrupt(hash) { ... } -&gt; object</code><span class="permalink">[<a href="../method/Thread/s/handle_interrupt.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-handle_interrupt">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-スレッドの割り込みのタイミングを引数で指定した内容に変更してブロックを
-実行します。
+スレッドの割り込みのタイミングを引数で指定した内容に変更してブロックを実行します。
 </p>
 <p>
 「割り込み」とは、非同期イベントや <a href="../method/Thread/i/raise.html">Thread#raise</a> や
@@ -436,8 +507,7 @@ end
 <dt class='method-param'>[PARAM] hash:</dt>
 <dd>
 例外クラスがキー、割り込みのタイミングを指定する
-<a href="../class/Symbol.html">Symbol</a> が値の <a href="../class/Hash.html">Hash</a> を指定します。
-値の内容は以下のいずれかです。
+<a href="../class/Symbol.html">Symbol</a> が値の <a href="../class/Hash.html">Hash</a> を指定します。値の内容は以下のいずれかです。
 </dd>
 </dl>
 <dl>
@@ -461,13 +531,11 @@ end
 </dd>
 </dl>
 <p>
-「ブロッキング処理」とは、読み込み処理や書き込み処理のような呼び出し元
-のスレッドをブロックするような処理を意味します。CRuby の実装では、GVL
+「ブロッキング処理」とは、読み込み処理や書き込み処理のような呼び出し元のスレッドをブロックするような処理を意味します。CRuby の実装では、GVL
 を解放して実行する処理は全てブロッキング処理に含まれます。
 </p>
 <p>
-また、マスクされた非同期割り込みは再度有効にされるまで延期されます。本
-メソッドは <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/sigprocmask.html">sigprocmask(3)</a> に似ています。
+また、マスクされた非同期割り込みは再度有効にされるまで延期されます。本メソッドは <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/sigprocmask.html">sigprocmask(3)</a> に似ています。
 </p>
 <dl>
 <dt>[RETURN]</dt>
@@ -479,13 +547,11 @@ end
 ブロックを指定しなかった場合に発生します。
 </dd>
 </dl>
-<h4 >注意</h4>
+<h3 >注意</h3>
 <p>
-非同期割り込みの利用は難しいため、スレッド間での通信を実現する場合はま
-ずはキューのような他の方法を検討してください。それでも非同期割り込みを
-利用する場合は本メソッドをよく理解してから利用してください。
+非同期割り込みの利用は難しいため、スレッド間での通信を実現する場合はまずはキューのような他の方法を検討してください。それでも非同期割り込みを利用する場合は本メソッドをよく理解してから利用してください。
 </p>
-<h4 >使い方</h4>
+<h3 >使い方</h3>
 <p>
 例:<a href="../class/Thread=23raise.html">Thread#raise</a> 発生のタイミングを制御する例
 </p>
@@ -510,7 +576,7 @@ th.raise &quot;stop&quot;
 <a href="../class/RuntimeError.html">RuntimeError</a> を無視(延期)している間はリソースの割り当てや ensure
 節でリソースの解放を安全に行う事ができます。
 </p>
-<h5 >TimeoutError 対策</h5>
+<h4 >TimeoutError 対策</h4>
 <p>
 例:<a href="../class/TimeoutError.html">TimeoutError</a> 発生のタイミングを制御する例
 </p>
@@ -527,11 +593,9 @@ Thread.handle_interrupt(TimeoutError =&gt; :never) {
 }
 </pre>
 <p>
-この例を ensure 節での <a href="../class/TimeoutError.html">TimeoutError</a> 発生に応用する事でリソースリー
-クに備える事ができます。<a href="../method/Timeout/m/timeout.html">Timeout.#timeout</a> はスレッドを使って実装さ
-れているため、Thread.handle_interrupt による制御が有効です。
+この例を ensure 節での <a href="../class/TimeoutError.html">TimeoutError</a> 発生に応用する事でリソースリークに備える事ができます。<a href="../method/Timeout/m/timeout.html">Timeout.#timeout</a> はスレッドを使って実装されているため、Thread.handle_interrupt による制御が有効です。
 </p>
-<h5 >Stack control settings</h5>
+<h4 >Stack control settings</h4>
 <p>
 It's possible to stack multiple levels of ::handle_interrupt blocks in order
 to control more than one ExceptionClass and TimingSymbol at a time.
@@ -543,10 +607,9 @@ Thread.handle_interrupt(FooError =&gt; :never) {
   }
 }
 </pre>
-<h5 >例外クラスの継承関係</h5>
+<h4 >例外クラスの継承関係</h4>
 <p>
-本メソッドでは引数 hash のキーに指定した例外クラスの全てのサブクラスが
-処理の対象になります。
+本メソッドでは引数 hash のキーに指定した例外クラスの全てのサブクラスが処理の対象になります。
 </p>
 <p>
 例:
@@ -562,7 +625,7 @@ Thread.handle_interrupt(Exception =&gt; :never) {
 </dd>
 
 
-<dt class="method-heading" id="S_KILL"><code>kill(thread) -&gt; Thread</code><span class="permalink">[<a href="../method/Thread/s/kill.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-kill">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_KILL"><code>kill(thread) -&gt; Thread</code><span class="permalink">[<a href="../method/Thread/s/kill.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-kill">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 指定したスレッド thread に対して <a href="../method/Thread/i/exit.html">Thread#exit</a> を呼びます。終了したスレッドを返します。
@@ -582,11 +645,10 @@ p Thread.kill(th)     #=&gt; #&lt;Thread:0x40221bc8 dead&gt;
 </dd>
 
 
-<dt class="method-heading" id="S_LIST"><code>list -&gt; [Thread]</code><span class="permalink">[<a href="../method/Thread/s/list.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-list">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_LIST"><code>list -&gt; [Thread]</code><span class="permalink">[<a href="../method/Thread/s/list.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-list">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-全ての生きているスレッドを含む配列を生成して返します。aborting 状態であるスレッド
-も要素に含まれます。
+全ての生きているスレッドを含む配列を生成して返します。aborting 状態であるスレッドも要素に含まれます。
 </p>
 <pre>
 Thread.new do
@@ -599,7 +661,7 @@ p Thread.list   #=&gt; [#&lt;Thread:0x40377a54 sleep&gt;, #&lt;Thread:0x4022e6fc
 </dd>
 
 
-<dt class="method-heading" id="S_MAIN"><code>main -&gt; Thread</code><span class="permalink">[<a href="../method/Thread/s/main.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-main">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_MAIN"><code>main -&gt; Thread</code><span class="permalink">[<a href="../method/Thread/s/main.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-main">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 メインスレッドを返します。
@@ -610,17 +672,15 @@ p Thread.main #=&gt; #&lt;Thread:0x4022e6fc run&gt;
 </dd>
 
 
-<dt class="method-heading" id="S_NEW"><code>new(*arg) {|*arg| ... } -&gt; Thread</code><span class="permalink">[<a href="../method/Thread/s/new.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-new">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new(*arg) {|*arg| ... } -&gt; Thread</code><span class="permalink">[<a href="../method/Thread/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-new">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-スレッドを生成して、ブロックの評価を開始します。
-生成したスレッドを返します。
+スレッドを生成して、ブロックの評価を開始します。生成したスレッドを返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] arg:</dt>
 <dd>
-引数 arg はそのままブロックに渡されます。スレッドの開始と同時にその
-スレッド固有のローカル変数に値を渡すために使用します。
+引数 arg はそのままブロックに渡されます。スレッドの開始と同時にそのスレッド固有のローカル変数に値を渡すために使用します。
 </dd>
 <dt>[EXCEPTION] ThreadError:</dt>
 <dd>
@@ -631,8 +691,7 @@ p Thread.main #=&gt; #&lt;Thread:0x4022e6fc run&gt;
 注意:
 </p>
 <p>
-例えば、以下のコードは間違いです。スレッドの実行が開始される前に
-変数 i が書き変わる可能性があるからです。
+例えば、以下のコードは間違いです。スレッドの実行が開始される前に変数 i が書き変わる可能性があるからです。
 </p>
 <pre>
 for i in 1..5
@@ -650,11 +709,10 @@ end
 </dd>
 
 
-<dt class="method-heading" id="S_PASS"><code>pass -&gt; nil</code><span class="permalink">[<a href="../method/Thread/s/pass.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-pass">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_PASS"><code>pass -&gt; nil</code><span class="permalink">[<a href="../method/Thread/s/pass.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-pass">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-他のスレッドに実行権を譲ります。実行中のスレッドの状態を変えずに、
-他の実行可能状態のスレッドに制御を移します。
+他のスレッドに実行権を譲ります。実行中のスレッドの状態を変えずに、他の実行可能状態のスレッドに制御を移します。
 </p>
 <pre>
 Thread.new do
@@ -681,26 +739,21 @@ end
 </dd>
 
 
-<dt class="method-heading" id="S_PENDING_INTERRUPT--3F"><code>pending_interrupt?(error = nil) -&gt; boolean</code><span class="permalink">[<a href="../method/Thread/s/pending_interrupt=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-pending_interrupt-3F">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_PENDING_INTERRUPT--3F"><code>pending_interrupt?(error = nil) -&gt; bool</code><span class="permalink">[<a href="../method/Thread/s/pending_interrupt=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-pending_interrupt-3F">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 非同期割り込みのキューが空かどうかを返します。
 </p>
 <p>
-<a href="../method/Thread/s/handle_interrupt.html">Thread.handle_interrupt</a> は非同期割り込みの発生を延期させるのに使
-用しますが、本メソッドは任意の非同期割り込みが存在するかどうかを確認す
-るのに使用します。
+<a href="../method/Thread/s/handle_interrupt.html">Thread.handle_interrupt</a> は非同期割り込みの発生を延期させるのに使用しますが、本メソッドは任意の非同期割り込みが存在するかどうかを確認するのに使用します。
 </p>
 <p>
-本メソッドが true を返した場合、<a href="../method/Thread/s/handle_interrupt.html">Thread.handle_interrupt</a> で例外の
-発生を延期するブロックを終了すると延期させられていた例外を発生させるこ
-とができます。
+本メソッドが true を返した場合、<a href="../method/Thread/s/handle_interrupt.html">Thread.handle_interrupt</a> で例外の発生を延期するブロックを終了すると延期させられていた例外を発生させることができます。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] error:</dt>
 <dd>
-対象の例外クラスを指定します。省略した場合は全ての例外を対
-象に確認を行います。
+対象の例外クラスを指定します。省略した場合は全ての例外を対象に確認を行います。
 </dd>
 </dl>
 <p>
@@ -713,7 +766,7 @@ def Thread.kick_interrupt_immediately
   }
 end
 </pre>
-<h4 >使い方</h4>
+<h3 >使い方</h3>
 <pre>
 th = Thread.new{
   Thread.handle_interrupt(RuntimeError =&gt; :on_blocking){
@@ -754,11 +807,23 @@ flag = false # スレッド停止
 </dd>
 
 
-<dt class="method-heading" id="S_STOP"><code>stop -&gt; nil</code><span class="permalink">[<a href="../method/Thread/s/stop.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-stop">rdoc</a>]</span></dt>
+<dt class="method-heading" id="S_STOP"><code>stop -&gt; nil</code><span class="permalink">[<a href="../method/Thread/s/stop.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-stop">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-他のスレッドから <a href="../method/Thread/i/run.html">Thread#run</a> メソッドで再起動されるまで、カレ
-ントスレッドの実行を停止します。
+他のスレッドから <a href="../method/Thread/i/run.html">Thread#run</a> メソッドで再起動されるまで、カレントスレッドの実行を停止します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">print</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>; <span class="no">Thread</span><span class="p">.</span><span class="nf">stop</span>; <span class="nb">print</span> <span class="s2">"</span><span class="s2">c</span><span class="s2">"</span> <span class="p">}</span>
+<span class="nb">sleep</span> <span class="mf">0.1</span> <span class="k">while</span> a<span class="p">.</span><span class="nf">status</span><span class="o">!=</span><span class="s1">'sleep'</span>
+<span class="nb">print</span> <span class="s2">"</span><span class="s2">b</span><span class="s2">"</span>
+a<span class="p">.</span><span class="nf">run</span>
+a<span class="p">.</span><span class="nf">join</span>
+<span class="c1"># =&gt; &quot;abc&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread/i/run.html">Thread#run</a>, <a href="../method/Thread/i/wakeup.html">Thread#wakeup</a>
 </p>
 </dd>
 
@@ -768,12 +833,11 @@ flag = false # スレッド停止
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_--5B--5D"><code>self[name] -&gt; object | nil</code><span class="permalink">[<a href="../method/Thread/i/=5b=5d.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-5B-5D">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_--5B--5D"><code>self[name] -&gt; object | nil</code><span class="permalink">[<a href="../method/Thread/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-5B-5D">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 name に対応したスレッドに固有のデータを取り出します。
-name に対応するスレッド固有データがなければ nil を返し
-ます。
+name に対応するスレッド固有データがなければ nil を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] name:</dt>
@@ -781,10 +845,68 @@ name に対応するスレッド固有データがなければ nil を返し
 スレッド固有データのキーを文字列か <a href="../class/Symbol.html">Symbol</a> で指定します。
 </dd>
 </dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="p">[</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">A</span><span class="s2">"</span> <span class="p">}</span>,
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span>  <span class="o">=</span> <span class="s2">"</span><span class="s2">B</span><span class="s2">"</span> <span class="p">}</span>,
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">C</span><span class="s2">"</span> <span class="p">}</span>
+<span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>th<span class="o">|</span>
+  th<span class="p">.</span><span class="nf">join</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">th</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">th</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="c1"># =&gt; #&lt;Thread:0x00000002a54220 dead&gt;: A
+</span><span class="c1"># =&gt; #&lt;Thread:0x00000002a541a8 dead&gt;: B
+</span><span class="c1"># =&gt; #&lt;Thread:0x00000002a54130 dead&gt;: C
+</span></code></pre>
+<p>
+<a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> と <a href="../method/Thread/i/=5b=5d=3d.html">Thread#[]=</a> を用いたスレッド固有の変数は
+Fiber を切り替えると異なる変数を返す事に注意してください。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">meth</span><span class="p">(</span>newvalue<span class="p">)</span>
+  <span class="k">begin</span>
+    oldvalue <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span>
+    <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span> <span class="o">=</span> newvalue
+    <span class="k">yield</span>
+  <span class="k">ensure</span>
+    <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span> <span class="o">=</span> oldvalue
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+この関数に与えるブロックがFiberを切り替える場合は動的スコープとしては正しく動作しません。
+</p>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span>
+  meth<span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+meth<span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+  f<span class="p">.</span><span class="nf">resume</span>
+<span class="p">}</span>
+f<span class="p">.</span><span class="nf">resume</span>
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span>
+<span class="c1"># =&gt; nil if fiber-local
+</span><span class="c1"># =&gt; 2 if thread-local (The value 2 is leaked to outside of meth method.)
+</span></code></pre>
+<p>
+Fiber を切り替えても同じ変数を返したい場合は
+<a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a> と <a href="../method/Thread/i/thread_variable_set.html">Thread#thread_variable_set</a>
+を使用してください。
+</p>
+<p>
+<a href="../method/Thread/i/=5b=5d=3d.html">Thread#[]=</a>
+</p>
 </dd>
 
 
-<dt class="method-heading" id="I_--5B--5D--3D"><code>self[name] = val</code><span class="permalink">[<a href="../method/Thread/i/=5b=5d=3d.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-5B-5D-3D">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_--5B--5D--3D"><code>self[name] = val</code><span class="permalink">[<a href="../method/Thread/i/=5b=5d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-5B-5D-3D">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 val を name に対応するスレッド固有のデータとして格納します。
@@ -799,17 +921,17 @@ val を name に対応するスレッド固有のデータとして格納しま�
 スレッド固有データを指定します。nil を指定するとそのスレッド固有データは削除されます。
 </dd>
 </dl>
+<p>
+[SEE_ALSO] <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a>
+</p>
 </dd>
 
 
-<dt class="method-heading" id="I_ABORT_ON_EXCEPTION"><code>abort_on_exception -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/abort_on_exception.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-abort_on_exception">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_ABORT_ON_EXCEPTION"><code>abort_on_exception -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/abort_on_exception.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-abort_on_exception">rdoc</a>]</span></dt>
 <dt class="method-heading"><code>abort_on_exception=(newstate)</code></dt>
 <dd class="method-description">
 <p>
-真の場合、そのスレッドが例外によって終了した時に、インタプリタ
-全体を中断させます。false の場合、あるスレッドで起こった例
-外は、<a href="../method/Thread/i/join.html">Thread#join</a> などで検出されない限りそのスレッ
-ドだけをなにも警告を出さずに終了させます。
+真の場合、そのスレッドが例外によって終了した時に、インタプリタ全体を中断させます。false の場合、あるスレッドで起こった例外は、<a href="../method/Thread/i/join.html">Thread#join</a> などで検出されない限りそのスレッドだけをなにも警告を出さずに終了させます。
 </p>
 <p>
 デフォルトは偽です。<a href="../class/Thread.html#exception">Thread/例外発生時のスレッドの振る舞い</a>を参照してください。
@@ -820,10 +942,18 @@ val を name に対応するスレッド固有のデータとして格納しま�
 自身を実行中に例外発生した場合、インタプリタ全体を終了させるかどうかを true か false で指定します。
 </dd>
 </dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+thread <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">1</span> <span class="p">}</span>
+thread<span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; false
+</span>thread<span class="p">.</span><span class="nf">abort_on_exception</span> <span class="o">=</span> <span class="k">true</span>
+thread<span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; true
+</span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_ADD_TRACE_FUNC"><code>add_trace_func(pr) -&gt; Proc</code><span class="permalink">[<a href="../method/Thread/i/add_trace_func.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-add_trace_func">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_ADD_TRACE_FUNC"><code>add_trace_func(pr) -&gt; Proc</code><span class="permalink">[<a href="../method/Thread/i/add_trace_func.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-add_trace_func">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 スレッドにトレース用ハンドラを追加します。
@@ -837,24 +967,56 @@ val を name に対応するスレッド固有のデータとして格納しま�
 トレースハンドラ(<a href="../class/Proc.html">Proc</a> オブジェクト)
 </dd>
 </dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Trace</span>
+  <span class="k">end</span>
+  <span class="mi">43</span><span class="p">.</span><span class="nf">to_s</span>
+<span class="k">end</span>
+th<span class="p">.</span><span class="nf">add_trace_func</span> <span class="nb">lambda</span> <span class="p">{</span><span class="o">|</span><span class="o">*</span>arg<span class="o">|</span> <span class="nb">p</span> arg <span class="p">}</span>
+th<span class="p">.</span><span class="nf">join</span>
+
+<span class="c1"># =&gt; [&quot;line&quot;, &quot;example.rb&quot;, 4, nil, #&lt;Binding:0x00007f98e107d0d8&gt;, nil]
+</span><span class="c1"># =&gt; [&quot;c-call&quot;, &quot;example.rb&quot;, 4, :inherited, #&lt;Binding:0x00007f98e1087448&gt;, Class]
+</span><span class="c1"># =&gt; [&quot;c-return&quot;, &quot;example.rb&quot;, 4, :inherited, #&lt;Binding:0x00007f98e1085d00&gt;, Class]
+</span><span class="c1"># =&gt; [&quot;class&quot;, &quot;example.rb&quot;, 4, nil, #&lt;Binding:0x00007f98e108f210&gt;, nil]
+</span><span class="c1"># =&gt; [&quot;end&quot;, &quot;example.rb&quot;, 5, nil, #&lt;Binding:0x00007f98e108e5e0&gt;, nil]
+</span><span class="c1"># =&gt; [&quot;line&quot;, &quot;example.rb&quot;, 6, nil, #&lt;Binding:0x00007f98e108d4b0&gt;, nil]
+</span><span class="c1"># =&gt; [&quot;c-call&quot;, &quot;example.rb&quot;, 6, :to_s, #&lt;Binding:0x00007f98e1097aa0&gt;, Integer]
+</span><span class="c1"># =&gt; [&quot;c-return&quot;, &quot;example.rb&quot;, 6, :to_s, #&lt;Binding:0x00007f98e1095cc8&gt;, Integer]
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/set_trace_func.html">Thread#set_trace_func</a> <a href="../method/Kernel/m/set_trace_func.html">Kernel.#set_trace_func</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="I_ALIVE--3F"><code>alive? -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/alive=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-alive-3F">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_ALIVE--3F"><code>alive? -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/alive=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-alive-3F">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 スレッドが「生きている」時、true を返します。
 </p>
 <p>
+例:
+</p>
+<pre>
+thr = Thread.new { }
+thr.join                # =&gt; #&lt;Thread:0x401b3fb0 dead&gt;
+Thread.current.alive?   # =&gt; true
+thr.alive?              # =&gt; false
+</pre>
+<p>
 <a href="../method/Thread/i/status.html">Thread#status</a> が真を返すなら、このメソッドも真です。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Thread/i/status.html">Thread#status</a>, <a href="../method/Thread/i/stop=3f.html">Thread#stop?</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="I_BACKTRACE"><code>backtrace -&gt; [String] | nil</code><span class="permalink">[<a href="../method/Thread/i/backtrace.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-backtrace">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_BACKTRACE"><code>backtrace -&gt; [String] | nil</code><span class="permalink">[<a href="../method/Thread/i/backtrace.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-backtrace">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 スレッドの現在のバックトレースを返します。
@@ -865,12 +1027,11 @@ val を name に対応するスレッド固有のデータとして格納しま�
 </dd>
 
 
-<dt class="method-heading" id="I_BACKTRACE_LOCATIONS"><code>backtrace_locations(start = 0, length = nil) -&gt; [Thread::Backtrace::Location] | nil</code><span class="permalink">[<a href="../method/Thread/i/backtrace_locations.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-backtrace_locations">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_BACKTRACE_LOCATIONS"><code>backtrace_locations(start = 0, length = nil) -&gt; [Thread::Backtrace::Location] | nil</code><span class="permalink">[<a href="../method/Thread/i/backtrace_locations.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-backtrace_locations">rdoc</a>]</span></dt>
 <dt class="method-heading"><code>backtrace_locations(range) -&gt; [Thread::Backtrace::Location] | nil</code></dt>
 <dd class="method-description">
 <p>
-スレッドの現在のバックトレースを <a href="../class/Thread=3a=3aBacktrace=3a=3aLocation.html">Thread::Backtrace::Location</a> の配
-列で返します。
+スレッドの現在のバックトレースを <a href="../class/Thread=3a=3aBacktrace=3a=3aLocation.html">Thread::Backtrace::Location</a> の配列で返します。
 </p>
 <p>
 引数で指定した値が範囲外の場合、スレッドがすでに終了している場合は nil
@@ -891,16 +1052,22 @@ val を name に対応するスレッド固有のデータとして格納しま�
 </dd>
 </dl>
 <p>
-<a href="../method/Kernel/m/caller_locations.html">Kernel.#caller_locations</a> と似ていますが、本メソッドは self に限定
-した情報を返します。
+<a href="../method/Kernel/m/caller_locations.html">Kernel.#caller_locations</a> と似ていますが、本メソッドは self に限定した情報を返します。
 </p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+thread <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">1</span> <span class="p">}</span>
+thread<span class="p">.</span><span class="nf">run</span>
+thread<span class="p">.</span><span class="nf">backtrace_locations</span> <span class="c1"># =&gt; [&quot;/path/to/test.rb:1:in `sleep'&quot;, &quot;/path/to/test.rb:1:in `block in &lt;main&gt;'&quot;]
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../class/Thread=3a=3aBacktrace=3a=3aLocation.html">Thread::Backtrace::Location</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="I_EXIT"><code>exit -&gt; self</code><span class="permalink">[<a href="../method/Thread/i/exit.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-exit">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_EXIT"><code>exit -&gt; self</code><span class="permalink">[<a href="../method/Thread/i/exit.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-exit">rdoc</a>]</span></dt>
 <dt class="method-heading"><code>kill -&gt; self</code></dt>
 <dt class="method-heading"><code>terminate -&gt; self</code></dt>
 <dd class="method-description">
@@ -908,10 +1075,7 @@ val を name に対応するスレッド固有のデータとして格納しま�
 スレッドの実行を終了させます。終了時に ensure 節が実行されます。
 </p>
 <p>
-ただし、スレッドは終了処理中(aborting)にはなりますが、
-直ちに終了するとは限りません。すでに終了している場合は何もしません。このメソッドにより
-終了したスレッドの <a href="../method/Thread/i/value.html">Thread#value</a> の返り値は不定です。
-自身がメインスレッドであるか最後のスレッドである場合は、プロセスを <a href="../method/Kernel/m/exit.html">Kernel.#exit</a>(0)
+ただし、スレッドは終了処理中(aborting)にはなりますが、直ちに終了するとは限りません。すでに終了している場合は何もしません。このメソッドにより終了したスレッドの <a href="../method/Thread/i/value.html">Thread#value</a> の返り値は不定です。自身がメインスレッドであるか最後のスレッドである場合は、プロセスを <a href="../method/Kernel/m/exit.html">Kernel.#exit</a>(0)
 により終了します。
 </p>
 <p>
@@ -937,11 +1101,10 @@ th1.kill
 </dd>
 
 
-<dt class="method-heading" id="I_GROUP"><code>group -&gt; ThreadGroup | nil</code><span class="permalink">[<a href="../method/Thread/i/group.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-group">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_GROUP"><code>group -&gt; ThreadGroup | nil</code><span class="permalink">[<a href="../method/Thread/i/group.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-group">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-スレッドが属している <a href="../class/ThreadGroup.html">ThreadGroup</a> オブジェクトを返します。
-死んでいるスレッドは nil を返します。
+スレッドが属している <a href="../class/ThreadGroup.html">ThreadGroup</a> オブジェクトを返します。死んでいるスレッドは nil を返します。
 </p>
 <pre>
 p Thread.current.group == ThreadGroup::Default
@@ -950,21 +1113,27 @@ p Thread.current.group == ThreadGroup::Default
 </dd>
 
 
-<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/Thread/i/inspect.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-inspect">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/Thread/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-inspect">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を人間が読める形式に変換した文字列を返します。
 </p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span>
+a<span class="p">.</span><span class="nf">inspect</span>   <span class="c1"># =&gt; &quot;#&lt;Thread:0x00007fdbaf07ddb0 run&gt;&quot;
+</span>b <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span><span class="p">}</span>
+b<span class="p">.</span><span class="nf">inspect</span>   <span class="c1"># =&gt; &quot;#&lt;Thread:0x00007fdbaf8f7d10@(irb):3 dead&gt;&quot;
+</span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_JOIN"><code>join -&gt; self</code><span class="permalink">[<a href="../method/Thread/i/join.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-join">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_JOIN"><code>join -&gt; self</code><span class="permalink">[<a href="../method/Thread/i/join.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-join">rdoc</a>]</span></dt>
 <dt class="method-heading"><code>join(limit) -&gt; self | nil</code></dt>
 <dd class="method-description">
 <p>
-スレッド self の実行が終了するまで、カレントスレッドを停止し
-ます。self が例外により終了していれば、その例外がカレントス
-レッドに対して発生します。
+スレッド self の実行が終了するまで、カレントスレッドを停止します。self が例外により終了していれば、その例外がカレントスレッドに対して発生します。
 </p>
 <p>
 limit を指定して、limit 秒過ぎても自身が終了しない場合、nil を返します。
@@ -993,7 +1162,7 @@ threads.each {|t| t.join}
 </dd>
 
 
-<dt class="method-heading" id="I_KEY--3F"><code>key?(name) -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/key=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-key-3F">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_KEY--3F"><code>key?(name) -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/key=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-key-3F">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 name に対応したスレッドに固有のデータが定義されていれば
@@ -1005,10 +1174,18 @@ true を返します。
 文字列か <a href="../class/Symbol.html">Symbol</a> で指定します。
 </dd>
 </dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+me <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span>
+me<span class="p">[</span><span class="ss">:oliver</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>
+me<span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="ss">:oliver</span><span class="p">)</span>    <span class="c1"># =&gt; true
+</span>me<span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="ss">:stanley</span><span class="p">)</span>   <span class="c1"># =&gt; false
+</span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_KEYS"><code>keys -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Thread/i/keys.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-keys">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_KEYS"><code>keys -&gt; [Symbol]</code><span class="permalink">[<a href="../method/Thread/i/keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-keys">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 スレッド固有データに関連づけられたキーの配列を返します。キーは
@@ -1025,7 +1202,7 @@ p th.keys
 </dd>
 
 
-<dt class="method-heading" id="I_PENDING_INTERRUPT--3F"><code>pending_interrupt?(error = nil) -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/pending_interrupt=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-pending_interrupt-3F">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_PENDING_INTERRUPT--3F"><code>pending_interrupt?(error = nil) -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/pending_interrupt=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-pending_interrupt-3F">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 self の非同期例外のキューが空かどうかを返します。
@@ -1042,12 +1219,11 @@ self の非同期例外のキューが空かどうかを返します。
 </dd>
 
 
-<dt class="method-heading" id="I_PRIORITY"><code>priority -&gt; Integer</code><span class="permalink">[<a href="../method/Thread/i/priority.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-priority">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_PRIORITY"><code>priority -&gt; Integer</code><span class="permalink">[<a href="../method/Thread/i/priority.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-priority">rdoc</a>]</span></dt>
 <dt class="method-heading"><code>priority=(val)</code></dt>
 <dd class="method-description">
 <p>
-スレッドの優先度を返します。この値の大きいほど優先度が高くなります。
-メインスレッドのデフォルト値は 0 です。新しく生成されたスレッドは親スレッドの
+スレッドの優先度を返します。この値の大きいほど優先度が高くなります。メインスレッドのデフォルト値は 0 です。新しく生成されたスレッドは親スレッドの
 priority を引き継ぎます。
 </p>
 <dl>
@@ -1056,10 +1232,30 @@ priority を引き継ぎます。
 スレッドの優先度を指定します。プラットフォームに依存します。
 </dd>
 </dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">priority</span>   <span class="c1"># =&gt; 0
+</span>
+count1 <span class="o">=</span> count2 <span class="o">=</span> <span class="mi">0</span>
+a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+      <span class="nb">loop</span> <span class="p">{</span> count1 <span class="o">+=</span> <span class="mi">1</span> <span class="p">}</span>
+    <span class="k">end</span>
+a<span class="p">.</span><span class="nf">priority</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+b <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+      <span class="nb">loop</span> <span class="p">{</span> count2 <span class="o">+=</span> <span class="mi">1</span> <span class="p">}</span>
+    <span class="k">end</span>
+b<span class="p">.</span><span class="nf">priority</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+count1 <span class="o">=</span> count2 <span class="o">=</span> <span class="mi">0</span> <span class="c1"># reset
+</span><span class="nb">sleep</span> <span class="mi">1</span>   <span class="c1"># =&gt; 1
+</span>count1    <span class="c1"># =&gt; 13809431
+</span>count2    <span class="c1"># =&gt; 11571921
+</span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_RAISE"><code>raise(error_type, message, traceback) -&gt; ()</code><span class="permalink">[<a href="../method/Thread/i/raise.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-raise">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_RAISE"><code>raise(error_type, message, traceback) -&gt; ()</code><span class="permalink">[<a href="../method/Thread/i/raise.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-raise">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身が表すスレッドで強制的に例外を発生させます。
@@ -1096,12 +1292,11 @@ end
 </dd>
 
 
-<dt class="method-heading" id="I_RUN"><code>run -&gt; self</code><span class="permalink">[<a href="../method/Thread/i/run.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-run">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_RUN"><code>run -&gt; self</code><span class="permalink">[<a href="../method/Thread/i/run.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-run">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 停止状態(stop)のスレッドを再開させます。
-<a href="../method/Thread/i/wakeup.html">Thread#wakeup</a> と異なりすぐにスレッドの切り替え
-を行います。
+<a href="../method/Thread/i/wakeup.html">Thread#wakeup</a> と異なりすぐにスレッドの切り替えを行います。
 </p>
 <dl>
 <dt>[EXCEPTION] ThreadError:</dt>
@@ -1109,10 +1304,25 @@ end
 死んでいるスレッドに対して実行すると発生します。
 </dd>
 </dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>; <span class="no">Thread</span><span class="p">.</span><span class="nf">stop</span>; <span class="nb">puts</span> <span class="s2">"</span><span class="s2">c</span><span class="s2">"</span> <span class="p">}</span>
+<span class="nb">sleep</span> <span class="mf">0.1</span> <span class="k">while</span> a<span class="p">.</span><span class="nf">status</span><span class="o">!=</span><span class="s1">'sleep'</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">Got here</span><span class="s2">"</span>
+a<span class="p">.</span><span class="nf">run</span>
+a<span class="p">.</span><span class="nf">join</span>
+<span class="c1"># =&gt; a
+</span><span class="c1"># =&gt; Got here
+</span><span class="c1"># =&gt; c
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread/i/wakeup.html">Thread#wakeup</a>, <a href="../method/Thread/s/stop.html">Thread.stop</a>
+</p>
 </dd>
 
 
-<dt class="method-heading" id="I_SAFE_LEVEL"><code>safe_level -&gt; Integer</code><span class="permalink">[<a href="../method/Thread/i/safe_level.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-safe_level">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_SAFE_LEVEL"><code>safe_level -&gt; Integer</code><span class="permalink">[<a href="../method/Thread/i/safe_level.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-safe_level">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 self のセーフレベルを返します。カレントスレッドの
@@ -1121,10 +1331,17 @@ safe_level は、<a href="../method/Kernel/v/SAFE.html">$SAFE</a> と同じで�
 <p>
 セーフレベルについては<a href="../doc/spec=2fsafelevel.html">セキュリティモデル</a>を参照してください。
 </p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+thr <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">1</span>; <span class="nb">sleep</span> <span class="p">}</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">safe_level</span>   <span class="c1"># =&gt; 0
+</span>thr<span class="p">.</span><span class="nf">safe_level</span>              <span class="c1"># =&gt; 1
+</span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_SET_TRACE_FUNC"><code>set_trace_func(pr) -&gt; Proc | nil</code><span class="permalink">[<a href="../method/Thread/i/set_trace_func.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-set_trace_func">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_SET_TRACE_FUNC"><code>set_trace_func(pr) -&gt; Proc | nil</code><span class="permalink">[<a href="../method/Thread/i/set_trace_func.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-set_trace_func">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 スレッドにトレース用ハンドラを設定します。
@@ -1135,6 +1352,32 @@ nil を渡すとトレースを解除します。
 <p>
 設定したハンドラを返します。
 </p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Trace</span>
+  <span class="k">end</span>
+  <span class="mi">2</span><span class="p">.</span><span class="nf">to_s</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">set_trace_func</span> <span class="k">nil</span>
+  <span class="mi">3</span><span class="p">.</span><span class="nf">to_s</span>
+<span class="k">end</span>
+th<span class="p">.</span><span class="nf">set_trace_func</span> <span class="nb">lambda</span> <span class="p">{</span><span class="o">|</span><span class="o">*</span>arg<span class="o">|</span> <span class="nb">p</span> arg <span class="p">}</span>
+th<span class="p">.</span><span class="nf">join</span>
+
+<span class="c1"># =&gt; [&quot;line&quot;, &quot;example.rb&quot;, 2, nil, #&lt;Binding:0x00007fc8de87cb08&gt;, nil]
+</span><span class="c1"># =&gt; [&quot;c-call&quot;, &quot;example.rb&quot;, 2, :inherited, #&lt;Binding:0x00007fc8de886770&gt;, Class]
+</span><span class="c1"># =&gt; [&quot;c-return&quot;, &quot;example.rb&quot;, 2, :inherited, #&lt;Binding:0x00007fc8de8844e8&gt;, Class]
+</span><span class="c1"># =&gt; [&quot;class&quot;, &quot;example.rb&quot;, 2, nil, #&lt;Binding:0x00007fc8de88e830&gt;, nil]
+</span><span class="c1"># =&gt; [&quot;end&quot;, &quot;example.rb&quot;, 3, nil, #&lt;Binding:0x00007fc8de88d6b0&gt;, nil]
+</span><span class="c1"># =&gt; [&quot;line&quot;, &quot;example.rb&quot;, 4, nil, #&lt;Binding:0x00007fc8de88c440&gt;, nil]
+</span><span class="c1"># =&gt; [&quot;c-call&quot;, &quot;example.rb&quot;, 4, :to_s, #&lt;Binding:0x00007fc8de896f30&gt;, Integer]
+</span><span class="c1"># =&gt; [&quot;c-return&quot;, &quot;example.rb&quot;, 4, :to_s, #&lt;Binding:0x00007fc8de894a50&gt;, Integer]
+</span><span class="c1"># =&gt; [&quot;line&quot;, &quot;example.rb&quot;, 5, nil, #&lt;Binding:0x00007fc8de967b08&gt;, nil]
+</span><span class="c1"># =&gt; [&quot;c-call&quot;, &quot;example.rb&quot;, 5, :current, #&lt;Binding:0x00007fc8de967798&gt;, Thread]
+</span><span class="c1"># =&gt; [&quot;c-return&quot;, &quot;example.rb&quot;, 5, :current, #&lt;Binding:0x00007fc8de9673b0&gt;, Thread]
+</span><span class="c1"># =&gt; [&quot;c-call&quot;, &quot;example.rb&quot;, 5, :set_trace_func, #&lt;Binding:0x00007fc8de966fc8&gt;, Thread]
+</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] pr:</dt>
 <dd>
@@ -1147,32 +1390,58 @@ nil を渡すとトレースを解除します。
 </dd>
 
 
-<dt class="method-heading" id="I_STATUS"><code>status -&gt; String | false | nil</code><span class="permalink">[<a href="../method/Thread/i/status.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-status">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_STATUS"><code>status -&gt; String | false | nil</code><span class="permalink">[<a href="../method/Thread/i/status.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-status">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-生きているスレッドの状態を文字列 &quot;run&quot;、&quot;sleep&quot;, &quot;aborting&quot; のいず
-れかで返します。正常終了したスレッドに対して false、例外によ
-り終了したスレッドに対して nil を返します。
+生きているスレッドの状態を文字列 &quot;run&quot;、&quot;sleep&quot;, &quot;aborting&quot; のいずれかで返します。正常終了したスレッドに対して false、例外により終了したスレッドに対して nil を返します。
 </p>
 <p>
 <a href="../method/Thread/i/alive=3f.html">Thread#alive?</a> が真を返すなら、このメソッドも真です。
 </p>
-</dd>
-
-
-<dt class="method-heading" id="I_STOP--3F"><code>stop? -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/stop=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-stop-3F">rdoc</a>]</span></dt>
-<dd class="method-description">
 <p>
-スレッドが終了(dead)あるいは停止(stop)している時、true を返します。
+例:
+</p>
+<pre>
+a = Thread.new { raise(&quot;die now&quot;) }
+b = Thread.new { Thread.stop }
+c = Thread.new { Thread.exit }
+d = Thread.new { sleep }
+d.kill                  #=&gt; #&lt;Thread:0x401b3678 aborting&gt;
+a.status                #=&gt; nil
+b.status                #=&gt; &quot;sleep&quot;
+c.status                #=&gt; false
+d.status                #=&gt; &quot;aborting&quot;
+Thread.current.status   #=&gt; &quot;run&quot;
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread/i/alive=3f.html">Thread#alive?</a>, <a href="../method/Thread/i/stop=3f.html">Thread#stop?</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="I_THREAD_VARIABLE--3F"><code>thread_variable?(key) -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/thread_variable=3f.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-thread_variable-3F">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_STOP--3F"><code>stop? -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/stop=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-stop-3F">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-引数 key で指定した名前のスレッドローカル変数が存在する場合に true、そ
-うでない場合に false を返します。
+スレッドが終了(dead)あるいは停止(stop)している時、true を返します。
+</p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">stop</span> <span class="p">}</span>
+b <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span>
+a<span class="p">.</span><span class="nf">stop?</span>   <span class="c1"># =&gt; true
+</span>b<span class="p">.</span><span class="nf">stop?</span>   <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread/i/alive=3f.html">Thread#alive?</a>, <a href="../method/Thread/i/status.html">Thread#status</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_THREAD_VARIABLE--3F"><code>thread_variable?(key) -&gt; bool</code><span class="permalink">[<a href="../method/Thread/i/thread_variable=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-thread_variable-3F">rdoc</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数 key で指定した名前のスレッドローカル変数が存在する場合に true、そうでない場合に false を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] key:</dt>
@@ -1187,8 +1456,7 @@ me.thread_variable?(:oliver)    # =&gt; true
 me.thread_variable?(:stanley)   # =&gt; false
 </pre>
 <p>
-[注意]: <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> でセットしたローカル変数(Fiber ローカル変数)が
-対象ではない事に注意してください。
+[注意]: <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> でセットしたローカル変数(Fiber ローカル変数)が対象ではない事に注意してください。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a>, <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a>
@@ -1196,14 +1464,13 @@ me.thread_variable?(:stanley)   # =&gt; false
 </dd>
 
 
-<dt class="method-heading" id="I_THREAD_VARIABLE_GET"><code>thread_variable_get(key) -&gt; object | nil</code><span class="permalink">[<a href="../method/Thread/i/thread_variable_get.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-thread_variable_get">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_THREAD_VARIABLE_GET"><code>thread_variable_get(key) -&gt; object | nil</code><span class="permalink">[<a href="../method/Thread/i/thread_variable_get.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-thread_variable_get">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 引数 key で指定した名前のスレッドローカル変数を返します。
 </p>
 <p>
-[注意]: <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> でセットしたローカル変数(Fiber ローカル変数)と
-異なり、Fiber を切り替えても同じ変数を返す事に注意してください。
+[注意]: <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> でセットしたローカル変数(Fiber ローカル変数)と異なり、Fiber を切り替えても同じ変数を返す事に注意してください。
 </p>
 <p>
 例:
@@ -1222,41 +1489,45 @@ Thread.new {
 }.join.value # =&gt; ['bar', nil]
 </pre>
 <p>
-この例の &quot;bar&quot; は <a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a> により得られ
-た値で、nil は<a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> により得られた値です。
+この例の &quot;bar&quot; は <a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a> により得られた値で、nil は<a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> により得られた値です。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/thread_variable_set.html">Thread#thread_variable_set</a>, <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a>
 </p>
 <p>
-[SEE_ALSO] <a class="external" href="http://magazine.rubyist.net/?0041-200Special-note#l16">http://magazine.rubyist.net/?0041-200Special-note#l16</a>
+[SEE_ALSO] <a class="external" href="https://magazine.rubyist.net/articles/0041/0041-200Special-note.html">https://magazine.rubyist.net/articles/0041/0041-200Special-note.html</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="I_THREAD_VARIABLE_SET"><code>thread_variable_set(key, value)</code><span class="permalink">[<a href="../method/Thread/i/thread_variable_set.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-thread_variable_set">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_THREAD_VARIABLE_SET"><code>thread_variable_set(key, value)</code><span class="permalink">[<a href="../method/Thread/i/thread_variable_set.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-thread_variable_set">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-引数 key で指定した名前のスレッドローカル変数に引数 value をセットしま
-す。
+引数 key で指定した名前のスレッドローカル変数に引数 value をセットします。
 </p>
 <p>
-[注意]: <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> でセットしたローカル変数(Fiber ローカル変数)と
-異なり、セットした変数は Fiber を切り替えても共通で使える事に注意してく
-ださい。
+[注意]: <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> でセットしたローカル変数(Fiber ローカル変数)と異なり、セットした変数は Fiber を切り替えても共通で使える事に注意してください。
 </p>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+thr <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="ss">:cat</span>, <span class="s1">'meow'</span><span class="p">)</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="s2">"</span><span class="s2">dog</span><span class="s2">"</span>, <span class="s1">'woof'</span><span class="p">)</span>
+<span class="k">end</span>
+thr<span class="p">.</span><span class="nf">join</span>               <span class="c1"># =&gt; #&lt;Thread:0x401b3f10 dead&gt;
+</span>thr<span class="p">.</span><span class="nf">thread_variables</span>   <span class="c1"># =&gt; [:dog, :cat]
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a>, <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="I_VALUE"><code>value -&gt; object</code><span class="permalink">[<a href="../method/Thread/i/value.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-value">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_VALUE"><code>value -&gt; object</code><span class="permalink">[<a href="../method/Thread/i/value.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-value">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
-スレッド self が終了するまで待ち(<a href="../method/Thread/i/join.html">Thread#join</a> と同じ)、
-そのスレッドのブロックが返した値を返します。スレッド実行中に例外が
-発生した場合には、その例外を再発生させます。
+スレッド self が終了するまで待ち(<a href="../method/Thread/i/join.html">Thread#join</a> と同じ)、そのスレッドのブロックが返した値を返します。スレッド実行中に例外が発生した場合には、その例外を再発生させます。
 </p>
 <p>
 スレッドが <a href="../method/Thread/i/kill.html">Thread#kill</a> によって終了した場合は、返り値は不定です。
@@ -1273,8 +1544,7 @@ threads.push(Thread.new { n = rand(5); sleep n; n })
 threads.each {|t| p t.value}
 </pre>
 <p>
-最後の行で、待ち合わせを行っていることがわかりにくいと思うなら以下
-のように書くこともできます。
+最後の行で、待ち合わせを行っていることがわかりにくいと思うなら以下のように書くこともできます。
 </p>
 <pre>
 threads.each {|t| p t.join.value}
@@ -1282,7 +1552,7 @@ threads.each {|t| p t.join.value}
 </dd>
 
 
-<dt class="method-heading" id="I_WAKEUP"><code>wakeup -&gt; self</code><span class="permalink">[<a href="../method/Thread/i/wakeup.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-wakeup">rdoc</a>]</span></dt>
+<dt class="method-heading" id="I_WAKEUP"><code>wakeup -&gt; self</code><span class="permalink">[<a href="../method/Thread/i/wakeup.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-i-wakeup">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 停止状態(stop)のスレッドを実行可能状態(run)にします。
@@ -1293,6 +1563,18 @@ threads.each {|t| p t.join.value}
 死んでいるスレッドに対して実行すると発生します。
 </dd>
 </dl>
+<pre class="highlight ruby">
+<span class="caption">例</span>
+<code>
+c <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">stop</span>; <span class="nb">puts</span> <span class="s2">"</span><span class="s2">hey!</span><span class="s2">"</span> <span class="p">}</span>
+<span class="nb">sleep</span> <span class="mf">0.1</span> <span class="k">while</span> c<span class="p">.</span><span class="nf">status</span><span class="o">!=</span><span class="s1">'sleep'</span>
+c<span class="p">.</span><span class="nf">wakeup</span>
+c<span class="p">.</span><span class="nf">join</span>
+<span class="c1"># =&gt; &quot;hey!&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread/i/run.html">Thread#run</a>, <a href="../method/Thread/s/stop.html">Thread.stop</a>
+</p>
 </dd>
 
 
@@ -1301,7 +1583,7 @@ threads.each {|t| p t.join.value}
 <h2>定数</h2>
 <dl>
 
-<dt class="method-heading" id="C_-M-U-T-E-X_-F-O-R_-T-H-R-E-A-D_-E-X-C-L-U-S-I-V-E"><code>MUTEX_FOR_THREAD_EXCLUSIVE -&gt; Mutex</code><span class="permalink">[<a href="../method/Thread/c/MUTEX_FOR_THREAD_EXCLUSIVE.html">permalink</a>][<a href="http://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-MUTEX_FOR_THREAD_EXCLUSIVE">rdoc</a>]</span></dt>
+<dt class="method-heading" id="C_-M-U-T-E-X_-F-O-R_-T-H-R-E-A-D_-E-X-C-L-U-S-I-V-E"><code>MUTEX_FOR_THREAD_EXCLUSIVE -&gt; Mutex</code><span class="permalink">[<a href="../method/Thread/c/MUTEX_FOR_THREAD_EXCLUSIVE.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/Thread.html#method-c-MUTEX_FOR_THREAD_EXCLUSIVE">rdoc</a>]</span></dt>
 <dd class="method-description">
 <p>
 <a href="../method/Thread/s/exclusive.html">Thread.exclusive</a>用の<a href="../class/Mutex.html">Mutex</a>オブジェクトです。
@@ -1311,12 +1593,16 @@ threads.each {|t| p t.join.value}
 
 </dl>
 
+</main>
 
-
-<div id="footer">
+<footer id="footer">
   <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
     <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
-</div>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>
