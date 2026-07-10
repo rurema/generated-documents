@@ -13,21 +13,24 @@ source_location=manual/api/erb.md
 - **param** `methodname` -- メソッド名
 
 ```ruby title="例"
-require 'erb'
+require "erb"
 
-class MyClass_
+class MyBaseClass
   def initialize(arg1, arg2)
-    @arg1 = arg1;  @arg2 = arg2
+    @arg1 = arg1
+    @arg2 = arg2
   end
 end
-filename = 'example.rhtml'  # @arg1 と @arg2 が使われている example.rhtml
 
-erb = ERB.new(File.read(filename))
-erb.filename = filename
-MyClass = erb.def_class(MyClass_, 'render()')
-print MyClass.new('foo', 123).render()
+erb = ERB.new(<<~ERB)
+  arg1: <%= @arg1 %>
+  arg2: <%= @arg2 %>
+ERB
 
-# => test1foo
-#    test2123
+MySubClass = erb.def_class(MyBaseClass, :render)
+
+print MySubClass.new("foo", 123).render()
+# => arg1: foo
+#    arg2: 123
 ```
 

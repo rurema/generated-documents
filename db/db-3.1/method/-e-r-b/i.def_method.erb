@@ -16,11 +16,21 @@ fname はスクリプトを定義する際のファイル名です。主にエ�
 
 - **param** `fname` -- スクリプトを定義する際のファイル名
 
-例:
+```ruby title="例"
+require "erb"
 
-`````
-require 'erb'
-erb = ERB.new(script)
-erb.def_method(MyClass, 'foo(bar)', 'foo.erb')
-`````
+class MyClass
+end
+
+erb = ERB.new(<<~ERB)
+  arg1: <%= arg1 %>
+  arg2: <%= arg2 %>
+ERB
+
+erb.def_method(MyClass, "m(arg1, arg2)")
+
+print MyClass.new.m("foo", 123)
+# => arg1: foo
+#    arg2: 123
+```
 
