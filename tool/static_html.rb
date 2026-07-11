@@ -42,7 +42,7 @@ def create_document(version, edit_base_url: "https://github.com/rurema/doctree/e
     "--fs-casesensitive",
     "--canonical-base-url=https://docs.ruby-lang.org/ja/latest/",
     "--meta-robots-content=",
-    "--tracking-id=UA-620926-3",
+    "--tracking-id=G-HBG2MP4NRL",
     "--quiet",
   ]
   command << "--edit-base-url=#{edit_base_url}" if edit_base_url
