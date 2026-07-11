@@ -88,8 +88,8 @@
 ブロック内では、新たなスコープが導入されるとともに、外側のローカル変数を参照できます。
 Proc オブジェクトがローカル変数のスコープを保持していることは以下の例で変数 var を参照できていることからわかります。
 </p>
-<pre class="highlight ruby">
 <span class="caption">例</span>
+<pre class="highlight ruby">
 <code>
 var <span class="o">=</span> <span class="mi">1</span>
 <span class="vg">$foo</span> <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> var <span class="p">}</span>
@@ -106,8 +106,8 @@ var <span class="o">=</span> <span class="mi">2</span>
 手続きオブジェクトを中断して、呼出し元(呼び出しブロックでは yield、それ以外では <a href="../method/Proc/i/call.html">Proc#call</a>)
 へジャンプし値を返すには next を使います。break や return ではありません。
 </p>
-<pre class="highlight ruby">
 <span class="caption">例</span>
+<pre class="highlight ruby">
 <code>
 <span class="k">def</span> <span class="nf">foo</span>
   f <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span>
@@ -122,13 +122,13 @@ var <span class="o">=</span> <span class="mi">2</span>
 <p>
 ブロック付きメソッドに対して Proc オブジェクトを `&amp;` を指定して渡すと呼び出しブロックのように動作します。しかし、厳密には以下の違いがあります。これらは、Proc オブジェクトが呼び出しブロックとして振舞う際の制限です。
 </p>
-<pre class="highlight ruby">
 <span class="caption">問題なし</span>
+<pre class="highlight ruby">
 <code>
 <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="k">break</span> <span class="p">}</span>
 </code></pre>
-<pre class="highlight ruby">
 <span class="caption">LocalJumpError が発生します。</span>
+<pre class="highlight ruby">
 <code>
 pr <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="k">break</span> <span class="p">}</span>
 <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span>pr<span class="p">)</span>
@@ -145,8 +145,8 @@ pr <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span>
 lambda のほうがより厳密です。引数の数が違っていると（メソッドのように）エラーになります。
 Proc.new は引数を多重代入に近い扱い方をします。
 </p>
-<pre class="highlight ruby">
 <span class="caption">Proc.new は引数の数が違っていてもエラーにならない</span>
+<pre class="highlight ruby">
 <code>
 b <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span><span class="o">|</span>a,b,c<span class="o">|</span>
   <span class="nb">p</span> a,b,c
@@ -156,8 +156,8 @@ b<span class="p">.</span><span class="nf">call</span><span class="p">(</span><sp
 </span>    <span class="mi">4</span>
     <span class="k">nil</span>
 </code></pre>
-<pre class="highlight ruby">
 <span class="caption">lambda は引数の数が違うとエラーになる</span>
+<pre class="highlight ruby">
 <code>
 b <span class="o">=</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>a,b,c<span class="o">|</span>
   <span class="nb">p</span> a,b,c
@@ -173,8 +173,8 @@ b<span class="p">.</span><span class="nf">call</span><span class="p">(</span><sp
 return と break は、lambda と Proc.new では挙動が異なります。例えば return を行った場合、lambda では手続きオブジェクト自身を抜けますが、
 Proc.new では手続きオブジェクトを囲むメソッドを抜けます。
 </p>
-<pre class="highlight ruby">
 <span class="caption">例</span>
+<pre class="highlight ruby">
 <code>
 <span class="k">def</span> <span class="nf">test_proc</span>
   f <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="k">return</span> <span class="ss">:from_proc</span> <span class="p">}</span>
@@ -212,8 +212,8 @@ lambda     手続きオブジェクトを抜ける  手続きオブジェクト�
 Proc を生成したメソッドから脱出した後、手続きオブジェクトからの
 return, break は例外 <a href="../class/LocalJumpError.html">LocalJumpError</a> を発生させます。ただし、上でも説明した通り lambda で生成した手続きオブジェクトはメソッドと同じように振る舞うことを意図されているため、例外 <a href="../class/LocalJumpError.html">LocalJumpError</a> は発生しません。
 </p>
-<pre class="highlight ruby">
 <span class="caption">例</span>
+<pre class="highlight ruby">
 <code>
 <span class="k">def</span> <span class="nf">foo</span>
   <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
