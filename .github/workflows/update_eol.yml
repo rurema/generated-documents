@@ -1,0 +1,55 @@
+name: update EOL threshold
+
+# EOL 警告バナーの閾値(tool/vars.rb の MINIMUM_SUPPORTED_RUBY_VERSION)を
+# ruby/www.ruby-lang.org の _data/branches.yml から自動更新する。#144 参照。
+#
+# Ruby の EOL は 3月末〜4月に集中する(過去実績: 3/26, 3/31, 4/1, 4/12, 4/23)
+# ため、3〜4月は毎日、それ以外は週1(月曜)で確認する。
+# 実行時刻は generate (17:05 UTC) の 30 分前。閾値の更新が auto-merge されれば
+# 同日の generate で EOL バナーに反映される。
+
+on:
+  schedule:
+    - cron: '35 16 * 3,4 *'
+    - cron: '35 16 * 1,2,5-12 1'
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  update-eol:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Update MINIMUM_SUPPORTED_RUBY_VERSION from branches.yml
+        id: update
+        run: ruby tool/update-eol.rb
+      - name: Create Pull Request
+        id: cpr
+        if: ${{ steps.update.outputs.changed == 'true' }}
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: update-eol-threshold
+          delete-branch: true
+          add-paths: |
+            tool/vars.rb
+          title: 'EOL バナーの閾値を ${{ steps.update.outputs.new_version }} に更新'
+          body: >
+            ruby/www.ruby-lang.org の _data/branches.yml の status 判定により、
+            EOL 警告バナーの閾値 MINIMUM_SUPPORTED_RUBY_VERSION を
+            ${{ steps.update.outputs.old_version }} から
+            ${{ steps.update.outputs.new_version }} に更新します(#144)。
+            automerge=${{ steps.update.outputs.automerge }}
+            (false の場合は2段階以上の引き上げのため人間による確認が必要です)。
+            This PR is auto-generated.
+      - name: Enable auto-merge
+        if: ${{ steps.cpr.outputs.pull-request-number && steps.update.outputs.automerge == 'true' }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+          gh pr merge --auto --delete-branch --merge "$PR_URL"
+        env:
+          PR_URL: "${{ steps.cpr.outputs.pull-request-url }}"
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
