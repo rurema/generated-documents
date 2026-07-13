@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -100,34 +100,35 @@ IOオブジェクト、もしくは少なくとも、
 <a href="../../../method/Zlib/c/FILTERED.html">Zlib::FILTERED</a>, <a href="../../../method/Zlib/c/HUFFMAN_ONLY.html">Zlib::HUFFMAN_ONLY</a>, <a href="../../../method/Zlib/c/DEFAULT_STRATEGY.html">Zlib::DEFAULT_STRATEGY</a>など指定します。詳細はzlib.h を参照してください。
 </dd>
 </dl>
-<pre>
-require 'zlib'
-
-def case1
-  filename='hoge1.txt'
-  f = File.open(filename, &quot;w&quot;)
-  Zlib::GzipWriter.wrap(f, Zlib::NO_COMPRESSION){|gz|
-    gz.puts &quot;hogehoge&quot; * 100
-  }
-  p f.closed? #=&gt; true
-  p FileTest.size(filename) #=&gt; 824
-end
-
-def case2
-  filename='hoge1.gz'
-  f = File.open(filename, &quot;w&quot;)
-  Zlib::GzipWriter.wrap(f, Zlib::BEST_COMPRESSION){|gz|
-    gz.puts &quot;hogehoge&quot; * 100
-    gz.finish
-  }
-  p f.closed? #=&gt; false
-  f.close
-  p FileTest.size(filename) #=&gt; 32
-end
-
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'zlib'</span>
+  
+<span class="k">def</span> <span class="nf">case1</span>
+  filename<span class="o">=</span><span class="s1">'hoge1.txt'</span>
+  f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span>filename, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span>
+  <span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">wrap</span><span class="p">(</span>f, <span class="no">Zlib</span><span class="o">::</span><span class="no">NO_COMPRESSION</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>gz<span class="o">|</span>
+    gz<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">hogehoge</span><span class="s2">"</span> <span class="o">*</span> <span class="mi">100</span>
+  <span class="p">}</span>
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">closed?</span> <span class="c1">#=&gt; true
+</span>  <span class="nb">p</span> <span class="no">FileTest</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span>filename<span class="p">)</span> <span class="c1">#=&gt; 824
+</span><span class="k">end</span>
+  
+<span class="k">def</span> <span class="nf">case2</span>
+  filename<span class="o">=</span><span class="s1">'hoge1.gz'</span>
+  f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span>filename, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span>
+  <span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">wrap</span><span class="p">(</span>f, <span class="no">Zlib</span><span class="o">::</span><span class="no">BEST_COMPRESSION</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>gz<span class="o">|</span>
+    gz<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">hogehoge</span><span class="s2">"</span> <span class="o">*</span> <span class="mi">100</span>
+    gz<span class="p">.</span><span class="nf">finish</span>
+  <span class="p">}</span>
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">closed?</span> <span class="c1">#=&gt; false
+</span>  f<span class="p">.</span><span class="nf">close</span>
+  <span class="nb">p</span> <span class="no">FileTest</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span>filename<span class="p">)</span> <span class="c1">#=&gt; 32
+</span><span class="k">end</span>
+  
 case1
 case2
-</pre>
+</code></pre>
 </dd>
 
 

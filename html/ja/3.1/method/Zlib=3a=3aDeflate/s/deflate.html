@@ -91,16 +91,17 @@ string を圧縮します。level の有効な値は
 <p>
 ちなみに、このメソッドは以下のコードとほぼ同じです:
 </p>
-<pre>
-require 'zlib'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'zlib'</span>
 
-def deflate(string, level)
-  z = Zlib::Deflate.new(level)
-  dst = z.deflate(string, Zlib::FINISH)
-  z.close
+<span class="k">def</span> <span class="nf">deflate</span><span class="p">(</span>string, level<span class="p">)</span>
+  z <span class="o">=</span> <span class="no">Zlib</span><span class="o">::</span><span class="no">Deflate</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>level<span class="p">)</span>
+  dst <span class="o">=</span> z<span class="p">.</span><span class="nf">deflate</span><span class="p">(</span>string, <span class="no">Zlib</span><span class="o">::</span><span class="no">FINISH</span><span class="p">)</span>
+  z<span class="p">.</span><span class="nf">close</span>
   dst
-end
-</pre>
+<span class="k">end</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>string</code>:</dt>
 <dd>
@@ -112,34 +113,33 @@ end
 Zlib::BEST_COMPRESSION, Zlib::DEFAULT_COMPRESSION 及び 0 から 9 の整数です。
 </dd>
 </dl>
-<p>
-使用例
-</p>
-<pre>
-require 'zlib'
+<span class="caption">使用例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'zlib'</span>
 
-srand(1)
-str = (1..500).collect{
-  ['A', 'T', 'C', 'G'].at(rand(4))
-}.join
+<span class="nb">srand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+str <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">500</span><span class="p">)</span><span class="p">.</span><span class="nf">collect</span><span class="p">{</span>
+  <span class="p">[</span><span class="s1">'A'</span>, <span class="s1">'T'</span>, <span class="s1">'C'</span>, <span class="s1">'G'</span><span class="p">]</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">)</span>
+<span class="p">}</span><span class="p">.</span><span class="nf">join</span>
 
-p str.size #=&gt; 500
-
-[ Zlib::NO_COMPRESSION,
-  Zlib::BEST_SPEED,
-  Zlib::BEST_COMPRESSION,
-  Zlib::DEFAULT_COMPRESSION ].each { |level|
-  deflate_str = Zlib::Deflate.deflate(str, level)
-  p deflate_str.size
-  # 展開する場合は、下記を実行する
-  #puts Zlib::Inflate.inflate(str)
-}
-#出力例
-#=&gt; 511
-#=&gt; 200
-#=&gt; 194
-#=&gt; 194
-</pre>
+<span class="nb">p</span> str<span class="p">.</span><span class="nf">size</span> <span class="c1">#=&gt; 500
+</span>
+<span class="p">[</span> <span class="no">Zlib</span><span class="o">::</span><span class="no">NO_COMPRESSION</span>,
+  <span class="no">Zlib</span><span class="o">::</span><span class="no">BEST_SPEED</span>,
+  <span class="no">Zlib</span><span class="o">::</span><span class="no">BEST_COMPRESSION</span>,
+  <span class="no">Zlib</span><span class="o">::</span><span class="no">DEFAULT_COMPRESSION</span> <span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span>level<span class="o">|</span>
+  deflate_str <span class="o">=</span> <span class="no">Zlib</span><span class="o">::</span><span class="no">Deflate</span><span class="p">.</span><span class="nf">deflate</span><span class="p">(</span>str, level<span class="p">)</span>
+  <span class="nb">p</span> deflate_str<span class="p">.</span><span class="nf">size</span>
+  <span class="c1"># 展開する場合は、下記を実行する
+</span>  <span class="c1">#puts Zlib::Inflate.inflate(str)
+</span><span class="p">}</span>
+<span class="c1">#出力例
+</span><span class="c1">#=&gt; 511
+</span><span class="c1">#=&gt; 200
+</span><span class="c1">#=&gt; 194
+</span><span class="c1">#=&gt; 194
+</span></code></pre>
 </dd>
 
 

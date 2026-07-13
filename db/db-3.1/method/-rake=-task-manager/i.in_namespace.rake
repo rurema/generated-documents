@@ -22,7 +22,7 @@ end
 
 task :test_rake_app do
   task.application.in_namespace("sample") do
-    hoge # => "hoge"
+    p hoge # => "hoge"
   end
 end
 ```

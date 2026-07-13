@@ -15,7 +15,7 @@ source_location=manual/api/rake/Rake__FileList.md
 task default: :test_rake_app
 task :test_rake_app do
   file_list = FileList.new('lib/**/*.rb', 'test/test*.rb')
-  file_list == file_list.to_a # => true
+  p file_list == file_list.to_a # => true
 end
 ```
 

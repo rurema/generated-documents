@@ -245,17 +245,16 @@ POP3 のセッションを表すクラスです。
 <p>
 bool が真なら <a href="../class/Net=3a=3aAPOP.html">Net::APOP</a> クラス、偽なら <a href="../class/Net=3a=3aPOP3.html">Net::POP3</a> クラスを返します。
 </p>
-<p>
-使用例:
-</p>
-<pre>
+<span class="caption">使用例</span>
+<pre class="highlight text">
+<code>
 require 'net/pop'
 
 pop = Net::POP3::APOP($isapop).new(addr, port)
 pop.start(account, password) {
   ....
 }
-</pre>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>is_apop</code>:</dt>
 <dd>
@@ -273,15 +272,14 @@ POP セッションを開き、認証だけを行って接続を切ります。
 <p>
 主に POP before SMTP のために用意されています。
 </p>
-<p>
-使用例:
-</p>
-<pre>
-require 'net/pop'
+<span class="caption">使用例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
 
-Net::POP3.auth_only('pop.example.com', nil,     # using default port (110)
-                    'YourAccount', 'YourPassword')
-</pre>
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">auth_only</span><span class="p">(</span><span class="s1">'pop.example.com'</span>, <span class="k">nil</span>,     <span class="c1"># using default port (110)
+</span>                    <span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>address</code>:</dt>
 <dd>
@@ -362,16 +360,15 @@ POP セッションを開始し、サーバ上のメールを全て消去しま�
 <p>
 port に nil を渡すと、適当なポート(通常は110、SSL利用時には 995)を使います。
 </p>
-<p>
-使用例:
-</p>
-<pre>
-require 'net/pop'
+<span class="caption">使用例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
 
-Net::POP3.delete_all(addr, nil, 'YourAccount', 'YourPassword') do |m|
-  puts m.pop
-end
-</pre>
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">delete_all</span><span class="p">(</span>addr, <span class="k">nil</span>, <span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>m<span class="o">|</span>
+  <span class="nb">puts</span> m<span class="p">.</span><span class="nf">pop</span>
+<span class="k">end</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>address</code>:</dt>
 <dd>
@@ -445,9 +442,10 @@ verify_or_params がハッシュでない場合には、接続時に生成され
 <a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.html">OpenSSL::SSL::SSLContext</a> オブジェクトの
 <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 { :verify_mode =&gt; verify_or_params, :ca_path =&gt; certs }
-</pre>
+</code></pre>
 <p>
 というハッシュが渡されます。
 </p>
@@ -481,7 +479,8 @@ port に nil を渡すと、適当なポート(通常は110、SSL利用時には
 <p>
 以下のコードと同様の処理をします。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 require 'net/pop'
 
 Net::POP3.start(address, port, account, password, isapop=false) {|pop|
@@ -489,19 +488,18 @@ Net::POP3.start(address, port, account, password, isapop=false) {|pop|
     yield m
   end
 }
-</pre>
-<p>
-使用例:
-</p>
-<pre>
-require 'net/pop'
+</code></pre>
+<span class="caption">使用例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
 
-Net::POP3.foreach('pop.example.com', 110,
-                  'YourAccount', 'YourPassword') do |m|
-  file.write m.pop
-  m.delete if $DELETE
-end
-</pre>
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s1">'pop.example.com'</span>, <span class="mi">110</span>,
+                  <span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>m<span class="o">|</span>
+  file<span class="p">.</span><span class="nf">write</span> m<span class="p">.</span><span class="nf">pop</span>
+  m<span class="p">.</span><span class="nf">delete</span> <span class="k">if</span> <span class="vg">$DELETE</span>
+<span class="k">end</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>address</code>:</dt>
 <dd>
@@ -621,24 +619,24 @@ port に nil を渡すと、適当なポート(通常は110、SSL利用時には
 <p>
 以下のコードと同じ動作をします。
 </p>
-<pre>
-require 'net/pop'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
 
-Net::POP3.new(address, port, isapop).start(account, password)
-</pre>
-<p>
-使用例:
-</p>
-<pre>
-require 'net/pop'
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>address, port, isapop<span class="p">)</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span>account, password<span class="p">)</span>
+</code></pre>
+<span class="caption">使用例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
 
-Net::POP3.start(addr, port, account, password) {|pop|
-  pop.each_mail do |m|
-    file.write m.pop
-    m.delete
-  end
-}
-</pre>
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span>addr, port, account, password<span class="p">)</span> <span class="p">{</span><span class="o">|</span>pop<span class="o">|</span>
+  pop<span class="p">.</span><span class="nf">each_mail</span> <span class="k">do</span> <span class="o">|</span>m<span class="o">|</span>
+    file<span class="p">.</span><span class="nf">write</span> m<span class="p">.</span><span class="nf">pop</span>
+    m<span class="p">.</span><span class="nf">delete</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>address</code>:</dt>
 <dd>
@@ -747,15 +745,14 @@ POP セッションを開き、認証だけを行って接続を切ります。
 <p>
 主に POP before SMTP のために用意されています。
 </p>
-<p>
-使用例:
-</p>
-<pre>
-require 'net/pop'
+<span class="caption">使用例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
 
-pop = Net::POP3.new('pop.example.com')
-pop.auth_only 'YourAccount', 'YourPassword'
-</pre>
+pop <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'pop.example.com'</span><span class="p">)</span>
+pop<span class="p">.</span><span class="nf">auth_only</span> <span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>account</code>:</dt>
 <dd>
@@ -794,18 +791,17 @@ pop.auth_only 'YourAccount', 'YourPassword'
 <p>
 ブロックを与えられたときは消去する前に各メールを引数としてブロックを呼びだします。メールは <a href="../class/Net=3a=3aPOPMail.html">Net::POPMail</a> のインスタンスとして渡されます。
 </p>
-<p>
-使用例:
-</p>
-<pre>
-require 'net/pop'
+<span class="caption">使用例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
 
-n = 1
-pop.delete_all do |m|
-  File.open(&quot;inbox/#{n}&quot;) {|f| f.write m.pop }
-  n += 1
-end
-</pre>
+n <span class="o">=</span> <span class="mi">1</span>
+pop<span class="p">.</span><span class="nf">delete_all</span> <span class="k">do</span> <span class="o">|</span>m<span class="o">|</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">inbox/</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span> f<span class="p">.</span><span class="nf">write</span> m<span class="p">.</span><span class="nf">pop</span> <span class="p">}</span>
+  n <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">end</span>
+</code></pre>
 </dd>
 
 
@@ -865,9 +861,10 @@ verify_or_params がハッシュでない場合には、接続時に生成され
 <a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.html">OpenSSL::SSL::SSLContext</a> オブジェクトの
 <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 { :verify_mode =&gt; verify_or_params, :ca_path =&gt; certs }
-</pre>
+</code></pre>
 <p>
 というハッシュが渡されます。
 </p>
@@ -1080,32 +1077,30 @@ POP3 ではメール一個だけを復活する方法はありません。
 <p>
 f は &lt;&lt; メソッドを持っているオブジェクトでなければなりません。
 </p>
-<p>
-使用例:
-</p>
-<pre>
-require 'net/pop'
+<span class="caption">使用例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
 
-pop = Net::POP3.new('pop.example.com', 110)
-pop.set_debug_output $stderr
-pop.start('YourAccount', 'YourPassword') {
-  p pop.n_bytes
-}
-</pre>
-<p>
-実行結果:
-</p>
-<pre>
+pop <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'pop.example.com'</span>, <span class="mi">110</span><span class="p">)</span>
+pop<span class="p">.</span><span class="nf">set_debug_output</span> <span class="vg">$stderr</span>
+pop<span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nb">p</span> pop<span class="p">.</span><span class="nf">n_bytes</span>
+<span class="p">}</span>
+</code></pre>
+<span class="caption">実行結果</span>
+<pre class="highlight text">
+<code>
 POP session started: pop.example.com:110 (POP)
--&gt; &quot;+OK popd &lt;1162042773.26346.155555a1861c@pop.example.com&gt;\r\n&quot;
-&lt;- &quot;APOP YourAccount XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\r\n&quot;
--&gt; &quot;+OK\r\n&quot;
-&lt;- &quot;STAT\r\n&quot;
--&gt; &quot;+OK 37 339936\r\n&quot;
+-&gt; "+OK popd &lt;1162042773.26346.155555a1861c@pop.example.com&gt;\r\n"
+&lt;- "APOP YourAccount XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\r\n"
+-&gt; "+OK\r\n"
+&lt;- "STAT\r\n"
+-&gt; "+OK 37 339936\r\n"
 339936
-&lt;- &quot;QUIT\r\n&quot;
--&gt; &quot;+OK\r\n&quot;
-</pre>
+&lt;- "QUIT\r\n"
+-&gt; "+OK\r\n"
+</code></pre>
 </dd>
 
 

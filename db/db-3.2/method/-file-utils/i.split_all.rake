@@ -9,8 +9,7 @@ source_location=manual/api/rake/FileUtils.md
 
 - **param** `path` -- 分割するパスを指定します。
 
-例:
-``````
-split_all("a/b/c") # =>  ['a', 'b', 'c']
-``````
+```ruby title="例"
+p split_all("a/b/c") # =>  ['a', 'b', 'c']
+```
 

@@ -12,7 +12,7 @@ source_location=manual/api/rake/Rake__TaskManager.md
 
 task default: :test_rake_app
 task :test_rake_app do
-  Rake.application.current_scope # => LL()
+  p Rake.application.current_scope # => LL()
 end
 ```
 

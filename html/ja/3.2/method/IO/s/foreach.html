@@ -83,8 +83,8 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_FOREACH"><code>foreach(path, rs = $/, chomp: false) {|line| ... } -&gt; nil</code><span class="permalink">[<a href="../../../method/IO/s/foreach.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO.html#method-c-foreach">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>foreach(path, rs = $/, chomp: false) -&gt; Enumerator</code></dt>
+<dt class="method-heading" id="S_FOREACH"><code>foreach(path, rs = $/, chomp: false, **opts) {|line| ... } -&gt; nil</code><span class="permalink">[<a href="../../../method/IO/s/foreach.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO.html#method-c-foreach">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>foreach(path, rs = $/, chomp: false, **opts) -&gt; Enumerator</code></dt>
 <dd class="method-description">
 <p>
 path で指定されたファイルの各行を引数としてブロックを繰り返し実行します。
@@ -114,6 +114,12 @@ path が空ファイルの場合、何もせずに nil を返します。
 <dd>
 true を指定すると各行の末尾から &quot;\n&quot;, &quot;\r&quot;, または &quot;\r\n&quot; を取り除きます。
 </dd>
+<dt class='method-param'>[PARAM] <code>opts</code>:</dt>
+<dd>
+ファイル path を open する時に使われるオプションをキーワード引数で指定します。
+<code>:encoding</code> で読み込んだ行のエンコーディングを、
+<code>:mode</code> で <a href="../../../method/IO/s/open.html">IO.open</a> のモード文字列を指定できます。これらの他、<a href="../../../method/IO/s/new.html">IO.new</a> のオプション引数(<code>:external_encoding</code> など)が指定できます。
+</dd>
 <dt>[EXCEPTION] <code>Errno::EXXX</code>:</dt>
 <dd>
 path のオープンに失敗した場合、発生します。
@@ -123,7 +129,7 @@ path のオープンに失敗した場合、発生します。
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">line1\nline2,\nline3\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="no">IO</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; #&lt;Enumerator: IO:foreach(&quot;testfile&quot;)&gt;
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; #&lt;Enumerator: IO:foreach(&quot;testfile&quot;)&gt;
 </span><span class="no">IO</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> <span class="nb">print</span> <span class="s2">"</span><span class="s2">GOT </span><span class="s2">"</span>, x <span class="p">}</span>
 <span class="c1"># =&gt; GOT line1
 </span><span class="c1"># GOT line2,
@@ -144,6 +150,15 @@ path のオープンに失敗した場合、発生します。
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">line1\nline2,\nline3\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="no">IO</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="ss">chomp:</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> <span class="nb">print</span> <span class="s2">"</span><span class="s2">GOT </span><span class="s2">"</span>, x <span class="p">}</span>
 <span class="c1"># =&gt; GOT line1GOT line2,GOT line3
+</span></code></pre>
+<span class="caption">例: エンコーディングを指定</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">line1\nline2,\nline3\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">IO</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="ss">encoding:</span> <span class="s2">"</span><span class="s2">UTF-8</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> <span class="nb">p</span> x<span class="p">.</span><span class="nf">encoding</span> <span class="p">}</span>
+<span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span><span class="c1"># #&lt;Encoding:UTF-8&gt;
+</span><span class="c1"># #&lt;Encoding:UTF-8&gt;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/Kernel/v/=2f.html">$/</a>

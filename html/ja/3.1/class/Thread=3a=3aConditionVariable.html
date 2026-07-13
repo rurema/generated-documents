@@ -139,7 +139,8 @@
 スレッド a で条件(リソースが空いているかなど)が満たされるまで wait メソッドでスレッドを止めます。他のスレッド b において条件が満たされたなら signal
 メソッドでスレッド a に対して条件が成立したことを通知します。これが典型的な使用例です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 mutex = Mutex.new
 cv = ConditionVariable.new
 
@@ -159,80 +160,82 @@ b = Thread.start {
       cv.signal
     }
 }
-</pre>
+</code></pre>
 <p>
 以下は <a class="external" href="https://blade.ruby-lang.org/ruby-list/14445">[ruby-list:14445]</a> で紹介されている例です。@q が空になった場合、あるいは満タンになった場合に Condition Variable を使って wait しています。
 </p>
-<pre>
-require 'thread'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'thread'</span>
 
-class TinyQueue
-  def initialize(max=2)
-    @max = max
-    @full = ConditionVariable.new
-    @empty = ConditionVariable.new
-    @mutex = Mutex.new
-    @q = []
-  end
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">TinyQueue</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span>max<span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="vi">@max</span> <span class="o">=</span> max
+    <span class="vi">@full</span> <span class="o">=</span> <span class="no">ConditionVariable</span><span class="p">.</span><span class="nf">new</span>
+    <span class="vi">@empty</span> <span class="o">=</span> <span class="no">ConditionVariable</span><span class="p">.</span><span class="nf">new</span>
+    <span class="vi">@mutex</span> <span class="o">=</span> <span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
+    <span class="vi">@q</span> <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
+  <span class="k">end</span>
 
-  def count
-    @q.size
-  end
+  <span class="k">def</span> <span class="nf">count</span>
+    <span class="vi">@q</span><span class="p">.</span><span class="nf">size</span>
+  <span class="k">end</span>
 
-  def enq(v)
-    @mutex.synchronize{
-      @full.wait(@mutex) if count == @max
-      @q.push v
-      @empty.signal if count == 1
-    }
-  end
+  <span class="k">def</span> <span class="nf">enq</span><span class="p">(</span>v<span class="p">)</span>
+    <span class="vi">@mutex</span><span class="p">.</span><span class="nf">synchronize</span><span class="p">{</span>
+      <span class="vi">@full</span><span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="vi">@mutex</span><span class="p">)</span> <span class="k">if</span> count <span class="o">==</span> <span class="vi">@max</span>
+      <span class="vi">@q</span><span class="p">.</span><span class="nf">push</span> v
+      <span class="vi">@empty</span><span class="p">.</span><span class="nf">signal</span> <span class="k">if</span> count <span class="o">==</span> <span class="mi">1</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
 
-  def deq
-    @mutex.synchronize{
-      @empty.wait(@mutex) if count == 0
-      v = @q.shift
-      @full.signal if count == (@max - 1)
+  <span class="k">def</span> <span class="nf">deq</span>
+    <span class="vi">@mutex</span><span class="p">.</span><span class="nf">synchronize</span><span class="p">{</span>
+      <span class="vi">@empty</span><span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="vi">@mutex</span><span class="p">)</span> <span class="k">if</span> count <span class="o">==</span> <span class="mi">0</span>
+      v <span class="o">=</span> <span class="vi">@q</span><span class="p">.</span><span class="nf">shift</span>
+      <span class="vi">@full</span><span class="p">.</span><span class="nf">signal</span> <span class="k">if</span> count <span class="o">==</span> <span class="p">(</span><span class="vi">@max</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
       v
-    }
-  end
+    <span class="p">}</span>
+  <span class="k">end</span>
 
-  alias send enq
-  alias recv deq
-end
+  <span class="k">alias</span> <span class="nb">send</span> enq
+  <span class="k">alias</span> recv deq
+<span class="k">end</span>
 
-if __FILE__ == $0
-  q = TinyQueue.new(1)
-  foods = 'Apple Banana Strawberry Udon Rice Milk'.split
-  l = []
+<span class="k">if</span> <span class="k">__FILE__</span> <span class="o">==</span> <span class="vg">$0</span>
+  q <span class="o">=</span> <span class="no">TinyQueue</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  foods <span class="o">=</span> <span class="s1">'Apple Banana Strawberry Udon Rice Milk'</span><span class="p">.</span><span class="nf">split</span>
+  l <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
 
-  th = Thread.new {
-    for obj in foods
-      q.send(obj)
-      print &quot;sent &quot;, obj, &quot;\n&quot;
-    end
-    q.send nil
-  }
+  th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span>
+    <span class="k">for</span> obj <span class="k">in</span> foods
+      q<span class="p">.</span><span class="nf">send</span><span class="p">(</span>obj<span class="p">)</span>
+      <span class="nb">print</span> <span class="s2">"</span><span class="s2">sent </span><span class="s2">"</span>, obj, <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span>
+    <span class="k">end</span>
+    q<span class="p">.</span><span class="nf">send</span> <span class="k">nil</span>
+  <span class="p">}</span>
 
-  l.push th
+  l<span class="p">.</span><span class="nf">push</span> th
 
-  th = Thread.new {
-    while obj = q.recv
-      print &quot;recv &quot;, obj, &quot;\n&quot;
-    end
-  }
-  l.push th
+  th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span>
+    <span class="k">while</span> obj <span class="o">=</span> q<span class="p">.</span><span class="nf">recv</span>
+      <span class="nb">print</span> <span class="s2">"</span><span class="s2">recv </span><span class="s2">"</span>, obj, <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="p">}</span>
+  l<span class="p">.</span><span class="nf">push</span> th
 
-  l.each do |t|
-    t.join
-  end
-end
-</pre>
+  l<span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>t<span class="o">|</span>
+    t<span class="p">.</span><span class="nf">join</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 実行すると以下のように出力します。
 </p>
-<pre>
-$ ruby condvar.rb
-sent Apple
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby condvar.rb
+<span class="go">sent Apple
 recv Apple
 sent Banana
 recv Banana
@@ -244,7 +247,7 @@ sent Rice
 recv Rice
 sent Milk
 recv Milk
-</pre>
+</span></code></pre>
 
 
 

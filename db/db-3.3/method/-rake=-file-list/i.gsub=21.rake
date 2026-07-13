@@ -17,8 +17,8 @@ IO.write("test2.rb", "test")
 task default: :test_rake_app
 task :test_rake_app do
   file_list = FileList.new("test1.rb", "test2.rb", "test3.rb")
-  file_list.gsub!(/\.rb/, ".erb") # => ["test1.erb", "test2.erb", "test3.erb"]
-  file_list                       # => ["test1.erb", "test2.erb", "test3.erb"]
+  p file_list.gsub!(/\.rb/, ".erb") # => ["test1.erb", "test2.erb", "test3.erb"]
+  p file_list                     # => ["test1.erb", "test2.erb", "test3.erb"]
 end
 ```
 

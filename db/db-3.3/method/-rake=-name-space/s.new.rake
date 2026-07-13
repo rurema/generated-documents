@@ -17,6 +17,6 @@ source_location=manual/api/rake/Rake__NameSpace.md
 task default: :test_rake_app
 task :test_rake_app do
   name_space = Rake::NameSpace.new(Rake.application, Rake::Scope.new("sample"))
-  name_space.scope # => LL("sample")
+  p name_space.scope # => LL("sample")
 end
 ```

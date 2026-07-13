@@ -9,8 +9,7 @@ source_location=manual/api/rake/Kernel.md
 
 - **param** `args` -- ファイル名と依存ファイル名を指定します。
 
-例:
-``````
+```ruby title="例"
 file "config.cfg" => ["config.template"] do
   open("config.cfg", "w") do |outfile|
     open("config.template") do |infile|
@@ -20,7 +19,7 @@ file "config.cfg" => ["config.template"] do
     end
   end
 end
-``````
+```
 
 - **SEE** [m:Rake::Task.define_task]
 

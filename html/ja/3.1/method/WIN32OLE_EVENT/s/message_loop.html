@@ -92,23 +92,24 @@ message_loopメソッドは、Windowsメッセージがキューイングされ�
 COMのスレッド間/プロセス間通信はスレッド内で呼び出しをシリアライズするためにWindowsメッセージを利用します。このため、ほとんどのイベント処理は
 Windowsメッセージを読み取ってディスパッチすることで通知されます。
 </p>
-<pre>
-ie = WIN32OLE.new('InternetExplorer.Application.1')
-event = WIN32OLE_EVENT.new(ie, 'DWebBrowserEvents2')
-b = false
-event.on_event('DocumentComplete') do |disp, uri|
-  disp.document.getElementsByTagName('a').each do |e|
-    puts &quot;#{e.innerHTML}=#{e.href}&quot;   #=&gt; ダウンロード=http://www.ruby-lang.org/ja/downloads/ など
-  end
-  disp.quit
-  b = true
-end
-ie.Navigate2 'http://www.ruby-lang.org/ja/'
-loop do
-  break if b
-  WIN32OLE_EVENT.message_loop
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+ie <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'InternetExplorer.Application.1'</span><span class="p">)</span>
+event <span class="o">=</span> <span class="no">WIN32OLE_EVENT</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>ie, <span class="s1">'DWebBrowserEvents2'</span><span class="p">)</span>
+b <span class="o">=</span> <span class="k">false</span>
+event<span class="p">.</span><span class="nf">on_event</span><span class="p">(</span><span class="s1">'DocumentComplete'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>disp, uri<span class="o">|</span>
+  disp<span class="p">.</span><span class="nf">document</span><span class="p">.</span><span class="nf">getElementsByTagName</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>e<span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">innerHTML</span><span class="si">}</span><span class="s2">=</span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">href</span><span class="si">}</span><span class="s2">"</span>   <span class="c1">#=&gt; ダウンロード=http://www.ruby-lang.org/ja/downloads/ など
+</span>  <span class="k">end</span>
+  disp<span class="p">.</span><span class="nf">quit</span>
+  b <span class="o">=</span> <span class="k">true</span>
+<span class="k">end</span>
+ie<span class="p">.</span><span class="no">Navigate2</span> <span class="s1">'http://www.ruby-lang.org/ja/'</span>
+<span class="nf">loop</span> <span class="k">do</span>
+  <span class="k">break</span> <span class="k">if</span> b
+  <span class="no">WIN32OLE_EVENT</span><span class="p">.</span><span class="nf">message_loop</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 なお、メソッド名はloopですが、呼び出し時および既にキューイングされたメッセージの処理中にキューされたメッセージの処理が終わると呼び出し元に制御が戻ります。このため、イベント通知までに長い時間がかかる場合はすべてのイベントを受信するまでループを実行する必要があります。このとき他のスレッドに制御を与える必要があれば、<a href="../../../method/Kernel/m/sleep.html">Kernel.#sleep</a>などを呼び出してください。message_loopメソッドの呼び出し中はRubyのスレッドの切り替えは行われません。
 </p>

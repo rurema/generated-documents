@@ -85,27 +85,31 @@
 ひとつは以下のようにコマンドラインから <a href="../method/Kernel/m/require.html">Kernel.#require</a> する方法です。
 hoge.rb の実行をすべてトレース出力します。
 </p>
-<pre>
-ruby -rtracer hoge.rb
-</pre>
+<pre class="highlight console">
+<code>
+<span class="go">ruby -rtracer hoge.rb
+</span></code></pre>
 <p>
 もうひとつはソースからrequireする方法です。
 </p>
-<pre>
-require 'tracer'
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'tracer'</span>
+</code></pre>
 <p>
 とした後
 </p>
-<pre>
-Tracer.on
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Tracer</span><span class="p">.</span><span class="nf">on</span>
+</code></pre>
 <p>
 によりトレース出力を有効にします。
 </p>
-<pre>
-Tracer.off
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Tracer</span><span class="p">.</span><span class="nf">off</span>
+</code></pre>
 <p>
 によりトレース出力を無効にします。
 </p>
@@ -113,27 +117,28 @@ Tracer.off
 また、ブロック付きで Tracer.on を呼び出すと、そのブロック内のみトレースを出力します。
 </p>
 <h2 >サンプルコード</h2>
-<pre>
-# 例: 式の評価の中でHogeクラスのメソッドが呼び出される時、トレースする。
+<pre class="highlight ruby">
+<code>
+<span class="c1"># 例: 式の評価の中でHogeクラスのメソッドが呼び出される時、トレースする。
+</span>
+<span class="c1"># ruby 1.8 では警告がでますが、動作します。
+</span><span class="nb">require</span> <span class="s1">'tracer'</span>
 
-# ruby 1.8 では警告がでますが、動作します。
-require 'tracer'
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Hoge</span>
+  <span class="k">def</span> <span class="no">Hoge</span><span class="p">.</span><span class="nf">fuga</span><span class="p">(</span><span class="nf">i</span><span class="p">)</span>
+    <span class="s2">"</span><span class="s2">fuga </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-class Hoge
-  def Hoge.fuga(i)
-    &quot;fuga #{i}&quot;
-  end
-end
-
-Tracer.add_filter {|event, file, line, id, binding, klass|
-  event =~ /line/ and klass.to_s =~ /hoge/i
-}
-Tracer.on
-for i in 0..3
-  puts Hoge.fuga(i) if i % 3 == 0
-end
-Tracer.off
-</pre>
+<span class="no">Tracer</span><span class="p">.</span><span class="nf">add_filter</span> <span class="p">{</span><span class="o">|</span>event, file, line, <span class="nb">id</span>, <span class="nb">binding</span>, klass<span class="o">|</span>
+  event <span class="o">=~</span> <span class="sr">/line/</span> <span class="k">and</span> klass<span class="p">.</span><span class="nf">to_s</span> <span class="o">=~</span> <span class="sr">/hoge/i</span>
+<span class="p">}</span>
+<span class="no">Tracer</span><span class="p">.</span><span class="nf">on</span>
+<span class="k">for</span> i <span class="k">in</span> <span class="mi">0</span><span class="o">..</span><span class="mi">3</span>
+  <span class="nb">puts</span> <span class="no">Hoge</span><span class="p">.</span><span class="nf">fuga</span><span class="p">(</span>i<span class="p">)</span> <span class="k">if</span> i <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">end</span> 
+<span class="no">Tracer</span><span class="p">.</span><span class="nf">off</span>
+</code></pre>
 <h2 >SEE ALSO</h2>
 <p>
 <a href="../method/Kernel/m/set_trace_func.html">Kernel.#set_trace_func</a>

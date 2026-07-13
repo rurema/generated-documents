@@ -18,9 +18,7 @@ do_GET や do_POST を定義することによって CGI スクリプトを書�
 WEBrick::CGI#start メソッドは service メソッドを呼び出し、service メソッドはリクエストに応じて
 do_XXX メソッドを呼び出します。このようにしてスクリプトは実行されます。
 
-例:
-
-````
+```ruby title="例"
 #!/usr/local/bin/ruby
 require 'webrick/cgi'
 
@@ -33,7 +31,7 @@ class MyCGI < WEBrick::CGI
 end
  
 MyCGI.new.start()
-````
+```
 
 #### do_XXX メソッド
 
@@ -63,29 +61,29 @@ do_XXX メソッドには二つの引数があります。
 フォームフィールドの値は [m:WEBrick::HTTPRequest#query] メソッドが返す Hash オブジェクトに
 収納されています。
 
-````
+```ruby
 require "webrick/cgi"
 class MyCGI < WEBrick::CGI
   def do_GET(req, res)
-    req.query               #=> Hash を返します。
+    p req.query             #=> Hash を返します。
     req.query['q']          
     req.query['num']       
   end
 end
 MyCGI.new.start()
-````
+```
 
 同じ名前のフィールドが複数ある場合、list メソッドや each_data メソッドを使います。
 
-````
+```ruby
 require "webrick/cgi"
 class MyCGI < WEBrick::CGI
   def do_GET(req, res)
-    req.query['q'].list     #=> フォームの値を保持した文字列の配列を返します。
+    p req.query['q'].list   #=> フォームの値を保持した文字列の配列を返します。
   end
 end
 MyCGI.new.start()
-````
+```
 
 query メソッドが返す Hash オブジェクトのキーと値のうち値は [c:WEBrick::HTTPUtils::FormData] クラスの
 インスタンスになります。FormData クラスは String クラスのサブクラスです。
@@ -93,24 +91,24 @@ query メソッドが返す Hash オブジェクトのキーと値のうち値�
 
 #### マルチパートフィールドの値を取得する（ファイル送信）
 
-````
+```ruby
 require "webrick/cgi"
 class MyCGI < WEBrick::CGI
   def do_GET(req, res)
     d = req.query['field_name']   #=> FormData クラスのインスタンス
-    d.name                        #=> "field_name"
-    d.filename                    #=> もしあればファイル名を返す。
-    d['content-type']             #=> ヘッダの値は [] メソッドで取得する
-    d                             #=> 送られてきたファイルの中身
+    p d.name                      #=> "field_name"
+    p d.filename                  #=> もしあればファイル名を返す。
+    p d['content-type']           #=> ヘッダの値は [] メソッドで取得する
+    p d                           #=> 送られてきたファイルの中身
   end
 end
 MyCGI.new.start()
-````
+```
 
 
 #### クライアントにクッキーを渡す
 
-````
+```ruby
 require "webrick/cgi"
 class MyCGI < WEBrick::CGI
   def do_GET(req, res)
@@ -124,20 +122,20 @@ class MyCGI < WEBrick::CGI
   end
 end
 MyCGI.new.start()
-````
+```
 
 #### クライアントからクッキーを得る
 
-````
+```ruby
 require "webrick/cgi"
 class MyCGI < WEBrick::CGI
   def do_GET(req, res)
-    req.cookies                                   #=> WEBrick::Cookie オブジェクトの配列
+    p req.cookies                                 #=> WEBrick::Cookie オブジェクトの配列
     c = req.cookies.find{|c| c.name == "name1" }  #=> WEBrick::Cookie オブジェクト
   end
 end
 MyCGI.new.start()
-````
+```
 
 
 #### CGI に関連する環境変数の値を取得する
@@ -145,7 +143,7 @@ MyCGI.new.start()
 CGI に関連する環境変数の値は直接 ENV から得る他に、
 WEBrick::HTTPRequest オブジェクトの各メソッドから得ることができます。
 
-````
+```ruby
 require "webrick/cgi"
 class MyCGI < WEBrick::CGI
   def do_GET(req, res)
@@ -162,7 +160,7 @@ class MyCGI < WEBrick::CGI
   end
 end
 MyCGI.new.start()
-````
+```
 
 ### リンク
 

@@ -122,35 +122,34 @@ X.509 の証明書署名要求(Certificate Signing Request, CSR)を表わすク�
 X.509 CSR については <a class="external" href="https://tools.ietf.org/html/rfc2986">[RFC2986]</a> などを参照してください。
 </p>
 <h2 >例</h2>
-<p>
-CSR を生成する例。
-</p>
-<pre>
-require 'openssl'
-# ファイルから秘密鍵を読み込む
-rsa = OpenSSL::PKey::RSA.new(File.read(&quot;privkey.pem&quot;))
-# 新しい CSR オブジェクトを生成
-csr = OpenSSL::X509::Request.new
-# DN を生成
-name = OpenSSL::X509::Name.new
-name.add_entry('C', 'JP')
-name.add_entry('ST', 'Osaka')
-name.add_entry('CN', 'Example Name')
-csr.subject = name
-# バージョンを 0 (v1.7) に
-csr.version = 0
-# 公開鍵を CSR に設定
-csr.public_key = rsa.public_key
-# attribute を設定
-factory = OpenSSL::X509::ExtensionFactory.new
-exts = [ factory.create_ext(&quot;subjectAltName&quot;, &quot;DNS:foo.example.com&quot;) ]
-asn1exts = OpenSSL::ASN1::Set([OpenSSL::ASN1::Sequence(exts)])
-csr.add_attribute(OpenSSL::X509::Attribute.new(&quot;extReq&quot;, asn1exts))
-# 署名
-csr.sign(rsa, &quot;sha1&quot;)
-# PEM 形式で標準出力に出力
-puts csr.to_pem
-</pre>
+<span class="caption">CSRを生成する例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+<span class="c1"># ファイルから秘密鍵を読み込む
+</span>rsa <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKey</span><span class="o">::</span><span class="no">RSA</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">privkey.pem</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
+<span class="c1"># 新しい CSR オブジェクトを生成
+</span>csr <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Request</span><span class="p">.</span><span class="nf">new</span>
+<span class="c1"># DN を生成
+</span><span class="nb">name</span> <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Name</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">name</span><span class="p">.</span><span class="nf">add_entry</span><span class="p">(</span><span class="s1">'C'</span>, <span class="s1">'JP'</span><span class="p">)</span>
+<span class="nb">name</span><span class="p">.</span><span class="nf">add_entry</span><span class="p">(</span><span class="s1">'ST'</span>, <span class="s1">'Osaka'</span><span class="p">)</span>
+<span class="nb">name</span><span class="p">.</span><span class="nf">add_entry</span><span class="p">(</span><span class="s1">'CN'</span>, <span class="s1">'Example Name'</span><span class="p">)</span>
+csr<span class="p">.</span><span class="nf">subject</span> <span class="o">=</span> <span class="nb">name</span>
+<span class="c1"># バージョンを 0 (v1.7) に
+</span>csr<span class="p">.</span><span class="nf">version</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># 公開鍵を CSR に設定
+</span>csr<span class="p">.</span><span class="nf">public_key</span> <span class="o">=</span> rsa<span class="p">.</span><span class="nf">public_key</span>
+<span class="c1"># attribute を設定
+</span>factory <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">ExtensionFactory</span><span class="p">.</span><span class="nf">new</span>
+exts <span class="o">=</span> <span class="p">[</span> factory<span class="p">.</span><span class="nf">create_ext</span><span class="p">(</span><span class="s2">"</span><span class="s2">subjectAltName</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">DNS:foo.example.com</span><span class="s2">"</span><span class="p">)</span> <span class="p">]</span>
+asn1exts <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">Set</span><span class="p">(</span><span class="p">[</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">Sequence</span><span class="p">(</span>exts<span class="p">)</span><span class="p">]</span><span class="p">)</span>
+csr<span class="p">.</span><span class="nf">add_attribute</span><span class="p">(</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Attribute</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">extReq</span><span class="s2">"</span>, asn1exts<span class="p">)</span><span class="p">)</span>
+<span class="c1"># 署名
+</span>csr<span class="p">.</span><span class="nf">sign</span><span class="p">(</span>rsa, <span class="s2">"</span><span class="s2">sha1</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># PEM 形式で標準出力に出力
+</span><span class="nb">puts</span> csr<span class="p">.</span><span class="nf">to_pem</span>
+</code></pre>
 
 
 

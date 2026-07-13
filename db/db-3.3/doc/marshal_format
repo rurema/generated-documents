@@ -28,7 +28,7 @@ Ruby 2.2 以降は freeze されているので、インスタンス変数は設
 
 数値 n に対して
 
-```
+```text
 n == 0:       0
 0 < n < 123:  n + 5
 -124 < n < 0: n - 5
@@ -48,7 +48,7 @@ p Marshal.dump(2).unpack1("x2 a*")  # => "i\a"   ("i\x07")
 
 #### 形式 2
 
-```
+```text
 | len | n_1 | n_2 | n_3 | n_4 |
 <-1->  <-       len         ->
 byte            bytes
@@ -97,7 +97,7 @@ Ruby 2.0 以降は freeze されているので、インスタンス変数は設
 
 'C' で始まるデータ構造になります。
 
-```
+```text
 | 'C' | クラス名(Symbol)の dump | 親クラスのインスタンスの dump |
 ```
 
@@ -142,7 +142,7 @@ p Marshal.dump(Foo.new).unpack("x2 a a c a*")
 _dump、_load を定義していれば 'u' になります。
 インスタンス変数は dump されなくなるので、_dump/_load で対応する必要があります。
 
-```
+```text
 | 'u' | クラス名(Symbol)の dump | _dump の結果の長さ(Fixnum形式) | _dump が返す値 |
 ```
 
@@ -165,7 +165,7 @@ marshal_dump、marshal_load を定義していれば 'U' になります。
 インスタンス変数は dump されなくなるので、marshal_dump/marshal_load
 で対応する必要があります。
 
-```
+```text
 | 'U' | クラス名(Symbol)の dump | marshal_dump メソッドの戻り値の dump |
 ```
 
@@ -187,7 +187,7 @@ p Marshal.dump(Foo.new).unpack("x2 a aca3 a c a*")
 
 'o' で始まるデータ構造になります。
 
-```
+```text
 | 'o' | クラス名(Symbol)のdump | インスタンス変数の数(Fixnum形式) |
 | インスタンス変数名(Symbol)のdump(1) | 値(1) |
           :
@@ -217,7 +217,7 @@ p Marshal.dump(Foo.new).unpack("x2 a a c a3 c aca4 aca3 aca4 ac")
 
 'f' で始まるデータ構造になります。
 
-```
+```text
  | 'f' | 数値列の長さ(Fixnum形式) | "%.16g" の文字列 |
 ```
 
@@ -244,7 +244,7 @@ Ruby 1.7 から、sprintf(3)/strtod(3) への依存はなくなりました。
 32ビット環境で内部的に Bignum になる Integer は
 64ビット環境で Marshal.dump しても、この形式になります。
 
-```
+```text
 | 'l' | '+'/'-' | shortの個数(Fixnum形式) | ... |
 ```
 
@@ -259,7 +259,7 @@ ruby 1.6.3 では ["l", "+", 8, "\000\000\001\000"] になるバグがありま�
 
 '"' で始まるデータ構造になります。
 
-```
+```text
 | '"' | 長さ(Fixnum形式) | 文字列 |
 ```
 
@@ -298,7 +298,7 @@ p Marshal.dump("hogehoge").unpack("x2 a a c a8 c acaa*")
 
 '/' で始まるデータ構造になります。
 
-```
+```text
 | '/' | 長さ(Fixnum形式) | ソース文字列 | オプション |
 ```
 
@@ -322,7 +322,7 @@ p Marshal.dump(/hogehoge/e).unpack("x2 a a c a8 c caca8aca*")
 
 '[' で始まるデータ構造になります。
 
-```
+```text
 | '[' | 要素数(Fixnum形式) | 要素の dump | ... |
 ```
 
@@ -337,7 +337,7 @@ p Marshal.dump([true, false, nil]).unpack("x2 a c a a a")
 
 '{' で始まるデータ構造になります。
 
-```
+```text
 | '{' | 要素数(Fixnum形式) | キーの dump | 値の dump | ... |
 ```
 
@@ -350,7 +350,7 @@ p Marshal.dump({true => false, false => true, nil => nil}).unpack("x2 a c aa aa 
 
 '}' で始まるデータ構造になります。
 
-```
+```text
 | '}' | 要素数(Fixnum形式) | キーの dump | 値の dump | ... | デフォルト値 |
 ```
 
@@ -375,7 +375,7 @@ Marshal.dump(h)
 
 構造体クラスのインスタンスのダンプは 'S' で始まるデータ構造になります。
 
-```
+```text
 | 'S' | クラス名(Symbol) の dump | メンバの数(Fixnum形式) |
 | メンバ名(Symbol) の dump | 値 | ... |
 ```
@@ -392,7 +392,7 @@ p Marshal.dump(Struct::XXX.new).unpack("x2 a ac a11 c aca3a aca3a")
 
 'M' で始まるデータ構造です。
 
-```
+```text
 | 'M' | 長さ(Fixnum形式) | モジュール/クラス名 |
 ```
 
@@ -409,7 +409,7 @@ p Marshal.load([4,7, 'M', 3+5, 'Mod'].pack("ccaca*"))
 
 'c', 'm' で始まるデータ構造です。
 
-```
+```text
 | 'c'/'m' | クラス名の長さ(Fixnum 形式) | クラス名 |
 ```
 
@@ -470,7 +470,7 @@ baz.baz
 
 ':' で始まるデータ構造になります。
 
-```
+```text
 | ':' | シンボル名の長さ(Fixnum形式) | シンボル名 |
 ```
 
@@ -486,7 +486,7 @@ dump/load されている場合に使用されます。
 番号は内部管理のもので、dump/load 時に Symbol 管理用に
 ハッシュテーブルが作られていて、そのレコード位置です。
 
-```
+```text
 | ';' | Symbolの実体を指す番号(Fixnum形式) |
 ```
 
@@ -504,7 +504,7 @@ p Marshal.dump([:foo, :foo, :bar, :bar]).
 インスタンス変数を持つ Object, Class, Module のインスタンス以外は
 'I' で始まるデータ構造になります。
 
-```
+```text
 | 'I' | オブジェクトの dump | インスタンス変数の数(Fixnum形式) |
 | インスタンス変数名(Symbol) のdump(1) | 値(1) |
           :
@@ -536,7 +536,7 @@ dump/load されている場合に使用されます。
 番号は内部管理のもので、dump/load 時にオブジェクト管理用に
 ハッシュテーブルが作られていて、そのレコード位置です。
 
-```
+```text
 | '@' | オブジェクトの実体を指す番号(Fixnum形式) |
 ```
 

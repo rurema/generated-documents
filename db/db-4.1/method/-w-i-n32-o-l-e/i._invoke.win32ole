@@ -34,19 +34,19 @@ COMアーリーバインディングを利用して外部プロセスサーバ�
 - **raise** `WIN32OLERuntimeError` -- オートメーションサーバの呼び出しに失敗しました。
                             理由はメッセージのHRESULTを調べてください。
 
-``````
+```ruby
 excel = WIN32OLE.new('Excel.Application')
 excel._invoke(302, [], []) #  DISPID 302は、Quitメソッド
-``````
+```
 
 MFCの制約により、バイト配列の型情報は通常
 [m:WIN32OLE::VARIANT::VT_VARIANT]となります。このような場合に、バイト
 配列を与えるつもりで
 
-````
+```ruby
 include WIN32OLE::VARIANT
 obj.method(DISPID, [[0, 1, 2, 3]], [VT_VARIANT])
-````
+```
 
 のように記述すると、単に32ビット整数（VT_I4）の配列が送られることになり
 空間効率が低下します。
@@ -54,10 +54,10 @@ obj.method(DISPID, [[0, 1, 2, 3]], [VT_VARIANT])
 引数の最終的な型がわかっている場合は、下記の例のように型指定パラメータ
 には実際の型を指定してください。
 
-````
+```ruby
 include WIN32OLE::VARIANT
 obj.method(DISPID, [[0, 1, 2, 3]], [VT_BYREF | VT_ARRAY | VT_UI1])
-````
+```
 
 なお、VB6で作成したCOMコンポーネントのパラメータに配列を与える場合は、
 [m:WIN32OLE::VARIANT::VT_BYREF]の指定が必須です。

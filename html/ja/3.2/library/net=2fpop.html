@@ -98,24 +98,25 @@ POP3 の実装は <a class="external" href="https://tools.ietf.org/html/rfc1939"
 'pop.example.com' は適当なPOP3のサーバのホスト名に、
 'YourAccount' と 'YourPassword' は適当なアカウント名とパスワードに適宜読みかえてください。
 </p>
-<pre>
-require 'net/pop'
-
-pop = Net::POP3.new('pop.example.com', 110)
-pop.start('YourAccount', 'YourPassword') # POPのセッションを開始
-if pop.mails.empty?
-  $stderr.puts 'no mail.'
-else
-  pop.mails.each_with_index do |m, idx|  # 各メッセージにアクセスする
-    File.open(&quot;inbox/#{idx + 1}&quot;, 'w') {|f|
-      f.write m.pop
-    }
-    m.delete
-  end
-  $stderr.puts &quot;#{pop.mails.size} mails popped.&quot;
-end
-pop.finish                                        # セッションを終了する
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
+  
+pop <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'pop.example.com'</span>, <span class="mi">110</span><span class="p">)</span>
+pop<span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span> <span class="c1"># POPのセッションを開始
+</span><span class="k">if</span> pop<span class="p">.</span><span class="nf">mails</span><span class="p">.</span><span class="nf">empty?</span>
+  <span class="vg">$stderr</span><span class="p">.</span><span class="nf">puts</span> <span class="s1">'no mail.'</span>
+<span class="k">else</span>
+  pop<span class="p">.</span><span class="nf">mails</span><span class="p">.</span><span class="nf">each_with_index</span> <span class="k">do</span> <span class="o">|</span>m, idx<span class="o">|</span>  <span class="c1"># 各メッセージにアクセスする
+</span>    <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">inbox/</span><span class="si">#{</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">"</span>, <span class="s1">'w'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+      f<span class="p">.</span><span class="nf">write</span> m<span class="p">.</span><span class="nf">pop</span>
+    <span class="p">}</span>
+    m<span class="p">.</span><span class="nf">delete</span>
+  <span class="k">end</span>
+  <span class="vg">$stderr</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">pop</span><span class="p">.</span><span class="nf">mails</span><span class="p">.</span><span class="nf">size</span><span class="si">}</span><span class="s2"> mails popped.</span><span class="s2">"</span>
+<span class="k">end</span>
+pop<span class="p">.</span><span class="nf">finish</span>                                        <span class="c1"># セッションを終了する
+</span></code></pre>
 <p>
 POP サーバはネットワークのむこうに存在するので、なにか仕事をさせるにはその前に開始手続きを、終わったら終了手続きを、行わなければいけません。それを行うのが <a href="../method/Net=3a=3aPOP3/i/start.html">Net::POP3#start</a> と <a href="../method/Net=3a=3aPOP3/i/finish.html">Net::POP3#finish</a> で、
 POP3 オブジェクトはその二つのメソッドの間でだけ有効になります。
@@ -129,108 +130,114 @@ POP3 オブジェクトはその二つのメソッドの間でだけ有効にな
 上の例はあえて省略や短縮用メソッドを避けたためにかなり冗長です。まず、ブロック付きの <a href="../method/Net=3a=3aPOP3/s/start.html">Net::POP3.start</a> を使うことで
 POP3.new, #start, #finish を併合できます。
 </p>
-<pre>
-require 'net/pop'
-
-Net::POP3.start('pop.example.com', 110,
-                'YourAccount', 'YourPassword') {|pop|
-  if pop.mails.empty?
-    $stderr.puts 'no mail.'
-  else
-    pop.mails.each_with_index do |m, idx|
-      File.open(&quot;inbox/#{idx + 1}&quot;, 'w') {|f|
-        f.write m.pop
-      }
-      m.delete
-    end
-    $stderr.puts &quot;#{pop.mails.size} mails popped.&quot;
-  end
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
+  
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'pop.example.com'</span>, <span class="mi">110</span>,
+                <span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>pop<span class="o">|</span>
+  <span class="k">if</span> pop<span class="p">.</span><span class="nf">mails</span><span class="p">.</span><span class="nf">empty?</span>
+    <span class="vg">$stderr</span><span class="p">.</span><span class="nf">puts</span> <span class="s1">'no mail.'</span>
+  <span class="k">else</span>
+    pop<span class="p">.</span><span class="nf">mails</span><span class="p">.</span><span class="nf">each_with_index</span> <span class="k">do</span> <span class="o">|</span>m, idx<span class="o">|</span>
+      <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">inbox/</span><span class="si">#{</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">"</span>, <span class="s1">'w'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+        f<span class="p">.</span><span class="nf">write</span> m<span class="p">.</span><span class="nf">pop</span>
+      <span class="p">}</span>
+      m<span class="p">.</span><span class="nf">delete</span>
+    <span class="k">end</span>
+    <span class="vg">$stderr</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">pop</span><span class="p">.</span><span class="nf">mails</span><span class="p">.</span><span class="nf">size</span><span class="si">}</span><span class="s2"> mails popped.</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre>
 <p>
 <a href="../method/Net=3a=3aPOP3/i/delete_all.html">Net::POP3#delete_all</a> を使うとさらに <a href="../method/Net=3a=3aPOP3/i/each_mail.html">Net::POP3#each_mail</a> と
 <a href="../method/Net=3a=3aPOPMail/i/delete.html">Net::POPMail#delete</a> を併合できます。
 </p>
-<pre>
-require 'net/pop'
-
-Net::POP3.start('pop.example.com', 110,
-                'YourAccount', 'YourPassword') {|pop|
-  if pop.mails.empty?
-    $stderr.puts 'no mail.'
-  else
-    i = 0
-    pop.delete_all do |m|
-      File.open(&quot;inbox/#{i}&quot;, 'w') {|f|
-        f.write m.pop
-      }
-      i += 1
-    end
-  end
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
+  
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'pop.example.com'</span>, <span class="mi">110</span>,
+                <span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>pop<span class="o">|</span>
+  <span class="k">if</span> pop<span class="p">.</span><span class="nf">mails</span><span class="p">.</span><span class="nf">empty?</span>
+    <span class="vg">$stderr</span><span class="p">.</span><span class="nf">puts</span> <span class="s1">'no mail.'</span>
+  <span class="k">else</span>
+    i <span class="o">=</span> <span class="mi">0</span>
+    pop<span class="p">.</span><span class="nf">delete_all</span> <span class="k">do</span> <span class="o">|</span>m<span class="o">|</span>
+      <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">inbox/</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span>, <span class="s1">'w'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+        f<span class="p">.</span><span class="nf">write</span> m<span class="p">.</span><span class="nf">pop</span>
+      <span class="p">}</span>
+      i <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre>
 <p>
 クラスメソッドの <a href="../method/Net=3a=3aPOP3/s/delete_all.html">Net::POP3.delete_all</a> を使うとさらに短くなります。
 </p>
-<pre>
-require 'net/pop'
-
-i = 0
-Net::POP3.delete_all('pop.example.com', 110,
-                     'YourAccount', 'YourPassword') do |m|
-  File.open(&quot;inbox/#{i}&quot;, 'w') {|f|
-    f.write m.pop
-  }
-  i += 1
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
+  
+i <span class="o">=</span> <span class="mi">0</span>
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">delete_all</span><span class="p">(</span><span class="s1">'pop.example.com'</span>, <span class="mi">110</span>,
+                     <span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>m<span class="o">|</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">inbox/</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span>, <span class="s1">'w'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+    f<span class="p">.</span><span class="nf">write</span> m<span class="p">.</span><span class="nf">pop</span>
+  <span class="p">}</span>
+  i <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">end</span>
+</code></pre>
 <h3 >メモリ使用量を減らす</h3>
 <p>
 これまでの例では <a href="../method/Net=3a=3aPOPMail/i/pop.html">Net::POPMail#pop</a> を使い、メールをひとつの文字列としてうけとっていました。しかし、もしメールが 100MB を越えるような巨大なメールだった場合、この方法ではまずいかもしれません。そのような場合は以下のように <a href="../method/Net=3a=3aPOPMail/i/pop.html">Net::POPMail#pop</a> に
 File オブジェクトを与える手が使えます。
 </p>
-<pre>
-require 'net/pop'
-
-i = 0
-Net::POP3.delete_all('pop.example.com', 110,
-                     'YourAccount', 'YourPassword') do |m|
-  File.open('inbox/#{i}', 'w') {|f|
-      m.pop f
-  }
-  i += 1
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
+  
+i <span class="o">=</span> <span class="mi">0</span>
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">delete_all</span><span class="p">(</span><span class="s1">'pop.example.com'</span>, <span class="mi">110</span>,
+                     <span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>m<span class="o">|</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'inbox/#{i}'</span>, <span class="s1">'w'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+      m<span class="p">.</span><span class="nf">pop</span> f
+  <span class="p">}</span>
+  i <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 <a href="../method/Net=3a=3aPOPMail/i/pop.html">Net::POPMail#pop</a>にブロックを渡すと、メールデータを細かく分割してブロックを呼びだします。この機能を使って同様のことができます。
 </p>
-<pre>
-require 'net/pop'
-
-i = 0
-Net::POP3.delete_all('pop.example.com', 110,
-                     'YourAccount', 'YourPassword') do |m|
-  File.open('inbox/#{i}', 'w') {|f|
-    m.pop {|chunk|
-      f.write(chunk)
-    }
-  }
-  i += 1
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
+  
+i <span class="o">=</span> <span class="mi">0</span>
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">delete_all</span><span class="p">(</span><span class="s1">'pop.example.com'</span>, <span class="mi">110</span>,
+                     <span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>m<span class="o">|</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'inbox/#{i}'</span>, <span class="s1">'w'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+    m<span class="p">.</span><span class="nf">pop</span> <span class="p">{</span><span class="o">|</span>chunk<span class="o">|</span>
+      f<span class="p">.</span><span class="nf">write</span><span class="p">(</span>chunk<span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  i <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">end</span>
+</code></pre>
 <h3 >APOP を使う</h3>
 <p>
 Net::POP3 クラスのかわりに Net::APOP クラスを使うと、認証時に APOP を使うようになります。また動的にノーマル POP と APOP を選択するには、以下のように <a href="../method/Net=3a=3aPOP3/s/APOP.html">Net::POP3.APOP</a> メソッドを使うのが便利です。
 </p>
-<pre>
-require 'net/pop'
-
-# use APOP authentication if $isapop == true
-pop = Net::POP3.APOP($isapop).new('apop.example.com', 110)
-pop.start('YourAccount', 'YourPassword') {|pop|
-  # 残りのコードは同じ
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
+  
+<span class="c1"># use APOP authentication if $isapop == true
+</span>pop <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="no">APOP</span><span class="p">(</span><span class="vg">$isapop</span><span class="p">)</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'apop.example.com'</span>, <span class="mi">110</span><span class="p">)</span>
+<span class="nf">pop</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'YourAccount'</span>, <span class="s1">'YourPassword'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>pop<span class="o">|</span>
+  <span class="c1"># 残りのコードは同じ
+</span><span class="p">}</span>
+</code></pre>
 <p>
 この方法はクラス自体を変えるので、クラスメソッドの start や foreach、
 delete_all、auth_only なども APOP とともに使えます。
@@ -239,20 +246,21 @@ delete_all、auth_only なども APOP とともに使えます。
 <p>
 利用しているPOP3サーバが UIDL 機能を提供している場合には、以下のようにして特定のメールだけを取り出すことができます。
 </p>
-<pre>
-require 'net/pop'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/pop'</span>
 
-def need_pop?(id)
-  # 取り出したいメールの場合に真を返す
-end
-
-Net::POP3.start('pop.example.com', 110,
-                'Your account', 'Your password') do |pop|
-  pop.mails.select { |m| need_pop?(m.unique_id) }.each do |m|
-    do_something(m.pop)
-  end
-end
-</pre>
+<span class="k">def</span> <span class="nf">need_pop?</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+  <span class="c1"># 取り出したいメールの場合に真を返す
+</span><span class="k">end</span>
+  
+<span class="no">Net</span><span class="o">::</span><span class="no">POP3</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'pop.example.com'</span>, <span class="mi">110</span>,
+                <span class="s1">'Your account'</span>, <span class="s1">'Your password'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>pop<span class="o">|</span>
+  pop<span class="p">.</span><span class="nf">mails</span><span class="p">.</span><span class="nf">select</span> <span class="p">{</span> <span class="o">|</span>m<span class="o">|</span> need_pop?<span class="p">(</span>m<span class="p">.</span><span class="nf">unique_id</span><span class="p">)</span> <span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>m<span class="o">|</span>
+    do_something<span class="p">(</span>m<span class="p">.</span><span class="nf">pop</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 <a href="../method/Net=3a=3aPOPMail/i/unique_id.html">Net::POPMail#unique_id</a> はメッセージのユニークIDを文字列で返します。これは通常そのメッセージのハッシュ値です。
 </p>

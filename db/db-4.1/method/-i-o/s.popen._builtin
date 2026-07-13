@@ -17,12 +17,12 @@ source_location=manual/api/_builtin/IO.md
 サブプロセスを実行し、そのプロセスの標準入出力
 との間にパイプラインを確立します。生成したパイプを [c:IO] オブジェクトとして返します。
 
-`````
+```ruby
 p io = IO.popen("cat", "r+")  # => #<IO:fd 4>
 io.puts "foo"
 io.close_write
 p io.gets                     # => "foo\n"
-`````
+```
 
 サブプロセスを指定する方法は2通りあります。文字列を指定する場合と配列を指定する場合です。
 文字列の場合は、シェルを経由して子プロセスを実行し、
@@ -38,14 +38,14 @@ p io.gets                     # => "foo\n"
 ロックを実行し、ブロックの実行結果を返します。ブロックの実行後、生成したパイ
 プは自動的にクローズされます。
 
-`````
+```ruby
 p IO.popen("cat", "r+") {|io|
   io.puts "foo"
   io.close_write
   io.gets
 }
 # => "foo\n"
-`````
+```
 
 
 opt でプロセス起動のためのオプションや、パイプ IO オブジェクトの属性(エンコーディングや
@@ -55,18 +55,18 @@ opt でプロセス起動のためのオプションや、パイプ IO オブジ
 つまり、 :external_encoding や :unsetenv_others が指定できます。
 オプションの詳しい意味は [m:Kernel?.spawn] や [m:IO.new] を参照してください。
 
-`````
+```ruby
 # nkfプロセスから得られる文字列を EUC-JP と指定する
 # IO.new などと共通のオプションが指定できる
 IO.popen("nkf -e filename", external_encoding: "EUC-JP"){|nkf_io|
   nkf_io.read 
 }
-`````
+```
 
 これに加えて、プロセス起動のためのオプションを execopt で指定することもできます。
 execopt ではエンコーディングなどは指定できません。
 
-`````
+```ruby
 # 標準エラー出力を子プロセス側で標準出力にリダイレクトする
 # 標準エラー出力と標準出力がマージされる
 # Kernel.#spawn と共通のオプション
@@ -78,7 +78,7 @@ IO.popen(["ls", "/", :err=>[:child, :out]]) {|ls_io|
 IO.popen(["ls", "/"], :err=>[:child, :out]) {|ls_io|
   ls_result_with_error = ls_io.read
 }
-`````
+```
 
 - **param** `env` -- 環境変数を { 変数名 => 内容 } という形式の [c:Hash] で渡します。
 - **param** `command` -- コマンド名を文字列で指定します。シェルを経由して実行されます。
@@ -101,7 +101,7 @@ IO.popen(["ls", "/"], :err=>[:child, :out]) {|ls_io|
 親プロセスでは IO オブジェクトを返し、子プロセスでは
 nil を返します。
 
-`````
+```ruby
 io = IO.popen("-", "r+")
 if io  # parent
   io.puts "foo"
@@ -112,14 +112,14 @@ else   # child
   print "child output: " + s
   exit
 end
-`````
+```
   
 ブロックを与えられた場合、親プロセスでは生成した IO オブジェクトを引数に
 ブロックを実行し、その結果を返します。ブロックの実行後、生成したパイ
 プは自動的にクローズされます。
 子プロセスでは nil を引数にブロックを実行し終了します。  
 
-`````
+```ruby
 p IO.popen("-", "r+") {|io|
   if io   # parent
     io.puts "foo"
@@ -130,7 +130,7 @@ p IO.popen("-", "r+") {|io|
   end
 }
 # => "child output: foo\n"
-`````
+```
 
 opt ではエンコーディングの設定やプロセス起動のためのオプションが指定できます。
 [m:IO.new] や [m:Kernel?.spawn] で指定できるものと共通なので

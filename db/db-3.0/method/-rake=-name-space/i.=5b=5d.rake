@@ -18,8 +18,8 @@ namespace :ns do |ns|
   task :ts2 do
   end
 
-  ns[:ts1] # => <Rake::Task ns:ts1 => []>
-  ns[:ts2] # => <Rake::Task ns:ts2 => []>
+  p ns[:ts1] # => <Rake::Task ns:ts1 => []>
+  p ns[:ts2] # => <Rake::Task ns:ts2 => []>
 end
 ```
 

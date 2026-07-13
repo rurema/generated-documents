@@ -14,7 +14,7 @@ task default: :sample_file_task
 
 file :sample_file_task do |t|
   # --verbose で rake を実行する
-  RakeFileUtils.verbose_flag # => true
+  p RakeFileUtils.verbose_flag # => true
 end
 ```
 

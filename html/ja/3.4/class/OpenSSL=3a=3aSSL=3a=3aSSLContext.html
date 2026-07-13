@@ -374,7 +374,8 @@ SSLv2 は無効化して SSLv3 と TLSv1 の両方を有効化するためには
 <p>
 ファイルは以下のように複数の証明書を含んでいても構いません。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 (ここに証明書の説明)
 
 -----BEGIN CERTIFICATE-----
@@ -386,7 +387,7 @@ SSLv2 は無効化して SSLv3 と TLSv1 の両方を有効化するためには
 -----BEGIN CERTIFICATE-----
 ... (CA certificate in base64 encoding) ...
 -----END CERTIFICATE-----
-</pre>
+</code></pre>
 <p>
 デフォルトは nil です。
 </p>
@@ -517,19 +518,19 @@ CRL を使いたいなど、より詳細な設定をしたい場合にはこれ�
 <p>
 配列の各要素は以下のような配列です
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 [暗号方式の名前の文字列, 利用可能なSSL/TLSのバージョン文字列, 鍵長(ビット数), アルゴリズムのビット長]
-</pre>
-<p>
-例:
-</p>
-<pre>
-require 'openssl'
-ctx = OpenSSL::SSL::SSLContext.new('TLSv1')
-ctx.ciphers
-# =&gt; [[&quot;DHE-RSA-AES256-SHA&quot;, &quot;TLSv1/SSLv3&quot;, 256, 256],
-#     [&quot;DHE-DSS-AES256-SHA&quot;, &quot;TLSv1/SSLv3&quot;, 256, 256], ... ]
-</pre>
+</code></pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+ctx <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">SSLContext</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'TLSv1'</span><span class="p">)</span>
+ctx<span class="p">.</span><span class="nf">ciphers</span>
+<span class="c1"># =&gt; [[&quot;DHE-RSA-AES256-SHA&quot;, &quot;TLSv1/SSLv3&quot;, 256, 256], 
+</span><span class="c1">#     [&quot;DHE-DSS-AES256-SHA&quot;, &quot;TLSv1/SSLv3&quot;, 256, 256], ... ]
+</span></code></pre>
 </dd>
 
 
@@ -544,15 +545,17 @@ ctx.ciphers
 <p>
 指定の方法は2種類あります。1つは
 </p>
-<pre>
-&quot;ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH&quot;
-</pre>
+<pre class="highlight text">
+<code>
+"ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
+</code></pre>
 <p>
 のような文字列で指定する方法で、もう一つは配列で
 </p>
-<pre>
-[&quot;ALL&quot;, &quot;!ADH&quot;, &quot;!LOW&quot;, &quot;!EXP&quot;, &quot;!MD5&quot;, &quot;@STRENGTH&quot;]
-</pre>
+<pre class="highlight text">
+<code>
+["ALL", "!ADH", "!LOW", "!EXP", "!MD5", "@STRENGTH"]
+</code></pre>
 <p>
 という配列で指定する方法です。上の2つの例は同じ内容を意味しています。詳しくは OpenSSL のマニュアルの
 SSL_CTX_set_cipher_list の項を見てください。
@@ -630,9 +633,10 @@ SSL_CTX_set_cipher_list の項を見てください。
 <p>
 コールバックに渡される引数は以下のように
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 proc{|sslsocket| ... }
-</pre>
+</code></pre>
 <p>
 1つで、利用している <a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.html">OpenSSL::SSL::SSLSocket</a>
 オブジェクトが渡されます。そのオブジェクトから必要な証明書を見つけるのに必要な情報を取得します。コールバックはクライアント証明書(<a href="../class/OpenSSL=3a=3aX509=3a=3aCertificate.html">OpenSSL::X509::Certificate</a>)
@@ -647,18 +651,17 @@ proc{|sslsocket| ... }
 <p>
 このメソッドはクライアント側でのみ意味を持ちます。
 </p>
-<p>
-例
-</p>
-<pre>
-require 'openssl'
-ctx = OpenSSL::SSL::SSLContext.new(ssl_method)
-ctx.client_cert_cb = proc{|sslsocket|
-  # sslsocket からコネクションの情報を取り出し、
-  # クライアント証明書(cert)とその秘密鍵(privkey)を探しだす
-  [cert, privkey]
-}
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+ctx <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">SSLContext</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>ssl_method<span class="p">)</span>
+ctx<span class="p">.</span><span class="nf">client_cert_cb</span> <span class="o">=</span> <span class="nb">proc</span><span class="p">{</span><span class="o">|</span>sslsocket<span class="o">|</span>
+  <span class="c1"># sslsocket からコネクションの情報を取り出し、
+</span>  <span class="c1"># クライアント証明書(cert)とその秘密鍵(privkey)を探しだす
+</span>  <span class="p">[</span>cert, privkey<span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>cb</code>:</dt>
 <dd>
@@ -841,13 +844,14 @@ nil を渡すとコールバックは無効になります。
 <p>
 以下の例は再ネゴシエーションを一切禁止します。
 </p>
-<pre>
-num_handshakes = 0
-ctx.renegotiation_cb = lambda do |ssl|
-  num_handshakes += 1
-  raise RuntimeError.new(&quot;Client renegotiation disabled&quot;) if num_handshakes &gt; 1
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+num_handshakes <span class="o">=</span> <span class="mi">0</span>
+ctx<span class="p">.</span><span class="nf">renegotiation_cb</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="k">do</span> <span class="o">|</span>ssl<span class="o">|</span>
+  num_handshakes <span class="o">+=</span> <span class="mi">1</span>
+  <span class="nb">raise</span> <span class="no">RuntimeError</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">Client renegotiation disabled</span><span class="s2">"</span><span class="p">)</span> <span class="k">if</span> num_handshakes <span class="o">&gt;</span> <span class="mi">1</span>
+<span class="k">end</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>cb</code>:</dt>
 <dd>
@@ -882,9 +886,10 @@ TLS の Server Name Indication(SNI) 拡張でクライアント側からホス�
 <p>
 <a href="../class/Proc.html">Proc</a> や <a href="../class/Method.html">Method</a> をコールバックオブジェクトとして渡します。コールバックに渡される引数は以下のように
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 proc{|sslsocket, hostname| ... }
-</pre>
+</code></pre>
 <p>
 2つで、1つ目は認証および暗号化通信に使われる <a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.html">OpenSSL::SSL::SSLSocket</a>
 オブジェクトで、2つ目がクライアント側から伝えられてきたホスト名です。
@@ -1047,9 +1052,10 @@ size に 0 を渡すと制限なしを意味します。
 <p>
 コールバックオブジェクトを call するときの引数は
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 [ 接続オブジェクト(OpenSSL::SSL::SSLSocket), セッションID(文字列) ]
-</pre>
+</code></pre>
 <p>
 という配列です。このコールバックの返り値が
 <a href="../class/OpenSSL=3a=3aSSL=3a=3aSession.html">OpenSSL::SSL::Session</a> オブジェクトならば、それをキャッシュ値として利用します。それ以外を返したならば、キャッシュは見つからなかったものとして取り扱われます。
@@ -1134,9 +1140,10 @@ size に 0 を渡すと制限なしを意味します。
 <p>
 コールバックオブジェクトを call するときの引数は
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 [ 接続オブジェクト(OpenSSL::SSL::SSLSocket), 新たなセッション(OpenSSL::SSL::Session)]
-</pre>
+</code></pre>
 <p>
 という配列です。
 </p>
@@ -1194,10 +1201,11 @@ size に 0 を渡すと制限なしを意味します。
 <p>
 コールバックオブジェクトを call するときの引数は
 </p>
-<pre>
-[ SSLContextオブジェクト(OpenSSL::SSL::SSLContext),
+<pre class="highlight text">
+<code>
+[ SSLContextオブジェクト(OpenSSL::SSL::SSLContext), 
   破棄されるセッション(OpenSSL::SSL::Session)]
-</pre>
+</code></pre>
 <p>
 という配列です。
 </p>
@@ -1330,9 +1338,10 @@ nil を指定すると OpenSSL のデフォルトのタイムアウト秒数(300
 <p>
 暗号で一時的な DH 鍵を利用する場合にはこのコールバックが呼びだされ、呼びだされたブロックは適切な鍵パラメータを返さなければなりません。これで設定するブロックは
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 proc{|sslsocket, is_export, keylen| ... }
-</pre>
+</code></pre>
 <p>
 という引数を取るようにします。それぞれの引数の意味は
 </p>
@@ -1529,11 +1538,12 @@ nil を設定するとデフォルトのコールバック(単に第一引数を
 <p>
 利用可能なメソッド(プロトコル)を <a href="../class/Symbol.html">Symbol</a> の配列で返します。
 </p>
-<pre>
-require 'openssl'
-OpenSSL::SSL::SSLContext::METHODS
-# =&gt; [:TLSv1, :TLSv1_server, :TLSv1_client, :SSLv2, :SSLv2_server, ...]
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+<span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">SSLContext</span><span class="o">::</span><span class="no">METHODS</span>
+<span class="c1"># =&gt; [:TLSv1, :TLSv1_server, :TLSv1_client, :SSLv2, :SSLv2_server, ...]
+</span></code></pre>
 </dd>
 
 

@@ -94,10 +94,11 @@ default_event_sourcesメソッドは、selfがCoClass（コンポーネントク
 デフォルトのソースインターフェイスを<a href="../../../class/WIN32OLE_TYPE.html">WIN32OLE_TYPE</a>の配列として返します。返すのは配列ですが、デフォルトのソースインターフェイスは最大でも1インターフェイスです。ソースインターフェイスを持たない場合は空配列を返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-tobj.default_event_sources.map {|intf| intf.name} #=&gt; [&quot;DocEvents&quot;]
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Worksheet'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">default_event_sources</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>intf<span class="o">|</span> intf<span class="p">.</span><span class="nf">name</span><span class="p">}</span> <span class="c1">#=&gt; [&quot;DocEvents&quot;]
+</span></code></pre>
 <p>
 <a href="../../../method/WIN32OLE_EVENT/s/new.html">WIN32OLE_EVENT.new</a>でインターフェイス名を指定しない場合は、ここで返されたインターフェイスが選択されます。
 </p>
@@ -105,10 +106,11 @@ tobj.default_event_sources.map {|intf| intf.name} #=&gt; [&quot;DocEvents&quot;]
 次のサンプルは、IEのnaviaget2メソッドによってどのようなイベントが通知されるかを、実際にメソッド呼び出し（=イベント通知）をトレースして調べるプログラムです。イベントを受け付けるために、
 <a href="../../../method/WIN32OLE_EVENT/s/message_loop.html">WIN32OLE_EVENT.message_loop</a>の呼び出しが必要な点に注意してください。ここでは最終イベントのStatusTextChangeイベントのメッセージについては既知としています。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 # coding : cp932
 require 'win32ole'
-
+ 
 type = WIN32OLE_TYPE.new('Microsoft Internet Controls', 'InternetExplorer')
 ctl = WIN32OLE.new(type.progid)
 source = type.default_event_sources[0]
@@ -120,11 +122,11 @@ class WebEvent
 end
 source.ole_methods.each do |m|
   WebEvent.module_eval do
-    define_method(&quot;on#{m.name}&quot;) do |*arg|
-      if arg[0] == &quot;ページが表示されました&quot;
+    define_method("on#{m.name}") do |*arg|
+      if arg[0] == "ページが表示されました"
         @completed = true
       end
-      puts &quot;#{Time.now}: #{m.name} was called&quot;
+      puts "#{Time.now}: #{m.name} was called"
       p arg
     end
   end
@@ -137,36 +139,37 @@ loop do
   WIN32OLE_EVENT.message_loop
 end
 ctl.Quit
-</pre>
+</code></pre>
 <p>
 このプログラムを実行するとWindows7のIE8環境では以下のような出力を得られます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 2010-10-06 22:33:54 +0900: PropertyChange was called
-[&quot;{265b75c1-4158-11d0-90f6-00c04fd497ea}&quot;]
+["{265b75c1-4158-11d0-90f6-00c04fd497ea}"]
 2010-10-06 22:33:54 +0900: BeforeNavigate2 was called
-[#&lt;WIN32OLE:0x9d08f0&gt;, &quot;http://www.ruby-lang.org/&quot;, 0, &quot;&quot;, nil, &quot;&quot;, false]
+[#&lt;WIN32OLE:0x9d08f0&gt;, "http://www.ruby-lang.org/", 0, "", nil, "", false]
 2010-10-06 22:33:54 +0900: DownloadBegin was called
 []
 2010-10-06 22:33:54 +0900: PropertyChange was called
-[&quot;{D0FCA420-D3F5-11CF-B211-00AA004AE837}&quot;]
+["{D0FCA420-D3F5-11CF-B211-00AA004AE837}"]
 2010-10-06 22:33:54 +0900: CommandStateChange was called
 [2, false]
 2010-10-06 22:33:54 +0900: CommandStateChange was called
 [1, false]
 2010-10-06 22:33:54 +0900: StatusTextChange was called
-[&quot;www.ruby-lang.org を検索しています&quot;]
+["www.ruby-lang.org を検索しています"]
 2010-10-06 22:33:54 +0900: ProgressChange was called
 [100, 10000]
 2010-10-06 22:33:54 +0900: StatusTextChange was called
-[&quot;サイト 221.186.184.68 に接続しています&quot;]
+["サイト 221.186.184.68 に接続しています"]
 2010-10-06 22:33:54 +0900: StatusTextChange was called
-[&quot;Web サイトが見つかりました。応答を待っています...&quot;]
+["Web サイトが見つかりました。応答を待っています..."]
 ……
 2010-10-06 22:33:54 +0900: TitleChange was called
-[&quot;オブジェクト指向スクリプト言語 Ruby&quot;]
+["オブジェクト指向スクリプト言語 Ruby"]
 2010-10-06 22:33:54 +0900: StatusTextChange was called
-[&quot;待機中: http://www.ruby-lang.org/ja/ ...&quot;]
+["待機中: http://www.ruby-lang.org/ja/ ..."]
 2010-10-06 22:33:54 +0900: ProgressChange was called
 [10000, 10000]
 2010-10-06 22:33:54 +0900: ProgressChange was called
@@ -176,10 +179,10 @@ ctl.Quit
 2010-10-06 22:33:54 +0900: ProgressChange was called
 [10000, 10000]
 2010-10-06 22:33:54 +0900: DocumentComplete was called
-[#&lt;WIN32OLE:0x438a2f8&gt;, &quot;http://www.ruby-lang.org/ja/&quot;]
+[#&lt;WIN32OLE:0x438a2f8&gt;, "http://www.ruby-lang.org/ja/"]
 2010-10-06 22:33:54 +0900: StatusTextChange was called
-[&quot;ページが表示されました&quot;]
-</pre>
+["ページが表示されました"]
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/WIN32OLE_TYPE/s/new.html">WIN32OLE_TYPE.new</a>, <a href="../../../method/WIN32OLE_TYPE/i/progid.html">WIN32OLE_TYPE#progid</a>,
 <a href="../../../method/WIN32OLE_TYPE/i/ole_methods.html">WIN32OLE_TYPE#ole_methods</a>, <a href="../../../method/WIN32OLE_METHOD/i/name.html">WIN32OLE_METHOD#name</a>,

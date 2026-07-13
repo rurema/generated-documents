@@ -11,11 +11,11 @@ selfが参照するCOMオブジェクトのIUnknown::Releaseを呼び出すこ�
 ブジェクトを開放します。ole_freeを呼び出した後は、このオブジェクトに対
 する操作は行えません。
 
-`````
+```ruby
 excel = WIN32OLE.new('Excel.Application')
 excel.ole_free  # オブジェクトの解放
 excel.Quit      #=> RuntimeError (failed to get Dispatch Interface)
-`````
+```
 
 通常は利用されなくなったWIN32OLEオブジェクトはGCのタイミングで自動的に
 解放されるため、当メソッドを呼び出す必要はありません。Officeのような外
@@ -25,21 +25,21 @@ excel.Quit      #=> RuntimeError (failed to get Dispatch Interface)
 WIN32OLEがIUnknown::Releaseを呼び出してもオブジェクトが解放されるとは限
 りません。
 
-`````
+```ruby
 excel = WIN32OLE.new('Excel.Application')
 workbook = excel.Workbooks.Open('workbook.xls') 
 workbook.Close(:SaveChanges => false)
 workbook.ole_free
 excel.ole_free
 # この時点でExcel.EXEは終了しない
-`````
+```
 
 上の例では、excel.Workbooks.Openの行で、excel.Workbooksオブジェクトが生
 成されています。しかし、後続の処理で該当オブジェクトが解放されていない
 ため、Workbooksオブジェクトによって参照されているexcelオブジェクトは解
 放されません。それに対して下の例では正しく解放されます。
 
-`````
+```ruby
 excel = WIN32OLE.new('Excel.Application')
 books = excel.Workbooks
 workbook = books.Open('workbook.xls')
@@ -47,5 +47,5 @@ books.ole_free
 workbook.Close(:SaveChanges => false)
 workbook.ole_free
 excel.ole_free
-`````
+```
 

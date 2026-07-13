@@ -21,7 +21,7 @@ source_location=manual/api/rake/Rake__TaskManager.md
 task default: :test_rake_app
 
 task :test_rake_app do |task|
-  task.application.lookup("test_rake_app") # => <Rake::Task test_rake_app => []>
+  p task.application.lookup("test_rake_app") # => <Rake::Task test_rake_app => []>
 end
 ```
 

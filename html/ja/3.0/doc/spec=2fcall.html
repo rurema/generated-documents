@@ -93,13 +93,12 @@ bar<span class="p">(</span><span class="p">)</span>
 <span class="no">Class</span><span class="p">.</span><span class="nf">new</span>
 <span class="no">Class</span><span class="o">::</span>new
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 [式  `.'] 識別子 [`(' [[`*'] 式] ... [`&amp;' 式] `)']
 [式 `::'] 識別子 [`(' [[`*'] 式] ... [`&amp;' 式] `)']
-</pre>
+</code></pre>
 <p>
 メソッド呼び出し式はレシーバ(<code>.</code> の左側の式の値)のメソッドを呼び出します。レシーバが指定されない時は self のメソッドを呼び出します。
 </p>
@@ -166,7 +165,8 @@ foo<span class="p">(</span><span class="mi">1</span>,<span class="mi">2</span>,<
 ハッシュ式の解説(<a href="../doc/spec=2fliteral.html#hash">リテラル/ハッシュ式</a>)にも書かれている通り、メソッド呼出の末尾にHashを渡す場合は {, } を省略できます。これを用いることでキーワード引数を渡すことができます。この Hash は<a href="../doc/spec=2fdef.html#method">クラス／メソッドの定義/メソッド定義</a>で解説されているキーワード引数に分解されて引き渡されます。
 </p>
 <p>
-メソッド呼び出しで <code>.</code> の代わりに <code>&amp;.</code> を使うことができます。この形式でメソッドを呼びだそうとすると、レシーバが nil の場合は以下のように働きます。
+メソッド呼び出しで <code>.</code> の代わりに <code>&amp;.</code> を使うことができます。
+<code>&amp;.</code> は safe navigation operator と呼ばれます(「ぼっち演算子」と呼ばれることもあります)。この形式でメソッドを呼びだそうとすると、レシーバが nil の場合は以下のように働きます。
 </p>
 <ul>
 <li>引数の評価が行なわれない</li>
@@ -179,7 +179,7 @@ foo<span class="p">(</span><span class="mi">1</span>,<span class="mi">2</span>,<
 <pre class="highlight ruby">
 <code>
 foo <span class="o">=</span> <span class="mi">13</span>
-foo<span class="o">&amp;.</span><span class="nb">to_s</span> <span class="c1"># =&gt; &quot;13&quot;
+<span class="nb">p</span> foo<span class="o">&amp;.</span><span class="nb">to_s</span> <span class="c1"># =&gt; &quot;13&quot;
 </span>foo <span class="o">=</span> <span class="k">nil</span>
 foo<span class="o">&amp;.</span><span class="nb">to_s</span> <span class="c1"># nil, not &quot;&quot;
 </span></code></pre>
@@ -197,13 +197,12 @@ foo<span class="o">&amp;.</span>bar <span class="o">=</span> <span class="s2">"<
 <span class="k">super</span>
 <span class="k">super</span><span class="p">(</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span><span class="p">)</span>
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 super
 super(式, ... )
-</pre>
+</code></pre>
 <p>
 super は現在のメソッドがオーバーライドしているメソッドを呼び出します。括弧と引数が省略された場合には現在のメソッドの引数がそのまま引き渡されます。引数を渡さずにオーバーライドしたメソッドを呼び出すには
 super() と括弧を明示します。
@@ -236,14 +235,13 @@ super() と括弧を明示します。
 <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>i<span class="o">|</span> <span class="nb">print</span> i<span class="o">*</span><span class="mi">2</span>, <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span> <span class="k">end</span>
 <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>i<span class="o">|</span> <span class="nb">print</span> i<span class="o">*</span><span class="mi">2</span>, <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span> <span class="p">}</span>
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 method(arg1, arg2, ...)  do [`|' 式 ... `|'] 式 ... end
 method(arg1, arg2, ...) `{' [`|' 式 ... `|'] 式 ... `}'
 method(arg1, arg2, ..., `&amp;' proc_object)
-</pre>
+</code></pre>
 <p>
 ブロック付きメソッドとは制御構造の抽象化のために用いられるメソッドです。最初はループの抽象化のために用いられていたため、特にイテレータと呼ばれることもあります。
 do ... end または { ... }  で囲まれたコードの断片
@@ -326,19 +324,17 @@ break に引数を指定した場合はその値がブロック付きメソッ�
 自分で定義したブロック付きメソッドでブロックを呼び出すときに使います。
 yield に渡された値はブロック記法において | と | の間にはさまれた変数(ブロックパラメータ)に代入されます。
 </p>
-<p>
-例:
-</p>
-<pre>
+<span class="caption">例</span>
+<pre class="highlight text">
+<code>
 yield data
-</pre>
-<p>
-文法:
-</p>
-<pre>
+</code></pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 yield `(' [式 [`,' 式 ... ]] `)'
 yield [式 [`,' 式 ... ]]
-</pre>
+</code></pre>
 <p>
 引数をブロックパラメータとして渡してブロックを評価します。yield はイテレータを定義するために <a href="../doc/spec=2fdef.html#method">クラス／メソッドの定義/メソッド定義</a> 内で使用します。
 </p>
@@ -420,19 +416,19 @@ lambda でないブロックを呼び出したとき
   <span class="k">yield</span> <span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span>
 <span class="k">end</span>
 
-foo<span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>       <span class="c1">#=&gt; 1
+<span class="nb">p</span> foo<span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>     <span class="c1">#=&gt; 1
 </span>
 <span class="k">def</span> <span class="nf">bar</span>
   <span class="k">yield</span> <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span><span class="p">]</span>
 <span class="k">end</span>
 
-bar<span class="p">{</span><span class="o">|</span>a, b, c<span class="o">|</span> <span class="nb">p</span> a<span class="p">}</span> <span class="c1">#=&gt; 1
+<span class="nb">p</span> bar<span class="p">{</span><span class="o">|</span>a, b, c<span class="o">|</span> <span class="nb">p</span> a<span class="p">}</span> <span class="c1">#=&gt; 1
 </span>
 <span class="k">def</span> <span class="nf">hoge</span>
   <span class="k">yield</span> <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span><span class="p">]</span>,<span class="mi">4</span>,<span class="mi">5</span>
 <span class="k">end</span>
 
-hoge<span class="p">{</span><span class="o">|</span>a, b, c<span class="o">|</span> <span class="nb">p</span> a<span class="p">}</span> <span class="c1">#=&gt; [1,2,3]
+<span class="nb">p</span> hoge<span class="p">{</span><span class="o">|</span>a, b, c<span class="o">|</span> <span class="nb">p</span> a<span class="p">}</span> <span class="c1">#=&gt; [1,2,3]
 </span></code></pre>
 <p>
 <a class="external" href="http://www.a-k-r.org/d/2007-08.html#a2007_08_16_1">http://www.a-k-r.org/d/2007-08.html#a2007_08_16_1</a>
@@ -447,19 +443,20 @@ hoge<span class="p">{</span><span class="o">|</span>a, b, c<span class="o">|</sp
   <span class="k">yield</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">c</span><span class="s2">"</span>
 <span class="k">end</span>
 
-foo<span class="p">{</span><span class="o">|</span>a, b, c<span class="o">|</span> <span class="nb">p</span> <span class="p">[</span>a, b, c<span class="p">]</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
-</span>foo<span class="p">{</span> <span class="nb">p</span> <span class="p">[</span>_1, _2, _3<span class="p">]</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+<span class="nb">p</span> foo<span class="p">{</span><span class="o">|</span>a, b, c<span class="o">|</span> <span class="nb">p</span> <span class="p">[</span>a, b, c<span class="p">]</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+</span><span class="nb">p</span> foo<span class="p">{</span> <span class="nb">p</span> <span class="p">[</span>_1, _2, _3<span class="p">]</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
 </span></code></pre>
 <p>
 ブロックパラメータと番号指定パラメータを同時に使うことはできません。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 def foo
-  yield &quot;a&quot;,&quot;b&quot;,&quot;c&quot;
+  yield "a","b","c"
 end
 
 foo {|a, b, c| p [_1, a] } # =&gt; ordinary parameter is defined (SyntaxError)
-</pre>
+</code></pre>
 <p>
 なお、ブロック内で _2 以降が使用されているかどうかで、_1 の意味が異なります。
 </p>
@@ -505,13 +502,12 @@ foo <span class="p">{</span><span class="o">|</span>a,b<span class="o">|</span>
 foo<span class="p">.</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>      <span class="c1"># foo.call(100)と全く同じ意味
 </span><span class="nf">foo</span><span class="o">::</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>     <span class="c1"># foo.call(100)と全く同じ意味
 </span></code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 式  `.' `(' [[`*'] 式] ... [`&amp;' 式] `)'
 式 `::' `(' [[`*'] 式] ... [`&amp;' 式] `)'
-</pre>
+</code></pre>
 
 </main>
 

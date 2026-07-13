@@ -93,34 +93,37 @@ Ruby のアーカイブに含まれる doc/extension.rdoc (日本語版は doc/e
 <p>
 架空の拡張ライブラリ foo.so を作成することを考えます。この拡張ライブラリを作成するためには、ヘッダファイル bar.h とライブラリ libbar.a の関数 baz() が必要だとします。このための extconf.rb は以下のように書きます。
 </p>
-<pre>
-require 'mkmf'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'mkmf'</span>
 
-dir_config('bar')
-if have_header('bar.h') and have_library('bar', 'baz')
-  create_makefile('foo')
-end
-</pre>
+dir_config<span class="p">(</span><span class="s1">'bar'</span><span class="p">)</span>
+<span class="k">if</span> have_header<span class="p">(</span><span class="s1">'bar.h'</span><span class="p">)</span> <span class="k">and</span> have_library<span class="p">(</span><span class="s1">'bar'</span>, <span class="s1">'baz'</span><span class="p">)</span>
+  create_makefile<span class="p">(</span><span class="s1">'foo'</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 拡張ライブラリ foo.so を作成、インストールするには以下のようにします。
 </p>
-<pre>
-$ ruby extconf.rb
-$ make
-$ make site-install
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby extconf.rb
+<span class="gp">$</span><span class="w"> </span>make
+<span class="gp">$</span><span class="w"> </span>make site-install
+</code></pre>
 <p>
 foo.so の extconf.rb では dir_config('bar') を実行しているので、ユーザは以下のようにコマンドラインオプション --with-bar-dir
 などを使って、ヘッダファイルのパスやライブラリのパスを指定できます。
 </p>
-<pre>
-$ ruby extconf.rb --with-bar-include=/usr/local/include \
-                  --with-bar-lib=/usr/local/lib
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby extconf.rb <span class="nt">--with-bar-include</span><span class="o">=</span>/usr/local/include <span class="se">\</span>
+<span class="go">                  --with-bar-lib=/usr/local/lib
 
 または
 
-$ ruby extconf.rb --with-bar-dir=/usr/local
-</pre>
+</span><span class="gp">$</span><span class="w"> </span>ruby extconf.rb <span class="nt">--with-bar-dir</span><span class="o">=</span>/usr/local
+</code></pre>
 <p>
 dir_config 関数の詳細については
 <a href="../method/Kernel/i/dir_config.html">Kernel#dir_config</a> を参照してください。
@@ -197,9 +200,10 @@ extconf.rb の中で dir_config(TARGET)
 depend ファイルはソースファイルの依存関係を記述するために使います。例えば拡張ライブラリのソースコード foo.c が foo.h をインクルードしている場合、
 foo.h が更新されたときにも foo.c を再コンパイルしたいでしょう。このような依存関係を記述するには depend ファイルに以下の 1 行を書きます。
 </p>
-<pre>
-foo.o: foo.c foo.h
-</pre>
+<pre class="highlight make">
+<code>
+<span class="nl">foo.o</span><span class="o">:</span> <span class="nf">foo.c foo.h</span>
+</code></pre>
 <p>
 このように書くと、foo.o が foo.c と foo.h に依存していることを示します。つまり、foo.c か foo.h のどちらかが更新された場合に
 foo.o がリコンパイルされるようになります。
@@ -207,18 +211,20 @@ foo.o がリコンパイルされるようになります。
 <p>
 C コンパイラによっては、このような記述を自動生成できます。一般に、このためのオプションは「-M」です。「-M」オプションを持つ C コンパイラを使っている場合は、以下のコマンドを実行するだけで適切な depend が生成できます。
 </p>
-<pre>
-$ cc -M *.c &gt; depend
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>cc <span class="nt">-M</span> <span class="k">*</span>.c <span class="o">&gt;</span> depend
+</code></pre>
 <p>
 gcc には、-M オプションを改善した -MM というオプションもあります。このオプションは、通常更新することのない stdio.h など、システムのヘッダファイルを依存関係に含めません。この -MM オプションでは、「#include &lt;...&gt;」の形式で参照されるヘッダファイルをシステムのヘッダファイルとみなしているようです。
 </p>
 <p>
 gcc の -MM オプションを使う場合は、以下のコマンドを実行すれば適切な depend が生成できます。
 </p>
-<pre>
-$ gcc -MM *.c &gt; depend
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>gcc <span class="nt">-MM</span> <span class="k">*</span>.c <span class="o">&gt;</span> depend
+</code></pre>
 <p>
 なお、depend ファイルを依存関係の記述以外に使うべきではありません。
 mkmf.rb が depend ファイルを Makefile に連結するときに、その内容を加工する場合があるからです。

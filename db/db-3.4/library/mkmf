@@ -27,35 +27,35 @@ Ruby のアーカイブに含まれる doc/extension.rdoc (日本語版は doc/e
 ヘッダファイル bar.h とライブラリ libbar.a の関数 baz() が必要だとします。
 このための extconf.rb は以下のように書きます。
 
-`````
+```ruby
 require 'mkmf'
 
 dir_config('bar')
 if have_header('bar.h') and have_library('bar', 'baz')
   create_makefile('foo')
 end
-`````
+```
 
 拡張ライブラリ foo.so を作成、インストールするには以下のようにします。
 
-`````
+```console
 $ ruby extconf.rb
 $ make
 $ make site-install
-`````
+```
 
 foo.so の extconf.rb では dir_config('bar') を実行しているので、
 ユーザは以下のようにコマンドラインオプション --with-bar-dir
 などを使って、ヘッダファイルのパスやライブラリのパスを指定できます。
 
-`````
+```console
 $ ruby extconf.rb --with-bar-include=/usr/local/include \
                   --with-bar-lib=/usr/local/lib
 
 または
 
 $ ruby extconf.rb --with-bar-dir=/usr/local
-`````
+```
 
 dir_config 関数の詳細については
 [m:Kernel#dir_config] を参照してください。
@@ -114,9 +114,9 @@ depend ファイルはソースファイルの依存関係を記述するため�
 foo.h が更新されたときにも foo.c を再コンパイルしたいでしょう。
 このような依存関係を記述するには depend ファイルに以下の 1 行を書きます。
 
-`````
+```make
 foo.o: foo.c foo.h
-`````
+```
 
 このように書くと、foo.o が foo.c と foo.h に依存していることを示します。
 つまり、foo.c か foo.h のどちらかが更新された場合に
@@ -127,9 +127,9 @@ C コンパイラによっては、このような記述を自動生成できま
 「-M」オプションを持つ C コンパイラを使っている場合は、
 以下のコマンドを実行するだけで適切な depend が生成できます。
 
-`````
+```console
 $ cc -M *.c > depend
-`````
+```
 
 gcc には、-M オプションを改善した -MM というオプションもあります。
 このオプションは、通常更新することのない stdio.h など、
@@ -140,9 +140,9 @@ gcc には、-M オプションを改善した -MM というオプションも�
 gcc の -MM オプションを使う場合は、
 以下のコマンドを実行すれば適切な depend が生成できます。
 
-`````
+```console
 $ gcc -MM *.c > depend
-`````
+```
 
 なお、depend ファイルを依存関係の記述以外に使うべきではありません。
 mkmf.rb が depend ファイルを Makefile に連結するときに、

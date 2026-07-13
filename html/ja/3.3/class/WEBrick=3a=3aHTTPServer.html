@@ -124,15 +124,16 @@ HTTP サーバの機能を提供するクラスです。
 <p>
 以下は HTTP サーバとしてちゃんと動作する例です。
 </p>
-<pre>
-require 'webrick'
-srv = WEBrick::HTTPServer.new({:DocumentRoot =&gt; '/home/username/public_html/',
-                               :BindAddress =&gt; '127.0.0.1',
-                               :Port =&gt; 10080})
-srv.mount('/hoge.pl', WEBrick::HTTPServlet::CGIHandler, 'really_executed_script.rb')
-Signal.trap(:INT){ srv.shutdown }
-srv.start
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+srv <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">{</span><span class="ss">:DocumentRoot</span> <span class="o">=&gt;</span> <span class="s1">'/home/username/public_html/'</span>,
+                               <span class="ss">:BindAddress</span> <span class="o">=&gt;</span> <span class="s1">'127.0.0.1'</span>,
+                               <span class="ss">:Port</span> <span class="o">=&gt;</span> <span class="mi">10080</span><span class="p">}</span><span class="p">)</span>
+srv<span class="p">.</span><span class="nf">mount</span><span class="p">(</span><span class="s1">'/hoge.pl'</span>, <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPServlet</span><span class="o">::</span><span class="no">CGIHandler</span>, <span class="s1">'really_executed_script.rb'</span><span class="p">)</span>
+<span class="no">Signal</span><span class="p">.</span><span class="nf">trap</span><span class="p">(</span><span class="ss">:INT</span><span class="p">)</span><span class="p">{</span> srv<span class="p">.</span><span class="nf">shutdown</span> <span class="p">}</span>
+srv<span class="p">.</span><span class="nf">start</span>
+</code></pre>
 
 
 
@@ -347,12 +348,13 @@ config で指定されなかった場合のデフォルトの設定を保存し�
 サーブレットのコンストラクタの引数を指定します。
 </dd>
 </dl>
-<pre>
-require 'webrick'
-include WEBrick
-srv = HTTPServer.new( { :BindAddress =&gt; '127.0.0.1', :Port =&gt; 10080 } )
-srv.mount('/img', WEBrick::HTTPServlet::FileHandler, '/home/username/images')
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+include <span class="no">WEBrick</span>
+srv <span class="o">=</span> <span class="no">HTTPServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span> <span class="p">{</span> <span class="ss">:BindAddress</span> <span class="o">=&gt;</span> <span class="s1">'127.0.0.1'</span>, <span class="ss">:Port</span> <span class="o">=&gt;</span> <span class="mi">10080</span> <span class="p">}</span> <span class="p">)</span>
+srv<span class="p">.</span><span class="nf">mount</span><span class="p">(</span><span class="s1">'/img'</span>, <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPServlet</span><span class="o">::</span><span class="no">FileHandler</span>, <span class="s1">'/home/username/images'</span><span class="p">)</span>
+</code></pre>
 </dd>
 
 
@@ -393,9 +395,10 @@ proc も指定されずブロックも与えられない場合に発生します
 対応を解消するディレクトリを指定します。
 </dd>
 </dl>
-<pre>
-srv.mount('/img')
-</pre>
+<pre class="highlight ruby">
+<code>
+srv<span class="p">.</span><span class="nf">mount</span><span class="p">(</span><span class="s1">'/img'</span><span class="p">)</span>
+</code></pre>
 </dd>
 
 
@@ -410,17 +413,18 @@ srv.mount('/img')
 バーチャルホストを表す WEBrick::HTTPServer オブジェクトを指定します。
 </dd>
 </dl>
-<pre>
-require 'webrick'
-include WEBrick
-srv1 = HTTPServer.new( { :Port =&gt; 1080, :ServerName =&gt; 'hoge.example.com' } )
-srv2 = HTTPServer.new( { :Port =&gt; 1080, :ServerName =&gt; 'foo.example.com' } )
-
-srv  = HTTPServer.new( { :Port =&gt; 1080 } )
-srv.virtual_host(srv1)
-srv.virtual_host(srv2)
-srv.start
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+include <span class="no">WEBrick</span>
+srv1 <span class="o">=</span> <span class="no">HTTPServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span> <span class="p">{</span> <span class="ss">:Port</span> <span class="o">=&gt;</span> <span class="mi">1080</span>, <span class="ss">:ServerName</span> <span class="o">=&gt;</span> <span class="s1">'hoge.example.com'</span> <span class="p">}</span> <span class="p">)</span>
+srv2 <span class="o">=</span> <span class="no">HTTPServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span> <span class="p">{</span> <span class="ss">:Port</span> <span class="o">=&gt;</span> <span class="mi">1080</span>, <span class="ss">:ServerName</span> <span class="o">=&gt;</span> <span class="s1">'foo.example.com'</span> <span class="p">}</span> <span class="p">)</span>
+  
+srv  <span class="o">=</span> <span class="no">HTTPServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span> <span class="p">{</span> <span class="ss">:Port</span> <span class="o">=&gt;</span> <span class="mi">1080</span> <span class="p">}</span> <span class="p">)</span>
+srv<span class="p">.</span><span class="nf">virtual_host</span><span class="p">(</span>srv1<span class="p">)</span>
+srv<span class="p">.</span><span class="nf">virtual_host</span><span class="p">(</span>srv2<span class="p">)</span>
+srv<span class="p">.</span><span class="nf">start</span>
+</code></pre>
 </dd>
 
 

@@ -20,9 +20,9 @@ source_location=manual/api/rake/Rake__TaskManager.md
 task default: :test_rake_app
 
 task :test_rake_app do |task|
-  task.application.synthesize_file_task("sample_file") # => nil
+  p task.application.synthesize_file_task("sample_file") # => nil
   IO.write("sample_file", "")
-  task.application.synthesize_file_task("sample_file") # => <Rake::FileTask sample_file => []>
+  p task.application.synthesize_file_task("sample_file") # => <Rake::FileTask sample_file => []>
 end
 ```
 

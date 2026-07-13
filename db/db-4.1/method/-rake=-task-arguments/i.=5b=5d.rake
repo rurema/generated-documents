@@ -15,8 +15,8 @@ source_location=manual/api/rake/Rake__TaskArguments.md
 task default: :test_rake_app
 task :test_rake_app do
   arguments = Rake::TaskArguments.new(["name1", "name2"], ["value1", "value2"])
-  arguments["name1"] # => "value1"
-  arguments["name2"] # => "value2"
+  p arguments["name1"] # => "value1"
+  p arguments["name2"] # => "value2"
 end
 ```
 

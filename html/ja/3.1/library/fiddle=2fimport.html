@@ -91,41 +91,45 @@ fiddle ライブラリのための高レベルインターフェースを提供�
 <p>
 例えば与えられた長さ len の double の配列の和を計算する関数
 </p>
-<pre>
-double sum(double *arry, int len);
-</pre>
+<pre class="highlight c">
+<code>
+<span class="kt">double</span> <span class="nf">sum</span><span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="n">arry</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">);</span>
+</code></pre>
 <p>
 があったとします。これを呼び出したい場合は以下のように <a href="../method/Array/i/pack.html">Array#pack</a> を使用します。
 </p>
-<pre>
-require 'fiddle/import'
-module M
-  extend Fiddle::Importer
-  dlload './libsum.so'
-  extern 'double sum(double*, int)'
-end
-p M.sum([2.0, 3.0, 4.0].pack('d*'), 3)   #=&gt; 9.0
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s1">'./libsum.so'</span>
+  extern <span class="s1">'double sum(double*, int)'</span>
+<span class="k">end</span>
+<span class="nb">p</span> <span class="no">M</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="p">[</span><span class="mf">2.0</span>, <span class="mf">3.0</span>, <span class="mf">4.0</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s1">'d*'</span><span class="p">)</span>, <span class="mi">3</span><span class="p">)</span>   <span class="c1">#=&gt; 9.0
+</span></code></pre>
 <p>
 また与えられた文字列の配列 s (長さlen)の各要素の最初の文字を buf にコピーする関数
 </p>
-<pre>
-void first_char(char **s, char *buf, int len)
-</pre>
+<pre class="highlight c">
+<code>
+<span class="kt">void</span> <span class="n">first_char</span><span class="p">(</span><span class="kt">char</span> <span class="o">**</span><span class="n">s</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
+</code></pre>
 <p>
 があったとします。これを呼び出すにも以下のように <a href="../method/Array/i/pack.html">Array#pack</a> を使用します。
 </p>
-<pre>
-require 'fiddle/import'
-module M
-  extend Fiddle::Importer
-  dlload './libstrfirst.so'
-  extern 'void first_char(char **, char *, int)'
-end
-buf = '111'
-M.first_char(['Abc', 'Def', 'Ghi'].pack('p*'), buf, 3)
-p buf  #=&gt; 'ADG'
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s1">'./libstrfirst.so'</span>
+  extern <span class="s1">'void first_char(char **, char *, int)'</span>
+<span class="k">end</span>
+buf <span class="o">=</span> <span class="s1">'111'</span>
+<span class="no">M</span><span class="p">.</span><span class="nf">first_char</span><span class="p">(</span><span class="p">[</span><span class="s1">'Abc'</span>, <span class="s1">'Def'</span>, <span class="s1">'Ghi'</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s1">'p*'</span><span class="p">)</span>, buf, <span class="mi">3</span><span class="p">)</span> 
+<span class="nb">p</span> buf  <span class="c1">#=&gt; 'ADG'
+</span></code></pre>
 <h3 >Ruby のオブジェクトをコールバックに渡したい</h3>
 <p>
 任意のクラスの Ruby オブジェクトをコールバックへ渡したい場合は <a href="../method/Fiddle/m/dlwrap.html">Fiddle.#dlwrap</a> を使ってポインタ(整数)へ変換してから関数に渡し、コールバックの方で元に戻します。
@@ -133,24 +137,25 @@ p buf  #=&gt; 'ADG'
 <p>
 例えば libc の qsort を使って Ruby の Time の配列をソートするには以下のようにします。
 </p>
-<pre>
-require 'fiddle/import'
-module M
-  extend Fiddle::Importer
-  dlload &quot;libc.so.6&quot;
-  QsortCallback = bind(&quot;void *qsort_callback(void*, void*)&quot;){|a, b|
-    a0 = Fiddle.dlunwrap(a.ptr.to_i)
-    b0 = Fiddle.dlunwrap(b.ptr.to_i)
-    a0 &lt;=&gt; b0
-  }
-  extern 'void qsort(void *, int, int, void *)'
-end
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+<span class="k">module</span> <span class="nn">M</span> 
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s2">"</span><span class="s2">libc.so.6</span><span class="s2">"</span>
+  <span class="no">QsortCallback</span> <span class="o">=</span> bind<span class="p">(</span><span class="s2">"</span><span class="s2">void *qsort_callback(void*, void*)</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>a, b<span class="o">|</span>
+    a0 <span class="o">=</span> <span class="no">Fiddle</span><span class="p">.</span><span class="nf">dlunwrap</span><span class="p">(</span>a<span class="p">.</span><span class="nf">ptr</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span>
+    b0 <span class="o">=</span> <span class="no">Fiddle</span><span class="p">.</span><span class="nf">dlunwrap</span><span class="p">(</span>b<span class="p">.</span><span class="nf">ptr</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span>
+    a0 <span class="o">&lt;=&gt;</span> b0
+  <span class="p">}</span>
+  extern <span class="s1">'void qsort(void *, int, int, void *)'</span>
+<span class="k">end</span>
 
-buff =  [Time.at(1), Time.now, Time.at(100), Time.at(10)]
-a = buff.map{|t| Fiddle.dlwrap(t)}.pack('l!*')
-M.qsort(a, buff.size, Fiddle::SIZEOF_VOIDP, M::QsortCallback)
-p a.unpack('l!*').map{|t| Fiddle.dlunwrap(t).to_i }             #=&gt; [1, 10, 100, 1241603848]
-</pre>
+buff <span class="o">=</span>  <span class="p">[</span><span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>, <span class="no">Time</span><span class="p">.</span><span class="nf">now</span>, <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>, <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">]</span>
+a <span class="o">=</span> buff<span class="p">.</span><span class="nf">map</span><span class="p">{</span><span class="o">|</span>t<span class="o">|</span> <span class="no">Fiddle</span><span class="p">.</span><span class="nf">dlwrap</span><span class="p">(</span>t<span class="p">)</span><span class="p">}</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s1">'l!*'</span><span class="p">)</span>
+<span class="no">M</span><span class="p">.</span><span class="nf">qsort</span><span class="p">(</span>a, buff<span class="p">.</span><span class="nf">size</span>, <span class="no">Fiddle</span><span class="o">::</span><span class="no">SIZEOF_VOIDP</span>, <span class="no">M</span><span class="o">::</span><span class="no">QsortCallback</span><span class="p">)</span>
+<span class="nb">p</span> a<span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s1">'l!*'</span><span class="p">)</span><span class="p">.</span><span class="nf">map</span><span class="p">{</span><span class="o">|</span>t<span class="o">|</span> <span class="no">Fiddle</span><span class="p">.</span><span class="nf">dlunwrap</span><span class="p">(</span>t<span class="p">)</span><span class="p">.</span><span class="nf">to_i</span> <span class="p">}</span>             <span class="c1">#=&gt; [1, 10, 100, 1241603848]
+</span></code></pre>
 <h3 >複雑な構造体を定義したい</h3>
 <p>
 構造体をメンバとして持つ構造体を <a href="../method/Fiddle=3a=3aImporter/i/struct.html">Fiddle::Importer#struct</a> を使って定義することは残念ながらできません。自力でメンバを展開してから <a href="../method/Fiddle=3a=3aImporter/i/struct.html">Fiddle::Importer#struct</a> を使ってください。

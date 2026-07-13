@@ -121,19 +121,20 @@ Rubyのオブジェクトを外部ファイルに格納するためのクラス�
 データベースにアクセスするためには、
 transaction のブロック内である必要があります。インターフェースは <a href="../class/Hash.html">Hash</a> に似ています。
 </p>
-<pre>
-require 'pstore'
-db = PStore.new(&quot;/tmp/foo&quot;)
-db.transaction do
-  p db.roots       # =&gt; []
-  ary = db[&quot;root&quot;] = [1,2,3,4]
-  ary[0] = [1,1.5]
-end
-
-db.transaction do
-  p db[&quot;root&quot;]     # =&gt; [[1, 1.5], 2, 3, 4]
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'pstore'</span>
+db <span class="o">=</span> <span class="no">PStore</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/foo</span><span class="s2">"</span><span class="p">)</span>
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  <span class="nb">p</span> db<span class="p">.</span><span class="nf">roots</span>       <span class="c1"># =&gt; []
+</span>  ary <span class="o">=</span> db<span class="p">[</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span>,<span class="mi">4</span><span class="p">]</span>
+  ary<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mf">1.5</span><span class="p">]</span>
+<span class="k">end</span>
+  
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  <span class="nb">p</span> db<span class="p">[</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">]</span>     <span class="c1"># =&gt; [[1, 1.5], 2, 3, 4]
+</span><span class="k">end</span>
+</code></pre>
 
 
 
@@ -306,23 +307,22 @@ transaction ブロックから抜けますが、データベースの変更は�
 トランザクション外でこのメソッドが呼び出された場合に発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'pstore'
-db = PStore.new(&quot;/tmp/foo&quot;)
-db.transaction do
-  p db.roots       # =&gt; []
-  ary = db[&quot;root&quot;] = [1,2,3,4]
-  db.abort
-  ary[0] = [1,1.5] # =&gt; ここは実行されない。
-end
-
-db.transaction do |pstore|
-  pstore[&quot;root&quot;]       # =&gt; nil
-end
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'pstore'</span>
+db <span class="o">=</span> <span class="no">PStore</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/foo</span><span class="s2">"</span><span class="p">)</span>
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  <span class="nb">p</span> db<span class="p">.</span><span class="nf">roots</span>       <span class="c1"># =&gt; []
+</span>  ary <span class="o">=</span> db<span class="p">[</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span>,<span class="mi">4</span><span class="p">]</span>
+  db<span class="p">.</span><span class="nf">abort</span>
+  ary<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mf">1.5</span><span class="p">]</span> <span class="c1"># =&gt; ここは実行されない。
+</span><span class="k">end</span>
+  
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span> <span class="o">|</span>pstore<span class="o">|</span>
+  pstore<span class="p">[</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">]</span>       <span class="c1"># =&gt; nil
+</span><span class="k">end</span>
+</code></pre>
 </dd>
 
 
@@ -340,23 +340,22 @@ transaction ブロックから抜け、データベースの変更が反映さ�
 トランザクション外でこのメソッドが呼び出された場合に発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'pstore'
-db = PStore.new(&quot;/tmp/foo&quot;)
-db.transaction do
-  p db.roots       # =&gt; []
-  ary = db[&quot;root&quot;] = [1,2,3,4]
-  db.commit
-  ary[0] = [1,1.5] # =&gt; ここは実行されない。
-end
-
-db.transaction do |pstore|
-  pstore[&quot;root&quot;]       # =&gt; [[1, 2, 3, 4]
-end
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'pstore'</span>
+db <span class="o">=</span> <span class="no">PStore</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/foo</span><span class="s2">"</span><span class="p">)</span>
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  <span class="nb">p</span> db<span class="p">.</span><span class="nf">roots</span>       <span class="c1"># =&gt; []
+</span>  ary <span class="o">=</span> db<span class="p">[</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span>,<span class="mi">4</span><span class="p">]</span>
+  db<span class="p">.</span><span class="nf">commit</span>
+  ary<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mf">1.5</span><span class="p">]</span> <span class="c1"># =&gt; ここは実行されない。
+</span><span class="k">end</span>
+  
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span> <span class="o">|</span>pstore<span class="o">|</span>
+  pstore<span class="p">[</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">]</span>       <span class="c1"># =&gt; [[1, 2, 3, 4]
+</span><span class="k">end</span>
+</code></pre>
 </dd>
 
 
@@ -379,23 +378,22 @@ end
 トランザクション外でこのメソッドが呼び出された場合に発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'pstore'
-db = PStore.new(&quot;/tmp/foo&quot;)
-db.transaction do
-  p db.roots       # =&gt; []
-  ary = db[&quot;root&quot;] = [1,2,3,4]
-  ary[0] = [1,1.5]
-end
-
-db.transaction do |pstore|
-  pstore.delete(&quot;root&quot;)       # =&gt; [[1, 1.5], 2, 3, 4]
-  pstore.delete(&quot;root&quot;)       # =&gt; nil
-end
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'pstore'</span>
+db <span class="o">=</span> <span class="no">PStore</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/foo</span><span class="s2">"</span><span class="p">)</span>
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  <span class="nb">p</span> db<span class="p">.</span><span class="nf">roots</span>       <span class="c1"># =&gt; []
+</span>  ary <span class="o">=</span> db<span class="p">[</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span>,<span class="mi">4</span><span class="p">]</span>
+  ary<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mf">1.5</span><span class="p">]</span>
+<span class="k">end</span>
+  
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span> <span class="o">|</span>pstore<span class="o">|</span>
+  pstore<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">)</span>       <span class="c1"># =&gt; [[1, 1.5], 2, 3, 4]
+</span>  pstore<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">)</span>       <span class="c1"># =&gt; nil
+</span><span class="k">end</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Hash/i/delete.html">Hash#delete</a>
 </p>
@@ -425,24 +423,23 @@ name に対応するルートが登録されていないかつ、
 default が与えられていない場合に発生します。また、トランザクション外でこのメソッドが呼び出された場合に発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'pstore'
-db = PStore.new(&quot;/tmp/foo&quot;)
-db.transaction do
-  p db.roots       # =&gt; []
-  ary = db[&quot;root&quot;] = [1,2,3,4]
-  ary[0] = [1,1.5]
-end
-
-db.transaction(true) do |pstore|
-  pstore.fetch(&quot;root&quot;)        # =&gt; [[1, 1.5], 2, 3, 4]
-  pstore.fetch(&quot;root&quot;, 'aaa') # =&gt; [[1, 1.5], 2, 3, 4]
-  pstore.fetch(&quot;not_root&quot;)    # =&gt; 例外発生
-end
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'pstore'</span>
+db <span class="o">=</span> <span class="no">PStore</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/foo</span><span class="s2">"</span><span class="p">)</span>
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  <span class="nb">p</span> db<span class="p">.</span><span class="nf">roots</span>       <span class="c1"># =&gt; []
+</span>  ary <span class="o">=</span> db<span class="p">[</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span>,<span class="mi">4</span><span class="p">]</span>
+  ary<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mf">1.5</span><span class="p">]</span>
+<span class="k">end</span>
+  
+db<span class="p">.</span><span class="nf">transaction</span><span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>pstore<span class="o">|</span>
+  pstore<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">)</span>        <span class="c1"># =&gt; [[1, 1.5], 2, 3, 4]
+</span>  pstore<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span>, <span class="s1">'aaa'</span><span class="p">)</span> <span class="c1"># =&gt; [[1, 1.5], 2, 3, 4]
+</span>  pstore<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s2">"</span><span class="s2">not_root</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; 例外発生
+</span><span class="k">end</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Hash/i/fetch.html">Hash#fetch</a>, <a href="../method/PStore/i/=5b=5d.html">PStore#[]</a>
 </p>
@@ -517,22 +514,21 @@ end
 read_only を真にしたときに、データベースを変更しようした場合に発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'pstore'
-db = PStore.new(&quot;/tmp/foo&quot;)
-db.transaction do
-  p db.roots       # =&gt; []
-  ary = db[&quot;root&quot;] = [1,2,3,4]
-  ary[0] = [1,1.5]
-end
-
-db.transaction(true) do |pstore|
-  pstore[&quot;root&quot;] = 'aaa' # =&gt; ここで例外発生
-end
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'pstore'</span>
+db <span class="o">=</span> <span class="no">PStore</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/foo</span><span class="s2">"</span><span class="p">)</span>
+db<span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+  <span class="nb">p</span> db<span class="p">.</span><span class="nf">roots</span>       <span class="c1"># =&gt; []
+</span>  ary <span class="o">=</span> db<span class="p">[</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span>,<span class="mi">4</span><span class="p">]</span>
+  ary<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>,<span class="mf">1.5</span><span class="p">]</span>
+<span class="k">end</span>
+  
+db<span class="p">.</span><span class="nf">transaction</span><span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>pstore<span class="o">|</span>
+  pstore<span class="p">[</span><span class="s2">"</span><span class="s2">root</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'aaa'</span> <span class="c1"># =&gt; ここで例外発生
+</span><span class="k">end</span>
+</code></pre>
 </dd>
 
 

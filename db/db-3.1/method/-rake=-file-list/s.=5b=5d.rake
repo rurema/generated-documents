@@ -15,6 +15,6 @@ require 'rake'
 file_list1 = FileList.new('lib/**/*.rb', 'test/test*.rb')
 file_list2 = FileList['lib/**/*.rb', 'test/test*.rb']
 
-file_list1 == file_list2 # => true
+p file_list1 == file_list2 # => true
 ```
 

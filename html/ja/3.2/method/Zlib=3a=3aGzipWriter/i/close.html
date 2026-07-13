@@ -93,34 +93,35 @@ finish の違いは <a href="../../../method/Zlib=3a=3aGzipFile/i/close.html">Zl
 <p>
 注意: Ruby の finalizer の制約のため、GzipWriter オブジェクトは必ずクローズしてください。そうしなければフッターを書き出すことができず、壊れた gzip ファイルを生成してしまう可能性があります。
 </p>
-<pre>
-require 'zlib'
-
-def case_finish
-  filename='hoge1.gz'
-  gz = Zlib::GzipWriter.open(filename, 9)
-  gz.puts &quot;hogehoge\n&quot; * 100
-  f = gz.finish
-  p f.atime
-  # 例
-  #=&gt; Sun Jul 06 15:43:57 +0900 2008
-end
-
-def case_close
-  filename='hoge1.gz'
-  gz = Zlib::GzipWriter.open(filename, 9)
-  gz.puts &quot;hogehoge\n&quot; * 100
-  f = gz.close
-  begin
-    p f.atime
-  rescue IOError =&gt; err
-    puts err #=&gt; closed stream
-  end
-end
-
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'zlib'</span>
+   
+<span class="k">def</span> <span class="nf">case_finish</span>
+  filename<span class="o">=</span><span class="s1">'hoge1.gz'</span>
+  gz <span class="o">=</span> <span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span>filename, <span class="mi">9</span><span class="p">)</span>
+  gz<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">hogehoge\n</span><span class="s2">"</span> <span class="o">*</span> <span class="mi">100</span>
+  f <span class="o">=</span> gz<span class="p">.</span><span class="nf">finish</span>
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">atime</span>
+  <span class="c1"># 例
+</span>  <span class="c1">#=&gt; Sun Jul 06 15:43:57 +0900 2008
+</span><span class="k">end</span>
+ 
+<span class="k">def</span> <span class="nf">case_close</span>
+  filename<span class="o">=</span><span class="s1">'hoge1.gz'</span>
+  gz <span class="o">=</span> <span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span>filename, <span class="mi">9</span><span class="p">)</span>
+  gz<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">hogehoge\n</span><span class="s2">"</span> <span class="o">*</span> <span class="mi">100</span>
+  f <span class="o">=</span> gz<span class="p">.</span><span class="nf">close</span>
+  <span class="k">begin</span>
+    <span class="nb">p</span> f<span class="p">.</span><span class="nf">atime</span>
+  <span class="k">rescue</span> <span class="no">IOError</span> <span class="o">=&gt;</span> err
+    <span class="nb">puts</span> err <span class="c1">#=&gt; closed stream
+</span>  <span class="k">end</span>
+<span class="k">end</span>
+ 
 case_finish
 case_close
-</pre>
+</code></pre>
 </dd>
 
 

@@ -16,9 +16,9 @@ TTY に対する出力状態を上書きします。
 
 task default: :test_rake_app
 task :test_rake_app do
-  Rake.application.tty_output?                 # => false
+  p Rake.application.tty_output?               # => false
   Rake.application.tty_output = "debug output" # => "debug output"
-  Rake.application.tty_output?                 # => "debug output"
+  p Rake.application.tty_output?               # => "debug output"
 end
 ```
 

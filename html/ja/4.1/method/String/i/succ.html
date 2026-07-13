@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -117,7 +117,7 @@ self にアルファベットや数字とそれ以外の文字が混在してい
 <span class="nb">p</span> <span class="s2">"</span><span class="s2">.</span><span class="s2">"</span><span class="p">.</span><span class="nf">succ</span>     <span class="c1"># =&gt; &quot;/&quot;
 </span></code></pre>
 <p>
-さらに、self が空文字列の場合は &quot;&quot; を返します。このメソッドはマルチバイト文字を意識せず、単に文字列をバイト列として扱います。
+さらに、self が空文字列の場合は &quot;&quot; を返します。このメソッドはエンコーディングを考慮して動作するため、マルチバイト文字であってもアルファベットや数字と同様に「次の」文字が計算されます。
 </p>
 <p>
 なお、succ と逆の動作をするメソッドはありません。また、succ という名前の由来は successor です。
@@ -141,8 +141,10 @@ self にアルファベットや数字とそれ以外の文字が混在してい
 </span>
 <span class="c1"># アルファベット・数字以外のみ
 </span><span class="nb">p</span> <span class="s2">"</span><span class="s2">.</span><span class="s2">"</span><span class="p">.</span><span class="nf">succ</span>     <span class="c1"># =&gt; &quot;/&quot;
-</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\0</span><span class="s2">"</span><span class="p">.</span><span class="nf">succ</span>    <span class="c1"># =&gt; &quot;\001&quot;
-</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\377</span><span class="s2">"</span><span class="p">.</span><span class="nf">succ</span>  <span class="c1"># =&gt; &quot;\001\000&quot;
+</span>
+<span class="c1"># マルチバイト文字にも対応
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">９９</span><span class="s2">"</span><span class="p">.</span><span class="nf">succ</span>  <span class="c1"># =&gt; &quot;１００&quot;
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">ん</span><span class="s2">"</span><span class="p">.</span><span class="nf">succ</span>    <span class="c1"># =&gt; &quot;ゔ&quot;
 </span></code></pre>
 <p>
 このメソッドは文字列の <a href="../../../class/Range.html">Range</a> の内部で使用されます。

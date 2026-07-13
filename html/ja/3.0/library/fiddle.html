@@ -91,26 +91,28 @@ dl は 2.0 以降deprecated となり、2.2.0 で削除されました。この�
 <a href="../class/Fiddle.html">Fiddle</a> モジュール自体はプリミティブな機能しか提供していません。
 <a href="../class/Fiddle=3a=3aImporter.html">Fiddle::Importer</a> モジュールは以下のようにユーザが定義したモジュールを拡張する形で使います。
 </p>
-<pre>
-require &quot;fiddle/import&quot;
-module M
-  extend Fiddle::Importer
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">fiddle/import</span><span class="s2">"</span>
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 以後、このモジュールで dlload や extern などのメソッドが使用できるようになります。以下のように dlload を使ってライブラリをロードし、使用したいライブラリ関数に対して extern メソッドを呼んでラッパーメソッドを定義します。
 </p>
-<pre>
-require &quot;fiddle/import&quot;
-module M
-  extend Fiddle::Importer
-  dlload &quot;libc.so.6&quot;,&quot;libm.so.6&quot;
-  extern &quot;int strlen(char*)&quot;
-end
-# Note that we should not include the module M from some reason.
-
-p M.strlen('abc') #=&gt; 3
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">fiddle/import</span><span class="s2">"</span>
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s2">"</span><span class="s2">libc.so.6</span><span class="s2">"</span>,<span class="s2">"</span><span class="s2">libm.so.6</span><span class="s2">"</span>
+  extern <span class="s2">"</span><span class="s2">int strlen(char*)</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="c1"># Note that we should not include the module M from some reason.
+</span>  
+<span class="nb">p</span> <span class="no">M</span><span class="p">.</span><span class="nf">strlen</span><span class="p">(</span><span class="s1">'abc'</span><span class="p">)</span> <span class="c1">#=&gt; 3
+</span></code></pre>
 <p>
 M.strlen を使用することで、ライブラリ関数 strlen() を使用できます。
 </p>
@@ -119,23 +121,24 @@ M.strlen を使用することで、ライブラリ関数 strlen() を使用で�
 構造体も扱うことができます。たとえば <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/gettimeofday.html">gettimeofday(2)</a>
 を使って現在時刻を得たい場合は以下のとおりです。
 </p>
-<pre>
-require 'fiddle/import'
-module M
-  extend Fiddle::Importer
-  dlload &quot;libc.so.6&quot;
-  extern('int gettimeofday(void *, void *)')
-  Timeval = struct( [&quot;long tv_sec&quot;,
-                     &quot;long tv_usec&quot;])
-end
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s2">"</span><span class="s2">libc.so.6</span><span class="s2">"</span>
+  extern<span class="p">(</span><span class="s1">'int gettimeofday(void *, void *)'</span><span class="p">)</span>
+  <span class="no">Timeval</span> <span class="o">=</span> struct<span class="p">(</span> <span class="p">[</span><span class="s2">"</span><span class="s2">long tv_sec</span><span class="s2">"</span>,
+                     <span class="s2">"</span><span class="s2">long tv_usec</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
+<span class="k">end</span>
+ 
+timeval <span class="o">=</span> <span class="no">M</span><span class="o">::</span><span class="no">Timeval</span><span class="p">.</span><span class="nf">malloc</span>
+e <span class="o">=</span> <span class="no">M</span><span class="p">.</span><span class="nf">gettimeofday</span><span class="p">(</span>timeval, <span class="k">nil</span><span class="p">)</span>
 
-timeval = M::Timeval.malloc
-e = M.gettimeofday(timeval, nil)
-
-if e == 0
- p timeval.tv_sec #=&gt; 1173519547
-end
-</pre>
+<span class="k">if</span> e <span class="o">==</span> <span class="mi">0</span>
+ <span class="nb">p</span> timeval<span class="p">.</span><span class="nf">tv_sec</span> <span class="c1">#=&gt; 1173519547
+</span><span class="k">end</span>
+</code></pre>
 <p>
 上の例で、メモリの割り当てに M::Timeval.new ではなく
 M::Timeval.malloc を使用していることに注意してください。
@@ -144,22 +147,23 @@ M::Timeval.malloc を使用していることに注意してください。
 <p>
 以下のようにモジュール関数 bind を使用したコールバックを定義できます。
 </p>
-<pre>
-require 'fiddle/import'
-module M
-  extend Fiddle::Importer
-  dlload &quot;libc.so.6&quot;
-  QsortCallback = bind(&quot;void *qsort_callback2(void*,void*)&quot;){|ptr1,ptr2|
-    ptr1[0] &lt;=&gt; ptr2[0]
-  }
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+<span class="k">module</span> <span class="nn">M</span> 
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s2">"</span><span class="s2">libc.so.6</span><span class="s2">"</span>
+  <span class="no">QsortCallback</span> <span class="o">=</span> bind<span class="p">(</span><span class="s2">"</span><span class="s2">void *qsort_callback2(void*,void*)</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>ptr1,ptr2<span class="o">|</span> 
+    ptr1<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=&gt;</span> ptr2<span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="p">}</span>
   type
-  extern 'void qsort(void *, int, int, void *)'
-end
+  extern <span class="s1">'void qsort(void *, int, int, void *)'</span>
+<span class="k">end</span>
 
-buff = &quot;3465721&quot;
-M.qsort(buff, buff.size, 1, M::QsortCallback)
-p buff #=&gt;   &quot;1234567&quot;
-</pre>
+buff <span class="o">=</span> <span class="s2">"</span><span class="s2">3465721</span><span class="s2">"</span>
+<span class="no">M</span><span class="p">.</span><span class="nf">qsort</span><span class="p">(</span>buff, buff<span class="p">.</span><span class="nf">size</span>, <span class="mi">1</span>, <span class="no">M</span><span class="o">::</span><span class="no">QsortCallback</span><span class="p">)</span>
+<span class="nb">p</span> buff <span class="c1">#=&gt;   &quot;1234567&quot;
+</span></code></pre>
 <p>
 ここで M::QsortCallback はブロックを呼ぶ <a href="../class/Fiddle=3a=3aFunction.html">Fiddle::Function</a> オブジェクトです。
 </p>
@@ -167,34 +171,36 @@ p buff #=&gt;   &quot;1234567&quot;
 <p>
 fiddle においては、文字列/整数/<a href="../class/Fiddle=3a=3aPointer.html">Fiddle::Pointer</a>をポインタとして扱うことができます。文字列をポインタ引数として渡すと文字列のメモリ領域を指すポインタとして扱われます。
 </p>
-<pre>
-require 'fiddle/import'
-
-module M
-  extend Fiddle::Importer
-  dlload 'libc.so.6'
-  extern 'void * memmove(void *, void *, unsigned long)'
-end
-
-s = 'xxxyyyzzz'
-M.memmove(s, 'abc', 3)
-p s                    #=&gt; &quot;abcyyyzzz&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span> 
+ 
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s1">'libc.so.6'</span>
+  extern <span class="s1">'void * memmove(void *, void *, unsigned long)'</span>
+<span class="k">end</span>
+ 
+s <span class="o">=</span> <span class="s1">'xxxyyyzzz'</span>
+<span class="no">M</span><span class="p">.</span><span class="nf">memmove</span><span class="p">(</span>s, <span class="s1">'abc'</span>, <span class="mi">3</span><span class="p">)</span>
+<span class="nb">p</span> s                    <span class="c1">#=&gt; &quot;abcyyyzzz&quot;
+</span></code></pre>
 <p>
 char * 以外の型のポインタを受け取る関数に対しても文字列を渡します。
 </p>
-<pre>
-require &quot;fiddle/import&quot;
-module M
-  extend Fiddle::Importer
-  dlload 'libm.so.6'
-  extern 'double modf(double, double *)'
-end
-
-s = ' ' * 8
-p M2.modf(1.25, s)  #=&gt; 0.25
-p s.unpack('d')[0]  #=&gt; 1.0
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">fiddle/import</span><span class="s2">"</span>
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s1">'libm.so.6'</span>
+  extern <span class="s1">'double modf(double, double *)'</span>
+<span class="k">end</span> 
+ 
+s <span class="o">=</span> <span class="s1">' '</span> <span class="o">*</span> <span class="mi">8</span>
+<span class="nb">p</span> <span class="no">M2</span><span class="p">.</span><span class="nf">modf</span><span class="p">(</span><span class="mf">1.25</span>, s<span class="p">)</span>  <span class="c1">#=&gt; 0.25
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s1">'d'</span><span class="p">)</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1">#=&gt; 1.0
+</span></code></pre>
 <h3 >関数の引数と返り値</h3>
 <p>
 fiddle でインポートした C の関数を呼び出すとき、その引数と返り値はインポートする際に指定した型と

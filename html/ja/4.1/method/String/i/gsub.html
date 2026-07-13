@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -86,6 +86,8 @@
 <p>
 置換文字列 replace 中の \&amp; と \0 はマッチした部分文字列に、
 \1 ... \9 は n 番目の括弧の内容に置き換えられます。置換文字列内では \`、\'、\+ も使えます。これらは <a href="../../../method/Kernel/v/=60.html">$`</a>、<a href="../../../method/Kernel/v/=27.html">$'</a>、<a href="../../../method/Kernel/v/=2b.html">$+</a> に対応します。
+pattern が名前付きキャプチャを含む正規表現である場合は、
+\k&lt;name&gt; の形式でその名前に対応する部分文字列に置き換えられます。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>pattern</code>:</dt>
@@ -104,6 +106,7 @@ pattern で指定した文字列と置き換える文字列
 </span><span class="nb">p</span> <span class="s1">'abcabc'</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="sr">/b/</span>, <span class="s1">'&lt;&lt;\&amp;&gt;&gt;'</span><span class="p">)</span>         <span class="c1"># =&gt; &quot;a&lt;&lt;b&gt;&gt;ca&lt;&lt;b&gt;&gt;c&quot;
 </span><span class="nb">p</span> <span class="s1">'xxbbxbb'</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="sr">/x+(b+)/</span>, <span class="s1">'X&lt;&lt;\1&gt;&gt;'</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;X&lt;&lt;bb&gt;&gt;X&lt;&lt;bb&gt;&gt;&quot;
 </span><span class="nb">p</span> <span class="s1">'2.5'</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="s1">'.'</span>, <span class="s1">','</span><span class="p">)</span> <span class="c1"># =&gt; &quot;2,5&quot;
+</span><span class="nb">p</span> <span class="s1">'foo'</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="sr">/(?&lt;name&gt;fo)/</span>, <span class="s1">'match: \k&lt;name&gt;'</span><span class="p">)</span> <span class="c1"># =&gt; &quot;match: foo&quot;
 </span></code></pre>
 <p>
 注意:

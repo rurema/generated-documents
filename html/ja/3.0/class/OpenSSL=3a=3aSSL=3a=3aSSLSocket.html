@@ -137,32 +137,33 @@
 <p>
 SSL/TLS サーバに接続して write します。
 </p>
-<pre>
-require 'socket'
-require 'openssl'
-include OpenSSL
-
-ctx = SSL::SSLContext.new
-ctx.set_params(verify_mode: OpenSSL::SSL::VERIFY_PEER, verify_hostname: true)
-
-soc = TCPSocket.new('www.example.com', 443)
-ssl = SSL::SSLSocket.new(soc, ctx)
-ssl.hostname = 'www.example.com' # SNI
-ssl.connect
-ssl.post_connection_check('www.example.com')
-raise &quot;verification error&quot; if ssl.verify_result != OpenSSL::X509::V_OK
-print ssl.peer_cert.to_text
-
-# HTTP リクエストを送信
-ssl.write(&quot;GET / HTTP/1.1\r\n&quot;)
-ssl.write(&quot;Host: www.example.com\r\n&quot;)
-ssl.write(&quot;Connection: close\r\n&quot;)
-ssl.write(&quot;\r\n&quot;)
-print ssl.read
-
-ssl.close
-soc.close
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+include <span class="no">OpenSSL</span>
+  
+ctx <span class="o">=</span> <span class="no">SSL</span><span class="o">::</span><span class="no">SSLContext</span><span class="p">.</span><span class="nf">new</span>
+ctx<span class="p">.</span><span class="nf">set_params</span><span class="p">(</span><span class="ss">verify_mode:</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">VERIFY_PEER</span>, <span class="ss">verify_hostname:</span> <span class="k">true</span><span class="p">)</span>
+  
+soc <span class="o">=</span> <span class="no">TCPSocket</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'www.example.com'</span>, <span class="mi">443</span><span class="p">)</span>
+ssl <span class="o">=</span> <span class="no">SSL</span><span class="o">::</span><span class="no">SSLSocket</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>soc, ctx<span class="p">)</span>
+ssl<span class="p">.</span><span class="nf">hostname</span> <span class="o">=</span> <span class="s1">'www.example.com'</span> <span class="c1"># SNI
+</span>ssl<span class="p">.</span><span class="nf">connect</span>
+ssl<span class="p">.</span><span class="nf">post_connection_check</span><span class="p">(</span><span class="s1">'www.example.com'</span><span class="p">)</span>
+<span class="nb">raise</span> <span class="s2">"</span><span class="s2">verification error</span><span class="s2">"</span> <span class="k">if</span> ssl<span class="p">.</span><span class="nf">verify_result</span> <span class="o">!=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">V_OK</span>
+<span class="nb">print</span> ssl<span class="p">.</span><span class="nf">peer_cert</span><span class="p">.</span><span class="nf">to_text</span>
+  
+<span class="c1"># HTTP リクエストを送信
+</span>ssl<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">GET / HTTP/1.1\r\n</span><span class="s2">"</span><span class="p">)</span>
+ssl<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">Host: www.example.com\r\n</span><span class="s2">"</span><span class="p">)</span>
+ssl<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">Connection: close\r\n</span><span class="s2">"</span><span class="p">)</span>
+ssl<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">\r\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span> ssl<span class="p">.</span><span class="nf">read</span>
+  
+ssl<span class="p">.</span><span class="nf">close</span>
+soc<span class="p">.</span><span class="nf">close</span>
+</code></pre>
 
 
 
@@ -649,9 +650,10 @@ IO が読み込み待ち、もしくは書き込み待ちになった場合は�
 <p>
 返される配列の形式は以下の例のように [暗号名, TLS/SSLのバージョン, 鍵長, アルゴリズムで使われる bit 数] となります。
 </p>
-<pre>
-[&quot;DES-CBC3-SHA&quot;, &quot;TLSv1/SSLv3&quot;, 168, 168]
-</pre>
+<pre class="highlight text">
+<code>
+["DES-CBC3-SHA", "TLSv1/SSLv3", 168, 168]
+</code></pre>
 <p>
 <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/connect.html">OpenSSL::SSL::SSLSocket#connect</a> や <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/accept.html">OpenSSL::SSL::SSLSocket#accept</a>
 で SSL/TLS ハンドシェイクを行う前にこのメソッドを呼ぶと nil を返します。
@@ -803,9 +805,10 @@ SSLSocket オブジェクトを生成する時に渡されたソケットを返�
 <p>
 以下の順の配列を返します。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 [接続相手の証明書, 下位CAの証明書,... 中間CAの証明書]
-</pre>
+</code></pre>
 <p>
 ルート CA の証明書は含まれないことに注意してください。
 </p>

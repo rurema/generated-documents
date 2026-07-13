@@ -20,19 +20,19 @@ dl は 2.0 以降deprecated となり、2.2.0 で削除されました。この�
 [c:Fiddle::Importer] モジュールは以下のようにユーザが定義した
 モジュールを拡張する形で使います。
 
-`````
+```ruby
 require "fiddle/import"
 module M
   extend Fiddle::Importer
 end
-`````
+```
 
 以後、このモジュールで dlload や extern などのメソッドが使用できるようになります。
 以下のように dlload を使ってライブラリをロードし、
 使用したいライブラリ関数に対して extern メソッドを呼んで
 ラッパーメソッドを定義します。
 
-`````
+```ruby
 require "fiddle/import"
 module M
   extend Fiddle::Importer
@@ -42,7 +42,7 @@ end
 # Note that we should not include the module M from some reason.
   
 p M.strlen('abc') #=> 3
-`````
+```
 
 M.strlen を使用することで、ライブラリ関数 strlen() を使用できます。
 
@@ -51,7 +51,7 @@ M.strlen を使用することで、ライブラリ関数 strlen() を使用で�
 構造体も扱うことができます。たとえば [man:gettimeofday(2)]
 を使って現在時刻を得たい場合は以下のとおりです。
 
-````
+```ruby
 require 'fiddle/import'
 module M
   extend Fiddle::Importer
@@ -67,7 +67,7 @@ e = M.gettimeofday(timeval, nil)
 if e == 0
  p timeval.tv_sec #=> 1173519547
 end
-````
+```
 
 上の例で、メモリの割り当てに M::Timeval.new ではなく
 M::Timeval.malloc を使用していることに注意してください。
@@ -76,7 +76,7 @@ M::Timeval.malloc を使用していることに注意してください。
 
 以下のようにモジュール関数 bind を使用したコールバックを定義できます。
 
-`````
+```ruby
 require 'fiddle/import'
 module M 
   extend Fiddle::Importer
@@ -91,7 +91,7 @@ end
 buff = "3465721"
 M.qsort(buff, buff.size, 1, M::QsortCallback)
 p buff #=>   "1234567"
-`````
+```
 
 ここで M::QsortCallback はブロックを呼ぶ [c:Fiddle::Function] オブジェクトです。
 
@@ -103,7 +103,7 @@ fiddle においては、文字列/整数/[c:Fiddle::Pointer]をポインタと�
 文字列をポインタ引数として渡すと文字列のメモリ領域を指す
 ポインタとして扱われます。
 
-````
+```ruby
 require 'fiddle/import' 
  
 module M
@@ -115,11 +115,11 @@ end
 s = 'xxxyyyzzz'
 M.memmove(s, 'abc', 3)
 p s                    #=> "abcyyyzzz"
-````
+```
 
 char * 以外の型のポインタを受け取る関数に対しても文字列を渡します。
 
-````
+```ruby
 require "fiddle/import"
 module M
   extend Fiddle::Importer
@@ -130,7 +130,7 @@ end
 s = ' ' * 8
 p M2.modf(1.25, s)  #=> 0.25
 p s.unpack('d')[0]  #=> 1.0
-````
+```
 
 #### 関数の引数と返り値
 fiddle でインポートした C の関数を呼び出すとき、

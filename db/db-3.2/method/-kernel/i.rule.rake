@@ -9,10 +9,9 @@ source_location=manual/api/rake/Kernel.md
 
 - **param** `args` -- ルールに与えるパラメータを指定します。
 
-例:
-`````
+```ruby title="例"
 rule '.o' => '.c' do |t|
   sh %{cc -o #{t.name} #{t.source}}
 end
-`````
+```
 

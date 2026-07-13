@@ -13,5 +13,5 @@ source_location=manual/api/rake/Rake__DefaultLoader.md
 require 'rake'
 
 loader = Rake::DefaultLoader.new
-loader.load("path/to/Rakefile") # => true
+p loader.load("path/to/Rakefile") # => true
 ```

@@ -93,36 +93,37 @@ flush に <a href="../../../method/Zlib/c/NO_FLUSH.html">Zlib::NO_FLUSH</a> を�
 <a href="../../../method/Zlib/c/NO_FLUSH.html">Zlib::NO_FLUSH</a> <a href="../../../method/Zlib/c/SYNC_FLUSH.html">Zlib::SYNC_FLUSH</a> <a href="../../../method/Zlib/c/FULL_FLUSH.html">Zlib::FULL_FLUSH</a> などを指定します。
 </dd>
 </dl>
-<pre>
-require 'zlib'
-
-def case1
-  filename='hoge1.gz'
-  fw = File.open(filename, &quot;w&quot;)
-  Zlib::GzipWriter.wrap(fw, Zlib::BEST_COMPRESSION){|gz|
-    gz.puts &quot;fuga&quot;
-    gz.puts &quot;ugo&quot;
-  }
-  p File.read(filename)
-end
-
-def case2
-  filename='hoge1.gz'
-  fw = File.open(filename, &quot;w&quot;)
-  Zlib::GzipWriter.wrap(fw, Zlib::BEST_COMPRESSION){|gz|
-    gz.puts &quot;fuga&quot;
-    gz.flush
-    gz.puts &quot;ugo\n&quot;
-    gz.flush
-  }
-  p File.read(filename)
-end
-
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'zlib'</span>
+ 
+<span class="k">def</span> <span class="nf">case1</span>
+  filename<span class="o">=</span><span class="s1">'hoge1.gz'</span>
+  fw <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span>filename, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span>
+  <span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">wrap</span><span class="p">(</span>fw, <span class="no">Zlib</span><span class="o">::</span><span class="no">BEST_COMPRESSION</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>gz<span class="o">|</span>
+    gz<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">fuga</span><span class="s2">"</span>
+    gz<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">ugo</span><span class="s2">"</span>
+  <span class="p">}</span>
+  <span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>filename<span class="p">)</span>
+<span class="k">end</span>
+   
+<span class="k">def</span> <span class="nf">case2</span>
+  filename<span class="o">=</span><span class="s1">'hoge1.gz'</span>
+  fw <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span>filename, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span>
+  <span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">wrap</span><span class="p">(</span>fw, <span class="no">Zlib</span><span class="o">::</span><span class="no">BEST_COMPRESSION</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>gz<span class="o">|</span>
+    gz<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">fuga</span><span class="s2">"</span>
+    gz<span class="p">.</span><span class="nf">flush</span>
+    gz<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">ugo\n</span><span class="s2">"</span>
+    gz<span class="p">.</span><span class="nf">flush</span>
+  <span class="p">}</span>
+  <span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>filename<span class="p">)</span>
+<span class="k">end</span>
+ 
 case1
-#=&gt; &quot;\037\213\b\000p\257pH\002\003K+MO\344*M\317\347\002\000&lt;\326\000\371\t\000\000\000&quot;
-case2
-#=&gt; &quot;\037\213\b\000p\257pH\002\003J+MO\344\002\000\000\000\377\377*M\317\347\002\000\000\000\377\377\003\000&lt;\326\000\371\t\000\000\000&quot;
-</pre>
+<span class="c1">#=&gt; &quot;\037\213\b\000p\257pH\002\003K+MO\344*M\317\347\002\000&lt;\326\000\371\t\000\000\000&quot;
+</span>case2
+<span class="c1">#=&gt; &quot;\037\213\b\000p\257pH\002\003J+MO\344\002\000\000\000\377\377*M\317\347\002\000\000\000\377\377\003\000&lt;\326\000\371\t\000\000\000&quot;
+</span></code></pre>
 </dd>
 
 

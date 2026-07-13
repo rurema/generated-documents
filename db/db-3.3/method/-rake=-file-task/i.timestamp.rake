@@ -13,7 +13,7 @@ source_location=manual/api/rake/Rake__FileTask.md
 task default: "test.txt"
 file "test.txt" do |task|
   Rake.application.options.build_all = false
-  task.timestamp # => #<Rake::LateTime:0x2ba58f0>
+  p task.timestamp # => #<Rake::LateTime:0x2ba58f0>
 end
 ```
 

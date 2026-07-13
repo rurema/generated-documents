@@ -13,7 +13,7 @@ source_location=manual/api/rake/RakeFileUtils.md
 task default: :sample_file_task
 
 file :sample_file_task do |t|
-  RakeFileUtils.nowrite_flag # => false
+  p RakeFileUtils.nowrite_flag # => false
 end
 ```
 

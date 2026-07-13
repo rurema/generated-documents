@@ -16,7 +16,7 @@ task :test_rake_app do
   file_list.exclude("test.rb")
   # DEFAULT_IGNORE_PATTERNS と "test.rb" の双方の除外がクリアされる
   file_list.clear_exclude
-  file_list # => ["test.rb", "test.bak"]
+  p file_list # => ["test.rb", "test.bak"]
 end
 ```
 

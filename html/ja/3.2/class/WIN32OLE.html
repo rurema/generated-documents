@@ -161,15 +161,16 @@ excel.quit
 WIN32OLEはシングルスレッドモードでCOMとインターフェイスします。このため、
 ruby 1.9以降のRubyのThreadとネイティブスレッドが1対1で対応する実行環境ではスレッドをまたがる呼び出しはエラーとなります。
 </p>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-Thread.start do
-  workbook = excel.Workbooks.Open('workbook.xls') #=&gt; HRESULT error code:0x800401f0
-  workbook.PrintOut
-  workbook.Close(:SaveChanges =&gt; false)
-end.join
-excel.Quit
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">start</span> <span class="k">do</span>
+  workbook <span class="o">=</span> excel<span class="p">.</span><span class="no">Workbooks</span><span class="p">.</span><span class="no">Open</span><span class="p">(</span><span class="s1">'workbook.xls'</span><span class="p">)</span> <span class="c1">#=&gt; HRESULT error code:0x800401f0
+</span>  <span class="nf">workbook</span><span class="p">.</span><span class="no">PrintOut</span>
+  <span class="nf">workbook</span><span class="p">.</span><span class="no">Close</span><span class="p">(</span><span class="ss">:SaveChanges</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">)</span>
+<span class="k">end</span><span class="p">.</span><span class="nf">join</span>
+<span class="nf">excel</span><span class="p">.</span><span class="no">Quit</span>
+</code></pre>
 <p>
 発生するエラーはThreadの実行方法によって
 0x800401f0（CO_E_NOTINITIALIZED）または0x8001010e（RPC_E_WRONG_THREAD）です。
@@ -319,9 +320,10 @@ Encoding.default_internalがnilの場合はEncoding.default_externalによって
 WIN32OLEがオートメーション呼び出しの文字列変換に利用するコードページを返します。
 </dd>
 </dl>
-<pre>
-WIN32OLE.codepage   # =&gt; 932 （日本語Windowsの既定値）
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">codepage</span> <span class="c1"># =&gt; 932 （日本語Windowsの既定値）
+</span></code></pre>
 </dd>
 
 
@@ -340,9 +342,10 @@ Encoding.default_internalまたはEncoding.default_externalから適切なコー
 コードページを指定します。
 </dd>
 </dl>
-<pre>
-WIN32OLE.codepage = WIN32OLE::CP_UTF8
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">codepage</span> <span class="o">=</span> <span class="no">WIN32OLE</span><span class="o">::</span><span class="no">CP_UTF8</span>
+</code></pre>
 </dd>
 
 
@@ -368,9 +371,10 @@ ole引数で特定されるWIN32OLEオブジェクトを返します。
 オートメーションサーバの呼び出しに失敗しました。理由はメッセージのHRESULTを調べてください。
 </dd>
 </dl>
-<pre>
-WIN32OLE.connect('Excel.Application') # =&gt; WIN32OLE object which represents running Excel.
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span> <span class="c1"># =&gt; WIN32OLE object which represents running Excel.
+</span></code></pre>
 <dl>
 <dt><code>PROGID</code></dt>
 <dd>
@@ -430,32 +434,31 @@ OLEオートメーションの定数は通常、VBのコード規約に準じて
 <p>
 また、先頭が英字で始まらない定数については、CONSTANTSハッシュに登録されます。この場合、元の定数名がキーとなります。
 </p>
-<pre>
-module EXCEL_CONST
-end
-
-excel = WIN32OLE.new('Excel.Application')
-WIN32OLE.const_load(excel, EXCEL_CONST)
-puts EXCEL_CONST::XlTop # =&gt; -4160
-puts EXCEL_CONST::CONSTANTS['_xlDialogChartSourceData'] # =&gt; 541
-</pre>
-<p>
-モジュール名を省略した例
-</p>
-<pre>
-WIN32OLE.const_load(excel)
-puts WIN32OLE::XlTop # =&gt; -4160
-</pre>
-<p>
-タイプライブラリ名を指定した例
-</p>
-<pre>
-module MSO
-end
-
-WIN32OLE.const_load('Microsoft Office 9.0 Object Library', MSO)
-puts MSO::MsoLineSingle # =&gt; 1
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">module</span> <span class="nn">EXCEL_CONST</span>
+<span class="k">end</span>
+ 
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+<span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">const_load</span><span class="p">(</span>excel, <span class="no">EXCEL_CONST</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="no">EXCEL_CONST</span><span class="o">::</span><span class="no">XlTop</span> <span class="c1"># =&gt; -4160
+</span><span class="nb">puts</span> <span class="no">EXCEL_CONST</span><span class="o">::</span><span class="no">CONSTANTS</span><span class="p">[</span><span class="s1">'_xlDialogChartSourceData'</span><span class="p">]</span> <span class="c1"># =&gt; 541
+</span></code></pre>
+<span class="caption">モジュール名を省略した例</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">const_load</span><span class="p">(</span>excel<span class="p">)</span>
+<span class="nb">puts</span> <span class="no">WIN32OLE</span><span class="o">::</span><span class="no">XlTop</span> <span class="c1"># =&gt; -4160
+</span></code></pre>
+<span class="caption">タイプライブラリ名を指定した例</span>
+<pre class="highlight ruby">
+<code>
+<span class="k">module</span> <span class="nn">MSO</span>
+<span class="k">end</span>
+ 
+<span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">const_load</span><span class="p">(</span><span class="s1">'Microsoft Office 9.0 Object Library'</span>, <span class="no">MSO</span><span class="p">)</span> 
+<span class="nb">puts</span> <span class="no">MSO</span><span class="o">::</span><span class="no">MsoLineSingle</span> <span class="c1"># =&gt; 1
+</span></code></pre>
 </dd>
 
 
@@ -471,18 +474,20 @@ GUIDは、COMのクラス識別子(CLSID)、インターフェイス識別子(II
 WIN32OLEが生成するGUIDは以下の形式によるGUIDの文字列表現です。なお00〜
 FFはGUIDの先頭からのバイト位置を示します。これはレジストリのキーとして利用される形式です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 {33221100-5544-7766-8899-AABBCCDDEEFF}
-</pre>
+</code></pre>
 <dl>
 <dt>[RETURN]</dt>
 <dd>
 GUIDの文字列表現を返します。
 </dd>
 </dl>
-<pre>
-WIN32OLE.create_guid   # =&gt; &quot;{????????-????-????-????-????????????}&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">create_guid</span> <span class="c1"># =&gt; &quot;{????????-????-????-????-????????????}&quot;
+</span></code></pre>
 </dd>
 
 
@@ -506,9 +511,10 @@ WIN32OLEがオートメーション呼び出し時に設定するロケール識
 (LCID)を返します。
 </dd>
 </dl>
-<pre>
-lcid = WIN32OLE.locale
-</pre>
+<pre class="highlight ruby">
+<code>
+lcid <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">locale</span>
+</code></pre>
 </dd>
 
 
@@ -532,10 +538,11 @@ OLEオートメーションでは、UNIXで利用される&quot;ja_JP&quot;な�
 システムにインストールされていないロケールを指定すると発生します。
 </dd>
 </dl>
-<pre>
-WIN32OLE.locale = 1033 # set locale English(U.S)
-obj = WIN32OLE_VARIANT.new(&quot;$100,000&quot;, WIN32OLE::VARIANT::VT_CY)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">locale</span> <span class="o">=</span> <span class="mi">1033</span> <span class="c1"># set locale English(U.S)
+</span>obj <span class="o">=</span> <span class="no">WIN32OLE_VARIANT</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">$100,000</span><span class="s2">"</span>, <span class="no">WIN32OLE</span><span class="o">::</span><span class="no">VARIANT</span><span class="o">::</span><span class="no">VT_CY</span><span class="p">)</span>
+</code></pre>
 <p>
 オブジェクトがサポートしていないロケールを設定した場合、オブジェクトのメソッド呼び出し時にDISP_E_UNKNOWNLCID(HRESULT error code:0x8002000C)や、TYPE_E_INVDATAREAD(HRESULT error code:0x80028018)などを理由としたWIN32OLERuntimeError例外となります。ほとんどすべての場合において、既定値を変更する必要はありません。
 </p>
@@ -571,11 +578,12 @@ hostで指定したホスト上のserver引数で指定したWIN32OLEオブジ�
 オートメーションサーバの呼び出しに失敗しました。理由はメッセージのHRESULTを調べてください。
 </dd>
 </dl>
-<pre>
-WIN32OLE.new('Excel.Application') # =&gt; Excel OLE Automation WIN32OLE object.
-
-WIN32OLE.new('{00024500-0000-0000-C000-000000000046}') # =&gt; Excel OLE Automation WIN32OLE object.
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span> <span class="c1"># =&gt; Excel OLE Automation WIN32OLE object.
+</span>
+<span class="nb">p</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'{00024500-0000-0000-C000-000000000046}'</span><span class="p">)</span> <span class="c1"># =&gt; Excel OLE Automation WIN32OLE object.
+</span></code></pre>
 </dd>
 
 
@@ -651,11 +659,12 @@ obj引数にヘルプファイルのフルパス名を設定した場合は
 help file <code>ファイル名</code>) に通知します。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-typeobj = excel.ole_obj_help
-WIN32OLE.ole_show_help(typeobj) if typeobj.helpfile
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+typeobj <span class="o">=</span> excel<span class="p">.</span><span class="nf">ole_obj_help</span>
+<span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">ole_show_help</span><span class="p">(</span>typeobj<span class="p">)</span> <span class="k">if</span> typeobj<span class="p">.</span><span class="nf">helpfile</span>
+</code></pre>
 </dd>
 
 
@@ -689,10 +698,11 @@ OLEオートメーション規約ではItemと命名することが決められ�
 プロパティ値を返します。
 </dd>
 </dl>
-<pre>
-fsys = WIN32OLE.new('Scripting.FileSystemObject')
-fsys.Drives[:c].FreeSpace #=&gt; Cドライブの空き容量
-</pre>
+<pre class="highlight ruby">
+<code>
+fsys <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Scripting.FileSystemObject'</span><span class="p">)</span>
+<span class="nb">p</span> fsys<span class="p">.</span><span class="no">Drives</span><span class="p">[</span><span class="ss">:c</span><span class="p">]</span><span class="p">.</span><span class="no">FreeSpace</span> <span class="c1">#=&gt; Cドライブの空き容量
+</span></code></pre>
 </dd>
 
 
@@ -724,13 +734,14 @@ WIN32OLEからデフォルトプロパティにアクセスするには、[]内�
 オートメーションサーバの呼び出しに失敗しました。理由はメッセージのHRESULTを調べてください。
 </dd>
 </dl>
-<pre>
-dict = WIN32OLE.new('Scripting.Dictionary')
-dict[:a] = 0x41
-dict[:b] = 0x42
-dict[:a] #=&gt; 65
-dict[:b] #=&gt; 66
-</pre>
+<pre class="highlight ruby">
+<code>
+dict <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Scripting.Dictionary'</span><span class="p">)</span>
+dict<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0x41</span>
+dict<span class="p">[</span><span class="ss">:b</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0x42</span>
+<span class="nb">p</span> dict<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="c1">#=&gt; 65
+</span><span class="nb">p</span> dict<span class="p">[</span><span class="ss">:b</span><span class="p">]</span> <span class="c1">#=&gt; 66
+</span></code></pre>
 </dd>
 
 
@@ -826,28 +837,31 @@ COMアーリーバインディングを利用して外部プロセスサーバ�
 オートメーションサーバの呼び出しに失敗しました。理由はメッセージのHRESULTを調べてください。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-excel._invoke(302, [], []) #  DISPID 302は、Quitメソッド
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+excel<span class="p">.</span><span class="nf">_invoke</span><span class="p">(</span><span class="mi">302</span>, <span class="p">[</span><span class="p">]</span>, <span class="p">[</span><span class="p">]</span><span class="p">)</span> <span class="c1">#  DISPID 302は、Quitメソッド
+</span></code></pre>
 <p>
 MFCの制約により、バイト配列の型情報は通常
 <a href="../method/WIN32OLE=3a=3aVARIANT/c/VT_VARIANT.html">WIN32OLE::VARIANT::VT_VARIANT</a>となります。このような場合に、バイト配列を与えるつもりで
 </p>
-<pre>
-include WIN32OLE::VARIANT
-obj.method(DISPID, [[0, 1, 2, 3]], [VT_VARIANT])
-</pre>
+<pre class="highlight ruby">
+<code>
+include <span class="no">WIN32OLE</span><span class="o">::</span><span class="no">VARIANT</span>
+obj<span class="p">.</span><span class="nf">method</span><span class="p">(</span><span class="no">DISPID</span>, <span class="p">[</span><span class="p">[</span><span class="mi">0</span>, <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">]</span>, <span class="p">[</span><span class="no">VT_VARIANT</span><span class="p">]</span><span class="p">)</span>
+</code></pre>
 <p>
 のように記述すると、単に32ビット整数（VT_I4）の配列が送られることになり空間効率が低下します。
 </p>
 <p>
 引数の最終的な型がわかっている場合は、下記の例のように型指定パラメータには実際の型を指定してください。
 </p>
-<pre>
-include WIN32OLE::VARIANT
-obj.method(DISPID, [[0, 1, 2, 3]], [VT_BYREF | VT_ARRAY | VT_UI1])
-</pre>
+<pre class="highlight ruby">
+<code>
+include <span class="no">WIN32OLE</span><span class="o">::</span><span class="no">VARIANT</span>
+obj<span class="p">.</span><span class="nf">method</span><span class="p">(</span><span class="no">DISPID</span>, <span class="p">[</span><span class="p">[</span><span class="mi">0</span>, <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">]</span>, <span class="p">[</span><span class="no">VT_BYREF</span> <span class="o">|</span> <span class="no">VT_ARRAY</span> <span class="o">|</span> <span class="no">VT_UI1</span><span class="p">]</span><span class="p">)</span>
+</code></pre>
 <p>
 なお、VB6で作成したCOMコンポーネントのパラメータに配列を与える場合は、
 <a href="../method/WIN32OLE=3a=3aVARIANT/c/VT_BYREF.html">WIN32OLE::VARIANT::VT_BYREF</a>の指定が必須です。
@@ -932,16 +946,17 @@ OLEオートメーションサーバの中には、コレクション用イン�
 selfが列挙インターフェイスをサポートしていない場合に通知します。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-book = excel.workbooks.add
-sheets = book.worksheets(1)
-cells = sheets.cells(&quot;A1:A5&quot;)
-cells.each do |cell|
-  cell.value = 10
-end
-excel.Quit
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+book <span class="o">=</span> excel<span class="p">.</span><span class="nf">workbooks</span><span class="p">.</span><span class="nf">add</span>
+sheets <span class="o">=</span> book<span class="p">.</span><span class="nf">worksheets</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+cells <span class="o">=</span> sheets<span class="p">.</span><span class="nf">cells</span><span class="p">(</span><span class="s2">"</span><span class="s2">A1:A5</span><span class="s2">"</span><span class="p">)</span>
+cells<span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>cell<span class="o">|</span>
+  cell<span class="p">.</span><span class="nf">value</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">end</span>
+excel<span class="p">.</span><span class="no">Quit</span>
+</code></pre>
 </dd>
 
 
@@ -1052,11 +1067,12 @@ ActiveXコントロール（OCX）は、主にUI用に利用されるOLEオー�
 オブジェクトがActiveXコントロールの永続化インターフェイスを持たない場合に通知します。
 </dd>
 </dl>
-<pre>
-obj = WIN32OLE.new(&quot;ProgID_or_GUID_of_ActiveX_Control&quot;)
+<pre class="highlight text">
+<code>
+obj = WIN32OLE.new("ProgID_or_GUID_of_ActiveX_Control")
 obj.ole_activex_initialize
 obj.method(...)
-</pre>
+</code></pre>
 <p>
 なお、生成したOLEオートメーションサーバが永続化データの初期化を必要とするActiveXコントロールか、そうでないかを簡単に区別する方法はありません。そのため、とりあえず普通にメソッドを呼び出し、その結果
 WIN32OLERuntimeErrorが通知され、メッセージにHRESULT 0x8000ffffと示されている場合にのみ、オブジェクト生成直後に当メソッドを呼び出してみてください。
@@ -1075,35 +1091,38 @@ selfが参照するCOMオブジェクトを解放します。
 <p>
 selfが参照するCOMオブジェクトのIUnknown::Releaseを呼び出すことで、COMオブジェクトを開放します。ole_freeを呼び出した後は、このオブジェクトに対する操作は行えません。
 </p>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-excel.ole_free  # オブジェクトの解放
-excel.Quit      #=&gt; RuntimeError (failed to get Dispatch Interface)
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+excel<span class="p">.</span><span class="nf">ole_free</span>  <span class="c1"># オブジェクトの解放
+</span>excel<span class="p">.</span><span class="no">Quit</span>      <span class="c1">#=&gt; RuntimeError (failed to get Dispatch Interface)
+</span></code></pre>
 <p>
 通常は利用されなくなったWIN32OLEオブジェクトはGCのタイミングで自動的に解放されるため、当メソッドを呼び出す必要はありません。Officeのような外部プロセスサーバ呼び出し時に、スクリプト終了後もサーバが解放されない場合に強制的にサーバを終了するために当メソッドを利用できます。ただし、現実には途中で生成される子オブジェクトからの逆参照などがあるため、
 WIN32OLEがIUnknown::Releaseを呼び出してもオブジェクトが解放されるとは限りません。
 </p>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-workbook = excel.Workbooks.Open('workbook.xls')
-workbook.Close(:SaveChanges =&gt; false)
-workbook.ole_free
-excel.ole_free
-# この時点でExcel.EXEは終了しない
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+workbook <span class="o">=</span> excel<span class="p">.</span><span class="no">Workbooks</span><span class="p">.</span><span class="no">Open</span><span class="p">(</span><span class="s1">'workbook.xls'</span><span class="p">)</span> 
+<span class="nf">workbook</span><span class="p">.</span><span class="no">Close</span><span class="p">(</span><span class="ss">:SaveChanges</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">)</span>
+<span class="nf">workbook</span><span class="p">.</span><span class="nf">ole_free</span>
+excel<span class="p">.</span><span class="nf">ole_free</span>
+<span class="c1"># この時点でExcel.EXEは終了しない
+</span></code></pre>
 <p>
 上の例では、excel.Workbooks.Openの行で、excel.Workbooksオブジェクトが生成されています。しかし、後続の処理で該当オブジェクトが解放されていないため、Workbooksオブジェクトによって参照されているexcelオブジェクトは解放されません。それに対して下の例では正しく解放されます。
 </p>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-books = excel.Workbooks
-workbook = books.Open('workbook.xls')
-books.ole_free
-workbook.Close(:SaveChanges =&gt; false)
-workbook.ole_free
-excel.ole_free
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+books <span class="o">=</span> excel<span class="p">.</span><span class="no">Workbooks</span>
+<span class="nf">workbook</span> <span class="o">=</span> books<span class="p">.</span><span class="no">Open</span><span class="p">(</span><span class="s1">'workbook.xls'</span><span class="p">)</span>
+<span class="nf">books</span><span class="p">.</span><span class="nf">ole_free</span>
+workbook<span class="p">.</span><span class="no">Close</span><span class="p">(</span><span class="ss">:SaveChanges</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">)</span>
+workbook<span class="p">.</span><span class="nf">ole_free</span>
+excel<span class="p">.</span><span class="nf">ole_free</span>
+</code></pre>
 </dd>
 
 
@@ -1125,16 +1144,17 @@ ole_func_methodsメソッドは、OLEオートメーションサーバのメソ�
 オートメーションサーバの呼び出しに失敗しました。型情報ライブラリ(TypeLib)が提供されていない場合などに発生します。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-excel.visible = true
-excel.ole_func_methods.each do |fun|
-  if fun.name.upcase == 'QUIT'
-    excel._invoke(fun.dispid, [], [])
-    break
-  end
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+excel<span class="p">.</span><span class="nf">visible</span> <span class="o">=</span> <span class="k">true</span>
+excel<span class="p">.</span><span class="nf">ole_func_methods</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>fun<span class="o">|</span>
+  <span class="k">if</span> fun<span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">upcase</span> <span class="o">==</span> <span class="s1">'QUIT'</span>
+    excel<span class="p">.</span><span class="nf">_invoke</span><span class="p">(</span>fun<span class="p">.</span><span class="nf">dispid</span>, <span class="p">[</span><span class="p">]</span>, <span class="p">[</span><span class="p">]</span><span class="p">)</span>
+    <span class="k">break</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/WIN32OLE/i/ole_methods.html">WIN32OLE#ole_methods</a>, <a href="../method/WIN32OLE/i/ole_get_methods.html">WIN32OLE#ole_get_methods</a>,
 <a href="../method/WIN32OLE/i/ole_put_methods.html">WIN32OLE#ole_put_methods</a>
@@ -1160,16 +1180,17 @@ ole_get_methodsメソッドは、OLEオートメーションサーバのメソ�
 オートメーションサーバの呼び出しに失敗しました。型情報ライブラリ(TypeLib)が提供されていない場合などに発生します。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-excel.ole_get_methods.each do |prop|
-  begin
-    puts &quot;#{prop.name}=#{excel._getproperty(prop.dispid, [], [])}&quot;
-  rescue WIN32OLERuntimeError
-    puts &quot;can't read #{prop.name} property&quot;
-  end
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+excel<span class="p">.</span><span class="nf">ole_get_methods</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>prop<span class="o">|</span>
+  <span class="k">begin</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">prop</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">=</span><span class="si">#{</span><span class="n">excel</span><span class="p">.</span><span class="nf">_getproperty</span><span class="p">(</span><span class="n">prop</span><span class="p">.</span><span class="nf">dispid</span>, <span class="p">[</span><span class="p">]</span>, <span class="p">[</span><span class="p">]</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">rescue</span> <span class="no">WIN32OLERuntimeError</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="s2">can't read </span><span class="si">#{</span><span class="n">prop</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2"> property</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/WIN32OLE/i/ole_methods.html">WIN32OLE#ole_methods</a>, <a href="../method/WIN32OLE/i/ole_func_methods.html">WIN32OLE#ole_func_methods</a>,
 <a href="../method/WIN32OLE/i/ole_put_methods.html">WIN32OLE#ole_put_methods</a>
@@ -1200,10 +1221,11 @@ OLEオートメーションの仕様により、メソッド名の大文字、�
 指定したメソッド名が未定義あるいは型情報ライブラリ(TypeLib)が提供されていない場合などに発生します。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-method = excel.ole_method_help('Quit')
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+<span class="nb">method</span> <span class="o">=</span> excel<span class="p">.</span><span class="nf">ole_method_help</span><span class="p">(</span><span class="s1">'Quit'</span><span class="p">)</span>
+</code></pre>
 </dd>
 
 
@@ -1225,10 +1247,11 @@ ole_methodsメソッドは、OLEオートメーションサーバが提供する
 オートメーションサーバの呼び出しに失敗しました。型情報ライブラリ(TypeLib)が提供されていない場合などに発生します。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-methods = excel.ole_methods
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+<span class="nb">methods</span> <span class="o">=</span> excel<span class="p">.</span><span class="nf">ole_methods</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/WIN32OLE/i/ole_func_methods.html">WIN32OLE#ole_func_methods</a>, <a href="../method/WIN32OLE/i/ole_put_methods.html">WIN32OLE#ole_put_methods</a>
 </p>
@@ -1250,10 +1273,11 @@ methods = excel.ole_methods
 オブジェクトに関連する<a href="../class/WIN32OLE_TYPE.html">WIN32OLE_TYPE</a>オブジェクトを返します。オブジェクトがドキュメント情報を持たない場合はnilを返します。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-tobj = excel.ole_obj_help
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+tobj <span class="o">=</span> excel<span class="p">.</span><span class="nf">ole_obj_help</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../class/WIN32OLE_TYPE.html">WIN32OLE_TYPE</a>
 </p>
@@ -1278,10 +1302,11 @@ ole_put_methodsメソッドは、OLEオートメーションサーバのメソ�
 オートメーションサーバの呼び出しに失敗しました。型情報ライブラリ(TypeLib)が提供されていない場合などに発生します。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-properties = excel.ole_put_methods
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+properties <span class="o">=</span> excel<span class="p">.</span><span class="nf">ole_put_methods</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/WIN32OLE/i/ole_methods.html">WIN32OLE#ole_methods</a>, <a href="../method/WIN32OLE/i/ole_func_methods.html">WIN32OLE#ole_func_methods</a>,
 <a href="../method/WIN32OLE/i/ole_get_methods.html">WIN32OLE#ole_get_methods</a>
@@ -1311,10 +1336,11 @@ iidパラメータで指定したインターフェイスを持つWIN32OLEオブ
 指定したIIDをオブジェクトが持たない場合に通知されます。
 </dd>
 </dl>
-<pre>
-ie = WIN32OLE.new('InternetExplorer.Application')
-ie_web_app = ie.ole_query_interface('{0002DF05-0000-0000-C000-000000000046}')
-</pre>
+<pre class="highlight ruby">
+<code>
+ie <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'InternetExplorer.Application'</span><span class="p">)</span>
+ie_web_app <span class="o">=</span> ie<span class="p">.</span><span class="nf">ole_query_interface</span><span class="p">(</span><span class="s1">'{0002DF05-0000-0000-C000-000000000046}'</span><span class="p">)</span>
+</code></pre>
 <p>
 上例のie_web_appは、ieと同じインスタンスとなります。
 </p>
@@ -1346,21 +1372,22 @@ Solutionインターフェイスを返すことになっているため、静的
 <p>
 なお、サポートしているインターフェイスのバージョンを調べたい場合に、以下のような方法で、インターフェイスのバージョンを調べることができます。
 </p>
-<pre>
-def check_solution_version(obj)
-  [['{CDA7305C-78B6-4D9D-90AD-93EBE71F9341}', 4],
-   ['{DF23915F-FDA3-4DD5-9CAA-2E1372C2BB16}', 3],
-   ['{FA238614-FBB1-4314-A7F7-49AE8BB6C6BA}', 2]].each do |iid, ver|
-    begin
-      intf = obj.ole_query_interface(iid)
-      intf.ole_free
-      return ver
-    rescue WIN32OLERuntimeError
-    end
-  end
-  1
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">check_solution_version</span><span class="p">(</span>obj<span class="p">)</span>
+  <span class="p">[</span><span class="p">[</span><span class="s1">'{CDA7305C-78B6-4D9D-90AD-93EBE71F9341}'</span>, <span class="mi">4</span><span class="p">]</span>,
+   <span class="p">[</span><span class="s1">'{DF23915F-FDA3-4DD5-9CAA-2E1372C2BB16}'</span>, <span class="mi">3</span><span class="p">]</span>,
+   <span class="p">[</span><span class="s1">'{FA238614-FBB1-4314-A7F7-49AE8BB6C6BA}'</span>, <span class="mi">2</span><span class="p">]</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>iid, ver<span class="o">|</span>
+    <span class="k">begin</span>
+      intf <span class="o">=</span> obj<span class="p">.</span><span class="nf">ole_query_interface</span><span class="p">(</span>iid<span class="p">)</span>
+      intf<span class="p">.</span><span class="nf">ole_free</span>
+      <span class="k">return</span> ver
+    <span class="k">rescue</span> <span class="no">WIN32OLERuntimeError</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="mi">1</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 しかし、ole_query_interfaceのような特異なメソッドを利用するよりも、
 WIN32OLE.new('VisualStudio.DTE.8.0') のように生成時にバージョン番号（この例では8.0）を指定するほうが良いスタイルです。
@@ -1392,11 +1419,12 @@ OLEオートメーションサーバが引数で指定した名前のメソッ�
 nameで指定したメソッドをオブジェクトが提供していれば真を返します。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-excel.ole_respond_to?(:quit) #=&gt; true
-excel.ole_respond_to?(:exit) #=&gt; false
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+<span class="nb">p</span> excel<span class="p">.</span><span class="nf">ole_respond_to?</span><span class="p">(</span><span class="ss">:quit</span><span class="p">)</span> <span class="c1">#=&gt; true
+</span><span class="nb">p</span> excel<span class="p">.</span><span class="nf">ole_respond_to?</span><span class="p">(</span><span class="ss">:exit</span><span class="p">)</span> <span class="c1">#=&gt; false
+</span></code></pre>
 </dd>
 
 
@@ -1422,11 +1450,12 @@ OLEオートメーションでは型情報ライブラリの提供方法を問�
 オートメーションサーバの呼び出しに失敗しました。型情報ライブラリ(TypeLib)が提供されていない場合などに発生します。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-tlib = excel.ole_typelib
-puts tlib.name  # =&gt; 'Microsoft Excel 9.0 Object Library'
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+tlib <span class="o">=</span> excel<span class="p">.</span><span class="nf">ole_typelib</span>
+<span class="nb">puts</span> tlib<span class="p">.</span><span class="nf">name</span>  <span class="c1"># =&gt; 'Microsoft Excel 9.0 Object Library'
+</span></code></pre>
 </dd>
 
 
@@ -1470,9 +1499,10 @@ OLEオートメーションのプロパティはRubyの属性と異なり、パ�
 <p>
 これはVBでは次のように記述できます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 sheet.Cells(1, 1) = sheet.Cells(1, 2) ' セルB1の内容をセルA1へ
-</pre>
+</code></pre>
 <p>
 Rubyでは上記のコードの右辺をVBと同じく「sheet.Cells(1, 2)」のように記述できますが、左辺の記述はできません。
 </p>
@@ -1506,16 +1536,17 @@ Rubyのメソッド引数は値のみを取るため、そのままでは呼び�
 <p>
 以下のリストは、VBで開発したオブジェクトのメソッド呼び出しを例としています。このメソッド（Accm）は、第1引数で指定した演算を第2引数と第3引数に適用し、結果を第2引数に設定します。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 ' VB (OLE Automation server)
 Public Sub Accm(ByVal Operator, ByRef Accumulator, ByVal Operand)
-    If Operator = &quot;*&quot; Then
+    If Operator = "*" Then
         Accmulator = Accmulator * Operand
-    Else If Operator = &quot;+&quot; Then
+    Else If Operator = "+" Then
         Accmulator = Accmulator + Operand
     End If
 End Sub
-
+ 
 # Ruby
 x = 10
 obj.Accm '*', x, 11
@@ -1523,11 +1554,12 @@ p x               # =&gt; 10 …… 呼び出しによって影響を受けな�
 p WIN32OLE::ARGV  # =&gt; ['*', 110, 11] …… 結果はARGVの対応する引数に反映される
 obj.Accm '+', 10, 11
 p WIN32OLE::ARGV  # =&gt; ['+', 21, 11]
-</pre>
+</code></pre>
 <p>
 直前のメソッド呼び出しが例外となった場合、ARGVの設定内容は呼び出し前の状態が保たれます。つまり、WIN32OLE自身がARGVの内容を消去するのは、メソッド呼び出しに成功した場合のみです。このため最後のメソッド呼び出しが引数にオブジェクトを返すタイプのメソッドだった場合、GCにオブジェクトを回収させるために、呼び出し側でARGVを消去してください。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 ' VB (OLE Automation server)
 Public Sub GetInterface(ByRef obj)
     Set Obj = New OleObject
@@ -1536,7 +1568,7 @@ End Sub
 # Ruby
 obj.GetInterface nil   # 引数の数を合わせるためダミー引数を指定
 WIN32OLE::ARGV.clear   # 通常は、後続のメソッド呼び出しによって消去される
-</pre>
+</code></pre>
 </dd>
 
 

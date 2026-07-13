@@ -16,9 +16,8 @@ source_location=manual/api/rake/Kernel.md
 
 - **param** `filenames` -- インポートする Rakefile を指定します。
 
-例:
-``````
+```ruby title="例"
 import ".depend", "my_rules"
-``````
+```
 
 

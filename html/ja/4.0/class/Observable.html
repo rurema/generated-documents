@@ -112,71 +112,72 @@ Observable モジュールを include したクラスは
 <a href="../method/Observable/i/notify_observers.html">Observable#notify_observers</a> の引数はそのままオブザーバの update メソッドに渡されます。
 </p>
 <h2 >サンプルコード</h2>
-<pre>
-require &quot;observer&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">observer</span><span class="s2">"</span>
 
-class Ticker          ### Periodically fetch a stock price.
-  include Observable
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Ticker</span>          <span class="c1">### Periodically fetch a stock price.
+</span>  include <span class="no">Observable</span>
 
-  def initialize(symbol)
-    @symbol = symbol
-  end
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span>symbol<span class="p">)</span>
+    <span class="vi">@symbol</span> <span class="o">=</span> symbol
+  <span class="k">end</span>
 
-  def run
-    last_price = nil
-    loop do
-      price = Price.fetch(@symbol)
-      print &quot;Current price: #{price}\n&quot;
-      if price != last_price
-        changed                 # notify observers
-        last_price = price
-        notify_observers(Time.now, price)
-      end
-      sleep 1
-    end
-  end
-end
+  <span class="k">def</span> <span class="nf">run</span>
+    last_price <span class="o">=</span> <span class="k">nil</span>
+    <span class="nb">loop</span> <span class="k">do</span>
+      price <span class="o">=</span> <span class="no">Price</span><span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="vi">@symbol</span><span class="p">)</span>
+      <span class="nb">print</span> <span class="s2">"</span><span class="s2">Current price: </span><span class="si">#{</span><span class="n">price</span><span class="si">}</span><span class="s2">\n</span><span class="s2">"</span>
+      <span class="k">if</span> price <span class="o">!=</span> last_price
+        changed                 <span class="c1"># notify observers
+</span>        last_price <span class="o">=</span> price
+        notify_observers<span class="p">(</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span>, price<span class="p">)</span>
+      <span class="k">end</span>
+      <span class="nb">sleep</span> <span class="mi">1</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-class Price           ### A mock class to fetch a stock price (60 - 140).
-  def self.fetch(symbol)
-    60 + rand(80)
-  end
-end
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Price</span>           <span class="c1">### A mock class to fetch a stock price (60 - 140).
+</span>  <span class="k">def</span> <span class="nc">self</span><span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="nf">symbol</span><span class="p">)</span>
+    <span class="mi">60</span> <span class="o">+</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-class Warner          ### An abstract observer of Ticker objects.
-  def initialize(ticker, limit)
-    @limit = limit
-    ticker.add_observer(self)
-  end
-end
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Warner</span>          <span class="c1">### An abstract observer of Ticker objects.
+</span>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span>ticker, limit<span class="p">)</span>
+    <span class="vi">@limit</span> <span class="o">=</span> limit
+    ticker<span class="p">.</span><span class="nf">add_observer</span><span class="p">(</span><span class="nc">self</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-class WarnLow &lt; Warner
-  def update(time, price)       # callback for observer
-    if price &lt; @limit
-      print &quot;--- #{time.to_s}: Price below #@limit: #{price}\n&quot;
-    end
-  end
-end
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WarnLow</span> <span class="o">&lt;</span> <span class="no">Warner</span>
+  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span>time, price<span class="p">)</span>       <span class="c1"># callback for observer
+</span>    <span class="k">if</span> price <span class="o">&lt;</span> <span class="vi">@limit</span>
+      <span class="nb">print</span> <span class="s2">"</span><span class="s2">--- </span><span class="si">#{</span><span class="n">time</span><span class="p">.</span><span class="nf">to_s</span><span class="si">}</span><span class="s2">: Price below </span><span class="n">#</span><span class="vi">@limit</span><span class="s2">: </span><span class="si">#{</span><span class="n">price</span><span class="si">}</span><span class="s2">\n</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-class WarnHigh &lt; Warner
-  def update(time, price)       # callback for observer
-    if price &gt; @limit
-      print &quot;+++ #{time.to_s}: Price above #@limit: #{price}\n&quot;
-    end
-  end
-end
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WarnHigh</span> <span class="o">&lt;</span> <span class="no">Warner</span>
+  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span>time, price<span class="p">)</span>       <span class="c1"># callback for observer
+</span>    <span class="k">if</span> price <span class="o">&gt;</span> <span class="vi">@limit</span>
+      <span class="nb">print</span> <span class="s2">"</span><span class="s2">+++ </span><span class="si">#{</span><span class="n">time</span><span class="p">.</span><span class="nf">to_s</span><span class="si">}</span><span class="s2">: Price above </span><span class="n">#</span><span class="vi">@limit</span><span class="s2">: </span><span class="si">#{</span><span class="n">price</span><span class="si">}</span><span class="s2">\n</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-ticker = Ticker.new(&quot;MSFT&quot;)
-WarnLow.new(ticker, 80)
-WarnHigh.new(ticker, 120)
-ticker.run
+ticker <span class="o">=</span> <span class="no">Ticker</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">MSFT</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">WarnLow</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>ticker, <span class="mi">80</span><span class="p">)</span>
+<span class="no">WarnHigh</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>ticker, <span class="mi">120</span><span class="p">)</span>
+ticker<span class="p">.</span><span class="nf">run</span>
 
-# =&gt; Current price: 126
-# =&gt; +++ 2017-11-02 12:09:36 +0900: Price above 120: 126
-# =&gt; Current price: 102
-# =&gt; Current price: 87
-# =&gt; Current price: 121
-</pre>
+<span class="c1"># =&gt; Current price: 126
+</span><span class="c1"># =&gt; +++ 2017-11-02 12:09:36 +0900: Price above 120: 126
+</span><span class="c1"># =&gt; Current price: 102
+</span><span class="c1"># =&gt; Current price: 87
+</span><span class="c1"># =&gt; Current price: 121
+</span></code></pre>
 
 
 

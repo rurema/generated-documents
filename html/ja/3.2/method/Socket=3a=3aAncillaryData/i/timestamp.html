@@ -96,23 +96,24 @@
 <li>SOL_SOCKET/SCM_TIMESTAMPNS (nano second) GNU/Linux</li>
 <li>SOL_SOCKET/SCM_BINTIME (2**(-64) second) FreeBSD</li>
 </ul>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-Addrinfo.udp(&quot;127.0.0.1&quot;, 0).bind {|s1|
-  Addrinfo.udp(&quot;127.0.0.1&quot;, 0).bind {|s2|
-    s1.setsockopt(:SOCKET, :TIMESTAMP, true)
-    s2.send &quot;a&quot;, 0, s1.local_address
-    ctl = s1.recvmsg.last
-    p ctl
-    #=&gt; #&lt;Socket::AncillaryData: INET SOCKET TIMESTAMP 2009-02-24 17:35:46.775581&gt;
-    t = ctl.timestamp
-    p t      #=&gt; 2009-02-24 17:35:46 +0900
-    p t.usec #=&gt; 775581
-    p t.nsec #=&gt; 775581000
-  }
-}
-</pre>
+<span class="no">Addrinfo</span><span class="p">.</span><span class="nf">udp</span><span class="p">(</span><span class="s2">"</span><span class="s2">127.0.0.1</span><span class="s2">"</span>, <span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">bind</span> <span class="p">{</span><span class="o">|</span>s1<span class="o">|</span>
+  <span class="no">Addrinfo</span><span class="p">.</span><span class="nf">udp</span><span class="p">(</span><span class="s2">"</span><span class="s2">127.0.0.1</span><span class="s2">"</span>, <span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">bind</span> <span class="p">{</span><span class="o">|</span>s2<span class="o">|</span>
+    s1<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="ss">:SOCKET</span>, <span class="ss">:TIMESTAMP</span>, <span class="k">true</span><span class="p">)</span>
+    s2<span class="p">.</span><span class="nf">send</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="mi">0</span>, s1<span class="p">.</span><span class="nf">local_address</span>
+    ctl <span class="o">=</span> s1<span class="p">.</span><span class="nf">recvmsg</span><span class="p">.</span><span class="nf">last</span>
+    <span class="nb">p</span> ctl    
+    <span class="c1">#=&gt; #&lt;Socket::AncillaryData: INET SOCKET TIMESTAMP 2009-02-24 17:35:46.775581&gt;
+</span>    t <span class="o">=</span> ctl<span class="p">.</span><span class="nf">timestamp</span>
+    <span class="nb">p</span> t      <span class="c1">#=&gt; 2009-02-24 17:35:46 +0900
+</span>    <span class="nb">p</span> t<span class="p">.</span><span class="nf">usec</span> <span class="c1">#=&gt; 775581
+</span>    <span class="nb">p</span> t<span class="p">.</span><span class="nf">nsec</span> <span class="c1">#=&gt; 775581000
+</span>  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/Socket=3a=3aConstants/c/SCM_TIMESTAMP.html">Socket::Constants::SCM_TIMESTAMP</a>,
 <a href="../../../method/Socket=3a=3aConstants/c/SCM_TIMESTAMPNS.html">Socket::Constants::SCM_TIMESTAMPNS</a>,

@@ -111,52 +111,50 @@ exception_class を指定した場合には <a href="../../../class/Timeout=3a=3
 &quot;execution expired&quot; になります.
 </dd>
 </dl>
-<p>
-例 長い計算のタイムアウト
-</p>
-<pre>
-require 'timeout'
+<span class="caption">例 長い計算のタイムアウト</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'timeout'</span>
 
-def calc_pi(min)
-  loop do
-    x = rand
-    y = rand
-    x**2 + y**2 &lt; 1.0 ?  min[0] += 1 : min[1] += 1
-  end
-end
+<span class="k">def</span> <span class="nf">calc_pi</span><span class="p">(</span>min<span class="p">)</span>
+  <span class="nb">loop</span> <span class="k">do</span>
+    x <span class="o">=</span> <span class="nb">rand</span>
+    y <span class="o">=</span> <span class="nb">rand</span>
+    x<span class="o">**</span><span class="mi">2</span> <span class="o">+</span> y<span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="o">?</span>  min<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">:</span> min<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+ 
+t <span class="o">=</span> <span class="mi">5</span>
+min <span class="o">=</span> <span class="p">[</span> <span class="mi">0</span>, <span class="mi">0</span><span class="p">]</span>
+<span class="k">begin</span>
+  <span class="no">Timeout</span><span class="p">.</span><span class="nf">timeout</span><span class="p">(</span>t<span class="p">)</span><span class="p">{</span>
+    calc_pi<span class="p">(</span>min<span class="p">)</span>
+  <span class="p">}</span>
+<span class="k">rescue</span> <span class="no">Timeout</span><span class="o">::</span><span class="no">Error</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">timeout</span><span class="s2">"</span>
+<span class="k">end</span>
 
-t = 5
-min = [ 0, 0]
-begin
-  Timeout.timeout(t){
-    calc_pi(min)
-  }
-rescue Timeout::Error
-  puts &quot;timeout&quot;
-end
+<span class="nb">printf</span> <span class="s2">"</span><span class="s2">%d: pi = %f\n</span><span class="s2">"</span>, min<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> min<span class="p">[</span><span class="mi">1</span><span class="p">]</span>, min<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">4.0</span><span class="o">/</span><span class="p">(</span>min<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span>min<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">)</span>
+<span class="c1">#例
+</span><span class="c1">#=&gt; 417519: pi = 3.141443
+</span></code></pre>
+<span class="caption">例 独自の例外を発生させるタイムアウト</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1">#!/usr/bin/env ruby
+</span>
+<span class="nb">require</span> <span class="s1">'timeout'</span>
 
-printf &quot;%d: pi = %f\n&quot;, min[0] + min[1], min[0]*4.0/(min[0]+min[1])
-#例
-#=&gt; 417519: pi = 3.141443
-</pre>
-<p>
-例 独自の例外を発生させるタイムアウト
-</p>
-<pre>
-#!/usr/bin/env ruby
-
-require 'timeout'
-
-class MYError &lt; Exception;end
-begin
-  Timeout.timeout(5, MYError) {
-    sleep(30)
-  }
-rescue MYError =&gt; err
-  puts &quot;MYError&quot;
-  puts err
-end
-</pre>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MYError</span> <span class="o">&lt;</span> <span class="no">Exception</span>;<span class="k">end</span>
+<span class="k">begin</span>
+  <span class="no">Timeout</span><span class="p">.</span><span class="nf">timeout</span><span class="p">(</span><span class="mi">5</span>, <span class="no">MYError</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="k">rescue</span> <span class="no">MYError</span> <span class="o">=&gt;</span> err
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">MYError</span><span class="s2">"</span>
+  <span class="nb">puts</span> err
+<span class="k">end</span>
+</code></pre>
 <h2 >注意</h2>
 <p>
 timeout による割り込みは Thread によって実現されています。
@@ -169,10 +167,9 @@ Socket などは DNSの名前解決に時間がかかった場合割り込めま
 <p>
 以下の例では、gethostbyname(およそ0.6秒処理に時間がかかっている) が終了した直後((A)の箇所)で Timeout::Error 例外があがっています。
 </p>
-<p>
-例 timeout が割り込めない
-</p>
-<pre>
+<span class="caption">例 timeout が割り込めない</span>
+<pre class="highlight text">
+<code>
 require 'timeout'
 require 'socket'
 
@@ -180,34 +177,33 @@ t = 0.1
 start = Time.now
 begin
   Timeout.timeout(t) {
-    p TCPSocket.gethostbyname(&quot;www.ruby-lang.org&quot;)
+    p TCPSocket.gethostbyname("www.ruby-lang.org")
     # (A)
   }
 ensure
   p Time.now - start
 end
 # 実行例
-=&gt; [&quot;helium.ruby-lang.org&quot;, [], 2, &quot;210.251.121.214&quot;]
+=&gt; ["helium.ruby-lang.org", [], 2, "210.251.121.214"]
    0.689331
    /usr/local/lib/ruby/1.6/timeout.rb:37: execution expired (Timeout::Error)
          from -:6:in `timeout'
          from -:6
 # gethostbyname が0.1秒かからない場合は例外が発生しないので
 # その場合は、t に小さい数値(0.000001のような)に変える。
-</pre>
+</code></pre>
 <p>
 timeout による割り込みは <a href="../../../method/Kernel/m/system.html">Kernel.#system</a> によって呼び出された外部プログラムをタイムアウトさせる事はできないので、<a href="../../../method/IO/s/popen.html">IO.popen</a>、<a href="../../../method/Kernel/m/open.html">Kernel.#open</a>を使用するなどの工夫が必要です。
 </p>
-<p>
-例 外部コマンドのタイムアウト
-</p>
-<pre>
-require 'timeout'
+<span class="caption">例 外部コマンドのタイムアウト</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'timeout'</span>
 
-# テスト用のシェルをつくる。
-File.open(&quot;loop.sh&quot;, &quot;w&quot;){|fp|
-  fp.print &lt;&lt;SHELL_EOT
-#!/bin/bash
+<span class="c1"># テスト用のシェルをつくる。
+</span><span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">loop.sh</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>fp<span class="o">|</span>
+  fp<span class="p">.</span><span class="nf">print</span> <span class="no">&lt;&lt;SHELL_EOT</span>
+<span class="sh">#!/bin/bash
 
 S=&quot;scale=10&quot;
 M=32767
@@ -229,33 +225,33 @@ do
     let m2++
   fi
 done
-SHELL_EOT
-}
+</span><span class="no">SHELL_EOT
+</span><span class="p">}</span>
 
-File.chmod(0755, &quot;loop.sh&quot;)
-t = 10 # 10 秒でタイムアウト
-begin
-  pid = nil
-  com = nil
-  Timeout.timeout(t) {
-    # system だととまらない
-    # system(&quot;./loop.sh&quot;)
-    com = IO.popen(&quot;./loop.sh&quot;)
-    pid = com.pid
-    while line = com.gets
-      print line
-    end
-  }
-rescue Timeout::Error =&gt; err
-  puts &quot;timeout: shell execution.&quot;
-  Process.kill('SIGINT', pid)
-  printf &quot;[result]\t%s&quot;, com.read
-  com.close unless com.nil?
-end
+<span class="no">File</span><span class="p">.</span><span class="nf">chmod</span><span class="p">(</span><span class="mi">0755</span>, <span class="s2">"</span><span class="s2">loop.sh</span><span class="s2">"</span><span class="p">)</span>
+t <span class="o">=</span> <span class="mi">10</span> <span class="c1"># 10 秒でタイムアウト
+</span><span class="k">begin</span>
+  pid <span class="o">=</span> <span class="k">nil</span>
+  com <span class="o">=</span> <span class="k">nil</span>
+  <span class="no">Timeout</span><span class="p">.</span><span class="nf">timeout</span><span class="p">(</span>t<span class="p">)</span> <span class="p">{</span>
+    <span class="c1"># system だととまらない
+</span>    <span class="c1"># system(&quot;./loop.sh&quot;)
+</span>    com <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">./loop.sh</span><span class="s2">"</span><span class="p">)</span>
+    pid <span class="o">=</span> com<span class="p">.</span><span class="nf">pid</span>
+    <span class="k">while</span> line <span class="o">=</span> com<span class="p">.</span><span class="nf">gets</span>
+      <span class="nb">print</span> line
+    <span class="k">end</span>
+  <span class="p">}</span>
+<span class="k">rescue</span> <span class="no">Timeout</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> err
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">timeout: shell execution.</span><span class="s2">"</span>
+  <span class="no">Process</span><span class="p">.</span><span class="nf">kill</span><span class="p">(</span><span class="s1">'SIGINT'</span>, pid<span class="p">)</span>
+  <span class="nb">printf</span> <span class="s2">"</span><span class="s2">[result]\t%s</span><span class="s2">"</span>, com<span class="p">.</span><span class="nf">read</span>
+  com<span class="p">.</span><span class="nf">close</span> <span class="k">unless</span> com<span class="p">.</span><span class="nf">nil?</span>
+<span class="k">end</span>
 
-#止まっているか確認する。
-#system(&quot;ps au&quot;)
-</pre>
+<span class="c1">#止まっているか確認する。
+</span><span class="c1">#system(&quot;ps au&quot;)
+</span></code></pre>
 </dd>
 
 

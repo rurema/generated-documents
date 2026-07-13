@@ -44,7 +44,7 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
 
   - プログラム開始時の$SAFEの値は0
   - 各スレッド固有ではなくなったので必要に応じて ensure で戻す
-```
+```ruby
       $SAFE = 0
       th = Thread.new do
         p $SAFE # => 0
@@ -56,7 +56,7 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
       p $SAFE # => 0
 ```
   - $SAFE の値を現在の値より小さく変更する事もできる
-```
+```console
       $ ruby -e '$SAFE = 1; $SAFE = 0'
 ```
 原則として、各セキュリティレベルにはそれ以下のセキュリティレベルの制限も
@@ -70,10 +70,10 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
 
    - IOや環境変数、コマンドライン引数(ARGV)から得られた文字列
 
-``````````
+```console
 $ ruby -e 'p ARGV[0].tainted?' hoge
 true
-``````````
+```
 
 環境変数PATHだけは例外で、値に危険なパスを含む場合のみ汚染されます。
 
@@ -100,7 +100,7 @@ CGI等でユーザからの入力を処理するのに適しています。
    - 汚染された文字列を引数とした以下の操作
 
       - [c:Dir], [c:IO], [c:File], [c:FileTest] のメソッド呼び出し
-```
+```console
           $ ruby -e '$SAFE = 1; open(ARGV[0])' hoge
           -e:1:in `initialize': Insecure operation - initialize (SecurityError)
                   from -e:1
@@ -135,7 +135,7 @@ CGI等でユーザからの入力を処理するのに適しています。
         (スクリプトがsetgid, setuidされている時も同様)
       - 以下のスイッチを使用できない
         (スクリプトがsetgid, setuidされている時も同様)
-```
+```text
           -s -S -e -r -i -I -x
 ```
    - setuid, setgid されたスクリプトは $SAFE = 1 以上で実行される。
@@ -152,7 +152,7 @@ $SAFE はスレッドローカルからグローバルになり、レベルを�
 プログラムの一部だけを高いセーフレベルで実行するには、以下のように ensure でセーフレベルを
 戻す必要があります。
 
-```
+```ruby
 def safe(level)
   result = nil
   Thread.start do

@@ -124,23 +124,25 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
 <li>プログラム開始時の$SAFEの値は0</li>
 <li>各スレッド固有ではなくなったので必要に応じて ensure で戻す</li>
 </ul>
-<pre>
-      $SAFE = 0
-      th = Thread.new do
-        p $SAFE # =&gt; 0
-        $SAFE = 1
-      ensure
-        $SAFE = 0
-      end
-      th.join
-      p $SAFE # =&gt; 0
-</pre>
+<pre class="highlight ruby">
+<code>
+      <span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">0</span>
+      th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+        <span class="nb">p</span> <span class="vg">$SAFE</span> <span class="c1"># =&gt; 0
+</span>        <span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="k">ensure</span>
+        <span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">end</span>
+      th<span class="p">.</span><span class="nf">join</span>
+      <span class="nb">p</span> <span class="vg">$SAFE</span> <span class="c1"># =&gt; 0
+</span></code></pre>
 <ul>
 <li>$SAFE の値を現在の値より小さく変更する事もできる</li>
 </ul>
-<pre>
-      $ ruby -e '$SAFE = 1; $SAFE = 0'
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">      $</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'$SAFE = 1; $SAFE = 0'</span>
+</code></pre>
 <p>
 原則として、各セキュリティレベルにはそれ以下のセキュリティレベルの制限も適用されます。たとえばレベル1で許されない操作はレベル2でも行えません。
 </p>
@@ -152,10 +154,11 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
 <ul>
 <li>IOや環境変数、コマンドライン引数(ARGV)から得られた文字列</li>
 </ul>
-<pre>
-$ ruby -e 'p ARGV[0].tainted?' hoge
-true
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'p ARGV[0].tainted?'</span> hoge
+<span class="go">true
+</span></code></pre>
 <p>
 環境変数PATHだけは例外で、値に危険なパスを含む場合のみ汚染されます。
 </p>
@@ -185,11 +188,12 @@ CGI等でユーザからの入力を処理するのに適しています。
 <ul>
 <li><a href="../class/Dir.html">Dir</a>, <a href="../class/IO.html">IO</a>, <a href="../class/File.html">File</a>, <a href="../class/FileTest.html">FileTest</a> のメソッド呼び出し</li>
 </ul>
-<pre>
-          $ ruby -e '$SAFE = 1; open(ARGV[0])' hoge
-          -e:1:in `initialize': Insecure operation - initialize (SecurityError)
+<pre class="highlight console">
+<code>
+<span class="gp">          $</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'$SAFE = 1; open(ARGV[0])'</span> hoge
+<span class="go">          -e:1:in `initialize': Insecure operation - initialize (SecurityError)
                   from -e:1
-</pre>
+</span></code></pre>
 <ul>
 <li>ファイルテスト演算子の使用、ファイルの更新時刻比較</li>
 <li>外部コマンド実行 (<a href="../method/Kernel/m/system.html">Kernel.#system</a>, <a href="../method/Kernel/m/exec.html">Kernel.#exec</a>, <a href="../method/Kernel/m/=60.html">Kernel.#`</a>, <a href="../method/Kernel/m/spawn.html">Kernel.#spawn</a> など)</li>
@@ -223,9 +227,10 @@ CGI等でユーザからの入力を処理するのに適しています。
 </ul>
 </li>
 </ul>
-<pre>
+<pre class="highlight text">
+<code>
           -s -S -e -r -i -I -x
-</pre>
+</code></pre>
 <ul>
 <li>setuid, setgid されたスクリプトは $SAFE = 1 以上で実行される。</li>
 <li><a href="../class/Proc.html">Proc</a> はその時点でのセーフレベルを記憶する。
@@ -239,22 +244,23 @@ false, nil は汚染されない。</li>
 <p>
 $SAFE はスレッドローカルからグローバルになり、レベルを低く変更する事もできるようになったため、プログラムの一部だけを高いセーフレベルで実行するには、以下のように ensure でセーフレベルを戻す必要があります。
 </p>
-<pre>
-def safe(level)
-  result = nil
-  Thread.start do
-    $SAFE = level
-    result = yield
-  ensure
-    $SAFE = 0
-  end.join
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">safe</span><span class="p">(</span>level<span class="p">)</span>
+  result <span class="o">=</span> <span class="k">nil</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">start</span> <span class="k">do</span>
+    <span class="vg">$SAFE</span> <span class="o">=</span> level
+    result <span class="o">=</span> <span class="k">yield</span>
+  <span class="k">ensure</span>
+    <span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">join</span>
   result
-end
+<span class="k">end</span>
 
-lib = &quot;insecure_library&quot;.taint # 外部から受け取った文字列(仮)
-safe(1) { require lib }        # $SAFE が 1 なので例外
-require lib                    # 外側は影響を受けない
-</pre>
+lib <span class="o">=</span> <span class="s2">"</span><span class="s2">insecure_library</span><span class="s2">"</span><span class="p">.</span><span class="nf">taint</span> <span class="c1"># 外部から受け取った文字列(仮)
+</span>safe<span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="nb">require</span> lib <span class="p">}</span>        <span class="c1"># $SAFE が 1 なので例外
+</span><span class="nb">require</span> lib                    <span class="c1"># 外側は影響を受けない
+</span></code></pre>
 <h2 >拡張ライブラリでの扱い</h2>
 <ul>
 <li>拡張ライブラリではオブジェクトの汚染状態を適切に伝播させる必要があります。</li>

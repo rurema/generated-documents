@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -96,27 +96,26 @@ Syslog.openやSyslog.close
 syslog がオープンされていない場合、発生します。
 </dd>
 </dl>
-<p>
-使用例
-</p>
-<pre>
-require 'syslog'
-include Syslog::Constants
-# ログの場所は実行環境によって異なる。詳しくはsyslog.conf を参照
-log = '/var/log/ftp.log'
+<span class="caption">使用例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'syslog'</span>
+include <span class="no">Syslog</span><span class="o">::</span><span class="no">Constants</span>
+<span class="c1"># ログの場所は実行環境によって異なる。詳しくはsyslog.conf を参照
+</span>log <span class="o">=</span> <span class="s1">'/var/log/ftp.log'</span>
 
-Syslog.open('ftpd', LOG_PID | LOG_NDELAY, LOG_FTP)
-Syslog.mask = Syslog::LOG_UPTO(LOG_ERR)
+<span class="no">Syslog</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'ftpd'</span>, <span class="no">LOG_PID</span> <span class="o">|</span> <span class="no">LOG_NDELAY</span>, <span class="no">LOG_FTP</span><span class="p">)</span>
+<span class="no">Syslog</span><span class="p">.</span><span class="nf">mask</span> <span class="o">=</span> <span class="no">Syslog</span><span class="o">::</span><span class="no">LOG_UPTO</span><span class="p">(</span><span class="no">LOG_ERR</span><span class="p">)</span>
 
-[ LOG_CRIT, LOG_ERR, LOG_WARNING,
-  LOG_NOTICE, LOG_INFO, LOG_DEBUG ].each_with_index { |c, i|
-  Syslog.log(c, &quot;test for syslog FTP #{c}, #{i}&quot;)
-}
-Syslog.close
-File.foreach(log){|line|
-  print line if line =~ /FTP/
-}
-</pre>
+<span class="p">[</span> <span class="no">LOG_CRIT</span>, <span class="no">LOG_ERR</span>, <span class="no">LOG_WARNING</span>,
+  <span class="no">LOG_NOTICE</span>, <span class="no">LOG_INFO</span>, <span class="no">LOG_DEBUG</span> <span class="p">]</span><span class="p">.</span><span class="nf">each_with_index</span> <span class="p">{</span> <span class="o">|</span>c, i<span class="o">|</span>
+  <span class="no">Syslog</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span>c, <span class="s2">"</span><span class="s2">test for syslog FTP </span><span class="si">#{</span><span class="n">c</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="no">Syslog</span><span class="p">.</span><span class="nf">close</span>
+<span class="no">File</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span>log<span class="p">)</span><span class="p">{</span><span class="o">|</span>line<span class="o">|</span>
+  <span class="nb">print</span> line <span class="k">if</span> line <span class="o">=~</span> <span class="sr">/FTP/</span>
+<span class="p">}</span>
+</code></pre>
 </dd>
 
 

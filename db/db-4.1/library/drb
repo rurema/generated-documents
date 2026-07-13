@@ -98,7 +98,7 @@ dRuby でインターネット上に公開するサービスを作るべきで�
 メソッドを外部から呼び出せるだけでなく、任意の Ruby のコードを実行できて
 しまいます。例えば以下のようなことができます。
 
-`````
+```ruby
 # !! 危険 !!
 ro = DRbObject.new_with_uri("druby://your.server.com:8989")
 class << ro
@@ -107,7 +107,7 @@ class << ro
   undef :instance_eval
 end
 ro.instance_eval("DANGEROUS RUBY CODE!")
-`````
+```
 
 このような instance_eval による危険性は [m:$SAFE] を 1
 にすることで防げます。
@@ -132,7 +132,7 @@ ro.instance_eval("DANGEROUS RUBY CODE!")
 先に動かしてください。
 
 #### サーバ側コード
-`````
+```ruby
 require 'drb/drb'
   
 # 通信を待ち受ける URI
@@ -153,10 +153,10 @@ FRONT_OBJECT=TimeServer.new
 DRb.start_service(SERVER_URI, FRONT_OBJECT, :safe_level => 1)
 # DRb のスレッドが終了するのを待つ
 DRb.thread.join
-`````
+```
 
 #### クライアント側コード
-`````
+```ruby
 require 'drb/drb'
   
 # 接続先の URI
@@ -170,4 +170,4 @@ DRb.start_service
 timeserver = DRbObject.new_with_uri(SERVER_URI)
 # リモートメソッドの呼び出し
 puts timeserver.get_current_time
-`````
+```

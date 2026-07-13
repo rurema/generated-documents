@@ -99,30 +99,29 @@
 <li>:return</li>
 <li>:noreason</li>
 </ul>
-<p>
-例:
-</p>
-<pre>
-def foo
-  proc { return 10 }
-end
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">foo</span>
+  <span class="nb">proc</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">10</span> <span class="p">}</span>
+<span class="k">end</span>
+  
+<span class="k">begin</span>
+  foo<span class="p">.</span><span class="nf">call</span>
+<span class="k">rescue</span> <span class="no">LocalJumpError</span> <span class="o">=&gt;</span> err
+  <span class="nb">p</span> err              <span class="c1"># =&gt; #&lt;LocalJumpError: return from block-closure&gt;
+</span>  <span class="nb">p</span> err<span class="p">.</span><span class="nf">reason</span>       <span class="c1"># =&gt; :return
+</span>  <span class="nb">p</span> err<span class="p">.</span><span class="nf">exit_value</span>   <span class="c1"># =&gt; 10
+</span><span class="k">end</span>
 
-begin
-  foo.call
-rescue LocalJumpError =&gt; err
-  p err              # =&gt; #&lt;LocalJumpError: return from block-closure&gt;
-  p err.reason       # =&gt; :return
-  p err.exit_value   # =&gt; 10
-end
-
-begin
-  Block.new { break 5 }.call
-rescue LocalJumpError =&gt; err
-  p err              # =&gt; #&lt;LocalJumpError: break from block-closure&gt;
-  p err.reason       # =&gt; :break
-  p err.exit_value   # =&gt; 5
-end
-</pre>
+<span class="k">begin</span>
+  <span class="no">Block</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="k">break</span> <span class="mi">5</span> <span class="p">}</span><span class="p">.</span><span class="nf">call</span>
+<span class="k">rescue</span> <span class="no">LocalJumpError</span> <span class="o">=&gt;</span> err
+  <span class="nb">p</span> err              <span class="c1"># =&gt; #&lt;LocalJumpError: break from block-closure&gt;
+</span>  <span class="nb">p</span> err<span class="p">.</span><span class="nf">reason</span>       <span class="c1"># =&gt; :break
+</span>  <span class="nb">p</span> err<span class="p">.</span><span class="nf">exit_value</span>   <span class="c1"># =&gt; 5
+</span><span class="k">end</span>
+</code></pre>
 </dd>
 
 

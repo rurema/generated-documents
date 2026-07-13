@@ -130,34 +130,35 @@ Zlib::GzipFile::LengthError 例外を発生させます。
 <a href="../../../class/Zlib=3a=3aGzipFile=3a=3aLengthError.html">Zlib::GzipFile::LengthError</a>を参照
 </dd>
 </dl>
-<pre>
-require 'zlib'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'zlib'</span>
 
-=begin
+<span class="cm">=begin
 # hoge.gz がない場合はこれで作成する。
 Zlib::GzipWriter.open('hoge.gz') { |gz|
   gz.print 'hogefuga'
 }
 =end
+</span>
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipReader</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span>
+  <span class="k">begin</span>
+    c1 <span class="o">=</span> gz<span class="p">.</span><span class="nf">getc</span>
+    c2 <span class="o">=</span> gz<span class="p">.</span><span class="nf">getc</span>
+    <span class="k">break</span> <span class="k">if</span> c2<span class="p">.</span><span class="nf">nil?</span>
+    <span class="nb">printf</span> <span class="s2">"</span><span class="s2">%c -&gt; %c\n</span><span class="s2">"</span>, c1, c2
+    gz<span class="p">.</span><span class="nf">ungetc</span><span class="p">(</span>c2<span class="p">)</span>
+  <span class="k">end</span> <span class="k">while</span> <span class="k">true</span>
+<span class="p">}</span>
 
-Zlib::GzipReader.open('hoge.gz') { |gz|
-  begin
-    c1 = gz.getc
-    c2 = gz.getc
-    break if c2.nil?
-    printf &quot;%c -&gt; %c\n&quot;, c1, c2
-    gz.ungetc(c2)
-  end while true
-}
-
-#=&gt; h -&gt; o
-#=&gt; o -&gt; g
-#=&gt; g -&gt; e
-#=&gt; e -&gt; f
-#=&gt; f -&gt; u
-#=&gt; u -&gt; g
-#=&gt; g -&gt; a
-</pre>
+<span class="c1">#=&gt; h -&gt; o
+</span><span class="c1">#=&gt; o -&gt; g
+</span><span class="c1">#=&gt; g -&gt; e
+</span><span class="c1">#=&gt; e -&gt; f
+</span><span class="c1">#=&gt; f -&gt; u
+</span><span class="c1">#=&gt; u -&gt; g
+</span><span class="c1">#=&gt; g -&gt; a
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/IO/i/ungetc.html">IO#ungetc</a>
 </p>

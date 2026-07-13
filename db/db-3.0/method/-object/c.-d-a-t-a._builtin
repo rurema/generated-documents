@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/_builtin/constants.md
 
 ### const DATA -> File
+
 スクリプトの `__END__`
 プログラムの終り以降をアクセスする [c:File] オブジェクト。
 
@@ -27,70 +28,73 @@ DATA 定数はそのデータ部分にアクセスするための [c:File] オ�
       ではなく実行されたファイル ([m:$0]) を指します。
 
 ### 例1
-```````
+
+```ruby
 print DATA.gets # => 故人西辞黄鶴楼
 print DATA.gets # => 烟花三月下揚州
 print DATA.gets # => 孤帆遠影碧空尽
 print DATA.gets # => 唯見長江天際流
-DATA.gets       # => nil
-    
+p DATA.gets     # => nil
+
 __END__
 故人西辞黄鶴楼
 烟花三月下揚州
 孤帆遠影碧空尽
 唯見長江天際流
-```````
+```
 
 ### 例2
-```````
+
+```ruby
 sum = 0
 DATA.each_line do |line|
   sum += line.to_i
 end
-    
+
 DATA.rewind
 p DATA.gets    # => "sum = 0¥n"
-    
+
 __END__
 17
 19
 23
 29
 31
-```````
+```
 
 ### 例3
-```````
+
+```ruby
 DATA.gets    # => uninitialized constant DATA (NameError)
-```````
+```
 
 ### 例4
 
 ファイル library.rb と app.rb の内容が以下であったとします。
 
-library.rb:
-```````
+```ruby title="library.rb"
 print DATA.gets
-    
+
 __END__
 data from library
-```````
+```
 
-app.rb:
-```````
-require 'library.rb'
+```ruby title="app.rb"
+require_relative 'library.rb'
 
 __END__
 data from app
-```````
+```
 
 このときシェルから次を実行すると
-```````
-$ ruby app.rb
-```````
-結果は以下のように出力されます。
-```````
-data from app
-```````
 
+```console
+$ ruby app.rb
+```
+
+結果は以下のように出力されます。
+
+```text
+data from app
+```
 

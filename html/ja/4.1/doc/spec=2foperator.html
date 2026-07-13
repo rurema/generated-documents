@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -90,7 +90,8 @@
 <p>
 プログラミングの利便のために一部のメソッド呼び出しと制御構造は演算子形式をとります。Rubyには以下にあげる演算子があります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 高い   ::
        []
        +(単項)  !  ~
@@ -110,14 +111,14 @@
        =(+=, -= ... )
        not
 低い   and or
-</pre>
+</code></pre>
 <p>
 左の「高い」「低い」は演算子の優先順位です。例えば「&amp;&amp;」は「||」より優先順位が高いので、以下のように解釈されます。
 </p>
 <pre class="highlight ruby">
 <code>
-a <span class="o">&amp;&amp;</span> b <span class="o">||</span> c   <span class="c1">#=&gt; (a &amp;&amp; b) || c
-</span>a <span class="o">||</span> b <span class="o">&amp;&amp;</span> c   <span class="c1">#=&gt;  a || (b &amp;&amp; c)
+<span class="nb">p</span> a <span class="o">&amp;&amp;</span> b <span class="o">||</span> c <span class="c1">#=&gt; (a &amp;&amp; b) || c
+</span><span class="nb">p</span> a <span class="o">||</span> b <span class="o">&amp;&amp;</span> c <span class="c1">#=&gt;  a || (b &amp;&amp; c)
 </span></code></pre>
 <p>
 ほとんどの演算子は特別な形式のメソッド呼び出しですが、一部のものは言語に組み込みで、再定義できません。
@@ -128,10 +129,11 @@ a <span class="o">&amp;&amp;</span> b <span class="o">||</span> c   <span class=
 <p>
 +@, -@ は単項演算子 +, - を表しメソッド定義などではこの記法を利用します。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
     |  ^  &amp;  &lt;=&gt;  ==  ===  =~  &gt;   &gt;=  &lt;   &lt;=   &lt;&lt;  &gt;&gt;
     +  -  *  /    %   **   ~   +@  -@  []  []=  ` ! != !~
-</pre>
+</code></pre>
 <p>
 これらの演算子式の定義方法については<a href="../doc/spec=2fdef.html#operator">クラス／メソッドの定義/演算子式の定義</a>を参照してください。
 </p>
@@ -141,9 +143,10 @@ a <span class="o">&amp;&amp;</span> b <span class="o">||</span> c   <span class=
 <p>
 演算子の組合せである自己代入演算子は再定義できません。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
     =  ?:  ..  ...  not  &amp;&amp;  and  ||  or  ::
-</pre>
+</code></pre>
 </dd>
 </dl>
 <h2 id='assign'>代入</h2>
@@ -154,33 +157,34 @@ foo <span class="o">=</span> bar
 foo<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> bar
 foo<span class="p">.</span><span class="nf">bar</span> <span class="o">=</span> baz
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 変数 '=' 式
 定数 '=' 式
 式`['expr..`]' '=' 式
 式`.'識別子 '=' 式
-</pre>
+</code></pre>
 <p>
 代入式は変数などに値を設定するために用いられます。代入はローカル変数や定数の宣言としても用いられます。代入式の左辺は以下のいずれかでなければなりません。
 </p>
 <dl>
 <dt>変数</dt>
 <dd>
-<pre>
+<pre class="highlight text">
+<code>
             変数 `=' 式
-</pre>
+</code></pre>
 <p>
 左辺値が変数の場合、式を評価した値が変数に代入されます。
 </p>
 </dd>
 <dt>配列参照</dt>
 <dd>
-<pre>
+<pre class="highlight text">
+<code>
             式1`[' 式2 ... `]' `=' 式n
-</pre>
+</code></pre>
 <p>
 式1を評価して得られるオブジェクトに対しての、式 2 から式 n までを引数とする []= メソッド呼び出しに変換されます。
 </p>
@@ -205,9 +209,10 @@ c <span class="o">=</span> <span class="no">C</span><span class="p">.</span><spa
 </dd>
 <dt>属性参照</dt>
 <dd>
-<pre>
+<pre class="highlight text">
+<code>
             式1 `.' 識別子 `=' 式2
-</pre>
+</code></pre>
 <p>
 式 1 を評価して得られるオブジェクトに対して、識別子= というメソッドを、式 2 を引数にして呼び出します。
 </p>
@@ -248,30 +253,32 @@ c<span class="p">.</span><span class="nf">foo</span> <span class="o">=</span> <s
 foo <span class="o">+=</span> <span class="mi">12</span>       <span class="c1"># foo = foo + 12
 </span>a <span class="o">||=</span> <span class="mi">1</span>         <span class="c1"># a が偽か未定義ならば1を代入。初期化時のイディオムの一種。
 </span></code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 式1 op= 式2     # 式1は通常の代入の左辺のいずれか
-</pre>
+</code></pre>
 <p>
 op は以下のいずれかです。演算子と=の間にスペースを空けてはいけません。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 +, -, *, /, %, **, &amp;, |, ^, &lt;&lt;, &gt;&gt;, &amp;&amp;, ||
-</pre>
+</code></pre>
 <p>
 この形式の代入は
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 式1 = 式1 op 式2
-</pre>
+</code></pre>
 <p>
 と評価されます。ただし、op が &amp;&amp;, || の場合には、
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 式1 op (式1 = 式2)
-</pre>
+</code></pre>
 <p>
 と評価されます。この違いは属性参照のときに
 </p>
@@ -304,19 +311,22 @@ foo, bar, baz <span class="o">=</span> <span class="mi">1</span>, <span class="m
 foo, <span class="o">=</span> list<span class="p">(</span><span class="p">)</span>
 foo, <span class="o">*</span>rest <span class="o">=</span> list2<span class="p">(</span><span class="p">)</span>
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 式 [`,' [式 `,' ... ] [`*' [式]]] = 式 [, 式 ... ][`*' 式]
 `*' [式] = 式 [, 式 ... ][`*' 式]
-</pre>
+</code></pre>
 <p>
 多重代入は複数の式または配列から同時に代入を行います。左辺の各式はそれぞれ代入可能でなければなりません。右辺の式が一つしか与えられなかった場合、式を評価した値は配列に変換されて、各要素が左辺のそれぞれの式に代入されます。左辺の要素の数よりも配列の要素の数の方が多い場合には、余った要素は無視されます。配列の要素が足りない場合には対応する要素の無い左辺には
 nil が代入されます。
 </p>
 <p>
-左辺の最後の式の直前に * がついていると、対応する左辺のない余った要素が配列として代入されます。余った要素が無い時には空の配列が代入されます。
+左辺のいずれかの式の直前に * がついていると、対応する左辺のない余った要素が配列として代入されます。余った要素が無い時には空の配列が代入されます。* は左辺の最後の式の直前だけでなく、途中の式の直前につけることもできます。
+</p>
+<p>
+なお、左辺の式が一つだけで <code>*</code> もついていない場合は多重代入とはみなされず、右辺の値(複数の式が <code>,</code> で並んでいれば配列に変換された値)
+がそのまま単純代入されます。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby">
@@ -330,6 +340,9 @@ foo, bar, baz <span class="o">=</span> <span class="mi">1</span>, <span class="m
 </span>foo      <span class="o">=</span> <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>      <span class="c1"># foo = [1, 2, 3]
 </span><span class="o">*</span>foo     <span class="o">=</span> <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>      <span class="c1"># foo = [1, 2, 3]
 </span>foo,<span class="o">*</span>bar <span class="o">=</span> <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>      <span class="c1"># foo = 1; bar = [2, 3]
+</span>
+foo, <span class="o">*</span>bar, baz <span class="o">=</span> <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">4</span>      <span class="c1"># foo = 1; bar = [2, 3]; baz = 4
+</span>foo, <span class="o">*</span>bar, baz <span class="o">=</span> <span class="mi">1</span>, <span class="o">*</span><span class="mi">2</span><span class="o">..</span><span class="mi">3</span>, <span class="mi">4</span>     <span class="c1"># foo = 1; bar = [2, 3]; baz = 4
 </span></code></pre>
 <p>
 多重代入は括弧により、ネストした配列の要素を代入することもできます。
@@ -476,13 +489,12 @@ Range にするにはかっこが必要になることがあるので、注意�
 <span class="nb">test</span> <span class="o">&amp;&amp;</span> set
 <span class="nb">test</span> <span class="k">and</span> set
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 式 `&amp;&amp;' 式
 式 `and' 式
-</pre>
+</code></pre>
 <p>
 左辺を評価し、結果が偽であった場合はその値(つまり nil
 か false) を返します。左辺の評価結果が真であった場合には右辺を評価しその結果を返します。
@@ -509,13 +521,12 @@ and を伴う式をメソッドの引数に渡す場合は二重に括弧が必�
 demo <span class="o">||</span> die
 demo <span class="k">or</span> die
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 式 `||' 式
 式 or 式
-</pre>
+</code></pre>
 <p>
 左辺を評価し、結果が真であった場合にはその値を返します。左辺の評価結果が偽であった場合には右辺を評価しその評価結果を返します。
 or は同じ働きをする優先順位の低い演算子です。
@@ -542,25 +553,26 @@ or を伴う式をメソッドの引数に渡す場合は二重に括弧が必�
 <span class="k">not</span> me
 i <span class="o">!=</span> you
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 `!' 式
 not 式
-</pre>
+</code></pre>
 <p>
 式の値が真である時偽を、偽である時真を返します。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 式 `!=' 式
-</pre>
+</code></pre>
 <p>
 !(式 == 式)と同じ。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 式 `!~' 式
-</pre>
+</code></pre>
 <p>
 !(式 =~ 式)と同じ。
 </p>
@@ -578,18 +590,18 @@ not を伴う式をメソッドの引数に渡す場合は二重に括弧が必�
 <code>
 obj <span class="o">==</span> <span class="mi">1</span> <span class="o">?</span> foo <span class="o">:</span> bar
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 式1 ? 式2 : 式3
-</pre>
+</code></pre>
 <p>
 式1の結果によって式2または式3を返します。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 if 式1 then 式2 else 式3 end
-</pre>
+</code></pre>
 <p>
 とまったく同じです。
 </p>

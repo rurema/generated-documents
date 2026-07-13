@@ -120,12 +120,13 @@ WIN32OLE_TYPEオブジェクトは、型情報ライブラリ（TypeLib）内に
 1つの型情報を保持します。
 </p>
 <h2 >サンプルコード</h2>
-<pre>
-require 'win32ole'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'win32ole'</span>
 
-excel_app_type = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Application')
-puts excel_app_type.progid # =&gt; &quot;Excel.Application.14&quot;
-</pre>
+excel_app_type <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Application'</span><span class="p">)</span>
+<span class="nb">puts</span> excel_app_type<span class="p">.</span><span class="nf">progid</span> <span class="c1"># =&gt; &quot;Excel.Application.14&quot;
+</span></code></pre>
 <p>
 Ruby-1.9.1以降、<a href="../class/WIN32OLE_TYPELIB.html">WIN32OLE_TYPELIB</a>オブジェクトの
 <a href="../method/WIN32OLE_TYPELIB/i/ole_types.html">WIN32OLE_TYPELIB#ole_types</a>メソッドを利用して、型情報ライブラリ内に定義されているすべての型情報をWIN32OLE_TYPEオブジェクトの配列として取得できます。
@@ -238,10 +239,11 @@ GUID（<a href="../method/WIN32OLE_TYPELIB/i/guid.html">WIN32OLE_TYPELIB#guid</a
 TypeLibが見つかりません。またはole_classで指定した型が未定義です。
 </dd>
 </dl>
-<pre>
-excel_app_type = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Application')
-puts excel_app_type.progid # =&gt; &quot;Excel.Application.14&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+excel_app_type <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Application'</span><span class="p">)</span>
+<span class="nb">puts</span> excel_app_type<span class="p">.</span><span class="nf">progid</span> <span class="c1"># =&gt; &quot;Excel.Application.14&quot;
+</span></code></pre>
 <p>
 TypeLibに定義されているすべての型を取得するには、
 <a href="../class/WIN32OLE_TYPELIB.html">WIN32OLE_TYPELIB</a>オブジェクトの<a href="../method/WIN32OLE_TYPELIB/i/ole_types.html">WIN32OLE_TYPELIB#ole_types</a>メソッドを利用します。
@@ -269,10 +271,11 @@ TypeLibに格納されているすべての型を<a href="../class/WIN32OLE_TYPE
 引数で指定したTypeLibが見つかりません。
 </dd>
 </dl>
-<pre>
-types = WIN32OLE_TYPE.ole_classes('Microsoft Excel 14.0 Object Library')
-classes = types.map{|k| k.name} # =&gt; [&quot;Adjustments&quot;, &quot;CalloutFormat&quot;, ...]
-</pre>
+<pre class="highlight ruby">
+<code>
+types <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">ole_classes</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span><span class="p">)</span>
+classes <span class="o">=</span> types<span class="p">.</span><span class="nf">map</span><span class="p">{</span><span class="o">|</span>k<span class="o">|</span> k<span class="p">.</span><span class="nf">name</span><span class="p">}</span> <span class="c1"># =&gt; [&quot;Adjustments&quot;, &quot;CalloutFormat&quot;, ...]
+</span></code></pre>
 <p>
 Ruby-1.9.1からは、TypeLibに定義されているすべての型を取得するには、
 <a href="../class/WIN32OLE_TYPELIB.html">WIN32OLE_TYPELIB</a>オブジェクトの<a href="../method/WIN32OLE_TYPELIB/i/ole_types.html">WIN32OLE_TYPELIB#ole_types</a>メソッドを利用してください。
@@ -291,22 +294,23 @@ Ruby-1.9.1からは、TypeLibに定義されているすべての型を取得す
 システムに登録されているすべてのコンポーネントクラスのPROGIDを文字列配列で返します。
 </dd>
 </dl>
-<pre>
-excel = nil
-WIN32OLE_TYPE.progids.each do |pg|
-  if pg =~ /excel\.application/i   # ExcelのPROGIDをバージョン無視で取り出す
-    excel = WIN32OLE.new(pg)
-    break
-  end
-end
-unless excel
-  $stderr.puts &quot;Excel isn't installed&quot;
-  exit(1)
-end
-excel.visible = true
-# ...
-excel.Quit
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="k">nil</span>
+<span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">progids</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>pg<span class="o">|</span>
+  <span class="k">if</span> pg <span class="o">=~</span> <span class="sr">/excel\.application/i</span>   <span class="c1"># ExcelのPROGIDをバージョン無視で取り出す
+</span>    excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>pg<span class="p">)</span>
+    <span class="k">break</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="k">unless</span> excel
+  <span class="vg">$stderr</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">Excel isn't installed</span><span class="s2">"</span>
+  <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">end</span>
+excel<span class="p">.</span><span class="nf">visible</span> <span class="o">=</span> <span class="k">true</span>
+<span class="c1"># ...
+</span>excel<span class="p">.</span><span class="no">Quit</span>
+</code></pre>
 <p>
 PROGIDは、生成可能なOLEオートメーションサーバのCoClass（コンポーネントクラス）が持つレジストリ登録名です。<a href="../method/WIN32OLE/s/new.html">WIN32OLE.new</a>の引数に指定して
 WIN32OLEオブジェクトを生成できます。
@@ -329,9 +333,10 @@ WIN32OLEオブジェクトを生成できます。
 Ruby-1.9.1からは、すべてのTypeLibのドキュメント文字列を取得するには、
 <a href="../class/WIN32OLE_TYPELIB.html">WIN32OLE_TYPELIB</a>オブジェクトを利用して、以下のように記述してください。
 </p>
-<pre>
-WIN32OLE_TYPELIB.typelibs.map {|t| t.name}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">WIN32OLE_TYPELIB</span><span class="p">.</span><span class="nf">typelibs</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>t<span class="o">|</span> t<span class="p">.</span><span class="nf">name</span><span class="p">}</span>
+</code></pre>
 </dd>
 
 
@@ -354,10 +359,11 @@ default_event_sourcesメソッドは、selfがCoClass（コンポーネントク
 デフォルトのソースインターフェイスを<a href="../class/WIN32OLE_TYPE.html">WIN32OLE_TYPE</a>の配列として返します。返すのは配列ですが、デフォルトのソースインターフェイスは最大でも1インターフェイスです。ソースインターフェイスを持たない場合は空配列を返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-tobj.default_event_sources.map {|intf| intf.name} #=&gt; [&quot;DocEvents&quot;]
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Worksheet'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">default_event_sources</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>intf<span class="o">|</span> intf<span class="p">.</span><span class="nf">name</span><span class="p">}</span> <span class="c1">#=&gt; [&quot;DocEvents&quot;]
+</span></code></pre>
 <p>
 <a href="../method/WIN32OLE_EVENT/s/new.html">WIN32OLE_EVENT.new</a>でインターフェイス名を指定しない場合は、ここで返されたインターフェイスが選択されます。
 </p>
@@ -365,10 +371,11 @@ tobj.default_event_sources.map {|intf| intf.name} #=&gt; [&quot;DocEvents&quot;]
 次のサンプルは、IEのnaviaget2メソッドによってどのようなイベントが通知されるかを、実際にメソッド呼び出し（=イベント通知）をトレースして調べるプログラムです。イベントを受け付けるために、
 <a href="../method/WIN32OLE_EVENT/s/message_loop.html">WIN32OLE_EVENT.message_loop</a>の呼び出しが必要な点に注意してください。ここでは最終イベントのStatusTextChangeイベントのメッセージについては既知としています。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 # coding : cp932
 require 'win32ole'
-
+ 
 type = WIN32OLE_TYPE.new('Microsoft Internet Controls', 'InternetExplorer')
 ctl = WIN32OLE.new(type.progid)
 source = type.default_event_sources[0]
@@ -380,11 +387,11 @@ class WebEvent
 end
 source.ole_methods.each do |m|
   WebEvent.module_eval do
-    define_method(&quot;on#{m.name}&quot;) do |*arg|
-      if arg[0] == &quot;ページが表示されました&quot;
+    define_method("on#{m.name}") do |*arg|
+      if arg[0] == "ページが表示されました"
         @completed = true
       end
-      puts &quot;#{Time.now}: #{m.name} was called&quot;
+      puts "#{Time.now}: #{m.name} was called"
       p arg
     end
   end
@@ -397,36 +404,37 @@ loop do
   WIN32OLE_EVENT.message_loop
 end
 ctl.Quit
-</pre>
+</code></pre>
 <p>
 このプログラムを実行するとWindows7のIE8環境では以下のような出力を得られます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 2010-10-06 22:33:54 +0900: PropertyChange was called
-[&quot;{265b75c1-4158-11d0-90f6-00c04fd497ea}&quot;]
+["{265b75c1-4158-11d0-90f6-00c04fd497ea}"]
 2010-10-06 22:33:54 +0900: BeforeNavigate2 was called
-[#&lt;WIN32OLE:0x9d08f0&gt;, &quot;http://www.ruby-lang.org/&quot;, 0, &quot;&quot;, nil, &quot;&quot;, false]
+[#&lt;WIN32OLE:0x9d08f0&gt;, "http://www.ruby-lang.org/", 0, "", nil, "", false]
 2010-10-06 22:33:54 +0900: DownloadBegin was called
 []
 2010-10-06 22:33:54 +0900: PropertyChange was called
-[&quot;{D0FCA420-D3F5-11CF-B211-00AA004AE837}&quot;]
+["{D0FCA420-D3F5-11CF-B211-00AA004AE837}"]
 2010-10-06 22:33:54 +0900: CommandStateChange was called
 [2, false]
 2010-10-06 22:33:54 +0900: CommandStateChange was called
 [1, false]
 2010-10-06 22:33:54 +0900: StatusTextChange was called
-[&quot;www.ruby-lang.org を検索しています&quot;]
+["www.ruby-lang.org を検索しています"]
 2010-10-06 22:33:54 +0900: ProgressChange was called
 [100, 10000]
 2010-10-06 22:33:54 +0900: StatusTextChange was called
-[&quot;サイト 221.186.184.68 に接続しています&quot;]
+["サイト 221.186.184.68 に接続しています"]
 2010-10-06 22:33:54 +0900: StatusTextChange was called
-[&quot;Web サイトが見つかりました。応答を待っています...&quot;]
+["Web サイトが見つかりました。応答を待っています..."]
 ……
 2010-10-06 22:33:54 +0900: TitleChange was called
-[&quot;オブジェクト指向スクリプト言語 Ruby&quot;]
+["オブジェクト指向スクリプト言語 Ruby"]
 2010-10-06 22:33:54 +0900: StatusTextChange was called
-[&quot;待機中: http://www.ruby-lang.org/ja/ ...&quot;]
+["待機中: http://www.ruby-lang.org/ja/ ..."]
 2010-10-06 22:33:54 +0900: ProgressChange was called
 [10000, 10000]
 2010-10-06 22:33:54 +0900: ProgressChange was called
@@ -436,10 +444,10 @@ ctl.Quit
 2010-10-06 22:33:54 +0900: ProgressChange was called
 [10000, 10000]
 2010-10-06 22:33:54 +0900: DocumentComplete was called
-[#&lt;WIN32OLE:0x438a2f8&gt;, &quot;http://www.ruby-lang.org/ja/&quot;]
+[#&lt;WIN32OLE:0x438a2f8&gt;, "http://www.ruby-lang.org/ja/"]
 2010-10-06 22:33:54 +0900: StatusTextChange was called
-[&quot;ページが表示されました&quot;]
-</pre>
+["ページが表示されました"]
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/WIN32OLE_TYPE/s/new.html">WIN32OLE_TYPE.new</a>, <a href="../method/WIN32OLE_TYPE/i/progid.html">WIN32OLE_TYPE#progid</a>,
 <a href="../method/WIN32OLE_TYPE/i/ole_methods.html">WIN32OLE_TYPE#ole_methods</a>, <a href="../method/WIN32OLE_METHOD/i/name.html">WIN32OLE_METHOD#name</a>,
@@ -463,10 +471,11 @@ default_ole_typesメソッドは、selfがCoClass（コンポーネントクラ�
 デフォルトインターフェイスを<a href="../class/WIN32OLE_TYPE.html">WIN32OLE_TYPE</a>の配列として返します。デフォルトインターフェイスは、最大でも、クラス操作用のインターフェイス（OLEオートメーション用）と、イベント用のソースインターフェイスの2要素です。デフォルトインターフェイスを持たない場合は空配列を返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-tobj.default_ole_types.map {|intf| intf.name} #=&gt; [&quot;_Worksheet&quot;, &quot;DocEvents&quot;]
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Worksheet'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">default_ole_types</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>intf<span class="o">|</span> intf<span class="p">.</span><span class="nf">name</span><span class="p">}</span> <span class="c1">#=&gt; [&quot;_Worksheet&quot;, &quot;DocEvents&quot;]
+</span></code></pre>
 </dd>
 
 
@@ -481,10 +490,11 @@ tobj.default_ole_types.map {|intf| intf.name} #=&gt; [&quot;_Worksheet&quot;, &q
 GUIDを文字列で返します。GUIDを持たない型の場合はnilを返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Application')
-puts tobj.guid  # =&gt; {00024500-0000-0000-C000-000000000046}
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Application'</span><span class="p">)</span>
+<span class="nb">puts</span> tobj<span class="p">.</span><span class="nf">guid</span>  <span class="c1"># =&gt; {00024500-0000-0000-C000-000000000046}
+</span></code></pre>
 <p>
 GUIDは、COMのクラス識別子(CLSID)、インターフェイス識別子(IID)など多数の領域でWindows上のオブジェクトの識別に利用される128ビットの値です。
 </p>
@@ -502,10 +512,11 @@ GUIDは、COMのクラス識別子(CLSID)、インターフェイス識別子(II
 型に関連するヘルプコンテキストを整数で返します。ヘルプコンテキストが登録されていない場合はnilを返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-puts tobj.helpcontext # =&gt; 131185
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Worksheet'</span><span class="p">)</span>
+<span class="nb">puts</span> tobj<span class="p">.</span><span class="nf">helpcontext</span> <span class="c1"># =&gt; 131185
+</span></code></pre>
 </dd>
 
 
@@ -527,12 +538,13 @@ puts tobj.helpcontext # =&gt; 131185
 オブジェクトに関連付けられたヘルプファイルのフルパス名を文字列で返します。ヘルプファイルが未定義の場合はnilを返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-puts tobj.helpfile # =&gt; C:\...\VBAXL9.CHM
-WIN32OLE.ole_show_help tobj.helpfile, tobj.helpcontext
-# 注）WIN32OLE.ole_show_help(tobj) の呼び出しが望ましい
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Worksheet'</span><span class="p">)</span>
+<span class="nb">puts</span> tobj<span class="p">.</span><span class="nf">helpfile</span> <span class="c1"># =&gt; C:\...\VBAXL9.CHM
+</span><span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">ole_show_help</span> tobj<span class="p">.</span><span class="nf">helpfile</span>, tobj<span class="p">.</span><span class="nf">helpcontext</span>
+<span class="c1"># 注）WIN32OLE.ole_show_help(tobj) の呼び出しが望ましい
+</span></code></pre>
 <p>
 当メソッドがフルパス名を返しても、ヘルプファイルがインストールされていない場合があることに注意してください。
 </p>
@@ -553,10 +565,11 @@ WIN32OLE.ole_show_help tobj.helpfile, tobj.helpcontext
 ドキュメント文字列を返します。未定義の場合はnilを返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Internet Controls', 'IWebBrowser')
-p tobj.helpstring   # =&gt; &quot;Web Browser interface&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Internet Controls'</span>, <span class="s1">'IWebBrowser'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">helpstring</span>   <span class="c1"># =&gt; &quot;Web Browser interface&quot;
+</span></code></pre>
 <p>
 ドキュメント文字列は、コンテキストヘルプなどに利用可能な型の簡単な説明文です。
 </p>
@@ -581,10 +594,11 @@ implemented_ole_typesメソッドは、selfがCoClass（コンポーネントク
 型属性が取得できない場合に通知します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-tobj.implemented_ole_types.map {|intf| intf.name} #=&gt; [&quot;_Worksheet&quot;, &quot;DocEvents&quot;]
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Worksheet'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">implemented_ole_types</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>intf<span class="o">|</span> intf<span class="p">.</span><span class="nf">name</span><span class="p">}</span> <span class="c1">#=&gt; [&quot;_Worksheet&quot;, &quot;DocEvents&quot;]
+</span></code></pre>
 </dd>
 
 
@@ -599,10 +613,11 @@ selfを説明的な文字列で表現します。
 &quot;#&lt;WIN32OLE_TYPE&quot;と<a href="../method/WIN32OLE_TYPE/i/to_s.html">WIN32OLE_TYPE#to_s</a>の結果を「:」で結合し、「&gt;」で閉じた文字列を返します。
 </dd>
 </dl>
-<pre>
-x = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-puts x.inspect #=&gt; #&lt;WIN32OLE_TYPE:Worksheet&gt;
-</pre>
+<pre class="highlight ruby">
+<code>
+x <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Worksheet'</span><span class="p">)</span>
+<span class="nb">puts</span> x<span class="p">.</span><span class="nf">inspect</span> <span class="c1">#=&gt; #&lt;WIN32OLE_TYPE:Worksheet&gt;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/WIN32OLE_TYPE/i/to_s.html">WIN32OLE_TYPE#to_s</a>
 </p>
@@ -624,10 +639,11 @@ puts x.inspect #=&gt; #&lt;WIN32OLE_TYPE:Worksheet&gt;
 型属性の読み取りに失敗すると通知します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Word 14.0 Object Library', 'Documents')
-p tobj.major_version   # =&gt; 8
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Word 14.0 Object Library'</span>, <span class="s1">'Documents'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">major_version</span>   <span class="c1"># =&gt; 8
+</span></code></pre>
 </dd>
 
 
@@ -646,10 +662,11 @@ p tobj.major_version   # =&gt; 8
 型属性の読み取りに失敗すると通知します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Word 14.0 Object Library', 'Documents')
-p tobj.minor_version   # =&gt; 5
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Word 14.0 Object Library'</span>, <span class="s1">'Documents'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">minor_version</span>   <span class="c1"># =&gt; 5
+</span></code></pre>
 </dd>
 
 
@@ -665,10 +682,11 @@ selfの型名を取得します。
 selfの型名を文字列で返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Application')
-p tobj.name   # =&gt; &quot;Application&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Application'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">name</span>   <span class="c1"># =&gt; &quot;Application&quot;
+</span></code></pre>
 </dd>
 
 
@@ -683,11 +701,12 @@ p tobj.name   # =&gt; &quot;Application&quot;
 型が持つメソッドのメタデータを<a href="../class/WIN32OLE_METHOD.html">WIN32OLE_METHOD</a>の配列として返します。メソッドを持たない場合は空配列を返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-methods = tobj.ole_methods.map {|m| m.name }
-                     # =&gt; ['QueryInterface', 'AddRef', 'Release',....]
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Worksheet'</span><span class="p">)</span>
+<span class="nb">methods</span> <span class="o">=</span> tobj<span class="p">.</span><span class="nf">ole_methods</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>m<span class="o">|</span> m<span class="p">.</span><span class="nf">name</span> <span class="p">}</span>
+                     <span class="c1"># =&gt; ['QueryInterface', 'AddRef', 'Release',....]
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../class/WIN32OLE_METHOD.html">WIN32OLE_METHOD</a>
 </p>
@@ -705,10 +724,11 @@ selfの型の種類（TYPEKIND）を取得します。
 selfの型の種類を文字列で返します。情報が取得できない場合はnilを返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Application')
-p tobj.ole_type  # =&gt; Class
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Application'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">ole_type</span>  <span class="c1"># =&gt; Class
+</span></code></pre>
 <p>
 ole_typeには以下があります。
 </p>
@@ -788,10 +808,11 @@ MaxはTYPEKINDの終端マーカなので意味を持ちません。
 この型を登録しているTypeLibを<a href="../class/WIN32OLE_TYPELIB.html">WIN32OLE_TYPELIB</a>オブジェクトとして返します。見つからない場合はnilを返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-puts tobj.ole_typelib.name  # =&gt; 'Microsoft Excel 14.0 Object Library'
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Worksheet'</span><span class="p">)</span>
+<span class="nb">puts</span> tobj<span class="p">.</span><span class="nf">ole_typelib</span><span class="p">.</span><span class="nf">name</span>  <span class="c1"># =&gt; 'Microsoft Excel 14.0 Object Library'
+</span></code></pre>
 </dd>
 
 
@@ -811,10 +832,11 @@ selfのPROGIDを文字列で返します。selfがPROGIDを持たない、また
 CoClassでない場合はnilを返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Application')
-p tobj.progid   # =&gt; &quot;Excel.Application.14&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Application'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">progid</span>   <span class="c1"># =&gt; &quot;Excel.Application.14&quot;
+</span></code></pre>
 <p>
 この例は、ExcelのApplicationクラスが「Excel.Application.14」という
 PROGIDを持つことを示します。
@@ -842,10 +864,11 @@ ActiveXコントロールのようにイベント（<a href="../class/WIN32OLE_E
 ソースインターフェイスを<a href="../class/WIN32OLE_TYPE.html">WIN32OLE_TYPE</a>の配列として返します。ソースインターフェイスを持たない場合は空配列を返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-tobj.source_ole_types.map {|intf| intf.name} #=&gt; [&quot;DocEvents&quot;]
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Worksheet'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">source_ole_types</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>intf<span class="o">|</span> intf<span class="p">.</span><span class="nf">name</span><span class="p">}</span> <span class="c1">#=&gt; [&quot;DocEvents&quot;]
+</span></code></pre>
 </dd>
 
 
@@ -860,10 +883,11 @@ selfが他の型の別名ならば、元の型名を取得します。
 selfが別名ならば元の型名を文字列で返します。別名でなければnilを返します。
 </dd>
 </dl>
-<pre>
-tobj =  WIN32OLE_TYPE.new('Microsoft Office 14.0 Object Library', 'MsoRGBType')
-p tobj.src_type   # =&gt; &quot;I4&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span>  <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Office 14.0 Object Library'</span>, <span class="s1">'MsoRGBType'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">src_type</span>   <span class="c1"># =&gt; &quot;I4&quot;
+</span></code></pre>
 <p>
 この例は、OfficeのMsoRGBType型は符号付き32ビット整数（I4）の別名だということを示します。
 </p>
@@ -888,10 +912,11 @@ selfの種類を示す値を取得します。
 型の種類（TYPEKIND）を取得できない場合に通知します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Word 14.0 Object Library', 'Documents')
-p tobj.typekind   # =&gt; 4
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Word 14.0 Object Library'</span>, <span class="s1">'Documents'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">typekind</span>   <span class="c1"># =&gt; 4
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/WIN32OLE_TYPE/i/ole_type.html">WIN32OLE_TYPE#ole_type</a>
 </p>
@@ -917,23 +942,25 @@ p tobj.typekind   # =&gt; 4
 型属性が取得できない場合に通知します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'XlSheetType')
-vars = tobj.variables
-vars.each do |v|
-  puts &quot;#{v.name} = #{v.value}&quot;
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'XlSheetType'</span><span class="p">)</span>
+vars <span class="o">=</span> tobj<span class="p">.</span><span class="nf">variables</span>
+vars<span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>v<span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">v</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2"> = </span><span class="si">#{</span><span class="n">v</span><span class="p">.</span><span class="nf">value</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 上記を実行すると以下の出力が得られます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 xlChart = -4109
 xlDialogSheet = -4116
 xlExcel4IntlMacroSheet = 4
 xlExcel4MacroSheet = 3
 xlWorksheet = -4167
-</pre>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../class/WIN32OLE_VARIABLE.html">WIN32OLE_VARIABLE</a>
 </p>
@@ -951,10 +978,11 @@ xlWorksheet = -4167
 公開されていれば真を返します。
 </dd>
 </dl>
-<pre>
-tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Application')
-p tobj.visible?  # =&gt; true
-</pre>
+<pre class="highlight ruby">
+<code>
+tobj <span class="o">=</span> <span class="no">WIN32OLE_TYPE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Microsoft Excel 14.0 Object Library'</span>, <span class="s1">'Application'</span><span class="p">)</span>
+<span class="nb">p</span> tobj<span class="p">.</span><span class="nf">visible?</span>  <span class="c1"># =&gt; true
+</span></code></pre>
 </dd>
 
 

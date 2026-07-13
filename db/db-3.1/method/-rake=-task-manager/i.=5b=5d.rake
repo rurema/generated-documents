@@ -16,7 +16,7 @@ source_location=manual/api/rake/Rake__TaskManager.md
 
 task default: :test_rake_app
 task :test_rake_app do
-  Rake.application["test_rake_app"] # => <Rake::Task test_rake_app => []>
+  p Rake.application["test_rake_app"] # => <Rake::Task test_rake_app => []>
 end
 ```
 

@@ -132,10 +132,11 @@
 </code></pre>
 <p>
 対象の Thread が Thread を起こす可能性がある場合
-(<a href="../method/Thread/s/exclusive.html">Thread.exclusive</a>参照)
+(<a href="../class/Thread=3a=3aMutex.html">Thread::Mutex</a> 参照)
 </p>
 <pre>
-Thread.exclusive do
+mutex = Thread::Mutex.new
+mutex.synchronize do
   (ThreadGroup::Default.list - [Thread.current]).each {|th| th.join}
 end
 </pre>
@@ -208,7 +209,7 @@ thread_group <span class="o">=</span> <span class="no">ThreadGroup</span><span c
 thread_group<span class="p">.</span><span class="nf">add</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mf">0.1</span>; <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">1</span> <span class="p">}</span>; <span class="nb">sleep</span> <span class="mi">1</span> <span class="p">}</span>
 thread_group<span class="p">.</span><span class="nf">add</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">2</span> <span class="p">}</span>
 <span class="nb">sleep</span> <span class="mf">0.5</span>
-thread_group<span class="p">.</span><span class="nf">list</span> <span class="c1"># =&gt; [#&lt;Thread:0x007fc6f1842d70 sleep&gt;, #&lt;Thread:0x007fc6f1842c80 sleep&gt;, #&lt;Thread:0x007fc6f080dba8 sleep&gt;]
+<span class="nb">p</span> thread_group<span class="p">.</span><span class="nf">list</span> <span class="c1"># =&gt; [#&lt;Thread:0x007fc6f1842d70 sleep&gt;, #&lt;Thread:0x007fc6f1842c80 sleep&gt;, #&lt;Thread:0x007fc6f080dba8 sleep&gt;]
 </span></code></pre>
 </dd>
 
@@ -323,7 +324,7 @@ version 1.8 では、aborting 状態であるスレッドも要素に含まれ�
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">ThreadGroup</span><span class="o">::</span><span class="no">Default</span><span class="p">.</span><span class="nf">list</span>   <span class="c1"># =&gt; [#&lt;Thread:0x00007f8f13867078 run&gt;]
+<span class="nb">p</span> <span class="no">ThreadGroup</span><span class="o">::</span><span class="no">Default</span><span class="p">.</span><span class="nf">list</span> <span class="c1"># =&gt; [#&lt;Thread:0x00007f8f13867078 run&gt;]
 </span></code></pre>
 </dd>
 

@@ -14,7 +14,7 @@ source_location=manual/api/rake/Rake__FileList.md
 task default: :test_rake_app
 task :test_rake_app do
   file_list = FileList['a.c', 'b.c']
-  file_list.to_a # => ["a.c", "b.c"]
+  p file_list.to_a # => ["a.c", "b.c"]
 end
 ```
 

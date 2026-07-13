@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Fiddle=3a=3aImporter/i/union.html">
 
 <title>Fiddle::Importer#union (Ruby 4.0 リファレンスマニュアル)</title>
-<meta name="description" content="共用体型を Ruby 上で定義する方法は Fiddle::Importer#struct とほぼ同様です。C における typedef union epoll_data { void *ptr; int fd; uint32_t u32; uint64_t u64; } epoll_data_t; は、Ruby上では require 'fiddle/import'  module M extend Fiddle::Importer dlload &quot;libc.so.6&quot; typealias(&quot;uint32_t&quot;, &quot;unsigned int&quot;) typealias(&quot;uint64_t&quot;, &quot;unsigned long long&quot;)  EPollData = union([&quot;void *ptr&quot;, &quot;int fd&quot;, &quot;uint32_t u32&quot;, &quot;uint64_t u64&quot;, ]) end となります。">
+<meta name="description" content="共用体型を Ruby 上で定義する方法は Fiddle::Importer#struct とほぼ同様です。C における //emlist[][c]{ typedef union epoll_data { void *ptr; int fd; uint32_t u32; uint64_t u64; } epoll_data_t; //} は、Ruby上では //emlist[][ruby]{ require 'fiddle/import'  module M extend Fiddle::Importer dlload &quot;libc.so.6&quot; typealias(&quot;uint32_t&quot;, &quot;unsigned int&quot;) typealias(&quot;uint64_t&quot;, &quot;unsigned long long&quot;)  EPollData = union([&quot;void *ptr&quot;, &quot;int fd&quot;, &quot;uint32_t u32&quot;, &quot;uint64_t u64&quot;, ]) end //} となります。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -86,34 +86,36 @@ C の共用体型に対応する Ruby のクラスを構築して返します。
 <p>
 共用体型を Ruby 上で定義する方法は <a href="../../../method/Fiddle=3a=3aImporter/i/struct.html">Fiddle::Importer#struct</a> とほぼ同様です。C における
 </p>
-<pre>
-typedef union epoll_data
-{
-  void *ptr;
-  int fd;
-  uint32_t u32;
-  uint64_t u64;
-} epoll_data_t;
-</pre>
+<pre class="highlight c">
+<code>
+<span class="k">typedef</span> <span class="k">union</span> <span class="n">epoll_data</span>
+<span class="p">{</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">fd</span><span class="p">;</span>
+  <span class="kt">uint32_t</span> <span class="n">u32</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">u64</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">epoll_data_t</span><span class="p">;</span>
+</code></pre>
 <p>
 は、Ruby上では
 </p>
-<pre>
-require 'fiddle/import'
-
-module M
-  extend Fiddle::Importer
-  dlload &quot;libc.so.6&quot;
-  typealias(&quot;uint32_t&quot;, &quot;unsigned int&quot;)
-  typealias(&quot;uint64_t&quot;, &quot;unsigned long long&quot;)
-
-  EPollData = union([&quot;void *ptr&quot;,
-                     &quot;int fd&quot;,
-                     &quot;uint32_t u32&quot;,
-                     &quot;uint64_t u64&quot;,
-                    ])
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+  
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s2">"</span><span class="s2">libc.so.6</span><span class="s2">"</span>
+  typealias<span class="p">(</span><span class="s2">"</span><span class="s2">uint32_t</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">unsigned int</span><span class="s2">"</span><span class="p">)</span>
+  typealias<span class="p">(</span><span class="s2">"</span><span class="s2">uint64_t</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">unsigned long long</span><span class="s2">"</span><span class="p">)</span>
+  
+  <span class="no">EPollData</span> <span class="o">=</span> union<span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">void *ptr</span><span class="s2">"</span>,
+                     <span class="s2">"</span><span class="s2">int fd</span><span class="s2">"</span>,
+                     <span class="s2">"</span><span class="s2">uint32_t u32</span><span class="s2">"</span>,
+                     <span class="s2">"</span><span class="s2">uint64_t u64</span><span class="s2">"</span>,
+                    <span class="p">]</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 となります。
 </p>

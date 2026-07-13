@@ -28,9 +28,9 @@ EOS
 IO.write("sample.mf", makefile)
 Rake.application.add_loader("mf", Rake::MakefileLoader.new)
 Rake.application.add_import("sample.mf")
-Rake::Task.task_defined?("a") # => false
+p Rake::Task.task_defined?("a") # => false
 Rake.application.load_imports
-Rake::Task.task_defined?("a") # => true
+p Rake::Task.task_defined?("a") # => true
 ```
 
 

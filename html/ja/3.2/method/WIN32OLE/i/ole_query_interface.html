@@ -105,10 +105,11 @@ iidパラメータで指定したインターフェイスを持つWIN32OLEオブ
 指定したIIDをオブジェクトが持たない場合に通知されます。
 </dd>
 </dl>
-<pre>
-ie = WIN32OLE.new('InternetExplorer.Application')
-ie_web_app = ie.ole_query_interface('{0002DF05-0000-0000-C000-000000000046}')
-</pre>
+<pre class="highlight ruby">
+<code>
+ie <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'InternetExplorer.Application'</span><span class="p">)</span>
+ie_web_app <span class="o">=</span> ie<span class="p">.</span><span class="nf">ole_query_interface</span><span class="p">(</span><span class="s1">'{0002DF05-0000-0000-C000-000000000046}'</span><span class="p">)</span>
+</code></pre>
 <p>
 上例のie_web_appは、ieと同じインスタンスとなります。
 </p>
@@ -140,21 +141,22 @@ Solutionインターフェイスを返すことになっているため、静的
 <p>
 なお、サポートしているインターフェイスのバージョンを調べたい場合に、以下のような方法で、インターフェイスのバージョンを調べることができます。
 </p>
-<pre>
-def check_solution_version(obj)
-  [['{CDA7305C-78B6-4D9D-90AD-93EBE71F9341}', 4],
-   ['{DF23915F-FDA3-4DD5-9CAA-2E1372C2BB16}', 3],
-   ['{FA238614-FBB1-4314-A7F7-49AE8BB6C6BA}', 2]].each do |iid, ver|
-    begin
-      intf = obj.ole_query_interface(iid)
-      intf.ole_free
-      return ver
-    rescue WIN32OLERuntimeError
-    end
-  end
-  1
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">check_solution_version</span><span class="p">(</span>obj<span class="p">)</span>
+  <span class="p">[</span><span class="p">[</span><span class="s1">'{CDA7305C-78B6-4D9D-90AD-93EBE71F9341}'</span>, <span class="mi">4</span><span class="p">]</span>,
+   <span class="p">[</span><span class="s1">'{DF23915F-FDA3-4DD5-9CAA-2E1372C2BB16}'</span>, <span class="mi">3</span><span class="p">]</span>,
+   <span class="p">[</span><span class="s1">'{FA238614-FBB1-4314-A7F7-49AE8BB6C6BA}'</span>, <span class="mi">2</span><span class="p">]</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>iid, ver<span class="o">|</span>
+    <span class="k">begin</span>
+      intf <span class="o">=</span> obj<span class="p">.</span><span class="nf">ole_query_interface</span><span class="p">(</span>iid<span class="p">)</span>
+      intf<span class="p">.</span><span class="nf">ole_free</span>
+      <span class="k">return</span> ver
+    <span class="k">rescue</span> <span class="no">WIN32OLERuntimeError</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="mi">1</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 しかし、ole_query_interfaceのような特異なメソッドを利用するよりも、
 WIN32OLE.new('VisualStudio.DTE.8.0') のように生成時にバージョン番号（この例では8.0）を指定するほうが良いスタイルです。

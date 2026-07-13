@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -448,11 +448,12 @@ ARGF が ARGV をどう扱うかについては <a href="../class/ARGF.html">ARG
 <p>
 例:
 </p>
-<pre>
-$ ruby argf.rb -v glark.txt
-
-ARGF.argv   #=&gt; [&quot;-v&quot;, &quot;glark.txt&quot;]
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby argf.rb <span class="nt">-v</span> glark.txt
+<span class="go">
+</span><span class="gp">ARGF.argv   #</span><span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"-v"</span>, <span class="s2">"glark.txt"</span><span class="o">]</span>
+</code></pre>
 </dd>
 
 
@@ -469,31 +470,29 @@ self をバイナリモードにします。一度バイナリモードになっ
 <li>文字エンコーディングの変換を停止する</li>
 <li>内容を ASCII-8BIT として扱う</li>
 </ul>
-<p>
-例:
-</p>
-<pre>
-# test1.png - 164B
-# test2.png - 128B
-# test1.png + test2.png = 292B
-
-# $ ruby test.rb test1.png test2.png
-
-ARGF.binmode
-ARGF.read.size  # =&gt; 292
-</pre>
-<p>
-例:
-</p>
-<pre>
-# test1.png - 164B
-# test2.png - 128B
-# test1.png + test2.png = 292B
-
-# $ ruby test.rb test1.png test2.png
-
-ARGF.read.size  # =&gt; 290
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># test1.png - 164B
+</span><span class="c1"># test2.png - 128B
+</span><span class="c1"># test1.png + test2.png = 292B
+</span>
+<span class="c1"># $ ruby test.rb test1.png test2.png
+</span>
+<span class="no">ARGF</span><span class="p">.</span><span class="nf">binmode</span>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">size</span>  <span class="c1"># =&gt; 292
+</span></code></pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># test1.png - 164B
+</span><span class="c1"># test2.png - 128B
+</span><span class="c1"># test1.png + test2.png = 292B
+</span>
+<span class="c1"># $ ruby test.rb test1.png test2.png
+</span>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">size</span>  <span class="c1"># =&gt; 290
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/binmode.html">IO#binmode</a>, <a href="../method/ARGF=2eclass/i/binmode=3f.html">ARGF.class#binmode?</a>
 </p>
@@ -508,11 +507,12 @@ ARGF の入力ストリームがバイナリモードなら true を返します
 <p>
 バイナリモードにするためには <a href="../method/ARGF=2eclass/i/binmode.html">ARGF.class#binmode</a> を使用します。
 </p>
-<pre>
-ARGF.binmode? # =&gt; false
-ARGF.binmode
-ARGF.binmode? # =&gt; true
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">binmode?</span> <span class="c1"># =&gt; false
+</span><span class="no">ARGF</span><span class="p">.</span><span class="nf">binmode</span>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">binmode?</span> <span class="c1"># =&gt; true
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/binmode=3f.html">IO#binmode?</a>, <a href="../method/ARGF=2eclass/i/binmode.html">ARGF.class#binmode</a>
 </p>
@@ -546,23 +546,22 @@ ARGF.close
 <p>
 現在開いている処理対象のファイルがARGFがcloseされていればtrueを返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-# $ echo &quot;foo&quot; &gt; foo
-# $ echo &quot;bar&quot; &gt; bar
-# $ ruby argf.rb foo bar
-
-ARGF.filename  # =&gt; &quot;foo&quot;
-ARGF.close
-# 複数のファイルを開いているので1度のARGF.closeではまた全てのファイルを閉じていないのでfalseになる
-ARGF.closed?   # =&gt; false
-ARGF.filename  # =&gt; &quot;bar&quot;
-ARGF.close
-# 2つのファイルを開いていたので2度目のARGF.closeで全てのファイルを閉じたためtrueになる
-ARGF.closed?   # =&gt; true
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># $ echo &quot;foo&quot; &gt; foo
+</span><span class="c1"># $ echo &quot;bar&quot; &gt; bar
+</span><span class="c1"># $ ruby argf.rb foo bar
+</span>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">filename</span>  <span class="c1"># =&gt; &quot;foo&quot;
+</span><span class="no">ARGF</span><span class="p">.</span><span class="nf">close</span>
+<span class="c1"># 複数のファイルを開いているので1度のARGF.closeではまた全てのファイルを閉じていないのでfalseになる
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">closed?</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">filename</span>  <span class="c1"># =&gt; &quot;bar&quot;
+</span><span class="no">ARGF</span><span class="p">.</span><span class="nf">close</span>
+<span class="c1"># 2つのファイルを開いていたので2度目のARGF.closeで全てのファイルを閉じたためtrueになる
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">closed?</span> <span class="c1"># =&gt; true
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/closed=3f.html">IO#closed?</a>, <a href="../method/ARGF=2eclass/i/close.html">ARGF.class#close</a>
 </p>
@@ -601,12 +600,13 @@ ARGFの現在位置から 1 行ずつ文字列として読み込み、それを�
 <p>
 例: ARGFの各ファイル名(最初に1回のみ)、行番号、内容を表示
 </p>
-<pre>
-ARGF.each_line do |line|
-  puts ARGF.filename if ARGF.lineno == 1
-  puts &quot;#{ARGF.lineno}: #{line}&quot;
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">ARGF</span><span class="p">.</span><span class="nf">each_line</span> <span class="k">do</span> <span class="o">|</span>line<span class="o">|</span>
+  <span class="nb">puts</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">filename</span> <span class="k">if</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">lineno</span> <span class="o">==</span> <span class="mi">1</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ARGF</span><span class="p">.</span><span class="nf">lineno</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">line</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/each.html">IO#each</a>, <a href="../method/IO/i/each_line.html">IO#each_line</a>
 </p>
@@ -626,12 +626,11 @@ ARGF の現在位置から 1 バイトずつ読み込み、それを整数とし
 <p>
 ブロックが与えられなかった場合は、<a href="../class/Enumerator.html">Enumerator</a> オブジェクトを生成して返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-ARGF.each_byte.to_a  # =&gt; [35, 32, ... 95, 10]
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">each_byte</span><span class="p">.</span><span class="nf">to_a</span>  <span class="c1"># =&gt; [35, 32, ... 95, 10]
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/each_byte.html">IO#each_byte</a>
 </p>
@@ -651,31 +650,30 @@ ARGF.each_byte.to_a  # =&gt; [35, 32, ... 95, 10]
 <p>
 ブロックが与えられなかった場合は、<a href="../class/Enumerator.html">Enumerator</a> オブジェクトを生成して返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-# $ echo &quot;line1\n&quot; &gt; test1.txt
-# $ echo &quot;line2\n&quot; &gt; test2.txt
-# $ ruby test.rb test1.txt test2.txt
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># $ echo &quot;line1\n&quot; &gt; test1.txt
+</span><span class="c1"># $ echo &quot;line2\n&quot; &gt; test2.txt
+</span><span class="c1"># $ ruby test.rb test1.txt test2.txt
+</span>
+<span class="c1"># test.rb
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">each_char</span>        <span class="c1"># =&gt; #&lt;Enumerator: ARGF:each_char&gt;
+</span><span class="no">ARGF</span><span class="p">.</span><span class="nf">each_char</span><span class="p">{</span><span class="o">|</span>e<span class="o">|</span><span class="nb">p</span> e<span class="p">}</span>
 
-# test.rb
-ARGF.each_char          # =&gt; #&lt;Enumerator: ARGF:each_char&gt;
-ARGF.each_char{|e|p e}
-
-# =&gt; &quot;l&quot;
-#    &quot;i&quot;
-#    &quot;n&quot;
-#    &quot;e&quot;
-#    &quot;1&quot;
-#    &quot;\n&quot;
-#    &quot;l&quot;
-#    &quot;i&quot;
-#    &quot;n&quot;
-#    &quot;e&quot;
-#    &quot;2&quot;
-#    &quot;\n&quot;
-</pre>
+<span class="c1"># =&gt; &quot;l&quot;
+</span><span class="c1">#    &quot;i&quot;
+</span><span class="c1">#    &quot;n&quot;
+</span><span class="c1">#    &quot;e&quot;
+</span><span class="c1">#    &quot;1&quot;
+</span><span class="c1">#    &quot;\n&quot;
+</span><span class="c1">#    &quot;l&quot;
+</span><span class="c1">#    &quot;i&quot;
+</span><span class="c1">#    &quot;n&quot;
+</span><span class="c1">#    &quot;e&quot;
+</span><span class="c1">#    &quot;2&quot;
+</span><span class="c1">#    &quot;\n&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/each_char.html">IO#each_char</a>
 </p>
@@ -694,18 +692,17 @@ self の各コードポイントに対して繰り返しブロックを呼びだ
 <p>
 ブロックを省略した場合には、<a href="../class/Enumerator.html">Enumerator</a> を返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-# $ echo &quot;line1\n&quot; &gt; test1.txt
-# $ echo &quot;line2\n&quot; &gt; test2.txt
-# $ ruby test.rb test1.txt test2.txt
-
-# test.rb
-ARGF.each_codepoint                  # =&gt; #&lt;Enumerator: ARGF:each_codepoint&gt;
-ARGF.each_codepoint{|e|print e, &quot;,&quot;} # =&gt; 108,105,110,101,49,10,108,105,110,101,50,10,
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># $ echo &quot;line1\n&quot; &gt; test1.txt
+</span><span class="c1"># $ echo &quot;line2\n&quot; &gt; test2.txt
+</span><span class="c1"># $ ruby test.rb test1.txt test2.txt
+</span>
+<span class="c1"># test.rb
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">each_codepoint</span>                <span class="c1"># =&gt; #&lt;Enumerator: ARGF:each_codepoint&gt;
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">each_codepoint</span><span class="p">{</span><span class="o">|</span>e<span class="o">|</span><span class="nb">print</span> e, <span class="s2">"</span><span class="s2">,</span><span class="s2">"</span><span class="p">}</span> <span class="c1"># =&gt; 108,105,110,101,49,10,108,105,110,101,50,10,
+</span></code></pre>
 </dd>
 
 
@@ -722,15 +719,16 @@ falseを返します。
 ファイルがopenされていない場合に発生します。
 </dd>
 </dl>
-<pre>
-$ echo &quot;eof&quot; | ruby argf.rb
-
-ARGF.eof?                 # =&gt; false
-3.times { ARGF.readchar }
-ARGF.eof?                 # =&gt; false
-ARGF.readchar             # =&gt; &quot;\n&quot;
-ARGF.eof?                 # =&gt; true
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"eof"</span> | ruby argf.rb
+<span class="go">
+</span><span class="gp">ARGF.eof?                 #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="nb">false</span>
+<span class="go">3.times { ARGF.readchar }
+</span><span class="gp">ARGF.eof?                 #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="nb">false</span>
+<span class="gp">ARGF.readchar             #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+<span class="gp">ARGF.eof?                 #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="nb">true</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/eof.html">IO#eof</a>, <a href="../method/IO/i/eof=3f.html">IO#eof?</a>
 </p>
@@ -745,12 +743,11 @@ ARGF が処理するファイルに対する外部エンコーディングを返
 <p>
 <a href="../method/ARGF=2eclass/i/set_encoding.html">ARGF.class#set_encoding</a> で設定します。
 </p>
-<p>
-例:
-</p>
-<pre>
-ARGF.external_encoding  # =&gt;  #&lt;Encoding:UTF-8&gt;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">external_encoding</span>  <span class="c1"># =&gt;  #&lt;Encoding:UTF-8&gt;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../class/IO.html">IO</a>, <a href="../method/ARGF=2eclass/i/internal_encoding.html">ARGF.class#internal_encoding</a>
 </p>
@@ -762,16 +759,17 @@ ARGF.external_encoding  # =&gt;  #&lt;Encoding:UTF-8&gt;
 <p>
 現在開いている処理対象の <a href="../class/File.html">File</a> オブジェクト(または <a href="../class/IO.html">IO</a> オブジェクト)を返します。
 </p>
-<pre>
-$ echo &quot;foo&quot; &gt; foo
-$ echo &quot;bar&quot; &gt; bar
-
-$ ruby argf.rb foo bar
-
-ARGF.file      # =&gt; #&lt;File:foo&gt;
-ARGF.read(5)   # =&gt; &quot;foo\nb&quot;
-ARGF.file      # =&gt; #&lt;File:bar&gt;
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"foo"</span> <span class="o">&gt;</span> foo
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"bar"</span> <span class="o">&gt;</span> bar
+<span class="go">
+</span><span class="gp">$</span><span class="w"> </span>ruby argf.rb foo bar
+<span class="go">
+</span><span class="gp">ARGF.file      #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="c">#&lt;File:foo&gt;</span>
+<span class="gp">ARGF.read(5)   #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"foo</span><span class="se">\n</span><span class="s2">b"</span>
+<span class="gp">ARGF.file      #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="c">#&lt;File:bar&gt;</span>
+</code></pre>
 <p>
 ARGFが現在開いている処理対象が標準入力の場合、$stdin を返します。
 </p>
@@ -787,19 +785,20 @@ ARGFが現在開いている処理対象が標準入力の場合、$stdin を返
 <p>
 標準入力に対しては - を返します。組み込み変数 <a href="../method/Kernel/v/FILENAME.html">$FILENAME</a> と同じです。
 </p>
-<pre>
-$ echo &quot;foo&quot; &gt; foo
-$ echo &quot;bar&quot; &gt; bar
-$ echo &quot;glark&quot; &gt; glark
-
-$ ruby argf.rb foo bar glark
-
-ARGF.filename # =&gt; &quot;foo&quot;
-ARGF.read(5)  # =&gt; &quot;foo\nb&quot;
-ARGF.filename # =&gt; &quot;bar&quot;
-ARGF.skip
-ARGF.filename # =&gt; &quot;glark&quot;
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"foo"</span> <span class="o">&gt;</span> foo
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"bar"</span> <span class="o">&gt;</span> bar
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"glark"</span> <span class="o">&gt;</span> glark
+<span class="go">
+</span><span class="gp">$</span><span class="w"> </span>ruby argf.rb foo bar glark
+<span class="go">
+</span><span class="gp">ARGF.filename #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"foo"</span>
+<span class="gp">ARGF.read(5)  #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"foo</span><span class="se">\n</span><span class="s2">b"</span>
+<span class="gp">ARGF.filename #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"bar"</span>
+<span class="go">ARGF.skip
+</span><span class="gp">ARGF.filename #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"glark"</span>
+</code></pre>
 </dd>
 
 
@@ -809,9 +808,10 @@ ARGF.filename # =&gt; &quot;glark&quot;
 <p>
 現在オープンしているファイルのファイル記述子を表す整数を返します。
 </p>
-<pre>
-ARGF.fileno    # =&gt; 3
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">fileno</span>  <span class="c1"># =&gt; 3
+</span></code></pre>
 <dl>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
@@ -829,21 +829,22 @@ self から 1 バイト(0..255)を読み込み整数として返します。既�
 <p>
 ARGF はスクリプトに指定した引数(<a href="../method/Object/c/ARGV.html">Object::ARGV</a> を参照) をファイル名とみなして、それらのファイルを連結した 1 つの仮想ファイルを表すオブジェクトです。そのため、最初のファイルを最後まで読んだ後は次のファイルの内容を返します。
 </p>
-<pre>
-$ echo &quot;foo&quot; &gt; file1
-$ echo &quot;bar&quot; &gt; file2
-$ ruby argf.rb file1 file2
-
-ARGF.getbyte # =&gt; 102
-ARGF.getbyte # =&gt; 111
-ARGF.getbyte # =&gt; 111
-ARGF.getbyte # =&gt; 10
-ARGF.getbyte # =&gt; 98
-ARGF.getbyte # =&gt; 97
-ARGF.getbyte # =&gt; 114
-ARGF.getbyte # =&gt; 10
-ARGF.getbyte # =&gt; nil
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"foo"</span> <span class="o">&gt;</span> file1
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"bar"</span> <span class="o">&gt;</span> file2
+<span class="gp">$</span><span class="w"> </span>ruby argf.rb file1 file2
+<span class="go">
+</span><span class="gp">ARGF.getbyte #</span><span class="w"> </span><span class="o">=&gt;</span> 102
+<span class="gp">ARGF.getbyte #</span><span class="w"> </span><span class="o">=&gt;</span> 111
+<span class="gp">ARGF.getbyte #</span><span class="w"> </span><span class="o">=&gt;</span> 111
+<span class="gp">ARGF.getbyte #</span><span class="w"> </span><span class="o">=&gt;</span> 10
+<span class="gp">ARGF.getbyte #</span><span class="w"> </span><span class="o">=&gt;</span> 98
+<span class="gp">ARGF.getbyte #</span><span class="w"> </span><span class="o">=&gt;</span> 97
+<span class="gp">ARGF.getbyte #</span><span class="w"> </span><span class="o">=&gt;</span> 114
+<span class="gp">ARGF.getbyte #</span><span class="w"> </span><span class="o">=&gt;</span> 10
+<span class="gp">ARGF.getbyte #</span><span class="w"> </span><span class="o">=&gt;</span> nil
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/ARGF=2eclass/i/getc.html">ARGF.class#getc</a>, <a href="../method/ARGF=2eclass/i/gets.html">ARGF.class#gets</a>
 </p>
@@ -858,21 +859,22 @@ self から 1 文字読み込んで返します。EOF に到達した時には n
 <p>
 ARGF はスクリプトに指定した引数(<a href="../method/Object/c/ARGV.html">Object::ARGV</a> を参照) をファイル名とみなして、それらのファイルを連結した 1 つの仮想ファイルを表すオブジェクトです。そのため、最初のファイルを最後まで読んだ後は次のファイルの内容を返します。
 </p>
-<pre>
-$ echo &quot;foo&quot; &gt; file1
-$ echo &quot;bar&quot; &gt; file2
-$ ruby argf.rb file1 file2
-
-ARGF.getc # =&gt; &quot;f&quot;
-ARGF.getc # =&gt; &quot;o&quot;
-ARGF.getc # =&gt; &quot;o&quot;
-ARGF.getc # =&gt; &quot;\n&quot;
-ARGF.getc # =&gt; &quot;b&quot;
-ARGF.getc # =&gt; &quot;a&quot;
-ARGF.getc # =&gt; &quot;r&quot;
-ARGF.getc # =&gt; &quot;\n&quot;
-ARGF.getc # =&gt; nil
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"foo"</span> <span class="o">&gt;</span> file1
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"bar"</span> <span class="o">&gt;</span> file2
+<span class="gp">$</span><span class="w"> </span>ruby argf.rb file1 file2
+<span class="go">
+</span><span class="gp">ARGF.getc #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"f"</span>
+<span class="gp">ARGF.getc #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"o"</span>
+<span class="gp">ARGF.getc #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"o"</span>
+<span class="gp">ARGF.getc #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+<span class="gp">ARGF.getc #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"b"</span>
+<span class="gp">ARGF.getc #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"a"</span>
+<span class="gp">ARGF.getc #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"r"</span>
+<span class="gp">ARGF.getc #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+<span class="gp">ARGF.getc #</span><span class="w"> </span><span class="o">=&gt;</span> nil
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/ARGF=2eclass/i/getbyte.html">ARGF.class#getbyte</a>, <a href="../method/ARGF=2eclass/i/gets.html">ARGF.class#gets</a>
 </p>
@@ -900,46 +902,42 @@ ARGFの現在位置から一行ずつ文字列として読み込みます。EOF 
 true を指定すると各行の末尾から &quot;\n&quot;, &quot;\r&quot;, または &quot;\r\n&quot; を取り除きます。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-# $ echo &quot;line1\nline2\nline3\n\nline4\n&quot; &gt; test.txt
-# $ ruby test.rb test.txt
-
-# test.rb
-ARGF.gets                  # =&gt; &quot;line1\n&quot;
-</pre>
-<p>
-例:
-</p>
-<pre>
-# $ echo &quot;line1\nline2\nline3\n\nline4\n&quot; &gt; test.txt
-# $ ruby test.rb test.txt
-
-# test.rb
-ARGF.gets(2)                  # =&gt; &quot;li&quot;
-</pre>
-<p>
-例:
-</p>
-<pre>
-# $ echo &quot;line1\nline2\nline3\n\nline4\n&quot; &gt; test.txt
-# $ ruby test.rb test.txt
-
-# test.rb
-ARGF.gets(&quot;e&quot;)                  # =&gt; &quot;line&quot;
-</pre>
-<p>
-例:
-</p>
-<pre>
-# $ echo &quot;line1\nline2\nline3\n\nline4\n&quot; &gt; test.txt
-# $ ruby test.rb test.txt
-
-# test.rb
-ARGF.gets(&quot;&quot;)                  # =&gt; &quot;line1\nline2\nline3\n\n&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># $ echo &quot;line1\nline2\nline3\n\nline4\n&quot; &gt; test.txt
+</span><span class="c1"># $ ruby test.rb test.txt
+</span>
+<span class="c1"># test.rb
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">gets</span>                <span class="c1"># =&gt; &quot;line1\n&quot;
+</span></code></pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># $ echo &quot;line1\nline2\nline3\n\nline4\n&quot; &gt; test.txt
+</span><span class="c1"># $ ruby test.rb test.txt
+</span>
+<span class="c1"># test.rb
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">gets</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                <span class="c1"># =&gt; &quot;li&quot;
+</span></code></pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># $ echo &quot;line1\nline2\nline3\n\nline4\n&quot; &gt; test.txt
+</span><span class="c1"># $ ruby test.rb test.txt
+</span>
+<span class="c1"># test.rb
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">gets</span><span class="p">(</span><span class="s2">"</span><span class="s2">e</span><span class="s2">"</span><span class="p">)</span>                <span class="c1"># =&gt; &quot;line&quot;
+</span></code></pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># $ echo &quot;line1\nline2\nline3\n\nline4\n&quot; &gt; test.txt
+</span><span class="c1"># $ ruby test.rb test.txt
+</span>
+<span class="c1"># test.rb
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">gets</span><span class="p">(</span><span class="s2">"</span><span class="s2">"</span><span class="p">)</span>                <span class="c1"># =&gt; &quot;line1\nline2\nline3\n\n&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/m/gets.html">Kernel.#gets</a>, <a href="../method/IO/i/gets.html">IO#gets</a>, <a href="../method/ARGF=2eclass/i/getbyte.html">ARGF.class#getbyte</a>, <a href="../method/ARGF=2eclass/i/getc.html">ARGF.class#getc</a>
 </p>
@@ -954,31 +952,29 @@ ARGF.gets(&quot;&quot;)                  # =&gt; &quot;line1\nline2\nline3\n\n&q
 <p>
 Ruby 起動時の -i オプション や <a href="../method/ARGF=2eclass/i/inplace_mode=3d.html">ARGF.class#inplace_mode=</a> で設定します。
 </p>
-<p>
-例:
-</p>
-<pre>
-# $ echo &quot;test&quot; &gt; test.txt
-# $ ruby -i.bak test.rb test.txt
-# $ cat test.txt # =&gt; &quot;TEST&quot;
-# $ cat test.txt.bak # =&gt; &quot;test&quot;
-
-# test.rb
-ARGF.inplace_mode                   # =&gt; &quot;.bak&quot;
-ARGF.each_line {|e|print e.upcase}  # =&gt; &quot;TEST&quot;
-</pre>
-<p>
-例:
-</p>
-<pre>
-# $ echo &quot;test&quot; &gt; test.txt
-# $ ruby test.rb test.txt
-# $ cat test.txt # =&gt; &quot;test&quot;
-
-# test.rb
-ARGF.inplace_mode                   # =&gt; nil
-ARGF.each_line {|e|print e.upcase}  # =&gt; &quot;TEST&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># $ echo &quot;test&quot; &gt; test.txt
+</span><span class="c1"># $ ruby -i.bak test.rb test.txt
+</span><span class="c1"># $ cat test.txt # =&gt; &quot;TEST&quot;
+</span><span class="c1"># $ cat test.txt.bak # =&gt; &quot;test&quot;
+</span>
+<span class="c1"># test.rb
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">inplace_mode</span>                 <span class="c1"># =&gt; &quot;.bak&quot;
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">each_line</span> <span class="p">{</span><span class="o">|</span>e<span class="o">|</span><span class="nb">print</span> e<span class="p">.</span><span class="nf">upcase</span><span class="p">}</span>  <span class="c1"># =&gt; &quot;TEST&quot;
+</span></code></pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># $ echo &quot;test&quot; &gt; test.txt
+</span><span class="c1"># $ ruby test.rb test.txt
+</span><span class="c1"># $ cat test.txt # =&gt; &quot;test&quot;
+</span>
+<span class="c1"># test.rb
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">inplace_mode</span>                 <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">each_line</span> <span class="p">{</span><span class="o">|</span>e<span class="o">|</span><span class="nb">print</span> e<span class="p">.</span><span class="nf">upcase</span><span class="p">}</span>  <span class="c1"># =&gt; &quot;TEST&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../doc/spec=2frubycmd.html#cmd_option">Rubyの起動/コマンドラインオプション</a>, <a href="../method/ARGF=2eclass/i/inplace_mode=3d.html">ARGF.class#inplace_mode=</a>
 </p>
@@ -1005,23 +1001,24 @@ Ruby 起動時の -i オプションで設定することも出来ます。
 インプレースモード時にバックアップファイルに付加する拡張子を文字列で指定します。ピリオドも含める必要があります。
 </dd>
 </dl>
-<pre>
-$ ruby argf.rb file.txt
-
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby argf.rb file.txt
+<span class="go">
 ---- argf.rb ----
-# 引数のファイル中の各行の最初の &quot;foo&quot; を &quot;bar&quot; で置き換える
-ARGF.inplace_mode = '.bak'
+</span><span class="gp">#</span><span class="w"> </span>引数のファイル中の各行の最初の <span class="s2">"foo"</span> を <span class="s2">"bar"</span> で置き換える
+<span class="go">ARGF.inplace_mode = '.bak'
 ARGF.lines do |line|
-  print line.sub(&quot;foo&quot;,&quot;bar&quot;)
+  print line.sub("foo","bar")
 end
 
 
 ---- -i オプションを使う場合 ----
-$ ruby -i.bak -p -e '$_.sub!(&quot;foo&quot;,&quot;bar&quot;)' file.txt
-
+</span><span class="gp">$</span><span class="w"> </span>ruby <span class="nt">-i</span>.bak <span class="nt">-p</span> <span class="nt">-e</span> <span class="s1">'$_.sub!("foo","bar")'</span> file.txt
+<span class="go">
 ---- -i オプションを使う場合その２ ----
-$ ruby -i.bak -n -e 'print $_.sub(&quot;foo&quot;,&quot;bar&quot;)' file.txt
-</pre>
+</span><span class="gp">$</span><span class="w"> </span>ruby <span class="nt">-i</span>.bak <span class="nt">-n</span> <span class="nt">-e</span> <span class="s1">'print $_.sub("foo","bar")'</span> file.txt
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../doc/spec=2frubycmd.html#cmd_option">Rubyの起動/コマンドラインオプション</a>, <a href="../method/ARGF=2eclass/i/inplace_mode.html">ARGF.class#inplace_mode</a>
 </p>
@@ -1048,24 +1045,22 @@ ARGF から読み込んだ文字列の内部エンコーディングを返しま
 <p>
 <a href="../method/ARGF=2eclass/i/set_encoding.html">ARGF.class#set_encoding</a> で設定します。
 </p>
-<p>
-例:
-</p>
-<pre>
-# $ ruby -Eutf-8 test.rb
-
-# test.rb
-ARGF.internal_encoding            # =&gt; #&lt;Encoding:UTF-8&gt;
-ARGF.set_encoding('utf-8','ascii')
-ARGF.internal_encoding            # =&gt; #&lt;Encoding:US-ASCII&gt;
-</pre>
-<p>
-例:
-</p>
-<pre>
-ARGF.binmode
-ARGF.internal_encoding            # =&gt; nil
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># $ ruby -Eutf-8 test.rb
+</span>
+<span class="c1"># test.rb
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">internal_encoding</span>          <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span><span class="no">ARGF</span><span class="p">.</span><span class="nf">set_encoding</span><span class="p">(</span><span class="s1">'utf-8'</span>,<span class="s1">'ascii'</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">internal_encoding</span>          <span class="c1"># =&gt; #&lt;Encoding:US-ASCII&gt;
+</span></code></pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">ARGF</span><span class="p">.</span><span class="nf">binmode</span>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">internal_encoding</span>          <span class="c1"># =&gt; nil
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../class/IO.html">IO</a>, <a href="../method/ARGF=2eclass/i/external_encoding.html">ARGF.class#external_encoding</a>
 </p>
@@ -1080,11 +1075,12 @@ ARGF.internal_encoding            # =&gt; nil
 <p>
 この値を書き換えたい場合は <a href="../method/ARGF=2eclass/i/lineno=3d.html">ARGF.class#lineno=</a> を使用してください。
 </p>
-<pre>
-ARGF.lineno   # =&gt; 0
-ARGF.readline # =&gt; &quot;This is line 1\n&quot;
-ARGF.lineno   # =&gt; 1
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">lineno</span> <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">readline</span> <span class="c1"># =&gt; &quot;This is line 1\n&quot;
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">lineno</span> <span class="c1"># =&gt; 1
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/ARGF=2eclass/i/lineno=3d.html">ARGF.class#lineno=</a>
 </p>
@@ -1105,13 +1101,14 @@ ARGF.lineno   # =&gt; 1
 更新後の行番号を指定する
 </dd>
 </dl>
-<pre>
-ARGF.lineno      # =&gt; 0
-ARGF.readline    # =&gt; &quot;This is line 1\n&quot;
-ARGF.lineno      # =&gt; 1
-ARGF.lineno = 0  # =&gt; 0
-ARGF.lineno      # =&gt; 0
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">lineno</span>    <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">readline</span>  <span class="c1"># =&gt; &quot;This is line 1\n&quot;
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">lineno</span>    <span class="c1"># =&gt; 1
+</span><span class="no">ARGF</span><span class="p">.</span><span class="nf">lineno</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">lineno</span>    <span class="c1"># =&gt; 0
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/ARGF=2eclass/i/lineno.html">ARGF.class#lineno</a>
 </p>
@@ -1124,11 +1121,12 @@ ARGF.lineno      # =&gt; 0
 <p>
 ARGFが現在開いているファイルのファイルポインタの現在の位置をバイト単位の整数で返します。
 </p>
-<pre>
-ARGF.pos    # =&gt; 0
-ARGF.gets   # =&gt; &quot;This is line one\n&quot;
-ARGF.pos    # =&gt; 17
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">pos</span>  <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">gets</span> <span class="c1"># =&gt; &quot;This is line one\n&quot;
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">pos</span>  <span class="c1"># =&gt; 17
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/pos.html">IO#pos</a>, <a href="../method/IO/i/tell.html">IO#tell</a>, <a href="../method/ARGF=2eclass/i/pos=3d.html">ARGF.class#pos=</a>
 </p>
@@ -1146,10 +1144,11 @@ ARGFが開いているファイルのファイルポインタを指定位置に�
 先頭からのオフセットをバイト単位の整数で指定します。
 </dd>
 </dl>
-<pre>
-ARGF.pos = 17
-ARGF.gets   # =&gt; &quot;This is line two\n&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">ARGF</span><span class="p">.</span><span class="nf">pos</span> <span class="o">=</span> <span class="mi">17</span>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">gets</span> <span class="c1"># =&gt; &quot;This is line two\n&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/pos=3d.html">IO#pos=</a>, <a href="../method/ARGF=2eclass/i/pos.html">ARGF.class#pos</a>
 </p>
@@ -1244,16 +1243,17 @@ ARGVに指定されたファイルを先頭のファイルからlengthバイト�
 出力先の文字列。内容は上書きされます。
 </dd>
 </dl>
-<pre>
-$ echo &quot;small&quot; &gt; small.txt
-$ echo &quot;large&quot; &gt; large.txt
-$ ruby glark.rb small.txt large.txt
-
-ARGF.read      # =&gt; &quot;small\nlarge&quot;
-ARGF.read(200) # =&gt; &quot;small\nlarge&quot;
-ARGF.read(2)   # =&gt; &quot;sm&quot;
-ARGF.read(0)   # =&gt; &quot;&quot;
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"small"</span> <span class="o">&gt;</span> small.txt
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"large"</span> <span class="o">&gt;</span> large.txt
+<span class="gp">$</span><span class="w"> </span>ruby glark.rb small.txt large.txt
+<span class="go">
+</span><span class="gp">ARGF.read      #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"small</span><span class="se">\n</span><span class="s2">large"</span>
+<span class="gp">ARGF.read(200) #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"small</span><span class="se">\n</span><span class="s2">large"</span>
+<span class="gp">ARGF.read(2)   #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"sm"</span>
+<span class="gp">ARGF.read(0)   #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">""</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/read.html">IO#read</a>
 </p>
@@ -1303,16 +1303,17 @@ ARGF.read(0)   # =&gt; &quot;&quot;
 既に EOF に達している場合に発生します。
 </dd>
 </dl>
-<pre>
-$ echo &quot;foo&quot; &gt; file
-$ ruby argf.rb file
-
-ARGF.readbyte  # =&gt; 102
-ARGF.readbyte  # =&gt; 111
-ARGF.readbyte  # =&gt; 111
-ARGF.readbyte  # =&gt; 10
-ARGF.readbyte  # =&gt; end of file reached (EOFError)
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"foo"</span> <span class="o">&gt;</span> file
+<span class="gp">$</span><span class="w"> </span>ruby argf.rb file
+<span class="go">
+</span><span class="gp">ARGF.readbyte  #</span><span class="w"> </span><span class="o">=&gt;</span> 102
+<span class="gp">ARGF.readbyte  #</span><span class="w"> </span><span class="o">=&gt;</span> 111
+<span class="gp">ARGF.readbyte  #</span><span class="w"> </span><span class="o">=&gt;</span> 111
+<span class="gp">ARGF.readbyte  #</span><span class="w"> </span><span class="o">=&gt;</span> 10
+<span class="gp">ARGF.readbyte  #</span><span class="w"> </span><span class="o">=&gt;</span> end of file reached <span class="o">(</span>EOFError<span class="o">)</span>
+</code></pre>
 </dd>
 
 
@@ -1327,16 +1328,17 @@ ARGFから 1 文字読み込んで、その文字に対応する String を返�
 EOFに達した時発生する
 </dd>
 </dl>
-<pre>
-$ echo &quot;foo&quot; &gt; file
-$ ruby argf.rb file
-
-ARGF.readchar  # =&gt; &quot;f&quot;
-ARGF.readchar  # =&gt; &quot;o&quot;
-ARGF.readchar  # =&gt; &quot;o&quot;
-ARGF.readchar  # =&gt; &quot;\n&quot;
-ARGF.readchar  # =&gt; end of file reached (EOFError)
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"foo"</span> <span class="o">&gt;</span> file
+<span class="gp">$</span><span class="w"> </span>ruby argf.rb file
+<span class="go">
+</span><span class="gp">ARGF.readchar  #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"f"</span>
+<span class="gp">ARGF.readchar  #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"o"</span>
+<span class="gp">ARGF.readchar  #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"o"</span>
+<span class="gp">ARGF.readchar  #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+<span class="gp">ARGF.readchar  #</span><span class="w"> </span><span class="o">=&gt;</span> end of file reached <span class="o">(</span>EOFError<span class="o">)</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/ARGF=2eclass/i/getc.html">ARGF.class#getc</a>
 </p>
@@ -1390,10 +1392,11 @@ ARGFの各行を配列に読み込んで返します。rsがnilの場合は要�
 最大の読み込みバイト数
 </dd>
 </dl>
-<pre>
-lines = ARGF.readlines
-lines[0]                # =&gt; &quot;This is line one\n&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+lines <span class="o">=</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">readlines</span>
+<span class="nb">p</span> lines<span class="p">[</span><span class="mi">0</span><span class="p">]</span>              <span class="c1"># =&gt; &quot;This is line one\n&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/v/=2f.html">$/</a>, <a href="../method/Kernel/m/readlines.html">Kernel.#readlines</a>, <a href="../method/IO/i/readlines.html">IO#readlines</a>
 </p>
@@ -1426,12 +1429,13 @@ lines[0]                # =&gt; &quot;This is line one\n&quot;
 <p>
 ARGFが現在開いているファイルのファイルポインタを先頭に戻します。
 </p>
-<pre>
-ARGF.readline   # =&gt; &quot;This is line one\n&quot;
-ARGF.rewind     # =&gt; 0
-ARGF.lineno     # =&gt; 0
-ARGF.readline   # =&gt; &quot;This is line one\n&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">readline</span> <span class="c1"># =&gt; &quot;This is line one\n&quot;
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">rewind</span>   <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">lineno</span>   <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">readline</span> <span class="c1"># =&gt; &quot;This is line one\n&quot;
+</span></code></pre>
 </dd>
 
 
@@ -1503,15 +1507,16 @@ ARGF の外部／内部エンコーディングを設定します。次以降に
 現在開いている処理対象のファイルをクローズします。次回の読み込みは次の引数が処理対象になります。
 self を返します。
 </p>
-<pre>
-$ echo &quot;foo&quot; &gt; foo
-$ echo &quot;bar&quot; &gt; bar
-
-$ ruby argf.rb foo bar
-ARGF.filename  # =&gt; &quot;foo&quot;
-ARGF.skip
-ARGF.filename  # =&gt; &quot;bar&quot;
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"foo"</span> <span class="o">&gt;</span> foo
+<span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"bar"</span> <span class="o">&gt;</span> bar
+<span class="go">
+</span><span class="gp">$</span><span class="w"> </span>ruby argf.rb foo bar
+<span class="gp">ARGF.filename  #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"foo"</span>
+<span class="go">ARGF.skip
+</span><span class="gp">ARGF.filename  #</span><span class="w"> </span><span class="o">=&gt;</span> <span class="s2">"bar"</span>
+</code></pre>
 </dd>
 
 
@@ -1520,10 +1525,11 @@ ARGF.filename  # =&gt; &quot;bar&quot;
 <p>
 ARGFが現在開いているファイルの<a href="../class/File.html">File</a>、または<a href="../class/IO.html">IO</a>オブジェクトを返します。
 </p>
-<pre>
-ARGF.to_io    # =&gt; #&lt;File:glark.txt&gt;
-ARGF.to_io    # =&gt; #&lt;IO:&lt;STDIN&gt;&gt;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">to_io</span>  <span class="c1"># =&gt; #&lt;File:glark.txt&gt;
+</span><span class="nb">p</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">to_io</span>  <span class="c1"># =&gt; #&lt;IO:&lt;STDIN&gt;&gt;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/ARGF=2eclass/i/file.html">ARGF.class#file</a>, <a href="../method/ARGF=2eclass/i/to_write_io.html">ARGF.class#to_write_io</a>
 </p>

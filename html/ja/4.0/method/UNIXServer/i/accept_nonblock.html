@@ -96,17 +96,18 @@
 <a href="../../../class/Errno=3a=3aECONNABORTED.html">Errno::ECONNABORTED</a>, <a href="../../../class/Errno=3a=3aEPROTO.html">Errno::EPROTO</a> のいずれかの例外が発生した場合は、その例外には <a href="../../../class/IO=3a=3aWaitReadable.html">IO::WaitReadable</a> が extend
 されます。それを利用してリトライ可能な例外を掴まえることができます。
 </p>
-<pre>
-require 'socket'
-serv = UNIXServer.new(&quot;/tmp/sock&quot;)
-begin # emulate blocking accept
-  sock = serv.accept_nonblock
-rescue IO::WaitReadable, Errno::EINTR
-  IO.select([serv])
-  retry
-end
-# sock is an accepted socket.
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
+serv <span class="o">=</span> <span class="no">UNIXServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/sock</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">begin</span> <span class="c1"># emulate blocking accept
+</span>  sock <span class="o">=</span> serv<span class="p">.</span><span class="nf">accept_nonblock</span>
+<span class="k">rescue</span> <span class="no">IO</span><span class="o">::</span><span class="no">WaitReadable</span>, <span class="no">Errno</span><span class="o">::</span><span class="no">EINTR</span>
+  <span class="no">IO</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="p">[</span>serv<span class="p">]</span><span class="p">)</span>
+  <span class="k">retry</span>
+<span class="k">end</span>
+<span class="c1"># sock is an accepted socket.
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/UNIXServer/i/accept.html">UNIXServer#accept</a>
 </p>

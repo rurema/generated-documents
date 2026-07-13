@@ -116,50 +116,53 @@ IMAP を使わないメールアプリケーションがメールの順番を変
 <p>
 デフォルトのメールボックス(INBOX)の送り元とサブジェクトを表示する。
 </p>
-<pre>
-require 'net/imap'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/imap'</span>
 
-imap = Net::IMAP.new('mail.example.com')
-imap.authenticate('LOGIN', 'joe_user', 'joes_password')
-imap.examine('INBOX')
-imap.search([&quot;RECENT&quot;]).each do |message_id|
-  envelope = imap.fetch(message_id, &quot;ENVELOPE&quot;)[0].attr[&quot;ENVELOPE&quot;]
-  puts &quot;#{envelope.from[0].name}: \t#{envelope.subject}&quot;
-end
-</pre>
+imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">IMAP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'mail.example.com'</span><span class="p">)</span>
+imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'LOGIN'</span>, <span class="s1">'joe_user'</span>, <span class="s1">'joes_password'</span><span class="p">)</span>
+imap<span class="p">.</span><span class="nf">examine</span><span class="p">(</span><span class="s1">'INBOX'</span><span class="p">)</span>
+imap<span class="p">.</span><span class="nf">search</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">RECENT</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>message_id<span class="o">|</span>
+  envelope <span class="o">=</span> imap<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span>message_id, <span class="s2">"</span><span class="s2">ENVELOPE</span><span class="s2">"</span><span class="p">)</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">attr</span><span class="p">[</span><span class="s2">"</span><span class="s2">ENVELOPE</span><span class="s2">"</span><span class="p">]</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">envelope</span><span class="p">.</span><span class="nf">from</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">: \t</span><span class="si">#{</span><span class="n">envelope</span><span class="p">.</span><span class="nf">subject</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 2003年4月のメールをすべて Mail/sent-mail から &quot;Mail/sent-apr03&quot; へ移動させる
 </p>
-<pre>
-require 'net/imap'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/imap'</span>
 
-imap = Net::IMAP.new('mail.example.com')
-imap.authenticate('LOGIN', 'joe_user', 'joes_password')
-imap.select('Mail/sent-mail')
-if not imap.list('Mail/', 'sent-apr03')
-  imap.create('Mail/sent-apr03')
-end
-imap.search([&quot;BEFORE&quot;, &quot;30-Apr-2003&quot;, &quot;SINCE&quot;, &quot;1-Apr-2003&quot;]).each do |message_id|
-  imap.copy(message_id, &quot;Mail/sent-apr03&quot;)
-  imap.store(message_id, &quot;+FLAGS&quot;, [:Deleted])
-end
-imap.expunge
-</pre>
+imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">IMAP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'mail.example.com'</span><span class="p">)</span>
+imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'LOGIN'</span>, <span class="s1">'joe_user'</span>, <span class="s1">'joes_password'</span><span class="p">)</span>
+imap<span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="s1">'Mail/sent-mail'</span><span class="p">)</span>
+<span class="k">if</span> <span class="k">not</span> imap<span class="p">.</span><span class="nf">list</span><span class="p">(</span><span class="s1">'Mail/'</span>, <span class="s1">'sent-apr03'</span><span class="p">)</span>
+  imap<span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="s1">'Mail/sent-apr03'</span><span class="p">)</span>
+<span class="k">end</span>
+imap<span class="p">.</span><span class="nf">search</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">BEFORE</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">30-Apr-2003</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">SINCE</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1-Apr-2003</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>message_id<span class="o">|</span>
+  imap<span class="p">.</span><span class="nf">copy</span><span class="p">(</span>message_id, <span class="s2">"</span><span class="s2">Mail/sent-apr03</span><span class="s2">"</span><span class="p">)</span>
+  imap<span class="p">.</span><span class="nf">store</span><span class="p">(</span>message_id, <span class="s2">"</span><span class="s2">+FLAGS</span><span class="s2">"</span>, <span class="p">[</span><span class="ss">:Deleted</span><span class="p">]</span><span class="p">)</span>
+<span class="k">end</span>
+imap<span class="p">.</span><span class="nf">expunge</span>
+</code></pre>
 <h2 >スレッド安全性</h2>
 <p>
 Net::IMAP は並列実行をサポートしています。例として、
 </p>
-<pre>
-require 'net/imap'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'net/imap'</span>
 
-imap = Net::IMAP.new(&quot;imap.foo.net&quot;, &quot;imap2&quot;)
-imap.authenticate(&quot;cram-md5&quot;, &quot;bar&quot;, &quot;password&quot;)
-imap.select(&quot;inbox&quot;)
-fetch_thread = Thread.start { imap.fetch(1..-1, &quot;UID&quot;) }
-search_result = imap.search([&quot;BODY&quot;, &quot;hello&quot;])
-fetch_result = fetch_thread.value
-imap.disconnect
-</pre>
+imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">IMAP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">imap.foo.net</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">imap2</span><span class="s2">"</span><span class="p">)</span>
+imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s2">"</span><span class="s2">cram-md5</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">password</span><span class="s2">"</span><span class="p">)</span>
+imap<span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="s2">"</span><span class="s2">inbox</span><span class="s2">"</span><span class="p">)</span>
+fetch_thread <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">start</span> <span class="p">{</span> imap<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="o">-</span><span class="mi">1</span>, <span class="s2">"</span><span class="s2">UID</span><span class="s2">"</span><span class="p">)</span> <span class="p">}</span>
+search_result <span class="o">=</span> imap<span class="p">.</span><span class="nf">search</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">BODY</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
+fetch_result <span class="o">=</span> fetch_thread<span class="p">.</span><span class="nf">value</span>
+imap<span class="p">.</span><span class="nf">disconnect</span>
+</code></pre>
 <p>
 とすると FETCH コマンドと SEARCH コマンドを並列に実行します。
 </p>

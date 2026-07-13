@@ -147,20 +147,21 @@
 <p>
 ユーザの入力をそのままサーバに転送するプログラムは以下のようになります。
 </p>
-<pre>
-require &quot;socket&quot;
-
-port = if ARGV.size &gt; 0 then ARGV.shift else 4444 end
-print port, &quot;\n&quot;
-
-s = TCPSocket.open(&quot;localhost&quot;, port)
-
-while gets
-  s.write($_)
-  print(s.gets)
-end
-s.close
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">socket</span><span class="s2">"</span>
+  
+port <span class="o">=</span> <span class="k">if</span> <span class="no">ARGV</span><span class="p">.</span><span class="nf">size</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span> <span class="no">ARGV</span><span class="p">.</span><span class="nf">shift</span> <span class="k">else</span> <span class="mi">4444</span> <span class="k">end</span>
+<span class="nb">print</span> port, <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span>
+  
+s <span class="o">=</span> <span class="no">TCPSocket</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">localhost</span><span class="s2">"</span>, port<span class="p">)</span>
+  
+<span class="k">while</span> <span class="nb">gets</span>
+  s<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="vg">$_</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span>s<span class="p">.</span><span class="nf">gets</span><span class="p">)</span>
+<span class="k">end</span>
+s<span class="p">.</span><span class="nf">close</span>
+</code></pre>
 
 
 
@@ -776,15 +777,14 @@ decimal の文字列 (&quot;127.0.0.1&quot;のような文字列) や IPv6
 ホスト名、ホストの別名の配列、ホストのアドレスタイプ、ホストのアドレスを各要素とする配列を返します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'socket'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-p TCPSocket.gethostbyname(&quot;www.ruby-lang.org&quot;)
-#=&gt; [&quot;beryllium.ruby-lang.org&quot;, [], 2, &quot;210.163.138.100&quot;]
-</pre>
+<span class="nb">p</span> <span class="no">TCPSocket</span><span class="p">.</span><span class="nf">gethostbyname</span><span class="p">(</span><span class="s2">"</span><span class="s2">www.ruby-lang.org</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1">#=&gt; [&quot;beryllium.ruby-lang.org&quot;, [], 2, &quot;210.163.138.100&quot;]
+</span></code></pre>
 </dd>
 
 
@@ -822,8 +822,8 @@ p TCPSocket.gethostbyname(&quot;www.ruby-lang.org&quot;)
 </dd>
 
 
-<dt class="method-heading" id="S_NEW"><code>open(host, service, local_host=nil, local_service=nil, connect_timeout: nil) -&gt; TCPSocket</code><span class="permalink">[<a href="../method/TCPSocket/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/TCPSocket.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/TCPSocket.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>new(host, service, local_host=nil, local_service=nil, connect_timeout: nil) -&gt; TCPSocket</code></dt>
+<dt class="method-heading" id="S_NEW"><code>open(host, service, local_host=nil, local_service=nil, resolv_timeout: nil, connect_timeout: nil, fast_fallback: true) -&gt; TCPSocket</code><span class="permalink">[<a href="../method/TCPSocket/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/TCPSocket.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/TCPSocket.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>new(host, service, local_host=nil, local_service=nil, resolv_timeout: nil, connect_timeout: nil, fast_fallback: true) -&gt; TCPSocket</code></dt>
 <dd class="method-description">
 <p>
 host で指定したホストの service で指定したポートと接続したソケットを返します。host はホスト名、またはインターネットアドレスを示す文字列、service は /etc/services (または NIS) に登録されているサービス名かポート番号です。
@@ -848,9 +848,17 @@ host で指定したホストの service で指定したポートと接続した
 <dd>
 /etc/services (または NIS) に登録されているサービス名かポート番号を指定します。
 </dd>
+<dt class='method-param'>[PARAM] <code>resolv_timeout</code>:</dt>
+<dd>
+名前解決のタイムアウトを秒数で指定します。
+</dd>
 <dt class='method-param'>[PARAM] <code>connect_timeout</code>:</dt>
 <dd>
-タイムアウトを秒数で指定します。
+接続確立のタイムアウトを秒数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>fast_fallback</code>:</dt>
+<dd>
+Happy Eyeballs Version 2 ([RFC 8305](https://datatracker.ietf.org/doc/html/rfc8305)) を有効にします。
 </dd>
 </dl>
 </dd>

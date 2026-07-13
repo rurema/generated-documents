@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -84,30 +84,29 @@
 例外 LocalJumpError を発生する原因となった
 break や return に渡した値を返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-def foo
-  proc { return 10 }
-end
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">foo</span>
+  <span class="nb">proc</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">10</span> <span class="p">}</span>
+<span class="k">end</span>
+  
+<span class="k">begin</span>
+  foo<span class="p">.</span><span class="nf">call</span>
+<span class="k">rescue</span> <span class="no">LocalJumpError</span> <span class="o">=&gt;</span> err
+  <span class="nb">p</span> err              <span class="c1"># =&gt; #&lt;LocalJumpError: return from block-closure&gt;
+</span>  <span class="nb">p</span> err<span class="p">.</span><span class="nf">reason</span>       <span class="c1"># =&gt; :return
+</span>  <span class="nb">p</span> err<span class="p">.</span><span class="nf">exit_value</span>   <span class="c1"># =&gt; 10
+</span><span class="k">end</span>
 
-begin
-  foo.call
-rescue LocalJumpError =&gt; err
-  p err              # =&gt; #&lt;LocalJumpError: return from block-closure&gt;
-  p err.reason       # =&gt; :return
-  p err.exit_value   # =&gt; 10
-end
-
-begin
-  Block.new { break 5 }.call
-rescue LocalJumpError =&gt; err
-  p err              # =&gt; #&lt;LocalJumpError: break from block-closure&gt;
-  p err.reason       # =&gt; :break
-  p err.exit_value   # =&gt; 5
-end
-</pre>
+<span class="k">begin</span>
+  <span class="no">Block</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="k">break</span> <span class="mi">5</span> <span class="p">}</span><span class="p">.</span><span class="nf">call</span>
+<span class="k">rescue</span> <span class="no">LocalJumpError</span> <span class="o">=&gt;</span> err
+  <span class="nb">p</span> err              <span class="c1"># =&gt; #&lt;LocalJumpError: break from block-closure&gt;
+</span>  <span class="nb">p</span> err<span class="p">.</span><span class="nf">reason</span>       <span class="c1"># =&gt; :break
+</span>  <span class="nb">p</span> err<span class="p">.</span><span class="nf">exit_value</span>   <span class="c1"># =&gt; 5
+</span><span class="k">end</span>
+</code></pre>
 </dd>
 
 

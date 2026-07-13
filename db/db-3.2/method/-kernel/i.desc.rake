@@ -9,11 +9,10 @@ source_location=manual/api/rake/Kernel.md
 
 - **param** `description` -- 直後のタスクの説明を指定します。
 
-例:
-``````
+```ruby title="例"
 desc "Run the Unit Tests"
 task :test => [:build] do
   runtests
 end
-``````
+```
 

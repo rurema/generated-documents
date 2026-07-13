@@ -171,14 +171,15 @@ enc で指定したエンコーディングの文字列が URL エンコード�
 <a class="external" href="https://url.spec.whatwg.org/#concept-urlencoded-parser">https://url.spec.whatwg.org/#concept-urlencoded-parser</a>
 にもとづいて実装されています。そのため「&amp;」区切りのみに対応していて、「;」区切りには対応していません。
 </p>
-<pre>
-require 'uri'
-ary = URI.decode_www_form(&quot;a=1&amp;a=2&amp;b=3&quot;)
-p ary                 #=&gt; [['a', '1'], ['a', '2'], ['b', '3']]
-p ary.assoc('a').last #=&gt; '1'
-p ary.assoc('b').last #=&gt; '3'
-p Hash[ary]           #=&gt; {&quot;a&quot;=&gt;&quot;2&quot;, &quot;b&quot;=&gt;&quot;3&quot;}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'uri'</span>
+ary <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">decode_www_form</span><span class="p">(</span><span class="s2">"</span><span class="s2">a=1&amp;a=2&amp;b=3</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> ary                 <span class="c1">#=&gt; [['a', '1'], ['a', '2'], ['b', '3']]
+</span><span class="nb">p</span> ary<span class="p">.</span><span class="nf">assoc</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span> <span class="c1">#=&gt; '1'
+</span><span class="nb">p</span> ary<span class="p">.</span><span class="nf">assoc</span><span class="p">(</span><span class="s1">'b'</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span> <span class="c1">#=&gt; '3'
+</span><span class="nb">p</span> <span class="no">Hash</span><span class="p">[</span>ary<span class="p">]</span>           <span class="c1">#=&gt; {&quot;a&quot;=&gt;&quot;2&quot;, &quot;b&quot;=&gt;&quot;3&quot;}
+</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>str</code>:</dt>
 <dd>
@@ -257,19 +258,21 @@ HTML5 で定義されている application/x-www-form-urlencoded 形式の文字
 <p>
 enum には通常 [key, value] という形の配列の配列を渡します。以下の例を見てください。
 </p>
-<pre>
-require 'uri'
-URI.encode_www_form([[&quot;a&quot;, &quot;1&quot;], [&quot;b&quot;, &quot;2&quot;], [&quot;c&quot;, &quot;x yz&quot;]])
-# =&gt; &quot;a=1&amp;b=2&amp;c=x+yz&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span><span class="p">[</span><span class="p">[</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1</span><span class="s2">"</span><span class="p">]</span>, <span class="p">[</span><span class="s2">"</span><span class="s2">b</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">2</span><span class="s2">"</span><span class="p">]</span>, <span class="p">[</span><span class="s2">"</span><span class="s2">c</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">x yz</span><span class="s2">"</span><span class="p">]</span><span class="p">]</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;a=1&amp;b=2&amp;c=x+yz&quot;
+</span></code></pre>
 <p>
 実際には、each のブロック呼び出しで [key, value] の形のデータを渡すものであれば何でも渡すことができます(例えば <a href="../class/Hash.html">Hash</a> など)。
 </p>
-<pre>
-require 'uri'
-URI.encode_www_form({&quot;a&quot;=&gt;&quot;1&quot;, &quot;b&quot;=&gt;&quot;2&quot;, &quot;c&quot;=&gt;&quot;x yz&quot;})
-# =&gt; &quot;a=1&amp;b=2&amp;c=x+yz&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">1</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b</span><span class="s2">"</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">2</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">c</span><span class="s2">"</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">x yz</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;a=1&amp;b=2&amp;c=x+yz&quot;
+</span></code></pre>
 <p>
 このメソッドは引数のエンコーディングを変換しません。そのため送るデータのエンコーディングを変換したい場合はあらかじめ変換しておいてください(例えば ASCII incompatible なものを
 UTF-8 に変換する場合など)。各要素のエンコーディングがばらばらの場合もあらかじめエンコーディングを揃えてからこのメソッドを使うべきです。
@@ -368,18 +371,17 @@ UTF-8 に変換する場合など)。各要素のエンコーディングがば�
 検索の対象としたいスキームを、文字列の配列として与えます。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
+<span class="caption">例</span>
+<pre class="highlight text">
+<code>
 require 'uri'
-str = &quot;
+str = "
         http://www.ruby-lang.org/
         http://www.ruby-lang.org/man-1.6/
-&quot;
-p URI.extract(str, [&quot;http&quot;])
-=&gt; [&quot;http://www.ruby-lang.org/&quot;, &quot;http://www.ruby-lang.org/man-1.6/&quot;]
-</pre>
+"
+p URI.extract(str, ["http"])
+=&gt; ["http://www.ruby-lang.org/", "http://www.ruby-lang.org/man-1.6/"]
+</code></pre>
 </dd>
 
 
@@ -392,10 +394,11 @@ URI オブジェクトを返します。
 <p>
 <a class="external" href="https://tools.ietf.org/html/rfc2396">[RFC2396]</a> の Section 5.2 の仕様に従って連結します。以下と等価です
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 require 'uri'
 URI.parse(uri_str) + path + ...
-</pre>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>uri_str</code>:</dt>
 <dd>
@@ -414,14 +417,13 @@ URI 文字列
 パースに失敗した場合に発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
+<span class="caption">例</span>
+<pre class="highlight text">
+<code>
 require 'uri'
 p URI.join('http://www.ruby-lang.org/', '/ja/man-1.6/')
 =&gt; #&lt;URI::HTTP:0x2010017a URL:http://www.ruby-lang.org/ja/man-1.6/&gt;
-</pre>
+</code></pre>
 </dd>
 
 
@@ -444,19 +446,18 @@ p URI.join('http://www.ruby-lang.org/', '/ja/man-1.6/')
 パースに失敗した場合に発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'uri'
-p uri = URI.parse(&quot;http://www.ruby-lang.org/&quot;)
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">p</span> uri <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">http://www.ruby-lang.org/</span><span class="s2">"</span><span class="p">)</span>
 
-# =&gt; #&lt;URI::HTTP:0x201002a6 URL:http://www.ruby-lang.org/&gt;
-p uri.scheme    # =&gt; &quot;http&quot;
-p uri.host      # =&gt; &quot;www.ruby-lang.org&quot;
-p uri.port      # =&gt; 80
-p uri.path      # =&gt; &quot;/&quot;
-</pre>
+<span class="c1"># =&gt; #&lt;URI::HTTP:0x201002a6 URL:http://www.ruby-lang.org/&gt;
+</span><span class="nb">p</span> uri<span class="p">.</span><span class="nf">scheme</span>    <span class="c1"># =&gt; &quot;http&quot;
+</span><span class="nb">p</span> uri<span class="p">.</span><span class="nf">host</span>      <span class="c1"># =&gt; &quot;www.ruby-lang.org&quot;
+</span><span class="nb">p</span> uri<span class="p">.</span><span class="nf">port</span>      <span class="c1"># =&gt; 80
+</span><span class="nb">p</span> uri<span class="p">.</span><span class="nf">path</span>      <span class="c1"># =&gt; &quot;/&quot;
+</span></code></pre>
 </dd>
 
 
@@ -485,13 +486,12 @@ schemes を与えた場合は、そのスキームの URI にのみマッチす�
 マッチさせたいスキームを、文字列の配列として与えます。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'uri'
-p URI.regexp =~ &quot;http://www.ruby-lang.org/&quot;  #=&gt; 0
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">p</span> <span class="no">URI</span><span class="p">.</span><span class="nf">regexp</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">http://www.ruby-lang.org/</span><span class="s2">"</span>  <span class="c1">#=&gt; 0
+</span></code></pre>
 </dd>
 
 
@@ -524,14 +524,13 @@ URI を要素に分割した文字列の配列を返します。
 パースに失敗した場合に発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'uri'
-p URI.split(&quot;http://www.ruby-lang.org/&quot;)
-#=&gt; [&quot;http&quot;, nil, &quot;www.ruby-lang.org&quot;, nil, nil, &quot;/&quot;, nil, nil, nil]
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">p</span> <span class="no">URI</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="s2">http://www.ruby-lang.org/</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1">#=&gt; [&quot;http&quot;, nil, &quot;www.ruby-lang.org&quot;, nil, nil, &quot;/&quot;, nil, nil, nil]
+</span></code></pre>
 </dd>
 
 
@@ -545,9 +544,10 @@ p URI.split(&quot;http://www.ruby-lang.org/&quot;)
 <p>
 URIとして指定できない文字にマッチする正規表現
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 /[^-_.!~*'()a-zA-Z\d;\/?:@&amp;=+$,\[\]]/n
-</pre>
+</code></pre>
 <p>
 です。
 </p>

@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -122,26 +122,27 @@
 タプルのマッチングのためのクラスです。ユーザがこのクラスを直接使うことはありません。
 </p>
 <h2 >例</h2>
-<pre>
-require 'rinda/rinda'
-
-template = Rinda::Template.new(['abc', nil, nil])
-template.match(['abc', 2, 5])   # =&gt; true
-template.match(['hoge', 2, 5])  # =&gt; false
-
-template = Rinda::Template.new([String, Integer, nil])
-template.match(['abc', 2, 5])   # =&gt; true
-template.match(['abcd', 2, 5])  # =&gt; true
-
-template = Rinda::Template.new([/^abc/, Integer, nil])
-template.match([/^abc/, Integer, nil])  # =&gt; true
-template.match(['abc', 2, 5])           # =&gt; true
-template.match(['def', 2, 5])           # =&gt; false
-
-template = Rinda::Template.new({'name' =&gt; String, 'age' =&gt; Integer})
-template.match({'name' =&gt; 'seki', 'age' =&gt; 0x20})   # =&gt; true
-template.match({'name' =&gt; :seki,  'age' =&gt; 0x20})   # =&gt; false
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rinda/rinda'</span>
+ 
+template <span class="o">=</span> <span class="no">Rinda</span><span class="o">::</span><span class="no">Template</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="s1">'abc'</span>, <span class="k">nil</span>, <span class="k">nil</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> template<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="p">[</span><span class="s1">'abc'</span>, <span class="mi">2</span>, <span class="mi">5</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> template<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="p">[</span><span class="s1">'hoge'</span>, <span class="mi">2</span>, <span class="mi">5</span><span class="p">]</span><span class="p">)</span>  <span class="c1"># =&gt; false
+</span>
+template <span class="o">=</span> <span class="no">Rinda</span><span class="o">::</span><span class="no">Template</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="no">String</span>, <span class="no">Integer</span>, <span class="k">nil</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> template<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="p">[</span><span class="s1">'abc'</span>, <span class="mi">2</span>, <span class="mi">5</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> template<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="p">[</span><span class="s1">'abcd'</span>, <span class="mi">2</span>, <span class="mi">5</span><span class="p">]</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span> 
+template <span class="o">=</span> <span class="no">Rinda</span><span class="o">::</span><span class="no">Template</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="sr">/^abc/</span>, <span class="no">Integer</span>, <span class="k">nil</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> template<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="p">[</span><span class="sr">/^abc/</span>, <span class="no">Integer</span>, <span class="k">nil</span><span class="p">]</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> template<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="p">[</span><span class="s1">'abc'</span>, <span class="mi">2</span>, <span class="mi">5</span><span class="p">]</span><span class="p">)</span>         <span class="c1"># =&gt; true
+</span><span class="nb">p</span> template<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="p">[</span><span class="s1">'def'</span>, <span class="mi">2</span>, <span class="mi">5</span><span class="p">]</span><span class="p">)</span>         <span class="c1"># =&gt; false
+</span> 
+template <span class="o">=</span> <span class="no">Rinda</span><span class="o">::</span><span class="no">Template</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">{</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="no">String</span>, <span class="s1">'age'</span> <span class="o">=&gt;</span> <span class="no">Integer</span><span class="p">}</span><span class="p">)</span>
+<span class="nb">p</span> template<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="p">{</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'seki'</span>, <span class="s1">'age'</span> <span class="o">=&gt;</span> <span class="mi">0x20</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> template<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="p">{</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="ss">:seki</span>,  <span class="s1">'age'</span> <span class="o">=&gt;</span> <span class="mi">0x20</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; false
+</span></code></pre>
 
 
 

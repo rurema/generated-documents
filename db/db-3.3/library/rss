@@ -47,23 +47,23 @@ XML だが、RSS 0.9x/1.0/2.0, Atom のいずれでもない場合は、nil が
 うにします。ここで、変数 rss_source には RSS 1.0 形式の文
 字列が格納されているものとします。
 
-`````
+```ruby
 require 'rss'
 rss = RSS::Parser.parse(rss_source, true)
-`````
+```
 
 RSS::Parser.parse の第二引数は省略すると true が指定されたもの
 とみなされるので、これは以下のようにも書けます。
 
-`````
+```ruby
 require 'rss'
 rss = RSS::Parser.parse(rss_source)
-`````
+```
 
 最初はバリデーション付きでパースして、valid ではない RSS だった
 場合はバリデーション無しでパースするには以下のように書きます。
 
-`````
+```ruby
 require 'rss'
 rss = nil
 begin
@@ -71,7 +71,7 @@ begin
 rescue RSS::InvalidRSSError
   rss = RSS::Parser.parse(rss_source, false)
 end
-`````
+```
 
 これは rss_source が RSS 0.9x/1.0/2.0 のどれか分からない時
 にも有効です。RSS 1.0としてバリデー
@@ -89,9 +89,9 @@ end
 
 以下のようにすると、より厳密にパースできます。
 
-`````
+```ruby
 RSS::Parser.parse(rss_source, true, false)
-`````
+```
 
 ### パースされたフィード
 
@@ -105,54 +105,54 @@ RSS::Parser.parse(rss_source, true, false)
 rdf:RDF 要素の子要素である channel 要素を参照するには、以下のよう
 にします。
 
-`````
+```ruby
 rss = RSS::Parser.parse(rss_source)
-rss.channel # => /rdf:RDF/channel要素; RSS::RDF::Channel
-`````
+p rss.channel # => /rdf:RDF/channel要素; RSS::RDF::Channel
+```
 
 もし、要素が子要素も属性も持たない場合は String が返ってきます。
 その要素が省略可能ならばnilが返って来るかもしれません。これ
 は要素が子要素または属性を持つ場合も同様です。
 
-`````
+```ruby
 rss = RSS::Parser.parse(rss_source)
-rss.channel.description # => /rdf:RDF/channel/text(); String
-`````
+p rss.channel.description # => /rdf:RDF/channel/text(); String
+```
 
 属性にアクセスする時も同様です。channel要素のrdf:about属性に
 アクセスするには以下のようにします。属性の値はStringかnilで
 す。
 
-`````
+```ruby
 rss = RSS::Parser.parse(rss_source)
-rss.channel.about # => /rdf:RDF/channel/@about属性; String または nil
-`````
+p rss.channel.about # => /rdf:RDF/channel/@about属性; String または nil
+```
 
 同名の複数の子要素があるかもしれないときも同様です。ただし、
 リーダに引数を指定しないと最初の子要素が返ってきます。例えば、
 rdf:RDF要素の最初のitem要素にアクセスするには以下のようにし
 ます。
 
-`````
+```ruby
 rss = RSS::Parser.parse(rss_source)
-rss.item # => /rdf:RDF/item[1]要素; RSS::RDF::Item
-`````
+p rss.item # => /rdf:RDF/item[1]要素; RSS::RDF::Item
+```
 
 3番目のitem要素にアクセスするには以下のようにします。省略さ
 れなかったリーダの引数はArray#[]の引数と同じように扱われます。
 
-`````
+```ruby
 rss = RSS::Parser.parse(rss_source)
-rss.item(2) # => /rdf:RDF/item[3]要素; RSS::RDF::Item
-`````
+p rss.item(2) # => /rdf:RDF/item[3]要素; RSS::RDF::Item
+```
 
 子要素すべてを取得したいときは要素名の複数形がリーダとなりま
 す。すべてのitem要素を取得するには以下のようにします。
 
-`````
+```ruby
 rss = RSS::Parser.parse(rss_source)
-rss.items # => /rdf:RDF/item要素の配列; [RSS::RDF::Item, ...]
-`````
+p rss.items # => /rdf:RDF/item要素の配列; [RSS::RDF::Item, ...]
+```
 
 #### ライタ(writer)
 
@@ -160,28 +160,28 @@ rdf:RDF要素の子要素であるchannel要素を設定するには以下のよ
 にします。RSS::RDF::Channel.newの第一引数にはrdf:about属性の
 値を指定することもできます。
 
-`````
+```ruby
 rss = RSS::Parser.parse(rss_source)
 rss.channel = RSS::RDF::Channel.new(rdf_about_value)
-`````
+```
 
 属性値を設定する場合も同様です。
 
-`````
+```ruby
 rss = RSS::Parser.parse(rss_source)
 rss.channel.about = "http://cozmixng.www.cozmixng.org/"
-`````
+```
 
 同名の複数の子要素が存在する場合は少し異なります。要素名の複
 数形でのメソッドで要素の配列を取得して、その配列に対して
 Array#<<やArray#[]=などを用いて要素を設定します。
 
-`````
+```ruby
 rss = RSS::Parser.parse(rss_source)
 item = RSS::RDF::Item.new(rdf_about_value)
 rss.items << item
-rss.items.last == item # => true
-`````
+p rss.items.last == item # => true
+```
 
 注意: item=/set_itemなどはRubyっぽくないので使わないでくださ
 い。
@@ -215,17 +215,15 @@ RSS::Atom::Entry）オブジェクトはxml_stylesheetsという
 オブジェクトを挿入することでRSS/Atomにxml-stylesheetを
 関連づけることができます。
 
-`````
+```text
 rss.xml_stylesheets << RSS::XMLStyleSheet.new(...)
-`````
+```
 
 RSS::XMLStyleSheet.newには以下のようなHashまたは
 連想配列を渡します。作成されるRSS::XMLStyleSheetオブジェ
 クトは与えられた引数によって初期化されます。
 
-Hash:
-
-`````
+```text title="Hash"
 {
   :href => "...",
   :type => "...",
@@ -234,11 +232,9 @@ Hash:
   :charset => "...",
   :alternate => "...",
 }
-`````
+```
 
-連想配列:
-
-`````
+```text title="連想配列"
 [
   [:href, "..."],
   [:type, "..."],
@@ -247,16 +243,16 @@ Hash:
   [:charset, "..."],
   [:alternate, "..."],
 ]
-`````
+```
 
 全てのキーは省略可能です。
 
 例えば、xml-stylesheetとしてsample.xslを指定する場合は以下の
 ようにします。
 
-`````
+```ruby
 rss.xml_stylesheets << RSS::XMLStyleSheet.new({:href => "sample.xsl"})
-`````
+```
 
 本当は{:type => "text/xsl"}も指定しないといけないとこ
 ろですが、拡張子が.xslまたは、.cssの場合は適当に推測してくれ
@@ -270,14 +266,14 @@ RSS Makerが便利です。
 
 以下のように使います。
 
-`````
+```text
 require "rss"
 
 rss = RSS::Maker.make("バージョン") do |maker|
   maker.XXX = YYY
   ...
 end
-`````
+```
 
 ##### シンプルなRSS
 
@@ -290,7 +286,7 @@ end
 
 を生成するには以下のようにします。
 
-`````
+```ruby
 require "rss"
 
 rss = RSS::Maker.make("1.0") do |maker|
@@ -299,7 +295,7 @@ rss = RSS::Maker.make("1.0") do |maker|
   maker.channel.description = "Example Site"
   maker.channel.link = "http://example.com/"
 end
-`````
+```
 
 もし、
 
@@ -308,7 +304,7 @@ end
 
 エントリを含めたければ以下のようにします。
 
-`````
+```ruby
 require "rss"
 
 rss = RSS::Maker.make("1.0") do |maker|
@@ -321,7 +317,7 @@ rss = RSS::Maker.make("1.0") do |maker|
   item.link = "http://example.com/article.html"
   item.title = "Sample Article"
 end
-`````
+```
 
 ##### 更新時刻を追加
 
@@ -331,7 +327,7 @@ end
 
 のものならこうします。
 
-`````
+```ruby
 require "rss"
 
 rss = RSS::Maker.make("1.0") do |maker|
@@ -346,19 +342,19 @@ rss = RSS::Maker.make("1.0") do |maker|
     item.date = Time.parse("2004/11/1 10:10")
   end
 end
-`````
+```
 
 サンプル中の
 
-`````
+```text
 item.date = ...
-`````
+```
 
 は
 
-`````
+```text
 item.dc_date = ...
-`````
+```
 
 でも構いません。#dc_date=は#date=の単なる別名で
 す。
@@ -373,7 +369,7 @@ item.dc_date = ...
 
 エントリを持つなら以下のようにします。
 
-`````
+```ruby
 require "rss"
 
 rss = RSS::Maker.make("1.0") do |maker|
@@ -394,19 +390,19 @@ rss = RSS::Maker.make("1.0") do |maker|
     item.date = Time.parse("2004/11/2 10:10")
   end
 end
-`````
+```
 
 ##### エントリを並び替える
 
 もし、更新日が新しい順に並び替えたければ
 
-`````
+```ruby
 maker.items.do_sort = true
-`````
+```
 
 を追加し、以下のようにします。
 
-`````
+```ruby
 require "rss"
 
 rss = RSS::Maker.make("1.0") do |maker|
@@ -429,7 +425,7 @@ rss = RSS::Maker.make("1.0") do |maker|
     item.date = Time.parse("2004/11/2 10:10")
   end
 end
-`````
+```
 
 ##### ロゴの指定
 
@@ -440,7 +436,7 @@ end
 
 がある場合は以下のようにします。
 
-`````
+```ruby
 require "rss"
 
 rss = RSS::Maker.make("1.0") do |maker|
@@ -466,7 +462,7 @@ rss = RSS::Maker.make("1.0") do |maker|
   maker.image.title = "Example Site"
   maker.image.url = "http://example.com/logo.png"
 end
-`````
+```
 
 ##### 検索ページの指定
 
@@ -479,7 +475,7 @@ end
 
 検索用ページがあったら以下のようにします。
 
-`````
+```ruby
 require "rss"
 
 rss = RSS::Maker.make("1.0") do |maker|
@@ -510,7 +506,7 @@ rss = RSS::Maker.make("1.0") do |maker|
   maker.textinput.name = "keyword"
   maker.textinput.link = "http://example.com/search.cgi"
 end
-`````
+```
 
 ##### XMLスタイルシートの指定
 
@@ -520,7 +516,7 @@ end
 
 xml-stylesheetを追加したい場合は以下のようにします。
 
-`````
+```ruby
 require "rss"
 
 rss = RSS::Maker.make("1.0") do |maker|
@@ -554,14 +550,14 @@ rss = RSS::Maker.make("1.0") do |maker|
   maker.textinput.name = "keyword"
   maker.textinput.link = "http://example.com/search.cgi"
 end
-`````
+```
 
 ##### RSS 2.0の生成
 
 もし、RSS 2.0を生成したい場合は以下のように、
 RSS::Maker.makeの第一引数を変更します。
 
-`````
+```ruby
 require "rss"
 
 rss = RSS::Maker.make("2.0") do |maker|
@@ -595,7 +591,7 @@ rss = RSS::Maker.make("2.0") do |maker|
   maker.textinput.name = "keyword"
   maker.textinput.link = "http://example.com/search.cgi"
 end
-`````
+```
 
 ##### RSS 0.91の生成
 
@@ -605,12 +601,12 @@ RSS::Maker.make の第一引数を"0.91"に変更します。
 ただし、RSS 0.91では言語指定が必須なので、言語を指定する必要
 があります。ここでは日本語であると指定します。
 
-`````
+```text
 rss = RSS::Maker.make("0.91") do |maker|
   maker.channel.language = "ja"
   ...
 end
-`````
+```
 
 RSS 1.0など、/rdf:RDF/channel/language要素がないフィードの場
 合でも、単に無視したりdc:languageとして扱ったりと適切に処理し
@@ -618,23 +614,23 @@ RSS 1.0など、/rdf:RDF/channel/language要素がないフィードの場
 だけ言語を指定する」というように書く必要はありません。
 フィードのバージョンに関わらず言語を指定してください。
 
-`````
+```text
 rss = RSS::Maker.make("0.91") do |maker|
   maker.channel.language = "ja" if maker.feed_version == "0.91"
   ...
 end
-`````
+```
 
 ##### Atom 1.0の生成
 
 もし、Atom 1.0を生成したい場合は、RSS 0.91や2.0の場合と同様に
 RSS::Maker.makeの第一引数を"atom"に変更します。
 
-`````
+```text
 rss = RSS::Maker.make("atom") do |maker|
   ...
 end
-`````
+```
 
 ただし、これだけでは十分ではありません。これは、Atom 1.0では
 RSS 1.0/2.0/0.91では必須ではなかった以下の情報が必要となるか
@@ -657,7 +653,7 @@ RSS 1.0/2.0/0.91では必須ではなかった以下の情報が必要となる�
 
 Atom 1.0なら以下のようになります。
 
-`````
+```ruby
 require "rss"
 
 atom = RSS::Maker.make("atom") do |maker|
@@ -694,7 +690,7 @@ atom = RSS::Maker.make("atom") do |maker|
   maker.textinput.name = "keyword"
   maker.textinput.link = "http://example.com/search.cgi"
 end
-`````
+```
 
 Atom 1.0用の情報を加えたこのスクリプトを最初のRSS 1.0を出
 力するスクリプトに戻す場合は、RSS::Maker.makeの第一引
@@ -706,9 +702,9 @@ Atom 1.0用の情報を加えたこのスクリプトを最初のRSS 1.0を出
 フィードの種類がRSS 1.0/2.0でもAtomでもパースするためのAPIは
 以下のように共通です。
 
-`````
+```ruby
 feed = RSS::Parser.parse(feed_xml)
-`````
+```
 
 しかし、返ってくるオブジェクトはRSS 1.0オブジェクト
 （RSS::RDF）かもしれませんし、Atomオブジェクト
@@ -720,29 +716,29 @@ RSS Parserが提供する解決方法はユーザに好みのフィードの種�
 選んでもらうというものです。例えば、以下のようにしてRSS 1.0
 をRSS 2.0に変換できます。
 
-`````
+```ruby
 require 'rss'
 rss10 = RSS::Parser.parse(rss10_xml)
 rss20 = rss10.to_feed("rss2.0")
-`````
+```
 
 種類がわからない複数のフィードを扱う場合は以下のようにし、す
 べてのフィードをRSS 2.0のように扱うことができます。
 
-`````
+```text
 feeds.each do |xml|
   rss20 = RSS::Parser.parse(xml).to_feed("rss2.0")
   ...
 end
-`````
+```
 
 また、to_feedは以下のように書くことも出来ます。
 
-`````
+```ruby
 feed.to_rss("1.0") # == feed.to_feed("rss1.0")
 feed.to_rss("2.0") # == feed.to_feed("rss2.0")
 feed.to_atom("1.0") # == feed.to_feed("atom1.0")
-`````
+```
 
 形式を変換したときに問題になるのは、変換元のオブジェクトが変
 換後の形式に必須の情報を持っていない場合です。この場合は変換
@@ -752,13 +748,13 @@ feed.to_atom("1.0") # == feed.to_feed("atom1.0")
 です。そのような場合に対応するために、以下のようにブロックを
 使用することが出来ます。
 
-`````
+```ruby
 rss10 = feed.to_rss("1.0") do |maker|
   maker.items.each do |item|
     item.title.content ||= "No title"
   end
 end
-`````
+```
 
 to_feedのブロック内で出来ることを理解するためには、to_feedが
 どのように動作するかを理解するとよいです。パース結果のオブジェ
@@ -775,18 +771,18 @@ to_feedのブロック内で出来ることはRSS Makerに対して出来るこ�
 上記の方法でパース済みのオブジェクトを変換できるので、フィー
 ドを異なる形式のXMLへ変換することは簡単です。
 
-`````
+```ruby
 feed = RSS::Parser.parse(feed_xml)
 new_feed_xml = feed.to_feed("atom1.0").to_s
-`````
+```
 
 これを行うための便利なメソッドto_xmlがあります。to_xmlを使う
 と以下のように書き直すことができます。
 
-`````
+```ruby
 feed = RSS::Parser.parse(feed_xml)
 new_feed_xml = feed.to_xml("atom1.0")
-`````
+```
 
 。。。あまり変わりませんね。to_feedを用いた場合と同じように
 ブロックを指定してRSS Makerを操作することも出来ます。ますま
@@ -800,20 +796,20 @@ to_feed().to_sではなく、to_xmlを使うことには一長一短がありま
 後の結果を調整できません。例えば、以下のようにRSS
 1.0からRSS 2.0に変換する場合はブロックが呼ばれます。
 
-`````
+```ruby
 rss10.to_xml("rss2.0") do |maker|
   # makerを操作できる
 end
-`````
+```
 
 しかし、以下のようにRSS 1.0からRSS 1.0に変換しようとした場合
 はブロックは呼び出されません。
 
-`````
+```ruby
 rss10.to_xml("rss1.0") do |maker|
   # ブロックが呼び出されないのでmakerを操作できない。
 end
-`````
+```
 
 このAPIに関しては、どうしたらよいのかまだ悩んでいます。もし、
 なにかアイディアがあれば教えてください。
@@ -830,13 +826,13 @@ RSS Parser のサンプルスクリプトをいくつか紹介します。これ
 
 まず、RSS 0.9x/1.0/2.0, Atom 1.0をパースできるように以下のようにrequireします。
 
-`````
+```ruby
 require 'rss'
-`````
+```
 
 パースするフィードはファイルに保存されていて引数で与えられるものとします。
 
-`````
+```ruby
 ARGV.each do |fname|
   feed = nil
   begin
@@ -850,7 +846,7 @@ ARGV.each do |fname|
     print_items(feed)
   end
 end
-`````
+```
 
 あとはprint_itemsというメソッドを定義するだけです。
 
@@ -871,30 +867,30 @@ imageはそれぞれ以下を返します。
 
 ここでは、itemsを使って各項目を表示します。
 
-`````
+```ruby
 def print_items(feed)
   feed.items.each do |item|
     puts "#{item.title} : #{item.description}"
   end
 end
-`````
+```
 
 これは、RSSフィードに対してはうまく動きますが、Atomフィードに
 対してはうまく動きません。それはAtomフィードにはdescription要
 素がないからです。そこで、AtomフィードもRSSフィードに変えて
 扱うことにします。
 
-`````
+```ruby
 def print_items(feed)
   convert_to_rss10(feed).items.each do |item|
     puts "#{item.title} : #{item.description}"
   end
 end
-`````
+```
 
 convert_to_rss10は以下のようになります。
 
-`````
+```ruby
 def convert_to_rss10(feed)
   feed.to_rss("1.0") do |maker|
     maker.channel.about ||= maker.channel.link
@@ -905,7 +901,7 @@ def convert_to_rss10(feed)
     end
   end
 end
-`````
+```
 
 未設定の可能性がある要素にデフォルト値を設定しています。
 
@@ -915,7 +911,7 @@ RSS::UnknownConversionMethodError例外が発生します。
 
 先程のprint_itemsをEUC-JPで出力するように書き換えてみましょう。
 
-`````
+```ruby
 def print_items(feed)
   rss10 = convert_to_rss10(feed)
   begin
@@ -926,7 +922,7 @@ def print_items(feed)
     puts "#{item.title} : #{item.description}"
   end
 end
-`````
+```
 
 #### サンプル2 - 更新順表示
 
@@ -946,11 +942,11 @@ contentメソッドやその別名であるvalueメソッドを利
 content=メソッドやその別名であるvalue=メソッドを
 利用します。
 
-`````
-rss.channel.dc_title  # => 「要素の内容を表す文字列」
+```ruby
+p rss.channel.dc_title  # => 「要素の内容を表す文字列」
                       # （"My site"など）
 
-rss.channel.dc_titles # => 「要素を表すオブジェクト」の配列
+p rss.channel.dc_titles # => 「要素を表すオブジェクト」の配列
                       # （[DublinCoreTitleオブジェクト, ...]）
 
 rss.channel.dc_titles.collect {|title| title.value}
@@ -964,7 +960,7 @@ first_title = rss.channel.dc_titles.first
 first_title = first_title.value if first_title
 first_title == rss.channel.dc_title
                       # => true
-`````
+```
 
 ちなみにSyndicationモジュールの要素にアクセスするには「sy_要
 素名」というアクセサが、Contentモジュールの要素にアクセスす
@@ -973,7 +969,7 @@ first_title == rss.channel.dc_title
 サンプル1と同じようにパースするRSSはファイルに保存されていて
 引数で与えられるものとします。
 
-`````
+```ruby
 require 'rss'
 items = []
 ARGV.each do |fname|
@@ -1001,7 +997,7 @@ ARGV.each do |fname|
   end
 end
 print_items(items)
-`````
+```
 
 あとはprint_itemsというメソッドを定義するだけです。
 
@@ -1009,7 +1005,7 @@ Item#dc_dateはTimeオブジェクトかnilを返します。引数の
 itemsにはdc_dateがnilではないものしか含まれていないは
 ずなので以下のようにソートできます。
 
-`````
+```ruby
 def print_items(items)
   items.sort do |x, y|
     y.dc_date <=> x.dc_date
@@ -1017,4 +1013,4 @@ def print_items(items)
     puts "#{item.dc_date.localtime.iso8601} : #{item.title} : #{item.description}"
   end
 end
-`````
+```

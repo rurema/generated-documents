@@ -705,19 +705,18 @@
 この値が真ならアドレスからホスト名への逆引きを行わなくなります。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
+<span class="caption">例</span>
+<pre class="highlight text">
+<code>
 require 'socket'
-
+  
 p TCPSocket.new('localhost', 'telnet').addr
 TCPSocket.do_not_reverse_lookup = true
 p TCPSocket.new('localhost', 'telnet').addr
-
-=&gt; [&quot;AF_INET&quot;, 2253, &quot;localhost&quot;, &quot;127.0.0.1&quot;]
-   [&quot;AF_INET&quot;, 2254, &quot;127.0.0.1&quot;, &quot;127.0.0.1&quot;]
-</pre>
+  
+=&gt; ["AF_INET", 2253, "localhost", "127.0.0.1"]
+   ["AF_INET", 2254, "127.0.0.1", "127.0.0.1"]
+</code></pre>
 </dd>
 
 
@@ -729,12 +728,13 @@ p TCPSocket.new('localhost', 'telnet').addr
 <p>
 返り値のクラスはどのクラスの for_fd を呼びだしたかによって決まります。
 </p>
-<pre>
-require 'socket'
-
-BasicSocket.for_fd(fd) # BasicSocket のインスタンスを返す
-TCPSocket.for_fd(fd) # TCPSocket のインスタンスを返す
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
+  
+<span class="no">BasicSocket</span><span class="p">.</span><span class="nf">for_fd</span><span class="p">(</span>fd<span class="p">)</span> <span class="c1"># BasicSocket のインスタンスを返す
+</span><span class="no">TCPSocket</span><span class="p">.</span><span class="nf">for_fd</span><span class="p">(</span>fd<span class="p">)</span> <span class="c1"># TCPSocket のインスタンスを返す
+</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>fd</code>:</dt>
 <dd>
@@ -771,17 +771,18 @@ TCPSocket.for_fd(fd) # TCPSocket のインスタンスを返す
 <p>
 BasicSocket#local_address が接続先として不適なアドレスを返す場合は例外 <a href="../class/SocketError.html">SocketError</a> が発生します。
 </p>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-Addrinfo.tcp(&quot;0.0.0.0&quot;, 0).listen {|serv|
-  p serv.connect_address #=&gt; #&lt;Addrinfo: 127.0.0.1:53660 TCP&gt;
-  serv.connect_address.connect {|c|
-    s, _ = serv.accept
-    p [c, s] #=&gt; [#&lt;Socket:fd 4&gt;, #&lt;Socket:fd 6&gt;]
-  }
-}
-</pre>
+<span class="no">Addrinfo</span><span class="p">.</span><span class="nf">tcp</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.0.0.0</span><span class="s2">"</span>, <span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">listen</span> <span class="p">{</span><span class="o">|</span>serv<span class="o">|</span>
+  <span class="nb">p</span> serv<span class="p">.</span><span class="nf">connect_address</span> <span class="c1">#=&gt; #&lt;Addrinfo: 127.0.0.1:53660 TCP&gt;
+</span>  serv<span class="p">.</span><span class="nf">connect_address</span><span class="p">.</span><span class="nf">connect</span> <span class="p">{</span><span class="o">|</span>c<span class="o">|</span>
+    s, _ <span class="o">=</span> serv<span class="p">.</span><span class="nf">accept</span>
+    <span class="nb">p</span> <span class="p">[</span>c, s<span class="p">]</span> <span class="c1">#=&gt; [#&lt;Socket:fd 4&gt;, #&lt;Socket:fd 6&gt;]
+</span>  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <dl>
 <dt>[EXCEPTION] <code>SocketError</code>:</dt>
 <dd>
@@ -806,18 +807,19 @@ Addrinfo.tcp(&quot;0.0.0.0&quot;, 0).listen {|serv|
 初期値はソケットを生成したときの
 <a href="../method/BasicSocket/s/do_not_reverse_lookup.html">BasicSocket.do_not_reverse_lookup</a> の値になります。
 </p>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-BasicSocket.do_not_reverse_lookup = false
-TCPSocket.open(&quot;www.ruby-lang.org&quot;, 80) {|sock|
-  p sock.do_not_reverse_lookup      # =&gt; false
-}
-BasicSocket.do_not_reverse_lookup = true
-TCPSocket.open(&quot;www.ruby-lang.org&quot;, 80) {|sock|
-  p sock.do_not_reverse_lookup      # =&gt; true
-}
-</pre>
+<span class="no">BasicSocket</span><span class="p">.</span><span class="nf">do_not_reverse_lookup</span> <span class="o">=</span> <span class="k">false</span>
+<span class="no">TCPSocket</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">www.ruby-lang.org</span><span class="s2">"</span>, <span class="mi">80</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>sock<span class="o">|</span>
+  <span class="nb">p</span> sock<span class="p">.</span><span class="nf">do_not_reverse_lookup</span>      <span class="c1"># =&gt; false
+</span><span class="p">}</span>
+<span class="no">BasicSocket</span><span class="p">.</span><span class="nf">do_not_reverse_lookup</span> <span class="o">=</span> <span class="k">true</span>
+<span class="no">TCPSocket</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">www.ruby-lang.org</span><span class="s2">"</span>, <span class="mi">80</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>sock<span class="o">|</span>
+  <span class="nb">p</span> sock<span class="p">.</span><span class="nf">do_not_reverse_lookup</span>      <span class="c1"># =&gt; true
+</span><span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/BasicSocket/i/do_not_reverse_lookup=3d.html">BasicSocket#do_not_reverse_lookup=</a>
 </p>
@@ -852,22 +854,23 @@ Unix ドメインソケットにおいて接続相手の euid と egid を返し
 <p>
 ソケットが Unix ドメインソケットでない場合の返り値は不定です。
 </p>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-Socket.unix_server_loop(&quot;/tmp/sock&quot;) {|s|
-  begin
-    euid, egid = s.getpeereid
-
-    # Check the connected client is myself or not.
-    next if euid != Process.uid
-
-    # do something about my resource.
-  ensure
-    s.close
-  end
-}
-</pre>
+<span class="no">Socket</span><span class="p">.</span><span class="nf">unix_server_loop</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/sock</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>s<span class="o">|</span>
+  <span class="k">begin</span>
+    euid, egid <span class="o">=</span> s<span class="p">.</span><span class="nf">getpeereid</span>
+      
+    <span class="c1"># Check the connected client is myself or not.
+</span>    <span class="k">next</span> <span class="k">if</span> euid <span class="o">!=</span> <span class="no">Process</span><span class="p">.</span><span class="nf">uid</span>
+      
+    <span class="c1"># do something about my resource.
+</span>  <span class="k">ensure</span>
+    s<span class="p">.</span><span class="nf">close</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre>
 </dd>
 
 
@@ -876,20 +879,19 @@ Socket.unix_server_loop(&quot;/tmp/sock&quot;) {|s|
 <p>
 接続の相手先のソケットの情報を取得します。sockaddr 構造体をパックした文字列を返します。<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/getpeername.html">getpeername(2)</a> を参照してください。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'socket'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-serv = TCPServer.open(&quot;&quot;, 0)
-c = TCPSocket.open(*Socket.unpack_sockaddr_in(serv.getsockname).reverse)
-s = serv.accept
-addr = c.getpeername
-p addr      #=&gt; &quot;\002\000\267\214\177\000\000\001\000\000\000\000\000\000\000\000&quot;
-p Socket.unpack_sockaddr_in(addr)   #=&gt; [46988, &quot;127.0.0.1&quot;]
-p addr == s.getsockname     #=&gt; true
-</pre>
+serv <span class="o">=</span> <span class="no">TCPServer</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">"</span>, <span class="mi">0</span><span class="p">)</span>
+c <span class="o">=</span> <span class="no">TCPSocket</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="o">*</span><span class="no">Socket</span><span class="p">.</span><span class="nf">unpack_sockaddr_in</span><span class="p">(</span>serv<span class="p">.</span><span class="nf">getsockname</span><span class="p">)</span><span class="p">.</span><span class="nf">reverse</span><span class="p">)</span>
+s <span class="o">=</span> serv<span class="p">.</span><span class="nf">accept</span>
+addr <span class="o">=</span> c<span class="p">.</span><span class="nf">getpeername</span>
+<span class="nb">p</span> addr      <span class="c1">#=&gt; &quot;\002\000\267\214\177\000\000\001\000\000\000\000\000\000\000\000&quot;
+</span><span class="nb">p</span> <span class="no">Socket</span><span class="p">.</span><span class="nf">unpack_sockaddr_in</span><span class="p">(</span>addr<span class="p">)</span>   <span class="c1">#=&gt; [46988, &quot;127.0.0.1&quot;]
+</span><span class="nb">p</span> addr <span class="o">==</span> s<span class="p">.</span><span class="nf">getsockname</span>     <span class="c1">#=&gt; true
+</span></code></pre>
 </dd>
 
 
@@ -898,18 +900,17 @@ p addr == s.getsockname     #=&gt; true
 <p>
 ソケットの情報を取得します。sockaddr 構造体をパックした文字列を返します。<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/getsockname.html">getsockname(2)</a> を参照してください。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'socket'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-serv = TCPServer.open(&quot;&quot;, 0)
-p serv.getsockname        #=&gt; &quot;\002\000\236C\000\000\000\000\000\000\000\000\000\000\000\000&quot;
-p Socket.unpack_sockaddr_in(serv.getsockname)     #=&gt; [40515, &quot;0.0.0.0&quot;]
-c = TCPSocket.open(*Socket.unpack_sockaddr_in(serv.getsockname).reverse)
-s = serv.accept
-</pre>
+serv <span class="o">=</span> <span class="no">TCPServer</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">"</span>, <span class="mi">0</span><span class="p">)</span>
+<span class="nb">p</span> serv<span class="p">.</span><span class="nf">getsockname</span>        <span class="c1">#=&gt; &quot;\002\000\236C\000\000\000\000\000\000\000\000\000\000\000\000&quot;
+</span><span class="nb">p</span> <span class="no">Socket</span><span class="p">.</span><span class="nf">unpack_sockaddr_in</span><span class="p">(</span>serv<span class="p">.</span><span class="nf">getsockname</span><span class="p">)</span>     <span class="c1">#=&gt; [40515, &quot;0.0.0.0&quot;]
+</span>c <span class="o">=</span> <span class="no">TCPSocket</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="o">*</span><span class="no">Socket</span><span class="p">.</span><span class="nf">unpack_sockaddr_in</span><span class="p">(</span>serv<span class="p">.</span><span class="nf">getsockname</span><span class="p">)</span><span class="p">.</span><span class="nf">reverse</span><span class="p">)</span>
+s <span class="o">=</span> serv<span class="p">.</span><span class="nf">accept</span>
+</code></pre>
 </dd>
 
 
@@ -936,23 +937,22 @@ level, optname には Socket::SOL_SOCKET や Socket::SO_REUSEADDR
 <p>
 [SEE_ALSO] <a href="../method/BasicSocket/i/setsockopt.html">BasicSocket#setsockopt</a>
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'socket'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-serv = Socket.tcp_server_sockets(&quot;&quot;, 0)[0]
-c = serv.local_address.connect
-s = serv.accept
-opt = c.getsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY)
-# c.getsockopt(&quot;TCP&quot;, &quot;NODELAY&quot;),  なども可能
-p opt #=&gt; #&lt;Socket::Option: INET TCP NODELAY 0&gt;
-p opt.bool #=&gt; false (Nagle アルゴリズム有効)
-p opt.unpack(&quot;i&quot;)[0] #=&gt; 0 (Socket::Option#unpack が互換性のために存在する)
-# 整数値の場合は Socket::Option#int を用いる
-p c.getsockopt(:IP, :TTL).int #=&gt; 64
-</pre>
+serv <span class="o">=</span> <span class="no">Socket</span><span class="p">.</span><span class="nf">tcp_server_sockets</span><span class="p">(</span><span class="s2">"</span><span class="s2">"</span>, <span class="mi">0</span><span class="p">)</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+c <span class="o">=</span> serv<span class="p">.</span><span class="nf">local_address</span><span class="p">.</span><span class="nf">connect</span>
+s <span class="o">=</span> serv<span class="p">.</span><span class="nf">accept</span>
+opt <span class="o">=</span> c<span class="p">.</span><span class="nf">getsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">IPPROTO_TCP</span>, <span class="no">Socket</span><span class="o">::</span><span class="no">TCP_NODELAY</span><span class="p">)</span>
+<span class="c1"># c.getsockopt(&quot;TCP&quot;, &quot;NODELAY&quot;),  なども可能
+</span><span class="nb">p</span> opt <span class="c1">#=&gt; #&lt;Socket::Option: INET TCP NODELAY 0&gt;
+</span><span class="nb">p</span> opt<span class="p">.</span><span class="nf">bool</span> <span class="c1">#=&gt; false (Nagle アルゴリズム有効)
+</span><span class="nb">p</span> opt<span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">i</span><span class="s2">"</span><span class="p">)</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#=&gt; 0 (Socket::Option#unpack が互換性のために存在する)
+</span><span class="c1"># 整数値の場合は Socket::Option#int を用いる
+</span><span class="nb">p</span> c<span class="p">.</span><span class="nf">getsockopt</span><span class="p">(</span><span class="ss">:IP</span>, <span class="ss">:TTL</span><span class="p">)</span><span class="p">.</span><span class="nf">int</span> <span class="c1">#=&gt; 64
+</span></code></pre>
 </dd>
 
 
@@ -965,17 +965,18 @@ p c.getsockopt(:IP, :TTL).int #=&gt; 64
 <p>
 返されたオブジェクトの <a href="../method/Addrinfo/i/protocol.html">Addrinfo#protocol</a> は 0 を返すことに注意してください。
 </p>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-TCPSocket.open(&quot;www.ruby-lang.org&quot;, 80) {|s|
-  p s.local_address #=&gt; #&lt;Addrinfo: 192.168.0.129:36873 TCP&gt;
-}
-
-TCPServer.open(&quot;127.0.0.1&quot;, 1512) {|serv|
-  p serv.local_address #=&gt; #&lt;Addrinfo: 127.0.0.1:1512 TCP&gt;
-}
-</pre>
+<span class="no">TCPSocket</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">www.ruby-lang.org</span><span class="s2">"</span>, <span class="mi">80</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>s<span class="o">|</span>
+  <span class="nb">p</span> s<span class="p">.</span><span class="nf">local_address</span> <span class="c1">#=&gt; #&lt;Addrinfo: 192.168.0.129:36873 TCP&gt;
+</span><span class="p">}</span>
+  
+<span class="no">TCPServer</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">127.0.0.1</span><span class="s2">"</span>, <span class="mi">1512</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>serv<span class="o">|</span>
+  <span class="nb">p</span> serv<span class="p">.</span><span class="nf">local_address</span> <span class="c1">#=&gt; #&lt;Addrinfo: 127.0.0.1:1512 TCP&gt;
+</span><span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/BasicSocket/i/getsockname.html">BasicSocket#getsockname</a>
 </p>
@@ -1011,19 +1012,18 @@ UDP では空のパケットを読み込んだことを意味します。
 <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/recvfrom.html">recvfrom(2)</a> がエラーになった場合などに発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'socket'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-s1, s2 = UNIXSocket.pair
-s1.write &quot;a&quot;
-s1.close
-p s2.recv(10, Socket::MSG_PEEK)   #=&gt; &quot;a&quot;
-p s2.recv(10)                     #=&gt; &quot;a&quot;
-p s2.recv(10)                     #=&gt; &quot;&quot;
-</pre>
+s1, s2 <span class="o">=</span> <span class="no">UNIXSocket</span><span class="p">.</span><span class="nf">pair</span>
+s1<span class="p">.</span><span class="nf">write</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>
+s1<span class="p">.</span><span class="nf">close</span>
+<span class="nb">p</span> s2<span class="p">.</span><span class="nf">recv</span><span class="p">(</span><span class="mi">10</span>, <span class="no">Socket</span><span class="o">::</span><span class="no">MSG_PEEK</span><span class="p">)</span>   <span class="c1">#=&gt; &quot;a&quot;
+</span><span class="nb">p</span> s2<span class="p">.</span><span class="nf">recv</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>                     <span class="c1">#=&gt; &quot;a&quot;
+</span><span class="nb">p</span> s2<span class="p">.</span><span class="nf">recv</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>                     <span class="c1">#=&gt; &quot;&quot;
+</span></code></pre>
 </dd>
 
 
@@ -1098,17 +1098,18 @@ Socket::MSG_* 定数の bitwise OR で表現されています。
 <p>
 残りの要素は補助データ(<a href="../class/Socket=3a=3aAncillaryData.html">Socket::AncillaryData</a> オブジェクト)です。
 </p>
-<pre>
-require 'socket'
-
-# UnixSocket#recv_io を recvmsg で実装する例
-mesg, sender_sockaddr, rflags, *controls = sock.recvmsg(:scm_rights=&gt;true)
-controls.each {|ancdata|
-  if ancdata.cmsg_is?(:SOCKET, :RIGHTS)
-    return ancdata.unix_rights[0]
-  end
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
+  
+<span class="c1"># UnixSocket#recv_io を recvmsg で実装する例
+</span>mesg, sender_sockaddr, rflags, <span class="o">*</span>controls <span class="o">=</span> sock<span class="p">.</span><span class="nf">recvmsg</span><span class="p">(</span><span class="ss">:scm_rights</span><span class="o">=&gt;</span><span class="k">true</span><span class="p">)</span>
+controls<span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>ancdata<span class="o">|</span>
+  <span class="k">if</span> ancdata<span class="p">.</span><span class="nf">cmsg_is?</span><span class="p">(</span><span class="ss">:SOCKET</span>, <span class="ss">:RIGHTS</span><span class="p">)</span>
+    <span class="k">return</span> ancdata<span class="p">.</span><span class="nf">unix_rights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>maxmesglen</code>:</dt>
 <dd>
@@ -1168,19 +1169,20 @@ controls.each {|ancdata|
 <p>
 返されたオブジェクトの <a href="../method/Addrinfo/i/protocol.html">Addrinfo#protocol</a> は 0 を返すことに注意してください。
 </p>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-TCPSocket.open(&quot;www.ruby-lang.org&quot;, 80) {|s|
-  p s.remote_address #=&gt; #&lt;Addrinfo: 221.186.184.68:80 TCP&gt;
-}
-
-TCPServer.open(&quot;127.0.0.1&quot;, 1728) {|serv|
-  c = TCPSocket.new(&quot;127.0.0.1&quot;, 1728)
-  s = serv.accept
-  p s.remote_address #=&gt; #&lt;Addrinfo: 127.0.0.1:36504 TCP&gt;
-}
-</pre>
+<span class="no">TCPSocket</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">www.ruby-lang.org</span><span class="s2">"</span>, <span class="mi">80</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>s<span class="o">|</span>
+  <span class="nb">p</span> s<span class="p">.</span><span class="nf">remote_address</span> <span class="c1">#=&gt; #&lt;Addrinfo: 221.186.184.68:80 TCP&gt;
+</span><span class="p">}</span>
+  
+<span class="no">TCPServer</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">127.0.0.1</span><span class="s2">"</span>, <span class="mi">1728</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>serv<span class="o">|</span>
+  c <span class="o">=</span> <span class="no">TCPSocket</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">127.0.0.1</span><span class="s2">"</span>, <span class="mi">1728</span><span class="p">)</span>
+  s <span class="o">=</span> serv<span class="p">.</span><span class="nf">accept</span>
+  <span class="nb">p</span> s<span class="p">.</span><span class="nf">remote_address</span> <span class="c1">#=&gt; #&lt;Addrinfo: 127.0.0.1:36504 TCP&gt;
+</span><span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/BasicSocket/i/getpeername.html">BasicSocket#getpeername</a>
 </p>
@@ -1218,16 +1220,15 @@ dest_sockaddr には<a href="../library/socket.html#pack_string">socket/ソケ�
 データの送信に失敗した場合に発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'socket'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-s = UDPSocket.new
-sockaddr = Socket.sockaddr_in(&quot;discard&quot;, &quot;localhost&quot;)
-s.send(&quot;The king has donkey ears!&quot;, 0, sockaddr)
-</pre>
+s <span class="o">=</span> <span class="no">UDPSocket</span><span class="p">.</span><span class="nf">new</span>
+sockaddr <span class="o">=</span> <span class="no">Socket</span><span class="p">.</span><span class="nf">sockaddr_in</span><span class="p">(</span><span class="s2">"</span><span class="s2">discard</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">localhost</span><span class="s2">"</span><span class="p">)</span>
+s<span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"</span><span class="s2">The king has donkey ears!</span><span class="s2">"</span>, <span class="mi">0</span>, sockaddr<span class="p">)</span>
+</code></pre>
 </dd>
 
 
@@ -1251,18 +1252,19 @@ controls には 補助データ(ancillary data)を渡します。
 <p>
 送ったバイト数を返します。
 </p>
-<pre>
-# UnixSocket#send_io の実装例
-# use Socket::AncillaryData.
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="c1"># UnixSocket#send_io の実装例
+</span><span class="c1"># use Socket::AncillaryData.
+</span><span class="nb">require</span> <span class="s1">'socket'</span>
 
-ancdata = Socket::AncillaryData.int(:UNIX, :SOCKET, :RIGHTS, io.fileno)
-sock.sendmsg(&quot;a&quot;, 0, nil, ancdata)
-
-# use 3-element array.
-ancdata = [:SOCKET, :RIGHTS, [io.fileno].pack(&quot;i!&quot;)]
-sock.sendmsg(&quot;\0&quot;, 0, nil, ancdata)
-</pre>
+ancdata <span class="o">=</span> <span class="no">Socket</span><span class="o">::</span><span class="no">AncillaryData</span><span class="p">.</span><span class="nf">int</span><span class="p">(</span><span class="ss">:UNIX</span>, <span class="ss">:SOCKET</span>, <span class="ss">:RIGHTS</span>, io<span class="p">.</span><span class="nf">fileno</span><span class="p">)</span>
+sock<span class="p">.</span><span class="nf">sendmsg</span><span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="mi">0</span>, <span class="k">nil</span>, ancdata<span class="p">)</span>
+  
+<span class="c1"># use 3-element array.
+</span>ancdata <span class="o">=</span> <span class="p">[</span><span class="ss">:SOCKET</span>, <span class="ss">:RIGHTS</span>, <span class="p">[</span>io<span class="p">.</span><span class="nf">fileno</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">i!</span><span class="s2">"</span><span class="p">)</span><span class="p">]</span>
+sock<span class="p">.</span><span class="nf">sendmsg</span><span class="p">(</span><span class="s2">"</span><span class="s2">\0</span><span class="s2">"</span>, <span class="mi">0</span>, <span class="k">nil</span>, ancdata<span class="p">)</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>mesg</code>:</dt>
 <dd>
@@ -1342,26 +1344,27 @@ intポインタを渡します。
 <p>
 引数が1つの場合は <a href="../class/Socket=3a=3aOption.html">Socket::Option</a> で設定値を表現します。
 </p>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
+  
+<span class="c1"># 真偽値の場合
+</span><span class="c1">#setsockopt could be called like this:
+</span>sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="ss">:SOCKET</span>, <span class="ss">:REUSEADDR</span>, <span class="k">true</span><span class="p">)</span>
+sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">SOL_SOCKET</span>,<span class="no">Socket</span><span class="o">::</span><span class="no">SO_REUSEADDR</span>, <span class="k">true</span><span class="p">)</span>
+sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">Option</span><span class="p">.</span><span class="nf">bool</span><span class="p">(</span><span class="ss">:INET</span>, <span class="ss">:SOCKET</span>, <span class="ss">:REUSEADDR</span>, <span class="k">true</span><span class="p">)</span><span class="p">)</span>
 
-# 真偽値の場合
-#setsockopt could be called like this:
-sock.setsockopt(:SOCKET, :REUSEADDR, true)
-sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR, true)
-sock.setsockopt(Socket::Option.bool(:INET, :SOCKET, :REUSEADDR, true))
+<span class="c1"># 整数値の場合
+</span><span class="c1">#setsockopt could be called like this:
+</span>sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="ss">:IP</span>, <span class="ss">:TTL</span>, <span class="mi">255</span><span class="p">)</span>
+sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">IPPROTO_IP</span>, <span class="no">Socket</span><span class="o">::</span><span class="no">IP_TTL</span>, <span class="mi">255</span><span class="p">)</span>
+sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">Option</span><span class="p">.</span><span class="nf">int</span><span class="p">(</span><span class="ss">:INET</span>, <span class="ss">:IP</span>, <span class="ss">:TTL</span>, <span class="mi">255</span><span class="p">)</span><span class="p">)</span>
 
-# 整数値の場合
-#setsockopt could be called like this:
-sock.setsockopt(:IP, :TTL, 255)
-sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, 255)
-sock.setsockopt(Socket::Option.int(:INET, :IP, :TTL, 255))
-
-# より複雑な場合
-optval = IPAddr.new(&quot;224.0.0.251&quot;).hton +
-         IPAddr.new(Socket::INADDR_ANY, Socket::AF_INET).hton
-sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_ADD_MEMBERSHIP, optval)
-</pre>
+<span class="c1"># より複雑な場合
+</span>optval <span class="o">=</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">224.0.0.251</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">hton</span> <span class="o">+</span>
+         <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">INADDR_ANY</span>, <span class="no">Socket</span><span class="o">::</span><span class="no">AF_INET</span><span class="p">)</span><span class="p">.</span><span class="nf">hton</span>
+sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">IPPROTO_IP</span>, <span class="no">Socket</span><span class="o">::</span><span class="no">IP_ADD_MEMBERSHIP</span>, optval<span class="p">)</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>level</code>:</dt>
 <dd>

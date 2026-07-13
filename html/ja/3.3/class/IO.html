@@ -171,14 +171,13 @@ IO のすべての書き込みメソッドは内部で <a href="../method/IO/i/w
 <p>
 シーク関連のメソッドはエンコーディングの影響を受けません。常に1バイトを単位として動作します。
 </p>
-<p>
-例:
-</p>
-<pre>
-f = File.open('t.txt', 'r+:euc-jp')
-p f.getc.encoding                             #=&gt; Encoding::EUC_JP
-p f.read(1).encoding                          #=&gt; Encoding::ASCII_8BIT
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'t.txt'</span>, <span class="s1">'r+:euc-jp'</span><span class="p">)</span>
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">getc</span><span class="p">.</span><span class="nf">encoding</span>                             <span class="c1">#=&gt; Encoding::EUC_JP
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="p">.</span><span class="nf">encoding</span>                          <span class="c1">#=&gt; Encoding::ASCII_8BIT 
+</span></code></pre>
 <h3 id='io_encoding'>IO のエンコーディングとエンコーディングの変換</h3>
 <p>
 IO オブジェクトは外部エンコーディングと内部エンコーディングを持ちます。外部エンコーディングとは IO が表すファイルなどの文字エンコーディングです。内部エンコーディングとは IO から読み込まれた文字列、あるいは IO の書き込みメソッドへ渡す文字列の文字エンコーディングです。
@@ -217,24 +216,22 @@ IO へ書き込まれる文字列は外部エンコーディングへと変換�
 IO に対してエンコーディングを指定する方法には、生成時に <a href="../method/IO/s/open.html">IO.open</a> や <a href="../method/File/s/open.html">File.open</a>
 に渡すモードとともに指定するものと生成後に <a href="../method/IO/i/set_encoding.html">IO#set_encoding</a> を使って指定するものの二通りがあります。詳しくはそれぞれのメソッドの項を参照して下さい。通常は前者の方法を使います。
 </p>
-<p>
-例1:
-</p>
-<pre>
-f = File.open('file1')
-p f.getc.encoding        #=&gt; Encoding::EUC_JP
-</pre>
-<p>
-例2:
-</p>
-<pre>
-f = File.open('t.txt', 'w+:shift_jis:euc-jp')
-f.write &quot;\xB4\xC1\xBB\xFA&quot;            # 文字列 &quot;漢字&quot; の EUC-JP リテラル
-f.rewind
-s = f.read(4)
-puts s.dump                           #=&gt; &quot;\x8A\xBF\x8E\x9A&quot;
-                                      # エンコーディングがSJISへ変換されていることが分かる。
-</pre>
+<span class="caption">例1</span>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'file1'</span><span class="p">)</span>
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">getc</span><span class="p">.</span><span class="nf">encoding</span>        <span class="c1">#=&gt; Encoding::EUC_JP
+</span></code></pre>
+<span class="caption">例2</span>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'t.txt'</span>, <span class="s1">'w+:shift_jis:euc-jp'</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">write</span> <span class="s2">"</span><span class="s2">\xB4\xC1\xBB\xFA</span><span class="s2">"</span>            <span class="c1"># 文字列 &quot;漢字&quot; の EUC-JP リテラル
+</span>f<span class="p">.</span><span class="nf">rewind</span>
+s <span class="o">=</span> f<span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">puts</span> s<span class="p">.</span><span class="nf">dump</span>                           <span class="c1">#=&gt; &quot;\x8A\xBF\x8E\x9A&quot; 
+</span>                                      <span class="c1"># エンコーディングがSJISへ変換されていることが分かる。
+</span></code></pre>
 <h4 >まとめ</h4>
 <p>
 以上をまとめると以下の表のようになります。<a href="../method/Encoding/s/default_external.html">Encoding.default_external</a> は常に設定されているので、省略してあります。
@@ -242,45 +239,48 @@ puts s.dump                           #=&gt; &quot;\x8A\xBF\x8E\x9A&quot;
 <p>
 読み込んだ文字列のエンコーディング
 </p>
-<pre>
+<pre class="highlight text">
+<code>
                                                    バイナリ読み込みメソッド      テキスト読み込みメソッド
 ----------------------------------------------------------------------------------------------------------
                                         指定無し        ASCII-8BIT                   default_external
-
+ 
                            default_internal のみ        ASCII-8BIT                   default_internal
-
+ 
                         外部エンコーディングのみ        ASCII-8BIT                 外部エンコーディング
-
+ 
                     内部エンコーディング指定あり        ASCII-8BIT                 内部エンコーディング
-
+  
     内部エンコーディングと default_internal 両方        ASCII-8BIT                 内部エンコーディング
-</pre>
+</code></pre>
 <p>
 エンコーディングの変換
 </p>
-<pre>
+<pre class="highlight text">
+<code>
                                               バイナリ読み込みメソッド   テキスト読み込みメソッド   書き込みメソッド
 ---------------------------------------------------------------------------------------------------------------------
                                   指定無し           変換なし                 変換なし                   変換なし
 
                   外部エンコーディングのみ           変換なし                 変換なし                   変換あり
-
-                     default_internal のみ           変換なし                 変換あり                   変換あり
-
+         
+                     default_internal のみ           変換なし                 変換あり                   変換あり 
+  
                   内部エンコーディングのみ           変換なし                 変換あり                   変換あり
 
 外部エンコーディングと内部エンコーディング           変換なし                 変換あり                   変換あり
 
    外部エンコーディングと default_internal           変換なし                 変換あり                   変換あり
-</pre>
+</code></pre>
 <h3 >デフォルトの外部エンコーディングの指定</h3>
 <p>
 <a href="../method/Encoding/s/default_external.html">Encoding.default_external</a> はコマンドオプション -E で指定します。
 -E が指定されなかった場合は次のような優先順位で決定されます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 -E (最優先) &gt; -K &gt; locale
-</pre>
+</code></pre>
 <h3 >ファイル名のエンコーディング</h3>
 <p>
 ファイル名の文字エンコーディングはプラットフォームに依存します。ファイル名の文字エンコーディングが固定されているプラットフォーム(Win, Mac)では、エンコーディングは暗黙に変換されます(予定)。UNIX では変換されずそのままシステムコールに渡されます。
@@ -298,21 +298,23 @@ Windows の IO にはテキストモードとバイナリモードという2種�
 空ファイルや EOF での各読み込みメソッドの振る舞いは以下のとおりです。ただし、length を指定できるメソッドに関しては、length に nil または 0 を指定した場合、
 EOF であっても常に空文字列 &quot;&quot; を返します。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 メソッド                      空のファイルに対して
 
-IO.read(空ファイル)           &quot;&quot;
+IO.read(空ファイル)           ""
 IO.read(空ファイル, length)   nil
 IO.readlines(空ファイル)      []
 IO.foreach(空ファイル)        何もしない
-</pre>
-<pre>
+</code></pre>
+<pre class="highlight text">
+<code>
 メソッド                      既にEOFだったら
 
 IO#each_byte                  何もしない
 IO#getc                       nil
 IO#gets                       nil
-IO#read()                     &quot;&quot;
+IO#read()                     ""
 IO#read(length)               nil
 IO#read_nonblock              EOFError
 IO#readchar                   EOFError
@@ -320,7 +322,7 @@ IO#readline                   EOFError
 IO#readlines                  []
 IO#readpartial                EOFError
 IO#sysread                    EOFError
-</pre>
+</code></pre>
 
 
 
@@ -757,9 +759,9 @@ length を省略するとファイルの末尾まで読み込みます。
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">This is line one\nThis is line two\nThis is line three\nAnd so on...\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="no">IO</span><span class="p">.</span><span class="nf">binread</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>           <span class="c1"># =&gt; &quot;This is line one\nThis is line two\nThis is line three\nAnd so on...\n&quot;
-</span><span class="no">IO</span><span class="p">.</span><span class="nf">binread</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="mi">20</span><span class="p">)</span>       <span class="c1"># =&gt; &quot;This is line one\nThi&quot;
-</span><span class="no">IO</span><span class="p">.</span><span class="nf">binread</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="mi">20</span>, <span class="mi">10</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;ne one\nThis is line &quot;
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">binread</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>         <span class="c1"># =&gt; &quot;This is line one\nThis is line two\nThis is line three\nAnd so on...\n&quot;
+</span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">binread</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="mi">20</span><span class="p">)</span>     <span class="c1"># =&gt; &quot;This is line one\nThi&quot;
+</span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">binread</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="mi">20</span>, <span class="mi">10</span><span class="p">)</span> <span class="c1"># =&gt; &quot;ne one\nThis is line &quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/s/read.html">IO.read</a>
@@ -865,10 +867,10 @@ nil を指定した場合、コピーする長さに制限はありません。
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">filetest</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">abcdefghij</span><span class="s2">"</span><span class="p">)</span>
-<span class="no">IO</span><span class="p">.</span><span class="nf">copy_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">filetest</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span>, <span class="mi">2</span><span class="p">)</span>     <span class="c1"># =&gt; 2
-</span><span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span><span class="p">)</span>                           <span class="c1"># =&gt; &quot;ab&quot;
-</span><span class="no">IO</span><span class="p">.</span><span class="nf">copy_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">filetest</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span>, <span class="mi">3</span>, <span class="mi">4</span><span class="p">)</span>  <span class="c1"># =&gt; 3
-</span><span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span><span class="p">)</span>                           <span class="c1"># =&gt; &quot;efg&quot;
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">copy_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">filetest</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span>, <span class="mi">2</span><span class="p">)</span>   <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span><span class="p">)</span>                         <span class="c1"># =&gt; &quot;ab&quot;
+</span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">copy_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">filetest</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span>, <span class="mi">3</span>, <span class="mi">4</span><span class="p">)</span>  <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span><span class="p">)</span>                         <span class="c1"># =&gt; &quot;efg&quot;
 </span></code></pre>
 </dd>
 
@@ -929,7 +931,7 @@ IO オブジェクトの生成に失敗した場合に発生します。
 <pre class="highlight ruby">
 <code>
 io <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">IO</span><span class="p">.</span><span class="nf">sysopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
-io<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; IO
+<span class="nb">p</span> io<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; IO
 </span>io<span class="p">.</span><span class="nf">close</span>
 </code></pre>
 <span class="caption">例:IO.for_fd による読み込み・バイナリモードでのファイルオープン</span>
@@ -937,20 +939,20 @@ io<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt;
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">binwrite</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">\xBF\xAA\x16\x04.\b\xCB\x12\xACoeQ\xFDv2\xCF9+\x81\x18</span><span class="s2">"</span><span class="p">)</span>
 io <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">for_fd</span><span class="p">(</span><span class="no">IO</span><span class="p">.</span><span class="nf">sysopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>, <span class="s2">"</span><span class="s2">r</span><span class="s2">"</span>, <span class="ss">binmode:</span> <span class="k">true</span><span class="p">)</span>
-io<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; IO
-</span>io<span class="p">.</span><span class="nf">binmode?</span> <span class="c1"># =&gt; true
+<span class="nb">p</span> io<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; IO
+</span><span class="nb">p</span> io<span class="p">.</span><span class="nf">binmode?</span> <span class="c1"># =&gt; true
 </span>io<span class="p">.</span><span class="nf">close</span>
 </code></pre>
 <span class="caption">例:IO.open によるファイルオープン</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">IO</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="no">IO</span><span class="p">.</span><span class="nf">sysopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>io<span class="o">|</span> <span class="nb">p</span> io<span class="p">.</span><span class="nf">class</span> <span class="p">}</span> <span class="c1"># =&gt; IO
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="no">IO</span><span class="p">.</span><span class="nf">sysopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>io<span class="o">|</span> <span class="nb">p</span> io<span class="p">.</span><span class="nf">class</span> <span class="p">}</span> <span class="c1"># =&gt; IO
 </span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="S_FOREACH"><code>foreach(path, rs = $/, chomp: false) {|line| ... } -&gt; nil</code><span class="permalink">[<a href="../method/IO/s/foreach.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO.html#method-c-foreach">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>foreach(path, rs = $/, chomp: false) -&gt; Enumerator</code></dt>
+<dt class="method-heading" id="S_FOREACH"><code>foreach(path, rs = $/, chomp: false, **opts) {|line| ... } -&gt; nil</code><span class="permalink">[<a href="../method/IO/s/foreach.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO.html#method-c-foreach">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>foreach(path, rs = $/, chomp: false, **opts) -&gt; Enumerator</code></dt>
 <dd class="method-description">
 <p>
 path で指定されたファイルの各行を引数としてブロックを繰り返し実行します。
@@ -980,6 +982,12 @@ path が空ファイルの場合、何もせずに nil を返します。
 <dd>
 true を指定すると各行の末尾から &quot;\n&quot;, &quot;\r&quot;, または &quot;\r\n&quot; を取り除きます。
 </dd>
+<dt class='method-param'>[PARAM] <code>opts</code>:</dt>
+<dd>
+ファイル path を open する時に使われるオプションをキーワード引数で指定します。
+<code>:encoding</code> で読み込んだ行のエンコーディングを、
+<code>:mode</code> で <a href="../method/IO/s/open.html">IO.open</a> のモード文字列を指定できます。これらの他、<a href="../method/IO/s/new.html">IO.new</a> のオプション引数(<code>:external_encoding</code> など)が指定できます。
+</dd>
 <dt>[EXCEPTION] <code>Errno::EXXX</code>:</dt>
 <dd>
 path のオープンに失敗した場合、発生します。
@@ -989,7 +997,7 @@ path のオープンに失敗した場合、発生します。
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">line1\nline2,\nline3\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="no">IO</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; #&lt;Enumerator: IO:foreach(&quot;testfile&quot;)&gt;
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; #&lt;Enumerator: IO:foreach(&quot;testfile&quot;)&gt;
 </span><span class="no">IO</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> <span class="nb">print</span> <span class="s2">"</span><span class="s2">GOT </span><span class="s2">"</span>, x <span class="p">}</span>
 <span class="c1"># =&gt; GOT line1
 </span><span class="c1"># GOT line2,
@@ -1010,6 +1018,15 @@ path のオープンに失敗した場合、発生します。
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">line1\nline2,\nline3\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="no">IO</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="ss">chomp:</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> <span class="nb">print</span> <span class="s2">"</span><span class="s2">GOT </span><span class="s2">"</span>, x <span class="p">}</span>
 <span class="c1"># =&gt; GOT line1GOT line2,GOT line3
+</span></code></pre>
+<span class="caption">例: エンコーディングを指定</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">line1\nline2,\nline3\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">IO</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="ss">encoding:</span> <span class="s2">"</span><span class="s2">UTF-8</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> <span class="nb">p</span> x<span class="p">.</span><span class="nf">encoding</span> <span class="p">}</span>
+<span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span><span class="c1"># #&lt;Encoding:UTF-8&gt;
+</span><span class="c1"># #&lt;Encoding:UTF-8&gt;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/v/=2f.html">$/</a>
@@ -1062,15 +1079,16 @@ close します(close されていてるオブジェクトはそのままです)
 IO オブジェクトの作成に失敗した場合に発生します。
 </dd>
 </dl>
-<pre>
-r, w = IO.pipe
-p [r, w]            # =&gt; [#&lt;IO:0x401b90f8&gt;, #&lt;IO:0x401b7718&gt;]
-Thread.new do
-  w.puts &quot;foo&quot;
-  w.close
-end
-p r.gets           # =&gt; &quot;foo\n&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+<span class="nb">p</span> <span class="p">[</span>r, w<span class="p">]</span>            <span class="c1"># =&gt; [#&lt;IO:0x401b90f8&gt;, #&lt;IO:0x401b7718&gt;]
+</span><span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  w<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
+  w<span class="p">.</span><span class="nf">close</span>
+<span class="k">end</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">gets</span>           <span class="c1"># =&gt; &quot;foo\n&quot;
+</span></code></pre>
 </dd>
 
 
@@ -1088,12 +1106,13 @@ p r.gets           # =&gt; &quot;foo\n&quot;
 <p>
 サブプロセスを実行し、そのプロセスの標準入出力との間にパイプラインを確立します。生成したパイプを <a href="../class/IO.html">IO</a> オブジェクトとして返します。
 </p>
-<pre>
-p io = IO.popen(&quot;cat&quot;, &quot;r+&quot;)  # =&gt; #&lt;IO:fd 4&gt;
-io.puts &quot;foo&quot;
-io.close_write
-p io.gets                     # =&gt; &quot;foo\n&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> io <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">cat</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; #&lt;IO:fd 4&gt;
+</span>io<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
+io<span class="p">.</span><span class="nf">close_write</span>
+<span class="nb">p</span> io<span class="p">.</span><span class="nf">gets</span>                     <span class="c1"># =&gt; &quot;foo\n&quot;
+</span></code></pre>
 <p>
 サブプロセスを指定する方法は2通りあります。文字列を指定する場合と配列を指定する場合です。文字列の場合は、シェルを経由して子プロセスを実行し、配列の場合は、シェルを経由せずに子プロセスを実行します。
 </p>
@@ -1107,41 +1126,44 @@ p io.gets                     # =&gt; &quot;foo\n&quot;
 <p>
 ブロックが与えられた場合は生成した IO オブジェクトを引数にブロックを実行し、ブロックの実行結果を返します。ブロックの実行後、生成したパイプは自動的にクローズされます。
 </p>
-<pre>
-p IO.popen(&quot;cat&quot;, &quot;r+&quot;) {|io|
-  io.puts &quot;foo&quot;
-  io.close_write
-  io.gets
-}
-# =&gt; &quot;foo\n&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">cat</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>io<span class="o">|</span>
+  io<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
+  io<span class="p">.</span><span class="nf">close_write</span>
+  io<span class="p">.</span><span class="nf">gets</span>
+<span class="p">}</span>
+<span class="c1"># =&gt; &quot;foo\n&quot;
+</span></code></pre>
 <p>
 opt でプロセス起動のためのオプションや、パイプ IO オブジェクトの属性(エンコーディングや読み書き能力)を指定できます。プロセス起動のためのオプションは <a href="../method/Kernel/m/spawn.html">Kernel.#spawn</a> と、パイプオブジェクトの属性の指定のオプションは <a href="../method/IO/s/new.html">IO.new</a> と共通です。つまり、 :external_encoding や :unsetenv_others が指定できます。オプションの詳しい意味は <a href="../method/Kernel/m/spawn.html">Kernel.#spawn</a> や <a href="../method/IO/s/new.html">IO.new</a> を参照してください。
 </p>
-<pre>
-# nkfプロセスから得られる文字列を EUC-JP と指定する
-# IO.new などと共通のオプションが指定できる
-IO.popen(&quot;nkf -e filename&quot;, external_encoding: &quot;EUC-JP&quot;){|nkf_io|
-  nkf_io.read
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># nkfプロセスから得られる文字列を EUC-JP と指定する
+</span><span class="c1"># IO.new などと共通のオプションが指定できる
+</span><span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">nkf -e filename</span><span class="s2">"</span>, <span class="ss">external_encoding:</span> <span class="s2">"</span><span class="s2">EUC-JP</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>nkf_io<span class="o">|</span>
+  nkf_io<span class="p">.</span><span class="nf">read</span> 
+<span class="p">}</span>
+</code></pre>
 <p>
 これに加えて、プロセス起動のためのオプションを execopt で指定することもできます。
 execopt ではエンコーディングなどは指定できません。
 </p>
-<pre>
-# 標準エラー出力を子プロセス側で標準出力にリダイレクトする
-# 標準エラー出力と標準出力がマージされる
-# Kernel.#spawn と共通のオプション
-IO.popen([&quot;ls&quot;, &quot;/&quot;, :err=&gt;[:child, :out]]) {|ls_io|
-  ls_result_with_error = ls_io.read
-}
-
-# 上と同じ、配列の外側でもオプションが指定できる
-IO.popen([&quot;ls&quot;, &quot;/&quot;], :err=&gt;[:child, :out]) {|ls_io|
-  ls_result_with_error = ls_io.read
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># 標準エラー出力を子プロセス側で標準出力にリダイレクトする
+</span><span class="c1"># 標準エラー出力と標準出力がマージされる
+</span><span class="c1"># Kernel.#spawn と共通のオプション
+</span><span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">ls</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">/</span><span class="s2">"</span>, <span class="ss">:err</span><span class="o">=&gt;</span><span class="p">[</span><span class="ss">:child</span>, <span class="ss">:out</span><span class="p">]</span><span class="p">]</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>ls_io<span class="o">|</span>
+  ls_result_with_error <span class="o">=</span> ls_io<span class="p">.</span><span class="nf">read</span>
+<span class="p">}</span>
+  
+<span class="c1"># 上と同じ、配列の外側でもオプションが指定できる
+</span><span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">ls</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">/</span><span class="s2">"</span><span class="p">]</span>, <span class="ss">:err</span><span class="o">=&gt;</span><span class="p">[</span><span class="ss">:child</span>, <span class="ss">:out</span><span class="p">]</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>ls_io<span class="o">|</span>
+  ls_result_with_error <span class="o">=</span> ls_io<span class="p">.</span><span class="nf">read</span>
+<span class="p">}</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>env</code>:</dt>
 <dd>
@@ -1190,33 +1212,35 @@ IO.popen([&quot;ls&quot;, &quot;/&quot;], :err=&gt;[:child, :out]) {|ls_io|
 第一引数に文字列 &quot;-&quot; が指定された時、<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/fork.html">fork(2)</a> を行い子プロセスの標準入出力との間にパイプラインを確立します。親プロセスでは IO オブジェクトを返し、子プロセスでは
 nil を返します。
 </p>
-<pre>
-io = IO.popen(&quot;-&quot;, &quot;r+&quot;)
-if io  # parent
-  io.puts &quot;foo&quot;
-  p io.gets                   # =&gt; &quot;child output: foo\n&quot;
-  io.close
-else   # child
-  s = gets
-  print &quot;child output: &quot; + s
-  exit
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+io <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">-</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">if</span> io  <span class="c1"># parent
+</span>  io<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
+  <span class="nb">p</span> io<span class="p">.</span><span class="nf">gets</span>                   <span class="c1"># =&gt; &quot;child output: foo\n&quot;
+</span>  io<span class="p">.</span><span class="nf">close</span>
+<span class="k">else</span>   <span class="c1"># child
+</span>  s <span class="o">=</span> <span class="nb">gets</span>
+  <span class="nb">print</span> <span class="s2">"</span><span class="s2">child output: </span><span class="s2">"</span> <span class="o">+</span> s
+  <span class="nb">exit</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 ブロックを与えられた場合、親プロセスでは生成した IO オブジェクトを引数にブロックを実行し、その結果を返します。ブロックの実行後、生成したパイプは自動的にクローズされます。子プロセスでは nil を引数にブロックを実行し終了します。
 </p>
-<pre>
-p IO.popen(&quot;-&quot;, &quot;r+&quot;) {|io|
-  if io   # parent
-    io.puts &quot;foo&quot;
-    io.gets
-  else    # child
-    s = gets
-    puts &quot;child output: &quot; + s
-  end
-}
-# =&gt; &quot;child output: foo\n&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">-</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>io<span class="o">|</span>
+  <span class="k">if</span> io   <span class="c1"># parent
+</span>    io<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
+    io<span class="p">.</span><span class="nf">gets</span>
+  <span class="k">else</span>    <span class="c1"># child
+</span>    s <span class="o">=</span> <span class="nb">gets</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="s2">child output: </span><span class="s2">"</span> <span class="o">+</span> s
+  <span class="k">end</span>
+<span class="p">}</span>
+<span class="c1"># =&gt; &quot;child output: foo\n&quot;
+</span></code></pre>
 <p>
 opt ではエンコーディングの設定やプロセス起動のためのオプションが指定できます。
 <a href="../method/IO/s/new.html">IO.new</a> や <a href="../method/Kernel/m/spawn.html">Kernel.#spawn</a> で指定できるものと共通なので詳しくはそちらを見てください。
@@ -1319,16 +1343,15 @@ length が負の場合に発生します。
 <p>
 [SEE_ALSO] <a href="../method/IO/s/binread.html">IO.binread</a>
 </p>
-<p>
-例:
-</p>
-<pre>
-IO.read(empty_file)             #=&gt; &quot;&quot;
-IO.read(empty_file, 1)          #=&gt; nil
-IO.read(one_byte_file, 0, 10)   #=&gt; &quot;&quot;
-IO.read(one_byte_file, nil, 10) #=&gt; &quot;&quot;
-IO.read(one_byte_file, 1, 10)   #=&gt; nil
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>empty_file<span class="p">)</span>             <span class="c1">#=&gt; &quot;&quot;
+</span><span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>empty_file, <span class="mi">1</span><span class="p">)</span>          <span class="c1">#=&gt; nil
+</span><span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>one_byte_file, <span class="mi">0</span>, <span class="mi">10</span><span class="p">)</span>   <span class="c1">#=&gt; &quot;&quot;
+</span><span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>one_byte_file, <span class="k">nil</span>, <span class="mi">10</span><span class="p">)</span> <span class="c1">#=&gt; &quot;&quot; 
+</span><span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>one_byte_file, <span class="mi">1</span>, <span class="mi">10</span><span class="p">)</span>   <span class="c1">#=&gt; nil
+</span></code></pre>
 </dd>
 
 
@@ -1382,15 +1405,15 @@ path のオープン、ファイルの読み込みに失敗した場合に発生
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">line1\nline2,\nline3\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="no">IO</span><span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>             <span class="c1"># =&gt; [&quot;line1\n&quot;, &quot;line2,\n&quot;, &quot;line3\n&quot;]
-</span><span class="no">IO</span><span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">,</span><span class="s2">"</span><span class="p">)</span>        <span class="c1"># =&gt; [&quot;line1\nline2,&quot;, &quot;\nline3\n&quot;]
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>           <span class="c1"># =&gt; [&quot;line1\n&quot;, &quot;line2,\n&quot;, &quot;line3\n&quot;]
+</span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">,</span><span class="s2">"</span><span class="p">)</span>      <span class="c1"># =&gt; [&quot;line1\nline2,&quot;, &quot;\nline3\n&quot;]
 </span></code></pre>
 <span class="caption">例: rs を取り除く（chomp = true）</span>
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">line1,\rline2,\r\nline3,\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="no">IO</span><span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="ss">chomp:</span> <span class="k">true</span><span class="p">)</span>        <span class="c1"># =&gt; [&quot;line1,\rline2,&quot;, &quot;line3,&quot;]
-</span><span class="no">IO</span><span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">\r</span><span class="s2">"</span>, <span class="ss">chomp:</span> <span class="k">true</span><span class="p">)</span>  <span class="c1"># =&gt; [&quot;line1,&quot;, &quot;line2,&quot;, &quot;\nline3,\n&quot;]
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="ss">chomp:</span> <span class="k">true</span><span class="p">)</span>      <span class="c1"># =&gt; [&quot;line1,\rline2,&quot;, &quot;line3,&quot;]
+</span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">\r</span><span class="s2">"</span>, <span class="ss">chomp:</span> <span class="k">true</span><span class="p">)</span>  <span class="c1"># =&gt; [&quot;line1,&quot;, &quot;line2,&quot;, &quot;\nline3,\n&quot;]
 </span></code></pre>
 </dd>
 
@@ -1429,26 +1452,27 @@ path のオープン、ファイルの読み込みに失敗した場合に発生
 <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/select.html">select(2)</a> に失敗した場合に発生します。
 </dd>
 </dl>
-<pre>
-rp, wp = IO.pipe
-mesg = &quot;ping &quot;
-100.times{
-  rs, ws, = IO.select([rp], [wp])
-  if r = rs[0]
-    ret = r.read(5)
-    print ret
-    case ret
-    when /ping/
-      mesg = &quot;pong\n&quot;
-    when /pong/
-      mesg = &quot;ping &quot;
-    end
-  end
-  if w = ws[0]
-    w.write(mesg)
-  end
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+rp, wp <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+mesg <span class="o">=</span> <span class="s2">"</span><span class="s2">ping </span><span class="s2">"</span>
+<span class="mi">100</span><span class="p">.</span><span class="nf">times</span><span class="p">{</span>
+  rs, ws, <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="p">[</span>rp<span class="p">]</span>, <span class="p">[</span>wp<span class="p">]</span><span class="p">)</span>
+  <span class="k">if</span> r <span class="o">=</span> rs<span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    ret <span class="o">=</span> r<span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="nb">print</span> ret
+    <span class="k">case</span> ret
+    <span class="k">when</span> <span class="sr">/ping/</span>
+      mesg <span class="o">=</span> <span class="s2">"</span><span class="s2">pong\n</span><span class="s2">"</span>
+    <span class="k">when</span> <span class="sr">/pong/</span>
+      mesg <span class="o">=</span> <span class="s2">"</span><span class="s2">ping </span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="k">if</span> w <span class="o">=</span> ws<span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    w<span class="p">.</span><span class="nf">write</span><span class="p">(</span>mesg<span class="p">)</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/m/select.html">Kernel.#select</a>
 </p>
@@ -1484,7 +1508,7 @@ path で指定されるファイルをオープンし、ファイル記述子を
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">IO</span><span class="p">.</span><span class="nf">sysopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w+</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># =&gt; 3
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">sysopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w+</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 3
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/m/open.html">Kernel.#open</a>
@@ -1497,10 +1521,11 @@ path で指定されるファイルをオープンし、ファイル記述子を
 <p>
 obj を to_io メソッドによって <a href="../class/IO.html">IO</a> オブジェクトに変換します。変換できなかった場合は nil を返します。
 </p>
-<pre>
-IO.try_convert(STDOUT)     # =&gt; STDOUT
-IO.try_convert(&quot;STDOUT&quot;)   # =&gt; nil
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">IO</span><span class="p">.</span><span class="nf">try_convert</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>     <span class="c1"># =&gt; STDOUT
+</span><span class="no">IO</span><span class="p">.</span><span class="nf">try_convert</span><span class="p">(</span><span class="s2">"</span><span class="s2">STDOUT</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># =&gt; nil
+</span></code></pre>
 </dd>
 
 
@@ -1544,12 +1569,12 @@ offset を指定しないと、書き込みの末尾でファイルを切り捨�
 <pre class="highlight ruby">
 <code>
 text <span class="o">=</span> <span class="s2">"</span><span class="s2">This is line one\nThis is line two\nThis is line three\nAnd so on...\n</span><span class="s2">"</span>
-<span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, text<span class="p">)</span>              <span class="c1"># =&gt; 66
-</span><span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">0123456789</span><span class="s2">"</span>, <span class="mi">20</span><span class="p">)</span>  <span class="c1">#=&gt; 10
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, text<span class="p">)</span>            <span class="c1"># =&gt; 66
+</span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">0123456789</span><span class="s2">"</span>, <span class="mi">20</span><span class="p">)</span>  <span class="c1">#=&gt; 10
 </span><span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># =&gt; &quot;This is line one\nThi0123456789two\nThis is line three\nAnd so on...\n&quot;
-</span><span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">0123456789</span><span class="s2">"</span><span class="p">)</span>      <span class="c1">#=&gt; 10
-</span><span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>                     <span class="c1"># =&gt; &quot;0123456789&quot;
+</span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">0123456789</span><span class="s2">"</span><span class="p">)</span>    <span class="c1">#=&gt; 10
+</span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>                   <span class="c1"># =&gt; &quot;0123456789&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/s/binwrite.html">IO.binwrite</a>
@@ -1649,7 +1674,7 @@ offset,lenが有効範囲から出ている場合に発生する例外
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">advise</span><span class="p">(</span><span class="ss">:sequential</span><span class="p">)</span> <span class="p">}</span> <span class="c1"># =&gt; nil
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">advise</span><span class="p">(</span><span class="ss">:sequential</span><span class="p">)</span> <span class="p">}</span> <span class="c1"># =&gt; nil
 </span></code></pre>
 </dd>
 
@@ -1672,17 +1697,18 @@ close時/GCでのファイナライザ呼出時にファイルデスクリプタ
 <p>
 [SEE_ALSO] <a href="../method/IO/i/autoclose=3f.html">IO#autoclose?</a>
 </p>
-<pre>
-f = open(&quot;/dev/null&quot;)
-IO.for_fd(f.fileno)
-# ...
-f.gets # may cause Errno::EBADF
-
-f = open(&quot;/dev/null&quot;)
-IO.for_fd(f.fileno).autoclose = false
-# ...
-f.gets # won't cause Errno::EBADF
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">/dev/null</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">IO</span><span class="p">.</span><span class="nf">for_fd</span><span class="p">(</span>f<span class="p">.</span><span class="nf">fileno</span><span class="p">)</span>
+<span class="c1"># ...
+</span>f<span class="p">.</span><span class="nf">gets</span> <span class="c1"># may cause Errno::EBADF
+</span>
+f <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">/dev/null</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">IO</span><span class="p">.</span><span class="nf">for_fd</span><span class="p">(</span>f<span class="p">.</span><span class="nf">fileno</span><span class="p">)</span><span class="p">.</span><span class="nf">autoclose</span> <span class="o">=</span> <span class="k">false</span>
+<span class="c1"># ...
+</span>f<span class="p">.</span><span class="nf">gets</span> <span class="c1"># won't cause Errno::EBADF
+</span></code></pre>
 </dd>
 
 
@@ -1695,9 +1721,9 @@ auto-close フラグを返します。
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="no">IO</span><span class="p">.</span><span class="nf">sysopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>io<span class="o">|</span>
-  io<span class="p">.</span><span class="nf">autoclose?</span>         <span class="c1"># =&gt; true
+  <span class="nb">p</span> io<span class="p">.</span><span class="nf">autoclose?</span>       <span class="c1"># =&gt; true
 </span>  io<span class="p">.</span><span class="nf">autoclose</span> <span class="o">=</span> <span class="k">false</span>
-  io<span class="p">.</span><span class="nf">autoclose?</span>         <span class="c1"># =&gt; false
+  <span class="nb">p</span> io<span class="p">.</span><span class="nf">autoclose?</span>       <span class="c1"># =&gt; false
 </span><span class="k">end</span>
 </code></pre>
 <p>
@@ -1724,9 +1750,9 @@ auto-close フラグを返します。
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="no">IO</span><span class="p">.</span><span class="nf">sysopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w+</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>io<span class="o">|</span>
-  io<span class="p">.</span><span class="nf">binmode?</span> <span class="c1"># =&gt; false
-</span>  io<span class="p">.</span><span class="nf">binmode</span>  <span class="c1"># =&gt; #&lt;IO:fd 8&gt;
-</span>  io<span class="p">.</span><span class="nf">binmode?</span> <span class="c1"># =&gt; true
+  <span class="nb">p</span> io<span class="p">.</span><span class="nf">binmode?</span> <span class="c1"># =&gt; false
+</span>  <span class="nb">p</span> io<span class="p">.</span><span class="nf">binmode</span>  <span class="c1"># =&gt; #&lt;IO:fd 8&gt;
+</span>  <span class="nb">p</span> io<span class="p">.</span><span class="nf">binmode?</span> <span class="c1"># =&gt; true
 </span><span class="k">end</span>
 </code></pre>
 <p>
@@ -1770,7 +1796,7 @@ clone_io <span class="o">=</span> <span class="k">nil</span>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>io<span class="o">|</span>
   clone_io <span class="o">=</span> io<span class="p">.</span><span class="nf">clone</span>
 <span class="k">end</span>
-clone_io<span class="p">.</span><span class="nf">read</span> <span class="c1"># =&gt; &quot;test&quot;
+<span class="nb">p</span> clone_io<span class="p">.</span><span class="nf">read</span> <span class="c1"># =&gt; &quot;test&quot;
 </span>clone_io<span class="p">.</span><span class="nf">close</span>
 </code></pre>
 </dd>
@@ -1799,7 +1825,7 @@ close に失敗した場合に発生します。
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span>
 f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
-f<span class="p">.</span><span class="nf">read</span>   <span class="c1"># =&gt; &quot;test&quot;
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">read</span> <span class="c1"># =&gt; &quot;test&quot;
 </span>f<span class="p">.</span><span class="nf">close</span>
 <span class="c1"># f.read # =&gt; IOError (すでに close しているので read できない)
 </span></code></pre>
@@ -1827,12 +1853,13 @@ close します。
 自身の close-on-exec フラグを true か false で指定します。
 </dd>
 </dl>
-<pre>
-f = open(&quot;/dev/null&quot;)
-f.close_on_exec = true
-system(&quot;cat&quot;, &quot;/proc/self/fd/#{f.fileno}&quot;) # cat: /proc/self/fd/3: No such file or directory
-f.closed?                #=&gt; false
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">/dev/null</span><span class="s2">"</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">close_on_exec</span> <span class="o">=</span> <span class="k">true</span>
+<span class="nb">system</span><span class="p">(</span><span class="s2">"</span><span class="s2">cat</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">/proc/self/fd/</span><span class="si">#{</span><span class="n">f</span><span class="p">.</span><span class="nf">fileno</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># cat: /proc/self/fd/3: No such file or directory
+</span>f<span class="p">.</span><span class="nf">closed?</span>                <span class="c1">#=&gt; false
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/close_on_exec=3f.html">IO#close_on_exec?</a>
 </p>
@@ -1844,14 +1871,15 @@ f.closed?                #=&gt; false
 <p>
 自身に close-on-exec フラグが設定されていた場合 true を返します。そうでない場合に false を返します。
 </p>
-<pre>
-f = open(&quot;/dev/null&quot;)
-f.close_on_exec?                 #=&gt; true
-f.close_on_exec = false
-f.close_on_exec?                 #=&gt; false
-f.close_on_exec = true
-f.close_on_exec?                 #=&gt; true
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">/dev/null</span><span class="s2">"</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">close_on_exec?</span>                 <span class="c1">#=&gt; true
+</span>f<span class="p">.</span><span class="nf">close_on_exec</span> <span class="o">=</span> <span class="k">false</span>
+f<span class="p">.</span><span class="nf">close_on_exec?</span>                 <span class="c1">#=&gt; false
+</span>f<span class="p">.</span><span class="nf">close_on_exec</span> <span class="o">=</span> <span class="k">true</span>
+f<span class="p">.</span><span class="nf">close_on_exec?</span>                 <span class="c1">#=&gt; true
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/close_on_exec=3d.html">IO#close_on_exec=</a>
 </p>
@@ -1932,13 +1960,13 @@ self が完全に(読み込み用と書き込み用の両方が)クローズさ�
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span>
 f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
-f<span class="p">.</span><span class="nf">close</span>         <span class="c1"># =&gt; nil
-</span>f<span class="p">.</span><span class="nf">closed?</span>       <span class="c1"># =&gt; true
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">close</span>       <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">closed?</span>     <span class="c1"># =&gt; true
 </span>f <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">/bin/sh</span><span class="s2">"</span>,<span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span>
-f<span class="p">.</span><span class="nf">close_write</span>   <span class="c1"># =&gt; nil
-</span>f<span class="p">.</span><span class="nf">closed?</span>       <span class="c1"># =&gt; false
-</span>f<span class="p">.</span><span class="nf">close_read</span>    <span class="c1"># =&gt; nil
-</span>f<span class="p">.</span><span class="nf">closed?</span>       <span class="c1"># =&gt; true
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">close_write</span> <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">closed?</span>     <span class="c1"># =&gt; false
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">close_read</span>  <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">closed?</span>     <span class="c1"># =&gt; true
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/close.html">IO#close</a>, <a href="../method/IO/i/close_read.html">IO#close_read</a>, <a href="../method/IO/i/close_write.html">IO#close_write</a>
@@ -2085,10 +2113,11 @@ self は読み込み用にオープンされていなければなりません。
 self が読み込み用にオープンされていない場合に発生します。
 </dd>
 </dl>
-<pre>
-f = File.new(&quot;testfile&quot;)
-f.each_char {|c| print c, ' ' }   #=&gt; #&lt;File:testfile&gt;
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">each_char</span> <span class="p">{</span><span class="o">|</span>c<span class="o">|</span> <span class="nb">print</span> c, <span class="s1">' '</span> <span class="p">}</span>   <span class="c1">#=&gt; #&lt;File:testfile&gt;
+</span></code></pre>
 </dd>
 
 
@@ -2127,26 +2156,28 @@ IO の各コードポイントに対して繰り返しブロックを呼びだ�
 <p>
 ストリームがファイルの終端に達した場合、true を返します。そうでない場合、false を返します。
 </p>
-<pre>
-f = File.new(&quot;testfile&quot;)
-dummy = f.readlines
-f.eof   #=&gt; true
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+dummy <span class="o">=</span> f<span class="p">.</span><span class="nf">readlines</span>
+f<span class="p">.</span><span class="nf">eof</span>   <span class="c1">#=&gt; true
+</span></code></pre>
 <p>
 自身がパイプやソケットなどのストリームであった場合、相手がデータを送るか close するまでブロックします。
 </p>
-<pre>
-r, w = IO.pipe
-Thread.new { sleep 10; w.close }
-r.eof?  #=&gt; 10秒ブロックしてから true を返す。
-
-r, w = IO.pipe
-Thread.new { sleep 10; w.puts &quot;a&quot; }
-r.eof?  #=&gt; 10秒ブロックしてから false を返す。
-
-r, w = IO.pipe
-r.eof?  # 永久にブロックします。
-</pre>
+<pre class="highlight ruby">
+<code>
+r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">10</span>; w<span class="p">.</span><span class="nf">close</span> <span class="p">}</span>
+r<span class="p">.</span><span class="nf">eof?</span>  <span class="c1">#=&gt; 10秒ブロックしてから true を返す。
+</span>
+r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">10</span>; w<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span> <span class="p">}</span>
+r<span class="p">.</span><span class="nf">eof?</span>  <span class="c1">#=&gt; 10秒ブロックしてから false を返す。
+</span>
+r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+r<span class="p">.</span><span class="nf">eof?</span>  <span class="c1"># 永久にブロックします。
+</span></code></pre>
 <p>
 eof, eof? は入力バッファにデータを読み込むので、<a href="../method/IO/i/sysread.html">IO#sysread</a> と同時に使うと正常に動作しません。
 </p>
@@ -2168,7 +2199,7 @@ IO の外部エンコーディングを返します。外部エンコーディ�
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">abcde</span><span class="s2">"</span><span class="p">)</span>
-<span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">external_encoding</span> <span class="p">}</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">external_encoding</span> <span class="p">}</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
 </span></code></pre>
 </dd>
 
@@ -2206,9 +2237,9 @@ fcntl の実行に失敗した場合に発生します。
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">abcde</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># ファイル状態フラグを読み出す
 </span><span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
-  f<span class="p">.</span><span class="nf">fcntl</span><span class="p">(</span><span class="no">Fcntl</span><span class="o">::</span><span class="no">F_GETFL</span>, <span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 0
-</span>  f<span class="p">.</span><span class="nf">fcntl</span><span class="p">(</span><span class="no">Fcntl</span><span class="o">::</span><span class="no">F_SETFL</span>, <span class="no">Fcntl</span><span class="o">::</span><span class="no">O_NONBLOCK</span><span class="p">)</span> <span class="c1"># =&gt; 0
-</span>  f<span class="p">.</span><span class="nf">fcntl</span><span class="p">(</span><span class="no">Fcntl</span><span class="o">::</span><span class="no">F_GETFL</span>, <span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 4
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">fcntl</span><span class="p">(</span><span class="no">Fcntl</span><span class="o">::</span><span class="no">F_GETFL</span>, <span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 0
+</span>  <span class="nb">p</span> f<span class="p">.</span><span class="nf">fcntl</span><span class="p">(</span><span class="no">Fcntl</span><span class="o">::</span><span class="no">F_SETFL</span>, <span class="no">Fcntl</span><span class="o">::</span><span class="no">O_NONBLOCK</span><span class="p">)</span> <span class="c1"># =&gt; 0
+</span>  <span class="nb">p</span> f<span class="p">.</span><span class="nf">fcntl</span><span class="p">(</span><span class="no">Fcntl</span><span class="o">::</span><span class="no">F_GETFL</span>, <span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 4
 </span><span class="k">end</span>
 </code></pre>
 </dd>
@@ -2239,9 +2270,9 @@ IO のすべてのバッファされているデータを直ちにディスク�
 
 <span class="no">Tempfile</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testtmpfile</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
   f<span class="p">.</span><span class="nf">print</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
-  <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>f<span class="p">.</span><span class="nf">path</span><span class="p">)</span> <span class="c1"># =&gt; &quot;&quot;
+  <span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>f<span class="p">.</span><span class="nf">path</span><span class="p">)</span> <span class="c1"># =&gt; &quot;&quot;
 </span>  f<span class="p">.</span><span class="nf">fdatasync</span>
-  <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>f<span class="p">.</span><span class="nf">path</span><span class="p">)</span> <span class="c1"># =&gt; &quot;test&quot;
+  <span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>f<span class="p">.</span><span class="nf">path</span><span class="p">)</span> <span class="c1"># =&gt; &quot;test&quot;
 </span><span class="k">end</span>
 </code></pre>
 </dd>
@@ -2262,7 +2293,7 @@ IO のすべてのバッファされているデータを直ちにディスク�
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="vg">$stdin</span><span class="p">.</span><span class="nf">fileno</span>    <span class="c1"># =&gt; 0
+<span class="nb">p</span> <span class="vg">$stdin</span><span class="p">.</span><span class="nf">fileno</span>  <span class="c1"># =&gt; 0
 </span><span class="vg">$stdout</span><span class="p">.</span><span class="nf">fileno</span>   <span class="c1"># =&gt; 1
 </span></code></pre>
 <p>
@@ -2296,9 +2327,9 @@ IO ポートの内部バッファをフラッシュします。
 
 <span class="no">Tempfile</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testtmpfile</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
   f<span class="p">.</span><span class="nf">print</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
-  <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>f<span class="p">.</span><span class="nf">path</span><span class="p">)</span> <span class="c1"># =&gt; &quot;&quot;
+  <span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>f<span class="p">.</span><span class="nf">path</span><span class="p">)</span> <span class="c1"># =&gt; &quot;&quot;
 </span>  f<span class="p">.</span><span class="nf">flush</span>
-  <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>f<span class="p">.</span><span class="nf">path</span><span class="p">)</span> <span class="c1"># =&gt; &quot;test&quot;
+  <span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>f<span class="p">.</span><span class="nf">path</span><span class="p">)</span> <span class="c1"># =&gt; &quot;test&quot;
 </span><span class="k">end</span>
 </code></pre>
 </dd>
@@ -2332,11 +2363,12 @@ IO ポートの内部バッファをフラッシュします。
 <p>
 IO から1バイトを読み込み整数として返します。既に EOF に達していれば nil を返します。
 </p>
-<pre>
-f = File.new(&quot;testfile&quot;)
-f.getbyte   #=&gt; 84
-f.getbyte   #=&gt; 104
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">getbyte</span>   <span class="c1">#=&gt; 84
+</span>f<span class="p">.</span><span class="nf">getbyte</span>   <span class="c1">#=&gt; 104
+</span></code></pre>
 </dd>
 
 
@@ -2358,18 +2390,17 @@ EOF に到達した時には nil を返します。
 自身が読み込み用にオープンされていなければ発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-File.write(&quot;testfile&quot;, &quot;test&quot;)
-f = File.new(&quot;testfile&quot;)
-p f.getc                 #=&gt; &quot;い&quot;
-p f.getc                 #=&gt; &quot;ろ&quot;
-p f.getc                 #=&gt; &quot;は&quot;
-f.read
-f.getc                   #=&gt; nil
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">getc</span>                 <span class="c1">#=&gt; &quot;い&quot;
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">getc</span>                 <span class="c1">#=&gt; &quot;ろ&quot;
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">getc</span>                 <span class="c1">#=&gt; &quot;は&quot;
+</span>f<span class="p">.</span><span class="nf">read</span>
+f<span class="p">.</span><span class="nf">getc</span>                   <span class="c1">#=&gt; nil
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/readchar.html">IO#readchar</a>
 </p>
@@ -2412,13 +2443,14 @@ true を指定すると各行の末尾から &quot;\n&quot;, &quot;\r&quot;, ま
 自身が読み込み用にオープンされていなければ発生します。
 </dd>
 </dl>
-<pre>
-f = File.new(&quot;oneline_file&quot;)
-f.gets                          #=&gt; &quot;This is line one\n&quot;
-$_                              #=&gt; &quot;This is line one\n&quot;
-f.gets                          #=&gt; nil
-$_                              #=&gt; nil
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">oneline_file</span><span class="s2">"</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">gets</span>                          <span class="c1">#=&gt; &quot;This is line one\n&quot;
+</span><span class="vg">$_</span>                              <span class="c1">#=&gt; &quot;This is line one\n&quot;
+</span>f<span class="p">.</span><span class="nf">gets</span>                          <span class="c1">#=&gt; nil
+</span><span class="vg">$_</span>                              <span class="c1">#=&gt; nil
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/v/=2f.html">$/</a>, <a href="../method/IO/i/readline.html">IO#readline</a>
 </p>
@@ -2481,8 +2513,8 @@ arg が nil か false の場合には 0を、true の場合には 1 を渡しま
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">isatty</span>   <span class="c1"># =&gt; false
-</span><span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/dev/tty</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">isatty</span>   <span class="c1"># =&gt; true
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">isatty</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/dev/tty</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">isatty</span> <span class="c1"># =&gt; true
 </span></code></pre>
 </dd>
 
@@ -2498,14 +2530,15 @@ arg が nil か false の場合には 0を、true の場合には 1 を渡しま
 読み込み用にオープンされていなければ発生します。
 </dd>
 </dl>
-<pre>
-f = File.new(&quot;testfile&quot;)
-f.lineno                 #=&gt; 0
-f.gets                   #=&gt; &quot;This is line one\n&quot;
-f.lineno                 #=&gt; 1
-f.gets                   #=&gt; &quot;This is line two\n&quot;
-f.lineno                 #=&gt; 2
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">lineno</span>                 <span class="c1">#=&gt; 0
+</span>f<span class="p">.</span><span class="nf">gets</span>                   <span class="c1">#=&gt; &quot;This is line one\n&quot;
+</span>f<span class="p">.</span><span class="nf">lineno</span>                 <span class="c1">#=&gt; 1
+</span>f<span class="p">.</span><span class="nf">gets</span>                   <span class="c1">#=&gt; &quot;This is line two\n&quot;
+</span>f<span class="p">.</span><span class="nf">lineno</span>                 <span class="c1">#=&gt; 2
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/v/=2e.html">$.</a>
 </p>
@@ -2527,16 +2560,17 @@ f.lineno                 #=&gt; 2
 読み込み用にオープンされていなければ発生します。
 </dd>
 </dl>
-<pre>
-f = File.new(&quot;testfile&quot;)
-f.gets                     #=&gt; &quot;This is line one\n&quot;
-$.                         #=&gt; 1
-f.lineno = 1000
-f.lineno                   #=&gt; 1000
-$.                         #=&gt; 1
-f.gets                     #=&gt; &quot;This is line two\n&quot;
-$.                         #=&gt; 1001
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">gets</span>                     <span class="c1">#=&gt; &quot;This is line one\n&quot;
+</span><span class="vg">$.</span>                         <span class="c1">#=&gt; 1
+</span>f<span class="p">.</span><span class="nf">lineno</span> <span class="o">=</span> <span class="mi">1000</span>
+f<span class="p">.</span><span class="nf">lineno</span>                   <span class="c1">#=&gt; 1000
+</span><span class="vg">$.</span>                         <span class="c1">#=&gt; 1
+</span>f<span class="p">.</span><span class="nf">gets</span>                     <span class="c1">#=&gt; &quot;This is line two\n&quot;
+</span><span class="vg">$.</span>                         <span class="c1">#=&gt; 1001
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/v/=2e.html">$.</a>
 </p>
@@ -2604,9 +2638,9 @@ IO に関連付けられたパスを返します。IO がパスに関連付け�
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">This is line one\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
-  f<span class="p">.</span><span class="nf">pos</span>    <span class="c1"># =&gt; 0
-</span>  f<span class="p">.</span><span class="nf">gets</span>   <span class="c1"># =&gt; &quot;This is line one\n&quot;
-</span>  f<span class="p">.</span><span class="nf">pos</span>    <span class="c1"># =&gt; 17
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">pos</span>  <span class="c1"># =&gt; 0
+</span>  <span class="nb">p</span> f<span class="p">.</span><span class="nf">gets</span> <span class="c1"># =&gt; &quot;This is line one\n&quot;
+</span>  <span class="nb">p</span> f<span class="p">.</span><span class="nf">pos</span>  <span class="c1"># =&gt; 17
 </span><span class="k">end</span>
 </code></pre>
 </dd>
@@ -2633,9 +2667,9 @@ IO に関連付けられたパスを返します。IO がパスに関連付け�
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">This is line one\nThis is line two\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
-  f<span class="p">.</span><span class="nf">pos</span>    <span class="c1"># =&gt; 0
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">pos</span>  <span class="c1"># =&gt; 0
 </span>  f<span class="p">.</span><span class="nf">pos</span> <span class="o">=</span> <span class="mi">17</span>
-  f<span class="p">.</span><span class="nf">gets</span>   <span class="c1"># =&gt; &quot;This is line two\n&quot;
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">gets</span> <span class="c1"># =&gt; &quot;This is line two\n&quot;
 </span><span class="k">end</span>
 </code></pre>
 </dd>
@@ -2800,18 +2834,19 @@ C 言語の printf と同じように、format に従い引数を文字列に変
 出力に失敗した場合に発生します。
 </dd>
 </dl>
-<pre>
-$stdout.puts(&quot;this&quot;, &quot;is&quot;, &quot;a&quot;, &quot;test&quot;, [1, [nil, 3]])
-
-#=&gt;
+<pre class="highlight text">
+<code>
+$stdout.puts("this", "is", "a", "test", [1, [nil, 3]])
+     
+#=&gt;     
 this
 is
 a
 test
 1
-
+     
 3
-</pre>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/m/puts.html">Kernel.#puts</a>
 </p>
@@ -2852,10 +2887,10 @@ stringをoffsetの位置にpwrite()システムコールを使って書き込み
 <pre class="highlight ruby">
 <code>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
-  f<span class="p">.</span><span class="nf">pwrite</span><span class="p">(</span><span class="s2">"</span><span class="s2">ABCDEF</span><span class="s2">"</span>, <span class="mi">3</span><span class="p">)</span>   <span class="c1"># =&gt; 6
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">pwrite</span><span class="p">(</span><span class="s2">"</span><span class="s2">ABCDEF</span><span class="s2">"</span>, <span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; 6
 </span><span class="k">end</span>
 
-<span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># =&gt; &quot;\u0000\u0000\u0000ABCDEF&quot;
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;\u0000\u0000\u0000ABCDEF&quot;
 </span></code></pre>
 </dd>
 
@@ -2896,14 +2931,15 @@ length が負の場合に発生します。
 第二引数を指定した read の呼び出しでデータが空であった場合
 (read が nil を返す場合)、outbuf は空文字列になります。
 </p>
-<pre>
-outbuf = &quot;x&quot; * 20;
-io = File.open(&quot;/dev/null&quot;)
+<pre class="highlight text">
+<code>
+outbuf = "x" * 20;
+io = File.open("/dev/null")
 p io.read(10,outbuf)
 p outbuf
 =&gt; nil
-   &quot;&quot;
-</pre>
+   ""
+</code></pre>
 </dd>
 
 
@@ -2979,9 +3015,9 @@ IO から1バイトを読み込み整数として返します。既に EOF に�
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">123</span><span class="s2">"</span><span class="p">)</span>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
   <span class="k">begin</span>
-    f<span class="p">.</span><span class="nf">readbyte</span>  <span class="c1"># =&gt; 49
-</span>    f<span class="p">.</span><span class="nf">readbyte</span>  <span class="c1"># =&gt; 50
-</span>    f<span class="p">.</span><span class="nf">readbyte</span>  <span class="c1"># =&gt; 51
+    <span class="nb">p</span> f<span class="p">.</span><span class="nf">readbyte</span>  <span class="c1"># =&gt; 49
+</span>    <span class="nb">p</span> f<span class="p">.</span><span class="nf">readbyte</span>  <span class="c1"># =&gt; 50
+</span>    <span class="nb">p</span> f<span class="p">.</span><span class="nf">readbyte</span>  <span class="c1"># =&gt; 51
 </span>    f<span class="p">.</span><span class="nf">readbyte</span>  <span class="c1"># =&gt; 例外発生
 </span>  <span class="k">rescue</span> <span class="o">=&gt;</span> e
     e<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; EOFError
@@ -3013,14 +3049,15 @@ EOF に到達した時に発生します。
 自身が読み込み用にオープンされていなければ発生します。
 </dd>
 </dl>
-<pre>
-f = File.new(&quot;testfile&quot;)
-p f.readchar                   #=&gt; &quot;い&quot;
-p f.readchar                   #=&gt; &quot;ろ&quot;
-p f.readchar                   #=&gt; &quot;は&quot;
-f.read
-f.readchar                   #=&gt; EOFError
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">readchar</span>                   <span class="c1">#=&gt; &quot;い&quot;
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">readchar</span>                   <span class="c1">#=&gt; &quot;ろ&quot;
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">readchar</span>                   <span class="c1">#=&gt; &quot;は&quot;
+</span>f<span class="p">.</span><span class="nf">read</span>
+f<span class="p">.</span><span class="nf">readchar</span>                   <span class="c1">#=&gt; EOFError
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/getc.html">IO#getc</a>
 </p>
@@ -3066,13 +3103,14 @@ EOF に到達した時に発生します。
 自身が読み込み用にオープンされていなければ発生します。
 </dd>
 </dl>
-<pre>
-f = File.new(&quot;oneline_file&quot;)
-f.readline                      #=&gt; &quot;This is line one\n&quot;
-$_                              #=&gt; &quot;This is line one\n&quot;
-f.readline                      #=&gt; EOFError
-$_                              #=&gt; nil
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">oneline_file</span><span class="s2">"</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">readline</span>                      <span class="c1">#=&gt; &quot;This is line one\n&quot;
+</span><span class="vg">$_</span>                              <span class="c1">#=&gt; &quot;This is line one\n&quot;
+</span>f<span class="p">.</span><span class="nf">readline</span>                      <span class="c1">#=&gt; EOFError
+</span><span class="vg">$_</span>                              <span class="c1">#=&gt; nil
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/v/=2f.html">$/</a>, <a href="../method/IO/i/gets.html">IO#gets</a>
 </p>
@@ -3114,16 +3152,16 @@ true を指定すると各行の末尾から rs を取り除きます。
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">line1,\nline2,\nline3,\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">readlines</span> <span class="p">}</span>      <span class="c1"># =&gt; [&quot;line1,\n&quot;, &quot;line2,\n&quot;, &quot;line3,\n&quot;]
-</span><span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">}</span>   <span class="c1"># =&gt; [&quot;lin&quot;, &quot;e1,&quot;, &quot;\n&quot;, &quot;lin&quot;, &quot;e2,&quot;, &quot;\n&quot;, &quot;lin&quot;, &quot;e3,&quot;, &quot;\n&quot;]
-</span><span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">,</span><span class="s2">"</span><span class="p">)</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;line1,&quot;, &quot;\nline2,&quot;, &quot;\nline3,&quot;, &quot;\n&quot;]
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">readlines</span> <span class="p">}</span>    <span class="c1"># =&gt; [&quot;line1,\n&quot;, &quot;line2,\n&quot;, &quot;line3,\n&quot;]
+</span><span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;lin&quot;, &quot;e1,&quot;, &quot;\n&quot;, &quot;lin&quot;, &quot;e2,&quot;, &quot;\n&quot;, &quot;lin&quot;, &quot;e3,&quot;, &quot;\n&quot;]
+</span><span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">,</span><span class="s2">"</span><span class="p">)</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;line1,&quot;, &quot;\nline2,&quot;, &quot;\nline3,&quot;, &quot;\n&quot;]
 </span></code></pre>
 <span class="caption">例: rsを取り除く（chomp = true）</span>
 <pre class="highlight ruby">
 <code>
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">line1,\rline2,\r\nline3,\n</span><span class="s2">"</span><span class="p">)</span>
-<span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="ss">chomp:</span> <span class="k">true</span><span class="p">)</span> <span class="p">}</span>       <span class="c1"># =&gt; [&quot;line1,\rline2,&quot;, &quot;line3,&quot;]
-</span><span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">\r</span><span class="s2">"</span>, <span class="ss">chomp:</span> <span class="k">true</span><span class="p">)</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;line1,&quot;, &quot;line2,&quot;, &quot;\nline3,\n&quot;]
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="ss">chomp:</span> <span class="k">true</span><span class="p">)</span> <span class="p">}</span>     <span class="c1"># =&gt; [&quot;line1,\rline2,&quot;, &quot;line3,&quot;]
+</span><span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f<span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="s2">"</span><span class="s2">\r</span><span class="s2">"</span>, <span class="ss">chomp:</span> <span class="k">true</span><span class="p">)</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;line1,&quot;, &quot;line2,&quot;, &quot;\nline3,\n&quot;]
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/v/=2f.html">$/</a>, <a href="../method/IO/i/gets.html">IO#gets</a>
@@ -3165,25 +3203,26 @@ readpartial の結果は以下のようになります。
 <p>
 例えば、パイプに対しては次のように動作します。
 </p>
-<pre>
-r, w = IO.pipe           #               buffer          pipe content
-w &lt;&lt; &quot;abc&quot;               #               &quot;&quot;              &quot;abc&quot;.
-r.readpartial(4096)      #=&gt; &quot;abc&quot;       &quot;&quot;              &quot;&quot;
-r.readpartial(4096)      # バッファにもパイプにもデータがないのでブロックする
-
-r, w = IO.pipe           #               buffer          pipe content
-w &lt;&lt; &quot;abc&quot;               #               &quot;&quot;              &quot;abc&quot;
-w.close                  #               &quot;&quot;              &quot;abc&quot; EOF
-r.readpartial(4096)      #=&gt; &quot;abc&quot;       &quot;&quot;              EOF
-r.readpartial(4096)      # 例外 EOFError 発生
-
-r, w = IO.pipe           #               buffer          pipe content
-w &lt;&lt; &quot;abc\ndef\n&quot;        #               &quot;&quot;              &quot;abc\ndef\n&quot;
-r.gets                   #=&gt; &quot;abc\n&quot;     &quot;def\n&quot;         &quot;&quot;
-w &lt;&lt; &quot;ghi\n&quot;             #               &quot;def\n&quot;         &quot;ghi\n&quot;
-r.readpartial(4096)      #=&gt; &quot;def\n&quot;     &quot;&quot;              &quot;ghi\n&quot;
-r.readpartial(4096)      #=&gt; &quot;ghi\n&quot;     &quot;&quot;              &quot;&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>           <span class="c1">#               buffer          pipe content
+</span>w <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>               <span class="c1">#               &quot;&quot;              &quot;abc&quot;.
+</span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1">#=&gt; &quot;abc&quot;       &quot;&quot;              &quot;&quot;
+</span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1"># バッファにもパイプにもデータがないのでブロックする
+</span>  
+r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>           <span class="c1">#               buffer          pipe content
+</span>w <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>               <span class="c1">#               &quot;&quot;              &quot;abc&quot;
+</span>w<span class="p">.</span><span class="nf">close</span>                  <span class="c1">#               &quot;&quot;              &quot;abc&quot; EOF
+</span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1">#=&gt; &quot;abc&quot;       &quot;&quot;              EOF
+</span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1"># 例外 EOFError 発生
+</span>  
+r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>           <span class="c1">#               buffer          pipe content
+</span>w <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">abc\ndef\n</span><span class="s2">"</span>        <span class="c1">#               &quot;&quot;              &quot;abc\ndef\n&quot;
+</span>r<span class="p">.</span><span class="nf">gets</span>                   <span class="c1">#=&gt; &quot;abc\n&quot;     &quot;def\n&quot;         &quot;&quot;
+</span>w <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">ghi\n</span><span class="s2">"</span>             <span class="c1">#               &quot;def\n&quot;         &quot;ghi\n&quot;
+</span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1">#=&gt; &quot;def\n&quot;     &quot;&quot;              &quot;ghi\n&quot;
+</span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1">#=&gt; &quot;ghi\n&quot;     &quot;&quot;              &quot;&quot;
+</span></code></pre>
 <p>
 なお、readpartial は nonblock フラグに影響されません。つまり、nonblock フラグが設定されていて sysread であれば Errno::EAGAIN になる場合でもブロックします。
 </p>
@@ -3262,10 +3301,10 @@ path で指定されたファイルにストリームを繋ぎ換えます。
 f1 <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">a+</span><span class="s2">"</span><span class="p">)</span>
 f2 <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
 f1<span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s2">"</span><span class="s2">This is line three\n</span><span class="s2">"</span><span class="p">)</span>
-f2<span class="p">.</span><span class="nf">readlines</span>                <span class="c1"># =&gt; [&quot;This is line one\n&quot;, &quot;This is line two\n&quot;]
+<span class="nb">p</span> f2<span class="p">.</span><span class="nf">readlines</span>              <span class="c1"># =&gt; [&quot;This is line one\n&quot;, &quot;This is line two\n&quot;]
 </span>f1<span class="p">.</span><span class="nf">close</span>
-f2<span class="p">.</span><span class="nf">reopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; #&lt;File:testfile&gt;
-</span>f2<span class="p">.</span><span class="nf">readlines</span>                <span class="c1"># =&gt; [&quot;This is line one\n&quot;, &quot;This is line two\n&quot;, &quot;This is line three\n&quot;]
+<span class="nb">p</span> f2<span class="p">.</span><span class="nf">reopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; #&lt;File:testfile&gt;
+</span><span class="nb">p</span> f2<span class="p">.</span><span class="nf">readlines</span>              <span class="c1"># =&gt; [&quot;This is line one\n&quot;, &quot;This is line two\n&quot;, &quot;This is line three\n&quot;]
 </span>f2<span class="p">.</span><span class="nf">close</span>
 </code></pre>
 <p>
@@ -3285,13 +3324,14 @@ f2<span class="p">.</span><span class="nf">reopen</span><span class="p">(</span>
 既に close されている場合に発生します。
 </dd>
 </dl>
-<pre>
-f = File.new(&quot;testfile&quot;)
-f.readline               #=&gt; &quot;This is line one\n&quot;
-f.rewind                 #=&gt; 0
-f.lineno                 #=&gt; 0
-f.readline               #=&gt; &quot;This is line one\n&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">readline</span>               <span class="c1">#=&gt; &quot;This is line one\n&quot;
+</span>f<span class="p">.</span><span class="nf">rewind</span>                 <span class="c1">#=&gt; 0
+</span>f<span class="p">.</span><span class="nf">lineno</span>                 <span class="c1">#=&gt; 0
+</span>f<span class="p">.</span><span class="nf">readline</span>               <span class="c1">#=&gt; &quot;This is line one\n&quot;
+</span></code></pre>
 </dd>
 
 
@@ -3328,11 +3368,12 @@ offset 位置への移動が成功すれば 0 を返します。
 既に close されていた場合に発生します。
 </dd>
 </dl>
-<pre>
-f = File.new(&quot;testfile&quot;)
-f.seek(-13, IO::SEEK_END)   #=&gt; 0
-f.readline                  #=&gt; &quot;And so on...\n&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+f<span class="p">.</span><span class="nf">seek</span><span class="p">(</span><span class="o">-</span><span class="mi">13</span>, <span class="no">IO</span><span class="o">::</span><span class="no">SEEK_END</span><span class="p">)</span>   <span class="c1">#=&gt; 0
+</span>f<span class="p">.</span><span class="nf">readline</span>                  <span class="c1">#=&gt; &quot;And so on...\n&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/sysseek.html">IO#sysseek</a>
 </p>
@@ -3380,10 +3421,11 @@ A を外部エンコーディング、 B を内部エンコーディングに指
 <p>
 例:
 </p>
-<pre>
-io = File.open(file)
-io.set_encoding(&quot;ASCII-8BIT&quot;, &quot;EUC-JP&quot;)
-</pre>
+<pre class="highlight ruby">
+<code>
+io <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span>file<span class="p">)</span>
+io<span class="p">.</span><span class="nf">set_encoding</span><span class="p">(</span><span class="s2">"</span><span class="s2">ASCII-8BIT</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">EUC-JP</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
 </dd>
 
 
@@ -3439,9 +3481,9 @@ BOM が見つからなかった場合は nil を返します。
 <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">This is line one\nThis is line two\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
   s <span class="o">=</span> f<span class="p">.</span><span class="nf">stat</span>
-  <span class="s2">"</span><span class="s2">%o</span><span class="s2">"</span> <span class="o">%</span> s<span class="p">.</span><span class="nf">mode</span>   <span class="c1"># =&gt; &quot;100644&quot;
-</span>  s<span class="p">.</span><span class="nf">blksize</span>       <span class="c1"># =&gt; 4096
-</span>  s<span class="p">.</span><span class="nf">atime</span>         <span class="c1"># =&gt; 2018-03-01 23:19:59 +0900
+  <span class="nb">p</span> <span class="s2">"</span><span class="s2">%o</span><span class="s2">"</span> <span class="o">%</span> s<span class="p">.</span><span class="nf">mode</span> <span class="c1"># =&gt; &quot;100644&quot;
+</span>  <span class="nb">p</span> s<span class="p">.</span><span class="nf">blksize</span>     <span class="c1"># =&gt; 4096
+</span>  <span class="nb">p</span> s<span class="p">.</span><span class="nf">atime</span>       <span class="c1"># =&gt; 2018-03-01 23:19:59 +0900
 </span><span class="k">end</span>
 </code></pre>
 <p>
@@ -3465,9 +3507,9 @@ BOM が見つからなかった場合は nil を返します。
 <pre class="highlight ruby">
 <code>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
-  f<span class="p">.</span><span class="nf">sync</span>      <span class="c1"># =&gt; false
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">sync</span>    <span class="c1"># =&gt; false
 </span>  f<span class="p">.</span><span class="nf">sync</span> <span class="o">=</span> <span class="k">true</span>
-  f<span class="p">.</span><span class="nf">sync</span>      <span class="c1"># =&gt; true
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">sync</span>    <span class="c1"># =&gt; true
 </span><span class="k">end</span>
 </code></pre>
 </dd>
@@ -3531,14 +3573,15 @@ IO が既に EOF に達していれば発生します。
 第二引数を指定した sysread の呼び出しでデータが空であった場合(sysread が例外 <a href="../class/EOFError.html">EOFError</a> を発生させる場合)、
 outbuf は空文字列になります。
 </p>
-<pre>
-outbuf = &quot;x&quot; * 20;
-io = File.open(&quot;/dev/null&quot;)
+<pre class="highlight text">
+<code>
+outbuf = "x" * 20;
+io = File.open("/dev/null")
 p((io.sysread(10,outbuf) rescue nil))
 p outbuf
 =&gt; nil
-   &quot;&quot;
-</pre>
+   ""
+</code></pre>
 </dd>
 
 
@@ -3624,10 +3667,10 @@ stdio を経由しないので他の出力メソッドと混用すると思わ�
 <pre class="highlight ruby">
 <code>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w+</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
-  f<span class="p">.</span><span class="nf">syswrite</span><span class="p">(</span><span class="s2">"</span><span class="s2">ABCDE</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 5
-</span>  f<span class="p">.</span><span class="nf">syswrite</span><span class="p">(</span><span class="ss">:ABC</span><span class="p">)</span>    <span class="c1"># =&gt; 3
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">syswrite</span><span class="p">(</span><span class="s2">"</span><span class="s2">ABCDE</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 5
+</span>  <span class="nb">p</span> f<span class="p">.</span><span class="nf">syswrite</span><span class="p">(</span><span class="ss">:ABC</span><span class="p">)</span>  <span class="c1"># =&gt; 3
 </span><span class="k">end</span>
-<span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;ABCDEABC&quot;
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;ABCDEABC&quot;
 </span></code></pre>
 </dd>
 
@@ -3658,15 +3701,14 @@ self を返します。
 バイト列(文字列)、もしくは0から255までの整数
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-f = File.new(&quot;testfile&quot;)   #=&gt; #&lt;File:testfile&gt;
-b = f.getbyte              #=&gt; 0x38
-f.ungetbyte(b)             #=&gt; nil
-f.getbyte                  #=&gt; 0x38
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>   <span class="c1">#=&gt; #&lt;File:testfile&gt;
+</span>b <span class="o">=</span> f<span class="p">.</span><span class="nf">getbyte</span>              <span class="c1">#=&gt; 0x38
+</span>f<span class="p">.</span><span class="nf">ungetbyte</span><span class="p">(</span>b<span class="p">)</span>             <span class="c1">#=&gt; nil
+</span>f<span class="p">.</span><span class="nf">getbyte</span>                  <span class="c1">#=&gt; 0x38
+</span></code></pre>
 </dd>
 
 
@@ -3685,12 +3727,13 @@ f.getbyte                  #=&gt; 0x38
 読み戻しに失敗した場合に発生します。また、自身が読み込み用にオープンされていない時、自身がまだ一度も read されていない時に発生します。
 </dd>
 </dl>
-<pre>
-f = File.new(&quot;testfile&quot;)   # =&gt; #&lt;File:testfile&gt;
-c = f.getc                 # =&gt; &quot;い&quot;
-f.ungetc(c)                # =&gt; nil
-f.getc                     # =&gt; &quot;い&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># =&gt; #&lt;File:testfile&gt;
+</span>c <span class="o">=</span> f<span class="p">.</span><span class="nf">getc</span>                 <span class="c1"># =&gt; &quot;い&quot;
+</span>f<span class="p">.</span><span class="nf">ungetc</span><span class="p">(</span>c<span class="p">)</span>                <span class="c1"># =&gt; nil
+</span>f<span class="p">.</span><span class="nf">getc</span>                     <span class="c1"># =&gt; &quot;い&quot;
+</span></code></pre>
 </dd>
 
 
@@ -3721,17 +3764,17 @@ IOポートに対して str を出力します。str が文字列でなければ
 <pre class="highlight ruby">
 <code>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">textfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w+</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
-  f<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">This is</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; 7
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">This is</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; 7
 </span><span class="k">end</span>
-<span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">textfile</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;This is&quot;
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">textfile</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;This is&quot;
 </span></code></pre>
 <span class="caption">複数引数の例</span>
 <pre class="highlight ruby">
 <code>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">textfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w+</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
-  f<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">This is</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2"> a test\n</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; 15
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">This is</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2"> a test\n</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; 15
 </span><span class="k">end</span>
-<span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">textfile</span><span class="s2">"</span><span class="p">)</span>              <span class="c1"># =&gt; &quot;This is a test\n&quot;
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">textfile</span><span class="s2">"</span><span class="p">)</span>            <span class="c1"># =&gt; &quot;This is a test\n&quot;
 </span></code></pre>
 </dd>
 

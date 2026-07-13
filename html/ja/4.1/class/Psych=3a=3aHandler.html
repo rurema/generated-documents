@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -185,11 +185,12 @@ aliasのアンカー文字列
 <p>
 以下の YAMLドキュメントは自分自身への参照を持つ配列を表しています。
 </p>
-<pre>
---- &amp;ponies
-- first element
-- *ponies
-</pre>
+<pre class="highlight yaml">
+<code>
+<span class="nn">---</span> <span class="nl">&amp;ponies</span>
+<span class="pi">-</span> <span class="s">first element</span>
+<span class="pi">-</span> <span class="nv">*ponies</span>
+</code></pre>
 <p>
 この &amp;ponies が anchor で *ponies が alias です。この場合、
 alias メソッドは &quot;poines&quot; という引数で呼び出されます。
@@ -229,18 +230,20 @@ empty event が発生したときに呼び出されます。
 <p>
 以下の YAML ドキュメントでは implicit は true です。
 </p>
-<pre>
----
-  hello world
-</pre>
+<pre class="highlight yaml">
+<code>
+<span class="nn">---</span>
+  <span class="s">hello world</span>
+</code></pre>
 <p>
 また、以下の YAML ドキュメントでは implicit は false です。
 </p>
-<pre>
----
-  hello world
-...
-</pre>
+<pre class="highlight yaml">
+<code>
+<span class="nn">---</span>
+  <span class="s">hello world</span>
+<span class="nn">...</span>
+</code></pre>
 </dd>
 
 
@@ -337,27 +340,29 @@ quoted style であるかどうか
 <p>
 以下の YAML ドキュメントには多くのパターンのスカラーが含まれています。
 </p>
-<pre>
----
-- !str &quot;foo&quot;
-- &amp;anchor fun
-- many
-  lines
-- |
-  many
-  newlines
-</pre>
+<pre class="highlight yaml">
+<code>
+<span class="nn">---</span>
+<span class="pi">-</span> <span class="kt">!str</span> <span class="s2">"</span><span class="s">foo"</span>
+<span class="pi">-</span> <span class="nl">&amp;anchor</span> <span class="s">fun</span>
+<span class="pi">-</span> <span class="s">many</span>
+  <span class="s">lines</span>
+<span class="pi">-</span> <span class="pi">|</span>
+  <span class="s">many</span>
+  <span class="s">newlines</span>
+</code></pre>
 <p>
 この YAML ドキュメントには4つの文字列が含まれています。
 scalar メソッドは 順に以下の引数で呼び出されます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 # value               anchor    tag     plain   quoted  style
-[&quot;foo&quot;,               nil,      &quot;!str&quot;, false,  false,  3    ]
-[&quot;fun&quot;,               &quot;anchor&quot;, nil,    true,   false,  1    ]
-[&quot;many lines&quot;,        nil,      nil,    true,   false,  1    ]
-[&quot;many\nnewlines\n&quot;,  nil,      nil,    false,  true,   4    ]
-</pre>
+["foo",               nil,      "!str", false,  false,  3    ]
+["fun",               "anchor", nil,    true,   false,  1    ]
+["many lines",        nil,      nil,    true,   false,  1    ]
+["many\nnewlines\n",  nil,      nil,    false,  true,   4    ]
+</code></pre>
 </dd>
 
 
@@ -397,34 +402,38 @@ tag directive の配列
 <p>
 以下の YAML に対しては
 </p>
-<pre>
-%YAML 1.1
-%TAG ! tag:tenderlovemaking.com,2009:
---- !squee
-</pre>
+<pre class="highlight yaml">
+<code>
+<span class="nt">%YAML</span> <span class="m">1.1</span>
+<span class="nt">%TAG</span> <span class="kt">!</span> <span class="kt">tag:tenderlovemaking.com,2009:</span>
+<span class="nn">---</span> <span class="kt">!squee</span>
+</code></pre>
 <p>
 start_document に渡される引数は以下の通りです
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 version         # =&gt; [1, 1]
-tag_directives  # =&gt; [[&quot;!&quot;, &quot;tag:tenderlovemaking.com,2009:&quot;]]
+tag_directives  # =&gt; [["!", "tag:tenderlovemaking.com,2009:"]]
 implicit        # =&gt; false
-</pre>
+</code></pre>
 <p>
 以下の YAML に対しては
 </p>
-<pre>
-- x
-- y
-</pre>
+<pre class="highlight yaml">
+<code>
+<span class="pi">-</span> <span class="s">x</span>
+<span class="pi">-</span> <span class="s">y</span>
+</code></pre>
 <p>
 start_document に渡される引数は以下の通りです。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 version         # =&gt; []
 tag_directives  # =&gt; []
 implicit        # =&gt; true
-</pre>
+</code></pre>
 </dd>
 
 
@@ -476,22 +485,24 @@ mapping のスタイル
 <p>
 以下の YAML ドキュメントを例として考えます。
 </p>
-<pre>
----
-k: !!map { hello: world }
-v: &amp;pewpew
-  hello: world
-</pre>
+<pre class="highlight yaml">
+<code>
+<span class="nn">---</span>
+<span class="na">k</span><span class="pi">:</span> <span class="kt">!!map</span> <span class="pi">{</span> <span class="nv">hello</span><span class="pi">:</span> <span class="nv">world</span> <span class="pi">}</span>
+<span class="na">v</span><span class="pi">:</span> <span class="nl">&amp;pewpew</span>
+  <span class="na">hello</span><span class="pi">:</span> <span class="s">world</span>
+</code></pre>
 <p>
 この YAML ドキュメントには3つの mapping が含まれています。外側の map の中に 2 つの map が含まれています。
 start_mapping メソッドは 順に以下の引数で呼び出されます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 # anchor    tag                       implicit  style
 [nil,       nil,                      true,     1     ]
-[nil,       &quot;tag:yaml.org,2002:map&quot;,  false,    2     ]
-[&quot;pewpew&quot;,  nil,                      true,     1     ]
-</pre>
+[nil,       "tag:yaml.org,2002:map",  false,    2     ]
+["pewpew",  nil,                      true,     1     ]
+</code></pre>
 </dd>
 
 
@@ -543,24 +554,26 @@ sequence のスタイル
 <p>
 以下の YAML ドキュメントを例として考えます。
 </p>
-<pre>
----
-- !!seq [
-  a
-]
-- &amp;pewpew
-  - b
-</pre>
+<pre class="highlight yaml">
+<code>
+<span class="nn">---</span>
+<span class="pi">-</span> <span class="kt">!!seq</span> <span class="pi">[</span>
+  <span class="nv">a</span>
+<span class="pi">]</span>
+<span class="pi">-</span> <span class="nl">&amp;pewpew</span>
+  <span class="pi">-</span> <span class="s">b</span>
+</code></pre>
 <p>
 この YAML ドキュメントには3つの list が含まれています。外側の list の中に 2 つの list が含まれています。
 start_sequence メソッドは 順に以下の引数で呼び出されます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 # anchor    tag                       implicit  style
 [nil,       nil,                      true,     1     ]
-[nil,       &quot;tag:yaml.org,2002:seq&quot;,  false,    2     ]
-[&quot;pewpew&quot;,  nil,                      true,     1     ]
-</pre>
+[nil,       "tag:yaml.org,2002:seq",  false,    2     ]
+["pewpew",  nil,                      true,     1     ]
+</code></pre>
 </dd>
 
 

@@ -77,7 +77,7 @@ source_location=manual/doc/spec/regexp.md
 
 ```ruby
 place = "東京都"
-/#{place}/.match("Go to 東京都") # => #<MatchData "東京都">
+p /#{place}/.match("Go to 東京都") # => #<MatchData "東京都">
 ```
 
 埋め込んだ文字列にメタ文字が含まれているならば、それは
@@ -160,16 +160,16 @@ operator = "(\\+|-|\\*|/)"
 いるため、これと組合せることで意味を持ちます。
 
 ```ruby
-/[a-z[0-9]]/.match("y") # => #<MatchData "y">
-/[a-z[0-9]]/.match("[") # => nil
+p /[a-z[0-9]]/.match("y") # => #<MatchData "y">
+p /[a-z[0-9]]/.match("[") # => nil
 r = /[a-w&&[^c-g]e]/ # ([a-w] かつ ([^c-g] もしくは e)) つまり [abeh-w] と同じ
-r.match("b") # => #<MatchData "b">
-r.match("c") # => nil
-r.match("e") # => #<MatchData "e">
-r.match("g") # => nil
-r.match("h") # => #<MatchData "h">
-r.match("w") # => #<MatchData "w">
-r.match("z") # => nil
+p r.match("b") # => #<MatchData "b">
+p r.match("c") # => nil
+p r.match("e") # => #<MatchData "e">
+p r.match("g") # => nil
+p r.match("h") # => #<MatchData "h">
+p r.match("w") # => #<MatchData "w">
+p r.match("z") # => nil
 ```
 
 文字クラスでは、否定(^)範囲(-)共通部分(&&)列挙(並べる)という
@@ -193,18 +193,18 @@ r.match("z") # => nil
 ここの空白、数字、には含まれません。
 
 ```ruby
-/\w+/.match("ＡＢＣｄｅｆ") # => nil
-/\W+/.match("ＡＢＣｄｅｆ") # => #<MatchData "ＡＢＣｄｅｆ">
-/\s+/.match("　") # => nil
-/\S+/.match("　") # => #<MatchData "　">
+p /\w+/.match("ＡＢＣｄｅｆ") # => nil
+p /\W+/.match("ＡＢＣｄｅｆ") # => #<MatchData "ＡＢＣｄｅｆ">
+p /\s+/.match("　") # => nil
+p /\S+/.match("　") # => #<MatchData "　">
 ```
 
 これらは文字クラス内で演算することもできます。
 
 ```ruby
 r = /[\d&&[^47]]/ # 4, 7 以外の数字
-r.match("3") # => #<MatchData "3">
-r.match("7") # => nil
+p r.match("3") # => #<MatchData "3">
+p r.match("7") # => nil
 ```
 
 #### Unicode プロパティによる文字クラス指定 {#charclass_prop}
@@ -218,7 +218,7 @@ r.match("7") # => nil
 参考にしてください。また、プロパティの意味は Unicode の仕様を参照してください。
 
 ```ruby
-/\p{Letter}+/.match(".|あaＡＢｃ123") # => #<MatchData "あaＡＢｃ">
+p /\p{Letter}+/.match(".|あaＡＢｃ123") # => #<MatchData "あaＡＢｃ">
 ```
 
 #### POSIX 文字クラス {#charclass_posix}
@@ -247,12 +247,12 @@ Unicode コードポイントで示されています。
 ASCIIコード範囲外の空白などを考慮に入れます。
 
 ```ruby
-/[[:alnum:]]+/.match("abＡＢ１２1") # => #<MatchData "abＡＢ１２1">
+p /[[:alnum:]]+/.match("abＡＢ１２1") # => #<MatchData "abＡＢ１２1">
 # \u3000 は全角空白
-/[[:graph:]]/.match("\u3000") # => nil
-/[[:blank:]]/.match("\u3000") # => #<MatchData "　">
-/[[:alnum:]&&[:^lower:]]/.match("ａＡ") # => #<MatchData "Ａ">
-/[[:print:]&&[:^lower:]]/.match(" ") # => #<MatchData " ">
+p /[[:graph:]]/.match("\u3000") # => nil
+p /[[:blank:]]/.match("\u3000") # => #<MatchData "　">
+p /[[:alnum:]&&[:^lower:]]/.match("ａＡ") # => #<MatchData "Ａ">
+p /[[:print:]&&[:^lower:]]/.match(" ") # => #<MatchData " ">
 ```
 
 
@@ -286,17 +286,17 @@ d, a, u の3つのオプションがあります。
 
 ```ruby
 # \u{0308} はウムラウト
-/\X/.match("e\u{0308}") # => #<MatchData "ë">
-$&.codepoints # => [101, 776]
-/\w/.match("e\u{0308}") # => #<MatchData "e">
-$&.codepoints # => [101]
+p /\X/.match("e\u{0308}") # => #<MatchData "ë">
+p $&.codepoints # => [101, 776]
+p /\w/.match("e\u{0308}") # => #<MatchData "e">
+p $&.codepoints # => [101]
 ```
 
 ただし、\R は文字クラスの中では使用できません。
 
 ```ruby
-/\R/.match("\r\n") # => #<MatchData "\r\n">
-/[\R]/.match("\r\n") # => nil
+p /\R/.match("\r\n") # => #<MatchData "\r\n">
+p /[\R]/.match("\r\n") # => nil
 ```
 
 
@@ -319,7 +319,7 @@ $&.codepoints # => [101]
 ```ruby
 # 以下の正規表現は 最初に大文字が1文字以上(H)で、小文字が1文字以上(l)、
 # lが2文字(ll)の後ろにoが続く文字列にマッチします。
-"Hello".match(/[[:upper:]]+[[:lower:]]+l{2}o/) # => #<MatchData "Hello">
+p "Hello".match(/[[:upper:]]+[[:lower:]]+l{2}o/) # => #<MatchData "Hello">
 ```
   
 これらは「欲張り(greedy)」にマッチします。
@@ -340,16 +340,16 @@ $&.codepoints # => [101]
 以下の例では、最小量指定子を使うことで、(\d+)がマッチする場所を変えています。
 
 ```ruby
-/^.*(\d+)\./.match("Copyright 2013.")  # => #<MatchData "Copyright 2013." 1:"3">
-/^.*?(\d+)\./.match("Copyright 2013.")  # => #<MatchData "Copyright 2013." 1:"2013">
+p /^.*(\d+)\./.match("Copyright 2013.")  # => #<MatchData "Copyright 2013." 1:"3">
+p /^.*?(\d+)\./.match("Copyright 2013.")  # => #<MatchData "Copyright 2013." 1:"2013">
 ```
 
 また、ネストしていない括弧の対応を取るためにも使えます。
 
 ```ruby
 # ここでは <b> と </b> の対応を取る
-%r{<b>.*</b>}.match("<b>x</b>y<b>z</b>") # => #<MatchData "<b>x</b>y<b>z</b>">
-%r{<b>.*?</b>}.match("<b>x</b>y<b>z</b>") # => #<MatchData "<b>x</b>">
+p %r{<b>.*</b>}.match("<b>x</b>y<b>z</b>") # => #<MatchData "<b>x</b>y<b>z</b>">
+p %r{<b>.*?</b>}.match("<b>x</b>y<b>z</b>") # => #<MatchData "<b>x</b>">
 ```
 
 #### 絶対最大量指定子(possessive quantifier) {#quantifier_possesive}
@@ -383,7 +383,7 @@ MatchData からは [m:MatchData#\[\]]で取り出せます。
 m = /[csh](..) [csh]\1 in/.match("The cat sat in the hat") 
 # => #<MatchData "cat sat in" 1:"at">
 # Regexp#match でマッチしたテキストは MatchData#[] で参照できる
-m[1] # => "at"
+p m[1] # => "at"
 ```
 
 1,2,... ではなく、名前を付けることができます。
@@ -394,8 +394,8 @@ m[1] # => "at"
 ```ruby
 m = /\$(?<dollars>\d+)\.(?<cents>\d+)/.match("$3.67")
 # => #<MatchData "$3.67" dollars:"3" cents:"67">
-m[:dollars] # => "3"
-m[:cents] # => "67"
+p m[:dollars] # => "3"
+p m[:cents] # => "67"
 ```
 
 名前付きキャプチャは正規表現内で \k<name>、\k'name' という記法で参照できます。
@@ -413,9 +413,9 @@ m[:cents] # => "67"
 代入します。
 
 ```ruby
-/\$(?<dollars>\d+)\.(?<cents>\d+)/ =~ "$3.67" # => 0
-dollars # => "3"
-cents # => "67"
+p /\$(?<dollars>\d+)\.(?<cents>\d+)/ =~ "$3.67" # => 0
+p dollars # => "3"
+p cents # => "67"
 ```
 
 注: ローカル変数への代入が行われるのは、左辺の正規表現リテラルが#{}による式展開を含んでいない場合に限られます。
@@ -430,7 +430,7 @@ cents # => "67"
 正規表現に別の正規表現を式展開で埋め込む場合などに便利です。
 
 ```ruby
-/(.)(.)\k<-2>\k<-1>/.match("xyzyz") # => #<MatchData "yzyz" 1:"y" 2:"z">
+p /(.)(.)\k<-2>\k<-1>/.match("xyzyz") # => #<MatchData "yzyz" 1:"y" 2:"z">
 ```
 
 
@@ -441,7 +441,7 @@ cents # => "67"
 ```ruby
 # The pattern below matches a vowel followed by 2 word characters:
 # 'aen'
-/[aeiou]\w{2}/.match("Caenorhabditis elegans") #=> #<MatchData "aen">
+p /[aeiou]\w{2}/.match("Caenorhabditis elegans") #=> #<MatchData "aen">
 # Whereas the following pattern matches a vowel followed by a word
 # character, twice, i.e. <tt>[aeiou]\w[aeiou]\w</tt>: 'enor'.
 /([aeiou]\w){2}/.match("Caenorhabditis elegans")
@@ -483,18 +483,18 @@ cents # => "67"
 # 以下のマッチはまず .* が Quote" にマッチした後、
 # 正規表現末尾の " のマッチに失敗します。その後
 # 一文字だけバックトラックして、" のマッチに成功します。
-/".*"/.match('"Quote"') # => #<MatchData "\"Quote\"">
+p /".*"/.match('"Quote"') # => #<MatchData "\"Quote\"">
 # 一方、以下のマッチはまず .* が Quote" 全体にマッチした後、
 # 正規表現末尾の " のマッチに失敗します。その後
 # バックトラックで"がマッチした状態まで戻り、
 # (?>.*)以外の選択子がないのでマッチ全体が失敗します。
-/"(?>.*)"/.match('"Quote"') # => nil
+p /"(?>.*)"/.match('"Quote"') # => nil
 # 一方、以下のマッチはまず .* が Quote" 全体にマッチした後、
 # 正規表現末尾の " のマッチに失敗します。その後
 # バックトラックで"がマッチした状態まで戻り、
 # 次の可能性(つまり | の右側)のマッチを試します。
 # 結果としてマッチが成功します。
-/"(?:(?>.*)|(.*))"/.match('"Quote"') # => #<MatchData "\"Quote\"" 1:"Quote">
+p /"(?:(?>.*)|(.*))"/.match('"Quote"') # => #<MatchData "\"Quote\"" 1:"Quote">
 ```
 
 ### 部分式呼び出し(subexpression call) {#subexp}
@@ -514,7 +514,7 @@ nameと名付けられた「部分正規表現」にマッチしようとしま�
 この機能を使ってください。
 
 ```ruby
-/\A(?<paren>\(\g<paren>*\))*\z/ =~ '(())' # => 0 
+p /\A(?<paren>\(\g<paren>*\))*\z/ =~ '(())' # => 0 
 # ^1
 #      ^2
 #           ^3
@@ -595,9 +595,9 @@ r.match('<foo>f<bar>bbb</bar>f</foo>').captures
 部分正規表現を記述できます。
 
 ```ruby
-/\w(and|or)\w/.match("Feliformia") # => #<MatchData "form" 1:"or">
-/\w(and|or)\w/.match("furandi")    # => #<MatchData "randi" 1:"and">
-/\w(and|or)\w/.match("dissemblance") # => nil
+p /\w(and|or)\w/.match("Feliformia") # => #<MatchData "form" 1:"or">
+p /\w(and|or)\w/.match("furandi")  # => #<MatchData "randi" 1:"and">
+p /\w(and|or)\w/.match("dissemblance") # => nil
 ```
 
 このメタ文字は選択子(alternation operator)と呼ばれます。
@@ -624,11 +624,11 @@ r.match('<foo>f<bar>bbb</bar>f</foo>').captures
 
 ```ruby
 # 文字列中の real にマッチする
-/real/.match("surrealist") # => #<MatchData "real">
+p /real/.match("surrealist") # => #<MatchData "real">
 # 先頭に real とないとマッチしない
-/\Areal/.match("surrealist") # => nil
+p /\Areal/.match("surrealist") # => nil
 # 単語境界がrealの前にないのでマッチしない
-/\breal/.match("surrealist") # => nil
+p /\breal/.match("surrealist") # => nil
 ```
   
 単語を成す文字、成さない文字の定義はエンコードによって
@@ -639,10 +639,10 @@ r.match('<foo>f<bar>bbb</bar>f</foo>').captures
 ```ruby
 # -*- coding:utf-8 -*-
 # デフォルトは UTF-8
-/foo\b/.match("あいうfoo%") # => #<MatchData "foo">
-/\bfoo\b/.match("あいうfoo%") # => nil
-/\bfoo\b/e.match("（foo）".encode("EUC-JP")) # => nil
-/\bfoo\b/.match("（foo）") # => #<MatchData "foo">
+p /foo\b/.match("あいうfoo%") # => #<MatchData "foo">
+p /\bfoo\b/.match("あいうfoo%") # => nil
+p /\bfoo\b/e.match("（foo）".encode("EUC-JP")) # => nil
+p /\bfoo\b/.match("（foo）") # => #<MatchData "foo">
 ```
 
 Unicode の規格では、単語を成す文字を Word というプロパティで
@@ -695,9 +695,9 @@ print var
 
 ```ruby
 re = /\A(?:(set)|(print))\s+(\w+)(?(1)=(\d+))\z/
-re.match("set x=32") # => #<MatchData "set x=32" 1:"set" 2:nil 3:"x" 4:"32">
-re.match("print x") # => #<MatchData "print x" 1:nil 2:"print" 3:"x" 4:nil>
-re.match("set y") # => nil
+p re.match("set x=32") # => #<MatchData "set x=32" 1:"set" 2:nil 3:"x" 4:"32">
+p re.match("print x") # => #<MatchData "print x" 1:nil 2:"print" 3:"x" 4:nil>
+p re.match("set y") # => nil
 ```
 
 ### オプション {#option}
@@ -713,28 +713,28 @@ i, m, x のオプションは (?on:pat) もしくは (?on-off:pat) という記�
 局所的に無効化したいオプションを指定します。
 
 ```ruby
-/a(?i:b)c/.match("aBc") # => #<MatchData "aBc">
-/a(?i:b)c/.match("abc") # => #<MatchData "abc">
+p /a(?i:b)c/.match("aBc") # => #<MatchData "aBc">
+p /a(?i:b)c/.match("abc") # => #<MatchData "abc">
 ```
 
 (?on) もしくは (?on-off) という形式を使うと、そこから後の
 部分正規表現のみオプションを有効化できます。
 
 ```ruby
-/a(?i)bc/.match("aBc") # => #<MatchData "aBc">
-/a(?i)bc/.match("aBC") # => #<MatchData "aBC">
+p /a(?i)bc/.match("aBc") # => #<MatchData "aBc">
+p /a(?i)bc/.match("aBC") # => #<MatchData "aBC">
 # かっこの中で(?i)を指定すると、そのかっこの終わりまで有効
-/a(?:(?i)bc)d/.match("aBCd") # => #<MatchData "aBCd">
-/a(?:(?i)bc)d/.match("aBCD") # => nil
+p /a(?:(?i)bc)d/.match("aBCd") # => #<MatchData "aBCd">
+p /a(?:(?i)bc)d/.match("aBCD") # => nil
 ```
 
 オプションは [m:Regexp.new] の引数に指定することもできます。
 
 ```ruby
-Regexp.new("abc", Regexp::IGNORECASE)                     # => /abc/i
-Regexp.new("abc", Regexp::MULTILINE)                      # => /abc/m
-Regexp.new("abc # Comment", Regexp::EXTENDED)             # => /abc # Comment/x
-Regexp.new("abc", Regexp::IGNORECASE | Regexp::MULTILINE) # => /abc/mi
+p Regexp.new("abc", Regexp::IGNORECASE)                   # => /abc/i
+p Regexp.new("abc", Regexp::MULTILINE)                    # => /abc/m
+p Regexp.new("abc # Comment", Regexp::EXTENDED)           # => /abc # Comment/x
+p Regexp.new("abc", Regexp::IGNORECASE | Regexp::MULTILINE) # => /abc/mi
 ```
 
 2.0.0以降では、文字クラスの挙動を変更するための d,a,u というオプションを
@@ -768,9 +768,9 @@ d,a,u のオプションは正規表現直後に置く方式では指定がで�
 
 ```ruby
 # -*- coding:utf-8 -*-
-/あいう/.encoding # => #<Encoding:UTF-8>
-/abc/.encoding # => #<Encoding:US-ASCII>
-/abc/u.encoding # => #<Encoding:UTF-8>
+p /あいう/.encoding # => #<Encoding:UTF-8>
+p /abc/.encoding # => #<Encoding:US-ASCII>
+p /abc/u.encoding # => #<Encoding:UTF-8>
 ```
 
 正規表現のエンコーディングと文字列のエンコーディングが非互換で
@@ -788,10 +788,10 @@ d,a,u のオプションは正規表現直後に置く方式では指定がで�
 
 ```ruby
 # -*- coding:utf-8 -*-
-/あいう/.fixed_encoding? # => true
-/abc/.fixed_encoding? # => false
-/abc/e.fixed_encoding? # => true
-/abc/ =~ "あいう" # => nil
+p /あいう/.fixed_encoding? # => true
+p /abc/.fixed_encoding? # => false
+p /abc/e.fixed_encoding? # => true
+p /abc/ =~ "あいう" # => nil
 /abc/e =~ "あいう" 
 # ~> -:6:in `<main>': incompatible encoding regexp match (EUC-JP regexp with UTF-8 string) (Encoding::CompatibilityError)
 ```
@@ -816,14 +816,14 @@ float_pat = /\A
     \d+ # 小数部
   )?  # 小数点 + 小数部 はなくともよい
 \z/x
-float_pat.match("3.14") # => #<MatchData "3.14" 1:".14">
+p float_pat.match("3.14") # => #<MatchData "3.14" 1:".14">
 ```
 
 空白を表現したい場合はエスケープをしてください。
 
 ```ruby
-/x y/x.match("x y") # => nil
-/x\ y/x.match("x y") # => #<MatchData "x y">
+p /x y/x.match("x y") # => nil
+p /x\ y/x.match("x y") # => #<MatchData "x y">
 ```
 
 \s や \p{Space} のような文字クラスを使うのが良い場合も多いでしょう。
