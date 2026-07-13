@@ -440,16 +440,16 @@ vec0 <span class="o">=</span> <span class="no">Vector2D</span><span class="p">.<
 <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span>x, <span class="o">*</span>xs<span class="p">)</span>
   <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2"> : </span><span class="si">#{</span><span class="n">xs</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span>   <span class="c1"># Object#inspect は p のような詳細な内部表示
 </span><span class="k">end</span>
-foo<span class="p">(</span><span class="mi">1</span><span class="p">)</span>        <span class="c1">#=&gt; 1 : []
-</span>foo<span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span>     <span class="c1">#=&gt; 1 : [2]
-</span>foo<span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span>  <span class="c1">#=&gt; 1 : [2, 3]
+<span class="nb">p</span> foo<span class="p">(</span><span class="mi">1</span><span class="p">)</span>      <span class="c1">#=&gt; 1 : []
+</span><span class="nb">p</span> foo<span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span>   <span class="c1">#=&gt; 1 : [2]
+</span><span class="nb">p</span> foo<span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span>  <span class="c1">#=&gt; 1 : [2, 3]
 </span>
 <span class="k">def</span> <span class="nf">bar</span><span class="p">(</span>x, <span class="o">*</span><span class="p">)</span> <span class="c1"># 残りの引数を単に無視したいとき
 </span>  <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2">"</span>
 <span class="k">end</span>
-bar<span class="p">(</span><span class="mi">1</span><span class="p">)</span>        <span class="c1">#=&gt; 1
-</span>bar<span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span>     <span class="c1">#=&gt; 1
-</span>bar<span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span>  <span class="c1">#=&gt; 1
+<span class="nb">p</span> bar<span class="p">(</span><span class="mi">1</span><span class="p">)</span>      <span class="c1">#=&gt; 1
+</span><span class="nb">p</span> bar<span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span>   <span class="c1">#=&gt; 1
+</span><span class="nb">p</span> bar<span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span>  <span class="c1">#=&gt; 1
 </span></code></pre>
 <p>
 Ruby 1.9 以降では可変長引数よりも後にまだ通常の引数を置くことができます。
@@ -464,7 +464,7 @@ yield を呼び出すことです。他に <a href="../method/Proc/s/new.html">P
 <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span>cnt, <span class="o">&amp;</span>block_arg<span class="p">)</span>
   cnt<span class="p">.</span><span class="nf">times</span> <span class="p">{</span> block_arg<span class="p">.</span><span class="nf">call</span> <span class="p">}</span> <span class="c1"># ブロックに収まったProcオブジェクトはcallで実行
 </span><span class="k">end</span>
-foo<span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span> <span class="nb">print</span> <span class="s2">"</span><span class="s2">Ruby! </span><span class="s2">"</span> <span class="p">}</span> <span class="c1">#=&gt; Ruby! Ruby! Ruby!
+<span class="nb">p</span> foo<span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span> <span class="nb">print</span> <span class="s2">"</span><span class="s2">Ruby! </span><span class="s2">"</span> <span class="p">}</span> <span class="c1">#=&gt; Ruby! Ruby! Ruby!
 </span></code></pre>
 <p>
 メソッド定義において、仮引数はその種類毎に以下の順序でしか指定することはできません。いずれも省略することは可能です。
@@ -604,10 +604,10 @@ foo <span class="p">{</span><span class="o">|</span>a,b<span class="o">|</span> 
   <span class="k">end</span>
 <span class="k">end</span>
 obj <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span>
-obj<span class="p">.</span><span class="nf">bar</span> <span class="k">rescue</span> <span class="k">nil</span> <span class="c1"># =&gt; undefined method `bar' for #&lt;Foo:0x4019eda4&gt;
-</span>obj<span class="p">.</span><span class="nf">foo</span>            <span class="c1"># =&gt; method &quot;bar&quot; was added
-</span>obj<span class="p">.</span><span class="nf">foo</span>            <span class="c1"># =&gt; warning: method redefined; discarding old bar
-</span><span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">bar</span>        <span class="c1"># =&gt; :bar  (他のインスタンスでも定義済み)
+<span class="nb">p</span> obj<span class="p">.</span><span class="nf">bar</span> <span class="k">rescue</span> <span class="k">nil</span> <span class="c1"># =&gt; undefined method `bar' for #&lt;Foo:0x4019eda4&gt;
+</span><span class="nb">p</span> obj<span class="p">.</span><span class="nf">foo</span>          <span class="c1"># =&gt; method &quot;bar&quot; was added
+</span><span class="nb">p</span> obj<span class="p">.</span><span class="nf">foo</span>          <span class="c1"># =&gt; warning: method redefined; discarding old bar
+</span><span class="nb">p</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">bar</span>      <span class="c1"># =&gt; :bar  (他のインスタンスでも定義済み)
 </span></code></pre>
 <h3 id='eval_method'>メソッドの評価</h3>
 <p>
@@ -746,19 +746,19 @@ obj <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span>
 </span>
 <span class="c1"># クラス定義内でも呼べない
 </span><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
-  <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">foo</span> <span class="k">rescue</span> <span class="k">nil</span> <span class="c1"># =&gt; -:15 - protected method `foo' called for #&lt;Foo:0x4019eea8&gt;
+  <span class="nb">p</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">foo</span> <span class="k">rescue</span> <span class="k">nil</span> <span class="c1"># =&gt; -:15 - protected method `foo' called for #&lt;Foo:0x4019eea8&gt;
 </span>  <span class="c1"># メソッド定義式内で呼べる
 </span>  <span class="k">def</span> <span class="nf">bar</span>
     <span class="nc">self</span><span class="p">.</span><span class="nf">foo</span>
   <span class="k">end</span>
 <span class="k">end</span>
-<span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">bar</span>             <span class="c1"># =&gt; [&quot;-:21&quot;]
+<span class="nb">p</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">bar</span>           <span class="c1"># =&gt; [&quot;-:21&quot;]
 </span>
 <span class="c1"># 特異メソッド定義式内でも呼べる
 </span><span class="k">def</span> <span class="nf">obj</span><span class="p">.</span><span class="nf">bar</span>
   <span class="nc">self</span><span class="p">.</span><span class="nf">foo</span> <span class="k">rescue</span> <span class="k">nil</span>
 <span class="k">end</span>
-obj<span class="p">.</span><span class="nf">bar</span>                 <span class="c1"># =&gt; [&quot;-:27&quot;]
+<span class="nb">p</span> obj<span class="p">.</span><span class="nf">bar</span>               <span class="c1"># =&gt; [&quot;-:27&quot;]
 </span></code></pre>
 <p>
 デフォルトでは def 式がクラス定義の外(トップレベル)にあれば private、クラス定義の中にあれば public に定義します。これは <a href="../method/Module/i/public.html">Module#public</a>、<a href="../method/Module/i/private.html">Module#private</a>、
@@ -954,9 +954,9 @@ super の実行が可能なら真(文字列 &quot;super&quot;)を返します。
 <pre class="highlight ruby">
 <code>
 <span class="sr">/(.)/</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
-<span class="k">defined?</span> <span class="vg">$&amp;</span>  <span class="c1"># =&gt; &quot;global-variable&quot;
-</span><span class="k">defined?</span> <span class="vg">$1</span>  <span class="c1"># =&gt; &quot;global-variable&quot;
-</span><span class="k">defined?</span> <span class="vg">$2</span>  <span class="c1"># =&gt; nil
+<span class="nb">p</span> <span class="k">defined?</span> <span class="vg">$&amp;</span>  <span class="c1"># =&gt; &quot;global-variable&quot;
+</span><span class="nb">p</span> <span class="k">defined?</span> <span class="vg">$1</span>  <span class="c1"># =&gt; &quot;global-variable&quot;
+</span><span class="nb">p</span> <span class="k">defined?</span> <span class="vg">$2</span>  <span class="c1"># =&gt; nil
 </span></code></pre>
 <p>
 $&amp;, $1, $2, などは直前のマッチの結果値が設定された場合だけ真を返します。

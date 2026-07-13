@@ -16,7 +16,7 @@ namespace :ns do |ns|
   task :ts2 do
   end
 
-  ns.tasks # => [<Rake::Task ns:ts1 => []>, <Rake::Task ns:ts2 => []>]
+  p ns.tasks # => [<Rake::Task ns:ts1 => []>, <Rake::Task ns:ts2 => []>]
 end
 ```
 

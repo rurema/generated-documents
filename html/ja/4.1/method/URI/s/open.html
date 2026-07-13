@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -104,8 +104,24 @@ name.open(*rest, &amp;block) のように name の open メソッドが呼ばれ
 </dd>
 <dt class='method-param'>[PARAM] <code>mode</code>:</dt>
 <dd>
-モードを文字列で与えます。<a href="../../../method/Kernel/m/open.html">Kernel.#open</a> と同じです。
+モードを文字列で与えます。<a href="../../../method/Kernel/m/open.html">Kernel.#open</a> の mode_enc とおおむね同じですが、外部エンコーディングの指定(ext_enc)は有効な一方、内部エンコーディングの指定
+(ext_enc:int_enc の int_enc)は無視されます。内部エンコーディングへの変換が必要な場合は、読み込んだ文字列を <a href="../../../method/String/i/encode.html">String#encode</a> で変換してください
+(返り値のオブジェクトはレスポンスの大きさによって <a href="../../../class/StringIO.html">StringIO</a> にも
+<a href="../../../class/Tempfile.html">Tempfile</a> ベースの IO にもなり、<a href="../../../method/IO/i/set_encoding.html">IO#set_encoding</a> による内部エンコーディングへの変換は <a href="../../../class/StringIO.html">StringIO</a> では行われないためです)。
 </dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'open-uri'</span>
+
+<span class="c1"># 外部エンコーディングとして cp932 を指定し、
+</span><span class="c1"># 読み込んだ文字列を String#encode で UTF-8 に変換する
+</span><span class="no">URI</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'http://example.com/'</span>, <span class="s1">'r:cp932'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
+  f<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s1">'UTF-8'</span>, <span class="ss">invalid:</span> <span class="ss">:replace</span>, <span class="ss">undef:</span> <span class="ss">:replace</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<dl>
 <dt class='method-param'>[PARAM] <code>perm</code>:</dt>
 <dd>
 <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/open.html">open(2)</a> の第 3 引数のように、ファイルを生成する場合のファイルのパーミッションを整数で指定します。<a href="../../../method/Kernel/m/open.html">Kernel.#open</a> と同じです

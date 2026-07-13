@@ -134,37 +134,8 @@ bar
 </span><span class="c1">#   nil
 </span></code></pre>
 <p>
-以下の関数は、caller の要素から [ファイル名, 行番号, メソッド名]
-を取り出して返します。
+caller の要素から呼び出し元のファイル名や行番号、メソッド名を取り出したい場合は、文字列を正規表現でパースするより <a href="../../../method/Kernel/m/caller_locations.html">Kernel.#caller_locations</a> を使うほうが適切です。詳しくは後述の caller_locations の項を参照してください。
 </p>
-<span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">parse_caller</span><span class="p">(</span>at<span class="p">)</span>
-  <span class="k">if</span> <span class="sr">/^(.+?):(\d+)(?::in '(.*)')?/</span> <span class="o">=~</span> at
-    file <span class="o">=</span> <span class="vg">$1</span>
-    line <span class="o">=</span> <span class="vg">$2</span><span class="p">.</span><span class="nf">to_i</span>
-    <span class="nb">method</span> <span class="o">=</span> <span class="vg">$3</span>
-    <span class="p">[</span>file, line, <span class="nb">method</span><span class="p">]</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="k">def</span> <span class="nf">foo</span>
-  <span class="nb">p</span> parse_caller<span class="p">(</span><span class="nb">caller</span><span class="p">.</span><span class="nf">first</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="k">def</span> <span class="nf">bar</span>
-  foo
-  <span class="nb">p</span> parse_caller<span class="p">(</span><span class="nb">caller</span><span class="p">.</span><span class="nf">first</span><span class="p">)</span>
-<span class="k">end</span>
-
-bar
-<span class="nb">p</span> parse_caller<span class="p">(</span><span class="nb">caller</span><span class="p">.</span><span class="nf">first</span><span class="p">)</span>
-
-<span class="c1">#=&gt; [&quot;-&quot;, 15, &quot;bar&quot;]
-</span><span class="c1">#   [&quot;-&quot;, 19, nil]
-</span><span class="c1">#   nil
-</span></code></pre>
 <p>
 以下は、<a href="../../../method/Kernel/v/DEBUG.html">$DEBUG</a> が真の場合に役に立つ debug 関数のサンプルです。
 </p>

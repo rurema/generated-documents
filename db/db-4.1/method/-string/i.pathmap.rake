@@ -31,11 +31,10 @@ source_location=manual/api/rake/String.md
 
 %d は数値のプレフィクスを取ることができます。
 
-例:
-``````
-'a/b/c/d/file.txt'.pathmap("%2d")  # => 'a/b'
-'a/b/c/d/file.txt'.pathmap("%-2d") # => 'c/d'
-``````
+```ruby title="例"
+p 'a/b/c/d/file.txt'.pathmap("%2d")  # => 'a/b'
+p 'a/b/c/d/file.txt'.pathmap("%-2d") # => 'c/d'
+```
 
 また、%d, %p, %f, %n, %x, %X には単純な文字列置換を行うための
 置換パターンを表すパラメータを指定することが出来ます。
@@ -47,19 +46,16 @@ source_location=manual/api/rake/String.md
 正規表現や後方参照をパターンとして使用することがあるかもしれません。
 中括弧、コンマ、セミコロンはパターンと置換文字列に使用しないでください。
 
-例:
-```````
+```ruby title="例"
 "src/org/onestepback/proj/A.java".pathmap("%{^src,bin}X.class")
 #=> "bin/org/onestepback/proj/A.class"
-```````
+```
 
 置換文字列に '*' を指定した場合は、置換文字列を計算するためにブロックを評価します。
 
-例:
-
-``````
+```ruby title="例"
 "/path/to/file.TXT".pathmap("%X%{.*,*}x") { |ext| ext.downcase }
 #=> "/path/to/file.txt"
-``````
+```
 
 

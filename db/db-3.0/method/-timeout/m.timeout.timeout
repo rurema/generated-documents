@@ -22,8 +22,7 @@ exception_class を指定した場合には [c:Timeout::Error] の代わりに
 - **param** `message` -- エラーメッセージを指定します.省略した場合は
                "execution expired" になります.
 
-例 長い計算のタイムアウト
-`````
+```ruby title="例 長い計算のタイムアウト"
 require 'timeout'
 
 def calc_pi(min)
@@ -47,10 +46,9 @@ end
 printf "%d: pi = %f\n", min[0] + min[1], min[0]*4.0/(min[0]+min[1])
 #例
 #=> 417519: pi = 3.141443
-`````
+```
 
-例 独自の例外を発生させるタイムアウト
-`````
+```ruby title="例 独自の例外を発生させるタイムアウト"
 #!/usr/bin/env ruby
 
 require 'timeout'
@@ -64,7 +62,7 @@ rescue MYError => err
   puts "MYError"
   puts err
 end
-`````
+```
 
 ### 注意
 
@@ -79,8 +77,7 @@ Socket などは DNSの名前解決に時間がかかった場合割り込めま
 
 以下の例では、gethostbyname(およそ0.6秒処理に時間がかかっている) が終了した直後((A)の箇所)で Timeout::Error 例外があがっています。
 
-例 timeout が割り込めない
-`````
+```text title="例 timeout が割り込めない"
 require 'timeout'
 require 'socket'
 
@@ -102,14 +99,13 @@ end
          from -:6
 # gethostbyname が0.1秒かからない場合は例外が発生しないので
 # その場合は、t に小さい数値(0.000001のような)に変える。
-`````
+```
 
 
 timeout による割り込みは [m:Kernel?.system] によって呼び出された外部プログラムを
 タイムアウトさせる事はできないので、[m:IO.popen]、[m:Kernel?.open]を使用するなどの工夫が必要です。
 
-例 外部コマンドのタイムアウト
-`````
+```ruby title="例 外部コマンドのタイムアウト"
 require 'timeout'
 
 # テスト用のシェルをつくる。
@@ -160,11 +156,9 @@ rescue Timeout::Error => err
   printf "[result]\t%s", com.read
   com.close unless com.nil?
 end
-`````
 
-`````
 #止まっているか確認する。
 #system("ps au")
-`````
+```
 
 

@@ -88,6 +88,8 @@
 <p>
 置換文字列 replace 中の \&amp; と \0 はマッチした部分文字列に、
 \1 ... \9 は n 番目の括弧の内容に置き換えられます。置換文字列内では \`、\'、\+ も使えます。これらは <a href="../../../method/Kernel/v/=60.html">$`</a>、<a href="../../../method/Kernel/v/=27.html">$'</a>、<a href="../../../method/Kernel/v/=2b.html">$+</a> に対応します。
+pattern が名前付きキャプチャを含む正規表現である場合は、
+\k&lt;name&gt; の形式でその名前に対応する部分文字列に置き換えられます。
 </p>
 <p>
 sub! は通常 self を変更して返しますが、置換が起こらなかった場合は nil を返します。
@@ -116,6 +118,10 @@ buf<span class="p">.</span><span class="nf">sub!</span><span class="p">(</span><
 buf <span class="o">=</span> <span class="s2">"</span><span class="s2">String.String</span><span class="s2">"</span>
 buf<span class="p">.</span><span class="nf">sub!</span><span class="p">(</span><span class="sr">/in./</span>, <span class="s1">'&lt;&lt;\&amp;&gt;&gt;'</span><span class="p">)</span>
 <span class="nb">p</span> buf   <span class="c1"># =&gt; &quot;Str&lt;&lt;ing&gt;&gt;-String&quot;
+</span>
+buf <span class="o">=</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
+buf<span class="p">.</span><span class="nf">sub!</span><span class="p">(</span><span class="sr">/(?&lt;name&gt;fo)/</span>, <span class="s1">'match: \k&lt;name&gt;'</span><span class="p">)</span>
+<span class="nb">p</span> buf   <span class="c1"># =&gt; &quot;match: foo&quot;
 </span></code></pre>
 <p>
 注意:

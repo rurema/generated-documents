@@ -125,19 +125,20 @@ rindas.rb はタプルスペースに書き込まれたクエリ('sum' という
 <p>
 例の動かしかたは以下の通りです。
 </p>
-<pre>
-# まず、rinda_ts.rb を動かす
-ruby rinda_ts.rb druby://localhost:40121
-
-# rinda_ts.rb を動かしたまま、rindas.rbを動かす
-# 複数の rindas.rb を同時に動かしてもよい。
-# 別のターミナルで:
-ruby rindas.rb druby://localhost:40121
-
-# rindac.rb を動かし、クエリをタプルスペースに書き込む
-ruby rindac.rb druby://localhost:40121
-# on rindas.rb terminal
-do_it(1)
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>まず、rinda_ts.rb を動かす
+<span class="go">ruby rinda_ts.rb druby://localhost:40121
+  
+</span><span class="gp">#</span><span class="w"> </span>rinda_ts.rb を動かしたまま、rindas.rbを動かす
+<span class="gp">#</span><span class="w"> </span>複数の rindas.rb を同時に動かしてもよい。
+<span class="gp">#</span><span class="w"> </span>別のターミナルで:
+<span class="go">ruby rindas.rb druby://localhost:40121
+  
+</span><span class="gp">#</span><span class="w"> </span>rindac.rb を動かし、クエリをタプルスペースに書き込む
+<span class="go">ruby rindac.rb druby://localhost:40121
+</span><span class="gp">#</span><span class="w"> </span>on rindas.rb terminal
+<span class="go">do_it(1)
 do_it(2)
 do_it(3)
 do_it(4)
@@ -147,8 +148,8 @@ do_it(7)
 do_it(8)
 do_it(9)
 do_it(10)
-# on rindac.rb terminal
-[1, 2]
+</span><span class="gp">#</span><span class="w"> </span>on rindac.rb terminal
+<span class="go">[1, 2]
 [2, 4]
 [3, 6]
 [4, 8]
@@ -158,61 +159,62 @@ do_it(10)
 [8, 16]
 [9, 18]
 [10, 20]
-</pre>
+</span></code></pre>
 <p>
 rindas.rb や rindac.rb を同時に複数動かすと、タプルスペースの並列性の問題についてのよりよい理解が得られます。例えば rindas.rb を複数動かすと、
 rindac.rb からのクエリを複数の rindas.rb が分散して処理します。複数の rindac.rb を動かしても、応答が混ざったりせず、rindac.rb に適切に応答が返されます。これは DRb.uri を使うことで rindac.rb のプロセスを一意に同定しているからです。
 </p>
-<pre>
-# rinda_ts.rb
-require 'drb/drb'
-require 'rinda/tuplespace'
-
-uri = ARGV.shift
-DRb.start_service(uri, Rinda::TupleSpace.new)
-puts DRb.uri
-DRb.thread.join
-
-
-# rindas.rb
-require 'drb/drb'
-require 'rinda/rinda'
-
-def do_it(v)
-  puts &quot;do_it(#{v})&quot;
-  v + v
-end
-
-uri = ARGV.shift || raise(&quot;usage: #{$0} &lt;server_uri&gt;&quot;)
-
-DRb.start_service
-ts = Rinda::TupleSpaceProxy.new(DRbObject.new(nil, uri))
-
-while true
-  r = ts.take(['sum', nil, nil])
-  v = do_it(r[2])
-  ts.write(['ans', r[1], r[2], v])
-end
+<pre class="highlight ruby">
+<code>
+<span class="c1"># rinda_ts.rb
+</span><span class="nb">require</span> <span class="s1">'drb/drb'</span>
+<span class="nb">require</span> <span class="s1">'rinda/tuplespace'</span>
+  
+uri <span class="o">=</span> <span class="no">ARGV</span><span class="p">.</span><span class="nf">shift</span>
+<span class="no">DRb</span><span class="p">.</span><span class="nf">start_service</span><span class="p">(</span>uri, <span class="no">Rinda</span><span class="o">::</span><span class="no">TupleSpace</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="no">DRb</span><span class="p">.</span><span class="nf">uri</span>
+<span class="no">DRb</span><span class="p">.</span><span class="nf">thread</span><span class="p">.</span><span class="nf">join</span>
 
 
-# rindac.rb
-require 'drb/drb'
-require 'rinda/rinda'
+<span class="c1"># rindas.rb
+</span><span class="nb">require</span> <span class="s1">'drb/drb'</span>
+<span class="nb">require</span> <span class="s1">'rinda/rinda'</span>
+  
+<span class="k">def</span> <span class="nf">do_it</span><span class="p">(</span>v<span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">do_it(</span><span class="si">#{</span><span class="n">v</span><span class="si">}</span><span class="s2">)</span><span class="s2">"</span>
+  v <span class="o">+</span> v
+<span class="k">end</span>
+  
+uri <span class="o">=</span> <span class="no">ARGV</span><span class="p">.</span><span class="nf">shift</span> <span class="o">||</span> <span class="nb">raise</span><span class="p">(</span><span class="s2">"</span><span class="s2">usage: </span><span class="si">#{</span><span class="vg">$0</span><span class="si">}</span><span class="s2"> &lt;server_uri&gt;</span><span class="s2">"</span><span class="p">)</span>
+  
+<span class="no">DRb</span><span class="p">.</span><span class="nf">start_service</span>
+ts <span class="o">=</span> <span class="no">Rinda</span><span class="o">::</span><span class="no">TupleSpaceProxy</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">DRbObject</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="k">nil</span>, uri<span class="p">)</span><span class="p">)</span>
+  
+<span class="k">while</span> <span class="k">true</span>
+  r <span class="o">=</span> ts<span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="p">[</span><span class="s1">'sum'</span>, <span class="k">nil</span>, <span class="k">nil</span><span class="p">]</span><span class="p">)</span>
+  v <span class="o">=</span> do_it<span class="p">(</span>r<span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">)</span>
+  ts<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="p">[</span><span class="s1">'ans'</span>, r<span class="p">[</span><span class="mi">1</span><span class="p">]</span>, r<span class="p">[</span><span class="mi">2</span><span class="p">]</span>, v<span class="p">]</span><span class="p">)</span>
+<span class="k">end</span>
 
-uri = ARGV.shift || raise(&quot;usage: #{$0} &lt;server_uri&gt;&quot;)
 
-DRb.start_service
-ts = Rinda::TupleSpaceProxy.new(DRbObject.new(nil, uri))
-
-(1..10).each do |n|
-  ts.write(['sum', DRb.uri, n])
-end
-
-(1..10).each do |n|
-  ans = ts.take(['ans', DRb.uri, n, nil])
-  p [ans[2], ans[3]]
-end
-</pre>
+<span class="c1"># rindac.rb
+</span><span class="nb">require</span> <span class="s1">'drb/drb'</span>
+<span class="nb">require</span> <span class="s1">'rinda/rinda'</span>
+  
+uri <span class="o">=</span> <span class="no">ARGV</span><span class="p">.</span><span class="nf">shift</span> <span class="o">||</span> <span class="nb">raise</span><span class="p">(</span><span class="s2">"</span><span class="s2">usage: </span><span class="si">#{</span><span class="vg">$0</span><span class="si">}</span><span class="s2"> &lt;server_uri&gt;</span><span class="s2">"</span><span class="p">)</span>
+  
+<span class="no">DRb</span><span class="p">.</span><span class="nf">start_service</span>
+ts <span class="o">=</span> <span class="no">Rinda</span><span class="o">::</span><span class="no">TupleSpaceProxy</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">DRbObject</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="k">nil</span>, uri<span class="p">)</span><span class="p">)</span>
+  
+<span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
+  ts<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="p">[</span><span class="s1">'sum'</span>, <span class="no">DRb</span><span class="p">.</span><span class="nf">uri</span>, n<span class="p">]</span><span class="p">)</span>
+<span class="k">end</span>
+  
+<span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
+  ans <span class="o">=</span> ts<span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="p">[</span><span class="s1">'ans'</span>, <span class="no">DRb</span><span class="p">.</span><span class="nf">uri</span>, n, <span class="k">nil</span><span class="p">]</span><span class="p">)</span>
+  <span class="nb">p</span> <span class="p">[</span>ans<span class="p">[</span><span class="mi">2</span><span class="p">]</span>, ans<span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 この例は ruby の配布物の sample/drb/rinda{_ts,s,c}.rb と同じものです。
 </p>

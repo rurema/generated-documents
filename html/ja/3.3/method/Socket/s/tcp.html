@@ -78,8 +78,8 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_TCP"><code>tcp(host, port, local_host=nil, local_port=nil, connect_timeout: nil) -&gt; Socket</code><span class="permalink">[<a href="../../../method/Socket/s/tcp.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Socket.html#method-c-tcp">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Socket.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>tcp(host, port, local_host=nil, local_port=nil, connect_timeout: nil) {|socket| ... } -&gt; object</code></dt>
+<dt class="method-heading" id="S_TCP"><code>tcp(host, port, local_host=nil, local_port=nil, connect_timeout: nil, resolv_timeout: nil) -&gt; Socket</code><span class="permalink">[<a href="../../../method/Socket/s/tcp.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Socket.html#method-c-tcp">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Socket.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>tcp(host, port, local_host=nil, local_port=nil, connect_timeout: nil, resolv_timeout: nil) {|socket| ... } -&gt; object</code></dt>
 <dd class="method-description">
 <p>
 TCP/IP で host:port に接続するソケットオブジェクトを作成します。
@@ -109,22 +109,27 @@ local_host や local_port を指定した場合、ソケットをそこにバイ
 </dd>
 <dt class='method-param'>[PARAM] <code>connect_timeout</code>:</dt>
 <dd>
-タイムアウトまでの秒数
+接続確立のタイムアウトを秒数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>resolv_timeout</code>:</dt>
+<dd>
+名前解決のタイムアウトを秒数で指定します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
 ブロック付きで呼ばれた場合はブロックが返した値です。ブロックなしで呼ばれた場合はソケットオブジェクトを返します。
 </dd>
 </dl>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-Socket.tcp(&quot;www.ruby-lang.org&quot;, 80) {|sock|
-  sock.print &quot;GET / HTTP/1.0\r\nHost: www.ruby-lang.org\r\n\r\n&quot;
-  sock.close_write
-  puts sock.read
-}
-</pre>
+<span class="no">Socket</span><span class="p">.</span><span class="nf">tcp</span><span class="p">(</span><span class="s2">"</span><span class="s2">www.ruby-lang.org</span><span class="s2">"</span>, <span class="mi">80</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>sock<span class="o">|</span>
+  sock<span class="p">.</span><span class="nf">print</span> <span class="s2">"</span><span class="s2">GET / HTTP/1.0\r\nHost: www.ruby-lang.org\r\n\r\n</span><span class="s2">"</span>
+  sock<span class="p">.</span><span class="nf">close_write</span>
+  <span class="nb">puts</span> sock<span class="p">.</span><span class="nf">read</span>
+<span class="p">}</span>
+</code></pre>
 </dd>
 
 

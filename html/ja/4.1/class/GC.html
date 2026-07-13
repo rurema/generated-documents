@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -412,7 +412,7 @@ true を設定するとフルGCのタイミングででヒープをコンパク�
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">GC</span><span class="p">.</span><span class="nf">count</span> <span class="c1"># =&gt; 3
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">count</span> <span class="c1"># =&gt; 3
 </span></code></pre>
 </dd>
 
@@ -429,8 +429,8 @@ false)。
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">GC</span><span class="p">.</span><span class="nf">disable</span>   <span class="c1"># =&gt; false
-</span><span class="no">GC</span><span class="p">.</span><span class="nf">disable</span>   <span class="c1"># =&gt; true
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">disable</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">disable</span> <span class="c1"># =&gt; true
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/GC/s/enable.html">GC.enable</a>
@@ -453,9 +453,9 @@ false)。
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">GC</span><span class="p">.</span><span class="nf">disable</span>   <span class="c1"># =&gt; false
-</span><span class="no">GC</span><span class="p">.</span><span class="nf">enable</span>    <span class="c1"># =&gt; true
-</span><span class="no">GC</span><span class="p">.</span><span class="nf">enable</span>    <span class="c1"># =&gt; false
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">disable</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">enable</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">enable</span>  <span class="c1"># =&gt; false
 </span></code></pre>
 </dd>
 
@@ -481,18 +481,18 @@ false)。
 <pre class="highlight ruby">
 <code>
 latest <span class="o">=</span> <span class="no">GC</span><span class="p">.</span><span class="nf">latest_gc_info</span>
-latest <span class="c1"># =&gt; {:major_by=&gt;nil, :gc_by=&gt;:newobj, :have_finalizer=&gt;false, :immediate_sweep=&gt;false, :state=&gt;:sweeping}
+<span class="nb">p</span> latest <span class="c1"># =&gt; {:major_by=&gt;nil, :gc_by=&gt;:newobj, :have_finalizer=&gt;false, :immediate_sweep=&gt;false, :state=&gt;:sweeping}
 </span>
 stat <span class="o">=</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span>
 merged <span class="o">=</span> <span class="no">GC</span><span class="p">.</span><span class="nf">latest_gc_info</span><span class="p">(</span>stat<span class="p">)</span>
-merged <span class="o">==</span> latest<span class="p">.</span><span class="nf">merge</span><span class="p">(</span>stat<span class="p">)</span> <span class="c1"># =&gt; true
+<span class="nb">p</span> merged <span class="o">==</span> latest<span class="p">.</span><span class="nf">merge</span><span class="p">(</span>stat<span class="p">)</span> <span class="c1"># =&gt; true
 </span>
-<span class="no">GC</span><span class="p">.</span><span class="nf">latest_gc_info</span><span class="p">(</span><span class="ss">:gc_by</span><span class="p">)</span>    <span class="c1"># =&gt; :newobj
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">latest_gc_info</span><span class="p">(</span><span class="ss">:gc_by</span><span class="p">)</span>  <span class="c1"># =&gt; :newobj
 </span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="S_START"><code>start(full_mark: true, immediate_sweep: true) -&gt; nil</code><span class="permalink">[<a href="../method/GC/s/start.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-start">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_START"><code>start(full_mark: true, immediate_mark: true, immediate_sweep: true) -&gt; nil</code><span class="permalink">[<a href="../method/GC/s/start.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-start">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 ガーベージコレクトを開始します。
@@ -509,6 +509,11 @@ nil を返します。
 <dd>
 マイナー GC を動作させる場合は false を、そうでない場合は true を指定します。
 </dd>
+<dt class='method-param'>[PARAM] <code>immediate_mark</code>:</dt>
+<dd>
+mark を遅らせる(Lazy Mark を行う)場合は false
+を、そうでない場合は true を指定します。
+</dd>
 <dt class='method-param'>[PARAM] <code>immediate_sweep</code>:</dt>
 <dd>
 sweep を遅らせる(Lazy Sweep を行う)場合は false
@@ -521,9 +526,9 @@ sweep を遅らせる(Lazy Sweep を行う)場合は false
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">GC</span><span class="p">.</span><span class="nf">count</span>  <span class="c1"># =&gt; 3
-</span><span class="no">GC</span><span class="p">.</span><span class="nf">start</span>  <span class="c1"># =&gt; nil
-</span><span class="no">GC</span><span class="p">.</span><span class="nf">count</span>  <span class="c1"># =&gt; 4
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">count</span>  <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">start</span>  <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">count</span>  <span class="c1"># =&gt; 4
 </span></code></pre>
 </dd>
 
@@ -639,9 +644,9 @@ malloc/calloc/realloc の後でメジャーGCを動作させる場合に指定�
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">GC</span><span class="p">.</span><span class="nf">stress</span> <span class="c1"># =&gt; false
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stress</span> <span class="c1"># =&gt; false
 </span><span class="no">GC</span><span class="p">.</span><span class="nf">stress</span> <span class="o">=</span> <span class="k">true</span>
-<span class="no">GC</span><span class="p">.</span><span class="nf">stress</span> <span class="c1"># =&gt; true
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stress</span> <span class="c1"># =&gt; true
 </span></code></pre>
 </dd>
 </dl>
@@ -688,7 +693,7 @@ nil か :empty を指定します。
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_GARBAGE_COLLECT"><code>garbage_collect(full_mark: true, immediate_sweep: true) -&gt; nil</code><span class="permalink">[<a href="../method/GC/i/garbage_collect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-i-garbage_collect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_GARBAGE_COLLECT"><code>garbage_collect(full_mark: true, immediate_mark: true, immediate_sweep: true) -&gt; nil</code><span class="permalink">[<a href="../method/GC/i/garbage_collect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-i-garbage_collect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 ガーベージコレクトを開始します。
@@ -705,6 +710,11 @@ nil を返します。
 <dd>
 マイナー GC を動作させる場合は false を、そうでない場合は true を指定します。
 </dd>
+<dt class='method-param'>[PARAM] <code>immediate_mark</code>:</dt>
+<dd>
+mark を遅らせる(Lazy Mark を行う)場合は false
+を、そうでない場合は true を指定します。
+</dd>
 <dt class='method-param'>[PARAM] <code>immediate_sweep</code>:</dt>
 <dd>
 sweep を遅らせる(Lazy Sweep を行う)場合は false
@@ -718,9 +728,9 @@ sweep を遅らせる(Lazy Sweep を行う)場合は false
 <pre class="highlight ruby">
 <code>
 include <span class="no">GC</span>
-<span class="no">GC</span><span class="p">.</span><span class="nf">count</span>  <span class="c1"># =&gt; 3
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">count</span>  <span class="c1"># =&gt; 3
 </span>garbage_collect
-<span class="no">GC</span><span class="p">.</span><span class="nf">count</span>  <span class="c1"># =&gt; 4
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">count</span>  <span class="c1"># =&gt; 4
 </span></code></pre>
 </dd>
 
@@ -735,10 +745,11 @@ include <span class="no">GC</span>
 <p>
 GC用内部定数の値を保持するハッシュテーブルです。
 </p>
-<pre>
-GC::INTERNAL_CONSTANTS
-# =&gt; {:RVALUE_SIZE=&gt;40, :HEAP_PAGE_OBJ_LIMIT=&gt;408, :HEAP_PAGE_BITMAP_SIZE=&gt;56, :HEAP_PAGE_BITMAP_PLANES=&gt;4}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">GC</span><span class="o">::</span><span class="no">INTERNAL_CONSTANTS</span>
+<span class="c1"># =&gt; {:RVALUE_SIZE=&gt;40, :HEAP_PAGE_OBJ_LIMIT=&gt;408, :HEAP_PAGE_BITMAP_SIZE=&gt;56, :HEAP_PAGE_BITMAP_PLANES=&gt;4}
+</span></code></pre>
 </dd>
 
 
@@ -764,13 +775,12 @@ GC::INTERNAL_CONSTANTS
 <li>&quot;MALLOC_ALLOCATED_SIZE_CHECK&quot;</li>
 <li>&quot;GC_PROFILE_DETAIL_MEMORY&quot;</li>
 </ul>
-<p>
-例:
-</p>
-<pre>
-GC::OPTS # =&gt; [&quot;USE_RGENGC&quot;, &quot;RGENGC_ESTIMATE_OLDMALLOC&quot;, &quot;GC_ENABLE_LAZY_SWEEP&quot;]
-# この場合、GCデバッグ機能やプロファイル機能は無効化されている
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">GC</span><span class="o">::</span><span class="no">OPTS</span> <span class="c1"># =&gt; [&quot;USE_RGENGC&quot;, &quot;RGENGC_ESTIMATE_OLDMALLOC&quot;, &quot;GC_ENABLE_LAZY_SWEEP&quot;]
+</span><span class="c1"># この場合、GCデバッグ機能やプロファイル機能は無効化されている
+</span></code></pre>
 </dd>
 
 

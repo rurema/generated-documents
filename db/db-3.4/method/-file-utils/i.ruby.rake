@@ -9,10 +9,9 @@ source_location=manual/api/rake/FileUtils.md
 
 - **param** `args` -- Ruby インタプリタに与える引数を指定します。
 
-例:
-``````
+```ruby title="例"
 ruby %{-pe '$_.upcase!' <README}
-``````
+```
 
 - **SEE** [m:Kernel?.sh]
 

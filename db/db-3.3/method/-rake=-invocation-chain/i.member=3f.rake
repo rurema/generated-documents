@@ -16,8 +16,8 @@ source_location=manual/api/rake/Rake__InvocationChain.md
 task default: :test_rake_app
 task :test_rake_app do
   invocation_chain = Rake::InvocationChain.new("task_a", Rake::InvocationChain::EMPTY)
-  invocation_chain.member?("task_a") # => true
-  invocation_chain.member?("task_b") # => false
+  p invocation_chain.member?("task_a") # => true
+  p invocation_chain.member?("task_b") # => false
 end
 ```
 

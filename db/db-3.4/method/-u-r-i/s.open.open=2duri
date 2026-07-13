@@ -23,7 +23,23 @@ name.open(*rest, &block) のように name の open メソッドが呼ばれま�
 
 - **param** `name` -- オープンしたいリソースを文字列で与えます。
 
-- **param** `mode` -- モードを文字列で与えます。[m:Kernel?.open] と同じです。
+- **param** `mode` -- モードを文字列で与えます。[m:Kernel?.open] の mode_enc とおおむね同じですが、
+             外部エンコーディングの指定(ext_enc)は有効な一方、内部エンコーディングの指定
+             (ext_enc:int_enc の int_enc)は無視されます。内部エンコーディングへの変換が
+             必要な場合は、読み込んだ文字列を [m:String#encode] で変換してください
+             (返り値のオブジェクトはレスポンスの大きさによって [c:StringIO] にも
+             [c:Tempfile] ベースの IO にもなり、[m:IO#set_encoding] による内部
+             エンコーディングへの変換は [c:StringIO] では行われないためです)。
+
+```ruby title="例"
+require 'open-uri'
+
+# 外部エンコーディングとして cp932 を指定し、
+# 読み込んだ文字列を String#encode で UTF-8 に変換する
+URI.open('http://example.com/', 'r:cp932') do |f|
+  f.read.encode('UTF-8', invalid: :replace, undef: :replace)
+end
+```
 
 - **param** `perm` -- [man:open(2)] の第 3 引数のように、ファイルを生成する場合のファイルのパーミッションを
             整数で指定します。[m:Kernel?.open] と同じです

@@ -28,8 +28,7 @@ drb による通信とは、オブジェクトをプロセス間でやりとり�
 ### Example
 この例は drb/gw.rb に含まれているものです。
 
-foo.rb
-`````
+```ruby title="foo.rb"
 require 'drb/drb'
   
 class Foo
@@ -44,10 +43,9 @@ class Foo
     @peer.ping(self) if @peer
   end
 end
-`````
+```
 
-gw_b.rb
-`````
+```ruby title="gw_b.rb"
 require 'drb/drb'
 require 'drb/gw'
 require 'drb/unix'
@@ -61,10 +59,9 @@ s2 = DRb::DRbServer.new('drbunix:/tmp/gw_b_c', front)
   
 s1.thread.join
 s2.thread.join
-`````
+```
 
-gw_a.rb
-`````
+```ruby title="gw_a.rb"
 require 'drb/unix'
 require_relative 'foo'
   
@@ -75,10 +72,9 @@ robj = DRbObject.new_with_uri('drbunix:/tmp/gw_b_a')
 robj[:a] = obj
   
 DRb.thread.join
-`````
+```
 
-gw_c.rb
-`````
+```ruby title="gw_c.rb"
 require 'drb/unix'
 require_relative 'foo'
   
@@ -95,7 +91,7 @@ sleep 2
 a.ping(foo)
   
 DRb.thread.join
-`````
+```
 
 これを、gw_b, gw_a, gw_c の順に起動すると、gw_b を経由して
 gw_a と gw_c が通信します。

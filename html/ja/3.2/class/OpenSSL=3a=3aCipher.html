@@ -162,49 +162,50 @@ AES のようなブロック暗号では暗号方式を選択する際にモー�
 AES を用いる場合、通常は CBC を用いれば良いでしょう。選択肢によっては安全性に問題があるので気をつけてください。
 </p>
 <h2 >使用例</h2>
-<pre>
-require 'openssl'
-
-# 暗号化するデータ
-data = &quot;*secret data*&quot;
-# パスワード
-pass = &quot;**secret password**&quot;
-# salt
-salt = OpenSSL::Random.random_bytes(8)
-
-# 暗号化器を作成する
-enc = OpenSSL::Cipher.new(&quot;AES-256-CBC&quot;)
-enc.encrypt
-# 鍵とIV(Initialize Vector)を PKCS#5 に従ってパスワードと salt から生成する
-key_iv = OpenSSL::PKCS5.pbkdf2_hmac_sha1(pass, salt, 2000, enc.key_len + enc.iv_len)
-key = key_iv[0, enc.key_len]
-iv = key_iv[enc.key_len, enc.iv_len]
-# 鍵とIVを設定する
-enc.key = key
-enc.iv = iv
-
-# 暗号化する
-encrypted_data = &quot;&quot;
-encrypted_data &lt;&lt; enc.update(data)
-encrypted_data &lt;&lt; enc.final
-
-p encrypted_data
-
-# 復号化器を作成する
-dec = OpenSSL::Cipher.new(&quot;AES-256-CBC&quot;)
-dec.decrypt
-
-# 鍵とIVを設定する
-dec.key = key
-dec.iv = iv
-
-# 復号化する
-decrypted_data = &quot;&quot;
-decrypted_data &lt;&lt; dec.update(encrypted_data)
-decrypted_data &lt;&lt; dec.final
-
-p decrypted_data
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+  
+<span class="c1"># 暗号化するデータ
+</span>data <span class="o">=</span> <span class="s2">"</span><span class="s2">*secret data*</span><span class="s2">"</span>
+<span class="c1"># パスワード
+</span>pass <span class="o">=</span> <span class="s2">"</span><span class="s2">**secret password**</span><span class="s2">"</span>
+<span class="c1"># salt
+</span>salt <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">Random</span><span class="p">.</span><span class="nf">random_bytes</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+  
+<span class="c1"># 暗号化器を作成する
+</span>enc <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">Cipher</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">AES-256-CBC</span><span class="s2">"</span><span class="p">)</span>
+enc<span class="p">.</span><span class="nf">encrypt</span>
+<span class="c1"># 鍵とIV(Initialize Vector)を PKCS#5 に従ってパスワードと salt から生成する
+</span>key_iv <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKCS5</span><span class="p">.</span><span class="nf">pbkdf2_hmac_sha1</span><span class="p">(</span>pass, salt, <span class="mi">2000</span>, enc<span class="p">.</span><span class="nf">key_len</span> <span class="o">+</span> enc<span class="p">.</span><span class="nf">iv_len</span><span class="p">)</span>
+key <span class="o">=</span> key_iv<span class="p">[</span><span class="mi">0</span>, enc<span class="p">.</span><span class="nf">key_len</span><span class="p">]</span>
+iv <span class="o">=</span> key_iv<span class="p">[</span>enc<span class="p">.</span><span class="nf">key_len</span>, enc<span class="p">.</span><span class="nf">iv_len</span><span class="p">]</span>
+<span class="c1"># 鍵とIVを設定する
+</span>enc<span class="p">.</span><span class="nf">key</span> <span class="o">=</span> key
+enc<span class="p">.</span><span class="nf">iv</span> <span class="o">=</span> iv
+  
+<span class="c1"># 暗号化する
+</span>encrypted_data <span class="o">=</span> <span class="s2">"</span><span class="s2">"</span>
+encrypted_data <span class="o">&lt;&lt;</span> enc<span class="p">.</span><span class="nf">update</span><span class="p">(</span>data<span class="p">)</span>
+encrypted_data <span class="o">&lt;&lt;</span> enc<span class="p">.</span><span class="nf">final</span>
+  
+<span class="nb">p</span> encrypted_data
+  
+<span class="c1"># 復号化器を作成する
+</span>dec <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">Cipher</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">AES-256-CBC</span><span class="s2">"</span><span class="p">)</span>
+dec<span class="p">.</span><span class="nf">decrypt</span>
+  
+<span class="c1"># 鍵とIVを設定する
+</span>dec<span class="p">.</span><span class="nf">key</span> <span class="o">=</span> key
+dec<span class="p">.</span><span class="nf">iv</span> <span class="o">=</span> iv
+  
+<span class="c1"># 復号化する
+</span>decrypted_data <span class="o">=</span> <span class="s2">"</span><span class="s2">"</span>
+decrypted_data <span class="o">&lt;&lt;</span> dec<span class="p">.</span><span class="nf">update</span><span class="p">(</span>encrypted_data<span class="p">)</span>
+decrypted_data <span class="o">&lt;&lt;</span> dec<span class="p">.</span><span class="nf">final</span>
+  
+<span class="nb">p</span> decrypted_data
+</code></pre>
 
 
 
@@ -277,12 +278,13 @@ p decrypted_data
 <p>
 利用可能な暗号方式名を文字列の配列で返します。
 </p>
-<pre>
-require 'openssl'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
 
-OpenSSL::Cipher.ciphers
-# =&gt; [&quot;AES-128-CBC&quot;, &quot;AES-128-CFB&quot;, &quot;AES-128-CFB1&quot;, &quot;AES-128-CFB8&quot;, &quot;AES-128-ECB&quot;, &quot;AES-128-OFB&quot;, &quot;AES-192-CBC&quot;, ... ]
-</pre>
+<span class="no">OpenSSL</span><span class="o">::</span><span class="no">Cipher</span><span class="p">.</span><span class="nf">ciphers</span> 
+<span class="c1"># =&gt; [&quot;AES-128-CBC&quot;, &quot;AES-128-CFB&quot;, &quot;AES-128-CFB1&quot;, &quot;AES-128-CFB8&quot;, &quot;AES-128-ECB&quot;, &quot;AES-128-OFB&quot;, &quot;AES-192-CBC&quot;, ... ]
+</span></code></pre>
 </dd>
 
 

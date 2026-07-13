@@ -112,6 +112,25 @@ it<span class="p">.</span><span class="nf">call</span> <span class="c1">#=&gt; 1
 <p>
 [SEE_ALSO] <a href="../../../class/Proc.html">Proc</a>,<a href="../../../method/Proc/s/new.html">Proc.new</a>
 </p>
+<h2 id='proc_generation'>Proc オブジェクトの生成</h2>
+<p>
+Proc オブジェクトを生成する手段には、主に以下の四つがあります。
+</p>
+<p>
+* <a href="../../../method/Proc/s/new.html">Proc.new</a>
+* <a href="../../../method/Kernel/m/proc.html">Kernel.#proc</a>
+* <a href="../../../method/Kernel/m/lambda.html">Kernel.#lambda</a>
+* <code>-&gt;(){ }</code> (<code>-&gt;</code> を使った lambda の短縮記法)
+</p>
+<p>
+このうち <a href="../../../method/Proc/s/new.html">Proc.new</a> と <a href="../../../method/Kernel/m/proc.html">Kernel.#proc</a> は同じ性質の Proc オブジェクトを生成し、
+<a href="../../../method/Kernel/m/lambda.html">Kernel.#lambda</a> と <code>-&gt;(){ }</code> も互いに同じ性質の Proc オブジェクトを生成しますが、前二者と後二者では、生成される Proc オブジェクトの引数の扱いや return・break の挙動などが異なります(詳細は後述)。生成された Proc オブジェクトが後二者
+(lambda)に該当するかどうかは <a href="../../../method/Proc/i/lambda=3f.html">Proc#lambda?</a> で調べることができます。
+</p>
+<p>
+このほか、メソッド呼び出しにブロックを渡した場合、そのブロックをブロック引数
+(<code>&amp;block</code> など)で受け取ると Proc オブジェクトが生成されます。
+</p>
 <h2 id='should_use_next'>手続きを中断して値を返す</h2>
 <p>
 手続きオブジェクトを中断して、呼出し元(呼び出しブロックでは yield、それ以外では <a href="../../../method/Proc/i/call.html">Proc#call</a>)
@@ -211,13 +230,14 @@ Proc.new では手続きオブジェクトを囲むメソッドを抜けます�
 <p>
 以下の表は、手続きオブジェクトの実行を上の例と同じように、手続きオブジェクトが定義されたのと同じメソッド内で行った場合の結果です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
                return                          next                        break
 Proc.new   メソッドを抜ける            手続きオブジェクトを抜ける   例外が発生する
 proc       メソッドを抜ける            手続きオブジェクトを抜ける   例外が発生する
 lambda     手続きオブジェクトを抜ける  手続きオブジェクトを抜ける   手続きオブジェクトを抜ける
 イテレータ メソッドを抜ける            手続きオブジェクトを抜ける   手続きオブジェクトを抜ける
-</pre>
+</code></pre>
 <h2 id='orphan'>orphan な手続きオブジェクトの挙動</h2>
 <p>
 Proc を生成したメソッドから脱出した後、手続きオブジェクトからの
@@ -236,12 +256,13 @@ foo<span class="p">.</span><span class="nf">call</span>
 <p>
 以下の表は、手続きオブジェクトの実行を上の例と同じように、手続きオブジェクトが定義されたメソッドを脱出してから行った場合の結果です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
                return                          next                        break
 Proc.new   例外が発生する              手続きオブジェクトを抜ける   例外が発生する
 proc       例外が発生する              手続きオブジェクトを抜ける   例外が発生する
 lambda     手続きオブジェクトを抜ける  手続きオブジェクトを抜ける   手続きオブジェクトを抜ける
-</pre>
+</code></pre>
 </dd>
 
 

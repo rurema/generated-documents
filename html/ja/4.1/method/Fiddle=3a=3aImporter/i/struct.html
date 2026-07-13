@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Fiddle=3a=3aImporter/i/struct.html">
 
 <title>Fiddle::Importer#struct (Ruby 4.1 リファレンスマニュアル)</title>
-<meta name="description" content="構造体の各要素は C と似せた表記ができます。そしてそれを配列で signature に渡してデータを定義します。例えば C における struct timeval { long tv_sec; long tv_usec; }; という構造体型に対応して Timeval = struct([&quot;long tv_sec&quot;, &quot;long tv_usec&quot;]) として構造体に対応するクラスを生成します。">
+<meta name="description" content="構造体の各要素は C と似せた表記ができます。そしてそれを配列で signature に渡してデータを定義します。例えば C における //emlist[][c]{ struct timeval { long tv_sec; long tv_usec; }; //} という構造体型に対応して //emlist[][ruby]{ Timeval = struct([&quot;long tv_sec&quot;, &quot;long tv_usec&quot;]) //} として構造体に対応するクラスを生成します。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -86,18 +86,20 @@ C の構造体型に対応する Ruby のクラスを構築して返します。
 <p>
 構造体の各要素は C と似せた表記ができます。そしてそれを配列で signature に渡してデータを定義します。例えば C における
 </p>
-<pre>
-struct timeval {
-  long tv_sec;
-  long tv_usec;
-};
-</pre>
+<pre class="highlight c">
+<code>
+<span class="k">struct</span> <span class="n">timeval</span> <span class="p">{</span>
+  <span class="kt">long</span> <span class="n">tv_sec</span><span class="p">;</span>
+  <span class="kt">long</span> <span class="n">tv_usec</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre>
 <p>
 という構造体型に対応して
 </p>
-<pre>
-Timeval = struct([&quot;long tv_sec&quot;, &quot;long tv_usec&quot;])
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Timeval</span> <span class="o">=</span> struct<span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">long tv_sec</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">long tv_usec</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
+</code></pre>
 <p>
 として構造体に対応するクラスを生成します。
 </p>
@@ -120,21 +122,22 @@ Timeval = struct([&quot;long tv_sec&quot;, &quot;long tv_usec&quot;])
 構造体の各要素を文字列で表現したものの配列
 </dd>
 </dl>
-<pre>
-require 'fiddle/import'
-
-module M
-  extend Fiddle::Importer
-  dlload &quot;libc.so.6&quot;
-  extern &quot;int gettimeofday(void*, void*)&quot;
-  Timeval = struct([&quot;long tv_sec&quot;, &quot;long tv_usec&quot;])
-end
-
-time = M::Timeval.malloc
-M.gettimeofday(time, Fiddle::NULL)
-p time.tv_sec
-p time.tv_usec
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+  
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s2">"</span><span class="s2">libc.so.6</span><span class="s2">"</span>
+  extern <span class="s2">"</span><span class="s2">int gettimeofday(void*, void*)</span><span class="s2">"</span>
+  <span class="no">Timeval</span> <span class="o">=</span> struct<span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">long tv_sec</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">long tv_usec</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
+<span class="k">end</span>
+  
+time <span class="o">=</span> <span class="no">M</span><span class="o">::</span><span class="no">Timeval</span><span class="p">.</span><span class="nf">malloc</span>
+<span class="no">M</span><span class="p">.</span><span class="nf">gettimeofday</span><span class="p">(</span>time, <span class="no">Fiddle</span><span class="o">::</span><span class="no">NULL</span><span class="p">)</span>
+<span class="nb">p</span> time<span class="p">.</span><span class="nf">tv_sec</span>
+<span class="nb">p</span> time<span class="p">.</span><span class="nf">tv_usec</span>
+</code></pre>
 </dd>
 
 

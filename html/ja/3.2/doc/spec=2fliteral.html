@@ -172,8 +172,8 @@ _ は、0x などの prefix の直後に書くことはできません。また�
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="mi">1_000_000_000</span> <span class="c1"># =&gt; 1000000000
-</span><span class="mi">0xffff_ffff</span>   <span class="c1"># =&gt; 0xffffffff
+<span class="nb">p</span> <span class="mi">1_000_000_000</span> <span class="c1"># =&gt; 1000000000
+</span><span class="nb">p</span> <span class="mi">0xffff_ffff</span> <span class="c1"># =&gt; 0xffffffff
 </span></code></pre>
 <h2 id='string'>文字列リテラル</h2>
 <span class="caption">例</span>
@@ -319,7 +319,7 @@ Unicode 文字列(n は 0-9,a-f,A-F)。nnnnは16進数で1桁から6桁まで指
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="s2">"</span><span class="s2">\u{30eb 30d3 30fc a}</span><span class="s2">"</span> <span class="c1"># =&gt; &quot;ルビー\n&quot;
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">\u{30eb 30d3 30fc a}</span><span class="s2">"</span> <span class="c1"># =&gt; &quot;ルビー\n&quot;
 </span></code></pre>
 </dd>
 <dt>\改行</dt>
@@ -335,8 +335,8 @@ Unicode 文字列(n は 0-9,a-f,A-F)。nnnnは16進数で1桁から6桁まで指
 <code>
 <span class="c1"># ($ruby = &quot;RUBY&quot;の場合)
 </span>
-<span class="s2">"</span><span class="s2">my name is </span><span class="si">#{</span><span class="vg">$ruby</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; &quot;my name is RUBY&quot;
-</span><span class="s1">'my name is #{$ruby}'</span> <span class="c1">#=&gt; &quot;my name is #{$ruby}&quot;
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">my name is </span><span class="si">#{</span><span class="vg">$ruby</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; &quot;my name is RUBY&quot;
+</span><span class="nb">p</span> <span class="s1">'my name is #{$ruby}'</span> <span class="c1">#=&gt; &quot;my name is #{$ruby}&quot;
 </span></code></pre>
 <p>
 ダブルクォート(&quot;)で囲まれた文字列式、コマンド文字列および正規表現の中では#{式}という形式で式の内容(を文字列化したもの)を埋め込むことができます。式が変数記号($,@)で始まる変数の場合には
@@ -346,9 +346,10 @@ Unicode 文字列(n は 0-9,a-f,A-F)。nnnnは16進数で1桁から6桁まで指
 <p>
 式展開中の式は、ダブルクォートなども含めて Ruby の式をそのまま書くことができます。コメントも許されます。
 </p>
-<pre>
-p &quot;#{ &quot;string&quot; # comment }&quot;   # =&gt; &quot;string&quot;
-</pre>
+<pre class="highlight text">
+<code>
+p "#{ "string" # comment }"   # =&gt; "string"
+</code></pre>
 <p>
 式展開中のコメントは、# から } まででなく改行までです。上記の例は
 </p>
@@ -470,13 +471,14 @@ p &quot;#{ &quot;string&quot; # comment }&quot;   # =&gt; &quot;string&quot;
 <p>
 開始ラベルの次の行は常にヒアドキュメントとなります。例えば、以下のような記述は文法エラーになります
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 printf('%s%d',
        &lt;&lt;EOS,
        3055 * 2 / 5)   # &lt;- この行はヒアドキュメントに含まれてしまう
 This line is a here document.
 EOS
-</pre>
+</code></pre>
 <p>
 開始ラベルを <code>&lt;&lt;-識別子</code> または `&lt;&lt;~識別子` のように
 <code>-</code> または <code>~</code> を付けて書くことで、終端行をインデントできます。このケースを除き、終端行には余分な空白やコメントさえも書くことはできません。
@@ -657,12 +659,11 @@ o オプションを指定すれば、同一の正規表現オブジェクトを
 <span class="sx">%w(a b c)</span>
 <span class="sx">%W(a b c)</span>
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 `[' 式`,' ... `]'
-</pre>
+</code></pre>
 <p>
 それぞれの式を評価した結果を含む配列を返します。配列は<a href="../class/Array.html">Array</a>クラスのインスタンスです。
 </p>
@@ -684,12 +685,11 @@ o オプションを指定すれば、同一の正規表現オブジェクトを
 </span>                              <span class="c1"># 囲うことができる。これによって空白を含むような
 </span>                              <span class="c1"># シンボルなどをキーにできる
 </span></code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 `{' 式 `=&gt;' 式 `,' ... `}'
-</pre>
+</code></pre>
 <p>
 それぞれの式を評価した結果をキーと値とするハッシュオブジェクトを返します。ハッシュとは任意のオブジェクトをキー(添字)として持つ配列で、<a href="../class/Hash.html">Hash</a>クラスのインスタンスです。
 </p>
@@ -711,7 +711,7 @@ o オプションを指定すれば、同一の正規表現オブジェクトを
 <a href="../doc/spec=2foperator.html#range">演算子式/範囲式</a>を参照
 </p>
 <p>
-範囲式はその両端が数値リテラルであれば、何度評価されても同じオブジェクトを返します。そうでなければ評価されるたびに新しい範囲オブジェクトを生成します。
+範囲式はその両端が整数リテラルであれば、何度評価されても同じオブジェクトを返します。そうでなければ評価されるたびに新しい範囲オブジェクトを生成します。
 </p>
 <h2 id='symbol'>シンボル</h2>
 <span class="caption">例</span>
@@ -727,14 +727,13 @@ o オプションを指定すれば、同一の正規表現オブジェクトを
 <span class="ss">:<span class="vc">@@cvar</span>
 <span class="ss">:<span class="o">+</span>
 </code></pre>
-<p>
-文法:
-</p>
-<pre>
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
 `:' 識別子
 `:' 変数名
 `:' 演算子
-</pre>
+</code></pre>
 <p>
 <a href="../class/Symbol.html">Symbol</a>クラスのインスタンス。ある文字列とSymbolオブジェクトは一対一に対応します。
 </p>
@@ -789,7 +788,7 @@ Symbol リテラルに指定できる演算子はメソッドとして再定義�
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="s2">%(</span><span class="s2">()</span><span class="s2">)</span> <span class="c1"># =&gt; &quot;()&quot;
+<span class="nb">p</span> <span class="s2">%(</span><span class="s2">()</span><span class="s2">)</span> <span class="c1"># =&gt; &quot;()&quot;
 </span></code></pre>
 <p>
 文字列の配列の%記法はシングルクォートで囲んだ文字列を空白文字で分割したのと同じです。たとえば、

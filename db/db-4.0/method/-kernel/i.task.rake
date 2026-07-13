@@ -9,12 +9,11 @@ Rake タスクを定義します。
 
 - **param** `args` -- タスク名と依存タスクを指定します。
 
-例:
-`````
+```ruby title="例"
 task :clobber => [:clean] do
   rm_rf "html"
 end
-`````
+```
 
 - **SEE** [m:Rake::Task.define_task]
 

@@ -95,79 +95,75 @@ drb による通信とは、オブジェクトをプロセス間でやりとり�
 <p>
 この例は drb/gw.rb に含まれているものです。
 </p>
-<p>
-foo.rb
-</p>
-<pre>
-require 'drb/drb'
-
-class Foo
-  include DRbUndumped
-  def initialize(name, peer=nil)
-    @name = name
-    @peer = peer
-  end
-
-  def ping(obj)
-    puts &quot;#{@name}: ping: #{obj.inspect}&quot;
-    @peer.ping(self) if @peer
-  end
-end
-</pre>
-<p>
-gw_b.rb
-</p>
-<pre>
-require 'drb/drb'
-require 'drb/gw'
-require 'drb/unix'
-
-DRb.install_id_conv(DRb::GWIdConv.new)
-
-front = DRb::GW.new
-
-s1 = DRb::DRbServer.new('drbunix:/tmp/gw_b_a', front)
-s2 = DRb::DRbServer.new('drbunix:/tmp/gw_b_c', front)
-
-s1.thread.join
-s2.thread.join
-</pre>
-<p>
-gw_a.rb
-</p>
-<pre>
-require 'drb/unix'
-require_relative 'foo'
-
-obj = Foo.new('a')
-DRb.start_service(&quot;drbunix:/tmp/gw_a&quot;, obj)
-
-robj = DRbObject.new_with_uri('drbunix:/tmp/gw_b_a')
-robj[:a] = obj
-
-DRb.thread.join
-</pre>
-<p>
-gw_c.rb
-</p>
-<pre>
-require 'drb/unix'
-require_relative 'foo'
-
-foo = Foo.new('c', nil)
-
-DRb.start_service(&quot;drbunix:/tmp/gw_c&quot;, nil)
-
-robj = DRbObject.new_with_uri(&quot;drbunix:/tmp/gw_b_c&quot;)
-
-puts &quot;c-&gt;b&quot;
-a = robj[:a]
-sleep 2
-
-a.ping(foo)
-
-DRb.thread.join
-</pre>
+<span class="caption">foo.rb</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'drb/drb'</span>
+  
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  include <span class="no">DRbUndumped</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span>, peer<span class="o">=</span><span class="k">nil</span><span class="p">)</span>
+    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@peer</span> <span class="o">=</span> peer
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">ping</span><span class="p">(</span>obj<span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="vi">@name</span><span class="si">}</span><span class="s2">: ping: </span><span class="si">#{</span><span class="n">obj</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span>
+    <span class="vi">@peer</span><span class="p">.</span><span class="nf">ping</span><span class="p">(</span><span class="nc">self</span><span class="p">)</span> <span class="k">if</span> <span class="vi">@peer</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<span class="caption">gw_b.rb</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'drb/drb'</span>
+<span class="nb">require</span> <span class="s1">'drb/gw'</span>
+<span class="nb">require</span> <span class="s1">'drb/unix'</span>
+  
+<span class="no">DRb</span><span class="p">.</span><span class="nf">install_id_conv</span><span class="p">(</span><span class="no">DRb</span><span class="o">::</span><span class="no">GWIdConv</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span>
+  
+front <span class="o">=</span> <span class="no">DRb</span><span class="o">::</span><span class="no">GW</span><span class="p">.</span><span class="nf">new</span>
+  
+s1 <span class="o">=</span> <span class="no">DRb</span><span class="o">::</span><span class="no">DRbServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'drbunix:/tmp/gw_b_a'</span>, front<span class="p">)</span>
+s2 <span class="o">=</span> <span class="no">DRb</span><span class="o">::</span><span class="no">DRbServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'drbunix:/tmp/gw_b_c'</span>, front<span class="p">)</span>
+  
+s1<span class="p">.</span><span class="nf">thread</span><span class="p">.</span><span class="nf">join</span>
+s2<span class="p">.</span><span class="nf">thread</span><span class="p">.</span><span class="nf">join</span>
+</code></pre>
+<span class="caption">gw_a.rb</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'drb/unix'</span>
+<span class="nb">require_relative</span> <span class="s1">'foo'</span>
+  
+obj <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>
+<span class="no">DRb</span><span class="p">.</span><span class="nf">start_service</span><span class="p">(</span><span class="s2">"</span><span class="s2">drbunix:/tmp/gw_a</span><span class="s2">"</span>, obj<span class="p">)</span>
+  
+robj <span class="o">=</span> <span class="no">DRbObject</span><span class="p">.</span><span class="nf">new_with_uri</span><span class="p">(</span><span class="s1">'drbunix:/tmp/gw_b_a'</span><span class="p">)</span>
+robj<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="o">=</span> obj
+  
+<span class="no">DRb</span><span class="p">.</span><span class="nf">thread</span><span class="p">.</span><span class="nf">join</span>
+</code></pre>
+<span class="caption">gw_c.rb</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'drb/unix'</span>
+<span class="nb">require_relative</span> <span class="s1">'foo'</span>
+  
+foo <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'c'</span>, <span class="k">nil</span><span class="p">)</span>
+  
+<span class="no">DRb</span><span class="p">.</span><span class="nf">start_service</span><span class="p">(</span><span class="s2">"</span><span class="s2">drbunix:/tmp/gw_c</span><span class="s2">"</span>, <span class="k">nil</span><span class="p">)</span>
+  
+robj <span class="o">=</span> <span class="no">DRbObject</span><span class="p">.</span><span class="nf">new_with_uri</span><span class="p">(</span><span class="s2">"</span><span class="s2">drbunix:/tmp/gw_b_c</span><span class="s2">"</span><span class="p">)</span>
+  
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">c-&gt;b</span><span class="s2">"</span>
+a <span class="o">=</span> robj<span class="p">[</span><span class="ss">:a</span><span class="p">]</span>
+<span class="nb">sleep</span> <span class="mi">2</span>
+  
+a<span class="p">.</span><span class="nf">ping</span><span class="p">(</span>foo<span class="p">)</span>
+  
+<span class="no">DRb</span><span class="p">.</span><span class="nf">thread</span><span class="p">.</span><span class="nf">join</span>
+</code></pre>
 <p>
 これを、gw_b, gw_a, gw_c の順に起動すると、gw_b を経由して
 gw_a と gw_c が通信します。

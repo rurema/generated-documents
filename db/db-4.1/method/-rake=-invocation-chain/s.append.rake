@@ -18,7 +18,7 @@ task default: :test_rake_app
 task :test_rake_app do
   chain = Rake::InvocationChain::EMPTY
   b = Rake::InvocationChain.append("task_a", chain)
-  b.to_s # => "TOP => task_a"
+  p b.to_s # => "TOP => task_a"
 end
 ```
 

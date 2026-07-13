@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -116,39 +116,38 @@
 <p>
 <a href="../class/OpenSSL=3a=3aX509=3a=3aExtension.html">OpenSSL::X509::Extension</a> を簡便に生成するためのクラスです。
 </p>
-<p>
-例
-</p>
-<pre>
-require 'openssl'
-# ca_cert: CA の証明書オブジェクト
-# req: CSR オブジェクト
-# newcert: 新たに生成する証明書のオブジェクト
-ca_cert = OpenSSL::X509::Certificate.new(File.read('ca_cert.pem'))
-req = OpenSSL::X509::Request.new(File.read('req.pem'))
-newcert = OpenSSL::X509::Certificate.new
-# 新しい ExtensionFactory オブジェクトを生成し、 CA の証明書オブジェクト
-# を設定
-factory = OpenSSL::X509::ExtensionFactory.new(ca_cert)
-# CSR オブジェクトを設定
-factory.subject_request = req
-# basicConstraints 拡張領域を生成
-p factory.create_extension(&quot;basicConstraints&quot;, &quot;CA:FALSE&quot;)
-# =&gt; basicConstraints = CA:FALSE
-
-# subjectKeyIdentifier 拡張領域を生成
-# この値は CSR オブジェクトの公開鍵から生成される
-p factory.create_extension(&quot;subjectKeyIdentifier&quot;, &quot;hash&quot;)
-# =&gt; subjectKeyIdentifier = 99:E7:A1:.....
-
-# authorityKeyIdentifier 拡張領域を生成
-# この値は CA の証明書オブジェクトから生成される
-p factory.create_extension(&quot;authorityKeyIdentifier&quot;, &quot;keyid,issuer:always&quot;)
-# =&gt; authorityKeyIdentifier = keyid:D1:AB:87:....
-
-# 生成した拡張領域オブジェクトを証明書の拡張領域に追加
-newcert.add_extension(factory.create_extension(&quot;basicConstraints&quot;, &quot;CA:FALSE&quot;))
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+<span class="c1"># ca_cert: CA の証明書オブジェクト
+</span><span class="c1"># req: CSR オブジェクト
+</span><span class="c1"># newcert: 新たに生成する証明書のオブジェクト
+</span>ca_cert <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Certificate</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s1">'ca_cert.pem'</span><span class="p">)</span><span class="p">)</span>
+req <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Request</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s1">'req.pem'</span><span class="p">)</span><span class="p">)</span>
+newcert <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Certificate</span><span class="p">.</span><span class="nf">new</span>
+<span class="c1"># 新しい ExtensionFactory オブジェクトを生成し、 CA の証明書オブジェクト
+</span><span class="c1"># を設定
+</span>factory <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">ExtensionFactory</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>ca_cert<span class="p">)</span>
+<span class="c1"># CSR オブジェクトを設定
+</span>factory<span class="p">.</span><span class="nf">subject_request</span> <span class="o">=</span> req
+<span class="c1"># basicConstraints 拡張領域を生成
+</span><span class="nb">p</span> factory<span class="p">.</span><span class="nf">create_extension</span><span class="p">(</span><span class="s2">"</span><span class="s2">basicConstraints</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">CA:FALSE</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; basicConstraints = CA:FALSE
+</span>
+<span class="c1"># subjectKeyIdentifier 拡張領域を生成
+</span><span class="c1"># この値は CSR オブジェクトの公開鍵から生成される
+</span><span class="nb">p</span> factory<span class="p">.</span><span class="nf">create_extension</span><span class="p">(</span><span class="s2">"</span><span class="s2">subjectKeyIdentifier</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hash</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; subjectKeyIdentifier = 99:E7:A1:.....
+</span>  
+<span class="c1"># authorityKeyIdentifier 拡張領域を生成
+</span><span class="c1"># この値は CA の証明書オブジェクトから生成される
+</span><span class="nb">p</span> factory<span class="p">.</span><span class="nf">create_extension</span><span class="p">(</span><span class="s2">"</span><span class="s2">authorityKeyIdentifier</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">keyid,issuer:always</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; authorityKeyIdentifier = keyid:D1:AB:87:....
+</span>  
+<span class="c1"># 生成した拡張領域オブジェクトを証明書の拡張領域に追加
+</span>newcert<span class="p">.</span><span class="nf">add_extension</span><span class="p">(</span>factory<span class="p">.</span><span class="nf">create_extension</span><span class="p">(</span><span class="s2">"</span><span class="s2">basicConstraints</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">CA:FALSE</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
+</code></pre>
 
 
 
@@ -274,13 +273,12 @@ ExtensionFactory オブジェクトを生成します。
 <p>
 自身にコンフィグファイルオブジェクトを設定します。
 </p>
-<p>
-例
-</p>
-<pre>
-require 'openssl'
-factory.config = OpenSSL::Config.load(OpenSSL::Config::DEFAULT_CONFIG_FILE)
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+factory<span class="p">.</span><span class="nf">config</span> <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">Config</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">Config</span><span class="o">::</span><span class="no">DEFAULT_CONFIG_FILE</span><span class="p">)</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>config</code>:</dt>
 <dd>
@@ -338,9 +336,10 @@ factory.config = OpenSSL::Config.load(OpenSSL::Config::DEFAULT_CONFIG_FILE)
 <p>
 渡すハッシュテーブルは
 </p>
-<pre>
-{&quot;oid&quot; =&gt; OID文字列, &quot;value&quot; =&gt; value文字列, &quot;critical&quot; =&gt; 真偽値 }
-</pre>
+<pre class="highlight text">
+<code>
+{"oid" =&gt; OID文字列, "value" =&gt; value文字列, "critical" =&gt; 真偽値 }
+</code></pre>
 <p>
 という内容が必要です。&quot;critical&quot; を省略した場合は false が渡されるのと同じになります。
 </p>

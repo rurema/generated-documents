@@ -23,7 +23,7 @@ task default: :test_rake_app
 task :test_rake_app do
 
   file_list = FileList.new('sample*')
-  file_list.egrep(/line/) # => 7
+  p file_list.egrep(/line/) # => 7
 
   file_list.egrep(/.*/) do |filename, count, line|
     "filename = #{filename}, count = #{count}, line = #{line}"

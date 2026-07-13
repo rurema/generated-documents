@@ -92,25 +92,28 @@ CGI のセッション管理を行うライブラリ。
 クライアントにはセッション情報に対応するセッション ID をクッキーあるいは form の hidden input として渡すことになります。クッキーはデフォルトでは expires が指定されていないために、ブラウザを終了した時点で消滅します。
 </p>
 <h2 >使い方 (生成)</h2>
-<pre>
-require 'cgi/session'
-cgi = CGI.new
-session = CGI::Session.new(cgi)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'cgi/session'</span>
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span>
+session <span class="o">=</span> <span class="no">CGI</span><span class="o">::</span><span class="no">Session</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>cgi<span class="p">)</span>
+</code></pre>
 <p>
 <a href="../method/CGI=3a=3aSession/s/new.html">CGI::Session.new</a> に <a href="../class/CGI.html">CGI</a> オブジェクトを渡します。クライアントから渡されたセッション ID はクッキーかクエリーとして cgi に格納されているため、意識する必要はありません。
 </p>
 <h2 >使い方 (セッション情報を記録する)</h2>
-<pre>
-session['name'] = &quot;value&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+session<span class="p">[</span><span class="s1">'name'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">value</span><span class="s2">"</span>
+</code></pre>
 <p>
 <a href="../class/CGI=3a=3aSession.html">CGI::Session</a> オブジェクトは <a href="../class/Hash.html">Hash</a> のようなもので、キーに対応する値を記録します。デフォルトではプログラム終了時にセッション情報はファイルに記録されます。
 </p>
 <h2 >使い方 (セッション情報を得る)</h2>
-<pre>
-name = session['name']
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">name</span> <span class="o">=</span> session<span class="p">[</span><span class="s1">'name'</span><span class="p">]</span>
+</code></pre>
 <p>
 別な CGI でこのセッション情報を取り出すときは、このようにします。
 </p>
@@ -134,7 +137,8 @@ umask 値が 0022 ならばセッション情報ファイルのパーミッシ�
 <p>
 <a href="../method/CGI=3a=3aHtmlExtension/i/form.html">CGI::HtmlExtension#form</a> を使い、&lt;INPUT TYPE=&quot;submit&quot;&gt; でページ遷移をするようにすれば、クッキーが使えない環境でのセッション維持に利用できます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 #!/usr/bin/ruby
 require 'cgi'
 require 'cgi/session'
@@ -146,7 +150,7 @@ cgi.out('charset'=&gt;'euc-jp') {
   html = cgi.html {
     cgi.head { cgi.title {'Form Demo'} }
     cgi.body {
-      cgi.form('action'=&gt;&quot;#{CGI.escapeHTML(cgi.script_name)}&quot;) {
+      cgi.form('action'=&gt;"#{CGI.escapeHTML(cgi.script_name)}") {
         cgi.p {
           'あなたの名前は？' +
           cgi.text_field('name') +
@@ -159,52 +163,51 @@ cgi.out('charset'=&gt;'euc-jp') {
   CGI.pretty(html)
 }
 #=&gt;
-&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 3.2 Final//EN&quot;&gt;
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"&gt;
 &lt;HTML&gt;
   &lt;BODY&gt;
-    &lt;FORM METHOD=&quot;post&quot; ENCTYPE=&quot;application/x-www-form-urlencoded&quot; action=&quot;/sample.rb&quot;&gt;
+    &lt;FORM METHOD="post" ENCTYPE="application/x-www-form-urlencoded" action="/sample.rb"&gt;
       &lt;P&gt;
         あなたの名前は？
-        &lt;INPUT NAME=&quot;name&quot; SIZE=&quot;40&quot; TYPE=&quot;text&quot;&gt;
-        &lt;INPUT NAME=&quot;cmd&quot; TYPE=&quot;hidden&quot; VALUE=&quot;hello&quot;&gt;
-        &lt;INPUT TYPE=&quot;submit&quot; VALUE=&quot;です。&quot;&gt;
+        &lt;INPUT NAME="name" SIZE="40" TYPE="text"&gt;
+        &lt;INPUT NAME="cmd" TYPE="hidden" VALUE="hello"&gt;
+        &lt;INPUT TYPE="submit" VALUE="です。"&gt;
       &lt;/P&gt;
-      &lt;INPUT TYPE=&quot;HIDDEN&quot; NAME=&quot;_session_id&quot; VALUE=&quot;bc315cc069266e21&quot;&gt;    # これ
+      &lt;INPUT TYPE="HIDDEN" NAME="_session_id" VALUE="bc315cc069266e21"&gt;    # これ
     &lt;/FORM&gt;
   &lt;/BODY&gt;
 &lt;/HTML&gt;
-</pre>
+</code></pre>
 <h2 >使用例</h2>
 <p>
 ただ名前を入力するとあいさつをするだけのつまらない CGI スクリプト。
 </p>
-<p>
-ソースコード
-</p>
-<pre>
-#!/usr/bin/ruby
-require 'kconv'
-require 'cgi'
-require 'cgi/session'
-
-class SessionDemo
-  def initialize
-    @cgi = CGI.new
-    File.umask(0077)                                # セッションファイルは誰にも読まれたくないよ
-    @session = CGI::Session.new(@cgi)               # セッションはこうして生成する。
-    @cmd = &quot;#{@cgi['cmd'].first}&quot;                   # ruby 1.8 でも動くように(warning は出ます)
-    @cmd = 'start' if @cmd.empty?
-    @header = { &quot;type&quot; =&gt; &quot;text/html&quot;, &quot;charset&quot; =&gt; &quot;euc-jp&quot; }
-
-    __send__(&quot;cmd_#{@cmd}&quot;)
-  end
-
-  def cmd_start
-    @cgi.out(@header) {
-      &lt;&lt;-END
-      &lt;html&gt;&lt;head&gt;&lt;title&gt;CGI::Session Demo&lt;/title&gt;&lt;/head&gt;
+<span class="caption">ソースコード</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1">#!/usr/bin/ruby
+</span><span class="nb">require</span> <span class="s1">'kconv'</span>
+<span class="nb">require</span> <span class="s1">'cgi'</span>
+<span class="nb">require</span> <span class="s1">'cgi/session'</span>
+  
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">SessionDemo</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@cgi</span> <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span>
+    <span class="no">File</span><span class="p">.</span><span class="nf">umask</span><span class="p">(</span><span class="mi">0077</span><span class="p">)</span>                                <span class="c1"># セッションファイルは誰にも読まれたくないよ
+</span>    <span class="vi">@session</span> <span class="o">=</span> <span class="no">CGI</span><span class="o">::</span><span class="no">Session</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="vi">@cgi</span><span class="p">)</span>               <span class="c1"># セッションはこうして生成する。
+</span>    <span class="vi">@cmd</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="vi">@cgi</span><span class="p">[</span><span class="s1">'cmd'</span><span class="p">]</span><span class="p">.</span><span class="nf">first</span><span class="si">}</span><span class="s2">"</span>                   <span class="c1"># ruby 1.8 でも動くように(warning は出ます)
+</span>    <span class="vi">@cmd</span> <span class="o">=</span> <span class="s1">'start'</span> <span class="k">if</span> <span class="vi">@cmd</span><span class="p">.</span><span class="nf">empty?</span>
+    <span class="vi">@header</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"</span><span class="s2">type</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">text/html</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">charset</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">euc-jp</span><span class="s2">"</span> <span class="p">}</span>
+      
+    <span class="nb">__send__</span><span class="p">(</span><span class="s2">"</span><span class="s2">cmd_</span><span class="si">#{</span><span class="vi">@cmd</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+    
+  <span class="k">def</span> <span class="nf">cmd_start</span>
+    <span class="vi">@cgi</span><span class="p">.</span><span class="nf">out</span><span class="p">(</span><span class="vi">@header</span><span class="p">)</span> <span class="p">{</span>
+      <span class="no">&lt;&lt;-END</span>
+<span class="sh">      &lt;html&gt;&lt;head&gt;&lt;title&gt;CGI::Session Demo&lt;/title&gt;&lt;/head&gt;
       &lt;body&gt;
-       &lt;form action=&quot;#{CGI.escapeHTML(ENV['SCRIPT_NAME'])}&quot; method=&quot;get&quot;&gt;
+       &lt;form action=&quot;</span><span class="si">#{</span><span class="no">CGI</span><span class="p">.</span><span class="nf">escapeHTML</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'SCRIPT_NAME'</span><span class="p">]</span><span class="p">)</span><span class="si">}</span><span class="sh">&quot; method=&quot;get&quot;&gt;
        &lt;p&gt;
        あなたの名前は？
        &lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;
@@ -213,40 +216,40 @@ class SessionDemo
        &lt;/p&gt;
        &lt;/form&gt;
       &lt;/body&gt;&lt;/html&gt;
-      END
-    }
-  end
-
-  def cmd_hello
-    name = Kconv.toeuc(@cgi['name'].first)
-    @session['name'] = name                         # セッションに記憶
-    @cgi.out(@header) {                             # セッション情報は隠れクッキーで保持されるため、CGI#outで出力
-      &lt;&lt;-END
-      &lt;html&gt;&lt;head&gt;&lt;title&gt;CGI::Session Demo&lt;/title&gt;&lt;/head&gt;
+</span><span class="no">      END
+</span>    <span class="p">}</span>
+  <span class="k">end</span>
+    
+  <span class="k">def</span> <span class="nf">cmd_hello</span>
+    <span class="nb">name</span> <span class="o">=</span> <span class="no">Kconv</span><span class="p">.</span><span class="nf">toeuc</span><span class="p">(</span><span class="vi">@cgi</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="p">.</span><span class="nf">first</span><span class="p">)</span>
+    <span class="vi">@session</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">name</span>                         <span class="c1"># セッションに記憶
+</span>    <span class="vi">@cgi</span><span class="p">.</span><span class="nf">out</span><span class="p">(</span><span class="vi">@header</span><span class="p">)</span> <span class="p">{</span>                             <span class="c1"># セッション情報は隠れクッキーで保持されるため、CGI#outで出力
+</span>      <span class="no">&lt;&lt;-END</span>
+<span class="sh">      &lt;html&gt;&lt;head&gt;&lt;title&gt;CGI::Session Demo&lt;/title&gt;&lt;/head&gt;
       &lt;body&gt;
-       &lt;p&gt;こんにちは、#{CGI.escapeHTML(name)}さん&lt;/p&gt;
-       &lt;p&gt;&lt;a href=&quot;#{CGI.escapeHTML(ENV['SCRIPT_NAME'])}?cmd=bye&quot;&gt;[次へ]&lt;/a&gt;&lt;/p&gt;
+       &lt;p&gt;こんにちは、</span><span class="si">#{</span><span class="no">CGI</span><span class="p">.</span><span class="nf">escapeHTML</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="sh">さん&lt;/p&gt;
+       &lt;p&gt;&lt;a href=&quot;</span><span class="si">#{</span><span class="no">CGI</span><span class="p">.</span><span class="nf">escapeHTML</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'SCRIPT_NAME'</span><span class="p">]</span><span class="p">)</span><span class="si">}</span><span class="sh">?cmd=bye&quot;&gt;[次へ]&lt;/a&gt;&lt;/p&gt;
       &lt;/body&gt;&lt;/html&gt;
-      END
-    }
-  end
-
-  def cmd_bye
-    name = @session['name']                         # セッションデータから取り出し
-    @cgi.out(@header) {
-      &lt;&lt;-END
-      &lt;html&gt;&lt;head&gt;&lt;title&gt;CGI::Session Demo&lt;/title&gt;&lt;/head&gt;
+</span><span class="no">      END
+</span>    <span class="p">}</span>
+  <span class="k">end</span>
+    
+  <span class="k">def</span> <span class="nf">cmd_bye</span>
+    <span class="nb">name</span> <span class="o">=</span> <span class="vi">@session</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span>                         <span class="c1"># セッションデータから取り出し
+</span>    <span class="vi">@cgi</span><span class="p">.</span><span class="nf">out</span><span class="p">(</span><span class="vi">@header</span><span class="p">)</span> <span class="p">{</span>
+      <span class="no">&lt;&lt;-END</span>
+<span class="sh">      &lt;html&gt;&lt;head&gt;&lt;title&gt;CGI::Session Demo&lt;/title&gt;&lt;/head&gt;
       &lt;body&gt;
-       &lt;p&gt;#{CGI.escapeHTML(name)}さん、さようなら&lt;/p&gt;
-       &lt;p&gt;&lt;a href=&quot;#{CGI.escapeHTML(ENV['SCRIPT_NAME'])}&quot;&gt;[戻る]&lt;/a&gt;&lt;/p&gt;
+       &lt;p&gt;</span><span class="si">#{</span><span class="no">CGI</span><span class="p">.</span><span class="nf">escapeHTML</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="sh">さん、さようなら&lt;/p&gt;
+       &lt;p&gt;&lt;a href=&quot;</span><span class="si">#{</span><span class="no">CGI</span><span class="p">.</span><span class="nf">escapeHTML</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'SCRIPT_NAME'</span><span class="p">]</span><span class="p">)</span><span class="si">}</span><span class="sh">&quot;&gt;[戻る]&lt;/a&gt;&lt;/p&gt;
       &lt;/body&gt;&lt;/html&gt;
-      END
-    }
-  end
-end
-
-SessionDemo.new
-</pre>
+</span><span class="no">      END
+</span>    <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+  
+<span class="no">SessionDemo</span><span class="p">.</span><span class="nf">new</span>
+</code></pre>
 <h2 >参考URL</h2>
 <ul>
 <li><a class="external" href="http://www.shugo.net/article/webdb2/#label:13">http://www.shugo.net/article/webdb2/#label:13</a></li>

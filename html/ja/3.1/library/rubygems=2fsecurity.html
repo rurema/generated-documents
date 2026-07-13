@@ -101,10 +101,11 @@
 <p>
 あなたが自分の Gem に署名するためには、秘密鍵と自己署名した証明書が必要です。以下のコマンドを実行するとそれらを作成できます。
 </p>
-<pre>
-# gemmaster@example.com のための秘密鍵と証明書を作成します
-$ gem cert --build gemmaster@example.com
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>gemmaster@example.com のための秘密鍵と証明書を作成します
+<span class="gp">$</span><span class="w"> </span>gem cert <span class="nt">--build</span> gemmaster@example.com
+</code></pre>
 <p>
 あなたのコンピュータの性能にもよりますが、これには 5 秒から 10 分程度かかります。
 (公開鍵を作成するアルゴリズムは世界で一番速いものを使っているわけではない)
@@ -118,42 +119,46 @@ PKI には盗まれた鍵によるリスクを軽減する方法があります�
 <p>
 さて、Gem に署名しましょう。この例では Imlib2-Ruby を使用しますが、あなたは好きな Gem を使用してもいいですよ。あなたの gemspec ファイルを開いて以下の内容を追加してください。
 </p>
-<pre>
-# signing key and certificate chain
-s.signing_key = '/mnt/floppy/gem-private_key.pem'
-s.cert_chain  = ['gem-public_cert.pem']
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># signing key and certificate chain
+</span>s<span class="p">.</span><span class="nf">signing_key</span> <span class="o">=</span> <span class="s1">'/mnt/floppy/gem-private_key.pem'</span>
+s<span class="p">.</span><span class="nf">cert_chain</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">'gem-public_cert.pem'</span><span class="p">]</span>
+</code></pre>
 <p>
 (&quot;/mnt/floppy&quot; はあなた自身の秘密鍵の置いてあるパスに読み替えてくださいね。)
 </p>
 <p>
 それから、いつも通りあなたの Gem をビルドします。おめでとう！たった今、あなたの最初の署名付き Gem がビルドできました。出来上がった Gem ファイルの中を覗いてみると、追加されたファイルがあることがわかります。
 </p>
-<pre>
-$ tar tf tar tf Imlib2-Ruby-0.5.0.gem
-data.tar.gz
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span><span class="nb">tar </span>tf <span class="nb">tar </span>tf Imlib2-Ruby-0.5.0.gem
+<span class="go">data.tar.gz
 data.tar.gz.sig
 metadata.gz
 metadata.gz.sig
-</pre>
+</span></code></pre>
 <p>
 さあ、署名を検証してみましょう。以下のように &quot;-P HighSecurity&quot; オプションを付けて Gem をインストールしてみてください。
 </p>
-<pre>
-# install the gem with using the security policy &quot;HighSecurity&quot;
-$ sudo gem install Imlib2-Ruby-0.5.0.gem -P HighSecurity
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span><span class="nb">install </span>the gem with using the security policy <span class="s2">"HighSecurity"</span>
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>gem <span class="nb">install </span>Imlib2-Ruby-0.5.0.gem <span class="nt">-P</span> HighSecurity
+</code></pre>
 <p>
 この -P オプションはセキュリティポリシーを設定します。このような話をしているうちに…。えーと、なんだ。これは？
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 Attempting local installation of 'Imlib2-Ruby-0.5.0.gem'
 ERROR:  Error installing gem Imlib2-Ruby-0.5.0.gem[.gem]: Couldn't
 verify data signature: Untrusted Signing Chain Root: cert =
 '/CN=gemmaster/DC=example/DC=com', error = 'path
-&quot;/root/.rubygems/trust/cert-15dbb43a6edf6a70a85d4e784e2e45312cff7030.pem&quot;
+"/root/.rubygems/trust/cert-15dbb43a6edf6a70a85d4e784e2e45312cff7030.pem"
 does not exist'
-</pre>
+</code></pre>
 <p>
 このエラーの原因はセキュリティポリシーにあります。RubyGems にはいくつかの異なるセキュリティポリシーがあります。少し休憩してから、セキュリティポリシーの説明をしましょう。以下に、現在使用可能なセキュリティポリシーの一覧を示します。
 </p>
@@ -192,23 +197,26 @@ CPAN ユーザに何か問題を引き起こすかもね(笑)
 <p>
 以下のようにしてください。
 </p>
-<pre>
-# add trusted certificate
-gem cert --add gem-public_cert.pem
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>add trusted certificate
+<span class="go">gem cert --add gem-public_cert.pem
+</span></code></pre>
 <p>
 私の公開証明書を信頼されたソースとして追加しました。今では私の秘密鍵で署名したパッケージを煩わしい事をせずにインストールすることが出来ます。さあ、上述のインストールコマンドをもう一度実行してください。
 </p>
-<pre>
-# install the gem with using the HighSecurity policy
-# (今度はなんの問題もありません)
-$ sudo gem install Imlib2-Ruby-0.5.0.gem -P HighSecurity
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span><span class="nb">install </span>the gem with using the HighSecurity policy
+<span class="gp">#</span><span class="w"> </span><span class="o">(</span>今度はなんの問題もありません<span class="o">)</span>
+<span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>gem <span class="nb">install </span>Imlib2-Ruby-0.5.0.gem <span class="nt">-P</span> HighSecurity
+</code></pre>
 <p>
 今回は、RubyGems はあなたの署名付きパッケージを受け入れ、インストールを開始するはずです。
 RubyGems が魔法をかけている間に、他のセキュリティに関するコマンドを見ておきましょう。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 Usage: gem cert [options]
 
 Options:
@@ -220,7 +228,7 @@ Options:
    -C, --certificate CERT           --sign で使用する証明書を指定します。
    -K, --private-key KEY            --sign で使用する秘密鍵を指定します。
    -s, --sign NEWCERT               自分の鍵を用いて証明書に署名します。
-</pre>
+</code></pre>
 <p>
 (ところで、&quot;gem cert --help&quot; を実行するといつでも好きな時に上記のリストの英語版を見ることが出来ますよ)
 </p>
@@ -236,7 +244,8 @@ Options:
 <p>
 証明書チェーンがどこから来るのか示します。証明書チェーンは、ある発行証明書と子の証明書の間で適宜長い信頼性の鎖を成立させます。だから私たちは、証明書を開発者ごとに信頼するかわりに、論理的な信頼の階層を構築する PKI の概念である証明書チェーンを使用します。信頼の階層の例を図示します。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
                     --------------------------
                     | rubygems@rubyforge.org |
                     --------------------------
@@ -250,7 +259,7 @@ Options:
 ---------------   ----------------   -----------   --------------
 | alf@seattle |   | bob@portland |   | pabs@dc |   | tomcope@dc |
 ---------------   ----------------   -----------   --------------
-</pre>
+</code></pre>
 <p>
 さて、4 つの信頼された証明書(alf@seattle, bob@portland, pabs@dc, tomcope@dc)
 がありますが、実際にはユーザは、一つの証明書(&quot;rubygems@rubyforge.org&quot;)を信頼するだけでいいのです。以下にそれがどのように働くか説明します。
@@ -263,22 +272,24 @@ Options:
 <p>
 &quot;--sign&quot; オプションはこれらを全て行います。開発者が &quot;--build&quot; オプションで証明書を作成します。地方で行われる Ruby 会議や Ruby 勉強会にその証明書を持っていって(例の信頼の階層のように)、上流の証明書を持っている人に署名してもらいます。あるいは、次回の RubyConf でトップレベルの証明書を持っている人に署名してもらいます。どちらの場合でも署名をする人は同じコマンドを実行します。
 </p>
-<pre>
-# sign a certificate with the specified key and certificate
-# (note that this modifies client_cert.pem!)
-$ gem cert -K /mnt/floppy/issuer-priv_key.pem -C issuer-pub_cert.pem --sign client_cert.pem
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>sign a certificate with the specified key and certificate
+<span class="gp">#</span><span class="w"> </span><span class="o">(</span>note that this modifies client_cert.pem!<span class="o">)</span>
+<span class="gp">$</span><span class="w"> </span>gem cert <span class="nt">-K</span> /mnt/floppy/issuer-priv_key.pem <span class="nt">-C</span> issuer-pub_cert.pem <span class="nt">--sign</span> client_cert.pem
+</code></pre>
 <p>
 発行された証明書の持ち主 (このケースの場合 &quot;alf@seattle&quot;) は自分のパッケージに署名するためにこの証明書を使用できます。ところで、みんなに彼の新しい素敵な署名済みの証明書を知らせるには、&quot;alf@seattle&quot; は彼の gemspec を以下のように変更する必要があります。
 </p>
-<pre>
-# signing key (still kept in an undisclosed location!)
-s.signing_key = '/mnt/floppy/alf-private_key.pem'
-
-# certificate chain (includes the issuer certificate now too)
-s.cert_chain  = ['/home/alf/doc/seattlerb-public_cert.pem',
-                 '/home/alf/doc/alf_at_seattle-public_cert.pem']
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># signing key (still kept in an undisclosed location!)
+</span>s<span class="p">.</span><span class="nf">signing_key</span> <span class="o">=</span> <span class="s1">'/mnt/floppy/alf-private_key.pem'</span>
+  
+<span class="c1"># certificate chain (includes the issuer certificate now too)
+</span>s<span class="p">.</span><span class="nf">cert_chain</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">'/home/alf/doc/seattlerb-public_cert.pem'</span>,
+                 <span class="s1">'/home/alf/doc/alf_at_seattle-public_cert.pem'</span><span class="p">]</span>
+</code></pre>
 <p>
 言うまでもなく、この RubyGems の信頼基盤はまだ存在していません。また、「現実世界」でも発行者たちはリクエストがあれば、証明書を発行しています。この階層システムには証明書を取り消す仕組みが欠けています。これらの問題は、将来修正されるでしょう。
 </p>
@@ -297,10 +308,11 @@ Rails とその依存している Gem をインストールしている最中で
 <p>
 以下に、署名付き Gem に関係するコマンドラインオプションをまとめておきます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 gem install
   -P, --trust-policy POLICY        Gem の信頼するポリシーを指定します。
-
+  
 gem cert
   -a, --add CERT                   信頼する証明書を追加します。
   -l, --list                       信頼している証明書のリストを表示します。
@@ -310,7 +322,7 @@ gem cert
   -C, --certificate CERT           --sign で使用する証明書を指定します。
   -K, --private-key KEY            --sign で使用する秘密鍵を指定します。
   -s, --sign NEWCERT               自分の鍵を用いて証明書に署名します。
-</pre>
+</code></pre>
 <p>
 それぞれのオプションに関するより詳しい解説は、前節を参照してください。
 </p>
@@ -318,24 +330,26 @@ gem cert
 <p>
 gem cert --build, gem cert --sign を使用して作成できる *.pem ファイルは基本的な OpenSSL PEM ファイルのみです。以下にいくつかの便利なコマンドを紹介しておきます。
 </p>
-<pre>
-X509 フォーマットの PEM ファイルを DER フォーマットに変換する
+<pre class="highlight console">
+<code>
+<span class="go">X509 フォーマットの PEM ファイルを DER フォーマットに変換する
 (ノート:Windows の *.cer ファイルは X509 証明書の DER フォーマットです) :
-$ openssl x509 -in input.pem -outform der -out output.der
-
+</span><span class="gp">$</span><span class="w"> </span>openssl x509 <span class="nt">-in</span> input.pem <span class="nt">-outform</span> der <span class="nt">-out</span> output.der
+<span class="go">
 人間に読みやすいフォーマットで証明書を出力する :
-$ openssl x509 -in input.pem -noout -text
-</pre>
+</span><span class="gp">$</span><span class="w"> </span>openssl x509 <span class="nt">-in</span> input.pem <span class="nt">-noout</span> <span class="nt">-text</span>
+</code></pre>
 <p>
 秘密鍵に対しても同じことができます。
 </p>
-<pre>
-PEM フォーマットの RSA 鍵を DER フォーマットに変換します :
-$ openssl rsa -in input_key.pem -outform der -out output_key.der
-
+<pre class="highlight console">
+<code>
+<span class="go">PEM フォーマットの RSA 鍵を DER フォーマットに変換します :
+</span><span class="gp">$</span><span class="w"> </span>openssl rsa <span class="nt">-in</span> input_key.pem <span class="nt">-outform</span> der <span class="nt">-out</span> output_key.der
+<span class="go">  
 鍵を人間に読みやすいフォーマットで出力します :
-$ openssl rsa -in input_key.pem -noout -text
-</pre>
+</span><span class="gp">$</span><span class="w"> </span>openssl rsa <span class="nt">-in</span> input_key.pem <span class="nt">-noout</span> <span class="nt">-text</span>
+</code></pre>
 
 
 <h2>クラス</h2>

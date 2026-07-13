@@ -757,12 +757,13 @@ UDP/IPデータグラム型ソケットのクラス。
 <p>
 address_family には Socket::AF_INET のような整数、:INET のようなシンボル、&quot;INET&quot; のような文字列を指定できます。
 </p>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-UDPSocket.new                   # =&gt; #&lt;UDPSocket:fd 3&gt;
-UDPSocket.new(Socket::AF_INET6) # =&gt; #&lt;UDPSocket:fd 4&gt;
-</pre>
+<span class="nb">p</span> <span class="no">UDPSocket</span><span class="p">.</span><span class="nf">new</span>                 <span class="c1"># =&gt; #&lt;UDPSocket:fd 3&gt;
+</span><span class="nb">p</span> <span class="no">UDPSocket</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">AF_INET6</span><span class="p">)</span> <span class="c1"># =&gt; #&lt;UDPSocket:fd 4&gt;
+</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>address_family</code>:</dt>
 <dd>
@@ -854,16 +855,17 @@ connect するポートを指定します。
 <p>
 これによって <a href="../method/UDPSocket/i/send.html">UDPSocket#send</a> で送り先のアドレスを指定せずにデータを送ることができます(connect しなくとも送り先のアドレスを明示すればデータを送ることができます)。
 </p>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
 
-u1 = UDPSocket.new
-u1.bind(&quot;127.0.0.1&quot;, 4913)
-u2 = UDPSocket.new
-u2.connect(&quot;127.0.0.1&quot;, 4913)
-u2.send &quot;uuuu&quot;, 0
-p u1.recvfrom(10) #=&gt; [&quot;uuuu&quot;, [&quot;AF_INET&quot;, 33230, &quot;localhost&quot;, &quot;127.0.0.1&quot;]]
-</pre>
+u1 <span class="o">=</span> <span class="no">UDPSocket</span><span class="p">.</span><span class="nf">new</span>
+u1<span class="p">.</span><span class="nf">bind</span><span class="p">(</span><span class="s2">"</span><span class="s2">127.0.0.1</span><span class="s2">"</span>, <span class="mi">4913</span><span class="p">)</span>
+u2 <span class="o">=</span> <span class="no">UDPSocket</span><span class="p">.</span><span class="nf">new</span>
+u2<span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="s2">"</span><span class="s2">127.0.0.1</span><span class="s2">"</span>, <span class="mi">4913</span><span class="p">)</span>
+u2<span class="p">.</span><span class="nf">send</span> <span class="s2">"</span><span class="s2">uuuu</span><span class="s2">"</span>, <span class="mi">0</span>
+<span class="nb">p</span> u1<span class="p">.</span><span class="nf">recvfrom</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">#=&gt; [&quot;uuuu&quot;, [&quot;AF_INET&quot;, 33230, &quot;localhost&quot;, &quot;127.0.0.1&quot;]]
+</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>host</code>:</dt>
 <dd>
@@ -899,23 +901,24 @@ Errno::EAGAIN, Errno::EINTR を含め例外 <a href="../class/Errno=3a=3aEXXX.ht
 Errno::EWOULDBLOCK、Errno::EAGAIN のような待ってからリトライすることが可能であることを意味する例外には、<a href="../class/IO=3a=3aWaitReadable.html">IO::WaitReadable</a> が extend
 されています。
 </p>
-<pre>
-require 'socket'
-s1 = UDPSocket.new
-s1.bind(&quot;127.0.0.1&quot;, 0)
-s2 = UDPSocket.new
-s2.bind(&quot;127.0.0.1&quot;, 0)
-s2.connect(*s1.addr.values_at(3,1))
-s1.connect(*s2.addr.values_at(3,1))
-s1.send &quot;aaa&quot;, 0
-begin # emulate blocking recvfrom
-  p s2.recvfrom_nonblock(10)
-  #=&gt; [&quot;aaa&quot;, [&quot;AF_INET&quot;, 33302, &quot;localhost.localdomain&quot;, &quot;127.0.0.1&quot;]]
-rescue IO::WaitReadable
-  IO.select([s2])
-  retry
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
+s1 <span class="o">=</span> <span class="no">UDPSocket</span><span class="p">.</span><span class="nf">new</span>
+s1<span class="p">.</span><span class="nf">bind</span><span class="p">(</span><span class="s2">"</span><span class="s2">127.0.0.1</span><span class="s2">"</span>, <span class="mi">0</span><span class="p">)</span>
+s2 <span class="o">=</span> <span class="no">UDPSocket</span><span class="p">.</span><span class="nf">new</span>
+s2<span class="p">.</span><span class="nf">bind</span><span class="p">(</span><span class="s2">"</span><span class="s2">127.0.0.1</span><span class="s2">"</span>, <span class="mi">0</span><span class="p">)</span>
+s2<span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="o">*</span>s1<span class="p">.</span><span class="nf">addr</span><span class="p">.</span><span class="nf">values_at</span><span class="p">(</span><span class="mi">3</span>,<span class="mi">1</span><span class="p">)</span><span class="p">)</span>
+s1<span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="o">*</span>s2<span class="p">.</span><span class="nf">addr</span><span class="p">.</span><span class="nf">values_at</span><span class="p">(</span><span class="mi">3</span>,<span class="mi">1</span><span class="p">)</span><span class="p">)</span>
+s1<span class="p">.</span><span class="nf">send</span> <span class="s2">"</span><span class="s2">aaa</span><span class="s2">"</span>, <span class="mi">0</span>
+<span class="k">begin</span> <span class="c1"># emulate blocking recvfrom
+</span>  <span class="nb">p</span> s2<span class="p">.</span><span class="nf">recvfrom_nonblock</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  
+  <span class="c1">#=&gt; [&quot;aaa&quot;, [&quot;AF_INET&quot;, 33302, &quot;localhost.localdomain&quot;, &quot;127.0.0.1&quot;]]
+</span><span class="k">rescue</span> <span class="no">IO</span><span class="o">::</span><span class="no">WaitReadable</span>
+  <span class="no">IO</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="p">[</span>s2<span class="p">]</span><span class="p">)</span>
+  <span class="k">retry</span>
+<span class="k">end</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>maxlen</code>:</dt>
 <dd>

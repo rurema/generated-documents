@@ -103,9 +103,10 @@ FileList はファイル名やパス名を扱うのに便利です。</li>
 [SEE_ALSO] <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/utilities/make.html">make(1)</a>
 </p>
 <h2 >Rake コマンドの使い方</h2>
-<pre>
-$ rake --help
-rake [-f rakefile] {options} targets...
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>rake <span class="nt">--help</span>
+<span class="go">rake [-f rakefile] {options} targets...
 Options are ...
     -C, --classic-namespace       トップレベルに Task, FileTask を定義します。
                                   過去との互換性のためのオプションです。
@@ -133,40 +134,38 @@ Options are ...
     -v, --verbose                 標準出力にログメッセージを表示します (デフォルト)。
     -V, --version                 このプログラムのバージョンを表示します。
     -h, -H, --help                このメッセージを表示します。
-</pre>
+</span></code></pre>
 <h2 >Rake ファイルの書き方</h2>
 <p>
 一から全て自分で書くことも出来ますが、あらかじめ定義されているタスクを使用すると比較的複雑なタスクも簡単に定義できます。また、ルールやファイルタスクをうまく使うとタスクを簡潔に書くことが出来る場合があります。Rakefile は普通の Ruby スクリプトと同じ文法で書くことができるので工夫次第で Ruby にできることなら何でもできます。
 </p>
-<p>
-簡単な例:
-</p>
-<pre>
-# coding: utf-8
-task :hello do
-  puts 'do task hello!'
-end
-</pre>
-<p>
-動的にタスクを定義する例:
-</p>
-<pre>
-# coding: utf-8
-require 'rake/testtask'
-require 'rake/clean'    # clean, clobber の二つのタスクを定義
-task :default =&gt; [:test]
-
-1.upto(8) do |n|
-  Rake::TestTask.new(&quot;test_step#{n}&quot;) do |t|
-    t.libs &lt;&lt; &quot;step#{n}&quot;
-    t.test_files = FileList[&quot;step#{n}/test_*.rb&quot;]
-    t.verbose = false
-  end
-end
-
-desc 'execute all test'
-task 'test_all' =&gt; (1..8).to_a.map{|n| &quot;test_step#{n}&quot;}
-</pre>
+<span class="caption">簡単な例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># coding: utf-8
+</span>task <span class="ss">:hello</span> <span class="k">do</span>
+  <span class="nb">puts</span> <span class="s1">'do task hello!'</span>
+<span class="k">end</span>
+</code></pre>
+<span class="caption">動的にタスクを定義する例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># coding: utf-8
+</span><span class="nb">require</span> <span class="s1">'rake/testtask'</span>
+<span class="nb">require</span> <span class="s1">'rake/clean'</span>    <span class="c1"># clean, clobber の二つのタスクを定義
+</span>task <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:test</span><span class="p">]</span>
+  
+<span class="mi">1</span><span class="p">.</span><span class="nf">upto</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
+  <span class="no">Rake</span><span class="o">::</span><span class="no">TestTask</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">test_step</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>t<span class="o">|</span>
+    t<span class="p">.</span><span class="nf">libs</span> <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">step</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span>
+    t<span class="p">.</span><span class="nf">test_files</span> <span class="o">=</span> <span class="no">FileList</span><span class="p">[</span><span class="s2">"</span><span class="s2">step</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">/test_*.rb</span><span class="s2">"</span><span class="p">]</span>
+    t<span class="p">.</span><span class="nf">verbose</span> <span class="o">=</span> <span class="k">false</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+  
+desc <span class="s1">'execute all test'</span>
+task <span class="s1">'test_all'</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">8</span><span class="p">)</span><span class="p">.</span><span class="nf">to_a</span><span class="p">.</span><span class="nf">map</span><span class="p">{</span><span class="o">|</span>n<span class="o">|</span> <span class="s2">"</span><span class="s2">test_step</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+</code></pre>
 <h2 >用語集</h2>
 <dl>
 <dt>action / アクション</dt>

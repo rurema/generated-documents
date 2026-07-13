@@ -240,22 +240,21 @@ other が SystemCallError のサブクラスのインスタンスで、かつ、
 任意のオブジェクト
 </dd>
 </dl>
-<p>
-例
-</p>
-<pre>
-p Errno::EAGAIN::Errno
-p Errno::EWOULDBLOCK::Errno
-begin
-  raise Errno::EAGAIN, &quot;pseudo error&quot;
-rescue Errno::EWOULDBLOCK
-  p $!
-end
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Errno</span><span class="o">::</span><span class="no">EAGAIN</span><span class="o">::</span><span class="no">Errno</span>
+<span class="nb">p</span> <span class="no">Errno</span><span class="o">::</span><span class="no">EWOULDBLOCK</span><span class="o">::</span><span class="no">Errno</span>
+<span class="k">begin</span>
+  <span class="nb">raise</span> <span class="no">Errno</span><span class="o">::</span><span class="no">EAGAIN</span>, <span class="s2">"</span><span class="s2">pseudo error</span><span class="s2">"</span>
+<span class="k">rescue</span> <span class="no">Errno</span><span class="o">::</span><span class="no">EWOULDBLOCK</span>
+  <span class="nb">p</span> <span class="vg">$!</span>
+<span class="k">end</span>
 
-# =&gt; 11
-     11
-     #&lt;Errno::EAGAIN: pseudo error&gt;
-</pre>
+<span class="c1"># =&gt; 11
+</span>     <span class="mi">11</span>
+     <span class="c1">#&lt;Errno::EAGAIN: pseudo error&gt;
+</span></code></pre>
 </dd>
 
 
@@ -270,15 +269,14 @@ SystemCallError オブジェクトを生成して返します。
 エラーメッセージを表す文字列
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-p SystemCallError.new(&quot;message&quot;)
-    # =&gt; #&lt;SystemCallError: unknown error - message&gt;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">SystemCallError</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">message</span><span class="s2">"</span><span class="p">)</span>
+    <span class="c1"># =&gt; #&lt;SystemCallError: unknown error - message&gt;
+</span></code></pre>
 </dd>
-<dt class="method-heading" id="S_NEW"><code>new(error_message, errno) -&gt; SystemCallError</code><span class="permalink">[<a href="../method/SystemCallError/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/SystemCallError.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/SystemCallError.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new(error_message, errno, location = nil) -&gt; SystemCallError</code><span class="permalink">[<a href="../method/SystemCallError/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/SystemCallError.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/SystemCallError.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>new(errno) -&gt; SystemCallError</code></dt>
 <dd class="method-description">
 <p>
@@ -293,6 +291,9 @@ p SystemCallError.new(&quot;message&quot;)
 <p>
 エラーコードの取り得る値および意味はシステムに依存します。詳しくは <a href="../class/Errno=3a=3aEXXX.html">Errno::EXXX</a> を参照してください。
 </p>
+<p>
+location と error_message を両方指定した場合、エラーが発生した場所を表す情報としてエラーメッセージに location が付加されます。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>error_message</code>:</dt>
 <dd>
@@ -302,22 +303,27 @@ p SystemCallError.new(&quot;message&quot;)
 <dd>
 システム依存のエラーコード
 </dd>
+<dt class='method-param'>[PARAM] <code>location</code>:</dt>
+<dd>
+エラーが発生した場所を表す文字列
+</dd>
 <dt>[EXCEPTION] <code>TypeError</code>:</dt>
 <dd>
 errno を整数に変換できないときに発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-p SystemCallError.new(&quot;message&quot;, 2)
-    # =&gt; #&lt;Errno::ENOENT: No such file or directory - message&gt;
-p SystemCallError.new(2)
-    # =&gt; #&lt;Errno::ENOENT: No such file or directory&gt;
-p SystemCallError.new(256)
-    # =&gt; #&lt;SystemCallError: Unknown error 256&gt;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">SystemCallError</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">message</span><span class="s2">"</span>, <span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># =&gt; #&lt;Errno::ENOENT: No such file or directory - message&gt;
+</span><span class="nb">p</span> <span class="no">SystemCallError</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># =&gt; #&lt;Errno::ENOENT: No such file or directory&gt;
+</span><span class="nb">p</span> <span class="no">SystemCallError</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+    <span class="c1"># =&gt; #&lt;SystemCallError: Unknown error 256&gt;
+</span><span class="nb">p</span> <span class="no">SystemCallError</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">message</span><span class="s2">"</span>, <span class="mi">2</span>, <span class="s2">"</span><span class="s2">location</span><span class="s2">"</span><span class="p">)</span>
+    <span class="c1"># =&gt; #&lt;Errno::ENOENT: No such file or directory @ location - message&gt;
+</span></code></pre>
 </dd>
 
 
@@ -334,20 +340,21 @@ p SystemCallError.new(256)
 <p>
 エラーコードを渡さない形式で生成した場合は nil を返します。
 </p>
-<pre>
-begin
-  raise Errno::ENOENT
-rescue Errno::ENOENT =&gt; err
-  p err.errno                 # =&gt; 2
-  p Errno::ENOENT::Errno      # =&gt; 2
-end
+<pre class="highlight ruby">
+<code>
+<span class="k">begin</span>
+  <span class="nb">raise</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ENOENT</span>
+<span class="k">rescue</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ENOENT</span> <span class="o">=&gt;</span> err
+  <span class="nb">p</span> err<span class="p">.</span><span class="nf">errno</span>                 <span class="c1"># =&gt; 2
+</span>  <span class="nb">p</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ENOENT</span><span class="o">::</span><span class="no">Errno</span>      <span class="c1"># =&gt; 2
+</span><span class="k">end</span>
 
-begin
-  raise SystemCallError, 'message'
-rescue SystemCallError =&gt; err
-  p err.errno                 # =&gt; nil
-end
-</pre>
+<span class="k">begin</span>
+  <span class="nb">raise</span> <span class="no">SystemCallError</span>, <span class="s1">'message'</span>
+<span class="k">rescue</span> <span class="no">SystemCallError</span> <span class="o">=&gt;</span> err
+  <span class="nb">p</span> err<span class="p">.</span><span class="nf">errno</span>                 <span class="c1"># =&gt; nil
+</span><span class="k">end</span>
+</code></pre>
 <p>
 なお、例外を発生させずにエラーコードを得るには、
 <a href="../method/Errno=3a=3aEXXX/c/Errno.html">Errno::EXXX::Errno</a> 定数を使います。

@@ -13,9 +13,9 @@ source_location=manual/api/rake/Rake__Application.md
 task default: :test
 task :test
 
-Rake.application.name # => "rake"
-Rake.application.init("MyApp") # => ["default"]
-Rake.application.name # => "MyApp"
+p Rake.application.name # => "rake"
+p Rake.application.init("MyApp") # => ["default"]
+p Rake.application.name # => "MyApp"
 ```
 
 

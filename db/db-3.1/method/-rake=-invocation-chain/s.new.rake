@@ -17,9 +17,9 @@ source_location=manual/api/rake/Rake__InvocationChain.md
 task default: :test_rake_app
 task :test_rake_app do
   tail = Rake::InvocationChain.new("task_a", Rake::InvocationChain::EMPTY)
-  tail.to_s # => "TOP => task_a"
+  p tail.to_s # => "TOP => task_a"
   b = Rake::InvocationChain.new("task_b", tail)
-  b.to_s # => "TOP => task_a => task_b"
+  p b.to_s # => "TOP => task_a => task_b"
 end
 ```
 

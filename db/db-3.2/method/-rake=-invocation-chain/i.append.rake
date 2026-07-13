@@ -17,7 +17,7 @@ source_location=manual/api/rake/Rake__InvocationChain.md
 task default: :test_rake_app
 task :test_rake_app do
   invocation_chain= Rake::InvocationChain.new("task_a", Rake::InvocationChain::EMPTY)
-  invocation_chain.append("task_b") # => LL("task_b", "task_a")
+  p invocation_chain.append("task_b") # => LL("task_b", "task_a")
 end
 ```
 

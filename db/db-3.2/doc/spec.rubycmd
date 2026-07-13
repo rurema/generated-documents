@@ -7,9 +7,9 @@ source_location=manual/doc/spec/rubycmd.md
 
 Rubyインタプリタの起動は以下の書式のコマンドラインにより行います。
 
-`````
+```console
 ruby [ option ...] [ -- ] [ programfile ] [ argument ...]
-`````
+```
 
 ここで、option は後述の[ref:cmd_option]
 のいずれかを指定します。-- は、オプション列の終りを明示するため
@@ -50,7 +50,7 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
 
   `-n`や`-p`とともに用いて, オートスプリットモードをONにします。
   オートスプリットモードでは各ループの先頭で,
-```
+```text
     $F = $_.split
 ```
   が実行されます。`-n`か`-p`オプションが同時に指定されない限り,
@@ -60,7 +60,7 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
 
   バックトレースの最大行数を指定します。
 
-```
+```ruby
 # test.rb
 def f6 = raise
 def f5 = f6
@@ -71,7 +71,7 @@ def f1 = f2
 f1
 ```
 
-```
+```console
 % ruby --backtrace-limit=3 test.rb
 test.rb:1:in `f6': unhandled exception
   from test.rb:2:in `f5'
@@ -109,7 +109,7 @@ test.rb:1:in `f6': unhandled exception
   ング のように外部エンコーディングを省略した場合は内部エンコーディング
   のみを変更します。
 
-```
+```console
 # 変更しない場合
 
 $ ruby -e 'p Encoding.default_external; p Encoding.default_internal'
@@ -154,7 +154,7 @@ $ ruby --encoding EUC-JP:Windows-31J -e 'p Encoding.default_external; p Encoding
 
   デフォルトの外部エンコーディングを指定します。
 
-```
+```console
 $ ruby --external-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.default_internal'
 #<Encoding:EUC-JP>
 nil
@@ -164,7 +164,7 @@ nil
 
   デフォルトの内部エンコーディングを指定します。
 
-```
+```console
 $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.default_internal'
 #<Encoding:UTF-8>
 #<Encoding:EUC-JP>
@@ -173,7 +173,7 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
 - **`--enable feature`**:
 
   指定した feature を有効にします。以下のいずれかを指定できます。
-```
+```text
     * gems            rubygems (無効にするのはデバッグ専用、default: enabled)
     * error_highlight error_highlight (default: enabled)
     * did_you_mean    did_you_mean (default: enabled)
@@ -196,7 +196,7 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
 
   -e オプションを複数指定した場合、各スクリプトの間に改行を
   挟んで解釈します。
-```
+```console
     以下は等価です。
     ruby -e "5.times do |i|" -e "puts i" -e "end"
 
@@ -227,9 +227,7 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   だけが残ります。ただし [d:platform/Win32] では省略出来ません
   ([ruby-list:38066] 参照)。
 
-  例:
-
-```
+```console title="例"
     % echo matz > /tmp/junk
     % cat /tmp/junk
     matz
@@ -260,7 +258,7 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   このフラグがセットされるとプログラム全体が
   sed -nやawk
   のように
-```
+```text
     while gets
      ...
     end
@@ -272,8 +270,7 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   -nフラグとほぼ同じですが, 各ループの最後に変数 [m:$_]
   の値を出力するようになります。
 
-  例:
-```
+```console title="例"
     % echo matz | ruby -p -e '$_.tr! "a-z", "A-Z"'
     MATZ
 ```
@@ -290,8 +287,7 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   を設定します。`--`なる引数以降は解釈を行ないません。該当する引数は
   [m:Object::ARGV] から取り除かれます。
 
-  例:
-```
+```ruby title="例"
     #! /usr/local/bin/ruby -s
     # prints "true" if invoked with `-xyz' switch.
     print "true\n" if $xyz
@@ -304,7 +300,7 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   す。 これは、#!をサポートしていないマシンで、
   #! による実行をエミュレートするために、以下の
   ようにして使うことができます:
-```
+```sh
     #!/bin/sh
     exec ruby -S -x $0 "$@"
     #! ruby
@@ -345,7 +341,7 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
 - **`-W:category`**:
 
     冗長モードを三段階のレベルで指定します。それぞれ以下の通りです。
-```
+```text
      * -W0: 警告を出力しない
      * -W1: 重要な警告のみ出力(デフォルト)
      * -W2 or -W: すべての警告を出力する
@@ -354,7 +350,7 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
     に設定されます。
 
     また category には以下の値を設定できます。deprecated と experimental は別々に設定することもできます。
-```
+```text
      * -W:deprecated : 非推奨な機能を使用した際に警告を出力する
      * -W:no-deprecated : 非推奨な機能を使用した際に警告を出力しない(デフォルト)
      * -W:experimental : 実験的な機能を使用した際に警告を出力する(デフォルト)
@@ -464,13 +460,13 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
 
 例えば、以下のようなスクリプトを sh で実行すると sh から Ruby を起動できます。
 
-`````
+```text
 #!/bin/sh
 exec ruby -x "$0" "$@"
 #!ruby
 p ARGV
 puts "Hello, World!"
-`````
+```
 
 これは Ruby をスペースを含むパスにインストールした場合などに有用です。
 

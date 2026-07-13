@@ -93,99 +93,95 @@ DRb::ExtServManager
 <p>
 以下の例を実行するためには、まず server.rb を起動し、その後 client.rb を動かします。service.rb は server.rb が client.rb からサービスを要求された時に起動されます。また、stop.rbを用いて
 </p>
-<p>
-server.rb:
-</p>
-<pre>
-require 'drb/drb'
-require 'drb/extservm'
-
-Dir.chdir(File.dirname(__FILE__))
-# サービスを起動するコマンドを指定する
-# コマンドは文字列配列、もしくは文字列で指定できる
-# サブプロセスの起動は Kernel.#spawn でなされる
-#
-# サブプロセスを起動するときは、ここに指定したパラメータに加えて
-# さらに2つのパラメータ(サーバの druby URI とサービス名)が渡されます
-DRb::ExtServManager.command[&quot;No1&quot;] = %w(ruby service.rb service1)
-DRb::ExtServManager.command[&quot;No2&quot;] = %w(ruby service.rb service2)
-
-# ExtServManager オブジェクトを生成して
-# drb の front object に指定する
-s = DRb::ExtServManager.new
-DRb.start_service(&quot;druby://localhost:10234&quot;, s)
-
-# drb のプロセスの終了を待つ
-DRb.thread.join
-</pre>
-<p>
-service.rb:
-</p>
-<pre>
-require 'drb/drb'
-require 'drb/extserv'
-
-# サービスを表すクラス
-class Service
-  include DRb::DRbUndumped
-
-  def initialize(service_name)
-    @service_name = service_name
-  end
-
-  def hello
-    &quot;You invoke #{@service_name}&quot;
-  end
-end
-
-puts &quot;Start #{ARGV[0]}&quot;
-# ARGV の最後2つを除いた部分は ExtServManager.command で
-# 指定した引数が渡される
-front = Service.new(ARGV[0])
-
-# 通信のため drb を起動する
-# ポート番号に 0 を指定すると ephemeral port から適当なポート番号が
-# 選ばれる
-server = DRb::DRbServer.new(&quot;druby://localhost:0&quot;, front)
-
-# ARGV の最後の2つと DRbServer オブジェクトを ExtServ.new に渡す。
-# これによってブローカープロセスにサービスの
-# 窓口となる ExtServ オブジェクトを渡す
-es = DRb::ExtServ.new(ARGV[1], ARGV[2], server)
-
-# サーバスレッドの停止を待つ
-DRb.thread.join
-# サービスを DRb::ExtServ#stop_service で止めると、サーバスレッドが
-# 終了するため、以下の行が実行される
-puts &quot;Stop #{ARGV[0]}&quot;
-</pre>
-<p>
-client.rb:
-</p>
-<pre>
-require 'drb/drb'
-
-DRb.start_service
-s = DRbObject.new_with_uri(&quot;druby://localhost:10234&quot;)
-
-# No1 と名付けられたサービスを呼び出す
-service1 = s.service(&quot;No1&quot;).front
-p service1.hello # =&gt; &quot;service1&quot;
-
-# No2 と名付けられたサービスを呼び出す
-service2 = s.service(&quot;No2&quot;).front
-p service2.hello # =&gt; &quot;service2&quot;
-</pre>
-<p>
-stop.rb:
-</p>
-<pre>
-require 'drb/drb'
-
-DRb.start_service
-s = DRbObject.new_with_uri(&quot;druby://localhost:10234&quot;)
-s.service(ARGV[0]).stop_service
-</pre>
+<span class="caption">server.rb</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'drb/drb'</span>
+<span class="nb">require</span> <span class="s1">'drb/extservm'</span>
+  
+<span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">)</span><span class="p">)</span>
+<span class="c1"># サービスを起動するコマンドを指定する
+</span><span class="c1"># コマンドは文字列配列、もしくは文字列で指定できる
+</span><span class="c1"># サブプロセスの起動は Kernel.#spawn でなされる
+</span><span class="c1">#
+</span><span class="c1"># サブプロセスを起動するときは、ここに指定したパラメータに加えて
+</span><span class="c1"># さらに2つのパラメータ(サーバの druby URI とサービス名)が渡されます
+</span><span class="no">DRb</span><span class="o">::</span><span class="no">ExtServManager</span><span class="p">.</span><span class="nf">command</span><span class="p">[</span><span class="s2">"</span><span class="s2">No1</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="sx">%w(ruby service.rb service1)</span>
+<span class="no">DRb</span><span class="o">::</span><span class="no">ExtServManager</span><span class="p">.</span><span class="nf">command</span><span class="p">[</span><span class="s2">"</span><span class="s2">No2</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="sx">%w(ruby service.rb service2)</span>
+  
+<span class="c1"># ExtServManager オブジェクトを生成して
+</span><span class="c1"># drb の front object に指定する
+</span>s <span class="o">=</span> <span class="no">DRb</span><span class="o">::</span><span class="no">ExtServManager</span><span class="p">.</span><span class="nf">new</span>
+<span class="no">DRb</span><span class="p">.</span><span class="nf">start_service</span><span class="p">(</span><span class="s2">"</span><span class="s2">druby://localhost:10234</span><span class="s2">"</span>, s<span class="p">)</span>
+  
+<span class="c1"># drb のプロセスの終了を待つ
+</span><span class="no">DRb</span><span class="p">.</span><span class="nf">thread</span><span class="p">.</span><span class="nf">join</span>
+</code></pre>
+<span class="caption">service.rb</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'drb/drb'</span>
+<span class="nb">require</span> <span class="s1">'drb/extserv'</span>
+  
+<span class="c1"># サービスを表すクラス
+</span><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Service</span>
+  include <span class="no">DRb</span><span class="o">::</span><span class="no">DRbUndumped</span>
+  
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span>service_name<span class="p">)</span>
+    <span class="vi">@service_name</span> <span class="o">=</span> service_name
+  <span class="k">end</span>
+    
+  <span class="k">def</span> <span class="nf">hello</span>
+    <span class="s2">"</span><span class="s2">You invoke </span><span class="si">#{</span><span class="vi">@service_name</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+  
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">Start </span><span class="si">#{</span><span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+<span class="c1"># ARGV の最後2つを除いた部分は ExtServManager.command で
+</span><span class="c1"># 指定した引数が渡される
+</span>front <span class="o">=</span> <span class="no">Service</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">)</span>
+  
+<span class="c1"># 通信のため drb を起動する
+</span><span class="c1"># ポート番号に 0 を指定すると ephemeral port から適当なポート番号が
+</span><span class="c1"># 選ばれる 
+</span>server <span class="o">=</span> <span class="no">DRb</span><span class="o">::</span><span class="no">DRbServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">druby://localhost:0</span><span class="s2">"</span>, front<span class="p">)</span>
+  
+<span class="c1"># ARGV の最後の2つと DRbServer オブジェクトを ExtServ.new に渡す。
+</span><span class="c1"># これによってブローカープロセスにサービスの
+</span><span class="c1"># 窓口となる ExtServ オブジェクトを渡す
+</span>es <span class="o">=</span> <span class="no">DRb</span><span class="o">::</span><span class="no">ExtServ</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>, <span class="no">ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>, server<span class="p">)</span>
+  
+<span class="c1"># サーバスレッドの停止を待つ
+</span><span class="no">DRb</span><span class="p">.</span><span class="nf">thread</span><span class="p">.</span><span class="nf">join</span>
+<span class="c1"># サービスを DRb::ExtServ#stop_service で止めると、サーバスレッドが
+</span><span class="c1"># 終了するため、以下の行が実行される
+</span><span class="nb">puts</span> <span class="s2">"</span><span class="s2">Stop </span><span class="si">#{</span><span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+</code></pre>
+<span class="caption">client.rb</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'drb/drb'</span>
+  
+<span class="no">DRb</span><span class="p">.</span><span class="nf">start_service</span>
+s <span class="o">=</span> <span class="no">DRbObject</span><span class="p">.</span><span class="nf">new_with_uri</span><span class="p">(</span><span class="s2">"</span><span class="s2">druby://localhost:10234</span><span class="s2">"</span><span class="p">)</span>
+  
+<span class="c1"># No1 と名付けられたサービスを呼び出す
+</span>service1 <span class="o">=</span> s<span class="p">.</span><span class="nf">service</span><span class="p">(</span><span class="s2">"</span><span class="s2">No1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">front</span>
+<span class="nb">p</span> service1<span class="p">.</span><span class="nf">hello</span> <span class="c1"># =&gt; &quot;service1&quot;
+</span>  
+<span class="c1"># No2 と名付けられたサービスを呼び出す
+</span>service2 <span class="o">=</span> s<span class="p">.</span><span class="nf">service</span><span class="p">(</span><span class="s2">"</span><span class="s2">No2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">front</span>
+<span class="nb">p</span> service2<span class="p">.</span><span class="nf">hello</span> <span class="c1"># =&gt; &quot;service2&quot;
+</span></code></pre>
+<span class="caption">stop.rb</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'drb/drb'</span>
+  
+<span class="no">DRb</span><span class="p">.</span><span class="nf">start_service</span>
+s <span class="o">=</span> <span class="no">DRbObject</span><span class="p">.</span><span class="nf">new_with_uri</span><span class="p">(</span><span class="s2">"</span><span class="s2">druby://localhost:10234</span><span class="s2">"</span><span class="p">)</span>
+s<span class="p">.</span><span class="nf">service</span><span class="p">(</span><span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">)</span><span class="p">.</span><span class="nf">stop_service</span>
+</code></pre>
 
 
 <h2>クラス</h2>

@@ -9,8 +9,7 @@ source_location=manual/api/rake/Kernel.md
 
 与えられた事前タスクを実行する順序は不定です。
 
-例:
-`````
+```ruby title="例"
 multitask :deploy => [:deploy_gem, :deploy_rdoc]
-`````
+```
 

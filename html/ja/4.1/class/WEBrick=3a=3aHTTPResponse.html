@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -233,10 +233,11 @@ HTTPResponse オブジェクトを生成して返します。
 設定を保存したハッシュを指定します。:HTTPVersion は必須です。
 </dd>
 </dl>
-<pre>
-require 'webrick'
-res = WEBrick::HTTPResponse.new( { :HTTPVersion =&gt; &quot;1.1&quot; } )
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+res <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPResponse</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span> <span class="p">{</span> <span class="ss">:HTTPVersion</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">1.1</span><span class="s2">"</span> <span class="p">}</span> <span class="p">)</span>
+</code></pre>
 </dd>
 
 
@@ -256,9 +257,10 @@ res = WEBrick::HTTPResponse.new( { :HTTPVersion =&gt; &quot;1.1&quot; } )
 ヘッダ名を文字列で指定します。大文字と小文字を区別しません。
 </dd>
 </dl>
-<pre>
-p res['date']   #=&gt; &quot;Sat, 27 Oct 2007 08:53:03 GMT&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> res<span class="p">[</span><span class="s1">'date'</span><span class="p">]</span>   <span class="c1">#=&gt; &quot;Sat, 27 Oct 2007 08:53:03 GMT&quot;
+</span></code></pre>
 </dd>
 
 
@@ -277,10 +279,11 @@ p res['date']   #=&gt; &quot;Sat, 27 Oct 2007 08:53:03 GMT&quot;
 ヘッダの値を指定します。to_s メソッドによって文字列に変換されます。
 </dd>
 </dl>
-<pre>
-require 'time'
-res['last-modified'] = Time.now.httpdate
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'time'</span>
+res<span class="p">[</span><span class="s1">'last-modified'</span><span class="p">]</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">httpdate</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/WEBrick=3a=3aHTTPResponse/i/chunked=3f.html">WEBrick::HTTPResponse#chunked?</a>, <a href="../method/WEBrick=3a=3aHTTPResponse/i/content_length.html">WEBrick::HTTPResponse#content_length</a>,
 <a href="../method/WEBrick=3a=3aHTTPResponse/i/content_type.html">WEBrick::HTTPResponse#content_type</a>
@@ -313,10 +316,11 @@ res['last-modified'] = Time.now.httpdate
 メッセージボディを文字列か <a href="../class/IO.html">IO</a> オブジェクトで指定します。自身が chunked であってもチャンク形式にする必要はありません。適切にチャンク形式エンコーディングされます。
 </dd>
 </dl>
-<pre>
+<pre class="highlight text">
+<code>
 require 'webrick'
 include WEBrick
-res = HTTPResponse.new( { :HTTPVersion =&gt; &quot;1.1&quot; } )
+res = HTTPResponse.new( { :HTTPVersion =&gt; "1.1" } )
 res.body = 'hoge'
 print res.to_s
 
@@ -326,9 +330,9 @@ Connection: Keep-Alive
 Date: Sat, 27 Oct 2007 08:58:49 GMT
 Server:
 Content-Length: 4
-
+  
 hoge
-</pre>
+</code></pre>
 </dd>
 
 
@@ -346,10 +350,11 @@ hoge
 true を指定した場合、レスポンスを chunk に分けてクライアントに返します。
 </dd>
 </dl>
-<pre>
+<pre class="highlight text">
+<code>
 require 'webrick'
 include WEBrick
-res = HTTPResponse.new( { :HTTPVersion =&gt; &quot;1.1&quot; } )
+res = HTTPResponse.new( { :HTTPVersion =&gt; "1.1" } )
 res.body = 'hoge'
 res.chunked = true
 print res.to_s
@@ -360,13 +365,13 @@ Connection: Keep-Alive
 Date: Sat, 27 Oct 2007 09:04:28 GMT
 Server:
 Transfer-Encoding: chunked
-
+  
 4
 hoge
 0
-
+  
 #
-</pre>
+</code></pre>
 </dd>
 
 
@@ -417,24 +422,25 @@ content_length の値は無視され Content-Length ヘッダはレスポンス�
 ヘッダの値を整数で指定します。nil を指定することは出来ません。
 </dd>
 </dl>
-<pre>
+<pre class="highlight text">
+<code>
 require 'webrick'
 include WEBrick
-res = HTTPResponse.new( { :HTTPVersion =&gt; &quot;1.1&quot; } )
+res = HTTPResponse.new( { :HTTPVersion =&gt; "1.1" } )
 f = File.new('testfile')
 res.body = f
 res.content_length = 2
 print res.to_s
-
+  
 #=&gt; 出力結果
 HTTP/1.1 200 OK
 Connection: Keep-Alive
 Date: Sat, 27 Oct 2007 12:04:32 GMT
 Server:
 Content-Length: 2
-
+  
 ho
-</pre>
+</code></pre>
 </dd>
 
 
@@ -457,9 +463,10 @@ Content-Type ヘッダの値をセットします。
 Content-Type ヘッダの値を文字列で指定します。
 </dd>
 </dl>
-<pre>
-res.content_type = &quot;text/html&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+res<span class="p">.</span><span class="nf">content_type</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">text/html</span><span class="s2">"</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/WEBrick=3a=3aHTTPUtils/m/mime_type.html">WEBrick::HTTPUtils.#mime_type</a>
 </p>
@@ -471,10 +478,11 @@ res.content_type = &quot;text/html&quot;
 <p>
 レスポンスの Set-Cookie ヘッダの値を表す <a href="../class/WEBrick=3a=3aCookie.html">WEBrick::Cookie</a> オブジェクトの配列です。レスポンスに新たに Cookie を加えたい場合はこの配列に <a href="../class/WEBrick=3a=3aCookie.html">WEBrick::Cookie</a> オブジェクトを加えます。
 </p>
-<pre>
-require 'webrick'
-res.cookies &lt;&lt; WEBrick::Cookie.parse_set_cookie(k)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+res<span class="p">.</span><span class="nf">cookies</span> <span class="o">&lt;&lt;</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">Cookie</span><span class="p">.</span><span class="nf">parse_set_cookie</span><span class="p">(</span>k<span class="p">)</span>
+</code></pre>
 </dd>
 
 
@@ -521,12 +529,13 @@ res.cookies &lt;&lt; WEBrick::Cookie.parse_set_cookie(k)
 <p>
 レスポンスの HTTP のバージョンを表す <a href="../class/WEBrick=3a=3aHTTPVersion.html">WEBrick::HTTPVersion</a> オブジェクトを返します。
 </p>
-<pre>
-require 'webrick'
-res = WEBrick::HTTPResponse.new( { :HTTPVersion =&gt; &quot;1.1&quot; } )
-p res.http_version.class                                        #=&gt; WEBrick::HTTPVersion
-p res.http_version.to_s                                         #=&gt; &quot;1.1&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+res <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPResponse</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span> <span class="p">{</span> <span class="ss">:HTTPVersion</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">1.1</span><span class="s2">"</span> <span class="p">}</span> <span class="p">)</span>
+<span class="nb">p</span> res<span class="p">.</span><span class="nf">http_version</span><span class="p">.</span><span class="nf">class</span>                                        <span class="c1">#=&gt; WEBrick::HTTPVersion
+</span><span class="nb">p</span> res<span class="p">.</span><span class="nf">http_version</span><span class="p">.</span><span class="nf">to_s</span>                                         <span class="c1">#=&gt; &quot;1.1&quot;
+</span></code></pre>
 </dd>
 
 
@@ -572,13 +581,14 @@ HTTP のレスポンスの最初の行の reason phrase をセットします。
 reason phrase を表す文字列を指定します。
 </dd>
 </dl>
-<pre>
-require 'webrick'
-res = WEBrick::HTTPResponse.new( { :HTTPVersion =&gt; &quot;1.1&quot; } )
-res.status = 404
-
-p res.reason_phrase    #=&gt; &quot;Not Found&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+res <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPResponse</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span> <span class="p">{</span> <span class="ss">:HTTPVersion</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">1.1</span><span class="s2">"</span> <span class="p">}</span> <span class="p">)</span>
+res<span class="p">.</span><span class="nf">status</span> <span class="o">=</span> <span class="mi">404</span>
+  
+<span class="nb">p</span> res<span class="p">.</span><span class="nf">reason_phrase</span>    <span class="c1">#=&gt; &quot;Not Found&quot;
+</span></code></pre>
 </dd>
 
 
@@ -689,13 +699,12 @@ true を指定した場合バックトレースをエラーページに出力し
 URL を指定します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'webrick'
-res.set_redirect WEBrick::HTTPStatus::TemporaryRedirect
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+res<span class="p">.</span><span class="nf">set_redirect</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPStatus</span><span class="o">::</span><span class="no">TemporaryRedirect</span>
+</code></pre>
 </dd>
 
 
@@ -719,13 +728,14 @@ reason_phrase も適切なものに設定されます。
 ステータスコードを整数で指定します。
 </dd>
 </dl>
-<pre>
-require 'webrick'
-res = WEBrick::HTTPResponse.new( { :HTTPVersion =&gt; &quot;1.1&quot; } )
-res.status = 404
-
-p res.reason_phrase    #=&gt; &quot;Not Found&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+res <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPResponse</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span> <span class="p">{</span> <span class="ss">:HTTPVersion</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">1.1</span><span class="s2">"</span> <span class="p">}</span> <span class="p">)</span>
+res<span class="p">.</span><span class="nf">status</span> <span class="o">=</span> <span class="mi">404</span>
+  
+<span class="nb">p</span> res<span class="p">.</span><span class="nf">reason_phrase</span>    <span class="c1">#=&gt; &quot;Not Found&quot;
+</span></code></pre>
 </dd>
 
 
@@ -734,13 +744,14 @@ p res.reason_phrase    #=&gt; &quot;Not Found&quot;
 <p>
 HTTP のステータスラインを CR+LF 付き文字列で返します。
 </p>
-<pre>
-require 'webrick'
-res = WEBrick::HTTPResponse.new( { :HTTPVersion =&gt; &quot;1.1&quot; } )
-res.status = 404
-
-p res.status_line    #=&gt;  &quot;HTTP/1.1 404 Not Found \r\n&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+res <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPResponse</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span> <span class="p">{</span> <span class="ss">:HTTPVersion</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">1.1</span><span class="s2">"</span> <span class="p">}</span> <span class="p">)</span>
+res<span class="p">.</span><span class="nf">status</span> <span class="o">=</span> <span class="mi">404</span>
+  
+<span class="nb">p</span> res<span class="p">.</span><span class="nf">status_line</span>    <span class="c1">#=&gt;  &quot;HTTP/1.1 404 Not Found \r\n&quot;
+</span></code></pre>
 </dd>
 
 
@@ -749,10 +760,11 @@ p res.status_line    #=&gt;  &quot;HTTP/1.1 404 Not Found \r\n&quot;
 <p>
 実際にクライアントに送られるデータを文字列として返します。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 require 'webrick'
 include WEBrick
-res = HTTPResponse.new( { :HTTPVersion =&gt; &quot;1.1&quot; } )
+res = HTTPResponse.new( { :HTTPVersion =&gt; "1.1" } )
 res.body = 'hoge'
 print res.to_s
 
@@ -762,9 +774,9 @@ Connection: Keep-Alive
 Date: Sat, 27 Oct 2007 08:58:49 GMT
 Server:
 Content-Length: 4
-
+  
 hoge
-</pre>
+</code></pre>
 </dd>
 
 

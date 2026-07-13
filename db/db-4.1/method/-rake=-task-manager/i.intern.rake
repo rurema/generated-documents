@@ -20,8 +20,8 @@ source_location=manual/api/rake/Rake__TaskManager.md
 task default: :test_rake_app
 
 task :test_rake_app do |task|
-  task.application.intern(Rake::Task, "test_rake_app") # => <Rake::Task test_rake_app => []>
-  task.application.intern(Rake::Task, "sample_task")   # => <Rake::Task sample_task => []>
+  p task.application.intern(Rake::Task, "test_rake_app") # => <Rake::Task test_rake_app => []>
+  p task.application.intern(Rake::Task, "sample_task") # => <Rake::Task sample_task => []>
 end
 ```
 

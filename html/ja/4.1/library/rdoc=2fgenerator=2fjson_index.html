@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -85,50 +85,53 @@ contains verbatim code written by him.
 <p>
 このジェネレータは HTML ジェネレータと一緒に使うために設計されています。:
 </p>
-<pre>
-class RDoc::Generator::Darkfish
-  def initialize options
-    # ...
-    @base_dir = Pathname.pwd.expand_path
+<pre class="highlight ruby">
+<code>
+<span class="k">class</span> <span class="nn">RDoc::Generator</span><span class="o">::</span><span class="nc">Darkfish</span>
+  <span class="k">def</span> <span class="nf">initialize</span> options
+    <span class="c1"># ...
+</span>    <span class="vi">@base_dir</span> <span class="o">=</span> <span class="no">Pathname</span><span class="p">.</span><span class="nf">pwd</span><span class="p">.</span><span class="nf">expand_path</span>
 
-    @json_index = RDoc::Generator::JsonIndex.new self, options
-  end
+    <span class="vi">@json_index</span> <span class="o">=</span> <span class="no">RDoc</span><span class="o">::</span><span class="no">Generator</span><span class="o">::</span><span class="no">JsonIndex</span><span class="p">.</span><span class="nf">new</span> <span class="nc">self</span>, options
+  <span class="k">end</span>
 
-  def generate
-    # ...
-    @json_index.generate
-  end
-end
-</pre>
+  <span class="k">def</span> <span class="nf">generate</span>
+    <span class="c1"># ...
+</span>    <span class="vi">@json_index</span><span class="p">.</span><span class="nf">generate</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <h2 >インデックスフォーマット</h2>
 <p>
 検索用のインデックスは JSON ファイルに出力されます。search_data というグローバル変数に以下のような内容で出力されます。
 </p>
-<pre>
-var search_data = {
-  &quot;index&quot;: {
-    &quot;searchIndex&quot;:
-      [&quot;a&quot;, &quot;b&quot;, ...],
-    &quot;longSearchIndex&quot;:
-      [&quot;a&quot;, &quot;a::b&quot;, ...],
-    &quot;info&quot;: [
-      [&quot;A&quot;, &quot;A&quot;, &quot;A.html&quot;, &quot;&quot;, &quot;&quot;],
-      [&quot;B&quot;, &quot;A::B&quot;, &quot;A::B.html&quot;, &quot;&quot;, &quot;&quot;],
-      ...
-    ]
-  }
-}
-</pre>
+<pre class="highlight javascript">
+<code>
+<span class="kd">var</span> <span class="nx">search_data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="dl">"</span><span class="s2">index</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">searchIndex</span><span class="dl">"</span><span class="p">:</span>
+      <span class="p">[</span><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">b</span><span class="dl">"</span><span class="p">,</span> <span class="p">...],</span>
+    <span class="dl">"</span><span class="s2">longSearchIndex</span><span class="dl">"</span><span class="p">:</span>
+      <span class="p">[</span><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">a::b</span><span class="dl">"</span><span class="p">,</span> <span class="p">...],</span>
+    <span class="dl">"</span><span class="s2">info</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="dl">"</span><span class="s2">A</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">A</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">A.html</span><span class="dl">"</span><span class="p">,</span> <span class="dl">""</span><span class="p">,</span> <span class="dl">""</span><span class="p">],</span>
+      <span class="p">[</span><span class="dl">"</span><span class="s2">B</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">A::B</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">A::B.html</span><span class="dl">"</span><span class="p">,</span> <span class="dl">""</span><span class="p">,</span> <span class="dl">""</span><span class="p">],</span>
+      <span class="p">...</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <p>
 searchIndex、longSearchIndex、info 中の情報は同じ位置にあるものは同じ要素に関する情報が格納されています。searchIndex フィールドには省略した名前が格納されています。longSearchIndex フィールドには(適切に記載されていれば)完全な名前が格納されています。info フィールドには [名前、完全な名前、パス、パラメータ, 要素に記載されたコメントの断片] が格納されています。
 </p>
 <h2 >ライセンス</h2>
-<pre>
+<pre class="highlight text">
+<code>
 Copyright (c) 2009 Vladimir Kolesnikov
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
-&quot;Software&quot;), to deal in the Software without restriction, including
+"Software"), to deal in the Software without restriction, including
 without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to
@@ -137,14 +140,14 @@ the following conditions:
 The above copyright notice and this permission notice shall be
 included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-</pre>
+</code></pre>
 
 
 <h2>クラス</h2>

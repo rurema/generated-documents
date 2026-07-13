@@ -55,7 +55,7 @@ IMAP を使わないメールアプリケーションがメールの順番を
 ### 例
 
 デフォルトのメールボックス(INBOX)の送り元とサブジェクトを表示する。
-`````
+```ruby
 require 'net/imap'
 
 imap = Net::IMAP.new('mail.example.com')
@@ -65,11 +65,11 @@ imap.search(["RECENT"]).each do |message_id|
   envelope = imap.fetch(message_id, "ENVELOPE")[0].attr["ENVELOPE"]
   puts "#{envelope.from[0].name}: \t#{envelope.subject}"
 end
-`````
+```
 
 2003年4月のメールをすべて Mail/sent-mail から "Mail/sent-apr03" へ移動させる
 
-`````
+```ruby
 require 'net/imap'
 
 imap = Net::IMAP.new('mail.example.com')
@@ -83,12 +83,12 @@ imap.search(["BEFORE", "30-Apr-2003", "SINCE", "1-Apr-2003"]).each do |message_i
   imap.store(message_id, "+FLAGS", [:Deleted])
 end
 imap.expunge
-`````
+```
 
 ### スレッド安全性
 Net::IMAP は並列実行をサポートしています。例として、
 
-`````
+```ruby
 require 'net/imap'
 
 imap = Net::IMAP.new("imap.foo.net", "imap2")
@@ -98,7 +98,7 @@ fetch_thread = Thread.start { imap.fetch(1..-1, "UID") }
 search_result = imap.search(["BODY", "hello"])
 fetch_result = fetch_thread.value
 imap.disconnect
-`````
+```
 
 とすると FETCH コマンドと SEARCH コマンドを並列に実行します。
 

@@ -11,6 +11,8 @@ source_location=manual/api/_builtin/String.md
 \1 ... \9 は n 番目の括弧の内容に置き換えられます。
 置換文字列内では \\`、\'、\+ も使えます。
 これらは [m:$`]、[m:$']、[m:$+] に対応します。
+pattern が名前付きキャプチャを含む正規表現である場合は、
+\k<name> の形式でその名前に対応する部分文字列に置き換えられます。
 
 gsub! は通常 self を変更して返しますが、
 置換が起こらなかった場合は nil を返します。
@@ -28,6 +30,10 @@ p buf   # => "Str!!-Str!!"
 buf = "String.String"
 buf.gsub!(/in./, '<<\&>>')
 p buf   # => "Str<<ing>>-Str<<ing>>"
+
+buf = "foo"
+buf.gsub!(/(?<name>fo)/, 'match: \k<name>')
+p buf   # => "match: foo"
 ```
 
 注意:

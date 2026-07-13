@@ -19,7 +19,7 @@ task :test_rake_app do
   file_list  = FileList.new("*.rb")
   file_list.include("*.java")
   file_list.exclude("*.js")
-  file_list.resolve # => ["test.rb", "test.java"]
+  p file_list.resolve # => ["test.rb", "test.java"]
 end
 ```
 

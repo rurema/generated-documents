@@ -99,26 +99,27 @@ intポインタを渡します。
 <p>
 引数が1つの場合は <a href="../../../class/Socket=3a=3aOption.html">Socket::Option</a> で設定値を表現します。
 </p>
-<pre>
-require 'socket'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
+  
+<span class="c1"># 真偽値の場合
+</span><span class="c1">#setsockopt could be called like this:
+</span>sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="ss">:SOCKET</span>, <span class="ss">:REUSEADDR</span>, <span class="k">true</span><span class="p">)</span>
+sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">SOL_SOCKET</span>,<span class="no">Socket</span><span class="o">::</span><span class="no">SO_REUSEADDR</span>, <span class="k">true</span><span class="p">)</span>
+sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">Option</span><span class="p">.</span><span class="nf">bool</span><span class="p">(</span><span class="ss">:INET</span>, <span class="ss">:SOCKET</span>, <span class="ss">:REUSEADDR</span>, <span class="k">true</span><span class="p">)</span><span class="p">)</span>
 
-# 真偽値の場合
-#setsockopt could be called like this:
-sock.setsockopt(:SOCKET, :REUSEADDR, true)
-sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR, true)
-sock.setsockopt(Socket::Option.bool(:INET, :SOCKET, :REUSEADDR, true))
+<span class="c1"># 整数値の場合
+</span><span class="c1">#setsockopt could be called like this:
+</span>sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="ss">:IP</span>, <span class="ss">:TTL</span>, <span class="mi">255</span><span class="p">)</span>
+sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">IPPROTO_IP</span>, <span class="no">Socket</span><span class="o">::</span><span class="no">IP_TTL</span>, <span class="mi">255</span><span class="p">)</span>
+sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">Option</span><span class="p">.</span><span class="nf">int</span><span class="p">(</span><span class="ss">:INET</span>, <span class="ss">:IP</span>, <span class="ss">:TTL</span>, <span class="mi">255</span><span class="p">)</span><span class="p">)</span>
 
-# 整数値の場合
-#setsockopt could be called like this:
-sock.setsockopt(:IP, :TTL, 255)
-sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, 255)
-sock.setsockopt(Socket::Option.int(:INET, :IP, :TTL, 255))
-
-# より複雑な場合
-optval = IPAddr.new(&quot;224.0.0.251&quot;).hton +
-         IPAddr.new(Socket::INADDR_ANY, Socket::AF_INET).hton
-sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_ADD_MEMBERSHIP, optval)
-</pre>
+<span class="c1"># より複雑な場合
+</span>optval <span class="o">=</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">224.0.0.251</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">hton</span> <span class="o">+</span>
+         <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">INADDR_ANY</span>, <span class="no">Socket</span><span class="o">::</span><span class="no">AF_INET</span><span class="p">)</span><span class="p">.</span><span class="nf">hton</span>
+sock<span class="p">.</span><span class="nf">setsockopt</span><span class="p">(</span><span class="no">Socket</span><span class="o">::</span><span class="no">IPPROTO_IP</span>, <span class="no">Socket</span><span class="o">::</span><span class="no">IP_ADD_MEMBERSHIP</span>, optval<span class="p">)</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>level</code>:</dt>
 <dd>

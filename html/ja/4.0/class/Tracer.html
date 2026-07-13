@@ -241,7 +241,8 @@
 <p>
 イベントを表す文字列。以下の種類がある。カッコ内は tracer の出力での表記。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
   * line (-)   ある行を実行
   * call (&gt;)   メソッド呼び出し
   * return (&lt;) メソッドからのリターン
@@ -250,7 +251,7 @@
   * raise      例外が発生した
   * c-call     Cで記述されたメソッドが呼ばれた
   * c-return   Cで記述されたメソッドからreturn
-</pre>
+</code></pre>
 </dd>
 <dt><code>file</code></dt>
 <dd>
@@ -381,19 +382,20 @@
 <p>
 トレース出力を開始します。ブロックを与えられた場合はそのブロック内のみトレース出力を行います。
 </p>
-<pre>
-require 'tracer'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'tracer'</span>
 
-Tracer.on
-class Test
-  def test
-    b = 2
-  end
-end
+<span class="no">Tracer</span><span class="p">.</span><span class="nf">on</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Test</span>
+  <span class="k">def</span> <span class="nf">test</span>
+    b <span class="o">=</span> <span class="mi">2</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-t = Test.new
-t.test
-</pre>
+t <span class="o">=</span> <span class="no">Test</span><span class="p">.</span><span class="nf">new</span>
+t<span class="p">.</span><span class="nf">test</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Tracer/s/off.html">Tracer.off</a>
 </p>
@@ -416,22 +418,23 @@ t.test
 通常、文字列を返す手続きオブジェクトを指定します。
 </dd>
 </dl>
-<pre>
-# 例 dummy.rb の3行目から6 行目のトレース出力に !! をつける
-require 'tracer'
+<pre class="highlight ruby">
+<code>
+<span class="c1"># 例 dummy.rb の3行目から6 行目のトレース出力に !! をつける
+</span><span class="nb">require</span> <span class="s1">'tracer'</span>
 
-Tracer.set_get_line_procs('./dummy.rb'){|line|
-  str = &quot;\n&quot;
-  str = &quot;!!\n&quot; if line &gt;= 3 and line &lt;= 6
+<span class="no">Tracer</span><span class="p">.</span><span class="nf">set_get_line_procs</span><span class="p">(</span><span class="s1">'./dummy.rb'</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>line<span class="o">|</span>
+  str <span class="o">=</span> <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span>
+  str <span class="o">=</span> <span class="s2">"</span><span class="s2">!!\n</span><span class="s2">"</span> <span class="k">if</span> line <span class="o">&gt;=</span> <span class="mi">3</span> <span class="k">and</span> line <span class="o">&lt;=</span> <span class="mi">6</span>
   str
-}
-Tracer.on
-require 'dummy'
+<span class="p">}</span>
+<span class="no">Tracer</span><span class="p">.</span><span class="nf">on</span>
+<span class="nb">require</span> <span class="s1">'dummy'</span>
 
-dm = Dummy.new
-puts dm.number
+dm <span class="o">=</span> <span class="no">Dummy</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">puts</span> dm<span class="p">.</span><span class="nf">number</span>
 
-=begin
+<span class="cm">=begin
 # dummy.rb
 class Dummy
   def initialize
@@ -440,7 +443,7 @@ class Dummy
   attr :number
 end
 =end
-</pre>
+</span></code></pre>
 </dd>
 
 
@@ -463,16 +466,17 @@ end
 新しいトレース出力先を指定します。
 </dd>
 </dl>
-<pre>
-require 'tracer'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'tracer'</span>
 
-fp = File.open('temptrace.txt', &quot;w&quot;)
-Tracer.stdout = fp
-Tracer.on {
-  puts &quot;Hello&quot;
-}
-fp.close
-</pre>
+fp <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'temptrace.txt'</span>, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">Tracer</span><span class="p">.</span><span class="nf">stdout</span> <span class="o">=</span> fp
+<span class="no">Tracer</span><span class="p">.</span><span class="nf">on</span> <span class="p">{</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">Hello</span><span class="s2">"</span>
+<span class="p">}</span>
+fp<span class="p">.</span><span class="nf">close</span>
+</code></pre>
 </dd>
 
 
@@ -504,26 +508,27 @@ fp.close
 トレース出力の開始や終了を知らせる文字列が必要ならtrueを設定します。
 </dd>
 </dl>
-<pre>
+<pre class="highlight text">
+<code>
 require 'tracer'
 
 Tracer.verbose = true
 Tracer.on {
-  puts &quot;Hello&quot;
+  puts "Hello"
 }
 
 # 出力例
 Trace on
-#0:t5.rb:7::-:   puts &quot;Hello&quot;
-#0:t5.rb:7:Kernel:&gt;:   puts &quot;Hello&quot;
-#0:t5.rb:7:IO:&gt;:   puts &quot;Hello&quot;
-Hello#0:t5.rb:7:IO:&lt;:   puts &quot;Hello&quot;
-#0:t5.rb:7:IO:&gt;:   puts &quot;Hello&quot;
+#0:t5.rb:7::-:   puts "Hello"
+#0:t5.rb:7:Kernel:&gt;:   puts "Hello"
+#0:t5.rb:7:IO:&gt;:   puts "Hello"
+Hello#0:t5.rb:7:IO:&lt;:   puts "Hello"
+#0:t5.rb:7:IO:&gt;:   puts "Hello"
 
-#0:t5.rb:7:IO:&lt;:   puts &quot;Hello&quot;
-#0:t5.rb:7:Kernel:&lt;:   puts &quot;Hello&quot;
+#0:t5.rb:7:IO:&lt;:   puts "Hello"
+#0:t5.rb:7:Kernel:&lt;:   puts "Hello"
 Trace off
-</pre>
+</code></pre>
 </dd>
 
 
@@ -627,17 +632,18 @@ Trace off
 <p>
 トレース出力のシンボルのハッシュです。下記のような文字列があります。
 </p>
-<pre>
-EVENT_SYMBOL = {
-  &quot;line&quot; =&gt; &quot;-&quot;,
-  &quot;call&quot; =&gt; &quot;&gt;&quot;,
-  &quot;return&quot; =&gt; &quot;&lt;&quot;,
-  &quot;class&quot; =&gt; &quot;C&quot;,
-  &quot;end&quot; =&gt; &quot;E&quot;,
-  &quot;c-call&quot; =&gt; &quot;&gt;&quot;,
-  &quot;c-return&quot; =&gt; &quot;&lt;&quot;,
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">EVENT_SYMBOL</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"</span><span class="s2">line</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">-</span><span class="s2">"</span>,
+  <span class="s2">"</span><span class="s2">call</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">&gt;</span><span class="s2">"</span>,
+  <span class="s2">"</span><span class="s2">return</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">&lt;</span><span class="s2">"</span>,
+  <span class="s2">"</span><span class="s2">class</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">C</span><span class="s2">"</span>,
+  <span class="s2">"</span><span class="s2">end</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">E</span><span class="s2">"</span>,
+  <span class="s2">"</span><span class="s2">c-call</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">&gt;</span><span class="s2">"</span>,
+  <span class="s2">"</span><span class="s2">c-return</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">&lt;</span><span class="s2">"</span>,
+<span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Tracer/s/add_filter.html">Tracer.add_filter</a>
 </p>

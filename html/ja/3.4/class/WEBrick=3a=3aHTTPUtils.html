@@ -115,6 +115,8 @@ HTTP のためのユーティリティ関数を提供します。
 
 <li><a href="#M_ESCAPE">escape</a></li>
 
+<li><a href="#M_ESCAPE_FORM">escape_form</a></li>
+
 <li><a href="#M_ESCAPE_PATH">escape_path</a></li>
 
 <li><a href="#M_ESCAPE8BIT">escape8bit</a></li>
@@ -132,6 +134,8 @@ HTTP のためのユーティリティ関数を提供します。
 <li><a href="#M_SPLIT_HEADER_VALUE">split_header_value</a></li>
 
 <li><a href="#M_UNESCAPE">unescape</a></li>
+
+<li><a href="#M_UNESCAPE_FORM">unescape_form</a></li>
 
 </ul>
 </dd>
@@ -178,14 +182,15 @@ HTTP のためのユーティリティ関数を提供します。
 <p>
 以下の正規表現を使用して変換します。
 </p>
-<pre>
-control  = (0x0..0x1f).collect{|c| c.chr }.join + &quot;\x7f&quot;
-space    = &quot; &quot;
-delims   = '&lt;&gt;#%&quot;'
-unwise   = '{}|\\^[]`'
-nonascii = (0x80..0xff).collect{|c| c.chr }.join
-/[#{Regexp.escape(control + space + delims + unwise + nonascii)}]/n
-</pre>
+<pre class="highlight ruby">
+<code>
+control  <span class="o">=</span> <span class="p">(</span><span class="mi">0x0</span><span class="o">..</span><span class="mi">0x1f</span><span class="p">)</span><span class="p">.</span><span class="nf">collect</span><span class="p">{</span><span class="o">|</span>c<span class="o">|</span> c<span class="p">.</span><span class="nf">chr</span> <span class="p">}</span><span class="p">.</span><span class="nf">join</span> <span class="o">+</span> <span class="s2">"</span><span class="s2">\x7f</span><span class="s2">"</span>
+space    <span class="o">=</span> <span class="s2">"</span><span class="s2"> </span><span class="s2">"</span>
+delims   <span class="o">=</span> <span class="s1">'&lt;&gt;#%&quot;'</span>
+unwise   <span class="o">=</span> <span class="s1">'{}|\\^[]`'</span>
+nonascii <span class="o">=</span> <span class="p">(</span><span class="mi">0x80</span><span class="o">..</span><span class="mi">0xff</span><span class="p">)</span><span class="p">.</span><span class="nf">collect</span><span class="p">{</span><span class="o">|</span>c<span class="o">|</span> c<span class="p">.</span><span class="nf">chr</span> <span class="p">}</span><span class="p">.</span><span class="nf">join</span>
+<span class="sr">/[<span class="si">#{</span><span class="no">Regexp</span><span class="p">.</span><span class="nf">escape</span><span class="p">(</span><span class="n">control</span> <span class="o">+</span> <span class="n">space</span> <span class="o">+</span> <span class="n">delims</span> <span class="o">+</span> <span class="n">unwise</span> <span class="o">+</span> <span class="n">nonascii</span><span class="p">)</span><span class="si">}</span>]/n</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>str</code>:</dt>
 <dd>
@@ -209,6 +214,28 @@ nonascii = (0x80..0xff).collect{|c| c.chr }.join
 </dd>
 
 
+<dt class="method-heading" id="M_ESCAPE_FORM"><code>escape_form(str) -&gt; String</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils/m/escape_form.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/WEBrick/HTTPUtils.html#method-c-escape_form">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/webrick/httputils/HTTPUtils.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられた文字列を application/x-www-form-urlencoded 形式の文字列に変換します。スペースは <code>+</code> に変換されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>str</code>:</dt>
+<dd>
+文字列を指定します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+<span class="nb">p</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPUtils</span><span class="p">.</span><span class="nf">escape_form</span><span class="p">(</span><span class="s1">'foo bar+baz'</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;foo+bar%2Bbaz&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/WEBrick=3a=3aHTTPUtils/m/unescape_form.html">WEBrick::HTTPUtils.#unescape_form</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="M_ESCAPE_PATH"><code>escape_path(str) -&gt; String</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils/m/escape_path.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/WEBrick/HTTPUtils.html#method-c-escape_path">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/webrick/httputils/HTTPUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -217,14 +244,15 @@ nonascii = (0x80..0xff).collect{|c| c.chr }.join
 <p>
 以下の正規表現を使用して変換します。
 </p>
-<pre>
-num      = '0123456789'
-lowalpha = 'abcdefghijklmnopqrstuvwxyz'
-upalpha  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-mark     = '-_.!~*\'()'
-unreserved = num + lowalpha + upalpha + mark
-/[^#{Regexp.escape(unreserved + &quot;:@&amp;=+$,&quot;)}]/n
-</pre>
+<pre class="highlight ruby">
+<code>
+num      <span class="o">=</span> <span class="s1">'0123456789'</span>
+lowalpha <span class="o">=</span> <span class="s1">'abcdefghijklmnopqrstuvwxyz'</span>
+upalpha  <span class="o">=</span> <span class="s1">'ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span>
+mark     <span class="o">=</span> <span class="s1">'-_.!~*\'()'</span>
+unreserved <span class="o">=</span> num <span class="o">+</span> lowalpha <span class="o">+</span> upalpha <span class="o">+</span> mark
+<span class="sr">/[^<span class="si">#{</span><span class="no">Regexp</span><span class="p">.</span><span class="nf">escape</span><span class="p">(</span><span class="n">unreserved</span> <span class="o">+</span> <span class="s2">"</span><span class="s2">:@&amp;=+$,</span><span class="s2">"</span><span class="p">)</span><span class="si">}</span>]/n</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>str</code>:</dt>
 <dd>
@@ -245,11 +273,12 @@ Apache の mime.types ファイル形式の file を読み込み拡張子をキ�
 Apache の mime.types ファイル形式のファイルの名前を文字列で指定します。
 </dd>
 </dl>
-<pre>
-require 'webrick'
-p WEBrick::HTTPUtils.load_mime_types('/etc/mime.types')
-# =&gt; {&quot;htm&quot;=&gt;&quot;text/html&quot;, &quot;rpm&quot;=&gt;&quot;application/x-rpm&quot;, ... }
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+<span class="nb">p</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPUtils</span><span class="p">.</span><span class="nf">load_mime_types</span><span class="p">(</span><span class="s1">'/etc/mime.types'</span><span class="p">)</span>
+<span class="c1"># =&gt; {&quot;htm&quot;=&gt;&quot;text/html&quot;, &quot;rpm&quot;=&gt;&quot;application/x-rpm&quot;, ... }
+</span></code></pre>
 </dd>
 
 
@@ -270,13 +299,14 @@ p WEBrick::HTTPUtils.load_mime_types('/etc/mime.types')
 拡張子をキー、MIME タイプを値とするハッシュを指定します。
 </dd>
 </dl>
-<pre>
-require 'webrick'
-include WEBrick::HTTPUtils
-p mime_type('index.html', DefaultMimeTypes)     #=&gt; &quot;text/html&quot;
-p mime_type('index.html.ja', DefaultMimeTypes)  #=&gt; &quot;text/html&quot;
-p mime_type('index.hoge', DefaultMimeTypes)     #=&gt; &quot;application/octet-stream&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+include <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPUtils</span>
+<span class="nb">p</span> mime_type<span class="p">(</span><span class="s1">'index.html'</span>, <span class="no">DefaultMimeTypes</span><span class="p">)</span>     <span class="c1">#=&gt; &quot;text/html&quot;
+</span><span class="nb">p</span> mime_type<span class="p">(</span><span class="s1">'index.html.ja'</span>, <span class="no">DefaultMimeTypes</span><span class="p">)</span>  <span class="c1">#=&gt; &quot;text/html&quot;
+</span><span class="nb">p</span> mime_type<span class="p">(</span><span class="s1">'index.hoge'</span>, <span class="no">DefaultMimeTypes</span><span class="p">)</span>     <span class="c1">#=&gt; &quot;application/octet-stream&quot;
+</span></code></pre>
 </dd>
 
 
@@ -350,6 +380,29 @@ HTTP ヘッダの値を返します。
 文字列を指定します。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="M_UNESCAPE_FORM"><code>unescape_form(str) -&gt; String</code><span class="permalink">[<a href="../method/WEBrick=3a=3aHTTPUtils/m/unescape_form.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/WEBrick/HTTPUtils.html#method-c-unescape_form">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/webrick/httputils/HTTPUtils.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/WEBrick=3a=3aHTTPUtils/m/escape_form.html">WEBrick::HTTPUtils.#escape_form</a> で変換された文字列を元の文字列に戻します。
+<code>+</code> はスペースに変換されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>str</code>:</dt>
+<dd>
+文字列を指定します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'webrick'</span>
+<span class="nb">p</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPUtils</span><span class="p">.</span><span class="nf">unescape_form</span><span class="p">(</span><span class="s1">'foo+bar%2Bbaz'</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;foo bar+baz&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/WEBrick=3a=3aHTTPUtils/m/escape_form.html">WEBrick::HTTPUtils.#escape_form</a>
+</p>
 </dd>
 
 

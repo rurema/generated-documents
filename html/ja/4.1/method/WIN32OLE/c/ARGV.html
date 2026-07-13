@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -90,16 +90,17 @@ Rubyのメソッド引数は値のみを取るため、そのままでは呼び�
 <p>
 以下のリストは、VBで開発したオブジェクトのメソッド呼び出しを例としています。このメソッド（Accm）は、第1引数で指定した演算を第2引数と第3引数に適用し、結果を第2引数に設定します。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 ' VB (OLE Automation server)
 Public Sub Accm(ByVal Operator, ByRef Accumulator, ByVal Operand)
-    If Operator = &quot;*&quot; Then
+    If Operator = "*" Then
         Accmulator = Accmulator * Operand
-    Else If Operator = &quot;+&quot; Then
+    Else If Operator = "+" Then
         Accmulator = Accmulator + Operand
     End If
 End Sub
-
+ 
 # Ruby
 x = 10
 obj.Accm '*', x, 11
@@ -107,11 +108,12 @@ p x               # =&gt; 10 …… 呼び出しによって影響を受けな�
 p WIN32OLE::ARGV  # =&gt; ['*', 110, 11] …… 結果はARGVの対応する引数に反映される
 obj.Accm '+', 10, 11
 p WIN32OLE::ARGV  # =&gt; ['+', 21, 11]
-</pre>
+</code></pre>
 <p>
 直前のメソッド呼び出しが例外となった場合、ARGVの設定内容は呼び出し前の状態が保たれます。つまり、WIN32OLE自身がARGVの内容を消去するのは、メソッド呼び出しに成功した場合のみです。このため最後のメソッド呼び出しが引数にオブジェクトを返すタイプのメソッドだった場合、GCにオブジェクトを回収させるために、呼び出し側でARGVを消去してください。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 ' VB (OLE Automation server)
 Public Sub GetInterface(ByRef obj)
     Set Obj = New OleObject
@@ -120,7 +122,7 @@ End Sub
 # Ruby
 obj.GetInterface nil   # 引数の数を合わせるためダミー引数を指定
 WIN32OLE::ARGV.clear   # 通常は、後続のメソッド呼び出しによって消去される
-</pre>
+</code></pre>
 </dd>
 
 

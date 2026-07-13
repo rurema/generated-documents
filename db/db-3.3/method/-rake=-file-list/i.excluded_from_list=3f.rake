@@ -20,8 +20,8 @@ task default: :test_rake_app
 task :test_rake_app do
   file_list = FileList.new("test1.rb", "test2.rb")
   file_list.exclude("test1.rb")
-  file_list.excluded_from_list?("test1.rb") # => true
-  file_list.excluded_from_list?("test2.rb") # => false
+  p file_list.excluded_from_list?("test1.rb") # => true
+  p file_list.excluded_from_list?("test2.rb") # => false
 end
 ```
 

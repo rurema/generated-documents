@@ -103,19 +103,20 @@
 proc.call(req, res) のように呼ばれます。認証に失敗した場合 proc は適切な例外を発生させなければいけません。nil を指定した場合すべての接続を受け付けます。デフォルトは nil です。通常は <a href="../../../class/WEBrick=3a=3aHTTPAuth=3a=3aProxyBasicAuth.html">WEBrick::HTTPAuth::ProxyBasicAuth</a> か
 <a href="../../../class/WEBrick=3a=3aHTTPAuth=3a=3aProxyDigestAuth.html">WEBrick::HTTPAuth::ProxyDigestAuth</a> を使用します。
 </p>
-<pre>
- require 'webrick'
- require 'webrick/httpproxy'
- auth_proc = proc{|req, res|
-   unless c = req['proxy-authorization']
-     res['Proxy-Authenticate'] = 'Basic realm=&quot;WEBrick Proxy&quot;'
-     raise WEBrick::HTTPStatus::ProxyAuthenticationRequired
-   else
-     # 略
-   end
- }
- s = WEBrick::HTTPProxyServer.new(ProxyAuthProc: auth_proc, Port: 8080)
-</pre>
+<pre class="highlight ruby">
+<code>
+ <span class="nb">require</span> <span class="s1">'webrick'</span>
+ <span class="nb">require</span> <span class="s1">'webrick/httpproxy'</span>
+ auth_proc <span class="o">=</span> <span class="nb">proc</span><span class="p">{</span><span class="o">|</span>req, res<span class="o">|</span>
+   <span class="k">unless</span> c <span class="o">=</span> req<span class="p">[</span><span class="s1">'proxy-authorization'</span><span class="p">]</span>
+     res<span class="p">[</span><span class="s1">'Proxy-Authenticate'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Basic realm=&quot;WEBrick Proxy&quot;'</span>
+     <span class="nb">raise</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPStatus</span><span class="o">::</span><span class="no">ProxyAuthenticationRequired</span>
+   <span class="k">else</span>
+     <span class="c1"># 略
+</span>   <span class="k">end</span>
+ <span class="p">}</span>
+ s <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPProxyServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">ProxyAuthProc:</span> auth_proc, <span class="ss">Port:</span> <span class="mi">8080</span><span class="p">)</span>
+</code></pre>
 </dd>
 <dt><code>:ProxyContentHandler</code></dt>
 <dd>
@@ -124,15 +125,16 @@ proc.call(req, res) のように呼ばれます。認証に失敗した場合 pr
 <a href="../../../class/WEBrick=3a=3aHTTPRequest.html">WEBrick::HTTPRequest</a> オブジェクトを引数として proc.call(req, res) のように呼ばれます。
 nil を指定した場合なにもしません。デフォルトは nil です。
 </p>
-<pre>
- require 'webrick'
- require 'webrick/httpproxy'
- handler = proc{|req, res|
-   res.body.gsub!(/です。/, 'でんがな。')
-   res.body.gsub!(/ます。/, 'まんがな。')
- }
- s = WEBrick::HTTPProxyServer.new(ProxyContentHandler: handler, Port: 8080)
-</pre>
+<pre class="highlight ruby">
+<code>
+ <span class="nb">require</span> <span class="s1">'webrick'</span>
+ <span class="nb">require</span> <span class="s1">'webrick/httpproxy'</span>
+ handler <span class="o">=</span> <span class="nb">proc</span><span class="p">{</span><span class="o">|</span>req, res<span class="o">|</span>
+   res<span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">gsub!</span><span class="p">(</span><span class="sr">/です。/</span>, <span class="s1">'でんがな。'</span><span class="p">)</span>
+   res<span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">gsub!</span><span class="p">(</span><span class="sr">/ます。/</span>, <span class="s1">'まんがな。'</span><span class="p">)</span>
+ <span class="p">}</span>
+ s <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPProxyServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">ProxyContentHandler:</span> handler, <span class="ss">Port:</span> <span class="mi">8080</span><span class="p">)</span>
+</code></pre>
 </dd>
 <dt><code>:ProxyVia</code></dt>
 <dd>
@@ -153,12 +155,13 @@ true を指定した場合 接続先の HTTP サーバへのリクエストに�
 HTTP サーバへの接続にさらに別の Proxy サーバを使う場合にその Proxy の URI
 を <a href="../../../class/URI.html">URI</a> オブジェクトで指定します。
 </p>
-<pre>
-  require 'uri'
-  require 'webrick/httpproxy'
-  u = URI.parse('http://localhost:18080/')
-  s = WEBrick::HTTPProxyServer.new(ProxyURI: u, Port: 8080)
-</pre>
+<pre class="highlight ruby">
+<code>
+  <span class="nb">require</span> <span class="s1">'uri'</span>
+  <span class="nb">require</span> <span class="s1">'webrick/httpproxy'</span>
+  u <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://localhost:18080/'</span><span class="p">)</span>
+  s <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPProxyServer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">ProxyURI:</span> u, <span class="ss">Port:</span> <span class="mi">8080</span><span class="p">)</span>
+</code></pre>
 </dd>
 </dl>
 <dl>

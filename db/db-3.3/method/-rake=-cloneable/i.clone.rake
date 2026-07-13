@@ -16,9 +16,9 @@ task default: :test_rake_app
 task :test_rake_app do
   file_list = FileList['a.c', 'b.c']
   clone = file_list.clone
-  clone                 # => ["a.c", "b.c"]
+  p clone               # => ["a.c", "b.c"]
   clone.exclude("a.c")
-  clone == file_list    # => false
+  p clone == file_list  # => false
 end
 ```
 

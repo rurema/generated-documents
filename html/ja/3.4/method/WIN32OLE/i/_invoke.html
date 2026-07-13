@@ -113,28 +113,31 @@ COMアーリーバインディングを利用して外部プロセスサーバ�
 オートメーションサーバの呼び出しに失敗しました。理由はメッセージのHRESULTを調べてください。
 </dd>
 </dl>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-excel._invoke(302, [], []) #  DISPID 302は、Quitメソッド
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+excel<span class="p">.</span><span class="nf">_invoke</span><span class="p">(</span><span class="mi">302</span>, <span class="p">[</span><span class="p">]</span>, <span class="p">[</span><span class="p">]</span><span class="p">)</span> <span class="c1">#  DISPID 302は、Quitメソッド
+</span></code></pre>
 <p>
 MFCの制約により、バイト配列の型情報は通常
 <a href="../../../method/WIN32OLE=3a=3aVARIANT/c/VT_VARIANT.html">WIN32OLE::VARIANT::VT_VARIANT</a>となります。このような場合に、バイト配列を与えるつもりで
 </p>
-<pre>
-include WIN32OLE::VARIANT
-obj.method(DISPID, [[0, 1, 2, 3]], [VT_VARIANT])
-</pre>
+<pre class="highlight ruby">
+<code>
+include <span class="no">WIN32OLE</span><span class="o">::</span><span class="no">VARIANT</span>
+obj<span class="p">.</span><span class="nf">method</span><span class="p">(</span><span class="no">DISPID</span>, <span class="p">[</span><span class="p">[</span><span class="mi">0</span>, <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">]</span>, <span class="p">[</span><span class="no">VT_VARIANT</span><span class="p">]</span><span class="p">)</span>
+</code></pre>
 <p>
 のように記述すると、単に32ビット整数（VT_I4）の配列が送られることになり空間効率が低下します。
 </p>
 <p>
 引数の最終的な型がわかっている場合は、下記の例のように型指定パラメータには実際の型を指定してください。
 </p>
-<pre>
-include WIN32OLE::VARIANT
-obj.method(DISPID, [[0, 1, 2, 3]], [VT_BYREF | VT_ARRAY | VT_UI1])
-</pre>
+<pre class="highlight ruby">
+<code>
+include <span class="no">WIN32OLE</span><span class="o">::</span><span class="no">VARIANT</span>
+obj<span class="p">.</span><span class="nf">method</span><span class="p">(</span><span class="no">DISPID</span>, <span class="p">[</span><span class="p">[</span><span class="mi">0</span>, <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">]</span>, <span class="p">[</span><span class="no">VT_BYREF</span> <span class="o">|</span> <span class="no">VT_ARRAY</span> <span class="o">|</span> <span class="no">VT_UI1</span><span class="p">]</span><span class="p">)</span>
+</code></pre>
 <p>
 なお、VB6で作成したCOMコンポーネントのパラメータに配列を与える場合は、
 <a href="../../../method/WIN32OLE=3a=3aVARIANT/c/VT_BYREF.html">WIN32OLE::VARIANT::VT_BYREF</a>の指定が必須です。

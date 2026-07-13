@@ -144,16 +144,17 @@ dRuby でインターネット上に公開するサービスを作るべきで�
 <p>
 あるオブジェクトへの外部からのアクセスを許可すると、単にそのオブジェクトのメソッドを外部から呼び出せるだけでなく、任意の Ruby のコードを実行できてしまいます。例えば以下のようなことができます。
 </p>
-<pre>
-# !! 危険 !!
-ro = DRbObject.new_with_uri(&quot;druby://your.server.com:8989&quot;)
-class &lt;&lt; ro
-  # リモートオブジェクトの instance_eval を呼ぶため
-  # ローカルオブジェクトの instance_eval を取り除く
-  undef :instance_eval
-end
-ro.instance_eval(&quot;DANGEROUS RUBY CODE!&quot;)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># !! 危険 !!
+</span>ro <span class="o">=</span> <span class="no">DRbObject</span><span class="p">.</span><span class="nf">new_with_uri</span><span class="p">(</span><span class="s2">"</span><span class="s2">druby://your.server.com:8989</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">class</span> <span class="o">&lt;&lt;</span> ro
+  <span class="c1"># リモートオブジェクトの instance_eval を呼ぶため
+</span>  <span class="c1"># ローカルオブジェクトの instance_eval を取り除く
+</span>  <span class="k">undef</span> <span class="ss">:instance_eval</span>
+<span class="k">end</span>
+ro<span class="p">.</span><span class="nf">instance_eval</span><span class="p">(</span><span class="s2">"</span><span class="s2">DANGEROUS RUBY CODE!</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
 <p>
 このような instance_eval による危険性は <a href="../method/Kernel/v/SAFE.html">$SAFE</a> を 1
 にすることで防げます。
@@ -175,44 +176,46 @@ ro.instance_eval(&quot;DANGEROUS RUBY CODE!&quot;)
 ターミナルを2つサーバ側/クライアント側として起動して、サーバ側を先に動かしてください。
 </p>
 <h3 >サーバ側コード</h3>
-<pre>
-require 'drb/drb'
-
-# 通信を待ち受ける URI
-SERVER_URI=&quot;druby://localhost:8787&quot;
-
-class TimeServer
-
-  def get_current_time
-    return Time.now
-  end
-
-end
-
-# サーバ側でリクエストを受け付けるオブジェクト
-FRONT_OBJECT=TimeServer.new
-
-# サーバを起動する
-DRb.start_service(SERVER_URI, FRONT_OBJECT, :safe_level =&gt; 1)
-# DRb のスレッドが終了するのを待つ
-DRb.thread.join
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'drb/drb'</span>
+  
+<span class="c1"># 通信を待ち受ける URI
+</span><span class="no">SERVER_URI</span><span class="o">=</span><span class="s2">"</span><span class="s2">druby://localhost:8787</span><span class="s2">"</span>
+  
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">TimeServer</span>
+  
+  <span class="k">def</span> <span class="nf">get_current_time</span>
+    <span class="k">return</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span>
+  <span class="k">end</span>
+  
+<span class="k">end</span>
+  
+<span class="c1"># サーバ側でリクエストを受け付けるオブジェクト
+</span><span class="no">FRONT_OBJECT</span><span class="o">=</span><span class="no">TimeServer</span><span class="p">.</span><span class="nf">new</span>
+  
+<span class="c1"># サーバを起動する
+</span><span class="no">DRb</span><span class="p">.</span><span class="nf">start_service</span><span class="p">(</span><span class="no">SERVER_URI</span>, <span class="no">FRONT_OBJECT</span>, <span class="ss">:safe_level</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1"># DRb のスレッドが終了するのを待つ
+</span><span class="no">DRb</span><span class="p">.</span><span class="nf">thread</span><span class="p">.</span><span class="nf">join</span>
+</code></pre>
 <h3 >クライアント側コード</h3>
-<pre>
-require 'drb/drb'
-
-# 接続先の URI
-SERVER_URI=&quot;druby://localhost:8787&quot;
-
-# DRbサーバを起動する
-# この例には必要ないが、front オブジェクト以外の
-# リモートオブジェクトのメソッドを呼び出す時には必要
-DRb.start_service
-# リモートオブジェクトの取得
-timeserver = DRbObject.new_with_uri(SERVER_URI)
-# リモートメソッドの呼び出し
-puts timeserver.get_current_time
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'drb/drb'</span>
+  
+<span class="c1"># 接続先の URI
+</span><span class="no">SERVER_URI</span><span class="o">=</span><span class="s2">"</span><span class="s2">druby://localhost:8787</span><span class="s2">"</span>
+  
+<span class="c1"># DRbサーバを起動する
+</span><span class="c1"># この例には必要ないが、front オブジェクト以外の
+</span><span class="c1"># リモートオブジェクトのメソッドを呼び出す時には必要
+</span><span class="no">DRb</span><span class="p">.</span><span class="nf">start_service</span>
+<span class="c1"># リモートオブジェクトの取得
+</span>timeserver <span class="o">=</span> <span class="no">DRbObject</span><span class="p">.</span><span class="nf">new_with_uri</span><span class="p">(</span><span class="no">SERVER_URI</span><span class="p">)</span>
+<span class="c1"># リモートメソッドの呼び出し
+</span><span class="nb">puts</span> timeserver<span class="p">.</span><span class="nf">get_current_time</span>
+</code></pre>
 
 
 <h2>クラス</h2>

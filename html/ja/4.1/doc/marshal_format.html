@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -100,11 +100,12 @@ Ruby 2.2 以降は freeze されているので、インスタンス変数は設
 <p>
 数値 n に対して
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 n == 0:       0
 0 &lt; n &lt; 123:  n + 5
 -124 &lt; n &lt; 0: n - 5
-</pre>
+</code></pre>
 <p>
 という数値(1 byte)を格納します。5 を足したり引いたりするのは下記の形式 2 との区別のためです。
 </p>
@@ -120,11 +121,12 @@ n == 0:       0
 形式 1 の範囲を超える数値 N に対しては、以下の形式になります。
 </p>
 <h3 >形式 2</h3>
-<pre>
+<pre class="highlight text">
+<code>
 | len | n_1 | n_2 | n_3 | n_4 |
 &lt;-1-&gt;  &lt;-       len         -&gt;
 byte            bytes
-</pre>
+</code></pre>
 <p>
 len の値は -4 〜 -1, 1 〜 4 で。符号と後続のデータが n1 〜 n_len
 まであることを示します。
@@ -169,9 +171,10 @@ Ruby 2.0 以降は freeze されているので、インスタンス変数は設
 <p>
 'C' で始まるデータ構造になります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | 'C' | クラス名(Symbol)の dump | 親クラスのインスタンスの dump |
-</pre>
+</code></pre>
 <span class="caption">例 1</span>
 <pre class="highlight ruby">
 <code>
@@ -215,9 +218,10 @@ Ruby 2.0 以降は freeze されているので、インスタンス変数は設
 <p>
 _dump、_load を定義していれば 'u' になります。インスタンス変数は dump されなくなるので、_dump/_load で対応する必要があります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | 'u' | クラス名(Symbol)の dump | _dump の結果の長さ(Fixnum形式) | _dump が返す値 |
-</pre>
+</code></pre>
 <pre class="highlight ruby">
 <code>
 <span class="c1"># coding: ascii-8bit
@@ -236,9 +240,10 @@ _dump、_load を定義していれば 'u' になります。インスタンス�
 marshal_dump、marshal_load を定義していれば 'U' になります。インスタンス変数は dump されなくなるので、marshal_dump/marshal_load
 で対応する必要があります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | 'U' | クラス名(Symbol)の dump | marshal_dump メソッドの戻り値の dump |
-</pre>
+</code></pre>
 <pre class="highlight ruby">
 <code>
 <span class="c1"># coding: ascii-8bit
@@ -257,13 +262,14 @@ marshal_dump、marshal_load を定義していれば 'U' になります。イ�
 <p>
 'o' で始まるデータ構造になります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | 'o' | クラス名(Symbol)のdump | インスタンス変数の数(Fixnum形式) |
 | インスタンス変数名(Symbol)のdump(1) | 値(1) |
           :
           :
 | インスタンス変数名(Symbol)のdump(n) | 値(n) |
-</pre>
+</code></pre>
 <span class="caption">例 1</span>
 <pre class="highlight ruby">
 <code>
@@ -288,9 +294,10 @@ marshal_dump、marshal_load を定義していれば 'U' になります。イ�
 <p>
 'f' で始まるデータ構造になります。
 </p>
-<pre>
- | 'f' | 数値列の長さ(Fixnum形式) | &quot;%.16g&quot; の文字列 |
-</pre>
+<pre class="highlight text">
+<code>
+ | 'f' | 数値列の長さ(Fixnum形式) | "%.16g" の文字列 |
+</code></pre>
 <pre class="highlight ruby">
 <code>
 <span class="nb">p</span> <span class="no">Marshal</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="no">Math</span><span class="o">::</span><span class="no">PI</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">x2 a c a*</span><span class="s2">"</span><span class="p">)</span>
@@ -315,9 +322,10 @@ Ruby 1.7 から、sprintf(3)/strtod(3) への依存はなくなりました。
 32ビット環境で内部的に Bignum になる Integer は
 64ビット環境で Marshal.dump しても、この形式になります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | 'l' | '+'/'-' | shortの個数(Fixnum形式) | ... |
-</pre>
+</code></pre>
 <pre class="highlight ruby">
 <code>
 <span class="nb">p</span> <span class="no">Marshal</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">32</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">x2 a a c a*</span><span class="s2">"</span><span class="p">)</span>
@@ -330,9 +338,10 @@ ruby 1.6.3 では [&quot;l&quot;, &quot;+&quot;, 8, &quot;\000\000\001\000&quot;
 <p>
 '&quot;' で始まるデータ構造になります。
 </p>
-<pre>
-| '&quot;' | 長さ(Fixnum形式) | 文字列 |
-</pre>
+<pre class="highlight text">
+<code>
+| '"' | 長さ(Fixnum形式) | 文字列 |
+</code></pre>
 <span class="caption">例: ascii-8bit の時 (1.8 以前と同じ)</span>
 <pre class="highlight ruby">
 <code>
@@ -372,9 +381,10 @@ ruby 1.9.2 以降では US-ASCII と UTF-8 が 'E' という内部的なイン�
 <p>
 '/' で始まるデータ構造になります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | '/' | 長さ(Fixnum形式) | ソース文字列 | オプション |
-</pre>
+</code></pre>
 <p>
 オプションは、<a href="../method/Regexp/i/options.html">Regexp#options</a>の結果 + 漢字コードのフラグ値です。
 </p>
@@ -398,9 +408,10 @@ encoding が付いています。
 <p>
 '[' で始まるデータ構造になります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | '[' | 要素数(Fixnum形式) | 要素の dump | ... |
-</pre>
+</code></pre>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
@@ -412,9 +423,10 @@ encoding が付いています。
 <p>
 '{' で始まるデータ構造になります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | '{' | 要素数(Fixnum形式) | キーの dump | 値の dump | ... |
-</pre>
+</code></pre>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
@@ -425,9 +437,10 @@ encoding が付いています。
 <p>
 '}' で始まるデータ構造になります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | '}' | 要素数(Fixnum形式) | キーの dump | 値の dump | ... | デフォルト値 |
-</pre>
+</code></pre>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
@@ -450,10 +463,11 @@ h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><
 <p>
 構造体クラスのインスタンスのダンプは 'S' で始まるデータ構造になります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | 'S' | クラス名(Symbol) の dump | メンバの数(Fixnum形式) |
 | メンバ名(Symbol) の dump | 値 | ... |
-</pre>
+</code></pre>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
@@ -467,9 +481,10 @@ h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><
 <p>
 'M' で始まるデータ構造です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | 'M' | 長さ(Fixnum形式) | モジュール/クラス名 |
-</pre>
+</code></pre>
 <p>
 今ではこの形式を dump することはできないので load で例を示しています。
 </p>
@@ -485,9 +500,10 @@ h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><
 <p>
 'c', 'm' で始まるデータ構造です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | 'c'/'m' | クラス名の長さ(Fixnum 形式) | クラス名 |
-</pre>
+</code></pre>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
@@ -548,9 +564,10 @@ h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><
 <p>
 ':' で始まるデータ構造になります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | ':' | シンボル名の長さ(Fixnum形式) | シンボル名 |
-</pre>
+</code></pre>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
@@ -562,9 +579,10 @@ h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><
 ';' で始まるデータ構造は、対応するシンボル名が既に
 dump/load されている場合に使用されます。番号は内部管理のもので、dump/load 時に Symbol 管理用にハッシュテーブルが作られていて、そのレコード位置です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | ';' | Symbolの実体を指す番号(Fixnum形式) |
-</pre>
+</code></pre>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
@@ -580,13 +598,14 @@ dump/load されている場合に使用されます。番号は内部管理の�
 インスタンス変数を持つ Object, Class, Module のインスタンス以外は
 'I' で始まるデータ構造になります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | 'I' | オブジェクトの dump | インスタンス変数の数(Fixnum形式) |
 | インスタンス変数名(Symbol) のdump(1) | 値(1) |
           :
           :
 | インスタンス変数名(Symbol) のdump(n) | 値(n) |
-</pre>
+</code></pre>
 <p>
 Object のインスタンスはそれ自身がインスタンス変数を含む構造を持つので別形式で dump されます。
 (<a href="../doc/marshal_format.html#Object">Marshal フォーマット/Object</a> 参照)
@@ -611,9 +630,10 @@ obj<span class="p">.</span><span class="nf">instance_eval</span> <span class="p"
 '@' で始まるデータ構造は、対応するオブジェクトが既に
 dump/load されている場合に使用されます。番号は内部管理のもので、dump/load 時にオブジェクト管理用にハッシュテーブルが作られていて、そのレコード位置です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 | '@' | オブジェクトの実体を指す番号(Fixnum形式) |
-</pre>
+</code></pre>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>

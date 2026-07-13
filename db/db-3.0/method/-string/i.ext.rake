@@ -12,12 +12,11 @@ source_location=manual/api/rake/String.md
 
 - **param** `newext` -- 新しい拡張子を指定します。
 
-例:
-`````
+```ruby title="例"
 require "rake"
 
-"hoge".ext(".rb")          # => "hoge.rb"
-"hoge.rb".ext(".erb")      # => "hoge.erb"
-"hoge.tar.gz".ext(".bz2")  # => "hoge.tar.bz2"
-`````
+p "hoge".ext(".rb")        # => "hoge.rb"
+p "hoge.rb".ext(".erb")    # => "hoge.erb"
+p "hoge.tar.gz".ext(".bz2")  # => "hoge.tar.bz2"
+```
 

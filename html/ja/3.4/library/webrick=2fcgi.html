@@ -88,23 +88,22 @@ do_GET や do_POST を定義することによって CGI スクリプトを書�
 WEBrick::CGI#start メソッドは service メソッドを呼び出し、service メソッドはリクエストに応じて
 do_XXX メソッドを呼び出します。このようにしてスクリプトは実行されます。
 </p>
-<p>
-例:
-</p>
-<pre>
-#!/usr/local/bin/ruby
-require 'webrick/cgi'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1">#!/usr/local/bin/ruby
+</span><span class="nb">require</span> <span class="s1">'webrick/cgi'</span>
 
-class MyCGI &lt; WEBrick::CGI
-  def do_GET(req, res)
-    res[&quot;content-type&quot;] = &quot;text/plain&quot;
-    ret = &quot;hoge\n&quot;
-    res.body = ret
-  end
-end
-
-MyCGI.new.start()
-</pre>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyCGI</span> <span class="o">&lt;</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">CGI</span>
+  <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span>req, res<span class="p">)</span>
+    res<span class="p">[</span><span class="s2">"</span><span class="s2">content-type</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">text/plain</span><span class="s2">"</span>
+    ret <span class="o">=</span> <span class="s2">"</span><span class="s2">hoge\n</span><span class="s2">"</span>
+    res<span class="p">.</span><span class="nf">body</span> <span class="o">=</span> ret
+  <span class="k">end</span>
+<span class="k">end</span>
+ 
+<span class="no">MyCGI</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="p">)</span>
+</code></pre>
 <h3 >do_XXX メソッド</h3>
 <p>
 do_XXX メソッドの XXX には GET, HEAD, POST, PUT, DELETE, OPTIONS が使用できます。
@@ -125,96 +124,102 @@ do_XXX メソッドには二つの引数があります。第一引数は、ク�
 <p>
 フォームフィールドの値は <a href="../method/WEBrick=3a=3aHTTPRequest/i/query.html">WEBrick::HTTPRequest#query</a> メソッドが返す Hash オブジェクトに収納されています。
 </p>
-<pre>
-require &quot;webrick/cgi&quot;
-class MyCGI &lt; WEBrick::CGI
-  def do_GET(req, res)
-    req.query               #=&gt; Hash を返します。
-    req.query['q']
-    req.query['num']
-  end
-end
-MyCGI.new.start()
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">webrick/cgi</span><span class="s2">"</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyCGI</span> <span class="o">&lt;</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">CGI</span>
+  <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span>req, res<span class="p">)</span>
+    <span class="nb">p</span> req<span class="p">.</span><span class="nf">query</span>             <span class="c1">#=&gt; Hash を返します。
+</span>    req<span class="p">.</span><span class="nf">query</span><span class="p">[</span><span class="s1">'q'</span><span class="p">]</span>          
+    req<span class="p">.</span><span class="nf">query</span><span class="p">[</span><span class="s1">'num'</span><span class="p">]</span>       
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="no">MyCGI</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="p">)</span>
+</code></pre>
 <p>
 同じ名前のフィールドが複数ある場合、list メソッドや each_data メソッドを使います。
 </p>
-<pre>
-require &quot;webrick/cgi&quot;
-class MyCGI &lt; WEBrick::CGI
-  def do_GET(req, res)
-    req.query['q'].list     #=&gt; フォームの値を保持した文字列の配列を返します。
-  end
-end
-MyCGI.new.start()
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">webrick/cgi</span><span class="s2">"</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyCGI</span> <span class="o">&lt;</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">CGI</span>
+  <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span>req, res<span class="p">)</span>
+    <span class="nb">p</span> req<span class="p">.</span><span class="nf">query</span><span class="p">[</span><span class="s1">'q'</span><span class="p">]</span><span class="p">.</span><span class="nf">list</span>   <span class="c1">#=&gt; フォームの値を保持した文字列の配列を返します。
+</span>  <span class="k">end</span>
+<span class="k">end</span>
+<span class="no">MyCGI</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="p">)</span>
+</code></pre>
 <p>
 query メソッドが返す Hash オブジェクトのキーと値のうち値は <a href="../class/WEBrick=3a=3aHTTPUtils=3a=3aFormData.html">WEBrick::HTTPUtils::FormData</a> クラスのインスタンスになります。FormData クラスは String クラスのサブクラスです。
 </p>
 <h3 >マルチパートフィールドの値を取得する（ファイル送信）</h3>
-<pre>
-require &quot;webrick/cgi&quot;
-class MyCGI &lt; WEBrick::CGI
-  def do_GET(req, res)
-    d = req.query['field_name']   #=&gt; FormData クラスのインスタンス
-    d.name                        #=&gt; &quot;field_name&quot;
-    d.filename                    #=&gt; もしあればファイル名を返す。
-    d['content-type']             #=&gt; ヘッダの値は [] メソッドで取得する
-    d                             #=&gt; 送られてきたファイルの中身
-  end
-end
-MyCGI.new.start()
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">webrick/cgi</span><span class="s2">"</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyCGI</span> <span class="o">&lt;</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">CGI</span>
+  <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span>req, res<span class="p">)</span>
+    d <span class="o">=</span> req<span class="p">.</span><span class="nf">query</span><span class="p">[</span><span class="s1">'field_name'</span><span class="p">]</span>   <span class="c1">#=&gt; FormData クラスのインスタンス
+</span>    <span class="nb">p</span> d<span class="p">.</span><span class="nf">name</span>                      <span class="c1">#=&gt; &quot;field_name&quot;
+</span>    <span class="nb">p</span> d<span class="p">.</span><span class="nf">filename</span>                  <span class="c1">#=&gt; もしあればファイル名を返す。
+</span>    <span class="nb">p</span> d<span class="p">[</span><span class="s1">'content-type'</span><span class="p">]</span>           <span class="c1">#=&gt; ヘッダの値は [] メソッドで取得する
+</span>    <span class="nb">p</span> d                           <span class="c1">#=&gt; 送られてきたファイルの中身
+</span>  <span class="k">end</span>
+<span class="k">end</span>
+<span class="no">MyCGI</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="p">)</span>
+</code></pre>
 <h3 >クライアントにクッキーを渡す</h3>
-<pre>
-require &quot;webrick/cgi&quot;
-class MyCGI &lt; WEBrick::CGI
-  def do_GET(req, res)
-    c1 = WEBrick::Cookie.new(&quot;name1&quot;, &quot;val1&quot;)
-    c1.expires = Time.now + 30
-    res.cookies &lt;&lt; c1
-
-    c2 = WEBrick::Cookie.new(&quot;name2&quot;, &quot;val2&quot;)
-    c2.expires = Time.now + 30
-    res.cookies &lt;&lt; c2
-  end
-end
-MyCGI.new.start()
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">webrick/cgi</span><span class="s2">"</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyCGI</span> <span class="o">&lt;</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">CGI</span>
+  <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span>req, res<span class="p">)</span>
+    c1 <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">Cookie</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">name1</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">val1</span><span class="s2">"</span><span class="p">)</span>
+    c1<span class="p">.</span><span class="nf">expires</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span> <span class="o">+</span> <span class="mi">30</span>
+    res<span class="p">.</span><span class="nf">cookies</span> <span class="o">&lt;&lt;</span> c1
+     
+    c2 <span class="o">=</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">Cookie</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">name2</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">val2</span><span class="s2">"</span><span class="p">)</span>
+    c2<span class="p">.</span><span class="nf">expires</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span> <span class="o">+</span> <span class="mi">30</span>
+    res<span class="p">.</span><span class="nf">cookies</span> <span class="o">&lt;&lt;</span> c2
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="no">MyCGI</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="p">)</span>
+</code></pre>
 <h3 >クライアントからクッキーを得る</h3>
-<pre>
-require &quot;webrick/cgi&quot;
-class MyCGI &lt; WEBrick::CGI
-  def do_GET(req, res)
-    req.cookies                                   #=&gt; WEBrick::Cookie オブジェクトの配列
-    c = req.cookies.find{|c| c.name == &quot;name1&quot; }  #=&gt; WEBrick::Cookie オブジェクト
-  end
-end
-MyCGI.new.start()
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">webrick/cgi</span><span class="s2">"</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyCGI</span> <span class="o">&lt;</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">CGI</span>
+  <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span>req, res<span class="p">)</span>
+    <span class="nb">p</span> req<span class="p">.</span><span class="nf">cookies</span>                                 <span class="c1">#=&gt; WEBrick::Cookie オブジェクトの配列
+</span>    c <span class="o">=</span> req<span class="p">.</span><span class="nf">cookies</span><span class="p">.</span><span class="nf">find</span><span class="p">{</span><span class="o">|</span>c<span class="o">|</span> c<span class="p">.</span><span class="nf">name</span> <span class="o">==</span> <span class="s2">"</span><span class="s2">name1</span><span class="s2">"</span> <span class="p">}</span>  <span class="c1">#=&gt; WEBrick::Cookie オブジェクト
+</span>  <span class="k">end</span>
+<span class="k">end</span>
+<span class="no">MyCGI</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="p">)</span>
+</code></pre>
 <h3 >CGI に関連する環境変数の値を取得する</h3>
 <p>
 CGI に関連する環境変数の値は直接 ENV から得る他に、
 WEBrick::HTTPRequest オブジェクトの各メソッドから得ることができます。
 </p>
-<pre>
-require &quot;webrick/cgi&quot;
-class MyCGI &lt; WEBrick::CGI
-  def do_GET(req, res)
-    req.content_length
-    req.content_type
-    req.path_info
-    req.query_string
-    req.peeraddr
-    req.host
-    req.user
-    req.request_method
-    req.script_name
-    req.port
-  end
-end
-MyCGI.new.start()
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">webrick/cgi</span><span class="s2">"</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyCGI</span> <span class="o">&lt;</span> <span class="no">WEBrick</span><span class="o">::</span><span class="no">CGI</span>
+  <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span>req, res<span class="p">)</span>
+    req<span class="p">.</span><span class="nf">content_length</span>
+    req<span class="p">.</span><span class="nf">content_type</span>
+    req<span class="p">.</span><span class="nf">path_info</span>
+    req<span class="p">.</span><span class="nf">query_string</span>
+    req<span class="p">.</span><span class="nf">peeraddr</span>
+    req<span class="p">.</span><span class="nf">host</span>
+    req<span class="p">.</span><span class="nf">user</span>
+    req<span class="p">.</span><span class="nf">request_method</span>
+    req<span class="p">.</span><span class="nf">script_name</span>
+    req<span class="p">.</span><span class="nf">port</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="no">MyCGI</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="p">)</span>
+</code></pre>
 <h2 >リンク</h2>
 <ul>
 <li><a class="external" href="https://tools.ietf.org/html/rfc3875">[RFC3875]</a></li>

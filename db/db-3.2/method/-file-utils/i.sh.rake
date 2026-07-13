@@ -12,8 +12,7 @@ source_location=manual/api/rake/FileUtils.md
 - **param** `cmd` -- 引数の解釈に関しては [m:Kernel?.exec] を参照してください。
 
 
-例:
-``````
+```ruby title="例"
 sh %{ls -ltr}
    
 sh 'ls', 'file with spaces'
@@ -24,7 +23,7 @@ sh %{grep pattern file} do |ok, res|
     puts "pattern not found (status = #{res.exitstatus})"
   end
 end
-``````
+```
 
 - **SEE** [m:Kernel?.exec], [m:Kernel?.system]
 

@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -122,10 +122,11 @@
 <p>
 C 言語の setjmp()/longjmp() がわかる人は
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 setjmp() == callcc {|c| }
 longjmp() == c.call
-</pre>
+</code></pre>
 <p>
 と考えれば、わかりやすいかも知れません(ただし、callcc はスタックが深くなる方向にもジャンプ出来るという違いがあります)
 </p>
@@ -136,24 +137,25 @@ callcc() は、ブロックの戻り値を返しますが、Continuation#call(ar
 <p>
 例:
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 以下は、Continuationによる無限ループの例
-
+  
 def LOOP
   c = nil
   yield callcc {|cnt| c = cnt; true }
   c.call(false)
 end
-
+  
 LOOP {|v| p v}
-
+  
 =&gt; true
    false
    false
    false
      :
      :
-</pre>
+</code></pre>
 <p>
 callcc とは、call-with-current-continuation の略です。
 </p>

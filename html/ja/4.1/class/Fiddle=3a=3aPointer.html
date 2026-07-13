@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -238,15 +238,14 @@ to_ptr の返り値が Pointer オブジェクトでない場合に発生しま�
 上記のいずれの変換も不可能であった場合に発生します
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
-s = &quot;abc&quot;
-p Fiddle::Pointer[s].to_i                 #=&gt; 136186388
-p [s].pack('p*').unpack('l!*')[0]  #=&gt; 136186388
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
+s <span class="o">=</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span><span class="p">.</span><span class="nf">to_i</span>                 <span class="c1">#=&gt; 136186388
+</span><span class="nb">p</span> <span class="p">[</span>s<span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s1">'p*'</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s1">'l!*'</span><span class="p">)</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1">#=&gt; 136186388
+</span></code></pre>
 </dd>
 
 
@@ -314,18 +313,17 @@ GC 時に呼ばれる free 関数を <a href="../class/Fiddle=3a=3aFunction.html
 アドレスの増分を整数で指定します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
-
-s = 'abc'
-cptr = Fiddle::Pointer[s]
-p cptr[0,1]         #=&gt; &quot;a&quot;
-cptr += 1
-p cptr[0,1]         #=&gt; &quot;b&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
+ 
+s <span class="o">=</span> <span class="s1">'abc'</span>
+cptr <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span>
+<span class="nb">p</span> cptr<span class="p">[</span><span class="mi">0</span>,<span class="mi">1</span><span class="p">]</span>         <span class="c1">#=&gt; &quot;a&quot;
+</span>cptr <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">p</span> cptr<span class="p">[</span><span class="mi">0</span>,<span class="mi">1</span><span class="p">]</span>         <span class="c1">#=&gt; &quot;b&quot;
+</span></code></pre>
 </dd>
 
 
@@ -342,19 +340,18 @@ C 言語におけるポインタのポインタに対する間接参照 *p と�
 <p>
 この返り値には、free 関数がセットされず、size は 0 とされます。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
-
-s = 'abc'
-cptr = Fiddle::Pointer[s]
-cref = cptr.ref
-p cref.to_s(4).unpack('l*')[0]  #=&gt; 136121648
-p cptr.to_i                     #=&gt; 136121648
-p cref.ptr.to_s                 #=&gt; &quot;abc&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
+ 
+s <span class="o">=</span> <span class="s1">'abc'</span>
+cptr <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span>
+cref <span class="o">=</span> cptr<span class="p">.</span><span class="nf">ref</span>
+<span class="nb">p</span> cref<span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s1">'l*'</span><span class="p">)</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1">#=&gt; 136121648
+</span><span class="nb">p</span> cptr<span class="p">.</span><span class="nf">to_i</span>                     <span class="c1">#=&gt; 136121648
+</span><span class="nb">p</span> cref<span class="p">.</span><span class="nf">ptr</span><span class="p">.</span><span class="nf">to_s</span>                 <span class="c1">#=&gt; &quot;abc&quot;
+</span></code></pre>
 </dd>
 
 
@@ -372,19 +369,18 @@ p cref.ptr.to_s                 #=&gt; &quot;abc&quot;
 アドレスの差分を整数で指定します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
-
-s = 'abc'
-cptr = Fiddle::Pointer[s]
-cptr += 1
-p cptr[0,1]         #=&gt; &quot;b&quot;
-cptr -= 1
-p cptr[0,1]         #=&gt; &quot;a&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span> 
+ 
+s <span class="o">=</span> <span class="s1">'abc'</span>
+cptr <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span>
+cptr <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">p</span> cptr<span class="p">[</span><span class="mi">0</span>,<span class="mi">1</span><span class="p">]</span>         <span class="c1">#=&gt; &quot;b&quot;
+</span>cptr <span class="o">-=</span> <span class="mi">1</span>
+<span class="nb">p</span> cptr<span class="p">[</span><span class="mi">0</span>,<span class="mi">1</span><span class="p">]</span>         <span class="c1">#=&gt; &quot;a&quot;
+</span></code></pre>
 </dd>
 
 
@@ -398,19 +394,18 @@ C 言語におけるポインタへのアドレス演算子の適用 &amp;p と�
 <p>
 この返り値には、free 関数がセットされず、size は 0 とされます。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
-
-s = 'abc'
-cptr = Fiddle::Pointer[s]
-cref = cptr.ref
-p cref.to_s(4).unpack('l*')[0]  #=&gt; 136121648
-p cptr.to_i                     #=&gt; 136121648
-p cref.ptr.to_s                 #=&gt; &quot;abc&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
+ 
+s <span class="o">=</span> <span class="s1">'abc'</span>
+cptr <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span>
+cref <span class="o">=</span> cptr<span class="p">.</span><span class="nf">ref</span>
+<span class="nb">p</span> cref<span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s1">'l*'</span><span class="p">)</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1">#=&gt; 136121648
+</span><span class="nb">p</span> cptr<span class="p">.</span><span class="nf">to_i</span>                     <span class="c1">#=&gt; 136121648
+</span><span class="nb">p</span> cref<span class="p">.</span><span class="nf">ptr</span><span class="p">.</span><span class="nf">to_s</span>                 <span class="c1">#=&gt; &quot;abc&quot;
+</span></code></pre>
 </dd>
 
 
@@ -444,20 +439,19 @@ other より小さい場合は -1, 等しい場合は 0、other より大きい�
 比較対象の Pointer オブジェクト
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
-
-s = 'abc'
-cptr  = Fiddle::Pointer[s]
-cptr0 = Fiddle::Pointer[s]
-cptr1 = cptr + 1
-
-p cptr == cptr1     #=&gt; false
-p cptr == cptr0     #=&gt; true
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span> 
+ 
+s <span class="o">=</span> <span class="s1">'abc'</span>
+cptr  <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span>
+cptr0 <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span>
+cptr1 <span class="o">=</span> cptr <span class="o">+</span> <span class="mi">1</span>
+ 
+<span class="nb">p</span> cptr <span class="o">==</span> cptr1     <span class="c1">#=&gt; false
+</span><span class="nb">p</span> cptr <span class="o">==</span> cptr0     <span class="c1">#=&gt; true
+</span></code></pre>
 </dd>
 
 
@@ -476,17 +470,16 @@ p cptr == cptr0     #=&gt; true
 self の保持するポインタが NULL である場合に発生します
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
-
-s = 'abc'
-cptr  = Fiddle::Pointer[s]
-p cptr[0]            #=&gt; 97
-p cptr[1]            #=&gt; 98
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
+ 
+s <span class="o">=</span> <span class="s1">'abc'</span>
+cptr  <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span>
+<span class="nb">p</span> cptr<span class="p">[</span><span class="mi">0</span><span class="p">]</span>            <span class="c1">#=&gt; 97           
+</span><span class="nb">p</span> cptr<span class="p">[</span><span class="mi">1</span><span class="p">]</span>            <span class="c1">#=&gt; 98
+</span></code></pre>
 </dd>
 <dt class="method-heading" id="I_--5B--5D"><code>self[offset, len] -&gt; String</code><span class="permalink">[<a href="../method/Fiddle=3a=3aPointer/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiddle/Pointer.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__Pointer.md">edit</a>]</span></dt>
 <dd class="method-description">
@@ -511,17 +504,16 @@ offset + len が自身のサイズより小さいかを検証しません。
 self の保持するポインタが NULL である場合に発生します
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
-
-s = 'abc'
-cptr  = Fiddle::Pointer[s]
-p cptr[0, 1]            #=&gt; &quot;a&quot;
-p cptr[1, 2]            #=&gt; &quot;bc&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
+ 
+s <span class="o">=</span> <span class="s1">'abc'</span>
+cptr  <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span>
+<span class="nb">p</span> cptr<span class="p">[</span><span class="mi">0</span>, <span class="mi">1</span><span class="p">]</span>            <span class="c1">#=&gt; &quot;a&quot;
+</span><span class="nb">p</span> cptr<span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>            <span class="c1">#=&gt; &quot;bc&quot;
+</span></code></pre>
 </dd>
 
 
@@ -540,17 +532,16 @@ p cptr[1, 2]            #=&gt; &quot;bc&quot;
 self の保持するポインタが NULL である場合に発生します
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
 
-s = 'abc'
-cptr  = Fiddle::Pointer[s]
-cptr[0] = 65
-p cptr.to_s         #=&gt; &quot;Bbc&quot;
-</pre>
+s <span class="o">=</span> <span class="s1">'abc'</span>
+cptr  <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span>
+cptr<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">65</span>
+<span class="nb">p</span> cptr<span class="p">.</span><span class="nf">to_s</span>         <span class="c1">#=&gt; &quot;Bbc&quot;
+</span></code></pre>
 </dd>
 <dt class="method-heading" id="I_--5B--5D--3D"><code>self[offset, len] = v</code><span class="permalink">[<a href="../method/Fiddle=3a=3aPointer/i/=5b=5d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiddle/Pointer.html#method-i-5B-5D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__Pointer.md">edit</a>]</span></dt>
 <dd class="method-description">
@@ -578,17 +569,16 @@ str のサイズが len より小さい場合は、残りの領域を 0 で埋�
 self の保持するポインタが NULL である場合に発生します
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
-
-s = 'abc'
-cptr  = Fiddle::Pointer[s]
-p cptr[1,2] = &quot;AA&quot;
-p cptr.to_s         #=&gt; &quot;aAA&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
+ 
+s <span class="o">=</span> <span class="s1">'abc'</span>
+cptr  <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>s<span class="p">]</span>
+<span class="nb">p</span> cptr<span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">AA</span><span class="s2">"</span>
+<span class="nb">p</span> cptr<span class="p">.</span><span class="nf">to_s</span>         <span class="c1">#=&gt; &quot;aAA&quot;
+</span></code></pre>
 </dd>
 
 
@@ -707,17 +697,16 @@ len を省略した場合は、self.size をその代わりに使います。
 <p>
 自身はヒープに確保された Ruby のオブジェクトを指すポインタであると仮定して、自身が指すオブジェクトを返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle'
-
-s = 'abc'
-i = Fiddle.dlwrap(s)
-cptr = Fiddle::Pointer.new(i)
-p cptr.to_value   #=&gt; &quot;abc&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
+ 
+s <span class="o">=</span> <span class="s1">'abc'</span>
+i <span class="o">=</span> <span class="no">Fiddle</span><span class="p">.</span><span class="nf">dlwrap</span><span class="p">(</span>s<span class="p">)</span>
+cptr <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>i<span class="p">)</span>
+<span class="nb">p</span> cptr<span class="p">.</span><span class="nf">to_value</span>   <span class="c1">#=&gt; &quot;abc&quot;
+</span></code></pre>
 </dd>
 
 

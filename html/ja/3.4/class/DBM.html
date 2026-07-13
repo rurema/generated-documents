@@ -635,17 +635,18 @@ key をキーとする要素を削除します。
 ifnone を指定していないとき、キーが見つからなかった場合に発生します。
 </dd>
 </dl>
-<pre>
-require 'dbm'
-
-db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
-db1[:a] = 'aaa'
-db1[:b] = 'bbbbbb'
-p db1.fetch('a')                     #=&gt; 'aaa'
-p db1.fetch('z', 'zzz')              #=&gt; 'zzz'
-p db1.fetch('z'){|key| [:key, key] } #=&gt; [:key, 'z']
-p db1.fetch('z')                     #=&gt; IndexError 発生
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'dbm'</span>
+  
+db1 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'aaa.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+db1<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'aaa'</span>
+db1<span class="p">[</span><span class="ss">:b</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bbbbbb'</span>
+<span class="nb">p</span> db1<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>                     <span class="c1">#=&gt; 'aaa'
+</span><span class="nb">p</span> db1<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'z'</span>, <span class="s1">'zzz'</span><span class="p">)</span>              <span class="c1">#=&gt; 'zzz'
+</span><span class="nb">p</span> db1<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'z'</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>key<span class="o">|</span> <span class="p">[</span><span class="ss">:key</span>, key<span class="p">]</span> <span class="p">}</span> <span class="c1">#=&gt; [:key, 'z']
+</span><span class="nb">p</span> db1<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'z'</span><span class="p">)</span>                     <span class="c1">#=&gt; IndexError 発生
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Hash/i/fetch.html">Hash#fetch</a>
 </p>
@@ -697,14 +698,15 @@ value を値とする組がデータベース中に存在する時、真を返�
 <p>
 値からキーへのハッシュを返します。
 </p>
-<pre>
-require 'dbm'
-
-db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
-db1[:a] = 'aaa'
-db1[:b] = 'bbbbbb'
-p db1.invert  #=&gt; {&quot;bbbbbb&quot; =&gt; &quot;b&quot;, &quot;aaa&quot; =&gt; &quot;a&quot;}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'dbm'</span>
+  
+db1 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'aaa.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+db1<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'aaa'</span>
+db1<span class="p">[</span><span class="ss">:b</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bbbbbb'</span>
+<span class="nb">p</span> db1<span class="p">.</span><span class="nf">invert</span>  <span class="c1">#=&gt; {&quot;bbbbbb&quot; =&gt; &quot;b&quot;, &quot;aaa&quot; =&gt; &quot;a&quot;}
+</span></code></pre>
 </dd>
 
 
@@ -750,9 +752,10 @@ p db1.invert  #=&gt; {&quot;bbbbbb&quot; =&gt; &quot;b&quot;, &quot;aaa&quot; =&
 <p>
 ブロックを評価した値が真であれば該当する要素を削除します。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 self.to_hash.reject{|key, value| ... }
-</pre>
+</code></pre>
 <p>
 と同じです。
 </p>
@@ -773,27 +776,28 @@ self の内容を other の内容で置き換えます。
 each_pair メソッドを持つオブジェクトでなければなりません。
 </dd>
 </dl>
-<pre>
-require 'dbm'
-
-db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
-db1[:a] = 'aaa'
-db1[:b] = 'bbbbbb'
-db2 = DBM.open('bbb.db', 0666, DBM::NEWDB)
-db2[:bb] = 'bbb'
-db2[:cc] = 'ccc'
-
-p db1.keys #=&gt; ['b', 'a']
-
-db1.replace(db2)
-
-p db1.keys #=&gt; ['bb', 'cc']
-p db2.keys #=&gt; ['bb', 'cc']
-
-hash = {'x' =&gt; 'xxx', 'y' =&gt; 'yyy' }
-p db1               #=&gt; #&lt;DBM:0xb7c7eb08&gt;
-p db1.replace(hash) #=&gt; #&lt;DBM:0xb7c7eb08&gt;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'dbm'</span>
+  
+db1 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'aaa.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+db1<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'aaa'</span>
+db1<span class="p">[</span><span class="ss">:b</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bbbbbb'</span>
+db2 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'bbb.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+db2<span class="p">[</span><span class="ss">:bb</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bbb'</span>
+db2<span class="p">[</span><span class="ss">:cc</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'ccc'</span>
+  
+<span class="nb">p</span> db1<span class="p">.</span><span class="nf">keys</span> <span class="c1">#=&gt; ['b', 'a']
+</span>  
+db1<span class="p">.</span><span class="nf">replace</span><span class="p">(</span>db2<span class="p">)</span>
+  
+<span class="nb">p</span> db1<span class="p">.</span><span class="nf">keys</span> <span class="c1">#=&gt; ['bb', 'cc']
+</span><span class="nb">p</span> db2<span class="p">.</span><span class="nf">keys</span> <span class="c1">#=&gt; ['bb', 'cc']
+</span>  
+<span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'x'</span> <span class="o">=&gt;</span> <span class="s1">'xxx'</span>, <span class="s1">'y'</span> <span class="o">=&gt;</span> <span class="s1">'yyy'</span> <span class="p">}</span>
+<span class="nb">p</span> db1               <span class="c1">#=&gt; #&lt;DBM:0xb7c7eb08&gt;
+</span><span class="nb">p</span> db1<span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="nb">hash</span><span class="p">)</span> <span class="c1">#=&gt; #&lt;DBM:0xb7c7eb08&gt;
+</span></code></pre>
 </dd>
 
 
@@ -802,15 +806,16 @@ p db1.replace(hash) #=&gt; #&lt;DBM:0xb7c7eb08&gt;
 <p>
 ブロックを評価して真になった要素のみを配列に格納して返します。
 </p>
-<pre>
-require 'dbm'
-
-db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
-db1[:a] = 'aaa'
-db1[:b] = 'bbbbbb'
-
-p db1.select {|key, value| key == 'a' } #=&gt; [[&quot;a&quot;, &quot;aaa&quot;]]
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'dbm'</span>
+  
+db1 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'aaa.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+db1<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'aaa'</span>
+db1<span class="p">[</span><span class="ss">:b</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bbbbbb'</span>
+  
+<span class="nb">p</span> db1<span class="p">.</span><span class="nf">select</span> <span class="p">{</span><span class="o">|</span>key, value<span class="o">|</span> key <span class="o">==</span> <span class="s1">'a'</span> <span class="p">}</span> <span class="c1">#=&gt; [[&quot;a&quot;, &quot;aaa&quot;]]
+</span></code></pre>
 </dd>
 
 
@@ -840,12 +845,13 @@ key に対して value を格納します。
 <p>
 [SEE_ALSO] <a href="../method/DBM/i/=5b=5d=3d.html">DBM#[]=</a>
 </p>
-<pre>
-require 'dbm'
-
-db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
-p db1.store('c', 'ccc') #=&gt; &quot;ccc&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'dbm'</span>
+  
+db1 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'aaa.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+<span class="nb">p</span> db1<span class="p">.</span><span class="nf">store</span><span class="p">(</span><span class="s1">'c'</span>, <span class="s1">'ccc'</span><span class="p">)</span> <span class="c1">#=&gt; &quot;ccc&quot;
+</span></code></pre>
 </dd>
 
 
@@ -854,15 +860,16 @@ p db1.store('c', 'ccc') #=&gt; &quot;ccc&quot;
 <p>
 キーと値のペアを配列に変換して返します。
 </p>
-<pre>
-require 'dbm'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'dbm'</span>
+  
+db1 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'aaa.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+db1<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'aaa'</span>
+db1<span class="p">[</span><span class="ss">:b</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bbbbbb'</span>
 
-db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
-db1[:a] = 'aaa'
-db1[:b] = 'bbbbbb'
-
-p db1.to_a #=&gt; [[&quot;b&quot;, &quot;bbbbbb&quot;], [&quot;a&quot;, &quot;aaa&quot;]]
-</pre>
+<span class="nb">p</span> db1<span class="p">.</span><span class="nf">to_a</span> <span class="c1">#=&gt; [[&quot;b&quot;, &quot;bbbbbb&quot;], [&quot;a&quot;, &quot;aaa&quot;]]
+</span></code></pre>
 </dd>
 
 
@@ -871,14 +878,15 @@ p db1.to_a #=&gt; [[&quot;b&quot;, &quot;bbbbbb&quot;], [&quot;a&quot;, &quot;aa
 <p>
 self をハッシュに変換して返します。
 </p>
-<pre>
-require 'dbm'
-
-db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
-db1[:a] = 'aaa'
-db1[:b] = 'bbbbbb'
-p db1.to_hash #=&gt; {&quot;a&quot;=&gt;&quot;aaa&quot;, &quot;b&quot;=&gt;&quot;bbbbbb&quot;}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'dbm'</span>
+  
+db1 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'aaa.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+db1<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'aaa'</span>
+db1<span class="p">[</span><span class="ss">:b</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bbbbbb'</span>
+<span class="nb">p</span> db1<span class="p">.</span><span class="nf">to_hash</span> <span class="c1">#=&gt; {&quot;a&quot;=&gt;&quot;aaa&quot;, &quot;b&quot;=&gt;&quot;bbbbbb&quot;}
+</span></code></pre>
 </dd>
 
 
@@ -896,19 +904,20 @@ self と other の内容をマージします。
 each_pair メソッドを持つオブジェクトでなければなりません。
 </dd>
 </dl>
-<pre>
-require 'dbm'
-
-db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
-db1[:a] = 'aaa'
-db1[:b] = 'bbbbbb'
-db2 = DBM.open('bbb.db', 0666, DBM::NEWDB)
-db2[:bb] = 'bbb'
-db2[:cc] = 'ccc'
-
-db1.update(db2)
-p db1.keys #=&gt; [&quot;bb&quot;, &quot;cc&quot;, &quot;b&quot;, &quot;a&quot;]
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'dbm'</span>
+  
+db1 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'aaa.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+db1<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'aaa'</span>
+db1<span class="p">[</span><span class="ss">:b</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bbbbbb'</span>
+db2 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'bbb.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+db2<span class="p">[</span><span class="ss">:bb</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bbb'</span>
+db2<span class="p">[</span><span class="ss">:cc</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'ccc'</span>
+  
+db1<span class="p">.</span><span class="nf">update</span><span class="p">(</span>db2<span class="p">)</span>
+<span class="nb">p</span> db1<span class="p">.</span><span class="nf">keys</span> <span class="c1">#=&gt; [&quot;bb&quot;, &quot;cc&quot;, &quot;b&quot;, &quot;a&quot;]
+</span></code></pre>
 </dd>
 
 
@@ -931,15 +940,16 @@ keys に対応する値を配列に格納して返します。
 キー。複数指定可能です。
 </dd>
 </dl>
-<pre>
-require 'dbm'
-
-db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
-db1[:a] = 'aaa'
-db1[:b] = 'bbbbbb'
-
-p db1.values_at('a', 'b') #=&gt; [&quot;aaa&quot;, &quot;bbbbbb&quot;]
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'dbm'</span>
+  
+db1 <span class="o">=</span> <span class="no">DBM</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'aaa.db'</span>, <span class="mi">0666</span>, <span class="no">DBM</span><span class="o">::</span><span class="no">NEWDB</span><span class="p">)</span>
+db1<span class="p">[</span><span class="ss">:a</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'aaa'</span>
+db1<span class="p">[</span><span class="ss">:b</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'bbbbbb'</span>
+  
+<span class="nb">p</span> db1<span class="p">.</span><span class="nf">values_at</span><span class="p">(</span><span class="s1">'a'</span>, <span class="s1">'b'</span><span class="p">)</span> <span class="c1">#=&gt; [&quot;aaa&quot;, &quot;bbbbbb&quot;]
+</span></code></pre>
 </dd>
 
 

@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -128,43 +128,42 @@ UNIVERSAL以外のタグクラスを付けられた型は、
 <a href="../class/OpenSSL=3a=3aASN1=3a=3aPrimitive.html">OpenSSL::ASN1::Primitive</a> のタグ付けの情報を使うことで、
 IMPLICIT or EXPLICIT なタグ付けを実現することもできます。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'openssl'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
 
-# 単純型のデータ
-x = OpenSSL::ASN1::UTF8String.new(&quot;foobar&quot;)
-# 構造型のデータ
-y = OpenSSL::ASN1::Sequence.new([OpenSSL::ASN1::Boolean.new(true),
-                                OpenSSL::ASN1::Integer.new(-12)])
-# APPLICATION タグクラスのタグ2番でタグ付けられたデータ
-z = OpenSSL::ASN1::ASN1Data.new([OpenSSL::ASN1::Boolean.new(false)],
-                                2, :APPLICATION)
-# 上と同様のデータを OpenSSL::ASN1::Boolean.new の2番目以降の
-# 引数で表現する
-z2 = OpenSSL::ASN1::Boolean.new(false, 2, :EXPLICIT, :APPLICATION)
-# IMPLICIT なタグ付けをする
-u = OpenSSL::ASN1::Boolean.new(false, 3, :IMPLICIT, :APPLICATION)
+<span class="c1"># 単純型のデータ
+</span>x <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">UTF8String</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">foobar</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># 構造型のデータ
+</span>y <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">Sequence</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">Boolean</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>,
+                                <span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">Integer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">)</span><span class="p">]</span><span class="p">)</span>
+<span class="c1"># APPLICATION タグクラスのタグ2番でタグ付けられたデータ
+</span>z <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">ASN1Data</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">Boolean</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="k">false</span><span class="p">)</span><span class="p">]</span>, 
+                                <span class="mi">2</span>, <span class="ss">:APPLICATION</span><span class="p">)</span>
+<span class="c1"># 上と同様のデータを OpenSSL::ASN1::Boolean.new の2番目以降の
+</span><span class="c1"># 引数で表現する
+</span>z2 <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">Boolean</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="k">false</span>, <span class="mi">2</span>, <span class="ss">:EXPLICIT</span>, <span class="ss">:APPLICATION</span><span class="p">)</span>
+<span class="c1"># IMPLICIT なタグ付けをする
+</span>u <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">Boolean</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="k">false</span>, <span class="mi">3</span>, <span class="ss">:IMPLICIT</span>, <span class="ss">:APPLICATION</span><span class="p">)</span>
 
-# to_der でエンコード
-x.to_der  # =&gt; &quot;\f\x06foobar&quot;
-y.to_der  # =&gt; &quot;0\x06\x01\x01\xFF\x02\x01\xF4&quot;
-z.to_der  # =&gt; &quot;b\x03\x01\x01\x00&quot;
-z2.to_der # =&gt; &quot;b\x03\x01\x01\x00&quot;  これは z.to_der と同じ
-u.to_der # =&gt; &quot;C\x01\x00&quot;
-# エンコードした文字列をデコード
-OpenSSL::ASN1.decode(x.to_der)
-# =&gt; #&lt;OpenSSL::ASN1::UTF8String:0x000000027cc700 @tag=12, @value=&quot;foobar&quot;, @tagging=nil, @tag_class=:UNIVERSAL&gt;
-OpenSSL::ASN1.decode(y.to_der)
-# =&gt; #&lt;OpenSSL::ASN1::Sequence:0x000000027c47d0 @tag=16, @value=[#&lt;OpenSSL::ASN1::Boolean:0x000000027c4898 @tag=1, @value=true, @tagging=nil, @tag_class=:UNIVERSAL&gt;, #&lt;OpenSSL::ASN1::Integer:0x000000027c47f8 @tag=2, @value=-12, @tagging=nil, @tag_class=:UNIVERSAL&gt;], @tagging=nil, @tag_class=:UNIVERSAL&gt;
-OpenSSL::ASN1.decode(z.to_der)
-# =&gt; #&lt;OpenSSL::ASN1::ASN1Data:0x000000027bc918 @tag=2, @value=[#&lt;OpenSSL::ASN1::Boolean:0x000000027bc968 @tag=1, @value=false, @tagging=nil, @tag_class=:UNIVERSAL&gt;], @tag_class=:APPLICATION&gt;
-OpenSSL::ASN1.decode(u.to_der)
-# =&gt; #&lt;OpenSSL::ASN1::ASN1Data:0x000000025bef30 @tag=3, @value=&quot;\x00&quot;, @tag_class=:APPLICATION&gt;
-# @valueが &quot;\x00&quot; という文字列になっている
-</pre>
+<span class="c1"># to_der でエンコード
+</span><span class="nb">p</span> x<span class="p">.</span><span class="nf">to_der</span>  <span class="c1"># =&gt; &quot;\f\x06foobar&quot;
+</span><span class="nb">p</span> y<span class="p">.</span><span class="nf">to_der</span>  <span class="c1"># =&gt; &quot;0\x06\x01\x01\xFF\x02\x01\xF4&quot;
+</span><span class="nb">p</span> z<span class="p">.</span><span class="nf">to_der</span>  <span class="c1"># =&gt; &quot;b\x03\x01\x01\x00&quot;
+</span><span class="nb">p</span> z2<span class="p">.</span><span class="nf">to_der</span> <span class="c1"># =&gt; &quot;b\x03\x01\x01\x00&quot;  これは z.to_der と同じ
+</span><span class="nb">p</span> u<span class="p">.</span><span class="nf">to_der</span> <span class="c1"># =&gt; &quot;C\x01\x00&quot;
+</span><span class="c1"># エンコードした文字列をデコード
+</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="p">.</span><span class="nf">decode</span><span class="p">(</span>x<span class="p">.</span><span class="nf">to_der</span><span class="p">)</span>
+<span class="c1"># =&gt; #&lt;OpenSSL::ASN1::UTF8String:0x000000027cc700 @tag=12, @value=&quot;foobar&quot;, @tagging=nil, @tag_class=:UNIVERSAL&gt;
+</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="p">.</span><span class="nf">decode</span><span class="p">(</span>y<span class="p">.</span><span class="nf">to_der</span><span class="p">)</span>
+<span class="c1"># =&gt; #&lt;OpenSSL::ASN1::Sequence:0x000000027c47d0 @tag=16, @value=[#&lt;OpenSSL::ASN1::Boolean:0x000000027c4898 @tag=1, @value=true, @tagging=nil, @tag_class=:UNIVERSAL&gt;, #&lt;OpenSSL::ASN1::Integer:0x000000027c47f8 @tag=2, @value=-12, @tagging=nil, @tag_class=:UNIVERSAL&gt;], @tagging=nil, @tag_class=:UNIVERSAL&gt;
+</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="p">.</span><span class="nf">decode</span><span class="p">(</span>z<span class="p">.</span><span class="nf">to_der</span><span class="p">)</span>
+<span class="c1"># =&gt; #&lt;OpenSSL::ASN1::ASN1Data:0x000000027bc918 @tag=2, @value=[#&lt;OpenSSL::ASN1::Boolean:0x000000027bc968 @tag=1, @value=false, @tagging=nil, @tag_class=:UNIVERSAL&gt;], @tag_class=:APPLICATION&gt;
+</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="p">.</span><span class="nf">decode</span><span class="p">(</span>u<span class="p">.</span><span class="nf">to_der</span><span class="p">)</span>
+<span class="c1"># =&gt; #&lt;OpenSSL::ASN1::ASN1Data:0x000000025bef30 @tag=3, @value=&quot;\x00&quot;, @tag_class=:APPLICATION&gt;
+</span><span class="c1"># @valueが &quot;\x00&quot; という文字列になっている
+</span></code></pre>
 <p>
 このモジュールは ASN.1 記法による記述を解釈し、利用する機能はないため、
 IMPLICITなタグ付けをされたデータを適切に取り扱うことは面倒でしょう。
@@ -173,10 +172,9 @@ IMPLICITなタグ付けをされたデータを適切に取り扱うことは面
 DER形式の文字列をデコードしてRubyのオブジェクトに変換するには
 <a href="../method/OpenSSL=3a=3aASN1/m/decode.html">OpenSSL::ASN1.#decode</a> もしくは <a href="../method/OpenSSL=3a=3aASN1/m/decode_all.html">OpenSSL::ASN1.#decode_all</a> を用います。逆に、<a href="../class/OpenSSL=3a=3aASN1=3a=3aASN1Data.html">OpenSSL::ASN1::ASN1Data</a> のオブジェクトを DER 形式の文字列に変換するには、<a href="../method/OpenSSL=3a=3aASN1=3a=3aASN1Data/i/to_der.html">OpenSSL::ASN1::ASN1Data#to_der</a>を用います。
 </p>
-<p>
-クラス階層
-</p>
-<pre>
+<span class="caption">クラス階層</span>
+<pre class="highlight text">
+<code>
 OpenSSL::ASN1::ASN1Data
   +-&gt; OpenSSL::ASN1::Primitive
   |     +-&gt; OpenSSL::ASN1::Boolean
@@ -202,7 +200,7 @@ OpenSSL::ASN1::ASN1Data
   `-&gt; OpenSSL::ASN1::Constructive
         +-&gt; OpenSSL::ASN1::Set
         `-&gt; OpenSSL::ASN1::Sequence
-</pre>
+</code></pre>
 <h2 >参照</h2>
 <ul>
 <li>ITU-T Rec. X.680-699 <a class="external" href="https://www.itu.int/itu-t/recommendations/index.aspx?ser=X">https://www.itu.int/itu-t/recommendations/index.aspx?ser=X</a></li>
@@ -1020,38 +1018,37 @@ DER 表現の文字列を解析し、そこにエンコードされている ASN
 <p>
 ASN.1 オブジェクトが Constructive である場合は、それを構成する要素も再帰的に解析します。
 </p>
-<p>
-例:
-</p>
-<pre>
-ruby -e '
-require &quot;openssl&quot;
-require &quot;pp&quot;
+<span class="caption">例</span>
+<pre class="highlight console">
+<code>
+<span class="go">ruby -e '
+require "openssl"
+require "pp"
 pem = File.read(ARGV[0])
 cert = OpenSSL::X509::Certificate.new(pem)
 pp OpenSSL::ASN1.decode(cert.to_der)
 ' mycert.pem
-#&lt;OpenSSL::ASN1::Sequence:0x814e9fc
- @tag=16,
+</span><span class="gp">#</span>&lt;OpenSSL::ASN1::Sequence:0x814e9fc
+<span class="go"> @tag=16,
  @tag_class=:UNIVERSAL,
  @tagging=nil,
  @value=
-  [#&lt;OpenSSL::ASN1::Sequence:0x814ead8
-    @tag=16,
+</span><span class="gp">  [#</span>&lt;OpenSSL::ASN1::Sequence:0x814ead8
+<span class="go">    @tag=16,
     @tag_class=:UNIVERSAL,
     @tagging=nil,
     @value=
-     [#&lt;OpenSSL::ASN1::ASN1Data:0x814f690
-       @tag=0,
+</span><span class="gp">     [#</span>&lt;OpenSSL::ASN1::ASN1Data:0x814f690
+<span class="go">       @tag=0,
        @tag_class=:CONTEXT_SPECIFIC,
        @value=
-        [#&lt;OpenSSL::ASN1::Integer:0x814f6a4
-          @tag=2,
+</span><span class="gp">        [#</span>&lt;OpenSSL::ASN1::Integer:0x814f6a4
+<span class="go">          @tag=2,
           @tag_class=:UNIVERSAL,
           @tagging=nil,
-          @value=2&gt;]&gt;,
-          ...
-</pre>
+</span><span class="gp">          @value=2&gt;</span><span class="o">]&gt;</span>,
+<span class="c">          ...
+</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>der</code>:</dt>
 <dd>
@@ -1368,21 +1365,21 @@ UNIVERSALSTRING のタグ番号 28 を表す定数です。
 <p>
 タグ番号が表す ASN.1 オブジェクト名を収録した配列です。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'openssl'
-p OpenSSL::ASN1::UNIVERSAL_TAG_NAME[0]  # =&gt; &quot;EOC&quot;
-p OpenSSL::ASN1::UNIVERSAL_TAG_NAME[12] # =&gt; &quot;UTF8STRING&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+<span class="nb">p</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">UNIVERSAL_TAG_NAME</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># =&gt; &quot;EOC&quot;
+</span><span class="nb">p</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">UNIVERSAL_TAG_NAME</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="c1"># =&gt; &quot;UTF8STRING&quot;
+</span></code></pre>
 <p>
 ASN.1 オブジェクトのタグ番号を表す定数が以下のように定義されています。
 </p>
-<pre>
-require 'openssl'
-p OpenSSL::ASN1::UTF8STRING # =&gt; 12
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+<span class="nb">p</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">ASN1</span><span class="o">::</span><span class="no">UTF8STRING</span> <span class="c1"># =&gt; 12
+</span></code></pre>
 </dd>
 
 

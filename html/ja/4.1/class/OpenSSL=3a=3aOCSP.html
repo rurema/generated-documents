@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -112,45 +112,46 @@ OCSP over http などを実装する必要があります。
 <p>
 OCSP レスポンダにリクエストを送ってその返答を表示する
 </p>
-<pre>
-require 'openssl'
-require 'net/http'
-# ...
-subject # 問い合わせ対象の証明書(Certificate オブジェクト)
-issuer # subject の発行者の証明書(Certificate オブジェクト)
-store # 信頼している証明書ストア
-cid = OpenSSL::OCSP::CertificateId.new(subject, issuer)
-req = OpenSSL::OCSP::Request.new
-req.add_certid(cid)
-req.add_nonce
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+<span class="c1"># ...
+</span>subject <span class="c1"># 問い合わせ対象の証明書(Certificate オブジェクト)
+</span>issuer <span class="c1"># subject の発行者の証明書(Certificate オブジェクト)
+</span>store <span class="c1"># 信頼している証明書ストア
+</span>cid <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">OCSP</span><span class="o">::</span><span class="no">CertificateId</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>subject, issuer<span class="p">)</span>
+req <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">OCSP</span><span class="o">::</span><span class="no">Request</span><span class="p">.</span><span class="nf">new</span>
+req<span class="p">.</span><span class="nf">add_certid</span><span class="p">(</span>cid<span class="p">)</span>
+req<span class="p">.</span><span class="nf">add_nonce</span>
+  
+http <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'ocsp.example.com'</span>, <span class="mi">80</span><span class="p">)</span>
+httpres <span class="o">=</span> http<span class="p">.</span><span class="nf">post</span><span class="p">(</span><span class="s2">"</span><span class="s2">/</span><span class="s2">"</span>, req<span class="p">.</span><span class="nf">to_der</span>, <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/ocsp-request'</span><span class="p">)</span>
+<span class="nb">raise</span> <span class="s2">"</span><span class="s2">HTTP error</span><span class="s2">"</span> <span class="k">if</span> <span class="o">!</span>httpres<span class="p">.</span><span class="nf">kind_of?</span><span class="p">(</span><span class="no">Net</span><span class="o">::</span><span class="no">HTTPOK</span><span class="p">)</span>
+res <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">OCSP</span><span class="o">::</span><span class="no">Response</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>httpres<span class="p">.</span><span class="nf">body</span><span class="p">)</span>
+  
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">Response status: </span><span class="si">#{</span><span class="n">res</span><span class="p">.</span><span class="nf">status_string</span><span class="si">}</span><span class="s2">"</span>
+<span class="nb">exit</span> <span class="k">if</span> res<span class="p">.</span><span class="nf">status</span> <span class="o">!=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">OCSP</span><span class="o">::</span><span class="no">RESPONSE_STATUS_SUCCESSFUL</span>
 
-http = Net::HTTP.new('ocsp.example.com', 80)
-httpres = http.post(&quot;/&quot;, req.to_der, 'content-type' =&gt; 'application/ocsp-request')
-raise &quot;HTTP error&quot; if !httpres.kind_of?(Net::HTTPOK)
-res = OpenSSL::OCSP::Response.new(httpres.body)
-
-puts &quot;Response status: #{res.status_string}&quot;
-exit if res.status != OpenSSL::OCSP::RESPONSE_STATUS_SUCCESSFUL
-
-basic_resp = res.basic
-raise &quot;nonce error&quot; unless [-1, 1].include?(req.check_nonce(basic_resp))
-unless basic_resp.verify([], store)
-  puts &quot;verify response fail&quot;
-end
-rescid, status, reason, revtime, thisupd, nextupd, exts = basic_resp.status.first
-STATUS2MESSAGE = {
-  OpenSSL::OCSP::V_CERTSTATUS_GOOD =&gt; &quot;OK&quot;,
-  OpenSSL::OCSP::V_CERTSTATUS_REVOKED =&gt; &quot;REVOKED&quot;,
-  OpenSSL::OCSP::V_CERTSTATUS_UNKNOWN =&gt; &quot;UNKNOWN&quot;,
-}
-puts &quot;status: #{STATUS2MESSAGE[status]}&quot;
-puts &quot;reason: #{reason}&quot; if status == OpenSSL::OCSP::V_CERTSTATUS_REVOKED
-puts &quot;revoked time: #{revtime}&quot; if status == OpenSSL::OCSP::V_CERTSTATUS_REVOKED
-puts &quot;response update: #{thisupd}&quot;
-puts &quot;response next update: #{nextupd}&quot;
-puts &quot;extensions: &quot;
-exts.each{|ext| p ext}
-</pre>
+basic_resp <span class="o">=</span> res<span class="p">.</span><span class="nf">basic</span>
+<span class="nb">raise</span> <span class="s2">"</span><span class="s2">nonce error</span><span class="s2">"</span> <span class="k">unless</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span>, <span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span>req<span class="p">.</span><span class="nf">check_nonce</span><span class="p">(</span>basic_resp<span class="p">)</span><span class="p">)</span>
+<span class="k">unless</span> basic_resp<span class="p">.</span><span class="nf">verify</span><span class="p">(</span><span class="p">[</span><span class="p">]</span>, store<span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">verify response fail</span><span class="s2">"</span>
+<span class="k">end</span>
+rescid, status, reason, revtime, thisupd, nextupd, exts <span class="o">=</span> basic_resp<span class="p">.</span><span class="nf">status</span><span class="p">.</span><span class="nf">first</span>
+<span class="no">STATUS2MESSAGE</span> <span class="o">=</span> <span class="p">{</span> 
+  <span class="no">OpenSSL</span><span class="o">::</span><span class="no">OCSP</span><span class="o">::</span><span class="no">V_CERTSTATUS_GOOD</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">OK</span><span class="s2">"</span>, 
+  <span class="no">OpenSSL</span><span class="o">::</span><span class="no">OCSP</span><span class="o">::</span><span class="no">V_CERTSTATUS_REVOKED</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">REVOKED</span><span class="s2">"</span>, 
+  <span class="no">OpenSSL</span><span class="o">::</span><span class="no">OCSP</span><span class="o">::</span><span class="no">V_CERTSTATUS_UNKNOWN</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">UNKNOWN</span><span class="s2">"</span>, 
+<span class="p">}</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">status: </span><span class="si">#{</span><span class="no">STATUS2MESSAGE</span><span class="p">[</span><span class="n">status</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">reason: </span><span class="si">#{</span><span class="n">reason</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> status <span class="o">==</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">OCSP</span><span class="o">::</span><span class="no">V_CERTSTATUS_REVOKED</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">revoked time: </span><span class="si">#{</span><span class="n">revtime</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> status <span class="o">==</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">OCSP</span><span class="o">::</span><span class="no">V_CERTSTATUS_REVOKED</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">response update: </span><span class="si">#{</span><span class="n">thisupd</span><span class="si">}</span><span class="s2">"</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">response next update: </span><span class="si">#{</span><span class="n">nextupd</span><span class="si">}</span><span class="s2">"</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">extensions: </span><span class="s2">"</span>
+exts<span class="p">.</span><span class="nf">each</span><span class="p">{</span><span class="o">|</span>ext<span class="o">|</span> <span class="nb">p</span> ext<span class="p">}</span>
+</code></pre>
 
 
 

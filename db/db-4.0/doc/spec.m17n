@@ -59,10 +59,9 @@ Ruby 1.8 用に書かれたスクリプトもできる限り動くような仕�
 マジックコメントでスクリプトエンコーディングを指定しておくのがよいでしょう。[ref:magic_comment] を
 参照してください。
 
-例:
-`````
+```text title="例"
 スクリプトを EUC-JP で書いていて、扱うテキストも EUC-JP の場合。 => コマンドオプションに -Ke を指定。
-`````
+```
 
 ### Ruby がサポートするエンコーディング {#encoding}
 
@@ -166,27 +165,27 @@ p __ENCODING__     #=> #<Encoding:EUC-JP>
 マジックコメントを使うことにより Ruby 実行系にスクリプトエンコーディングを
 伝えることができます。マジックコメントとはスクリプトファイルの1行目に書かれた
 
-`````
+```text
 # coding: euc-jp
-`````
+```
 
 という形式のコメントのことです。1 行目が shebang である場合、マジックコメントは 2 行目に
 書くことができます（それ以降の行ではいけません。無視されます）。上の形式以外にも
 
-````
+```text
 # encoding: euc-jp
 # -*- coding: euc-jp -*-
 # vim:set fileencoding=euc-jp:
-````
+```
 
 などの形式を解釈します。
 
-````
+```text
 #!/bin/sh
 exec ruby19 -x "$0" "$@"
 #!ruby
 # coding: utf-8
-````
+```
 
 このように -x オプションを使っている場合には「#! で始まり、ruby がある行」
 の次の行に書きます。
@@ -197,9 +196,9 @@ exec ruby19 -x "$0" "$@"
 マジックコメントが指定されなかった場合、コマンド引数 -K, RUBYOPT およびファイルの shebang から
 スクリプトエンコーディングは以下のように決定されます。左が優先です。
 
-````
+```text
 magic comment(最優先) > -K > RUBYOPTの-K > shebang 
-````
+```
 
 上のどれもが指定されていない場合、通常のスクリプトなら UTF-8、-e や stdin から実行されたものなら
 locale がスクリプトエンコーディングになります。
@@ -218,7 +217,7 @@ locale がスクリプトエンコーディングになります。
 
  - -K オプション・RUBYOPT・shebang の間の優先順位が 1.8 と 1.9 では違います。
    それぞれの優先順位は以下の通りです。左が優先です。
-```
+```text
     Ruby 1.8 : shebang > RUBYOPTの-K > -K
     Ruby 1.9 : -K      > RUBYOPTの-K > shebang
 ```
@@ -233,9 +232,7 @@ locale がスクリプトエンコーディングになります。
 
 さらに Unicode エスケープ (\uXXXX) を含む場合、リテラルのエンコーディングは UTF-8 になります。
 
-例: 
-
-`````
+```text title="例"
 # coding: us-ascii
 p __ENCODING__        #=> #<Encoding:US-ASCII>
 p "abc".encoding      #=> #<Encoding:US-ASCII>
@@ -248,6 +245,6 @@ p "abc".encoding      #=> #<Encoding:EUC-JP>
 p "\x80".encoding     #=> #<Encoding:EUC-JP>
 p "\u3042".encoding   #=> #<Encoding:UTF-8>  (Unicode エスケープがあるので UTF-8 になる)
 p "\x80\u3042".encoding #=> エラー: UTF-8 mixed within US-ASCII source
-`````
+```
 
 

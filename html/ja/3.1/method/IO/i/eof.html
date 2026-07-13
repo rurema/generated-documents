@@ -86,26 +86,28 @@
 <p>
 ストリームがファイルの終端に達した場合、true を返します。そうでない場合、false を返します。
 </p>
-<pre>
-f = File.new(&quot;testfile&quot;)
-dummy = f.readlines
-f.eof   #=&gt; true
-</pre>
+<pre class="highlight ruby">
+<code>
+f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+dummy <span class="o">=</span> f<span class="p">.</span><span class="nf">readlines</span>
+f<span class="p">.</span><span class="nf">eof</span>   <span class="c1">#=&gt; true
+</span></code></pre>
 <p>
 自身がパイプやソケットなどのストリームであった場合、相手がデータを送るか close するまでブロックします。
 </p>
-<pre>
-r, w = IO.pipe
-Thread.new { sleep 10; w.close }
-r.eof?  #=&gt; 10秒ブロックしてから true を返す。
-
-r, w = IO.pipe
-Thread.new { sleep 10; w.puts &quot;a&quot; }
-r.eof?  #=&gt; 10秒ブロックしてから false を返す。
-
-r, w = IO.pipe
-r.eof?  # 永久にブロックします。
-</pre>
+<pre class="highlight ruby">
+<code>
+r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">10</span>; w<span class="p">.</span><span class="nf">close</span> <span class="p">}</span>
+r<span class="p">.</span><span class="nf">eof?</span>  <span class="c1">#=&gt; 10秒ブロックしてから true を返す。
+</span>
+r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">10</span>; w<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span> <span class="p">}</span>
+r<span class="p">.</span><span class="nf">eof?</span>  <span class="c1">#=&gt; 10秒ブロックしてから false を返す。
+</span>
+r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+r<span class="p">.</span><span class="nf">eof?</span>  <span class="c1"># 永久にブロックします。
+</span></code></pre>
 <p>
 eof, eof? は入力バッファにデータを読み込むので、<a href="../../../method/IO/i/sysread.html">IO#sysread</a> と同時に使うと正常に動作しません。
 </p>

@@ -132,35 +132,34 @@ RSA 暗号鍵のクラスです。
 のいずれかでしょう。これ以外のメソッドを利用するときは
 RSA についてよく理解し、必要な場合のみにすべきです。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'openssl'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'openssl'</span>
 
-# initialize random seed
-OpenSSL::Random.seed(File.read(&quot;/dev/random&quot;, 16))
-# 鍵対を生成
-rsa = OpenSSL::PKey::RSA.generate(2048)
-# 秘密鍵をAES256で暗号化して private_key.pem に PEM 形式で保存
-passphrase = &quot;!secret passphrase!&quot;
-File.open(&quot;private_key.pem&quot;, &quot;w&quot;) do |f|
-  f.write(rsa.export(OpenSSL::Cipher.new(&quot;aes256&quot;), passphrase))
-end
-# 公開鍵をpublic_key.pemに保存
-public_key = rsa.public_key
-File.open(&quot;public_key.pem&quot;, &quot;w&quot;) do |f|
-  f.write(public_key.export)
-end
-
-# 秘密鍵で署名
-data = &quot;foobar&quot;
-sign = rsa.sign(&quot;sha256&quot;, data)
-# 公開鍵で検証
-p public_key.verify(&quot;sha256&quot;, sign, data)
-# 不正なデータを検証
-p public_key.verify(&quot;sha256&quot;, sign, &quot;foobarbaz&quot;)
-</pre>
+<span class="c1"># initialize random seed
+</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">Random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">/dev/random</span><span class="s2">"</span>, <span class="mi">16</span><span class="p">)</span><span class="p">)</span>
+<span class="c1"># 鍵対を生成
+</span>rsa <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKey</span><span class="o">::</span><span class="no">RSA</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="mi">2048</span><span class="p">)</span>
+<span class="c1"># 秘密鍵をAES256で暗号化して private_key.pem に PEM 形式で保存
+</span>passphrase <span class="o">=</span> <span class="s2">"</span><span class="s2">!secret passphrase!</span><span class="s2">"</span>
+<span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">private_key.pem</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
+  f<span class="p">.</span><span class="nf">write</span><span class="p">(</span>rsa<span class="p">.</span><span class="nf">export</span><span class="p">(</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">Cipher</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">aes256</span><span class="s2">"</span><span class="p">)</span>, passphrase<span class="p">)</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="c1"># 公開鍵をpublic_key.pemに保存
+</span>public_key <span class="o">=</span> rsa<span class="p">.</span><span class="nf">public_key</span>
+<span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">public_key.pem</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
+  f<span class="p">.</span><span class="nf">write</span><span class="p">(</span>public_key<span class="p">.</span><span class="nf">export</span><span class="p">)</span>
+<span class="k">end</span>
+  
+<span class="c1"># 秘密鍵で署名
+</span>data <span class="o">=</span> <span class="s2">"</span><span class="s2">foobar</span><span class="s2">"</span>
+sign <span class="o">=</span> rsa<span class="p">.</span><span class="nf">sign</span><span class="p">(</span><span class="s2">"</span><span class="s2">sha256</span><span class="s2">"</span>, data<span class="p">)</span>
+<span class="c1"># 公開鍵で検証
+</span><span class="nb">p</span> public_key<span class="p">.</span><span class="nf">verify</span><span class="p">(</span><span class="s2">"</span><span class="s2">sha256</span><span class="s2">"</span>, sign, data<span class="p">)</span>
+<span class="c1"># 不正なデータを検証
+</span><span class="nb">p</span> public_key<span class="p">.</span><span class="nf">verify</span><span class="p">(</span><span class="s2">"</span><span class="s2">sha256</span><span class="s2">"</span>, sign, <span class="s2">"</span><span class="s2">foobarbaz</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
 
 
 

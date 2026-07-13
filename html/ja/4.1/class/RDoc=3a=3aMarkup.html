@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -119,44 +119,44 @@ RDoc 形式のドキュメントを目的の形式に変換するためのクラ
 <p>
 例:
 </p>
-<pre>
-require 'rdoc/markup/to_html'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rdoc/markup/to_html'</span>
 
-h = RDoc::Markup::ToHtml.new
-puts h.convert(input_string)
-</pre>
+h <span class="o">=</span> <span class="no">RDoc</span><span class="o">::</span><span class="no">Markup</span><span class="o">::</span><span class="no">ToHtml</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">puts</span> h<span class="p">.</span><span class="nf">convert</span><span class="p">(</span>input_string<span class="p">)</span>
+</code></pre>
 <p>
 独自のフォーマットを行うようにパーサを拡張する事もできます。
 </p>
-<p>
-例:
-</p>
-<pre>
-require 'rdoc/markup'
-require 'rdoc/markup/to_html'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rdoc/markup'</span>
+<span class="nb">require</span> <span class="s1">'rdoc/markup/to_html'</span>
 
-class WikiHtml &lt; RDoc::Markup::ToHtml
-  # WikiWord のフォントを赤く表示。
-  def handle_special_WIKIWORD(special)
-    &quot;&lt;font color=red&gt;&quot; + special.text + &quot;&lt;/font&gt;&quot;
-  end
-end
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WikiHtml</span> <span class="o">&lt;</span> <span class="no">RDoc</span><span class="o">::</span><span class="no">Markup</span><span class="o">::</span><span class="no">ToHtml</span>
+  <span class="c1"># WikiWord のフォントを赤く表示。
+</span>  <span class="k">def</span> <span class="nf">handle_special_WIKIWORD</span><span class="p">(</span>special<span class="p">)</span>
+    <span class="s2">"</span><span class="s2">&lt;font color=red&gt;</span><span class="s2">"</span> <span class="o">+</span> special<span class="p">.</span><span class="nf">text</span> <span class="o">+</span> <span class="s2">"</span><span class="s2">&lt;/font&gt;</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-m = RDoc::Markup.new
-# { 〜 } までを :STRIKE でフォーマットする。
-m.add_word_pair(&quot;{&quot;, &quot;}&quot;, :STRIKE)
-# &lt;no&gt; 〜 &lt;/no&gt; までを :STRIKE でフォーマットする。
-m.add_html(&quot;no&quot;, :STRIKE)
+m <span class="o">=</span> <span class="no">RDoc</span><span class="o">::</span><span class="no">Markup</span><span class="p">.</span><span class="nf">new</span>
+<span class="c1"># { 〜 } までを :STRIKE でフォーマットする。
+</span>m<span class="p">.</span><span class="nf">add_word_pair</span><span class="p">(</span><span class="s2">"</span><span class="s2">{</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">}</span><span class="s2">"</span>, <span class="ss">:STRIKE</span><span class="p">)</span>
+<span class="c1"># &lt;no&gt; 〜 &lt;/no&gt; までを :STRIKE でフォーマットする。
+</span>m<span class="p">.</span><span class="nf">add_html</span><span class="p">(</span><span class="s2">"</span><span class="s2">no</span><span class="s2">"</span>, <span class="ss">:STRIKE</span><span class="p">)</span>
 
-# WikiWord を追加。
-m.add_special(/\b([A-Z][a-z]+[A-Z]\w+)/, :WIKIWORD)
+<span class="c1"># WikiWord を追加。
+</span>m<span class="p">.</span><span class="nf">add_special</span><span class="p">(</span><span class="sr">/\b([A-Z][a-z]+[A-Z]\w+)/</span>, <span class="ss">:WIKIWORD</span><span class="p">)</span>
 
-wh = WikiHtml.new(m)
-# :STRIKE のフォーマットを &lt;strike&gt; 〜 &lt;/strike&gt; に指定。
-wh.add_tag(:STRIKE, &quot;&lt;strike&gt;&quot;, &quot;&lt;/strike&gt;&quot;)
+wh <span class="o">=</span> <span class="no">WikiHtml</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>m<span class="p">)</span>
+<span class="c1"># :STRIKE のフォーマットを &lt;strike&gt; 〜 &lt;/strike&gt; に指定。
+</span>wh<span class="p">.</span><span class="nf">add_tag</span><span class="p">(</span><span class="ss">:STRIKE</span>, <span class="s2">"</span><span class="s2">&lt;strike&gt;</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&lt;/strike&gt;</span><span class="s2">"</span><span class="p">)</span>
 
-puts &quot;&lt;body&gt;#{wh.convert ARGF.read}&lt;/body&gt;&quot;
-</pre>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">&lt;body&gt;</span><span class="si">#{</span><span class="n">wh</span><span class="p">.</span><span class="nf">convert</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">read</span><span class="si">}</span><span class="s2">&lt;/body&gt;</span><span class="s2">"</span>
+</code></pre>
 <p>
 変換する形式を変更する場合、フォーマッタ(例. <a href="../class/RDoc=3a=3aMarkup=3a=3aToHtml.html">RDoc::Markup::ToHtml</a>)
 を変更、拡張する必要があります。
@@ -256,19 +256,18 @@ tag で指定したタグをフォーマットの対象にします。
 <a href="../class/Symbol.html">Symbol</a> で指定します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'rdoc/markup/simple_markup'
-require 'rdoc/markup/simple_markup/to_html'
-m = SM::SimpleMarkup.new
-m.add_html(&quot;no&quot;, :STRIKE)
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup'</span>
+<span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup/to_html'</span>
+m <span class="o">=</span> <span class="no">SM</span><span class="o">::</span><span class="no">SimpleMarkup</span><span class="p">.</span><span class="nf">new</span>
+m<span class="p">.</span><span class="nf">add_html</span><span class="p">(</span><span class="s2">"</span><span class="s2">no</span><span class="s2">"</span>, <span class="ss">:STRIKE</span><span class="p">)</span>
 
-h = SM::ToHtml.new
-h.add_tag(:STRIKE, &quot;&lt;strike&gt;&quot;, &quot;&lt;/strike&gt;&quot;)
-puts m.convert(input_string, h)
-</pre>
+h <span class="o">=</span> <span class="no">SM</span><span class="o">::</span><span class="no">ToHtml</span><span class="p">.</span><span class="nf">new</span>
+h<span class="p">.</span><span class="nf">add_tag</span><span class="p">(</span><span class="ss">:STRIKE</span>, <span class="s2">"</span><span class="s2">&lt;strike&gt;</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&lt;/strike&gt;</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">puts</span> m<span class="p">.</span><span class="nf">convert</span><span class="p">(</span>input_string, h<span class="p">)</span>
+</code></pre>
 <p>
 変換時に実際にフォーマットを行うには <a href="../method/SM=3a=3aToHtml/i/add_tag.html">SM::ToHtml#add_tag</a> のように、フォーマッタ側でも操作を行う必要があります。
 </p>
@@ -295,25 +294,24 @@ pattern で指定した正規表現にマッチする文字列をフォーマッ
 <a href="../class/Symbol.html">Symbol</a> で指定します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'rdoc/markup/simple_markup'
-require 'rdoc/markup/simple_markup/to_html'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup'</span>
+<span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup/to_html'</span>
 
-class WikiHtml &lt; SM::ToHtml
-  def handle_special_WIKIWORD(special)
-    &quot;&lt;font color=red&gt;&quot; + special.text + &quot;&lt;/font&gt;&quot;
-  end
-end
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WikiHtml</span> <span class="o">&lt;</span> <span class="no">SM</span><span class="o">::</span><span class="no">ToHtml</span>
+  <span class="k">def</span> <span class="nf">handle_special_WIKIWORD</span><span class="p">(</span>special<span class="p">)</span>
+    <span class="s2">"</span><span class="s2">&lt;font color=red&gt;</span><span class="s2">"</span> <span class="o">+</span> special<span class="p">.</span><span class="nf">text</span> <span class="o">+</span> <span class="s2">"</span><span class="s2">&lt;/font&gt;</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-m = SM::SimpleMarkup.new
-m.add_special(/\b([A-Z][a-z]+[A-Z]\w+)/, :WIKIWORD)
+m <span class="o">=</span> <span class="no">SM</span><span class="o">::</span><span class="no">SimpleMarkup</span><span class="p">.</span><span class="nf">new</span>
+m<span class="p">.</span><span class="nf">add_special</span><span class="p">(</span><span class="sr">/\b([A-Z][a-z]+[A-Z]\w+)/</span>, <span class="ss">:WIKIWORD</span><span class="p">)</span>
 
-h = WikiHtml.new
-puts m.convert(input_string, h)
-</pre>
+h <span class="o">=</span> <span class="no">WikiHtml</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">puts</span> m<span class="p">.</span><span class="nf">convert</span><span class="p">(</span>input_string, h<span class="p">)</span>
+</code></pre>
 <p>
 変換時に実際にフォーマットを行うには SM::ToHtml#accept_special_&lt;name で指定した名前&gt;
 のように、フォーマッタ側でも操作を行う必要があります。
@@ -345,19 +343,18 @@ start と stop ではさまれる文字列(例. *bold*)をフォーマットの�
 start に &quot;&lt;&quot; で始まる文字列を指定した場合に発生します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'rdoc/markup/simple_markup'
-require 'rdoc/markup/simple_markup/to_html'
-m = SM::SimpleMarkup.new
-m.add_word_pair(&quot;{&quot;, &quot;}&quot;, :STRIKE)
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup'</span>
+<span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup/to_html'</span>
+m <span class="o">=</span> <span class="no">SM</span><span class="o">::</span><span class="no">SimpleMarkup</span><span class="p">.</span><span class="nf">new</span>
+m<span class="p">.</span><span class="nf">add_word_pair</span><span class="p">(</span><span class="s2">"</span><span class="s2">{</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">}</span><span class="s2">"</span>, <span class="ss">:STRIKE</span><span class="p">)</span>
 
-h = SM::ToHtml.new
-h.add_tag(:STRIKE, &quot;&lt;strike&gt;&quot;, &quot;&lt;/strike&gt;&quot;)
-puts m.convert(input_string, h)
-</pre>
+h <span class="o">=</span> <span class="no">SM</span><span class="o">::</span><span class="no">ToHtml</span><span class="p">.</span><span class="nf">new</span>
+h<span class="p">.</span><span class="nf">add_tag</span><span class="p">(</span><span class="ss">:STRIKE</span>, <span class="s2">"</span><span class="s2">&lt;strike&gt;</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&lt;/strike&gt;</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">puts</span> m<span class="p">.</span><span class="nf">convert</span><span class="p">(</span>input_string, h<span class="p">)</span>
+</code></pre>
 <p>
 変換時に実際にフォーマットを行うには <a href="../method/SM=3a=3aToHtml/i/add_tag.html">SM::ToHtml#add_tag</a> のように、フォーマッタ側でも操作を行う必要があります。
 </p>

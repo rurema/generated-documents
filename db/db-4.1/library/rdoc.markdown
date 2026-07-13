@@ -47,13 +47,11 @@ Markdown syntax nor MarkdownTest mention this behavior.)
 る事ができます。ただし、それを常に [c:RDoc] の出力に含める事はできま
 せん。この拡張はデフォルトでは無効になっています。
 
-例:
-
-`````
+```html title="例"
 <style type="text/css">
 h1 { font-size: 3em }
 </style>
-`````
+```
 
 #### 定義リスト
 
@@ -63,15 +61,13 @@ h1 { font-size: 3em }
 
  - PHP Markdown Extra syntax: [url:https://michelf.ca/projects/php-markdown/extra/#def-list]
 
-例:
-
-`````
+```text title="例"
 cat
 :   A small furry mammal that seems to sleep a lot
 
 ant
 :   A little insect that is known to enjoy picnics
-`````
+```
 
 出力例:
 
@@ -105,28 +101,24 @@ ant
 [m:RDoc::Markdown#html] を設定する事で HTML を記述した場合にそのまま
 出力する事ができます。この拡張はデフォルトで有効になっています。
 
-例:
-
-```````
+```html title="例"
 <table>
 ...
 </table>
-```````
+```
 
 #### Notes
 
 [m:RDoc::Markdown#notes] を設定する事で脚注を出力する事ができます。こ
 の拡張はデフォルトで有効になっています。
 
-例:
-
-```````
+```text title="例"
 Here is some text[^1] including an inline footnote ^[for short footnotes]
 
 ...
 
 [^1]: With the footnote text down at the bottom
-```````
+```
 
 
 ### 制限事項
@@ -142,7 +134,7 @@ peg-markdown([url:https://github.com/jgm/peg-markdown])を kpeg に移植
 
 これは MIT ライセンスで提供されています。:
 
-`````
+```text
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -160,6 +152,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-`````
+```
 
 kpeg への移植は Eric Hodel と Evan Phoenix によって行われました。

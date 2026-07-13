@@ -9,9 +9,8 @@ source_location=manual/api/rake/Kernel.md
 
 - **param** `dir` -- 作成するディレクトリを指定します。
 
-例:
-`````
+```ruby title="例"
 directory 'testdata/doc'
-`````
+```
 
 

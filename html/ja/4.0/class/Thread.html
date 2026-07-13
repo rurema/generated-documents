@@ -138,17 +138,18 @@ Ruby のスレッドスケジューリングはネイティブスレッドのそ
 <p>
 あるスレッドで例外が発生し、そのスレッド内で rescue で捕捉されなかった場合、通常はそのスレッドだけがなにも警告なしに終了されます。ただしその例外で終了するスレッドを <a href="../method/Thread/i/join.html">Thread#join</a> で待っている他のスレッドがある場合、その待っているスレッドに対して、同じ例外が再度発生します。
 </p>
-<pre>
-begin
-  t = Thread.new do
-    Thread.pass    # メインスレッドが確実にjoinするように
-    raise &quot;unhandled exception&quot;
-  end
-  t.join
-rescue
-  p $!  # =&gt; &quot;unhandled exception&quot;
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">begin</span>
+  t <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+    <span class="no">Thread</span><span class="p">.</span><span class="nf">pass</span>    <span class="c1"># メインスレッドが確実にjoinするように
+</span>    <span class="nb">raise</span> <span class="s2">"</span><span class="s2">unhandled exception</span><span class="s2">"</span>
+  <span class="k">end</span>
+  t<span class="p">.</span><span class="nf">join</span>
+<span class="k">rescue</span>
+  <span class="nb">p</span> <span class="vg">$!</span>  <span class="c1"># =&gt; &quot;unhandled exception&quot;
+</span><span class="k">end</span>
+</code></pre>
 <p>
 また、以下の 3 つの方法により、いずれかのスレッドが例外によって終了した時に、インタプリタ全体を中断させるように指定できます。
 </p>
@@ -177,9 +178,10 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 <a href="../method/Object/i/inspect.html">Object#inspect</a> や
 <a href="../method/Thread/i/status.html">Thread#status</a> によって見ることができます。
 </p>
-<pre>
-p Thread.new {sleep 1} # =&gt; #&lt;Thread:0xa039de0 sleep&gt;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span><span class="nb">sleep</span> <span class="mi">1</span><span class="p">}</span> <span class="c1"># =&gt; #&lt;Thread:0xa039de0 sleep&gt;
+</span></code></pre>
 <dl>
 <dt>run (実行or実行可能状態)</dt>
 <dd>
@@ -239,8 +241,6 @@ p Thread.new {sleep 1} # =&gt; #&lt;Thread:0xa039de0 sleep&gt;
 <li><a href="#S_ABORT_ON_EXCEPTION">abort_on_exception=</a></li>
 
 <li><a href="#S_CURRENT">current</a></li>
-
-<li><a href="#S_EXCLUSIVE">exclusive</a></li>
 
 <li><a href="#S_EXIT">exit</a></li>
 
@@ -440,20 +440,6 @@ val が 真 のときは Integer に変換してから設定します。偽 の�
 <pre>
 p Thread.current #=&gt; #&lt;Thread:0x4022e6fc run&gt;
 </pre>
-</dd>
-
-
-<dt class="method-heading" id="S_EXCLUSIVE"><code>exclusive { ... } -&gt; object</code><span class="permalink">[<a href="../method/Thread/s/exclusive.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Thread.html#method-c-exclusive">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-VM グローバルの Mutex をロックし、ブロックを実行します。
-</p>
-<p>
-このクラスメソッドの挙動は 1.8 以前とは違います。
-Thread.exclusive は VM グローバルの Mutex の
-synchronize を呼び出しているだけで、Thread.exclusive していないスレッドは動きます。
-<a href="../class/Thread=3a=3aMutex.html">Thread::Mutex</a> や <a href="../class/Monitor.html">Monitor</a> などの他の排他制御の方法を検討してください。
-</p>
 </dd>
 
 
@@ -1613,21 +1599,30 @@ th<span class="p">.</span><span class="nf">join</span>
 <p>
 <a href="../method/Thread/i/alive=3f.html">Thread#alive?</a> が真を返すなら、このメソッドも真です。
 </p>
-<p>
-例:
-</p>
-<pre>
-a = Thread.new { raise(&quot;die now&quot;) }
-b = Thread.new { Thread.stop }
-c = Thread.new { Thread.exit }
-d = Thread.new { sleep }
-d.kill                  #=&gt; #&lt;Thread:0x401b3678 aborting&gt;
-a.status                #=&gt; nil
-b.status                #=&gt; &quot;sleep&quot;
-c.status                #=&gt; false
-d.status                #=&gt; &quot;aborting&quot;
-Thread.current.status   #=&gt; &quot;run&quot;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">status</span>   <span class="c1">#=&gt; &quot;run&quot;
+</span>
+a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">raise</span><span class="p">(</span><span class="s2">"</span><span class="s2">die now</span><span class="s2">"</span><span class="p">)</span> <span class="p">}</span>
+<span class="nb">sleep</span> <span class="mf">0.1</span>
+a<span class="p">.</span><span class="nf">status</span>                <span class="c1">#=&gt; nil
+</span>
+b <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">stop</span> <span class="p">}</span>
+<span class="nb">sleep</span> <span class="mf">0.1</span>
+b<span class="p">.</span><span class="nf">status</span>                <span class="c1">#=&gt; &quot;sleep&quot;
+</span>
+c <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">exit</span> <span class="p">}</span>
+<span class="nb">sleep</span> <span class="mf">0.1</span>
+c<span class="p">.</span><span class="nf">status</span>                <span class="c1">#=&gt; false
+</span>
+d <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="p">}</span>
+<span class="nb">sleep</span> <span class="mf">0.1</span>
+d<span class="p">.</span><span class="nf">status</span>                <span class="c1">#=&gt; &quot;sleep&quot;
+</span>d<span class="p">.</span><span class="nf">kill</span>
+<span class="nb">sleep</span> <span class="mf">0.1</span>
+d<span class="p">.</span><span class="nf">status</span>                <span class="c1">#=&gt; false
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/alive=3f.html">Thread#alive?</a>, <a href="../method/Thread/i/stop=3f.html">Thread#stop?</a>
 </p>

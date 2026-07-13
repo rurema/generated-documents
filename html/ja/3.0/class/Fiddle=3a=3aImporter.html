@@ -202,30 +202,29 @@ opts には :stdcall もしくは :cdecl を渡すことができ、呼出規約
 オプション
 </dd>
 </dl>
-<p>
-例
-</p>
-<pre>
-require 'fiddle/import'
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+  
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s2">"</span><span class="s2">libc.so.6</span><span class="s2">"</span>
+  typealias <span class="s2">"</span><span class="s2">size_t</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">unsigned long</span><span class="s2">"</span>
+  extern <span class="s2">"</span><span class="s2">int qsort(void*, size_t, size_t, void*)</span><span class="s2">"</span>
+    
+  bind<span class="p">(</span><span class="s2">"</span><span class="s2">int compare(void*, void*)</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>px, py<span class="o">|</span>
+    x <span class="o">=</span> px<span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="no">Fiddle</span><span class="o">::</span><span class="no">SIZEOF_INT</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">i!</span><span class="s2">"</span><span class="p">)</span>
+    y <span class="o">=</span> py<span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="no">Fiddle</span><span class="o">::</span><span class="no">SIZEOF_INT</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">i!</span><span class="s2">"</span><span class="p">)</span>
 
-module M
-  extend Fiddle::Importer
-  dlload &quot;libc.so.6&quot;
-  typealias &quot;size_t&quot;, &quot;unsigned long&quot;
-  extern &quot;int qsort(void*, size_t, size_t, void*)&quot;
-
-  bind(&quot;int compare(void*, void*)&quot;){|px, py|
-    x = px.to_s(Fiddle::SIZEOF_INT).unpack(&quot;i!&quot;)
-    y = py.to_s(Fiddle::SIZEOF_INT).unpack(&quot;i!&quot;)
-
-    x &lt;=&gt; y
-  }
-end
-
-data = [32, 180001, -13, -1, 0, 49].pack(&quot;i!*&quot;)
-M.qsort(Fiddle::Pointer[data], 6, Fiddle::SIZEOF_INT, M[&quot;compare&quot;])
-p data.unpack(&quot;i!*&quot;) # =&gt; [-13, -1, 0, 32, 49, 180001]
-</pre>
+    x <span class="o">&lt;=&gt;</span> y
+  <span class="p">}</span>
+<span class="k">end</span>
+  
+data <span class="o">=</span> <span class="p">[</span><span class="mi">32</span>, <span class="mi">180001</span>, <span class="o">-</span><span class="mi">13</span>, <span class="o">-</span><span class="mi">1</span>, <span class="mi">0</span>, <span class="mi">49</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">i!*</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">M</span><span class="p">.</span><span class="nf">qsort</span><span class="p">(</span><span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span>data<span class="p">]</span>, <span class="mi">6</span>, <span class="no">Fiddle</span><span class="o">::</span><span class="no">SIZEOF_INT</span>, <span class="no">M</span><span class="p">[</span><span class="s2">"</span><span class="s2">compare</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> data<span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">i!*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [-13, -1, 0, 32, 49, 180001]
+</span></code></pre>
 </dd>
 
 
@@ -249,21 +248,20 @@ val に nil 以外を指定すると、確保された構造体にその値を�
 構造体に確保される初期値
 </dd>
 </dl>
-<p>
-例
-</p>
-<pre>
-require 'fiddle/import'
-
-module M
-  extend Fiddle::Importer
-end
-
-v = M.value(&quot;int&quot;, 32)
-p v.value # =&gt; 32
-v.value = 48
-p v.value # =&gt; 48
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+  
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+<span class="k">end</span>
+  
+v <span class="o">=</span> <span class="no">M</span><span class="p">.</span><span class="nf">value</span><span class="p">(</span><span class="s2">"</span><span class="s2">int</span><span class="s2">"</span>, <span class="mi">32</span><span class="p">)</span>
+<span class="nb">p</span> v<span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; 32
+</span>v<span class="p">.</span><span class="nf">value</span> <span class="o">=</span> <span class="mi">48</span>
+<span class="nb">p</span> v<span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; 48
+</span></code></pre>
 </dd>
 
 
@@ -325,21 +323,20 @@ opts には :stdcall もしくは :cdecl を渡すことができ、呼出規約
 オプション
 </dd>
 </dl>
-<p>
-例
-</p>
-<pre>
-require 'fiddle/import'
-
-module M
-  extern Fiddle::Importer
-  dlload &quot;libc.so.6&quot;
-  extern &quot;int strcmp(char*, char*)&quot;
-end
-
-M.strcmp(&quot;abc&quot;, &quot;abc&quot;) # =&gt; 0
-M.strcmp(&quot;abc&quot;, &quot;abd&quot;) # =&gt; -1
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+  
+<span class="k">module</span> <span class="nn">M</span>
+  extern <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s2">"</span><span class="s2">libc.so.6</span><span class="s2">"</span>
+  extern <span class="s2">"</span><span class="s2">int strcmp(char*, char*)</span><span class="s2">"</span>
+<span class="k">end</span>
+   
+<span class="nb">p</span> <span class="no">M</span><span class="p">.</span><span class="nf">strcmp</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="no">M</span><span class="p">.</span><span class="nf">strcmp</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">abd</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; -1
+</span></code></pre>
 </dd>
 
 
@@ -390,20 +387,19 @@ t がクラスの場合、t が to_ptr というインスタンスメソッド�
 t として文字列を渡し、それが表している型を Fiddle が知らなかった場合に発生します
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-require 'fiddle/import'
-
-module M
-  extend Fiddle::Importer
-  Timeval = struct([&quot;long tv_sec&quot;, &quot;long tv_usec&quot;])
-  p sizeof(&quot;char&quot;) # =&gt; 1
-  p sizeof(&quot;void*&quot;) # =&gt; 8
-  p sizeof(Timeval) # =&gt; 16
-end
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+  
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  <span class="no">Timeval</span> <span class="o">=</span> struct<span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">long tv_sec</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">long tv_usec</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
+  <span class="nb">p</span> sizeof<span class="p">(</span><span class="s2">"</span><span class="s2">char</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span>  <span class="nb">p</span> sizeof<span class="p">(</span><span class="s2">"</span><span class="s2">void*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 8
+</span>  <span class="nb">p</span> sizeof<span class="p">(</span><span class="no">Timeval</span><span class="p">)</span> <span class="c1"># =&gt; 16
+</span><span class="k">end</span>
+</code></pre>
 </dd>
 
 
@@ -415,18 +411,20 @@ C の構造体型に対応する Ruby のクラスを構築して返します。
 <p>
 構造体の各要素は C と似せた表記ができます。そしてそれを配列で signature に渡してデータを定義します。例えば C における
 </p>
-<pre>
-struct timeval {
-  long tv_sec;
-  long tv_usec;
-};
-</pre>
+<pre class="highlight c">
+<code>
+<span class="k">struct</span> <span class="n">timeval</span> <span class="p">{</span>
+  <span class="kt">long</span> <span class="n">tv_sec</span><span class="p">;</span>
+  <span class="kt">long</span> <span class="n">tv_usec</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre>
 <p>
 という構造体型に対応して
 </p>
-<pre>
-Timeval = struct([&quot;long tv_sec&quot;, &quot;long tv_usec&quot;])
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Timeval</span> <span class="o">=</span> struct<span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">long tv_sec</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">long tv_usec</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
+</code></pre>
 <p>
 として構造体に対応するクラスを生成します。
 </p>
@@ -449,21 +447,22 @@ Timeval = struct([&quot;long tv_sec&quot;, &quot;long tv_usec&quot;])
 構造体の各要素を文字列で表現したものの配列
 </dd>
 </dl>
-<pre>
-require 'fiddle/import'
-
-module M
-  extend Fiddle::Importer
-  dlload &quot;libc.so.6&quot;
-  extern &quot;int gettimeofday(void*, void*)&quot;
-  Timeval = struct([&quot;long tv_sec&quot;, &quot;long tv_usec&quot;])
-end
-
-time = M::Timeval.malloc
-M.gettimeofday(time, Fiddle::NULL)
-p time.tv_sec
-p time.tv_usec
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+  
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s2">"</span><span class="s2">libc.so.6</span><span class="s2">"</span>
+  extern <span class="s2">"</span><span class="s2">int gettimeofday(void*, void*)</span><span class="s2">"</span>
+  <span class="no">Timeval</span> <span class="o">=</span> struct<span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">long tv_sec</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">long tv_usec</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
+<span class="k">end</span>
+  
+time <span class="o">=</span> <span class="no">M</span><span class="o">::</span><span class="no">Timeval</span><span class="p">.</span><span class="nf">malloc</span>
+<span class="no">M</span><span class="p">.</span><span class="nf">gettimeofday</span><span class="p">(</span>time, <span class="no">Fiddle</span><span class="o">::</span><span class="no">NULL</span><span class="p">)</span>
+<span class="nb">p</span> time<span class="p">.</span><span class="nf">tv_sec</span>
+<span class="nb">p</span> time<span class="p">.</span><span class="nf">tv_usec</span>
+</code></pre>
 </dd>
 
 
@@ -497,34 +496,36 @@ C の共用体型に対応する Ruby のクラスを構築して返します。
 <p>
 共用体型を Ruby 上で定義する方法は <a href="../method/Fiddle=3a=3aImporter/i/struct.html">Fiddle::Importer#struct</a> とほぼ同様です。C における
 </p>
-<pre>
-typedef union epoll_data
-{
-  void *ptr;
-  int fd;
-  uint32_t u32;
-  uint64_t u64;
-} epoll_data_t;
-</pre>
+<pre class="highlight c">
+<code>
+<span class="k">typedef</span> <span class="k">union</span> <span class="n">epoll_data</span>
+<span class="p">{</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">fd</span><span class="p">;</span>
+  <span class="kt">uint32_t</span> <span class="n">u32</span><span class="p">;</span>
+  <span class="kt">uint64_t</span> <span class="n">u64</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">epoll_data_t</span><span class="p">;</span>
+</code></pre>
 <p>
 は、Ruby上では
 </p>
-<pre>
-require 'fiddle/import'
-
-module M
-  extend Fiddle::Importer
-  dlload &quot;libc.so.6&quot;
-  typealias(&quot;uint32_t&quot;, &quot;unsigned int&quot;)
-  typealias(&quot;uint64_t&quot;, &quot;unsigned long long&quot;)
-
-  EPollData = union([&quot;void *ptr&quot;,
-                     &quot;int fd&quot;,
-                     &quot;uint32_t u32&quot;,
-                     &quot;uint64_t u64&quot;,
-                    ])
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle/import'</span>
+  
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="nb">extend</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Importer</span>
+  dlload <span class="s2">"</span><span class="s2">libc.so.6</span><span class="s2">"</span>
+  typealias<span class="p">(</span><span class="s2">"</span><span class="s2">uint32_t</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">unsigned int</span><span class="s2">"</span><span class="p">)</span>
+  typealias<span class="p">(</span><span class="s2">"</span><span class="s2">uint64_t</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">unsigned long long</span><span class="s2">"</span><span class="p">)</span>
+  
+  <span class="no">EPollData</span> <span class="o">=</span> union<span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">void *ptr</span><span class="s2">"</span>,
+                     <span class="s2">"</span><span class="s2">int fd</span><span class="s2">"</span>,
+                     <span class="s2">"</span><span class="s2">uint32_t u32</span><span class="s2">"</span>,
+                     <span class="s2">"</span><span class="s2">uint64_t u64</span><span class="s2">"</span>,
+                    <span class="p">]</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 となります。
 </p>

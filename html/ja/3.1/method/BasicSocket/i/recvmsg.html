@@ -118,17 +118,18 @@ Socket::MSG_* 定数の bitwise OR で表現されています。
 <p>
 残りの要素は補助データ(<a href="../../../class/Socket=3a=3aAncillaryData.html">Socket::AncillaryData</a> オブジェクト)です。
 </p>
-<pre>
-require 'socket'
-
-# UnixSocket#recv_io を recvmsg で実装する例
-mesg, sender_sockaddr, rflags, *controls = sock.recvmsg(:scm_rights=&gt;true)
-controls.each {|ancdata|
-  if ancdata.cmsg_is?(:SOCKET, :RIGHTS)
-    return ancdata.unix_rights[0]
-  end
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'socket'</span>
+  
+<span class="c1"># UnixSocket#recv_io を recvmsg で実装する例
+</span>mesg, sender_sockaddr, rflags, <span class="o">*</span>controls <span class="o">=</span> sock<span class="p">.</span><span class="nf">recvmsg</span><span class="p">(</span><span class="ss">:scm_rights</span><span class="o">=&gt;</span><span class="k">true</span><span class="p">)</span>
+controls<span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>ancdata<span class="o">|</span>
+  <span class="k">if</span> ancdata<span class="p">.</span><span class="nf">cmsg_is?</span><span class="p">(</span><span class="ss">:SOCKET</span>, <span class="ss">:RIGHTS</span><span class="p">)</span>
+    <span class="k">return</span> ancdata<span class="p">.</span><span class="nf">unix_rights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>maxmesglen</code>:</dt>
 <dd>

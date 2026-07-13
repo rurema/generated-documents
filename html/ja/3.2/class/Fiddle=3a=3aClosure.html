@@ -131,40 +131,42 @@ FFI の closure の wrapper です。
 利用法としては、このクラスのサブクラスを作ってそのサブクラスに call メソッドを定義し、
 new でオブジェクトを生成することで利用します。
 </p>
-<pre>
-require 'fiddle'
-include Fiddle # TYPE_* を使うために include する
-
-class Compare &lt; Fiddle::Closure
-  # qsort の比較関数は 型が int(*)(void*, void*) であるため、
-  # このメソッドには DL::CPtr オブジェクトが渡される。
-  # そのポインタが指す先は比較している文字なので、
-  # DL::CPtr#to_s で1文字の文字列に変換している
-  def call(x, y)
-    x.to_s(1) &lt;=&gt; y.to_s(1)
-  end
-end
-
-libc = DL.dlopen(&quot;/lib/libc.so.6&quot;)
-qs = Fiddle::Function.new(libc[&quot;qsort&quot;],
-                          [TYPE_VOIDP, TYPE_INT, TYPE_INT, TYPE_VOIDP],
-                          TYPE_VOID)
-s = &quot;7x0cba(Uq)&quot;
-qs.call(s, s.size, 1, Compare.new(TYPE_INT, [TYPE_VOIDP, TYPE_VOIDP]))
-p s # =&gt;  &quot;()07Uabcqx&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
+include <span class="no">Fiddle</span> <span class="c1"># TYPE_* を使うために include する
+</span>  
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Compare</span> <span class="o">&lt;</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Closure</span>
+  <span class="c1"># qsort の比較関数は 型が int(*)(void*, void*) であるため、
+</span>  <span class="c1"># このメソッドには DL::CPtr オブジェクトが渡される。
+</span>  <span class="c1"># そのポインタが指す先は比較している文字なので、
+</span>  <span class="c1"># DL::CPtr#to_s で1文字の文字列に変換している
+</span>  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span>x, y<span class="p">)</span>
+    x<span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=&gt;</span> y<span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+  
+libc <span class="o">=</span> <span class="no">DL</span><span class="p">.</span><span class="nf">dlopen</span><span class="p">(</span><span class="s2">"</span><span class="s2">/lib/libc.so.6</span><span class="s2">"</span><span class="p">)</span>
+qs <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Function</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>libc<span class="p">[</span><span class="s2">"</span><span class="s2">qsort</span><span class="s2">"</span><span class="p">]</span>,
+                          <span class="p">[</span><span class="no">TYPE_VOIDP</span>, <span class="no">TYPE_INT</span>, <span class="no">TYPE_INT</span>, <span class="no">TYPE_VOIDP</span><span class="p">]</span>,
+                          <span class="no">TYPE_VOID</span><span class="p">)</span>
+s <span class="o">=</span> <span class="s2">"</span><span class="s2">7x0cba(Uq)</span><span class="s2">"</span>
+qs<span class="p">.</span><span class="nf">call</span><span class="p">(</span>s, s<span class="p">.</span><span class="nf">size</span>, <span class="mi">1</span>, <span class="no">Compare</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">TYPE_INT</span>, <span class="p">[</span><span class="no">TYPE_VOIDP</span>, <span class="no">TYPE_VOIDP</span><span class="p">]</span><span class="p">)</span><span class="p">)</span>
+<span class="nb">p</span> s <span class="c1"># =&gt;  &quot;()07Uabcqx&quot;
+</span></code></pre>
 <p>
 <a href="../method/Class/s/new.html">Class.new</a> を使うことで、サブクラスを明示的に作ることなしにコールバックオブジェクトを作ることができます。
 </p>
-<pre>
-require 'fiddle'
-include Fiddle # TYPE_* を使うために include する
-compare = Class.new(Fiddle::Closure){
-  def call(x, y)
-    x.to_s(1) &lt;=&gt; y
-  end
-}.new(TYPE_INT, [TYPE_VOIDP, TYPE_VOIDP])
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiddle'</span>
+include <span class="no">Fiddle</span> <span class="c1"># TYPE_* を使うために include する
+</span>compare <span class="o">=</span> <span class="no">Class</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Fiddle</span><span class="o">::</span><span class="no">Closure</span><span class="p">)</span><span class="p">{</span>
+  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span>x, y<span class="p">)</span>
+    x<span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=&gt;</span> y
+  <span class="k">end</span>
+<span class="p">}</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">TYPE_INT</span>, <span class="p">[</span><span class="no">TYPE_VOIDP</span>, <span class="no">TYPE_VOIDP</span><span class="p">]</span><span class="p">)</span>
+</code></pre>
 <p>
 単に Ruby のブロックを C の(コールバック)関数に変換したい場合は
 <a href="../class/Fiddle=3a=3aClosure=3a=3aBlockCaller.html">Fiddle::Closure::BlockCaller</a> を使うほうが簡単です。

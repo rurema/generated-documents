@@ -15,7 +15,7 @@ C 言語で記述された拡張ライブラリなどを解析するのに使用
 
 例: Array#flatten の場合。rb_ary_flatten のコメントが解析されます。
 
-`````
+```c
 /*
  * Returns a new array that is a one-dimensional flattening of this
  * array (recursively). That is, for every element that is an array,
@@ -42,7 +42,7 @@ C 言語で記述された拡張ライブラリなどを解析するのに使用
  {
    ...
    rb_define_method(rb_cArray, "flatten", rb_ary_flatten, 0);
-`````
+```
 
 上記の例の場合、rb_ary_flatten 関数と Init_Array 関数は同じファイルに記
 述されている必要があります。
@@ -68,13 +68,11 @@ C 言語で記述された拡張ライブラリなどを解析するのに使用
 また、RDoc は rb_define_method などの定義と C 言語の関数の実装が同じファ
 イルにある事を前提としています。そうでない場合は以下のような指定を行います。
 
-`````
+```c
 rb_define_method(....);  // in ファイル名
-`````
+```
 
-例:
-
-`````
+```c title="例"
 /*
  * Document-class:  MyClass
  *
@@ -93,4 +91,4 @@ rb_define_method(....);  // in ファイル名
  * In the second form, if the key isn't found, invoke the
  * block and return its value.
  */
-`````
+```

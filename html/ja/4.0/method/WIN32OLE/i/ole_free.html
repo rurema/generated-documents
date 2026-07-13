@@ -86,35 +86,38 @@ selfが参照するCOMオブジェクトを解放します。
 <p>
 selfが参照するCOMオブジェクトのIUnknown::Releaseを呼び出すことで、COMオブジェクトを開放します。ole_freeを呼び出した後は、このオブジェクトに対する操作は行えません。
 </p>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-excel.ole_free  # オブジェクトの解放
-excel.Quit      #=&gt; RuntimeError (failed to get Dispatch Interface)
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+excel<span class="p">.</span><span class="nf">ole_free</span>  <span class="c1"># オブジェクトの解放
+</span>excel<span class="p">.</span><span class="no">Quit</span>      <span class="c1">#=&gt; RuntimeError (failed to get Dispatch Interface)
+</span></code></pre>
 <p>
 通常は利用されなくなったWIN32OLEオブジェクトはGCのタイミングで自動的に解放されるため、当メソッドを呼び出す必要はありません。Officeのような外部プロセスサーバ呼び出し時に、スクリプト終了後もサーバが解放されない場合に強制的にサーバを終了するために当メソッドを利用できます。ただし、現実には途中で生成される子オブジェクトからの逆参照などがあるため、
 WIN32OLEがIUnknown::Releaseを呼び出してもオブジェクトが解放されるとは限りません。
 </p>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-workbook = excel.Workbooks.Open('workbook.xls')
-workbook.Close(:SaveChanges =&gt; false)
-workbook.ole_free
-excel.ole_free
-# この時点でExcel.EXEは終了しない
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+workbook <span class="o">=</span> excel<span class="p">.</span><span class="no">Workbooks</span><span class="p">.</span><span class="no">Open</span><span class="p">(</span><span class="s1">'workbook.xls'</span><span class="p">)</span> 
+<span class="nf">workbook</span><span class="p">.</span><span class="no">Close</span><span class="p">(</span><span class="ss">:SaveChanges</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">)</span>
+<span class="nf">workbook</span><span class="p">.</span><span class="nf">ole_free</span>
+excel<span class="p">.</span><span class="nf">ole_free</span>
+<span class="c1"># この時点でExcel.EXEは終了しない
+</span></code></pre>
 <p>
 上の例では、excel.Workbooks.Openの行で、excel.Workbooksオブジェクトが生成されています。しかし、後続の処理で該当オブジェクトが解放されていないため、Workbooksオブジェクトによって参照されているexcelオブジェクトは解放されません。それに対して下の例では正しく解放されます。
 </p>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-books = excel.Workbooks
-workbook = books.Open('workbook.xls')
-books.ole_free
-workbook.Close(:SaveChanges =&gt; false)
-workbook.ole_free
-excel.ole_free
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+books <span class="o">=</span> excel<span class="p">.</span><span class="no">Workbooks</span>
+<span class="nf">workbook</span> <span class="o">=</span> books<span class="p">.</span><span class="no">Open</span><span class="p">(</span><span class="s1">'workbook.xls'</span><span class="p">)</span>
+<span class="nf">books</span><span class="p">.</span><span class="nf">ole_free</span>
+workbook<span class="p">.</span><span class="no">Close</span><span class="p">(</span><span class="ss">:SaveChanges</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">)</span>
+workbook<span class="p">.</span><span class="nf">ole_free</span>
+excel<span class="p">.</span><span class="nf">ole_free</span>
+</code></pre>
 </dd>
 
 

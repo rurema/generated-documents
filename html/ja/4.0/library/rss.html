@@ -121,29 +121,32 @@ XML だが、RSS 0.9x/1.0/2.0, Atom のいずれでもない場合は、nil が�
 <p>
 例えば、RSS 1.0 をバリデーション付きでパースするには以下のようにします。ここで、変数 rss_source には RSS 1.0 形式の文字列が格納されているものとします。
 </p>
-<pre>
-require 'rss'
-rss = RSS::Parser.parse(rss_source, true)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rss'</span>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source, <span class="k">true</span><span class="p">)</span>
+</code></pre>
 <p>
 RSS::Parser.parse の第二引数は省略すると true が指定されたものとみなされるので、これは以下のようにも書けます。
 </p>
-<pre>
-require 'rss'
-rss = RSS::Parser.parse(rss_source)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rss'</span>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+</code></pre>
 <p>
 最初はバリデーション付きでパースして、valid ではない RSS だった場合はバリデーション無しでパースするには以下のように書きます。
 </p>
-<pre>
-require 'rss'
-rss = nil
-begin
-  rss = RSS::Parser.parse(rss_source)
-rescue RSS::InvalidRSSError
-  rss = RSS::Parser.parse(rss_source, false)
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rss'</span>
+rss <span class="o">=</span> <span class="k">nil</span>
+<span class="k">begin</span>
+  rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<span class="k">rescue</span> <span class="no">RSS</span><span class="o">::</span><span class="no">InvalidRSSError</span>
+  rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source, <span class="k">false</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 これは rss_source が RSS 0.9x/1.0/2.0 のどれか分からない時にも有効です。RSS 1.0としてバリデーション付きでパースし、バリデーションに失敗すると RSS 0.9x/(壊れた)1.0/2.0 のいずれかとしてパースします。
 </p>
@@ -156,9 +159,10 @@ end
 <p>
 以下のようにすると、より厳密にパースできます。
 </p>
-<pre>
-RSS::Parser.parse(rss_source, true, false)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source, <span class="k">true</span>, <span class="k">false</span><span class="p">)</span>
+</code></pre>
 <h2 >パースされたフィード</h2>
 <p>
 フィードをパースすると  <a href="../class/RSS=3a=3aRDF.html">RSS::RDF</a>, <a href="../class/RSS=3a=3aRDF=3a=3aChannel.html">RSS::RDF::Channel</a>,
@@ -168,71 +172,80 @@ RSS::Parser.parse(rss_source, true, false)
 <p>
 rdf:RDF 要素の子要素である channel 要素を参照するには、以下のようにします。
 </p>
-<pre>
-rss = RSS::Parser.parse(rss_source)
-rss.channel # =&gt; /rdf:RDF/channel要素; RSS::RDF::Channel
-</pre>
+<pre class="highlight ruby">
+<code>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span> <span class="c1"># =&gt; /rdf:RDF/channel要素; RSS::RDF::Channel
+</span></code></pre>
 <p>
 もし、要素が子要素も属性も持たない場合は String が返ってきます。その要素が省略可能ならばnilが返って来るかもしれません。これは要素が子要素または属性を持つ場合も同様です。
 </p>
-<pre>
-rss = RSS::Parser.parse(rss_source)
-rss.channel.description # =&gt; /rdf:RDF/channel/text(); String
-</pre>
+<pre class="highlight ruby">
+<code>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="c1"># =&gt; /rdf:RDF/channel/text(); String
+</span></code></pre>
 <p>
 属性にアクセスする時も同様です。channel要素のrdf:about属性にアクセスするには以下のようにします。属性の値はStringかnilです。
 </p>
-<pre>
-rss = RSS::Parser.parse(rss_source)
-rss.channel.about # =&gt; /rdf:RDF/channel/@about属性; String または nil
-</pre>
+<pre class="highlight ruby">
+<code>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="c1"># =&gt; /rdf:RDF/channel/@about属性; String または nil
+</span></code></pre>
 <p>
 同名の複数の子要素があるかもしれないときも同様です。ただし、リーダに引数を指定しないと最初の子要素が返ってきます。例えば、
 rdf:RDF要素の最初のitem要素にアクセスするには以下のようにします。
 </p>
-<pre>
-rss = RSS::Parser.parse(rss_source)
-rss.item # =&gt; /rdf:RDF/item[1]要素; RSS::RDF::Item
-</pre>
+<pre class="highlight ruby">
+<code>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">item</span> <span class="c1"># =&gt; /rdf:RDF/item[1]要素; RSS::RDF::Item
+</span></code></pre>
 <p>
 3番目のitem要素にアクセスするには以下のようにします。省略されなかったリーダの引数はArray#[]の引数と同じように扱われます。
 </p>
-<pre>
-rss = RSS::Parser.parse(rss_source)
-rss.item(2) # =&gt; /rdf:RDF/item[3]要素; RSS::RDF::Item
-</pre>
+<pre class="highlight ruby">
+<code>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">item</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># =&gt; /rdf:RDF/item[3]要素; RSS::RDF::Item
+</span></code></pre>
 <p>
 子要素すべてを取得したいときは要素名の複数形がリーダとなります。すべてのitem要素を取得するには以下のようにします。
 </p>
-<pre>
-rss = RSS::Parser.parse(rss_source)
-rss.items # =&gt; /rdf:RDF/item要素の配列; [RSS::RDF::Item, ...]
-</pre>
+<pre class="highlight ruby">
+<code>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">items</span> <span class="c1"># =&gt; /rdf:RDF/item要素の配列; [RSS::RDF::Item, ...]
+</span></code></pre>
 <h3 >ライタ(writer)</h3>
 <p>
 rdf:RDF要素の子要素であるchannel要素を設定するには以下のようにします。RSS::RDF::Channel.newの第一引数にはrdf:about属性の値を指定することもできます。
 </p>
-<pre>
-rss = RSS::Parser.parse(rss_source)
-rss.channel = RSS::RDF::Channel.new(rdf_about_value)
-</pre>
+<pre class="highlight ruby">
+<code>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+rss<span class="p">.</span><span class="nf">channel</span> <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">RDF</span><span class="o">::</span><span class="no">Channel</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>rdf_about_value<span class="p">)</span>
+</code></pre>
 <p>
 属性値を設定する場合も同様です。
 </p>
-<pre>
-rss = RSS::Parser.parse(rss_source)
-rss.channel.about = &quot;http://cozmixng.www.cozmixng.org/&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://cozmixng.www.cozmixng.org/</span><span class="s2">"</span>
+</code></pre>
 <p>
 同名の複数の子要素が存在する場合は少し異なります。要素名の複数形でのメソッドで要素の配列を取得して、その配列に対して
 Array#&lt;&lt;やArray#[]=などを用いて要素を設定します。
 </p>
-<pre>
-rss = RSS::Parser.parse(rss_source)
-item = RSS::RDF::Item.new(rdf_about_value)
-rss.items &lt;&lt; item
-rss.items.last == item # =&gt; true
-</pre>
+<pre class="highlight ruby">
+<code>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+item <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">RDF</span><span class="o">::</span><span class="no">Item</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>rdf_about_value<span class="p">)</span>
+rss<span class="p">.</span><span class="nf">items</span> <span class="o">&lt;&lt;</span> item
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">last</span> <span class="o">==</span> item <span class="c1"># =&gt; true
+</span></code></pre>
 <p>
 注意: item=/set_itemなどはRubyっぽくないので使わないでください。
 </p>
@@ -266,47 +279,47 @@ RSSのルート要素（RSS::RDFまたはRSS::Rss）オブジェクトおよびA
 RSS::Atom::Entry）オブジェクトはxml_stylesheetsという名前の配列を持っています。この配列にRSS::XMLStyleSheet
 オブジェクトを挿入することでRSS/Atomにxml-stylesheetを関連づけることができます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 rss.xml_stylesheets &lt;&lt; RSS::XMLStyleSheet.new(...)
-</pre>
+</code></pre>
 <p>
 RSS::XMLStyleSheet.newには以下のようなHashまたは連想配列を渡します。作成されるRSS::XMLStyleSheetオブジェクトは与えられた引数によって初期化されます。
 </p>
-<p>
-Hash:
-</p>
-<pre>
+<span class="caption">Hash</span>
+<pre class="highlight text">
+<code>
 {
-  :href =&gt; &quot;...&quot;,
-  :type =&gt; &quot;...&quot;,
-  :title =&gt; &quot;...&quot;,
-  :media =&gt; &quot;...&quot;,
-  :charset =&gt; &quot;...&quot;,
-  :alternate =&gt; &quot;...&quot;,
+  :href =&gt; "...",
+  :type =&gt; "...",
+  :title =&gt; "...",
+  :media =&gt; "...",
+  :charset =&gt; "...",
+  :alternate =&gt; "...",
 }
-</pre>
-<p>
-連想配列:
-</p>
-<pre>
+</code></pre>
+<span class="caption">連想配列</span>
+<pre class="highlight text">
+<code>
 [
-  [:href, &quot;...&quot;],
-  [:type, &quot;...&quot;],
-  [:title, &quot;...&quot;],
-  [:media, &quot;...&quot;],
-  [:charset, &quot;...&quot;],
-  [:alternate, &quot;...&quot;],
+  [:href, "..."],
+  [:type, "..."],
+  [:title, "..."],
+  [:media, "..."],
+  [:charset, "..."],
+  [:alternate, "..."],
 ]
-</pre>
+</code></pre>
 <p>
 全てのキーは省略可能です。
 </p>
 <p>
 例えば、xml-stylesheetとしてsample.xslを指定する場合は以下のようにします。
 </p>
-<pre>
-rss.xml_stylesheets &lt;&lt; RSS::XMLStyleSheet.new({:href =&gt; &quot;sample.xsl&quot;})
-</pre>
+<pre class="highlight ruby">
+<code>
+rss<span class="p">.</span><span class="nf">xml_stylesheets</span> <span class="o">&lt;&lt;</span> <span class="no">RSS</span><span class="o">::</span><span class="no">XMLStyleSheet</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">{</span><span class="ss">:href</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">sample.xsl</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>
+</code></pre>
 <p>
 本当は{:type =&gt; &quot;text/xsl&quot;}も指定しないといけないところですが、拡張子が.xslまたは、.cssの場合は適当に推測してくれるので省略可能です。
 </p>
@@ -318,14 +331,15 @@ RSS Makerが便利です。
 <p>
 以下のように使います。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight text">
+<code>
+require "rss"
 
-rss = RSS::Maker.make(&quot;バージョン&quot;) do |maker|
+rss = RSS::Maker.make("バージョン") do |maker|
   maker.XXX = YYY
   ...
 end
-</pre>
+</code></pre>
 <h4 >シンプルなRSS</h4>
 <p>
 例えば、
@@ -339,16 +353,17 @@ end
 <p>
 を生成するには以下のようにします。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-rss = RSS::Maker.make(&quot;1.0&quot;) do |maker|
-  maker.channel.about = &quot;http://example.com/index.rdf&quot;
-  maker.channel.title = &quot;Example&quot;
-  maker.channel.description = &quot;Example Site&quot;
-  maker.channel.link = &quot;http://example.com/&quot;
-end
-</pre>
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 もし、
 </p>
@@ -359,20 +374,21 @@ end
 <p>
 エントリを含めたければ以下のようにします。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-rss = RSS::Maker.make(&quot;1.0&quot;) do |maker|
-  maker.channel.about = &quot;http://example.com/index.rdf&quot;
-  maker.channel.title = &quot;Example&quot;
-  maker.channel.description = &quot;Example Site&quot;
-  maker.channel.link = &quot;http://example.com/&quot;
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/</span><span class="s2">"</span>
 
-  item = maker.items.new_item
-  item.link = &quot;http://example.com/article.html&quot;
-  item.title = &quot;Sample Article&quot;
-end
-</pre>
+  item <span class="o">=</span> maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span>
+  item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article.html</span><span class="s2">"</span>
+  item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <h4 >更新時刻を追加</h4>
 <p>
 もし、先のエントリが
@@ -383,34 +399,37 @@ end
 <p>
 のものならこうします。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-rss = RSS::Maker.make(&quot;1.0&quot;) do |maker|
-  maker.channel.about = &quot;http://example.com/index.rdf&quot;
-  maker.channel.title = &quot;Example&quot;
-  maker.channel.description = &quot;Example Site&quot;
-  maker.channel.link = &quot;http://example.com/&quot;
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/</span><span class="s2">"</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article.html&quot;
-    item.title = &quot;Sample Article&quot;
-    item.date = Time.parse(&quot;2004/11/1 10:10&quot;)
-  end
-end
-</pre>
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/1 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 サンプル中の
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 item.date = ...
-</pre>
+</code></pre>
 <p>
 は
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 item.dc_date = ...
-</pre>
+</code></pre>
 <p>
 でも構いません。#dc_date=は#date=の単なる別名です。
 </p>
@@ -426,62 +445,65 @@ item.dc_date = ...
 <p>
 エントリを持つなら以下のようにします。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-rss = RSS::Maker.make(&quot;1.0&quot;) do |maker|
-  maker.channel.about = &quot;http://example.com/index.rdf&quot;
-  maker.channel.title = &quot;Example&quot;
-  maker.channel.description = &quot;Example Site&quot;
-  maker.channel.link = &quot;http://example.com/&quot;
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/</span><span class="s2">"</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article.html&quot;
-    item.title = &quot;Sample Article&quot;
-    item.date = Time.parse(&quot;2004/11/1 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/1 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article2.html&quot;
-    item.title = &quot;Sample Article2&quot;
-    item.date = Time.parse(&quot;2004/11/2 10:10&quot;)
-  end
-end
-</pre>
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article2.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article2</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/2 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <h4 >エントリを並び替える</h4>
 <p>
 もし、更新日が新しい順に並び替えたければ
 </p>
-<pre>
-maker.items.do_sort = true
-</pre>
+<pre class="highlight ruby">
+<code>
+maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">do_sort</span> <span class="o">=</span> <span class="k">true</span>
+</code></pre>
 <p>
 を追加し、以下のようにします。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-rss = RSS::Maker.make(&quot;1.0&quot;) do |maker|
-  maker.channel.about = &quot;http://example.com/index.rdf&quot;
-  maker.channel.title = &quot;Example&quot;
-  maker.channel.description = &quot;Example Site&quot;
-  maker.channel.link = &quot;http://example.com/&quot;
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/</span><span class="s2">"</span>
 
-  maker.items.do_sort = true
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">do_sort</span> <span class="o">=</span> <span class="k">true</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article.html&quot;
-    item.title = &quot;Sample Article&quot;
-    item.date = Time.parse(&quot;2004/11/1 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/1 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article2.html&quot;
-    item.title = &quot;Sample Article2&quot;
-    item.date = Time.parse(&quot;2004/11/2 10:10&quot;)
-  end
-end
-</pre>
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article2.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article2</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/2 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <h4 >ロゴの指定</h4>
 <p>
 もし、サイトに
@@ -493,33 +515,34 @@ end
 <p>
 がある場合は以下のようにします。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-rss = RSS::Maker.make(&quot;1.0&quot;) do |maker|
-  maker.channel.about = &quot;http://example.com/index.rdf&quot;
-  maker.channel.title = &quot;Example&quot;
-  maker.channel.description = &quot;Example Site&quot;
-  maker.channel.link = &quot;http://example.com/&quot;
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/</span><span class="s2">"</span>
 
-  maker.items.do_sort = true
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">do_sort</span> <span class="o">=</span> <span class="k">true</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article.html&quot;
-    item.title = &quot;Sample Article&quot;
-    item.date = Time.parse(&quot;2004/11/1 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/1 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article2.html&quot;
-    item.title = &quot;Sample Article2&quot;
-    item.date = Time.parse(&quot;2004/11/2 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article2.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article2</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/2 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.image.title = &quot;Example Site&quot;
-  maker.image.url = &quot;http://example.com/logo.png&quot;
-end
-</pre>
+  maker<span class="p">.</span><span class="nf">image</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">image</span><span class="p">.</span><span class="nf">url</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/logo.png</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <h4 >検索ページの指定</h4>
 <p>
 もし、
@@ -533,38 +556,39 @@ end
 <p>
 検索用ページがあったら以下のようにします。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-rss = RSS::Maker.make(&quot;1.0&quot;) do |maker|
-  maker.channel.about = &quot;http://example.com/index.rdf&quot;
-  maker.channel.title = &quot;Example&quot;
-  maker.channel.description = &quot;Example Site&quot;
-  maker.channel.link = &quot;http://example.com/&quot;
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/</span><span class="s2">"</span>
 
-  maker.items.do_sort = true
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">do_sort</span> <span class="o">=</span> <span class="k">true</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article.html&quot;
-    item.title = &quot;Sample Article&quot;
-    item.date = Time.parse(&quot;2004/11/1 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/1 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article2.html&quot;
-    item.title = &quot;Sample Article2&quot;
-    item.date = Time.parse(&quot;2004/11/2 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article2.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article2</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/2 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.image.title = &quot;Example Site&quot;
-  maker.image.url = &quot;http://example.com/logo.png&quot;
+  maker<span class="p">.</span><span class="nf">image</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">image</span><span class="p">.</span><span class="nf">url</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/logo.png</span><span class="s2">"</span>
 
-  maker.textinput.title = &quot;Search Example Site&quot;
-  maker.textinput.description = &quot;Search Example Site's all text&quot;
-  maker.textinput.name = &quot;keyword&quot;
-  maker.textinput.link = &quot;http://example.com/search.cgi&quot;
-end
-</pre>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Search Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Search Example Site's all text</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">keyword</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/search.cgi</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <h4 >XMLスタイルシートの指定</h4>
 <p>
 もし、
@@ -575,81 +599,83 @@ end
 <p>
 xml-stylesheetを追加したい場合は以下のようにします。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-rss = RSS::Maker.make(&quot;1.0&quot;) do |maker|
-  xss = maker.xml_stylesheets.new_xml_stylesheet
-  xss.href = &quot;http://example.com/index.xsl&quot;
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  xss <span class="o">=</span> maker<span class="p">.</span><span class="nf">xml_stylesheets</span><span class="p">.</span><span class="nf">new_xml_stylesheet</span>
+  xss<span class="p">.</span><span class="nf">href</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.xsl</span><span class="s2">"</span>
 
-  maker.channel.about = &quot;http://example.com/index.rdf&quot;
-  maker.channel.title = &quot;Example&quot;
-  maker.channel.description = &quot;Example Site&quot;
-  maker.channel.link = &quot;http://example.com/&quot;
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/</span><span class="s2">"</span>
 
-  maker.items.do_sort = true
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">do_sort</span> <span class="o">=</span> <span class="k">true</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article.html&quot;
-    item.title = &quot;Sample Article&quot;
-    item.date = Time.parse(&quot;2004/11/1 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/1 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article2.html&quot;
-    item.title = &quot;Sample Article2&quot;
-    item.date = Time.parse(&quot;2004/11/2 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article2.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article2</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/2 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.image.title = &quot;Example Site&quot;
-  maker.image.url = &quot;http://example.com/logo.png&quot;
+  maker<span class="p">.</span><span class="nf">image</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">image</span><span class="p">.</span><span class="nf">url</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/logo.png</span><span class="s2">"</span>
 
-  maker.textinput.title = &quot;Search Example Site&quot;
-  maker.textinput.description = &quot;Search Example Site's all text&quot;
-  maker.textinput.name = &quot;keyword&quot;
-  maker.textinput.link = &quot;http://example.com/search.cgi&quot;
-end
-</pre>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Search Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Search Example Site's all text</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">keyword</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/search.cgi</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <h4 >RSS 2.0の生成</h4>
 <p>
 もし、RSS 2.0を生成したい場合は以下のように、
 RSS::Maker.makeの第一引数を変更します。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-rss = RSS::Maker.make(&quot;2.0&quot;) do |maker|
-  xss = maker.xml_stylesheets.new_xml_stylesheet
-  xss.href = &quot;http://example.com/index.xsl&quot;
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">2.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  xss <span class="o">=</span> maker<span class="p">.</span><span class="nf">xml_stylesheets</span><span class="p">.</span><span class="nf">new_xml_stylesheet</span>
+  xss<span class="p">.</span><span class="nf">href</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.xsl</span><span class="s2">"</span>
 
-  maker.channel.about = &quot;http://example.com/index.rdf&quot;
-  maker.channel.title = &quot;Example&quot;
-  maker.channel.description = &quot;Example Site&quot;
-  maker.channel.link = &quot;http://example.com/&quot;
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/</span><span class="s2">"</span>
 
-  maker.items.do_sort = true
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">do_sort</span> <span class="o">=</span> <span class="k">true</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article.html&quot;
-    item.title = &quot;Sample Article&quot;
-    item.date = Time.parse(&quot;2004/11/1 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/1 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article2.html&quot;
-    item.title = &quot;Sample Article2&quot;
-    item.date = Time.parse(&quot;2004/11/2 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article2.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article2</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/2 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.image.title = &quot;Example Site&quot;
-  maker.image.url = &quot;http://example.com/logo.png&quot;
+  maker<span class="p">.</span><span class="nf">image</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">image</span><span class="p">.</span><span class="nf">url</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/logo.png</span><span class="s2">"</span>
 
-  maker.textinput.title = &quot;Search Example Site&quot;
-  maker.textinput.description = &quot;Search Example Site's all text&quot;
-  maker.textinput.name = &quot;keyword&quot;
-  maker.textinput.link = &quot;http://example.com/search.cgi&quot;
-end
-</pre>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Search Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Search Example Site's all text</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">keyword</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/search.cgi</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <h4 >RSS 0.91の生成</h4>
 <p>
 もし、RSS 0.91を生成したい場合は、RSS 2.0の場合と同様に
@@ -658,31 +684,34 @@ RSS::Maker.make の第一引数を&quot;0.91&quot;に変更します。
 <p>
 ただし、RSS 0.91では言語指定が必須なので、言語を指定する必要があります。ここでは日本語であると指定します。
 </p>
-<pre>
-rss = RSS::Maker.make(&quot;0.91&quot;) do |maker|
-  maker.channel.language = &quot;ja&quot;
+<pre class="highlight text">
+<code>
+rss = RSS::Maker.make("0.91") do |maker|
+  maker.channel.language = "ja"
   ...
 end
-</pre>
+</code></pre>
 <p>
 RSS 1.0など、/rdf:RDF/channel/language要素がないフィードの場合でも、単に無視したりdc:languageとして扱ったりと適切に処理します。そのため、以下のように「バージョンが&quot;0.91&quot;のときだけ言語を指定する」というように書く必要はありません。フィードのバージョンに関わらず言語を指定してください。
 </p>
-<pre>
-rss = RSS::Maker.make(&quot;0.91&quot;) do |maker|
-  maker.channel.language = &quot;ja&quot; if maker.feed_version == &quot;0.91&quot;
+<pre class="highlight text">
+<code>
+rss = RSS::Maker.make("0.91") do |maker|
+  maker.channel.language = "ja" if maker.feed_version == "0.91"
   ...
 end
-</pre>
+</code></pre>
 <h4 >Atom 1.0の生成</h4>
 <p>
 もし、Atom 1.0を生成したい場合は、RSS 0.91や2.0の場合と同様に
 RSS::Maker.makeの第一引数を&quot;atom&quot;に変更します。
 </p>
-<pre>
-rss = RSS::Maker.make(&quot;atom&quot;) do |maker|
+<pre class="highlight text">
+<code>
+rss = RSS::Maker.make("atom") do |maker|
   ...
 end
-</pre>
+</code></pre>
 <p>
 ただし、これだけでは十分ではありません。これは、Atom 1.0では
 RSS 1.0/2.0/0.91では必須ではなかった以下の情報が必要となるからです。
@@ -709,44 +738,45 @@ RSS 1.0/2.0/0.91では必須ではなかった以下の情報が必要となる�
 <p>
 Atom 1.0なら以下のようになります。
 </p>
-<pre>
-require &quot;rss&quot;
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-atom = RSS::Maker.make(&quot;atom&quot;) do |maker|
-  xss = maker.xml_stylesheets.new_xml_stylesheet
-  xss.href = &quot;http://example.com/index.xsl&quot;
+atom <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">atom</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  xss <span class="o">=</span> maker<span class="p">.</span><span class="nf">xml_stylesheets</span><span class="p">.</span><span class="nf">new_xml_stylesheet</span>
+  xss<span class="p">.</span><span class="nf">href</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.xsl</span><span class="s2">"</span>
 
-  maker.channel.about = &quot;http://example.com/atom.xml&quot;
-  maker.channel.title = &quot;Example&quot;
-  maker.channel.description = &quot;Example Site&quot;
-  maker.channel.link = &quot;http://example.com/&quot;
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/atom.xml</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/</span><span class="s2">"</span>
 
-  maker.channel.author = &quot;Bob&quot;
-  maker.channel.date = Time.now
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">author</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Bob</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span>
 
-  maker.items.do_sort = true
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">do_sort</span> <span class="o">=</span> <span class="k">true</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article.html&quot;
-    item.title = &quot;Sample Article&quot;
-    item.date = Time.parse(&quot;2004/11/1 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/1 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.items.new_item do |item|
-    item.link = &quot;http://example.com/article2.html&quot;
-    item.title = &quot;Sample Article2&quot;
-    item.date = Time.parse(&quot;2004/11/2 10:10&quot;)
-  end
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">new_item</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/article2.html</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Sample Article2</span><span class="s2">"</span>
+    item<span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2004/11/2 10:10</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  maker.image.title = &quot;Example Site&quot;
-  maker.image.url = &quot;http://example.com/logo.png&quot;
+  maker<span class="p">.</span><span class="nf">image</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">image</span><span class="p">.</span><span class="nf">url</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/logo.png</span><span class="s2">"</span>
 
-  maker.textinput.title = &quot;Search Example Site&quot;
-  maker.textinput.description = &quot;Search Example Site's all text&quot;
-  maker.textinput.name = &quot;keyword&quot;
-  maker.textinput.link = &quot;http://example.com/search.cgi&quot;
-end
-</pre>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Search Example Site</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Search Example Site's all text</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">keyword</span><span class="s2">"</span>
+  maker<span class="p">.</span><span class="nf">textinput</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/search.cgi</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 Atom 1.0用の情報を加えたこのスクリプトを最初のRSS 1.0を出力するスクリプトに戻す場合は、RSS::Maker.makeの第一引数を&quot;1.0&quot;に変えるだけです。Atom 1.0用に追加した情報を削除する必要はありません。それらは単に無視されます。
 </p>
@@ -754,9 +784,10 @@ Atom 1.0用の情報を加えたこのスクリプトを最初のRSS 1.0を出�
 <p>
 フィードの種類がRSS 1.0/2.0でもAtomでもパースするためのAPIは以下のように共通です。
 </p>
-<pre>
-feed = RSS::Parser.parse(feed_xml)
-</pre>
+<pre class="highlight ruby">
+<code>
+feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>feed_xml<span class="p">)</span>
+</code></pre>
 <p>
 しかし、返ってくるオブジェクトはRSS 1.0オブジェクト（RSS::RDF）かもしれませんし、Atomオブジェクト（RSS::Atom::Feed）かもしれません。このため、パースした結果を使う場合はフィードの種類を意識しなくてはならず、使いづらくなります。
 </p>
@@ -764,39 +795,43 @@ feed = RSS::Parser.parse(feed_xml)
 RSS Parserが提供する解決方法はユーザに好みのフィードの種類を選んでもらうというものです。例えば、以下のようにしてRSS 1.0
 をRSS 2.0に変換できます。
 </p>
-<pre>
-require 'rss'
-rss10 = RSS::Parser.parse(rss10_xml)
-rss20 = rss10.to_feed(&quot;rss2.0&quot;)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rss'</span>
+rss10 <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss10_xml<span class="p">)</span>
+rss20 <span class="o">=</span> rss10<span class="p">.</span><span class="nf">to_feed</span><span class="p">(</span><span class="s2">"</span><span class="s2">rss2.0</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
 <p>
 種類がわからない複数のフィードを扱う場合は以下のようにし、すべてのフィードをRSS 2.0のように扱うことができます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 feeds.each do |xml|
-  rss20 = RSS::Parser.parse(xml).to_feed(&quot;rss2.0&quot;)
+  rss20 = RSS::Parser.parse(xml).to_feed("rss2.0")
   ...
 end
-</pre>
+</code></pre>
 <p>
 また、to_feedは以下のように書くことも出来ます。
 </p>
-<pre>
-feed.to_rss(&quot;1.0&quot;) # == feed.to_feed(&quot;rss1.0&quot;)
-feed.to_rss(&quot;2.0&quot;) # == feed.to_feed(&quot;rss2.0&quot;)
-feed.to_atom(&quot;1.0&quot;) # == feed.to_feed(&quot;atom1.0&quot;)
-</pre>
+<pre class="highlight ruby">
+<code>
+feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># == feed.to_feed(&quot;rss1.0&quot;)
+</span>feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</span><span class="s2">"</span><span class="s2">2.0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># == feed.to_feed(&quot;rss2.0&quot;)
+</span>feed<span class="p">.</span><span class="nf">to_atom</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># == feed.to_feed(&quot;atom1.0&quot;)
+</span></code></pre>
 <p>
 形式を変換したときに問題になるのは、変換元のオブジェクトが変換後の形式に必須の情報を持っていない場合です。この場合は変換に失敗します（RSS::Errorのサブクラスの例外が発生します）。そのため、適宜、必要な情報を補う必要があります。たとえば、RSS
 1.0では各item要素にタイトルが必須ですが、RSS 2.0では省略可能です。そのような場合に対応するために、以下のようにブロックを使用することが出来ます。
 </p>
-<pre>
-rss10 = feed.to_rss(&quot;1.0&quot;) do |maker|
-  maker.items.each do |item|
-    item.title.content ||= &quot;No title&quot;
-  end
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+rss10 <span class="o">=</span> feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    item<span class="p">.</span><span class="nf">title</span><span class="p">.</span><span class="nf">content</span> <span class="o">||=</span> <span class="s2">"</span><span class="s2">No title</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 to_feedのブロック内で出来ることを理解するためには、to_feedがどのように動作するかを理解するとよいです。パース結果のオブジェクトはフィードの種類に関わらずsetup_makerというメソッドを持っています。これは、自分が持っている情報をRSS Makerに与えるメソッドです。to_feedはRSS::Maker.makeで作ったRSS Makerに対して
 setup_makerを行い、他の形式に変換しようとします。ブロックには
@@ -807,17 +842,19 @@ to_feedのブロック内で出来ることはRSS Makerに対して出来るこ�
 <p>
 上記の方法でパース済みのオブジェクトを変換できるので、フィードを異なる形式のXMLへ変換することは簡単です。
 </p>
-<pre>
-feed = RSS::Parser.parse(feed_xml)
-new_feed_xml = feed.to_feed(&quot;atom1.0&quot;).to_s
-</pre>
+<pre class="highlight ruby">
+<code>
+feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>feed_xml<span class="p">)</span>
+new_feed_xml <span class="o">=</span> feed<span class="p">.</span><span class="nf">to_feed</span><span class="p">(</span><span class="s2">"</span><span class="s2">atom1.0</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_s</span>
+</code></pre>
 <p>
 これを行うための便利なメソッドto_xmlがあります。to_xmlを使うと以下のように書き直すことができます。
 </p>
-<pre>
-feed = RSS::Parser.parse(feed_xml)
-new_feed_xml = feed.to_xml(&quot;atom1.0&quot;)
-</pre>
+<pre class="highlight ruby">
+<code>
+feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>feed_xml<span class="p">)</span>
+new_feed_xml <span class="o">=</span> feed<span class="p">.</span><span class="nf">to_xml</span><span class="p">(</span><span class="s2">"</span><span class="s2">atom1.0</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
 <p>
 。。。あまり変わりませんね。to_feedを用いた場合と同じようにブロックを指定してRSS Makerを操作することも出来ます。ますます変わりませんね。
 </p>
@@ -825,19 +862,21 @@ new_feed_xml = feed.to_xml(&quot;atom1.0&quot;)
 to_feed().to_sではなく、to_xmlを使うことには一長一短があります。to_xmlは変換元のフィードの種類と変換後のフィードの種類が同じ場合は単にto_sを呼び出すだけです。これにより、同じ形式に変換する場合の速度があがります（RSS Makerを作って変換、ということを省略するので当然です）。しかし、ブロックを指定して変換後の結果を調整できません。例えば、以下のようにRSS
 1.0からRSS 2.0に変換する場合はブロックが呼ばれます。
 </p>
-<pre>
-rss10.to_xml(&quot;rss2.0&quot;) do |maker|
-  # makerを操作できる
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+rss10<span class="p">.</span><span class="nf">to_xml</span><span class="p">(</span><span class="s2">"</span><span class="s2">rss2.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  <span class="c1"># makerを操作できる
+</span><span class="k">end</span>
+</code></pre>
 <p>
 しかし、以下のようにRSS 1.0からRSS 1.0に変換しようとした場合はブロックは呼び出されません。
 </p>
-<pre>
-rss10.to_xml(&quot;rss1.0&quot;) do |maker|
-  # ブロックが呼び出されないのでmakerを操作できない。
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+rss10<span class="p">.</span><span class="nf">to_xml</span><span class="p">(</span><span class="s2">"</span><span class="s2">rss1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  <span class="c1"># ブロックが呼び出されないのでmakerを操作できない。
+</span><span class="k">end</span>
+</code></pre>
 <p>
 このAPIに関しては、どうしたらよいのかまだ悩んでいます。もし、なにかアイディアがあれば教えてください。
 </p>
@@ -852,27 +891,29 @@ RSS Parser のサンプルスクリプトをいくつか紹介します。これ
 <p>
 まず、RSS 0.9x/1.0/2.0, Atom 1.0をパースできるように以下のようにrequireします。
 </p>
-<pre>
-require 'rss'
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rss'</span>
+</code></pre>
 <p>
 パースするフィードはファイルに保存されていて引数で与えられるものとします。
 </p>
-<pre>
-ARGV.each do |fname|
-  feed = nil
-  begin
-    feed = RSS::Parser.parse(File.read(fname), false)
-  rescue RSS::Error
-  end
+<pre class="highlight ruby">
+<code>
+<span class="no">ARGV</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>fname<span class="o">|</span>
+  feed <span class="o">=</span> <span class="k">nil</span>
+  <span class="k">begin</span>
+    feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>fname<span class="p">)</span>, <span class="k">false</span><span class="p">)</span>
+  <span class="k">rescue</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Error</span>
+  <span class="k">end</span>
 
-  if feed.nil?
-    puts &quot;#{fname}はRSS 0.9x/1.0/2.0, Atom 1.0のいずれでもありません。&quot;
-  else
-    print_items(feed)
-  end
-end
-</pre>
+  <span class="k">if</span> feed<span class="p">.</span><span class="nf">nil?</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">fname</span><span class="si">}</span><span class="s2">はRSS 0.9x/1.0/2.0, Atom 1.0のいずれでもありません。</span><span class="s2">"</span>
+  <span class="k">else</span>
+    print_items<span class="p">(</span>feed<span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 あとはprint_itemsというメソッドを定義するだけです。
 </p>
@@ -898,38 +939,41 @@ imageはそれぞれ以下を返します。
 <p>
 ここでは、itemsを使って各項目を表示します。
 </p>
-<pre>
-def print_items(feed)
-  feed.items.each do |item|
-    puts &quot;#{item.title} : #{item.description}&quot;
-  end
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>feed<span class="p">)</span>
+  feed<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">title</span><span class="si">}</span><span class="s2"> : </span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">description</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 これは、RSSフィードに対してはうまく動きますが、Atomフィードに対してはうまく動きません。それはAtomフィードにはdescription要素がないからです。そこで、AtomフィードもRSSフィードに変えて扱うことにします。
 </p>
-<pre>
-def print_items(feed)
-  convert_to_rss10(feed).items.each do |item|
-    puts &quot;#{item.title} : #{item.description}&quot;
-  end
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>feed<span class="p">)</span>
+  convert_to_rss10<span class="p">(</span>feed<span class="p">)</span><span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">title</span><span class="si">}</span><span class="s2"> : </span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">description</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 convert_to_rss10は以下のようになります。
 </p>
-<pre>
-def convert_to_rss10(feed)
-  feed.to_rss(&quot;1.0&quot;) do |maker|
-    maker.channel.about ||= maker.channel.link
-    maker.channel.description.content ||= &quot;No description&quot;
-    maker.items.each do |item|
-      item.title.content ||= &quot;No title&quot;
-      item.link ||= &quot;UNKNOWN&quot;
-    end
-  end
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">convert_to_rss10</span><span class="p">(</span>feed<span class="p">)</span>
+  feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+    maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">||=</span> maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span>
+    maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span><span class="p">.</span><span class="nf">content</span> <span class="o">||=</span> <span class="s2">"</span><span class="s2">No description</span><span class="s2">"</span>
+    maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+      item<span class="p">.</span><span class="nf">title</span><span class="p">.</span><span class="nf">content</span> <span class="o">||=</span> <span class="s2">"</span><span class="s2">No title</span><span class="s2">"</span>
+      item<span class="p">.</span><span class="nf">link</span> <span class="o">||=</span> <span class="s2">"</span><span class="s2">UNKNOWN</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 未設定の可能性がある要素にデフォルト値を設定しています。
 </p>
@@ -940,18 +984,19 @@ RSS::UnknownConversionMethodError例外が発生します。
 <p>
 先程のprint_itemsをEUC-JPで出力するように書き換えてみましょう。
 </p>
-<pre>
-def print_items(feed)
-  rss10 = convert_to_rss10(feed)
-  begin
-    rss10.output_encoding = &quot;EUC-JP&quot;
-  rescue RSS::UnknownConversionMethodError
-  end
-  rss10.items.each do |item|
-    puts &quot;#{item.title} : #{item.description}&quot;
-  end
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>feed<span class="p">)</span>
+  rss10 <span class="o">=</span> convert_to_rss10<span class="p">(</span>feed<span class="p">)</span>
+  <span class="k">begin</span>
+    rss10<span class="p">.</span><span class="nf">output_encoding</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">EUC-JP</span><span class="s2">"</span>
+  <span class="k">rescue</span> <span class="no">RSS</span><span class="o">::</span><span class="no">UnknownConversionMethodError</span>
+  <span class="k">end</span>
+  rss10<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">title</span><span class="si">}</span><span class="s2"> : </span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">description</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <h3 >サンプル2 - 更新順表示</h3>
 <p>
 次はDublin Coreモジュールのdate属性を使って更新順にitemを表示してみましょう。
@@ -965,60 +1010,62 @@ dc_rights_listになります）とします。
 contentメソッドやその別名であるvalueメソッドを利用します。「要素の内容を表す文字列」を設定するには
 content=メソッドやその別名であるvalue=メソッドを利用します。
 </p>
-<pre>
-rss.channel.dc_title  # =&gt; 「要素の内容を表す文字列」
-                      # （&quot;My site&quot;など）
-
-rss.channel.dc_titles # =&gt; 「要素を表すオブジェクト」の配列
-                      # （[DublinCoreTitleオブジェクト, ...]）
-
-rss.channel.dc_titles.collect {|title| title.value}
-                      # =&gt; 「要素の内容を表す文字列」の配列
-                      # （[&quot;My site&quot;, ...]など）
-
-rss.channel.dc_titles.first.value == rss.channel.dc_title
-                      # =&gt; true
-# 厳密にはこう
-first_title = rss.channel.dc_titles.first
-first_title = first_title.value if first_title
-first_title == rss.channel.dc_title
-                      # =&gt; true
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_title</span>  <span class="c1"># =&gt; 「要素の内容を表す文字列」
+</span>                      <span class="c1"># （&quot;My site&quot;など）
+</span>
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span> <span class="c1"># =&gt; 「要素を表すオブジェクト」の配列
+</span>                      <span class="c1"># （[DublinCoreTitleオブジェクト, ...]）
+</span>
+rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span><span class="p">.</span><span class="nf">collect</span> <span class="p">{</span><span class="o">|</span>title<span class="o">|</span> title<span class="p">.</span><span class="nf">value</span><span class="p">}</span>
+                      <span class="c1"># =&gt; 「要素の内容を表す文字列」の配列
+</span>                      <span class="c1"># （[&quot;My site&quot;, ...]など）
+</span>
+rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">value</span> <span class="o">==</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_title</span>
+                      <span class="c1"># =&gt; true
+</span><span class="c1"># 厳密にはこう
+</span>first_title <span class="o">=</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span><span class="p">.</span><span class="nf">first</span>
+first_title <span class="o">=</span> first_title<span class="p">.</span><span class="nf">value</span> <span class="k">if</span> first_title
+first_title <span class="o">==</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_title</span>
+                      <span class="c1"># =&gt; true
+</span></code></pre>
 <p>
 ちなみにSyndicationモジュールの要素にアクセスするには「sy_要素名」というアクセサが、Contentモジュールの要素にアクセスするには「content_要素名」というアクセサが用意されています。
 </p>
 <p>
 サンプル1と同じようにパースするRSSはファイルに保存されていて引数で与えられるものとします。
 </p>
-<pre>
-require 'rss'
-items = []
-ARGV.each do |fname|
-  rss_source = nil
-  File.open(fname) do |f|
-    rss_source = f.read
-  end
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'rss'</span>
+items <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
+<span class="no">ARGV</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>fname<span class="o">|</span>
+  rss_source <span class="o">=</span> <span class="k">nil</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span>fname<span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
+    rss_source <span class="o">=</span> f<span class="p">.</span><span class="nf">read</span>
+  <span class="k">end</span>
 
-  rss = nil
-  begin
-    rss = RSS::Parser.parse(rss_source, true)
-  rescue RSS::Error
-  end
+  rss <span class="o">=</span> <span class="k">nil</span>
+  <span class="k">begin</span>
+    rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source, <span class="k">true</span><span class="p">)</span>
+  <span class="k">rescue</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Error</span>
+  <span class="k">end</span>
 
-  if rss.nil?
-    puts &quot;#{fname}はRSS 1.0ではありません。&quot;
-  else
-    begin
-      rss.output_encoding = &quot;euc-jp&quot;
-    rescue RSS::UnknownConversionMethodError
-    end
-    rss.items.each do |item|
-      items &lt;&lt; item if item.dc_date
-    end
-  end
-end
-print_items(items)
-</pre>
+  <span class="k">if</span> rss<span class="p">.</span><span class="nf">nil?</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">fname</span><span class="si">}</span><span class="s2">はRSS 1.0ではありません。</span><span class="s2">"</span>
+  <span class="k">else</span>
+    <span class="k">begin</span>
+      rss<span class="p">.</span><span class="nf">output_encoding</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">euc-jp</span><span class="s2">"</span>
+    <span class="k">rescue</span> <span class="no">RSS</span><span class="o">::</span><span class="no">UnknownConversionMethodError</span>
+    <span class="k">end</span>
+    rss<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+      items <span class="o">&lt;&lt;</span> item <span class="k">if</span> item<span class="p">.</span><span class="nf">dc_date</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+print_items<span class="p">(</span>items<span class="p">)</span>
+</code></pre>
 <p>
 あとはprint_itemsというメソッドを定義するだけです。
 </p>
@@ -1026,15 +1073,16 @@ print_items(items)
 Item#dc_dateはTimeオブジェクトかnilを返します。引数の
 itemsにはdc_dateがnilではないものしか含まれていないはずなので以下のようにソートできます。
 </p>
-<pre>
-def print_items(items)
-  items.sort do |x, y|
-    y.dc_date &lt;=&gt; x.dc_date
-  end.each do |item|
-    puts &quot;#{item.dc_date.localtime.iso8601} : #{item.title} : #{item.description}&quot;
-  end
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>items<span class="p">)</span>
+  items<span class="p">.</span><span class="nf">sort</span> <span class="k">do</span> <span class="o">|</span>x, y<span class="o">|</span>
+    y<span class="p">.</span><span class="nf">dc_date</span> <span class="o">&lt;=&gt;</span> x<span class="p">.</span><span class="nf">dc_date</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">dc_date</span><span class="p">.</span><span class="nf">localtime</span><span class="p">.</span><span class="nf">iso8601</span><span class="si">}</span><span class="s2"> : </span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">title</span><span class="si">}</span><span class="s2"> : </span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">description</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 
 
 <h2>クラス</h2>

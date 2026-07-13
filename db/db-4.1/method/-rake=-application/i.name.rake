@@ -12,7 +12,7 @@ source_location=manual/api/rake/Rake__Application.md
 
 task default: :test_rake_app
 task :test_rake_app do
-  Rake.application.name # => "rake"
+  p Rake.application.name # => "rake"
 end
 ```
 
