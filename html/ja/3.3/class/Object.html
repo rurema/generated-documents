@@ -254,6 +254,15 @@
 </ul>
 </dd>
 
+<dt>再定義されたメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#C_-A-R-G-V">ARGV</a></li>
+
+</ul>
+</dd>
+
 <dt>説明のための未定義メソッド</dt>
 <dd>
 <ul class="class-toc">
@@ -2178,8 +2187,7 @@ initialize_copy は、Ruby インタプリタが知り得ない情報をコピ�
 を再定義する必要がなくなります。
 </p>
 <p>
-デフォルトの Object#initialize_copy は、 freeze チェックおよび型のチェックを行い self
-を返すだけのメソッドです。
+デフォルトの Object#initialize_copy の実装は、 self が freeze されていないことと、 self と obj のクラスが一致していることをチェックして self を返します。
 </p>
 <p>
 initialize_copy という名前のメソッドは自動的に private に設定されます。
@@ -2194,20 +2202,44 @@ initialize_copy という名前のメソッドは自動的に private に設定�
 [SEE_ALSO] <a href="../method/Object/i/clone.html">Object#clone</a>,<a href="../method/Object/i/dup.html">Object#dup</a>
 </p>
 <p>
-以下に例として、dup や clone がこのメソッドをどのように利用しているかを示します。
+dup や clone は以下の手順でオブジェクトを複製します。
 </p>
 <p>
-obj.dup は、新たに生成したオブジェクトに対して
-initialize_copy を呼び
+obj.dup は、 obj.class のアロケータを呼び出して新しいオブジェクトを生成します。新たに生成したオブジェクトに対して
+obj のインスタンス変数、ファイナライザをコピーします。
+obj.clone は、さらに特異メソッドもコピーします。
 </p>
+<p>
+その後、新しいオブジェクトに対して initialize_dup 経由で initialize_copy を呼びます。
+obj.clone は initialize_clone 経由で initialize_copy を呼びます。
+</p>
+<p>
+最後に obj.clone は、 obj が freeze されているか、引数に freeze: true を指定した場合、新しいオブジェクトを freeze します。
+</p>
+<span class="caption">例: ユーザ定義クラスに追加のコピー処理を定義する</span>
 <pre class="highlight ruby">
 <code>
-obj2 <span class="o">=</span> obj<span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">allocate</span>
-obj2<span class="p">.</span><span class="nf">initialize_copy</span><span class="p">(</span>obj<span class="p">)</span>
-</code></pre>
-<p>
-obj2 に対してさらに obj のインスタンス変数、ファイナライザをコピーすることで複製を作ります。 obj.clone は、さらに特異メソッドのコピーも行います。
-</p>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyClass</span>
+  <span class="nb">attr_reader</span> <span class="ss">:data</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span>data<span class="p">)</span>
+    <span class="vi">@data</span> <span class="o">=</span> data
+  <span class="k">end</span>
+
+  <span class="c1"># 通常dupはインスタンス変数をそのまま引き継ぐが、
+</span>  <span class="c1"># initialize_copyを定義することでインスタンス変数の指すオブジェクトもコピーできる
+</span>  <span class="k">def</span> <span class="nf">initialize_copy</span><span class="p">(</span>source<span class="p">)</span>
+    <span class="k">super</span>
+    <span class="vi">@data</span> <span class="o">=</span> data<span class="p">.</span><span class="nf">dup</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+a <span class="o">=</span> <span class="no">MyClass</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">)</span>
+b <span class="o">=</span> a<span class="p">.</span><span class="nf">dup</span>
+a<span class="p">.</span><span class="nf">data</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>
+
+<span class="nb">p</span> a<span class="p">.</span><span class="nf">data</span>  <span class="c1"># =&gt; [1, 2]
+</span><span class="nb">p</span> b<span class="p">.</span><span class="nf">data</span>  <span class="c1"># =&gt; [1]
+</span></code></pre>
 <pre class="highlight ruby">
 <code>
 obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span>
@@ -2314,6 +2346,27 @@ s<span class="p">.</span><span class="nf">to_sample</span><span class="p">(</spa
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Object/i/respond_to=3f.html">Object#respond_to?</a>, <a href="../method/BasicObject/i/method_missing.html">BasicObject#method_missing</a>
+</p>
+</dd>
+
+
+</dl>
+
+<h2>再定義されたメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="C_-A-R-G-V"><code>ARGV -&gt; Array</code><span class="permalink">[<a href="../method/Object/c/ARGV.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Object.html#method-c-ARGV">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse.md">edit</a>]</span> <span class="kindinfo">[redefined by <a href="../library/optparse.html">optparse</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+Ruby スクリプトに与えられた引数を表す配列です。
+</p>
+<p>
+<a href="../library/optparse.html">optparse</a> を require することにより、ARGV は
+OptionParser::Arguable を <a href="../method/Object/i/extend.html">Object#extend</a> します。
+</p>
+<p>
+[SEE_ALSO] <a href="../class/OptionParser=3a=3aArguable.html">OptionParser::Arguable</a>
 </p>
 </dd>
 
@@ -2619,22 +2672,6 @@ Ruby 自身に対する引数は取り除かれています。
 <code>
 ["foo", "bar", "baz"]
 </code></pre>
-</dd>
-
-
-<dt class="method-heading" id="C_-A-R-G-V"><code>ARGV -&gt; Array</code><span class="permalink">[<a href="../method/Object/c/ARGV.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Object.html#method-c-ARGV">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse.md">edit</a>]</span> <span class="kindinfo">[redefined by <a href="../library/optparse.html">optparse</a>]</span>
-</dt>
-<dd class="method-description">
-<p>
-Ruby スクリプトに与えられた引数を表す配列です。
-</p>
-<p>
-<a href="../library/optparse.html">optparse</a> を require することにより、ARGV は
-OptionParser::Arguable を <a href="../method/Object/i/extend.html">Object#extend</a> します。
-</p>
-<p>
-[SEE_ALSO] <a href="../class/OptionParser=3a=3aArguable.html">OptionParser::Arguable</a>
-</p>
 </dd>
 
 

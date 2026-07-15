@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/spec=2fcomment.html">
+
+<title>コメント (Ruby 3.0 リファレンスマニュアル)</title>
+<meta name="description" content="* line_comment * embedded_document * magic_comment * encoding * frozen_string_literal * warn_indent * shareable_constant_value">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+</head>
+<body>
+
+<p class="eol-warning">
+このマニュアルは既にメンテナンスが終了したバージョンの Ruby を対象としています。
+<a href="https://docs.ruby-lang.org/ja/latest/">最新版のマニュアルへ</a>
+</p>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/spec=2fcomment.html","name":"コメント","position":2}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 3.0 リファレンスマニュアル</a>
+        </li>
+        <li>
+          コメント
+        </li>
+      
+    </ol>
+  </nav>
+
+<h1>コメント</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/doc/spec/comment.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+<ul>
+<li><a href="#line_comment">行コメント</a></li>
+<li><a href="#embedded_document">埋め込みドキュメント(`=begin' 〜 `=end')</a></li>
+<li><a href="#magic_comment">マジックコメントとは</a></li>
+<li><a href="#encoding">エンコーディングの指定</a></li>
+<li><a href="#frozen_string_literal">文字列リテラルの凍結(`frozen_string_literal')</a></li>
+<li><a href="#warn_indent">インデント不整合の警告(`warn_indent')</a></li>
+<li><a href="#shareable_constant_value">定数の Ractor 共有可能化(`shareable_constant_value')</a></li>
+</ul>
+<p>
+Ruby のコメントには、<code>#</code> から行末までを対象とする行コメントと、
+<code>=begin</code> から <code>=end</code> までの行を対象とする埋め込みドキュメントの
+2 種類があります(字句規則については <a href="../doc/spec=2flexical.html#comment">字句構造/コメント</a> も参照してください)。
+</p>
+<p>
+また、ソースファイルの先頭に書かれた特定の形式のコメントは「マジックコメント」と呼ばれ、通常のコメントとは違い、Ruby の処理系に対してエンコーディングの指定や文字列リテラルの扱いなどを伝える働きを持ちます。
+</p>
+<h2 id='line_comment'>行コメント</h2>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># これは行コメントです。
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># 式の後ろに書いたコメントです。
+</span></code></pre>
+<p>
+<code>#</code> から行末まではコメントとみなされ、Ruby インタプリタからは無視されます。ただし文字列リテラルの中の <code>#</code> や、<code>?#</code> という文字リテラルの <code>#</code> はコメントの開始とはみなされません。
+</p>
+<h2 id='embedded_document'>埋め込みドキュメント(`=begin' 〜 `=end')</h2>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="cm">=begin
+ここから =end のある行までは
+複数行にわたるコメント(埋め込みドキュメント)になります。
+=end
+</span><span class="nb">puts</span> <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span>
+</code></pre>
+<p>
+行頭(桁 0、インデントなし)から始まる <code>=begin</code> の行から、同じく行頭から始まる <code>=end</code> の行までの間はまとめてコメントとして扱われ、Ruby インタプリタからは無視されます。<code>=begin</code> と <code>=end</code> はどちらもインデントすると埋め込みドキュメントとして認識されず、構文エラーになります。
+</p>
+<span class="caption">インデントすると構文エラーになる例</span>
+<pre class="highlight text">
+<code>
+x = 1
+  =begin
+  この =begin はインデントされているため
+  埋め込みドキュメントの開始として認識されません。
+  =end
+</code></pre>
+<p>
+<code>=begin</code>・<code>=end</code> の行には、続けて自由な文字列を書くこともできます
+(その部分も無視されます)。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="cm">=begin タイトルなど自由に書けます
+本文
+=end 任意の文字列
+</span><span class="nb">puts</span> <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span>
+</code></pre>
+<p>
+Ruby インタプリタは埋め込みドキュメントの中身の書式を規定しませんが、慣習として RD 形式で書かれることが期待されています。
+</p>
+<h2 id='magic_comment'>マジックコメントとは</h2>
+<p>
+マジックコメントとは、ソースファイルの先頭部分に書かれた特定の形式のコメントのことで、Ruby の処理系に対してそのファイルの解釈方法に関する指示を伝えるものです。通常のコメントと違い、書ける位置と書き方の形式が決まっています。
+</p>
+<ul>
+<li>マジックコメントが効果を持つのは、それが書かれたファイル自身に
+対してだけです。<code>require</code>/<code>load</code> で読み込む他のファイルや、
+<code>eval</code> で評価する文字列には影響しません。</li>
+<li>ソースコード(実際に実行されるコード)より前に書かれている必要が
+あります。一度でも実行コードが出現した後に書いても無視されます。</li>
+<li>ファイルの 1 行目が <code>#!</code> から始まる shebang 行
+(<a href="../doc/spec=2frubycmd.html#shebang">Rubyの起動/インタプリタ行の解釈</a>) である場合、マジックコメントは
+2 行目以降から探されます。</li>
+</ul>
+<p>
+現在 Ruby が認識するマジックコメントには以下のものがあります。
+</p>
+<ul>
+<li>エンコーディングの指定(<a href="#encoding">エンコーディングの指定</a>)</li>
+<li>文字列リテラルの凍結(<a href="#frozen_string_literal">文字列リテラルの凍結(`frozen_string_literal')</a>)</li>
+<li>インデント不整合の警告(<a href="#warn_indent">インデント不整合の警告(`warn_indent')</a>)</li>
+<li>定数の Ractor 共有可能化(<a href="#shareable_constant_value">定数の Ractor 共有可能化(`shareable_constant_value')</a>)</li>
+</ul>
+<p>
+このうち、エンコーディングの指定だけは特別扱いされていて、ファイルの
+1 行目(shebang がある場合は 2 行目)に厳密に書かれている必要があります。空行や他のコメント行を挟んだ位置に書いても認識されません。
+</p>
+<p>
+それ以外のマジックコメント(frozen_string_literal, warn_indent,
+shareable_constant_value)は、実行コードより前であれば、複数のコメント行や空行、<code>=begin</code>〜<code>=end</code> を挟んだ後に書いても認識されます。
+</p>
+<span class="caption">例(frozen_string_literalは複数のコメント行の後でも認識される)</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># ファイルの説明などの通常のコメント
+</span><span class="c1"># 続きのコメント
+</span>
+<span class="c1"># frozen_string_literal: true
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">frozen?</span>  <span class="c1">#=&gt; true
+</span></code></pre>
+<p>
+複数のマジックコメントを、emacs のモードライン形式でまとめて 1 行に書くこともできます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># -*- coding: utf-8; frozen_string_literal: true -*-
+</span><span class="nb">p</span> <span class="k">__ENCODING__</span>     <span class="c1">#=&gt; #&lt;Encoding:UTF-8&gt;
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">frozen?</span>    <span class="c1">#=&gt; true
+</span></code></pre>
+<h2 id='encoding'>エンコーディングの指定</h2>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># coding: euc-jp
+</span><span class="nb">p</span> <span class="k">__ENCODING__</span>  <span class="c1">#=&gt; #&lt;Encoding:EUC-JP&gt;
+</span></code></pre>
+<p>
+ソースファイルのエンコーディング(スクリプトエンコーディング)を指定します。以下のいずれの書き方でも認識されます。
+</p>
+<pre class="highlight text">
+<code>
+# encoding: euc-jp
+# coding: euc-jp
+# -*- coding: euc-jp -*-
+</code></pre>
+<p>
+Ruby 2.0 以降、マジックコメントが無い場合のデフォルトのスクリプトエンコーディングは UTF-8 です(Ruby 1.9 では US-ASCII でした)。
+</p>
+<p>
+マジックコメントが指定されなかった場合の決定規則(コマンドライン引数や shebang との優先順位など)や、shebang 行がある場合の書き方など、より詳しい内容については <a href="../doc/spec=2fm17n.html#magic_comment">多言語化/magic comment</a> を参照してください。<a href="../class/Encoding.html">Encoding</a> クラス、<a href="../method/Encoding/s/default_external.html">Encoding.default_external</a> も参照してください。
+</p>
+<h2 id='frozen_string_literal'>文字列リテラルの凍結(`frozen_string_literal')</h2>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># frozen_string_literal: true
+</span>
+s <span class="o">=</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">frozen?</span>  <span class="c1">#=&gt; true
+</span>
+<span class="k">begin</span>
+  s <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">d</span><span class="s2">"</span>
+<span class="k">rescue</span> <span class="o">=&gt;</span> e
+  <span class="nb">p</span> e<span class="p">.</span><span class="nf">class</span>  <span class="c1">#=&gt; FrozenError
+</span><span class="k">end</span>
+</code></pre>
+<p>
+<code>true</code> を指定すると、そのファイル内の文字列リテラルから生成される
+<a href="../class/String.html">String</a> オブジェクトが、生成された時点であらかじめ freeze された状態になります。<code>false</code>(指定しなかった場合のデフォルト)では、この機能は無効です。
+</p>
+<p>
+この設定はファイル単位で有効になります。<code>require</code>/<code>load</code> で読み込んだ他のファイルの文字列リテラルや、<code>eval</code> で評価した文字列リテラルには影響しません。
+</p>
+<span class="caption">例(require先やevalには伝播しない)</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># frozen_string_literal: true
+</span><span class="nb">eval</span><span class="p">(</span><span class="s1">'p &quot;abc&quot;.frozen?'</span><span class="p">)</span>  <span class="c1">#=&gt; false
+</span></code></pre>
+<p>
+freeze されていないコピーが必要な場合は <a href="../method/Object/i/dup.html">Object#dup</a> や単項演算子
+<code>+</code>(<a href="../method/String/i/=2b=40.html">String#+@</a>)が、明示的に freeze したコピーが必要な場合は単項演算子 <code>-</code>(<a href="../method/String/i/=2d=40.html">String#-@</a>)が使えます。
+</p>
+<h2 id='warn_indent'>インデント不整合の警告(`warn_indent')</h2>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># warn_indent: true
+</span>
+<span class="k">def</span> <span class="nf">foo</span>
+  <span class="k">if</span> <span class="k">true</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="s2">x</span><span class="s2">"</span>
+    <span class="k">end</span>  <span class="c1"># if に対して end のインデントの深さが揃っていない
+</span><span class="k">end</span>
+</code></pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby <span class="nt">-w</span> indent.rb
+<span class="go">indent.rb:6: warning: mismatched indentations at 'end' with 'if' at 4
+</span></code></pre>
+<p>
+<code>end</code> と、それに対応するキーワード(<code>if</code> など)とでインデントの深さが異なる場合に警告を出すかどうかを指定します。この警告自体はデフォルトで有効になっていますが、実際に表示されるのは <code>-w</code> オプションや <code>-W2</code>
+を指定して実行した場合(<code>$VERBOSE</code> が true の場合)に限られます。
+</p>
+<p>
+<code># warn_indent: false</code> と指定すると、<code>-w</code>/<code>-W2</code> を指定して実行した場合でもこの警告を抑制できます。意図的に特殊なインデントを使うコード
+(DSL やコード生成物など)で警告を消したい場合に使われます。
+</p>
+<h2 id='shareable_constant_value'>定数の Ractor 共有可能化(`shareable_constant_value')</h2>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># shareable_constant_value: literal
+</span>
+<span class="no">FOO</span> <span class="o">=</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">}</span>
+<span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable?</span><span class="p">(</span><span class="no">FOO</span><span class="p">)</span>  <span class="c1">#=&gt; true
+</span><span class="nb">p</span> <span class="no">FOO</span><span class="p">.</span><span class="nf">frozen?</span>             <span class="c1">#=&gt; true
+</span></code></pre>
+<p>
+このマジックコメントより後にある定数への代入について、その値をどこまで自動的に <a href="../class/Ractor.html">Ractor</a> で共有可能(<a href="../method/Ractor/s/shareable=3f.html">Ractor.shareable?</a>)にするかを指定します。以下のいずれかを指定します。
+</p>
+<ul>
+<li>**<code>none</code>**(デフォルト): 何もしません。通常通りの代入を行います。</li>
+<li>**<code>literal</code>**: 代入される値がリテラルであり、かつその中身も再帰的に
+共有可能な値だけからなる場合に、freeze して共有可能にします。</li>
+<li>**<code>experimental_everything</code>**: 代入される値がリテラルであるかに
+関わらず、<a href="../method/Ractor/s/make_shareable.html">Ractor.make_shareable</a> を使って共有可能にします
+(実験的機能)。</li>
+<li>**<code>experimental_copy</code>**: <code>experimental_everything</code> と同様ですが、
+共有可能でない値の場合、元のオブジェクトを直接 freeze するのでは
+なく、コピーしてから freeze して共有可能にします(<a href="../method/Ractor/s/make_shareable.html">Ractor.make_shareable</a>
+の <code>copy: true</code> に相当、実験的機能)。</li>
+</ul>
+<span class="caption">例(experimental_copyは代入前にコピーを作る)</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># shareable_constant_value: experimental_copy
+</span>
+obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span>
+<span class="no">FOO</span> <span class="o">=</span> obj
+<span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable?</span><span class="p">(</span><span class="no">FOO</span><span class="p">)</span>  <span class="c1">#=&gt; true
+</span><span class="nb">p</span> <span class="no">FOO</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>obj<span class="p">)</span>         <span class="c1">#=&gt; false (コピーされている)
+</span></code></pre>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/doc/spec/comment.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

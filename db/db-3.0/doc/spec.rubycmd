@@ -50,9 +50,9 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
 
   `-n`や`-p`とともに用いて, オートスプリットモードをONにします。
   オートスプリットモードでは各ループの先頭で,
-```text
-    $F = $_.split
-```
+  ```text
+      $F = $_.split
+  ```
   が実行されます。`-n`か`-p`オプションが同時に指定されない限り,
   このオプションは意味を持ちません。
 
@@ -60,25 +60,25 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
 
   バックトレースの最大行数を指定します。
 
-```ruby
-# test.rb
-def f6 = raise
-def f5 = f6
-def f4 = f5
-def f3 = f4
-def f2 = f3
-def f1 = f2
-f1
-```
+  ```ruby
+  # test.rb
+  def f6 = raise
+  def f5 = f6
+  def f4 = f5
+  def f3 = f4
+  def f2 = f3
+  def f1 = f2
+  f1
+  ```
 
-```console
-% ruby --backtrace-limit=3 test.rb
-test.rb:1:in `f6': unhandled exception
-  from test.rb:2:in `f5'
-  from test.rb:3:in `f4'
-  from test.rb:4:in `f3'
-   ... 3 levels...
-```
+  ```console
+  % ruby --backtrace-limit=3 test.rb
+  test.rb:1:in `f6': unhandled exception
+    from test.rb:2:in `f5'
+    from test.rb:3:in `f4'
+    from test.rb:4:in `f3'
+     ... 3 levels...
+  ```
 
 - **`-C directory`**:
 
@@ -109,77 +109,77 @@ test.rb:1:in `f6': unhandled exception
   ング のように外部エンコーディングを省略した場合は内部エンコーディング
   のみを変更します。
 
-```console
-# 変更しない場合
+  ```console
+  # 変更しない場合
 
-$ ruby -e 'p Encoding.default_external; p Encoding.default_internal'
-#<Encoding:UTF-8>
-nil
-
-
-# 外部エンコーディングをEUC-JPにする場合
-
-$ ruby -E EUC-JP -e 'p Encoding.default_external; p Encoding.default_internal'
-#<Encoding:EUC-JP>
-nil
-
-$ ruby --encoding EUC-JP -e 'p Encoding.default_external; p Encoding.default_internal'
-#<Encoding:EUC-JP>
-nil
+  $ ruby -e 'p Encoding.default_external; p Encoding.default_internal'
+  #<Encoding:UTF-8>
+  nil
 
 
-# 内部エンコーディングをWindows-31Jにする場合
+  # 外部エンコーディングをEUC-JPにする場合
 
-$ ruby -E :Windows-31J -e 'p Encoding.default_external; p Encoding.default_internal'
-#<Encoding:UTF-8>
-#<Encoding:Windows-31J>
+  $ ruby -E EUC-JP -e 'p Encoding.default_external; p Encoding.default_internal'
+  #<Encoding:EUC-JP>
+  nil
 
-$ ruby --encoding :Windows-31J -e 'p Encoding.default_external; p Encoding.default_internal'
-#<Encoding:UTF-8>
-#<Encoding:Windows-31J>
+  $ ruby --encoding EUC-JP -e 'p Encoding.default_external; p Encoding.default_internal'
+  #<Encoding:EUC-JP>
+  nil
 
 
-# 外部エンコーディングをEUC-JP、内部エンコーディングをWindows-31Jにする場合
+  # 内部エンコーディングをWindows-31Jにする場合
 
-$ ruby -E EUC-JP:Windows-31J -e 'p Encoding.default_external; p Encoding.default_internal'
-#<Encoding:EUC-JP>
-#<Encoding:Windows-31J>
+  $ ruby -E :Windows-31J -e 'p Encoding.default_external; p Encoding.default_internal'
+  #<Encoding:UTF-8>
+  #<Encoding:Windows-31J>
 
-$ ruby --encoding EUC-JP:Windows-31J -e 'p Encoding.default_external; p Encoding.default_internal'
-#<Encoding:EUC-JP>
-#<Encoding:Windows-31J>
-```
+  $ ruby --encoding :Windows-31J -e 'p Encoding.default_external; p Encoding.default_internal'
+  #<Encoding:UTF-8>
+  #<Encoding:Windows-31J>
+
+
+  # 外部エンコーディングをEUC-JP、内部エンコーディングをWindows-31Jにする場合
+
+  $ ruby -E EUC-JP:Windows-31J -e 'p Encoding.default_external; p Encoding.default_internal'
+  #<Encoding:EUC-JP>
+  #<Encoding:Windows-31J>
+
+  $ ruby --encoding EUC-JP:Windows-31J -e 'p Encoding.default_external; p Encoding.default_internal'
+  #<Encoding:EUC-JP>
+  #<Encoding:Windows-31J>
+  ```
 
 - **`--external-encoding encoding`**:
 
   デフォルトの外部エンコーディングを指定します。
 
-```console
-$ ruby --external-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.default_internal'
-#<Encoding:EUC-JP>
-nil
-```
+  ```console
+  $ ruby --external-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.default_internal'
+  #<Encoding:EUC-JP>
+  nil
+  ```
 
 - **`--internal-encoding encoding`**:
 
   デフォルトの内部エンコーディングを指定します。
 
-```console
-$ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.default_internal'
-#<Encoding:UTF-8>
-#<Encoding:EUC-JP>
-```
+  ```console
+  $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.default_internal'
+  #<Encoding:UTF-8>
+  #<Encoding:EUC-JP>
+  ```
 
 - **`--enable feature`**:
 
   指定した feature を有効にします。以下のいずれかを指定できます。
-```text
-    * gems            rubygems (無効にするのはデバッグ専用、default: enabled)
-    * did_you_mean    did_you_mean (default: enabled)
-    * rubyopt         RUBYOPT 環境変数 (default: enabled)
-    * frozen-string-literal 全ての文字列リテラルをfreeze (default: disabled)
-    * jit             JIT (default: disabled)
-```
+  ```text
+      * gems            rubygems (無効にするのはデバッグ専用、default: enabled)
+      * did_you_mean    did_you_mean (default: enabled)
+      * rubyopt         RUBYOPT 環境変数 (default: enabled)
+      * frozen-string-literal 全ての文字列リテラルをfreeze (default: disabled)
+      * jit             JIT (default: disabled)
+  ```
 
 - **`--disable`**:
 
@@ -193,16 +193,16 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
 
   -e オプションを複数指定した場合、各スクリプトの間に改行を
   挟んで解釈します。
-```console
-    以下は等価です。
-    ruby -e "5.times do |i|" -e "puts i" -e "end"
+  ```console
+      以下は等価です。
+      ruby -e "5.times do |i|" -e "puts i" -e "end"
 
-    ruby -e "5.times do |i|
-      puts i
-    end"
+      ruby -e "5.times do |i|
+        puts i
+      end"
 
-    ruby -e "5.times do |i|; puts i; end"
-```
+      ruby -e "5.times do |i|; puts i; end"
+  ```
 
 - **`-Fregexp`**:
 
@@ -224,16 +224,16 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   だけが残ります。ただし [d:platform/Win32] では省略出来ません
   ([ruby-list:38066] 参照)。
 
-```console title="例"
-    % echo matz > /tmp/junk
-    % cat /tmp/junk
-    matz
-    % ruby -p -i.bak -e '$_.upcase!' /tmp/junk
-    % cat /tmp/junk
-    MATZ
-    % cat /tmp/junk.bak
-    matz
-```
+  ```console title="例"
+      % echo matz > /tmp/junk
+      % cat /tmp/junk
+      matz
+      % ruby -p -i.bak -e '$_.upcase!' /tmp/junk
+      % cat /tmp/junk
+      MATZ
+      % cat /tmp/junk.bak
+      matz
+  ```
 
 - **`-I directory`**:
 
@@ -255,11 +255,11 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   このフラグがセットされるとプログラム全体が
   sed -nやawk
   のように
-```text
-    while gets
-     ...
-    end
-```
+  ```text
+      while gets
+       ...
+      end
+  ```
   で囲まれているように動作します.
 
 - **`-p`**:
@@ -267,10 +267,10 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   -nフラグとほぼ同じですが, 各ループの最後に変数 [m:$_]
   の値を出力するようになります。
 
-```console title="例"
-    % echo matz | ruby -p -e '$_.tr! "a-z", "A-Z"'
-    MATZ
-```
+  ```console title="例"
+      % echo matz | ruby -p -e '$_.tr! "a-z", "A-Z"'
+      MATZ
+  ```
 
 - **`-r feature`**:
 
@@ -284,11 +284,11 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   を設定します。`--`なる引数以降は解釈を行ないません。該当する引数は
   [m:Object::ARGV] から取り除かれます。
 
-```ruby title="例"
-    #! /usr/local/bin/ruby -s
-    # prints "true" if invoked with `-xyz' switch.
-    print "true\n" if $xyz
-```
+  ```ruby title="例"
+      #! /usr/local/bin/ruby -s
+      # prints "true" if invoked with `-xyz' switch.
+      print "true\n" if $xyz
+  ```
 
 - **`-S`**:
 
@@ -297,11 +297,11 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   す。 これは、#!をサポートしていないマシンで、
   #! による実行をエミュレートするために、以下の
   ようにして使うことができます:
-```sh
-    #!/bin/sh
-    exec ruby -S -x $0 "$@"
-    #! ruby
-```
+  ```sh
+      #!/bin/sh
+      exec ruby -S -x $0 "$@"
+      #! ruby
+  ```
 
   システムは最初の行により、スクリプトを/bin/sh
   に渡します。/bin/shは2行目を実行しRubyインタプリタを起動します。
@@ -312,7 +312,6 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
   システムによっては [m:$0]は必ずしもフルパスを含まな
   いので、`-S`を用いてRubyに必要に応じてスクリプトを探すように
   指示する必要があります。
-
 
 - **`-v`**:
   冗長モード。起動時にバージョンの表示を行い, 組み込み変数
@@ -338,21 +337,21 @@ $ ruby --internal-encoding EUC-JP -e 'p Encoding.default_external; p Encoding.de
 - **`-W:category`**:
 
     冗長モードを三段階のレベルで指定します。それぞれ以下の通りです。
-```text
-     * -W0: 警告を出力しない
-     * -W1: 重要な警告のみ出力(デフォルト)
-     * -W2 or -W: すべての警告を出力する
-```
+  ```text
+       * -W0: 警告を出力しない
+       * -W1: 重要な警告のみ出力(デフォルト)
+       * -W2 or -W: すべての警告を出力する
+  ```
     組み込み変数 [m:$VERBOSE] はそれぞれ nil, false, true
     に設定されます。
 
     また category には以下の値を設定できます。deprecated と experimental は別々に設定することもできます。
-```text
-     * -W:deprecated : 非推奨な機能を使用した際に警告を出力する
-     * -W:no-deprecated : 非推奨な機能を使用した際に警告を出力しない(デフォルト)
-     * -W:experimental : 実験的な機能を使用した際に警告を出力する(デフォルト)
-     * -W:no-experimental : 実験的な機能を使用した際に警告を出力しない
-```
+  ```text
+       * -W:deprecated : 非推奨な機能を使用した際に警告を出力する
+       * -W:no-deprecated : 非推奨な機能を使用した際に警告を出力しない(デフォルト)
+       * -W:experimental : 実験的な機能を使用した際に警告を出力する(デフォルト)
+       * -W:no-experimental : 実験的な機能を使用した際に警告を出力しない
+  ```
     ここで設定された値は [m:Warning.\[\]] で参照できます。
 
     NOTE: Ruby 2.7.2 からは `-W:no-deprecated` がデフォルトになります。警告を出力したい場合は `-W:deprecated` を使ってください。
