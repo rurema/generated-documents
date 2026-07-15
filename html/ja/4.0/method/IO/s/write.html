@@ -91,7 +91,7 @@ path で指定されるファイルを開き、string を書き込み、閉じ�
 offset を指定するとその位置までシークします。
 </p>
 <p>
-offset を指定しないと、書き込みの末尾でファイルを切り捨てます。
+offset を指定しないと、書き込みの末尾でファイルを切り捨てます。ただし、キーワード引数 mode に &quot;a&quot; (追記モード) を指定した場合は、ファイルは切り詰められず、既存の内容の末尾に string が追記されます。
 </p>
 <p>
 キーワード引数はファイルを開くときに使われ、エンコーディングなどを指定できます。詳しくは <a href="../../../method/IO/s/open.html">IO.open</a> を見てください。
@@ -124,6 +124,14 @@ text <span class="o">=</span> <span class="s2">"</span><span class="s2">This is 
 <span class="c1"># =&gt; &quot;This is line one\nThi0123456789two\nThis is line three\nAnd so on...\n&quot;
 </span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">0123456789</span><span class="s2">"</span><span class="p">)</span>    <span class="c1">#=&gt; 10
 </span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>                   <span class="c1"># =&gt; &quot;0123456789&quot;
+</span></code></pre>
+<span class="caption">例: mode: &quot;a&quot; を指定した場合は切り詰められない</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">This is line one\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">This is line two\n</span><span class="s2">"</span>, <span class="ss">mode:</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;This is line one\nThis is line two\n&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/IO/s/binwrite.html">IO.binwrite</a>

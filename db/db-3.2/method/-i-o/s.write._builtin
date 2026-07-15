@@ -13,7 +13,8 @@ path で指定されるファイルを開き、string を書き込み、
 offset を指定するとその位置までシークします。
 
 offset を指定しないと、書き込みの末尾でファイルを
-切り捨てます。
+切り捨てます。ただし、キーワード引数 mode に "a" (追記モード) を指定した
+場合は、ファイルは切り詰められず、既存の内容の末尾に string が追記されます。
 
 キーワード引数はファイルを開くときに使われ、エンコーディングなどを指定できます。
 詳しくは [m:IO.open] を見てください。
@@ -31,6 +32,13 @@ IO.read("testfile")
 # => "This is line one\nThi0123456789two\nThis is line three\nAnd so on...\n"
 p IO.write("testfile", "0123456789")    #=> 10
 p IO.read("testfile")                   # => "0123456789"
+```
+
+```ruby title="例: mode: \"a\" を指定した場合は切り詰められない"
+IO.write("testfile", "This is line one\n")
+IO.write("testfile", "This is line two\n", mode: "a")
+p IO.read("testfile")
+# => "This is line one\nThis is line two\n"
 ```
 
 - **SEE** [m:IO.binwrite]

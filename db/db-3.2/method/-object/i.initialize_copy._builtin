@@ -7,8 +7,8 @@ source_location=manual/api/_builtin/Object.md
 
 (拡張ライブラリによる) ユーザ定義クラスのオブジェクトコピーの初期化メソッド。
 
-このメソッドは self を obj の内容で置き換えます。ただ
-し、self のインスタンス変数や特異メソッドは変化しません。
+このメソッドは self を obj の内容で置き換えます。
+ただし、self のインスタンス変数や特異メソッドは変化しません。
 
 デフォルトでは、[m:Object#clone] の内部で [m:Object#initialize_clone] から、
 また [m:Object#dup] の内部で [m:Object#initialize_dup] から呼ばれます。
@@ -19,29 +19,51 @@ initialize_copy は、Ruby インタプリタが知り得ない情報をコピ�
 報を initialize_copy でコピーするよう定義しておくことで、dup や clone
 を再定義する必要がなくなります。
 
-デフォルトの Object#initialize_copy は、 freeze チェックおよび型のチェックを行い self
-を返すだけのメソッドです。
+デフォルトの Object#initialize_copy の実装は、 self が freeze されていないことと、 self と obj のクラスが一致していることをチェックして self を返します。
 
-initialize_copy という名前のメソッドは
-自動的に private に設定されます。
+initialize_copy という名前のメソッドは自動的に private に設定されます。
 
 - **raise** `TypeError` -- レシーバが freeze されているか、obj のクラスがレシーバ
   のクラスと異なる場合に発生します。
 - **SEE** [m:Object#clone],[m:Object#dup]
 
-以下に例として、dup や clone がこのメソッドをどのように利用しているかを示します。
+dup や clone は以下の手順でオブジェクトを複製します。
 
-obj.dup は、新たに生成したオブジェクトに対して
-initialize_copy を呼び
+obj.dup は、 obj.class のアロケータを呼び出して新しいオブジェクトを生成します。
+新たに生成したオブジェクトに対して
+obj のインスタンス変数、ファイナライザを
+コピーします。
+obj.clone は、さらに特異メソッドもコピーします。
 
-```ruby
-obj2 = obj.class.allocate
-obj2.initialize_copy(obj)
+その後、新しいオブジェクトに対して initialize_dup 経由で initialize_copy を呼びます。
+obj.clone は initialize_clone 経由で initialize_copy を呼びます。
+
+最後に obj.clone は、 obj が freeze されているか、引数に freeze: true を指定した場合、新しいオブジェクトを freeze します。
+
+
+```ruby title="例: ユーザ定義クラスに追加のコピー処理を定義する"
+class MyClass
+  attr_reader :data
+  def initialize(data)
+    @data = data
+  end
+
+  # 通常dupはインスタンス変数をそのまま引き継ぐが、
+  # initialize_copyを定義することでインスタンス変数の指すオブジェクトもコピーできる
+  def initialize_copy(source)
+    super
+    @data = data.dup
+  end
+end
+
+a = MyClass.new([1])
+b = a.dup
+a.data << 2
+
+p a.data  # => [1, 2]
+p b.data  # => [1]
 ```
 
-obj2 に対してさらに obj のインスタンス変数、ファイナライザを
-コピーすることで複製を作ります。 obj.clone は、さらに
-特異メソッドのコピーも行います。
 
 ```ruby
 obj = Object.new

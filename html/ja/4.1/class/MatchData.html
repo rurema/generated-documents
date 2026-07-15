@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-15-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -365,6 +365,39 @@ n 番目の部分文字列がマッチしていなければ nilを返します�
 [SEE_ALSO] <a href="../method/MatchData/i/end.html">MatchData#end</a>
 </p>
 </dd>
+<dt class="method-heading" id="I_BEGIN"><code>begin(name) -&gt; Integer | nil</code><span class="permalink">[<a href="../method/MatchData/i/begin.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/MatchData.html#method-i-begin">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/MatchData.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+name という名前付きグループの部分文字列先頭のオフセットを返します。
+</p>
+<p>
+name の名前付きグループがマッチしていなければ nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>name</code>:</dt>
+<dd>
+名前(シンボルか文字列)
+</dd>
+<dt>[EXCEPTION] <code>IndexError</code>:</dt>
+<dd>
+正規表現中で定義されていない name を指定した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="sr">/(?&lt;year&gt;\d{4})年(?&lt;month&gt;\d{1,2})月(?:(?&lt;day&gt;\d{1,2})日)?/</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">2021年1月</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="s1">'year'</span><span class="p">)</span>    <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="ss">:year</span><span class="p">)</span>     <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="s1">'month'</span><span class="p">)</span>   <span class="c1"># =&gt; 5
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="ss">:month</span><span class="p">)</span>    <span class="c1"># =&gt; 5
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="s1">'day'</span><span class="p">)</span>     <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">begin</span><span class="p">(</span><span class="s1">'century'</span><span class="p">)</span> <span class="c1"># =&gt; 'begin': undefined group name reference: century (IndexError)
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/MatchData/i/end.html">MatchData#end</a>
+</p>
+</dd>
 
 
 <dt class="method-heading" id="I_BYTEBEGIN"><code>bytebegin(n) -&gt; Integer | nil</code><span class="permalink">[<a href="../method/MatchData/i/bytebegin.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/MatchData.html#method-i-bytebegin">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/MatchData.md">edit</a>]</span></dt>
@@ -614,6 +647,39 @@ n 番目の部分文字列がマッチしていなければ nil を返します�
 </span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">end</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>   <span class="c1"># =&gt; 6
 </span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">end</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>   <span class="c1"># =&gt; nil
 </span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">end</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>   <span class="c1"># =&gt; 'end': index 4 out of matches (IndexError)
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/MatchData/i/begin.html">MatchData#begin</a>
+</p>
+</dd>
+<dt class="method-heading" id="I_END"><code>end(name) -&gt; Integer | nil</code><span class="permalink">[<a href="../method/MatchData/i/end.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/MatchData.html#method-i-end">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/MatchData.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+name という名前付きグループの部分文字列終端のオフセットを返します。
+</p>
+<p>
+name の名前付きグループがマッチしていなければ nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>name</code>:</dt>
+<dd>
+名前(シンボルか文字列)
+</dd>
+<dt>[EXCEPTION] <code>IndexError</code>:</dt>
+<dd>
+正規表現中で定義されていない name を指定した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="sr">/(?&lt;year&gt;\d{4})年(?&lt;month&gt;\d{1,2})月(?:(?&lt;day&gt;\d{1,2})日)?/</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">2021年1月</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">end</span><span class="p">(</span><span class="s1">'year'</span><span class="p">)</span>    <span class="c1"># =&gt; 4
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">end</span><span class="p">(</span><span class="ss">:year</span><span class="p">)</span>     <span class="c1"># =&gt; 4
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">end</span><span class="p">(</span><span class="s1">'month'</span><span class="p">)</span>   <span class="c1"># =&gt; 6
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">end</span><span class="p">(</span><span class="ss">:month</span><span class="p">)</span>    <span class="c1"># =&gt; 6
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">end</span><span class="p">(</span><span class="s1">'day'</span><span class="p">)</span>     <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">end</span><span class="p">(</span><span class="s1">'century'</span><span class="p">)</span> <span class="c1"># =&gt; 'end': undefined group name reference: century (IndexError)
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/MatchData/i/begin.html">MatchData#begin</a>

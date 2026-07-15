@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-13-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-15-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -93,12 +93,21 @@ length バイト分読み込んで返します。
 引数 length が指定された場合はバイナリ読み込みメソッド、そうでない場合はテキスト読み込みメソッドとして動作します。
 </p>
 <p>
-<a href="../../../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。
+<a href="../../../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。ただし、この &quot;|コマンド名&quot; の特別扱いはレシーバが <a href="../../../class/IO.html">IO</a> である場合のみ有効です。
+<a href="../../../class/File.html">File</a> は <a href="../../../method/IO/s/read.html">IO.read</a> を継承していますが、<code>File.read</code> では
+path の先頭が &quot;|&quot; であっても普通のファイル名として扱われ、コマンドは実行されません。
 </p>
+<span class="caption">例: レシーバによる違い</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">|echo hello</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; &quot;hello\n&quot; (コマンドを実行する)
+</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">|echo hello</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; Errno::ENOENT (&quot;|echo hello&quot; という名前のファイルを探そうとする)
+</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>path</code>:</dt>
 <dd>
 ファイル名を表す文字列か &quot;|コマンド名&quot; を指定します。
+&quot;|コマンド名&quot; はレシーバが <a href="../../../class/IO.html">IO</a> の場合のみ有効です。
 </dd>
 <dt class='method-param'>[PARAM] <code>length</code>:</dt>
 <dd>

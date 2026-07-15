@@ -743,6 +743,7 @@ length バイト読み込みます。
 </p>
 <p>
 <a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。
+<a href="../method/IO/s/read.html">IO.read</a> と同様、この &quot;|コマンド名&quot; の特別扱いはレシーバが <a href="../class/IO.html">IO</a> である場合のみ有効で、<code>File.binread</code> では単なるファイル名として扱われます。
 </p>
 <p>
 length を省略するとファイルの末尾まで読み込みます。
@@ -843,10 +844,13 @@ src のオフセット(src.pos)は変更されません。
 <dt class='method-param'>[PARAM] <code>src</code>:</dt>
 <dd>
 コピー元となる IO オブジェクトかファイル名を指定します。
+IO オブジェクトやファイル名に限らず、readpartial または
+read に応答するオブジェクトも指定できます。
 </dd>
 <dt class='method-param'>[PARAM] <code>dst</code>:</dt>
 <dd>
 コピー先となる IO オブジェクトかファイル名を指定します。
+IO オブジェクトやファイル名に限らず、write に応答するオブジェクトも指定できます。
 </dd>
 <dt class='method-param'>[PARAM] <code>copy_length</code>:</dt>
 <dd>
@@ -866,6 +870,15 @@ nil を指定した場合、コピーする長さに制限はありません。
 </span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span><span class="p">)</span>                         <span class="c1"># =&gt; &quot;ab&quot;
 </span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">copy_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">filetest</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span>, <span class="mi">3</span>, <span class="mi">4</span><span class="p">)</span>  <span class="c1"># =&gt; 3
 </span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">filecopy</span><span class="s2">"</span><span class="p">)</span>                         <span class="c1"># =&gt; &quot;efg&quot;
+</span></code></pre>
+<span class="caption">例: readpartial/read や write に応答するオブジェクトを指定する</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">stringio</span><span class="s2">"</span>
+src <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">hello world</span><span class="s2">"</span><span class="p">)</span>
+dst <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">copy_stream</span><span class="p">(</span>src, dst<span class="p">)</span>   <span class="c1"># =&gt; 11
+</span><span class="nb">p</span> dst<span class="p">.</span><span class="nf">string</span>                 <span class="c1"># =&gt; &quot;hello world&quot;
 </span></code></pre>
 </dd>
 
@@ -1275,12 +1288,21 @@ length バイト分読み込んで返します。
 引数 length が指定された場合はバイナリ読み込みメソッド、そうでない場合はテキスト読み込みメソッドとして動作します。
 </p>
 <p>
-<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。
+<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。ただし、この &quot;|コマンド名&quot; の特別扱いはレシーバが <a href="../class/IO.html">IO</a> である場合のみ有効です。
+<a href="../class/File.html">File</a> は <a href="../method/IO/s/read.html">IO.read</a> を継承していますが、<code>File.read</code> では
+path の先頭が &quot;|&quot; であっても普通のファイル名として扱われ、コマンドは実行されません。
 </p>
+<span class="caption">例: レシーバによる違い</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">|echo hello</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; &quot;hello\n&quot; (コマンドを実行する)
+</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">|echo hello</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; Errno::ENOENT (&quot;|echo hello&quot; という名前のファイルを探そうとする)
+</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>path</code>:</dt>
 <dd>
 ファイル名を表す文字列か &quot;|コマンド名&quot; を指定します。
+&quot;|コマンド名&quot; はレシーバが <a href="../class/IO.html">IO</a> の場合のみ有効です。
 </dd>
 <dt class='method-param'>[PARAM] <code>length</code>:</dt>
 <dd>
@@ -1536,7 +1558,7 @@ path で指定されるファイルを開き、string を書き込み、閉じ�
 offset を指定するとその位置までシークします。
 </p>
 <p>
-offset を指定しないと、書き込みの末尾でファイルを切り捨てます。
+offset を指定しないと、書き込みの末尾でファイルを切り捨てます。ただし、キーワード引数 mode に &quot;a&quot; (追記モード) を指定した場合は、ファイルは切り詰められず、既存の内容の末尾に string が追記されます。
 </p>
 <p>
 キーワード引数はファイルを開くときに使われ、エンコーディングなどを指定できます。詳しくは <a href="../method/IO/s/open.html">IO.open</a> を見てください。
@@ -1569,6 +1591,14 @@ text <span class="o">=</span> <span class="s2">"</span><span class="s2">This is 
 <span class="c1"># =&gt; &quot;This is line one\nThi0123456789two\nThis is line three\nAnd so on...\n&quot;
 </span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">0123456789</span><span class="s2">"</span><span class="p">)</span>    <span class="c1">#=&gt; 10
 </span><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>                   <span class="c1"># =&gt; &quot;0123456789&quot;
+</span></code></pre>
+<span class="caption">例: mode: &quot;a&quot; を指定した場合は切り詰められない</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">This is line one\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">IO</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">This is line two\n</span><span class="s2">"</span>, <span class="ss">mode:</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;This is line one\nThis is line two\n&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO/s/binwrite.html">IO.binwrite</a>
