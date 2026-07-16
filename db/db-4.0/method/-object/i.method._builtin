@@ -17,5 +17,17 @@ p me #=> #<Method: Integer#abs>
 p me.call #=> 365
 ```
 
+[c:Method]・[c:UnboundMethod] オブジェクトを取得するメソッドの対比は次のとおりです。
+
+| メソッド | 対象 | 可視性の制限 | 返り値 |
+| --- | --- | --- | --- |
+| [m:Object#method] | レシーバのメソッド（特異メソッドを含む） | なし | [c:Method] |
+| [m:Object#public_method] | レシーバのメソッド（特異メソッドを含む） | public のみ | [c:Method] |
+| [m:Object#singleton_method] | レシーバの特異メソッドのみ | なし | [c:Method] |
+| [m:Module#instance_method] | self のインスタンスメソッド | なし | [c:UnboundMethod] |
+| [m:Module#public_instance_method] | self のインスタンスメソッド | public のみ | [c:UnboundMethod] |
+
+[c:UnboundMethod] はレシーバに束縛されていない状態のメソッドオブジェクトです。[m:UnboundMethod#bind] でレシーバに束縛すると [c:Method] になり、逆に [m:Method#unbind] で [c:UnboundMethod] に戻せます。
+
 - **SEE** [m:Module#instance_method], [c:Method], [m:BasicObject#__send__], [m:Object#send], [m:Kernel?.eval], [m:Object#singleton_method]
 

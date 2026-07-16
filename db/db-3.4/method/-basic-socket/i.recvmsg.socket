@@ -3,12 +3,15 @@ visibility=public
 kind=defined
 source_location=manual/api/socket/BasicSocket.md
 
-### def recvmsg(maxmesglen=nil, flags=0, maxcontrollen=nil, opts={}) -> [String, Addrinfo, Integer, *Socket::AncillaryData]
+### def recvmsg(maxmesglen=nil, flags=0, maxcontrollen=nil, opts={}) -> [String, Addrinfo, Integer, *Socket::AncillaryData] | nil
 
 [man:recvmsg(2)] を用いてメッセージを受け取ります。
 
 このメソッドはブロックします。ノンブロッキング方式で通信したい
 場合は [m:BasicSocket#recvmsg_nonblock] を用います。
+
+TCP や UNIXSocket のようなストリームソケットで、接続が閉じられている場合 (EOF) は
+nil を返します。
 
 maxmesglen, maxcontrollen で受け取るメッセージおよび補助データ
 ([c:Socket::AncillaryData])の最大長をバイト単位で指定します。
@@ -54,4 +57,6 @@ controls.each {|ancdata|
 - **param** `flags` -- フラグ
 - **param** `maxcontrollen` -- 受け取る補助データの最大長
 - **param** `opts` -- ハッシュオプション
+
+- **SEE** [bug:19012]
 

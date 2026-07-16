@@ -412,7 +412,7 @@ val が 真 のときは Integer に変換してから設定します。偽 の�
 <dt class="method-heading"><code>abort_on_exception=(newstate)</code></dt>
 <dd class="method-description">
 <p>
-真の時は、いずれかのスレッドが例外によって終了した時に、インタプリタ全体を中断させます。false の場合、あるスレッドで起こった例外は、<a href="../method/Thread/i/join.html">Thread#join</a>
+真の時は、いずれかのスレッドが例外によって終了した時に、その例外をメインスレッドで再度発生させます。メインスレッドがその例外を捕捉しない限り、結果としてインタプリタ全体が終了します。false の場合、あるスレッドで起こった例外は、<a href="../method/Thread/i/join.html">Thread#join</a>
 などで検出されない限りそのスレッドだけをなにも警告を出さずに終了させます。
 </p>
 <p>
@@ -424,7 +424,7 @@ val が 真 のときは Integer に変換してから設定します。偽 の�
 <dl>
 <dt class='method-param'>[PARAM] <code>newstate</code>:</dt>
 <dd>
-スレッド実行中に例外発生した場合、インタプリタ全体を終了させるかどうかを true か false で指定します。
+スレッド実行中に例外が発生した場合、その例外をメインスレッドで再度発生させるかどうかを true か false で指定します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -717,7 +717,8 @@ end
 <dt class="method-heading" id="S_PASS"><code>pass -&gt; nil</code><span class="permalink">[<a href="../method/Thread/s/pass.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Thread.html#method-c-pass">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-他のスレッドに実行権を譲ります。実行中のスレッドの状態を変えずに、他の実行可能状態のスレッドに制御を移します。
+他のスレッドに実行権を譲ります。実行中のスレッドの状態を変えずに、他の実行可能状態のスレッドに切り替わるよう、スレッドスケジューラにヒントを与えます。実際に切り替わるかどうか、また次にどのスレッドが実行されるかは OS
+やスケジューラの実装に依存するため、保証されません。
 </p>
 <pre>
 Thread.new do
@@ -741,6 +742,9 @@ end
 3
 :main
 </pre>
+<p>
+上記の出力は一例です。実行環境によって出力順序は異なり、保証されません。
+</p>
 </dd>
 
 
@@ -981,7 +985,8 @@ val を name に対応するスレッド固有のデータとして格納しま�
 <dt class="method-heading"><code>abort_on_exception=(newstate)</code></dt>
 <dd class="method-description">
 <p>
-真の場合、そのスレッドが例外によって終了した時に、インタプリタ全体を中断させます。false の場合、あるスレッドで起こった例外は、<a href="../method/Thread/i/join.html">Thread#join</a> などで検出されない限りそのスレッドだけをなにも警告を出さずに終了させます。
+真の場合、そのスレッドが例外によって終了した時に、その例外をメインスレッドで再度発生させます。メインスレッドがその例外を捕捉しない限り、結果としてインタプリタ全体が終了します。false の場合、あるスレッドで起こった例外は、
+<a href="../method/Thread/i/join.html">Thread#join</a> などで検出されない限りそのスレッドだけをなにも警告を出さずに終了させます。
 </p>
 <p>
 デフォルトは偽です。<a href="../class/Thread.html#exception">Thread/例外発生時のスレッドの振る舞い</a>を参照してください。
@@ -989,7 +994,7 @@ val を name に対応するスレッド固有のデータとして格納しま�
 <dl>
 <dt class='method-param'>[PARAM] <code>newstate</code>:</dt>
 <dd>
-自身を実行中に例外発生した場合、インタプリタ全体を終了させるかどうかを true か false で指定します。
+自身の実行中に例外が発生した場合、その例外をメインスレッドで再度発生させるかどうかを true か false で指定します。
 </dd>
 </dl>
 <span class="caption">例</span>

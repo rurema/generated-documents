@@ -100,7 +100,30 @@
 </span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\x80\u3042</span><span class="s2">"</span><span class="p">.</span><span class="nf">size</span>    <span class="c1"># =&gt; 2
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../../../method/String/i/bytesize.html">String#bytesize</a>
+ここでの「文字数」は Unicode のコードポイントの数を指しており、見た目上の1文字 (書記素クラスタ) の数とは限りません。たとえば、結合文字 (合成用ダイアクリティカルマーク) を使って NFD (Unicode 正規化形式 D) で表現された文字列は、見た目が同じ NFC (正規化形式 C) の文字列よりも length が大きくなることがあります。また、複数のコードポイントが ZWJ (Zero Width Joiner) で連結されて1つの絵文字として表示される文字列でも、length は連結されたコードポイントの数を返します。
+</p>
+<span class="caption">例: コードポイント単位で数えられる例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">\u{1F600}</span><span class="s2">"</span><span class="p">.</span><span class="nf">length</span>                                   <span class="c1"># =&gt; 1 (絵文字。1コードポイントなら1文字扱い)
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\u{1F468}\u{200D}\u{1F469}\u{200D}\u{1F466}</span><span class="s2">"</span><span class="p">.</span><span class="nf">length</span> <span class="c1"># =&gt; 5 (ZWJ で連結した家族の絵文字。見た目は1つだが5コードポイント)
+</span>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">e\u0301</span><span class="s2">"</span>        <span class="c1"># =&gt; &quot;é&quot; (NFD: e + 合成用アキュートアクセント。2コードポイント)
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">e\u0301</span><span class="s2">"</span><span class="p">.</span><span class="nf">length</span> <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\u00E9</span><span class="s2">"</span>         <span class="c1"># =&gt; &quot;é&quot; (NFC: 合成済みの1コードポイント)
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\u00E9</span><span class="s2">"</span><span class="p">.</span><span class="nf">length</span>  <span class="c1"># =&gt; 1
+</span></code></pre>
+<p>
+見た目上の1文字 (書記素クラスタ) 単位で数えたい場合は <a href="../../../method/String/i/grapheme_clusters.html">String#grapheme_clusters</a> や <a href="../../../method/String/i/each_grapheme_cluster.html">String#each_grapheme_cluster</a> を使ってください。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">e\u0301</span><span class="s2">"</span><span class="p">.</span><span class="nf">grapheme_clusters</span>        <span class="c1"># =&gt; [&quot;é&quot;]
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">e\u0301</span><span class="s2">"</span><span class="p">.</span><span class="nf">grapheme_clusters</span><span class="p">.</span><span class="nf">length</span> <span class="c1"># =&gt; 1
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/String/i/bytesize.html">String#bytesize</a>, <a href="../../../method/String/i/grapheme_clusters.html">String#grapheme_clusters</a>
 </p>
 </dd>
 

@@ -125,6 +125,15 @@
 <p>
 HTTP のクライアントのためのクラスです。
 </p>
+<h2 >gzip/deflate の自動展開</h2>
+<p>
+Net::HTTP は、リクエストに Accept-Encoding ヘッダも Range ヘッダも指定されていない場合、自動的に
+<code>Accept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3</code> を付与します。このとき、応答の Content-Encoding が gzip や deflate であれば応答ボディは透過的に展開され、Content-Encoding ヘッダは取り除かれ、Content-Length は
+(存在すれば)展開後のサイズに更新されます。
+</p>
+<p>
+自分で Accept-Encoding ヘッダや Range ヘッダを指定した場合はこの自動展開は行われず、圧縮されたままのボディと Content-Encoding ヘッダがそのまま得られます。また、応答に Content-Range ヘッダが含まれる場合も展開は行われません。
+</p>
 
 
 

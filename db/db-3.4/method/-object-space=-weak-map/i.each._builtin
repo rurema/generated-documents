@@ -1,0 +1,28 @@
+names=each,each_pair
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/ObjectSpace__WeakMap.md
+
+### def each {|key, value| ... } -> self
+### def each_pair {|key, value| ... } -> self
+
+保持しているエントリの参照元オブジェクトと参照先オブジェクトを引数としてブロックを評価します。
+
+GC によって参照先が回収されたエントリは反復の対象になりません。反復の順序は不定です。
+
+[c:Hash] など他の反復可能なクラスと異なり、ブロックを省略しても [c:Enumerator] は
+返しません。エントリが1つ以上ある状態でブロックを指定せずに呼び出すと
+LocalJumpError が発生します。
+
+each_pair は each のエイリアスです。
+
+```ruby title="例"
+weak_map = ObjectSpace::WeakMap.new
+key = "text"
+weak_map[key] = "test"
+
+weak_map.each { |k, v| p [k, v] } # => ["text", "test"]
+```
+
+- **SEE** [m:ObjectSpace::WeakMap#each_key], [m:ObjectSpace::WeakMap#each_value]
+

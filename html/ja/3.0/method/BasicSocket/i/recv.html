@@ -89,8 +89,13 @@ flags については <a class="external" href="http://www.opengroup.org/onlinep
 Socket クラスで定義されています。(例: Socket::MSG_PEEK)
 </p>
 <p>
-内部で呼び出す <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/recv.html">recv(2)</a> が 0 を返した場合、このメソッドは &quot;&quot; を返します。この意味はソケットによって異なります。たとえば TCP では EOF を意味しますし、
-UDP では空のパケットを読み込んだことを意味します。
+内部で呼び出す <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/recv.html">recv(2)</a> が 0 を返した場合の挙動は、ソケットの種類によって異なります。
+</p>
+<p>
+UDP のようなデータグラムソケットでは、サイズ 0 のパケットを受信したことを意味し、このメソッドは &quot;&quot; を返します。
+</p>
+<p>
+TCP や UNIXSocket のようなストリームソケットでは、接続が閉じられたこと (EOF) を意味し、このメソッドは &quot;&quot; を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>maxlen</code>:</dt>
@@ -109,6 +114,9 @@ UDP では空のパケットを読み込んだことを意味します。
 <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/recvfrom.html">recvfrom(2)</a> がエラーになった場合などに発生します。
 </dd>
 </dl>
+<p>
+[SEE_ALSO] <a class="external" href="https://bugs.ruby-lang.org/issues/19012">[bug#19012]</a>
+</p>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>

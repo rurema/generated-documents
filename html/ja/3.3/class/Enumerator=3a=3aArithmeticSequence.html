@@ -462,10 +462,48 @@ self を返します。
 <dt class="method-heading" id="I_END"><code>end -&gt; Numeric | nil</code><span class="permalink">[<a href="../method/Enumerator=3a=3aArithmeticSequence/i/end.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Enumerator/ArithmeticSequence.html#method-i-end">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Enumerator__ArithmeticSequence.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-末項（終端）を返します。
+数列の終端の値を返します。終端がない場合は nil を返します。
 </p>
 <p>
+自身は begin を初項として step ずつ加算して要素を生成しますが、
+end はあくまで元になった範囲の終端の値であり、
+**数列が実際に生成する最後の要素と一致するとは限りません**。
+step の刻み幅によって end にちょうど到達しない場合や、
+<a href="../method/Enumerator=3a=3aArithmeticSequence/i/exclude_end=3f.html">Enumerator::ArithmeticSequence#exclude_end?</a> が真で end 自体が数列から除外される場合があるためです。
+</p>
+<span class="caption">例: end と実際の最後の要素が一致する場合</span>
+<pre class="highlight ruby">
+<code>
+s <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">end</span>        <span class="c1"># =&gt; 10
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">to_a</span>       <span class="c1"># =&gt; [1, 4, 7, 10]
+</span></code></pre>
+<span class="caption">例: step が end にちょうど到達しない場合</span>
+<pre class="highlight ruby">
+<code>
+s <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">end</span>        <span class="c1"># =&gt; 10
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">to_a</span>       <span class="c1"># =&gt; [1, 5, 9]
+</span></code></pre>
+<span class="caption">例: exclude_end? が真で end が除外される場合</span>
+<pre class="highlight ruby">
+<code>
+s <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">end</span>             <span class="c1"># =&gt; 10
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">exclude_end?</span>    <span class="c1"># =&gt; true
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">to_a</span>            <span class="c1"># =&gt; [1, 4, 7]
+</span></code></pre>
+<p>
 [SEE_ALSO] <a href="../method/Enumerator=3a=3aArithmeticSequence/i/begin.html">Enumerator::ArithmeticSequence#begin</a>
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Enumerator=3a=3aArithmeticSequence/i/step.html">Enumerator::ArithmeticSequence#step</a>
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Enumerator=3a=3aArithmeticSequence/i/exclude_end=3f.html">Enumerator::ArithmeticSequence#exclude_end?</a>
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Enumerator=3a=3aArithmeticSequence/i/last.html">Enumerator::ArithmeticSequence#last</a>
 </p>
 </dd>
 

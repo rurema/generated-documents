@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-16-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -131,6 +131,32 @@ GC の対象になるオブジェクトへの weak reference を持つクラス�
 
 <li><a href="#I_--5B--5D--3D">[]=</a></li>
 
+<li><a href="#I_DELETE">delete</a></li>
+
+<li><a href="#I_EACH">each</a></li>
+
+<li><a href="#I_EACH_KEY">each_key</a></li>
+
+<li><a href="#I_EACH">each_pair</a></li>
+
+<li><a href="#I_EACH_VALUE">each_value</a></li>
+
+<li><a href="#I_INCLUDE--3F">include?</a></li>
+
+<li><a href="#I_INSPECT">inspect</a></li>
+
+<li><a href="#I_INCLUDE--3F">key?</a></li>
+
+<li><a href="#I_KEYS">keys</a></li>
+
+<li><a href="#I_LENGTH">length</a></li>
+
+<li><a href="#I_INCLUDE--3F">member?</a></li>
+
+<li><a href="#I_LENGTH">size</a></li>
+
+<li><a href="#I_VALUES">values</a></li>
+
 </ul>
 </dd>
 
@@ -185,6 +211,253 @@ key <span class="o">=</span> <span class="s2">"</span><span class="s2">text</spa
 weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span> <span class="c1"># =&gt; test
 </span><span class="nb">p</span> weak_map<span class="p">[</span>key<span class="p">]</span> <span class="c1"># =&gt; test
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_DELETE"><code>delete(key) -&gt; object | nil</code><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/delete.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-delete">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>delete(key) {|key| ... } -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+引数 key に対応するエントリを取り除きます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>key</code>:</dt>
+<dd>
+取り除くエントリの参照元のオブジェクトを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+取り除かれたエントリの参照先のオブジェクトを返します。
+key に対応するエントリが存在しない場合は nil を返します。
+</dd>
+</dl>
+<p>
+ブロックを指定した場合、key に対応するエントリが存在しない時に限りブロックが評価され、その結果を返します。key に対応するエントリが存在する場合、ブロックは評価されません。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+weak_map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
+weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+
+<span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">delete</span><span class="p">(</span>key<span class="p">)</span> <span class="c1"># =&gt; &quot;test&quot;
+</span><span class="nb">p</span> weak_map<span class="p">[</span>key<span class="p">]</span>        <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">delete</span><span class="p">(</span>key<span class="p">)</span> <span class="c1"># =&gt; nil
+</span>
+<span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>k<span class="o">|</span> <span class="s2">"</span><span class="si">#{</span><span class="n">k</span><span class="si">}</span><span class="s2"> not found</span><span class="s2">"</span> <span class="p">}</span> <span class="c1"># =&gt; &quot;bar not found&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakMap/i/=5b=5d=3d.html">ObjectSpace::WeakMap#[]=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_EACH"><code>each {|key, value| ... } -&gt; self</code><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/each.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-each">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>each_pair {|key, value| ... } -&gt; self</code></dt>
+<dd class="method-description">
+<p>
+保持しているエントリの参照元オブジェクトと参照先オブジェクトを引数としてブロックを評価します。
+</p>
+<p>
+GC によって参照先が回収されたエントリは反復の対象になりません。反復の順序は不定です。
+</p>
+<p>
+<a href="../class/Hash.html">Hash</a> など他の反復可能なクラスと異なり、ブロックを省略しても <a href="../class/Enumerator.html">Enumerator</a> は返しません。エントリが1つ以上ある状態でブロックを指定せずに呼び出すと
+LocalJumpError が発生します。
+</p>
+<p>
+each_pair は each のエイリアスです。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+weak_map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">text</span><span class="s2">"</span>
+weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+
+weak_map<span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span>k, v<span class="o">|</span> <span class="nb">p</span> <span class="p">[</span>k, v<span class="p">]</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;text&quot;, &quot;test&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakMap/i/each_key.html">ObjectSpace::WeakMap#each_key</a>, <a href="../method/ObjectSpace=3a=3aWeakMap/i/each_value.html">ObjectSpace::WeakMap#each_value</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_EACH_KEY"><code>each_key {|key| ... } -&gt; self</code><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/each_key.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-each_key">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+保持しているエントリの参照元オブジェクトを引数としてブロックを評価します。
+</p>
+<p>
+GC によって参照先が回収されたエントリは反復の対象になりません。反復の順序は不定です。
+</p>
+<p>
+<a href="../class/Hash.html">Hash</a> など他の反復可能なクラスと異なり、ブロックを省略しても <a href="../class/Enumerator.html">Enumerator</a> は返しません。エントリが1つ以上ある状態でブロックを指定せずに呼び出すと
+LocalJumpError が発生します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+weak_map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">text</span><span class="s2">"</span>
+weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+
+weak_map<span class="p">.</span><span class="nf">each_key</span> <span class="p">{</span> <span class="o">|</span>k<span class="o">|</span> <span class="nb">p</span> k <span class="p">}</span> <span class="c1"># =&gt; &quot;text&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakMap/i/each.html">ObjectSpace::WeakMap#each</a>, <a href="../method/ObjectSpace=3a=3aWeakMap/i/each_value.html">ObjectSpace::WeakMap#each_value</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_EACH_VALUE"><code>each_value {|value| ... } -&gt; self</code><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/each_value.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-each_value">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+保持しているエントリの参照先オブジェクトを引数としてブロックを評価します。
+</p>
+<p>
+GC によって参照先が回収されたエントリは反復の対象になりません。反復の順序は不定です。
+</p>
+<p>
+<a href="../class/Hash.html">Hash</a> など他の反復可能なクラスと異なり、ブロックを省略しても <a href="../class/Enumerator.html">Enumerator</a> は返しません。エントリが1つ以上ある状態でブロックを指定せずに呼び出すと
+LocalJumpError が発生します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+weak_map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">text</span><span class="s2">"</span>
+weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+
+weak_map<span class="p">.</span><span class="nf">each_value</span> <span class="p">{</span> <span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v <span class="p">}</span> <span class="c1"># =&gt; &quot;test&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakMap/i/each.html">ObjectSpace::WeakMap#each</a>, <a href="../method/ObjectSpace=3a=3aWeakMap/i/each_key.html">ObjectSpace::WeakMap#each_key</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INCLUDE--3F"><code>key?(key) -&gt; bool</code><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/include=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-include-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>include?(key) -&gt; bool</code></dt>
+<dt class="method-heading"><code>member?(key) -&gt; bool</code></dt>
+<dd class="method-description">
+<p>
+引数 key を参照元とするエントリを保持している場合に true を返します。
+</p>
+<p>
+判定はオブジェクトの同一性(<a href="../method/Object/i/equal=3f.html">Object#equal?</a>)によって行われます。
+== や eql? による判定は行われないため、内容が等しくても別オブジェクトであれば
+false になります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>key</code>:</dt>
+<dd>
+探索するオブジェクトを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+weak_map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">text</span><span class="s2">"</span>
+weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+
+<span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">key?</span><span class="p">(</span>key<span class="p">)</span>     <span class="c1"># =&gt; true
+</span><span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">include?</span><span class="p">(</span>key<span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">member?</span><span class="p">(</span>key<span class="p">)</span>  <span class="c1"># =&gt; true
+</span>
+<span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="s2">"</span><span class="s2">text</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; false (内容は同じでも別オブジェクトなので false)
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakMap/i/=5b=5d.html">ObjectSpace::WeakMap#[]</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self の情報を人間に読みやすい文字列にして返します。
+</p>
+<p>
+各エントリは <code>参照元 =&gt; 参照先</code> の形式で出力されます。<a href="../class/Integer.html">Integer</a>・<a href="../class/Symbol.html">Symbol</a>・
+true・false・nil などの immediate な値はそれ自身を <a href="../method/Object/i/inspect.html">Object#inspect</a> した結果が使われますが、それ以外のオブジェクトは to_s や inspect を呼び出さずに
+<code>#&lt;クラス名:0xアドレス&gt;</code> の形式で表示されます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+weak_map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakMap</span><span class="p">.</span><span class="nf">new</span>
+weak_map<span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">inspect</span> <span class="c1"># =&gt; &quot;#&lt;ObjectSpace::WeakMap:0x00007f5b6c0a5d20: :key =&gt; 1&gt;&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_KEYS"><code>keys -&gt; [object]</code><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+保持しているエントリの参照元オブジェクトからなる配列を返します。
+</p>
+<p>
+GC によって参照先が回収されたエントリのキーは含まれません。返される配列の要素の順序は不定です。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+weak_map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">text</span><span class="s2">"</span>
+weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+
+<span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">keys</span> <span class="c1"># =&gt; [&quot;text&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakMap/i/values.html">ObjectSpace::WeakMap#values</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LENGTH"><code>size -&gt; Integer</code><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/length.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-length">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>length -&gt; Integer</code></dt>
+<dd class="method-description">
+<p>
+保持しているエントリの数を返します。GC によって回収されたエントリは数えません。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+weak_map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">text</span><span class="s2">"</span>
+weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+
+<span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">size</span>   <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">length</span> <span class="c1"># =&gt; 1
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_VALUES"><code>values -&gt; [object]</code><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/values.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-values">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+保持しているエントリの参照先オブジェクトからなる配列を返します。
+</p>
+<p>
+GC によって回収されたエントリの値は含まれません。返される配列の要素の順序は不定です。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+weak_map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">text</span><span class="s2">"</span>
+weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+
+<span class="nb">p</span> weak_map<span class="p">.</span><span class="nf">values</span> <span class="c1"># =&gt; [&quot;test&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakMap/i/keys.html">ObjectSpace::WeakMap#keys</a>
+</p>
 </dd>
 
 
