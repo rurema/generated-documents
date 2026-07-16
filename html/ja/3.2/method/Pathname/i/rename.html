@@ -95,6 +95,24 @@ File.rename(self.to_s, to) と同じです。
 </dd>
 </dl>
 <p>
+このメソッドはファイルシステム上のファイル名を変更しますが、レシーバの
+<a href="../../../class/Pathname.html">Pathname</a> オブジェクトが保持しているパス文字列は変更されません。そのため、rename の呼び出し後も self は変更前のパスを指したままです。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'pathname'</span>
+path <span class="o">=</span> <span class="no">Pathname</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">old</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">old</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">"</span><span class="p">)</span>
+path<span class="p">.</span><span class="nf">rename</span><span class="p">(</span><span class="s2">"</span><span class="s2">new</span><span class="s2">"</span><span class="p">)</span>
+path<span class="p">.</span><span class="nf">to_s</span>    <span class="c1"># =&gt; &quot;old&quot;
+</span>path<span class="p">.</span><span class="nf">exist?</span>  <span class="c1"># =&gt; false
+</span><span class="no">Pathname</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">new</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">exist?</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+新しいパスを指す <a href="../../../class/Pathname.html">Pathname</a> オブジェクトが必要な場合は、
+Pathname.new(to) などとして新しく作成する必要があります。
+</p>
+<p>
 [SEE_ALSO] <a href="../../../method/File/s/rename.html">File.rename</a>
 </p>
 </dd>

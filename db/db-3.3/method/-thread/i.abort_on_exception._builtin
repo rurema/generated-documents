@@ -6,14 +6,15 @@ source_location=manual/api/_builtin/Thread.md
 ### def abort_on_exception               -> bool
 ### def abort_on_exception=(newstate)
 
-真の場合、そのスレッドが例外によって終了した時に、インタプリタ
-全体を中断させます。false の場合、あるスレッドで起こった例
-外は、[m:Thread#join] などで検出されない限りそのスレッ
-ドだけをなにも警告を出さずに終了させます。
+真の場合、そのスレッドが例外によって終了した時に、その例外をメインスレッドで
+再度発生させます。メインスレッドがその例外を捕捉しない限り、結果としてインタ
+プリタ全体が終了します。false の場合、あるスレッドで起こった例外は、
+[m:Thread#join] などで検出されない限りそのスレッドだけをなにも警告を出さずに
+終了させます。
 
 デフォルトは偽です。[ref:c:Thread#exception]を参照してください。
 
-- **param** `newstate` -- 自身を実行中に例外発生した場合、インタプリタ全体を終了させるかどうかを true か false で指定します。
+- **param** `newstate` -- 自身の実行中に例外が発生した場合、その例外をメインスレッドで再度発生させるかどうかを true か false で指定します。
 
 ```ruby title="例"
 thread = Thread.new { sleep 1 }

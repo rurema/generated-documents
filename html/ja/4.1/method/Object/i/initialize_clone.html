@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-16-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -78,17 +78,28 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_INITIALIZE_CLONE"><code>initialize_clone(obj) -&gt; object</code><span class="permalink">[<a href="../../../method/Object/i/initialize_clone.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Object.html#method-i-initialize_clone">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Object.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INITIALIZE_CLONE"><code>initialize_clone(obj, freeze: nil) -&gt; object</code><span class="permalink">[<a href="../../../method/Object/i/initialize_clone.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Object.html#method-i-initialize_clone">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Object.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 <a href="../../../method/Object/i/clone.html">Object#clone</a> がオブジェクトを複製する際に呼び出すメソッドです。
 </p>
 <p>
-デフォルトでは <a href="../../../method/Object/i/initialize_copy.html">Object#initialize_copy</a> を呼び出します。
+デフォルトの実装は freeze キーワード引数を無視して <a href="../../../method/Object/i/initialize_copy.html">Object#initialize_copy</a> を呼び出し、self を返します。複製したオブジェクトを freeze するかどうかは、このメソッドの呼び出し元である <a href="../../../method/Object/i/clone.html">Object#clone</a> が判断します。
+</p>
+<p>
+freeze キーワード引数には、<a href="../../../method/Object/i/clone.html">Object#clone</a> に渡された freeze の値がそのまま渡されます。
+clone と dup で挙動を変えたいなどの理由でこのメソッドを再定義する場合は、
+freeze キーワード引数を受け取り、super へそのまま渡すようにしてください。
 </p>
 <p>
 initialize_clone という名前のメソッドは自動的に private に設定されます。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>freeze</code>:</dt>
+<dd>
+<a href="../../../method/Object/i/clone.html">Object#clone</a> に渡された freeze の値(true, false, nil のいずれか)が渡されます。
+</dd>
+</dl>
 <p>
 [SEE_ALSO] <a href="../../../method/Object/i/initialize_copy.html">Object#initialize_copy</a>, <a href="../../../method/Object/i/initialize_dup.html">Object#initialize_dup</a>
 </p>

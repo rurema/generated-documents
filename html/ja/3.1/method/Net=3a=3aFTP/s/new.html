@@ -80,32 +80,121 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_NEW"><code>new(host = nil, user = nil, passwd = nil, acct = nil) -&gt; Net::FTP</code><span class="permalink">[<a href="../../../method/Net=3a=3aFTP/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Net/FTP.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/ftp.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new(host = nil, options = {}) -&gt; Net::FTP</code><span class="permalink">[<a href="../../../method/Net=3a=3aFTP/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Net/FTP.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/ftp.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>new(host = nil, user = nil, passwd = nil, acct = nil) -&gt; Net::FTP</code></dt>
 <dd class="method-description">
 <p>
 新しい Net::FTP のインスタンスを生成します。
 </p>
 <p>
 host が指定された場合、生成されたインスタンスに対して
-<a href="../../../method/Net=3a=3aFTP/i/connect.html">Net::FTP#connect</a> を呼び出し、さらに user が指定された場合は <a href="../../../method/Net=3a=3aFTP/i/login.html">Net::FTP#login</a>
+<a href="../../../method/Net=3a=3aFTP/i/connect.html">Net::FTP#connect</a> を呼び出し、さらにログインユーザ名が指定された場合は <a href="../../../method/Net=3a=3aFTP/i/login.html">Net::FTP#login</a>
 を呼び出します。
+</p>
+<p>
+2 番目の引数には、後方互換のためログインに使うユーザ名を表す文字列をそのまま渡すこともできますが、各キーがシンボルであるオプションのハッシュを渡すこともできます。オプションのハッシュを渡した場合、3 番目・4 番目の引数(passwd、acct)は無視され、ユーザ名やパスワードはオプションの
+:username、:password で指定します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>host</code>:</dt>
 <dd>
 接続するホストを指定します。
 </dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+オプションをハッシュで指定します。各キーはシンボルです。
+</dd>
+</dl>
+<dl>
+<dt><code>:port</code></dt>
+<dd>
+<p>
+接続するポート番号を指定します。デフォルトは 21 です。
+</p>
+</dd>
+<dt><code>:ssl</code></dt>
+<dd>
+<p>
+真を指定すると SSL(TLS)を使った接続を試みます。ハッシュを指定した場合は
+<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> にそのままパラメータとして渡されます。
+</p>
+</dd>
+<dt><code>:private_data_connection</code></dt>
+<dd>
+<p>
+真ならばデータ転送用のコネクションにも TLS を使います。
+:ssl が真のときのデフォルトは true です。:ssl が偽のときに true を指定すると
+<a href="../../../class/ArgumentError.html">ArgumentError</a> が発生します。
+</p>
+</dd>
+<dt><code>:username</code></dt>
+<dd>
+<p>
+ログインに使うユーザ名を指定します。
+</p>
+</dd>
+<dt><code>:password</code></dt>
+<dd>
+<p>
+ログインに使うパスワードを指定します。
+</p>
+</dd>
+<dt><code>:account</code></dt>
+<dd>
+<p>
+ログイン後に送る ACCT コマンドのパラメータを指定します。
+</p>
+</dd>
+<dt><code>:passive</code></dt>
+<dd>
+<p>
+真ならば接続をパッシブモードにします。デフォルトは true です
+(既定値は <a href="../../../method/Net=3a=3aFTP/s/default_passive=3d.html">Net::FTP.default_passive=</a> で変更できます)。
+</p>
+</dd>
+<dt><code>:open_timeout</code></dt>
+<dd>
+<p>
+接続の確立を待つ秒数を指定します。デフォルトは nil (タイムアウトなし) です。
+</p>
+</dd>
+<dt><code>:read_timeout</code></dt>
+<dd>
+<p>
+1 ブロックの読み込みを待つ秒数を指定します。デフォルトは 60 です。
+</p>
+</dd>
+<dt><code>:ssl_handshake_timeout</code></dt>
+<dd>
+<p>
+TLS のハンドシェイクを待つ秒数を指定します。デフォルトは nil です。
+</p>
+</dd>
+<dt><code>:use_pasv_ip</code></dt>
+<dd>
+<p>
+真ならば PASV 応答に含まれる IP アドレスを使用します。偽の場合は制御コネクションと同じ IP アドレスを使用します。デフォルトは false です。
+</p>
+</dd>
+<dt><code>:debug_mode</code></dt>
+<dd>
+<p>
+真ならば全ての通信内容を $stdout に出力します。デフォルトは false です。
+</p>
+</dd>
+</dl>
+<dl>
 <dt class='method-param'>[PARAM] <code>user</code>:</dt>
 <dd>
-ログインに使うユーザ名を指定します。
+ログインに使うユーザ名を指定します(後方互換のための位置引数です)。
 </dd>
 <dt class='method-param'>[PARAM] <code>passwd</code>:</dt>
 <dd>
-ログインに使うパスワードを指定します。
+ログインに使うパスワードを指定します(後方互換のための位置引数です)。
 </dd>
 <dt class='method-param'>[PARAM] <code>acct</code>:</dt>
 <dd>
-ログイン後に送る ACCT コマンドのパラメータを指定します。
+ログイン後に送る ACCT コマンドのパラメータを指定します(後方互換のための位置引数です)。
 </dd>
 </dl>
 <p>

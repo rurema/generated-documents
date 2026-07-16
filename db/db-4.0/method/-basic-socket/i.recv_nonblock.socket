@@ -3,12 +3,14 @@ visibility=public
 kind=defined
 source_location=manual/api/socket/BasicSocket.md
 
-### def recv_nonblock(maxlen, flags = 0) -> String
+### def recv_nonblock(maxlen, flags = 0) -> String | nil
 
 ソケットをノンブロッキングモードに設定した後、
 [man:recvfrom(2)] でソケットからデータを受け取ります。
 
 引数、返り値は [m:BasicSocket#recv] と同じです。
+すなわち、TCP や UNIXSocket のようなストリームソケットで接続が閉じられている
+場合 (EOF) は nil を返します。
 
 [man:recvfrom(2)] がエラーになった場合、
 EAGAIN, EINTR を含め例外 [c:Errno::EXXX] が発生します。
@@ -20,4 +22,6 @@ EAGAIN, EINTR を含め例外 [c:Errno::EXXX] が発生します。
 - **raise** `IOError` --
 
 - **raise** `Errno::EXXX` -- [man:recvfrom(2)] がエラーになった場合などに発生します。
+
+- **SEE** [bug:19012]
 

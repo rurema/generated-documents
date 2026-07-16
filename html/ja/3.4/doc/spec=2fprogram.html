@@ -76,7 +76,7 @@
 <li><a href="#terminate">プログラムの終り</a></li>
 </ul>
 <p>
-プログラムは<a href="#exp">式</a>を並べたものです。式と式の間はセミコロン(;)または改行で区切ります。ただし、バックスラッシュに続く改行は文の区切りにならず、次の行へ継続します。
+プログラムは <a href="#exp">式</a> を並べたものです。式と式の間はセミコロン(<code>;</code>)または改行で区切ります。ただし、バックスラッシュに続く改行は文の区切りにならず、次の行へ継続します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby">
@@ -84,57 +84,121 @@
 <span class="nb">print</span> <span class="s2">"</span><span class="s2">hello world!\n</span><span class="s2">"</span>
 </code></pre>
 <h2 id='exp'>式</h2>
-<span class="caption">例</span>
+<p>
+Ruby の式には、さまざまな <a href="../doc/spec=2fliteral.html">リテラル</a>、<a href="../doc/spec=2fvariables.html">変数と定数</a>、<a href="../doc/spec=2fcall.html">メソッド呼び出し</a>、それらの <a href="../doc/spec=2foperator.html">演算子式</a>、<code>if</code> や <code>while</code> などの <a href="../doc/spec=2fcontrol.html">制御構造</a>、
+<a href="../doc/spec=2fdef.html">クラス／メソッドの定義</a> があります。
+</p>
+<span class="caption">さまざまな式</span>
 <pre class="highlight ruby">
 <code>
+<span class="c1"># リテラルだけでも式
+</span><span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span>
+<span class="mf">1.5</span>
+
+<span class="c1"># 変数・擬似変数・定数だけでも式
+</span>foo
 <span class="k">true</span>
-<span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span>
-foo<span class="p">(</span><span class="p">)</span>
-<span class="k">if</span> <span class="nb">test</span> <span class="k">then</span> ok <span class="k">else</span> ng <span class="k">end</span>
+<span class="no">RUBY_VERSION</span>
+
+<span class="c1"># メソッド呼び出しだけでも式
+</span><span class="nb">puts</span>
+<span class="s2">"</span><span class="s2">ruby</span><span class="s2">"</span><span class="p">.</span><span class="nf">capitalize</span>
+<span class="mi">1194794</span><span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span>
+
+<span class="c1"># 演算子式（式と演算子を組み合わせた式）
+</span><span class="o">-</span><span class="no">Math</span><span class="o">::</span><span class="no">PI</span>   <span class="c1"># 単項演算子の例
+</span><span class="mf">355.0</span> <span class="o">/</span> <span class="mi">113</span> <span class="c1"># 二項演算子の例（算術演算子）
+</span>age <span class="o">&lt;</span> <span class="mi">20</span>    <span class="c1"># 二項演算子の例（関係演算子）
+</span><span class="nb">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">zero?</span> <span class="o">?</span> <span class="s2">"</span><span class="s2">当たり</span><span class="s2">"</span> <span class="o">:</span> <span class="s2">"</span><span class="s2">はずれ</span><span class="s2">"</span> <span class="c1"># 三項演算子の例
+</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span> <span class="c1"># 代入演算子の例
+</span><span class="mi">9</span><span class="o">..</span><span class="mi">17</span> <span class="c1"># 範囲式の例
+</span>
+<span class="c1"># 制御構造も式
+</span><span class="k">if</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">zero?</span>
+  <span class="s2">"</span><span class="s2">当たり</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">はずれ</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="k">case</span> count
+<span class="k">when</span> <span class="mi">0</span>
+  <span class="s2">"</span><span class="s2">無し</span><span class="s2">"</span>
+<span class="k">when</span> <span class="o">...</span><span class="mi">10</span>
+  <span class="s2">"</span><span class="s2">少ない</span><span class="s2">"</span>
+<span class="k">when</span> <span class="o">...</span><span class="mi">100</span>
+  <span class="s2">"</span><span class="s2">ふつう</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">多い</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="c1"># メソッド定義式
+</span><span class="c1"># （式の値は Symbol で表されたメソッド名）
+</span><span class="k">def</span> <span class="nf">greeting</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">Hello, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">!</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="c1"># モジュール定義式
+</span><span class="k">module</span> <span class="nn">UnitsToRadian</span>
+  <span class="c1"># 使用例
+</span>  <span class="c1"># using UnitsToRadian
+</span>  <span class="c1"># puts Math.sin(90.deg) # =&gt; 1.0
+</span>
+  refine <span class="no">Numeric</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">deg</span> <span class="o">=</span> <span class="nc">self</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">/</span> <span class="mi">180</span>
+
+    <span class="k">def</span> <span class="nf">gon</span> <span class="o">=</span> <span class="nc">self</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">/</span> <span class="mi">200</span>
+    <span class="k">alias</span> g gon
+
+    <span class="k">def</span> <span class="nf">tr</span> <span class="o">=</span> <span class="nc">self</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">*</span> <span class="mi">2</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 <p>
-Ruby の式には、<a href="../doc/spec=2fvariables.html">変数と定数</a>、さまざまな<a href="../doc/spec=2fliteral.html">リテラル</a>、それらの
-<a href="../doc/spec=2foperator.html">演算子式</a>、if や while などの<a href="../doc/spec=2fcontrol.html">制御構造</a>、<a href="../doc/spec=2fcall.html">メソッド呼び出し(super・ブロック付き・yield)</a>、
-<a href="../doc/spec=2fdef.html">クラス／メソッドの定義</a>があります。
+式は括弧 <code>( )</code> によってグルーピングできます。
 </p>
 <p>
-式は括弧によってグルーピングできます。
+式は評価されると値（評価値）が定まり、その値を返します。ただし、<code>return</code>、<code>break</code>, <code>next</code> といったものは値を返しません。これらは評価された時点で制御が移ってしまいます。
 </p>
 <p>
-式は評価されると値（評価値）が定まり、その値を返します。ただし、return、break, next といったものは値を返しません。これらは評価された時点で制御が移ってしまいます。
-</p>
-<p>
-空の式 () は nil を返します。
+空の式 <code>()</code> は <code>nil</code> を返します。
 </p>
 <p>
 また、メソッドの引数に指定できない式と指定できる式があります(このような式を「文」と呼び分ける場合があります)。
 </p>
-<dl>
-<dt>メソッドの引数に指定できない式の例</dt>
-<dd>
+<h3 >メソッドの引数に指定できない式</h3>
 <p>
-and, or, not
+以下のような式はそのままではメソッドの引数にできません。
 </p>
-<p>
-if/unless/rescue 修飾式, ...
-</p>
-</dd>
-</dl>
+<ul>
+<li><code>and</code>, <code>or</code> 演算子による演算子式</li>
+<li><code>if</code>, <code>unless</code>, <code>while</code>, <code>until</code>, <code>rescue</code> 修飾子の付いた式</li>
+</ul>
+<span class="caption">SyntaxError になる書き方</span>
+<pre class="highlight text">
+<code>
+p(true and nil)
+p("当たり" if rand(10).zero?)
+</code></pre>
 <p>
 メソッドの引数に指定できない式は、括弧によるグルーピングを行うことで普通の式として使用できます。
+</p>
+<span class="caption">正しい書き方</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span><span class="p">(</span><span class="p">(</span><span class="k">true</span> <span class="k">and</span> <span class="k">nil</span><span class="p">)</span><span class="p">)</span>
+<span class="nb">p</span><span class="p">(</span><span class="p">(</span><span class="s2">"</span><span class="s2">当たり</span><span class="s2">"</span> <span class="k">if</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">zero?</span><span class="p">)</span><span class="p">)</span>
+</code></pre>
+<p>
+なお、<code>not</code> 演算子による式は、Ruby 3.3 以前のデフォルトパーサ(parse.y)ではメソッドの引数にできませんが、Ruby 3.4 以降のデフォルトパーサ(Prism)では引数に指定できます。
 </p>
 <h2 id='terminate'>プログラムの終り</h2>
 <p>
 Rubyインタプリタはプログラムを読みこんでいる際に以下のものに出会うとそこで読みこみを終了します。
 </p>
 <ul>
-<li>ファイルの終り(文字列をevalしている場合は文字列の終り)</li>
-</ul>
-<ul>
-<li>^D(コントロールD) 、^Z(コントロールZ)</li>
-</ul>
-<ul>
-<li>__END__のみの行(前後に空白があると認識されません)</li>
+<li>ファイルの終り(文字列を <code>eval</code> している場合は文字列の終り)</li>
+<li><code>^D</code>(コントロールD) 、<code>^Z</code>(コントロールZ)</li>
+<li><code>__END__</code> のみの行(前後に空白があると認識されません)</li>
 </ul>
 
 </main>

@@ -209,6 +209,17 @@ string</span><span class="s2">"</span>
 <p>
 文字列式は評価されるたびに毎回新しい文字列オブジェクトを生成します。
 </p>
+<p>
+文字列リテラルから生成される文字列オブジェクトのエンコーディングは、スクリプトエンコーディング(ソースファイルのエンコーディング。マジックコメント <code># encoding:</code> で指定でき、指定がなければ UTF-8)になります。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># encoding: utf-8
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">あ</span><span class="s2">"</span><span class="p">.</span><span class="nf">encoding</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span></code></pre>
+<p>
+<a href="../method/String/i/encoding.html">String#encoding</a>、<a href="../class/Encoding.html">Encoding</a> を参照してください。
+</p>
 <h3 id='backslash'>バックスラッシュ記法</h3>
 <p>
 文字列中でバックスラッシュ(環境によっては￥記号で表示されます)の後に記述する文字によっては特別な意味を持たせる事ができます。
@@ -762,6 +773,19 @@ Symbol リテラルに指定できる演算子はメソッドとして再定義�
 </p>
 <p>
 シンボルは常に一意のオブジェクトで、(式展開を含んでいてもその結果が同じ文字列であれば)何度評価されても同じオブジェクトを返します。
+</p>
+<p>
+シンボルのエンコーディングは、ASCII文字のみからなる場合はUS-ASCII、そうでなければスクリプトエンコーディングになります。文字列リテラルは中身がASCII文字のみでも常にスクリプトエンコーディングになる(<a href="#string">文字列リテラル</a>参照)のに対し、シンボルはASCII文字のみの場合にUS-ASCIIになる点が異なります。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># encoding: utf-8
+</span><span class="nb">p</span> <span class="ss">:abc</span><span class="p">.</span><span class="nf">encoding</span>  <span class="c1"># =&gt; #&lt;Encoding:US-ASCII&gt;
+</span><span class="nb">p</span> <span class="ss">:あ</span><span class="p">.</span><span class="nf">encoding</span>    <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">encoding</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt; (Symbolと異なりASCII文字のみでもスクリプトエンコーディングになる)
+</span></code></pre>
+<p>
+<a href="../method/Symbol/i/encoding.html">Symbol#encoding</a>、<a href="../method/String/i/encoding.html">String#encoding</a>、<a href="../class/Encoding.html">Encoding</a> を参照してください。
 </p>
 <p>
 ほとんどのシンボルはGC可能です。

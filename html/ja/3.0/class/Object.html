@@ -1458,6 +1458,24 @@ me <span class="o">=</span> <span class="o">-</span><span class="mi">365</span><
 </span><span class="nb">p</span> me<span class="p">.</span><span class="nf">call</span> <span class="c1">#=&gt; 365
 </span></code></pre>
 <p>
+<a href="../class/Method.html">Method</a>・<a href="../class/UnboundMethod.html">UnboundMethod</a> オブジェクトを取得するメソッドの対比は次のとおりです。
+</p>
+<table>
+<thead>
+<tr><th>メソッド</th><th>対象</th><th>可視性の制限</th><th>返り値</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="../method/Object/i/method.html">Object#method</a></td><td>レシーバのメソッド（特異メソッドを含む）</td><td>なし</td><td><a href="../class/Method.html">Method</a></td></tr>
+<tr><td><a href="../method/Object/i/public_method.html">Object#public_method</a></td><td>レシーバのメソッド（特異メソッドを含む）</td><td>public のみ</td><td><a href="../class/Method.html">Method</a></td></tr>
+<tr><td><a href="../method/Object/i/singleton_method.html">Object#singleton_method</a></td><td>レシーバの特異メソッドのみ</td><td>なし</td><td><a href="../class/Method.html">Method</a></td></tr>
+<tr><td><a href="../method/Module/i/instance_method.html">Module#instance_method</a></td><td>self のインスタンスメソッド</td><td>なし</td><td><a href="../class/UnboundMethod.html">UnboundMethod</a></td></tr>
+<tr><td><a href="../method/Module/i/public_instance_method.html">Module#public_instance_method</a></td><td>self のインスタンスメソッド</td><td>public のみ</td><td><a href="../class/UnboundMethod.html">UnboundMethod</a></td></tr>
+</tbody>
+</table>
+<p>
+<a href="../class/UnboundMethod.html">UnboundMethod</a> はレシーバに束縛されていない状態のメソッドオブジェクトです。<a href="../method/UnboundMethod/i/bind.html">UnboundMethod#bind</a> でレシーバに束縛すると <a href="../class/Method.html">Method</a> になり、逆に <a href="../method/Method/i/unbind.html">Method#unbind</a> で <a href="../class/UnboundMethod.html">UnboundMethod</a> に戻せます。
+</p>
+<p>
 [SEE_ALSO] <a href="../method/Module/i/instance_method.html">Module#instance_method</a>, <a href="../class/Method.html">Method</a>, <a href="../method/BasicObject/i/__send__.html">BasicObject#__send__</a>, <a href="../method/Object/i/send.html">Object#send</a>, <a href="../method/Kernel/m/eval.html">Kernel.#eval</a>, <a href="../method/Object/i/singleton_method.html">Object#singleton_method</a>
 </p>
 </dd>
@@ -1528,6 +1546,28 @@ obj <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span>
 <span class="p">[</span><span class="ss">:private_singleton</span>, <span class="ss">:private_foo</span>, <span class="ss">:private_parent</span><span class="p">]</span>
 <span class="p">[</span><span class="ss">:protected_singleton</span>, <span class="ss">:protected_foo</span>, <span class="ss">:protected_parent</span><span class="p">]</span>
 </code></pre>
+<p>
+メソッド名一覧を取得するメソッド同士の対比は次のとおりです。<a href="../method/Object/i/methods.html">Object#methods</a> 系はレシーバ自身が応答できるメソッド（特異メソッドを含む）を対象にするのに対し、<a href="../method/Module/i/instance_methods.html">Module#instance_methods</a> 系はクラス・モジュールが持つインスタンスメソッド（特異メソッドは含まない）を対象にします。
+</p>
+<table>
+<thead>
+<tr><th>メソッド</th><th>対象</th><th>含まれる可視性</th><th>特異メソッド</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="../method/Object/i/methods.html">Object#methods</a></td><td>レシーバ</td><td>public, protected</td><td>含む</td></tr>
+<tr><td><a href="../method/Object/i/public_methods.html">Object#public_methods</a></td><td>レシーバ</td><td>public</td><td>含む</td></tr>
+<tr><td><a href="../method/Object/i/private_methods.html">Object#private_methods</a></td><td>レシーバ</td><td>private</td><td>含む</td></tr>
+<tr><td><a href="../method/Object/i/protected_methods.html">Object#protected_methods</a></td><td>レシーバ</td><td>protected</td><td>含む</td></tr>
+<tr><td><a href="../method/Object/i/singleton_methods.html">Object#singleton_methods</a></td><td>レシーバ</td><td>public, protected</td><td>特異メソッドのみ</td></tr>
+<tr><td><a href="../method/Module/i/instance_methods.html">Module#instance_methods</a></td><td>self のインスタンス</td><td>public, protected</td><td>含まない</td></tr>
+<tr><td><a href="../method/Module/i/public_instance_methods.html">Module#public_instance_methods</a></td><td>self のインスタンス</td><td>public</td><td>含まない</td></tr>
+<tr><td><a href="../method/Module/i/private_instance_methods.html">Module#private_instance_methods</a></td><td>self のインスタンス</td><td>private</td><td>含まない</td></tr>
+<tr><td><a href="../method/Module/i/protected_instance_methods.html">Module#protected_instance_methods</a></td><td>self のインスタンス</td><td>protected</td><td>含まない</td></tr>
+</tbody>
+</table>
+<p>
+継承したメソッドを含めるかどうかなどを引数で制御できますが、引数の意味はメソッドごとに異なります（<a href="../method/Object/i/methods.html">Object#methods</a> は引数が false のとき特異メソッドのみを返します）。詳細は各メソッドの説明を参照してください。
+</p>
 <p>
 [SEE_ALSO] <a href="../method/Module/i/instance_methods.html">Module#instance_methods</a>,<a href="../method/Object/i/singleton_methods.html">Object#singleton_methods</a>
 </p>
@@ -2282,17 +2322,28 @@ it <span class="o">=</span> <span class="no">Bar</span><span class="p">.</span><
 </dd>
 
 
-<dt class="method-heading" id="I_INITIALIZE_CLONE"><code>initialize_clone(obj) -&gt; object</code><span class="permalink">[<a href="../method/Object/i/initialize_clone.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Object.html#method-i-initialize_clone">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Object.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INITIALIZE_CLONE"><code>initialize_clone(obj, freeze: nil) -&gt; object</code><span class="permalink">[<a href="../method/Object/i/initialize_clone.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Object.html#method-i-initialize_clone">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Object.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 <a href="../method/Object/i/clone.html">Object#clone</a> がオブジェクトを複製する際に呼び出すメソッドです。
 </p>
 <p>
-デフォルトでは <a href="../method/Object/i/initialize_copy.html">Object#initialize_copy</a> を呼び出します。
+デフォルトの実装は freeze キーワード引数を無視して <a href="../method/Object/i/initialize_copy.html">Object#initialize_copy</a> を呼び出し、self を返します。複製したオブジェクトを freeze するかどうかは、このメソッドの呼び出し元である <a href="../method/Object/i/clone.html">Object#clone</a> が判断します。
+</p>
+<p>
+freeze キーワード引数には、<a href="../method/Object/i/clone.html">Object#clone</a> に渡された freeze の値がそのまま渡されます。
+clone と dup で挙動を変えたいなどの理由でこのメソッドを再定義する場合は、
+freeze キーワード引数を受け取り、super へそのまま渡すようにしてください。
 </p>
 <p>
 initialize_clone という名前のメソッドは自動的に private に設定されます。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>freeze</code>:</dt>
+<dd>
+<a href="../method/Object/i/clone.html">Object#clone</a> に渡された freeze の値(true, false, nil のいずれか)が渡されます。
+</dd>
+</dl>
 <p>
 [SEE_ALSO] <a href="../method/Object/i/initialize_copy.html">Object#initialize_copy</a>, <a href="../method/Object/i/initialize_dup.html">Object#initialize_dup</a>
 </p>
@@ -2442,7 +2493,7 @@ initialize_dup という名前のメソッドは自動的に private に設定�
 override されるべきです。
 </p>
 <p>
-false を返します。
+このメソッドの既定の実装(Object#respond_to_missing?)は常に false を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>symbol</code>:</dt>
