@@ -93,39 +93,41 @@
 <p>
 例1:irb で実行した場合
 </p>
-<pre>
-# proc
-&gt; p = proc { num = 1 + 2 }
-&gt; RubyVM::InstructionSequence.of(p)
-&gt; # =&gt; &lt;RubyVM::InstructionSequence:block in irb_binding@(irb)&gt;
-
-# method
-&gt; def foo(bar); puts bar; end
-&gt; RubyVM::InstructionSequence.of(method(:foo))
-&gt; # =&gt; &lt;RubyVM::InstructionSequence:foo@(irb)&gt;
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>proc
+<span class="gp">&gt;</span><span class="w"> </span>p <span class="o">=</span> proc <span class="o">{</span> num <span class="o">=</span> 1 + 2 <span class="o">}</span>
+<span class="gp">&gt;</span><span class="w"> </span>RubyVM::InstructionSequence.of<span class="o">(</span>p<span class="o">)</span>
+<span class="gp">&gt;</span><span class="w"> </span><span class="c"># =&gt; &lt;RubyVM::InstructionSequence:block in irb_binding@(irb)&gt;</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>method
+<span class="gp">&gt;</span><span class="w"> </span>def foo<span class="o">(</span>bar<span class="o">)</span><span class="p">;</span> puts bar<span class="p">;</span> end
+<span class="gp">&gt;</span><span class="w"> </span>RubyVM::InstructionSequence.of<span class="o">(</span>method<span class="o">(</span>:foo<span class="o">))</span>
+<span class="gp">&gt;</span><span class="w"> </span><span class="c"># =&gt; &lt;RubyVM::InstructionSequence:foo@(irb)&gt;</span>
+</code></pre>
 <p>
 例2: <a href="../../../method/RubyVM=3a=3aInstructionSequence/s/compile_file.html">RubyVM::InstructionSequence.compile_file</a> を使用した場合
 </p>
-<pre>
-# /tmp/iseq_of.rb
-def hello
-  puts &quot;hello, world&quot;
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>/tmp/iseq_of.rb
+<span class="go">def hello
+  puts "hello, world"
 end
 
-$a_global_proc = proc { str = 'a' + 'b' }
-
-# irb
-&gt; require '/tmp/iseq_of.rb'
-
-# hello メソッド
-&gt; RubyVM::InstructionSequence.of(method(:hello))
-&gt; # =&gt; #&lt;RubyVM::InstructionSequence:0x007fb73d7cb1d0&gt;
-
-# グローバル proc
-&gt; RubyVM::InstructionSequence.of($a_global_proc)
-&gt; # =&gt; #&lt;RubyVM::InstructionSequence:0x007fb73d7caf78&gt;
-</pre>
+</span><span class="gp">$</span>a_global_proc <span class="o">=</span> proc <span class="o">{</span> str <span class="o">=</span> <span class="s1">'a'</span> + <span class="s1">'b'</span> <span class="o">}</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>irb
+<span class="gp">&gt;</span><span class="w"> </span>require <span class="s1">'/tmp/iseq_of.rb'</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>hello メソッド
+<span class="gp">&gt;</span><span class="w"> </span>RubyVM::InstructionSequence.of<span class="o">(</span>method<span class="o">(</span>:hello<span class="o">))</span>
+<span class="gp">&gt;</span><span class="w"> </span><span class="c"># =&gt; #&lt;RubyVM::InstructionSequence:0x007fb73d7cb1d0&gt;</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>グローバル proc
+<span class="gp">&gt;</span><span class="w"> </span>RubyVM::InstructionSequence.of<span class="o">(</span><span class="nv">$a_global_proc</span><span class="o">)</span>
+<span class="gp">&gt;</span><span class="w"> </span><span class="c"># =&gt; #&lt;RubyVM::InstructionSequence:0x007fb73d7caf78&gt;</span>
+</code></pre>
 </dd>
 
 

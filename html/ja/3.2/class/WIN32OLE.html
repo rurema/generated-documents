@@ -132,27 +132,29 @@ COMのAPIのうち、特にインタープリタ用のインターフェイス�
 WIN32OLEオブジェクトは、OLEオートメーションサーバが提供するメソッドやプロパティ（Rubyの属性に対応）をスクリプトから呼び出す手段を提供します。呼び出しには、Rubyのオブジェクトと同様にオブジェクトに続けて「.」とメソッド名、必要であれば引数のリストを記述します。最後の引数にHashを指定した場合は、名前付き引数としてキーにパラメータ名、値に引数を指定できます。
 </p>
 <h2 >サンプルコード</h2>
-<pre>
-require 'win32ole'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'win32ole'</span>
 
-excel = WIN32OLE.new('Excel.Application')
-workbook = excel.Workbooks.Open('workbook.xls')
-workbook.PrintOut
-workbook.Close(:SaveChanges =&gt; false)
-excel.Quit
-</pre>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+workbook <span class="o">=</span> excel<span class="p">.</span><span class="no">Workbooks</span><span class="p">.</span><span class="no">Open</span><span class="p">(</span><span class="s1">'workbook.xls'</span><span class="p">)</span>
+<span class="nf">workbook</span><span class="p">.</span><span class="no">PrintOut</span>
+<span class="nf">workbook</span><span class="p">.</span><span class="no">Close</span><span class="p">(</span><span class="ss">:SaveChanges</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">)</span>
+<span class="nf">excel</span><span class="p">.</span><span class="no">Quit</span>
+</code></pre>
 <p>
 なお、OLEオートメーションの仕様ではメソッド名は大文字と小文字を区別しません。そのため、以下のようにOLEオートメーションサーバのメソッド名は小文字で記述しても構いません。
 </p>
-<pre>
-require 'win32ole'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'win32ole'</span>
 
-excel = WIN32OLE.new('Excel.Application')
-workbook = excel.workbooks.open('workbook.xls')
-workbook.printout
-workbook.close(:SaveChanges =&gt; false)
-excel.quit
-</pre>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+workbook <span class="o">=</span> excel<span class="p">.</span><span class="nf">workbooks</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'workbook.xls'</span><span class="p">)</span>
+workbook<span class="p">.</span><span class="nf">printout</span>
+workbook<span class="p">.</span><span class="nf">close</span><span class="p">(</span><span class="ss">:SaveChanges</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">)</span>
+excel<span class="p">.</span><span class="nf">quit</span>
+</code></pre>
 <h2 >マルチスレッドでの利用制限</h2>
 <p>
 注）以下の記述はWIN32OLEの将来のバージョンの仕様を規定するものではありません。
@@ -296,6 +298,9 @@ excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.
 
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -781,18 +786,19 @@ DISPIDとパラメータの型を指定してプロパティを参照します�
 オートメーションサーバの呼び出しに失敗しました。理由はメッセージのHRESULTを調べてください。
 </dd>
 </dl>
-<pre>
-DISPID_CELLS = 238
-include WIN32OLE::VARIANT
-excel = WIN32OLE.new('Excel.Application')
-puts excel._getproperty(558, [], []) # VisibleプロパティのDISPIDは558
-workbook = excel.Workbooks.Add
-sheet = workbook.Worksheets[1]
-sheet._setproperty(DISPID_CELLS, [1, 2, 'hello'], [VT_I2, VT_I2, VT_BSTR])
-puts sheet._getproperty(DISPID_CELLS, [1, 2], [VT_I2, VT_I2]).value  #=&gt; 'hello'
-workbook.Close(:SaveChanges =&gt; false)
-excel.Quit
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">DISPID_CELLS</span> <span class="o">=</span> <span class="mi">238</span>
+include <span class="no">WIN32OLE</span><span class="o">::</span><span class="no">VARIANT</span>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+<span class="nb">puts</span> excel<span class="p">.</span><span class="nf">_getproperty</span><span class="p">(</span><span class="mi">558</span>, <span class="p">[</span><span class="p">]</span>, <span class="p">[</span><span class="p">]</span><span class="p">)</span> <span class="c1"># VisibleプロパティのDISPIDは558
+</span>workbook <span class="o">=</span> excel<span class="p">.</span><span class="no">Workbooks</span><span class="p">.</span><span class="no">Add</span>
+<span class="nf">sheet</span> <span class="o">=</span> workbook<span class="p">.</span><span class="no">Worksheets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="nf">sheet</span><span class="p">.</span><span class="nf">_setproperty</span><span class="p">(</span><span class="no">DISPID_CELLS</span>, <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="s1">'hello'</span><span class="p">]</span>, <span class="p">[</span><span class="no">VT_I2</span>, <span class="no">VT_I2</span>, <span class="no">VT_BSTR</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">puts</span> sheet<span class="p">.</span><span class="nf">_getproperty</span><span class="p">(</span><span class="no">DISPID_CELLS</span>, <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>, <span class="p">[</span><span class="no">VT_I2</span>, <span class="no">VT_I2</span><span class="p">]</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span>  <span class="c1">#=&gt; 'hello'
+</span>workbook<span class="p">.</span><span class="no">Close</span><span class="p">(</span><span class="ss">:SaveChanges</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">)</span>
+excel<span class="p">.</span><span class="no">Quit</span>
+</code></pre>
 <p>
 DISPIDは<a href="../method/WIN32OLE_METHOD/i/dispid.html">WIN32OLE_METHOD#dispid</a>から取得できます。
 </p>
@@ -906,19 +912,20 @@ DISPIDとパラメータの型を指定してプロパティを設定します�
 オートメーションサーバの呼び出しに失敗しました。理由はメッセージのHRESULTを調べてください。
 </dd>
 </dl>
-<pre>
-DISPID_CELLS = 238
-include WIN32OLE::VARIANT
-excel = WIN32OLE.new('Excel.Application')
-puts excel._setproperty(558,      # VisibleプロパティのDISPIDは558
-                       [true], [VT_BOOL])
-workbook = excel.Workbooks.Add
-sheet = workbook.Worksheets[1]
-sheet._setproperty(DISPID_CELLS, [1, 2, 'hello'], [VT_I2, VT_I2, VT_BSTR])
-puts sheet._getproperty(DISPID_CELLS, [1, 2], [VT_I2, VT_I2]).value  #=&gt; 'hello'
-workbook.Close(:SaveChanges =&gt; false)
-excel.Quit
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">DISPID_CELLS</span> <span class="o">=</span> <span class="mi">238</span>
+include <span class="no">WIN32OLE</span><span class="o">::</span><span class="no">VARIANT</span>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+<span class="nb">puts</span> excel<span class="p">.</span><span class="nf">_setproperty</span><span class="p">(</span><span class="mi">558</span>,      <span class="c1"># VisibleプロパティのDISPIDは558
+</span>                       <span class="p">[</span><span class="k">true</span><span class="p">]</span>, <span class="p">[</span><span class="no">VT_BOOL</span><span class="p">]</span><span class="p">)</span>
+workbook <span class="o">=</span> excel<span class="p">.</span><span class="no">Workbooks</span><span class="p">.</span><span class="no">Add</span>
+<span class="nf">sheet</span> <span class="o">=</span> workbook<span class="p">.</span><span class="no">Worksheets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="nf">sheet</span><span class="p">.</span><span class="nf">_setproperty</span><span class="p">(</span><span class="no">DISPID_CELLS</span>, <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="s1">'hello'</span><span class="p">]</span>, <span class="p">[</span><span class="no">VT_I2</span>, <span class="no">VT_I2</span>, <span class="no">VT_BSTR</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">puts</span> sheet<span class="p">.</span><span class="nf">_getproperty</span><span class="p">(</span><span class="no">DISPID_CELLS</span>, <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>, <span class="p">[</span><span class="no">VT_I2</span>, <span class="no">VT_I2</span><span class="p">]</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span>  <span class="c1">#=&gt; 'hello'
+</span>workbook<span class="p">.</span><span class="no">Close</span><span class="p">(</span><span class="ss">:SaveChanges</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">)</span>
+excel<span class="p">.</span><span class="no">Quit</span>
+</code></pre>
 <p>
 DISPIDは<a href="../method/WIN32OLE_METHOD/i/dispid.html">WIN32OLE_METHOD#dispid</a>から取得できます。
 </p>
@@ -997,13 +1004,14 @@ excel.invoke(:Quit)
 <p>
 このリストは、以下の記述と同等です。
 </p>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-workbook = excel.workbooks.Open(:FileName =&gt; 'c:\\users\\public\\test.xml',
-                                :ReadOnly =&gt; true,
-                                :Password =&gt; 'secret')
-excel.Quit
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+workbook <span class="o">=</span> excel<span class="p">.</span><span class="nf">workbooks</span><span class="p">.</span><span class="no">Open</span><span class="p">(</span><span class="ss">:FileName</span> <span class="o">=&gt;</span> <span class="s1">'c:\\users\\public\\test.xml'</span>,
+                                <span class="ss">:ReadOnly</span> <span class="o">=&gt;</span> <span class="k">true</span>,
+                                <span class="ss">:Password</span> <span class="o">=&gt;</span> <span class="s1">'secret'</span><span class="p">)</span>
+excel<span class="p">.</span><span class="no">Quit</span>
+</code></pre>
 </dd>
 
 
@@ -1509,13 +1517,14 @@ Rubyでは上記のコードの右辺をVBと同じく「sheet.Cells(1, 2)」の
 <p>
 そのため、次の例のようにsetpropertyメソッドを利用して、パラメータ付きプロパティを設定します。
 </p>
-<pre>
-excel = WIN32OLE.new('Excel.Application')
-excel.visible = true
-sheet = excel.Workbooks.Add.Worksheets[1]
-sheet.setproperty(:Cells, 1, 2, 32)
-sheet.setproperty(:Cells, 1, 1, sheet.Cells(1, 2))
-</pre>
+<pre class="highlight ruby">
+<code>
+excel <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Excel.Application'</span><span class="p">)</span>
+excel<span class="p">.</span><span class="nf">visible</span> <span class="o">=</span> <span class="k">true</span>
+sheet <span class="o">=</span> excel<span class="p">.</span><span class="no">Workbooks</span><span class="p">.</span><span class="no">Add</span><span class="p">.</span><span class="no">Worksheets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="nf">sheet</span><span class="p">.</span><span class="nf">setproperty</span><span class="p">(</span><span class="ss">:Cells</span>, <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">32</span><span class="p">)</span>
+<span class="nf">sheet</span><span class="p">.</span><span class="nf">setproperty</span><span class="p">(</span><span class="ss">:Cells</span>, <span class="mi">1</span>, <span class="mi">1</span>, <span class="nf">sheet</span><span class="p">.</span><span class="no">Cells</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span><span class="p">)</span>
+</code></pre>
 </dd>
 
 

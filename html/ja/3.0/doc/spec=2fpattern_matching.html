@@ -89,7 +89,8 @@
 <p>
 Rubyでのパターンマッチは case/in 式を用いて実装されています。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 case &lt;expression&gt;
 in &lt;pattern1&gt;
   ...
@@ -100,18 +101,19 @@ in &lt;pattern3&gt;
 else
   ...
 end
-</pre>
+</code></pre>
 <p>
 in 節と when 節は1つの case 式の中に混ぜて書くことはできません。
 </p>
 <p>
 『=&gt;』 演算子と in 演算子で、単体の式で使用することも可能です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 &lt;expression&gt; =&gt; &lt;pattern&gt;
 
 &lt;expression&gt; in &lt;pattern&gt;
-</pre>
+</code></pre>
 <p>
 case/in 式は 「網羅的」 です。もし case 式の値がどの節にもマッチせず else 節がない場合、例外 NoMatchingPatternError が発生します。
 </p>
@@ -135,21 +137,23 @@ config <span class="o">=</span> <span class="p">{</span><span class="ss">db:</sp
 <p>
 一方、『=&gt;』 演算子は、期待されるデータ構造があらかじめ分かっている場合に、その一部を展開するのに有効です。
 </p>
-<pre>
-config = {db: {user: 'admin', password: 'abc123'}}
+<pre class="highlight ruby">
+<code>
+config <span class="o">=</span> <span class="p">{</span><span class="ss">db:</span> <span class="p">{</span><span class="ss">user:</span> <span class="s1">'admin'</span>, <span class="ss">password:</span> <span class="s1">'abc123'</span><span class="p">}</span><span class="p">}</span>
 
-config =&gt; {db: {user:}} # もし config の構造が期待したものでなかった場合には、例外が発生する
-
-puts &quot;Connect with user '#{user}'&quot;
-# Connect with user 'admin'&quot; と出力
-</pre>
+config <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">db:</span> <span class="p">{</span><span class="ss">user:</span><span class="p">}</span><span class="p">}</span> <span class="c1"># もし config の構造が期待したものでなかった場合には、例外が発生する
+</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">Connect with user '</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="s2">'</span><span class="s2">"</span>
+<span class="c1"># Connect with user 'admin'&quot; と出力
+</span></code></pre>
 <p>
 『&lt;expression&gt; in &lt;pattern&gt;』 は 『&lt;expression&gt;; in &lt;pattern&gt;; true; else false; end』 と等価です。パターンにマッチするかどうかだけを知りたいときに使えます。
 </p>
-<pre>
-users = [{name: &quot;Alice&quot;, age: 12}, {name: &quot;Bob&quot;, age: 23}]
-users.any? {|user| user in {name: /B/, age: 20..} } #=&gt; true
-</pre>
+<pre class="highlight ruby">
+<code>
+users <span class="o">=</span> <span class="p">[</span><span class="p">{</span><span class="ss">name:</span> <span class="s2">"</span><span class="s2">Alice</span><span class="s2">"</span>, <span class="ss">age:</span> <span class="mi">12</span><span class="p">}</span>, <span class="p">{</span><span class="ss">name:</span> <span class="s2">"</span><span class="s2">Bob</span><span class="s2">"</span>, <span class="ss">age:</span> <span class="mi">23</span><span class="p">}</span><span class="p">]</span>
+<span class="nb">p</span> users<span class="p">.</span><span class="nf">any?</span> <span class="p">{</span><span class="o">|</span>user<span class="o">|</span> user <span class="k">in</span> <span class="p">{</span><span class="ss">name:</span> <span class="sr">/B/</span>, <span class="ss">age:</span> <span class="mi">20</span><span class="o">..</span><span class="p">}</span> <span class="p">}</span> <span class="c1">#=&gt; true
+</span></code></pre>
 <p>
 構文の詳細な例と説明は以下を参照してください。
 </p>
@@ -287,14 +291,15 @@ case 文 (in 文や =&gt; ではない) では、パターン の両端の 『[]
 <p>
 Find パターン は Array パターン に似ていますが、オブジェクトの一部の要素がマッチしていることを検査できます。
 </p>
-<pre>
-case [&quot;a&quot;, 1, &quot;b&quot;, &quot;c&quot;, 2]
-in [*, String, String, *]
-  &quot;matched&quot;
-else
-  &quot;not matched&quot;
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">case</span> <span class="p">[</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="mi">1</span>, <span class="s2">"</span><span class="s2">b</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">c</span><span class="s2">"</span>, <span class="mi">2</span><span class="p">]</span>
+<span class="k">in</span> <span class="p">[</span><span class="o">*</span>, <span class="no">String</span>, <span class="no">String</span>, <span class="o">*</span><span class="p">]</span>
+  <span class="s2">"</span><span class="s2">matched</span><span class="s2">"</span>
+<span class="k">else</span>
+  <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
 <h2 id='variable_binding'>変数の束縛</h2>
 <p>
 深い構造検査の他のパターンマッチの重要な機能の1つにマッチした部分のローカル変数への束縛があります。束縛の基本的な形はマッチしたパターンの後ろに 『=&gt; 変数名』 と書くことです。(この形は rescue 節で 『rescue ExceptionClass =&gt; var』 の形で例外をローカル変数に格納する形に似ています)
@@ -394,15 +399,16 @@ Hash パターンでは、もっと単純に書くこともできます。キー
 <p>
 変数への束縛は現状、『|』 で結合される Alternative パターン と同時には利用できません。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 case {a: 1, b: 2}
 in {a: } | Array
-  &quot;matched: #{a}&quot;
+  "matched: #{a}"
 else
-  &quot;not matched&quot;
+  "not matched"
 end
 # SyntaxError (illegal variable in alternative pattern (a))
-</pre>
+</code></pre>
 <p>
 『_』 で始まる変数は例外で、Alternative パターン と同時に利用できます。
 </p>
@@ -596,26 +602,29 @@ unless も利用できます。
 <p>
 Ruby 3.0 の時点では、1行パターンマッチ と Find パターンは 「実験的機能」 扱いです。1行パターンマッチ と Find パターンの構文は将来的に変更の可能性があります。これらの機能を利用する場合は毎回警告が出力されます。
 </p>
-<pre>
-[0] =&gt; [*, 0, *]
-# warning: Find pattern is experimental, and the behavior may change in future versions of Ruby!
-# warning: One-line pattern matching is experimental, and the behavior may change in future versions of Ruby!
-}
-
+<pre class="highlight ruby">
+<code>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="o">*</span>, <span class="mi">0</span>, <span class="o">*</span><span class="p">]</span>
+<span class="c1"># warning: Find pattern is experimental, and the behavior may change in future versions of Ruby!
+</span><span class="c1"># warning: One-line pattern matching is experimental, and the behavior may change in future versions of Ruby!
+</span></code></pre>
+<p>
 この警告を抑制したければ、Warning::[]= メソッドが利用できます。
-
-//emlist{
-Warning[:experimental] = false
-eval('[0] =&gt; [*, 0, *]')
-# ...警告は出力されない...
-</pre>
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="no">Warning</span><span class="p">[</span><span class="ss">:experimental</span><span class="p">]</span> <span class="o">=</span> <span class="k">false</span>
+<span class="nb">eval</span><span class="p">(</span><span class="s1">'[0] =&gt; [*, 0, *]'</span><span class="p">)</span>
+<span class="c1"># ...警告は出力されない...
+</span></code></pre>
 <p>
 パターンマッチの警告はコンパイル時に発生するため、以下のような場合は警告は抑制できません。
 </p>
-<pre>
-Warning[:experimental] = false # この行を評価する段階では、構文解析とそれによる警告の発生は、既に終了している
-[0] =&gt; [*, 0, *]
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Warning</span><span class="p">[</span><span class="ss">:experimental</span><span class="p">]</span> <span class="o">=</span> <span class="k">false</span> <span class="c1"># この行を評価する段階では、構文解析とそれによる警告の発生は、既に終了している
+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="o">*</span>, <span class="mi">0</span>, <span class="o">*</span><span class="p">]</span>
+</code></pre>
 <p>
 つまり、フラグの切り替えによって影響を受けるのは切り替え以降に load されたファイルや `eval` されたコードに限られます。
 </p>
@@ -626,18 +635,19 @@ Warning[:experimental] = false # この行を評価する段階では、構文�
 <p>
 おおよその構文は以下のとおりです。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 pattern: value_pattern
        | variable_pattern
        | alternative_pattern
        | as_pattern
        | array_pattern
-       | find_pattern
+| find_pattern
        | hash_pattern
 
 value_pattern: literal
              | Constant
-             | ^variable
+| ^variable
 
 variable_pattern: variable
 
@@ -656,7 +666,7 @@ find_pattern: [*variable, pattern, ..., *variable]
 hash_pattern: {key: pattern, key:, ..., **variable}
             | Constant(key: pattern, key:, ..., **variable)
             | Constant[key: pattern, key:, ..., **variable]
-</pre>
+</code></pre>
 <h2 id='some_undefined_behavior_examples'>付記B: `未定義` の振る舞いの例</h2>
 <p>
 将来的な最適化の余地を残すため、仕様には一部 `未定義` の振る舞いが含まれています。

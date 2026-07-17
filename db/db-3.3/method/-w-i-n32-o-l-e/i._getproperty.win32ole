@@ -30,22 +30,18 @@ DISPIDとパラメータの型を指定してプロパティを参照します�
 - **raise** `WIN32OLERuntimeError` -- オートメーションサーバの呼び出しに失敗しました。
                             理由はメッセージのHRESULTを調べてください。
 
-``````
+```ruby
 DISPID_CELLS = 238
 include WIN32OLE::VARIANT
 excel = WIN32OLE.new('Excel.Application')
 puts excel._getproperty(558, [], []) # VisibleプロパティのDISPIDは558
 workbook = excel.Workbooks.Add
-``````
-``````
 sheet = workbook.Worksheets[1]
-``````
-``````
 sheet._setproperty(DISPID_CELLS, [1, 2, 'hello'], [VT_I2, VT_I2, VT_BSTR])
 puts sheet._getproperty(DISPID_CELLS, [1, 2], [VT_I2, VT_I2]).value  #=> 'hello'
 workbook.Close(:SaveChanges => false)
 excel.Quit
-``````
+```
 
 DISPIDは[m:WIN32OLE_METHOD#dispid]から取得できます。
 

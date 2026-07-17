@@ -360,6 +360,9 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
 
@@ -374,7 +377,7 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 0
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 0
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/s/DEBUG=3d.html">Thread.DEBUG=</a>
@@ -393,9 +396,9 @@ val が 真 のときは Integer に変換してから設定します。偽 の�
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 0
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 0
 </span><span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 1
+<span class="nf">p</span> <span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 1
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/s/DEBUG.html">Thread.DEBUG</a>
@@ -425,9 +428,9 @@ val が 真 のときは Integer に変換してから設定します。偽 の�
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">Thread</span><span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; false
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; false
 </span><span class="no">Thread</span><span class="p">.</span><span class="nf">abort_on_exception</span> <span class="o">=</span> <span class="k">true</span>
-<span class="no">Thread</span><span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; true
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; true
 </span></code></pre>
 </dd>
 
@@ -437,9 +440,10 @@ val が 真 のときは Integer に変換してから設定します。偽 の�
 <p>
 現在実行中のスレッド(カレントスレッド)を返します。
 </p>
-<pre>
-p Thread.current #=&gt; #&lt;Thread:0x4022e6fc run&gt;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span> <span class="c1">#=&gt; #&lt;Thread:0x4022e6fc run&gt;
+</span></code></pre>
 </dd>
 
 
@@ -477,19 +481,21 @@ new メソッドと違い initialize メソッドを呼びません。
 <p>
 例えば、以下のコードは間違いです。スレッドの実行が開始される前に変数 i が書き変わる可能性があるからです。
 </p>
-<pre>
-for i in 1..5
-   Thread.start { p i }
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">for</span> i <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">5</span>
+   <span class="no">Thread</span><span class="p">.</span><span class="nf">start</span> <span class="p">{</span> <span class="nb">p</span> i <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 上の例は以下のように書き直すべきです。
 </p>
-<pre>
-for i in 1..5
-   Thread.start(i) {|t| p t }
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">for</span> i <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">5</span>
+   <span class="no">Thread</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span>i<span class="p">)</span> <span class="p">{</span><span class="o">|</span>t<span class="o">|</span> <span class="nb">p</span> t <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
 </dd>
 
 
@@ -555,23 +561,24 @@ end
 <p>
 例:<a href="../class/Thread=23raise.html">Thread#raise</a> 発生のタイミングを制御する例
 </p>
-<pre>
-th = Thread.new do
-  Thread.handle_interrupt(RuntimeError =&gt; :never) {
-    begin
-      # 安全にリソースの割り当てが可能
-      Thread.handle_interrupt(RuntimeError =&gt; :immediate) {
-        # ...
-      }
-    ensure
-      # 安全にリソースの解放が可能
-    end
-  }
-end
-Thread.pass
-# ...
-th.raise &quot;stop&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">RuntimeError</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">begin</span>
+      <span class="c1"># 安全にリソースの割り当てが可能
+</span>      <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">RuntimeError</span> <span class="o">=&gt;</span> <span class="ss">:immediate</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1"># ...
+</span>      <span class="p">}</span>
+    <span class="k">ensure</span>
+      <span class="c1"># 安全にリソースの解放が可能
+</span>    <span class="k">end</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">pass</span>
+<span class="c1"># ...
+</span>th<span class="p">.</span><span class="nf">raise</span> <span class="s2">"</span><span class="s2">stop</span><span class="s2">"</span>
+</code></pre>
 <p>
 <a href="../class/RuntimeError.html">RuntimeError</a> を無視(延期)している間はリソースの割り当てや ensure
 節でリソースの解放を安全に行う事ができます。
@@ -580,18 +587,19 @@ th.raise &quot;stop&quot;
 <p>
 例:<a href="../class/TimeoutError.html">TimeoutError</a> 発生のタイミングを制御する例
 </p>
-<pre>
-require 'timeout'
-Thread.handle_interrupt(TimeoutError =&gt; :never) {
-  timeout(10){
-    # TimeoutError =&gt; :never の指定により、ここでは TimeoutError が発生しない。
-    Thread.handle_interrupt(TimeoutError =&gt; :on_blocking) {
-      # :on_blocking な処理は TimeoutError が発生し得る。
-    }
-    # TimeoutError =&gt; :never の指定により、ここでは TimeoutError が発生しない。
-  }
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'timeout'</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">TimeoutError</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
+  timeout<span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">{</span>
+    <span class="c1"># TimeoutError =&gt; :never の指定により、ここでは TimeoutError が発生しない。
+</span>    <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">TimeoutError</span> <span class="o">=&gt;</span> <span class="ss">:on_blocking</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1"># :on_blocking な処理は TimeoutError が発生し得る。
+</span>    <span class="p">}</span>
+    <span class="c1"># TimeoutError =&gt; :never の指定により、ここでは TimeoutError が発生しない。
+</span>  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <p>
 この例を ensure 節での <a href="../class/TimeoutError.html">TimeoutError</a> 発生に応用する事でリソースリークに備える事ができます。<a href="../method/Timeout/m/timeout.html">Timeout.#timeout</a> はスレッドを使って実装されているため、Thread.handle_interrupt による制御が有効です。
 </p>
@@ -600,25 +608,25 @@ Thread.handle_interrupt(TimeoutError =&gt; :never) {
 It's possible to stack multiple levels of ::handle_interrupt blocks in order
 to control more than one ExceptionClass and TimingSymbol at a time.
 </p>
-<pre>
-Thread.handle_interrupt(FooError =&gt; :never) {
-  Thread.handle_interrupt(BarError =&gt; :never) {
-     # FooError and BarError are prohibited.
-  }
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">FooError</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">BarError</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1"># FooError and BarError are prohibited.
+</span>  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <h4 >例外クラスの継承関係</h4>
 <p>
 本メソッドでは引数 hash のキーに指定した例外クラスの全てのサブクラスが処理の対象になります。
 </p>
-<p>
-例:
-</p>
-<pre>
-Thread.handle_interrupt(Exception =&gt; :never) {
-  # Exception を継承する全ての例外クラスの例外の発生を延期。
-}
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">Exception</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1"># Exception を継承する全ての例外クラスの例外の発生を延期。
+</span><span class="p">}</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/s/pending_interrupt=3f.html">Thread.pending_interrupt?</a>, <a href="../method/Thread/i/pending_interrupt=3f.html">Thread#pending_interrupt?</a>
 </p>
@@ -636,12 +644,13 @@ Thread.handle_interrupt(Exception =&gt; :never) {
 終了したい Thread オブジェクトを指定します。
 </dd>
 </dl>
-<pre>
-th = Thread.new do
-end
-
-p Thread.kill(th)     #=&gt; #&lt;Thread:0x40221bc8 dead&gt;
-</pre>
+<pre class="highlight ruby">
+<code>
+th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+<span class="k">end</span>
+    
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">kill</span><span class="p">(</span>th<span class="p">)</span>     <span class="c1">#=&gt; #&lt;Thread:0x40221bc8 dead&gt;
+</span></code></pre>
 </dd>
 
 
@@ -650,14 +659,15 @@ p Thread.kill(th)     #=&gt; #&lt;Thread:0x40221bc8 dead&gt;
 <p>
 全ての生きているスレッドを含む配列を生成して返します。aborting 状態であるスレッドも要素に含まれます。
 </p>
-<pre>
-Thread.new do
-  sleep
-end
-sleep 0.1
-
-p Thread.list   #=&gt; [#&lt;Thread:0x40377a54 sleep&gt;, #&lt;Thread:0x4022e6fc run&gt;]
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="nb">sleep</span> 
+<span class="k">end</span>
+<span class="nb">sleep</span> <span class="mf">0.1</span>
+  
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">list</span>   <span class="c1">#=&gt; [#&lt;Thread:0x40377a54 sleep&gt;, #&lt;Thread:0x4022e6fc run&gt;]
+</span></code></pre>
 </dd>
 
 
@@ -666,9 +676,10 @@ p Thread.list   #=&gt; [#&lt;Thread:0x40377a54 sleep&gt;, #&lt;Thread:0x4022e6fc
 <p>
 メインスレッドを返します。
 </p>
-<pre>
-p Thread.main #=&gt; #&lt;Thread:0x4022e6fc run&gt;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">main</span> <span class="c1">#=&gt; #&lt;Thread:0x4022e6fc run&gt;
+</span></code></pre>
 </dd>
 
 
@@ -693,19 +704,21 @@ p Thread.main #=&gt; #&lt;Thread:0x4022e6fc run&gt;
 <p>
 例えば、以下のコードは間違いです。スレッドの実行が開始される前に変数 i が書き変わる可能性があるからです。
 </p>
-<pre>
-for i in 1..5
-   Thread.new { p i }
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">for</span> i <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">5</span>
+   <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">p</span> i <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 上の例は以下のように書き直すべきです。
 </p>
-<pre>
-for i in 1..5
-   Thread.new(i) {|t| p t }
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">for</span> i <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">5</span>
+   <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>i<span class="p">)</span> <span class="p">{</span><span class="o">|</span>t<span class="o">|</span> <span class="nb">p</span> t <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
 </dd>
 
 
@@ -715,28 +728,29 @@ end
 他のスレッドに実行権を譲ります。実行中のスレッドの状態を変えずに、他の実行可能状態のスレッドに切り替わるよう、スレッドスケジューラにヒントを与えます。実際に切り替わるかどうか、また次にどのスレッドが実行されるかは OS
 やスケジューラの実装に依存するため、保証されません。
 </p>
-<pre>
-Thread.new do
-  (1..3).each{|i|
-    p i
-    Thread.pass
-  }
-  exit
-end
+<pre class="highlight ruby">
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">3</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span><span class="p">{</span><span class="o">|</span>i<span class="o">|</span>
+    <span class="nb">p</span> i
+    <span class="no">Thread</span><span class="p">.</span><span class="nf">pass</span>
+  <span class="p">}</span>
+  <span class="nb">exit</span>
+<span class="k">end</span>
+ 
+<span class="nb">loop</span> <span class="k">do</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">pass</span>
+  <span class="nb">p</span> <span class="ss">:main</span>
+<span class="k">end</span>
 
-loop do
-  Thread.pass
-  p :main
-end
-
-#=&gt;
-1
-:main
-2
-:main
-3
-:main
-</pre>
+<span class="c1">#=&gt;
+</span><span class="mi">1</span>
+<span class="ss">:main</span>
+<span class="mi">2</span>
+<span class="ss">:main</span>
+<span class="mi">3</span>
+<span class="ss">:main</span>
+</code></pre>
 <p>
 上記の出力は一例です。実行環境によって出力順序は異なり、保証されません。
 </p>
@@ -763,48 +777,51 @@ end
 <p>
 例: 延期させられていた例外をただちに発生させる。
 </p>
-<pre>
-def Thread.kick_interrupt_immediately
-  Thread.handle_interrupt(Object =&gt; :immediate) {
-    Thread.pass
-  }
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">kick_interrupt_immediately</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">Object</span> <span class="o">=&gt;</span> <span class="ss">:immediate</span><span class="p">)</span> <span class="p">{</span>
+    <span class="no">Thread</span><span class="p">.</span><span class="nf">pass</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
 <h3 >使い方</h3>
-<pre>
-th = Thread.new{
-  Thread.handle_interrupt(RuntimeError =&gt; :on_blocking){
-    while true
-      ...
-      # ここまでで割り込みが発生しても安全な状態になった。
-      if Thread.pending_interrupt?
-        Thread.handle_interrupt(Object =&gt; :immediate){}
-      end
-      ...
-    end
-  }
-}
-...
-th.raise # スレッド停止。
-</pre>
+<pre class="highlight ruby">
+<code>
+th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">RuntimeError</span> <span class="o">=&gt;</span> <span class="ss">:on_blocking</span><span class="p">)</span><span class="p">{</span>
+    <span class="k">while</span> <span class="k">true</span>
+      <span class="c1"># ...
+</span>      <span class="c1"># ここまでで割り込みが発生しても安全な状態になった。
+</span>      <span class="k">if</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">pending_interrupt?</span>
+        <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">Object</span> <span class="o">=&gt;</span> <span class="ss">:immediate</span><span class="p">)</span><span class="p">{</span><span class="p">}</span>
+      <span class="k">end</span>
+      <span class="c1"># ...
+</span>    <span class="k">end</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1"># ...
+</span>th<span class="p">.</span><span class="nf">raise</span> <span class="c1"># スレッド停止。
+</span></code></pre>
 <p>
 この例は以下のように記述する事もできます。
 </p>
-<pre>
-flag = true
-th = Thread.new{
-  Thread.handle_interrupt(RuntimeError =&gt; :on_blocking){
-    while true
-      ...
-      # ここまでで割り込みが発生しても安全な状態になった。
-      break if flag == false
-      ...
-    end
-  }
-}
-...
-flag = false # スレッド停止
-</pre>
+<pre class="highlight ruby">
+<code>
+flag <span class="o">=</span> <span class="k">true</span>
+th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">RuntimeError</span> <span class="o">=&gt;</span> <span class="ss">:on_blocking</span><span class="p">)</span><span class="p">{</span>
+    <span class="k">while</span> <span class="k">true</span>
+      <span class="c1"># ...
+</span>      <span class="c1"># ここまでで割り込みが発生しても安全な状態になった。
+</span>      <span class="k">break</span> <span class="k">if</span> flag <span class="o">==</span> <span class="k">false</span>
+      <span class="c1"># ...
+</span>    <span class="k">end</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1"># ...
+</span>flag <span class="o">=</span> <span class="k">false</span> <span class="c1"># スレッド停止
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/pending_interrupt=3f.html">Thread#pending_interrupt?</a>, <a href="../method/Thread/s/handle_interrupt.html">Thread.handle_interrupt</a>
 </p>
@@ -820,18 +837,20 @@ flag = false # スレッド停止
 <p>
 デフォルトは true です。
 </p>
-<pre>
-Thread.new { 1.times { raise } }
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="mi">1</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="nb">raise</span> <span class="p">}</span> <span class="p">}</span>
+</code></pre>
 <p>
 は $stderr に以下のように出力します:
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 #&lt;Thread:...&gt; terminated with exception (report_on_exception is true):
 Traceback (most recent call last):
-        2: from -e:1:in `block in &lt;main&gt;'
-        1: from -e:1:in `times'
-</pre>
+2: from -e:1:in `block in &lt;main&gt;'
+1: from -e:1:in `times'
+</code></pre>
 <p>
 これによってスレッドのエラーを早期に捕捉できるようになります。いくつかのケースでは、この出力を望まないかもしれません。出力を抑制するには複数の方法があります:
 </p>
@@ -996,9 +1015,9 @@ val を name に対応するスレッド固有のデータとして格納しま�
 <pre class="highlight ruby">
 <code>
 thread <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">1</span> <span class="p">}</span>
-thread<span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; false
+<span class="nb">p</span> thread<span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; false
 </span>thread<span class="p">.</span><span class="nf">abort_on_exception</span> <span class="o">=</span> <span class="k">true</span>
-thread<span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; true
+<span class="nb">p</span> thread<span class="p">.</span><span class="nf">abort_on_exception</span> <span class="c1"># =&gt; true
 </span></code></pre>
 </dd>
 
@@ -1048,15 +1067,14 @@ th<span class="p">.</span><span class="nf">join</span>
 <p>
 スレッドが「生きている」時、true を返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-thr = Thread.new { }
-thr.join                # =&gt; #&lt;Thread:0x401b3fb0 dead&gt;
-Thread.current.alive?   # =&gt; true
-thr.alive?              # =&gt; false
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+thr <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="p">}</span>
+<span class="nb">p</span> thr<span class="p">.</span><span class="nf">join</span>              <span class="c1"># =&gt; #&lt;Thread:0x401b3fb0 dead&gt;
+</span><span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> thr<span class="p">.</span><span class="nf">alive?</span>            <span class="c1"># =&gt; false
+</span></code></pre>
 <p>
 <a href="../method/Thread/i/status.html">Thread#status</a> が真を返すなら、このメソッドも真です。
 </p>
@@ -1087,7 +1105,7 @@ thr.alive?              # =&gt; false
 <span class="k">end</span>
 
 th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span><span class="no">C1</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">m2</span>; <span class="no">Thread</span><span class="p">.</span><span class="nf">stop</span><span class="p">}</span>
-th<span class="p">.</span><span class="nf">backtrace</span>
+<span class="nb">p</span> th<span class="p">.</span><span class="nf">backtrace</span>
 <span class="c1"># =&gt; [
 </span><span class="c1">#      [0] &quot;(irb):3:in `sleep'&quot;,
 </span><span class="c1">#      [1] &quot;(irb):3:in `m1'&quot;,
@@ -1096,7 +1114,7 @@ th<span class="p">.</span><span class="nf">backtrace</span>
 </span><span class="c1">#    ]
 </span>
 th<span class="p">.</span><span class="nf">kill</span>
-th<span class="p">.</span><span class="nf">backtrace</span>   <span class="c1"># =&gt; nil
+<span class="nb">p</span> th<span class="p">.</span><span class="nf">backtrace</span> <span class="c1"># =&gt; nil
 </span></code></pre>
 </dd>
 
@@ -1133,7 +1151,7 @@ th<span class="p">.</span><span class="nf">backtrace</span>   <span class="c1">#
 <code>
 thread <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">1</span> <span class="p">}</span>
 thread<span class="p">.</span><span class="nf">run</span>
-thread<span class="p">.</span><span class="nf">backtrace_locations</span> <span class="c1"># =&gt; [&quot;/path/to/test.rb:1:in `sleep'&quot;, &quot;/path/to/test.rb:1:in `block in &lt;main&gt;'&quot;]
+<span class="nb">p</span> thread<span class="p">.</span><span class="nf">backtrace_locations</span> <span class="c1"># =&gt; [&quot;/path/to/test.rb:1:in `sleep'&quot;, &quot;/path/to/test.rb:1:in `block in &lt;main&gt;'&quot;]
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../class/Thread=3a=3aBacktrace=3a=3aLocation.html">Thread::Backtrace::Location</a>
@@ -1155,20 +1173,21 @@ thread<span class="p">.</span><span class="nf">backtrace_locations</span> <span 
 <p>
 <a href="../method/Kernel/m/exit.html">Kernel.#exit</a> と違い例外  <a href="../class/SystemExit.html">SystemExit</a> を発生しません。
 </p>
-<pre>
-th1 = Thread.new do
-  begin
-    sleep 10
-  ensure
-    p &quot;this will be displayed&quot;
-  end
-end
+<pre class="highlight ruby">
+<code>
+th1 <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="k">begin</span>
+    <span class="nb">sleep</span> <span class="mi">10</span>
+  <span class="k">ensure</span>
+    <span class="nb">p</span> <span class="s2">"</span><span class="s2">this will be displayed</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-sleep 0.1
-th1.kill
+<span class="nb">sleep</span> <span class="mf">0.1</span>
+th1<span class="p">.</span><span class="nf">kill</span>
 
-#=&gt; &quot;this will be displayed&quot;
-</pre>
+<span class="c1">#=&gt; &quot;this will be displayed&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/m/exit.html">Kernel.#exit</a>, <a href="../method/Kernel/m/exit=21.html">Kernel.#exit!</a>
 </p>
@@ -1201,10 +1220,10 @@ name に対応するスレッド固有データがないと発生します。
 <code>
 th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'A'</span> <span class="p">}</span>
 th<span class="p">.</span><span class="nf">join</span>
-th<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;A&quot;
-</span>th<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:fetch</span>, <span class="s1">'B'</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;B&quot;
-</span>th<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span>  <span class="p">{</span><span class="o">|</span><span class="nb">name</span><span class="o">|</span> <span class="s2">"</span><span class="s2">Thread</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">name</span><span class="p">}</span>  <span class="c1"># =&gt; &quot;A&quot;
-</span>th<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'fetch'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="nb">name</span><span class="o">|</span> <span class="s2">"</span><span class="s2">Thread</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">name</span><span class="p">}</span>  <span class="c1"># =&gt; &quot;Threadfetch&quot;
+<span class="nb">p</span> th<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span> <span class="c1"># =&gt; &quot;A&quot;
+</span><span class="nb">p</span> th<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:fetch</span>, <span class="s1">'B'</span><span class="p">)</span> <span class="c1"># =&gt; &quot;B&quot;
+</span><span class="nb">p</span> th<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span>  <span class="p">{</span><span class="o">|</span><span class="nb">name</span><span class="o">|</span> <span class="s2">"</span><span class="s2">Thread</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">name</span><span class="p">}</span>  <span class="c1"># =&gt; &quot;A&quot;
+</span><span class="nb">p</span> th<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'fetch'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="nb">name</span><span class="o">|</span> <span class="s2">"</span><span class="s2">Thread</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">name</span><span class="p">}</span>  <span class="c1"># =&gt; &quot;Threadfetch&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a>
@@ -1217,10 +1236,11 @@ th<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><
 <p>
 スレッドが属している <a href="../class/ThreadGroup.html">ThreadGroup</a> オブジェクトを返します。
 </p>
-<pre>
-p Thread.current.group == ThreadGroup::Default
-# =&gt; true
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">group</span> <span class="o">==</span> <span class="no">ThreadGroup</span><span class="o">::</span><span class="no">Default</span>
+<span class="c1"># =&gt; true
+</span></code></pre>
 </dd>
 
 
@@ -1272,9 +1292,9 @@ queue <span class="o">=</span> <span class="no">Thread</span><span class="o">::<
 <pre class="highlight ruby">
 <code>
 a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span>
-a<span class="p">.</span><span class="nf">inspect</span>   <span class="c1"># =&gt; &quot;#&lt;Thread:0x00007fdbaf07ddb0 run&gt;&quot;
+<span class="nb">p</span> a<span class="p">.</span><span class="nf">inspect</span> <span class="c1"># =&gt; &quot;#&lt;Thread:0x00007fdbaf07ddb0 run&gt;&quot;
 </span>b <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span><span class="p">}</span>
-b<span class="p">.</span><span class="nf">inspect</span>   <span class="c1"># =&gt; &quot;#&lt;Thread:0x00007fdbaf8f7d10@(irb):3 dead&gt;&quot;
+<span class="nb">p</span> b<span class="p">.</span><span class="nf">inspect</span> <span class="c1"># =&gt; &quot;#&lt;Thread:0x00007fdbaf8f7d10 (irb):3 dead&gt;&quot;
 </span></code></pre>
 </dd>
 
@@ -1301,14 +1321,15 @@ join を実行することによってデッドロックが起きる場合に発
 <p>
 以下は、生成したすべてのスレッドの終了を待つ例です。
 </p>
-<pre>
-threads = []
-threads.push(Thread.new { n = rand(5); sleep n; n })
-threads.push(Thread.new { n = rand(5); sleep n; n })
-threads.push(Thread.new { n = rand(5); sleep n; n })
+<pre class="highlight ruby">
+<code>
+threads <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
+threads<span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> n <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>; <span class="nb">sleep</span> n; n <span class="p">}</span><span class="p">)</span>
+threads<span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> n <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>; <span class="nb">sleep</span> n; n <span class="p">}</span><span class="p">)</span>
+threads<span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> n <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>; <span class="nb">sleep</span> n; n <span class="p">}</span><span class="p">)</span>
 
-threads.each {|t| t.join}
-</pre>
+threads<span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>t<span class="o">|</span> t<span class="p">.</span><span class="nf">join</span><span class="p">}</span>
+</code></pre>
 </dd>
 
 
@@ -1329,8 +1350,8 @@ true を返します。
 <code>
 me <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span>
 me<span class="p">[</span><span class="ss">:oliver</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>
-me<span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="ss">:oliver</span><span class="p">)</span>    <span class="c1"># =&gt; true
-</span>me<span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="ss">:stanley</span><span class="p">)</span>   <span class="c1"># =&gt; false
+<span class="nb">p</span> me<span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="ss">:oliver</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> me<span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="ss">:stanley</span><span class="p">)</span> <span class="c1"># =&gt; false
 </span></code></pre>
 </dd>
 
@@ -1341,14 +1362,15 @@ me<span class="p">.</span><span class="nf">key?</span><span class="p">(</span><s
 スレッド固有データに関連づけられたキーの配列を返します。キーは
 <a href="../class/Symbol.html">Symbol</a> で返されます。
 </p>
-<pre>
-th = Thread.current
-th[:foo] = 'FOO'
-th['bar'] = 'BAR'
-p th.keys
+<pre class="highlight ruby">
+<code>
+th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span>
+th<span class="p">[</span><span class="ss">:foo</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'FOO'</span>
+th<span class="p">[</span><span class="s1">'bar'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'BAR'</span>
+<span class="nb">p</span> th<span class="p">.</span><span class="nf">keys</span>
 
-#=&gt; [:bar, :foo]
-</pre>
+<span class="c1">#=&gt; [:bar, :foo]
+</span></code></pre>
 </dd>
 
 
@@ -1382,8 +1404,8 @@ self の名前を name に設定します。
 <code>
 a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span><span class="p">}</span>
 a<span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s1">'named'</span>
-a<span class="p">.</span><span class="nf">name</span>      <span class="c1"># =&gt; &quot;named&quot;
-</span>a<span class="p">.</span><span class="nf">inspect</span>   <span class="c1"># =&gt; &quot;#&lt;Thread:0x00007f85ac8721f0@named@(irb):1 dead&gt;&quot;
+<span class="nb">p</span> a<span class="p">.</span><span class="nf">name</span>    <span class="c1"># =&gt; &quot;named&quot;
+</span><span class="nb">p</span> a<span class="p">.</span><span class="nf">inspect</span> <span class="c1"># =&gt; &quot;#&lt;Thread:0x00007f85ac8721f0@named (irb):1 dead&gt;&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/name.html">Thread#name</a>
@@ -1424,7 +1446,7 @@ priority を引き継ぎます。
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">priority</span>   <span class="c1"># =&gt; 0
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">priority</span> <span class="c1"># =&gt; 0
 </span>
 count1 <span class="o">=</span> count2 <span class="o">=</span> <span class="mi">0</span>
 a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
@@ -1437,9 +1459,9 @@ b <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span
     <span class="k">end</span>
 b<span class="p">.</span><span class="nf">priority</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
 count1 <span class="o">=</span> count2 <span class="o">=</span> <span class="mi">0</span> <span class="c1"># reset
-</span><span class="nb">sleep</span> <span class="mi">1</span>   <span class="c1"># =&gt; 1
-</span>count1    <span class="c1"># =&gt; 13809431
-</span>count2    <span class="c1"># =&gt; 11571921
+</span><span class="nb">p</span> <span class="nb">sleep</span> <span class="mi">1</span> <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> count1  <span class="c1"># =&gt; 13809431
+</span><span class="nb">p</span> count2  <span class="c1"># =&gt; 11571921
 </span></code></pre>
 </dd>
 
@@ -1463,10 +1485,11 @@ count1 <span class="o">=</span> count2 <span class="o">=</span> <span class="mi"
 <a href="../method/Kernel/m/raise.html">Kernel.#raise</a> を参照してください。
 </dd>
 </dl>
-<pre>
+<pre class="highlight text">
+<code>
 Thread.new {
   sleep 1
-  Thread.main.raise &quot;foobar&quot;
+  Thread.main.raise "foobar"
 }
 
 begin
@@ -1476,8 +1499,8 @@ rescue
 end
 
 =&gt; #&lt;RuntimeError: foobar&gt;
-   [&quot;-:3&quot;]
-</pre>
+   ["-:3"]
+</code></pre>
 </dd>
 
 
@@ -1501,15 +1524,15 @@ end
 <code>
 a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">stop</span>; <span class="nb">raise</span> <span class="p">}</span>
 a<span class="p">.</span><span class="nf">report_on_exception</span> <span class="o">=</span> <span class="k">true</span>
-a<span class="p">.</span><span class="nf">report_on_exception</span>   <span class="c1"># =&gt; true
+<span class="nb">p</span> a<span class="p">.</span><span class="nf">report_on_exception</span> <span class="c1"># =&gt; true
 </span>a<span class="p">.</span><span class="nf">run</span>
-<span class="c1"># =&gt; #&lt;Thread:0x00007fc3f48c7908@(irb):1 run&gt; terminated with exception (report_on_exception is true):
+<span class="c1"># =&gt; #&lt;Thread:0x00007fc3f48c7908 (irb):1 run&gt; terminated with exception (report_on_exception is true):
 </span><span class="c1">#    Traceback (most recent call last):
 </span><span class="c1">#    (irb):1:in `block in irb_binding': unhandled exception
-</span><span class="c1">#    #&lt;Thread:0x00007fc3f48c7908@(irb):1 dead&gt;
+</span><span class="c1">#    #&lt;Thread:0x00007fc3f48c7908 (irb):1 dead&gt;
 </span>b <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">stop</span>; <span class="nb">raise</span> <span class="p">}</span>
 b<span class="p">.</span><span class="nf">report_on_exception</span> <span class="o">=</span> <span class="k">false</span>
-b<span class="p">.</span><span class="nf">run</span>   <span class="c1"># =&gt; #&lt;Thread:0x00007fc3f48aefc0@(irb):4 dead&gt;
+<span class="nb">p</span> b<span class="p">.</span><span class="nf">run</span> <span class="c1"># =&gt; #&lt;Thread:0x00007fc3f48aefc0 (irb):4 dead&gt;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/s/report_on_exception.html">Thread.report_on_exception</a>
@@ -1607,26 +1630,26 @@ th<span class="p">.</span><span class="nf">join</span>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">status</span>   <span class="c1">#=&gt; &quot;run&quot;
+<span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">status</span> <span class="c1">#=&gt; &quot;run&quot;
 </span>
 a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">raise</span><span class="p">(</span><span class="s2">"</span><span class="s2">die now</span><span class="s2">"</span><span class="p">)</span> <span class="p">}</span>
 <span class="nb">sleep</span> <span class="mf">0.1</span>
-a<span class="p">.</span><span class="nf">status</span>                <span class="c1">#=&gt; nil
+<span class="nb">p</span> a<span class="p">.</span><span class="nf">status</span>              <span class="c1">#=&gt; nil
 </span>
 b <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">stop</span> <span class="p">}</span>
 <span class="nb">sleep</span> <span class="mf">0.1</span>
-b<span class="p">.</span><span class="nf">status</span>                <span class="c1">#=&gt; &quot;sleep&quot;
+<span class="nb">p</span> b<span class="p">.</span><span class="nf">status</span>              <span class="c1">#=&gt; &quot;sleep&quot;
 </span>
 c <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">exit</span> <span class="p">}</span>
 <span class="nb">sleep</span> <span class="mf">0.1</span>
-c<span class="p">.</span><span class="nf">status</span>                <span class="c1">#=&gt; false
+<span class="nb">p</span> c<span class="p">.</span><span class="nf">status</span>              <span class="c1">#=&gt; false
 </span>
 d <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="p">}</span>
 <span class="nb">sleep</span> <span class="mf">0.1</span>
-d<span class="p">.</span><span class="nf">status</span>                <span class="c1">#=&gt; &quot;sleep&quot;
+<span class="nb">p</span> d<span class="p">.</span><span class="nf">status</span>              <span class="c1">#=&gt; &quot;sleep&quot;
 </span>d<span class="p">.</span><span class="nf">kill</span>
 <span class="nb">sleep</span> <span class="mf">0.1</span>
-d<span class="p">.</span><span class="nf">status</span>                <span class="c1">#=&gt; false
+<span class="nb">p</span> d<span class="p">.</span><span class="nf">status</span>              <span class="c1">#=&gt; false
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/alive=3f.html">Thread#alive?</a>, <a href="../method/Thread/i/stop=3f.html">Thread#stop?</a>
@@ -1644,8 +1667,8 @@ d<span class="p">.</span><span class="nf">status</span>                <span cla
 <code>
 a <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">stop</span> <span class="p">}</span>
 b <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span>
-a<span class="p">.</span><span class="nf">stop?</span>   <span class="c1"># =&gt; true
-</span>b<span class="p">.</span><span class="nf">stop?</span>   <span class="c1"># =&gt; false
+<span class="nb">p</span> a<span class="p">.</span><span class="nf">stop?</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> b<span class="p">.</span><span class="nf">stop?</span> <span class="c1"># =&gt; false
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/alive=3f.html">Thread#alive?</a>, <a href="../method/Thread/i/status.html">Thread#status</a>
@@ -1664,12 +1687,13 @@ a<span class="p">.</span><span class="nf">stop?</span>   <span class="c1"># =&gt
 変数名を <a href="../class/String.html">String</a> か <a href="../class/Symbol.html">Symbol</a> で指定します。
 </dd>
 </dl>
-<pre>
-me = Thread.current
-me.thread_variable_set(:oliver, &quot;a&quot;)
-me.thread_variable?(:oliver)    # =&gt; true
-me.thread_variable?(:stanley)   # =&gt; false
-</pre>
+<pre class="highlight ruby">
+<code>
+me <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span>
+me<span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="ss">:oliver</span>, <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> me<span class="p">.</span><span class="nf">thread_variable?</span><span class="p">(</span><span class="ss">:oliver</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> me<span class="p">.</span><span class="nf">thread_variable?</span><span class="p">(</span><span class="ss">:stanley</span><span class="p">)</span> <span class="c1"># =&gt; false
+</span></code></pre>
 <p>
 [注意]: <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> でセットしたローカル変数(Fiber ローカル変数)が対象ではない事に注意してください。
 </p>
@@ -1687,22 +1711,21 @@ me.thread_variable?(:stanley)   # =&gt; false
 <p>
 [注意]: <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> でセットしたローカル変数(Fiber ローカル変数)と異なり、Fiber を切り替えても同じ変数を返す事に注意してください。
 </p>
-<p>
-例:
-</p>
-<pre>
-Thread.new {
-  Thread.current.thread_variable_set(&quot;foo&quot;, &quot;bar&quot;) # スレッドローカル
-  Thread.current[&quot;foo&quot;] = &quot;bar&quot;                    # Fiber ローカル
-
-  Fiber.new {
-    Fiber.yield [
-      Thread.current.thread_variable_get(&quot;foo&quot;), # スレッドローカル
-      Thread.current[&quot;foo&quot;],                     # Fiber ローカル
-    ]
-  }.resume
-}.join.value # =&gt; ['bar', nil]
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># スレッドローカル
+</span>  <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>                    <span class="c1"># Fiber ローカル
+</span>
+  <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span>
+    <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span> <span class="p">[</span>
+      <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_get</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span>, <span class="c1"># スレッドローカル
+</span>      <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span>,                     <span class="c1"># Fiber ローカル
+</span>    <span class="p">]</span>
+  <span class="p">}</span><span class="p">.</span><span class="nf">resume</span>
+<span class="p">}</span><span class="p">.</span><span class="nf">join</span><span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; ['bar', nil]
+</span></code></pre>
 <p>
 この例の &quot;bar&quot; は <a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a> により得られた値で、nil は<a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> により得られた値です。
 </p>
@@ -1730,8 +1753,8 @@ thr <span class="o">=</span> <span class="no">Thread</span><span class="p">.</sp
   <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="ss">:cat</span>, <span class="s1">'meow'</span><span class="p">)</span>
   <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="s2">"</span><span class="s2">dog</span><span class="s2">"</span>, <span class="s1">'woof'</span><span class="p">)</span>
 <span class="k">end</span>
-thr<span class="p">.</span><span class="nf">join</span>               <span class="c1"># =&gt; #&lt;Thread:0x401b3f10 dead&gt;
-</span>thr<span class="p">.</span><span class="nf">thread_variables</span>   <span class="c1"># =&gt; [:dog, :cat]
+<span class="nb">p</span> thr<span class="p">.</span><span class="nf">join</span>             <span class="c1"># =&gt; #&lt;Thread:0x401b3f10 dead&gt;
+</span><span class="nb">p</span> thr<span class="p">.</span><span class="nf">thread_variables</span> <span class="c1"># =&gt; [:dog, :cat]
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a>, <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a>
@@ -1750,20 +1773,22 @@ thr<span class="p">.</span><span class="nf">join</span>               <span clas
 <p>
 以下は、生成したすべてのスレッドの終了を待ち結果を出力する例です。
 </p>
-<pre>
-threads = []
-threads.push(Thread.new { n = rand(5); sleep n; n })
-threads.push(Thread.new { n = rand(5); sleep n; n })
-threads.push(Thread.new { n = rand(5); sleep n; n })
+<pre class="highlight ruby">
+<code>
+threads <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
+threads<span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> n <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>; <span class="nb">sleep</span> n; n <span class="p">}</span><span class="p">)</span>
+threads<span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> n <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>; <span class="nb">sleep</span> n; n <span class="p">}</span><span class="p">)</span>
+threads<span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> n <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>; <span class="nb">sleep</span> n; n <span class="p">}</span><span class="p">)</span>
 
-threads.each {|t| p t.value}
-</pre>
+threads<span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>t<span class="o">|</span> <span class="nb">p</span> t<span class="p">.</span><span class="nf">value</span><span class="p">}</span>
+</code></pre>
 <p>
 最後の行で、待ち合わせを行っていることがわかりにくいと思うなら以下のように書くこともできます。
 </p>
-<pre>
-threads.each {|t| p t.join.value}
-</pre>
+<pre class="highlight ruby">
+<code>
+threads<span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>t<span class="o">|</span> <span class="nb">p</span> t<span class="p">.</span><span class="nf">join</span><span class="p">.</span><span class="nf">value</span><span class="p">}</span>
+</code></pre>
 </dd>
 
 

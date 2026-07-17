@@ -265,6 +265,9 @@ opts<span class="p">.</span><span class="nf">on</span><span class="p">(</span><s
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
 
@@ -725,23 +728,26 @@ options <span class="o">=</span> <span class="p">{</span> <span class="ss">a:</s
 <p>
 ショートオプションとロングオプションを同時に登録することもできます。
 </p>
-<pre>
-opts.on(&quot;-r&quot;, &quot;--require LIBRARY&quot;){|lib| ...}
-</pre>
+<pre class="highlight text">
+<code>
+opts.on("-r", "--require LIBRARY"){|lib| ...}
+</code></pre>
 <p>
 これは以下と同値です。
 </p>
-<pre>
-opts.on(&quot;-r LIBRARY&quot;){|lib| ...}
-opts.on(&quot;--require LIBRARY&quot;){|lib| ...}
-</pre>
+<pre class="highlight text">
+<code>
+opts.on("-r LIBRARY"){|lib| ...}
+opts.on("--require LIBRARY"){|lib| ...}
+</code></pre>
 <p>
 複数の異なるオプションに同じブロックを一度に登録することもできます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 opt.on('-v', '-vv'){|boolean| ...}
 opt.on('--require X', '--need', '--dependon'){|x| ... }
-</pre>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>short</code>:</dt>
 <dd>
@@ -788,11 +794,12 @@ opt.on('--require X', '--need', '--dependon'){|x| ... }
 <p>
 pat にはオプションの引数に許すパターンを表す正規表現で与えます。コマンドに与えられた引数がパターンにマッチしない場合、例外 OptionParser::InvalidArgument が parse 実行時に投げられます。
 </p>
-<pre>
-opts.on(&quot;--username VALUE&quot;, /[a-zA-Z0-9_]+/){|name| ...}
+<pre class="highlight text">
+<code>
+opts.on("--username VALUE", /[a-zA-Z0-9_]+/){|name| ...}
 # ruby command --username=ruby_user
 # ruby command --username=ruby.user #=&gt; Error
-</pre>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>short</code>:</dt>
 <dd>
@@ -827,15 +834,16 @@ OptionParser.accept や OptionParser#accept によって、受け付けるクラ
 <p>
 オプションの引数は accept で登録したブロックで klass のインスタンスに変換されてから、ブロックに渡されます。
 </p>
-<pre>
-opts.on(&quot;-w&quot;, &quot;--width N&quot;, Integer){|w|
+<pre class="highlight text">
+<code>
+opts.on("-w", "--width N", Integer){|w|
   p w.class #=&gt; Integer
 }
 # ruby command --width=32
 
-opts.on(&quot;-o&quot;, &quot;--overwrite VALUE&quot;, TrueClass){|boolean| ...}
+opts.on("-o", "--overwrite VALUE", TrueClass){|boolean| ...}
 # ruby command --overwrite yes
-</pre>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>short</code>:</dt>
 <dd>
@@ -1117,11 +1125,12 @@ opt<span class="p">.</span><span class="nf">order</span><span class="p">(</span>
 <p>
 ↓
 </p>
-<pre>
-$ ruby opt.rb -a foo somefile -b
-:a
-[&quot;-a&quot;, &quot;foo&quot;, &quot;somefile&quot;, &quot;-b&quot;]
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby opt.rb <span class="nt">-a</span> foo somefile <span class="nt">-b</span>
+<span class="go">:a
+["-a", "foo", "somefile", "-b"]
+</span></code></pre>
 </dd>
 
 
@@ -1169,11 +1178,12 @@ opt<span class="p">.</span><span class="nf">order!</span><span class="p">(</span
 <p>
 ↓
 </p>
-<pre>
-$ ruby opt.rb -a foo somefile -b
-:a
-[&quot;somefile&quot;, &quot;-b&quot;]
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby opt.rb <span class="nt">-a</span> foo somefile <span class="nt">-b</span>
+<span class="go">:a
+["somefile", "-b"]
+</span></code></pre>
 </dd>
 
 
@@ -1309,12 +1319,13 @@ opt<span class="p">.</span><span class="nf">permute!</span><span class="p">(</sp
 <p>
 ↓
 </p>
-<pre>
-$ ruby opt.rb -a foo somefile -b
-:a
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby opt.rb <span class="nt">-a</span> foo somefile <span class="nt">-b</span>
+<span class="go">:a
 :b
-[&quot;somefile&quot;]
-</pre>
+["somefile"]
+</span></code></pre>
 </dd>
 
 
@@ -1356,12 +1367,13 @@ opt<span class="p">.</span><span class="nf">permute!</span><span class="p">(</sp
 <p>
 ↓
 </p>
-<pre>
-$ ruby opt.rb -a foo somefile -b
-:a
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby opt.rb <span class="nt">-a</span> foo somefile <span class="nt">-b</span>
+<span class="go">:a
 :b
-[&quot;somefile&quot;]
-</pre>
+["somefile"]
+</span></code></pre>
 </dd>
 
 
@@ -1571,9 +1583,9 @@ opts <span class="o">=</span> <span class="no">OptionParser</span><span class="p
   opts<span class="p">.</span><span class="nf">on_tail</span><span class="p">(</span><span class="s2">"</span><span class="s2">-h</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">--help</span><span class="s2">"</span><span class="p">)</span>
 <span class="k">end</span>
 
-opts<span class="p">.</span><span class="nf">summarize</span>
+<span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span>
 <span class="c1"># =&gt; [&quot;    -i, --init\n&quot;, &quot;    -u, --update\n&quot;, &quot;    -h, --help\n&quot;]
-</span>opts<span class="p">.</span><span class="nf">summarize</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">description\n</span><span class="s2">"</span><span class="p">]</span>, <span class="mi">10</span>, <span class="mi">8</span>, <span class="s2">"</span><span class="s2">  </span><span class="s2">"</span><span class="p">)</span>
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">description\n</span><span class="s2">"</span><span class="p">]</span>, <span class="mi">10</span>, <span class="mi">8</span>, <span class="s2">"</span><span class="s2">  </span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># =&gt; [&quot;description\n&quot;, &quot;  -i\n&quot;, &quot;      --init\n&quot;, &quot;  -u\n&quot;, &quot;      --update\n&quot;, &quot;  -h\n&quot;, &quot;      --help\n&quot;]
 </span></code></pre>
 </dd>
@@ -1602,11 +1614,11 @@ opts <span class="o">=</span> <span class="no">OptionParser</span><span class="p
 <span class="k">end</span>
 
 <span class="nb">p</span> opts<span class="p">.</span><span class="nf">summary_indent</span>       <span class="c1"># =&gt; &quot;    &quot;
-</span>opts<span class="p">.</span><span class="nf">summarize</span>
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span>
 <span class="c1"># =&gt; [&quot;    -i, --init\n&quot;, &quot;    -u, --update\n&quot;, &quot;    -h, --help\n&quot;]
 </span>opts<span class="p">.</span><span class="nf">summary_indent</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">  </span><span class="s2">"</span>
 <span class="nb">p</span> opts<span class="p">.</span><span class="nf">summary_indent</span>       <span class="c1"># =&gt; &quot;  &quot;
-</span>opts<span class="p">.</span><span class="nf">summarize</span>
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span>
 <span class="c1"># =&gt; [&quot;  -i, --init\n&quot;, &quot;  -u, --update\n&quot;, &quot;  -h, --help\n&quot;]
 </span></code></pre>
 </dd>
@@ -1635,11 +1647,11 @@ opts <span class="o">=</span> <span class="no">OptionParser</span><span class="p
 <span class="k">end</span>
 
 <span class="nb">p</span> opts<span class="p">.</span><span class="nf">summary_indent</span>       <span class="c1"># =&gt; &quot;    &quot;
-</span>opts<span class="p">.</span><span class="nf">summarize</span>
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span>
 <span class="c1"># =&gt; [&quot;    -i, --init\n&quot;, &quot;    -u, --update\n&quot;, &quot;    -h, --help\n&quot;]
 </span>opts<span class="p">.</span><span class="nf">summary_indent</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">  </span><span class="s2">"</span>  <span class="c1"># =&gt; &quot;  &quot;
 </span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summary_indent</span>       <span class="c1"># =&gt; &quot;  &quot;
-</span>opts<span class="p">.</span><span class="nf">summarize</span>
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span>
 <span class="c1"># =&gt; [&quot;  -i, --init\n&quot;, &quot;  -u, --update\n&quot;, &quot;  -h, --help\n&quot;]
 </span></code></pre>
 </dd>
@@ -1668,11 +1680,11 @@ opts <span class="o">=</span> <span class="no">OptionParser</span><span class="p
 <span class="k">end</span>
 
 <span class="nb">p</span> opts<span class="p">.</span><span class="nf">summary_width</span>   <span class="c1"># =&gt; 32
-</span>opts<span class="p">.</span><span class="nf">summarize</span>
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span>
 <span class="c1"># =&gt; [&quot;    -i, --init\n&quot;, &quot;    -u, --update\n&quot;, &quot;    -h, --help\n&quot;]
 </span>opts<span class="p">.</span><span class="nf">summary_width</span> <span class="o">=</span> <span class="mi">8</span>
 <span class="nb">p</span> opts<span class="p">.</span><span class="nf">summary_width</span>   <span class="c1"># =&gt;8
-</span>opts<span class="p">.</span><span class="nf">summarize</span>
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span>
 <span class="c1"># =&gt; [&quot;    -i\n&quot;, &quot;        --init\n&quot;, &quot;    -u\n&quot;, &quot;        --update\n&quot;, &quot;    -h\n&quot;, &quot;        --help\n&quot;]
 </span></code></pre>
 </dd>
@@ -1701,11 +1713,11 @@ opts <span class="o">=</span> <span class="no">OptionParser</span><span class="p
 <span class="k">end</span>
 
 <span class="nb">p</span> opts<span class="p">.</span><span class="nf">summary_width</span>   <span class="c1"># =&gt; 32
-</span>opts<span class="p">.</span><span class="nf">summarize</span>
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span>
 <span class="c1"># =&gt; [&quot;    -i, --init\n&quot;, &quot;    -u, --update\n&quot;, &quot;    -h, --help\n&quot;]
 </span>opts<span class="p">.</span><span class="nf">summary_width</span> <span class="o">=</span> <span class="mi">8</span> <span class="c1"># =&gt; 8
 </span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summary_width</span>   <span class="c1"># =&gt; 8
-</span>opts<span class="p">.</span><span class="nf">summarize</span>
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span>
 <span class="c1"># =&gt; [&quot;    -i\n&quot;, &quot;        --init\n&quot;, &quot;    -u\n&quot;, &quot;        --update\n&quot;, &quot;    -h\n&quot;, &quot;        --help\n&quot;]
 </span></code></pre>
 </dd>

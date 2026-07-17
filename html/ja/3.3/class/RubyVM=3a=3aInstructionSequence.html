@@ -196,6 +196,9 @@ VM の命令シーケンスの一覧はRuby のソースコード中の insns.de
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
 
@@ -229,10 +232,11 @@ Ruby のソースコードを文字列で指定します。
 <a href="../method/RubyVM=3a=3aInstructionSequence/s/compile_option=3d.html">RubyVM::InstructionSequence.compile_option=</a> を参照してください。
 </dd>
 </dl>
-<pre>
-RubyVM::InstructionSequence.compile(&quot;a = 1 + 2&quot;)
-# =&gt; &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="s2">"</span><span class="s2">a = 1 + 2</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/RubyVM=3a=3aInstructionSequence/s/compile_file.html">RubyVM::InstructionSequence.compile_file</a>
 </p>
@@ -259,14 +263,15 @@ RubyVM::InstructionSequence.compile(&quot;a = 1 + 2&quot;)
 <a href="../method/RubyVM=3a=3aInstructionSequence/s/compile_option=3d.html">RubyVM::InstructionSequence.compile_option=</a> を参照してください。
 </dd>
 </dl>
-<pre>
-# /tmp/hello.rb
-puts &quot;Hello, world!&quot;
+<pre class="highlight ruby">
+<code>
+<span class="c1"># /tmp/hello.rb
+</span><span class="nb">puts</span> <span class="s2">"</span><span class="s2">Hello, world!</span><span class="s2">"</span>
 
-# irb
-RubyVM::InstructionSequence.compile_file(&quot;/tmp/hello.rb&quot;)
-# =&gt; &lt;RubyVM::InstructionSequence:&lt;main&gt;@/tmp/hello.rb&gt;
-</pre>
+<span class="c1"># irb
+</span><span class="nb">p</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">compile_file</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/hello.rb</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; &lt;RubyVM::InstructionSequence:&lt;main&gt;@/tmp/hello.rb&gt;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/RubyVM=3a=3aInstructionSequence/s/compile.html">RubyVM::InstructionSequence.compile</a>
 </p>
@@ -290,8 +295,6 @@ pp <span class="no">RubyVM</span><span class="o">::</span><span class="no">Instr
 </span><span class="c1"># :specialized_instruction=&gt;true,
 </span><span class="c1"># :operands_unification=&gt;true,
 </span><span class="c1"># :instructions_unification=&gt;false,
-</span><span class="c1"># :stack_caching=&gt;false,
-</span><span class="c1"># :trace_instruction=&gt;true,
 </span><span class="c1"># :frozen_string_literal=&gt;false,
 </span><span class="c1"># :debug_frozen_string_literal=&gt;false,
 </span><span class="c1"># :coverage_enabled=&gt;true,
@@ -320,9 +323,7 @@ options で指定します。
   * :operands_unification
   * :peephole_optimization
   * :specialized_instruction
-  * :stack_caching
   * :tailcall_optimization
-  * :trace_instruction
 </pre>
 :debug_level をキーに指定した場合は値を数値で指定します。
 </dd>
@@ -354,15 +355,15 @@ options で指定します。
 <p>
 例1:<a href="../class/Proc.html">Proc</a> オブジェクトを指定した場合
 </p>
-<pre>
-# /tmp/proc.rb
-p = proc { num = 1 + 2 }
-puts RubyVM::InstructionSequence.disasm(p)
-</pre>
-<p>
-出力:
-</p>
-<pre>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># /tmp/proc.rb
+</span><span class="nb">p</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> num <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="p">}</span>
+<span class="nb">puts</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">disasm</span><span class="p">(</span><span class="nb">p</span><span class="p">)</span>
+</code></pre>
+<span class="caption">出力</span>
+<pre class="highlight text">
+<code>
 == disasm: &lt;RubyVM::InstructionSequence:block in &lt;main&gt;@/tmp/proc.rb&gt;===
 == catch table
 | catch type: redo   st: 0000 ed: 0012 sp: 0000 cont: 0000
@@ -377,31 +378,31 @@ local table (size: 2, argc: 0 [opts: 0, rest: -1, post: 0, block: -1] s1)
 0008 dup
 0009 setlocal         num, 0
 0012 leave
-</pre>
+</code></pre>
 <p>
 例2:<a href="../class/Method.html">Method</a> オブジェクトを指定した場合
 </p>
-<pre>
-# /tmp/method.rb
-def hello
-  puts &quot;hello, world&quot;
-end
+<pre class="highlight ruby">
+<code>
+<span class="c1"># /tmp/method.rb
+</span><span class="k">def</span> <span class="nf">hello</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">hello, world</span><span class="s2">"</span>
+<span class="k">end</span>
 
-puts RubyVM::InstructionSequence.disasm(method(:hello))
-</pre>
-<p>
-出力:
-</p>
-<pre>
+<span class="nb">puts</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">disasm</span><span class="p">(</span><span class="nb">method</span><span class="p">(</span><span class="ss">:hello</span><span class="p">)</span><span class="p">)</span>
+</code></pre>
+<span class="caption">出力</span>
+<pre class="highlight text">
+<code>
 == disasm: &lt;RubyVM::InstructionSequence:hello@/tmp/method.rb&gt;============
 0000 trace            8                                               (   1)
 0002 trace            1                                               (   2)
 0004 putself
-0005 putstring        &quot;hello, world&quot;
+0005 putstring        "hello, world"
 0007 send             :puts, 1, nil, 8, &lt;ic:0&gt;
 0013 trace            16                                              (   3)
 0015 leave                                                            (   2)
-</pre>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/RubyVM=3a=3aInstructionSequence/i/disasm.html">RubyVM::InstructionSequence#disasm</a>
 </p>
@@ -465,39 +466,41 @@ binary <span class="o">=</span> iseq<span class="p">.</span><span class="nf">to_
 <p>
 例1:irb で実行した場合
 </p>
-<pre>
-# proc
-&gt; p = proc { num = 1 + 2 }
-&gt; RubyVM::InstructionSequence.of(p)
-&gt; # =&gt; &lt;RubyVM::InstructionSequence:block in irb_binding@(irb)&gt;
-
-# method
-&gt; def foo(bar); puts bar; end
-&gt; RubyVM::InstructionSequence.of(method(:foo))
-&gt; # =&gt; &lt;RubyVM::InstructionSequence:foo@(irb)&gt;
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>proc
+<span class="gp">&gt;</span><span class="w"> </span>p <span class="o">=</span> proc <span class="o">{</span> num <span class="o">=</span> 1 + 2 <span class="o">}</span>
+<span class="gp">&gt;</span><span class="w"> </span>RubyVM::InstructionSequence.of<span class="o">(</span>p<span class="o">)</span>
+<span class="gp">&gt;</span><span class="w"> </span><span class="c"># =&gt; &lt;RubyVM::InstructionSequence:block in irb_binding@(irb)&gt;</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>method
+<span class="gp">&gt;</span><span class="w"> </span>def foo<span class="o">(</span>bar<span class="o">)</span><span class="p">;</span> puts bar<span class="p">;</span> end
+<span class="gp">&gt;</span><span class="w"> </span>RubyVM::InstructionSequence.of<span class="o">(</span>method<span class="o">(</span>:foo<span class="o">))</span>
+<span class="gp">&gt;</span><span class="w"> </span><span class="c"># =&gt; &lt;RubyVM::InstructionSequence:foo@(irb)&gt;</span>
+</code></pre>
 <p>
 例2: <a href="../method/RubyVM=3a=3aInstructionSequence/s/compile_file.html">RubyVM::InstructionSequence.compile_file</a> を使用した場合
 </p>
-<pre>
-# /tmp/iseq_of.rb
-def hello
-  puts &quot;hello, world&quot;
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>/tmp/iseq_of.rb
+<span class="go">def hello
+  puts "hello, world"
 end
 
-$a_global_proc = proc { str = 'a' + 'b' }
-
-# irb
-&gt; require '/tmp/iseq_of.rb'
-
-# hello メソッド
-&gt; RubyVM::InstructionSequence.of(method(:hello))
-&gt; # =&gt; #&lt;RubyVM::InstructionSequence:0x007fb73d7cb1d0&gt;
-
-# グローバル proc
-&gt; RubyVM::InstructionSequence.of($a_global_proc)
-&gt; # =&gt; #&lt;RubyVM::InstructionSequence:0x007fb73d7caf78&gt;
-</pre>
+</span><span class="gp">$</span>a_global_proc <span class="o">=</span> proc <span class="o">{</span> str <span class="o">=</span> <span class="s1">'a'</span> + <span class="s1">'b'</span> <span class="o">}</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>irb
+<span class="gp">&gt;</span><span class="w"> </span>require <span class="s1">'/tmp/iseq_of.rb'</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>hello メソッド
+<span class="gp">&gt;</span><span class="w"> </span>RubyVM::InstructionSequence.of<span class="o">(</span>method<span class="o">(</span>:hello<span class="o">))</span>
+<span class="gp">&gt;</span><span class="w"> </span><span class="c"># =&gt; #&lt;RubyVM::InstructionSequence:0x007fb73d7cb1d0&gt;</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>グローバル proc
+<span class="gp">&gt;</span><span class="w"> </span>RubyVM::InstructionSequence.of<span class="o">(</span><span class="nv">$a_global_proc</span><span class="o">)</span>
+<span class="gp">&gt;</span><span class="w"> </span><span class="c"># =&gt; #&lt;RubyVM::InstructionSequence:0x007fb73d7caf78&gt;</span>
+</code></pre>
 </dd>
 
 
@@ -517,25 +520,28 @@ self を文字列から作成していた場合は nil を返します。
 <p>
 例1:irb で実行した場合
 </p>
-<pre>
-iseq = RubyVM::InstructionSequence.compile('num = 1 + 2')
-# =&gt; &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;
-iseq.absolute_path
-# =&gt; nil
-</pre>
+<pre class="highlight ruby">
+<code>
+iseq <span class="o">=</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="s1">'num = 1 + 2'</span><span class="p">)</span>
+<span class="nb">p</span> iseq
+<span class="c1"># =&gt; &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;
+</span><span class="nb">p</span> iseq<span class="p">.</span><span class="nf">absolute_path</span>
+<span class="c1"># =&gt; nil
+</span></code></pre>
 <p>
 例2: <a href="../method/RubyVM=3a=3aInstructionSequence/s/compile_file.html">RubyVM::InstructionSequence.compile_file</a> を使用した場合
 </p>
-<pre>
-# /tmp/method.rb
-def hello
-  puts &quot;hello, world&quot;
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>/tmp/method.rb
+<span class="go">def hello
+  puts "hello, world"
 end
 
-# irb
-&gt; iseq = RubyVM::InstructionSequence.compile_file('/tmp/method.rb')
-&gt; iseq.absolute_path # =&gt; &quot;/tmp/method.rb&quot;
-</pre>
+</span><span class="gp">#</span><span class="w"> </span>irb
+<span class="gp">&gt;</span><span class="w"> </span>iseq <span class="o">=</span> RubyVM::InstructionSequence.compile_file<span class="o">(</span><span class="s1">'/tmp/method.rb'</span><span class="o">)</span>
+<span class="gp">&gt;</span><span class="w"> </span>iseq.absolute_path <span class="c"># =&gt; "/tmp/method.rb"</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/RubyVM=3a=3aInstructionSequence/i/path.html">RubyVM::InstructionSequence#path</a>
 </p>
@@ -550,37 +556,39 @@ self が表す命令シーケンスの基本ラベルを返します。
 <p>
 例1:irb で実行した場合
 </p>
-<pre>
-iseq = RubyVM::InstructionSequence.compile('num = 1 + 2')
-# =&gt; &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;
-iseq.base_label
-# =&gt; &quot;&lt;compiled&gt;&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+iseq <span class="o">=</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="s1">'num = 1 + 2'</span><span class="p">)</span>
+<span class="nb">p</span> iseq
+<span class="c1"># =&gt; &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;
+</span><span class="nb">p</span> iseq<span class="p">.</span><span class="nf">base_label</span>
+<span class="c1"># =&gt; &quot;&lt;compiled&gt;&quot;
+</span></code></pre>
 <p>
 例2: <a href="../method/RubyVM=3a=3aInstructionSequence/s/compile_file.html">RubyVM::InstructionSequence.compile_file</a> を使用した場合
 </p>
-<pre>
-# /tmp/method.rb
-def hello
-  puts &quot;hello, world&quot;
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>/tmp/method.rb
+<span class="go">def hello
+  puts "hello, world"
 end
 
-# irb
-&gt; iseq = RubyVM::InstructionSequence.compile_file('/tmp/method.rb')
-&gt; iseq.base_label # =&gt; &quot;&lt;main&gt;&quot;
-</pre>
-<p>
-例3:
-</p>
-<pre>
-# /tmp/method2.rb
-def hello
-  puts &quot;hello, world&quot;
-end
+</span><span class="gp">#</span><span class="w"> </span>irb
+<span class="gp">&gt;</span><span class="w"> </span>iseq <span class="o">=</span> RubyVM::InstructionSequence.compile_file<span class="o">(</span><span class="s1">'/tmp/method.rb'</span><span class="o">)</span>
+<span class="gp">&gt;</span><span class="w"> </span>iseq.base_label <span class="c"># =&gt; "&lt;main&gt;"</span>
+</code></pre>
+<span class="caption">例3</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># /tmp/method2.rb
+</span><span class="k">def</span> <span class="nf">hello</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">hello, world</span><span class="s2">"</span>
+<span class="k">end</span>
 
-RubyVM::InstructionSequence.of(method(:hello)).base_label
-# =&gt; &quot;hello&quot;
-</pre>
+<span class="nb">p</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">of</span><span class="p">(</span><span class="nb">method</span><span class="p">(</span><span class="ss">:hello</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="nf">base_label</span>
+<span class="c1"># =&gt; &quot;hello&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/RubyVM=3a=3aInstructionSequence/i/label.html">RubyVM::InstructionSequence#label</a>
 </p>
@@ -593,20 +601,20 @@ RubyVM::InstructionSequence.of(method(:hello)).base_label
 <p>
 self が表す命令シーケンスを人間が読める形式の文字列に変換して返します。
 </p>
-<pre>
-puts RubyVM::InstructionSequence.compile('1 + 2').disasm
-</pre>
-<p>
-出力:
-</p>
-<pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">puts</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="s1">'1 + 2'</span><span class="p">)</span><span class="p">.</span><span class="nf">disasm</span>
+</code></pre>
+<span class="caption">出力</span>
+<pre class="highlight text">
+<code>
 == disasm: &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;==========
 0000 trace            1                                               (   1)
 0002 putobject        1
 0004 putobject        2
 0006 opt_plus         &lt;ic:1&gt;
 0008 leave
-</pre>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/RubyVM=3a=3aInstructionSequence/s/disasm.html">RubyVM::InstructionSequence.disasm</a>
 </p>
@@ -618,9 +626,10 @@ puts RubyVM::InstructionSequence.compile('1 + 2').disasm
 <p>
 self の命令シーケンスを評価してその結果を返します。
 </p>
-<pre>
-RubyVM::InstructionSequence.compile(&quot;1 + 2&quot;).eval # =&gt; 3
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">eval</span> <span class="c1"># =&gt; 3
+</span></code></pre>
 </dd>
 
 
@@ -632,23 +641,23 @@ self が表す命令シーケンスの 1 行目の行番号を返します。
 <p>
 例1:irb で実行した場合
 </p>
-<pre>
-RubyVM::InstructionSequence.compile('num = 1 + 2').first_lineno
-# =&gt; 1
-</pre>
-<p>
-例2:
-</p>
-<pre>
-# /tmp/method.rb
-require &quot;foo-library&quot;
-def foo
-  p :foo
-end
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="s1">'num = 1 + 2'</span><span class="p">)</span><span class="p">.</span><span class="nf">first_lineno</span>
+<span class="c1"># =&gt; 1
+</span></code></pre>
+<span class="caption">例2</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># /tmp/method.rb
+</span><span class="nb">require</span> <span class="s2">"</span><span class="s2">foo-library</span><span class="s2">"</span>
+<span class="k">def</span> <span class="nf">foo</span>
+  <span class="nb">p</span> <span class="ss">:foo</span>
+<span class="k">end</span>
 
-RubyVM::InstructionSequence.of(method(:foo)).first_lineno
-# =&gt; 2
-</pre>
+<span class="nb">p</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">of</span><span class="p">(</span><span class="nb">method</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="nf">first_lineno</span>
+<span class="c1"># =&gt; 2
+</span></code></pre>
 </dd>
 
 
@@ -681,37 +690,39 @@ self が表す命令シーケンスのラベルを返します。通常、メソ
 <p>
 例1:irb で実行した場合
 </p>
-<pre>
-iseq = RubyVM::InstructionSequence.compile('num = 1 + 2')
-# =&gt; &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;
-iseq.label
-# =&gt; &quot;&lt;compiled&gt;&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+iseq <span class="o">=</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="s1">'num = 1 + 2'</span><span class="p">)</span>
+<span class="nb">p</span> iseq
+<span class="c1"># =&gt; &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;
+</span><span class="nb">p</span> iseq<span class="p">.</span><span class="nf">label</span>
+<span class="c1"># =&gt; &quot;&lt;compiled&gt;&quot;
+</span></code></pre>
 <p>
 例2: <a href="../method/RubyVM=3a=3aInstructionSequence/s/compile_file.html">RubyVM::InstructionSequence.compile_file</a> を使用した場合
 </p>
-<pre>
-# /tmp/method.rb
-def hello
-  puts &quot;hello, world&quot;
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>/tmp/method.rb
+<span class="go">def hello
+  puts "hello, world"
 end
 
-# irb
-&gt; iseq = RubyVM::InstructionSequence.compile_file('/tmp/method.rb')
-&gt; iseq.label # =&gt; &quot;&lt;main&gt;&quot;
-</pre>
-<p>
-例3:
-</p>
-<pre>
-# /tmp/method2.rb
-def hello
-  puts &quot;hello, world&quot;
-end
+</span><span class="gp">#</span><span class="w"> </span>irb
+<span class="gp">&gt;</span><span class="w"> </span>iseq <span class="o">=</span> RubyVM::InstructionSequence.compile_file<span class="o">(</span><span class="s1">'/tmp/method.rb'</span><span class="o">)</span>
+<span class="gp">&gt;</span><span class="w"> </span>iseq.label <span class="c"># =&gt; "&lt;main&gt;"</span>
+</code></pre>
+<span class="caption">例3</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># /tmp/method2.rb
+</span><span class="k">def</span> <span class="nf">hello</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">hello, world</span><span class="s2">"</span>
+<span class="k">end</span>
 
-RubyVM::InstructionSequence.of(method(:hello)).label
-# =&gt; &quot;hello&quot;
-</pre>
+<span class="nb">p</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">of</span><span class="p">(</span><span class="nb">method</span><span class="p">(</span><span class="ss">:hello</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="nf">label</span>
+<span class="c1"># =&gt; &quot;hello&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/RubyVM=3a=3aInstructionSequence/i/base_label.html">RubyVM::InstructionSequence#base_label</a>
 </p>
@@ -729,25 +740,28 @@ self の作成時に指定した文字列を返します。self を文字列か�
 <p>
 例1:irb で実行した場合
 </p>
-<pre>
-iseq = RubyVM::InstructionSequence.compile('num = 1 + 2')
-# =&gt; &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;
-iseq.path
-# =&gt; &quot;&lt;compiled&gt;&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+iseq <span class="o">=</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="s1">'num = 1 + 2'</span><span class="p">)</span>
+<span class="nb">p</span> iseq
+<span class="c1"># =&gt; &lt;RubyVM::InstructionSequence:&lt;compiled&gt;@&lt;compiled&gt;&gt;
+</span><span class="nb">p</span> iseq<span class="p">.</span><span class="nf">path</span>
+<span class="c1"># =&gt; &quot;&lt;compiled&gt;&quot;
+</span></code></pre>
 <p>
 例2: <a href="../method/RubyVM=3a=3aInstructionSequence/s/compile_file.html">RubyVM::InstructionSequence.compile_file</a> を使用した場合
 </p>
-<pre>
-# /tmp/method.rb
-def hello
-  puts &quot;hello, world&quot;
+<pre class="highlight console">
+<code>
+<span class="gp">#</span><span class="w"> </span>/tmp/method.rb
+<span class="go">def hello
+  puts "hello, world"
 end
 
-# irb
-&gt; iseq = RubyVM::InstructionSequence.compile_file('method.rb')
-&gt; iseq.path # =&gt; &quot;method.rb&quot;
-</pre>
+</span><span class="gp">#</span><span class="w"> </span>irb
+<span class="gp">&gt;</span><span class="w"> </span>iseq <span class="o">=</span> RubyVM::InstructionSequence.compile_file<span class="o">(</span><span class="s1">'method.rb'</span><span class="o">)</span>
+<span class="gp">&gt;</span><span class="w"> </span>iseq.path <span class="c"># =&gt; "method.rb"</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a href="../method/RubyVM=3a=3aInstructionSequence/i/absolute_path.html">RubyVM::InstructionSequence#absolute_path</a>
 </p>

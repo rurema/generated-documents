@@ -124,9 +124,10 @@
 以下の文字は「メタ文字」(meta character)
 と呼ばれる、正規表現内で特殊な働きをする文字です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 ( ) [ ] { } . ? + * | \
-</pre>
+</code></pre>
 <p>
 これらの文字をリテラルのようにその文字としてマッチさせるためには、バックスラッシュ「\」を前に付けます。「\\」はバックスラッシュ1文字にマッチします。
 </p>
@@ -157,7 +158,7 @@ place <span class="o">=</span> <span class="s2">"</span><span class="s2">東京�
 <code>
 number <span class="o">=</span> <span class="s2">"</span><span class="s2">(\\d+)</span><span class="s2">"</span>
 operator <span class="o">=</span> <span class="s2">"</span><span class="s2">(\\+|-|\\*|/)</span><span class="s2">"</span>
-<span class="sr">/<span class="si">#{</span><span class="n">number</span><span class="si">}</span><span class="si">#{</span><span class="n">operator</span><span class="si">}</span><span class="si">#{</span><span class="n">number</span><span class="si">}</span>/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">43+291</span><span class="s2">"</span><span class="p">)</span> 
+<span class="nb">p</span> <span class="sr">/<span class="si">#{</span><span class="n">number</span><span class="si">}</span><span class="si">#{</span><span class="n">operator</span><span class="si">}</span><span class="si">#{</span><span class="n">number</span><span class="si">}</span>/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">43+291</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># =&gt; #&lt;MatchData &quot;43+291&quot; 1:&quot;43&quot; 2:&quot;+&quot; 3:&quot;291&quot;&gt;
 </span></code></pre>
 <p>
@@ -167,7 +168,8 @@ operator <span class="o">=</span> <span class="s2">"</span><span class="s2">(\\+
 <p>
 正規表現内では、「\」の後に文字列を置くことで、ある特定の文字を表現できます。これは、改行のように Ruby の文法で特別な意味を持つ文字を埋め込むためなどに用いられます。文字列リテラルの記法とほぼ同様(<a href="../doc/spec=2fliteral.html#backslash">リテラル/バックスラッシュ記法</a>)で、以下の記法が利用可能です。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 \t           水平タブ            horizontal tab (0x09)
 \v           垂直タブ            vertical tab   (0x0B)
 \n           改行                newline        (0x0A)
@@ -180,10 +182,10 @@ operator <span class="o">=</span> <span class="s2">"</span><span class="s2">(\\+
 \xHH         符号化バイト値の16進数表現 (HH の16進数2文字で表現)
 \cx, \C-x    制御文字 (x は a から z までのいずれかの文字)
 \M-x         メタ (x|0x80)
-\M-\C-x      メタ制御文字
+\M-\C-x      メタ制御文字 
 \uHHHH       ユニコード文字 (HHHH の16進数4桁)
 \u{HHHHHH HHHHHH ....} ユニコード文字列 (HHHHHH は16進数1桁から6桁まで指定可能)
-</pre>
+</code></pre>
 <p>
 \b は文字クラス内でのみ有効な表現です。文字クラスの外では単語の区切りを表すメタ文字列と解釈されます。
 </p>
@@ -215,9 +217,10 @@ operator <span class="o">=</span> <span class="s2">"</span><span class="s2">(\\+
 <p>
 文字クラスの [ の直後の文字がキャレット(^)である場合、列挙「されていない」文字にマッチするようになります(これは否定文字クラスと呼ばれます)。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 [^a-d]
-</pre>
+</code></pre>
 <p>
 はabcd以外の1文字にマッチします。
 </p>
@@ -474,7 +477,7 @@ m <span class="o">=</span> <span class="sr">/\$(?&lt;dollars&gt;\d+)\.(?&lt;cent
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="sr">/(?&lt;vowel&gt;[aeiou]).\k&lt;vowel&gt;.\k&lt;vowel&gt;/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s1">'ototomy'</span><span class="p">)</span>
+<span class="nb">p</span> <span class="sr">/(?&lt;vowel&gt;[aeiou]).\k&lt;vowel&gt;.\k&lt;vowel&gt;/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s1">'ototomy'</span><span class="p">)</span>
 <span class="c1"># =&gt; #&lt;MatchData &quot;ototo&quot; vowel:&quot;o&quot;&gt;
 </span></code></pre>
 <p>
@@ -512,7 +515,7 @@ m <span class="o">=</span> <span class="sr">/\$(?&lt;dollars&gt;\d+)\.(?&lt;cent
 </span><span class="nb">p</span> <span class="sr">/[aeiou]\w{2}/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">Caenorhabditis elegans</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; #&lt;MatchData &quot;aen&quot;&gt;
 </span><span class="c1"># Whereas the following pattern matches a vowel followed by a word
 </span><span class="c1"># character, twice, i.e. &lt;tt&gt;[aeiou]\w[aeiou]\w&lt;/tt&gt;: 'enor'.
-</span><span class="sr">/([aeiou]\w){2}/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">Caenorhabditis elegans</span><span class="s2">"</span><span class="p">)</span>
+</span><span class="nb">p</span> <span class="sr">/([aeiou]\w){2}/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">Caenorhabditis elegans</span><span class="s2">"</span><span class="p">)</span>
     <span class="c1">#=&gt; #&lt;MatchData &quot;enor&quot; 1:&quot;or&quot;&gt;
 </span></code></pre>
 <p>
@@ -522,12 +525,12 @@ m <span class="o">=</span> <span class="sr">/\$(?&lt;dollars&gt;\d+)\.(?&lt;cent
 <code>
 <span class="c1"># 最初のキャプチャは n で二番目のキャプチャが ti であり、
 </span><span class="c1"># \2 で二番目のキャプチャを後方参照しています
-</span><span class="sr">/I(n)ves(ti)ga\2ons/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">Investigations</span><span class="s2">"</span><span class="p">)</span>
+</span><span class="nb">p</span> <span class="sr">/I(n)ves(ti)ga\2ons/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">Investigations</span><span class="s2">"</span><span class="p">)</span>
     <span class="c1"># =&gt; #&lt;MatchData &quot;Investigations&quot; 1:&quot;n&quot; 2:&quot;ti&quot;&gt;
 </span><span class="c1"># 最初のグループは (?: ) を使っているのでキャプチャが作られず、
 </span><span class="c1"># 1番目は ti がキャプチャされます。
 </span><span class="c1"># そして ti を \1 で参照しています。
-</span><span class="sr">/I(?:n)ves(ti)ga\1ons/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">Investigations</span><span class="s2">"</span><span class="p">)</span>
+</span><span class="nb">p</span> <span class="sr">/I(?:n)ves(ti)ga\1ons/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">Investigations</span><span class="s2">"</span><span class="p">)</span>
     <span class="c1"># =&gt; #&lt;MatchData &quot;Investigations&quot; 1:&quot;ti&quot;&gt;
 </span></code></pre>
 <h3 id='grouping_atomic'>アトミックグループ(atomic grouping)</h3>
@@ -628,7 +631,7 @@ nameと名付けられた「部分正規表現」にマッチしようとしま�
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="sr">/\A(?&lt;a&gt;|.|(?:(?&lt;b&gt;.)\g&lt;a&gt;\k&lt;b+0&gt;))\z/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">rekxker</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="sr">/\A(?&lt;a&gt;|.|(?:(?&lt;b&gt;.)\g&lt;a&gt;\k&lt;b+0&gt;))\z/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">rekxker</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># =&gt; #&lt;MatchData &quot;rekxker&quot; a:&quot;rekxker&quot; b:&quot;k&quot;&gt;
 </span></code></pre>
 <p>
@@ -644,16 +647,17 @@ r <span class="o">=</span> <span class="no">Regexp</span><span class="p">.</span
 (?&lt;etag&gt; &lt;/ \k&lt;name+1&gt; &gt;){0}
 \g&lt;element&gt;
 </span><span class="no">__REGEXP__
-</span>r<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s1">'&lt;foo&gt;f&lt;bar&gt;bbb&lt;/bar&gt;f&lt;/foo&gt;'</span><span class="p">)</span><span class="p">.</span><span class="nf">captures</span>
+</span><span class="nb">p</span> r<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s1">'&lt;foo&gt;f&lt;bar&gt;bbb&lt;/bar&gt;f&lt;/foo&gt;'</span><span class="p">)</span><span class="p">.</span><span class="nf">captures</span>
 <span class="c1"># =&gt; [&quot;&lt;foo&gt;f&lt;bar&gt;bbb&lt;/bar&gt;f&lt;/foo&gt;&quot;, &quot;&lt;bar&gt;&quot;, &quot;bar&quot;, &quot;f&lt;bar&gt;bbb&lt;/bar&gt;f&quot;, &quot;&lt;/foo&gt;&quot;]
 </span></code></pre>
 <p>
 最左位置での再帰呼び出しは禁止されています。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 (?&lt;name&gt;a|\g&lt;name&gt;b)   =&gt; error
 (?&lt;name&gt;a|b\g&lt;name&gt;c)  =&gt; OK
-</pre>
+</code></pre>
 <h2 id='selector'>選択</h2>
 <p>
 縦棒 | によって2つの部分正規表現のどちらか一方にマッチすれば良い部分正規表現を記述できます。
@@ -755,10 +759,11 @@ Unicode の規格では、単語を成す文字を Word というプロパティ
 <p>
 以下の例は
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 set var=val
 print var
-</pre>
+</code></pre>
 <p>
 という2つの命令を持つコマンドにマッチするような正規表現です。
 </p>
@@ -867,7 +872,7 @@ d,a,u のオプションは正規表現直後に置く方式では指定がで�
 </span><span class="nb">p</span> <span class="sr">/abc/e</span><span class="p">.</span><span class="nf">fixed_encoding?</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="sr">/abc/</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">あいう</span><span class="s2">"</span> <span class="c1"># =&gt; nil
 </span><span class="sr">/abc/e</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">あいう</span><span class="s2">"</span> 
-<span class="c1"># ~&gt; -:6:in `&lt;main&gt;': incompatible encoding regexp match (EUC-JP regexp with UTF-8 string) (Encoding::CompatibilityError)
+<span class="c1"># ~&gt; -:6:in '&lt;main&gt;': incompatible encoding regexp match (EUC-JP regexp with UTF-8 string) (Encoding::CompatibilityError)
 </span></code></pre>
 <h2 id='comment'>コメント</h2>
 <p>
@@ -1065,7 +1070,7 @@ Rubyで利用可能なメタ文字、メタ文字列の一覧です。
 </ul>
 <h2 id='specialvar'>特殊変数</h2>
 <p>
-パターンマッチしたときに、以下の特殊変数にマッチの情報をセットします。
+正規表現がマッチしたときに、以下の特殊変数にマッチの情報をセットします。
 </p>
 <ul>
 <li><a href="../method/Kernel/v/=7e.html">$~</a> 最後にマッチしたときの情報(<a href="../class/MatchData.html">MatchData</a> オブジェクト)</li>

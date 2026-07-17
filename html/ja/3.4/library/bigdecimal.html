@@ -243,9 +243,10 @@ a <span class="o">=</span> <span class="no">BigMath</span><span class="p">.</spa
 <p>
 BigDecimal内部で浮動小数点は構造体(Real)で表現されます。そのうち仮数部は unsigned long の配列 (以下の構造体要素 frac) で管理されます。概念的には、以下のようになります。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 &lt;浮動小数点数&gt; = 0.xxxxxxxxx * BASE ** n
-</pre>
+</code></pre>
 <p>
 ここで、x は仮数部を表す数字、BASE は基数 (10 進表現なら 10)、
 n は指数部を表す整数値です。BASEが大きいほど、大きな数値が表現できます。つまり、配列のサイズを少なくできます。
@@ -256,29 +257,31 @@ BASE が 10000 のときは、以下の仮数部の配列 (frac) の各要素に
 <p>
 浮動小数点構造体 (Real) は以下のようになっています。
 </p>
-<pre>
-typedef struct {
-   unsigned long MaxPrec; // 最大精度(frac[]の配列サイズ)
-   unsigned long Prec;    // 精度(frac[]の使用サイズ)
-   short    sign;         // 以下のように符号等の状態を定義します。
-                          //  ==0 : NaN
-                          //    1 : +0
-                          //   -1 : -0
-                          //    2 : 正の値
-                          //   -2 : 負の値
-                          //    3 : +Infinity
-                          //   -3 : -Infinity
-   unsigned short flag;   // 各種の制御フラッグ
-   int      exponent;     // 指数部の値(仮数部*BASE**exponent)
-   unsigned long frac[1]; // 仮数部の配列(可変)
-} Real;
-</pre>
+<pre class="highlight c">
+<code>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">MaxPrec</span><span class="p">;</span> <span class="c1">// 最大精度(frac[]の配列サイズ)</span>
+   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">Prec</span><span class="p">;</span>    <span class="c1">// 精度(frac[]の使用サイズ)</span>
+   <span class="kt">short</span>    <span class="n">sign</span><span class="p">;</span>         <span class="c1">// 以下のように符号等の状態を定義します。</span>
+                          <span class="c1">//  ==0 : NaN</span>
+                          <span class="c1">//    1 : +0</span>
+                          <span class="c1">//   -1 : -0</span>
+                          <span class="c1">//    2 : 正の値</span>
+                          <span class="c1">//   -2 : 負の値</span>
+                          <span class="c1">//    3 : +Infinity</span>
+                          <span class="c1">//   -3 : -Infinity</span>
+   <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">flag</span><span class="p">;</span>   <span class="c1">// 各種の制御フラッグ</span>
+   <span class="kt">int</span>      <span class="n">exponent</span><span class="p">;</span>     <span class="c1">// 指数部の値(仮数部*BASE**exponent)</span>
+   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">frac</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="c1">// 仮数部の配列(可変)</span>
+<span class="p">}</span> <span class="n">Real</span><span class="p">;</span>
+</code></pre>
 <p>
 例えば BASE=10000 のとき 1234.56784321 という数字は、
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 0.1234 5678 4321*(10000)**1
-</pre>
+</code></pre>
 <p>
 ですから frac[0] = 1234、frac[1] = 5678、frac[2] = 4321、
 Prec = 3、sign = 2、exponent = 1 となります。

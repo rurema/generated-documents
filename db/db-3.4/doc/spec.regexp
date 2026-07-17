@@ -54,9 +54,9 @@ source_location=manual/doc/spec/regexp.md
 
 以下の文字は「メタ文字」(meta character)
 と呼ばれる、正規表現内で特殊な働きをする文字です。
-`````
+```text
 ( ) [ ] { } . ? + * | \
-`````
+```
 これらの文字をリテラルのようにその文字としてマッチさせるためには、
 バックスラッシュ「\」を前に付けます。「\\」はバックスラッシュ1文字に
 マッチします。
@@ -86,7 +86,7 @@ p /#{place}/.match("Go to 東京都") # => #<MatchData "東京都">
 ```ruby
 number = "(\\d+)"
 operator = "(\\+|-|\\*|/)"
-/#{number}#{operator}#{number}/.match("43+291") 
+p /#{number}#{operator}#{number}/.match("43+291")
 # => #<MatchData "43+291" 1:"43" 2:"+" 3:"291">
 ```
 
@@ -101,7 +101,7 @@ operator = "(\\+|-|\\*|/)"
 文字列リテラルの記法とほぼ同様([ref:d:spec/literal#backslash])で、
 以下の記法が利用可能です。
 
-`````
+```text
 \t           水平タブ            horizontal tab (0x09)
 \v           垂直タブ            vertical tab   (0x0B)
 \n           改行                newline        (0x0A)
@@ -117,7 +117,7 @@ operator = "(\\+|-|\\*|/)"
 \M-\C-x      メタ制御文字 
 \uHHHH       ユニコード文字 (HHHH の16進数4桁)
 \u{HHHHHH HHHHHH ....} ユニコード文字列 (HHHHHH は16進数1桁から6桁まで指定可能)
-`````
+```
 \b は文字クラス内でのみ有効な表現です。文字クラスの外では
 単語の区切りを表すメタ文字列と解釈されます。
 
@@ -149,9 +149,9 @@ operator = "(\\+|-|\\*|/)"
 
 文字クラスの [ の直後の文字がキャレット(^)である場合、列挙「されていない」
 文字にマッチするようになります(これは否定文字クラスと呼ばれます)。
-`````
+```text
 [^a-d]
-`````
+```
 はabcd以外の1文字にマッチします。
 
 文字クラス内に別の文字クラスを含めることができます。
@@ -401,7 +401,7 @@ p m[:cents] # => "67"
 名前付きキャプチャは正規表現内で \k<name>、\k'name' という記法で参照できます。
 
 ```ruby
-/(?<vowel>[aeiou]).\k<vowel>.\k<vowel>/.match('ototomy')
+p /(?<vowel>[aeiou]).\k<vowel>.\k<vowel>/.match('ototomy')
 # => #<MatchData "ototo" vowel:"o">
 ```
 
@@ -444,7 +444,7 @@ p /(.)(.)\k<-2>\k<-1>/.match("xyzyz") # => #<MatchData "yzyz" 1:"y" 2:"z">
 p /[aeiou]\w{2}/.match("Caenorhabditis elegans") #=> #<MatchData "aen">
 # Whereas the following pattern matches a vowel followed by a word
 # character, twice, i.e. <tt>[aeiou]\w[aeiou]\w</tt>: 'enor'.
-/([aeiou]\w){2}/.match("Caenorhabditis elegans")
+p /([aeiou]\w){2}/.match("Caenorhabditis elegans")
     #=> #<MatchData "enor" 1:"or">
 ```
 
@@ -454,12 +454,12 @@ p /[aeiou]\w{2}/.match("Caenorhabditis elegans") #=> #<MatchData "aen">
 ```ruby
 # 最初のキャプチャは n で二番目のキャプチャが ti であり、
 # \2 で二番目のキャプチャを後方参照しています
-/I(n)ves(ti)ga\2ons/.match("Investigations")
+p /I(n)ves(ti)ga\2ons/.match("Investigations")
     # => #<MatchData "Investigations" 1:"n" 2:"ti">
 # 最初のグループは (?: ) を使っているのでキャプチャが作られず、
 # 1番目は ti がキャプチャされます。
 # そして ti を \1 で参照しています。
-/I(?:n)ves(ti)ga\1ons/.match("Investigations")
+p /I(?:n)ves(ti)ga\1ons/.match("Investigations")
     # => #<MatchData "Investigations" 1:"ti">
 ```
 
@@ -565,7 +565,7 @@ p /\A(?<paren>\(\g<paren>*\))*\z/ =~ '(())' # => 0
 以下の例は回文にマッチする正規表現です。
 
 ```ruby
-/\A(?<a>|.|(?:(?<b>.)\g<a>\k<b+0>))\z/.match("rekxker")
+p /\A(?<a>|.|(?:(?<b>.)\g<a>\k<b+0>))\z/.match("rekxker")
 # => #<MatchData "rekxker" a:"rekxker" b:"k">
 ```
 
@@ -580,15 +580,15 @@ r = Regexp.compile(<<'__REGEXP__'.strip, Regexp::EXTENDED)
 (?<etag> </ \k<name+1> >){0}
 \g<element>
 __REGEXP__
-r.match('<foo>f<bar>bbb</bar>f</foo>').captures
+p r.match('<foo>f<bar>bbb</bar>f</foo>').captures
 # => ["<foo>f<bar>bbb</bar>f</foo>", "<bar>", "bar", "f<bar>bbb</bar>f", "</foo>"]
 ```
 
 最左位置での再帰呼び出しは禁止されています。
-`````
+```text
 (?<name>a|\g<name>b)   => error
 (?<name>a|b\g<name>c)  => OK
-`````
+```
 
 ### 選択 {#selector}
 縦棒 | によって2つの部分正規表現のどちらか一方にマッチすれば良い
@@ -687,10 +687,10 @@ Unicode の規格では、単語を成す文字を Word というプロパティ
   - (<name>), ('name') 名前指定の後方参照が何かにマッチしていれば真
 
 以下の例は
-`````
+```text
 set var=val
 print var
-`````
+```
 という2つの命令を持つコマンドにマッチするような正規表現です。
 
 ```ruby
@@ -793,7 +793,7 @@ p /abc/.fixed_encoding? # => false
 p /abc/e.fixed_encoding? # => true
 p /abc/ =~ "あいう" # => nil
 /abc/e =~ "あいう" 
-# ~> -:6:in `<main>': incompatible encoding regexp match (EUC-JP regexp with UTF-8 string) (Encoding::CompatibilityError)
+# ~> -:6:in '<main>': incompatible encoding regexp match (EUC-JP regexp with UTF-8 string) (Encoding::CompatibilityError)
 ```
 
 
@@ -942,7 +942,7 @@ Rubyで利用可能なメタ文字、メタ文字列の一覧です。
   - (?~pat) 非包含オペレータ
 
 ### 特殊変数 {#specialvar}
-パターンマッチしたときに、以下の特殊変数にマッチの情報をセットします。
+正規表現がマッチしたときに、以下の特殊変数にマッチの情報をセットします。
   - [m:$~] 最後にマッチしたときの情報([c:MatchData] オブジェクト)
   - [m:$&] マッチしたテキスト全体
   - [m:$`] マッチしたテキストの手前の文字列

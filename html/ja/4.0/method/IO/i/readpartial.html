@@ -116,21 +116,21 @@ readpartial の結果は以下のようになります。
 <code>
 r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>           <span class="c1">#               buffer          pipe content
 </span>w <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>               <span class="c1">#               &quot;&quot;              &quot;abc&quot;.
-</span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1">#=&gt; &quot;abc&quot;       &quot;&quot;              &quot;&quot;
+</span><span class="nb">p</span> r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>    <span class="c1">#=&gt; &quot;abc&quot;       &quot;&quot;              &quot;&quot;
 </span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1"># バッファにもパイプにもデータがないのでブロックする
 </span>  
 r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>           <span class="c1">#               buffer          pipe content
 </span>w <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>               <span class="c1">#               &quot;&quot;              &quot;abc&quot;
 </span>w<span class="p">.</span><span class="nf">close</span>                  <span class="c1">#               &quot;&quot;              &quot;abc&quot; EOF
-</span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1">#=&gt; &quot;abc&quot;       &quot;&quot;              EOF
+</span><span class="nb">p</span> r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>    <span class="c1">#=&gt; &quot;abc&quot;       &quot;&quot;              EOF
 </span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1"># 例外 EOFError 発生
 </span>  
 r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>           <span class="c1">#               buffer          pipe content
 </span>w <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">abc\ndef\n</span><span class="s2">"</span>        <span class="c1">#               &quot;&quot;              &quot;abc\ndef\n&quot;
-</span>r<span class="p">.</span><span class="nf">gets</span>                   <span class="c1">#=&gt; &quot;abc\n&quot;     &quot;def\n&quot;         &quot;&quot;
+</span><span class="nb">p</span> r<span class="p">.</span><span class="nf">gets</span>                 <span class="c1">#=&gt; &quot;abc\n&quot;     &quot;def\n&quot;         &quot;&quot;
 </span>w <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">ghi\n</span><span class="s2">"</span>             <span class="c1">#               &quot;def\n&quot;         &quot;ghi\n&quot;
-</span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1">#=&gt; &quot;def\n&quot;     &quot;&quot;              &quot;ghi\n&quot;
-</span>r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>      <span class="c1">#=&gt; &quot;ghi\n&quot;     &quot;&quot;              &quot;&quot;
+</span><span class="nb">p</span> r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>    <span class="c1">#=&gt; &quot;def\n&quot;     &quot;&quot;              &quot;ghi\n&quot;
+</span><span class="nb">p</span> r<span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>    <span class="c1">#=&gt; &quot;ghi\n&quot;     &quot;&quot;              &quot;&quot;
 </span></code></pre>
 <p>
 なお、readpartial は nonblock フラグに影響されません。つまり、nonblock フラグが設定されていて sysread であれば Errno::EAGAIN になる場合でもブロックします。

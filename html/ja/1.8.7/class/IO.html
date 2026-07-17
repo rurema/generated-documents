@@ -310,6 +310,31 @@ IO#sysread                    EOFError
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_EXPECT">expect</a></li>
+
+<li><a href="#I_NONBLOCK">nonblock</a></li>
+
+<li><a href="#I_NONBLOCK--3D">nonblock=</a></li>
+
+<li><a href="#I_NONBLOCK--3F">nonblock?</a></li>
+
+<li><a href="#I_READBYTES">readbytes</a></li>
+
+<li><a href="#I_READY--3F">ready?</a></li>
+
+<li><a href="#I_SCANF">scanf</a></li>
+
+<li><a href="#I_TO_PTR">to_ptr</a></li>
+
+<li><a href="#I_WAIT">wait</a></li>
+
+</ul>
+</dd>
+
 <dt>定数</dt>
 <dd>
 <ul class="class-toc">
@@ -473,6 +498,9 @@ IO#sysread                    EOFError
 </dd>
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -2202,6 +2230,182 @@ EAGAIN, EINTR などは例外 <a href="../class/Errno=3a=3aEXXX.html">Errno::EXX
 <dt>[EXCEPTION] Errno::EXXX:</dt>
 <dd>
 <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/write.html">write(2)</a> が失敗した場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_EXPECT"><code>expect(pattern, timeout = 9999999) -&gt; Array | nil</code><span class="permalink">[<a href="../method/IO/i/expect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/IO.html#method-i-expect">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/expect.html">expect</a>]</span>
+</dt>
+<dt class="method-heading"><code>expect(pattern, timeout = 9999999) {|array| ... } -&gt; nil</code> <span class="kindinfo">[added by <a href="../library/expect.html">expect</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+レシーバから指定したパターンを読み込むまで待ちます。
+</p>
+<p>
+このメソッドがブロックなしで呼ばれた場合、まずレシーバである
+IO オブジェクトから pattern にマッチするパターンが読みこまれるまで待ちます。
+</p>
+<p>
+このメソッドをブロック付きで呼びだした場合は、マッチした要素の配列をブロックに渡して評価します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] pattern:</dt>
+<dd>
+文字列か正規表現を指定します。文字列を指定した場合は、文字列そのものにマッチする正規表現に変換されます。
+</dd>
+<dt class='method-param'>[PARAM] timeout:</dt>
+<dd>
+タイムアウトする秒数。省略すると 9999999 秒後にタイムアウトします。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+パターンが得られたら、そのパターンに関する配列を返します。配列の最初の要素は、pattern にマッチするまでに読みこんだ文字列です。
+2番目以降の要素は、pattern の正規表現中のアンカーにマッチした部分です。タイムアウトした場合は nil を返します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_NONBLOCK"><code>nonblock(bool = true) { ... } -&gt; object</code><span class="permalink">[<a href="../method/IO/i/nonblock.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/IO.html#method-i-nonblock">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/io=2fnonblock.html">io/nonblock</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+ブロック実行中、一時的に self のブロックモードを変更します。
+bool が真ならノンブロックモード、偽ならブロックモードになります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] bool:</dt>
+<dd>
+真を指定するとノンブロックモード、偽を指定するとブロックモードになります。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_NONBLOCK--3D"><code>nonblock=(bool)</code><span class="permalink">[<a href="../method/IO/i/nonblock=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/IO.html#method-i-nonblock-3D">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/io=2fnonblock.html">io/nonblock</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+bool が真なら self をノンブロックモードに、偽ならブロックモードにします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] bool:</dt>
+<dd>
+真を指定すると自身をノンブロックモードにします。偽を指定するとブロックモードにします。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_NONBLOCK--3F"><code>nonblock? -&gt; bool</code><span class="permalink">[<a href="../method/IO/i/nonblock=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/IO.html#method-i-nonblock-3F">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/io=2fnonblock.html">io/nonblock</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+self がノンブロックモードならば true を、ブロックモードなら false を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_READBYTES"><code>readbytes(size) -&gt; String</code><span class="permalink">[<a href="../method/IO/i/readbytes.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/IO.html#method-i-readbytes">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/readbytes.html">readbytes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a href="../method/IO/i/read.html">IO#read</a> と同様に size バイト読み込みますが、
+EOFに到達した時に例外 <a href="../class/EOFError.html">EOFError</a> を発生させます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] size:</dt>
+<dd>
+読み込む長さを整数で指定します。nil を指定した場合は EOF まで読み込みます。
+</dd>
+<dt>[EXCEPTION] EOFError:</dt>
+<dd>
+EOF に到達した場合に発生します。
+</dd>
+<dt>[EXCEPTION] TruncatedDataError:</dt>
+<dd>
+size バイト未満しか読み込めなかった場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_READY--3F"><code>ready? -&gt; Integer | false | nil</code><span class="permalink">[<a href="../method/IO/i/ready=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/IO.html#method-i-ready-3F">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/io=2fwait.html">io/wait</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+ブロックせずに読み込み可能なら真を、不可能であれば偽を返します。
+</p>
+<p>
+より正確には、ブロックせずに読み込み可能ならそのバイト数を返します。内部のバッファにデータがある場合にはtrueを返します。
+self が EOF に達していれば false を返します。判定不可能な場合には false を返します。ブロックせずに読み込み可能なデータが存在しない場合には nil を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SCANF"><code>scanf(format) -&gt; Array</code><span class="permalink">[<a href="../method/IO/i/scanf.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/IO.html#method-i-scanf">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/scanf.html">scanf</a>]</span>
+</dt>
+<dt class="method-heading"><code>scanf(format) {|*ary| ...} -&gt; Array</code> <span class="kindinfo">[added by <a href="../library/scanf.html">scanf</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a href="../method/String/i/scanf.html">String#scanf</a>も参照してください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] format:</dt>
+<dd>
+スキャンするフォーマットを文字列で指定します。詳細は、<a href="../method/String/i/scanf.html#format">String#scanf/scanfフォーマット文字列</a> を参照してください。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_PTR"><code>to_ptr -&gt; DL::PtrData</code><span class="permalink">[<a href="../method/IO/i/to_ptr.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/IO.html#method-i-to_ptr">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/dl.html">dl</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身を指す <a href="../class/DL=3a=3aPtrData.html">DL::PtrData</a> を返します。これは C レベルでは「FILE *」です。
+</p>
+<dl>
+<dt>[EXCEPTION] IOError:</dt>
+<dd>
+自身が close されていたら発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_WAIT"><code>wait(timeout = nil) -&gt; bool | self | nil</code><span class="permalink">[<a href="../method/IO/i/wait.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/IO.html#method-i-wait">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/io=2fwait.html">io/wait</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+self が読み込み可能になるまでブロックし、読み込み可能になったら真値を返します。タイムアウト、もしくはEOFでそれ以上読みこめない場合は偽の値を返します。
+</p>
+<p>
+より詳しくは、一度ブロックしてから読み込み可能になった場合には
+selfを返します。内部のバッファにデータがある場合にはブロックせずに true を返します。内部のバッファとはCランタイムのFILE構造体内部のバッファのことです。
+</p>
+<p>
+つまり、読み込み可能である場合にはtrueを返す場合と
+selfを返す場合があることに注意してください。
+</p>
+<p>
+timeout を指定した場合は、指定秒数経過するまでブロックし、タイムアウトした場合は nil を返します。
+</p>
+<p>
+self が EOF に達していれば false を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] timeout:</dt>
+<dd>
+タイムアウトまでの秒数を指定します。
 </dd>
 </dl>
 </dd>

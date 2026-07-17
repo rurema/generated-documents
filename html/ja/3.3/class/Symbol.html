@@ -127,11 +127,12 @@
 <p>
 シンボルオブジェクトは以下のようなリテラルで得られます。
 </p>
-<pre>
-:symbol
-:'symbol'
-%s!symbol! # %記法
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="ss">:symbol</span>
+<span class="ss">:'symbol'</span>
+<span class="ss">%s!symbol<span class="s2">!</span> <span class="c1"># %記法
+</span></code></pre>
 <p>
 生成されたシンボルの一覧は <a href="../method/Symbol/s/all_symbols.html">Symbol.all_symbols</a> で得られます。一番目のリテラルでシンボルを表す場合、<code>:</code> の後には識別子、メソッド名(<code>!</code>,<code>?</code>,<code>=</code> などの接尾辞を含む)、変数名
 (<code>$</code>などの接頭辞を含む)、再定義できる演算子のいずれかに適合するものしか書くことはできません(そうでなければ文法エラーになります)。そうでない文字列をシンボルにしたい場合は残りの表記か <a href="../method/String/i/intern.html">String#intern</a> を使用してください。
@@ -147,12 +148,13 @@ Rubyの内部実装では、メソッド名や変数名、定数名、クラス�
 <p>
 名前を管理するという役割上、シンボルと文字列は一対一に対応します。また、文字列と違い、immutable (変更不可)であり、同値ならば必ず同一です。
 </p>
-<pre>
-p &quot;abc&quot; == &quot;abc&quot; #=&gt; true
-p &quot;abc&quot;.equal?(&quot;abc&quot;) #=&gt; false
-p :abc == :abc #=&gt; true
-p :abc.equal?(:abc) #=&gt; true ←同値ならば同一
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span> <span class="o">==</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span> <span class="c1">#=&gt; true
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; false
+</span><span class="nb">p</span> <span class="ss">:abc</span> <span class="o">==</span> <span class="ss">:abc</span> <span class="c1">#=&gt; true
+</span><span class="nb">p</span> <span class="ss">:abc</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span><span class="ss">:abc</span><span class="p">)</span> <span class="c1">#=&gt; true ←同値ならば同一
+</span></code></pre>
 <h3 >用途</h3>
 <p>
 実用面では、シンボルは文字の意味を明確にします。<code>名前</code>を指し示す時など、文字列そのものが必要なわけではない時に用います。
@@ -276,6 +278,17 @@ Ruby によって GC されます。すなわち、ある使わなくなった�
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_JSON_CREATE">json_create</a></li>
+
+<li><a href="#I_TO_JSON">to_json</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
@@ -314,6 +327,9 @@ Ruby によって GC されます。すなわち、ある使わなくなった�
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
 
@@ -322,30 +338,32 @@ Ruby によって GC されます。すなわち、ある使わなくなった�
 <p>
 定義済みの全てのシンボルオブジェクトの配列を返します。
 </p>
-<pre>
-p Symbol.all_symbols #=&gt; [:RUBY_PLATFORM, :RUBY_VERSION, ...]
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Symbol</span><span class="p">.</span><span class="nf">all_symbols</span> <span class="c1">#=&gt; [:RUBY_PLATFORM, :RUBY_VERSION, ...]
+</span></code></pre>
 <p>
 リテラルで表記したシンボルのうち、コンパイル時に値が決まるものはその時に生成されます。それ以外の式展開を含むリテラルや、メソッドで表記されたものは式の評価時に生成されます。
 (何にも使われないシンボルは最適化により生成されないことがあります)
 </p>
-<pre>
-def number
-  'make_3'
-end
+<pre class="highlight ruby">
+<code>
+<span class="k">def</span> <span class="nf">number</span>
+  <span class="s1">'make_3'</span>
+<span class="k">end</span>
 
-p Symbol.all_symbols.select{|sym|sym.to_s.include? 'make'}
-#=&gt; [:make_1, :make_2]
+<span class="nb">p</span> <span class="no">Symbol</span><span class="p">.</span><span class="nf">all_symbols</span><span class="p">.</span><span class="nf">select</span><span class="p">{</span><span class="o">|</span>sym<span class="o">|</span>sym<span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">include?</span> <span class="s1">'make'</span><span class="p">}</span>
+<span class="c1">#=&gt; [:make_1, :make_2]
+</span>
+re  <span class="o">=</span> <span class="c1">#確実に生成されるように代入操作を行う
+</span><span class="ss">:make_1</span>,
+<span class="ss">:'make_2'</span>,
+<span class="ss">:"<span class="si">#{</span><span class="n">number</span><span class="si">}</span><span class="s2">"</span>,
+<span class="s1">'make_4'</span><span class="p">.</span><span class="nf">intern</span>
 
-re  = #確実に生成されるように代入操作を行う
-:make_1,
-:'make_2',
-:&quot;#{number}&quot;,
-'make_4'.intern
-
-p Symbol.all_symbols.select{|sym|sym.to_s.include? 'make'}
-#=&gt; [:make_1, :make_2, :make_3, :make_4]
-</pre>
+<span class="nb">p</span> <span class="no">Symbol</span><span class="p">.</span><span class="nf">all_symbols</span><span class="p">.</span><span class="nf">select</span><span class="p">{</span><span class="o">|</span>sym<span class="o">|</span>sym<span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">include?</span> <span class="s1">'make'</span><span class="p">}</span>
+<span class="c1">#=&gt; [:make_1, :make_2, :make_3, :make_4]
+</span></code></pre>
 </dd>
 
 
@@ -393,13 +411,12 @@ other が同じシンボルの時に真を返します。そうでない場合�
 比較対象のシンボルを指定します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-:aaa == :aaa    #=&gt; true
-:aaa == :xxx    #=&gt; false
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:aaa</span> <span class="o">==</span> <span class="ss">:aaa</span>  <span class="c1">#=&gt; true
+</span><span class="nb">p</span> <span class="ss">:aaa</span> <span class="o">==</span> <span class="ss">:xxx</span>  <span class="c1">#=&gt; false
+</span></code></pre>
 </dd>
 
 
@@ -421,11 +438,12 @@ other が同じシンボルの時に真を返します。そうでない場合�
 マッチが成功すればマッチした位置のインデックスを、そうでなければ nil を返します。
 </dd>
 </dl>
-<pre>
-p :foo =~ /foo/    # =&gt; 0
-p :foobar =~ /bar/ # =&gt; 3
-p :foo =~ /bar/    # =&gt; nil
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foo</span> <span class="o">=~</span> <span class="sr">/foo/</span>    <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="ss">:foobar</span> <span class="o">=~</span> <span class="sr">/bar/</span> <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> <span class="ss">:foo</span> <span class="o">=~</span> <span class="sr">/bar/</span>    <span class="c1"># =&gt; nil
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/=3d=7e.html">String#=~</a>
 </p>
@@ -447,11 +465,12 @@ nth 番目の文字を返します。
 文字の位置を表す整数を指定します。
 </dd>
 </dl>
-<pre>
-:foo[0] # =&gt; &quot;f&quot;
-:foo[1] # =&gt; &quot;o&quot;
-:foo[2] # =&gt; &quot;o&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># =&gt; &quot;f&quot;
+</span><span class="nb">p</span> <span class="ss">:foo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># =&gt; &quot;o&quot;
+</span><span class="nb">p</span> <span class="ss">:foo</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># =&gt; &quot;o&quot;
+</span></code></pre>
 </dd>
 <dt class="method-heading" id="I_--5B--5D"><code>self[nth, len] -&gt; String | nil</code><span class="permalink">[<a href="../method/Symbol/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Symbol.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Symbol.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>slice(nth, len) -&gt; String | nil</code></dt>
@@ -472,9 +491,10 @@ nth 番目から長さ len の部分文字列を新しく作って返します�
 文字列の長さを指定します。
 </dd>
 </dl>
-<pre>
-:foo[1, 2] # =&gt; &quot;oo&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foo</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span> <span class="c1"># =&gt; &quot;oo&quot;
+</span></code></pre>
 </dd>
 <dt class="method-heading" id="I_--5B--5D"><code>self[substr] -&gt; String | nil</code><span class="permalink">[<a href="../method/Symbol/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Symbol.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Symbol.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>slice(substr) -&gt; String | nil</code></dt>
@@ -485,13 +505,12 @@ self が substr を含む場合、一致した文字列を新しく作って返�
 <p>
 (self.to_s[substr] と同じです。)
 </p>
-<p>
-例:
-</p>
-<pre>
-:foobar.slice(&quot;foo&quot;)   # =&gt; &quot;foo&quot;
-:foobar.slice(&quot;baz&quot;)   # =&gt; nil
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foobar</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;foo&quot;
+</span><span class="nb">p</span> <span class="ss">:foobar</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="s2">"</span><span class="s2">baz</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span></code></pre>
 </dd>
 <dt class="method-heading" id="I_--5B--5D"><code>self[regexp, nth = 0] -&gt; String | nil</code><span class="permalink">[<a href="../method/Symbol/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Symbol.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Symbol.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>slice(regexp, nth = 0) -&gt; String | nil</code></dt>
@@ -512,12 +531,13 @@ self が substr を含む場合、一致した文字列を新しく作って返�
 取得したい正規表現レジスタのインデックスを指定します。
 </dd>
 </dl>
-<pre>
-:foobar[/bar/] # =&gt; &quot;bar&quot;
-:foobarbaz[/(ba.)(ba.)/, 0] # =&gt; &quot;barbaz&quot;
-:foobarbaz[/(ba.)(ba.)/, 1] # =&gt; &quot;bar&quot;
-:foobarbaz[/(ba.)(ba.)/, 2] # =&gt; &quot;baz&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foobar</span><span class="p">[</span><span class="sr">/bar/</span><span class="p">]</span> <span class="c1"># =&gt; &quot;bar&quot;
+</span><span class="nb">p</span> <span class="ss">:foobarbaz</span><span class="p">[</span><span class="sr">/(ba.)(ba.)/</span>, <span class="mi">0</span><span class="p">]</span> <span class="c1"># =&gt; &quot;barbaz&quot;
+</span><span class="nb">p</span> <span class="ss">:foobarbaz</span><span class="p">[</span><span class="sr">/(ba.)(ba.)/</span>, <span class="mi">1</span><span class="p">]</span> <span class="c1"># =&gt; &quot;bar&quot;
+</span><span class="nb">p</span> <span class="ss">:foobarbaz</span><span class="p">[</span><span class="sr">/(ba.)(ba.)/</span>, <span class="mi">2</span><span class="p">]</span> <span class="c1"># =&gt; &quot;baz&quot;
+</span></code></pre>
 </dd>
 <dt class="method-heading" id="I_--5B--5D"><code>self[range] -&gt; String | nil</code><span class="permalink">[<a href="../method/Symbol/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Symbol.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Symbol.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>slice(range) -&gt; String | nil</code></dt>
@@ -534,9 +554,10 @@ rangeで指定したインデックスの範囲に含まれる部分文字列を
 取得したい文字列の範囲を示す <a href="../class/Range.html">Range</a> オブジェクトを指定します。
 </dd>
 </dl>
-<pre>
-:foo[0..1] # =&gt; &quot;fo&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foo</span><span class="p">[</span><span class="mi">0</span><span class="o">..</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># =&gt; &quot;fo&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/=5b=5d.html">String#[]</a>, <a href="../method/String/i/slice.html">String#slice</a>
 </p>
@@ -551,12 +572,13 @@ rangeで指定したインデックスの範囲に含まれる部分文字列を
 <p>
 (self.to_s.capitalize.intern と同じです。)
 </p>
-<pre>
-:foobar.capitalize     #=&gt; :Foobar
-:fooBar.capitalize     #=&gt; :Foobar
-:FOOBAR.capitalize     #=&gt; :Foobar
-:&quot;foobar--&quot;.capitalize # =&gt; &quot;Foobar--&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foobar</span><span class="p">.</span><span class="nf">capitalize</span>   <span class="c1">#=&gt; :Foobar
+</span><span class="nb">p</span> <span class="ss">:fooBar</span><span class="p">.</span><span class="nf">capitalize</span>   <span class="c1">#=&gt; :Foobar
+</span><span class="nb">p</span> <span class="ss">:FOOBAR</span><span class="p">.</span><span class="nf">capitalize</span>   <span class="c1">#=&gt; :Foobar
+</span><span class="nb">p</span> <span class="ss">:"foobar--<span class="s2">"</span><span class="p">.</span><span class="nf">capitalize</span> <span class="c1"># =&gt; &quot;Foobar--&quot;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/capitalize.html">String#capitalize</a>
 </p>
@@ -641,9 +663,10 @@ other がシンボルではない場合や、文字列のエンコーディン�
 <p>
 (self.to_s.downcase.intern と同じです。)
 </p>
-<pre>
-:FOO.downcase #=&gt; :foo
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:FOO</span><span class="p">.</span><span class="nf">downcase</span> <span class="c1">#=&gt; :foo
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/downcase.html">String#downcase</a>
 </p>
@@ -655,10 +678,11 @@ other がシンボルではない場合や、文字列のエンコーディン�
 <p>
 自身が :&quot;&quot; (length が 0 のシンボル)かどうかを返します。
 </p>
-<pre>
-:&quot;&quot;.empty?  #=&gt; true
-:foo.empty? #=&gt; false
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:"<span class="s2">"</span><span class="p">.</span><span class="nf">empty?</span>  <span class="c1">#=&gt; true
+</span><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">empty?</span> <span class="c1">#=&gt; false
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/empty=3f.html">String#empty?</a>
 </p>
@@ -670,15 +694,14 @@ other がシンボルではない場合や、文字列のエンコーディン�
 <p>
 シンボルに対応する文字列のエンコーディング情報を表現した <a href="../class/Encoding.html">Encoding</a> オブジェクトを返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-# encoding: utf-8
-
-:foo.encoding        # =&gt; #&lt;Encoding:US-ASCII&gt;
-:あかさたな.encoding   # =&gt; #&lt;Encoding:UTF-8&gt;
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># encoding: utf-8
+</span>
+<span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">encoding</span>      <span class="c1"># =&gt; #&lt;Encoding:US-ASCII&gt;
+</span><span class="nb">p</span> <span class="ss">:あかさたな</span><span class="p">.</span><span class="nf">encoding</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/encoding.html">String#encoding</a>
 </p>
@@ -726,10 +749,11 @@ self の末尾が suffixes のいずれかであるとき true を返します�
 逆に、文字列に対応するシンボルを得るには
 <a href="../method/String/i/intern.html">String#intern</a> を使います。
 </p>
-<pre>
-p :foo.id2name  # =&gt; &quot;foo&quot;
-p :foo.id2name.intern == :foo  # =&gt; true
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">id2name</span>  <span class="c1"># =&gt; &quot;foo&quot;
+</span><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">id2name</span><span class="p">.</span><span class="nf">intern</span> <span class="o">==</span> <span class="ss">:foo</span>  <span class="c1"># =&gt; true
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/intern.html">String#intern</a>
 </p>
@@ -744,9 +768,10 @@ p :foo.id2name.intern == :foo  # =&gt; true
 <p>
 自身を人間に読みやすい文字列にして返します。
 </p>
-<pre>
-:fred.inspect   #=&gt; &quot;:fred&quot;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:fred</span><span class="p">.</span><span class="nf">inspect</span> <span class="c1">#=&gt; &quot;:fred&quot;
+</span></code></pre>
 </dd>
 
 
@@ -756,12 +781,11 @@ p :foo.id2name.intern == :foo  # =&gt; true
 <p>
 self を返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-:foo.intern   # =&gt; :foo
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">intern</span> <span class="c1"># =&gt; :foo
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/intern.html">String#intern</a>
 </p>
@@ -777,9 +801,10 @@ self を返します。
 <p>
 (self.to_s.length と同じです。)
 </p>
-<pre>
-:foo.length #=&gt; 3
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">length</span> <span class="c1">#=&gt; 3
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/length.html">String#length</a>, <a href="../method/String/i/size.html">String#size</a>
 </p>
@@ -804,11 +829,12 @@ self を返します。
 マッチが成功すれば MatchData オブジェクトを、そうでなければ nil を返します。
 </dd>
 </dl>
-<pre>
-p :foo.match(/foo/)    # =&gt; #&lt;MatchData &quot;foo&quot;&gt;
-p :foobar.match(/bar/) # =&gt; #&lt;MatchData &quot;bar&quot;&gt;
-p :foo.match(/bar/)    # =&gt; nil
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="sr">/foo/</span><span class="p">)</span>    <span class="c1"># =&gt; #&lt;MatchData &quot;foo&quot;&gt;
+</span><span class="nb">p</span> <span class="ss">:foobar</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="sr">/bar/</span><span class="p">)</span> <span class="c1"># =&gt; #&lt;MatchData &quot;bar&quot;&gt;
+</span><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="sr">/bar/</span><span class="p">)</span>    <span class="c1"># =&gt; nil
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/match.html">String#match</a>
 </p>
@@ -824,17 +850,16 @@ p :foo.match(/bar/)    # =&gt; nil
 regexp.match?(self, pos) と同じです。
 regexp が文字列の場合は、正規表現にコンパイルします。詳しくは <a href="../method/Regexp/i/match=3f.html">Regexp#match?</a> を参照してください。
 </p>
-<p>
-例:
-</p>
-<pre>
-:Ruby.match?(/R.../)    # =&gt; true
-:Ruby.match?('Ruby')    # =&gt; true
-:Ruby.match?('Ruby',1)  # =&gt; false
-:Ruby.match?('uby',1)   # =&gt; true
-:Ruby.match?(/P.../)    # =&gt; false
-$&amp;                      # =&gt; nil
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:Ruby</span><span class="p">.</span><span class="nf">match?</span><span class="p">(</span><span class="sr">/R.../</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:Ruby</span><span class="p">.</span><span class="nf">match?</span><span class="p">(</span><span class="s1">'Ruby'</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:Ruby</span><span class="p">.</span><span class="nf">match?</span><span class="p">(</span><span class="s1">'Ruby'</span>,<span class="mi">1</span><span class="p">)</span>  <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="ss">:Ruby</span><span class="p">.</span><span class="nf">match?</span><span class="p">(</span><span class="s1">'uby'</span>,<span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:Ruby</span><span class="p">.</span><span class="nf">match?</span><span class="p">(</span><span class="sr">/P.../</span><span class="p">)</span>  <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="vg">$&amp;</span>                    <span class="c1"># =&gt; nil
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Regexp/i/match=3f.html">Regexp#match?</a>, <a href="../method/String/i/match=3f.html">String#match?</a>
 </p>
@@ -871,10 +896,11 @@ $&amp;                      # =&gt; nil
 <p>
 (self.to_s.next.intern と同じです。)
 </p>
-<pre>
-:a.next   # =&gt; :b
-:foo.next # =&gt; :fop
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:a</span><span class="p">.</span><span class="nf">next</span> <span class="c1"># =&gt; :b
+</span><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">next</span> <span class="c1"># =&gt; :fop
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/succ.html">String#succ</a>
 </p>
@@ -921,10 +947,11 @@ self の先頭が prefixes のいずれかであるとき true を返します�
 <p>
 (self.to_s.swapcase.intern と同じです。)
 </p>
-<pre>
-p :ABCxyz.swapcase   # =&gt; :abcXYZ
-p :Access.swapcase   # =&gt; :aCCESS
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:ABCxyz</span><span class="p">.</span><span class="nf">swapcase</span>   <span class="c1"># =&gt; :abcXYZ
+</span><span class="nb">p</span> <span class="ss">:Access</span><span class="p">.</span><span class="nf">swapcase</span>   <span class="c1"># =&gt; :aCCESS
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/swapcase.html">String#swapcase</a>
 </p>
@@ -975,11 +1002,53 @@ Proc#callの第一引数をレシーバとして、 self という名前のメ�
 <p>
 (self.to_s.upcase.intern と同じです。)
 </p>
-<pre>
-:foo.upcase #=&gt; :FOO
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">upcase</span> <span class="c1">#=&gt; :FOO
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/upcase.html">String#upcase</a>
+</p>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_JSON_CREATE"><code>json_create(hash) -&gt; Symbol</code><span class="permalink">[<a href="../method/Symbol/s/json_create.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Symbol.html#method-c-json_create">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/add/symbol.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/json=2fadd=2fsymbol.html">json/add/symbol</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+JSON のオブジェクトから <a href="../class/Symbol.html">Symbol</a> のオブジェクトを生成して返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>hash</code>:</dt>
+<dd>
+文字列をキー 's' に持つハッシュを指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_JSON"><code>to_json(*args) -&gt; String</code><span class="permalink">[<a href="../method/Symbol/i/to_json.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Symbol.html#method-i-to_json">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/add/symbol.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/json=2fadd=2fsymbol.html">json/add/symbol</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身を JSON 形式の文字列に変換して返します。
+</p>
+<p>
+内部的にはハッシュにデータをセットしてから <a href="../method/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aHash/i/to_json.html">JSON::Generator::GeneratorMethods::Hash#to_json</a> を呼び出しています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>args</code>:</dt>
+<dd>
+引数はそのまま <a href="../method/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aHash/i/to_json.html">JSON::Generator::GeneratorMethods::Hash#to_json</a> に渡されます。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aHash/i/to_json.html">JSON::Generator::GeneratorMethods::Hash#to_json</a>
 </p>
 </dd>
 

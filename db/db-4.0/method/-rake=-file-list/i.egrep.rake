@@ -26,7 +26,7 @@ task :test_rake_app do
   p file_list.egrep(/line/) # => 7
 
   file_list.egrep(/.*/) do |filename, count, line|
-    "filename = #{filename}, count = #{count}, line = #{line}"
+    p "filename = #{filename}, count = #{count}, line = #{line}"
   end
 end
 

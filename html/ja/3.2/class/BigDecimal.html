@@ -273,6 +273,21 @@
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_JSON_CREATE">json_create</a></li>
+
+<li><a href="#I_TO_D">to_d</a></li>
+
+<li><a href="#I_TO_DIGITS">to_digits</a></li>
+
+<li><a href="#I_TO_JSON">to_json</a></li>
+
+</ul>
+</dd>
+
 <dt>定数</dt>
 <dd>
 <ul class="class-toc">
@@ -432,6 +447,9 @@
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
 
@@ -470,14 +488,15 @@ Ruby の <a href="../class/Float.html">Float</a> クラスが保持できる有�
 <p>
 double_figは以下の C プログラムの結果と同じです。
 </p>
-<pre>
-double v = 1.0;
-int double_fig = 0;
-while (v + 1.0 &gt; 1.0) {
-   ++double_fig;
-   v /= 10;
-}
-</pre>
+<pre class="highlight c">
+<code>
+<span class="kt">double</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">double_fig</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">v</span> <span class="o">+</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+   <span class="o">++</span><span class="n">double_fig</span><span class="p">;</span>
+   <span class="n">v</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
 </dd>
 
 
@@ -1121,7 +1140,7 @@ self が +∞のときに 1 、-∞のときに-1、それ以外のときに nil
 <pre class="highlight ruby">
 <code>
 <span class="nb">require</span> <span class="s2">"</span><span class="s2">bigdecimal</span><span class="s2">"</span>
-<span class="no">BigDecimal</span><span class="p">(</span><span class="s2">"</span><span class="s2">1234.5678</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">inspect</span>
+<span class="nb">p</span> <span class="no">BigDecimal</span><span class="p">(</span><span class="s2">"</span><span class="s2">1234.5678</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">inspect</span>
 <span class="c1"># =&gt; &quot;0.12345678e4&quot;
 </span></code></pre>
 </dd>
@@ -1308,15 +1327,20 @@ n が負のときは小数点以上 n 桁目を丸めます(小数点位置か�
 <p>
 符号が正であれば正の整数を返し、負であれば負の整数を返し、NaN であれば 0 を返します。
 </p>
-<pre>
-NaN        であれば、 0。 BigDecimal::SIGN_NaN と同じです。
-+0         であれば、 1。 BigDecimal::SIGN_POSITIVE_ZERO と同じです。
--0         であれば、-1。 BigDecimal::SIGN_NEGATIVE_ZERO と同じです。
-有限の正の値 であれば、 2。 BigDecimal::SIGN_POSITIVE_FINITE と同じです。
-有限の負の値 であれば、-2。 BigDecimal::SIGN_NEGATIVE_FINITE と同じです。
-+Infinity  であれば、 3。 BigDecimal::SIGN_POSITIVE_INFINITE と同じです。
--Infinity  であれば、-3。 BigDecimal::SIGN_NEGATIVE_INFINITE と同じです。
-</pre>
+<table>
+<thead>
+<tr><th>自身の値</th><th align="right">返り値</th><th>同じ値の定数</th></tr>
+</thead>
+<tbody>
+<tr><td>NaN</td><td align="right">0</td><td>BigDecimal::SIGN_NaN</td></tr>
+<tr><td>+0</td><td align="right">1</td><td>BigDecimal::SIGN_POSITIVE_ZERO</td></tr>
+<tr><td>-0</td><td align="right">-1</td><td>BigDecimal::SIGN_NEGATIVE_ZERO</td></tr>
+<tr><td>有限の正の値</td><td align="right">2</td><td>BigDecimal::SIGN_POSITIVE_FINITE</td></tr>
+<tr><td>有限の負の値</td><td align="right">-2</td><td>BigDecimal::SIGN_NEGATIVE_FINITE</td></tr>
+<tr><td>+Infinity</td><td align="right">3</td><td>BigDecimal::SIGN_POSITIVE_INFINITE</td></tr>
+<tr><td>-Infinity</td><td align="right">-3</td><td>BigDecimal::SIGN_NEGATIVE_INFINITE</td></tr>
+</tbody>
+</table>
 <p>
 BigDecimal は、 0 であっても、+ か - の符号を持つことに注意して下さい。
 (「<a href="../library/bigdecimal.html#internal_structure">bigdecimal/内部構造</a>」を参照)
@@ -1546,6 +1570,90 @@ self が 0 のときに true を返します。それ以外のときに false �
 <span class="nb">p</span> <span class="no">BigDecimal</span><span class="p">(</span><span class="s2">"</span><span class="s2">0</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">zero?</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="no">BigDecimal</span><span class="p">(</span><span class="s2">"</span><span class="s2">1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">zero?</span> <span class="c1"># =&gt; false
 </span></code></pre>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_JSON_CREATE"><code>json_create(hash) -&gt; BigDecimal</code><span class="permalink">[<a href="../method/BigDecimal/s/json_create.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/BigDecimal.html#method-c-json_create">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/add/bigdecimal.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/json=2fadd=2fbigdecimal.html">json/add/bigdecimal</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+JSON のオブジェクトから <a href="../class/BigDecimal.html">BigDecimal</a> のオブジェクトを生成して返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>hash</code>:</dt>
+<dd>
+<a href="../method/Marshal/m/load.html">Marshal.#load</a> 可能な値をキー 'b' に持つハッシュを指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_D"><code>to_d -&gt; BigDecimal</code><span class="permalink">[<a href="../method/BigDecimal/i/to_d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/BigDecimal.html#method-i-to_d">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/bigdecimal/util.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/bigdecimal=2futil.html">bigdecimal/util</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身を返します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+<a href="../class/BigDecimal.html">BigDecimal</a> オブジェクト
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_DIGITS"><code>to_digits -&gt; String</code><span class="permalink">[<a href="../method/BigDecimal/i/to_digits.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/BigDecimal.html#method-i-to_digits">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/bigdecimal/util.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/bigdecimal=2futil.html">bigdecimal/util</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身を &quot;1234.567&quot; のような十進数の形式にフォーマットした文字列に変換します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+十進数の形式にフォーマットした文字列
+</dd>
+</dl>
+<p>
+注意:
+</p>
+<p>
+このメソッドは非推奨です。<a href="../method/BigDecimal/i/to_s.html">BigDecimal#to_s</a>(&quot;F&quot;) を使用してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_JSON"><code>to_json(*args) -&gt; String</code><span class="permalink">[<a href="../method/BigDecimal/i/to_json.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/BigDecimal.html#method-i-to_json">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/add/bigdecimal.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/json=2fadd=2fbigdecimal.html">json/add/bigdecimal</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身を JSON 形式の文字列に変換して返します。
+</p>
+<p>
+内部的にはハッシュにデータをセットしてから <a href="../method/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aHash/i/to_json.html">JSON::Generator::GeneratorMethods::Hash#to_json</a> を呼び出しています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>args</code>:</dt>
+<dd>
+引数はそのまま <a href="../method/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aHash/i/to_json.html">JSON::Generator::GeneratorMethods::Hash#to_json</a>
+に渡されます。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'json/add/bigdecimal'</span>
+<span class="nb">p</span> <span class="no">BigDecimal</span><span class="p">(</span><span class="s1">'0.123456789123456789'</span><span class="p">)</span><span class="p">.</span><span class="nf">to_json</span> <span class="c1"># =&gt; &quot;{\&quot;json_class\&quot;:\&quot;BigDecimal\&quot;,\&quot;b\&quot;:\&quot;36:0.123456789123456789e0\&quot;}&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aHash/i/to_json.html">JSON::Generator::GeneratorMethods::Hash#to_json</a>
+</p>
 </dd>
 
 

@@ -234,12 +234,28 @@ f.resume
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_ALIVE--3F">alive?</a></li>
+
+<li><a href="#S_CURRENT">current</a></li>
+
+<li><a href="#I_TRANSFER">transfer</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
 
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -342,6 +358,115 @@ end
 p f.resume() #=&gt; :hoge
 p f.resume() #=&gt; :fuga
 p f.resume() #=&gt; FiberError: dead fiber called
+</pre>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ALIVE--3F"><code>alive? -&gt; bool</code><span class="permalink">[<a href="../method/Fiber/i/alive=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Fiber.html#method-i-alive-3F">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/fiber.html">fiber</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+ファイバーが「生きている」時、真を返します。
+</p>
+<p>
+このメソッドが真を返すのは以下の場合です。
+</p>
+<ul>
+<li>まだ <a href="../method/Fiber/i/resume.html">Fiber#resume</a> されていない</li>
+<li>ブロック内の評価が終了していない (<a href="../method/Fiber/s/yield.html">Fiber.yield</a> が呼ばれていない)</li>
+</ul>
+<p>
+例:
+</p>
+<pre>
+fr = Fiber.new{
+  Fiber.yield
+  &quot;a&quot;
+}
+
+p fr.alive? # =&gt; true
+fr.resume   # Fiber.yieldで戻ってくる
+p fr.alive? # =&gt; true
+fr.resume   # ブロック内の評価を終えて戻ってくる
+p fr.alive? # =&gt; false
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_CURRENT"><code>current -&gt; Fiber</code><span class="permalink">[<a href="../method/Fiber/s/current.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Fiber.html#method-c-current">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/fiber.html">fiber</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+このメソッドが評価されたコンテキストにおける <a href="../class/Fiber.html">Fiber</a> のインスタンスを返します。
+</p>
+<p>
+例:
+</p>
+<pre>
+fr = Fiber.new do
+  Fiber.current
+end
+
+fb = fr.resume
+p fb.equal?(fr) # =&gt; true
+
+p Fiber.current # =&gt; #&lt;Fiber:0x91345e4&gt;
+p Fiber.current # =&gt; #&lt;Fiber:0x91345e4&gt;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TRANSFER"><code>transfer(*args) -&gt; object</code><span class="permalink">[<a href="../method/Fiber/i/transfer.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.4.0/Fiber.html#method-i-transfer">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/fiber.html">fiber</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身が表すファイバーへコンテキストを切り替えます。
+</p>
+<p>
+自身は <a href="../method/Fiber/i/resume.html">Fiber#resume</a> を呼んだファイバーの子となります。
+<a href="../method/Fiber/i/resume.html">Fiber#resume</a> との違いは、ファイバーが終了したときや <a href="../method/Fiber/s/yield.html">Fiber.yield</a> が呼ばれたときは、ファイバーの親へ戻らずにメインファイバーへ戻ります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+メインファイバーから呼び出した <a href="../method/Fiber/i/resume.html">Fiber#resume</a> メソッドの返り値として渡したいオブジェクトを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+コンテキスト切り替えの際に、<a href="../method/Fiber/i/resume.html">Fiber#resume</a> メソッドに与えられた引数を返します。
+</dd>
+<dt>[EXCEPTION] FiberError:</dt>
+<dd>
+自身が既に終了している場合、コンテキストの切り替えが <a href="../class/Thread.html">Thread</a> クラスが表すスレッド間をまたがる場合、
+<a href="../method/Fiber/i/resume.html">Fiber#resume</a> を呼んだファイバーがその親か先祖である場合に発生します。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+require 'fiber'
+
+fr1 = Fiber.new do |v|
+  :fugafuga
+end
+
+fr2 = Fiber.new do |v|
+  fr1.transfer
+  :fuga
+end
+
+fr3 = Fiber.new do |v|
+  fr2.resume
+  :hoge
+end
+
+p fr3.resume # =&gt; :fugafuga
 </pre>
 </dd>
 

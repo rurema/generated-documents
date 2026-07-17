@@ -125,22 +125,24 @@
 <p>
 Mutex(Mutal Exclusion = 相互排他ロック)は共有データを並行アクセスから保護するためにあります。Mutex の典型的な使い方は(m を Mutex オブジェクトとします):
 </p>
-<pre>
-m.lock
-begin
-  # m によって保護されたクリティカルセクション
-ensure
-  m.unlock
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+m<span class="p">.</span><span class="nf">lock</span>
+<span class="k">begin</span>
+  <span class="c1"># m によって保護されたクリティカルセクション
+</span><span class="k">ensure</span>
+  m<span class="p">.</span><span class="nf">unlock</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 または、より簡単に
 </p>
-<pre>
-m.synchronize {
-  # m によって保護されたクリティカルセクション
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+m<span class="p">.</span><span class="nf">synchronize</span> <span class="p">{</span>
+  <span class="c1"># m によって保護されたクリティカルセクション
+</span><span class="p">}</span>
+</code></pre>
 
 
 
@@ -185,6 +187,9 @@ m.synchronize {
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
 
@@ -227,7 +232,7 @@ mutex がロックされている時、真を返します。
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-m <span class="o">=</span> <span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
+m <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
 <span class="nb">p</span> m<span class="p">.</span><span class="nf">locked?</span> <span class="c1"># =&gt; false
 </span>m<span class="p">.</span><span class="nf">lock</span>
 <span class="nb">p</span> m<span class="p">.</span><span class="nf">locked?</span> <span class="c1"># =&gt; true
@@ -243,7 +248,7 @@ self がカレントスレッドによってロックされている場合に tr
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-m <span class="o">=</span> <span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
+m <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
 <span class="nb">p</span> m<span class="p">.</span><span class="nf">owned?</span> <span class="c1"># =&gt; false
 </span>m<span class="p">.</span><span class="nf">lock</span>
 <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
@@ -279,7 +284,7 @@ m <span class="o">=</span> <span class="no">Mutex</span><span class="p">.</span>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-m <span class="o">=</span> <span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
+m <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
 th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
   m<span class="p">.</span><span class="nf">lock</span>
   m<span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -310,7 +315,7 @@ self 既にカレントスレッドにロックされている場合に発生し
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-m <span class="o">=</span> <span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
+m <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
 result <span class="o">=</span> m<span class="p">.</span><span class="nf">synchronize</span> <span class="k">do</span>
   <span class="nb">p</span> m<span class="p">.</span><span class="nf">locked?</span> <span class="c1"># =&gt; true
 </span>  <span class="c1"># critical part
@@ -330,7 +335,7 @@ mutex をロックしようとして、ロックが成功した場合、真を�
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-m <span class="o">=</span> <span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
+m <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
 <span class="nb">p</span> m<span class="p">.</span><span class="nf">try_lock</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> m<span class="p">.</span><span class="nf">try_lock</span> <span class="c1"># =&gt; false
 </span></code></pre>
@@ -348,28 +353,28 @@ mutex のロックを解放します。mutex のロック待ちになってい�
 self を返します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-m = Mutex.new
-begin
-  m.lock
-  # critical part
-ensure
-  m.unlock
-end
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+m <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
+<span class="k">begin</span> 
+  m<span class="p">.</span><span class="nf">lock</span>
+  <span class="c1"># critical part
+</span><span class="k">ensure</span>
+  m<span class="p">.</span><span class="nf">unlock</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 Mutex はロックしたスレッド以外からロックを開放することは出来ません。ロックしたスレッド以外から unlock が呼ばれると ThreadError が発生します。
 </p>
-<pre>
-m = Mutex.new
-m.lock
-Thread.new do
-  m.unlock # =&gt; ThreadError
-end.join
-</pre>
+<pre class="highlight ruby">
+<code>
+m <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
+m<span class="p">.</span><span class="nf">lock</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  m<span class="p">.</span><span class="nf">unlock</span> <span class="c1"># =&gt; ThreadError
+</span><span class="k">end</span><span class="p">.</span><span class="nf">join</span>
+</code></pre>
 <dl>
 <dt>[EXCEPTION] <code>ThreadError</code>:</dt>
 <dd>

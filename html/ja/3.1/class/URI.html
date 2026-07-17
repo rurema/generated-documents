@@ -134,6 +134,15 @@ URI を扱うためのモジュールです。
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_OPEN">open</a></li>
+
+</ul>
+</dd>
+
 <dt>定数</dt>
 <dd>
 <ul class="class-toc">
@@ -149,6 +158,9 @@ URI を扱うためのモジュールです。
 
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -261,7 +273,7 @@ enum には通常 [key, value] という形の配列の配列を渡します。�
 <pre class="highlight ruby">
 <code>
 <span class="nb">require</span> <span class="s1">'uri'</span>
-<span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span><span class="p">[</span><span class="p">[</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1</span><span class="s2">"</span><span class="p">]</span>, <span class="p">[</span><span class="s2">"</span><span class="s2">b</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">2</span><span class="s2">"</span><span class="p">]</span>, <span class="p">[</span><span class="s2">"</span><span class="s2">c</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">x yz</span><span class="s2">"</span><span class="p">]</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span><span class="p">[</span><span class="p">[</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1</span><span class="s2">"</span><span class="p">]</span>, <span class="p">[</span><span class="s2">"</span><span class="s2">b</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">2</span><span class="s2">"</span><span class="p">]</span>, <span class="p">[</span><span class="s2">"</span><span class="s2">c</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">x yz</span><span class="s2">"</span><span class="p">]</span><span class="p">]</span><span class="p">)</span>
 <span class="c1"># =&gt; &quot;a=1&amp;b=2&amp;c=x+yz&quot;
 </span></code></pre>
 <p>
@@ -270,7 +282,7 @@ enum には通常 [key, value] という形の配列の配列を渡します。�
 <pre class="highlight ruby">
 <code>
 <span class="nb">require</span> <span class="s1">'uri'</span>
-<span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">1</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b</span><span class="s2">"</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">2</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">c</span><span class="s2">"</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">x yz</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">1</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b</span><span class="s2">"</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">2</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">c</span><span class="s2">"</span><span class="o">=&gt;</span><span class="s2">"</span><span class="s2">x yz</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>
 <span class="c1"># =&gt; &quot;a=1&amp;b=2&amp;c=x+yz&quot;
 </span></code></pre>
 <p>
@@ -350,7 +362,7 @@ UTF-8 に変換する場合など)。各要素のエンコーディングがば�
 <dt class="method-heading"><code>extract(str, schemes) {|uri_str| ... } -&gt; nil</code></dt>
 <dd class="method-description">
 <p>
-文字列 str に対してパターンマッチングを試み、絶対URIにマッチした部分文字列からなる配列として返します。抽出する URI がなければ空の配列を返します。
+文字列 str に対して正規表現によるマッチを試み、絶対URIにマッチした部分文字列からなる配列として返します。抽出する URI がなければ空の配列を返します。
 </p>
 <p>
 第2引数に文字列の配列 schemes が与えられた場合はそのスキームだけを検索します。
@@ -531,6 +543,80 @@ URI を要素に分割した文字列の配列を返します。
 <span class="nb">p</span> <span class="no">URI</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="s2">http://www.ruby-lang.org/</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1">#=&gt; [&quot;http&quot;, nil, &quot;www.ruby-lang.org&quot;, nil, nil, &quot;/&quot;, nil, nil, nil]
 </span></code></pre>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_OPEN"><code>open(name, mode = 'r', perm = nil, options = {}) -&gt; StringIO | Tempfile | IO</code><span class="permalink">[<a href="../method/URI/s/open.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/URI.html#method-c-open">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/open-uri/URI.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/open=2duri.html">open-uri</a>]</span>
+</dt>
+<dt class="method-heading"><code>open(name, mode = 'r', perm = nil, options = {}) {|ouri| ...} -&gt; object</code> <span class="kindinfo">[added by <a href="../library/open=2duri.html">open-uri</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+name が http:// や https://、ftp:// で始まっている文字列なら URI のリソースを取得した上で <a href="../class/StringIO.html">StringIO</a> オブジェクトまたは <a href="../class/Tempfile.html">Tempfile</a> オブジェクトとして返します。返されるオブジェクトは <a href="../class/OpenURI=3a=3aMeta.html">OpenURI::Meta</a> モジュールで extend されています。
+</p>
+<p>
+name に open メソッドが定義されている場合は、*rest を引数として渡し
+name.open(*rest, &amp;block) のように name の open メソッドが呼ばれます。
+</p>
+<p>
+これ以外の場合は、name はファイル名として扱われ、従来の
+<a href="../method/Kernel/m/open.html">Kernel.#open</a>(name, *rest) が呼ばれます。
+</p>
+<p>
+ブロックを与えた場合は上の場合と同様、name が http:// や https://、ftp:// で始まっている文字列なら URI のリソースを取得した上で <a href="../class/StringIO.html">StringIO</a> オブジェクトまたは <a href="../class/Tempfile.html">Tempfile</a> オブジェクトを引数としてブロックを評価します。後は同様です。引数のオブジェクトは <a href="../class/OpenURI=3a=3aMeta.html">OpenURI::Meta</a> モジュールで extend されています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>name</code>:</dt>
+<dd>
+オープンしたいリソースを文字列で与えます。
+</dd>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dd>
+モードを文字列で与えます。<a href="../method/Kernel/m/open.html">Kernel.#open</a> の mode_enc とおおむね同じですが、外部エンコーディングの指定(ext_enc)は有効な一方、内部エンコーディングの指定
+(ext_enc:int_enc の int_enc)は無視されます。内部エンコーディングへの変換が必要な場合は、読み込んだ文字列を <a href="../method/String/i/encode.html">String#encode</a> で変換してください
+(返り値のオブジェクトはレスポンスの大きさによって <a href="../class/StringIO.html">StringIO</a> にも
+<a href="../class/Tempfile.html">Tempfile</a> ベースの IO にもなり、<a href="../method/IO/i/set_encoding.html">IO#set_encoding</a> による内部エンコーディングへの変換は <a href="../class/StringIO.html">StringIO</a> では行われないためです)。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'open-uri'</span>
+
+<span class="c1"># 外部エンコーディングとして cp932 を指定し、
+</span><span class="c1"># 読み込んだ文字列を String#encode で UTF-8 に変換する
+</span><span class="no">URI</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'http://example.com/'</span>, <span class="s1">'r:cp932'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
+  f<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s1">'UTF-8'</span>, <span class="ss">invalid:</span> <span class="ss">:replace</span>, <span class="ss">undef:</span> <span class="ss">:replace</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<dl>
+<dt class='method-param'>[PARAM] <code>perm</code>:</dt>
+<dd>
+<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/open.html">open(2)</a> の第 3 引数のように、ファイルを生成する場合のファイルのパーミッションを整数で指定します。<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同じです
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+ハッシュを与えます。詳しくは <a href="../method/OpenURI/s/open_uri.html">OpenURI.open_uri</a> を参照してください。
+</dd>
+<dt>[EXCEPTION] <code>OpenURI::HTTPError</code>:</dt>
+<dd>
+対象となる URI のスキームが http または https であり、かつリソースの取得に失敗したときに発生します。
+</dd>
+<dt>[EXCEPTION] <code>Net::FTPError</code>:</dt>
+<dd>
+対象となる URI のスキームが ftp であり、かつリソースの取得に失敗した時に
+<a href="../class/Net=3a=3aFTPError.html">Net::FTPError</a> のサブクラスが発生します。詳しくは <a href="../library/net=2fftp.html">net/ftp</a>
+を参照して下さい。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Kernel/m/open.html">Kernel.#open</a>, <a href="../method/OpenURI/s/open_uri.html">OpenURI.open_uri</a>
+</p>
 </dd>
 
 

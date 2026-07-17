@@ -293,6 +293,57 @@ yday は 1 から数えます。
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_HTTPDATE">httpdate</a></li>
+
+<li><a href="#S_HTTPDATE">httpdate</a></li>
+
+<li><a href="#I_ISO8601">iso8601</a></li>
+
+<li><a href="#S_ISO8601">iso8601</a></li>
+
+<li><a href="#S_JSON_CREATE">json_create</a></li>
+
+<li><a href="#S_PARSE">parse</a></li>
+
+<li><a href="#I_RFC2822">rfc2822</a></li>
+
+<li><a href="#S_RFC2822">rfc2822</a></li>
+
+<li><a href="#I_RFC2822">rfc822</a></li>
+
+<li><a href="#S_RFC2822">rfc822</a></li>
+
+<li><a href="#S_STRPTIME">strptime</a></li>
+
+<li><a href="#I_TAGURI">taguri</a></li>
+
+<li><a href="#I_TAGURI--3D">taguri=</a></li>
+
+<li><a href="#I_TO_DATE">to_date</a></li>
+
+<li><a href="#I_TO_DATETIME">to_datetime</a></li>
+
+<li><a href="#I_TO_JSON">to_json</a></li>
+
+<li><a href="#I_TO_TIME">to_time</a></li>
+
+<li><a href="#I_TO_YAML">to_yaml</a></li>
+
+<li><a href="#I_ISO8601">xmlschema</a></li>
+
+<li><a href="#S_ISO8601">xmlschema</a></li>
+
+<li><a href="#S_YAML_NEW">yaml_new</a></li>
+
+<li><a href="#S_YAML_TAG_SUBCLASSES--3F">yaml_tag_subclasses?</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
@@ -329,6 +380,9 @@ yday は 1 から数えます。
 </dd>
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -1312,6 +1366,479 @@ p Time.local(2000, 1, 1).year #=&gt; 2000
 <pre>
 p Time.now.zone #=&gt; &quot;JST&quot;
 </pre>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_HTTPDATE"><code>httpdate -&gt; String</code><span class="permalink">[<a href="../method/Time/i/httpdate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-i-httpdate">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a class="external" href="https://tools.ietf.org/html/rfc2616">[RFC2616]</a> で定義されている HTTP-date の rfc1123-date 形式の文字列を返します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+以下の形式の文字列を返します。
+<pre>
+  day-of-week, DD month-name CCYY hh:mm:ss GMT
+</pre>
+注意: 結果はいつも UTC (GMT) です。
+</dd>
+</dl>
+<p>
+使用例
+</p>
+<pre>
+require 'time'
+
+iso8601_time = '2008-08-31T12:34:56+09:00'
+t = Time.iso8601(iso8601_time)
+p t.httpdate     #=&gt; &quot;Sun, 31 Aug 2008 03:34:56 GMT&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_HTTPDATE"><code>httpdate(date) -&gt; Time</code><span class="permalink">[<a href="../method/Time/s/httpdate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-c-httpdate">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a class="external" href="https://tools.ietf.org/html/rfc2616">[RFC2616]</a>で定義されているHTTP-dateとしてdateをパースして
+<a href="../class/Time.html">Time</a>オブジェクトに変換します。
+</p>
+<p>
+dateが<a class="external" href="https://tools.ietf.org/html/rfc2616">[RFC2616]</a>に準拠していない、または
+<a href="../class/Time.html">Time</a>クラスが指定された日時を表現できないときに<a href="../class/ArgumentError.html">ArgumentError</a>が発生します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] date:</dt>
+<dd>
+<a class="external" href="https://tools.ietf.org/html/rfc2616">[RFC2616]</a>で定義されているHTTP-dateとしてパースされる文字列を指定します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+dateが<a class="external" href="https://tools.ietf.org/html/rfc2616">[RFC2616]</a>に準拠していない、または <a href="../class/Time.html">Time</a>クラスが指定された日時を表現できないときに発生します。
+</dd>
+</dl>
+<pre>
+require 'time'
+rfc2616_time = 'Sun, 31 Aug 2008 12:34:56 GMT'
+
+t = Time.httpdate(rfc2616_time)
+p t.kind_of?(Time) #=&gt; true
+
+non_rfc2616_time = 'San, 31 Aug 2008 12:34:56 GMT'
+begin
+  Time.httpdate(non_rfc2616_time)
+rescue ArgumentError =&gt; err
+  puts err #=&gt;  not RFC 2616 compliant date: &quot;San, 31 Aug 2008 12:34:56 GMT&quot;
+end
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_ISO8601"><code>xmlschema(fractional_seconds = 0) -&gt; String</code><span class="permalink">[<a href="../method/Time/i/iso8601.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-i-iso8601">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dt class="method-heading"><code>iso8601(fractional_seconds = 0) -&gt; String</code> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+XML Schema で定義されている dateTime として表現される形式の文字列を返します。
+</p>
+<p>
+XML Schema で定義されている dateTime として表現される形式の文字列をパースするためのクラスメソッド
+<a href="../method/Time/s/iso8601.html">Time.iso8601</a>, <a href="../method/Time/s/xmlschema.html">Time.xmlschema</a> もあります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] fractional_seconds:</dt>
+<dd>
+小数点以下の秒の桁数を整数で指定します。省略した場合は0 となります。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+以下の形式の文字列を返します。
+<pre>
+  CCYY-MM-DDThh:mm:ssTZD
+  CCYY-MM-DDThh:mm:ss.sssTZD
+</pre>
+ただし TZD は Z または [+-]hh:mm です。
+</dd>
+</dl>
+<p>
+使用例
+</p>
+<pre>
+require 'time'
+
+iso8601_time = '2008-08-31T12:34:56+09:00'
+t = Time.iso8601(iso8601_time)
+p t.xmlschema    #=&gt; &quot;2008-08-31T03:34:56Z&quot;
+p t.xmlschema(9) #=&gt; &quot;2008-08-31T03:34:56.000000000Z&quot;
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/Time/s/iso8601.html">Time.iso8601</a>, <a href="../method/Time/s/xmlschema.html">Time.xmlschema</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_ISO8601"><code>xmlschema(date) -&gt; Time</code><span class="permalink">[<a href="../method/Time/s/iso8601.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-c-iso8601">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dt class="method-heading"><code>iso8601(date) -&gt; Time</code> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+XML Schema で定義されている dateTime として
+date をパースして <a href="../class/Time.html">Time</a> オブジェクトに変換します。
+</p>
+<p>
+date がISO 8601で定義されている形式に準拠していない、または <a href="../class/Time.html">Time</a> クラスが指定された日時を表現できないときに
+<a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
+</p>
+<p>
+<a href="../class/Time.html">Time</a> オブジェクトを ISO8601 形式の文字列にフォーマットするインスタンスメソッド <a href="../method/Time/i/iso8601.html">Time#iso8601</a>, <a href="../method/Time/i/xmlschema.html">Time#xmlschema</a> もあります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] date:</dt>
+<dd>
+XML Schema で定義されている dateTime としてパースされる文字列を指定します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+date がISO 8601で定義されている形式に準拠していない、または <a href="../class/Time.html">Time</a> クラスが指定された日時を表現できないときに発生します。
+</dd>
+</dl>
+<p>
+使用例
+</p>
+<pre>
+require 'time'
+
+iso8601_time = '2008-08-31T12:34:56+09:00'
+t = Time.iso8601(iso8601_time)
+p t #=&gt; Sun Aug 31 03:34:56 UTC 2008
+p t.kind_of?(Time) #=&gt; true
+
+begin
+  non_iso8601_time = '2008-08-31A12:34:56+09:00'
+  Time.iso8601(non_iso8601_time)
+rescue ArgumentError =&gt; err
+  puts err #=&gt; invalid date: &quot;2008-08-31A12:34:56+09:00&quot;
+end
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/Time/i/xmlschema.html">Time#xmlschema</a>, <a href="../method/Time/i/iso8601.html">Time#iso8601</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_JSON_CREATE"><code>json_create(hash) -&gt; Time</code><span class="permalink">[<a href="../method/Time/s/json_create.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-c-json_create">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/json=2fadd=2fcore.html">json/add/core</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+JSON のオブジェクトから Ruby のオブジェクトを生成して返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] hash:</dt>
+<dd>
+適切なキーを持つハッシュを指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_PARSE"><code>parse(date, now = Time.now) -&gt; Time</code><span class="permalink">[<a href="../method/Time/s/parse.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-c-parse">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dt class="method-heading"><code>parse(date, now = Time.now) {|year| year } -&gt; Time</code> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+date を <a href="../method/Date/s/_parse.html">Date._parse</a> によってパースして <a href="../class/Time.html">Time</a>オブジェクトに変換します。
+</p>
+<p>
+ブロック付きで呼ばれた場合、dateの年はブロックによって変換されます。
+</p>
+<pre>
+Time.parse(...) {|y| y &lt; 100 ? (y &gt;= 69 ? y + 1900 : y + 2000) : y}
+</pre>
+<p>
+与えられた時刻に上位の要素がなかったり壊れていた場合、nowの該当要素が使われます。下位の要素がなかったり壊れていた場合、最小値(1か0)が使われます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] date:</dt>
+<dd>
+<a href="../class/Time.html">Time</a> オブジェクトに変換可能な文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] now:</dt>
+<dd>
+現在時刻を<a href="../class/Time.html">Time</a> オブジェクトで指定します。デフォルトは<a href="../method/Time/s/now.html">Time.now</a>となります。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+dateに空文字列を与えた場合、発生します。なお、1.9.2より前は例外は発生せず、現在時刻を表す
+Time のインスタンスを返していました。
+</dd>
+</dl>
+<pre>
+# 現在時刻が &quot;Thu Nov 29 14:33:20 GMT 2001&quot; で
+# タイムゾーンがGMTとすると:
+Time.parse(&quot;16:30&quot;)     #=&gt; Thu Nov 29 16:30:00 GMT 2001
+Time.parse(&quot;7/23&quot;)      #=&gt; Mon Jul 23 00:00:00 GMT 2001
+Time.parse(&quot;2002/1&quot;)    #=&gt; Tue Jan 01 00:00:00 GMT 2002
+</pre>
+<p>
+<a href="../method/Date/s/_parse.html">Date._parse</a>がdateから情報を取り出せないとき、または <a href="../class/Time.html">Time</a> クラスが指定された日時を表現できないときに
+<a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
+</p>
+<p>
+このメソッドは他のパース用メソッドのフェイルセーフとして以下のように使用できます:
+</p>
+<pre>
+Time.rfc2822(date) rescue Time.parse(date)
+Time.httpdate(date) rescue Time.parse(date)
+Time.xmlschema(date) rescue Time.parse(date)
+</pre>
+<p>
+従って <a href="../method/Time/s/parse.html">Time.parse</a> の失敗はチェックすべきです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_RFC2822"><code>rfc2822 -&gt; String</code><span class="permalink">[<a href="../method/Time/i/rfc2822.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-i-rfc2822">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dt class="method-heading"><code>rfc822 -&gt; String</code> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a class="external" href="https://tools.ietf.org/html/rfc2822">[RFC2822]</a> で定義されている date-time として表現される形式の文字列を返します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+以下の形式の文字列を返します。
+<pre>
+  day-of-week, DD month-name CCYY hh:mm:ss zone
+</pre>
+ただし zone は [+-]hhmm です。
+self が UTC time の場合、zone は +0000 になります。
+</dd>
+</dl>
+<p>
+使用例
+</p>
+<pre>
+require 'time'
+
+iso8601_time = '2008-08-31T12:34:56+09:00'
+t = Time.iso8601(iso8601_time)
+p t.rfc2822      #=&gt; &quot;Sun, 31 Aug 2008 03:34:56 -0000&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_RFC2822"><code>rfc2822(date) -&gt; Time</code><span class="permalink">[<a href="../method/Time/s/rfc2822.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-c-rfc2822">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dt class="method-heading"><code>rfc822(date) -&gt; Time</code> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a class="external" href="https://tools.ietf.org/html/rfc2822">[RFC2822]</a>で定義されているdate-timeとしてdateをパースして
+<a href="../class/Time.html">Time</a>オブジェクトに変換します。この形式は<a class="external" href="https://tools.ietf.org/html/rfc822">[RFC822]</a>で定義されて<a class="external" href="https://tools.ietf.org/html/rfc1123">[RFC1123]</a>で更新された形式と同じです。
+</p>
+<p>
+dateが<a class="external" href="https://tools.ietf.org/html/rfc2822">[RFC2822]</a>に準拠していない、または
+<a href="../class/Time.html">Time</a>クラスが指定された日時を表現できないときに<a href="../class/ArgumentError.html">ArgumentError</a>が発生します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] date:</dt>
+<dd>
+<a class="external" href="https://tools.ietf.org/html/rfc2822">[RFC2822]</a> で定義されるdate-time として文字列を指定します。
+</dd>
+<dt>[EXCEPTION] ArgumentError:</dt>
+<dd>
+dateが<a class="external" href="https://tools.ietf.org/html/rfc2822">[RFC2822]</a>に準拠していない、または
+<a href="../class/Time.html">Time</a>クラスが指定された日時を表現できないときに発生します。
+</dd>
+</dl>
+<p>
+使用例
+</p>
+<pre>
+require 'time'
+
+rfc2822_time = 'Sun, 31 Aug 2008 12:08:19 +0900'
+t = Time.rfc2822(rfc2822_time)
+p t.kind_of?(Time) #=&gt; true
+non_rfc2822_time = 'Sun 31 Aug 2008 12:08:19 +0900'
+
+begin
+  p Time.rfc2822(non_rfc2822_time)
+rescue ArgumentError =&gt; err
+  puts &quot;format err: #{err}&quot;
+end
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_STRPTIME"><code>strptime(date, format) -&gt; Time</code><span class="permalink">[<a href="../method/Time/s/strptime.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-c-strptime">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dt class="method-heading"><code>strptime(date, format) {|y| ... } -&gt; Time</code> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+文字列を <a href="../method/Date/s/_strptime.html">Date._strptime</a> を用いて <a href="../class/Time.html">Time</a> オブジェクトに変換します。
+</p>
+<pre>
+Time.strptime('2001-02-03T04:05:06+09:00', '%Y-%m-%dT%H:%M:%S%z')
+#=&gt; 2001-02-03 06:05:06 +0900
+</pre>
+<p>
+ブロックを渡すと年の部分をブロックによって変換できます。
+</p>
+<pre>
+Time.strptime('91/5/18 4:13:00', '%Y/%m/%d %T'){|y|
+  if y &gt; 100 then y
+  elsif y &gt;= 69 then y + 1900
+  else y + 2000
+  end
+}
+#=&gt; 1991-05-18 04:13:00 +0900
+
+Time.strptime('01/5/18 4:13:00', '%Y/%m/%d %T'){|y|
+  if y &gt; 100 then y
+  elsif y &gt;= 69 then y + 1900
+  else y + 2000
+  end
+}
+#=&gt;  2001-05-18 04:13:00 +0900
+</pre>
+<p>
+詳しくは <a href="../method/DateTime/s/strptime.html">DateTime.strptime</a>, <a href="../method/Date/s/strptime.html">Date.strptime</a> を見てください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] date:</dt>
+<dd>
+時刻を表す文字列
+</dd>
+<dt class='method-param'>[PARAM] format:</dt>
+<dd>
+書式文字列
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TAGURI"><code>taguri -&gt; String</code><span class="permalink">[<a href="../method/Time/i/taguri.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-i-taguri">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/syck=2frubytypes.html">syck/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身のタグ URI を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TAGURI--3D"><code>taguri=(val)</code><span class="permalink">[<a href="../method/Time/i/taguri=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-i-taguri-3D">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/syck=2frubytypes.html">syck/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身のタグ URI を val に設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] val:</dt>
+<dd>
+タグ URI を文字列で指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_DATE"><code>to_date -&gt; Date</code><span class="permalink">[<a href="../method/Time/i/to_date.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-i-to_date">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/date.html">date</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+対応する <a href="../class/Date.html">Date</a> オブジェクトを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_DATETIME"><code>to_datetime -&gt; DateTime</code><span class="permalink">[<a href="../method/Time/i/to_datetime.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-i-to_datetime">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/date.html">date</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+対応する <a href="../class/DateTime.html">DateTime</a> オブジェクトを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_JSON"><code>to_json(*args) -&gt; String</code><span class="permalink">[<a href="../method/Time/i/to_json.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-i-to_json">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/json=2fadd=2fcore.html">json/add/core</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身を JSON 形式の文字列に変換して返します。
+</p>
+<p>
+内部的にはハッシュにデータをセットしてから <a href="../method/Hash/i/to_json.html">Hash#to_json</a> を呼び出しています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+引数はそのまま <a href="../method/Hash/i/to_json.html">Hash#to_json</a> に渡されます。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Hash/i/to_json.html">Hash#to_json</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_TIME"><code>to_time -&gt; Time</code><span class="permalink">[<a href="../method/Time/i/to_time.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-i-to_time">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/date.html">date</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+対応する <a href="../class/Time.html">Time</a> オブジェクトを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_YAML"><code>to_yaml(opts = {}) -&gt; String</code><span class="permalink">[<a href="../method/Time/i/to_yaml.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-i-to_yaml">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/syck=2frubytypes.html">syck/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身を YAML ドキュメントに変換します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] opts:</dt>
+<dd>
+YAML ドキュメント出力の際のオプションを指定します。オプションの詳細は <a href="../method/Syck=3a=3aEmitter/i/reset.html">Syck::Emitter#reset</a> を参照してください。
+</dd>
+</dl>
+<pre>
+print Time.now.to_yaml # =&gt; --- 2011-12-31 02:17:31.192322 +09:00
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_YAML_NEW"><code>yaml_new(klass, tag, val)</code><span class="permalink">[<a href="../method/Time/s/yaml_new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-c-yaml_new">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/syck=2frubytypes.html">syck/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+ライブラリ内部で使用します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_YAML_TAG_SUBCLASSES--3F"><code>yaml_tag_subclasses? -&gt; true</code><span class="permalink">[<a href="../method/Time/s/yaml_tag_subclasses=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.9.3/Time.html#method-c-yaml_tag_subclasses-3F">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/syck=2frubytypes.html">syck/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+常に true を返します。
+</p>
+<p>
+ライブラリ内部で使用します。
+</p>
 </dd>
 
 

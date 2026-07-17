@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -317,6 +317,9 @@ Process がプロセスを表現するクラスではなく、プロセスに対
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
 
@@ -344,9 +347,10 @@ Process がプロセスを表現するクラスではなく、プロセスに対
 <p>
 引数が一つだけ与えられた場合、command が shell のメタ文字
 </p>
-<pre>
-  * ? {} [] &lt;&gt; () ~ &amp; | \ $ ; ' ` &quot; \n
-</pre>
+<pre class="highlight text">
+<code>
+  * ? {} [] &lt;&gt; () ~ &amp; | \ $ ; ' ` " \n
+</code></pre>
 <p>
 を含む場合、shell 経由で実行されます。そうでなければインタプリタから直接実行されます。
 </p>
@@ -369,14 +373,15 @@ MSDOS 環境の場合、command はサブシェル経由で実行されます。
 command に渡す引数。
 </dd>
 </dl>
-<pre>
-exec &quot;echo *&quot;       # echoes list of files in current directory
-# never get here
+<pre class="highlight ruby">
+<code>
+<span class="nb">exec</span> <span class="s2">"</span><span class="s2">echo *</span><span class="s2">"</span>       <span class="c1"># echoes list of files in current directory
+</span><span class="c1"># never get here
+</span>
 
-
-exec &quot;echo&quot;, &quot;*&quot;    # echoes an asterisk
-# never get here
-</pre>
+<span class="nb">exec</span> <span class="s2">"</span><span class="s2">echo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">*</span><span class="s2">"</span>    <span class="c1"># echoes an asterisk
+</span><span class="c1"># never get here
+</span></code></pre>
 </dd>
 
 
@@ -440,16 +445,18 @@ exec &quot;echo&quot;, &quot;*&quot;    # echoes an asterisk
 <p>
 変数 <a href="../method/Kernel/v/=3f.html">$?</a> の値と同じです。
 </p>
-<pre>
-Process.wait Process.spawn(&quot;ruby&quot;, &quot;-e&quot;, &quot;exit 13&quot;)
-Process.last_status   # =&gt; #&lt;Process::Status: pid 4825 exit 13&gt;
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Process</span><span class="p">.</span><span class="nf">wait</span> <span class="no">Process</span><span class="p">.</span><span class="nf">spawn</span><span class="p">(</span><span class="s2">"</span><span class="s2">ruby</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">-e</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">exit 13</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">last_status</span> <span class="c1"># =&gt; #&lt;Process::Status: pid 4825 exit 13&gt;
+</span></code></pre>
 <p>
 カレントスレッドで子プロセスを実行したことがない場合は nil を返します。
 </p>
-<pre>
-Process.last_status   # =&gt; nil
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">last_status</span> <span class="c1"># =&gt; nil
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../class/Process=3a=3aStatus.html">Process::Status</a>
 </p>
@@ -505,12 +512,11 @@ Process.last_status   # =&gt; nil
 <p>
 POSIX の clock_gettime() 関数の時間を返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-p Process.clock_gettime(Process::CLOCK_MONOTONIC) #=&gt; 896053.968060096
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">clock_gettime</span><span class="p">(</span><span class="no">Process</span><span class="o">::</span><span class="no">CLOCK_MONOTONIC</span><span class="p">)</span> <span class="c1">#=&gt; 896053.968060096
+</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>clock_id</code>:</dt>
 <dd>
@@ -861,17 +867,18 @@ true を指定した場合、標準入力・標準出力・標準エラー出力
 メソッドが現在のプラットフォームで実装されていない場合に発生します。
 </dd>
 </dl>
-<pre>
-pid = fork {
-  # child
-  sleep 3
-}
+<pre class="highlight ruby">
+<code>
+pid <span class="o">=</span> <span class="nb">fork</span> <span class="p">{</span>
+  <span class="c1"># child
+</span>  <span class="nb">sleep</span> <span class="mi">3</span>
+<span class="p">}</span>
 
-p pid # =&gt; 7762
-th = Process.detach(pid)
-p th.value
-# =&gt; #&lt;Process::Status: pid 7762 exit 0&gt;
-</pre>
+<span class="nb">p</span> pid <span class="c1"># =&gt; 7762
+</span>th <span class="o">=</span> <span class="no">Process</span><span class="p">.</span><span class="nf">detach</span><span class="p">(</span>pid<span class="p">)</span>
+<span class="nb">p</span> th<span class="p">.</span><span class="nf">value</span>
+<span class="c1"># =&gt; #&lt;Process::Status: pid 7762 exit 0&gt;
+</span></code></pre>
 </dd>
 
 
@@ -1122,14 +1129,13 @@ core ファイルのサイズ (バイト) (SUSv3)
 </p>
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-include Process
-p lim = getrlimit(RLIMIT_STACK)                                        #=&gt; [8388608, 18446744073709551615]
-p lim.map{|i| i == RLIM_INFINITY ? &quot;unlimited&quot; : &quot;#{i/(1024**2)}MB&quot; }  #=&gt; [&quot;8MB&quot;, &quot;unlimited&quot;]
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+include <span class="no">Process</span>
+<span class="nb">p</span> lim <span class="o">=</span> getrlimit<span class="p">(</span><span class="no">RLIMIT_STACK</span><span class="p">)</span>                                        <span class="c1">#=&gt; [8388608, 18446744073709551615]
+</span><span class="nb">p</span> lim<span class="p">.</span><span class="nf">map</span><span class="p">{</span><span class="o">|</span>i<span class="o">|</span> i <span class="o">==</span> <span class="no">RLIM_INFINITY</span> <span class="o">?</span> <span class="s2">"</span><span class="s2">unlimited</span><span class="s2">"</span> <span class="o">:</span> <span class="s2">"</span><span class="si">#{</span><span class="n">i</span><span class="o">/</span><span class="p">(</span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">MB</span><span class="s2">"</span> <span class="p">}</span>  <span class="c1">#=&gt; [&quot;8MB&quot;, &quot;unlimited&quot;]
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Process/m/setrlimit.html">Process.#setrlimit</a>, <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/getrlimit.html">getrlimit(2)</a>
 </p>
@@ -1151,11 +1157,12 @@ p lim.map{|i| i == RLIM_INFINITY ? &quot;unlimited&quot; : &quot;#{i/(1024**2)}M
 メソッドが現在のプラットフォームで実装されていない場合に発生します。
 </dd>
 </dl>
-<pre>
-Process.getsid()              # =&gt; 27422
-Process.getsid(0)             # =&gt; 27422
-Process.getsid(Process.pid()) # =&gt; 27422
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">getsid</span><span class="p">(</span><span class="p">)</span>            <span class="c1"># =&gt; 27422
+</span><span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">getsid</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>           <span class="c1"># =&gt; 27422
+</span><span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">getsid</span><span class="p">(</span><span class="no">Process</span><span class="p">.</span><span class="nf">pid</span><span class="p">(</span><span class="p">)</span><span class="p">)</span> <span class="c1"># =&gt; 27422
+</span></code></pre>
 <p>
 [SEE_ALSO] <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/getsid.html">getsid(2)</a>
 </p>
@@ -1434,18 +1441,19 @@ pid で指定されたプロセスにシグナルを送ります。signal
 メソッドが現在のプラットフォームで実装されていない場合に発生します。
 </dd>
 </dl>
-<pre>
-fork do
-  p [Process.pid, Process.getpgrp]
-  p Process.setpgrp
-  p [Process.pid, Process.getpgrp]
-end
-Process.wait
-#=&gt;
-  [3427, 3426]
-  0
-  [3427, 3427]
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">fork</span> <span class="k">do</span>
+  <span class="nb">p</span> <span class="p">[</span><span class="no">Process</span><span class="p">.</span><span class="nf">pid</span>, <span class="no">Process</span><span class="p">.</span><span class="nf">getpgrp</span><span class="p">]</span>
+  <span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">setpgrp</span>
+  <span class="nb">p</span> <span class="p">[</span><span class="no">Process</span><span class="p">.</span><span class="nf">pid</span>, <span class="no">Process</span><span class="p">.</span><span class="nf">getpgrp</span><span class="p">]</span>
+<span class="k">end</span>
+<span class="no">Process</span><span class="p">.</span><span class="nf">wait</span>
+<span class="c1">#=&gt;
+</span>  <span class="p">[</span><span class="mi">3427</span>, <span class="mi">3426</span><span class="p">]</span>
+  <span class="mi">0</span>
+  <span class="p">[</span><span class="mi">3427</span>, <span class="mi">3427</span><span class="p">]</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/setpgrp.html">setpgrp(2)</a>
 </p>
@@ -1490,12 +1498,13 @@ which の値にしたがってプロセス ID、プロセスグループ ID、�
 以下の例は呼び出したプロセス自身のプライオリティを 10 に下げます。すでに 10 よりもプライオリティが低く、
 Errno::EACCES となった場合には無視して実行を続けます。
 </p>
-<pre>
-begin
-  Process.setpriority(Process::PRIO_PROCESS, 0, 10)
-rescue Errno::EACCES
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="k">begin</span>
+  <span class="no">Process</span><span class="p">.</span><span class="nf">setpriority</span><span class="p">(</span><span class="no">Process</span><span class="o">::</span><span class="no">PRIO_PROCESS</span>, <span class="mi">0</span>, <span class="mi">10</span><span class="p">)</span>
+<span class="k">rescue</span> <span class="no">Errno</span><span class="o">::</span><span class="no">EACCES</span>
+<span class="k">end</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/setpriority.html">setpriority(2)</a>
 </p>
@@ -1512,9 +1521,10 @@ end
 OS によっては何も行われません。また、処理結果に関係なく例外は発生しません。サポートされる OS ではない場合であっても <a href="../class/NotImplementedError.html">NotImplementedError</a>
 が発生する事はありません。本メソッドを実行しても <a href="../method/Kernel/v/0.html">$0</a> への影響はありません。
 </p>
-<pre>
-Process.setproctitle('myapp: worker #%d' % worker_id)
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Process</span><span class="p">.</span><span class="nf">setproctitle</span><span class="p">(</span><span class="s1">'myapp: worker #%d'</span> <span class="o">%</span> worker_id<span class="p">)</span>
+</code></pre>
 <p>
 本メソッドは 2.1 以降でグローバル変数を用いないで現在実行中の Ruby スクリプトの名前を表す文字列を設定する手段として提供されました。
 </p>
@@ -1639,10 +1649,11 @@ core ファイルのサイズ (バイト) (SUSv3)
 <p>
 以下の例は RLIMIT_CORE の制限を hard limit (max limit) まで引き上げ、可能なら core を残すようにします。
 </p>
-<pre>
-Process.setrlimit(Process::RLIMIT_CORE,
-                  Process.getrlimit(Process::RLIMIT_CORE)[1])
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="no">Process</span><span class="p">.</span><span class="nf">setrlimit</span><span class="p">(</span><span class="no">Process</span><span class="o">::</span><span class="no">RLIMIT_CORE</span>, 
+                  <span class="no">Process</span><span class="p">.</span><span class="nf">getrlimit</span><span class="p">(</span><span class="no">Process</span><span class="o">::</span><span class="no">RLIMIT_CORE</span><span class="p">)</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">)</span>
+</code></pre>
 <p>
 [SEE_ALSO] <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/setrlimit.html">setrlimit(2)</a>
 </p>
@@ -1782,13 +1793,14 @@ pid <span class="o">=</span> <span class="nb">fork</span> <span class="p">{</spa
 <p>
 <a href="../method/Kernel/v/=3f.html">$?</a> には最後に終了した子プロセスの <a href="../class/Process=3a=3aStatus.html">Process::Status</a> オブジェクトが設定されます。
 </p>
-<pre>
-2.times {|n|
-  Process.fork() { exit n }
-}
-p Process.waitall
-#=&gt; [[2766, #&lt;Process::Status: pid=2766,exited(1)&gt;], [2765, #&lt;Process::Status: pid=2765,exited(1)&gt;]]
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="mi">2</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span><span class="o">|</span>n<span class="o">|</span>
+  <span class="no">Process</span><span class="p">.</span><span class="nf">fork</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span> <span class="nb">exit</span> n <span class="p">}</span>
+<span class="p">}</span>
+<span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">waitall</span>
+<span class="c1">#=&gt; [[2766, #&lt;Process::Status: pid=2766,exited(1)&gt;], [2765, #&lt;Process::Status: pid=2765,exited(1)&gt;]]
+</span></code></pre>
 </dd>
 
 
@@ -2266,12 +2278,13 @@ CRubyではメジャーGCを実行し以下のことをします：
 <a href="../method/Process/m/waitpid.html">Process.#waitpid</a> の第二引数に指定するフラグです。このフラグが指定された場合、waitpid は停止しているだけで終了していない子プロセスのプロセス ID も返すようになります。
 trace されている子プロセスの ID は返しません。
 </p>
-<pre>
-include Process
-pid = fork{ Process.kill('SIGSTOP', Process.pid) }
-p pid                          #=&gt; 4336
-p waitpid2(pid, WUNTRACED)     #=&gt; [4336, #&lt;Process::Status: pid=4336,stopped(SIGSTOP=19)&gt;]
-</pre>
+<pre class="highlight ruby">
+<code>
+include <span class="no">Process</span>
+pid <span class="o">=</span> <span class="nb">fork</span><span class="p">{</span> <span class="no">Process</span><span class="p">.</span><span class="nf">kill</span><span class="p">(</span><span class="s1">'SIGSTOP'</span>, <span class="no">Process</span><span class="p">.</span><span class="nf">pid</span><span class="p">)</span> <span class="p">}</span>
+<span class="nb">p</span> pid                          <span class="c1">#=&gt; 4336
+</span><span class="nb">p</span> waitpid2<span class="p">(</span>pid, <span class="no">WUNTRACED</span><span class="p">)</span>     <span class="c1">#=&gt; [4336, #&lt;Process::Status: pid=4336,stopped(SIGSTOP=19)&gt;]
+</span></code></pre>
 <p>
 [SEE_ALSO] <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/waitpid.html">waitpid(2)</a>
 </p>

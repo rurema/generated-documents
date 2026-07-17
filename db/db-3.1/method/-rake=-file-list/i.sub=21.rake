@@ -14,8 +14,8 @@ source_location=manual/api/rake/Rake__FileList.md
 task default: :test_rake_app
 task :test_rake_app do
   file_list = FileList['a.c', 'b.c']
-  p file_list.sub!(/\.c$/, '.o') # => ['a.o', 'b.o']
-  p file_list                  # => ['a.o', 'b.o']
+  p file_list.sub!(/\.c$/, '.o') # => ["a.o", "b.o"]
+  p file_list                  # => ["a.o", "b.o"]
 end
 ```
 

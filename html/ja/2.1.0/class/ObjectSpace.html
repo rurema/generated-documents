@@ -127,12 +127,44 @@
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#M_ALLOCATION_SOURCEFILE">allocation_sourcefile</a></li>
+
+<li><a href="#M_ALLOCATION_SOURCELINE">allocation_sourceline</a></li>
+
+<li><a href="#M_COUNT_NODES">count_nodes</a></li>
+
+<li><a href="#M_COUNT_OBJECTS_SIZE">count_objects_size</a></li>
+
+<li><a href="#M_COUNT_TDATA_OBJECTS">count_tdata_objects</a></li>
+
+<li><a href="#M_MEMSIZE_OF">memsize_of</a></li>
+
+<li><a href="#M_MEMSIZE_OF_ALL">memsize_of_all</a></li>
+
+<li><a href="#M_REACHABLE_OBJECTS_FROM">reachable_objects_from</a></li>
+
+<li><a href="#M_TRACE_OBJECT_ALLOCATIONS">trace_object_allocations</a></li>
+
+<li><a href="#M_TRACE_OBJECT_ALLOCATIONS_START">trace_object_allocations_start</a></li>
+
+<li><a href="#M_TRACE_OBJECT_ALLOCATIONS_STOP">trace_object_allocations_stop</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
 
 
 </dl>
+
+
+
 
 
 <h2>モジュール関数</h2>
@@ -401,6 +433,365 @@ obj を返します。
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/ObjectSpace/m/define_finalizer.html">ObjectSpace.#define_finalizer</a>
+</p>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="M_ALLOCATION_SOURCEFILE"><code>allocation_sourcefile(object) -&gt; String</code><span class="permalink">[<a href="../method/ObjectSpace/m/allocation_sourcefile.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-allocation_sourcefile">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+objectの元となったソースファイル名を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] object:</dt>
+<dd>
+元となるソースファイル名を取得したいobjectを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+objectの元となるソースファイル名を返します。存在しない場合はnilを返します。
+</dd>
+</dl>
+<span class="caption">例:test.rbというファイルで下記のスクリプトを実行した場合</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="no">ObjectSpace</span><span class="o">::</span>trace_object_allocations_start
+obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">file:</span><span class="si">#{</span><span class="no">ObjectSpace</span><span class="o">::</span><span class="n">allocation_sourcefile</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>   <span class="c1"># =&gt; file:test.rb
+</span><span class="no">ObjectSpace</span><span class="o">::</span>trace_object_allocations_stop
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/i/trace_object_allocations_start.html">ObjectSpace#trace_object_allocations_start</a>,
+<a href="../method/ObjectSpace/i/trace_object_allocations_stop.html">ObjectSpace#trace_object_allocations_stop</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_ALLOCATION_SOURCELINE"><code>allocation_sourceline(object) -&gt; Integer</code><span class="permalink">[<a href="../method/ObjectSpace/m/allocation_sourceline.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-allocation_sourceline">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+objectの元となったソースファイルの行番号を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] object:</dt>
+<dd>
+元となるソースファイルの行番号を取得したいobjectを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+objectの元となるソースファイルの行番号を返します。存在しない場合はnilを返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="no">ObjectSpace</span><span class="o">::</span>trace_object_allocations_start
+obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">line:</span><span class="si">#{</span><span class="no">ObjectSpace</span><span class="o">::</span><span class="n">allocation_sourceline</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>  <span class="c1"># =&gt; line:4
+</span><span class="no">ObjectSpace</span><span class="o">::</span>trace_object_allocations_stop
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/i/trace_object_allocations_start.html">ObjectSpace#trace_object_allocations_start</a>,
+<a href="../method/ObjectSpace/i/trace_object_allocations_stop.html">ObjectSpace#trace_object_allocations_stop</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_COUNT_NODES"><code>count_nodes(result_hash = nil) -&gt; Hash</code><span class="permalink">[<a href="../method/ObjectSpace/m/count_nodes.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-count_nodes">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+ノードの種類ごとの数を格納したハッシュを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] result_hash:</dt>
+<dd>
+戻り値のためのハッシュを指定します。省略した場合は新しくハッシュを作成します。result_hash の内容は上書きされます。プローブ効果を避けるために使用します。
+</dd>
+<dt>[EXCEPTION] TypeError:</dt>
+<dd>
+result_hash にハッシュ以外を指定した時に発生します。
+</dd>
+</dl>
+<p>
+本メソッドは普通の Ruby プログラマ向けのメソッドではありません。パフォーマンスやメモリ管理に興味のある C Ruby の開発者向けのものです。
+</p>
+<p>
+例:
+</p>
+<pre>
+ObjectSpace.count_nodes
+# =&gt; {:NODE_METHOD=&gt;2027, :NODE_FBODY=&gt;1927, :NODE_CFUNC=&gt;1798, ...}
+</pre>
+<p>
+戻り値のハッシュは処理系に依存します。これは将来変更になるかもしれません。
+</p>
+<p>
+本メソッドは C Ruby 以外では動作しません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_COUNT_OBJECTS_SIZE"><code>count_objects_size(result_hash = nil) -&gt; Hash</code><span class="permalink">[<a href="../method/ObjectSpace/m/count_objects_size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-count_objects_size">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+型ごとのオブジェクトサイズをバイト単位で格納したハッシュを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] result_hash:</dt>
+<dd>
+戻り値のためのハッシュを指定します。省略した場合は新しくハッシュを作成します。result_hash の内容は上書きされます。プローブ効果を避けるために使用します。
+</dd>
+</dl>
+<p>
+戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒントとして扱う必要があります。特に T_DATA の合計値は正しくないでしょう。
+</p>
+<p>
+例:
+</p>
+<pre>
+ObjectSpace.count_objects_size
+# =&gt; {:TOTAL=&gt;1461154, :T_CLASS=&gt;158280, :T_MODULE=&gt;20672, :T_STRING=&gt;527249, ...}
+</pre>
+<dl>
+<dt>[EXCEPTION] TypeError:</dt>
+<dd>
+result_hash にハッシュ以外を指定した時に発生します。
+</dd>
+</dl>
+<p>
+戻り値のハッシュは処理系に依存します。これは将来変更になるかもしれません。
+</p>
+<p>
+本メソッドは C Ruby 以外では動作しません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_COUNT_TDATA_OBJECTS"><code>count_tdata_objects(result_hash = nil) -&gt; Hash</code><span class="permalink">[<a href="../method/ObjectSpace/m/count_tdata_objects.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-count_tdata_objects">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+T_DATA の種類ごとにオブジェクトの数を格納したハッシュを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] result_hash:</dt>
+<dd>
+戻り値のためのハッシュを指定します。省略した場合は新しくハッシュを作成します。result_hash の内容は上書きされます。プローブ効果を避けるために使用します。
+</dd>
+<dt>[EXCEPTION] TypeError:</dt>
+<dd>
+result_hash にハッシュ以外を指定した時に発生します。
+</dd>
+</dl>
+<p>
+本メソッドは普通の Ruby プログラマ向けのメソッドではありません。パフォーマンスに興味のある C Ruby の開発者向けのものです。
+</p>
+<p>
+例:
+</p>
+<pre>
+ObjectSpace.count_tdata_objects
+# =&gt; {RubyVM::InstructionSequence=&gt;504, :parser=&gt;5, :barrier=&gt;6,
+      :mutex=&gt;6, Proc=&gt;60, RubyVM::Env=&gt;57, Mutex=&gt;1, Encoding=&gt;99,
+      ThreadGroup=&gt;1, Binding=&gt;1, Thread=&gt;1, RubyVM=&gt;1, :iseq=&gt;1,
+      Random=&gt;1, ARGF.class=&gt;1, Data=&gt;1, :autoload=&gt;3, Time=&gt;2}
+</pre>
+<p>
+現在のバージョンでは、戻り値のキーはクラスオブジェクトかシンボルのオブジェクトです。
+</p>
+<p>
+普通の参照可能なオブジェクトの場合、キーはクラスオブジェクトです。それ以外の内部的なオブジェクトの場合、キーはシンボルです。シンボルの値は
+rb_data_type_struct に格納された名前が使用されます。
+</p>
+<p>
+戻り値のハッシュは処理系に依存します。これは将来変更になるかもしれません。
+</p>
+<p>
+本メソッドは C Ruby 以外では動作しません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_MEMSIZE_OF"><code>memsize_of(obj) -&gt; Integer</code><span class="permalink">[<a href="../method/ObjectSpace/m/memsize_of.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-memsize_of">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+obj が消費するメモリ使用量をバイト単位で返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] obj:</dt>
+<dd>
+任意のオブジェクトを指定します。
+</dd>
+</dl>
+<p>
+戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒントとして扱う必要があります。特に T_DATA の値は正しくないでしょう。
+2.2 以降では RVALUE のサイズを含んだ結果を返します。
+</p>
+<p>
+本メソッドは C Ruby 以外では動作しません。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">memsize_of</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>            <span class="c1"># =&gt; 0
+</span><span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">memsize_of</span><span class="p">(</span><span class="s2">"</span><span class="s2">12345</span><span class="s2">"</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># =&gt; 91
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="M_MEMSIZE_OF_ALL"><code>memsize_of_all(klass = nil) -&gt; Integer</code><span class="permalink">[<a href="../method/ObjectSpace/m/memsize_of_all.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-memsize_of_all">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+すべての生存しているオブジェクトが消費しているメモリ使用量をバイト単位で返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] klass:</dt>
+<dd>
+指定したクラスのインスタンスのメモリ使用量を返します。省略した場合はすべてのクラスのインスタンスのメモリ使用量を返します。
+</dd>
+</dl>
+<p>
+本メソッドは以下のような Ruby のコードで定義できます。
+</p>
+<pre>
+def memsize_of_all klass = false
+  total = 0
+  ObjectSpace.each_object{|e|
+    total += ObjectSpace.memsize_of(e) if klass == false || e.kind_of?(klass)
+  }
+  total
+end
+</pre>
+<p>
+戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒントとして扱う必要があります。特に T_DATA の値は正しくないでしょう。
+</p>
+<p>
+また、同様に戻り値の内容は malloc されたメモリの合計でもない事に注意してください。
+</p>
+<p>
+本メソッドは C Ruby 以外では動作しません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_REACHABLE_OBJECTS_FROM"><code>reachable_objects_from(obj) -&gt; Array | nil</code><span class="permalink">[<a href="../method/ObjectSpace/m/reachable_objects_from.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-reachable_objects_from">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+obj から到達可能なすべてのオブジェクトを返します。マーク不能なオブジェクトを指定した場合は nil を返します。本メソッドを使う事でメモリリークの調査が行えます。
+</p>
+<pre>
+# 配列クラス(Array)と 'a'、'b'、'c' に到達可能。
+ObjectSpace.reachable_objects_from(['a', 'b', 'c'])
+# =&gt; [Array, 'a', 'b', 'c']
+</pre>
+<p>
+obj が 2 つ以上の同じオブジェクト x への参照を持つ場合、戻り値に含まれるオブジェクト x は 1 つだけです。
+</p>
+<pre>
+# 配列クラス(Array)と v に到達可能。
+ObjectSpace.reachable_objects_from([v = 'a', v, v])
+# =&gt; [Array, 'a']
+
+# 配列クラス(Array)と 3 つの異なる 'a' オブジェクトに到達可能。
+ObjectSpace.reachable_objects_from(['a', 'a', 'a'])
+# =&gt; [Array, 'a', 'a', 'a']
+</pre>
+<p>
+obj にマーク不能なオブジェクト(true、false、nil、<a href="../class/Symbol.html">Symbol</a>、
+<a href="../class/Fixnum.html">Fixnum</a>、Flonum(即値の <a href="../class/Float.html">Float</a> オブジェクト))を指定した場合は
+nil を返します。
+</p>
+<pre>
+# 1 はマーク不能
+ObjectSpace.reachable_objects_from(1)
+# =&gt; nil
+</pre>
+<p>
+obj が内部でオブジェクトへの参照を持つ場合、
+ObjectSpace::InternalObjectWrapper オブジェクトが戻り値に含まれます。このオブジェクトは obj が内部で持っているオブジェクトを持ちます。内部のオブジェクトの型を確認する場合は ObjectSpace::InternalObjectWrapper#type
+を参照してください。:T_CLASS のような <a href="../class/Symbol.html">Symbol</a> を返します。
+</p>
+<p>
+obj が ObjectSpace::InternalObjectWrapper オブジェクトであった場合、そのオブジェクトから参照される全てのオブジェクトを返します。
+</p>
+<p>
+本メソッドは C Ruby 以外では動作しません。
+</p>
+<p>
+[SEE_ALSO] <a class="external" href="http://www.atdot.net/~ko1/diary/201212.html#d8">http://www.atdot.net/~ko1/diary/201212.html#d8</a>,
+<a class="external" href="http://www.atdot.net/~ko1/diary/201212.html#d9">http://www.atdot.net/~ko1/diary/201212.html#d9</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_TRACE_OBJECT_ALLOCATIONS"><code>trace_object_allocations { ... }</code><span class="permalink">[<a href="../method/ObjectSpace/m/trace_object_allocations.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-trace_object_allocations">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+与えられたブロック内でオブジェクトのトレースを行います。　
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C</span>
+  include <span class="no">ObjectSpace</span>
+
+  <span class="k">def</span> <span class="nf">foo</span>
+    trace_object_allocations <span class="k">do</span>
+      obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span>
+      <span class="nb">p</span> <span class="s2">"</span><span class="si">#{</span><span class="n">allocation_sourcefile</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">allocation_sourceline</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">C</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">foo</span> <span class="c1">#=&gt; &quot;objtrace.rb:8&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="M_TRACE_OBJECT_ALLOCATIONS_START"><code>trace_object_allocations_start -&gt; nil</code><span class="permalink">[<a href="../method/ObjectSpace/m/trace_object_allocations_start.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-trace_object_allocations_start">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+オブジェクト割り当てのトレースを開始します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/i/trace_object_allocations_stop.html">ObjectSpace#trace_object_allocations_stop</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_TRACE_OBJECT_ALLOCATIONS_STOP"><code>trace_object_allocations_stop -&gt; nil</code><span class="permalink">[<a href="../method/ObjectSpace/m/trace_object_allocations_stop.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.1.0/ObjectSpace.html#method-c-trace_object_allocations_stop">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+オブジェクト割り当てのトレースを終了します。
+</p>
+<p>
+トレースを終了する為には、<a href="../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace.#trace_object_allocations_start</a>を呼んだ回数分だけこのメソッドを呼ぶ必要があります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/i/trace_object_allocations_start.html">ObjectSpace#trace_object_allocations_start</a>
 </p>
 </dd>
 

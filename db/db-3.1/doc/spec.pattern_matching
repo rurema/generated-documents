@@ -15,7 +15,7 @@ source_location=manual/doc/spec/pattern_matching.md
 
 Rubyでのパターンマッチは case/in 式を用いて実装されています。
 
-`````
+```text
 case <expression>
 in <pattern1>
   ...
@@ -26,17 +26,17 @@ in <pattern3>
 else
   ...
 end
-`````
+```
 
 in 節と when 節は1つの case 式の中に混ぜて書くことはできません。
 
 『=>』 演算子と in 演算子で、単体の式で使用することも可能です。
 
-`````
+```text
 <expression> => <pattern>
 
 <expression> in <pattern>
-`````
+```
 
 case/in 式は 「網羅的」 です。もし case 式の値がどの節にもマッチせず else 節がない場合、例外 NoMatchingPatternError が発生します。
 
@@ -58,7 +58,7 @@ end
 
 一方、『=>』 演算子は、期待されるデータ構造があらかじめ分かっている場合に、その一部を展開するのに有効です。
 
-```
+```ruby
 config = {db: {user: 'admin', password: 'abc123'}}
 
 config => {db: {user:}} # もし config の構造が期待したものでなかった場合には、例外が発生する
@@ -70,9 +70,9 @@ puts "Connect with user '#{user}'"
 『<expression> in <pattern>』 は 『<expression>; in <pattern>; true; else false; end』 と等価です。
 パターンにマッチするかどうかだけを知りたいときに使えます。
 
-```
+```ruby
 users = [{name: "Alice", age: 12}, {name: "Bob", age: 23}]
-users.any? {|user| user in {name: /B/, age: 20..} } #=> true
+p users.any? {|user| user in {name: /B/, age: 20..} } #=> true
 ```
 
 構文の詳細な例と説明は以下を参照してください。
@@ -201,20 +201,20 @@ end
 
 『=>』演算子と in 演算子で括弧を省略する例です。
 
-```
+```ruby
 [1, 2] => a, b
 ```
 
-```
+```ruby
 [1, 2] in a, b
 ```
 
-```
+```ruby
 {a: 1, b: 2, c: 3} => a:
 ```
 
 
-```
+```ruby
 {a: 1, b: 2, c: 3} in a:
 ```
 
@@ -223,7 +223,7 @@ end
 
 Find パターン は Array パターン に似ていますが、オブジェクトの一部の要素がマッチしていることを検査できます。
 
-```
+```ruby
 case ["a", 1, "b", "c", 2]
 in [*, String, String, *]
   "matched"
@@ -326,7 +326,7 @@ end
 
 変数への束縛は現状、『|』 で結合される Alternative パターン と同時には利用できません。
 
-```
+```text
 case {a: 1, b: 2}
 in {a: } | Array
   "matched: #{a}"
@@ -405,7 +405,7 @@ end
 
 ローカル変数に加えてインスタンス変数やグローバル変数、クラス変数に対してもピン演算子は利用できます。
 
-```
+```ruby
 $gvar = 1
 class A
   @ivar = 2
@@ -422,7 +422,7 @@ end
 
 また、括弧を使って任意の式に対してピン演算子を利用できます
 
-```
+```ruby
 a = 1
 b = 2
 case 3
@@ -553,7 +553,7 @@ end
 
 Ruby 3.1 の時点では、Find パターンは 「実験的機能」 扱いです。Find パターンの構文は将来的に変更の可能性があります。これらの機能を利用する場合は毎回警告が出力されます。
 
-```
+```ruby
 [0] => [*, 0, *]
 # warning: Find pattern is experimental, and the behavior may change in future versions of Ruby!
 # warning: One-line pattern matching is experimental, and the behavior may change in future versions of Ruby!
@@ -561,7 +561,7 @@ Ruby 3.1 の時点では、Find パターンは 「実験的機能」 扱いで�
 
 この警告を抑制したければ、Warning::[]= メソッドが利用できます。
 
-//emlist{
+```ruby
 Warning[:experimental] = false
 eval('[0] => [*, 0, *]')
 # ...警告は出力されない...
@@ -569,7 +569,7 @@ eval('[0] => [*, 0, *]')
 
 パターンマッチの警告はコンパイル時に発生するため、以下のような場合は警告は抑制できません。
 
-```
+```ruby
 Warning[:experimental] = false # この行を評価する段階では、構文解析とそれによる警告の発生は、既に終了している
 [0] => [*, 0, *]
 ```
@@ -582,31 +582,23 @@ Warning[:experimental] = false # この行を評価する段階では、構文�
 
 おおよその構文は以下のとおりです。
 
-`````
+```text
 pattern: value_pattern
        | variable_pattern
        | alternative_pattern
        | as_pattern
        | array_pattern
-`````
-````````````
 | find_pattern
-````````````
-`````
        | hash_pattern
 
 value_pattern: literal
              | Constant
-`````
-``````````````````
 | ^local_variable
 | ^instance_variable
 | ^class_variable
 | ^global_variable
 | ^(expression)
-``````````````````
 
-`````
 variable_pattern: variable
 
 alternative_pattern: pattern | pattern | ...
@@ -616,19 +608,15 @@ as_pattern: pattern => variable
 array_pattern: [pattern, ..., *variable]
              | Constant(pattern, ..., *variable)
              | Constant[pattern, ..., *variable]
-`````
 
-`````
 find_pattern: [*variable, pattern, ..., *variable]
             | Constant(*variable, pattern, ..., *variable)
             | Constant[*variable, pattern, ..., *variable]
-`````
 
-`````
 hash_pattern: {key: pattern, key:, ..., **variable}
             | Constant(key: pattern, key:, ..., **variable)
             | Constant[key: pattern, key:, ..., **variable]
-`````
+```
 
 ### 付記B: \`未定義\` の振る舞いの例 {#some_undefined_behavior_examples}
 

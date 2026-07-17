@@ -49,7 +49,7 @@ source_location=manual/api/_builtin/Thread.md
 
 例:[c:Thread#raise] 発生のタイミングを制御する例
 
-`````
+```ruby
 th = Thread.new do
   Thread.handle_interrupt(RuntimeError => :never) {
     begin
@@ -65,7 +65,7 @@ end
 Thread.pass
 # ...
 th.raise "stop"
-`````
+```
 
 [c:RuntimeError] を無視(延期)している間はリソースの割り当てや ensure
 節でリソースの解放を安全に行う事ができます。
@@ -74,7 +74,7 @@ th.raise "stop"
 
 例:[c:TimeoutError] 発生のタイミングを制御する例
 
-`````
+```ruby
 require 'timeout'
 Thread.handle_interrupt(TimeoutError => :never) {
   timeout(10){
@@ -85,7 +85,7 @@ Thread.handle_interrupt(TimeoutError => :never) {
     # TimeoutError => :never の指定により、ここでは TimeoutError が発生しない。
   }
 }
-`````
+```
 
 この例を ensure 節での [c:TimeoutError] 発生に応用する事でリソースリー
 クに備える事ができます。[m:Timeout?.timeout] はスレッドを使って実装さ
@@ -96,26 +96,24 @@ Thread.handle_interrupt(TimeoutError => :never) {
 It's possible to stack multiple levels of ::handle_interrupt blocks in order
 to control more than one ExceptionClass and TimingSymbol at a time.
 
-`````
+```ruby
 Thread.handle_interrupt(FooError => :never) {
   Thread.handle_interrupt(BarError => :never) {
      # FooError and BarError are prohibited.
   }
 }
-`````
+```
 
 #### 例外クラスの継承関係
 
 本メソッドでは引数 hash のキーに指定した例外クラスの全てのサブクラスが
 処理の対象になります。
 
-例:
-
-`````
+```ruby title="例"
 Thread.handle_interrupt(Exception => :never) {
   # Exception を継承する全ての例外クラスの例外の発生を延期。
 }
-`````
+```
 
 - **SEE** [m:Thread.pending_interrupt?], [m:Thread#pending_interrupt?]
 

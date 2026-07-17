@@ -14,15 +14,14 @@ source_location=manual/api/rake/Rake__FileList.md
 もし、ファイルシステムに存在しないファイルを明示的にリストへ追加した場合、
 グロブパターンではそのファイルをリストから削除しません。
 
-例:
-`````
-FileList['a.c', 'b.c'].exclude("a.c") # => ['b.c']
-FileList['a.c', 'b.c'].exclude(/^a/)  # => ['b.c']
+```ruby title="例"
+p FileList['a.c', 'b.c'].exclude("a.c") # => ["b.c"]
+p FileList['a.c', 'b.c'].exclude(/^a/)  # => ["b.c"]
 
 # If "a.c" is a file, then ...
-FileList['a.c', 'b.c'].exclude("a.*") # => ['b.c']
+p FileList['a.c', 'b.c'].exclude("a.*") # => ["b.c"]
 
 # If "a.c" is not a file, then ...
-FileList['a.c', 'b.c'].exclude("a.*") # => ['a.c', 'b.c']
-`````
+p FileList['a.c', 'b.c'].exclude("a.*") # => ["a.c", "b.c"]
+```
 

@@ -207,6 +207,17 @@
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_MKTMPDIR">mktmpdir</a></li>
+
+<li><a href="#S_TMPDIR">tmpdir</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
@@ -408,6 +419,9 @@
 </dd>
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -1266,6 +1280,124 @@ pos は <a href="../method/Dir/i/tell.html">Dir#tell</a> で与えられた値�
 </span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span>   <span class="c1"># =&gt; &quot;.&quot;
 </span><span class="k">end</span>
 </code></pre>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_MKTMPDIR"><code>mktmpdir(prefix_suffix = nil, tmpdir = nil) -&gt; String</code><span class="permalink">[<a href="../method/Dir/s/mktmpdir.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-c-mktmpdir">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/tmpdir.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/tmpdir.html">tmpdir</a>]</span>
+</dt>
+<dt class="method-heading"><code>mktmpdir(prefix_suffix = nil, tmpdir = nil) {|dir| ... } -&gt; object</code> <span class="kindinfo">[added by <a href="../library/tmpdir.html">tmpdir</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+一時ディレクトリを作成します。
+</p>
+<p>
+作成されたディレクトリのパーミッションは 0700 です。
+</p>
+<p>
+ブロックが与えられた場合は、ブロックの評価が終わると作成された一時ディレクトリやその配下にあったファイルを
+<a href="../method/FileUtils/m/remove_entry.html">FileUtils.#remove_entry</a> を用いて削除し、ブロックの値をかえします。ブロックが与えられなかった場合は、作成した一時ディレクトリのパスを返します。この場合、このメソッドは作成した一時ディレクトリを削除しません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>prefix_suffix</code>:</dt>
+<dd>
+nil の場合は、'd' をデフォルトのプレフィクスとして使用します。サフィックスは付きません。文字列が与えられた場合は、その文字列をプレフィクスとして使用します。サフィックスは付きません。
+2 要素の配列が与えられた場合は、一つ目の要素をプレフィクス、二つ目の要素をサフィックスとして使用します。
+</dd>
+<dt class='method-param'>[PARAM] <code>tmpdir</code>:</dt>
+<dd>
+nil の場合は <a href="../method/Dir/s/tmpdir.html">Dir.tmpdir</a> を使用します。そうでない場合は、そのディレクトリを使用します。
+</dd>
+</dl>
+<span class="caption">使用例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'tmpdir'</span>
+
+<span class="nb">puts</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">tmpdir</span>
+<span class="c1"># 出力例: 動作環境により出力は異なります。
+</span><span class="c1">#=&gt; /cygdrive/c/DOCUME~1/kouya/LOCALS~1/Temp
+</span><span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span><span class="p">{</span><span class="o">|</span>dir<span class="o">|</span> 
+  <span class="nb">puts</span> dir
+  <span class="c1"># 出力例: 一時ディレクトリ の名前の先頭に'd' をつける。
+</span>  <span class="c1">#=&gt; /cygdrive/c/DOCUME~1/kouya/LOCALS~1/Temp/d20081011-4524-1m69psi
+</span>  <span class="c1">#                                            ^                    
+</span><span class="p">}</span>
+<span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>dir<span class="o">|</span>
+  <span class="nb">puts</span> dir
+  <span class="c1"># 出力例:一時ディレクトリ の名前の先頭に'foo' をつける。
+</span>  <span class="c1">#=&gt; /cygdrive/c/DOCUME~1/kouya/LOCALS~1/Temp/foo20081011-4824-pjvhwx
+</span>  <span class="c1">#                                            ^^^                    
+</span><span class="p">}</span>
+<span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>dir<span class="o">|</span> 
+  <span class="nb">puts</span> dir
+  <span class="c1"># 出力例: 一時ディレクトリの名前の先頭に'foo' 、最後に'bar'をつける。
+</span>  <span class="c1">#=&gt; /cygdrive/c/DOCUME~1/kouya/LOCALS~1/Temp/foo20081011-5624-1hyxrqbbar
+</span>  <span class="c1">#                                            ^^^                     ^^^
+</span><span class="p">}</span>
+  
+<span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span><span class="p">(</span><span class="k">nil</span>, <span class="s2">"</span><span class="s2">/var/tmp</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>dir<span class="o">|</span>
+  <span class="nb">puts</span> dir
+  <span class="c1"># 出力例: tmpdir の作成先が'/var/tmp'となる。
+</span>  <span class="c1">#         さらに、一時ディレクトリ の名前の先頭に'd' をつける。
+</span>  <span class="c1">#=&gt; /var/tmp/d20081011-5304-h6b13j
+</span><span class="p">}</span>
+  
+memory_dir <span class="o">=</span> <span class="k">nil</span>
+<span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span> <span class="p">{</span><span class="o">|</span>dir<span class="o">|</span>
+  memory_dir <span class="o">=</span> dir
+  <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">dir</span><span class="si">}</span><span class="s2">/foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>fp<span class="o">|</span>
+   fp<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">hogehoge</span><span class="s2">"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1"># ブロックを抜けたら、テンポラリディレクトリは消される。
+</span><span class="nb">p</span> <span class="no">FileTest</span><span class="p">.</span><span class="nf">directory?</span><span class="p">(</span>memory_dir<span class="p">)</span> <span class="c1">#=&gt; false
+</span>  
+dir <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span>
+<span class="c1"># ブロックを与えない場合は、ディレクトリは存在する。
+</span><span class="k">begin</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">dir</span><span class="si">}</span><span class="s2">/foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>fp<span class="o">|</span>
+    fp<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">hogehoge</span><span class="s2">"</span>
+  <span class="p">}</span>
+<span class="k">ensure</span>
+  <span class="no">FileUtils</span><span class="p">.</span><span class="nf">remove_entry_secure</span> dir
+<span class="k">end</span>
+<span class="nb">p</span> <span class="no">FileTest</span><span class="p">.</span><span class="nf">directory?</span><span class="p">(</span>dir<span class="p">)</span> <span class="c1">#=&gt; false
+</span></code></pre>
+<dl>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+tmpdirが全てのユーザから書き込み可能かつ、sticky
+ビットが立っていない場合に発生します。作成する一時ディレクトリを安全に削除できないためです。アプリケーションは一時ディレクトリを他のユーザから書き込める権限に変更すべきではありません。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_TMPDIR"><code>tmpdir -&gt; String</code><span class="permalink">[<a href="../method/Dir/s/tmpdir.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-c-tmpdir">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/tmpdir.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/tmpdir.html">tmpdir</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+テンポラリファイルを作成するのに使うディレクトリ(テンポラリディレクトリ)の絶対パスを文字列として返します。
+<a href="../method/Kernel/v/SAFE.html">$SAFE</a> によって返す文字列は変わります。
+</p>
+<pre class="highlight ruby">
+<code>
+<span class="c1"># WindowsXPの場合
+</span>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">tmpdir</span><span class="s2">"</span>
+
+<span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">tmpdir</span> <span class="c1">#=&gt; &quot;C:/DOCUME~1/taro3/LOCALS~1/Temp&quot;
+</span><span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">tmpdir</span> <span class="c1">#=&gt; &quot;C:/WINDOWS/temp&quot;
+</span>
+<span class="c1"># Linuxの場合 /tmp に加え、環境変数 ENV['TMPDIR'], ENV['TMP'], ENV['TEMP'], ENV['USERPROFILE']を参照します
+</span></code></pre>
 </dd>
 
 

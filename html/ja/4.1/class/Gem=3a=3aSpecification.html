@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -161,6 +161,10 @@ Gem パッケージのメタデータを扱うためのクラスです。
 <li><a href="#S_REQUIRED_ATTRIBUTE--3F">required_attribute?</a></li>
 
 <li><a href="#S_REQUIRED_ATTRIBUTES">required_attributes</a></li>
+
+<li><a href="#S_STUBS">stubs</a></li>
+
+<li><a href="#S_STUBS_FOR">stubs_for</a></li>
 
 </ul>
 </dd>
@@ -389,6 +393,9 @@ Gem パッケージのメタデータを扱うためのクラスです。
 
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -661,6 +668,55 @@ YAML 形式の gemspec を正しくフォーマットします。
 <dd class="method-description">
 <p>
 必須属性のリストを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_STUBS"><code>stubs -&gt; Array</code><span class="permalink">[<a href="../method/Gem=3a=3aSpecification/s/stubs.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Gem/Specification.html#method-c-stubs">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/specification.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+インストールされている全ての Gem の情報を、Gem::StubSpecification（gemspec ファイルの内容を遅延読み込みする軽量なスタブオブジェクト）の配列として返します。
+</p>
+<p>
+<a href="../method/Gem=3a=3aSpecification/s/list.html">Gem::Specification.list</a> とは異なり、gemspec ファイルの内容を実際に読み込まずにスタブを生成するため、高速に動作します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">stubs</span><span class="p">.</span><span class="nf">first</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:class</span><span class="p">)</span>
+<span class="c1"># =&gt; [Gem::StubSpecification, Gem::StubSpecification, Gem::StubSpecification]
+</span>
+<span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">stubs</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">name</span>
+<span class="c1"># =&gt; &quot;abbrev&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aSpecification/s/list.html">Gem::Specification.list</a>, <a href="../method/Gem=3a=3aSpecification/s/stubs_for.html">Gem::Specification.stubs_for</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_STUBS_FOR"><code>stubs_for(name) -&gt; Array</code><span class="permalink">[<a href="../method/Gem=3a=3aSpecification/s/stubs_for.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Gem/Specification.html#method-c-stubs_for">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/specification.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+指定した名前を持つ Gem の Gem::StubSpecification の配列を返します。
+</p>
+<p>
+<a href="../method/Gem=3a=3aSpecification/s/stubs.html">Gem::Specification.stubs</a> と同様、gemspec ファイルの内容を遅延読み込みするスタブオブジェクトを返すため高速に動作します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>name</code>:</dt>
+<dd>
+Gem の名前を文字列で指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">stubs_for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abbrev</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:name</span><span class="p">)</span>
+<span class="c1"># =&gt; [&quot;abbrev&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aSpecification/s/stubs.html">Gem::Specification.stubs</a>
 </p>
 </dd>
 

@@ -251,6 +251,9 @@
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
 
@@ -291,16 +294,15 @@ file_list2 <span class="o">=</span> <span class="no">FileList</span><span class=
 パターンを指定します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-file_list = FileList.new('lib/**/*.rb', 'test/test*.rb')
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+file_list <span class="o">=</span> <span class="no">FileList</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'lib/**/*.rb'</span>, <span class="s1">'test/test*.rb'</span><span class="p">)</span>
 
-pkg_files = FileList.new('lib/**/*') do |fl|
-  fl.exclude(/\bCVS\b/)
-end
-</pre>
+pkg_files <span class="o">=</span> <span class="no">FileList</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'lib/**/*'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>fl<span class="o">|</span>
+  fl<span class="p">.</span><span class="nf">exclude</span><span class="p">(</span><span class="sr">/\bCVS\b/</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
 </dd>
 
 
@@ -393,7 +395,7 @@ task <span class="ss">:test_rake_app</span> <span class="k">do</span>
   <span class="nb">p</span> file_list<span class="p">.</span><span class="nf">egrep</span><span class="p">(</span><span class="sr">/line/</span><span class="p">)</span> <span class="c1"># =&gt; 7
 </span>
   file_list<span class="p">.</span><span class="nf">egrep</span><span class="p">(</span><span class="sr">/.*/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>filename, count, line<span class="o">|</span>
-    <span class="s2">"</span><span class="s2">filename = </span><span class="si">#{</span><span class="n">filename</span><span class="si">}</span><span class="s2">, count = </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2">, line = </span><span class="si">#{</span><span class="n">line</span><span class="si">}</span><span class="s2">"</span>
+    <span class="nb">p</span> <span class="s2">"</span><span class="s2">filename = </span><span class="si">#{</span><span class="n">filename</span><span class="si">}</span><span class="s2">, count = </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2">, line = </span><span class="si">#{</span><span class="n">line</span><span class="si">}</span><span class="s2">"</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
@@ -419,19 +421,18 @@ task <span class="ss">:test_rake_app</span> <span class="k">do</span>
 <p>
 グロブパターンはファイルシステムに対して展開されます。もし、ファイルシステムに存在しないファイルを明示的にリストへ追加した場合、グロブパターンではそのファイルをリストから削除しません。
 </p>
-<p>
-例:
-</p>
-<pre>
-FileList['a.c', 'b.c'].exclude(&quot;a.c&quot;) # =&gt; ['b.c']
-FileList['a.c', 'b.c'].exclude(/^a/)  # =&gt; ['b.c']
-
-# If &quot;a.c&quot; is a file, then ...
-FileList['a.c', 'b.c'].exclude(&quot;a.*&quot;) # =&gt; ['b.c']
-
-# If &quot;a.c&quot; is not a file, then ...
-FileList['a.c', 'b.c'].exclude(&quot;a.*&quot;) # =&gt; ['a.c', 'b.c']
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">FileList</span><span class="p">[</span><span class="s1">'a.c'</span>, <span class="s1">'b.c'</span><span class="p">]</span><span class="p">.</span><span class="nf">exclude</span><span class="p">(</span><span class="s2">"</span><span class="s2">a.c</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;b.c&quot;]
+</span><span class="nb">p</span> <span class="no">FileList</span><span class="p">[</span><span class="s1">'a.c'</span>, <span class="s1">'b.c'</span><span class="p">]</span><span class="p">.</span><span class="nf">exclude</span><span class="p">(</span><span class="sr">/^a/</span><span class="p">)</span>  <span class="c1"># =&gt; [&quot;b.c&quot;]
+</span>
+<span class="c1"># If &quot;a.c&quot; is a file, then ...
+</span><span class="nb">p</span> <span class="no">FileList</span><span class="p">[</span><span class="s1">'a.c'</span>, <span class="s1">'b.c'</span><span class="p">]</span><span class="p">.</span><span class="nf">exclude</span><span class="p">(</span><span class="s2">"</span><span class="s2">a.*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;b.c&quot;]
+</span>
+<span class="c1"># If &quot;a.c&quot; is not a file, then ...
+</span><span class="nb">p</span> <span class="no">FileList</span><span class="p">[</span><span class="s1">'a.c'</span>, <span class="s1">'b.c'</span><span class="p">]</span><span class="p">.</span><span class="nf">exclude</span><span class="p">(</span><span class="s2">"</span><span class="s2">a.*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;a.c&quot;, &quot;b.c&quot;]
+</span></code></pre>
 </dd>
 
 
@@ -536,12 +537,11 @@ task <span class="ss">:test_rake_app</span> <span class="k">do</span>
 <p>
 自身に含まれるファイルリストのそれぞれのエントリに対して <a href="../method/String/i/gsub.html">String#gsub</a> を実行し、結果を新しい <a href="../class/Rake=3a=3aFileList.html">Rake::FileList</a> として返します。
 </p>
-<p>
-例:
-</p>
-<pre>
-FileList['lib/test/file', 'x/y'].gsub(/\//, &quot;\\&quot;) # =&gt; ['lib\\test\\file', 'x\\y']
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> <span class="no">FileList</span><span class="p">[</span><span class="s1">'lib/test/file'</span>, <span class="s1">'x/y'</span><span class="p">]</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="sr">/\//</span>, <span class="s2">"</span><span class="s2">\\</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;lib\\test\\file&quot;, &quot;x\\y&quot;]
+</span></code></pre>
 </dd>
 
 
@@ -606,13 +606,12 @@ task <span class="ss">:test_rake_app</span> <span class="k">do</span>
 追加するファイル名のパターンを指定します。
 </dd>
 </dl>
-<p>
-例:
-</p>
-<pre>
-file_list.include(&quot;*.java&quot;, &quot;*.cfg&quot;)
-file_list.include %w( math.c lib.h *.o )
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+file_list<span class="p">.</span><span class="nf">include</span><span class="p">(</span><span class="s2">"</span><span class="s2">*.java</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">*.cfg</span><span class="s2">"</span><span class="p">)</span>
+file_list<span class="p">.</span><span class="nf">include</span> <span class="sx">%w( math.c lib.h *.o )</span>
+</code></pre>
 </dd>
 
 
@@ -686,12 +685,11 @@ task <span class="ss">:test_rake_app</span> <span class="k">do</span>
 <p>
 自身に含まれるファイルリストのそれぞれのエントリに対して <a href="../method/String/i/sub.html">String#sub</a> を実行し、結果を新しい <a href="../class/Rake=3a=3aFileList.html">Rake::FileList</a> として返します。
 </p>
-<p>
-例:
-</p>
-<pre>
+<span class="caption">例</span>
+<pre class="highlight text">
+<code>
 FileList['a.c', 'b.c'].sub(/\.c$/, '.o')  =&gt; ['a.o', 'b.o']
-</pre>
+</code></pre>
 </dd>
 
 
@@ -707,8 +705,8 @@ FileList['a.c', 'b.c'].sub(/\.c$/, '.o')  =&gt; ['a.o', 'b.o']
 task <span class="ss">default:</span> <span class="ss">:test_rake_app</span>
 task <span class="ss">:test_rake_app</span> <span class="k">do</span>
   file_list <span class="o">=</span> <span class="no">FileList</span><span class="p">[</span><span class="s1">'a.c'</span>, <span class="s1">'b.c'</span><span class="p">]</span>
-  <span class="nb">p</span> file_list<span class="p">.</span><span class="nf">sub!</span><span class="p">(</span><span class="sr">/\.c$/</span>, <span class="s1">'.o'</span><span class="p">)</span> <span class="c1"># =&gt; ['a.o', 'b.o']
-</span>  <span class="nb">p</span> file_list                  <span class="c1"># =&gt; ['a.o', 'b.o']
+  <span class="nb">p</span> file_list<span class="p">.</span><span class="nf">sub!</span><span class="p">(</span><span class="sr">/\.c$/</span>, <span class="s1">'.o'</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;a.o&quot;, &quot;b.o&quot;]
+</span>  <span class="nb">p</span> file_list                  <span class="c1"># =&gt; [&quot;a.o&quot;, &quot;b.o&quot;]
 </span><span class="k">end</span>
 </code></pre>
 </dd>
