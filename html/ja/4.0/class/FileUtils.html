@@ -103,7 +103,7 @@
 </p>
 <h2 id='options'>オプションの説明</h2>
 <p>
-引数 options で使用できるオプションの説明です。メソッドごとに使用できるオプションは決まっています。不正なオプションを与えると <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
+各メソッドでキーワード引数として指定できるオプションの説明です。メソッドごとに指定できるキーワードは決まっています。未対応のキーワードを指定すると <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
 </p>
 <dl>
 <dt><code>:noop</code></dt>
@@ -181,7 +181,7 @@
 <dt><code>:group</code></dt>
 <dd>
 <p>
-グループ名か gid を指定すると所有グループを指定します。
+グループ名か gid を指定すると所有グループを変更します。
 </p>
 </dd>
 </dl>
@@ -258,6 +258,8 @@
 
 <li><a href="#M_LN_SF">ln_sf</a></li>
 
+<li><a href="#M_LN_SR">ln_sr</a></li>
+
 <li><a href="#M_MAKEDIRS">makedirs</a></li>
 
 <li><a href="#M_MKDIR">mkdir</a></li>
@@ -305,6 +307,21 @@
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_RUBY">ruby</a></li>
+
+<li><a href="#I_SAFE_LN">safe_ln</a></li>
+
+<li><a href="#I_SH">sh</a></li>
+
+<li><a href="#I_SPLIT_ALL">split_all</a></li>
+
+</ul>
+</dd>
+
 <dt>定数</dt>
 <dd>
 <ul class="class-toc">
@@ -322,6 +339,9 @@
 
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -385,7 +405,7 @@ mid というメソッドが opt というオプションを持つ場合、真�
 <pre class="highlight ruby">
 <code>
 <span class="nb">require</span> <span class="s1">'fileutils'</span>
-<span class="no">FileUtils</span><span class="p">.</span><span class="nf">options</span>
+<span class="nb">p</span> <span class="no">FileUtils</span><span class="p">.</span><span class="nf">options</span>
 <span class="c1"># =&gt; [&quot;noop&quot;, &quot;verbose&quot;, &quot;force&quot;, &quot;mode&quot;, &quot;parents&quot;, &quot;owner&quot;, &quot;group&quot;, &quot;preserve&quot;, &quot;dereference_root&quot;, &quot;remove_destination&quot;, &quot;secure&quot;, &quot;mtime&quot;, &quot;nocreate&quot;]
 </span></code></pre>
 </dd>
@@ -415,10 +435,10 @@ mid というメソッドが opt というオプションを持つ場合、真�
 <h2>モジュール関数</h2>
 <dl>
 
-<dt class="method-heading" id="M_CD"><code>cd(dir, options = {}) -&gt; 0</code><span class="permalink">[<a href="../method/FileUtils/m/cd.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-cd">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>cd(dir, options = {}) {|dir| .... } -&gt; object</code></dt>
-<dt class="method-heading"><code>chdir(dir, options = {}) -&gt; 0</code></dt>
-<dt class="method-heading"><code>chdir(dir, options = {}) {|dir| .... } -&gt; object</code></dt>
+<dt class="method-heading" id="M_CD"><code>cd(dir, verbose: nil) -&gt; 0</code><span class="permalink">[<a href="../method/FileUtils/m/cd.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-cd">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>cd(dir, verbose: nil) {|dir| .... } -&gt; object</code></dt>
+<dt class="method-heading"><code>chdir(dir, verbose: nil) -&gt; 0</code></dt>
+<dt class="method-heading"><code>chdir(dir, verbose: nil) {|dir| .... } -&gt; object</code></dt>
 <dd class="method-description">
 <p>
 プロセスのカレントディレクトリを dir に変更します。
@@ -431,10 +451,9 @@ mid というメソッドが opt というオプションを持つ場合、真�
 <dd>
 ディレクトリを指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
 <dd>
-:verbose が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると詳細を出力します。
 </dd>
 </dl>
 <pre class="highlight ruby">
@@ -445,7 +464,7 @@ mid というメソッドが opt というオプションを持つ場合、真�
 </dd>
 
 
-<dt class="method-heading" id="M_CHMOD"><code>chmod(mode, list, options = {}) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/m/chmod.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-chmod">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_CHMOD"><code>chmod(mode, list, noop: nil, verbose: nil) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/m/chmod.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-chmod">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 ファイル list のパーミッションを mode に変更します。
@@ -460,10 +479,13 @@ mode)で指定します。
 <dd>
 ファイルのリストを指定します。 対象のファイルが一つの場合は文字列でも指定可能です。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
 <dd>
-:noop と :verbose が指定可能です。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
@@ -516,7 +538,7 @@ symbolic mode では以下の指定を 操作対象 演算子 権限 の順番�
 </dd>
 
 
-<dt class="method-heading" id="M_CHMOD_-R"><code>chmod_R(mode, list, options = {}) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/m/chmod_R.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-chmod_R">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_CHMOD_-R"><code>chmod_R(mode, list, noop: nil, verbose: nil, force: nil) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/m/chmod_R.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-chmod_R">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 ファイル list のパーミッションを再帰的に mode へ変更します。
@@ -531,10 +553,17 @@ mode)で指定します(<a href="../method/FileUtils/m/chmod.html">FileUtils.#ch
 <dd>
 ファイルのリストを指定します。対象のファイルが一つの場合は文字列でも指定可能です。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
 <dd>
-:noop と :verbose が指定可能です。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
+</dd>
+<dt class='method-param'>[PARAM] <code>force</code>:</dt>
+<dd>
+真を指定すると処理中に発生した <a href="../class/StandardError.html">StandardError</a> を無視します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
@@ -549,7 +578,7 @@ list を配列として返します。
 </dd>
 
 
-<dt class="method-heading" id="M_CHOWN"><code>chown(user, group, list, options = {}) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/m/chown.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-chown">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_CHOWN"><code>chown(user, group, list, noop: nil, verbose: nil) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/m/chown.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-chown">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 ファイル list の所有ユーザと所有グループを user と group に変更します。
@@ -570,10 +599,13 @@ user, group に nil または -1 を渡すとその項目は変更しません�
 <dd>
 ファイルのリストを指定します。対象のファイルが一つの場合は文字列でも指定可能です。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
 <dd>
-:noop と :verbose が指定可能です。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
@@ -589,7 +621,7 @@ list を配列として返します。
 </dd>
 
 
-<dt class="method-heading" id="M_CHOWN_-R"><code>chown_R(user, group, list, options = {}) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/m/chown_R.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-chown_R">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_CHOWN_-R"><code>chown_R(user, group, list, noop: nil, verbose: nil, force: nil) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/m/chown_R.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-chown_R">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 list 以下のファイルの所有ユーザと所有グループを
@@ -611,10 +643,17 @@ user, group に nil または -1 を渡すとその項目は変更しません�
 <dd>
 ファイルのリストを指定します。対象のファイルが一つの場合は文字列でも指定可能です。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
 <dd>
-:noop と :verbose が指定可能です。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
+</dd>
+<dt class='method-param'>[PARAM] <code>force</code>:</dt>
+<dd>
+真を指定すると処理中に発生した <a href="../class/StandardError.html">StandardError</a> を無視します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
@@ -678,8 +717,8 @@ list を配列として返します。
 </dd>
 
 
-<dt class="method-heading" id="M_COPY"><code>cp(src, dest, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/copy.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-copy">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>copy(src, dest, options = {}) -&gt; ()</code></dt>
+<dt class="method-heading" id="M_COPY"><code>cp(src, dest, preserve: nil, noop: nil, verbose: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/copy.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-copy">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>copy(src, dest, preserve: nil, noop: nil, verbose: nil) -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
 ファイル src を dest にコピーします。
@@ -703,10 +742,17 @@ file1 を dest/file1 にコピー、file2 を dest/file2 にコピー、とい�
 <dd>
 コピー先のファイルかディレクトリです。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>preserve</code>:</dt>
 <dd>
-:preserve, :noop, :verbose が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると更新時刻と、可能なら所有ユーザ・所有グループもコピーします。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 <dt>[EXCEPTION] <code>Errno::ENOTDIR</code>:</dt>
 <dd>
@@ -814,10 +860,21 @@ dest がディレクトリの場合、src へのハードリンク dest/src を�
 <dd>
 リンク作成先のファイルかディレクトリです。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
 <dd>
-:noop, :verbose, :dereference_root, :remove_destination が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
+</dd>
+<dt class='method-param'>[PARAM] <code>dereference_root</code>:</dt>
+<dd>
+真を指定すると src についてだけシンボリックリンクの指す内容をコピーします。偽の場合はシンボリックリンク自体をコピーします。
+</dd>
+<dt class='method-param'>[PARAM] <code>remove_destination</code>:</dt>
+<dd>
+真を指定するとコピーを実行する前にコピー先を削除します。
 </dd>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
@@ -858,7 +915,7 @@ src が複数で dest がディレクトリでない場合に発生します。
 </dd>
 
 
-<dt class="method-heading" id="M_CP_R"><code>cp_r(src, dest, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/cp_r.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-cp_r">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_CP_R"><code>cp_r(src, dest, preserve: nil, noop: nil, verbose: nil, dereference_root: true, remove_destination: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/cp_r.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-cp_r">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 src を dest にコピーします。src がディレクトリであったら再帰的にコピーします。その際 dest がディレクトリなら dest/src にコピーします。
@@ -872,10 +929,25 @@ src を dest にコピーします。src がディレクトリであったら再
 <dd>
 コピー先のファイルかディレクトリです。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>preserve</code>:</dt>
 <dd>
-:preserve, :noop, :verbose, :dereference_root, :remove_destination が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると更新時刻と、可能なら所有ユーザ・所有グループもコピーします。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
+</dd>
+<dt class='method-param'>[PARAM] <code>dereference_root</code>:</dt>
+<dd>
+真を指定すると src についてだけシンボリックリンクの指す内容をコピーします。偽の場合はシンボリックリンク自体をコピーします。
+</dd>
+<dt class='method-param'>[PARAM] <code>remove_destination</code>:</dt>
+<dd>
+真を指定するとコピーを実行する前にコピー先を削除します。
 </dd>
 </dl>
 <pre class="highlight ruby">
@@ -902,7 +974,7 @@ src を dest にコピーします。src がディレクトリであったら再
 </dd>
 
 
-<dt class="method-heading" id="M_INSTALL"><code>install(src, dest, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/install.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-install">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_INSTALL"><code>install(src, dest, mode: nil, owner: nil, group: nil, preserve: nil, noop: nil, verbose: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/install.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-install">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 src と dest の内容が違うときだけ src を dest にコピーします。
@@ -916,10 +988,30 @@ src と dest の内容が違うときだけ src を dest にコピーします�
 <dd>
 コピー先のファイルかディレクトリです。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
 <dd>
-:preserve, :noop, :verbose, :mode, :owner, :group が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+パーミッションを8進数(absolute mode)か文字列(symbolic
+mode)で指定します。symbolic mode の詳細は <a href="../method/FileUtils/m/chmod.html">FileUtils.#chmod</a> を参照してください。
+</dd>
+<dt class='method-param'>[PARAM] <code>owner</code>:</dt>
+<dd>
+ユーザー名か uid を指定すると所有ユーザを変更します。
+</dd>
+<dt class='method-param'>[PARAM] <code>group</code>:</dt>
+<dd>
+グループ名か gid を指定すると所有グループを変更します。
+</dd>
+<dt class='method-param'>[PARAM] <code>preserve</code>:</dt>
+<dd>
+真を指定すると更新時刻と、可能なら所有ユーザ・所有グループもコピーします。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 </dl>
 <pre class="highlight ruby">
@@ -931,8 +1023,8 @@ src と dest の内容が違うときだけ src を dest にコピーします�
 </dd>
 
 
-<dt class="method-heading" id="M_LINK"><code>ln(src, dest, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/link.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-link">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>link(src, dest, options = {}) -&gt; ()</code></dt>
+<dt class="method-heading" id="M_LINK"><code>ln(src, dest, force: nil, noop: nil, verbose: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/link.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-link">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>link(src, dest, force: nil, noop: nil, verbose: nil) -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
 src へのハードリンク dest を作成します。
@@ -956,10 +1048,17 @@ dest がディレクトリでない場合は例外 Errno::ENOTDIR が発生し�
 <dd>
 リンク作成先のファイルかディレクトリです。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>force</code>:</dt>
 <dd>
-:force, :noop, :verbose が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると dest を上書きします。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 <dt>[EXCEPTION] <code>Errno::EEXIST</code>:</dt>
 <dd>
@@ -981,8 +1080,8 @@ src が複数で dest がディレクトリでない場合に発生します。
 </dd>
 
 
-<dt class="method-heading" id="M_LN_S"><code>ln_s(src, dest, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/ln_s.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-ln_s">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>symlink(src, dest, options = {}) -&gt; ()</code></dt>
+<dt class="method-heading" id="M_LN_S"><code>ln_s(src, dest, force: nil, relative: false, target_directory: true, noop: nil, verbose: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/ln_s.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-ln_s">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>symlink(src, dest, force: nil, relative: false, target_directory: true, noop: nil, verbose: nil) -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
 src へのシンボリックリンク dest を作成します。
@@ -997,6 +1096,10 @@ src が複数の場合、
 src[0] へのシンボリックリンク dest/src[0]、src[1] へのシンボリックリンク dest/src[1] …を作成します。
 dest がディレクトリでない場合は例外 Errno::ENOTDIR が発生します。
 </p>
+<p>
+relative オプションを指定すると、dest からの相対パスによるシンボリックリンクを作成します。
+<a href="../method/FileUtils/m/ln_sr.html">FileUtils.#ln_sr</a> を使うのと同じです。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>src</code>:</dt>
 <dd>
@@ -1006,10 +1109,25 @@ dest がディレクトリでない場合は例外 Errno::ENOTDIR が発生し�
 <dd>
 リンク作成先のファイルかディレクトリです。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>force</code>:</dt>
 <dd>
-:force, :noop, :verbose が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると dest を上書きします。
+</dd>
+<dt class='method-param'>[PARAM] <code>relative</code>:</dt>
+<dd>
+真を指定すると dest からの相対パスでシンボリックリンクを作成します。
+</dd>
+<dt class='method-param'>[PARAM] <code>target_directory</code>:</dt>
+<dd>
+dest をディレクトリとして扱うかどうかを指定します(真がデフォルトです)。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 <dt>[EXCEPTION] <code>Errno::EEXIST</code>:</dt>
 <dd>
@@ -1030,7 +1148,7 @@ src が複数で dest がディレクトリでない場合に発生します。
 </dd>
 
 
-<dt class="method-heading" id="M_LN_SF"><code>ln_sf(src, dest, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/ln_sf.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-ln_sf">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_LN_SF"><code>ln_sf(src, dest, noop: nil, verbose: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/ln_sf.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-ln_sf">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 src へのシンボリックリンク dest を作成します。
@@ -1047,10 +1165,13 @@ ln_s(src, dest, force: true) と同じです。
 <dd>
 リンク作成先のファイルかディレクトリです。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
 <dd>
-:force, :noop, :verbose が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 <dt>[EXCEPTION] <code>Errno::ENOTDIR</code>:</dt>
 <dd>
@@ -1063,9 +1184,71 @@ src が複数で dest がディレクトリでない場合に発生します。
 </dd>
 
 
-<dt class="method-heading" id="M_MAKEDIRS"><code>mkdir_p(list, options = {}) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/m/makedirs.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-makedirs">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>mkpath(list, options = {}) -&gt; Array</code></dt>
-<dt class="method-heading"><code>makedirs(list, options = {}) -&gt; Array</code></dt>
+<dt class="method-heading" id="M_LN_SR"><code>ln_sr(src, dest, target_directory: true, force: nil, noop: nil, verbose: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/ln_sr.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-ln_sr">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+src へのシンボリックリンク dest を、dest からの相対パスで作成します。
+ln_s(src, dest, relative: true) と同じです。
+</p>
+<p>
+src が一つの場合、
+dest がすでに存在しディレクトリであるときは dest/src を作成します。
+dest がすでに存在しディレクトリでないならば例外 Errno::EEXIST が発生します。ただし :force オプションを指定したときは dest を上書きします。
+</p>
+<p>
+src が複数の場合、
+src[0] へのシンボリックリンク dest/src[0]、src[1] へのシンボリックリンク dest/src[1] …を作成します。
+dest がディレクトリでない場合は例外 Errno::ENOTDIR が発生します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>src</code>:</dt>
+<dd>
+リンク元。一つの場合は文字列でも指定可能です。二つ以上指定する場合は配列で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>dest</code>:</dt>
+<dd>
+リンク作成先のファイルかディレクトリです。
+</dd>
+<dt class='method-param'>[PARAM] <code>target_directory</code>:</dt>
+<dd>
+dest をディレクトリとして扱うかどうかを指定します(真がデフォルトです)。
+</dd>
+<dt class='method-param'>[PARAM] <code>force</code>:</dt>
+<dd>
+真を指定すると dest を上書きします。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
+</dd>
+<dt>[EXCEPTION] <code>Errno::EEXIST</code>:</dt>
+<dd>
+src が一つで dest がすでに存在しディレクトリでない場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>Errno::ENOTDIR</code>:</dt>
+<dd>
+src が複数で dest がディレクトリでない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fileutils'</span>
+<span class="nb">p</span> <span class="no">FileUtils</span><span class="p">.</span><span class="nf">ln_sr</span><span class="p">(</span><span class="s1">'/usr/local/src/ruby/ruby.c'</span>, <span class="s1">'/usr/local/bin/ruby.c'</span><span class="p">)</span>
+<span class="c1"># =&gt; /usr/local/bin/ruby.c は ../src/ruby/ruby.c へのシンボリックリンクになります。
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/FileUtils/m/ln_s.html">FileUtils.#ln_s</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_MAKEDIRS"><code>mkdir_p(list, mode: nil, noop: nil, verbose: nil) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/m/makedirs.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-makedirs">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>mkpath(list, mode: nil, noop: nil, verbose: nil) -&gt; Array</code></dt>
+<dt class="method-heading"><code>makedirs(list, mode: nil, noop: nil, verbose: nil) -&gt; Array</code></dt>
 <dd class="method-description">
 <p>
 ディレクトリ dir とその親ディレクトリを全て作成します。
@@ -1092,10 +1275,17 @@ src が複数で dest がディレクトリでない場合に発生します。
 <dd>
 作成するディレクトリ。一つの場合は文字列でも指定できます。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
 <dd>
-:mode, :noop, :verbose が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+パーミッションを8進数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
@@ -1105,7 +1295,7 @@ src が複数で dest がディレクトリでない場合に発生します。
 </dd>
 
 
-<dt class="method-heading" id="M_MKDIR"><code>mkdir(dir, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/mkdir.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-mkdir">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_MKDIR"><code>mkdir(dir, mode: nil, noop: nil, verbose: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/mkdir.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-mkdir">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 ディレクトリ dir を作成します。
@@ -1115,10 +1305,17 @@ src が複数で dest がディレクトリでない場合に発生します。
 <dd>
 作成するディレクトリ。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
 <dd>
-:mode, :noop, :verbose が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+パーミッションを8進数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 </dl>
 <pre class="highlight ruby">
@@ -1131,8 +1328,8 @@ src が複数で dest がディレクトリでない場合に発生します。
 </dd>
 
 
-<dt class="method-heading" id="M_MOVE"><code>mv(src, dest, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/move.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-move">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>move(src, dest, options = {}) -&gt; ()</code></dt>
+<dt class="method-heading" id="M_MOVE"><code>mv(src, dest, force: nil, noop: nil, verbose: nil, secure: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/move.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-move">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>move(src, dest, force: nil, noop: nil, verbose: nil, secure: nil) -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
 ファイル src を dest に移動します。
@@ -1156,10 +1353,21 @@ dest がディレクトリでない場合は例外 Errno::ENOTDIR が発生し�
 <dd>
 移動先のファイル、またはディレクトリ。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>force</code>:</dt>
 <dd>
-:force, :noop, :verbose, :secure が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると処理中に発生した <a href="../class/StandardError.html">StandardError</a> を無視します。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
+</dd>
+<dt class='method-param'>[PARAM] <code>secure</code>:</dt>
+<dd>
+真を指定するとファイルの削除に <a href="../method/FileUtils/m/remove_entry_secure.html">FileUtils.#remove_entry_secure</a> を使用します。
 </dd>
 </dl>
 <pre class="highlight ruby">
@@ -1173,8 +1381,8 @@ dest がディレクトリでない場合は例外 Errno::ENOTDIR が発生し�
 </dd>
 
 
-<dt class="method-heading" id="M_REMOVE"><code>rm(list, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/remove.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-remove">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>remove(list, options = {}) -&gt; ()</code></dt>
+<dt class="method-heading" id="M_REMOVE"><code>rm(list, force: nil, noop: nil, verbose: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/remove.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-remove">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>remove(list, force: nil, noop: nil, verbose: nil) -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
 list で指定された対象を消去します。
@@ -1184,10 +1392,17 @@ list で指定された対象を消去します。
 <dd>
 削除する対象。一つの場合は文字列も指定可能です。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>force</code>:</dt>
 <dd>
-:force, :noop, :verbose が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると処理中に発生した <a href="../class/StandardError.html">StandardError</a> を無視します。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 </dl>
 <pre class="highlight ruby">
@@ -1305,24 +1520,24 @@ TOCTTOU (time-of-check to time-of-use)脆弱性が存在します。このメソ
 </dd>
 
 
-<dt class="method-heading" id="M_RM_F"><code>rm_f(list, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/rm_f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-rm_f">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>safe_unlink(list, options = {}) -&gt; ()</code></dt>
+<dt class="method-heading" id="M_RM_F"><code>rm_f(list, noop: nil, verbose: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/rm_f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-rm_f">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>safe_unlink(list, noop: nil, verbose: nil) -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
 FileUtils.rm(list, force: true) と同じです。
-</p>
-<p>
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>list</code>:</dt>
 <dd>
 削除する対象。一つの場合は文字列も指定可能です。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
 <dd>
-:noop, :verbose が指定できます。
-:force がセットされた場合は作業中すべての <a href="../class/StandardError.html">StandardError</a> を無視します。
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 </dl>
 <p>
@@ -1331,7 +1546,7 @@ FileUtils.rm(list, force: true) と同じです。
 </dd>
 
 
-<dt class="method-heading" id="M_RM_R"><code>rm_r(list, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/rm_r.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-rm_r">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_RM_R"><code>rm_r(list, force: nil, noop: nil, verbose: nil, secure: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/rm_r.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-rm_r">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 ファイルまたはディレクトリ list を再帰的に消去します。
@@ -1341,10 +1556,21 @@ FileUtils.rm(list, force: true) と同じです。
 <dd>
 削除する対象。一つの場合は文字列も指定可能です。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>force</code>:</dt>
 <dd>
-:force, :noop, :verbose, :secure が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると処理中に発生した <a href="../class/StandardError.html">StandardError</a> を無視します。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
+</dd>
+<dt class='method-param'>[PARAM] <code>secure</code>:</dt>
+<dd>
+真を指定するとファイルの削除に <a href="../method/FileUtils/m/remove_entry_secure.html">FileUtils.#remove_entry_secure</a> を使用します。
 </dd>
 </dl>
 <h3 >注意</h3>
@@ -1363,8 +1589,8 @@ FileUtils.rm(list, force: true) と同じです。
 </dd>
 
 
-<dt class="method-heading" id="M_RM_RF"><code>rm_rf(list, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/rm_rf.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-rm_rf">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>rmtree(list, options = {}) -&gt; ()</code></dt>
+<dt class="method-heading" id="M_RM_RF"><code>rm_rf(list, noop: nil, verbose: nil, secure: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/rm_rf.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-rm_rf">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>rmtree(list, noop: nil, verbose: nil, secure: nil) -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
 ファイルまたはディレクトリ list を再帰的に消去します。
@@ -1377,10 +1603,17 @@ rm_r(list, force: true) と同じです。
 <dd>
 削除する対象。一つの場合は文字列も指定可能です。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
 <dd>
-:noop, :verbose, :secure が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
+</dd>
+<dt class='method-param'>[PARAM] <code>secure</code>:</dt>
+<dd>
+真を指定するとファイルの削除に <a href="../method/FileUtils/m/remove_entry_secure.html">FileUtils.#remove_entry_secure</a> を使用します。
 </dd>
 </dl>
 <h3 >注意</h3>
@@ -1393,7 +1626,7 @@ rm_r(list, force: true) と同じです。
 </dd>
 
 
-<dt class="method-heading" id="M_RMDIR"><code>rmdir(dir, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/rmdir.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-rmdir">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_RMDIR"><code>rmdir(dir, parents: nil, noop: nil, verbose: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/rmdir.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-rmdir">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 ディレクトリ dir を削除します。
@@ -1406,10 +1639,17 @@ rm_r(list, force: true) と同じです。
 <dd>
 削除するディレクトリを指定します。一つの場合は文字列でも指定可能です。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>parents</code>:</dt>
 <dd>
-:parents, :noop, :verbose が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると指定したディレクトリの親ディレクトリも含めて削除します。
+</dd>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
+<dd>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
 </dd>
 </dl>
 <pre class="highlight ruby">
@@ -1423,7 +1663,7 @@ rm_r(list, force: true) と同じです。
 </dd>
 
 
-<dt class="method-heading" id="M_TOUCH"><code>touch(list, options = {}) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/touch.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-touch">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_TOUCH"><code>touch(list, noop: nil, verbose: nil, mtime: nil, nocreate: nil) -&gt; ()</code><span class="permalink">[<a href="../method/FileUtils/m/touch.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-touch">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 list で指定されたファイルの最終変更時刻 (mtime) とアクセス時刻 (atime) を変更します。
@@ -1436,10 +1676,21 @@ list で指定されたファイルが存在しない場合は空のファイル
 <dd>
 対象のファイル。一つの場合は文字列も指定可能です。二つ以上指定する場合は配列で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt class='method-param'>[PARAM] <code>noop</code>:</dt>
 <dd>
-:mtime, :nocreate, :noop, :verbose が指定できます。
-<a href="../class/FileUtils.html#options">FileUtils/オプションの説明</a>
+真を指定すると実際の処理は行いません。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbose</code>:</dt>
+<dd>
+真を指定すると詳細を出力します。
+</dd>
+<dt class='method-param'>[PARAM] <code>mtime</code>:</dt>
+<dd>
+時刻を <a href="../class/Time.html">Time</a> か、起算時からの経過秒数を数値で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>nocreate</code>:</dt>
+<dd>
+真を指定するとファイルを作成しません。
 </dd>
 </dl>
 <pre class="highlight ruby">
@@ -1452,7 +1703,7 @@ list で指定されたファイルが存在しない場合は空のファイル
 </dd>
 
 
-<dt class="method-heading" id="M_UPTODATE--3F"><code>uptodate?(newer, older_list, options = nil) -&gt; bool</code><span class="permalink">[<a href="../method/FileUtils/m/uptodate=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-uptodate-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_UPTODATE--3F"><code>uptodate?(newer, older_list) -&gt; bool</code><span class="permalink">[<a href="../method/FileUtils/m/uptodate=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-c-uptodate-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fileutils/FileUtils.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 newer が、older_list に含まれるすべてのファイルより新しいとき真。存在しないファイルは無限に古いとみなされます。
@@ -1466,20 +1717,116 @@ newer が、older_list に含まれるすべてのファイルより新しいと
 <dd>
 ファイル名の配列を指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
-<dd>
-どのようなオプションも指定することはできません。
-</dd>
-<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
-<dd>
-options にオプションを指定した場合に発生します。
-</dd>
 </dl>
 <pre class="highlight ruby">
 <code>
 <span class="nb">require</span> <span class="s1">'fileutils'</span>
 <span class="no">FileUtils</span><span class="p">.</span><span class="nf">uptodate?</span><span class="p">(</span><span class="s1">'hello.o'</span>, <span class="p">[</span><span class="s1">'hello.c'</span>, <span class="s1">'hello.h'</span><span class="p">]</span><span class="p">)</span> <span class="k">or</span> <span class="nb">system</span><span class="p">(</span><span class="s1">'make'</span><span class="p">)</span>
 </code></pre>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_RUBY"><code>ruby(*args) {|result, status| ... }</code><span class="permalink">[<a href="../method/FileUtils/i/ruby.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-i-ruby">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rake/FileUtils.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/rake.html">rake</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+与えられた引数で Ruby インタプリタを実行します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>args</code>:</dt>
+<dd>
+Ruby インタプリタに与える引数を指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+ruby <span class="s2">%{</span><span class="s2">-pe '$_.upcase!' &lt;README</span><span class="s2">}</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Kernel/m/sh.html">Kernel.#sh</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SAFE_LN"><code>safe_ln(*args)</code><span class="permalink">[<a href="../method/FileUtils/i/safe_ln.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-i-safe_ln">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rake/FileUtils.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/rake.html">rake</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+安全にリンクを作成します。
+</p>
+<p>
+リンクの作成に失敗した場合はファイルをコピーします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>args</code>:</dt>
+<dd>
+<a href="../method/FileUtils/m/cp.html">FileUtils.#cp</a>, <a href="../method/FileUtils/m/ln.html">FileUtils.#ln</a> に渡す引数を指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/FileUtils/m/cp.html">FileUtils.#cp</a>, <a href="../method/FileUtils/m/ln.html">FileUtils.#ln</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SH"><code>sh(*cmd) {|result, status| ... }</code><span class="permalink">[<a href="../method/FileUtils/i/sh.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-i-sh">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rake/FileUtils.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/rake.html">rake</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+与えられたコマンドを実行します。
+</p>
+<p>
+与えられた引数が複数の場合、シェルを経由しないでコマンドを実行します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>cmd</code>:</dt>
+<dd>
+引数の解釈に関しては <a href="../method/Kernel/m/exec.html">Kernel.#exec</a> を参照してください。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+sh <span class="s2">%{</span><span class="s2">ls -ltr</span><span class="s2">}</span>
+   
+sh <span class="s1">'ls'</span>, <span class="s1">'file with spaces'</span>
+   
+<span class="c1"># check exit status after command runs
+</span>sh <span class="s2">%{</span><span class="s2">grep pattern file</span><span class="s2">}</span> <span class="k">do</span> <span class="o">|</span>ok, res<span class="o">|</span>
+  <span class="k">if</span> <span class="o">!</span> ok
+    <span class="nb">puts</span> <span class="s2">"</span><span class="s2">pattern not found (status = </span><span class="si">#{</span><span class="n">res</span><span class="p">.</span><span class="nf">exitstatus</span><span class="si">}</span><span class="s2">)</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Kernel/m/exec.html">Kernel.#exec</a>, <a href="../method/Kernel/m/system.html">Kernel.#system</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SPLIT_ALL"><code>split_all(path) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/i/split_all.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/FileUtils.html#method-i-split_all">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rake/FileUtils.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/rake.html">rake</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+与えられたパスをディレクトリごとに分割します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>path</code>:</dt>
+<dd>
+分割するパスを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">p</span> split_all<span class="p">(</span><span class="s2">"</span><span class="s2">a/b/c</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+</span></code></pre>
 </dd>
 
 

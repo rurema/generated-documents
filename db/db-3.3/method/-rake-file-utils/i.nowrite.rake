@@ -9,12 +9,11 @@ source_location=manual/api/rake/RakeFileUtils.md
 
 - **param** `value` -- 真を指定するとファイルを書き込みません。
 
-例:
-```````
+```text title="例"
 nowrite              # 現在の状態を返します。
 nowrite(v)           # 与えられた状態に変更します。
 nowrite(v) { code }  # ブロックを評価する間だけ与えられた状態に変更します。
                      # ブロックの評価が終わると元の値に戻します。
-```````
+```
 
 

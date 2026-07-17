@@ -1,0 +1,43 @@
+names=ole_instance_variable_get
+visibility=public
+kind=defined
+source_location=manual/api/win32ole/WIN32OLE_RECORD.md
+
+### def ole_instance_variable_get(name) -> object
+VT_RECORD OLE変数のメンバ名に対応する値を取得します。メンバ名が正しく
+ない場合は[c:KeyError]が発生します。
+
+Rubyの[c:Object]が持つメソッドと同名のメンバを持つなど、メンバに
+[m:WIN32OLE_RECORD#method_missing]経由で直接アクセスできない場合に利
+用します。
+
+- **param** `name` -- 取得するメンバ名を文字列またはシンボルで指定します。
+- **return** -- 指定したメンバの値を返します。
+
+- **raise** `TypeError` -- nameがStringまたはSymbolではありません。
+- **raise** `KeyError` -- 指定したメンバ名がselfに存在しません。
+
+VB.NETのComServerプロジェクトで作成したCOMサーバの以下のComObject構造
+体（[m:Object#object_id]と同名のメンバを持つ）に対して、
+
+```text
+Imports System.Runtime.InteropServices
+Public Class ComClass
+    Public Structure ComObject
+        Public object_id As Integer
+    End Structure
+End Class
+```
+
+以下のようにすると、`obj.object_id`はRubyの[m:Object#object_id]を返し
+てしまうため、代わりにole_instance_variable_getを利用します。
+
+```ruby title="例"
+server = WIN32OLE.new('ComServer.ComClass')
+obj = WIN32OLE_RECORD.new('ComObject', server)
+# obj.object_id はRubyのObject#object_idを返してしまう
+obj.ole_instance_variable_get(:object_id) # => nil
+```
+
+- **SEE** [m:WIN32OLE_RECORD#method_missing], [m:WIN32OLE_RECORD#ole_instance_variable_set]
+

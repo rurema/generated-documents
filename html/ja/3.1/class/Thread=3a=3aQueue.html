@@ -126,32 +126,32 @@ Queue はスレッド間の FIFO(first in first out) の通信路です。スレ
 最大サイズが指定できる Queue のサブクラス <a href="../class/Thread=3a=3aSizedQueue.html">Thread::SizedQueue</a> も提供されています。
 </p>
 <h2 >例</h2>
-<pre>
-require 'thread'
+<pre class="highlight ruby">
+<code>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
 
-q = Queue.new
+th1 <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">start</span> <span class="k">do</span>
+  <span class="k">while</span> resource <span class="o">=</span> q<span class="p">.</span><span class="nf">pop</span>
+    <span class="nb">puts</span> resource
+  <span class="k">end</span>
+<span class="k">end</span>
 
-th1 = Thread.start do
-  while resource = q.pop
-    puts resource
-  end
-end
+<span class="p">[</span><span class="ss">:resource1</span>, <span class="ss">:resource2</span>, <span class="ss">:resource3</span>, <span class="k">nil</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span><span class="p">{</span><span class="o">|</span>r<span class="o">|</span>
+  q<span class="p">.</span><span class="nf">push</span><span class="p">(</span>r<span class="p">)</span>
+<span class="p">}</span>
 
-[:resource1, :resource2, :resource3, nil].each{|r|
-  q.push(r)
-}
-
-th1.join
-</pre>
+th1<span class="p">.</span><span class="nf">join</span>
+</code></pre>
 <p>
 実行すると以下のように出力します。
 </p>
-<pre>
-$ ruby que.rb
-resource1
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby que.rb
+<span class="go">resource1
 resource2
 resource3
-</pre>
+</span></code></pre>
 
 
 
@@ -208,6 +208,9 @@ resource3
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
 
@@ -225,9 +228,9 @@ resource3
 </dl>
 <pre class="highlight ruby">
 <code>
-q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
-q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span>a, b, c<span class="p">]</span><span class="p">)</span>
-q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>items<span class="p">)</span>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span>a, b, c<span class="p">]</span><span class="p">)</span>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>items<span class="p">)</span>
 </code></pre>
 </dd>
 
@@ -255,7 +258,7 @@ q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
 
 <span class="p">[</span><span class="ss">:resource1</span>, <span class="ss">:resource2</span>, <span class="ss">:resource3</span>, <span class="k">nil</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span>r<span class="o">|</span> q<span class="p">.</span><span class="nf">push</span><span class="p">(</span>r<span class="p">)</span> <span class="p">}</span>
 
@@ -287,15 +290,16 @@ close する事でループから脱出する事もできます。
 <p>
 例:
 </p>
-<pre>
-q = Queue.new
-Thread.new{
-  while e = q.deq # wait for nil to break loop
-    # ...
-  end
-}
-q.close
-</pre>
+<pre class="highlight ruby">
+<code>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span>
+  <span class="k">while</span> e <span class="o">=</span> q<span class="p">.</span><span class="nf">deq</span> <span class="c1"># wait for nil to break loop
+</span>    <span class="c1"># ...
+</span>  <span class="k">end</span>
+<span class="p">}</span>
+q<span class="p">.</span><span class="nf">close</span>
+</code></pre>
 </dd>
 
 
@@ -307,7 +311,7 @@ q.close
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
 
 <span class="p">[</span><span class="ss">:resource1</span>, <span class="ss">:resource2</span>, <span class="ss">:resource3</span>, <span class="k">nil</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span>r<span class="o">|</span> q<span class="p">.</span><span class="nf">push</span><span class="p">(</span>r<span class="p">)</span> <span class="p">}</span>
 
@@ -334,9 +338,7 @@ true を与えると、キューが空の時に例外 <a href="../class/ThreadEr
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'thread'</span>
-
-q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
 
 th1 <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">start</span> <span class="k">do</span>
   <span class="k">while</span> resource <span class="o">=</span> q<span class="p">.</span><span class="nf">pop</span>
@@ -353,9 +355,7 @@ th1<span class="p">.</span><span class="nf">join</span>
 <span class="caption">例: nonblock = true</span>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'thread'</span>
-
-q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
 
 th1 <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">start</span> <span class="k">do</span>
   <span class="k">while</span> resource <span class="o">=</span> q<span class="p">.</span><span class="nf">pop</span>
@@ -391,7 +391,7 @@ th1 <span class="o">=</span> <span class="no">Thread</span><span class="p">.</sp
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
 <span class="nb">p</span> q<span class="p">.</span><span class="nf">empty?</span> <span class="c1"># =&gt; true
 </span>q<span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="ss">:resource</span><span class="p">)</span>
 <span class="nb">p</span> q<span class="p">.</span><span class="nf">empty?</span> <span class="c1"># =&gt; false
@@ -408,7 +408,7 @@ q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
 
 <span class="p">[</span><span class="ss">:resource1</span>, <span class="ss">:resource2</span>, <span class="ss">:resource3</span>, <span class="k">nil</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span>r<span class="o">|</span> q<span class="p">.</span><span class="nf">push</span><span class="p">(</span>r<span class="p">)</span> <span class="p">}</span>
 
@@ -425,9 +425,7 @@ q <span class="o">=</span> <span class="no">Queue</span><span class="p">.</span>
 <span class="caption">例</span>
 <pre class="highlight ruby">
 <code>
-<span class="nb">require</span> <span class="s1">'thread'</span>
-
-q <span class="o">=</span> <span class="no">SizedQueue</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+q <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">SizedQueue</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 q<span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 t <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> q<span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">}</span>
 <span class="nb">sleep</span> <span class="mf">0.05</span> <span class="k">until</span> t<span class="p">.</span><span class="nf">stop?</span>

@@ -331,14 +331,14 @@ RSS Makerが便利です。
 <p>
 以下のように使います。
 </p>
-<pre class="highlight text">
+<pre class="highlight ruby">
 <code>
-require "rss"
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
-rss = RSS::Maker.make("バージョン") do |maker|
-  maker.XXX = YYY
-  ...
-end
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">バージョン</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="no">XXX</span> <span class="o">=</span> <span class="no">YYY</span>
+  <span class="c1"># ...
+</span><span class="k">end</span>
 </code></pre>
 <h4 >シンプルなRSS</h4>
 <p>
@@ -684,33 +684,33 @@ RSS::Maker.make の第一引数を&quot;0.91&quot;に変更します。
 <p>
 ただし、RSS 0.91では言語指定が必須なので、言語を指定する必要があります。ここでは日本語であると指定します。
 </p>
-<pre class="highlight text">
+<pre class="highlight ruby">
 <code>
-rss = RSS::Maker.make("0.91") do |maker|
-  maker.channel.language = "ja"
-  ...
-end
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.91</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">language</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">ja</span><span class="s2">"</span>
+  <span class="c1"># ...
+</span><span class="k">end</span>
 </code></pre>
 <p>
 RSS 1.0など、/rdf:RDF/channel/language要素がないフィードの場合でも、単に無視したりdc:languageとして扱ったりと適切に処理します。そのため、以下のように「バージョンが&quot;0.91&quot;のときだけ言語を指定する」というように書く必要はありません。フィードのバージョンに関わらず言語を指定してください。
 </p>
-<pre class="highlight text">
+<pre class="highlight ruby">
 <code>
-rss = RSS::Maker.make("0.91") do |maker|
-  maker.channel.language = "ja" if maker.feed_version == "0.91"
-  ...
-end
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.91</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">language</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">ja</span><span class="s2">"</span> <span class="k">if</span> maker<span class="p">.</span><span class="nf">feed_version</span> <span class="o">==</span> <span class="s2">"</span><span class="s2">0.91</span><span class="s2">"</span>
+  <span class="c1"># ...
+</span><span class="k">end</span>
 </code></pre>
 <h4 >Atom 1.0の生成</h4>
 <p>
 もし、Atom 1.0を生成したい場合は、RSS 0.91や2.0の場合と同様に
 RSS::Maker.makeの第一引数を&quot;atom&quot;に変更します。
 </p>
-<pre class="highlight text">
+<pre class="highlight ruby">
 <code>
-rss = RSS::Maker.make("atom") do |maker|
-  ...
-end
+rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">atom</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+  <span class="c1"># ...
+</span><span class="k">end</span>
 </code></pre>
 <p>
 ただし、これだけでは十分ではありません。これは、Atom 1.0では
@@ -804,12 +804,12 @@ rss20 <span class="o">=</span> rss10<span class="p">.</span><span class="nf">to_
 <p>
 種類がわからない複数のフィードを扱う場合は以下のようにし、すべてのフィードをRSS 2.0のように扱うことができます。
 </p>
-<pre class="highlight text">
+<pre class="highlight ruby">
 <code>
-feeds.each do |xml|
-  rss20 = RSS::Parser.parse(xml).to_feed("rss2.0")
-  ...
-end
+feeds<span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>xml<span class="o">|</span>
+  rss20 <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>xml<span class="p">)</span><span class="p">.</span><span class="nf">to_feed</span><span class="p">(</span><span class="s2">"</span><span class="s2">rss2.0</span><span class="s2">"</span><span class="p">)</span>
+  <span class="c1"># ...
+</span><span class="k">end</span>
 </code></pre>
 <p>
 また、to_feedは以下のように書くことも出来ます。
@@ -1018,16 +1018,16 @@ content=メソッドやその別名であるvalue=メソッドを利用します
 <span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span> <span class="c1"># =&gt; 「要素を表すオブジェクト」の配列
 </span>                      <span class="c1"># （[DublinCoreTitleオブジェクト, ...]）
 </span>
-rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span><span class="p">.</span><span class="nf">collect</span> <span class="p">{</span><span class="o">|</span>title<span class="o">|</span> title<span class="p">.</span><span class="nf">value</span><span class="p">}</span>
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span><span class="p">.</span><span class="nf">collect</span> <span class="p">{</span><span class="o">|</span>title<span class="o">|</span> title<span class="p">.</span><span class="nf">value</span><span class="p">}</span>
                       <span class="c1"># =&gt; 「要素の内容を表す文字列」の配列
 </span>                      <span class="c1"># （[&quot;My site&quot;, ...]など）
 </span>
-rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">value</span> <span class="o">==</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_title</span>
+<span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">value</span> <span class="o">==</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_title</span>
                       <span class="c1"># =&gt; true
 </span><span class="c1"># 厳密にはこう
 </span>first_title <span class="o">=</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span><span class="p">.</span><span class="nf">first</span>
 first_title <span class="o">=</span> first_title<span class="p">.</span><span class="nf">value</span> <span class="k">if</span> first_title
-first_title <span class="o">==</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_title</span>
+<span class="nb">p</span> first_title <span class="o">==</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_title</span>
                       <span class="c1"># =&gt; true
 </span></code></pre>
 <p>

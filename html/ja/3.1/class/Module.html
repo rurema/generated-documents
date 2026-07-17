@@ -299,12 +299,24 @@
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_RAKE_EXTENSION">rake_extension</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
 
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -1048,8 +1060,8 @@ false にすると、スーパークラスや include したモジュールで�
 <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Child</span> <span class="o">&lt;</span> <span class="no">Parent</span>
 <span class="k">end</span>
 
-<span class="no">Child</span><span class="p">.</span><span class="nf">autoload?</span><span class="p">(</span><span class="ss">:Foo</span><span class="p">)</span>        <span class="c1"># =&gt; &quot;foo&quot;
-</span><span class="no">Child</span><span class="p">.</span><span class="nf">autoload?</span><span class="p">(</span><span class="ss">:Foo</span>, <span class="k">false</span><span class="p">)</span> <span class="c1"># =&gt; nil
+<span class="nb">p</span> <span class="no">Child</span><span class="p">.</span><span class="nf">autoload?</span><span class="p">(</span><span class="ss">:Foo</span><span class="p">)</span>      <span class="c1"># =&gt; &quot;foo&quot;
+</span><span class="nb">p</span> <span class="no">Child</span><span class="p">.</span><span class="nf">autoload?</span><span class="p">(</span><span class="ss">:Foo</span>, <span class="k">false</span><span class="p">)</span> <span class="c1"># =&gt; nil
 </span></code></pre>
 </dd>
 
@@ -1714,14 +1726,13 @@ self を返します。
   include <span class="no">M2</span>
 <span class="k">end</span>
 </code></pre>
-<p>
-実行結果:
-</p>
-<pre>
+<span class="caption">実行結果</span>
+<pre class="highlight text">
+<code>
 -:3:in `append_features': cyclic include detected (ArgumentError)
         from -:3:in `include'
-        from -:3
-</pre>
+from -:3
+</code></pre>
 <p>
 インクルードとは、指定されたモジュールの定義
 (メソッド、定数) を引き継ぐことです。インクルードは多重継承の代わりに用いられており、 mix-in とも呼びます。
@@ -1935,15 +1946,14 @@ false を指定するとそのモジュールで定義されているメソッ�
 <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Bar</span> <span class="o">&lt;</span> <span class="no">Foo</span>
 <span class="k">end</span>
 </code></pre>
-<p>
-実行結果
-</p>
-<pre>
+<span class="caption">実行結果</span>
+<pre class="highlight text">
+<code>
 [:protected_foo, :public_foo]
 [:public_foo]
 [:private_foo]
 [:protected_foo]
-</pre>
+</code></pre>
 <span class="caption">例2</span>
 <pre class="highlight ruby">
 <code>
@@ -1961,15 +1971,14 @@ false を指定するとそのモジュールで定義されているメソッ�
 <span class="nb">p</span> <span class="no">Bar</span><span class="p">.</span><span class="nf">private_instance_methods</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>   <span class="o">-</span> <span class="no">Object</span><span class="p">.</span><span class="nf">private_instance_methods</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
 <span class="nb">p</span> <span class="no">Bar</span><span class="p">.</span><span class="nf">protected_instance_methods</span><span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="o">-</span> <span class="no">Object</span><span class="p">.</span><span class="nf">protected_instance_methods</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
 </code></pre>
-<p>
-実行結果
-</p>
-<pre>
+<span class="caption">実行結果</span>
+<pre class="highlight text">
+<code>
 [:protected_foo, :public_foo]
 [:public_foo]
 [:private_foo]
 [:protected_foo]
-</pre>
+</code></pre>
 </dd>
 
 
@@ -2892,13 +2901,12 @@ undef 文により未定義にされると、インタプリタがこのメソ�
   <span class="k">undef</span> bar
 <span class="k">end</span>
 </code></pre>
-<p>
-実行結果:
-</p>
-<pre>
+<span class="caption">実行結果</span>
+<pre class="highlight text">
+<code>
 method C#foo was undefined
 method C#bar was undefined
-</pre>
+</code></pre>
 </dd>
 
 
@@ -2941,7 +2949,7 @@ module_function はメソッドに「モジュール関数」という属性を�
 <span class="k">end</span>
 
 <span class="nb">p</span> <span class="no">M</span><span class="p">.</span><span class="nf">foo</span> <span class="c1"># =&gt; &quot;foo&quot;
-</span><span class="no">M</span><span class="p">.</span><span class="nf">bar</span>   <span class="c1"># =&gt; undefined method `bar' for Foo:Module (NoMethodError)
+</span><span class="no">M</span><span class="p">.</span><span class="nf">bar</span>   <span class="c1"># =&gt; undefined method `bar' for M:Module (NoMethodError)
 </span></code></pre>
 <p>
 このコードでは、モジュール関数 foo とプライベートインスタンスメソッド bar を定義してしまいます。
@@ -3336,6 +3344,37 @@ method will change so that it does not pass through keywords.
 <p>
 [SEE_ALSO] <a href="../method/Module/i/refine.html">Module#refine</a>, <a href="../method/main/s/using.html">main.using</a>
 </p>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_RAKE_EXTENSION"><code>rake_extension(method) { ... } -&gt; ()</code><span class="permalink">[<a href="../method/Module/i/rake_extension.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Module.html#method-i-rake_extension">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rake/Module.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/rake.html">rake</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+与えられたブロック内で既に存在するメソッドを再定義しようとした場合に警告を表示します。この場合、ブロックは評価されません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>method</code>:</dt>
+<dd>
+ブロック内で再定義する予定のメソッド名を指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">String</span>
+  rake_extension<span class="p">(</span><span class="s2">"</span><span class="s2">xyz</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">xyz</span>
+      <span class="c1"># ...
+</span>    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 </dd>
 
 

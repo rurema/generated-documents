@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -435,20 +435,24 @@ p "#{ "string" # comment }"
 <a href="#percent">%記法</a> による別形式のコマンド出力もあります。
 </p>
 <h2 id='here'>ヒアドキュメント (行指向文字列リテラル)</h2>
-<p>
-文法:
-</p>
-<pre>
-&lt;&lt;[(-|~)][&quot;'`]識別子[&quot;'`]
+<span class="caption">文法</span>
+<pre class="highlight text">
+<code>
+&lt;&lt;[(-|~)]["'`]ラベル["'`]
    ...
-識別子
-</pre>
+ラベル
+</code></pre>
 <p>
-普通の<a href="#string">文字列リテラル</a>はデリミタ(&quot;, ', ` など)で囲まれた文字列ですが、ヒアドキュメントは <code>&lt;&lt;識別子</code> を含む行の次の行から `識別子' だけの行の直前までを文字列とする行指向のリテラルです。例えば、
+このラベルは、クォート(&quot;&quot;、''、``)で囲まない場合は単語文字
+(英数字、アンダースコア('_')、および ASCII 範囲外の文字)からなる文字列で、<a href="../doc/spec=2flexical.html">字句構造</a>の識別子と異なり数字から始めることもできます(例: <code>&lt;&lt;1A</code>)。クォートで囲んだ場合は任意の文字列をラベルにできます(詳細は後述)。
+</p>
+<p>
+普通の<a href="#string">文字列リテラル</a>はデリミタ(&quot;, ', ` など)で囲まれた文字列ですが、ヒアドキュメントは <code>&lt;&lt;ラベル</code> を含む行の次の行から
+<code>ラベル</code> だけの行の直前までを文字列とする行指向のリテラルです。例えば、
 </p>
 <pre class="highlight ruby">
 <code>
-<span class="nb">print</span> <span class="no">&lt;&lt;EOS</span>      <span class="c1"># 識別子 EOS までがリテラルになる
+<span class="nb">print</span> <span class="no">&lt;&lt;EOS</span>      <span class="c1"># ラベル EOS までがリテラルになる
 </span><span class="sh">  the string
   next line
 </span><span class="no">EOS
@@ -461,7 +465,7 @@ p "#{ "string" # comment }"
 <span class="nb">print</span> <span class="s2">"</span><span class="s2">  the string\n  next line\n</span><span class="s2">"</span>
 </code></pre>
 <p>
-ヒアドキュメントでは、開始ラベル <code>&lt;&lt;識別子</code> が文法要素としての式にあたります。これは、開始ラベルを使ってヒアドキュメント全体を引数に渡したりレシーバにしたりできるということを意味します。
+ヒアドキュメントでは、開始ラベル <code>&lt;&lt;ラベル</code> が文法要素としての式にあたります。これは、開始ラベルを使ってヒアドキュメント全体を引数に渡したりレシーバにしたりできるということを意味します。
 </p>
 <pre class="highlight ruby">
 <code>
@@ -490,7 +494,7 @@ This line is a here document.
 EOS
 </code></pre>
 <p>
-開始ラベルを <code>&lt;&lt;-識別子</code> または `&lt;&lt;~識別子` のように
+開始ラベルを <code>&lt;&lt;-ラベル</code> または `&lt;&lt;~ラベル` のように
 <code>-</code> または <code>~</code> を付けて書くことで、終端行をインデントできます。このケースを除き、終端行には余分な空白やコメントさえも書くことはできません。
 </p>
 <pre class="highlight ruby">
@@ -505,10 +509,10 @@ EOS
 </span><span class="k">end</span>
 </code></pre>
 <p>
-`&lt;&lt;-識別子` の場合は、終端行をインデントしたとしてもヒアドキュメント中の先頭の空白はそのまま文字列に現れます。
+`&lt;&lt;-ラベル` の場合は、終端行をインデントしたとしてもヒアドキュメント中の先頭の空白はそのまま文字列に現れます。
 </p>
 <p>
-一方で `&lt;&lt;~識別子` の場合は、最もインデントが少ない行を基準にして、全ての行の先頭から空白を取り除きます。（「最もインデントが少ない行」には、終端行は含まれません。）
+一方で `&lt;&lt;~ラベル` の場合は、最もインデントが少ない行を基準にして、全ての行の先頭から空白を取り除きます。（「最もインデントが少ない行」には、終端行は含まれません。）
 </p>
 <pre class="highlight ruby">
 <code>
@@ -558,7 +562,7 @@ s <span class="o">=</span> <span class="no">&lt;&lt;~EOS</span>
 </span><span class="no">SECOND
 </span></code></pre>
 <p>
-開始ラベル <code>&lt;&lt;識別子</code> の <code>識別子</code> を(&quot;&quot;、''、``)のいずれかで囲むことで、ヒアドキュメントとなる文字列リテラルの性質は対応する文字列リテラルと同じ扱いになります。ただし、文字列中に &quot; や ' はバックスラッシュエスケープせずにそのまま書けます(エスケープする必要がありません)。シングルクォートで囲ったヒアドキュメントの場合、' をエスケープする必要がないということは、\の特別扱いも必要ないということになります。つまり、シングルクォートで囲ったヒアドキュメントは完全に書いたままの文字列になります。以下の例を参照してください。<code>識別子</code> がクォートで囲まれていないときはダブルクォートでくくられているのと同じです。
+開始ラベル <code>&lt;&lt;ラベル</code> の <code>ラベル</code> を(&quot;&quot;、''、``)のいずれかで囲むことで、ヒアドキュメントとなる文字列リテラルの性質は対応する文字列リテラルと同じ扱いになります。ただし、文字列中に &quot; や ' はバックスラッシュエスケープせずにそのまま書けます(エスケープする必要がありません)。シングルクォートで囲ったヒアドキュメントの場合、' をエスケープする必要がないということは、\の特別扱いも必要ないということになります。つまり、シングルクォートで囲ったヒアドキュメントは完全に書いたままの文字列になります。以下の例を参照してください。<code>ラベル</code> がクォートで囲まれていないときはダブルクォートでくくられているのと同じです。
 </p>
 <pre class="highlight ruby">
 <code>
@@ -744,6 +748,9 @@ o オプションを指定すれば、同一の正規表現オブジェクトを
 `:' 変数名
 `:' 演算子
 </code></pre>
+<p>
+ここでの「識別子」には、メソッド名として使う <code>?</code> または <code>!</code> の付いた識別子(例: <code>:method!</code>、<code>:andthisis?</code>)も含みます。
+</p>
 <p>
 <a href="../class/Symbol.html">Symbol</a>クラスのインスタンス。ある文字列とSymbolオブジェクトは一対一に対応します。
 </p>

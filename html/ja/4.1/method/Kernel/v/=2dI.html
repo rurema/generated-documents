@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -95,17 +95,17 @@ Rubyライブラリをロードするときの検索パスです。
 <p>
 以下に典型的な UNIX システム上でのロードパスを示します。
 </p>
-<pre>
--I で指定したパス
-環境変数 RUBYLIB の値
-/usr/local/lib/ruby/site_ruby/VERSION        サイト固有、バージョン依存のライブラリ
-/usr/local/lib/ruby/site_ruby/VERSION/ARCH   サイト固有、システム依存、拡張ライブラリ
-/usr/local/lib/ruby/site_ruby                サイト固有ライブラリ
-/usr/local/lib/ruby/VERSION                  標準ライブラリ
-/usr/local/lib/ruby/VERSION/ARCH             標準、システム依存、拡張ライブラリ
-</pre>
+<ul>
+<li><code>-I</code> で指定したパス</li>
+<li>環境変数 RUBYLIB の値</li>
+<li><code>/usr/local/lib/ruby/site_ruby/VERSION</code> -- サイト固有、バージョン依存のライブラリ</li>
+<li><code>/usr/local/lib/ruby/site_ruby/VERSION/ARCH</code> -- サイト固有、システム依存、拡張ライブラリ</li>
+<li><code>/usr/local/lib/ruby/site_ruby</code> -- サイト固有ライブラリ</li>
+<li><code>/usr/local/lib/ruby/VERSION</code> -- 標準ライブラリ</li>
+<li><code>/usr/local/lib/ruby/VERSION/ARCH</code> -- 標準、システム依存、拡張ライブラリ</li>
+</ul>
 <p>
-上記表中の VERSION は Ruby のバージョンを表す文字列で、「1.6」や「1.8」です。
+上記の VERSION は Ruby のバージョンを表す文字列で、「1.6」や「1.8」です。
 ARCH はハードウェアと OS を表す文字列で、「i686-linux」や「alpha-osf5.1」などです。
 ARCH の値は Config::CONFIG['arch'] で得られます。
 </p>
@@ -118,23 +118,25 @@ ruby.dll の位置からの相対で決まります。
 <p>
 require 'foo' を実行すると、以下のように foo.rb と foo.so が交互に探索されます。
 </p>
-<pre>
+<pre class="highlight text">
+<code>
 /usr/local/lib/ruby/site_ruby/VERSION/foo.rb
 /usr/local/lib/ruby/site_ruby/VERSION/foo.so
 /usr/local/lib/ruby/site_ruby/VERSION/ARCH/foo.rb
 /usr/local/lib/ruby/site_ruby/VERSION/ARCH/foo.so
   :
   :
-</pre>
+</code></pre>
 <p>
 なお、共有ライブラリの拡張子が .so でないシステムでは「.so」が適切な拡張子に変更されます。例えば HP-UX では require 'foo.so' とすると foo.sl を検索します。したがって Ruby で記述されたコードでは常に .so を使うべきです。
 </p>
 <p>
 なお、ロードパスをコマンドラインから調べるには
 </p>
-<pre>
-$ ruby -e 'puts $:'
-</pre>
+<pre class="highlight console">
+<code>
+<span class="gp">$</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'puts $:'</span>
+</code></pre>
 <p>
 とします。
 </p>

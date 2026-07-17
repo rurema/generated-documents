@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -82,60 +82,64 @@ http/ftp に簡単にアクセスするためのクラスです。
 <p>
 http/ftp の URL を、普通のファイルのように開けます。
 </p>
-<pre>
-require 'open-uri'
-URI.open(&quot;http://www.ruby-lang.org/&quot;) {|f|
-  f.each_line {|line| p line}
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'open-uri'</span>
+<span class="no">URI</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">http://www.ruby-lang.org/</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+  f<span class="p">.</span><span class="nf">each_line</span> <span class="p">{</span><span class="o">|</span>line<span class="o">|</span> <span class="nb">p</span> line<span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <p>
 開いたファイルオブジェクトは <a href="../class/StringIO.html">StringIO</a> もしくは <a href="../class/Tempfile.html">Tempfile</a> ですが <a href="../class/OpenURI=3a=3aMeta.html">OpenURI::Meta</a> モジュールで拡張されていて、メタ情報を獲得するメソッドが使えます。
 </p>
-<pre>
-require 'open-uri'
-URI.open(&quot;http://www.ruby-lang.org/en&quot;) {|f|
-  f.each_line {|line| p line}
-  p f.base_uri         # &lt;URI::HTTP:0x40e6ef2 URL:http://www.ruby-lang.org/en/&gt;
-  p f.content_type     # &quot;text/html&quot;
-  p f.charset          # &quot;iso-8859-1&quot;
-  p f.content_encoding # []
-  p f.last_modified    # Thu Dec 05 02:45:02 UTC 2002
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'open-uri'</span>
+<span class="no">URI</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">http://www.ruby-lang.org/en</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+  f<span class="p">.</span><span class="nf">each_line</span> <span class="p">{</span><span class="o">|</span>line<span class="o">|</span> <span class="nb">p</span> line<span class="p">}</span>
+  <span class="nb">p</span> f<span class="p">.</span><span class="nf">base_uri</span>         <span class="c1"># &lt;URI::HTTP:0x40e6ef2 URL:http://www.ruby-lang.org/en/&gt;
+</span>  <span class="nb">p</span> f<span class="p">.</span><span class="nf">content_type</span>     <span class="c1"># &quot;text/html&quot;
+</span>  <span class="nb">p</span> f<span class="p">.</span><span class="nf">charset</span>          <span class="c1"># &quot;iso-8859-1&quot;
+</span>  <span class="nb">p</span> f<span class="p">.</span><span class="nf">content_encoding</span> <span class="c1"># []
+</span>  <span class="nb">p</span> f<span class="p">.</span><span class="nf">last_modified</span>    <span class="c1"># Thu Dec 05 02:45:02 UTC 2002
+</span><span class="p">}</span>
+</code></pre>
 <p>
 ハッシュ引数で、追加のヘッダフィールドを指定できます。
 </p>
-<pre>
-require 'open-uri'
-URI.open(&quot;http://www.ruby-lang.org/en/&quot;,
-  &quot;User-Agent&quot; =&gt; &quot;Ruby/#{RUBY_VERSION}&quot;,
-  &quot;From&quot; =&gt; &quot;foo@bar.invalid&quot;,
-  &quot;Referer&quot; =&gt; &quot;http://www.ruby-lang.org/&quot;) {|f|
-  ...
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'open-uri'</span>
+<span class="no">URI</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">http://www.ruby-lang.org/en/</span><span class="s2">"</span>,
+  <span class="s2">"</span><span class="s2">User-Agent</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">Ruby/</span><span class="si">#{</span><span class="no">RUBY_VERSION</span><span class="si">}</span><span class="s2">"</span>,
+  <span class="s2">"</span><span class="s2">From</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">foo@bar.invalid</span><span class="s2">"</span>,
+  <span class="s2">"</span><span class="s2">Referer</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">http://www.ruby-lang.org/</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+  <span class="c1"># ...
+</span><span class="p">}</span>
+</code></pre>
 <p>
 http_proxy, ftp_proxy, no_proxy などの環境変数は、デフォルトで有効になっています。プロキシを無効にするには :proxy =&gt; nil とします。
 </p>
-<pre>
-require 'open-uri'
-URI.open(&quot;http://www.ruby-lang.org/en/&quot;,
-  :proxy =&gt; nil) {|f|
-  ...
-}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'open-uri'</span>
+<span class="no">URI</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">http://www.ruby-lang.org/en/</span><span class="s2">"</span>,
+  <span class="ss">:proxy</span> <span class="o">=&gt;</span> <span class="k">nil</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+  <span class="c1"># ...
+</span><span class="p">}</span>
+</code></pre>
 <p>
 また、open-uri を読み込むと <a href="../class/URI=3a=3aHTTP.html">URI::HTTP</a> と <a href="../class/URI=3a=3aFTP.html">URI::FTP</a> が
 <a href="../class/OpenURI=3a=3aOpenRead.html">OpenURI::OpenRead</a> モジュールをインクルードします。ですので、
 URI オブジェクトも似たような方法で開けます。
 </p>
-<pre class="highlight text">
+<pre class="highlight ruby">
 <code>
-require 'open-uri'
-uri = URI.parse("http://www.ruby-lang.org/en/")
-uri.open {|f|
-  ...
-}
+<span class="nb">require</span> <span class="s1">'open-uri'</span>
+uri <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">http://www.ruby-lang.org/en/</span><span class="s2">"</span><span class="p">)</span>
+uri<span class="p">.</span><span class="nf">open</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
+  <span class="c1"># ...
+</span><span class="p">}</span>
 </code></pre>
 <p>
 URI オブジェクトは直接読み込むことができます。戻り値の文字列は、<a href="../class/OpenURI=3a=3aMeta.html">OpenURI::Meta</a> で拡張されています。

@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -186,6 +186,9 @@ JSON (JavaScript Object Notation) を扱うためのモジュールです。
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
 
@@ -263,7 +266,7 @@ json_create メソッドで使用するクラスを決定するために使用�
 
 json <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="no">User</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="s2">"</span><span class="s2">tanaka</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
 <span class="nb">p</span> json <span class="c1"># =&gt; &quot;{\&quot;json_class\&quot;:\&quot;User\&quot;,\&quot;id\&quot;:1,\&quot;name\&quot;:\&quot;tanaka\&quot;}&quot;
-</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>json, <span class="ss">create_additions:</span> <span class="k">true</span><span class="p">)</span>
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>json, <span class="ss">create_additions:</span> <span class="k">true</span><span class="p">)</span>
 <span class="c1"># =&gt; #&lt;User:0x0000557709b269e0 @id=1, @name=&quot;tanaka&quot;&gt;
 </span></code></pre>
 </dd>
@@ -506,10 +509,10 @@ a string that is put at the end of a JSON array (default: '')
 <code>
 <span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
 
-<span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="p">{</span> <span class="ss">name:</span> <span class="s2">"</span><span class="s2">tanaka</span><span class="s2">"</span>, <span class="ss">age:</span> <span class="mi">19</span> <span class="p">}</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="p">{</span> <span class="ss">name:</span> <span class="s2">"</span><span class="s2">tanaka</span><span class="s2">"</span>, <span class="ss">age:</span> <span class="mi">19</span> <span class="p">}</span><span class="p">]</span><span class="p">)</span>
 <span class="c1"># =&gt; &quot;[1,2,{\&quot;name\&quot;:\&quot;tanaka\&quot;,\&quot;age\&quot;:19}]&quot;
 </span>json_state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">space:</span> <span class="s2">"</span><span class="s2"> </span><span class="s2">"</span><span class="p">)</span>
-<span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="p">{</span> <span class="ss">name:</span> <span class="s2">"</span><span class="s2">tanaka</span><span class="s2">"</span>, <span class="ss">age:</span> <span class="mi">19</span> <span class="p">}</span><span class="p">]</span>, json_state<span class="p">)</span>
+<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="p">{</span> <span class="ss">name:</span> <span class="s2">"</span><span class="s2">tanaka</span><span class="s2">"</span>, <span class="ss">age:</span> <span class="mi">19</span> <span class="p">}</span><span class="p">]</span>, json_state<span class="p">)</span>
 <span class="c1"># =&gt; &quot;[1,2,{\&quot;name\&quot;: \&quot;tanaka\&quot;,\&quot;age\&quot;: 19}]&quot;
 </span></code></pre>
 <p>
@@ -533,36 +536,37 @@ source には JSON 形式の文字列だけでなく、to_str, to_io, read の�
 <p>
 proc として手続きオブジェクトが与えられた場合は、読み込んだオブジェクトを引数にその手続きを呼び出します。
 </p>
-<pre>
-require 'json'
-
-str=&lt;&lt;JSON
-[1,2,3]
-JSON
-
-JSON.load(str) # =&gt; [1,2,3]
-JSON.load(str, proc{|v| p v }) # =&gt; [1,2,3]
-# 以下が表示される
-# 1
-# 2
-# 3
-# [1,2,3]
-
-str=&lt;&lt;JSON
-{ &quot;a&quot;:1, &quot;b&quot;:2, &quot;c&quot;:3 }
-JSON
-
-JSON.load(str) # =&gt; {&quot;a&quot;=&gt;1, &quot;b&quot;=&gt;2, &quot;c&quot;=&gt;3}
-JSON.load(str, proc{|v| p v }) # =&gt; {&quot;a&quot;=&gt;1, &quot;b&quot;=&gt;2, &quot;c&quot;=&gt;3}
-# 以下が表示される
-# &quot;a&quot;
-# 1
-# &quot;b&quot;
-# 2
-# &quot;c&quot;
-# 3
-# {&quot;a&quot;=&gt;1, &quot;b&quot;=&gt;2, &quot;c&quot;=&gt;3}
-</pre>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'json'</span>
+  
+str<span class="o">=</span><span class="no">&lt;&lt;JSON</span>
+<span class="sh">[1,2,3]
+</span><span class="no">JSON
+</span>  
+<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>str<span class="p">)</span> <span class="c1"># =&gt; [1,2,3]
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>str, <span class="nb">proc</span><span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v <span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; [1,2,3]
+</span><span class="c1"># 以下が表示される
+</span><span class="c1"># 1
+</span><span class="c1"># 2
+</span><span class="c1"># 3
+</span><span class="c1"># [1,2,3]
+</span>  
+str<span class="o">=</span><span class="no">&lt;&lt;JSON</span>
+<span class="sh">{ &quot;a&quot;:1, &quot;b&quot;:2, &quot;c&quot;:3 }
+</span><span class="no">JSON
+</span>  
+<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>str<span class="p">)</span> <span class="c1"># =&gt; {&quot;a&quot;=&gt;1, &quot;b&quot;=&gt;2, &quot;c&quot;=&gt;3}
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>str, <span class="nb">proc</span><span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v <span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; {&quot;a&quot;=&gt;1, &quot;b&quot;=&gt;2, &quot;c&quot;=&gt;3}
+</span><span class="c1"># 以下が表示される
+</span><span class="c1"># &quot;a&quot;
+</span><span class="c1"># 1
+</span><span class="c1"># &quot;b&quot;
+</span><span class="c1"># 2
+</span><span class="c1"># &quot;c&quot;
+</span><span class="c1"># 3
+</span><span class="c1"># {&quot;a&quot;=&gt;1, &quot;b&quot;=&gt;2, &quot;c&quot;=&gt;3}
+</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>source</code>:</dt>
 <dd>

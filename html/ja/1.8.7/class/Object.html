@@ -263,6 +263,37 @@
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_METHOD_MISSING">method_missing</a></li>
+
+<li><a href="#I_PRETTY_INSPECT">pretty_inspect</a></li>
+
+<li><a href="#I_PRETTY_PRINT">pretty_print</a></li>
+
+<li><a href="#I_PRETTY_PRINT_CYCLE">pretty_print_cycle</a></li>
+
+<li><a href="#I_PRETTY_PRINT_INSPECT">pretty_print_inspect</a></li>
+
+<li><a href="#I_PRETTY_PRINT_INSTANCE_VARIABLES">pretty_print_instance_variables</a></li>
+
+<li><a href="#I_TAGURI">taguri</a></li>
+
+<li><a href="#I_TAGURI--3D">taguri=</a></li>
+
+<li><a href="#I_TO_YAML">to_yaml</a></li>
+
+<li><a href="#I_TO_YAML_PROPERTIES">to_yaml_properties</a></li>
+
+<li><a href="#I_TO_YAML_STYLE">to_yaml_style</a></li>
+
+<li><a href="#S_YAML_TAG_SUBCLASSES--3F">yaml_tag_subclasses?</a></li>
+
+</ul>
+</dd>
+
 <dt>再定義されたメソッド</dt>
 <dd>
 <ul class="class-toc">
@@ -327,6 +358,9 @@
 
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -2455,6 +2489,265 @@ obj.instance_eval {undef bar}
 </pre>
 <p>
 [SEE_ALSO] <a href="../method/Module/i/method_undefined.html">Module#method_undefined</a>,<a href="../method/Object/i/singleton_method_added.html">Object#singleton_method_added</a>,<a href="../method/Object/i/singleton_method_removed.html">Object#singleton_method_removed</a> , <a href="../doc/spec=2fdef.html#undef">クラス／メソッドの定義/undef</a>
+</p>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_METHOD_MISSING"><code>method_missing(id, *args)</code><span class="permalink">[<a href="../method/Object/i/method_missing.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-method_missing">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/multi=2dtk.html">multi-tk</a>]</span>
+</dt>
+<dd class="method-description">
+<p class="todo">
+[TODO]
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRETTY_INSPECT"><code>pretty_inspect -&gt; String</code><span class="permalink">[<a href="../method/Object/i/pretty_inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-pretty_inspect">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/pp.html">pp</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+self を pp で表示したときの結果を文字列として返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRETTY_PRINT"><code>pretty_print(pp) -&gt; ()</code><span class="permalink">[<a href="../method/Object/i/pretty_print.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-pretty_print">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/pp.html">pp</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a href="../method/PP/s/pp.html">PP.pp</a> や <a href="../method/Kernel/m/pp.html">Kernel.#pp</a> がオブジェクトの内容を出力するときに呼ばれるメソッドです。<a href="../class/PP.html">PP</a> オブジェクト pp を引数として呼ばれます。
+</p>
+<p>
+あるクラスの pp の出力をカスタマイズしたい場合は、このメソッドを再定義します。そのとき pretty_print メソッドは指定された pp に対して表示したい自身の内容を追加していかなければいけません。いくつかの組み込みクラスについて、
+<a href="../library/pp.html">pp</a> ライブラリはあらかじめ pretty_print メソッドを定義しています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] pp:</dt>
+<dd>
+<a href="../class/PP.html">PP</a> オブジェクトです。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+class Array
+  def pretty_print(q)
+    q.group(1, '[', ']') {
+      q.seplist(self) {|v|
+        q.pp v
+      }
+    }
+  end
+end
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/Object/i/pretty_print_cycle.html">Object#pretty_print_cycle</a>, <a href="../method/Object/i/inspect.html">Object#inspect</a>, <a href="../method/PrettyPrint/i/text.html">PrettyPrint#text</a>, <a href="../method/PrettyPrint/i/group.html">PrettyPrint#group</a>, <a href="../method/PrettyPrint/i/breakable.html">PrettyPrint#breakable</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRETTY_PRINT_CYCLE"><code>pretty_print_cycle(pp) -&gt; ()</code><span class="permalink">[<a href="../method/Object/i/pretty_print_cycle.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-pretty_print_cycle">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/pp.html">pp</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+プリティプリント時にオブジェクトの循環参照が検出された場合、
+<a href="../method/Object/i/pretty_print.html">Object#pretty_print</a> の代わりに呼ばれるメソッドです。
+</p>
+<p>
+あるクラスの pp の出力をカスタマイズしたい場合は、このメソッドも再定義する必要があります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] pp:</dt>
+<dd>
+<a href="../class/PP.html">PP</a> オブジェクトです。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+class Array
+  def pretty_print_cycle(q)
+    q.text(empty? ? '[]' : '[...]')
+  end
+end
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/Object/i/pretty_print.html">Object#pretty_print</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRETTY_PRINT_INSPECT"><code>pretty_print_inspect -&gt; String</code><span class="permalink">[<a href="../method/Object/i/pretty_print_inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-pretty_print_inspect">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/pp.html">pp</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a href="../method/Object/i/pretty_print.html">Object#pretty_print</a> を使って <a href="../method/Object/i/inspect.html">Object#inspect</a> と同様にオブジェクトを人間が読める形式に変換した文字列を返します。
+</p>
+<p>
+出力する全てのオブジェクトに <a href="../method/Object/i/pretty_print.html">Object#pretty_print</a> が定義されている必要があります。そうでない場合には <a href="../class/RuntimeError.html">RuntimeError</a> が発生します。
+</p>
+<dl>
+<dt>[EXCEPTION] RuntimeError:</dt>
+<dd>
+出力する全てのオブジェクトに <a href="../method/Object/i/pretty_print.html">Object#pretty_print</a> が定義されていない場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_PRETTY_PRINT_INSTANCE_VARIABLES"><code>pretty_print_instance_variables -&gt; [String | Symbol]</code><span class="permalink">[<a href="../method/Object/i/pretty_print_instance_variables.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-pretty_print_instance_variables">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/pp.html">pp</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+プリティプリント時に表示すべき自身のインスタンス変数名の配列をソートして返します。返されたインスタンス変数はプリティプリント時に表示されます。
+</p>
+<p>
+pp に表示したくないインスタンス変数がある場合にこのメソッドを再定義します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TAGURI"><code>taguri -&gt; String</code><span class="permalink">[<a href="../method/Object/i/taguri.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-taguri">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身のタグ URI を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TAGURI--3D"><code>taguri=(val)</code><span class="permalink">[<a href="../method/Object/i/taguri=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-taguri-3D">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身のタグ URI を val に設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] val:</dt>
+<dd>
+タグ URI を文字列で指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_YAML"><code>to_yaml(opts = {}) -&gt; String</code><span class="permalink">[<a href="../method/Object/i/to_yaml.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-to_yaml">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身を YAML ドキュメントに変換します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] opts:</dt>
+<dd>
+YAML ドキュメント出力の際のオプションを指定します。オプションの詳細は <a href="../method/YAML=3a=3aSyck=3a=3aEmitter/i/reset.html">YAML::Syck::Emitter#reset</a> を参照してください。
+</dd>
+</dl>
+<pre>
+require 'yaml'
+
+h = {
+  :ugo =&gt; 17,
+  :hoge =&gt; &quot;fuga&quot;,
+}
+
+print h.to_yaml
+#=&gt; ---
+#=&gt; :ugo: 17
+#=&gt; :hoge: fuga
+
+class MyDog
+  attr_accessor :name, :age
+end
+
+c = MyDog.new
+c.name = &quot;Pochi&quot;
+c.age = 3
+print c.to_yaml
+#=&gt; --- !ruby/object:MyDog
+#=&gt; age: 3
+#=&gt; name: Pochi
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_YAML_PROPERTIES"><code>to_yaml_properties -&gt; [String]</code><span class="permalink">[<a href="../method/Object/i/to_yaml_properties.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-to_yaml_properties">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身のインスタンス変数の一覧を文字列の配列で返します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+自身のインスタンス変数名の配列
+</dd>
+</dl>
+<pre>
+require 'yaml'
+
+h = {
+  :ugo =&gt; 17,
+  :hoge =&gt; &quot;fuga&quot;,
+}
+
+p h.to_yaml_properties
+#=&gt; []
+class MyDog
+  attr_accessor :name, :age
+end
+
+c = MyDog.new
+c.name = &quot;Pochi&quot;
+c.age = 3
+p c.to_yaml_properties
+#=&gt; [&quot;@age&quot;, &quot;@name&quot;]
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_YAML_STYLE"><code>to_yaml_style -&gt; nil</code><span class="permalink">[<a href="../method/Object/i/to_yaml_style.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-i-to_yaml_style">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+nilを返します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+nilを返します。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+require 'yaml'
+
+p to_yaml_style
+#=&gt; nil
+a = []
+p a.to_yaml_style
+#=&gt; nil
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_YAML_TAG_SUBCLASSES--3F"><code>yaml_tag_subclasses? -&gt; true</code><span class="permalink">[<a href="../method/Object/s/yaml_tag_subclasses=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Object.html#method-c-yaml_tag_subclasses-3F">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+常に true を返します。
+</p>
+<p>
+ライブラリ内部で使用します。
 </p>
 </dd>
 

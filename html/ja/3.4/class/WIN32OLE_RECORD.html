@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/WIN32OLE_RECORD.html">
+
+<title>class WIN32OLE_RECORD (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="WIN32OLE_RECORDオブジェクトは、OLEオートメーションのVT_RECORD型の値 (構造体)を表します。OLEメソッドの呼び出し結果がVT_RECORD型の場合、 WIN32OLEはWIN32OLE_RECORDオブジェクトを返します。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/win32ole.html","name":"win32oleライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/WIN32OLE_RECORD.html","name":"WIN32OLE_RECORDクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/win32ole.html">win32oleライブラリ</a>
+      </li>
+      <li>
+        WIN32OLE_RECORDクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class WIN32OLE_RECORD</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/win32ole/WIN32OLE_RECORD.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        WIN32OLE_RECORD
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+WIN32OLE_RECORDオブジェクトは、OLEオートメーションのVT_RECORD型の値
+(構造体)を表します。OLEメソッドの呼び出し結果がVT_RECORD型の場合、
+WIN32OLEはWIN32OLE_RECORDオブジェクトを返します。
+</p>
+<p>
+Ruby 3.2 から、このクラスは WIN32OLE の名前空間下に移動し、<code>WIN32OLE::Record</code>
+として定義されるようになりました。トップレベル定数 <code>WIN32OLE_RECORD</code> は後方互換のためのエイリアスとして残っていますが、Ruby 3.4 以降は非推奨
+(deprecated)です(<code>Warning[:deprecated]</code> が有効なら参照時に警告が表示されます)。
+</p>
+<h2 >サンプルコード</h2>
+<p>
+たとえば、VB.NETで作成したComServerプロジェクトのCOMサーバが、以下のようにtitle（文字列）とcost（整数）の2つのフィールドを持つBook構造体を返すgetBookメソッドを持っているとします。
+</p>
+<pre class="highlight text">
+<code>
+Imports System.Runtime.InteropServices
+Public Class ComClass
+    Public Structure Book
+        &lt;MarshalAs(UnmanagedType.BStr)&gt; _
+        Public title As String
+        Public cost As Integer
+    End Structure
+    Public Function getBook() As Book
+        Dim book As New Book
+        book.title = "The Ruby Book"
+        book.cost = 20
+        Return book
+    End Function
+End Class
+</code></pre>
+<p>
+このとき、Rubyから次のようにしてgetBookの戻り値を取得できます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'win32ole'</span>
+obj <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'ComServer.ComClass'</span><span class="p">)</span>
+book <span class="o">=</span> obj<span class="p">.</span><span class="nf">getBook</span>
+book<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; WIN32OLE::Record
+</span>book<span class="p">.</span><span class="nf">title</span> <span class="c1"># =&gt; &quot;The Ruby Book&quot;
+</span>book<span class="p">.</span><span class="nf">cost</span>  <span class="c1"># =&gt; 20
+</span></code></pre>
+<p>
+なお、<code>book.class</code>は常に<code>WIN32OLE::Record</code>を返します。トップレベル定数
+<code>WIN32OLE_RECORD</code>は同じクラスオブジェクトへのエイリアスですが、クラス自体の名前（<code>WIN32OLE::Record.name</code>）は変わりません。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_INSPECT">inspect</a></li>
+
+<li><a href="#I_METHOD_MISSING">method_missing</a></li>
+
+<li><a href="#I_OLE_INSTANCE_VARIABLE_GET">ole_instance_variable_get</a></li>
+
+<li><a href="#I_OLE_INSTANCE_VARIABLE_SET">ole_instance_variable_set</a></li>
+
+<li><a href="#I_TO_H">to_h</a></li>
+
+<li><a href="#I_TYPENAME">typename</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(typename, obj) -&gt; WIN32OLE_RECORD</code><span class="permalink">[<a href="../method/WIN32OLE_RECORD/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/WIN32OLE_RECORD.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/win32ole/WIN32OLE_RECORD.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+WIN32OLE_RECORDオブジェクトを生成します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>typename</code>:</dt>
+<dd>
+構造体名を文字列またはシンボルで指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>obj</code>:</dt>
+<dd>
+<a href="../class/WIN32OLE.html">WIN32OLE</a>オブジェクトまたは<a href="../class/WIN32OLE_TYPELIB.html">WIN32OLE_TYPELIB</a>オブジェクトを指定します。typenameで指定した構造体の型情報を取得するために利用します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+生成したWIN32OLE_RECORDオブジェクトを返します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+typenameがStringまたはSymbolではありません。あるいは
+obj がWIN32OLEオブジェクトまたはWIN32OLE_TYPELIBオブジェクトのいずれでもありません。
+</dd>
+<dt>[EXCEPTION] <code>WIN32OLERuntimeError</code>:</dt>
+<dd>
+objからITypeLibインタフェースの取得に失敗しました。あるいはtypenameに対応する
+IRecordInfoインタフェースの取得に失敗しました。
+</dd>
+</dl>
+<p>
+VB.NETのComServerプロジェクトで、以下のBook構造体を持つCOMサーバがあるとします。
+</p>
+<pre class="highlight text">
+<code>
+Imports System.Runtime.InteropServices
+Public Class ComClass
+    Public Structure Book
+        &lt;MarshalAs(UnmanagedType.BStr)&gt; _
+        Public title As String
+        Public cost As Integer
+    End Structure
+End Class
+</code></pre>
+<p>
+このとき、次のようにしてWIN32OLE_RECORDオブジェクトを生成できます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'win32ole'</span>
+obj <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'ComServer.ComClass'</span><span class="p">)</span>
+book1 <span class="o">=</span> <span class="no">WIN32OLE_RECORD</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Book'</span>, obj<span class="p">)</span> <span class="c1"># =&gt; WIN32OLE_RECORDオブジェクト
+</span>tlib <span class="o">=</span> obj<span class="p">.</span><span class="nf">ole_typelib</span>
+book2 <span class="o">=</span> <span class="no">WIN32OLE_RECORD</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Book'</span>, tlib<span class="p">)</span> <span class="c1"># =&gt; WIN32OLE_RECORDオブジェクト
+</span></code></pre>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/WIN32OLE_RECORD/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/WIN32OLE_RECORD.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/win32ole/WIN32OLE_RECORD.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+selfが表すOLEの構造体名と各メンバ名、その値を含む文字列を返します。
+</p>
+<p>
+なお、返す文字列中のクラス名部分は、selfをトップレベル定数
+<code>WIN32OLE_RECORD</code>経由で生成した場合であっても、常に<code>WIN32OLE::Record</code>
+と表示されます。
+</p>
+<p>
+VB.NETのComServerプロジェクトで作成したCOMサーバの以下のBook構造体に対して、
+</p>
+<pre class="highlight text">
+<code>
+Imports System.Runtime.InteropServices
+Public Class ComClass
+    &lt;MarshalAs(UnmanagedType.BStr)&gt; _
+    Public title As String
+    Public cost As Integer
+End Class
+</code></pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+server <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'ComServer.ComClass'</span><span class="p">)</span>
+obj <span class="o">=</span> <span class="no">WIN32OLE_RECORD</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Book'</span>, server<span class="p">)</span>
+obj<span class="p">.</span><span class="nf">inspect</span> <span class="c1"># =&gt; &quot;#&lt;WIN32OLE::Record(ComClass) {\&quot;title\&quot; =&gt; nil, \&quot;cost\&quot; =&gt; nil}&gt;&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_METHOD_MISSING"><code>method_missing(name, *args) -&gt; object</code><span class="permalink">[<a href="../method/WIN32OLE_RECORD/i/method_missing.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/WIN32OLE_RECORD.html#method-i-method_missing">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/win32ole/WIN32OLE_RECORD.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+VT_RECORD OLE変数のメンバ名に対応する値を取得、または設定します。
+</p>
+<p>
+引数がnameだけの場合（<code>book.title</code>のようにgetterとして未定義メソッドが呼び出された場合）はメンバの値を取得します。引数がname、valの2つの場合（<code>book.title = &quot;...&quot;</code>のようにsetterとして未定義メソッドが呼び出された場合）は、nameの末尾の「=」を取り除いたメンバ名にvalを設定します。指定したメンバ名が存在しない場合は<a href="../class/KeyError.html">KeyError</a>が発生します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>name</code>:</dt>
+<dd>
+アクセスするメンバ名に対応するメソッド名（シンボル）です。
+setterの場合は末尾に「=」が付きます。
+</dd>
+<dt class='method-param'>[PARAM] <code>args</code>:</dt>
+<dd>
+setterとして呼び出された場合、設定する値を1つ指定します。
+getterとして呼び出された場合は空です。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+getterとして呼び出された場合はメンバの値、setterとして呼び出された場合は設定した値を返します。
+</dd>
+<dt>[EXCEPTION] <code>KeyError</code>:</dt>
+<dd>
+指定したメンバ名がselfに存在しません。
+</dd>
+</dl>
+<p>
+VB.NETのComServerプロジェクトで作成したCOMサーバの以下のBook構造体に対して、
+</p>
+<pre class="highlight text">
+<code>
+Imports System.Runtime.InteropServices
+Public Class ComClass
+    Public Structure Book
+        &lt;MarshalAs(UnmanagedType.BStr)&gt; _
+        Public title As String
+        Public cost As Integer
+    End Structure
+End Class
+</code></pre>
+<p>
+値の取得・設定は次のようにメンバ名をメソッドとして呼び出すことで行います（実際には、method_missingが呼び出されます）。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+obj <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'ComServer.ComClass'</span><span class="p">)</span>
+book <span class="o">=</span> <span class="no">WIN32OLE_RECORD</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Book'</span>, obj<span class="p">)</span>
+book<span class="p">.</span><span class="nf">title</span> <span class="c1"># =&gt; nil ( book.method_missing(:title) が呼び出される )
+</span>book<span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span> <span class="c1"># ( book.method_missing(:title=, &quot;Ruby&quot;) が呼び出される )
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/WIN32OLE_RECORD/i/ole_instance_variable_get.html">WIN32OLE_RECORD#ole_instance_variable_get</a>, <a href="../method/WIN32OLE_RECORD/i/ole_instance_variable_set.html">WIN32OLE_RECORD#ole_instance_variable_set</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_OLE_INSTANCE_VARIABLE_GET"><code>ole_instance_variable_get(name) -&gt; object</code><span class="permalink">[<a href="../method/WIN32OLE_RECORD/i/ole_instance_variable_get.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/WIN32OLE_RECORD.html#method-i-ole_instance_variable_get">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/win32ole/WIN32OLE_RECORD.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+VT_RECORD OLE変数のメンバ名に対応する値を取得します。メンバ名が正しくない場合は<a href="../class/KeyError.html">KeyError</a>が発生します。
+</p>
+<p>
+Rubyの<a href="../class/Object.html">Object</a>が持つメソッドと同名のメンバを持つなど、メンバに
+<a href="../method/WIN32OLE_RECORD/i/method_missing.html">WIN32OLE_RECORD#method_missing</a>経由で直接アクセスできない場合に利用します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>name</code>:</dt>
+<dd>
+取得するメンバ名を文字列またはシンボルで指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+指定したメンバの値を返します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+nameがStringまたはSymbolではありません。
+</dd>
+<dt>[EXCEPTION] <code>KeyError</code>:</dt>
+<dd>
+指定したメンバ名がselfに存在しません。
+</dd>
+</dl>
+<p>
+VB.NETのComServerプロジェクトで作成したCOMサーバの以下のComObject構造体（<a href="../method/Object/i/object_id.html">Object#object_id</a>と同名のメンバを持つ）に対して、
+</p>
+<pre class="highlight text">
+<code>
+Imports System.Runtime.InteropServices
+Public Class ComClass
+    Public Structure ComObject
+        Public object_id As Integer
+    End Structure
+End Class
+</code></pre>
+<p>
+以下のようにすると、<code>obj.object_id</code>はRubyの<a href="../method/Object/i/object_id.html">Object#object_id</a>を返してしまうため、代わりにole_instance_variable_getを利用します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+server <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'ComServer.ComClass'</span><span class="p">)</span>
+obj <span class="o">=</span> <span class="no">WIN32OLE_RECORD</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'ComObject'</span>, server<span class="p">)</span>
+<span class="c1"># obj.object_id はRubyのObject#object_idを返してしまう
+</span>obj<span class="p">.</span><span class="nf">ole_instance_variable_get</span><span class="p">(</span><span class="ss">:object_id</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/WIN32OLE_RECORD/i/method_missing.html">WIN32OLE_RECORD#method_missing</a>, <a href="../method/WIN32OLE_RECORD/i/ole_instance_variable_set.html">WIN32OLE_RECORD#ole_instance_variable_set</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_OLE_INSTANCE_VARIABLE_SET"><code>ole_instance_variable_set(name, val) -&gt; object</code><span class="permalink">[<a href="../method/WIN32OLE_RECORD/i/ole_instance_variable_set.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/WIN32OLE_RECORD.html#method-i-ole_instance_variable_set">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/win32ole/WIN32OLE_RECORD.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+VT_RECORD OLE変数のメンバ名に対応する値を設定します。メンバ名が正しくない場合は<a href="../class/KeyError.html">KeyError</a>が発生します。
+</p>
+<p>
+<a href="../method/WIN32OLE_RECORD/i/method_missing.html">WIN32OLE_RECORD#method_missing</a>経由でメンバの値を直接設定できない場合に利用します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>name</code>:</dt>
+<dd>
+設定するメンバ名を文字列またはシンボルで指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>val</code>:</dt>
+<dd>
+設定する値を指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+設定した値を返します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+nameがStringまたはSymbolではありません。
+</dd>
+<dt>[EXCEPTION] <code>KeyError</code>:</dt>
+<dd>
+指定したメンバ名がselfに存在しません。
+</dd>
+</dl>
+<p>
+VB.NETのComServerプロジェクトで作成したCOMサーバの以下のBook構造体の
+titleメンバに値を設定するには、次のようにします。
+</p>
+<pre class="highlight text">
+<code>
+Imports System.Runtime.InteropServices
+Public Class ComClass
+    &lt;MarshalAs(UnmanagedType.BStr)&gt; _
+    Public title As String
+    Public cost As Integer
+End Class
+</code></pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+server <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'ComServer.ComClass'</span><span class="p">)</span>
+obj <span class="o">=</span> <span class="no">WIN32OLE_RECORD</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Book'</span>, server<span class="p">)</span>
+obj<span class="p">.</span><span class="nf">ole_instance_variable_set</span><span class="p">(</span><span class="ss">:title</span>, <span class="s2">"</span><span class="s2">The Ruby Book</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/WIN32OLE_RECORD/i/method_missing.html">WIN32OLE_RECORD#method_missing</a>, <a href="../method/WIN32OLE_RECORD/i/ole_instance_variable_get.html">WIN32OLE_RECORD#ole_instance_variable_get</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_H"><code>to_h -&gt; Hash</code><span class="permalink">[<a href="../method/WIN32OLE_RECORD/i/to_h.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/WIN32OLE_RECORD.html#method-i-to_h">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/win32ole/WIN32OLE_RECORD.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+selfが表すVT_RECORD値をRubyのHashオブジェクトに変換して返します。
+</p>
+<p>
+Hashのキーは、VT_RECORD OLE変数のメンバ名、値はその値です。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+VT_RECORD値の各メンバ名と値からなるHashオブジェクトを返します。
+</dd>
+</dl>
+<p>
+VB.NETのComServerプロジェクトで作成したCOMサーバの以下のgetBookメソッドの戻り値に対して、
+</p>
+<pre class="highlight text">
+<code>
+Imports System.Runtime.InteropServices
+Public Class ComClass
+    Public Structure Book
+        &lt;MarshalAs(UnmanagedType.BStr)&gt; _
+        Public title As String
+        Public cost As Integer
+    End Structure
+    Public Function getBook() As Book
+        Dim book As New Book
+        book.title = "The Ruby Book"
+        book.cost = 20
+        Return book
+    End Function
+End Class
+</code></pre>
+<p>
+WIN32OLE_RECORD#to_hを呼び出すと、以下のようになります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'win32ole'</span>
+obj <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'ComServer.ComClass'</span><span class="p">)</span>
+book <span class="o">=</span> obj<span class="p">.</span><span class="nf">getBook</span>
+book<span class="p">.</span><span class="nf">to_h</span> <span class="c1"># =&gt; {&quot;title&quot;=&gt;&quot;The Ruby Book&quot;, &quot;cost&quot;=&gt;20}
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TYPENAME"><code>typename -&gt; String</code><span class="permalink">[<a href="../method/WIN32OLE_RECORD/i/typename.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/WIN32OLE_RECORD.html#method-i-typename">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/win32ole/WIN32OLE_RECORD.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+selfが表すVT_RECORD OLE変数の型名（構造体名）を返します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+VT_RECORD OLE変数の型名を文字列で返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'win32ole'</span>
+obj <span class="o">=</span> <span class="no">WIN32OLE</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'ComServer.ComClass'</span><span class="p">)</span>
+book <span class="o">=</span> obj<span class="p">.</span><span class="nf">getBook</span>
+book<span class="p">.</span><span class="nf">typename</span> <span class="c1"># =&gt; &quot;Book&quot;
+</span></code></pre>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/win32ole/WIN32OLE_RECORD.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

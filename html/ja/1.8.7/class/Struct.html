@@ -180,6 +180,27 @@
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_TAGURI">taguri</a></li>
+
+<li><a href="#I_TAGURI--3D">taguri=</a></li>
+
+<li><a href="#I_TO_YAML">to_yaml</a></li>
+
+<li><a href="#S_YAML_NEW">yaml_new</a></li>
+
+<li><a href="#S_YAML_TAG_CLASS_NAME">yaml_tag_class_name</a></li>
+
+<li><a href="#S_YAML_TAG_READ_CLASS">yaml_tag_read_class</a></li>
+
+<li><a href="#S_YAML_TAG_SUBCLASSES--3F">yaml_tag_subclasses?</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
@@ -324,6 +345,9 @@
 </dd>
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -731,6 +755,126 @@ p obj.values_at(0, 1, 2)    # =&gt; [&quot;FOO&quot;, &quot;BAR&quot;, &quot;BAZ
 </pre>
 <p>
 [注意] 本メソッドの記述は Struct の下位クラスのインスタンスに対して呼び出す事を想定しています。Struct.new は Struct の下位クラスを作成する点に注意してください。
+</p>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_TAGURI"><code>taguri -&gt; String</code><span class="permalink">[<a href="../method/Struct/i/taguri.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Struct.html#method-i-taguri">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身のタグ URI を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TAGURI--3D"><code>taguri=(val)</code><span class="permalink">[<a href="../method/Struct/i/taguri=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Struct.html#method-i-taguri-3D">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身のタグ URI を val に設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] val:</dt>
+<dd>
+タグ URI を文字列で指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_YAML"><code>to_yaml(opts = {}) -&gt; String</code><span class="permalink">[<a href="../method/Struct/i/to_yaml.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Struct.html#method-i-to_yaml">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身を YAML ドキュメントに変換します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] opts:</dt>
+<dd>
+YAML ドキュメント出力の際のオプションを指定します。オプションの詳細は <a href="../method/YAML=3a=3aSyck=3a=3aEmitter/i/reset.html">YAML::Syck::Emitter#reset</a> を参照してください。
+</dd>
+</dl>
+<pre>
+Foo = Struct.new(:bar, :baz)
+print Foo.new(&quot;bar&quot;, &quot;baz&quot;).to_yaml
+# =&gt; --- !ruby/struct:Foo
+bar: bar
+baz: baz
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_YAML_NEW"><code>yaml_new(klass, tag, val)</code><span class="permalink">[<a href="../method/Struct/s/yaml_new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Struct.html#method-c-yaml_new">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+ライブラリ内部で使用します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_YAML_TAG_CLASS_NAME"><code>yaml_tag_class_name -&gt; String</code><span class="permalink">[<a href="../method/Struct/s/yaml_tag_class_name.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Struct.html#method-c-yaml_tag_class_name">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身のクラス名から Struct:: をのぞいた文字列を返します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+自身のクラス名から Struct::をのぞいた文字列
+</dd>
+</dl>
+<pre>
+require 'yaml'
+
+YStruct = Struct.new(&quot;YStruct&quot;, :name)
+p YStruct::yaml_tag_class_name
+#=&gt; &quot;YStruct&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_YAML_TAG_READ_CLASS"><code>yaml_tag_read_class(name) -&gt; String</code><span class="permalink">[<a href="../method/Struct/s/yaml_tag_read_class.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Struct.html#method-c-yaml_tag_read_class">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+引数 name に Struct:: を加えた文字列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] name:</dt>
+<dd>
+構造体の名前を指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+引数 name に Struct:: を加えた文字列。
+</dd>
+</dl>
+<pre>
+require 'yaml'
+
+YStruct = Struct.new(&quot;YStruct&quot;, :name)
+p YStruct::yaml_tag_read_class(&quot;YStruct&quot;)
+#=&gt; &quot;Struct::YStruct&quot;
+</pre>
+</dd>
+
+
+<dt class="method-heading" id="S_YAML_TAG_SUBCLASSES--3F"><code>yaml_tag_subclasses? -&gt; true</code><span class="permalink">[<a href="../method/Struct/s/yaml_tag_subclasses=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/1.8.7/Struct.html#method-c-yaml_tag_subclasses-3F">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/yaml=2frubytypes.html">yaml/rubytypes</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+常に true を返します。
+</p>
+<p>
+ライブラリ内部で使用します。
 </p>
 </dd>
 

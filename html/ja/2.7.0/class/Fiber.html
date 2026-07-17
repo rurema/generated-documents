@@ -241,12 +241,28 @@ f<span class="p">.</span><span class="nf">resume</span>
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_ALIVE--3F">alive?</a></li>
+
+<li><a href="#S_CURRENT">current</a></li>
+
+<li><a href="#I_TRANSFER">transfer</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
 
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -407,6 +423,112 @@ f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span>
 <span class="nb">p</span> f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="p">)</span> <span class="c1">#=&gt; :hoge
 </span><span class="nb">p</span> f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="p">)</span> <span class="c1">#=&gt; :fuga
 </span><span class="nb">p</span> f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="p">)</span> <span class="c1">#=&gt; FiberError: dead fiber called
+</span></code></pre>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ALIVE--3F"><code>alive? -&gt; bool</code><span class="permalink">[<a href="../method/Fiber/i/alive=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.7.0/Fiber.html#method-i-alive-3F">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/fiber.html">fiber</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+ファイバーが「生きている」時、真を返します。
+</p>
+<p>
+このメソッドが真を返すのは以下の場合です。
+</p>
+<ul>
+<li>まだ <a href="../method/Fiber/i/resume.html">Fiber#resume</a> されていない</li>
+<li>ブロック内の評価が終了していない (<a href="../method/Fiber/s/yield.html">Fiber.yield</a> が呼ばれていない)</li>
+</ul>
+<span class="caption">例:</span>
+<pre class="highlight ruby">
+<code>
+fr <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span>
+<span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span>
+<span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>
+<span class="p">}</span>
+
+<span class="nb">p</span> fr<span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; true
+</span>fr<span class="p">.</span><span class="nf">resume</span>   <span class="c1"># Fiber.yieldで戻ってくる
+</span><span class="nb">p</span> fr<span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; true
+</span>fr<span class="p">.</span><span class="nf">resume</span>   <span class="c1"># ブロック内の評価を終えて戻ってくる
+</span><span class="nb">p</span> fr<span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_CURRENT"><code>current -&gt; Fiber</code><span class="permalink">[<a href="../method/Fiber/s/current.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.7.0/Fiber.html#method-c-current">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/fiber.html">fiber</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+このメソッドが評価されたコンテキストにおける <a href="../class/Fiber.html">Fiber</a> のインスタンスを返します。
+</p>
+<span class="caption">例:</span>
+<pre class="highlight ruby">
+<code>
+fr <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+ <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span>
+<span class="k">end</span>
+
+fb <span class="o">=</span> fr<span class="p">.</span><span class="nf">resume</span>
+<span class="nb">p</span> fb<span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>fr<span class="p">)</span> <span class="c1"># =&gt; true
+</span>
+<span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span> <span class="c1"># =&gt; #&lt;Fiber:0x91345e4&gt;
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span> <span class="c1"># =&gt; #&lt;Fiber:0x91345e4&gt;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TRANSFER"><code>transfer(*args) -&gt; object</code><span class="permalink">[<a href="../method/Fiber/i/transfer.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.7.0/Fiber.html#method-i-transfer">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/fiber.html">fiber</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+自身が表すファイバーへコンテキストを切り替えます。
+</p>
+<p>
+自身は <a href="../method/Fiber/i/resume.html">Fiber#resume</a> を呼んだファイバーの子となります。
+<a href="../method/Fiber/i/resume.html">Fiber#resume</a> との違いは、ファイバーが終了したときや <a href="../method/Fiber/s/yield.html">Fiber.yield</a> が呼ばれたときは、ファイバーの親へ戻らずにメインファイバーへ戻ります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+メインファイバーから呼び出した <a href="../method/Fiber/i/resume.html">Fiber#resume</a> メソッドの返り値として渡したいオブジェクトを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+コンテキスト切り替えの際に、<a href="../method/Fiber/i/resume.html">Fiber#resume</a> メソッドに与えられた引数を返します。
+</dd>
+<dt>[EXCEPTION] FiberError:</dt>
+<dd>
+自身が既に終了している場合、コンテキストの切り替えが <a href="../class/Thread.html">Thread</a> クラスが表すスレッド間をまたがる場合、
+<a href="../method/Fiber/i/resume.html">Fiber#resume</a> を呼んだファイバーがその親か先祖である場合に発生します。
+</dd>
+</dl>
+<span class="caption">例:</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'fiber'</span>
+
+fr1 <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>v<span class="o">|</span>
+<span class="ss">:fugafuga</span>
+<span class="k">end</span>
+
+fr2 <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>v<span class="o">|</span>
+fr1<span class="p">.</span><span class="nf">transfer</span>
+<span class="ss">:fuga</span>
+<span class="k">end</span>
+
+fr3 <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>v<span class="o">|</span>
+fr2<span class="p">.</span><span class="nf">resume</span>
+<span class="ss">:hoge</span>
+<span class="k">end</span>
+
+<span class="nb">p</span> fr3<span class="p">.</span><span class="nf">resume</span> <span class="c1"># =&gt; :fugafuga
 </span></code></pre>
 </dd>
 

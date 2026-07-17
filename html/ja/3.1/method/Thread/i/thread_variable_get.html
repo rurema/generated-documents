@@ -88,22 +88,21 @@
 <p>
 [注意]: <a href="../../../method/Thread/i/=5b=5d.html">Thread#[]</a> でセットしたローカル変数(Fiber ローカル変数)と異なり、Fiber を切り替えても同じ変数を返す事に注意してください。
 </p>
-<p>
-例:
-</p>
-<pre>
-Thread.new {
-  Thread.current.thread_variable_set(&quot;foo&quot;, &quot;bar&quot;) # スレッドローカル
-  Thread.current[&quot;foo&quot;] = &quot;bar&quot;                    # Fiber ローカル
-
-  Fiber.new {
-    Fiber.yield [
-      Thread.current.thread_variable_get(&quot;foo&quot;), # スレッドローカル
-      Thread.current[&quot;foo&quot;],                     # Fiber ローカル
-    ]
-  }.resume
-}.join.value # =&gt; ['bar', nil]
-</pre>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># スレッドローカル
+</span>  <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>                    <span class="c1"># Fiber ローカル
+</span>
+  <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span>
+    <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span> <span class="p">[</span>
+      <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_get</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span>, <span class="c1"># スレッドローカル
+</span>      <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span>,                     <span class="c1"># Fiber ローカル
+</span>    <span class="p">]</span>
+  <span class="p">}</span><span class="p">.</span><span class="nf">resume</span>
+<span class="p">}</span><span class="p">.</span><span class="nf">join</span><span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; ['bar', nil]
+</span></code></pre>
 <p>
 この例の &quot;bar&quot; は <a href="../../../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a> により得られた値で、nil は<a href="../../../method/Thread/i/=5b=5d.html">Thread#[]</a> により得られた値です。
 </p>

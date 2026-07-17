@@ -88,15 +88,38 @@ if 文は、まず条件式を評価し、その値が真ならば対応する�
 <p>
 文全体の値は最後に実行した本体の値です。ただし評価された本体に式がなかった場合、あるいはすべての条件式が偽でかつ else 節もなかった場合は nil です。
 </p>
-<h3 >until</h3>
 <h3 >if 修飾子</h3>
+<p>
+右辺の条件式を評価し、真であれば左辺の式を評価してその値を返します。偽であれば左辺は評価されず、nil を返します。詳細は <a href="../doc/spec=2fcontrol.html#if">制御構造/if</a> を参照してください。
+</p>
 <h3 >unless 修飾子</h3>
+<p>
+右辺の条件式を評価し、偽であれば左辺の式を評価してその値を返します。真であれば左辺は評価されず、nil を返します。詳細は <a href="../doc/spec=2fcontrol.html#unless">制御構造/unless</a> を参照してください。
+</p>
 <h3 >while</h3>
+<p>
+本体を評価する前に毎回条件式を評価する前判定の繰り返しです。条件式が最初から偽であれば本体は一度も評価されません。文全体の値は nil です(引数を伴った break で抜けた場合はその値になります)。詳細は <a href="../doc/spec=2fcontrol.html#while">制御構造/while</a> を参照してください。
+</p>
 <h3 >until</h3>
+<p>
+while と条件の真偽が逆になるだけで、評価順序(前判定)と文の値は while と同様です。詳細は <a href="../doc/spec=2fcontrol.html#until">制御構造/until</a> を参照してください。
+</p>
 <h3 >while 修飾子</h3>
+<p>
+左辺が begin 〜 end 式以外であれば while 文と同様の前判定になりますが、左辺が begin 〜 end 式である場合は本体を先に一度評価してから条件式を評価する後判定になります。文の値は while 文と同様です。詳細は <a href="../doc/spec=2fcontrol.html#while">制御構造/while</a> を参照してください。
+</p>
 <h3 >until 修飾子</h3>
+<p>
+while 修飾子と条件の真偽が逆になるだけで、begin 〜 end 式に対する後判定の扱いを含め評価順序は同様です。詳細は <a href="../doc/spec=2fcontrol.html#until">制御構造/until</a> を参照してください。
+</p>
 <h3 >for</h3>
+<p>
+in の後の式を評価して得たオブジェクトに対して each メソッドを呼び出し、その要素を左辺の変数へ代入しながら本体を繰り返し評価します。文全体の値は each メソッドの戻り値です。ブロック付きメソッド呼び出しとは異なり、for は新しいローカル変数のスコープを導入しないため、ループ変数や本体内で代入した変数はループの前後で同じスコープに残ります。詳細は <a href="../doc/spec=2fcontrol.html#for">制御構造/for</a> を参照してください。
+</p>
 <h3 >begin 〜 end</h3>
+<p>
+本体の式を上から順に評価し、最後に評価した式の値を返します(式がなければ nil)。rescue・else・ensure 節を伴う場合の評価順序と値については <a href="../doc/spec=2fcontrol.html#begin">制御構造/begin</a> を参照してください。
+</p>
 <h3 >クラス定義式</h3>
 <p>
 クラスを定義します。評価は(コンパイル時ではなく)実行時に行われます。
@@ -207,11 +230,11 @@ end
 </p>
 <h3 >BEGIN</h3>
 <p>
-コンパイル時に登録される (評価は実行の最初)
+BEGIN ブロックはコンパイル時に登録され、プログラムの実行の最初に評価されます(<a href="../doc/spec=2fcontrol.html#BEGIN">制御構造/BEGIN</a> を参照)。
 </p>
 <h3 >END</h3>
 <p>
-コンパイル時に登録される (評価は実行の最後)
+END ブロックは BEGIN と異なり実行時に登録され(登録する文が実行されなかった場合は登録されません)、プログラムの実行の最後に評価されます(<a href="../doc/spec=2fcontrol.html#END">制御構造/END</a> を参照)。
 </p>
 <h2 >メソッド</h2>
 <h3 >メソッドの呼び出し</h3>
@@ -279,7 +302,7 @@ nil になります。
 メソッドに対してブロックが与えられていたらそのメソッドをブロック付きメソッドと呼びます。ブロック付きメソッドからは yield によって与えられたブロックに実行を移すことができます。
 </p>
 <p>
-ブロック引数をとることができます。
+ブロックは引数をとることができます。実行開始時の扱いは後述の「ローカル変数」の項(ブロック引数は多重代入とみなされる)を参照してください。
 </p>
 <p>
 break … ブロックがスタックフレーム上にあるなら、そのフレームのブロックの直後にジャンプします。ブロック付きメソッドを break して終了したらその値は
@@ -287,14 +310,14 @@ nil です。スタックフレーム上にないなら例外 <a href="../class/
 を発生します。
 </p>
 <p>
-next ブロックの終わりまでジャンプ
+next … ブロックの実行を終了します。yield 式の値は next の引数の値(指定しなければ nil)になります(<a href="../doc/spec=2fcontrol.html#next">制御構造/next</a>)。
 </p>
 <p>
-retry 複雑だ…
+retry はブロックの制御とは無関係で、現在の Ruby ではブロック中を含め rescue 節以外で retry を用いると例外 <a href="../class/SyntaxError.html">SyntaxError</a> が発生するため、rescue 節の中でのみ有効です(<a href="../doc/spec=2fcontrol.html#retry">制御構造/retry</a>)。
 </p>
 <h3 >eval, instance_eval, module_eval</h3>
 <p>
-これなんだっけ
+<a href="../method/Kernel/m/eval.html">Kernel.#eval</a> にコンテキスト(<a href="../class/Proc.html">Proc</a> や <a href="../class/Binding.html">Binding</a>)を渡す場合と同様に、<a href="../method/BasicObject/i/instance_eval.html">BasicObject#instance_eval</a> や <a href="../method/Module/i/module_eval.html">Module#module_eval</a>・<a href="../method/Module/i/class_eval.html">Module#class_eval</a> もブロックだけでなく文字列を渡して評価できます。いずれの場合も self(module_eval/class_eval では class も)がレシーバに応じて変わる一方、呼び出し元のローカル変数はブロックでも文字列でも参照できます(ただし文字列の評価中に新たに定義したローカル変数は外側には残りません。また module_eval/class_eval では定数・クラス変数のスコープが文字列かブロックかで異なります)。詳細は各メソッドのドキュメント(<a href="../method/BasicObject/i/instance_eval.html">BasicObject#instance_eval</a>、<a href="../method/Module/i/module_eval.html">Module#module_eval</a>、<a href="../method/Module/i/class_eval.html">Module#class_eval</a>)を参照してください。
 </p>
 <h2 >代入</h2>
 <p>
@@ -306,17 +329,20 @@ retry 複雑だ…
 </p>
 <h3 >多重代入</h3>
 <p>
-まだ
+多重代入では、まず左辺の各要素のうち <code>[]=</code> による代入(配列参照)や
+<code>属性=</code> による代入(属性参照)になっているものについて、代入先のレシーバおよび添字の式を左から右の順に評価します。続いて右辺の各式を左から右の順に評価します。最後に、それらの評価結果を用いて左から右の順に代入を行います。この評価順序は、単一の代入(左辺を評価してから右辺を評価する)と一貫するように Ruby 3.1 で変更されました(<a class="external" href="https://bugs.ruby-lang.org/issues/4443">[bug#4443]</a>)。
+</p>
+<p>
+多重代入の文法や代入される値の対応関係については
+<a href="../doc/spec=2foperator.html#multiassign">演算子式/多重代入</a> を参照してください。
 </p>
 <h2 >変数と定数</h2>
 <p>
-変数および定数はオブジェクトをひとつだけ記憶しておくことができます。この、オブジェクトを記憶させる操作を「変数(定数)への代入」と言います。
+変数および定数を評価すると、それが記憶しているオブジェクトを返します。この操作を「変数(定数)の参照」と言います。未定義の状態で参照した場合の挙動は種類によって異なり、ローカル変数は self への(引数のない)メソッド呼び出しとして解釈され(メソッドの探索にも失敗すれば例外
+NameError)、インスタンス変数とグローバル変数は nil を返し、クラス変数と定数は例外 NameError が発生します。
 </p>
 <p>
-変数および定数を評価すると、それが記憶しているオブジェクトを返します。この操作を「変数(定数)の参照」と言います。
-</p>
-<p>
-以下、種類別に変数／定数の代入と参照の挙動を述べます。
+種類ごとの代入・参照の記法やスコープの詳細は <a href="../doc/spec=2fvariables.html">変数と定数</a> を参照してください。以下、実行(評価)の観点から補足します。
 </p>
 <h3 >ローカル変数</h3>
 <p>
@@ -341,17 +367,13 @@ retry 複雑だ…
 ローカル変数の定義および参照にあたっては、外側のブロックから順番に変数を探します。この結果としてローカル変数のネスト (shadowing) はできません。ただし上下関係にない複数のブロックに別々のローカル変数が存在することはありえます。
 </p>
 <p>
-また未定義の(つまりコード中に書かれていない)ローカル変数を参照すると、
-Ruby は次にそれを self への(引数のない)メソッド呼び出しに解釈しようとします。メソッドの探索にも失敗したら例外 NameError を発生します。
-</p>
-<p>
 呼び出しブロックの実行にあたっては、ブロックが引数をとることができますが、これは実行しようとするブロック上での多重代入とみなされます。たとえば以下のコードのブロック実行開始時には、
 </p>
-<pre class="highlight text">
+<pre class="highlight ruby">
 <code>
-some_iterator do |a,b|
-  ....
-end
+some_iterator <span class="k">do</span> <span class="o">|</span>a,b<span class="o">|</span>
+  <span class="c1"># ....
+</span><span class="k">end</span>
 </code></pre>
 <p>
 次のような操作がまず実行されます。
@@ -360,57 +382,33 @@ end
 <code>
 a, b = &lt;some_iterator から yield された値&gt;
 </code></pre>
+<p>
+ローカル変数の記法や基本的なスコープについては
+<a href="../doc/spec=2fvariables.html#local">変数と定数/ローカル変数</a> を参照してください。
+</p>
 <h3 >インスタンス変数</h3>
 <p>
-インスタンス変数はひとつのオブジェクトに所属し、そのオブジェクトを
-self とするブロックだけから代入、参照できます。定義は代入によって兼ね、未定義のインスタンス変数を参照すると nil を返します。
-</p>
-<p>
-remove_instance_variable
+<a href="../doc/spec=2fvariables.html#instance">変数と定数/インスタンス変数</a> を参照してください。
+<a href="../method/Object/i/remove_instance_variable.html">Object#remove_instance_variable</a> でインスタンス変数を削除できます。
 </p>
 <h3 >クラス変数</h3>
 <p>
-クラス変数はひとつのクラスとそのサブクラス、およびそのインスタンスに所属し、それらオブジェクトを self とするブロックだけから代入、参照できます。定義は最初の代入によって行います。未定義のクラス変数を参照すると例外 NameError が発生します。
-</p>
-<p>
-クラス変数の継承と「継承止め」
+<a href="../doc/spec=2fvariables.html#class">変数と定数/クラス変数</a> を参照してください。
 </p>
 <h3 >グローバル変数</h3>
 <p>
-グローバル変数は全ての場所から代入、参照できます。定義は最初の代入によって行い、未定義のグローバル変数を参照すると nil を返します。
-</p>
-<p>
-トレースできること(？)
+<a href="../doc/spec=2fvariables.html#global">変数と定数/グローバル変数</a> を参照してください。
 </p>
 <h3 >定数</h3>
 <p>
-定数はクラス／モジュールに所属します。代入はメソッド以外のすべてで可能で、最初の代入が定義を兼ねます。定数が所属するクラスは代入が行われたブロックの class です。また非常に特殊な例外としてメソッド
-Module#const_set によっても定義が可能です。さらに
-Module#remove_const を使うことで定義の取り消しが可能です。
+定数への代入はメソッド以外のすべてで可能で、最初の代入が定義を兼ねます。定数が所属するクラスは代入が行われたブロックの class です。また非常に特殊な例外としてメソッド <a href="../method/Module/i/const_set.html">Module#const_set</a> によっても定義が可能です。さらに <a href="../method/Module/i/remove_const.html">Module#remove_const</a> を使うことで定義の取り消しが可能です。
 </p>
 <p>
 すでに定義されている定数の再定義および代入はできません。実際には警告のみで代入が可能ですが、これは一時的な避難措置であり本来の仕様ではありません。従ってこれに依存したコードはできるだけ書かないようにすべきです。
 </p>
 <p>
-参照可能な範囲は記法によって分かれます。
-</p>
-<dl>
-<dt>定数名のみの場合 (例： Const)</dt>
-<dd>
-<p>
-定数が所属するクラス、そのサブクラス、ネストしたクラスのフレームに書かれたコードから参照可能
-</p>
-</dd>
-<dt>フルパス指定の場合 (例： Mod::Cls::Const)</dt>
-<dd>
-<p>
-あらゆる場所から参照可能
-</p>
-</dd>
-</dl>
-<p>
-また ::Const のように :: を前置した記法では
-Object::Const のみが参照可能です。
+定数の参照可能な範囲や探索順序については <a href="../doc/spec=2fvariables.html#prio">変数と定数/定数参照の優先順位</a>
+を参照してください。
 </p>
 
 </main>

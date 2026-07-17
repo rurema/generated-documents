@@ -12,10 +12,9 @@ source_location=manual/api/rake/RakeFileUtils.md
 
 - **param** `msg` -- 表示するメッセージを指定します。
 
-例:
-`````
+```ruby title="例"
 when_writing("Building Project") do
   project.build
 end
-`````
+```
 

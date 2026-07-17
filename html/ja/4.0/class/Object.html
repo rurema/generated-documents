@@ -156,7 +156,7 @@
 
 <li><a href="#I_DISPLAY">display</a></li>
 
-<li><a href="#I_CLONE">dup</a></li>
+<li><a href="#I_DUP">dup</a></li>
 
 <li><a href="#I_ENUM_FOR">enum_for</a></li>
 
@@ -254,6 +254,29 @@
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_PRETTY_INSPECT">pretty_inspect</a></li>
+
+<li><a href="#I_PRETTY_PRINT">pretty_print</a></li>
+
+<li><a href="#I_PRETTY_PRINT_CYCLE">pretty_print_cycle</a></li>
+
+<li><a href="#I_PRETTY_PRINT_INSPECT">pretty_print_inspect</a></li>
+
+<li><a href="#I_PRETTY_PRINT_INSTANCE_VARIABLES">pretty_print_instance_variables</a></li>
+
+<li><a href="#I_PSYCH_TO_YAML">psych_to_yaml</a></li>
+
+<li><a href="#I_PSYCH_TO_YAML">to_yaml</a></li>
+
+<li><a href="#S_YAML_TAG">yaml_tag</a></li>
+
+</ul>
+</dd>
+
 <dt>再定義されたメソッド</dt>
 <dd>
 <ul class="class-toc">
@@ -335,6 +358,23 @@
 
 
 </dl>
+
+
+
+  <h2>動的includeで追加されるメソッド</h2>
+<dl>
+  
+<dt>JSON::Generator::GeneratorMethods::Object (by json)</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aObject/i/to_json.html">to_json</a></li>
+    
+  </ul>
+</dd>
+  
+</dl>
+
 
 
 <h2>特異メソッド</h2>
@@ -586,14 +626,12 @@ _dump/_load はより高度な制御を行いたい場合や拡張ライブラ�
 
 
 <dt class="method-heading" id="I_CLONE"><code>clone(freeze: nil) -&gt; object</code><span class="permalink">[<a href="../method/Object/i/clone.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Object.html#method-i-clone">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Object.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>dup -&gt; object</code></dt>
 <dd class="method-description">
 <p>
 オブジェクトの複製を作成して返します。
 </p>
 <p>
-dup はオブジェクトの内容をコピーし、
-clone はそれに加えて freeze, 特異メソッドなどの情報も含めた完全な複製を作成します。
+clone は、オブジェクトの内容に加えて freeze の状態や特異メソッドなどの情報も含めた完全な複製を作成します。
 </p>
 <p>
 clone や dup は浅い(shallow)コピーであることに注意してください。後述。
@@ -631,16 +669,9 @@ obj_c <span class="o">=</span> obj<span class="p">.</span><span class="nf">clone
 </span><span class="nb">p</span><span class="p">(</span>obj <span class="o">==</span> obj_c<span class="p">)</span>             <span class="c1">#=&gt; true
 </span><span class="nb">p</span><span class="p">(</span>obj_c<span class="p">.</span><span class="nf">frozen?</span><span class="p">)</span>            <span class="c1">#=&gt; true
 </span><span class="nb">p</span><span class="p">(</span>obj_c<span class="p">.</span><span class="nf">respond_to?</span><span class="p">(</span><span class="ss">:fuga</span><span class="p">)</span><span class="p">)</span> <span class="c1">#=&gt; true
-</span>
-obj_d <span class="o">=</span> obj<span class="p">.</span><span class="nf">dup</span>
-
-<span class="nb">p</span><span class="p">(</span>obj<span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>obj_d<span class="p">)</span><span class="p">)</span>        <span class="c1">#=&gt; false
-</span><span class="nb">p</span><span class="p">(</span>obj <span class="o">==</span> obj_d<span class="p">)</span>             <span class="c1">#=&gt; true
-</span><span class="nb">p</span><span class="p">(</span>obj_d<span class="p">.</span><span class="nf">frozen?</span><span class="p">)</span>            <span class="c1">#=&gt; false
-</span><span class="nb">p</span><span class="p">(</span>obj_d<span class="p">.</span><span class="nf">respond_to?</span><span class="p">(</span><span class="ss">:fuga</span><span class="p">)</span><span class="p">)</span> <span class="c1">#=&gt; false
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/Object/i/initialize_copy.html">Object#initialize_copy</a>
+[SEE_ALSO] <a href="../method/Object/i/initialize_copy.html">Object#initialize_copy</a>, <a href="../method/Object/i/initialize_clone.html">Object#initialize_clone</a>, <a href="../method/Object/i/dup.html">Object#dup</a>
 </p>
 <h3 >深いコピーと浅いコピー</h3>
 <p>
@@ -750,6 +781,43 @@ nil を返します。
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/v/stdout.html">$stdout</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DUP"><code>dup -&gt; object</code><span class="permalink">[<a href="../method/Object/i/dup.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Object.html#method-i-dup">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Object.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+オブジェクトの複製を作成して返します。
+</p>
+<p>
+dup は、オブジェクトの内容をコピーします。
+<a href="../method/Object/i/clone.html">Object#clone</a> と異なり、freeze の状態や特異メソッドはコピーされません。
+</p>
+<p>
+浅いコピー・複製の詳細は <a href="../method/Object/i/clone.html">Object#clone</a> を参照してください。
+</p>
+<pre class="highlight ruby">
+<code>
+obj <span class="o">=</span> <span class="s2">"</span><span class="s2">string</span><span class="s2">"</span>
+<span class="k">def</span> <span class="nf">obj</span><span class="p">.</span><span class="nf">fuga</span>
+<span class="k">end</span>
+obj<span class="p">.</span><span class="nf">freeze</span>
+
+<span class="nb">p</span><span class="p">(</span>obj<span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>obj<span class="p">)</span><span class="p">)</span>          <span class="c1">#=&gt; true
+</span><span class="nb">p</span><span class="p">(</span>obj <span class="o">==</span> obj<span class="p">)</span>               <span class="c1">#=&gt; true
+</span><span class="nb">p</span><span class="p">(</span>obj<span class="p">.</span><span class="nf">frozen?</span><span class="p">)</span>              <span class="c1">#=&gt; true
+</span><span class="nb">p</span><span class="p">(</span>obj<span class="p">.</span><span class="nf">respond_to?</span><span class="p">(</span><span class="ss">:fuga</span><span class="p">)</span><span class="p">)</span>   <span class="c1">#=&gt; true
+</span>
+obj_d <span class="o">=</span> obj<span class="p">.</span><span class="nf">dup</span>
+
+<span class="nb">p</span><span class="p">(</span>obj<span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>obj_d<span class="p">)</span><span class="p">)</span>        <span class="c1">#=&gt; false
+</span><span class="nb">p</span><span class="p">(</span>obj <span class="o">==</span> obj_d<span class="p">)</span>             <span class="c1">#=&gt; true
+</span><span class="nb">p</span><span class="p">(</span>obj_d<span class="p">.</span><span class="nf">frozen?</span><span class="p">)</span>            <span class="c1">#=&gt; false # clone と異なり freeze はコピーされない
+</span><span class="nb">p</span><span class="p">(</span>obj_d<span class="p">.</span><span class="nf">respond_to?</span><span class="p">(</span><span class="ss">:fuga</span><span class="p">)</span><span class="p">)</span> <span class="c1">#=&gt; false # 特異メソッドもコピーされない
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Object/i/initialize_copy.html">Object#initialize_copy</a>, <a href="../method/Object/i/initialize_dup.html">Object#initialize_dup</a>, <a href="../method/Object/i/clone.html">Object#clone</a>
 </p>
 </dd>
 
@@ -1628,7 +1696,7 @@ protected メソッド名、 private メソッド名を引数として与える�
 <pre class="highlight ruby">
 <code>
 <span class="nb">p</span> <span class="mi">1</span><span class="p">.</span><span class="nf">public_method</span><span class="p">(</span><span class="ss">:to_int</span><span class="p">)</span> <span class="c1">#=&gt; #&lt;Method: Integer#to_int&gt;
-</span><span class="mi">1</span><span class="p">.</span><span class="nf">public_method</span><span class="p">(</span><span class="ss">:p</span><span class="p">)</span>      <span class="c1">#   method `p' for class `Integer' is private (NameError)
+</span><span class="mi">1</span><span class="p">.</span><span class="nf">public_method</span><span class="p">(</span><span class="ss">:p</span><span class="p">)</span>      <span class="c1">#   method 'p' for class 'Integer' is private (NameError)
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Object/i/method.html">Object#method</a>,<a href="../method/Object/i/public_send.html">Object#public_send</a>,<a href="../method/Module/i/public_instance_method.html">Module#public_instance_method</a>
@@ -2217,7 +2285,7 @@ initialize_clone という名前のメソッドは自動的に private に設定
 </dd>
 </dl>
 <p>
-[SEE_ALSO] <a href="../method/Object/i/initialize_copy.html">Object#initialize_copy</a>, <a href="../method/Object/i/initialize_dup.html">Object#initialize_dup</a>
+[SEE_ALSO] <a href="../method/Object/i/clone.html">Object#clone</a>, <a href="../method/Object/i/initialize_copy.html">Object#initialize_copy</a>, <a href="../method/Object/i/initialize_dup.html">Object#initialize_dup</a>
 </p>
 </dd>
 
@@ -2341,7 +2409,7 @@ check <span class="no">Object</span><span class="p">.</span><span class="nf">new
 initialize_dup という名前のメソッドは自動的に private に設定されます。
 </p>
 <p>
-[SEE_ALSO] <a href="../method/Object/i/initialize_copy.html">Object#initialize_copy</a>, <a href="../method/Object/i/initialize_clone.html">Object#initialize_clone</a>
+[SEE_ALSO] <a href="../method/Object/i/dup.html">Object#dup</a>, <a href="../method/Object/i/initialize_copy.html">Object#initialize_copy</a>, <a href="../method/Object/i/initialize_clone.html">Object#initialize_clone</a>
 </p>
 </dd>
 
@@ -2398,6 +2466,195 @@ s<span class="p">.</span><span class="nf">to_sample</span><span class="p">(</spa
 <p>
 [SEE_ALSO] <a href="../method/Object/i/respond_to=3f.html">Object#respond_to?</a>, <a href="../method/BasicObject/i/method_missing.html">BasicObject#method_missing</a>
 </p>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_PRETTY_INSPECT"><code>pretty_inspect -&gt; String</code><span class="permalink">[<a href="../method/Object/i/pretty_inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Object.html#method-i-pretty_inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/pp.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/pp.html">pp</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+self を pp で表示したときの結果を文字列として返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRETTY_PRINT"><code>pretty_print(pp) -&gt; ()</code><span class="permalink">[<a href="../method/Object/i/pretty_print.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Object.html#method-i-pretty_print">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/pp.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/pp.html">pp</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a href="../method/PP/s/pp.html">PP.pp</a> や <a href="../method/Kernel/m/pp.html">Kernel.#pp</a> がオブジェクトの内容を出力するときに呼ばれるメソッドです。<a href="../class/PP.html">PP</a> オブジェクト pp を引数として呼ばれます。
+</p>
+<p>
+あるクラスの pp の出力をカスタマイズしたい場合は、このメソッドを再定義します。そのとき pretty_print メソッドは指定された pp に対して表示したい自身の内容を追加していかなければいけません。いくつかの組み込みクラスについて、
+<a href="../library/pp.html">pp</a> ライブラリはあらかじめ pretty_print メソッドを定義しています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>pp</code>:</dt>
+<dd>
+<a href="../class/PP.html">PP</a> オブジェクトです。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Array</span>
+  <span class="k">def</span> <span class="nf">pretty_print</span><span class="p">(</span>q<span class="p">)</span>
+    q<span class="p">.</span><span class="nf">group</span><span class="p">(</span><span class="mi">1</span>, <span class="s1">'['</span>, <span class="s1">']'</span><span class="p">)</span> <span class="p">{</span>
+      q<span class="p">.</span><span class="nf">seplist</span><span class="p">(</span><span class="nc">self</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span>
+        q<span class="p">.</span><span class="nf">pp</span> v
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Object/i/pretty_print_cycle.html">Object#pretty_print_cycle</a>, <a href="../method/Object/i/inspect.html">Object#inspect</a>, <a href="../method/PrettyPrint/i/text.html">PrettyPrint#text</a>, <a href="../method/PrettyPrint/i/group.html">PrettyPrint#group</a>, <a href="../method/PrettyPrint/i/breakable.html">PrettyPrint#breakable</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRETTY_PRINT_CYCLE"><code>pretty_print_cycle(pp) -&gt; ()</code><span class="permalink">[<a href="../method/Object/i/pretty_print_cycle.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Object.html#method-i-pretty_print_cycle">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/pp.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/pp.html">pp</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+プリティプリント時にオブジェクトの循環参照が検出された場合、
+<a href="../method/Object/i/pretty_print.html">Object#pretty_print</a> の代わりに呼ばれるメソッドです。
+</p>
+<p>
+あるクラスの pp の出力をカスタマイズしたい場合は、このメソッドも再定義する必要があります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>pp</code>:</dt>
+<dd>
+<a href="../class/PP.html">PP</a> オブジェクトです。
+</dd>
+</dl>
+<pre class="highlight ruby">
+<code>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Array</span>
+  <span class="k">def</span> <span class="nf">pretty_print_cycle</span><span class="p">(</span>q<span class="p">)</span>
+    q<span class="p">.</span><span class="nf">text</span><span class="p">(</span>empty? <span class="o">?</span> <span class="s1">'[]'</span> <span class="o">:</span> <span class="s1">'[...]'</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Object/i/pretty_print.html">Object#pretty_print</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRETTY_PRINT_INSPECT"><code>pretty_print_inspect -&gt; String</code><span class="permalink">[<a href="../method/Object/i/pretty_print_inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Object.html#method-i-pretty_print_inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/pp.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/pp.html">pp</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a href="../method/Object/i/pretty_print.html">Object#pretty_print</a> を使って <a href="../method/Object/i/inspect.html">Object#inspect</a> と同様にオブジェクトを人間が読める形式に変換した文字列を返します。
+</p>
+<p>
+出力する全てのオブジェクトに <a href="../method/Object/i/pretty_print.html">Object#pretty_print</a> が定義されている必要があります。そうでない場合には <a href="../class/RuntimeError.html">RuntimeError</a> が発生します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+出力する全てのオブジェクトに <a href="../method/Object/i/pretty_print.html">Object#pretty_print</a> が定義されていない場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_PRETTY_PRINT_INSTANCE_VARIABLES"><code>pretty_print_instance_variables -&gt; [String | Symbol]</code><span class="permalink">[<a href="../method/Object/i/pretty_print_instance_variables.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Object.html#method-i-pretty_print_instance_variables">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/pp.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/pp.html">pp</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+プリティプリント時に表示すべき自身のインスタンス変数名の配列をソートして返します。返されたインスタンス変数はプリティプリント時に表示されます。
+</p>
+<p>
+pp に表示したくないインスタンス変数がある場合にこのメソッドを再定義します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PSYCH_TO_YAML"><code>to_yaml(options = {}) -&gt; String</code><span class="permalink">[<a href="../method/Object/i/psych_to_yaml.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Object.html#method-i-psych_to_yaml">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych/core_ext.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/psych.html">psych</a>]</span>
+</dt>
+<dt class="method-heading"><code>psych_to_yaml(options = {}) -&gt; String</code> <span class="kindinfo">[added by <a href="../library/psych.html">psych</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+オブジェクトを YAML document に変換します。
+</p>
+<p>
+options でオプションを指定できます。
+<a href="../method/Psych/s/dump.html">Psych.dump</a> と同じなので詳しくはそちらを参照してください。
+</p>
+<p>
+<a href="../library/syck.html">syck</a> に to_yaml メソッドがあるため、
+psych_to_yaml が別名として定義されています。将来的に
+syck が廃止された場合  psych_to_yaml は廃止される予定であるため、特別の事情がない限り to_yaml を用いてください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+出力オプション
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Psych/s/dump.html">Psych.dump</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_YAML_TAG"><code>yaml_tag(tag) -&gt; ()</code><span class="permalink">[<a href="../method/Object/s/yaml_tag.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Object.html#method-c-yaml_tag">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych/core_ext.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/psych.html">psych</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+クラスと tag の間を関連付けます。
+</p>
+<p>
+これによって tag 付けされた YAML ドキュメントを Ruby のオブジェクトに変換したりその逆をしたりできます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>tag</code>:</dt>
+<dd>
+対象のクラスに関連付けるタグの文字列
+</dd>
+</dl>
+<h3 >Example</h3>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'psych'</span>
+  
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span>x<span class="p">)</span>
+    <span class="vi">@x</span> <span class="o">=</span> x
+  <span class="k">end</span>
+  
+  <span class="nb">attr_reader</span> <span class="ss">:x</span>
+<span class="k">end</span>
+  
+<span class="c1"># Dumps Ruby object normally  
+</span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">)</span> 
+<span class="c1"># =&gt;
+</span><span class="c1"># --- !ruby/object:Foo
+</span><span class="c1"># x: 3
+</span>  
+<span class="c1"># Registers tag with class Foo
+</span><span class="no">Foo</span><span class="p">.</span><span class="nf">yaml_as</span><span class="p">(</span><span class="s2">"</span><span class="s2">tag:example.com,2013:foo</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># ... and dumps the object of Foo class
+</span><span class="no">Psych</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>, <span class="no">STDOUT</span><span class="p">)</span>
+<span class="c1"># =&gt;
+</span><span class="c1"># --- !&lt;tag:example.com,2013:foo&gt;
+</span><span class="c1"># x: 3 
+</span>  
+<span class="c1"># Loads the object from the tagged YAML node
+</span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="no">&lt;&lt;EOS</span><span class="p">)</span>
+<span class="sh">--- !&lt;tag:example.com,2012:foo&gt;
+x: 8
+</span><span class="no">EOS
+</span><span class="c1"># =&gt; #&lt;Foo:0x0000000130f48 @x=8&gt;
+</span></code></pre>
 </dd>
 
 

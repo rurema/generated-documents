@@ -30,17 +30,17 @@ source_location=manual/api/thread/ConditionVariable.md
 メソッドでスレッド a に対して条件が成立したことを通知します。これが典型的な
 使用例です。
 
-```text
-mutex = Mutex.new
-cv = ConditionVariable.new
+```ruby
+mutex = Thread::Mutex.new
+cv = Thread::ConditionVariable.new
 
 a = Thread.start {
     mutex.synchronize {
-      ...
+      # ...
       while (条件が満たされない)
         cv.wait(mutex)
       end
-      ...
+      # ...
     }
 }
 
@@ -56,14 +56,12 @@ b = Thread.start {
 あるいは満タンになった場合に Condition Variable を使って wait しています。
 
 ```ruby
-require 'thread'
-
 class TinyQueue
   def initialize(max=2)
     @max = max
-    @full = ConditionVariable.new
-    @empty = ConditionVariable.new
-    @mutex = Mutex.new
+    @full = Thread::ConditionVariable.new
+    @empty = Thread::ConditionVariable.new
+    @mutex = Thread::Mutex.new
     @q = []
   end
 

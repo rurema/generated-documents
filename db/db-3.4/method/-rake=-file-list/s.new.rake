@@ -11,13 +11,12 @@ source_location=manual/api/rake/Rake__FileList.md
 
 - **param** `patterns` -- パターンを指定します。
 
-例:
-``````
+```ruby title="例"
 file_list = FileList.new('lib/**/*.rb', 'test/test*.rb')
 
 pkg_files = FileList.new('lib/**/*') do |fl|
   fl.exclude(/\bCVS\b/)
 end
-``````
+```
 
 

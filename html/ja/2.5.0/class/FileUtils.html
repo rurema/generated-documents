@@ -304,6 +304,21 @@
 </ul>
 </dd>
 
+<dt>追加されるメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_RUBY">ruby</a></li>
+
+<li><a href="#I_SAFE_LN">safe_ln</a></li>
+
+<li><a href="#I_SH">sh</a></li>
+
+<li><a href="#I_SPLIT_ALL">split_all</a></li>
+
+</ul>
+</dd>
+
 <dt>定数</dt>
 <dd>
 <ul class="class-toc">
@@ -321,6 +336,9 @@
 
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -1451,6 +1469,113 @@ options にオプションを指定した場合に発生します。
 <pre>
 require 'fileutils'
 FileUtils.uptodate?('hello.o', ['hello.c', 'hello.h']) or system('make')
+</pre>
+</dd>
+
+
+</dl>
+
+<h2>追加されるメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_RUBY"><code>ruby(*args) {|result, status| ... }</code><span class="permalink">[<a href="../method/FileUtils/i/ruby.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.5.0/FileUtils.html#method-i-ruby">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/rake.html">rake</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+与えられた引数で Ruby インタプリタを実行します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+Ruby インタプリタに与える引数を指定します。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+ruby %{-pe '$_.upcase!' &lt;README}
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/Kernel/m/sh.html">Kernel.#sh</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SAFE_LN"><code>safe_ln(*args)</code><span class="permalink">[<a href="../method/FileUtils/i/safe_ln.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.5.0/FileUtils.html#method-i-safe_ln">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/rake.html">rake</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+安全にリンクを作成します。
+</p>
+<p>
+リンクの作成に失敗した場合はファイルをコピーします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] args:</dt>
+<dd>
+<a href="../method/FileUtils/m/cp.html">FileUtils.#cp</a>, <a href="../method/FileUtils/m/ln.html">FileUtils.#ln</a> に渡す引数を指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/FileUtils/m/cp.html">FileUtils.#cp</a>, <a href="../method/FileUtils/m/ln.html">FileUtils.#ln</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SH"><code>sh(*cmd) {|result, status| ... }</code><span class="permalink">[<a href="../method/FileUtils/i/sh.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.5.0/FileUtils.html#method-i-sh">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/rake.html">rake</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+与えられたコマンドを実行します。
+</p>
+<p>
+与えられた引数が複数の場合、シェルを経由しないでコマンドを実行します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] cmd:</dt>
+<dd>
+引数の解釈に関しては <a href="../method/Kernel/m/exec.html">Kernel.#exec</a> を参照してください。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+sh %{ls -ltr}
+
+sh 'ls', 'file with spaces'
+
+# check exit status after command runs
+sh %{grep pattern file} do |ok, res|
+  if ! ok
+    puts &quot;pattern not found (status = #{res.exitstatus})&quot;
+  end
+end
+</pre>
+<p>
+[SEE_ALSO] <a href="../method/Kernel/m/exec.html">Kernel.#exec</a>, <a href="../method/Kernel/m/system.html">Kernel.#system</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SPLIT_ALL"><code>split_all(path) -&gt; Array</code><span class="permalink">[<a href="../method/FileUtils/i/split_all.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/2.5.0/FileUtils.html#method-i-split_all">rdoc</a>]</span> <span class="kindinfo">[added by <a href="../library/rake.html">rake</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+与えられたパスをディレクトリごとに分割します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] path:</dt>
+<dd>
+分割するパスを指定します。
+</dd>
+</dl>
+<p>
+例:
+</p>
+<pre>
+split_all(&quot;a/b/c&quot;) # =&gt;  ['a', 'b', 'c']
 </pre>
 </dd>
 

@@ -131,12 +131,13 @@
 <p>
 例えば、MD5 値を得るには以下のようにします。
 </p>
-<pre>
-require 'digest/md5'
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'digest/md5'</span>
 
-p Digest::MD5.hexdigest('abc')               #=&gt; '900150983cd24fb0d6963f7d28e17f72'
-p Digest::MD5.file('ruby-1.8.5.tar.gz').to_s #=&gt; '3fbb02294a8ca33d4684055adba5ed6f'
-</pre>
+<span class="nb">p</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">hexdigest</span><span class="p">(</span><span class="s1">'abc'</span><span class="p">)</span>               <span class="c1">#=&gt; '900150983cd24fb0d6963f7d28e17f72'
+</span><span class="nb">p</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">file</span><span class="p">(</span><span class="s1">'ruby-1.8.5.tar.gz'</span><span class="p">)</span><span class="p">.</span><span class="nf">to_s</span> <span class="c1">#=&gt; '3fbb02294a8ca33d4684055adba5ed6f'
+</span></code></pre>
 <p>
 すべての Digest::XXX クラスは以下の共通インタフェースを持ちます。
 </p>
@@ -149,6 +150,8 @@ p Digest::MD5.file('ruby-1.8.5.tar.gz').to_s #=&gt; '3fbb02294a8ca33d4684055adba
 <dt>特異メソッド</dt>
 <dd>
 <ul class="class-toc">
+
+<li><a href="#S_BASE64DIGEST">base64digest</a></li>
 
 <li><a href="#S_DIGEST">digest</a></li>
 
@@ -168,6 +171,10 @@ p Digest::MD5.file('ruby-1.8.5.tar.gz').to_s #=&gt; '3fbb02294a8ca33d4684055adba
 <li><a href="#I_--3C--3C">&lt;&lt;</a></li>
 
 <li><a href="#I_--3D--3D">==</a></li>
+
+<li><a href="#I_BASE64DIGEST">base64digest</a></li>
+
+<li><a href="#I_BASE64DIGEST--21">base64digest!</a></li>
 
 <li><a href="#I_BLOCK_LENGTH">block_length</a></li>
 
@@ -213,8 +220,32 @@ p Digest::MD5.file('ruby-1.8.5.tar.gz').to_s #=&gt; '3fbb02294a8ca33d4684055adba
 </dl>
 
 
+
+
+
 <h2>特異メソッド</h2>
 <dl>
+
+<dt class="method-heading" id="S_BASE64DIGEST"><code>base64digest(str) -&gt; String</code><span class="permalink">[<a href="../method/Digest=3a=3aBase/s/base64digest.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Digest/Base.html#method-c-base64digest">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/digest/Digest__Base.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられた文字列に対するハッシュ値を、Base64 エンコードした文字列にして返します。
+new(str).base64digest と等価です。
+</p>
+<p>
+返す文字列は '=' でパディングされ、改行は含まれません。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'digest'</span>
+<span class="nb">p</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">base64digest</span><span class="p">(</span><span class="s1">'ruby'</span><span class="p">)</span> <span class="c1"># =&gt; &quot;WOU9EyTu9iZf25ewjtmq3w==&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Digest=3a=3aBase/i/base64digest.html">Digest::Base#base64digest</a>
+</p>
+</dd>
+
 
 <dt class="method-heading" id="S_DIGEST"><code>digest(str) -&gt; String</code><span class="permalink">[<a href="../method/Digest=3a=3aBase/s/digest.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Digest/Base.html#method-c-digest">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/digest/Digest__Base.md">edit</a>]</span></dt>
 <dd class="method-description">
@@ -245,7 +276,7 @@ new(str).digest と等価です。
 <code>
 <span class="nb">require</span> <span class="s1">'digest'</span>
 digest <span class="o">=</span> <span class="no">Digest</span><span class="o">::</span><span class="no">SHA256</span><span class="p">.</span><span class="nf">file</span><span class="p">(</span><span class="s2">"</span><span class="s2">X11R6.8.2-src.tar.bz2</span><span class="s2">"</span><span class="p">)</span>
-digest<span class="p">.</span><span class="nf">hexdigest</span>
+<span class="nb">p</span> digest<span class="p">.</span><span class="nf">hexdigest</span>
 <span class="c1"># =&gt; &quot;f02e3c85572dc9ad7cb77c2a638e3be24cc1b5bea9fdbb0b0299c9668475c534&quot;
 </span></code></pre>
 </dd>
@@ -349,6 +380,62 @@ digest <span class="o">=</span> <span class="no">Digest</span><span class="o">::
 digest<span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="s2">"</span><span class="s2">ruby</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">p</span> digest <span class="o">==</span> <span class="s2">"</span><span class="s2">58e53d1324eef6265fdb97b08ed9aadf</span><span class="s2">"</span> <span class="c1"># =&gt; true
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_BASE64DIGEST"><code>base64digest(str = nil) -&gt; String</code><span class="permalink">[<a href="../method/Digest=3a=3aBase/i/base64digest.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Digest/Base.html#method-i-base64digest">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/digest/Digest__Base.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+updateや&lt;&lt;によって追加した文字列に対するハッシュ値を、Base64 エンコードした文字列にして返します。
+</p>
+<p>
+引数 str を省略した場合は、オブジェクトの状態はそのまま保持されます。引数 str を指定した場合は、指定した文字列に対するハッシュ値を返し、処理の前後でオブジェクトの状態を初期状態(newした直後と同様の状態)に戻します。
+</p>
+<p>
+返す文字列は '=' でパディングされ、改行は含まれません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>str</code>:</dt>
+<dd>
+ハッシュ値を計算する対象の文字列です。省略した場合は、updateや&lt;&lt;で追加した内容に対するハッシュ値を返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'digest/md5'</span>
+digest <span class="o">=</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">new</span>
+digest<span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="s2">"</span><span class="s2">ruby</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> digest<span class="p">.</span><span class="nf">base64digest</span>        <span class="c1"># =&gt; &quot;WOU9EyTu9iZf25ewjtmq3w==&quot;
+</span><span class="nb">p</span> digest<span class="p">.</span><span class="nf">hexdigest</span>           <span class="c1"># =&gt; &quot;58e53d1324eef6265fdb97b08ed9aadf&quot; (状態は保持される)
+</span>
+<span class="nb">p</span> digest<span class="p">.</span><span class="nf">base64digest</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;kAFQmDzST7DWlj99KOF/cg==&quot;
+</span><span class="nb">p</span> digest<span class="p">.</span><span class="nf">hexdigest</span>           <span class="c1"># =&gt; &quot;d41d8cd98f00b204e9800998ecf8427e&quot; (初期状態に戻る)
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Digest=3a=3aBase/i/digest.html">Digest::Base#digest</a>、<a href="../method/Digest=3a=3aBase/i/hexdigest.html">Digest::Base#hexdigest</a>、<a href="../method/Digest=3a=3aBase/s/base64digest.html">Digest::Base.base64digest</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_BASE64DIGEST--21"><code>base64digest! -&gt; String</code><span class="permalink">[<a href="../method/Digest=3a=3aBase/i/base64digest=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Digest/Base.html#method-i-base64digest-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/digest/Digest__Base.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+updateや&lt;&lt;によって追加した文字列に対するハッシュ値を、Base64 エンコードした文字列にして返します。
+<a href="../method/Digest=3a=3aBase/i/base64digest.html">Digest::Base#base64digest</a>と違い、メソッドの処理後、オブジェクトの状態を初期状態(newした直後と同様の状態)に戻します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby">
+<code>
+<span class="nb">require</span> <span class="s1">'digest/md5'</span>
+digest <span class="o">=</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">new</span>
+digest<span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="s2">"</span><span class="s2">ruby</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> digest<span class="p">.</span><span class="nf">base64digest!</span>  <span class="c1"># =&gt; &quot;WOU9EyTu9iZf25ewjtmq3w==&quot;
+</span><span class="nb">p</span> digest<span class="p">.</span><span class="nf">hexdigest</span>      <span class="c1"># =&gt; &quot;d41d8cd98f00b204e9800998ecf8427e&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Digest=3a=3aBase/i/base64digest.html">Digest::Base#base64digest</a>
+</p>
 </dd>
 
 

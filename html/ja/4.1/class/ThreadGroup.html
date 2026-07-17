@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -134,12 +134,13 @@
 対象の Thread が Thread を起こす可能性がある場合
 (<a href="../class/Thread=3a=3aMutex.html">Thread::Mutex</a> 参照)
 </p>
-<pre>
-mutex = Thread::Mutex.new
-mutex.synchronize do
-  (ThreadGroup::Default.list - [Thread.current]).each {|th| th.join}
-end
-</pre>
+<pre class="highlight ruby">
+<code>
+mutex <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Mutex</span><span class="p">.</span><span class="nf">new</span>
+mutex<span class="p">.</span><span class="nf">synchronize</span> <span class="k">do</span>
+  <span class="p">(</span><span class="no">ThreadGroup</span><span class="o">::</span><span class="no">Default</span><span class="p">.</span><span class="nf">list</span> <span class="o">-</span> <span class="p">[</span><span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">]</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>th<span class="o">|</span> th<span class="p">.</span><span class="nf">join</span><span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
 <h2 >ThreadGroup#freeze と ThreadGroup#enclose の違い</h2>
 <p>
 どちらのメソッドでも <a href="../method/ThreadGroup/i/add.html">ThreadGroup#add</a> によるスレッドの追加ができなくなる点は同じですが、
@@ -192,6 +193,9 @@ Thread.new{ ... } はエラーになりません。生成されたスレッド�
 
 
 </dl>
+
+
+
 
 
 <h2>特異メソッド</h2>
@@ -263,30 +267,28 @@ enclose された ThreadGroup に追加や削除を行うと例外 <a href="../c
 <p>
 ただし、<a href="../method/Thread/s/new.html">Thread.new</a> によるスレッドの追加は禁止されません。enclose されたスレッドグループ A に属するスレッドが新たにスレッドを生成した場合、生成されたスレッドはスレッドグループ A に属します。
 </p>
-<p>
-追加の例:
-</p>
-<pre>
-thg = ThreadGroup.new.enclose
-thg.add Thread.new {}
+<span class="caption">追加の例</span>
+<pre class="highlight ruby">
+<code>
+thg <span class="o">=</span> <span class="no">ThreadGroup</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">enclose</span>
+thg<span class="p">.</span><span class="nf">add</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span><span class="p">}</span>
 
-=&gt; -:2:in `add': can't move to the enclosed thread group (ThreadError)
-</pre>
-<p>
-削除の例:
-</p>
-<pre>
-thg1 = ThreadGroup.new
-thg2 = ThreadGroup.new
+<span class="c1"># =&gt; -:2:in 'ThreadGroup#add': can't move to the enclosed thread group (ThreadError)
+</span></code></pre>
+<span class="caption">削除の例</span>
+<pre class="highlight ruby">
+<code>
+thg1 <span class="o">=</span> <span class="no">ThreadGroup</span><span class="p">.</span><span class="nf">new</span>
+thg2 <span class="o">=</span> <span class="no">ThreadGroup</span><span class="p">.</span><span class="nf">new</span>
 
-th = Thread.new {sleep 1}
+th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span><span class="nb">sleep</span> <span class="mi">1</span><span class="p">}</span>
 
-thg1.add th
-thg1.enclose
-thg2.add th
+thg1<span class="p">.</span><span class="nf">add</span> th
+thg1<span class="p">.</span><span class="nf">enclose</span>
+thg2<span class="p">.</span><span class="nf">add</span> th
 
-=&gt; -:8:in `add': can't move from the enclosed thread group (ThreadError)
-</pre>
+<span class="c1"># =&gt; -:8:in 'ThreadGroup#add': can't move from the enclosed thread group (ThreadError)
+</span></code></pre>
 </dd>
 
 
@@ -298,17 +300,18 @@ thg2.add th
 <p>
 freeze された ThreadGroup には Thread の追加/削除ができませんが、enclosed? は false を返します。
 </p>
-<pre>
-thg = ThreadGroup.new
-p thg.enclosed?         # =&gt; false
-thg.enclose
-p thg.enclosed?         # =&gt; true
-
-thg = ThreadGroup.new
-p thg.enclosed?         # =&gt; false
-thg.freeze
-p thg.enclosed?         # =&gt; false
-</pre>
+<pre class="highlight ruby">
+<code>
+thg <span class="o">=</span> <span class="no">ThreadGroup</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> thg<span class="p">.</span><span class="nf">enclosed?</span>         <span class="c1"># =&gt; false
+</span>thg<span class="p">.</span><span class="nf">enclose</span>
+<span class="nb">p</span> thg<span class="p">.</span><span class="nf">enclosed?</span>         <span class="c1"># =&gt; true
+</span>
+thg <span class="o">=</span> <span class="no">ThreadGroup</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> thg<span class="p">.</span><span class="nf">enclosed?</span>         <span class="c1"># =&gt; false
+</span>thg<span class="p">.</span><span class="nf">freeze</span>
+<span class="nb">p</span> thg<span class="p">.</span><span class="nf">enclosed?</span>         <span class="c1"># =&gt; false
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/ThreadGroup/i/enclose.html">ThreadGroup#enclose</a>
 </p>
