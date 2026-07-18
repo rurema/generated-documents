@@ -94,9 +94,7 @@
 <p>
 サブプロセスを実行し、そのプロセスの標準入出力との間にパイプラインを確立します。生成したパイプを <a href="../../../class/IO.html">IO</a> オブジェクトとして返します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> io <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">cat</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; #&lt;IO:fd 4&gt;
+<pre class="highlight ruby"><code><span class="nb">p</span> io <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">cat</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; #&lt;IO:fd 4&gt;
 </span>io<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
 io<span class="p">.</span><span class="nf">close_write</span>
 <span class="nb">p</span> io<span class="p">.</span><span class="nf">gets</span>                     <span class="c1"># =&gt; &quot;foo\n&quot;
@@ -114,9 +112,7 @@ io<span class="p">.</span><span class="nf">close_write</span>
 <p>
 ブロックが与えられた場合は生成した IO オブジェクトを引数にブロックを実行し、ブロックの実行結果を返します。ブロックの実行後、生成したパイプは自動的にクローズされます。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">cat</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>io<span class="o">|</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">cat</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>io<span class="o">|</span>
   io<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
   io<span class="p">.</span><span class="nf">close_write</span>
   io<span class="p">.</span><span class="nf">gets</span>
@@ -126,9 +122,7 @@ io<span class="p">.</span><span class="nf">close_write</span>
 <p>
 opt でプロセス起動のためのオプションや、パイプ IO オブジェクトの属性(エンコーディングや読み書き能力)を指定できます。プロセス起動のためのオプションは <a href="../../../method/Kernel/m/spawn.html">Kernel.#spawn</a> と、パイプオブジェクトの属性の指定のオプションは <a href="../../../method/IO/s/new.html">IO.new</a> と共通です。つまり、 :external_encoding や :unsetenv_others が指定できます。オプションの詳しい意味は <a href="../../../method/Kernel/m/spawn.html">Kernel.#spawn</a> や <a href="../../../method/IO/s/new.html">IO.new</a> を参照してください。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># nkfプロセスから得られる文字列を EUC-JP と指定する
+<pre class="highlight ruby"><code><span class="c1"># nkfプロセスから得られる文字列を EUC-JP と指定する
 </span><span class="c1"># IO.new などと共通のオプションが指定できる
 </span><span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">nkf -e filename</span><span class="s2">"</span>, <span class="ss">external_encoding:</span> <span class="s2">"</span><span class="s2">EUC-JP</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>nkf_io<span class="o">|</span>
   nkf_io<span class="p">.</span><span class="nf">read</span> 
@@ -138,9 +132,7 @@ opt でプロセス起動のためのオプションや、パイプ IO オブジ
 これに加えて、プロセス起動のためのオプションを execopt で指定することもできます。
 execopt ではエンコーディングなどは指定できません。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># 標準エラー出力を子プロセス側で標準出力にリダイレクトする
+<pre class="highlight ruby"><code><span class="c1"># 標準エラー出力を子プロセス側で標準出力にリダイレクトする
 </span><span class="c1"># 標準エラー出力と標準出力がマージされる
 </span><span class="c1"># Kernel.#spawn と共通のオプション
 </span><span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">ls</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">/</span><span class="s2">"</span>, <span class="ss">:err</span><span class="o">=&gt;</span><span class="p">[</span><span class="ss">:child</span>, <span class="ss">:out</span><span class="p">]</span><span class="p">]</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>ls_io<span class="o">|</span>
@@ -200,9 +192,7 @@ execopt ではエンコーディングなどは指定できません。
 第一引数に文字列 &quot;-&quot; が指定された時、<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/fork.html">fork(2)</a> を行い子プロセスの標準入出力との間にパイプラインを確立します。親プロセスでは IO オブジェクトを返し、子プロセスでは
 nil を返します。
 </p>
-<pre class="highlight ruby">
-<code>
-io <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">-</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span>
+<pre class="highlight ruby"><code>io <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">-</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span>
 <span class="k">if</span> io  <span class="c1"># parent
 </span>  io<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
   <span class="nb">p</span> io<span class="p">.</span><span class="nf">gets</span>                   <span class="c1"># =&gt; &quot;child output: foo\n&quot;
@@ -216,9 +206,7 @@ io <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><s
 <p>
 ブロックを与えられた場合、親プロセスでは生成した IO オブジェクトを引数にブロックを実行し、その結果を返します。ブロックの実行後、生成したパイプは自動的にクローズされます。子プロセスでは nil を引数にブロックを実行し終了します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">-</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>io<span class="o">|</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">-</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>io<span class="o">|</span>
   <span class="k">if</span> io   <span class="c1"># parent
 </span>    io<span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>
     io<span class="p">.</span><span class="nf">gets</span>

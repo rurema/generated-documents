@@ -27,11 +27,13 @@ source_location=manual/api/_builtin/Module.md
 def foo() 1 end
 p foo             # => 1
 # the toplevel default is private
-p self.foo        # => private method 'foo' called for #<Object:0x401c83b0> (NoMethodError)
+# (Ruby 2.7 以降、レシーバが self そのものの呼び出しは private でも可能なため
+#  self.foo はエラーにならない。別のオブジェクトをレシーバにすると呼び出せない)
+Object.new.foo    # => private method 'foo' called for an instance of Object (NoMethodError)
 
 def bar() 2 end
 public :bar       # visibility changed (all access allowed)
 p bar             # => 2
-p self.bar        # => 2
+p Object.new.bar  # => 2
 ```
 

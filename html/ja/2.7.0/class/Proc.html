@@ -125,9 +125,7 @@ Proc ローカルの変数として使えます。
 Proc がローカル変数のスコープを保持していることは以下の例で変数 var を参照できていることからわかります。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-var <span class="o">=</span> <span class="mi">1</span>
+<pre class="highlight ruby"><code>var <span class="o">=</span> <span class="mi">1</span>
 <span class="vg">$foo</span> <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> var <span class="p">}</span>
 var <span class="o">=</span> <span class="mi">2</span>
 
@@ -143,9 +141,7 @@ var <span class="o">=</span> <span class="mi">2</span>
 へジャンプし値を返すには next を使います。break や return ではありません。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">foo</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span>
   f <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span>
     <span class="k">next</span> <span class="mi">1</span>
     <span class="mi">2</span>              <span class="c1"># この行に到達することはない
@@ -159,14 +155,10 @@ var <span class="o">=</span> <span class="mi">2</span>
 ブロック付きメソッドに対して Proc オブジェクトを `&amp;' を指定して渡すと呼び出しブロックのように動作します。しかし、厳密には以下の違いがあります。これらは、Proc オブジェクトが呼び出しブロックとして振舞う際の制限です。
 </p>
 <span class="caption">問題なし</span>
-<pre class="highlight ruby">
-<code>
-<span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="k">break</span> <span class="p">}</span>
+<pre class="highlight ruby"><code><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="k">break</span> <span class="p">}</span>
 </code></pre>
 <span class="caption">LocalJumpError が発生します。</span>
-<pre class="highlight ruby">
-<code>
-pr <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="k">break</span> <span class="p">}</span>
+<pre class="highlight ruby"><code>pr <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="k">break</span> <span class="p">}</span>
 <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span>pr<span class="p">)</span>
 </code></pre>
 <h2 id='lambda_proc'>lambda と proc と Proc.new とイテレータの違い</h2>
@@ -182,9 +174,7 @@ lambda のほうがより厳密です。引数の数が違っていると（メ�
 Proc.new は引数を多重代入に近い扱い方をします。
 </p>
 <span class="caption">Proc.new は引数の数が違っていてもエラーにならない</span>
-<pre class="highlight ruby">
-<code>
-b <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span><span class="o">|</span>a,b,c<span class="o">|</span>
+<pre class="highlight ruby"><code>b <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span><span class="o">|</span>a,b,c<span class="o">|</span>
   <span class="nb">p</span> a,b,c
 <span class="p">}</span>
 b<span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">4</span><span class="p">)</span>
@@ -193,9 +183,7 @@ b<span class="p">.</span><span class="nf">call</span><span class="p">(</span><sp
     <span class="k">nil</span>
 </code></pre>
 <span class="caption">lambda は引数の数が違うとエラーになる</span>
-<pre class="highlight ruby">
-<code>
-b <span class="o">=</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>a,b,c<span class="o">|</span>
+<pre class="highlight ruby"><code>b <span class="o">=</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>a,b,c<span class="o">|</span>
   <span class="nb">p</span> a,b,c
 <span class="p">}</span>
 b<span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">4</span><span class="p">)</span>
@@ -210,9 +198,7 @@ return と break は、lambda と Proc.new では挙動が異なります。例�
 Proc.new では手続きオブジェクトを囲むメソッドを抜けます。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">test_proc</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">test_proc</span>
   f <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="k">return</span> <span class="ss">:from_proc</span> <span class="p">}</span>
   f<span class="p">.</span><span class="nf">call</span>
   <span class="k">return</span> <span class="ss">:from_method</span>
@@ -249,9 +235,7 @@ Proc を生成したメソッドから脱出した後、手続きオブジェク
 return, break は例外 <a href="../class/LocalJumpError.html">LocalJumpError</a> を発生させます。ただし、上でも説明した通り lambda で生成した手続きオブジェクトはメソッドと同じように振る舞うことを意図されているため、例外 <a href="../class/LocalJumpError.html">LocalJumpError</a> は発生しません。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">foo</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span>
   <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
 <span class="k">end</span>
 
@@ -362,9 +346,7 @@ lambda     手続きオブジェクトを抜ける  手続きオブジェクト�
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">foo</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span>
   pr <span class="o">=</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span>
   pr<span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">end</span>
@@ -375,9 +357,7 @@ foo <span class="p">{</span><span class="o">|</span>arg<span class="o">|</span> 
 これは以下と同じです。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">foo</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span>
   <span class="k">yield</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">end</span>
 foo <span class="p">{</span><span class="o">|</span>arg<span class="o">|</span> <span class="nb">p</span> arg <span class="p">}</span>
@@ -388,9 +368,7 @@ foo <span class="p">{</span><span class="o">|</span>arg<span class="o">|</span> 
 <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">foo</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span>
   <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span>
 <span class="k">end</span>
 foo
@@ -427,18 +405,14 @@ Proc、Method、もしくは任意の call メソッドを持ったオブジェ�
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-f <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> x <span class="o">*</span> x <span class="p">}</span>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> x <span class="o">*</span> x <span class="p">}</span>
 g <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> x <span class="o">+</span> x <span class="p">}</span>
 
 <span class="c1"># (3 + 3) * (3 + 3)
 </span><span class="nb">p</span> <span class="p">(</span>f <span class="o">&lt;&lt;</span> g<span class="p">)</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; 36
 </span></code></pre>
 <span class="caption">call を定義したオブジェクトを渡す例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WordScanner</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WordScanner</span>
   <span class="k">def</span> <span class="nc">self</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="nf">str</span><span class="p">)</span>
     str<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\w+/</span><span class="p">)</span>
   <span class="k">end</span>
@@ -473,9 +447,7 @@ pipeline<span class="p">.</span><span class="nf">call</span><span class="p">(</s
 「===」は when の所に手続きを渡せるようにするためのものです。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">sign</span><span class="p">(</span>n<span class="p">)</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">sign</span><span class="p">(</span>n<span class="p">)</span>
   <span class="k">case</span> n
   <span class="k">when</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>n<span class="o">|</span> n <span class="o">&gt;</span> <span class="mi">0</span><span class="p">}</span> <span class="k">then</span> <span class="mi">1</span>
   <span class="k">when</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>n<span class="o">|</span> n <span class="o">&lt;</span> <span class="mi">0</span><span class="p">}</span> <span class="k">then</span> <span class="o">-</span><span class="mi">1</span>
@@ -491,9 +463,7 @@ pipeline<span class="p">.</span><span class="nf">call</span><span class="p">(</s
 また、以下のような syntactic sugar もあります。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-fib <span class="o">=</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>n<span class="o">|</span>
+<pre class="highlight ruby"><code>fib <span class="o">=</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>n<span class="o">|</span>
   <span class="k">case</span> n
   <span class="k">when</span> <span class="mi">0</span> <span class="k">then</span> <span class="mi">0</span>
   <span class="k">when</span> <span class="mi">1</span> <span class="k">then</span> <span class="mi">1</span>
@@ -534,18 +504,14 @@ Proc、Method、もしくは任意の call メソッドを持ったオブジェ�
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-f <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> x <span class="o">*</span> x <span class="p">}</span>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> x <span class="o">*</span> x <span class="p">}</span>
 g <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> x <span class="o">+</span> x <span class="p">}</span>
 
 <span class="c1"># (3 * 3) + (3 * 3)
 </span><span class="nb">p</span> <span class="p">(</span>f <span class="o">&gt;&gt;</span> g<span class="p">)</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; 18
 </span></code></pre>
 <span class="caption">call を定義したオブジェクトを渡す例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WordScanner</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WordScanner</span>
   <span class="k">def</span> <span class="nc">self</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="nf">str</span><span class="p">)</span>
     str<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\w+/</span><span class="p">)</span>
   <span class="k">end</span>
@@ -580,9 +546,7 @@ Proc オブジェクトが受け付ける引数の数を返します。
 を返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="nb">lambda</span><span class="p">{</span>           <span class="p">}</span><span class="p">.</span><span class="nf">arity</span>   <span class="c1"># =&gt; 0
+<pre class="highlight ruby"><code><span class="nb">lambda</span><span class="p">{</span>           <span class="p">}</span><span class="p">.</span><span class="nf">arity</span>   <span class="c1"># =&gt; 0
 </span><span class="nb">lambda</span><span class="p">{</span><span class="o">|</span><span class="o">|</span>         <span class="p">}</span><span class="p">.</span><span class="nf">arity</span>   <span class="c1"># =&gt;  0
 </span><span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>x<span class="o">|</span>        <span class="p">}</span><span class="p">.</span><span class="nf">arity</span>   <span class="c1"># =&gt;  1
 </span><span class="nb">lambda</span><span class="p">{</span><span class="o">|</span><span class="o">*</span>x<span class="o">|</span>       <span class="p">}</span><span class="p">.</span><span class="nf">arity</span>   <span class="c1"># =&gt; -1
@@ -601,9 +565,7 @@ Proc オブジェクトが保持するコンテキストを
 <a href="../class/Binding.html">Binding</a> オブジェクトで返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">fred</span><span class="p">(</span>param<span class="p">)</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">fred</span><span class="p">(</span>param<span class="p">)</span>
   <span class="nb">proc</span> <span class="p">{</span><span class="p">}</span>
 <span class="k">end</span>
 
@@ -633,9 +595,7 @@ Procをカリー化します
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-b <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span><span class="o">|</span>x, y, z<span class="o">|</span> <span class="p">(</span>x<span class="o">||</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>y<span class="o">||</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>z<span class="o">||</span><span class="mi">0</span><span class="p">)</span> <span class="p">}</span>
+<pre class="highlight ruby"><code>b <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span><span class="o">|</span>x, y, z<span class="o">|</span> <span class="p">(</span>x<span class="o">||</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>y<span class="o">||</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>z<span class="o">||</span><span class="mi">0</span><span class="p">)</span> <span class="p">}</span>
 <span class="nb">p</span> b<span class="p">.</span><span class="nf">curry</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>           <span class="c1">#=&gt; 6
 </span><span class="nb">p</span> b<span class="p">.</span><span class="nf">curry</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">[</span><span class="mi">3</span>, <span class="mi">4</span><span class="p">]</span>        <span class="c1">#=&gt; 6
 </span><span class="nb">p</span> b<span class="p">.</span><span class="nf">curry</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>  <span class="c1">#=&gt; 6
@@ -679,9 +639,7 @@ Proc オブジェクトの引数の情報を返します。
 <p>
 Proc オブジェクトが引数を取らなければ空の配列を返します。引数を取る場合は、配列の配列を返し、各配列の要素は引数の種類に対応した以下のような Symbol と、引数名を表す Symbol の 2 要素です。
 </p>
-<pre class="highlight ruby">
-<code>
-prc <span class="o">=</span> <span class="nb">proc</span><span class="p">{</span><span class="o">|</span>x, y<span class="o">=</span><span class="mi">42</span>, <span class="o">*</span>other<span class="o">|</span><span class="p">}</span>
+<pre class="highlight ruby"><code>prc <span class="o">=</span> <span class="nb">proc</span><span class="p">{</span><span class="o">|</span>x, y<span class="o">=</span><span class="mi">42</span>, <span class="o">*</span>other<span class="o">|</span><span class="p">}</span>
 <span class="nb">p</span> prc<span class="p">.</span><span class="nf">parameters</span>  <span class="c1"># =&gt; [[:opt, :x], [:opt, :y], [:rest, :other]]
 </span>prc <span class="o">=</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>x, y<span class="o">=</span><span class="mi">42</span>, <span class="o">*</span>other<span class="o">|</span><span class="p">}</span>
 <span class="nb">p</span> prc<span class="p">.</span><span class="nf">parameters</span>  <span class="c1"># =&gt; [[:req, :x], [:opt, :y], [:rest, :other]]
@@ -703,9 +661,7 @@ self の文字列表現を返します。
 可能なら self を生成したソースファイル名、行番号を含みます。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span>
    <span class="k">true</span>
 <span class="p">}</span><span class="p">.</span><span class="nf">to_s</span>
 
@@ -723,9 +679,7 @@ self の文字列表現を返します。
 引数の取扱の厳密さの意味は以下の例を参考にしてください。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># lambda で生成した Proc オブジェクトでは true 
+<pre class="highlight ruby"><code><span class="c1"># lambda で生成した Proc オブジェクトでは true 
 </span><span class="nb">lambda</span><span class="p">{</span><span class="p">}</span><span class="p">.</span><span class="nf">lambda?</span> <span class="c1"># =&gt; true
 </span><span class="c1"># proc で生成した Proc オブジェクトでは false
 </span><span class="nb">proc</span><span class="p">{</span><span class="p">}</span><span class="p">.</span><span class="nf">lambda?</span>   <span class="c1"># =&gt; false
@@ -831,9 +785,7 @@ Proc オブジェクトが引数を取らなければ空の配列を返します
 &amp; で指定されたブロック引数
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-prc <span class="o">=</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>x, y<span class="o">=</span><span class="mi">42</span>, <span class="o">*</span>other, <span class="ss">k_x:</span>, <span class="ss">k_y:</span> <span class="mi">42</span>, <span class="o">**</span>k_other, <span class="o">&amp;</span>b<span class="o">|</span><span class="p">}</span>
+<pre class="highlight ruby"><code>prc <span class="o">=</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>x, y<span class="o">=</span><span class="mi">42</span>, <span class="o">*</span>other, <span class="ss">k_x:</span>, <span class="ss">k_y:</span> <span class="mi">42</span>, <span class="o">**</span>k_other, <span class="o">&amp;</span>b<span class="o">|</span><span class="p">}</span>
 prc<span class="p">.</span><span class="nf">parameters</span> <span class="c1">#=&gt; [[:req, :x], [:opt, :y], [:rest, :other], [:keyreq, :k_x], [:key, :k_y], [:keyrest, :k_other], [:block, :b]]
 </span></code></pre>
 </dd>
@@ -869,9 +821,7 @@ before 2.7, check that the proc responds to this method before calling
 it. Also, be aware that if this method is removed, the behavior of the
 proc will change so that it does not pass through keywords.
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="k">module</span> <span class="nn">Mod</span>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">Mod</span>
   foo <span class="o">=</span> <span class="o">-&gt;</span><span class="p">(</span>meth, <span class="o">*</span>args, <span class="o">&amp;</span>block<span class="p">)</span> <span class="k">do</span>
     <span class="nb">send</span><span class="p">(</span><span class="ss">:"do_<span class="si">#{</span><span class="n">meth</span><span class="si">}</span><span class="s2">"</span>, <span class="o">*</span>args, <span class="o">&amp;</span>block<span class="p">)</span>
   <span class="k">end</span>
@@ -890,9 +840,7 @@ proc will change so that it does not pass through keywords.
 その手続オブジェクトが ruby で定義されていない(つまりネイティブである)場合は nil を返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># /path/to/target.rb を実行
+<pre class="highlight ruby"><code><span class="c1"># /path/to/target.rb を実行
 </span><span class="nb">proc</span> <span class="p">{</span><span class="p">}</span><span class="p">.</span><span class="nf">source_location</span>            <span class="c1"># =&gt; [&quot;/path/to/target.rb&quot;, 1]
 </span><span class="nb">proc</span> <span class="p">{</span><span class="p">}</span><span class="p">.</span><span class="nf">source_location</span>            <span class="c1"># =&gt; [&quot;/path/to/target.rb&quot;, 2]
 </span><span class="p">(</span><span class="nb">eval</span> <span class="s2">"</span><span class="s2">proc {}</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">source_location</span>   <span class="c1"># =&gt; [&quot;(eval)&quot;, 1]
@@ -910,9 +858,7 @@ proc will change so that it does not pass through keywords.
 self を返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-pr <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span><span class="p">}</span>
+<pre class="highlight ruby"><code>pr <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span><span class="p">}</span>
 <span class="nb">p</span> pr <span class="o">==</span> pr<span class="p">.</span><span class="nf">to_proc</span> <span class="c1"># =&gt; true
 </span></code></pre>
 </dd>

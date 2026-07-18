@@ -90,9 +90,7 @@
 つまり、以下とほぼ同じ動作をします。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Array</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Array</span>
   <span class="k">def</span> <span class="nf">sort_by</span>
     <span class="nc">self</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>i<span class="o">|</span> <span class="p">[</span><span class="k">yield</span><span class="p">(</span>i<span class="p">)</span>, i<span class="p">]</span> <span class="p">}</span><span class="p">.</span>
        <span class="nf">sort</span> <span class="p">{</span><span class="o">|</span>a, b<span class="o">|</span> a<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=&gt;</span> b<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">}</span><span class="p">.</span>
@@ -104,23 +102,17 @@
 <a href="../../../method/Enumerable/i/sort.html">Enumerable#sort</a> と比較して sort_by が優れている点として、比較条件が複雑な場合の速度が挙げられます。
 sort_by を使わない以下の例では比較を行う度に downcase が実行されます。従って downcase の実行速度が遅ければ sort の速度が致命的に低下します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="p">[</span><span class="s2">"</span><span class="s2">BAR</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">FOO</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">sort</span> <span class="p">{</span><span class="o">|</span>a, b<span class="o">|</span> a<span class="p">.</span><span class="nf">downcase</span> <span class="o">&lt;=&gt;</span> b<span class="p">.</span><span class="nf">downcase</span> <span class="p">}</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="s2">"</span><span class="s2">BAR</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">FOO</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">sort</span> <span class="p">{</span><span class="o">|</span>a, b<span class="o">|</span> a<span class="p">.</span><span class="nf">downcase</span> <span class="o">&lt;=&gt;</span> b<span class="p">.</span><span class="nf">downcase</span> <span class="p">}</span>
 </code></pre>
 <p>
 一方、次のように sort_by を使うと downcase の実行回数は要素数と同じです。つまり、その部分の実行時間は O(n) のオーダーです。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="p">[</span><span class="s2">"</span><span class="s2">BAR</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">FOO</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">sort_by</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> v<span class="p">.</span><span class="nf">downcase</span> <span class="p">}</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="s2">"</span><span class="s2">BAR</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">FOO</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">sort_by</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> v<span class="p">.</span><span class="nf">downcase</span> <span class="p">}</span>
 </code></pre>
 <p>
 以下の、実行回数の検証結果を参照してみてください。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Integer</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Integer</span>
   <span class="k">def</span> <span class="nf">count</span>
     <span class="vg">$n</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="nc">self</span>
@@ -141,9 +133,7 @@ ary<span class="p">.</span><span class="nf">sort_by</span> <span class="p">{</sp
 <p>
 Enumerable#sort_by は安定ではありません (unstable sort)。ただし、sort_by を以下のように使うと安定なソートを実装できます。
 </p>
-<pre class="highlight ruby">
-<code>
-i <span class="o">=</span> <span class="mi">0</span>
+<pre class="highlight ruby"><code>i <span class="o">=</span> <span class="mi">0</span>
 ary<span class="p">.</span><span class="nf">sort_by</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="p">[</span>v, i <span class="o">+=</span> <span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
 </code></pre>
 <p>

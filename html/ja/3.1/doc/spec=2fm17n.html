@@ -111,9 +111,7 @@ Ruby 1.9 ではこれを用いてエンコーディングを変換するのが�
 <a href="../method/String/i/force_encoding.html">String#force_encoding</a> メソッドは文字列のエンコーディング情報を破壊的に書き換えます。新しい文字列は生成されません。例えばエンコーディングが不明のテキストファイルから読み込んだ文字列に後からエンコーディングを設定する場合などに使います。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="s2">"</span><span class="s2">いろは</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">Shift_JIS</span><span class="s2">"</span><span class="p">)</span>
+<pre class="highlight ruby"><code><span class="s2">"</span><span class="s2">いろは</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">Shift_JIS</span><span class="s2">"</span><span class="p">)</span>
 <span class="s2">"</span><span class="s2">\xA4\xA4\xA4\xED\xA4\xCF</span><span class="s2">"</span><span class="p">.</span><span class="nf">force_encoding</span><span class="p">(</span><span class="s2">"</span><span class="s2">EUC-JP</span><span class="s2">"</span><span class="p">)</span>
 </code></pre>
 <h3 id='ruby18'>Ruby 1.8 からの移行</h3>
@@ -125,9 +123,7 @@ Ruby 1.8 用に書かれたスクリプトもできる限り動くような仕�
 いずれにしても、これからは Ruby 1.9 への移行を考慮してスクリプトに非 ASCII 文字を使う場合、マジックコメントでスクリプトエンコーディングを指定しておくのがよいでしょう。<a href="#magic_comment">magic comment</a> を参照してください。
 </p>
 <span class="caption">例</span>
-<pre class="highlight text">
-<code>
-スクリプトを EUC-JP で書いていて、扱うテキストも EUC-JP の場合。 =&gt; コマンドオプションに -Ke を指定。
+<pre class="highlight text"><code>スクリプトを EUC-JP で書いていて、扱うテキストも EUC-JP の場合。 =&gt; コマンドオプションに -Ke を指定。
 </code></pre>
 <h2 id='encoding'>Ruby がサポートするエンコーディング</h2>
 <p>
@@ -179,9 +175,7 @@ ASCII 互換エンコーディングをもつ 7bit クリーンな文字列は�
 2 つの文字列のエンコーディングが異なっていると、バイト列としては一致していても false を返します。しかし、7bit クリーンな文字列同士の比較の際は、両者の文字エンコーディングが異なっていても、バイト列として一致していれば true を返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-a <span class="o">=</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>
+<pre class="highlight ruby"><code>a <span class="o">=</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>
 e <span class="o">=</span> a<span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">EUC-JP</span><span class="s2">"</span><span class="p">)</span>
 u <span class="o">=</span> a<span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">UTF-8</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">p</span> e <span class="o">==</span> u                           <span class="c1">#=&gt; true
@@ -205,9 +199,7 @@ Ruby の String は、文字の列を扱うためだけでなく、バイトの�
 <li>エンコーディングの異なる 7bit クリーンな文字列との結合ができません。
 例外 (<a href="../class/Encoding=3a=3aCompatibilityError.html">Encoding::CompatibilityError</a>) が発生します。</li>
 </ul>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="no">Encoding</span><span class="o">::</span><span class="no">ISO_2022_JP</span><span class="p">.</span><span class="nf">dummy?</span> <span class="c1"># =&gt; true
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Encoding</span><span class="o">::</span><span class="no">ISO_2022_JP</span><span class="p">.</span><span class="nf">dummy?</span> <span class="c1"># =&gt; true
 </span>s <span class="o">=</span> <span class="s2">"</span><span class="s2">漢字</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">ISO-2022-JP</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">p</span> s<span class="p">[</span><span class="mi">0</span><span class="p">]</span>   <span class="c1">#=&gt; &quot;\e&quot;
 </span>s <span class="o">+</span> <span class="s2">"</span><span class="s2">b</span><span class="s2">"</span>  <span class="c1">#=&gt; Encoding::CompatibilityError: incompatible character encodings: ISO-2022-JP and UTF-8
@@ -224,18 +216,14 @@ ASCII 非互換のエンコーディングや、ダミーエンコーディン�
 現在のスクリプトエンコーディングは <code>__ENCODING__</code> により取得できます。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># coding: euc-jp
+<pre class="highlight ruby"><code><span class="c1"># coding: euc-jp
 </span><span class="nb">p</span> <span class="k">__ENCODING__</span>     <span class="c1">#=&gt; #&lt;Encoding:EUC-JP&gt;
 </span></code></pre>
 <h3 id='magic_comment'>magic comment</h3>
 <p>
 マジックコメントを使うことにより Ruby 実行系にスクリプトエンコーディングを伝えることができます。マジックコメントとはスクリプトファイルの1行目に書かれた
 </p>
-<pre class="highlight text">
-<code>
-# coding: euc-jp
+<pre class="highlight text"><code># coding: euc-jp
 </code></pre>
 <p>
 という形式のコメントのことです。1 行目が shebang である場合、マジックコメントは 2 行目に書くことができます（それ以降の行ではいけません。無視されます）。
@@ -248,18 +236,14 @@ ASCII 非互換のエンコーディングや、ダミーエンコーディン�
 <p>
 上の形式以外にも
 </p>
-<pre class="highlight text">
-<code>
-# encoding: euc-jp
+<pre class="highlight text"><code># encoding: euc-jp
 # -*- coding: euc-jp -*-
 # vim:set fileencoding=euc-jp:
 </code></pre>
 <p>
 などの形式を解釈します。
 </p>
-<pre class="highlight text">
-<code>
-#!/bin/sh
+<pre class="highlight text"><code>#!/bin/sh
 exec ruby19 -x "$0" "$@"
 #!ruby
 # coding: utf-8
@@ -273,9 +257,7 @@ exec ruby19 -x "$0" "$@"
 <p>
 マジックコメントが指定されなかった場合、コマンド引数 -K, RUBYOPT およびファイルの shebang からスクリプトエンコーディングは以下のように決定されます。左が優先です。
 </p>
-<pre class="highlight text">
-<code>
-magic comment(最優先) &gt; -K &gt; RUBYOPTの-K &gt; shebang 
+<pre class="highlight text"><code>magic comment(最優先) &gt; -K &gt; RUBYOPTの-K &gt; shebang 
 </code></pre>
 <p>
 上のどれもが指定されていない場合、通常のスクリプトなら UTF-8、-e や stdin から実行されたものなら
@@ -297,9 +279,7 @@ locale がスクリプトエンコーディングになります。
 <ul>
 <li>-K オプション・RUBYOPT・shebang の間の優先順位が 1.8 と 1.9 では違います。
 それぞれの優先順位は以下の通りです。左が優先です。
-<pre class="highlight text">
-<code>
-    Ruby 1.8 : shebang &gt; RUBYOPTの-K &gt; -K
+<pre class="highlight text"><code>    Ruby 1.8 : shebang &gt; RUBYOPTの-K &gt; -K
     Ruby 1.9 : -K      &gt; RUBYOPTの-K &gt; shebang
 </code></pre>
 </li>
@@ -315,9 +295,7 @@ locale がスクリプトエンコーディングになります。
 さらに Unicode エスケープ (\uXXXX) を含む場合、リテラルのエンコーディングは UTF-8 になります。
 </p>
 <span class="caption">例</span>
-<pre class="highlight text">
-<code>
-# coding: us-ascii
+<pre class="highlight text"><code># coding: us-ascii
 p __ENCODING__        #=&gt; #&lt;Encoding:US-ASCII&gt;
 p "abc".encoding      #=&gt; #&lt;Encoding:US-ASCII&gt;
 p "\x80".encoding     #=&gt; #&lt;Encoding:ASCII-8BIT&gt;

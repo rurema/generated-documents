@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-18-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -88,9 +88,7 @@ SMTP の実装は <a class="external" href="https://tools.ietf.org/html/rfc2821"
 <p>
 SMTP を使ってメールを送るにはまず SMTP.start でセッションを開きます。第一引数がサーバのアドレスで第二引数がポート番号です。ブロックを使うと File.open と同じように終端処理を自動的にやってくれるのでおすすめです。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'net/smtp'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/smtp'</span>
 <span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span> <span class="s1">'smtp.example.com'</span>, <span class="mi">25</span> <span class="p">)</span> <span class="p">{</span><span class="o">|</span>smtp<span class="o">|</span>
   <span class="c1"># use smtp object only in this block
 </span><span class="p">}</span>
@@ -102,9 +100,7 @@ smtp-server.example.com は適切な SMTP サーバのアドレスに読みか�
 セッションが開いたらあとは <a href="../method/Net=3a=3aSMTP/i/send_message.html">Net::SMTP#send_message</a>
 でメールを流しこむだけです。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'net/smtp'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/smtp'</span>
   
 <span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'smtp.example.com'</span>, <span class="mi">25</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>smtp<span class="o">|</span>
   smtp<span class="p">.</span><span class="nf">send_message</span><span class="p">(</span><span class="no">&lt;&lt;-EndOfMail</span>, <span class="s1">'from@example.com'</span>, <span class="s1">'to@example.net'</span><span class="p">)</span>
@@ -123,9 +119,7 @@ This is a test mail.
 メールを送ったら <a href="../method/Net=3a=3aSMTP/i/finish.html">Net::SMTP#finish</a> を呼んでセッションを終了しなければいけません。
 File のように GC 時に勝手に close されることもありません。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># using SMTP#finish
+<pre class="highlight ruby"><code><span class="c1"># using SMTP#finish
 </span><span class="nb">require</span> <span class="s1">'net/smtp'</span>
 smtp <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'smtp.example.com'</span>, <span class="mi">25</span><span class="p">)</span>
 smtp<span class="p">.</span><span class="nf">send_message</span> mail_string, <span class="s1">'from@example.com'</span>, <span class="s1">'to@example.net'</span>
@@ -135,9 +129,7 @@ smtp<span class="p">.</span><span class="nf">finish</span>
 またブロック付きの <a href="../method/Net=3a=3aSMTP/s/start.html">Net::SMTP.start</a>, <a href="../method/Net=3a=3aSMTP/i/start.html">Net::SMTP#start</a>
 を使うと finish を呼んでくれるので便利です。可能な限りブロック付きの start を使うのがよいでしょう。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># using block form of SMTP.start
+<pre class="highlight ruby"><code><span class="c1"># using block form of SMTP.start
 </span><span class="nb">require</span> <span class="s1">'net/smtp'</span>
 <span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'smtp.example.com'</span>, <span class="mi">25</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>smtp<span class="o">|</span>
   smtp<span class="p">.</span><span class="nf">send_message</span> mail_string, <span class="s1">'from@example.com'</span>, <span class="s1">'to@example.net'</span>
@@ -148,9 +140,7 @@ smtp<span class="p">.</span><span class="nf">finish</span>
 ひとつ上の例では文字列リテラル (ヒアドキュメント) を使って送信しましたが、
 each メソッドを持ったオブジェクトからならなんでも送ることができます。以下は File オブジェクトから直接送信する例です。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'net/smtp'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/smtp'</span>
 
 <span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'your.smtp.server'</span>, <span class="mi">25</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>smtp<span class="o">|</span>
   <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'Mail/draft/1'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
@@ -164,9 +154,7 @@ SMTP ではメールを送る側のホストの名前 (HELO ドメインと呼�
 のキーワード引数 helo に指定します。たいていの SMTP サーバはこの HELO ドメインによる認証はあまり真面目に行わないので (簡単に偽造できるからです)
 デフォルト値を用いて問題にならないことが多いのですが、セッションを切られることもあります。そういうときはとりあえず HELO ドメインを与えてみてください。もちろんそれ以外の時も HELO ドメインはちゃんと渡すのがよいでしょう。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'net/smtp'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/smtp'</span>
 <span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'smtp.example.com'</span>, <span class="mi">25</span>, <span class="ss">helo:</span> <span class="s1">'yourdomain.example.com'</span><span class="p">)</span>
 </code></pre>
 <p>
@@ -181,9 +169,7 @@ SMTP ではメールを送る側のホストの名前 (HELO ドメインと呼�
 認証するためには、<a href="../method/Net=3a=3aSMTP/s/start.html">Net::SMTP.start</a> もしくは <a href="../method/Net=3a=3aSMTP/i/start.html">Net::SMTP#start</a>
 の引数に追加の引数を渡してください。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># 例
+<pre class="highlight ruby"><code><span class="c1"># 例
 </span><span class="nb">require</span> <span class="s1">'net/smtp'</span>
 <span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'smtp.example.com'</span>, <span class="mi">25</span>,
                  <span class="ss">user:</span> <span class="s1">'your_account'</span>, <span class="ss">password:</span> <span class="s1">'your_password'</span>, <span class="ss">authtype:</span> <span class="ss">:cram_md5</span><span class="p">)</span>
@@ -203,9 +189,7 @@ TLSを用いることで、通信相手の認証、および通信経路の暗�
 <p>
 TLS を使用したい場合は enable_tls を使用します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'net/smtp'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/smtp'</span>
 <span class="c1"># TLSの例
 </span>smtp <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'smtp.example.com'</span>, <span class="mi">465</span><span class="p">)</span>
 smtp<span class="p">.</span><span class="nf">enable_tls</span>
@@ -216,9 +200,7 @@ smtp<span class="p">.</span><span class="nf">start</span> <span class="k">do</sp
 <p>
 サーバーが STARTTLS をサポートしている場合は自動的に STARTTLS を使用します。サーバーが STARTTLS をサポートしているのに STARTTLS を使用したくない場合は <a href="../method/Net=3a=3aSMTP/i/disable_starttls.html">Net::SMTP#disable_starttls</a> を使用します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'net/smtp'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/smtp'</span>
 <span class="c1"># STARTTLSを使用したくない例
 </span>smtp <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'smtp.example.com'</span>, <span class="mi">25</span><span class="p">)</span>
 smtp<span class="p">.</span><span class="nf">disable_starttls</span>
@@ -229,9 +211,7 @@ smtp<span class="p">.</span><span class="nf">start</span> <span class="k">do</sp
 <p>
 デフォルトではサーバー証明書の検証を行い、正当な証明書でない場合は <a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLError.html">OpenSSL::SSL::SSLError</a> 例外が発生します。証明書の検証を行いたくない場合は +tls_verify: false+ を指定します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'net/smtp'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/smtp'</span>
 <span class="c1"># 証明書の検証を行いたくない場合
 </span><span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'192.168.1.1'</span>, <span class="mi">25</span>, <span class="ss">tls_verify:</span> <span class="k">false</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>smtp<span class="o">|</span>
   <span class="c1"># send messages ...
@@ -240,9 +220,7 @@ smtp<span class="p">.</span><span class="nf">start</span> <span class="k">do</sp
 <p>
 サーバー証明書に引数で指定したホスト名が含まれていなければ <a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLError.html">OpenSSL::SSL::SSLError</a> 例外が発生します。証明書に含まれない名前(IPアドレス等)で接続したい場合は、+tls_hostname+ で証明書のホスト名を指定します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'net/smtp'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/smtp'</span>
 <span class="c1"># 証明書と異なるホスト名で接続する場合
 </span><span class="no">Net</span><span class="o">::</span><span class="no">SMTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="s1">'192.168.1.1'</span>, <span class="mi">25</span>, <span class="ss">tls_hostname:</span> <span class="s1">'smtp.example.com'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>smtp<span class="o">|</span>
   <span class="c1"># send messages ...

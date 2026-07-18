@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-18-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -138,9 +138,7 @@ Ruby 3.1 から fiber を require しなくても、コンテキストの切り�
 ファイバー実行中に例外が発生した場合、親ファイバーに例外が伝播します。
 </p>
 <span class="caption">例:</span>
-<pre class="highlight ruby">
-<code>
-f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
   <span class="nb">raise</span> <span class="no">StandardError</span>, <span class="s2">"</span><span class="s2">hoge</span><span class="s2">"</span>
 <span class="k">end</span>
 
@@ -157,9 +155,7 @@ f<span class="p">.</span><span class="nf">resume</span>     <span class="c1"># �
 Fiber.yield の引数が、親での Fiber#resume の返り値になります。
 </p>
 <span class="caption">例:</span>
-<pre class="highlight ruby">
-<code>
-f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
   n <span class="o">=</span> <span class="mi">0</span>
   <span class="nb">loop</span> <span class="k">do</span>
     <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span><span class="p">(</span>n<span class="p">)</span>
@@ -181,9 +177,7 @@ f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span>
 以下は内部イテレータを外部イテレータに変換する例です。実際 <a href="../class/Enumerator.html">Enumerator</a> は Fiber を用いて実装されています。
 </p>
 <span class="caption">例:</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">enum2gen</span><span class="p">(</span>enum<span class="p">)</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">enum2gen</span><span class="p">(</span>enum<span class="p">)</span>
   <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
     enum<span class="p">.</span><span class="nf">each</span><span class="p">{</span><span class="o">|</span>i<span class="o">|</span>
       <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span><span class="p">(</span>i<span class="p">)</span>
@@ -202,9 +196,7 @@ g <span class="o">=</span> enum2gen<span class="p">(</span><span class="mi">1</s
 Thread クラスが表すスレッド間をまたがるファイバーの切り替えはできません。例外 FiberError が発生します。
 </p>
 <span class="caption">例:</span>
-<pre class="highlight ruby">
-<code>
-f <span class="o">=</span> <span class="k">nil</span>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="k">nil</span>
 <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
   f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span><span class="p">}</span>
 <span class="k">end</span><span class="p">.</span><span class="nf">join</span>
@@ -266,9 +258,7 @@ f<span class="p">.</span><span class="nf">resume</span>
 このメソッドが評価されたコンテキストにおける <a href="../class/Fiber.html">Fiber</a> のインスタンスを返します。
 </p>
 <span class="caption">例:</span>
-<pre class="highlight ruby">
-<code>
-fr <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+<pre class="highlight ruby"><code>fr <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
  <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span>
 <span class="k">end</span>
 
@@ -290,9 +280,7 @@ fb <span class="o">=</span> fr<span class="p">.</span><span class="nf">resume</s
 ブロックが終了した場合は親にコンテキストが切り替わります。その時ブロックの評価値が返されます。
 </p>
 <span class="caption">例:</span>
-<pre class="highlight ruby">
-<code>
-a <span class="o">=</span> <span class="k">nil</span>
+<pre class="highlight ruby"><code>a <span class="o">=</span> <span class="k">nil</span>
 f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>obj<span class="o">|</span>
   a <span class="o">=</span> obj
   <span class="ss">:hoge</span>
@@ -324,9 +312,7 @@ Fiber でのルートファイバーで呼ばれた場合に発生します。
 </dd>
 </dl>
 <span class="caption">例:</span>
-<pre class="highlight ruby">
-<code>
-a <span class="o">=</span> <span class="k">nil</span>
+<pre class="highlight ruby"><code>a <span class="o">=</span> <span class="k">nil</span>
 f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
   a <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span><span class="p">(</span><span class="p">)</span>
 <span class="k">end</span>
@@ -357,9 +343,7 @@ f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><
 <li>ブロック内の評価が終了していない (<a href="../method/Fiber/s/yield.html">Fiber.yield</a> が呼ばれていない)</li>
 </ul>
 <span class="caption">例:</span>
-<pre class="highlight ruby">
-<code>
-fr <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span>
+<pre class="highlight ruby"><code>fr <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span>
 <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span>
 <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>
 <span class="p">}</span>
@@ -408,16 +392,12 @@ message 引数を渡した場合、message 引数をメッセージとした Run
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span> <span class="p">}</span>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span> <span class="p">}</span>
 f<span class="p">.</span><span class="nf">resume</span>
 f<span class="p">.</span><span class="nf">raise</span> <span class="s2">"</span><span class="s2">Error!</span><span class="s2">"</span> <span class="c1"># =&gt; Error! (RuntimeError)
 </span></code></pre>
 <span class="caption">ファイバー内のイテレーションを終了させる例</span>
-<pre class="highlight ruby">
-<code>
-f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
   <span class="nb">loop</span> <span class="k">do</span>
     <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span><span class="p">(</span><span class="ss">:loop</span><span class="p">)</span>
   <span class="k">end</span>
@@ -454,9 +434,7 @@ Thread クラスが表すスレッド間をまたがる場合、自身が resume
 </dd>
 </dl>
 <span class="caption">例:</span>
-<pre class="highlight ruby">
-<code>
-
+<pre class="highlight ruby"><code>
 f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
   <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span><span class="p">(</span><span class="ss">:hoge</span><span class="p">)</span>
   <span class="ss">:fuga</span>
@@ -494,9 +472,7 @@ f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span>
 </dd>
 </dl>
 <span class="caption">例:</span>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'fiber'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'fiber'</span>
 
 fr1 <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>v<span class="o">|</span>
 <span class="ss">:fugafuga</span>

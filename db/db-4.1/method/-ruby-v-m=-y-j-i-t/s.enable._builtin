@@ -1,0 +1,29 @@
+names=enable
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/RubyVM__YJIT.md
+
+### def enable(stats: false, log: false, mem_size: nil, call_threshold: nil) -> bool
+
+実行時に YJIT を有効化します。
+
+- **param** `stats` -- 統計収集の設定です。`false` なら収集しません。`true` なら収集し、
+  終了時に結果を表示します。`:quiet` なら収集しますが、終了時には表示しません。
+- **param** `log` -- コンパイルログ収集の設定です。指定できる値は `stats` と同様です。
+  (Ruby 3.4 で追加されたキーワード引数です)
+- **param** `mem_size` -- YJIT が使用するメモリ量の上限を MB 単位(1 から 2048 の範囲)で指定します。
+  `nil` の場合はデフォルト値を使います。(Ruby 4.0 で追加されたキーワード引数です)
+- **param** `call_threshold` -- JIT コンパイルを開始するまでのメソッド呼び出し回数のしきい値を指定します。
+  `nil` の場合はデフォルト値を使います。(Ruby 4.0 で追加されたキーワード引数です)
+- **return** -- 有効化したときは true を返します。すでに YJIT が有効な場合や、
+  ZJIT (`RubyVM::ZJIT`) が有効になっている場合は false を返します。
+- **raise** `ArgumentError` -- `mem_size` や `call_threshold` に不正な値を指定した場合に発生します。
+
+```ruby
+RubyVM::YJIT.enable # => true
+```
+
+JIT の有効・無効はビルドオプションや実行環境に依存するため、実行結果は環境によって異なります。
+
+- **SEE** [m:RubyVM::YJIT.enabled?]
+

@@ -95,17 +95,13 @@
 <p>
 返り値の <a href="../../../class/Enumerator.html">Enumerator</a> は各チャンクのブロック評価値と各チャンクの要素を持つ配列のペアを各要素とします。そのため、eachだと以下のようになります。
 </p>
-<pre class="highlight ruby">
-<code>
-enum<span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span><span class="o">|</span>elt<span class="o">|</span> key <span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>key, ary<span class="o">|</span> do_something <span class="p">}</span>
+<pre class="highlight ruby"><code>enum<span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span><span class="o">|</span>elt<span class="o">|</span> key <span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>key, ary<span class="o">|</span> do_something <span class="p">}</span>
 </code></pre>
 <p>
 例として、整数列を連続する奇数/偶数に分ける例を見てみます。「n.even?」の値が切り替わるところで区切られているのがわかるでしょう。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="p">[</span><span class="mi">3</span>, <span class="mi">1</span>, <span class="mi">4</span>, <span class="mi">1</span>, <span class="mi">5</span>, <span class="mi">9</span>, <span class="mi">2</span>, <span class="mi">6</span>, <span class="mi">5</span>, <span class="mi">3</span>, <span class="mi">5</span><span class="p">]</span><span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span><span class="o">|</span>n<span class="o">|</span>
+<pre class="highlight ruby"><code><span class="p">[</span><span class="mi">3</span>, <span class="mi">1</span>, <span class="mi">4</span>, <span class="mi">1</span>, <span class="mi">5</span>, <span class="mi">9</span>, <span class="mi">2</span>, <span class="mi">6</span>, <span class="mi">5</span>, <span class="mi">3</span>, <span class="mi">5</span><span class="p">]</span><span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span><span class="o">|</span>n<span class="o">|</span>
   n<span class="p">.</span><span class="nf">even?</span>
 <span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>even, ary<span class="o">|</span>
   <span class="nb">p</span> <span class="p">[</span>even, ary<span class="p">]</span>
@@ -123,9 +119,7 @@ enum<span class="p">.</span><span class="nf">chunk</span> <span class="p">{</spa
 以下の例では、テキスト辞書ファイルに含まれる単語の頭文字の頻度を調べています。このファイルは、Linux や macOS などで、ソートされた英語（など）の単語のリストを改行で区切って収めたものです。大文字／小文字の違いを無視するため upcase しています。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># ファイルのエンコーディングは実際のファイルに合わせてください。
+<pre class="highlight ruby"><code><span class="c1"># ファイルのエンコーディングは実際のファイルに合わせてください。
 </span><span class="nb">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">/usr/share/dict/words</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r:iso-8859-1</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
   f<span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span><span class="o">|</span>line<span class="o">|</span> line<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">upcase</span> <span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>ch, lines<span class="o">|</span> <span class="nb">p</span> <span class="p">[</span>ch, lines<span class="p">.</span><span class="nf">length</span><span class="p">]</span> <span class="p">}</span>
 <span class="p">}</span>
@@ -148,9 +142,7 @@ enum<span class="p">.</span><span class="nf">chunk</span> <span class="p">{</spa
 それ以外のアンダースコアで始まるシンボルを指定した場合は例外が発生します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span> <span class="o">|</span>item<span class="o">|</span> <span class="ss">:_underscore</span> <span class="p">}</span><span class="p">.</span><span class="nf">to_a</span>
+<pre class="highlight ruby"><code><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span> <span class="o">|</span>item<span class="o">|</span> <span class="ss">:_underscore</span> <span class="p">}</span><span class="p">.</span><span class="nf">to_a</span>
 <span class="c1"># =&gt; RuntimeError: symbols beginning with an underscore are reserved
 </span>
 <span class="c1"># 「.to_a」無しだと Enumerator を返すのみで例外は発生しない
@@ -159,9 +151,7 @@ enum<span class="p">.</span><span class="nf">chunk</span> <span class="p">{</spa
 nil、 :_separator はある要素を無視したい場合に用います。例として svn log の出力のハイフンの所で区切りたい場合を考えます。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-sep <span class="o">=</span> <span class="s2">"</span><span class="s2">-</span><span class="s2">"</span><span class="o">*</span><span class="mi">72</span> <span class="o">+</span> <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span> <span class="c1"># ハイフンが72個の行
+<pre class="highlight ruby"><code>sep <span class="o">=</span> <span class="s2">"</span><span class="s2">-</span><span class="s2">"</span><span class="o">*</span><span class="mi">72</span> <span class="o">+</span> <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span> <span class="c1"># ハイフンが72個の行
 </span><span class="no">IO</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="s2">"</span><span class="s2">svn log README</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
   f<span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span><span class="o">|</span>line<span class="o">|</span>
     line <span class="o">!=</span> sep <span class="o">||</span> <span class="k">nil</span>
@@ -183,9 +173,7 @@ sep <span class="o">=</span> <span class="s2">"</span><span class="s2">-</span><
 テキストを空行で区切られた段落に分けたい場合にも nil が使えます。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="no">File</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">README</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span><span class="o">|</span>line<span class="o">|</span>
+<pre class="highlight ruby"><code><span class="no">File</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="s2">"</span><span class="s2">README</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span><span class="o">|</span>line<span class="o">|</span>
   <span class="sr">/\A\s*\z/</span> <span class="o">!~</span> line <span class="o">||</span> <span class="k">nil</span>
 <span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>_, lines<span class="o">|</span>
   pp lines
@@ -195,9 +183,7 @@ sep <span class="o">=</span> <span class="s2">"</span><span class="s2">-</span><
 「:_alone」は要素を素通ししたい場合に用います。以下の例では「Foo#bar」という形式の行が連続している場合のみチャンク化し、それ以外は素通しします。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-pat <span class="o">=</span> <span class="sr">/\A[A-Z][A-Za-z0-9_]+\#/</span>
+<pre class="highlight ruby"><code>pat <span class="o">=</span> <span class="sr">/\A[A-Z][A-Za-z0-9_]+\#/</span>
 <span class="nb">open</span><span class="p">(</span>filename<span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span>
   f<span class="p">.</span><span class="nf">chunk</span> <span class="p">{</span><span class="o">|</span>line<span class="o">|</span> pat <span class="o">=~</span> line <span class="o">?</span> <span class="vg">$&amp;</span> <span class="o">:</span> <span class="ss">:_alone</span> <span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>key, lines<span class="o">|</span>
     <span class="k">if</span> key <span class="o">!=</span> <span class="ss">:_alone</span>

@@ -88,16 +88,12 @@
 <p>
 引数として与えた pattern を選択 | で連結し、Regexp として返します。結果の Regexp は与えた pattern のどれかにマッチする場合にマッチするものになります。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="sr">/a/</span>, <span class="sr">/b/</span>, <span class="sr">/c/</span><span class="p">)</span> <span class="c1"># =&gt; /(?-mix:a)|(?-mix:b)|(?-mix:c)/
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="sr">/a/</span>, <span class="sr">/b/</span>, <span class="sr">/c/</span><span class="p">)</span> <span class="c1"># =&gt; /(?-mix:a)|(?-mix:b)|(?-mix:c)/
 </span></code></pre>
 <p>
 引数を一つだけ与える場合は、<a href="../../../class/Array.html">Array</a> を与えても Regexp を生成します。つまり、以下のように書くことができます。
 </p>
-<pre class="highlight ruby">
-<code>
-arr <span class="o">=</span> <span class="p">[</span><span class="sr">/a/</span>, <span class="sr">/b/</span>, <span class="sr">/c/</span><span class="p">]</span>
+<pre class="highlight ruby"><code>arr <span class="o">=</span> <span class="p">[</span><span class="sr">/a/</span>, <span class="sr">/b/</span>, <span class="sr">/c/</span><span class="p">]</span>
 <span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span>arr<span class="p">)</span>  <span class="c1"># =&gt; /(?-mix:a)|(?-mix:b)|(?-mix:c)/
 </span><span class="c1"># 1.8.7 より前は、以下のように書く必要があった
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="o">*</span>arr<span class="p">)</span> <span class="c1"># =&gt; /(?-mix:a)|(?-mix:b)|(?-mix:c)/
@@ -106,33 +102,25 @@ arr <span class="o">=</span> <span class="p">[</span><span class="sr">/a/</span>
 pattern は Regexp または String で与えます。
 String で与えた場合、それ自身と等しい文字列にマッチするものと解釈され、エスケープされて結果の Regexp に組み込まれます。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">?</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; /a|\?|b/
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">?</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; /a|\?|b/
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="sr">/a/</span>, <span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; /(?-mix:a)|\*/
 </span></code></pre>
 <p>
 引数をひとつも与えなかった場合、決してマッチしない Regexp を返します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="p">)</span> <span class="c1"># =&gt; /(?!)/
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="p">)</span> <span class="c1"># =&gt; /(?!)/
 </span></code></pre>
 <p>
 結果の Regexp が対応する文字コードは引数として与えた Regexp が扱う文字コードに一致します。固定コードに対してコンパイルされている Regexp を複数与える場合、それらのコードは一致していなければなりません。異なる固定コードに対してコンパイルされている Regexp が存在する場合、
 <a href="../../../class/ArgumentError.html">ArgumentError</a> が発生します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="sr">/a/e</span>, <span class="sr">/b/e</span><span class="p">)</span> <span class="c1"># =&gt; /(?-mix:a)|(?-mix:b)/e
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="sr">/a/e</span>, <span class="sr">/b/e</span><span class="p">)</span> <span class="c1"># =&gt; /(?-mix:a)|(?-mix:b)/e
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="sr">/a/e</span>, <span class="sr">/b/s</span><span class="p">)</span> <span class="c1"># =&gt; ArgumentError
 </span></code></pre>
 <p>
 コードが固定されている Regexp とコードが固定されていない Regexp を混ぜた場合、結果の Regexp は固定されているコードに対応するものになります。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="sr">/a/e</span>, <span class="sr">/b/</span><span class="p">)</span> <span class="c1"># =&gt; /(?-mix:a)|(?-mix:b)/e
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="sr">/a/e</span>, <span class="sr">/b/</span><span class="p">)</span> <span class="c1"># =&gt; /(?-mix:a)|(?-mix:b)/e
 </span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>pattern</code>:</dt>
@@ -141,9 +129,7 @@ String で与えた場合、それ自身と等しい文字列にマッチする�
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># オプションは合成されない
+<pre class="highlight ruby"><code><span class="c1"># オプションは合成されない
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="sr">/foo/i</span>, <span class="sr">/bar/x</span>, <span class="sr">/hoge/m</span><span class="p">)</span> <span class="c1"># =&gt; /(?i-mx:foo)|(?x-mi:bar)|(?m-ix:hoge)/
 </span>
 <span class="c1"># 文字列そのものにマッチする
