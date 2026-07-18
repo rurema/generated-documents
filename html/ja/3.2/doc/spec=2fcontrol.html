@@ -162,7 +162,7 @@ Ruby では if を繋げるのは elsif であり、else if
 <p>
 であるかのように評価されます。
 </p>
-<h3 >if 修飾子</h3>
+<h3 id='if_modifier'>if 修飾子</h3>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">print</span> <span class="s2">"</span><span class="s2">debug\n</span><span class="s2">"</span> <span class="k">if</span> <span class="vg">$DEBUG</span>
 </code></pre>
@@ -190,7 +190,7 @@ end
 <p>
 unless は if と反対で、条件式が偽の時に then 以下の式を評価します。unless 式にelsif を指定することはできません。
 </p>
-<h3 >unless 修飾子</h3>
+<h3 id='unless_modifier'>unless 修飾子</h3>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">print</span> <span class="s2">"</span><span class="s2">stop\n</span><span class="s2">"</span> <span class="k">unless</span> valid<span class="p">(</span>passwd<span class="p">)</span>
 </code></pre>
@@ -338,7 +338,7 @@ end
 while は nil を返します。また、引数を伴った break により
 while 式の戻り値をその値にすることもできます。
 </p>
-<h3 >while 修飾子</h3>
+<h3 id='while_modifier'>while 修飾子</h3>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> <span class="k">while</span> io_not_ready?
 </code></pre>
@@ -378,7 +378,7 @@ end
 until は nil を返します。また、引数を伴った break により
 until 式の戻り値をその値にすることもできます。
 </p>
-<h3 >until修飾子</h3>
+<h3 id='until_modifier'>until修飾子</h3>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">print</span><span class="p">(</span>f<span class="p">.</span><span class="nf">gets</span><span class="p">)</span> <span class="k">until</span> f<span class="p">.</span><span class="nf">eof?</span>
 </code></pre>
@@ -575,7 +575,7 @@ rescue 節以外で retry が用いられた場合には例外 <a href="../class
 <h2 >例外処理</h2>
 <h3 id='raise'>raise</h3>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">raise</span> <span class="s2">"</span><span class="s2">you lose</span><span class="s2">"</span>  <span class="c1"># 例外 RuntimeError を発生させる
+<pre class="highlight ruby"><code><span class="nb">raise</span> <span class="s2">"</span><span class="s2">you lose</span><span class="s2">"</span>  <span class="c1"># ~&gt; RuntimeError: you lose
 </span><span class="c1"># 以下の二つは SyntaxError を発生させる
 </span><span class="nb">raise</span> <span class="no">SyntaxError</span>, <span class="s2">"</span><span class="s2">invalid syntax</span><span class="s2">"</span>
 <span class="nb">raise</span> <span class="no">SyntaxError</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">invalid syntax</span><span class="s2">"</span><span class="p">)</span>
@@ -664,7 +664,22 @@ begin式全体の評価値は、本体／rescue節／else節のうち最後に�
 などの定義文では、それぞれ
 begin なしで rescue, ensure 節を定義でき、これにより例外を処理できます。
 </p>
-<h3 >rescue修飾子</h3>
+<p>
+また、<code>do ... end</code> 形式のブロックでも、Ruby 2.6 から begin なしで
+rescue, else, ensure 節を書けるようになりました(<a class="external" href="https://bugs.ruby-lang.org/issues/12906">[feature#12906]</a>)。
+<code>{ }</code> 形式のブロックではこの書き方はできません。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
+  <span class="nb">p</span> <span class="mi">10</span> <span class="o">/</span> item
+<span class="k">rescue</span> <span class="no">ZeroDivisionError</span> <span class="o">=&gt;</span> e
+  <span class="nb">p</span> e
+<span class="k">end</span>
+<span class="c1"># =&gt; 10
+</span><span class="c1">#    5
+</span><span class="c1">#    #&lt;ZeroDivisionError: divided by 0&gt;
+</span></code></pre>
+<h3 id='rescue_modifier'>rescue修飾子</h3>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">nonexistent file</span><span class="s2">"</span><span class="p">)</span> <span class="k">rescue</span> <span class="no">STDERR</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"</span><span class="s2">Warning: </span><span class="n">#</span><span class="vg">$!</span><span class="s2">"</span>
 </code></pre>

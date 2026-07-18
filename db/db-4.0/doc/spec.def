@@ -303,7 +303,7 @@ def foo(x, y = 1)    # 2番目の引数yにデフォルト値を指定
 end
 p foo(1, 5)  #=> 15
 p foo(3)     #=> 31
-p foo        #=> ArgumentError (wrong number of arguments)
+foo          # ~> ArgumentError: wrong number of arguments (given 0, expected 1..2)
 ```
 
 デフォルト値を指定する引数の位置は、1つの連続した区間になっている必要があります。
@@ -568,6 +568,18 @@ end
 クラスの特異メソッドはそのサブクラスにも継承されます。言い替
 えればクラスの特異メソッドは他のオブジェクト指向システムにお
 けるクラスメソッドの働きをすることになります。
+
+これは、クラスの特異クラスが、スーパークラスの特異クラスのサブクラス
+として作られるためです。この仕組みによって、クラスの特異メソッド(クラ
+スメソッド)がサブクラスにも継承されます。
+
+```ruby
+class A
+end
+class B < A
+end
+p B.singleton_class.superclass == A.singleton_class # => true
+```
 
 特異メソッド定義式は、メソッド名を [c:Symbol] にしたオブジェクトを返します。
 

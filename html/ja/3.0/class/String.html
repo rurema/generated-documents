@@ -244,7 +244,7 @@ b <span class="o">=</span> s<span class="p">.</span><span class="nf">encode</spa
 </span>
 s <span class="o">=</span> <span class="s2">"</span><span class="s2">合</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">EUC-JP</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">p</span> s <span class="o">+</span> <span class="s2">"</span><span class="s2">\u{4f53}</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">EUC-JP</span><span class="s2">"</span><span class="p">)</span>   <span class="c1">#=&gt; &quot;合体&quot;
-</span><span class="nb">p</span> s <span class="o">+</span> <span class="s2">"</span><span class="s2">\u{4f53}</span><span class="s2">"</span>                    <span class="c1">#=&gt; Encoding::CompatibilityError
+</span>s <span class="o">+</span> <span class="s2">"</span><span class="s2">\u{4f53}</span><span class="s2">"</span>                      <span class="c1"># ~&gt; Encoding::CompatibilityError
 </span></code></pre>
 <p>
 <a href="../method/String/i/eql=3f.html">String#eql?</a> はハッシュのキーの比較に使われますので、ハッシュのキーに非 ASCII 文字列を使う場合には注意が必要です。
@@ -1587,7 +1587,7 @@ name に対応する括弧がない場合に発生します。
 <span class="nb">p</span> s<span class="p">[</span><span class="sr">/(?&lt;foo&gt;[A-Z]..)(?&lt;bar&gt;[A-Z]..)/</span><span class="p">]</span>      <span class="c1"># =&gt; &quot;FooBar&quot;
 </span><span class="nb">p</span> s<span class="p">[</span><span class="sr">/(?&lt;foo&gt;[A-Z]..)(?&lt;bar&gt;[A-Z]..)/</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># =&gt; &quot;Foo&quot;
 </span><span class="nb">p</span> s<span class="p">[</span><span class="sr">/(?&lt;foo&gt;[A-Z]..)(?&lt;bar&gt;[A-Z]..)/</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># =&gt; &quot;Bar&quot;
-</span>s<span class="p">[</span><span class="sr">/(?&lt;foo&gt;[A-Z]..)(?&lt;bar&gt;[A-Z]..)/</span>, <span class="s2">"</span><span class="s2">baz</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># =&gt; IndexError
+</span>s<span class="p">[</span><span class="sr">/(?&lt;foo&gt;[A-Z]..)(?&lt;bar&gt;[A-Z]..)/</span>, <span class="s2">"</span><span class="s2">baz</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># ~&gt; IndexError
 </span></code></pre>
 </dd>
 <dt class="method-heading" id="I_--5B--5D"><code>self[range] -&gt; String</code><span class="permalink">[<a href="../method/String/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/String.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
@@ -5540,7 +5540,7 @@ UTF-32BE/LE だけではなく GB18030、UCS_2BE、and UCS_4BE を含みます�
 </span><span class="nb">p</span> <span class="s2">"</span><span class="s2">a\u0300</span><span class="s2">"</span><span class="p">.</span><span class="nf">unicode_normalize</span><span class="p">(</span><span class="ss">:nfc</span><span class="p">)</span>  <span class="c1"># =&gt; 'à' (&quot;\u00E0&quot; と同じ)
 </span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\u00E0</span><span class="s2">"</span><span class="p">.</span><span class="nf">unicode_normalize</span><span class="p">(</span><span class="ss">:nfd</span><span class="p">)</span> <span class="c1"># =&gt; 'à' (&quot;a\u0300&quot; と同じ)
 </span><span class="s2">"</span><span class="s2">\xE0</span><span class="s2">"</span><span class="p">.</span><span class="nf">force_encoding</span><span class="p">(</span><span class="s1">'ISO-8859-1'</span><span class="p">)</span><span class="p">.</span><span class="nf">unicode_normalize</span><span class="p">(</span><span class="ss">:nfd</span><span class="p">)</span>
-                                   <span class="c1"># =&gt; Encoding::CompatibilityError raised
+                                   <span class="c1"># ~&gt; Encoding::CompatibilityError: Unicode Normalization not appropriate for ISO-8859-1
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/unicode_normalize=21.html">String#unicode_normalize!</a>, <a href="../method/String/i/unicode_normalized=3f.html">String#unicode_normalized?</a>
@@ -5600,7 +5600,7 @@ self が Unicode 文字列ではない場合に発生します。
 </span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\u00E0</span><span class="s2">"</span><span class="p">.</span><span class="nf">unicode_normalized?</span>       <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\u00E0</span><span class="s2">"</span><span class="p">.</span><span class="nf">unicode_normalized?</span><span class="p">(</span><span class="ss">:nfd</span><span class="p">)</span> <span class="c1"># =&gt; false
 </span><span class="s2">"</span><span class="s2">\xE0</span><span class="s2">"</span><span class="p">.</span><span class="nf">force_encoding</span><span class="p">(</span><span class="s1">'ISO-8859-1'</span><span class="p">)</span><span class="p">.</span><span class="nf">unicode_normalized?</span>
-                                     <span class="c1"># =&gt; Encoding::CompatibilityError raised
+                                     <span class="c1"># ~&gt; Encoding::CompatibilityError: Unicode Normalization not appropriate for ISO-8859-1
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/unicode_normalize.html">String#unicode_normalize</a>, <a href="../method/String/i/unicode_normalize=21.html">String#unicode_normalize!</a>
@@ -6075,7 +6075,7 @@ m0 は <a class="external" href="https://tools.ietf.org/html/rfc4648">[RFC4648]<
 <span class="c1"># =&gt; &quot;YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWg==&quot;
 </span>
 <span class="nb">p</span> <span class="s2">"</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">m0</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># =&gt; [&quot;&quot;]
-</span><span class="s2">"</span><span class="s2">AA==\n</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">m0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; ArgumentError (invalid base64)
+</span><span class="s2">"</span><span class="s2">AA==\n</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">m0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># ~&gt; ArgumentError: invalid base64
 </span><span class="nb">p</span> <span class="s2">"</span><span class="s2">AA==</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">m0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;\x00&quot;]
 </span>
 <span class="s2">"</span><span class="s2">YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWg==</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">m0</span><span class="s2">"</span><span class="p">)</span>
@@ -6338,8 +6338,8 @@ fra <span class="o">=</span> <span class="no">Integer</span><span class="p">(</s
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="k">nil</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">P</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;\x00\x00\x00\x00\x00\x00\x00\x00&quot;
 </span><span class="nb">p</span> <span class="p">[</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">P3</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;\xA0\xEE\er\x84U\x00\x00&quot;
 </span>
-<span class="p">[</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">P4</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; ArgumentError: too short buffer for P(3 for 4)
-</span><span class="p">[</span><span class="s2">"</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">P</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># =&gt; ArgumentError: too short buffer for P(0 for 1)
+<span class="p">[</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">P4</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># ~&gt; ArgumentError: too short buffer for P(3 for 4)
+</span><span class="p">[</span><span class="s2">"</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">P</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># ~&gt; ArgumentError: too short buffer for P(0 for 1)
 </span></code></pre>
 </dd>
 <dt><code>u</code></dt>
@@ -6366,7 +6366,7 @@ UTF-8
 </span><span class="nb">p</span> <span class="p">[</span><span class="mi">0x7f</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">U</span><span class="s2">"</span><span class="p">)</span>                          <span class="c1"># =&gt; &quot;\u007F&quot;
 </span><span class="nb">p</span> <span class="p">[</span><span class="mi">0x80</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">U</span><span class="s2">"</span><span class="p">)</span>                          <span class="c1"># =&gt; &quot;\u0080&quot;
 </span><span class="nb">p</span> <span class="p">[</span><span class="mi">0x7fffffff</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">U</span><span class="s2">"</span><span class="p">)</span>                    <span class="c1"># =&gt; &quot;\xFD\xBF\xBF\xBF\xBF\xBF&quot;
-</span><span class="p">[</span><span class="mi">0x80000000</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">U</span><span class="s2">"</span><span class="p">)</span>                      <span class="c1"># =&gt; RangeError: pack(U): value out of range
+</span><span class="p">[</span><span class="mi">0x80000000</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">U</span><span class="s2">"</span><span class="p">)</span>                      <span class="c1"># ~&gt; RangeError: pack(U): value out of range
 </span><span class="nb">p</span> <span class="p">[</span><span class="mi">0</span>,<span class="mi">256</span>,<span class="mi">65536</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">U3</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">b</span>                <span class="c1"># =&gt; &quot;\x00\xC4\x80\xF0\x90\x80\x80&quot;
 </span>
 <span class="nb">p</span> <span class="s2">"</span><span class="s2">\x00\xC4\x80\xF0\x90\x80\x80</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">U3</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [0, 256, 65536]
@@ -6413,7 +6413,7 @@ ISO/IEC 8825-1:1995 : Information technology−ASN.1 encoding rules : Specificat
 </span><span class="nb">p</span> <span class="p">[</span><span class="mi">97</span>, <span class="mi">98</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">Cx3C</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;a\x00\x00\x00b&quot;
 </span>
 <span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">CxC</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; [97, 99]
-</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">Cx3C</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; ArgumentError: x outside of string
+</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">Cx3C</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># ~&gt; ArgumentError: x outside of string
 </span></code></pre>
 </dd>
 <dt><code>X</code></dt>
@@ -6609,7 +6609,7 @@ unpack(&quot;p&quot;), unpack(&quot;P&quot;) は、pack の結果からしか un
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">p</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">p</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;foo&quot;]
 </span><span class="s2">"</span><span class="s2">xp\xC2\x85\vV\x00\x00</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">p</span><span class="s2">"</span><span class="p">)</span>
-<span class="c1"># =&gt; ArgumentError: no associated pointer
+<span class="c1"># ~&gt; ArgumentError: no associated pointer
 </span></code></pre>
 <p>
 &quot;p&quot; や &quot;P&quot; は、nil を特別に扱い NULL

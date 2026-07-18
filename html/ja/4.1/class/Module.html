@@ -380,16 +380,17 @@ mod
 ブロックを与えた場合も生成したモジュールを返します。
 </p>
 <p>
-このメソッドで生成されたモジュールは、最初に名前が必要になったときに名前が決定します。モジュールの名前は、そのモジュールが代入されている定数名のいずれかです。
+このメソッドで生成された直後のモジュールは無名で、最初にいずれかの定数に代入された時点で名前が確定します
+(<a href="../method/Module/i/name.html">Module#name</a> を参照)。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>m <span class="o">=</span> <span class="no">Module</span><span class="p">.</span><span class="nf">new</span>
 <span class="nb">p</span> m               <span class="c1"># =&gt; #&lt;Module 0lx40198a54&gt;
 </span><span class="nb">p</span> m<span class="p">.</span><span class="nf">name</span>          <span class="c1"># =&gt; nil   # まだ名前は未定
 </span><span class="no">Utils</span> <span class="o">=</span> m
-<span class="c1"># m.name          # ここで m.name を呼べば m の名前は &quot;Utils&quot; に確定する
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">name</span>          <span class="c1"># =&gt; &quot;Utils&quot;   # 最初に代入された定数名で確定する
 </span><span class="no">Helpers</span> <span class="o">=</span> m
-<span class="nb">p</span> m<span class="p">.</span><span class="nf">name</span>          <span class="c1"># &quot;Utils&quot; か &quot;Helpers&quot; のどちらかに決まる
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">name</span>          <span class="c1"># =&gt; &quot;Utils&quot;   # 一度確定した名前は変わらない
 </span></code></pre>
 </dd>
 
@@ -1394,7 +1395,7 @@ false を指定するとスーパークラスや include したモジュール�
 </span><span class="c1"># =&gt; &quot;123&quot;
 </span>
 <span class="c1"># 不適切な定数名を指定した場合
-</span><span class="no">Config</span><span class="p">.</span><span class="nf">const_set</span><span class="p">(</span><span class="s1">'name'</span>, <span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; NameError: wrong constant name name
+</span><span class="no">Config</span><span class="p">.</span><span class="nf">const_set</span><span class="p">(</span><span class="s1">'name'</span>, <span class="mi">1</span><span class="p">)</span> <span class="c1"># ~&gt; NameError: wrong constant name name
 </span></code></pre>
 </dd>
 
@@ -1606,7 +1607,7 @@ self を返します。
 
 <span class="k">module</span> <span class="nn">Settings</span>
   <span class="k">def</span> <span class="nf">foo</span>; <span class="k">end</span>
-<span class="k">end</span> <span class="c1"># =&gt; FrozenError: can't modify frozen module
+<span class="k">end</span> <span class="c1"># ~&gt; FrozenError: can't modify frozen module: Settings
 </span></code></pre>
 </dd>
 
@@ -1738,6 +1739,10 @@ self にインクルードされているモジュールの配列を返します
 <p>
 このメソッドが返す「モジュール / クラスの名前」とは、より正確には「クラスパス」を指します。クラスパスとは、ネストしているモジュールすべてを「::」を使って表示した名前のことです。クラスパスの例としては「CGI::Session」「Net::HTTP」が挙げられます。
 </p>
+<p>
+<a href="../method/Module/s/new.html">Module.new</a> や <a href="../method/Class/s/new.html">Class.new</a> で生成した直後の無名のモジュール /
+クラスは、最初にいずれかの定数に代入された時点で名前が確定します。一度確定した名前は、その定数を remove_const で取り除いたり、そのモジュール / クラスを別の定数へ代入し直したりしても変わりません。返り値の文字列は freeze されています。
+</p>
 <dl>
 <dt>[RETURN]</dt>
 <dd>
@@ -1764,6 +1769,15 @@ self にインクルードされているモジュールの配列を返します
 </span><span class="nb">p</span> <span class="no">Class</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">name</span>    <span class="c1">#=&gt; nil
 </span><span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">to_s</span>   <span class="c1">#=&gt; &quot;#&lt;Module:0x00007f90b09112c8&gt;&quot;
 </span><span class="nb">p</span> <span class="no">Class</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">to_s</span>    <span class="c1">#=&gt; &quot;#&lt;Class:0x00007fa5c40b41b0&gt;&quot;
+</span>
+<span class="c1"># 名前は最初に代入された定数で確定し、以後は変わらない
+</span>c <span class="o">=</span> <span class="no">Class</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> c<span class="p">.</span><span class="nf">name</span>         <span class="c1">#=&gt; nil
+</span><span class="no">Foo</span> <span class="o">=</span> c
+<span class="nb">p</span> c<span class="p">.</span><span class="nf">name</span>         <span class="c1">#=&gt; &quot;Foo&quot;
+</span><span class="no">Bar</span> <span class="o">=</span> c
+<span class="nb">p</span> c<span class="p">.</span><span class="nf">name</span>         <span class="c1">#=&gt; &quot;Foo&quot;
+</span><span class="nb">p</span> c<span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">frozen?</span> <span class="c1">#=&gt; true
 </span></code></pre>
 </dd>
 
@@ -2066,8 +2080,8 @@ self を返します。
 
 <span class="nb">p</span> <span class="no">Api</span><span class="o">::</span><span class="no">VERSION</span>  <span class="c1"># =&gt; &quot;1.0&quot;
 </span><span class="nb">p</span> <span class="no">Api</span><span class="o">::</span><span class="no">Client</span>   <span class="c1"># =&gt; Api::Client
-</span><span class="no">Api</span><span class="o">::</span><span class="no">SECRET</span>     <span class="c1"># =&gt; NameError: private constant Api::SECRET referenced
-</span><span class="no">Api</span><span class="o">::</span><span class="no">Internal</span>   <span class="c1"># =&gt; NameError: private constant Api::Internal referenced
+</span><span class="no">Api</span><span class="o">::</span><span class="no">SECRET</span>     <span class="c1"># ~&gt; NameError: private constant Api::SECRET referenced
+</span><span class="no">Api</span><span class="o">::</span><span class="no">Internal</span>   <span class="c1"># ~&gt; NameError: private constant Api::Internal referenced
 </span></code></pre>
 </dd>
 
@@ -2424,7 +2438,7 @@ Ruby 1.8.0 以降は複数のメソッド名を指定して一度に削除でき
   <span class="k">end</span>
 
   remove_method <span class="ss">:foo</span>
-  remove_method <span class="ss">:no_such_method</span>   <span class="c1"># 例外 NameError が発生
+  remove_method <span class="ss">:no_such_method</span>   <span class="c1"># ~&gt; NameError
 </span><span class="k">end</span>
 </code></pre>
 <p>
@@ -2485,7 +2499,7 @@ self が特異クラスの場合に true を返します。そうでなければ
 </span><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">B</span>
   undef_method <span class="ss">:ok</span>
 <span class="k">end</span>
-<span class="no">B</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">ok</span>   <span class="c1"># =&gt; NameError
+<span class="no">B</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">ok</span>   <span class="c1"># ~&gt; NoMethodError
 </span>
 <span class="c1"># remove_method の場合はスーパークラスに同名のメソッドがあると
 </span><span class="c1"># それが呼ばれる
