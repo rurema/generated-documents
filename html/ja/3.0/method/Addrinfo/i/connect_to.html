@@ -80,14 +80,16 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_CONNECT_TO"><code>connect_to(host, port) -&gt; Socket</code><span class="permalink">[<a href="../../../method/Addrinfo/i/connect_to.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Addrinfo.html#method-i-connect_to">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Addrinfo.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>connect_to(host, port) {|sock| ... } -&gt; object</code></dt>
+<dt class="method-heading" id="I_CONNECT_TO"><code>connect_to(host, port, timeout: nil) -&gt; Socket</code><span class="permalink">[<a href="../../../method/Addrinfo/i/connect_to.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Addrinfo.html#method-i-connect_to">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Addrinfo.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>connect_to(addrinfo, timeout: nil) -&gt; Socket</code></dt>
+<dt class="method-heading"><code>connect_to(host, port, timeout: nil) {|sock| ... } -&gt; object</code></dt>
+<dt class="method-heading"><code>connect_to(addrinfo, timeout: nil) {|sock| ... } -&gt; object</code></dt>
 <dd class="method-description">
 <p>
 自身のアドレスから指定したホストへソケット接続します。
 </p>
 <p>
-接続元のアドレスは <a href="../../../method/Addrinfo/i/family_addrinfo.html">Addrinfo#family_addrinfo</a> により生成されたものが用いられます。
+接続先のアドレスは <a href="../../../method/Addrinfo/i/family_addrinfo.html">Addrinfo#family_addrinfo</a> により生成されたものが用いられます。
 </p>
 <p>
 ブロックが渡されたときにはそのブロックに接続済み <a href="../../../class/Socket.html">Socket</a>
@@ -102,6 +104,22 @@
 <dt class='method-param'>[PARAM] <code>port</code>:</dt>
 <dd>
 ポート番号(整数)もしくはサービス名(文字列)
+</dd>
+<dt class='method-param'>[PARAM] <code>addrinfo</code>:</dt>
+<dd>
+接続先のアドレス情報(<a href="../../../class/Addrinfo.html">Addrinfo</a> オブジェクト)。self とプロトコルファミリ・ソケットタイプが一致している必要があります
+</dd>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+接続確立のタイムアウト秒数
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+addrinfo のプロトコルファミリ・ソケットタイプが self と一致しない場合に発生します
+</dd>
+<dt>[EXCEPTION] <code>Errno::ETIMEDOUT</code>:</dt>
+<dd>
+timeout で指定した時間内に接続が確立しなかった場合に発生します
 </dd>
 </dl>
 </dd>

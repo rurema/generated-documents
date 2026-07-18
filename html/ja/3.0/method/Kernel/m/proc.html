@@ -20,7 +20,7 @@
 
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Kernel/m/lambda.html">
 
-<title>Kernel.#lambda (Ruby 3.0 リファレンスマニュアル)</title>
+<title>Kernel.#lambda, Kernel.#proc (Ruby 3.0 リファレンスマニュアル)</title>
 <meta name="description" content="与えられたブロックから手続きオブジェクト (Proc のインスタンス) を生成して返します。Proc.new に近い働きをします。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
@@ -224,8 +224,17 @@ lambda     手続きオブジェクトを抜ける  手続きオブジェクト�
 </code></pre>
 <h2 id='orphan'>orphan な手続きオブジェクトの挙動</h2>
 <p>
-Proc を生成したメソッドから脱出した後、手続きオブジェクトからの
-return, break は例外 <a href="../../../class/LocalJumpError.html">LocalJumpError</a> を発生させます。ただし、上でも説明した通り lambda で生成した手続きオブジェクトはメソッドと同じように振る舞うことを意図されているため、例外 <a href="../../../class/LocalJumpError.html">LocalJumpError</a> は発生しません。
+Proc(lambda を除く)を生成したメソッド呼び出しが終了した後で、その手続きオブジェクトに対して return を実行すると、戻る先のメソッド呼び出しがすでに存在しないため、例外 <a href="../../../class/LocalJumpError.html">LocalJumpError</a> が発生します。
+</p>
+<p>
+break の場合は条件がやや異なります。その手続きオブジェクトをブロックとして受け取ったメソッド呼び出しがすでに終了している場合に加えて、
+<code>Proc.new { break }.call</code> のようにブロックとしてメソッドに渡されていない手続きオブジェクトで break を実行した場合にも、脱出先となるメソッド呼び出しが存在しないため例外 <a href="../../../class/LocalJumpError.html">LocalJumpError</a> が発生します。
+</p>
+<p>
+ここでいう「作成元が終了している」とは、生成元のコード上の位置(レキシカルスコープ)が失われるという意味ではありません。同じメソッドを複数回呼び出した場合、それぞれの呼び出しで生成された手続きオブジェクトは、呼び出しごとに独立してこの状態になります。
+</p>
+<p>
+ただし、上でも説明した通り lambda で生成した手続きオブジェクトはメソッドと同じように振る舞うことを意図されているため、例外 <a href="../../../class/LocalJumpError.html">LocalJumpError</a> は発生しません。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span>

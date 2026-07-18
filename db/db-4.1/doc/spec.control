@@ -77,7 +77,7 @@ $_ =~ リテラル
 
 であるかのように評価されます。
 
-#### if 修飾子
+#### if 修飾子 {#if_modifier}
 
 ```ruby title="例"
 print "debug\n" if $DEBUG
@@ -112,7 +112,7 @@ unless は if と反対で、条件式が偽の時に then 以下の
 式を評価します。unless 式にelsif を指定することはできませ
 ん。
 
-#### unless 修飾子
+#### unless 修飾子 {#unless_modifier}
 
 ```ruby title="例"
 print "stop\n" unless valid(passwd)
@@ -273,7 +273,7 @@ end
 while は nil を返します。また、引数を伴った break により
 while 式の戻り値をその値にすることもできます。
 
-#### while 修飾子
+#### while 修飾子 {#while_modifier}
 
 ```ruby title="例"
 sleep(60) while io_not_ready?
@@ -317,7 +317,7 @@ end
 until は nil を返します。また、引数を伴った break により
 until 式の戻り値をその値にすることもできます。
 
-#### until修飾子
+#### until修飾子 {#until_modifier}
 
 ```ruby title="例"
 print(f.gets) until f.eof?
@@ -544,7 +544,7 @@ rescue 節以外で retry が用いられた場合には例外 [c:SyntaxError] �
 #### raise {#raise}
 
 ```ruby title="例"
-raise "you lose"  # 例外 RuntimeError を発生させる
+raise "you lose"  # ~> RuntimeError: you lose
 # 以下の二つは SyntaxError を発生させる
 raise SyntaxError, "invalid syntax"
 raise SyntaxError.new("invalid syntax")
@@ -650,7 +650,22 @@ begin式全体の評価値は、本体／rescue節／else節のうち
 などの定義文では、それぞれ
 begin なしで rescue, ensure 節を定義でき、これにより例外を処理できます。
 
-#### rescue修飾子
+また、`do ... end` 形式のブロックでも、Ruby 2.6 から begin なしで
+rescue, else, ensure 節を書けるようになりました([feature:12906])。
+`{ }` 形式のブロックではこの書き方はできません。
+
+```ruby title="例"
+[1, 2, 0].each do |item|
+  p 10 / item
+rescue ZeroDivisionError => e
+  p e
+end
+# => 10
+#    5
+#    #<ZeroDivisionError: divided by 0>
+```
+
+#### rescue修飾子 {#rescue_modifier}
 
 ```ruby title="例"
 open("nonexistent file") rescue STDERR.puts "Warning: #$!"

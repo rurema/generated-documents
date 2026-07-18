@@ -20,7 +20,7 @@
 
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Module/i/inspect.html">
 
-<title>Module#inspect (Ruby 3.4 リファレンスマニュアル)</title>
+<title>Module#inspect, Module#name, Module#to_s (Ruby 3.4 リファレンスマニュアル)</title>
 <meta name="description" content="モジュールやクラスの名前を文字列で返します。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
@@ -88,6 +88,10 @@
 <p>
 このメソッドが返す「モジュール / クラスの名前」とは、より正確には「クラスパス」を指します。クラスパスとは、ネストしているモジュールすべてを「::」を使って表示した名前のことです。クラスパスの例としては「CGI::Session」「Net::HTTP」が挙げられます。
 </p>
+<p>
+<a href="../../../method/Module/s/new.html">Module.new</a> や <a href="../../../method/Class/s/new.html">Class.new</a> で生成した直後の無名のモジュール /
+クラスは、最初にいずれかの定数に代入された時点で名前が確定します。一度確定した名前は、その定数を remove_const で取り除いたり、そのモジュール / クラスを別の定数へ代入し直したりしても変わりません。返り値の文字列は freeze されています。
+</p>
 <dl>
 <dt>[RETURN]</dt>
 <dd>
@@ -114,6 +118,15 @@
 </span><span class="nb">p</span> <span class="no">Class</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">name</span>    <span class="c1">#=&gt; nil
 </span><span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">to_s</span>   <span class="c1">#=&gt; &quot;#&lt;Module:0x00007f90b09112c8&gt;&quot;
 </span><span class="nb">p</span> <span class="no">Class</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">to_s</span>    <span class="c1">#=&gt; &quot;#&lt;Class:0x00007fa5c40b41b0&gt;&quot;
+</span>
+<span class="c1"># 名前は最初に代入された定数で確定し、以後は変わらない
+</span>c <span class="o">=</span> <span class="no">Class</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> c<span class="p">.</span><span class="nf">name</span>         <span class="c1">#=&gt; nil
+</span><span class="no">Foo</span> <span class="o">=</span> c
+<span class="nb">p</span> c<span class="p">.</span><span class="nf">name</span>         <span class="c1">#=&gt; &quot;Foo&quot;
+</span><span class="no">Bar</span> <span class="o">=</span> c
+<span class="nb">p</span> c<span class="p">.</span><span class="nf">name</span>         <span class="c1">#=&gt; &quot;Foo&quot;
+</span><span class="nb">p</span> c<span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">frozen?</span> <span class="c1">#=&gt; true
 </span></code></pre>
 </dd>
 

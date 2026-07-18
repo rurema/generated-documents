@@ -641,6 +641,11 @@ o オプションを指定すれば、同一の正規表現オブジェクトを
 <p>
 配列式は評価されるたびに毎回新しい配列オブジェクトを生成します。
 </p>
+<p>
+式の前に <code>*</code> を付けると、範囲オブジェクトなど <code>to_a</code> で配列に変換できるオブジェクトの要素を展開して配列に含めることができます。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="o">*</span><span class="mi">3</span><span class="o">..</span><span class="mi">7</span><span class="p">]</span> <span class="c1"># =&gt; [3, 4, 5, 6, 7]
+</span></code></pre>
 <h2 id='hash'>ハッシュ式</h2>
 <pre class="highlight ruby"><code><span class="p">{</span> <span class="mi">1</span> <span class="o">=&gt;</span> <span class="mi">2</span>, <span class="mi">2</span> <span class="o">=&gt;</span> <span class="mi">4</span>, <span class="mi">3</span> <span class="o">=&gt;</span> <span class="mi">6</span><span class="p">}</span>
 <span class="p">{</span> <span class="ss">:a</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">A</span><span class="s2">"</span>, <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">B</span><span class="s2">"</span>, <span class="ss">:c</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">C</span><span class="s2">"</span> <span class="p">}</span>
@@ -701,6 +706,15 @@ o オプションを指定すれば、同一の正規表現オブジェクトを
 <p>
 Symbol リテラルに指定できる演算子はメソッドとして再定義できる演算子だけです。<a href="../doc/spec=2foperator.html">演算子式</a> を参照して下さい。
 </p>
+<p>
+単項演算子 <code>!</code>・<code>~</code> にはメソッド名としての <code>!@</code>・<code>~@</code> は存在せず、実際のメソッド名は <code>!</code>・<code>~</code> 自身であるため、シンボル <code>:!@</code>・<code>:~@</code> はそれぞれ <code>:!</code>・<code>:~</code> に正規化されます。一方、単項演算子 <code>+</code>・<code>-</code> は(二項演算子の <code>+</code>・<code>-</code> とは別に)<code>+@</code>・<code>-@</code>
+というメソッドが実在するため、<code>:+@</code>・<code>:-@</code> は <code>:+</code>・<code>:-</code> とは区別されます。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:<span class="o">!@</span> <span class="o">==</span> <span class="ss">:<span class="o">!</span> <span class="c1"># =&gt; true
+</span>p</span> <span class="ss">:<span class="o">~@</span> <span class="o">==</span> <span class="ss">:<span class="o">~</span> <span class="c1"># =&gt; true
+</span>p</span> <span class="ss">:<span class="o">+@</span> <span class="o">==</span> <span class="ss">:<span class="o">+</span> <span class="c1"># =&gt; false
+</span>p</span> <span class="ss">:<span class="o">-@</span> <span class="o">==</span> <span class="ss">:<span class="o">-</span> <span class="c1"># =&gt; false
+</span></code></pre>
 <p>
 以下の記法も使えます。
 </p>

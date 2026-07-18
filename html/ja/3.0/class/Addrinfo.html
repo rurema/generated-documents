@@ -582,8 +582,8 @@ list <span class="o">=</span> <span class="no">Addrinfo</span><span class="p">.<
 </dd>
 
 
-<dt class="method-heading" id="I_CONNECT"><code>connect -&gt; Socket</code><span class="permalink">[<a href="../method/Addrinfo/i/connect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Addrinfo.html#method-i-connect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Addrinfo.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>connect {|sock| ... } -&gt; object</code></dt>
+<dt class="method-heading" id="I_CONNECT"><code>connect(timeout: nil) -&gt; Socket</code><span class="permalink">[<a href="../method/Addrinfo/i/connect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Addrinfo.html#method-i-connect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Addrinfo.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>connect(timeout: nil) {|sock| ... } -&gt; object</code></dt>
 <dd class="method-description">
 <p>
 自身のアドレスへソケットを接続します。
@@ -593,11 +593,23 @@ list <span class="o">=</span> <span class="no">Addrinfo</span><span class="p">.<
 オブジェクトが渡されます。ブロックの返り値がメソッドの返り値となります。ブロックを省略した場合は、接続済み <a href="../class/Socket.html">Socket</a>
 オブジェクトが返されます。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+接続確立のタイムアウト秒数
+</dd>
+<dt>[EXCEPTION] <code>Errno::ETIMEDOUT</code>:</dt>
+<dd>
+timeout で指定した時間内に接続が確立しなかった場合に発生します
+</dd>
+</dl>
 </dd>
 
 
-<dt class="method-heading" id="I_CONNECT_FROM"><code>connect_from(host, port) -&gt; Socket</code><span class="permalink">[<a href="../method/Addrinfo/i/connect_from.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Addrinfo.html#method-i-connect_from">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Addrinfo.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>connect_from(host, port) {|sock| ... } -&gt; object</code></dt>
+<dt class="method-heading" id="I_CONNECT_FROM"><code>connect_from(host, port, timeout: nil) -&gt; Socket</code><span class="permalink">[<a href="../method/Addrinfo/i/connect_from.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Addrinfo.html#method-i-connect_from">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Addrinfo.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>connect_from(addrinfo, timeout: nil) -&gt; Socket</code></dt>
+<dt class="method-heading"><code>connect_from(host, port, timeout: nil) {|sock| ... } -&gt; object</code></dt>
+<dt class="method-heading"><code>connect_from(addrinfo, timeout: nil) {|sock| ... } -&gt; object</code></dt>
 <dd class="method-description">
 <p>
 引数で指定されたアドレスから自身のアドレスへソケットを接続します。
@@ -619,6 +631,12 @@ list <span class="o">=</span> <span class="no">Addrinfo</span><span class="p">.<
   s<span class="p">.</span><span class="nf">print</span> <span class="s2">"</span><span class="s2">GET / HTTP/1.0\r\nHost: www.ruby-lang.org\r\n\r\n</span><span class="s2">"</span>
   <span class="nb">puts</span> s<span class="p">.</span><span class="nf">read</span>
 <span class="p">}</span>
+
+<span class="c1"># Addrinfo オブジェクトで接続元を指定することもできます
+</span><span class="no">Addrinfo</span><span class="p">.</span><span class="nf">tcp</span><span class="p">(</span><span class="s2">"</span><span class="s2">www.ruby-lang.org</span><span class="s2">"</span>, <span class="mi">80</span><span class="p">)</span><span class="p">.</span><span class="nf">connect_from</span><span class="p">(</span><span class="no">Addrinfo</span><span class="p">.</span><span class="nf">tcp</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.0.0.0</span><span class="s2">"</span>, <span class="mi">4649</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>s<span class="o">|</span>
+  s<span class="p">.</span><span class="nf">print</span> <span class="s2">"</span><span class="s2">GET / HTTP/1.0\r\nHost: www.ruby-lang.org\r\n\r\n</span><span class="s2">"</span>
+  <span class="nb">puts</span> s<span class="p">.</span><span class="nf">read</span>
+<span class="p">}</span>
 </code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>host</code>:</dt>
@@ -629,18 +647,36 @@ list <span class="o">=</span> <span class="no">Addrinfo</span><span class="p">.<
 <dd>
 ポート番号(整数)もしくはサービス名(文字列)
 </dd>
+<dt class='method-param'>[PARAM] <code>addrinfo</code>:</dt>
+<dd>
+接続元のアドレス情報(<a href="../class/Addrinfo.html">Addrinfo</a> オブジェクト)。self とプロトコルファミリ・ソケットタイプが一致している必要があります
+</dd>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+接続確立のタイムアウト秒数
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+addrinfo のプロトコルファミリ・ソケットタイプが self と一致しない場合に発生します
+</dd>
+<dt>[EXCEPTION] <code>Errno::ETIMEDOUT</code>:</dt>
+<dd>
+timeout で指定した時間内に接続が確立しなかった場合に発生します
+</dd>
 </dl>
 </dd>
 
 
-<dt class="method-heading" id="I_CONNECT_TO"><code>connect_to(host, port) -&gt; Socket</code><span class="permalink">[<a href="../method/Addrinfo/i/connect_to.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Addrinfo.html#method-i-connect_to">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Addrinfo.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>connect_to(host, port) {|sock| ... } -&gt; object</code></dt>
+<dt class="method-heading" id="I_CONNECT_TO"><code>connect_to(host, port, timeout: nil) -&gt; Socket</code><span class="permalink">[<a href="../method/Addrinfo/i/connect_to.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Addrinfo.html#method-i-connect_to">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Addrinfo.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>connect_to(addrinfo, timeout: nil) -&gt; Socket</code></dt>
+<dt class="method-heading"><code>connect_to(host, port, timeout: nil) {|sock| ... } -&gt; object</code></dt>
+<dt class="method-heading"><code>connect_to(addrinfo, timeout: nil) {|sock| ... } -&gt; object</code></dt>
 <dd class="method-description">
 <p>
 自身のアドレスから指定したホストへソケット接続します。
 </p>
 <p>
-接続元のアドレスは <a href="../method/Addrinfo/i/family_addrinfo.html">Addrinfo#family_addrinfo</a> により生成されたものが用いられます。
+接続先のアドレスは <a href="../method/Addrinfo/i/family_addrinfo.html">Addrinfo#family_addrinfo</a> により生成されたものが用いられます。
 </p>
 <p>
 ブロックが渡されたときにはそのブロックに接続済み <a href="../class/Socket.html">Socket</a>
@@ -655,6 +691,22 @@ list <span class="o">=</span> <span class="no">Addrinfo</span><span class="p">.<
 <dt class='method-param'>[PARAM] <code>port</code>:</dt>
 <dd>
 ポート番号(整数)もしくはサービス名(文字列)
+</dd>
+<dt class='method-param'>[PARAM] <code>addrinfo</code>:</dt>
+<dd>
+接続先のアドレス情報(<a href="../class/Addrinfo.html">Addrinfo</a> オブジェクト)。self とプロトコルファミリ・ソケットタイプが一致している必要があります
+</dd>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+接続確立のタイムアウト秒数
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+addrinfo のプロトコルファミリ・ソケットタイプが self と一致しない場合に発生します
+</dd>
+<dt>[EXCEPTION] <code>Errno::ETIMEDOUT</code>:</dt>
+<dd>
+timeout で指定した時間内に接続が確立しなかった場合に発生します
 </dd>
 </dl>
 </dd>

@@ -115,7 +115,7 @@ not 演算子。<a href="../doc/spec=2foperator.html#not">演算子式/not</a> �
 <dt><code>def xxx!</code></dt>
 <dd>
 <p>
-「<code>!</code>」はメソッド名の一部です。慣用的に、同名の(<code>!</code> の無い)メソッドに比べてより破壊的な作用をもつメソッド(例: <code>tr</code> と <code>tr!</code>)で使われます。
+「<code>!</code>」はメソッド名の一部です。同名の(<code>!</code> の無い)メソッドに比べて、より注意して使うべきメソッドであることを示します(例: <code>tr</code> と <code>tr!</code>)。破壊的なメソッドに使われることが多いですが、<code>!</code> が付いていないメソッドが破壊的でないとは限りません。
 </p>
 </dd>
 <dt><code>/xxx/ !~ yyy</code></dt>
@@ -285,6 +285,15 @@ safe navigation operator（通称「ぼっち演算子」）。<code>xxx</code> 
 論理和演算子または類似のメソッド。二進数で <code>0011 | 0101 =&gt; 0111</code>。
 </p>
 </dd>
+<dt><code>Set[1, 2] | Set[2, 3]</code></dt>
+<dd>
+<p>
+和集合を求めるメソッド(<a href="../method/Set/i/=7c.html">Set#|</a> など)。ビット演算以外の意味で定義されることもあります。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'set'</span>
+<span class="nb">p</span> <span class="no">Set</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span> <span class="o">|</span> <span class="no">Set</span><span class="p">[</span><span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span> <span class="c1"># =&gt; #&lt;Set: {1, 2, 3}&gt;
+</span></code></pre>
+</dd>
 <dt><code>3 || 5</code></dt>
 <dd>
 <p>
@@ -350,6 +359,15 @@ safe navigation operator（通称「ぼっち演算子」）。<code>xxx</code> 
 単項 <code>-</code> (マイナス)。混乱を避けるため適宜 <code>()</code> でくくるとよい。
 </p>
 </dd>
+<dt><code>-&quot;abc&quot;</code></dt>
+<dd>
+<p>
+単項マイナスは <code>-@</code> という名前のメソッドとして定義されています。数値では符号の反転(<a href="../method/Integer/i/=2d=40.html">Integer#-@</a> など)ですが、それ以外の意味で定義されることもあります(例: <a href="../method/String/i/=2d=40.html">String#-@</a> は freeze された文字列を返します)。メソッド定義での表記は <a href="#at">@</a> の <code>def -@</code> の項を参照。
+</p>
+<pre class="highlight ruby"><code>s <span class="o">=</span> <span class="o">-</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span>   <span class="c1"># String#-@ の呼び出し
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">frozen?</span>  <span class="c1"># =&gt; true
+</span></code></pre>
+</dd>
 <dt>% ruby -w など コマンドラインの入力 -AAA</dt>
 <dd>
 <p>
@@ -389,11 +407,36 @@ safe navigation operator（通称「ぼっち演算子」）。<code>xxx</code> 
 メソッド呼出の引数展開。<a href="../doc/spec=2fcall.html">メソッド呼び出し</a> と <a href="../doc/spec=2fdef.html#method">クラス／メソッドの定義/メソッド定義</a> を参照。
 </p>
 </dd>
+<dt><code>foo(*ary)</code></dt>
+<dd>
+<p>
+メソッド呼び出しにおける配列の実引数への展開。配列の各要素を個々の引数として渡す。<a href="../doc/spec=2fcall.html">メソッド呼び出し</a> を参照。
+</p>
+</dd>
+<dt><code>[*3..7]</code></dt>
+<dd>
+<p>
+配列式の中での展開。展開した要素を含む配列を生成する。
+<a href="../doc/spec=2fliteral.html#array">リテラル/配列式</a> を参照。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="o">*</span><span class="mi">3</span><span class="o">..</span><span class="mi">7</span><span class="p">]</span> <span class="c1"># =&gt; [3, 4, 5, 6, 7]
+</span></code></pre>
+</dd>
 <dt><code>x, *y = foo()</code></dt>
 <dd>
 <p>
 多重代入。<a href="../doc/spec=2foperator.html#multiassign">演算子式/多重代入</a> を参照。
 </p>
+</dd>
+<dt><code>ary = *3..7</code></dt>
+<dd>
+<p>
+多重代入の右辺での展開。右辺を配列に変換して代入する。
+<a href="../doc/spec=2foperator.html#multiassign">演算子式/多重代入</a> を参照。
+</p>
+<pre class="highlight ruby"><code>ary <span class="o">=</span> <span class="o">*</span><span class="mi">3</span><span class="o">..</span><span class="mi">7</span>
+<span class="nb">p</span> ary <span class="c1"># =&gt; [3, 4, 5, 6, 7]
+</span></code></pre>
 </dd>
 <dt><code>/xx*/</code></dt>
 <dd>
@@ -410,6 +453,15 @@ safe navigation operator（通称「ぼっち演算子」）。<code>xxx</code> 
 <p>
 割り算、または類似のメソッド。
 </p>
+</dd>
+<dt><code>Pathname(&quot;/usr&quot;) / &quot;local&quot;</code></dt>
+<dd>
+<p>
+パス名の連結(<a href="../method/Pathname/i/=2f.html">Pathname#/</a>)など、割り算以外の意味で定義されることもあります。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'pathname'</span>
+<span class="nb">p</span> <span class="no">Pathname</span><span class="p">(</span><span class="s2">"</span><span class="s2">/usr</span><span class="s2">"</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"</span><span class="s2">local</span><span class="s2">"</span> <span class="o">/</span> <span class="s2">"</span><span class="s2">bin</span><span class="s2">"</span> <span class="c1"># =&gt; #&lt;Pathname:/usr/local/bin&gt;
+</span></code></pre>
 </dd>
 <dt><code>/xxx/</code></dt>
 <dd>
@@ -454,6 +506,14 @@ safe navigation operator（通称「ぼっち演算子」）。<code>xxx</code> 
 <p>
 シンボルリテラル。<a href="../doc/spec=2fliteral.html#symbol">リテラル/シンボル</a> を参照。
 </p>
+</dd>
+<dt><code>:&quot;foo bar&quot;</code></dt>
+<dd>
+<p>
+クォートを使ったシンボルリテラル。通常の識別子には使えない文字を含むシンボルを書けます。<a href="../doc/spec=2fliteral.html#symbol">リテラル/シンボル</a> を参照。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:"foo bar<span class="s2">"</span> <span class="c1"># =&gt; :&quot;foo bar&quot;
+</span></code></pre>
 </dd>
 <dt><code>Net::HTTP</code></dt>
 <dd>
@@ -657,8 +717,11 @@ a <span class="o">&lt;&lt;=</span> <span class="mi">1</span>
 <dt><code>3 &gt;&gt; 1</code></dt>
 <dd>
 <p>
-シフト演算子。または類似のメソッド。
+シフト演算子。または類似のメソッド。シフト以外の意味で定義されることもあります(例: <a href="../method/Date/i/=3e=3e.html">Date#&gt;&gt;</a> は n ヶ月後の日付を返します)。
 </p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'date'</span>
+<span class="nb">p</span> <span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2001</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span> <span class="c1"># =&gt; #&lt;Date: 2001-03-03 ...&gt;
+</span></code></pre>
 </dd>
 <dt><code>a &gt;&gt;= 1</code></dt>
 <dd>
@@ -930,6 +993,16 @@ a <span class="o">**=</span> <span class="mi">2</span>
 <p>
 丸カッコ <code>()</code> は厳密には、複数の文、式をまとめてひとつの式にするグループ化の <code>()</code>（上の例のカッコ）とメソッドの引数を明示する <code>()</code>（下の例のカッコ）があります。下の例はカッコを省略した場合に引数として解釈されません。例のような特別な場合を除き、普段は使い分けを意識する必要はありません。<code>()</code> は意味が不明瞭にならない範囲で省略が可能です。
 </p>
+</dd>
+<dt><code>(a, b), c = [1, 2], 3</code></dt>
+<dd>
+<p>
+多重代入で、入れ子になった配列の要素を受けるためのグループ化。
+<a href="../doc/spec=2foperator.html#multiassign">演算子式/多重代入</a> を参照。
+</p>
+<pre class="highlight ruby"><code><span class="p">(</span>a, b<span class="p">)</span>, c <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>, <span class="mi">3</span>
+<span class="nb">p</span> <span class="p">[</span>a, b, c<span class="p">]</span> <span class="c1"># =&gt; [1, 2, 3]
+</span></code></pre>
 </dd>
 </dl>
 <h2 id='dq'>&quot;</h2>

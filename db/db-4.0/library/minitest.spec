@@ -14,3 +14,5 @@ BDD 風にテストを書くためのクラスやメソッドを定義するた�
   - rubygems.org: <https://rubygems.org/gems/minitest>
   - プロジェクトページ: <https://github.com/seattlerb/minitest>
   - リファレンス: <https://www.rubydoc.info/gems/minitest>
+
+- **SEE** [ref:d:glossary#bundled-gem]

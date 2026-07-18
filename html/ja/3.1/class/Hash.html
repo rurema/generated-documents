@@ -662,8 +662,7 @@ h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span
 
 h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="p">.</span><span class="nf">freeze</span><span class="p">)</span>
 h<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#破壊的でないメソッドはOK
-</span>h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
-<span class="c1"># エラー: can't modify frozen Array (FrozenError)
+</span>h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>     <span class="c1"># ~&gt; FrozenError: can't modify frozen Array: []
 </span></code></pre>
 </dd>
 <dt class="method-heading" id="S_NEW"><code>new {|hash, key| ... } -&gt; Hash</code><span class="permalink">[<a href="../method/Hash/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Hash.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Hash.md">edit</a>]</span></dt>
@@ -714,7 +713,7 @@ ifnone などの位置引数とブロックを同時に与えると発生しま�
                 <span class="nb">raise</span><span class="p">(</span><span class="no">IndexError</span>, <span class="s2">"</span><span class="s2">hash[</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">] has no value</span><span class="s2">"</span><span class="p">)</span>
              <span class="p">}</span>
 h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="c1"># エラー hash[1] has no value (IndexError)
+<span class="c1"># ~&gt; IndexError: hash[1] has no value
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Hash/i/default=3d.html">Hash#default=</a>,<a href="../method/Hash/i/default.html">Hash#default</a>,<a href="../method/Hash/i/default_proc.html">Hash#default_proc</a>
@@ -1374,7 +1373,7 @@ Ruby 2.7 までは動作していましたが、Ruby 3.0 以降は <a href="../c
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="c1"># Ruby 2.7 まではこの書き方でも動作していましたが、Ruby 3.0 以降は ArgumentError になります
 </span><span class="p">{</span><span class="ss">foo:</span> <span class="mi">100</span><span class="p">}</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span><span class="o">-&gt;</span><span class="p">(</span>k, v<span class="p">)</span> <span class="p">{</span> <span class="nb">p</span> <span class="p">[</span>k, v<span class="p">]</span> <span class="p">}</span><span class="p">)</span>
-<span class="c1"># =&gt; ArgumentError
+<span class="c1"># ~&gt; ArgumentError
 </span>
 <span class="c1"># 1引数で配列として受け取る
 </span><span class="p">{</span><span class="ss">foo:</span> <span class="mi">100</span><span class="p">}</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span><span class="o">-&gt;</span><span class="p">(</span>pair<span class="p">)</span> <span class="p">{</span> <span class="nb">p</span> pair <span class="p">}</span><span class="p">)</span>
@@ -1512,7 +1511,7 @@ fetchはハッシュ自身にデフォルト値が設定されていても単に
 <pre class="highlight ruby"><code>h <span class="o">=</span> <span class="p">{</span><span class="ss">one:</span> <span class="k">nil</span><span class="p">}</span>
 <span class="nb">p</span> h<span class="p">[</span><span class="ss">:one</span><span class="p">]</span>,h<span class="p">[</span><span class="ss">:two</span><span class="p">]</span>                        <span class="c1">#=&gt; nil,nil これではキーが存在するのか判別できない。
 </span><span class="nb">p</span> h<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>                          <span class="c1">#=&gt; nil
-</span><span class="nb">p</span> h<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:two</span><span class="p">)</span>                          <span class="c1"># エラー key not found (KeyError)
+</span>h<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:two</span><span class="p">)</span>                            <span class="c1"># ~&gt; KeyError: key not found: :two
 </span><span class="nb">p</span> h<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:two</span>,<span class="s2">"</span><span class="s2">error</span><span class="s2">"</span><span class="p">)</span>                  <span class="c1">#=&gt; &quot;error&quot;
 </span><span class="nb">p</span> h<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:two</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>key<span class="o">|</span><span class="s2">"</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not exist</span><span class="s2">"</span><span class="p">}</span> <span class="c1">#=&gt; &quot;two not exist&quot;
 </span><span class="nb">p</span> h<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:two</span>, <span class="s2">"</span><span class="s2">error</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>key<span class="o">|</span>           <span class="c1">#=&gt; &quot;two not exist&quot;
@@ -1520,7 +1519,7 @@ fetchはハッシュ自身にデフォルト値が設定されていても単に
 </span>  <span class="p">}</span>                                      <span class="c1">#  警告が表示される。
 </span>
 h<span class="p">.</span><span class="nf">default</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">default</span><span class="s2">"</span>
-<span class="nb">p</span> h<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:two</span><span class="p">)</span>                          <span class="c1"># エラー key not found (KeyError)
+h<span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="ss">:two</span><span class="p">)</span>                            <span class="c1"># ~&gt; KeyError: key not found: :two
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Hash/i/=5b=5d.html">Hash#[]</a>
