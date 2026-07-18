@@ -27,6 +27,12 @@ end
 # 対応するソースが doctree の master に存在しないため）
 # stop_on_syntax_error: false を渡すとサンプルコードの
 # シンタックスハイライト失敗を無視する（素のコードで描画して続行）
+
+# 各ページの canonical URL のベース。sitemap.xml に載せる URL は
+# canonical URL と一致させるべきなので、--canonical-base-url と
+# --sitemap-baseurl の両方でこの値を使う（rurema/bitclust#130）
+CANONICAL_BASE_URL = "https://docs.ruby-lang.org/ja/latest/"
+
 def create_document(version, edit_base_url: "https://github.com/rurema/doctree/edit/master/", stop_on_syntax_error: true)
   db = "#{DB_BASE}/db-#{version}"
   outputdir = "#{TMP_HTML_BASE}/#{version}"
@@ -40,7 +46,7 @@ def create_document(version, edit_base_url: "https://github.com/rurema/doctree/e
     "--templatedir=#{TEMPLATE}",
     "--catalog=#{CATALOG}",
     "--fs-casesensitive",
-    "--canonical-base-url=https://docs.ruby-lang.org/ja/latest/",
+    "--canonical-base-url=#{CANONICAL_BASE_URL}",
     "--meta-robots-content=",
     "--tracking-id=G-HBG2MP4NRL",
     "--quiet",
@@ -53,8 +59,11 @@ def create_document(version, edit_base_url: "https://github.com/rurema/doctree/e
   command << "--run-ruby-wasm=#{wasm_url}" if wasm_url
   # 最新安定版（VERSIONS[-1] は未リリースの master 相当なのでその1つ前 =
   # bc-static-all.rb が "latest" symlink を張るのと同じ VERSIONS[-2]）
-  # のみ、まずは軽量な sitemap.xml をスモールスタートで生成する
-  command << "--sitemap-baseurl=https://docs.ruby-lang.org/ja/#{version}/" if version == VERSIONS[-2]
+  # のみ、まずは軽量な sitemap.xml をスモールスタートで生成する。
+  # sitemap に載せる URL は各ページの canonical URL（/ja/latest/ ベース）と
+  # 一致させる。生成された sitemap.xml 自体も latest symlink 経由の
+  # https://docs.ruby-lang.org/ja/latest/sitemap.xml で参照できる
+  command << "--sitemap-baseurl=#{CANONICAL_BASE_URL}" if version == VERSIONS[-2]
   system(*command, chdir: DOC_BASE) or raise
   system("rsync", "-acvi", "--no-times", "--delete", outputdir, DOC_ROOT) or raise
   FileUtils.rm_rf outputdir
