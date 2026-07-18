@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/LocalJumpError.html">
 
 <title>class LocalJumpError (Ruby 4.1 リファレンスマニュアル)</title>
-<meta name="description" content="ある Proc オブジェクトの作成元スコープがすでに終了しているとき、その Proc オブジェクト内で return, break, retry のいずれかを実行すると発生します。">
+<meta name="description" content="ブロックを伴わずに呼び出されたメソッドの中で yield を実行すると発生します。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-18-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -124,8 +124,16 @@
 
 <h2>要約</h2>
 <p>
-ある <a href="../class/Proc.html">Proc</a> オブジェクトの作成元スコープがすでに終了しているとき、その <a href="../class/Proc.html">Proc</a> オブジェクト内で
-return, break, retry のいずれかを実行すると発生します。
+ブロックを伴わずに呼び出されたメソッドの中で yield を実行すると発生します。
+</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">call_block</span>
+  <span class="k">yield</span> <span class="mi">42</span>
+<span class="k">end</span>
+call_block  <span class="c1"># =&gt; no block given (yield) (LocalJumpError)
+</span></code></pre>
+<p>
+また、ある <a href="../class/Proc.html">Proc</a> オブジェクトの作成元スコープがすでに終了しているとき、その <a href="../class/Proc.html">Proc</a> オブジェクト内で
+return, break, retry のいずれかを実行した場合にも発生します。
 </p>
 <p>
 <a href="../class/Proc.html">Proc</a> の例を参照してください。
@@ -226,9 +234,7 @@ return, break, retry のいずれかを実行すると発生します。
 break や return に渡した値を返します。
 </p>
 <span class="caption">意図的に LocalJumpError を起こして exit_value を確認</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">foo</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span>
   <span class="nb">proc</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">10</span> <span class="p">}</span>
 <span class="k">end</span>
   
@@ -266,9 +272,7 @@ break や return に渡した値を返します。
 <li>:noreason</li>
 </ul>
 <span class="caption">意図的に LocalJumpError を起こして reason を確認</span>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">foo</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span>
   <span class="nb">proc</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">10</span> <span class="p">}</span>
 <span class="k">end</span>
   

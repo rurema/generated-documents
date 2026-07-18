@@ -123,25 +123,19 @@ XML だが、RSS 0.9x/1.0/2.0, Atom のいずれでもない場合は、nil が�
 <p>
 例えば、RSS 1.0 をバリデーション付きでパースするには以下のようにします。ここで、変数 rss_source には RSS 1.0 形式の文字列が格納されているものとします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'rss'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rss'</span>
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source, <span class="k">true</span><span class="p">)</span>
 </code></pre>
 <p>
 RSS::Parser.parse の第二引数は省略すると true が指定されたものとみなされるので、これは以下のようにも書けます。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'rss'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rss'</span>
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
 </code></pre>
 <p>
 最初はバリデーション付きでパースして、valid ではない RSS だった場合はバリデーション無しでパースするには以下のように書きます。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'rss'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rss'</span>
 rss <span class="o">=</span> <span class="k">nil</span>
 <span class="k">begin</span>
   rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
@@ -161,9 +155,7 @@ rss <span class="o">=</span> <span class="k">nil</span>
 <p>
 以下のようにすると、より厳密にパースできます。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source, <span class="k">true</span>, <span class="k">false</span><span class="p">)</span>
+<pre class="highlight ruby"><code><span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source, <span class="k">true</span>, <span class="k">false</span><span class="p">)</span>
 </code></pre>
 <h2 >パースされたフィード</h2>
 <p>
@@ -174,76 +166,58 @@ rss <span class="o">=</span> <span class="k">nil</span>
 <p>
 rdf:RDF 要素の子要素である channel 要素を参照するには、以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
 <span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span> <span class="c1"># =&gt; /rdf:RDF/channel要素; RSS::RDF::Channel
 </span></code></pre>
 <p>
 もし、要素が子要素も属性も持たない場合は String が返ってきます。その要素が省略可能ならばnilが返って来るかもしれません。これは要素が子要素または属性を持つ場合も同様です。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
 <span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span> <span class="c1"># =&gt; /rdf:RDF/channel/text(); String
 </span></code></pre>
 <p>
 属性にアクセスする時も同様です。channel要素のrdf:about属性にアクセスするには以下のようにします。属性の値はStringかnilです。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
 <span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="c1"># =&gt; /rdf:RDF/channel/@about属性; String または nil
 </span></code></pre>
 <p>
 同名の複数の子要素があるかもしれないときも同様です。ただし、リーダに引数を指定しないと最初の子要素が返ってきます。例えば、
 rdf:RDF要素の最初のitem要素にアクセスするには以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
 <span class="nb">p</span> rss<span class="p">.</span><span class="nf">item</span> <span class="c1"># =&gt; /rdf:RDF/item[1]要素; RSS::RDF::Item
 </span></code></pre>
 <p>
 3番目のitem要素にアクセスするには以下のようにします。省略されなかったリーダの引数はArray#[]の引数と同じように扱われます。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
 <span class="nb">p</span> rss<span class="p">.</span><span class="nf">item</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># =&gt; /rdf:RDF/item[3]要素; RSS::RDF::Item
 </span></code></pre>
 <p>
 子要素すべてを取得したいときは要素名の複数形がリーダとなります。すべてのitem要素を取得するには以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
 <span class="nb">p</span> rss<span class="p">.</span><span class="nf">items</span> <span class="c1"># =&gt; /rdf:RDF/item要素の配列; [RSS::RDF::Item, ...]
 </span></code></pre>
 <h3 >ライタ(writer)</h3>
 <p>
 rdf:RDF要素の子要素であるchannel要素を設定するには以下のようにします。RSS::RDF::Channel.newの第一引数にはrdf:about属性の値を指定することもできます。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
 rss<span class="p">.</span><span class="nf">channel</span> <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">RDF</span><span class="o">::</span><span class="no">Channel</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>rdf_about_value<span class="p">)</span>
 </code></pre>
 <p>
 属性値を設定する場合も同様です。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
 rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://cozmixng.www.cozmixng.org/</span><span class="s2">"</span>
 </code></pre>
 <p>
 同名の複数の子要素が存在する場合は少し異なります。要素名の複数形でのメソッドで要素の配列を取得して、その配列に対して
 Array#&lt;&lt;やArray#[]=などを用いて要素を設定します。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss_source<span class="p">)</span>
 item <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">RDF</span><span class="o">::</span><span class="no">Item</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>rdf_about_value<span class="p">)</span>
 rss<span class="p">.</span><span class="nf">items</span> <span class="o">&lt;&lt;</span> item
 <span class="nb">p</span> rss<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">last</span> <span class="o">==</span> item <span class="c1"># =&gt; true
@@ -281,17 +255,13 @@ RSSのルート要素（RSS::RDFまたはRSS::Rss）オブジェクトおよびA
 RSS::Atom::Entry）オブジェクトはxml_stylesheetsという名前の配列を持っています。この配列にRSS::XMLStyleSheet
 オブジェクトを挿入することでRSS/Atomにxml-stylesheetを関連づけることができます。
 </p>
-<pre class="highlight text">
-<code>
-rss.xml_stylesheets &lt;&lt; RSS::XMLStyleSheet.new(...)
+<pre class="highlight text"><code>rss.xml_stylesheets &lt;&lt; RSS::XMLStyleSheet.new(...)
 </code></pre>
 <p>
 RSS::XMLStyleSheet.newには以下のようなHashまたは連想配列を渡します。作成されるRSS::XMLStyleSheetオブジェクトは与えられた引数によって初期化されます。
 </p>
 <span class="caption">Hash</span>
-<pre class="highlight text">
-<code>
-{
+<pre class="highlight text"><code>{
   :href =&gt; "...",
   :type =&gt; "...",
   :title =&gt; "...",
@@ -301,9 +271,7 @@ RSS::XMLStyleSheet.newには以下のようなHashまたは連想配列を渡し
 }
 </code></pre>
 <span class="caption">連想配列</span>
-<pre class="highlight text">
-<code>
-[
+<pre class="highlight text"><code>[
   [:href, "..."],
   [:type, "..."],
   [:title, "..."],
@@ -318,9 +286,7 @@ RSS::XMLStyleSheet.newには以下のようなHashまたは連想配列を渡し
 <p>
 例えば、xml-stylesheetとしてsample.xslを指定する場合は以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-rss<span class="p">.</span><span class="nf">xml_stylesheets</span> <span class="o">&lt;&lt;</span> <span class="no">RSS</span><span class="o">::</span><span class="no">XMLStyleSheet</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">{</span><span class="ss">:href</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">sample.xsl</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>
+<pre class="highlight ruby"><code>rss<span class="p">.</span><span class="nf">xml_stylesheets</span> <span class="o">&lt;&lt;</span> <span class="no">RSS</span><span class="o">::</span><span class="no">XMLStyleSheet</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">{</span><span class="ss">:href</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">sample.xsl</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>
 </code></pre>
 <p>
 本当は{:type =&gt; &quot;text/xsl&quot;}も指定しないといけないところですが、拡張子が.xslまたは、.cssの場合は適当に推測してくれるので省略可能です。
@@ -333,9 +299,7 @@ RSS Makerが便利です。
 <p>
 以下のように使います。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">バージョン</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="no">XXX</span> <span class="o">=</span> <span class="no">YYY</span>
@@ -355,9 +319,7 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 <p>
 を生成するには以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
@@ -376,9 +338,7 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 <p>
 エントリを含めたければ以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
@@ -401,9 +361,7 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 <p>
 のものならこうします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
@@ -421,16 +379,12 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 <p>
 サンプル中の
 </p>
-<pre class="highlight text">
-<code>
-item.date = ...
+<pre class="highlight text"><code>item.date = ...
 </code></pre>
 <p>
 は
 </p>
-<pre class="highlight text">
-<code>
-item.dc_date = ...
+<pre class="highlight text"><code>item.dc_date = ...
 </code></pre>
 <p>
 でも構いません。#dc_date=は#date=の単なる別名です。
@@ -447,9 +401,7 @@ item.dc_date = ...
 <p>
 エントリを持つなら以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
@@ -474,16 +426,12 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 <p>
 もし、更新日が新しい順に並び替えたければ
 </p>
-<pre class="highlight ruby">
-<code>
-maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">do_sort</span> <span class="o">=</span> <span class="k">true</span>
+<pre class="highlight ruby"><code>maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">do_sort</span> <span class="o">=</span> <span class="k">true</span>
 </code></pre>
 <p>
 を追加し、以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
@@ -517,9 +465,7 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 <p>
 がある場合は以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
@@ -558,9 +504,7 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 <p>
 検索用ページがあったら以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">http://example.com/index.rdf</span><span class="s2">"</span>
@@ -601,9 +545,7 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 <p>
 xml-stylesheetを追加したい場合は以下のようにします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   xss <span class="o">=</span> maker<span class="p">.</span><span class="nf">xml_stylesheets</span><span class="p">.</span><span class="nf">new_xml_stylesheet</span>
@@ -642,9 +584,7 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 もし、RSS 2.0を生成したい場合は以下のように、
 RSS::Maker.makeの第一引数を変更します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">2.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   xss <span class="o">=</span> maker<span class="p">.</span><span class="nf">xml_stylesheets</span><span class="p">.</span><span class="nf">new_xml_stylesheet</span>
@@ -686,9 +626,7 @@ RSS::Maker.make の第一引数を&quot;0.91&quot;に変更します。
 <p>
 ただし、RSS 0.91では言語指定が必須なので、言語を指定する必要があります。ここでは日本語であると指定します。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.91</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.91</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">language</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">ja</span><span class="s2">"</span>
   <span class="c1"># ...
 </span><span class="k">end</span>
@@ -696,9 +634,7 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 <p>
 RSS 1.0など、/rdf:RDF/channel/language要素がないフィードの場合でも、単に無視したりdc:languageとして扱ったりと適切に処理します。そのため、以下のように「バージョンが&quot;0.91&quot;のときだけ言語を指定する」というように書く必要はありません。フィードのバージョンに関わらず言語を指定してください。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.91</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.91</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">language</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">ja</span><span class="s2">"</span> <span class="k">if</span> maker<span class="p">.</span><span class="nf">feed_version</span> <span class="o">==</span> <span class="s2">"</span><span class="s2">0.91</span><span class="s2">"</span>
   <span class="c1"># ...
 </span><span class="k">end</span>
@@ -708,9 +644,7 @@ rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span
 もし、Atom 1.0を生成したい場合は、RSS 0.91や2.0の場合と同様に
 RSS::Maker.makeの第一引数を&quot;atom&quot;に変更します。
 </p>
-<pre class="highlight ruby">
-<code>
-rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">atom</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+<pre class="highlight ruby"><code>rss <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">atom</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   <span class="c1"># ...
 </span><span class="k">end</span>
 </code></pre>
@@ -740,9 +674,7 @@ RSS 1.0/2.0/0.91では必須ではなかった以下の情報が必要となる�
 <p>
 Atom 1.0なら以下のようになります。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">rss</span><span class="s2">"</span>
 
 atom <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Maker</span><span class="p">.</span><span class="nf">make</span><span class="p">(</span><span class="s2">"</span><span class="s2">atom</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   xss <span class="o">=</span> maker<span class="p">.</span><span class="nf">xml_stylesheets</span><span class="p">.</span><span class="nf">new_xml_stylesheet</span>
@@ -786,9 +718,7 @@ Atom 1.0用の情報を加えたこのスクリプトを最初のRSS 1.0を出�
 <p>
 フィードの種類がRSS 1.0/2.0でもAtomでもパースするためのAPIは以下のように共通です。
 </p>
-<pre class="highlight ruby">
-<code>
-feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>feed_xml<span class="p">)</span>
+<pre class="highlight ruby"><code>feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>feed_xml<span class="p">)</span>
 </code></pre>
 <p>
 しかし、返ってくるオブジェクトはRSS 1.0オブジェクト（RSS::RDF）かもしれませんし、Atomオブジェクト（RSS::Atom::Feed）かもしれません。このため、パースした結果を使う場合はフィードの種類を意識しなくてはならず、使いづらくなります。
@@ -797,18 +727,14 @@ feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</spa
 RSS Parserが提供する解決方法はユーザに好みのフィードの種類を選んでもらうというものです。例えば、以下のようにしてRSS 1.0
 をRSS 2.0に変換できます。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'rss'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rss'</span>
 rss10 <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>rss10_xml<span class="p">)</span>
 rss20 <span class="o">=</span> rss10<span class="p">.</span><span class="nf">to_feed</span><span class="p">(</span><span class="s2">"</span><span class="s2">rss2.0</span><span class="s2">"</span><span class="p">)</span>
 </code></pre>
 <p>
 種類がわからない複数のフィードを扱う場合は以下のようにし、すべてのフィードをRSS 2.0のように扱うことができます。
 </p>
-<pre class="highlight ruby">
-<code>
-feeds<span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>xml<span class="o">|</span>
+<pre class="highlight ruby"><code>feeds<span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>xml<span class="o">|</span>
   rss20 <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>xml<span class="p">)</span><span class="p">.</span><span class="nf">to_feed</span><span class="p">(</span><span class="s2">"</span><span class="s2">rss2.0</span><span class="s2">"</span><span class="p">)</span>
   <span class="c1"># ...
 </span><span class="k">end</span>
@@ -816,9 +742,7 @@ feeds<span class="p">.</span><span class="nf">each</span> <span class="k">do</sp
 <p>
 また、to_feedは以下のように書くことも出来ます。
 </p>
-<pre class="highlight ruby">
-<code>
-feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># == feed.to_feed(&quot;rss1.0&quot;)
+<pre class="highlight ruby"><code>feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># == feed.to_feed(&quot;rss1.0&quot;)
 </span>feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</span><span class="s2">"</span><span class="s2">2.0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># == feed.to_feed(&quot;rss2.0&quot;)
 </span>feed<span class="p">.</span><span class="nf">to_atom</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># == feed.to_feed(&quot;atom1.0&quot;)
 </span></code></pre>
@@ -826,9 +750,7 @@ feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</spa
 形式を変換したときに問題になるのは、変換元のオブジェクトが変換後の形式に必須の情報を持っていない場合です。この場合は変換に失敗します（RSS::Errorのサブクラスの例外が発生します）。そのため、適宜、必要な情報を補う必要があります。たとえば、RSS
 1.0では各item要素にタイトルが必須ですが、RSS 2.0では省略可能です。そのような場合に対応するために、以下のようにブロックを使用することが出来ます。
 </p>
-<pre class="highlight ruby">
-<code>
-rss10 <span class="o">=</span> feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+<pre class="highlight ruby"><code>rss10 <span class="o">=</span> feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   maker<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
     item<span class="p">.</span><span class="nf">title</span><span class="p">.</span><span class="nf">content</span> <span class="o">||=</span> <span class="s2">"</span><span class="s2">No title</span><span class="s2">"</span>
   <span class="k">end</span>
@@ -844,17 +766,13 @@ to_feedのブロック内で出来ることはRSS Makerに対して出来るこ�
 <p>
 上記の方法でパース済みのオブジェクトを変換できるので、フィードを異なる形式のXMLへ変換することは簡単です。
 </p>
-<pre class="highlight ruby">
-<code>
-feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>feed_xml<span class="p">)</span>
+<pre class="highlight ruby"><code>feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>feed_xml<span class="p">)</span>
 new_feed_xml <span class="o">=</span> feed<span class="p">.</span><span class="nf">to_feed</span><span class="p">(</span><span class="s2">"</span><span class="s2">atom1.0</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_s</span>
 </code></pre>
 <p>
 これを行うための便利なメソッドto_xmlがあります。to_xmlを使うと以下のように書き直すことができます。
 </p>
-<pre class="highlight ruby">
-<code>
-feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>feed_xml<span class="p">)</span>
+<pre class="highlight ruby"><code>feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>feed_xml<span class="p">)</span>
 new_feed_xml <span class="o">=</span> feed<span class="p">.</span><span class="nf">to_xml</span><span class="p">(</span><span class="s2">"</span><span class="s2">atom1.0</span><span class="s2">"</span><span class="p">)</span>
 </code></pre>
 <p>
@@ -864,18 +782,14 @@ new_feed_xml <span class="o">=</span> feed<span class="p">.</span><span class="n
 to_feed().to_sではなく、to_xmlを使うことには一長一短があります。to_xmlは変換元のフィードの種類と変換後のフィードの種類が同じ場合は単にto_sを呼び出すだけです。これにより、同じ形式に変換する場合の速度があがります（RSS Makerを作って変換、ということを省略するので当然です）。しかし、ブロックを指定して変換後の結果を調整できません。例えば、以下のようにRSS
 1.0からRSS 2.0に変換する場合はブロックが呼ばれます。
 </p>
-<pre class="highlight ruby">
-<code>
-rss10<span class="p">.</span><span class="nf">to_xml</span><span class="p">(</span><span class="s2">"</span><span class="s2">rss2.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+<pre class="highlight ruby"><code>rss10<span class="p">.</span><span class="nf">to_xml</span><span class="p">(</span><span class="s2">"</span><span class="s2">rss2.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   <span class="c1"># makerを操作できる
 </span><span class="k">end</span>
 </code></pre>
 <p>
 しかし、以下のようにRSS 1.0からRSS 1.0に変換しようとした場合はブロックは呼び出されません。
 </p>
-<pre class="highlight ruby">
-<code>
-rss10<span class="p">.</span><span class="nf">to_xml</span><span class="p">(</span><span class="s2">"</span><span class="s2">rss1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
+<pre class="highlight ruby"><code>rss10<span class="p">.</span><span class="nf">to_xml</span><span class="p">(</span><span class="s2">"</span><span class="s2">rss1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
   <span class="c1"># ブロックが呼び出されないのでmakerを操作できない。
 </span><span class="k">end</span>
 </code></pre>
@@ -893,16 +807,12 @@ RSS Parser のサンプルスクリプトをいくつか紹介します。これ
 <p>
 まず、RSS 0.9x/1.0/2.0, Atom 1.0をパースできるように以下のようにrequireします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'rss'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rss'</span>
 </code></pre>
 <p>
 パースするフィードはファイルに保存されていて引数で与えられるものとします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="no">ARGV</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>fname<span class="o">|</span>
+<pre class="highlight ruby"><code><span class="no">ARGV</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>fname<span class="o">|</span>
   feed <span class="o">=</span> <span class="k">nil</span>
   <span class="k">begin</span>
     feed <span class="o">=</span> <span class="no">RSS</span><span class="o">::</span><span class="no">Parser</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>fname<span class="p">)</span>, <span class="k">false</span><span class="p">)</span>
@@ -941,9 +851,7 @@ imageはそれぞれ以下を返します。
 <p>
 ここでは、itemsを使って各項目を表示します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>feed<span class="p">)</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>feed<span class="p">)</span>
   feed<span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
     <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">title</span><span class="si">}</span><span class="s2"> : </span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">description</span><span class="si">}</span><span class="s2">"</span>
   <span class="k">end</span>
@@ -952,9 +860,7 @@ imageはそれぞれ以下を返します。
 <p>
 これは、RSSフィードに対してはうまく動きますが、Atomフィードに対してはうまく動きません。それはAtomフィードにはdescription要素がないからです。そこで、AtomフィードもRSSフィードに変えて扱うことにします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>feed<span class="p">)</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>feed<span class="p">)</span>
   convert_to_rss10<span class="p">(</span>feed<span class="p">)</span><span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>
     <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">title</span><span class="si">}</span><span class="s2"> : </span><span class="si">#{</span><span class="n">item</span><span class="p">.</span><span class="nf">description</span><span class="si">}</span><span class="s2">"</span>
   <span class="k">end</span>
@@ -963,9 +869,7 @@ imageはそれぞれ以下を返します。
 <p>
 convert_to_rss10は以下のようになります。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">convert_to_rss10</span><span class="p">(</span>feed<span class="p">)</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">convert_to_rss10</span><span class="p">(</span>feed<span class="p">)</span>
   feed<span class="p">.</span><span class="nf">to_rss</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>maker<span class="o">|</span>
     maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">about</span> <span class="o">||=</span> maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">link</span>
     maker<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">description</span><span class="p">.</span><span class="nf">content</span> <span class="o">||=</span> <span class="s2">"</span><span class="s2">No description</span><span class="s2">"</span>
@@ -986,9 +890,7 @@ RSS::UnknownConversionMethodError例外が発生します。
 <p>
 先程のprint_itemsをEUC-JPで出力するように書き換えてみましょう。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>feed<span class="p">)</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>feed<span class="p">)</span>
   rss10 <span class="o">=</span> convert_to_rss10<span class="p">(</span>feed<span class="p">)</span>
   <span class="k">begin</span>
     rss10<span class="p">.</span><span class="nf">output_encoding</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">EUC-JP</span><span class="s2">"</span>
@@ -1012,9 +914,7 @@ dc_rights_listになります）とします。
 contentメソッドやその別名であるvalueメソッドを利用します。「要素の内容を表す文字列」を設定するには
 content=メソッドやその別名であるvalue=メソッドを利用します。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_title</span>  <span class="c1"># =&gt; 「要素の内容を表す文字列」
+<pre class="highlight ruby"><code><span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_title</span>  <span class="c1"># =&gt; 「要素の内容を表す文字列」
 </span>                      <span class="c1"># （&quot;My site&quot;など）
 </span>
 <span class="nb">p</span> rss<span class="p">.</span><span class="nf">channel</span><span class="p">.</span><span class="nf">dc_titles</span> <span class="c1"># =&gt; 「要素を表すオブジェクト」の配列
@@ -1038,9 +938,7 @@ first_title <span class="o">=</span> first_title<span class="p">.</span><span cl
 <p>
 サンプル1と同じようにパースするRSSはファイルに保存されていて引数で与えられるものとします。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="nb">require</span> <span class="s1">'rss'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rss'</span>
 items <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
 <span class="no">ARGV</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>fname<span class="o">|</span>
   rss_source <span class="o">=</span> <span class="k">nil</span>
@@ -1075,9 +973,7 @@ print_items<span class="p">(</span>items<span class="p">)</span>
 Item#dc_dateはTimeオブジェクトかnilを返します。引数の
 itemsにはdc_dateがnilではないものしか含まれていないはずなので以下のようにソートできます。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>items<span class="p">)</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">print_items</span><span class="p">(</span>items<span class="p">)</span>
   items<span class="p">.</span><span class="nf">sort</span> <span class="k">do</span> <span class="o">|</span>x, y<span class="o">|</span>
     y<span class="p">.</span><span class="nf">dc_date</span> <span class="o">&lt;=&gt;</span> x<span class="p">.</span><span class="nf">dc_date</span>
   <span class="k">end</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>item<span class="o">|</span>

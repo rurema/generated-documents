@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-17-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-18-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -100,29 +100,27 @@ true を指定するとスーパークラスや include したモジュールで
 [SEE_ALSO] <a href="../../../method/Module/s/constants.html">Module.constants</a>, <a href="../../../method/Kernel/m/local_variables.html">Kernel.#local_variables</a>, <a href="../../../method/Kernel/m/global_variables.html">Kernel.#global_variables</a>, <a href="../../../method/Object/i/instance_variables.html">Object#instance_variables</a>, <a href="../../../method/Module/i/class_variables.html">Module#class_variables</a>
 </p>
 <span class="caption">Module.constants と Module#constants の違い</span>
-<pre class="highlight ruby">
-<code>
-<span class="c1"># 出力の簡略化のため起動時の定数一覧を取得して後で差し引く
+<pre class="highlight ruby"><code><span class="c1"># 出力の簡略化のため起動時の定数一覧を取得して後で差し引く
 </span><span class="vg">$clist</span> <span class="o">=</span> <span class="no">Module</span><span class="p">.</span><span class="nf">constants</span>
 
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
-  <span class="no">FOO</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Circle</span>
+  <span class="no">PI</span> <span class="o">=</span> <span class="mf">3.14</span>
 <span class="k">end</span>
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Bar</span>
-  <span class="no">BAR</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Shape</span>
+  <span class="no">SIDES</span> <span class="o">=</span> <span class="mi">4</span>
 
-  <span class="c1"># Bar は BAR を含む
-</span>  <span class="nb">p</span> <span class="nb">constants</span>                         <span class="c1"># =&gt; [:BAR]
-</span>  <span class="c1"># 出力に FOO は含まれない
-</span>  <span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">constants</span> <span class="o">-</span> <span class="vg">$clist</span>         <span class="c1"># =&gt; [:BAR, :Bar, :Foo]
-</span>  <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Baz</span>
-    <span class="c1"># Baz は定数を含まない
+  <span class="c1"># Shape は SIDES を含む
+</span>  <span class="nb">p</span> <span class="nb">constants</span>                         <span class="c1"># =&gt; [:SIDES]
+</span>  <span class="c1"># 出力に PI は含まれない
+</span>  <span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">constants</span> <span class="o">-</span> <span class="vg">$clist</span>         <span class="c1"># =&gt; [:SIDES, :Circle, :Shape]
+</span>  <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Square</span>
+    <span class="c1"># Square は定数を含まない
 </span>    <span class="nb">p</span> <span class="nb">constants</span>                       <span class="c1"># =&gt; []
 </span>
     <span class="c1"># ネストしたクラスでは、外側のクラスで定義した定数は
-</span>    <span class="c1"># 参照可能なので、BAR は、Module.constants には含まれる
-</span>    <span class="c1"># (クラス Baz も Bar の定数なので同様)
-</span>    <span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">constants</span> <span class="o">-</span> <span class="vg">$clist</span>       <span class="c1"># =&gt; [:BAR, :Baz, :Foo, :Bar]
+</span>    <span class="c1"># 参照可能なので、SIDES は、Module.constants には含まれる
+</span>    <span class="c1"># (クラス Square も Shape の定数なので同様)
+</span>    <span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">constants</span> <span class="o">-</span> <span class="vg">$clist</span>       <span class="c1"># =&gt; [:Square, :SIDES, :Circle, :Shape]
 </span>  <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>

@@ -126,9 +126,7 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
 <li>プログラム開始時の$SAFEの値は0</li>
 <li>各スレッド固有ではなくなったので必要に応じて ensure で戻す</li>
 </ul>
-<pre class="highlight ruby">
-<code>
-      <span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">0</span>
+<pre class="highlight ruby"><code>      <span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">0</span>
       th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
         <span class="nb">p</span> <span class="vg">$SAFE</span> <span class="c1"># =&gt; 0
 </span>        <span class="vg">$SAFE</span> <span class="o">=</span> <span class="mi">1</span>
@@ -141,9 +139,7 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
 <ul>
 <li>$SAFE の値を現在の値より小さく変更する事もできる</li>
 </ul>
-<pre class="highlight console">
-<code>
-<span class="gp">      $</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'$SAFE = 1; $SAFE = 0'</span>
+<pre class="highlight console"><code><span class="gp">      $</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'$SAFE = 1; $SAFE = 0'</span>
 </code></pre>
 <p>
 原則として、各セキュリティレベルにはそれ以下のセキュリティレベルの制限も適用されます。たとえばレベル1で許されない操作はレベル2でも行えません。
@@ -156,9 +152,7 @@ Rubyではオブジェクトは「汚染されている」とみなされるこ�
 <ul>
 <li>IOや環境変数、コマンドライン引数(ARGV)から得られた文字列</li>
 </ul>
-<pre class="highlight console">
-<code>
-<span class="gp">$</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'p ARGV[0].tainted?'</span> hoge
+<pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'p ARGV[0].tainted?'</span> hoge
 <span class="go">true
 </span></code></pre>
 <p>
@@ -190,9 +184,7 @@ CGI等でユーザからの入力を処理するのに適しています。
 <ul>
 <li><a href="../class/Dir.html">Dir</a>, <a href="../class/IO.html">IO</a>, <a href="../class/File.html">File</a>, <a href="../class/FileTest.html">FileTest</a> のメソッド呼び出し</li>
 </ul>
-<pre class="highlight console">
-<code>
-<span class="gp">          $</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'$SAFE = 1; open(ARGV[0])'</span> hoge
+<pre class="highlight console"><code><span class="gp">          $</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'$SAFE = 1; open(ARGV[0])'</span> hoge
 <span class="go">          -e:1:in `initialize': Insecure operation - initialize (SecurityError)
                   from -e:1
 </span></code></pre>
@@ -229,9 +221,7 @@ CGI等でユーザからの入力を処理するのに適しています。
 </ul>
 </li>
 </ul>
-<pre class="highlight text">
-<code>
-          -s -S -e -r -i -I -x
+<pre class="highlight text"><code>          -s -S -e -r -i -I -x
 </code></pre>
 <ul>
 <li>setuid, setgid されたスクリプトは $SAFE = 1 以上で実行される。</li>
@@ -246,9 +236,7 @@ false, nil は汚染されない。</li>
 <p>
 $SAFE はスレッドローカルからグローバルになり、レベルを低く変更する事もできるようになったため、プログラムの一部だけを高いセーフレベルで実行するには、以下のように ensure でセーフレベルを戻す必要があります。
 </p>
-<pre class="highlight ruby">
-<code>
-<span class="k">def</span> <span class="nf">safe</span><span class="p">(</span>level<span class="p">)</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">safe</span><span class="p">(</span>level<span class="p">)</span>
   result <span class="o">=</span> <span class="k">nil</span>
   <span class="no">Thread</span><span class="p">.</span><span class="nf">start</span> <span class="k">do</span>
     <span class="vg">$SAFE</span> <span class="o">=</span> level

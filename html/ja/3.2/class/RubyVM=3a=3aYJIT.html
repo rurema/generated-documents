@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/RubyVM=3a=3aYJIT.html">
+
+<title>module RubyVM::YJIT (Ruby 3.2 リファレンスマニュアル)</title>
+<meta name="description" content="YJIT (Yet Another Ruby JIT) の制御・情報取得のためのモジュールです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.2-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<p class="eol-warning">
+このマニュアルは既にメンテナンスが終了したバージョンの Ruby を対象としています。
+<a href="https://docs.ruby-lang.org/ja/latest/">最新版のマニュアルへ</a>
+</p>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.2 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.2 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/RubyVM=3a=3aYJIT.html","name":"RubyVM::YJITモジュール","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.2 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        RubyVM::YJITモジュール
+      </li>
+    </ol>
+  </nav>
+
+<h1>module RubyVM::YJIT</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+      <li>
+        RubyVM::YJIT
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+YJIT (Yet Another Ruby JIT) の制御・情報取得のためのモジュールです。
+</p>
+<p>
+YJIT は CRuby に組み込まれた JIT (Just-in-time compiler) コンパイラで、
+Ruby 3.1 で実験的機能として導入されました(<a class="external" href="https://bugs.ruby-lang.org/issues/18229">[feature#18229]</a>)。
+Ruby 3.2 で「実験的」の位置づけが外れ、Ruby 3.3 では実行時に有効化する
+<a href="../method/RubyVM=3a=3aYJIT/s/enable.html">RubyVM::YJIT.enable</a> が追加されるなど、以降のバージョンでも統計収集(<code>--yjit-stats</code>)やコンパイルログ(<code>--yjit-log</code>)まわりの機能追加が続いています。
+</p>
+<p>
+有効化するには以下のいずれかの方法を使います。
+</p>
+<p>
+* コマンドラインオプション <code>--yjit</code>
+* 環境変数 <code>RUBY_YJIT_ENABLE</code>
+* (Ruby 3.3 以降) <a href="../method/RubyVM=3a=3aYJIT/s/enable.html">RubyVM::YJIT.enable</a> による実行時の有効化
+</p>
+<p>
+このモジュールは、YJIT が対応していないプラットフォームでは定義されないことがあります。
+</p>
+<p>
+なお、Ruby 4.0 で導入された新しい JIT コンパイラである ZJIT は
+<code>RubyVM::ZJIT</code> という別のモジュールで提供されており、
+<code>RubyVM::YJIT</code> とは別物です。
+</p>
+<p>
+[SEE_ALSO] <a href="../class/RubyVM=3a=3aMJIT.html">RubyVM::MJIT</a>
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_CODE_GC">code_gc</a></li>
+
+<li><a href="#S_DUMP_EXIT_LOCATIONS">dump_exit_locations</a></li>
+
+<li><a href="#S_ENABLED--3F">enabled?</a></li>
+
+<li><a href="#S_RESET_STATS--21">reset_stats!</a></li>
+
+<li><a href="#S_RUNTIME_STATS">runtime_stats</a></li>
+
+<li><a href="#S_STATS_ENABLED--3F">stats_enabled?</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_CODE_GC"><code>code_gc -&gt; nil</code><span class="permalink">[<a href="../method/RubyVM=3a=3aYJIT/s/code_gc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/RubyVM/YJIT.html#method-c-code_gc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+コンパイル済みのコードを破棄してメモリを解放します。以降、必要に応じて再度コンパイルが行われます。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_DUMP_EXIT_LOCATIONS"><code>dump_exit_locations(filename) -&gt; Integer</code><span class="permalink">[<a href="../method/RubyVM=3a=3aYJIT/s/dump_exit_locations.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/RubyVM/YJIT.html#method-c-dump_exit_locations">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>--yjit-trace-exits</code> を指定して収集した、サイドイグジット(exit)が発生した位置の情報を
+Marshal 形式で <code>filename</code> にダンプします。ダンプしたファイルは Stackprof で読み込んで解析できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>filename</code>:</dt>
+<dd>
+ダンプ先のファイル名。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+ファイルに書き込んだバイト数を返します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>--yjit-trace-exits</code> が有効になっていない場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_ENABLED--3F"><code>enabled? -&gt; bool</code><span class="permalink">[<a href="../method/RubyVM=3a=3aYJIT/s/enabled=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/RubyVM/YJIT.html#method-c-enabled-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+YJIT が有効かどうかを返します。
+</p>
+<pre class="highlight ruby"><code><span class="no">RubyVM</span><span class="o">::</span><span class="no">YJIT</span><span class="p">.</span><span class="nf">enabled?</span> <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+JIT の有効・無効はコマンドラインオプションや環境変数など実行環境に依存するため、実行結果は環境によって異なります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aYJIT/s/enable.html">RubyVM::YJIT.enable</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_RESET_STATS--21"><code>reset_stats! -&gt; nil</code><span class="permalink">[<a href="../method/RubyVM=3a=3aYJIT/s/reset_stats=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/RubyVM/YJIT.html#method-c-reset_stats-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>--yjit-stats</code> で収集した統計情報を破棄します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aYJIT/s/runtime_stats.html">RubyVM::YJIT.runtime_stats</a>, <a href="../method/RubyVM=3a=3aYJIT/s/stats_enabled=3f.html">RubyVM::YJIT.stats_enabled?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_RUNTIME_STATS"><code>runtime_stats -&gt; Hash | nil</code><span class="permalink">[<a href="../method/RubyVM=3a=3aYJIT/s/runtime_stats.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/RubyVM/YJIT.html#method-c-runtime_stats">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>--yjit-stats</code> コマンドラインオプションを指定して収集した統計情報を返します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+統計情報のハッシュを返します。統計収集が無効な場合は <code>nil</code> を返します。
+</dd>
+</dl>
+<p>
+統計情報の内容(キー)はバージョンによって増減します。詳細はビルド時の設定やコマンドラインオプションに依存するため、本ページでは個々のキーの説明は省略します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aYJIT/s/stats_enabled=3f.html">RubyVM::YJIT.stats_enabled?</a>, <a href="../method/RubyVM=3a=3aYJIT/s/reset_stats=21.html">RubyVM::YJIT.reset_stats!</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_STATS_ENABLED--3F"><code>stats_enabled? -&gt; bool</code><span class="permalink">[<a href="../method/RubyVM=3a=3aYJIT/s/stats_enabled=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/RubyVM/YJIT.html#method-c-stats_enabled-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>--yjit-stats</code> が指定されているなど、統計情報の収集が有効かどうかを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aYJIT/s/runtime_stats.html">RubyVM::YJIT.runtime_stats</a>, <a href="../method/RubyVM=3a=3aYJIT/s/reset_stats=21.html">RubyVM::YJIT.reset_stats!</a>, <a href="../method/RubyVM=3a=3aYJIT/s/enable.html">RubyVM::YJIT.enable</a>
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
+  </a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
