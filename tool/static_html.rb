@@ -51,6 +51,10 @@ def create_document(version, edit_base_url: "https://github.com/rurema/doctree/e
   wasm_url = RUBY_WASM_URLS[version]
   wasm_url ||= ruby_head_wasm_url(version) if version == VERSIONS[-1]
   command << "--run-ruby-wasm=#{wasm_url}" if wasm_url
+  # 最新安定版（VERSIONS[-1] は未リリースの master 相当なのでその1つ前 =
+  # bc-static-all.rb が "latest" symlink を張るのと同じ VERSIONS[-2]）
+  # のみ、まずは軽量な sitemap.xml をスモールスタートで生成する
+  command << "--sitemap-baseurl=https://docs.ruby-lang.org/ja/#{version}/" if version == VERSIONS[-2]
   system(*command, chdir: DOC_BASE) or raise
   system("rsync", "-acvi", "--no-times", "--delete", outputdir, DOC_ROOT) or raise
   FileUtils.rm_rf outputdir
