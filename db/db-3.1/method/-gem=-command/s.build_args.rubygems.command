@@ -2,6 +2,8 @@ names=build_args
 visibility=public
 kind=defined
 source_location=manual/api/rubygems/command.md
+since_by_name=build_args=1.9.3
+until_by_name=
 
 ### def build_args -> Array
 

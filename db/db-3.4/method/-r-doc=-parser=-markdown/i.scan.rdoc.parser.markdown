@@ -2,6 +2,8 @@ names=scan
 visibility=public
 kind=defined
 source_location=manual/api/rdoc/parser/markdown.md
+since_by_name=scan=2.0.0
+until_by_name=
 
 ### def scan -> RDoc::TopLevel
 

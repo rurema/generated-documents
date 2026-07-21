@@ -2,6 +2,8 @@ names=get_one_gem_name
 visibility=public
 kind=defined
 source_location=manual/api/rubygems/command.md
+since_by_name=get_one_gem_name=1.9.3
+until_by_name=
 
 ### def get_one_gem_name -> String
 

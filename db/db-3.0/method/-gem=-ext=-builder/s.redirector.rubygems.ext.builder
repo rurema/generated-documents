@@ -2,6 +2,8 @@ names=redirector
 visibility=public
 kind=defined
 source_location=manual/api/rubygems/ext/builder.md
+since_by_name=redirector=1.9.3
+until_by_name=
 
 ### def redirector -> String
 @todo

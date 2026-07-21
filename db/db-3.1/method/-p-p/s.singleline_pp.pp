@@ -2,6 +2,8 @@ names=singleline_pp
 visibility=public
 kind=defined
 source_location=manual/api/pp.md
+since_by_name=
+until_by_name=
 
 ### def singleline_pp(obj, out=$>)    -> object
 

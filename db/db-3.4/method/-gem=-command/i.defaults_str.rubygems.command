@@ -2,6 +2,8 @@ names=defaults_str
 visibility=public
 kind=defined
 source_location=manual/api/rubygems/command.md
+since_by_name=defaults_str=1.9.3
+until_by_name=
 
 ### def defaults_str -> String
 

@@ -2,6 +2,8 @@ names=pathmap
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__FileList.md
+since_by_name=pathmap=1.9.3
+until_by_name=
 
 ### def pathmap(spec = nil) -> Rake::FileList
 

@@ -2,6 +2,8 @@ names=extension?
 visibility=public
 kind=defined
 source_location=manual/api/rdoc/markdown.md
+since_by_name=extension=3f=2.0.0
+until_by_name=
 
 ### def extension?(name)
 

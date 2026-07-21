@@ -2,6 +2,8 @@ names=pretty_print_instance_variables
 visibility=public
 kind=added
 source_location=manual/api/pp.md
+since_by_name=
+until_by_name=
 
 ### def pretty_print_instance_variables    -> [String | Symbol]
 

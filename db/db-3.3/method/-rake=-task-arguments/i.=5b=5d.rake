@@ -2,6 +2,8 @@ names=[]
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__TaskArguments.md
+since_by_name==5b=5d=1.9.3
+until_by_name=
 
 ### def [](key) -> object
 

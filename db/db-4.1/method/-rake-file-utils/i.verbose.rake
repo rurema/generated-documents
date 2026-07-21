@@ -2,6 +2,8 @@ names=verbose
 visibility=public
 kind=defined
 source_location=manual/api/rake/RakeFileUtils.md
+since_by_name=verbose=1.9.3
+until_by_name=
 
 ### def verbose(value = nil){ ... }
 

@@ -2,6 +2,8 @@ names=github=
 visibility=public
 kind=defined
 source_location=manual/api/rdoc/markdown.md
+since_by_name=github=3d=2.0.0
+until_by_name=
 
 ### def github=(val)
 

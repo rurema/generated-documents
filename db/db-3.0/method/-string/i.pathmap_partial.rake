@@ -2,6 +2,8 @@ names=pathmap_partial
 visibility=protected
 kind=added
 source_location=manual/api/rake/String.md
+since_by_name=pathmap_partial=1.9.3
+until_by_name=
 
 ### def pathmap_partial(n) -> String
 

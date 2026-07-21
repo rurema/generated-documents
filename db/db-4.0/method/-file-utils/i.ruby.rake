@@ -2,6 +2,8 @@ names=ruby
 visibility=public
 kind=added
 source_location=manual/api/rake/FileUtils.md
+since_by_name=ruby=1.9.3
+until_by_name=
 
 ### def ruby(*args){|result, status| ... }
 

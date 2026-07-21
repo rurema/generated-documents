@@ -2,6 +2,8 @@ names=current_scope
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__TaskManager.md
+since_by_name=current_scope=1.9.3
+until_by_name=
 
 ### def current_scope -> Array
 

@@ -2,6 +2,8 @@ names=get_all_gem_names
 visibility=public
 kind=defined
 source_location=manual/api/rubygems/command.md
+since_by_name=get_all_gem_names=1.9.3
+until_by_name=
 
 ### def get_all_gem_names -> Array
 

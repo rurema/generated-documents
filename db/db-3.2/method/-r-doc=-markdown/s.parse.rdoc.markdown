@@ -2,6 +2,8 @@ names=parse
 visibility=public
 kind=defined
 source_location=manual/api/rdoc/markdown.md
+since_by_name=parse=2.0.0
+until_by_name=
 
 ### def parse(markdown) -> RDoc::Markup::Document
 

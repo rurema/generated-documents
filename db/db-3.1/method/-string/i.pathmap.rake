@@ -2,6 +2,8 @@ names=pathmap
 visibility=public
 kind=added
 source_location=manual/api/rake/String.md
+since_by_name=pathmap=1.9.3
+until_by_name=
 
 ### def pathmap(spec = nil){ ... } -> String
 

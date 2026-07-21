@@ -2,6 +2,8 @@ names=desc
 visibility=private
 kind=added
 source_location=manual/api/rake/Kernel.md
+since_by_name=desc=1.9.3
+until_by_name=
 
 ### def desc(description) -> String
 

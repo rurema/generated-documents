@@ -2,6 +2,8 @@ names=begins?
 visibility=public
 kind=defined
 source_location=manual/api/rubygems/command.md
+since_by_name=begins=3f=1.9.3
+until_by_name=
 
 ### def begins?(long, short) -> bool
 

@@ -2,6 +2,8 @@ names=sharing_detection,sharing_detection=
 visibility=public
 kind=defined
 source_location=manual/api/pp.md
+since_by_name=
+until_by_name=
 
 ### def sharing_detection                 -> bool
 ### def sharing_detection=(boolean)

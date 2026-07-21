@@ -2,6 +2,8 @@ names=specific_extra_args
 visibility=public
 kind=defined
 source_location=manual/api/rubygems/command.md
+since_by_name=specific_extra_args=1.9.3
+until_by_name=
 
 ### def specific_extra_args(cmd) -> Array
 

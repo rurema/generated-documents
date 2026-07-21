@@ -2,6 +2,8 @@ names=comma_breakable
 visibility=public
 kind=defined
 source_location=manual/api/pp.md
+since_by_name=
+until_by_name=
 
 ### def comma_breakable    -> ()
 
