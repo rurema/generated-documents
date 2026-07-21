@@ -2,6 +2,8 @@ names=existing!
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__FileList.md
+since_by_name=existing=21=1.9.3
+until_by_name=
 
 ### def existing! -> self
 

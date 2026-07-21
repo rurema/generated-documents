@@ -2,6 +2,8 @@ names=safe_ln
 visibility=public
 kind=added
 source_location=manual/api/rake/FileUtils.md
+since_by_name=safe_ln=1.9.3
+until_by_name=
 
 ### def safe_ln(*args)
 

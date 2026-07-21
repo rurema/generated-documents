@@ -2,6 +2,8 @@ names=in_namespace
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__TaskManager.md
+since_by_name=in_namespace=1.9.3
+until_by_name=
 
 ### def in_namespace(name){|name_space| ... } -> Array
 

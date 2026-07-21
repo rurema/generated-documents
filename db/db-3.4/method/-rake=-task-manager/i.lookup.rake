@@ -2,6 +2,8 @@ names=lookup
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__TaskManager.md
+since_by_name=lookup=1.9.3
+until_by_name=
 
 ### def lookup(task_name, initial_scope = nil) -> Rake::Task | nil
 

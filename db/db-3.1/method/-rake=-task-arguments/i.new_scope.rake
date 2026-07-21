@@ -2,6 +2,8 @@ names=new_scope
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__TaskArguments.md
+since_by_name=new_scope=1.9.3
+until_by_name=
 
 ### def new_scope(names) -> Rake::TaskArguments
 

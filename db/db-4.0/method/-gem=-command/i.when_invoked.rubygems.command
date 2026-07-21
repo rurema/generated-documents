@@ -2,6 +2,8 @@ names=when_invoked
 visibility=public
 kind=defined
 source_location=manual/api/rubygems/command.md
+since_by_name=when_invoked=1.9.3
+until_by_name=
 
 ### def when_invoked{ ... } -> Proc
 

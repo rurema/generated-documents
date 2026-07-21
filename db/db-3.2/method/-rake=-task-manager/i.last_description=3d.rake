@@ -2,6 +2,8 @@ names=last_description=
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__TaskManager.md
+since_by_name=last_description=3d=1.9.3
+until_by_name=
 
 ### def last_description=(description)
 

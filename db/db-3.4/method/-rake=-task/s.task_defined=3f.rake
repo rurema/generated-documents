@@ -2,6 +2,8 @@ names=task_defined?
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__Task.md
+since_by_name=task_defined=3f=1.9.3
+until_by_name=
 
 ### def task_defined?(task_name) -> bool
 

@@ -2,6 +2,8 @@ names=sh
 visibility=public
 kind=added
 source_location=manual/api/rake/FileUtils.md
+since_by_name=sh=1.9.3
+until_by_name=
 
 ### def sh(*cmd){|result, status| ... }
 

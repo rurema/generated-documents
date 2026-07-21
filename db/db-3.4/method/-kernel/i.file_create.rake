@@ -2,6 +2,8 @@ names=file_create
 visibility=private
 kind=added
 source_location=manual/api/rake/Kernel.md
+since_by_name=file_create=1.9.3
+until_by_name=
 
 ### def file_create(*args){ ... } -> Rake::FileCreationTask
 

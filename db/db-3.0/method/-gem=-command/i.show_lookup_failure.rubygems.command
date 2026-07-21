@@ -2,6 +2,8 @@ names=show_lookup_failure
 visibility=public
 kind=defined
 source_location=manual/api/rubygems/command.md
+since_by_name=show_lookup_failure=1.9.3
+until_by_name=
 
 ### def show_lookup_failure(gem_name, version, errors = nil) -> ()
 

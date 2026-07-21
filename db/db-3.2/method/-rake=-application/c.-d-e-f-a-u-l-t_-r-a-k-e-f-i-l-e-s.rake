@@ -2,6 +2,8 @@ names=DEFAULT_RAKEFILES
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__Application.md
+since_by_name=DEFAULT_RAKEFILES=1.9.3
+until_by_name=
 
 ### const DEFAULT_RAKEFILES -> Array
 

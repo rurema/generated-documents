@@ -2,6 +2,8 @@ names=new
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__NameSpace.md
+since_by_name=new=1.9.3
+until_by_name=
 
 ### def new(task_manager, scope_list)
 

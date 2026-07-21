@@ -2,6 +2,8 @@ names=top_level_tasks
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__Application.md
+since_by_name=top_level_tasks=1.9.3
+until_by_name=
 
 ### def top_level_tasks -> Array
 

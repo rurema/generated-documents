@@ -2,6 +2,8 @@ names=sexp
 visibility=public
 kind=added
 source_location=manual/api/ripper/sexp.md
+since_by_name=sexp=1.9.3
+until_by_name=
 
 ### def Ripper.sexp(src, filename = '-', lineno = 1) -> object
 

@@ -2,6 +2,8 @@ names=last_comment,last_description
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__TaskManager.md
+since_by_name=last_comment=1.9.3,last_description=1.9.3
+until_by_name=
 
 ### def last_description -> String
 ### def last_comment -> String

@@ -2,6 +2,8 @@ names=name
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__Application.md
+since_by_name=name=1.9.3
+until_by_name=
 
 ### def name -> String
 

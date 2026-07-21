@@ -2,6 +2,8 @@ names=new
 visibility=public
 kind=defined
 source_location=manual/api/rdoc/markdown.md
+since_by_name=new=2.0.0
+until_by_name=
 
 ### def new(extensions = DEFAULT_EXTENSIONS, debug = false)
 

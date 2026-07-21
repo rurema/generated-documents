@@ -2,6 +2,8 @@ names=load
 visibility=public
 kind=defined
 source_location=manual/api/rake/loaders/makefile.md
+since_by_name=load=1.9.3
+until_by_name=
 
 ### def load(filename)
 

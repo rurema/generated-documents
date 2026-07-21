@@ -2,6 +2,8 @@ names=enhance_with_matching_rule
 visibility=public
 kind=defined
 source_location=manual/api/rake/Rake__TaskManager.md
+since_by_name=enhance_with_matching_rule=1.9.3
+until_by_name=
 
 ### def enhance_with_matching_rule(task_name, level = 0) -> Rake::Task | nil
 

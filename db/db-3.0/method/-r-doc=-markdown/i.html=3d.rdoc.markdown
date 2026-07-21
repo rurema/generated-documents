@@ -2,6 +2,8 @@ names=html=
 visibility=public
 kind=defined
 source_location=manual/api/rdoc/markdown.md
+since_by_name=html=3d=2.0.0
+until_by_name=
 
 ### def html=(val)
 

@@ -2,6 +2,8 @@ names=verbose_flag
 visibility=public
 kind=defined
 source_location=manual/api/rake/RakeFileUtils.md
+since_by_name=verbose_flag=1.9.3
+until_by_name=
 
 ### def verbose_flag -> bool
 
