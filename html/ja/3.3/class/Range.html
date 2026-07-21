@@ -1275,6 +1275,10 @@ self または range が空である場合、false を返します。
 内部で各要素を保持した配列を作ります。ただし、端点が <a href="../class/Integer.html">Integer</a> である場合は、配列を作らないように最適化が行われています。
 </p>
 <p>
+始端を持たない範囲(beginless range)であっても、終端が <a href="../class/Integer.html">Integer</a> であれば、終端から下降しながら反復できます。この場合は要素が無限に生成されるため、
+<code>first</code> や <code>take</code> で打ち切るか、ブロック内で break してください。
+</p>
+<p>
 ブロックを省略した場合は、各要素を逆順に辿る
 <a href="../class/Enumerator.html">Enumerator</a> を返します。
 </p>
@@ -1290,7 +1294,10 @@ self または range が空である場合、false を返します。
 <span class="c1"># =&gt; 3
 </span><span class="c1">#    2
 </span><span class="c1">#    1
-</span><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="p">)</span><span class="p">.</span><span class="nf">reverse_each</span> <span class="p">{</span> <span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v <span class="p">}</span> <span class="c1"># raises: TypeError: can't iterate from NilClass
+</span><span class="c1"># 始端を持たない範囲は終端から下降しながら反復する(無限に生成される)
+</span><span class="nb">p</span> <span class="p">(</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">reverse_each</span><span class="p">.</span><span class="nf">first</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; [5, 4, 3]
+</span>
+<span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="p">)</span><span class="p">.</span><span class="nf">reverse_each</span> <span class="p">{</span> <span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v <span class="p">}</span> <span class="c1"># raises: TypeError: can't iterate from NilClass
 </span></code></pre>
 </dd>
 
@@ -1375,9 +1382,7 @@ JSON のオブジェクトから Ruby のオブジェクトを生成して返し
 </main>
 
 <footer id="footer">
-  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
-  </a>
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   

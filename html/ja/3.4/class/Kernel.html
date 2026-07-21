@@ -758,6 +758,9 @@ Complex(a, b) を a+bi として計算した <a href="../class/Complex.html">Com
 <p>
 メソッド Float は文字列に対し <a href="../method/String/i/to_f.html">String#to_f</a> よりも厳密な変換を行います。
 </p>
+<p>
+Ruby 3.4 以降は &quot;1.&quot; のように小数点以下を省略した表記も受け付けます。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>arg</code>:</dt>
 <dd>
@@ -791,6 +794,8 @@ to_f が浮動小数点数を返さなかった場合に発生します。
 </span><span class="nb">p</span> <span class="no">Float</span><span class="p">(</span><span class="s2">"</span><span class="s2">1e-2</span><span class="s2">"</span><span class="p">)</span>       <span class="c1">#=&gt; 0.01
 </span><span class="nb">p</span> <span class="no">Float</span><span class="p">(</span><span class="s2">"</span><span class="s2">.1</span><span class="s2">"</span><span class="p">)</span>         <span class="c1">#=&gt; 0.1
 </span><span class="nb">p</span> <span class="no">Float</span><span class="p">(</span><span class="s2">"</span><span class="s2">0xa</span><span class="s2">"</span><span class="p">)</span>        <span class="c1">#=&gt; 10.0
+</span><span class="nb">p</span> <span class="no">Float</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.</span><span class="s2">"</span><span class="p">)</span>         <span class="c1">#=&gt; 1.0
+</span><span class="nb">p</span> <span class="no">Float</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.e2</span><span class="s2">"</span><span class="p">)</span>       <span class="c1">#=&gt; 100.0
 </span>
 <span class="nb">p</span> <span class="no">Float</span><span class="p">(</span><span class="s2">"</span><span class="s2">nan</span><span class="s2">"</span><span class="p">)</span>        <span class="c1"># invalid value for Float(): &quot;nan&quot; (ArgumentError)
 </span><span class="nb">p</span> <span class="no">Float</span><span class="p">(</span><span class="s2">"</span><span class="s2">INF</span><span class="s2">"</span><span class="p">)</span>        <span class="c1"># invalid value for Float(): &quot;INF&quot; (ArgumentError)
@@ -2060,6 +2065,8 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%#x</span><span class="s2">"</span>, <span class="mi">10</span><span class="p">)</span> <span class="c1">#=&gt; &quot;0xa&quot;
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%#X</span><span class="s2">"</span>, <span class="mi">10</span><span class="p">)</span> <span class="c1">#=&gt; &quot;0XA&quot;
 </span></code></pre>
+</dd>
+</dl>
 <p>
 浮動小数点数 (f, e, E, g, G) に対しては必ず出力に&quot;.&quot;をつけます。
 </p>
@@ -2074,7 +2081,7 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%.05g</span><span class="s2">"</span>, <span class="mi">10</span><span class="p">)</span> <span class="c1">#=&gt; &quot;10&quot;
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%#.05g</span><span class="s2">"</span>, <span class="mi">10</span><span class="p">)</span> <span class="c1">#=&gt; &quot;10.000&quot;
 </span></code></pre>
-</dd>
+<dl>
 <dt><code>+</code></dt>
 <dd>
 <p>
@@ -2117,6 +2124,8 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 <p>
 出力が右詰めの場合に余った部分に空白の代わりに &quot;0&quot; を詰めます。
 </p>
+</dd>
+</dl>
 <p>
 数値の指示子の一部(d, i, b, B, o, x, X, u, f, g, G)に対してだけ意味を持ちます(e, E には意味がない)
 </p>
@@ -2143,8 +2152,6 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%#10o</span><span class="s2">"</span>, <span class="mi">10</span><span class="p">)</span>   <span class="c1">#=&gt; &quot;       012&quot;
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%#10b</span><span class="s2">"</span>, <span class="mi">10</span><span class="p">)</span>   <span class="c1">#=&gt; &quot;    0b1010&quot;
 </span></code></pre>
-</dd>
-</dl>
 <h3 >幅</h3>
 <p>
 0以外の数字で始まる数字列は幅指定になります。幅は生成文字列の長さを示します。後述の精度の値によらずこの幅分だけの文字列が生成されます。
@@ -2230,19 +2237,23 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%c</span><span class="s2">"</span>, <span class="mi">97</span><span class="p">)</span>  <span class="c1">#=&gt; &quot;a&quot;
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%c</span><span class="s2">"</span>, <span class="s1">'a'</span><span class="p">)</span> <span class="c1">#=&gt; &quot;a&quot;
 </span></code></pre>
+</dd>
+</dl>
 <p>
 フラグ <code>-</code> と幅 の指定だけが意味を持ちます。
 </p>
-</dd>
+<dl>
 <dt><code>s</code></dt>
 <dd>
 <p>
 文字列を出力します。
 </p>
+</dd>
+</dl>
 <p>
 引数が <a href="../class/String.html">String</a> オブジェクトでなければ to_s メソッドにより文字列化したものを引数として扱います。
 </p>
-</dd>
+<dl>
 <dt><code>p</code></dt>
 <dd>
 <p>
@@ -2258,6 +2269,8 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 <p>
 引数の数値を10進表現の整数として出力します。
 </p>
+</dd>
+</dl>
 <p>
 引数が整数でなければ関数 <a href="../method/Kernel/m/Integer.html">Kernel.#Integer</a> と同じ規則で整数に変換されます。
 </p>
@@ -2265,7 +2278,7 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%d</span><span class="s2">"</span>, <span class="mf">3.1</span><span class="p">)</span> <span class="c1">#=&gt; &quot;3&quot;
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%d</span><span class="s2">"</span>, <span class="s1">'0b1010'</span><span class="p">)</span> <span class="c1">#=&gt; &quot;10&quot;
 </span></code></pre>
-</dd>
+<dl>
 <dt><code>u</code></dt>
 <dd>
 <p>
@@ -2284,6 +2297,8 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 <p>
 整数をそれぞれ2進、2進(大文字)、8進、16進、16進(大文字)表現の文字列で出力します。
 </p>
+</dd>
+</dl>
 <p>
 <code>#</code> フラグを指定すれば &quot;0b&quot;, &quot;0B&quot;, &quot;0&quot;, &quot;0x&quot;, &quot;0X&quot; を先頭に付加します。
 </p>
@@ -2308,7 +2323,7 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 <span class="c1"># ruby 1.9.1 以降では「精度」を指定した場合も、&quot;..&quot; は付加されます 
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%.10x</span><span class="s2">"</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#=&gt; &quot;..ffffffff&quot; 
 </span></code></pre>
-</dd>
+<dl>
 <dt><code>f</code></dt>
 <dt><code>e</code></dt>
 <dt><code>E</code></dt>
@@ -2320,6 +2335,8 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 <p>
 f は小数点表現(xxx.xxx)で数値を出力します。
 </p>
+</dd>
+</dl>
 <p>
 e は指数表現(x.xxxe+xx)で数値を出力します。
 </p>
@@ -2364,8 +2381,6 @@ a, A は指数表現の16進数(&quot;-h.hhh±pd&quot;) で数値を出力しま
 <p>
 f, e, E, g, G に関しては <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/sprintf.html">sprintf(3)</a> の結果を利用しています。従って出力結果は実際にはシステムに依存することになります。
 </p>
-</dd>
-</dl>
 <h3 >引数指定</h3>
 <p>
 利用頻度が低いので最後に説明します。
@@ -2536,12 +2551,17 @@ pattern で指定した文字列と置き換える文字列
 また、lambda に &amp; 引数を渡すのは推奨されません。&amp; 引数ではなくてブロック記法で記述する必要があります。
 </p>
 <p>
-&amp; 引数を渡した lambda は Warning[:deprecated] = true のときに警告メッセージ「warning: lambda without a literal block is deprecated; use the proc without lambda instead」を出力します。
+&amp; 引数(リテラルでないブロック)を渡して lambda を呼び出すと、<a href="../class/ArgumentError.html">ArgumentError</a>
+「the lambda method requires a literal block」が発生します。
 </p>
 <dl>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
 ブロックを省略した呼び出しを行ったときに発生します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+&amp; 引数(リテラルでないブロック)を渡して呼び出したときに発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -2818,7 +2838,8 @@ file をオープンして、<a href="../class/IO.html">IO</a>（<a href="../cla
 <a href="../method/File/s/open.html">File.open</a> にはパイプラインを生成する機能はありません)。
 </p>
 <p>
-Perlと異なりコマンドは常に <code>|</code> で始まります。
+Perlと異なりコマンドは常に <code>|</code> で始まります。なお、<code>|</code> で始まる file によるコマンド起動は Ruby 3.3 から deprecated であり、
+Ruby 4.0 で削除されました。コマンドの起動には <a href="../method/IO/s/popen.html">IO.popen</a> を使用してください。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>file</code>:</dt>
@@ -8434,9 +8455,7 @@ Ruby起動時の初期値は nil です。
 </main>
 
 <footer id="footer">
-  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
-  </a>
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   
