@@ -32,7 +32,12 @@ jobs:
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
           echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
-          gh pr merge --auto --delete-branch --merge "$PR_URL"
+          # このリポジトリには PR を gate する check が無いため、PR 作成の数秒後には
+          # mergeable_state が clean になることがある。その場合 --auto は
+          # "Pull request is in clean status" エラーで拒否される(待つ対象が無いため)ので、
+          # 即時マージにフォールバックする
+          gh pr merge --auto --delete-branch --merge "$PR_URL" ||
+            gh pr merge --delete-branch --merge "$PR_URL"
         env:
           PR_URL: "${{ steps.cpr.outputs.pull-request-url }}"
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
