@@ -93,19 +93,16 @@ length バイト分読み込んで返します。
 引数 length が指定された場合はバイナリ読み込みメソッド、そうでない場合はテキスト読み込みメソッドとして動作します。
 </p>
 <p>
-<a href="../../../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。ただし、この &quot;|コマンド名&quot; の特別扱いはレシーバが <a href="../../../class/IO.html">IO</a> である場合のみ有効です。
-<a href="../../../class/File.html">File</a> は <a href="../../../method/IO/s/read.html">IO.read</a> を継承していますが、<code>File.read</code> では
-path の先頭が &quot;|&quot; であっても普通のファイル名として扱われ、コマンドは実行されません。
+Ruby 3.x までは path の先頭が &quot;|&quot; のとき &quot;|&quot; に続くコマンドの出力を読み取れましたが
+(この特別扱いはレシーバが <a href="../../../class/IO.html">IO</a> の場合のみ有効で、<code>File.read</code> では無効でした)、この機能は Ruby 4.0 で削除されました。現在は <a href="../../../method/IO/s/read.html">IO.read</a>・<code>File.read</code> のいずれでも、&quot;|&quot; で始まる path は通常のファイル名として扱われます(該当するファイルが無ければ <a href="../../../class/Errno=3a=3aENOENT.html">Errno::ENOENT</a> が発生します)。
 </p>
-<span class="caption">例: レシーバによる違い</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">|echo hello</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;hello\n&quot; (コマンドを実行する)
-</span><span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">|echo hello</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; Errno::ENOENT (&quot;|echo hello&quot; という名前のファイルを探そうとする)
+<pre class="highlight ruby"><code><span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">|echo hello</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># ~&gt; Errno::ENOENT
+</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">|echo hello</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># ~&gt; Errno::ENOENT
 </span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>path</code>:</dt>
 <dd>
-ファイル名を表す文字列か &quot;|コマンド名&quot; を指定します。
-&quot;|コマンド名&quot; はレシーバが <a href="../../../class/IO.html">IO</a> の場合のみ有効です。
+ファイル名を表す文字列を指定します。
 </dd>
 <dt class='method-param'>[PARAM] <code>length</code>:</dt>
 <dd>
@@ -135,14 +132,12 @@ length が負の場合に発生します。
 <dt><code>:encoding</code></dt>
 <dd>
 <p>
-
 読み込んだ文字列のエンコーディングを指定します。読み込む長さを指定した場合はこれは無視されます。
 </p>
 </dd>
 <dt><code>:mode</code></dt>
 <dd>
 <p>
-
 <a href="../../../method/IO/s/open.html">IO.open</a> のモードを指定します。
 &quot;r&quot; で始まる文字列である必要があります。
 </p>
@@ -150,7 +145,6 @@ length が負の場合に発生します。
 <dt><code>:open_args</code></dt>
 <dd>
 <p>
-
 <a href="../../../method/IO/s/open.html">IO.open</a> に渡される引数を配列で指定します。
 </p>
 </dd>
@@ -176,9 +170,7 @@ length が負の場合に発生します。
 </main>
 
 <footer id="footer">
-  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
-  </a>
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   

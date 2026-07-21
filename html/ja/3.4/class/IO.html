@@ -196,20 +196,22 @@ IO からテキスト読み込みメソッドによって読み込まれた文�
 <p>
 IO からテキスト読み込みメソッドによって読み込まれた文字列のエンコーディングは外部エンコーディングに設定されます。このとき実際の文字エンコーディングは検査されず、変換もされません。
 </p>
+</dd>
+</dl>
 <p>
 IO へ書き込まれる文字列は外部エンコーディングへと変換されます。外部エンコーディングへの変換方法が分からない場合は例外が発生します。
 </p>
-</dd>
+<dl>
 <dt>外部エンコーディングと内部エンコーディング(あるいは default_internal)が指定されている場合</dt>
 <dd>
 <p>
 IO からテキスト読み込みメソッドによって読み込まれた文字列は、外部エンコーディングから内部エンコーディング(あるいは default_internal)へと変換されます。指定された文字エンコーディングと実際の文字エンコーディングが違っていた場合、例外が発生します。内部エンコーディングと  <a href="../method/Encoding/s/default_internal.html">Encoding.default_internal</a> が両方とも指定されている場合は、内部エンコーディングが優先されます。
 </p>
+</dd>
+</dl>
 <p>
 IO へ書き込まれる文字列は外部エンコーディングへと変換されます。外部エンコーディングへの変換方法が分からない場合は例外が発生します。
 </p>
-</dd>
-</dl>
 <p>
 IO に対してエンコーディングを指定する方法には、生成時に <a href="../method/IO/s/open.html">IO.open</a> や <a href="../method/File/s/open.html">File.open</a>
 に渡すモードとともに指定するものと生成後に <a href="../method/IO/i/set_encoding.html">IO#set_encoding</a> を使って指定するものの二通りがあります。詳しくはそれぞれのメソッドの項を参照して下さい。通常は前者の方法を使います。
@@ -794,7 +796,7 @@ length バイト読み込みます。
 </p>
 <p>
 <a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。
-<a href="../method/IO/s/read.html">IO.read</a> と同様、この &quot;|コマンド名&quot; の特別扱いはレシーバが <a href="../class/IO.html">IO</a> である場合のみ有効で、<code>File.binread</code> では単なるファイル名として扱われます。
+<a href="../method/IO/s/read.html">IO.read</a> と同様、この &quot;|コマンド名&quot; の特別扱いはレシーバが <a href="../class/IO.html">IO</a> である場合のみ有効で、<code>File.binread</code> では単なるファイル名として扱われます。なお、この &quot;|&quot; によるコマンド起動は Ruby 3.3 から deprecated であり、Ruby 4.0 で削除されました。<a href="../method/IO/s/popen.html">IO.popen</a> を使用してください。
 </p>
 <p>
 length を省略するとファイルの末尾まで読み込みます。
@@ -823,7 +825,7 @@ path で指定されるファイルを開き、string を書き込み、閉じ�
 ファイルを開くときの mode が &quot;wb:ASCII-8BIT&quot; で、バイナリモードが有効である点以外は <a href="../method/IO/s/write.html">IO.write</a> と同じです。
 </p>
 <p>
-<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドを実行し、コマンドの出力を標準出力に書き込みます。
+<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドを実行し、コマンドの出力を標準出力に書き込みます。なお、この &quot;|&quot; によるコマンド起動は Ruby 3.3 から deprecated であり、Ruby 4.0 で削除されました。<a href="../method/IO/s/popen.html">IO.popen</a> を使用してください。
 </p>
 <p>
 offset を指定するとその位置までシークします。
@@ -1018,7 +1020,7 @@ path のオープンに成功すれば nil を返します。
 </p>
 <p>
 path が空ファイルの場合、何もせずに nil を返します。
-<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。
+<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。なお、この &quot;|&quot; によるコマンド起動は Ruby 3.3 から deprecated であり、Ruby 4.0 で削除されました。<a href="../method/IO/s/popen.html">IO.popen</a> を使用してください。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>path</code>:</dt>
@@ -1318,6 +1320,9 @@ path の先頭が &quot;|&quot; であっても普通のファイル名として
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">|echo hello</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;hello\n&quot; (コマンドを実行する)
 </span><span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">|echo hello</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; Errno::ENOENT (&quot;|echo hello&quot; という名前のファイルを探そうとする)
 </span></code></pre>
+<p>
+なお、この &quot;|&quot; によるコマンド起動は Ruby 3.3 から deprecated であり、Ruby 4.0 で削除されました。<a href="../method/IO/s/popen.html">IO.popen</a> を使用してください。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>path</code>:</dt>
 <dd>
@@ -1352,14 +1357,12 @@ length が負の場合に発生します。
 <dt><code>:encoding</code></dt>
 <dd>
 <p>
-
 読み込んだ文字列のエンコーディングを指定します。読み込む長さを指定した場合はこれは無視されます。
 </p>
 </dd>
 <dt><code>:mode</code></dt>
 <dd>
 <p>
-
 <a href="../method/IO/s/open.html">IO.open</a> のモードを指定します。
 &quot;r&quot; で始まる文字列である必要があります。
 </p>
@@ -1367,7 +1370,6 @@ length が負の場合に発生します。
 <dt><code>:open_args</code></dt>
 <dd>
 <p>
-
 <a href="../method/IO/s/open.html">IO.open</a> に渡される引数を配列で指定します。
 </p>
 </dd>
@@ -1397,7 +1399,7 @@ length が負の場合に発生します。
 path で指定されたファイルを全て読み込んで、その各行を要素としてもつ配列を返します。
 </p>
 <p>
-<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。
+<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドの出力を読み取ります。なお、この &quot;|&quot; によるコマンド起動は Ruby 3.3 から deprecated であり、Ruby 4.0 で削除されました。<a href="../method/IO/s/popen.html">IO.popen</a> を使用してください。
 </p>
 <p>
 テキスト読み込みメソッドとして動作します。
@@ -1560,7 +1562,7 @@ obj を to_io メソッドによって <a href="../class/IO.html">IO</a> オブ�
 path で指定されるファイルを開き、string を書き込み、閉じます。
 </p>
 <p>
-<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドを実行し、コマンドの出力を標準出力に書き込みます。
+<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同様 path の先頭が &quot;|&quot; ならば、&quot;|&quot; に続くコマンドを実行し、コマンドの出力を標準出力に書き込みます。なお、この &quot;|&quot; によるコマンド起動は Ruby 3.3 から deprecated であり、Ruby 4.0 で削除されました。<a href="../method/IO/s/popen.html">IO.popen</a> を使用してください。
 </p>
 <p>
 offset を指定するとその位置までシークします。
@@ -4235,9 +4237,7 @@ Linux 3.1 以降で利用可能です。
 </main>
 
 <footer id="footer">
-  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
-  </a>
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   

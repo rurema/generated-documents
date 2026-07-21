@@ -84,8 +84,7 @@
 </p>
 <h1 >言語仕様の変更</h1>
 <ul>
-<li>匿名の可変長引数と可変長キーワード引数はメソッドパラメータとしてだけではなく、引数としても使えるようになりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18351">[feature#18351]</a></li>
-</ul>
+<li>匿名の可変長引数と可変長キーワード引数はメソッドパラメータとしてだけではなく、引数としても使えるようになりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18351">[feature#18351]</a>
 <pre>
 def foo(*)
   bar(*)
@@ -94,9 +93,8 @@ def baz(**)
   quux(**)
 end
 </pre>
-<ul>
-<li>1つの引数と残りをキーワードとして受け取る proc は引数を自動で展開されなくなりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18633">[bug#18633]</a></li>
-</ul>
+</li>
+<li>1つの引数と残りをキーワードとして受け取る proc は引数を自動で展開されなくなりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18633">[bug#18633]</a>
 <pre>
 proc{|a, **k| a}.call([1, 2])
 # Ruby 3.1 and before
@@ -104,34 +102,27 @@ proc{|a, **k| a}.call([1, 2])
 # Ruby 3.2 and after
 # =&gt; [1, 2]
 </pre>
-<ul>
-<li>定数代入時の評価順序が単一の代入時と同じ評価順序となり一貫性を持つようになりました。 以下のようなコードの場合、</li>
-</ul>
+</li>
+<li>定数代入時の評価順序が単一の代入時と同じ評価順序となり一貫性を持つようになりました。 以下のようなコードの場合、
 <pre>
 foo::BAR = baz
 </pre>
-<ul>
-<li>foo は baz よりも先に評価されます。同様に複数の定数代入についても、左から右へ順に評価されます。以下のようなコードの場合、</li>
-</ul>
+</li>
+<li>foo は baz よりも先に評価されます。同様に複数の定数代入についても、左から右へ順に評価されます。以下のようなコードの場合、
 <pre>
 foo1::BAR1, foo2::BAR2 = baz1, baz2
 </pre>
-<ul>
-<li>以下のように評価されます。</li>
-</ul>
+</li>
+<li>以下のように評価されます。
 <pre>
   1. `foo1`
   2. `foo2`
   3. `baz1`
   4. `baz2`
 </pre>
-<ul>
+</li>
 <li><a class="external" href="https://bugs.ruby-lang.org/issues/15928">[bug#15928]</a></li>
-</ul>
-<ul>
 <li>Find patternが実験的な機能ではなくなりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18585">[feature#18585]</a></li>
-</ul>
-<ul>
 <li>可変長パラメータ (*args など) を受け取るメソッドで、 foo(*args) を通して
 キーワード引数を委譲したい場合は、 ruby2_keywords でマークしなければ
 ならなくなりました。言い換えれば、*args を用いてキーワード引数を委譲したい
@@ -143,8 +134,7 @@ foo1::BAR1, foo2::BAR2 = baz1, baz2
 テストスイートを実行し、失敗した箇所でキーワード引数を受け取るべき
 最後のメソッドを特定して、そこに puts nil, caller, nil を置き、
 呼び出し連鎖上でキーワードを委譲すべき各メソッド/ブロックが正しく
-ruby2_keywords でマークされているかを確認する、という方法が有効です。 <a class="external" href="https://bugs.ruby-lang.org/issues/18625">[bug#18625]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/16466">[bug#16466]</a></li>
-</ul>
+ruby2_keywords でマークされているかを確認する、という方法が有効です。 <a class="external" href="https://bugs.ruby-lang.org/issues/18625">[bug#18625]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/16466">[bug#16466]</a>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">target</span><span class="p">(</span><span class="o">**</span>kw<span class="p">)</span>
 <span class="k">end</span>
 
@@ -161,17 +151,14 @@ ruby2_keywords <span class="k">def</span> <span class="nf">foo</span><span class
 
 foo<span class="p">(</span><span class="ss">k:</span> <span class="mi">1</span><span class="p">)</span>
 </code></pre>
+</li>
+</ul>
 <h1 >組み込みクラスの更新(注目すべきもののみ)</h1>
 <ul>
 <li>Fiber<ul>
 <li>新規メソッド<ul>
 <li>継承可能なFiber storageとして、 Fiber.[] と Fiber.[]= が導入されました。現在のストレージの取得とリセットを行うために、 Fiber#storage と Fiber#storage= (実験的な機能)が導入されました。Fiberの作成時にストレージを設定するための Fiber.new(storage:) が導入されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19078">[feature#19078]</a></li>
-<li>既存の Thread と Fiber のローカル変数は、使い方が難しい場合があります。スレッドローカル変数はすべてのFiber間で共有されるため分離が難しく、Fiberローカル変数は共有が難しい場合があります。実行単位（ &quot;実行コンテキスト&quot; ）を定義して、そのコンテキストで作成されたすべての Fiber と Thread の間で何らかの状態が共有されるようにすることが望ましいことがよくあります。これはFiber storageが提供するものです。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<li>既存の Thread と Fiber のローカル変数は、使い方が難しい場合があります。スレッドローカル変数はすべてのFiber間で共有されるため分離が難しく、Fiberローカル変数は共有が難しい場合があります。実行単位（ &quot;実行コンテキスト&quot; ）を定義して、そのコンテキストで作成されたすべての Fiber と Thread の間で何らかの状態が共有されるようにすることが望ましいことがよくあります。これはFiber storageが提供するものです。
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">log</span><span class="p">(</span>message<span class="p">)</span>
   <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="no">Fiber</span><span class="p">[</span><span class="ss">:request_id</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
 <span class="k">end</span>
@@ -190,10 +177,12 @@ foo<span class="p">(</span><span class="ss">k:</span> <span class="mi">1</span><
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<ul>
-<li>例えば、接続プール、リクエストID、ロガーレベル、環境変数、設定など、与えられたコンテキストで作成されたすべての Fiber と Thread の間で暗黙のうちに共有されたい状態については、一般的に Fiber storage を考慮する必要があります。</li>
+</li>
 </ul>
-<ul>
+</li>
+</ul>
+</li>
+<li>例えば、接続プール、リクエストID、ロガーレベル、環境変数、設定など、与えられたコンテキストで作成されたすべての Fiber と Thread の間で暗黙のうちに共有されたい状態については、一般的に Fiber storage を考慮する必要があります。</li>
 <li>Fiber::Scheduler<ul>
 <li>新規メソッド<ul>
 <li>ノンブロッキングな IO.select のために Fiber::Scheduler#io_select が導入されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19060">[feature#19060]</a></li>
@@ -201,35 +190,25 @@ foo<span class="p">(</span><span class="ss">k:</span> <span class="mi">1</span><
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>IO<ul>
 <li>新規メソッド<ul>
-<li>ブロッキング処理で指定された timeout を超えた場合、IO::TimeoutError を発生させることができる IO#timeout= と IO#timeout が導入されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18630">[feature#18630]</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<li>ブロッキング処理で指定された timeout を超えた場合、IO::TimeoutError を発生させることができる IO#timeout= と IO#timeout が導入されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18630">[feature#18630]</a>
 <span class="caption">IO#timeout=</span>
 <pre class="highlight ruby"><code><span class="no">STDIN</span><span class="p">.</span><span class="nf">timeout</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="no">STDIN</span><span class="p">.</span><span class="nf">read</span> <span class="c1"># =&gt; Blocking operation timed out! (IO::TimeoutError)
 </span></code></pre>
-<ul>
+</li>
+</ul>
+</li>
 <li>変更されたメソッド<ul>
 <li>IO.new(..., path:) を導入し、 File#path が IO#path に昇格されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19036">[feature#19036]</a></li>
 </ul>
 </li>
 </ul>
-<ul>
+</li>
 <li>Class<ul>
 <li>新規メソッド<ul>
-<li>Class#attached_object はレシーバが特異クラスであるオブジェクトを返します。レシーバが特異クラスでない場合は TypeError を発生させます。 <a class="external" href="https://bugs.ruby-lang.org/issues/12084">[feature#12084]</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<li>Class#attached_object はレシーバが特異クラスであるオブジェクトを返します。レシーバが特異クラスでない場合は TypeError を発生させます。 <a class="external" href="https://bugs.ruby-lang.org/issues/12084">[feature#12084]</a>
 <span class="caption">Class#attached_object</span>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>; <span class="k">end</span>
 
@@ -238,15 +217,14 @@ foo<span class="p">(</span><span class="ss">k:</span> <span class="mi">1</span><
 </span><span class="no">Foo</span><span class="p">.</span><span class="nf">attached_object</span>                        <span class="c1">#=&gt; TypeError: `Foo' is not a singleton class
 </span><span class="k">nil</span><span class="p">.</span><span class="nf">singleton_class</span><span class="p">.</span><span class="nf">attached_object</span>        <span class="c1">#=&gt; TypeError: `NilClass' is not a singleton class
 </span></code></pre>
-<ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Data<ul>
 <li>新規クラス<ul>
-<li>単純かつ不変な値オブジェクトを表現するための新たなコアクラス Data が追加されました。 Data は Struct によく似ており、部分的に実装を共有しています。しかし、より限定的かつ少ないAPIとなっています。 <a class="external" href="https://bugs.ruby-lang.org/issues/16122">[feature#16122]</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<li>単純かつ不変な値オブジェクトを表現するための新たなコアクラス Data が追加されました。 Data は Struct によく似ており、部分的に実装を共有しています。しかし、より限定的かつ少ないAPIとなっています。 <a class="external" href="https://bugs.ruby-lang.org/issues/16122">[feature#16122]</a>
 <span class="caption">Data</span>
 <pre class="highlight ruby"><code><span class="no">Measure</span> <span class="o">=</span> <span class="no">Data</span><span class="p">.</span><span class="nf">define</span><span class="p">(</span><span class="ss">:amount</span>, <span class="ss">:unit</span><span class="p">)</span>
 distance <span class="o">=</span> <span class="no">Measure</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">100</span>, <span class="s1">'km'</span><span class="p">)</span>            <span class="c1">#=&gt; #&lt;data Measure amount=100, unit=&quot;km&quot;&gt;
@@ -255,7 +233,11 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </span><span class="nb">p</span> weight<span class="p">.</span><span class="nf">amount</span>                              <span class="c1">#=&gt; 50
 </span>weight<span class="p">.</span><span class="nf">amount</span> <span class="o">=</span> <span class="mi">40</span>                           <span class="c1">#=&gt; NoMethodError: undefined method `amount='
 </span></code></pre>
-<ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Encoding<ul>
 <li>変更されたメソッド<ul>
 <li>Encoding#replicate は非推奨になり、Ruby 3.3で削除される予定です。 <a class="external" href="https://bugs.ruby-lang.org/issues/18949">[feature#18949]</a></li>
@@ -265,8 +247,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Enumerator<ul>
 <li>新規メソッド<ul>
 <li>Enumerator.product が追加されました。 Enumerator::Product が実装です。 <a class="external" href="https://bugs.ruby-lang.org/issues/18685">[feature#18685]</a></li>
@@ -274,8 +254,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Exception<ul>
 <li>新規メソッド<ul>
 <li>Exception#detailed_message が追加されました。デフォルトのエラープリンタは、#messageの代わりにExceptionオブジェクトに対してこのメソッドを呼び出します。 <a class="external" href="https://bugs.ruby-lang.org/issues/18564">[feature#18564]</a></li>
@@ -283,8 +261,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Hash<ul>
 <li>変更されたメソッド<ul>
 <li>Hash#shift はハッシュが空の時には、デフォルト値やデフォルトのprocを呼ぶ代わりに常にnilを返します。 <a class="external" href="https://bugs.ruby-lang.org/issues/16908">[bug#16908]</a></li>
@@ -292,8 +268,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Integer<ul>
 <li>新規メソッド<ul>
 <li>Integer#ceildiv が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18809">[feature#18809]</a></li>
@@ -301,8 +275,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Kernel<ul>
 <li>変更されたメソッド<ul>
 <li>Kernel#bindingは、Ruby以外のフレーム（Cで定義されたメソッドなど）から呼び出されるとRuntimeErrorを発生するようになりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18487">[bug#18487]</a></li>
@@ -310,8 +282,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>MatchData<ul>
 <li>新規メソッド<ul>
 <li>MatchData#byteoffset が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/13110">[feature#13110]</a></li>
@@ -321,8 +291,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Module<ul>
 <li>新規メソッド<ul>
 <li>Module.used_refinements が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/14332">[feature#14332]</a></li>
@@ -333,8 +301,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Proc<ul>
 <li>変更されたメソッド<ul>
 <li>Proc#dup がサブクラスのインスタンスを返すようになりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/17545">[bug#17545]</a></li>
@@ -343,8 +309,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Process<ul>
 <li>新規定数<ul>
 <li>FreeBSD プラットフォームに RLIMIT_NPTS 定数が追加されました。</li>
@@ -352,8 +316,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Regexp<ul>
 <li>キャッシュベースの最適化が導入されました。Regexpマッチングの多く（全てではない）が線形時間になり、正規表現サービス拒否（ReDoS）脆弱性を防ぐことができるようになりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19104">[feature#19104]</a></li>
 <li>新規メソッド<ul>
@@ -367,8 +329,6 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Refinement<ul>
 <li>新規メソッド<ul>
 <li>Refinement#refined_class が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/12737">[feature#12737]</a></li>
@@ -376,22 +336,13 @@ distance <span class="o">=</span> <span class="no">Measure</span><span class="p"
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>RubyVM::AbstractSyntaxTree<ul>
 <li>変更されたメソッド<ul>
 <li>parse, parse_file, of へ error_tolerant オプションが追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19013">[feature#19013]</a><ul>
 <li>1. SyntaxError が発生しなくなります。</li>
 <li>2. 文法上正しくない入力に対しても抽象構文木を返します。</li>
 <li>3. 入力を最後まで読んだときに end が不足していた場合、 end を補って構文解析を行います。</li>
-<li>4. インデントをもとに end をキーワードとして扱います。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<li>4. インデントをもとに end をキーワードとして扱います。
 <span class="caption">RubyVM::AbstractSyntaxTree.parse</span>
 <pre class="highlight ruby"><code><span class="c1"># Without error_tolerant option
 </span>root <span class="o">=</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">AbstractSyntaxTree</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">&lt;&lt;~RUBY</span><span class="p">)</span>
@@ -425,18 +376,23 @@ end
 </span><span class="nb">p</span> root<span class="p">.</span><span class="nf">children</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">children</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">children</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">children</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="o">..</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="c1"># =&gt; [#&lt;RubyVM::AbstractSyntaxTree::Node:CLASS@2:2-4:5&gt;, #&lt;RubyVM::AbstractSyntaxTree::Node:DEFN@6:2-7:5&gt;]
 </span></code></pre>
-<ul>
-<li>変更されたメソッド<ul>
-<li>parse, parse_file, of へ keep_tokensオプションが追加されました。 RubyVM::AbstractSyntaxTree::Node に #tokens と #all_tokens が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19070">[feature#19070]</a></li>
+</li>
 </ul>
 </li>
 </ul>
+</li>
+<li>変更されたメソッド<ul>
+<li>parse, parse_file, of へ keep_tokensオプションが追加されました。 RubyVM::AbstractSyntaxTree::Node に #tokens と #all_tokens が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19070">[feature#19070]</a>
 <span class="caption">RubyVM::AbstractSyntaxTree.parse</span>
 <pre class="highlight ruby"><code>root <span class="o">=</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">AbstractSyntaxTree</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = 1 + 2</span><span class="s2">"</span>, <span class="ss">keep_tokens:</span> <span class="k">true</span><span class="p">)</span>
 <span class="nb">p</span> root<span class="p">.</span><span class="nf">tokens</span> <span class="c1"># =&gt; [[0, :tIDENTIFIER, &quot;x&quot;, [1, 0, 1, 1]], [1, :tSP, &quot; &quot;, [1, 1, 1, 2]], ...]
 </span><span class="nb">p</span> root<span class="p">.</span><span class="nf">tokens</span><span class="p">.</span><span class="nf">map</span><span class="p">{</span>_1<span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">}</span><span class="p">.</span><span class="nf">join</span> <span class="c1"># =&gt; &quot;x = 1 + 2&quot;
 </span></code></pre>
-<ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Set<ul>
 <li>変更されたメソッド<ul>
 <li>Set は require &quot;set&quot; を実行しなくても使用できる組み込みのクラスとなりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/16989">[feature#16989]</a><ul>
@@ -447,8 +403,6 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>String<ul>
 <li>新規メソッド<ul>
 <li>String#byteindex と String#byterindex が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/13110">[feature#13110]</a></li>
@@ -465,23 +419,20 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Struct<ul>
 <li>変更されたメソッド<ul>
-<li>Structクラスは Struct.new の実行時に keyword_init: true をつけなくてもキーワード引数によって初期化できるようになりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/16806">[feature#16806]</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<li>Structクラスは Struct.new の実行時に keyword_init: true をつけなくてもキーワード引数によって初期化できるようになりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/16806">[feature#16806]</a>
 <span class="caption">Struct.new</span>
 <pre class="highlight ruby"><code><span class="no">Post</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:id</span>, <span class="ss">:name</span><span class="p">)</span>
 <span class="nb">p</span> <span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; #&lt;struct Post id=1, name=&quot;hello&quot;&gt;
 </span><span class="c1"># Ruby 3.2から以下のコードも keyword_init: true をつけなくても動作する
 </span><span class="nb">p</span> <span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">id:</span> <span class="mi">1</span>, <span class="ss">name:</span> <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; #&lt;struct Post id=1, name=&quot;hello&quot;&gt;
 </span></code></pre>
-<ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Thread<ul>
 <li>新規メソッド<ul>
 <li>Thread.each_caller_location が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/16663">[feature#16663]</a></li>
@@ -489,8 +440,6 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Thread::Queue<ul>
 <li>新規メソッド<ul>
 <li>Thread::Queue#pop(timeout: sec) が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18774">[feature#18774]</a></li>
@@ -498,8 +447,6 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Thread::SizedQueue<ul>
 <li>新規メソッド<ul>
 <li>Thread::SizedQueue#pop(timeout: sec) が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18774">[feature#18774]</a></li>
@@ -508,8 +455,6 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Time<ul>
 <li>新規メソッド<ul>
 <li>Time#deconstruct_keys が追加され、Timeインスタンスでパターンマッチが使用できるようになりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19071">[feature#19071]</a></li>
@@ -521,8 +466,6 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>SyntaxError<ul>
 <li>新規メソッド<ul>
 <li>SyntaxError#path が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19138">[feature#19138]</a></li>
@@ -530,8 +473,6 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>TracePoint<ul>
 <li>変更されたメソッド<ul>
 <li>TracePoint#binding が c_call/c_return の TracePoints に対して nil を返すようになりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18487">[bug#18487]</a></li>
@@ -540,8 +481,6 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>UnboundMethod<ul>
 <li>変更されたメソッド<ul>
 <li>UnboundMethod#== は、実際のメソッドが同じであれば true を返します。例えば、 String.instance_method(:object_id) == Array.instance_method(:object_id) は true を返します。 <a class="external" href="https://bugs.ruby-lang.org/issues/18798">[feature#18798]</a></li>
@@ -550,8 +489,6 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>GC<ul>
 <li>変更されたメソッド<ul>
 <li>GC.latest_gc_info を介して need_major_gc を公開しました。 <a class="external" href="https://github.com/ruby/ruby/pull/6791">https://github.com/ruby/ruby/pull/6791</a></li>
@@ -559,8 +496,6 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>ObjectSpace<ul>
 <li>変更されたメソッド<ul>
 <li>ObjectSpace.dump_all は形状もダンプするようになりました。 <a class="external" href="https://github.com/ruby/ruby/pull/6868">https://github.com/ruby/ruby/pull/6868</a></li>
@@ -577,33 +512,23 @@ end
 <li>git clone をより速く実行できるように改善しました。 <a class="external" href="https://github.com/rubygems/rubygems/pull/4475">https://github.com/rubygems/rubygems/pull/4475</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>RubyGems<ul>
 <li>cargo builder を mswin 環境でサポートしました。 <a class="external" href="https://github.com/rubygems/rubygems/pull/6167">https://github.com/rubygems/rubygems/pull/6167</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>CGI<ul>
 <li>CGI.escapeURIComponent と CGI.unescapeURIComponent が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18822">[feature#18822]</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Coverage<ul>
 <li>Coverage.setup が eval: true を受け付けるようになりました。これにより、evalと関連するメソッドでコードカバレッジを生成することができるようになりました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19008">[feature#19008]</a></li>
 <li>Coverage.supported?(mode) は、どのようなカバレッジモードがサポートされているかを検出することができます。 <a class="external" href="https://bugs.ruby-lang.org/issues/19026">[feature#19026]</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Date<ul>
 <li>Date#deconstruct_keys と DateTime#deconstruct_keys が追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19071">[feature#19071]</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>ERB<ul>
 <li>ERB::Util.html_escape が CGI.escapeHTML よりも高速化されました。<ul>
 <li>エスケープが必要な文字列がない場合、String オブジェクトを確保しません。</li>
@@ -615,14 +540,10 @@ end
 <li>erbコマンドから -S オプションが削除されました。</li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>FileUtils<ul>
 <li>FileUtils.ln_sr メソッドが追加され、 FileUtils.ln_s に relative: オプションが追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18925">[feature#18925]</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>IRB<ul>
 <li>debug.gem と統合したコマンドが複数追加されました: debug, break, catch, next, delete, step, continue, finish, backtrace, info<ul>
 <li>これらは Gemfile に gem &quot;debug&quot; と記述しなくても動かすことができます。</li>
@@ -638,20 +559,14 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Net::Protocol<ul>
 <li>Net::BufferedIO が性能改善されました。 <a class="external" href="https://github.com/ruby/net-protocol/pull/14">https://github.com/ruby/net-protocol/pull/14</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Pathname<ul>
 <li>Pathname#lutime が追加されました。 <a class="external" href="https://github.com/ruby/pathname/pull/20">https://github.com/ruby/pathname/pull/20</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>Socket<ul>
 <li>サポートされたプラットフォームに以下の定数が追加されました。<ul>
 <li>SO_INCOMING_CPU</li>
@@ -665,14 +580,10 @@ end
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>SyntaxSuggest<ul>
 <li>syntax_suggest の機能であった dead_end がRubyに統合されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/18159">[feature#18159]</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>UNIXSocket<ul>
 <li>Windows の UNIXSocket のサポートが追加されました。匿名ソケットをエミュレートします。 File.socket? と File::Stat#socket? のサポートを可能な限り追加されました。 <a class="external" href="https://bugs.ruby-lang.org/issues/19135">[feature#19135]</a></li>
 </ul>
@@ -811,26 +722,18 @@ default gems と bundled gems の詳細については GitHub Releases of Logger
 <h1 >標準添付ライブラリの互換性</h1>
 <ul>
 <li><a href="../class/Psych.html">Psych</a> に同梱していた libyaml のソースコードは削除されました。また、Fiddleもlibffiのソースをバンドルしなくなりました。ユーザーは、apt、yum、brew などのパッケージマネージャを使って、自分で libyaml/libffi ライブラリをインストールする必要があります。</li>
-</ul>
-<ul>
-<li><a href="../class/Psych.html">Psych</a> と fiddle には特定バージョンの libyaml や libffi のソースコードを静的リンクするための機能が追加されました。libyaml-0.2.5 をリンクしてビルドする場合は以下のように実行します。</li>
-</ul>
+<li><a href="../class/Psych.html">Psych</a> と fiddle には特定バージョンの libyaml や libffi のソースコードを静的リンクするための機能が追加されました。libyaml-0.2.5 をリンクしてビルドする場合は以下のように実行します。
 <pre>
 $ ./configure --with-libyaml-source-dir=/path/to/libyaml-0.2.5
 </pre>
-<ul>
-<li>同様に、libffi-3.4.4 を fiddle にリンクする場合は以下のように実行します。</li>
-</ul>
+</li>
+<li>同様に、libffi-3.4.4 を fiddle にリンクする場合は以下のように実行します。
 <pre>
 $ ./configure --with-libffi-source-dir=/path/to/libffi-3.4.4
 </pre>
-<ul>
+</li>
 <li><a class="external" href="https://bugs.ruby-lang.org/issues/18571">[feature#18571]</a></li>
-</ul>
-<ul>
 <li>CGI::Cookie の Cookie name/path/domain 文字をチェックします。 <a class="external" href="https://www.ruby-lang.org/en/news/2022/11/22/http-response-splitting-in-cgi-cve-2021-33621/">https://www.ruby-lang.org/en/news/2022/11/22/http-response-splitting-in-cgi-cve-2021-33621/</a></li>
-</ul>
-<ul>
 <li>URI.parse が host に nil の代わりに空の文字列を返します。 <a class="external" href="https://hackerone.com/reports/156615">https://hackerone.com/reports/156615</a></li>
 </ul>
 <h1 >C API の変更</h1>
@@ -920,9 +823,7 @@ $ ./configure --with-libffi-source-dir=/path/to/libffi-3.4.4
 </main>
 
 <footer id="footer">
-  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
-    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
-  </a>
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   
