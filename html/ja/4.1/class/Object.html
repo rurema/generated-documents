@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-20-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-22-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -1104,6 +1104,21 @@ inspect メソッドをオーバーライドしなかった場合、クラス名
   <span class="k">end</span>
 <span class="k">end</span>
 <span class="nb">p</span> <span class="no">Bar</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">inspect</span>                <span class="c1"># =&gt; &quot;#&lt;Bar:0x0300c868 @bar=1&gt;&quot;
+</span></code></pre>
+<p>
+inspect をオーバーライドしていない場合、
+instance_variables_to_inspect を定義することで、inspect の出力に含めるインスタンス変数を制御できます。このメソッドは、表示したいインスタンス変数名を
+<a href="../class/Symbol.html">Symbol</a> の配列で返すようにします（デフォルトの実装は nil を返し、その場合は全てのインスタンス変数が表示されます）。パスワードなどの機密情報を持つインスタンス変数を inspect の出力（ログなど）に含めたくない場合に利用できます。
+</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@a</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="vi">@password</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">secret</span><span class="s2">"</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="k">end</span>
+  private <span class="k">def</span> <span class="nf">instance_variables_to_inspect</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:<span class="vi">@a</span>, <span class="ss">:<span class="vi">@b</span><span class="p">]</span>
+end</span>
+p</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">inspect</span>                <span class="c1"># =&gt; &quot;#&lt;Foo:0x0300c868 @a=1, @b=2&gt;&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/m/p.html">Kernel.#p</a>

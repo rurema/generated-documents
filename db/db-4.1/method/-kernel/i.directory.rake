@@ -15,4 +15,3 @@ until_by_name=
 directory 'testdata/doc'
 ```
 
-

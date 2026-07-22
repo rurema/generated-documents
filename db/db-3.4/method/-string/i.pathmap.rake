@@ -30,7 +30,6 @@ until_by_name=
 - **`%%`**:
   パーセント自身を表します。
 
-
 %d は数値のプレフィクスを取ることができます。
 
 ```ruby title="例"
@@ -59,5 +58,4 @@ p "src/org/onestepback/proj/A.java".pathmap("%{^src,bin}X.class")
 p "/path/to/file.TXT".pathmap("%X%{.*,*}x") { |ext| ext.downcase }
 #=> "/path/to/file.txt"
 ```
-
 

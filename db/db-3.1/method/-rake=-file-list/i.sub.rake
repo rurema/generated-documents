@@ -14,4 +14,3 @@ until_by_name=
 FileList['a.c', 'b.c'].sub(/\.c$/, '.o')  => ['a.o', 'b.o']
 ```
 
-

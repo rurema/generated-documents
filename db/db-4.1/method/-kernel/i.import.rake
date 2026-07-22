@@ -22,4 +22,3 @@ until_by_name=
 import ".depend", "my_rules"
 ```
 
-
