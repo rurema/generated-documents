@@ -8,6 +8,7 @@ until_by_name=
 ### def comma_breakable    -> ()
 
 以下と等価な働きをするもので簡便のために用意されています。
+
 ```ruby
 text ','
 breakable

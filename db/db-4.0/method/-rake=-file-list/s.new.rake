@@ -21,4 +21,3 @@ pkg_files = FileList.new('lib/**/*') do |fl|
 end
 ```
 
-

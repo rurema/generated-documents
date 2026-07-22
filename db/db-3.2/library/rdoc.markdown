@@ -11,7 +11,7 @@ Markdown 形式で記述されたドキュメントを [lib:rdoc] 上で解析�
 
 詳しくは以下を参照してください。
 
- - <https://daringfireball.net/projects/markdown/syntax>
+- <https://daringfireball.net/projects/markdown/syntax>
 
 Markdown 形式をデフォルトのフォーマットにする場合は、
 [ref:lib:rdoc#saved_options] を参考に プロジェクトのデフォルトを
@@ -39,7 +39,7 @@ Markdown syntax nor MarkdownTest mention this behavior.)
 で出力が行えます。詳しくは以下を参照してください。この拡張はデフォルト
 では無効になっています。
 
- - Github Flavored Markdown: <https://github.github.com/gfm/>
+- Github Flavored Markdown: <https://github.github.com/gfm/>
 
 #### CSS
 
@@ -59,7 +59,7 @@ h1 { font-size: 3em }
 る事ができます。詳しくは以下を参照してください。この拡張はデフォルトで
 有効になっています。
 
- - PHP Markdown Extra syntax: <https://michelf.ca/projects/php-markdown/extra/#def-list>
+- PHP Markdown Extra syntax: <https://michelf.ca/projects/php-markdown/extra/#def-list>
 
 ```text title="例"
 cat
@@ -83,7 +83,7 @@ ant
 張の一部を有効にして出力が行えます。詳しくは以下を参照してください。こ
 の拡張はデフォルトで有効になっています。
 
- - Github Flavored Markdown: <https://github.github.com/gfm/>
+- Github Flavored Markdown: <https://github.github.com/gfm/>
 
 上記の URL のうち以下のものがサポートされます。:
 
@@ -123,8 +123,8 @@ Here is some text[^1] including an inline footnote ^[for short footnotes]
 
 ### 制限事項
 
- - リンクタイトルは使用されない
- - 脚注は単一の段落にまとめられる
+- リンクタイトルは使用されない
+- 脚注は単一の段落にまとめられる
 
 ### 著者
 

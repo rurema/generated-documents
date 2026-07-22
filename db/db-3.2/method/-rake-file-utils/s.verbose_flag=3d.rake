@@ -11,7 +11,6 @@ until_by_name=
 
 - **param** `flag` -- 詳細を表示するかどうか指定します。真を指定すると詳細を表示します。
 
-
 ```ruby
 # Rakefile での記載例とする
 

@@ -11,4 +11,3 @@ until_by_name=
 
 - **param** `key` -- 設定名を Symbol オブジェクトで指定します。
 
-

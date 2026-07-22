@@ -8,6 +8,7 @@ until_by_name=
 ### def object_group(obj) { ... }    -> ()
 
 以下と等価な働きをするもので簡便のために用意されています。
+
 ```text
 group(1, '#<' + obj.class.name, '>') { ... }
 ```

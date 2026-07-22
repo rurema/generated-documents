@@ -11,4 +11,3 @@ until_by_name=
 
 - **param** `patterns` -- 'pat1,rep1;pat2,rep2;...' のような形式で置換パターンを指定します。
 
-

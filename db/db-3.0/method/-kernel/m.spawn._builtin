@@ -11,16 +11,16 @@ until_by_name=
 引数を外部コマンドとして実行しますが、生成した
 子プロセスの終了を待ち合わせません。生成した子プロセスのプロセスIDを返します。
 
-
 ### 引数の解釈
 
 この形式では command が shell のメタ文字
+
 ```text
   * ? {} [] <> () ~ & | \ $ ; ' ` " \n
 ```
+
 を含む場合、shell 経由で実行されます。
 そうでなければインタプリタから直接実行されます。
-
 
 - **param** `command` -- コマンドを文字列で指定します。
 - **param** `env` -- 更新する環境変数を表す Hash
@@ -28,7 +28,6 @@ until_by_name=
 - **raise** `Errno::EXXX` -- 起動に失敗し、ruby インタプリタに制御が戻った場合に発生します。
 
 - **raise** `Errno::EXXX` -- コマンドが実行できなかった場合に発生します。
-
 
 - **SEE** [m:Kernel?.system],[m:Kernel?.exec]
 
@@ -42,6 +41,7 @@ env に Hash を渡すことで、[man:exec(2)] で子プロセス内で
 ファイルを実行する前に環境変数を変更できます。
 Hash のキーは環境変数名文字列、Hash の値に設定する値とします。
 nil とすることで環境変数が削除([man:unsetenv(3)])されます。
+
 ```ruby title="例"
 # FOO を BAR にして BAZ を削除する
 pid = spawn({"FOO"=>"BAR", "BAZ"=>nil}, command)
@@ -61,6 +61,7 @@ pid = spawn({"FOO"=>"BAR", "BAZ"=>nil}, command)
 また、第1要素はフルパスで指定しなくても環境変数 PATH から探します。
 
 ### option引数の概要
+
 Hash を options として渡すことで、起動される子プロセスの
   - プロセスグループ
   - resource limit
@@ -108,6 +109,7 @@ Hash を options として渡すことで、起動される子プロセスの
   false がデフォルトです。
 
 ### option引数によるリダイレクトの概要
+
 Hash のキー(子プロセス側)には以下のいずれかが指定できます。
   - 単一のファイルデスクリプタ
   - ファイルデスクリプタの配列
@@ -139,6 +141,7 @@ Hash の値(親プロセス側)には以下のいずれかが指定できます�
 
 「:unsetenv_others」を使うと、envで指定したもの以外の環境変数を
 クリアします。
+
 ```ruby
 # すべての環境変数をクリア
 pid = spawn(command, :unsetenv_others=>true)
@@ -147,6 +150,7 @@ pid = spawn({"FOO"=>"BAR"}, command, :unsetenv_others=>true)
 ```
 
 「:pgroup」でプロセスグループを指定できます。
+
 ```ruby
 # true, 0 で新しいプロセスグループを作りそのリーダーになります。
 pid = spawn(command, :pgroup => true)
@@ -158,6 +162,7 @@ pid = spawn(command, :pgroup => 10)
 詳しくは [m:Process?.setrlimit] を見てください。
 このオプションには 整数 or 整数2つの配列、を渡すことができます。
 それぞれ [m:Process?.setrlimit] の引数が2個、3個の場合に対応します。
+
 ```ruby
 # 現プロセスの core の resource limit を取得
 cur, max = Process.getrlimit(:CORE)
@@ -170,17 +175,20 @@ pid = spawn(command, :rlimit_core=>0) # never dump core.
 ```
 
 「:chdir」で子プロセスのカレントディレクトリを変更できます。
+
 ```ruby
 pid = spawn(command, :chdir=>"/var/tmp")
 ```
 
 「:umask」で子プロセスの umask を指定できます。
+
 ```ruby
 pid = spawn(command, :umask=>077)
 ```
 
 リダイレクトは様々なやりかたが使えます。
 Hash のキーが子プロセス側、値が親プロセス側です。
+
 ```ruby
 # 以下の例はすべて stderr を stdout にリダイレクトします
 pid = spawn(command, :err=>:out)
@@ -188,22 +196,26 @@ pid = spawn(command, 2=>1)
 pid = spawn(command, STDERR=>:out)
 pid = spawn(command, STDERR=>STDOUT)
 ```
+
 この例では子プロセス側の stdout には触れていないので、
 親プロセスから引き継がれます。
 
 Hash の値にはファイル名も指定できます。
+
 ```ruby
 pid = spawn(command, :in=>"/dev/null") # read mode
 pid = spawn(command, :out=>"/dev/null") # write mode
 pid = spawn(command, :err=>"log") # write mode
 pid = spawn(command, 3=>"/dev/null") # read mode
 ```
+
 stdout と stderr をリダイレクトした場合は、
 ファイルは write mode で open されます。それ以外の場合は
 read mode で open されます。
 
 ファイルのフラグ(write/read mode)やパーミッションを明示したい
 場合は、配列を用います。
+
 ```ruby
 # なにも指定がなければデフォルトで read mode が使われる。
 pid = spawn(command, :in=>["file"])
@@ -219,6 +231,7 @@ pid = spawn(command, :out=>["log", File::WRONLY|File::EXCL|File::CREAT, 0600])
 ```
 
 配列で複数のファイルデスクリプタを同時にリダイレクトできます。
+
 ```ruby
 # stdout と stderr を "log" ファイルにリダイレクト
 pid = spawn(command, [:out, :err]=>["log", "w"])
@@ -230,16 +243,21 @@ pid = spawn(command, [:out, :err]=>["log", "w"])
 これはファイルデスクリプタを直接指定するのと異なるということに
 注意してください。
 例えば、
+
 ```text
 :err => :out
 ```
+
 とすると、子プロセスの stderr を親プロセスの stdout にリダイレクトします。
+
 ```text
 :err => [:child, :out]
 ```
+
 とすると、子プロセスの stderr を子プロセスの stdout にリダイレクトします。
 これを用いて、[m:IO.popen] で、子プロセスの
 stderr と stdout を混ぜる例を以下に示します。
+
 ```ruby
 io = IO.popen(["sh", "-c", "echo out; echo err >&2", :err=>[:child, :out]])
 p io.read #=> "out\nerr\n
@@ -261,6 +279,7 @@ pid = spawn(command, :close_others=>false) # don't close 3,4,5,... (default)
 ```
 
 これを利用して spawn を [m:IO.popen] のように使うことができます。
+
 ```ruby
 # similar to r = IO.popen(command)
 r, w = IO.pipe
@@ -269,6 +288,7 @@ w.close
 ```
 
 「:close」を使ってファイルデスクリプタを明示的に閉じることもできます。
+
 ```ruby
 f = open(foo)
 # f は継承されない
@@ -278,6 +298,7 @@ system(command, f=>:close)        # don't inherit f.
 
 spawn で特定のファイルデスクリプタだけを継承したい場合は、
 io => io という形のオプションを指定します。
+
 ```ruby
 # valgrind は --log-fd というオプションでログの出力先を指定できます。
 # これで指定したファイルデスクリプタは親プロセスから
@@ -289,10 +310,12 @@ p log_r.read
 ```
 
 ファイルデスクリプタを入れ替えることもできます。
+
 ```ruby
 # stdout と stderr を入れ替えリダイレクト
 pid = spawn(command, :out=>:err, :err=>:out)
 ```
+
 このような相互参照を解決するため、spawnの内部で新しい
 ファイルデスクリプタを作り、利用します。
 
@@ -301,7 +324,6 @@ pid = spawn(command, :out=>:err, :err=>:out)
 (Unix 系統の環境)のみです。
 例えば Windows では元々子プロセスにはファイルデスクリプタ 0 1 2 のみ
 渡されるので :close_others や :close オプションは意味を持ちません。
-
 
 - **param** `env` -- 更新する環境変数を表す Hash
 - **param** `program` -- 文字列か2要素の配列を指定します。
