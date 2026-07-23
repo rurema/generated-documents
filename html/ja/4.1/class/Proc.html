@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-22-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-23-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -765,6 +765,15 @@ Proc オブジェクトが引数を取らなければ空の配列を返します
 true なら lambda として扱ったとき、false なら lambda ではない Proc として扱ったときの引数の情報を返します。
 </dd>
 </dl>
+<p>
+分割代入を使った <code>|(a, b)|</code> のように引数名を持たない引数の場合は、引数の種類を表す
+Symbol だけの 1 要素の配列になります。これは必須の引数でもオプショナルな引数でも同様です。
+</p>
+<span class="caption">引数名を持たない引数の例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="p">(</span>a, b<span class="p">)</span><span class="o">|</span> <span class="p">}</span><span class="p">.</span><span class="nf">parameters</span>  <span class="c1"># =&gt; [[:req]]
+</span><span class="nb">p</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span><span class="p">(</span>a, b<span class="p">)</span><span class="o">|</span> <span class="p">}</span><span class="p">.</span><span class="nf">parameters</span>    <span class="c1"># =&gt; [[:opt]]
+</span><span class="nb">p</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span>x, <span class="p">(</span>a, b<span class="p">)</span><span class="o">|</span> <span class="p">}</span><span class="p">.</span><span class="nf">parameters</span> <span class="c1"># =&gt; [[:opt, :x], [:opt]]
+</span></code></pre>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>prc <span class="o">=</span> <span class="nb">lambda</span><span class="p">{</span><span class="o">|</span>x, y<span class="o">=</span><span class="mi">42</span>, <span class="o">*</span>other, <span class="ss">k_x:</span>, <span class="ss">k_y:</span> <span class="mi">42</span>, <span class="o">**</span>k_other, <span class="o">&amp;</span>b<span class="o">|</span><span class="p">}</span>
 prc<span class="p">.</span><span class="nf">parameters</span> <span class="c1">#=&gt; [[:req, :x], [:opt, :y], [:rest, :other], [:keyreq, :k_x], [:key, :k_y], [:keyrest, :k_other], [:block, :b]]
