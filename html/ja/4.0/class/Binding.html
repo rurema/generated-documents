@@ -117,7 +117,7 @@
 ローカル変数のテーブルと self、モジュールのネストなどの情報を保持するオブジェクトのクラスです。
 </p>
 <p>
-組み込み関数 <a href="../method/Kernel/m/binding.html">Kernel.#binding</a> と <a href="../method/Proc/i/binding.html">Proc#binding</a> によってのみ生成され、<a href="../method/Kernel/m/eval.html">Kernel.#eval</a> の第 2 引数に使用します。またトップレベルの Binding オブジェクトとして組み込み定数
+組み込み関数 <a href="../method/Kernel/m/binding.html">Kernel?.binding</a> と <a href="../method/Proc/i/binding.html">Proc#binding</a> によってのみ生成され、<a href="../method/Kernel/m/eval.html">Kernel?.eval</a> の第 2 引数に使用します。またトップレベルの Binding オブジェクトとして組み込み定数
 <a href="../method/Object/c/TOPLEVEL_BINDING.html">Object::TOPLEVEL_BINDING</a> が用意されています。
 </p>
 
@@ -167,7 +167,7 @@
 <dd class="method-description">
 <p>
 自身をコンテキストとし文字列 expr を
-Ruby プログラムとして評価しその結果を返します。組み込み関数 <a href="../method/Kernel/m/eval.html">Kernel.#eval</a> を使って
+Ruby プログラムとして評価しその結果を返します。組み込み関数 <a href="../method/Kernel/m/eval.html">Kernel?.eval</a> を使って
 eval(expr, self, fname, lineno) とするのと同じです。
 </p>
 <dl>
@@ -193,7 +193,7 @@ str <span class="o">=</span> <span class="s2">"</span><span class="s2">hello</sp
 </span><span class="nb">p</span> get_binding<span class="p">(</span><span class="s2">"</span><span class="s2">bye</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">eval</span><span class="p">(</span><span class="s2">"</span><span class="s2">str + ' Fred'</span><span class="s2">"</span><span class="p">)</span>   <span class="c1">#=&gt; &quot;bye Fred&quot;
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/Kernel/m/eval.html">Kernel.#eval</a>
+[SEE_ALSO] <a href="../method/Kernel/m/eval.html">Kernel?.eval</a>
 </p>
 </dd>
 
@@ -221,6 +221,10 @@ REPLのセッションを開始します。
 <dt class='method-param'>[PARAM] <code>symbol</code>:</dt>
 <dd>
 ローカル変数名を <a href="../class/Symbol.html">Symbol</a> オブジェクトで指定します。
+</dd>
+<dt>[EXCEPTION] <code>NameError</code>:</dt>
+<dd>
+番号指定パラメータ（_1 など）を指定した場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -255,6 +259,10 @@ REPLのセッションを開始します。
 <dd>
 引数 symbol で指定したローカル変数が未定義の場合に発生します。
 </dd>
+<dt>[EXCEPTION] <code>NameError</code>:</dt>
+<dd>
+番号指定パラメータ（_1 など）を指定した場合に発生します。
+</dd>
 </dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span>
@@ -287,6 +295,10 @@ REPLのセッションを開始します。
 <dt class='method-param'>[PARAM] <code>obj</code>:</dt>
 <dd>
 引数 symbol で指定したローカル変数に設定するオブジェクトを指定します。
+</dd>
+<dt>[EXCEPTION] <code>NameError</code>:</dt>
+<dd>
+番号指定パラメータ（_1 など）を symbol に指定した場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -326,6 +338,17 @@ REPLのセッションを開始します。
 </span>  <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
+<p>
+番号指定パラメータ（_1 など）は 4.0 からローカル変数として扱われなくなり、返り値に含まれなくなりました。
+</p>
+<pre class="highlight ruby"><code><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span>
+  <span class="nb">p</span> _1                      <span class="c1"># =&gt; 1
+</span>  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">local_variables</span> <span class="c1"># =&gt; []（Ruby 3.4 以前は [:_1]）
+</span><span class="k">end</span>
+</code></pre>
+<p>
+番号指定パラメータ自体は従来どおり参照できます（<a href="../doc/spec=2fcall.html#numbered_parameters">メソッド呼び出し/番号指定パラメータ</a>）。
+</p>
 <p>
 このメソッドは以下のコードと同様の動作をします。
 </p>

@@ -445,7 +445,7 @@ fib <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.
 </dd>
 
 
-<dt class="method-heading" id="S_PRODUCE"><code>produce(initial = nil) { |prev| ... } -&gt; Enumerator</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Enumerator/s/produce.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Enumerator.html#method-c-produce">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Enumerator.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_PRODUCE"><code>produce(initial = nil, size: nil) { |prev| ... } -&gt; Enumerator</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Enumerator/s/produce.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Enumerator.html#method-c-produce">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Enumerator.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられたブロックを呼び出し続ける、停止しない Enumerator を返します。ブロックの戻り値が、次にブロックを呼び出す時に引数として渡されます。
@@ -458,6 +458,10 @@ initial 引数が渡された場合、最初にブロックを呼び出す時に
 <dt class='method-param'>[PARAM] <code>initial</code>:</dt>
 <dd>
 ブロックに最初に渡される値です。任意のオブジェクトを渡せます。
+</dd>
+<dt class='method-param'>[PARAM] <code>size</code>:</dt>
+<dd>
+生成する Enumerator の要素数（<a href="../method/Enumerator/i/size.html">Enumerator#size</a> で取得できる値）を指定します。整数、<a href="../method/Float/c/INFINITY.html">Float::INFINITY</a>、<a href="../class/Proc.html">Proc</a> などの呼び出し可能なオブジェクト、または要素数が不明であることを表す nil を指定できます。省略した場合は <a href="../method/Float/c/INFINITY.html">Float::INFINITY</a> になります。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -487,6 +491,26 @@ scanner <span class="o">=</span> <span class="no">StringScanner</span><span clas
 <span class="no">PATTERN</span> <span class="o">=</span> <span class="sr">%r{\d+|[-/+*]}</span>
 <span class="nb">p</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">produce</span> <span class="p">{</span> scanner<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="no">PATTERN</span><span class="p">)</span> <span class="p">}</span><span class="p">.</span><span class="nf">slice_after</span> <span class="p">{</span> scanner<span class="p">.</span><span class="nf">eos?</span> <span class="p">}</span><span class="p">.</span><span class="nf">first</span>
 <span class="c1"># =&gt; [&quot;7&quot;, &quot;+&quot;, &quot;38&quot;, &quot;/&quot;, &quot;6&quot;]
+</span></code></pre>
+<p>
+生成する Enumerator の要素数を size: で指定できます。
+</p>
+<span class="caption">size: を指定する例</span>
+<pre class="highlight ruby"><code><span class="c1"># 整数を渡すと Enumerator#size がその値を返す
+</span>enum <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">produce</span><span class="p">(</span><span class="mi">1</span>, <span class="ss">size:</span> <span class="mi">5</span>, <span class="o">&amp;</span><span class="ss">:succ</span><span class="p">)</span>
+<span class="nb">p</span> enum<span class="p">.</span><span class="nf">size</span>     <span class="c1"># =&gt; 5
+</span>
+<span class="c1"># Float::INFINITY（size: を省略した場合のデフォルトと同じ）
+</span>inf <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">produce</span><span class="p">(</span><span class="mi">1</span>, <span class="ss">size:</span> <span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span>, <span class="o">&amp;</span><span class="ss">:succ</span><span class="p">)</span>
+<span class="nb">p</span> inf<span class="p">.</span><span class="nf">size</span>      <span class="c1"># =&gt; Infinity
+</span>
+<span class="c1"># 呼び出し可能オブジェクト（size を参照するたびに評価される）
+</span>callable <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">produce</span><span class="p">(</span><span class="mi">1</span>, <span class="ss">size:</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="mi">42</span> <span class="p">}</span>, <span class="o">&amp;</span><span class="ss">:succ</span><span class="p">)</span>
+<span class="nb">p</span> callable<span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; 42
+</span>
+<span class="c1"># nil は要素数が不明であることを表す
+</span>unknown <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">produce</span><span class="p">(</span><span class="mi">1</span>, <span class="ss">size:</span> <span class="k">nil</span>, <span class="o">&amp;</span><span class="ss">:succ</span><span class="p">)</span>
+<span class="nb">p</span> unknown<span class="p">.</span><span class="nf">size</span>  <span class="c1"># =&gt; nil
 </span></code></pre>
 </dd>
 
