@@ -1,0 +1,32 @@
+names=implicit_parameter_get
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Binding.md
+since_by_name=implicit_parameter_get=4.0
+until_by_name=
+
+### def implicit_parameter_get(symbol) -> object
+
+引数 symbol で指定した番号指定パラメータまたは it パラメータの値を返します。
+
+- **param** `symbol` -- 番号指定パラメータまたは it パラメータの名前を [c:Symbol] で指定します。
+
+- **raise** `NameError` -- 指定した名前が番号指定パラメータでも it パラメータでもない場合に発生します。
+
+- **raise** `NameError` -- 指定したパラメータが self のスコープで定義されていない場合に発生します。
+
+```ruby
+[42].each do
+  it
+  p binding.implicit_parameter_get(:it) # => 42
+end
+
+{ k: 42 }.each do
+  _2
+  p binding.implicit_parameter_get(:_1) # => :k
+  p binding.implicit_parameter_get(:_2) # => 42
+end
+```
+
+- **SEE** [m:Binding#implicit_parameters], [m:Binding#implicit_parameter_defined?]
+
