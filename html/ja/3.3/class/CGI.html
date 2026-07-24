@@ -177,6 +177,8 @@ CGI スクリプトを書くために必要な機能を提供するクラスで�
 
 <li><a href="#S_ESCAPE-H-T-M-L">escapeHTML</a></li>
 
+<li><a href="#S_ESCAPE-U-R-I-COMPONENT">escapeURIComponent</a></li>
+
 <li><a href="#S_PRETTY">pretty</a></li>
 
 <li><a href="#S_RFC1123_DATE">rfc1123_date</a></li>
@@ -190,6 +192,8 @@ CGI スクリプトを書くために必要な機能を提供するクラスで�
 <li><a href="#S_UNESCAPE-ELEMENT">unescapeElement</a></li>
 
 <li><a href="#S_UNESCAPE-H-T-M-L">unescapeHTML</a></li>
+
+<li><a href="#S_UNESCAPE-U-R-I-COMPONENT">unescapeURIComponent</a></li>
 
 </ul>
 </dd>
@@ -763,7 +767,37 @@ HTML タグの名前を一つ以上指定します。文字列の配列で指定
 </dd>
 
 
-<dt class="method-heading" id="S_PRETTY"><code>pretty(string, shift = &quot;  &quot;) -&gt; String</code><span class="permalink">[<a href="../method/CGI/s/pretty.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI.html#method-c-pretty">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/util.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/cgi=2futil.html">cgi/util</a>]</span>
+<dt class="method-heading" id="S_ESCAPE-U-R-I-COMPONENT"><code>escapeURIComponent(string) -&gt; String</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/CGI/s/escapeURIComponent.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI.html#method-c-escapeURIComponent">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/util.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/cgi=2futil.html">cgi/util</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+与えられた文字列を <a class="external" href="https://tools.ietf.org/html/rfc3986">[RFC3986]</a> に従って URL エンコードした文字列を新しく作成し返します。
+</p>
+<p>
+<a href="../method/CGI/s/escape.html">CGI.escape</a> と異なり、空白文字を <code>+</code> ではなく <code>%20</code> に変換します。
+<a class="external" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent">JavaScript の encodeURIComponent 関数</a> と同じ結果になります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+URL エンコードしたい文字列を指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+
+<span class="nb">p</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">escapeURIComponent</span><span class="p">(</span><span class="s2">"</span><span class="s2">'Stop!' said Fred</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; &quot;%27Stop%21%27%20said%20Fred&quot;
+</span>
+<span class="c1"># CGI.escape は空白を + にするが、escapeURIComponent は %20 にする
+</span><span class="nb">p</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">escape</span><span class="p">(</span><span class="s2">"</span><span class="s2">a b</span><span class="s2">"</span><span class="p">)</span>             <span class="c1">#=&gt; &quot;a+b&quot;
+</span><span class="nb">p</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">escapeURIComponent</span><span class="p">(</span><span class="s2">"</span><span class="s2">a b</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; &quot;a%20b&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/CGI/s/escape.html">CGI.escape</a>, <a href="../method/CGI/s/unescapeURIComponent.html">CGI.unescapeURIComponent</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_PRETTY"><code>pretty(string, shift = &quot;  &quot;) -&gt; String</code><span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/CGI/s/pretty.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI.html#method-c-pretty">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/util.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/cgi=2futil.html">cgi/util</a>]</span>
 </dt>
 <dd class="method-description">
 <p>
@@ -797,7 +831,7 @@ HTML を指定します。
 </dd>
 
 
-<dt class="method-heading" id="S_RFC1123_DATE"><code>rfc1123_date(time) -&gt; String</code><span class="permalink">[<a href="../method/CGI/s/rfc1123_date.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI.html#method-c-rfc1123_date">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/util.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/cgi=2futil.html">cgi/util</a>]</span>
+<dt class="method-heading" id="S_RFC1123_DATE"><code>rfc1123_date(time) -&gt; String</code><span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/CGI/s/rfc1123_date.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI.html#method-c-rfc1123_date">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/util.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/cgi=2futil.html">cgi/util</a>]</span>
 </dt>
 <dd class="method-description">
 <p>
@@ -889,6 +923,28 @@ HTML タグの名前を一つ以上指定します。文字列の配列で指定
 
 <span class="nb">p</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">unescapeHTML</span><span class="p">(</span><span class="s2">"</span><span class="s2">3 &amp;gt; 1</span><span class="s2">"</span><span class="p">)</span>   <span class="c1">#=&gt; &quot;3 &gt; 1&quot;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_UNESCAPE-U-R-I-COMPONENT"><code>unescapeURIComponent(string) -&gt; String</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/CGI/s/unescapeURIComponent.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI.html#method-c-unescapeURIComponent">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/util.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/cgi=2futil.html">cgi/util</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+与えられた文字列を <a href="../method/CGI/s/escapeURIComponent.html">CGI.escapeURIComponent</a> でエンコードされたものとして URL デコードした文字列を新しく作成し返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+URL エンコードされている文字列を指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+
+<span class="nb">p</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">unescapeURIComponent</span><span class="p">(</span><span class="s2">"</span><span class="s2">%27Stop%21%27%20said%20Fred</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; &quot;'Stop!' said Fred&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/CGI/s/unescape.html">CGI.unescape</a>, <a href="../method/CGI/s/escapeURIComponent.html">CGI.escapeURIComponent</a>
+</p>
 </dd>
 
 

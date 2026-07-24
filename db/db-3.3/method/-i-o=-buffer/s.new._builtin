@@ -1,0 +1,29 @@
+names=new
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=new=3.1
+until_by_name=
+
+### def new(size = IO::Buffer::DEFAULT_SIZE, flags = 0) -> IO::Buffer
+
+size バイトの、0 で埋められた新しいバッファを作成して返します。
+
+既定では内部(internal)バッファ、すなわち Ruby が直接確保したメモリ領域に
+なります。ただし size が OS 依存の [m:IO::Buffer::PAGE_SIZE] より大きい場合は、
+仮想メモリ機構(Unix では匿名 mmap、Windows では VirtualAlloc)を用いて
+確保されます。flags に [m:IO::Buffer::MAPPED] を指定すると、
+size によらず後者の方法で確保されます。
+
+- **param** `size` -- 確保するバッファのバイト数を整数で指定します。
+             省略した場合は [m:IO::Buffer::DEFAULT_SIZE] になります。
+
+- **param** `flags` -- バッファの確保方法を [m:IO::Buffer::MAPPED] などの定数で指定します。
+
+```ruby
+buf = IO::Buffer.new(4)
+p buf.size       # => 4
+p buf.internal?  # => true
+p buf.get_string # => "\x00\x00\x00\x00"
+```
+

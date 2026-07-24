@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/IO=3a=3aBuffer.html">
+
+<title>class IO::Buffer (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="メモリ領域を直接読み書きするための低レベルなバッファを表すクラスです。 Ruby 3.1 で導入されました。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.3-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/IO=3a=3aBuffer.html","name":"IO::Bufferクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        IO::Bufferクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class IO::Buffer</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Comparable.html">Comparable</a>
+        </li>
+        
+      
+      <li>
+        IO::Buffer
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+メモリ領域を直接読み書きするための低レベルなバッファを表すクラスです。
+Ruby 3.1 で導入されました。
+</p>
+<p>
+<a href="../class/String.html">String</a> を経由せずにメモリ領域を扱えるため、コピーを避けた入出力
+(zero-copy IO)を実現するために使われます。主に <a href="../class/Fiber=3a=3aScheduler.html">Fiber::Scheduler</a> の実装のような、低レベルな入出力を扱う場面で利用します。
+</p>
+<p>
+バッファは以下のいずれかの方法で確保されたメモリ領域を指します。
+</p>
+<ul>
+<li>内部(internal) -- Ruby が確保したメモリ領域。<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> で作られます。</li>
+<li>外部(external) -- <a href="../class/String.html">String</a> など、Ruby の他のオブジェクトが持つメモリ領域。</li>
+<li>マップ(mapped) -- 仮想メモリ機構(Unix の mmap など)で確保されたメモリ領域。</li>
+</ul>
+<p>
+このクラスは実験的な機能です。利用すると「IO::Buffer is experimental and both the Ruby and C interface may
+change in the future!」という警告が出力されます。将来のバージョンで Ruby と C の双方のインターフェースが変更される可能性があります。
+</p>
+<p>
+この警告は <code>Warning[:experimental] = false</code> を指定すると抑止できます。
+</p>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">size</span>          <span class="c1"># =&gt; 8
+</span>
+buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span>    <span class="c1"># =&gt; &quot;Ruby\x00\x00\x00\x00&quot;
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;Ruby&quot;
+</span></code></pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_GET_STRING">get_string</a></li>
+
+<li><a href="#I_SET_STRING">set_string</a></li>
+
+<li><a href="#I_SIZE">size</a></li>
+
+</ul>
+</dd>
+
+<dt>定数</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#C_-B-I-G_-E-N-D-I-A-N">BIG_ENDIAN</a></li>
+
+<li><a href="#C_-D-E-F-A-U-L-T_-S-I-Z-E">DEFAULT_SIZE</a></li>
+
+<li><a href="#C_-E-X-T-E-R-N-A-L">EXTERNAL</a></li>
+
+<li><a href="#C_-B-I-G_-E-N-D-I-A-N">HOST_ENDIAN</a></li>
+
+<li><a href="#C_-I-N-T-E-R-N-A-L">INTERNAL</a></li>
+
+<li><a href="#C_-B-I-G_-E-N-D-I-A-N">LITTLE_ENDIAN</a></li>
+
+<li><a href="#C_-L-O-C-K-E-D">LOCKED</a></li>
+
+<li><a href="#C_-M-A-P-P-E-D">MAPPED</a></li>
+
+<li><a href="#C_-B-I-G_-E-N-D-I-A-N">NETWORK_ENDIAN</a></li>
+
+<li><a href="#C_-P-A-G-E_-S-I-Z-E">PAGE_SIZE</a></li>
+
+<li><a href="#C_-P-R-I-V-A-T-E">PRIVATE</a></li>
+
+<li><a href="#C_-R-E-A-D-O-N-L-Y">READONLY</a></li>
+
+<li><a href="#C_-S-H-A-R-E-D">SHARED</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+  <h2>継承しているメソッド</h2>
+<dl>
+  
+  
+  
+<dt>Comparableから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Comparable/i/=3c.html">&lt;</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3c=3d.html">&lt;=</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3d=3d.html">==</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3e.html">&gt;</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3e=3d.html">&gt;=</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/between=3f.html">between?</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/clamp.html">clamp</a></li>
+      
+    
+  </ul>
+</dd>
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(size = IO::Buffer::DEFAULT_SIZE, flags = 0) -&gt; IO::Buffer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+size バイトの、0 で埋められた新しいバッファを作成して返します。
+</p>
+<p>
+既定では内部(internal)バッファ、すなわち Ruby が直接確保したメモリ領域になります。ただし size が OS 依存の <a href="../method/IO=3a=3aBuffer/c/PAGE_SIZE.html">IO::Buffer::PAGE_SIZE</a> より大きい場合は、仮想メモリ機構(Unix では匿名 mmap、Windows では VirtualAlloc)を用いて確保されます。flags に <a href="../method/IO=3a=3aBuffer/c/MAPPED.html">IO::Buffer::MAPPED</a> を指定すると、
+size によらず後者の方法で確保されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>size</code>:</dt>
+<dd>
+確保するバッファのバイト数を整数で指定します。省略した場合は <a href="../method/IO=3a=3aBuffer/c/DEFAULT_SIZE.html">IO::Buffer::DEFAULT_SIZE</a> になります。
+</dd>
+<dt class='method-param'>[PARAM] <code>flags</code>:</dt>
+<dd>
+バッファの確保方法を <a href="../method/IO=3a=3aBuffer/c/MAPPED.html">IO::Buffer::MAPPED</a> などの定数で指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">size</span>       <span class="c1"># =&gt; 4
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">internal?</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span> <span class="c1"># =&gt; &quot;\x00\x00\x00\x00&quot;
+</span></code></pre>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_GET_STRING"><code>get_string(offset = 0, length = nil, encoding = Encoding::BINARY) -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/get_string.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-i-get_string">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの内容を <a href="../class/String.html">String</a> として取り出して返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+読み出しを開始する位置をバッファの先頭からのバイト数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+読み出すバイト数を指定します。省略した場合は offset からバッファの終端までを読み出します。
+</dd>
+<dt class='method-param'>[PARAM] <code>encoding</code>:</dt>
+<dd>
+返す文字列のエンコーディングを指定します。省略した場合は <a href="../method/Encoding/c/BINARY.html">Encoding::BINARY</a> になります。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+offset と length の合計がバッファのバイト数を超える場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span>        <span class="c1"># =&gt; &quot;Ruby\x00\x00\x00\x00&quot;
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;Ruby&quot;
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;uby&quot;
+</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">encoding</span>                   <span class="c1"># =&gt; #&lt;Encoding:BINARY (ASCII-8BIT)&gt;
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span>, <span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_8</span><span class="p">)</span><span class="p">.</span><span class="nf">encoding</span>  <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span>
+buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">99</span><span class="p">)</span>   <span class="c1"># ~&gt; ArgumentError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/set_string.html">IO::Buffer#set_string</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SET_STRING"><code>set_string(string, offset = 0, length = nil, source_offset = 0) -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/set_string.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-i-set_string">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+文字列 string の内容をバッファに書き込みます。書き込んだバイト数を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+書き込む内容を <a href="../class/String.html">String</a> で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+書き込みを開始する位置をバッファの先頭からのバイト数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+書き込むバイト数を指定します。省略した場合は string 全体を書き込みます。
+</dd>
+<dt class='method-param'>[PARAM] <code>source_offset</code>:</dt>
+<dd>
+string のどの位置から読み出すかをバイト数で指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+offset と length の合計がバッファのバイト数を超える場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::AccessError</code>:</dt>
+<dd>
+書き込みできないバッファに対して呼び出した場合に発生します。詳しくは <a href="../class/IO=3a=3aBuffer=3a=3aAccessError.html">IO::Buffer::AccessError</a> を参照してください。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># =&gt; 4
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span>           <span class="c1"># =&gt; &quot;Ruby\x00\x00\x00\x00&quot;
+</span>
+buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">XY</span><span class="s2">"</span>, <span class="mi">6</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span>           <span class="c1"># =&gt; &quot;Ruby\x00\x00XY&quot;
+</span>
+<span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">TOOLONG</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># ~&gt; ArgumentError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/get_string.html">IO::Buffer#get_string</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SIZE"><code>size -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-i-size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファのバイト数を返します。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; 8
+</span></code></pre>
+</dd>
+
+
+</dl>
+
+<h2>定数</h2>
+<dl>
+
+<dt class="method-heading" id="C_-B-I-G_-E-N-D-I-A-N"><code>LITTLE_ENDIAN -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/c/BIG_ENDIAN.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-BIG_ENDIAN">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>BIG_ENDIAN -&gt; Integer</code></dt>
+<dt class="method-heading"><code>HOST_ENDIAN -&gt; Integer</code></dt>
+<dt class="method-heading"><code>NETWORK_ENDIAN -&gt; Integer</code></dt>
+<dd class="method-description">
+<p>
+バイトオーダー(エンディアン)を表す定数です。
+</p>
+<p>
+HOST_ENDIAN は実行中の環境のバイトオーダーで、LITTLE_ENDIAN か BIG_ENDIAN のいずれかと同じ値になります。NETWORK_ENDIAN はネットワークバイトオーダーで、
+BIG_ENDIAN と同じ値です。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">NETWORK_ENDIAN</span> <span class="o">==</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">BIG_ENDIAN</span> <span class="c1"># =&gt; true
+</span>
+<span class="c1"># リトルエンディアンの環境の場合
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">HOST_ENDIAN</span> <span class="o">==</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">LITTLE_ENDIAN</span> <span class="c1"># =&gt; true
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="C_-D-E-F-A-U-L-T_-S-I-Z-E"><code>DEFAULT_SIZE -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/c/DEFAULT_SIZE.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-DEFAULT_SIZE">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> で size を省略した場合に使われる既定のバイト数です。
+</p>
+<p>
+値は環境依存です。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-E-X-T-E-R-N-A-L"><code>EXTERNAL -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/c/EXTERNAL.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-EXTERNAL">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが外部(external)のメモリ領域、すなわち <a href="../class/String.html">String</a> など他のオブジェクトが所有するメモリ領域を指していることを表すフラグです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-I-N-T-E-R-N-A-L"><code>INTERNAL -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/c/INTERNAL.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-INTERNAL">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが内部(internal)のメモリ領域、すなわち Ruby が直接確保したメモリ領域を指していることを表すフラグです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-L-O-C-K-E-D"><code>LOCKED -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/c/LOCKED.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-LOCKED">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファがロックされていることを表すフラグです。
+</p>
+<p>
+ロックされている間はバッファの解放やリサイズができません。
+<a href="../method/IO=3a=3aBuffer/i/locked.html">IO::Buffer#locked</a> を参照してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-M-A-P-P-E-D"><code>MAPPED -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/c/MAPPED.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-MAPPED">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファを仮想メモリ機構(Unix では匿名 mmap、Windows では VirtualAlloc)で確保することを表すフラグです。<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> の flags に指定します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-P-A-G-E_-S-I-Z-E"><code>PAGE_SIZE -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/c/PAGE_SIZE.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-PAGE_SIZE">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+OS のページサイズをバイト数で表した値です。
+</p>
+<p>
+<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> は、size がこの値より大きい場合に仮想メモリ機構を用いてバッファを確保します。
+</p>
+<p>
+値は環境依存です。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-P-R-I-V-A-T-E"><code>PRIVATE -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/c/PRIVATE.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-PRIVATE">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファがコピーオンライトで確保されていることを表すフラグです。
+</p>
+<p>
+このバッファへの変更は元のメモリ領域には反映されません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-A-D-O-N-L-Y"><code>READONLY -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/c/READONLY.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-READONLY">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが読み込み専用であることを表すフラグです。
+</p>
+<p>
+このフラグが立っているバッファに書き込もうとすると
+<a href="../class/IO=3a=3aBuffer=3a=3aAccessError.html">IO::Buffer::AccessError</a> が発生します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-S-H-A-R-E-D"><code>SHARED -&gt; Integer</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/c/SHARED.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-c-SHARED">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが他のプロセスと共有されるメモリ領域を指していることを表すフラグです。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,31 @@
+names=implicit_parameters
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Binding.md
+since_by_name=implicit_parameters=4.0
+until_by_name=
+
+### def implicit_parameters -> [Symbol]
+
+self のスコープで定義されている番号指定パラメータおよび it パラメータの名前を
+[c:Symbol] の配列で返します。定義されていない場合は空の配列を返します。
+
+これらは [m:Binding#local_variables] の返り値には含まれません。
+
+```ruby
+[42].each do
+  it
+  p binding.implicit_parameters # => [:it]
+end
+
+{ k: 42 }.each do
+  _2
+  p binding.implicit_parameters # => [:_1, :_2]
+end
+
+# どちらも使っていない場合
+p binding.implicit_parameters   # => []
+```
+
+- **SEE** [m:Binding#implicit_parameter_get], [m:Binding#implicit_parameter_defined?], [m:Binding#local_variables]
+

@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/ObjectSpace=3a=3aWeakMap.html">
 
 <title>class ObjectSpace::WeakMap (Ruby 4.1 リファレンスマニュアル)</title>
-<meta name="description" content="GC の対象になるオブジェクトへの weak reference を持つクラスです。主に WeakRef クラスの内部で使用されるため、weakref ライブラリ経由で使用してください。">
+<meta name="description" content="GC の対象になるオブジェクトへの weak reference を持つクラスです。 WeakRef クラスの内部で使用されているほか、ObjectSpace?._id2ref が deprecated になった Ruby 4.0 以降では、オブジェクト ID からオブジェクトを引く用途(Object#object_id をキーとしてオブジェクトを保持しておく方法) の代替としても案内されています。詳しくは ObjectSpace?._id2ref を参照してください。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-23-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-24-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -114,8 +114,10 @@
 
 <h2>要約</h2>
 <p>
-GC の対象になるオブジェクトへの weak reference を持つクラスです。主に
-<a href="../class/WeakRef.html">WeakRef</a> クラスの内部で使用されるため、<a href="../library/weakref.html">weakref</a> ライブラリ経由で使用してください。
+GC の対象になるオブジェクトへの weak reference を持つクラスです。
+<a href="../class/WeakRef.html">WeakRef</a> クラスの内部で使用されているほか、<a href="../method/ObjectSpace/m/_id2ref.html">ObjectSpace?._id2ref</a> が
+deprecated になった Ruby 4.0 以降では、オブジェクト ID からオブジェクトを引く用途(<a href="../method/Object/i/object_id.html">Object#object_id</a> をキーとしてオブジェクトを保持しておく方法)
+の代替としても案内されています。詳しくは <a href="../method/ObjectSpace/m/_id2ref.html">ObjectSpace?._id2ref</a> を参照してください。
 </p>
 
 
@@ -188,6 +190,20 @@ GC の対象になるオブジェクトへの weak reference を持つクラス�
 参照元のオブジェクトを指定します。
 </dd>
 </dl>
+<p>
+判定はオブジェクトの同一性(<a href="../method/Object/i/equal=3f.html">Object#equal?</a>)によって行われます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>weak_map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">text</span><span class="s2">"</span>
+weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+
+<span class="nb">p</span> weak_map<span class="p">[</span>key<span class="p">]</span>    <span class="c1"># =&gt; &quot;test&quot;
+</span><span class="nb">p</span> weak_map<span class="p">[</span><span class="s2">"</span><span class="s2">text</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># =&gt; nil (内容は同じでも別オブジェクトなので nil)
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakMap/i/=5b=5d=3d.html">ObjectSpace::WeakMap#[]=</a>, <a href="../method/ObjectSpace=3a=3aWeakMap/i/key=3f.html">ObjectSpace::WeakMap#key?</a>
+</p>
 </dd>
 
 
@@ -252,7 +268,7 @@ weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</s
 </dd>
 
 
-<dt class="method-heading" id="I_EACH"><code>each {|key, value| ... } -&gt; self</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/each.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-each">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EACH"><code>each {|key, value| ... } -&gt; self</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/each.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-each">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>each_pair {|key, value| ... } -&gt; self</code></dt>
 <dd class="method-description">
 <p>
@@ -281,7 +297,7 @@ weak_map<span class="p">.</span><span class="nf">each</span> <span class="p">{</
 </dd>
 
 
-<dt class="method-heading" id="I_EACH_KEY"><code>each_key {|key| ... } -&gt; self</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/each_key.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-each_key">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EACH_KEY"><code>each_key {|key| ... } -&gt; self</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/each_key.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-each_key">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 保持しているエントリの参照元オブジェクトを引数としてブロックを評価します。
@@ -306,7 +322,7 @@ weak_map<span class="p">.</span><span class="nf">each_key</span> <span class="p"
 </dd>
 
 
-<dt class="method-heading" id="I_EACH_VALUE"><code>each_value {|value| ... } -&gt; self</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/each_value.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-each_value">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EACH_VALUE"><code>each_value {|value| ... } -&gt; self</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/each_value.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-each_value">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 保持しているエントリの参照先オブジェクトを引数としてブロックを評価します。
@@ -331,7 +347,7 @@ weak_map<span class="p">.</span><span class="nf">each_value</span> <span class="
 </dd>
 
 
-<dt class="method-heading" id="I_INCLUDE--3F"><code>key?(key) -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/include=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-include-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INCLUDE--3F"><code>key?(key) -&gt; bool</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/include=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-include-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>include?(key) -&gt; bool</code></dt>
 <dt class="method-heading"><code>member?(key) -&gt; bool</code></dt>
 <dd class="method-description">
@@ -366,7 +382,7 @@ weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</s
 </dd>
 
 
-<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self の情報を人間に読みやすい文字列にして返します。
@@ -385,7 +401,7 @@ weak_map<span class="p">[</span><span class="ss">:key</span><span class="p">]</s
 </dd>
 
 
-<dt class="method-heading" id="I_KEYS"><code>keys -&gt; [object]</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_KEYS"><code>keys -&gt; [object]</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 保持しているエントリの参照元オブジェクトからなる配列を返します。
@@ -406,7 +422,7 @@ weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</s
 </dd>
 
 
-<dt class="method-heading" id="I_LENGTH"><code>size -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/length.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-length">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_LENGTH"><code>size -&gt; Integer</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/length.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-length">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>length -&gt; Integer</code></dt>
 <dd class="method-description">
 <p>
@@ -423,7 +439,7 @@ weak_map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</s
 </dd>
 
 
-<dt class="method-heading" id="I_VALUES"><code>values -&gt; [object]</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/values.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-values">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_VALUES"><code>values -&gt; [object]</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakMap/i/values.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace/WeakMap.html#method-i-values">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakMap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 保持しているエントリの参照先オブジェクトからなる配列を返します。

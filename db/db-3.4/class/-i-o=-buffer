@@ -1,0 +1,39 @@
+type=class
+superclass=Object
+included=Comparable
+extended=
+dynamically_included=
+dynamically_extended=
+library=_builtin
+aliases=
+aliasof=
+source_location=manual/api/_builtin/IO__Buffer.md
+
+メモリ領域を直接読み書きするための低レベルなバッファを表すクラスです。
+Ruby 3.1 で導入されました。
+
+[c:String] を経由せずにメモリ領域を扱えるため、コピーを避けた入出力
+(zero-copy IO)を実現するために使われます。主に [c:Fiber::Scheduler] の
+実装のような、低レベルな入出力を扱う場面で利用します。
+
+バッファは以下のいずれかの方法で確保されたメモリ領域を指します。
+
+  - 内部(internal) -- Ruby が確保したメモリ領域。[m:IO::Buffer.new] で作られます。
+  - 外部(external) -- [c:String] など、Ruby の他のオブジェクトが持つメモリ領域。
+  - マップ(mapped) -- 仮想メモリ機構(Unix の mmap など)で確保されたメモリ領域。
+
+このクラスは実験的な機能です。
+利用すると「IO::Buffer is experimental and both the Ruby and C interface may
+change in the future!」という警告が出力されます。
+将来のバージョンで Ruby と C の双方のインターフェースが変更される可能性があります。
+
+この警告は `Warning[:experimental] = false` を指定すると抑止できます。
+
+```ruby
+buf = IO::Buffer.new(8)
+p buf.size          # => 8
+
+buf.set_string("Ruby")
+p buf.get_string    # => "Ruby\x00\x00\x00\x00"
+p buf.get_string(0, 4)  # => "Ruby"
+```

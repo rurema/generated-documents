@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-23-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-24-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -244,6 +244,10 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 
 <li><a href="#S_HANDLE_INTERRUPT">handle_interrupt</a></li>
 
+<li><a href="#S_IGNORE_DEADLOCK">ignore_deadlock</a></li>
+
+<li><a href="#S_IGNORE_DEADLOCK--3D">ignore_deadlock=</a></li>
+
 <li><a href="#S_KILL">kill</a></li>
 
 <li><a href="#S_LIST">list</a></li>
@@ -292,10 +296,6 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 <li><a href="#I_FETCH">fetch</a></li>
 
 <li><a href="#I_GROUP">group</a></li>
-
-<li><a href="#I_IGNORE_DEADLOCK">ignore_deadlock</a></li>
-
-<li><a href="#I_IGNORE_DEADLOCK--3D">ignore_deadlock=</a></li>
 
 <li><a href="#I_INSPECT">inspect</a></li>
 
@@ -368,7 +368,7 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 スレッドのデバッグレベルを返します。
 </p>
 <p>
-スレッドのデバッグレベルが 0 のときはなにもしません。それ以外の場合は、スレッドのデバッグログを標準出力に出力します。初期値は 0 です。使用するためには、THREAD_DEBUG を -1 にして Ruby をコンパイルする必要があります。
+スレッドのデバッグレベルが 0 のときはなにもしません。それ以外の場合は、スレッドのデバッグログを標準出力に出力します。初期値は 0 です。使用するためには、THREAD_DEBUG を -1 にして Ruby をコンパイルする必要があります。通常配布されている Ruby では利用できません。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 0
@@ -385,7 +385,7 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 スレッドのデバッグレベルを val に設定します。
 </p>
 <p>
-val が 真 のときは Integer に変換してから設定します。偽 のときは 0 を設定します。使用するためには、THREAD_DEBUG を -1 にして Ruby をコンパイルする必要があります。
+val が 真 のときは Integer に変換してから設定します。偽 のときは 0 を設定します。使用するためには、THREAD_DEBUG を -1 にして Ruby をコンパイルする必要があります。通常配布されている Ruby では利用できません。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="no">DEBUG</span> <span class="c1"># =&gt; 0
@@ -605,6 +605,42 @@ to control more than one ExceptionClass and TimingSymbol at a time.
 </code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/s/pending_interrupt=3f.html">Thread.pending_interrupt?</a>, <a href="../method/Thread/i/pending_interrupt=3f.html">Thread#pending_interrupt?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_IGNORE_DEADLOCK"><code>ignore_deadlock -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Thread/s/ignore_deadlock.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-c-ignore_deadlock">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+デッドロック検知を無視する機能のon/offを返します。
+</p>
+<p>
+デフォルト値はfalseで、デッドロックが検知されます。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Thread/s/ignore_deadlock=3d.html">Thread.ignore_deadlock=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_IGNORE_DEADLOCK--3D"><code>ignore_deadlock=(bool)</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Thread/s/ignore_deadlock=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-c-ignore_deadlock-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+デッドロック検知を無視する機能をon/offします。デフォルト値はfalseです。
+</p>
+<p>
+trueを渡すとデッドロックを検知しなくなります。
+</p>
+<pre class="highlight ruby"><code><span class="no">Thread</span><span class="p">.</span><span class="nf">ignore_deadlock</span> <span class="o">=</span> <span class="k">true</span>
+queue <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
+
+<span class="nb">trap</span><span class="p">(</span><span class="ss">:SIGUSR1</span><span class="p">)</span><span class="p">{</span>queue<span class="p">.</span><span class="nf">push</span> <span class="s2">"</span><span class="s2">Received signal</span><span class="s2">"</span><span class="p">}</span>
+
+<span class="c1"># ignore_deadlockがfalseだとエラーが発生する
+</span><span class="nb">puts</span> queue<span class="p">.</span><span class="nf">pop</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread/s/ignore_deadlock.html">Thread.ignore_deadlock</a>
 </p>
 </dd>
 
@@ -1174,44 +1210,8 @@ th<span class="p">.</span><span class="nf">join</span>
 </dd>
 
 
-<dt class="method-heading" id="I_IGNORE_DEADLOCK"><code>ignore_deadlock -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Thread/i/ignore_deadlock.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-i-ignore_deadlock">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-デッドロック検知を無視する機能のon/offを返します。
-</p>
-<p>
-デフォルト値はfalseで、デッドロックが検知されます。
-</p>
-<p>
-[SEE_ALSO] <a href="../method/Thread/i/ignore_deadlock=3d.html">Thread#ignore_deadlock=</a>
-</p>
-</dd>
-
-
-<dt class="method-heading" id="I_IGNORE_DEADLOCK--3D"><code>ignore_deadlock=(bool)</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Thread/i/ignore_deadlock=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-i-ignore_deadlock-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-デッドロック検知を無視する機能をon/offします。デフォルト値はfalseです。
-</p>
-<p>
-trueを渡すとデッドロックを検知しなくなります。
-</p>
-<pre class="highlight ruby"><code><span class="no">Thread</span><span class="p">.</span><span class="nf">ignore_deadlock</span> <span class="o">=</span> <span class="k">true</span>
-queue <span class="o">=</span> <span class="no">Thread</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span>
-
-<span class="nb">trap</span><span class="p">(</span><span class="ss">:SIGUSR1</span><span class="p">)</span><span class="p">{</span>queue<span class="p">.</span><span class="nf">push</span> <span class="s2">"</span><span class="s2">Received signal</span><span class="s2">"</span><span class="p">}</span>
-
-<span class="c1"># ignore_deadlockがfalseだとエラーが発生する
-</span><span class="nb">puts</span> queue<span class="p">.</span><span class="nf">pop</span>
-</code></pre>
-<p>
-[SEE_ALSO] <a href="../method/Thread/i/ignore_deadlock.html">Thread#ignore_deadlock</a>
-</p>
-</dd>
-
-
 <dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/Thread/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>to_s -&gt; String</code><span class="method-since-badge">Ruby 2.5.0 から</span></dt>
+<dt class="method-heading"><code>to_s -&gt; String</code></dt>
 <dd class="method-description">
 <p>
 自身を人間が読める形式に変換した文字列を返します。
@@ -1480,7 +1480,7 @@ a<span class="p">.</span><span class="nf">join</span>
 </dd>
 
 
-<dt class="method-heading" id="I_SET_TRACE_FUNC"><code>set_trace_func(pr) -&gt; Proc | nil</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Thread/i/set_trace_func.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-i-set_trace_func">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_SET_TRACE_FUNC"><code>set_trace_func(pr) -&gt; Proc | nil</code><span class="method-since-badge">Ruby 1.9.2 から</span><span class="permalink">[<a href="../method/Thread/i/set_trace_func.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-i-set_trace_func">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 スレッドにトレース用ハンドラを設定します。

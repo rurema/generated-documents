@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-23-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-24-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -132,6 +132,12 @@
 
 <li><a href="#I_EVAL">eval</a></li>
 
+<li><a href="#I_IMPLICIT_PARAMETER_DEFINED--3F">implicit_parameter_defined?</a></li>
+
+<li><a href="#I_IMPLICIT_PARAMETER_GET">implicit_parameter_get</a></li>
+
+<li><a href="#I_IMPLICIT_PARAMETERS">implicit_parameters</a></li>
+
 <li><a href="#I_IRB">irb</a></li>
 
 <li><a href="#I_LOCAL_VARIABLE_DEFINED--3F">local_variable_defined?</a></li>
@@ -194,6 +200,109 @@ str <span class="o">=</span> <span class="s2">"</span><span class="s2">hello</sp
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/m/eval.html">Kernel?.eval</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_IMPLICIT_PARAMETER_DEFINED--3F"><code>implicit_parameter_defined?(symbol) -&gt; bool</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Binding/i/implicit_parameter_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Binding.html#method-i-implicit_parameter_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Binding.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数 symbol で指定した番号指定パラメータまたは it パラメータが self のスコープで定義されている場合に true を、そうでない場合に false を返します。
+</p>
+<p>
+定義されていない場合に false を返すのは、symbol が番号指定パラメータまたは
+it パラメータの名前である場合だけです。それ以外の名前を指定した場合は
+<a href="../class/NameError.html">NameError</a> が発生します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>symbol</code>:</dt>
+<dd>
+番号指定パラメータまたは it パラメータの名前を <a href="../class/Symbol.html">Symbol</a> で指定します。
+</dd>
+<dt>[EXCEPTION] <code>NameError</code>:</dt>
+<dd>
+指定した名前が番号指定パラメータでも it パラメータでもない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="p">[</span><span class="mi">42</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span>
+  it
+  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameter_defined?</span><span class="p">(</span><span class="ss">:it</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span>  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameter_defined?</span><span class="p">(</span><span class="ss">:_1</span><span class="p">)</span> <span class="c1"># =&gt; false
+</span><span class="k">end</span>
+
+<span class="p">{</span> <span class="ss">k:</span> <span class="mi">42</span> <span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span>
+  _2
+  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameter_defined?</span><span class="p">(</span><span class="ss">:_1</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span>  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameter_defined?</span><span class="p">(</span><span class="ss">:_3</span><span class="p">)</span> <span class="c1"># =&gt; false
+</span>  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameter_defined?</span><span class="p">(</span><span class="ss">:it</span><span class="p">)</span> <span class="c1"># =&gt; false
+</span><span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Binding/i/implicit_parameters.html">Binding#implicit_parameters</a>, <a href="../method/Binding/i/implicit_parameter_get.html">Binding#implicit_parameter_get</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_IMPLICIT_PARAMETER_GET"><code>implicit_parameter_get(symbol) -&gt; object</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Binding/i/implicit_parameter_get.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Binding.html#method-i-implicit_parameter_get">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Binding.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+引数 symbol で指定した番号指定パラメータまたは it パラメータの値を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>symbol</code>:</dt>
+<dd>
+番号指定パラメータまたは it パラメータの名前を <a href="../class/Symbol.html">Symbol</a> で指定します。
+</dd>
+<dt>[EXCEPTION] <code>NameError</code>:</dt>
+<dd>
+指定した名前が番号指定パラメータでも it パラメータでもない場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>NameError</code>:</dt>
+<dd>
+指定したパラメータが self のスコープで定義されていない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="p">[</span><span class="mi">42</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span>
+  it
+  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameter_get</span><span class="p">(</span><span class="ss">:it</span><span class="p">)</span> <span class="c1"># =&gt; 42
+</span><span class="k">end</span>
+
+<span class="p">{</span> <span class="ss">k:</span> <span class="mi">42</span> <span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span>
+  _2
+  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameter_get</span><span class="p">(</span><span class="ss">:_1</span><span class="p">)</span> <span class="c1"># =&gt; :k
+</span>  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameter_get</span><span class="p">(</span><span class="ss">:_2</span><span class="p">)</span> <span class="c1"># =&gt; 42
+</span><span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Binding/i/implicit_parameters.html">Binding#implicit_parameters</a>, <a href="../method/Binding/i/implicit_parameter_defined=3f.html">Binding#implicit_parameter_defined?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_IMPLICIT_PARAMETERS"><code>implicit_parameters -&gt; [Symbol]</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Binding/i/implicit_parameters.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Binding.html#method-i-implicit_parameters">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Binding.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self のスコープで定義されている番号指定パラメータおよび it パラメータの名前を
+<a href="../class/Symbol.html">Symbol</a> の配列で返します。定義されていない場合は空の配列を返します。
+</p>
+<p>
+これらは <a href="../method/Binding/i/local_variables.html">Binding#local_variables</a> の返り値には含まれません。
+</p>
+<pre class="highlight ruby"><code><span class="p">[</span><span class="mi">42</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span>
+  it
+  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameters</span> <span class="c1"># =&gt; [:it]
+</span><span class="k">end</span>
+
+<span class="p">{</span> <span class="ss">k:</span> <span class="mi">42</span> <span class="p">}</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span>
+  _2
+  <span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameters</span> <span class="c1"># =&gt; [:_1, :_2]
+</span><span class="k">end</span>
+
+<span class="c1"># どちらも使っていない場合
+</span><span class="nb">p</span> <span class="nb">binding</span><span class="p">.</span><span class="nf">implicit_parameters</span>   <span class="c1"># =&gt; []
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Binding/i/implicit_parameter_get.html">Binding#implicit_parameter_get</a>, <a href="../method/Binding/i/implicit_parameter_defined=3f.html">Binding#implicit_parameter_defined?</a>, <a href="../method/Binding/i/local_variables.html">Binding#local_variables</a>
 </p>
 </dd>
 
@@ -348,6 +457,7 @@ REPLのセッションを開始します。
 </code></pre>
 <p>
 番号指定パラメータ自体は従来どおり参照できます（<a href="../doc/spec=2fcall.html#numbered_parameters">メソッド呼び出し/番号指定パラメータ</a>）。
+<a href="../class/Binding.html">Binding</a> から番号指定パラメータを扱うには <a href="../method/Binding/i/implicit_parameters.html">Binding#implicit_parameters</a> を使用してください。
 </p>
 <p>
 このメソッドは以下のコードと同様の動作をします。
