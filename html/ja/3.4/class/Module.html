@@ -134,6 +134,8 @@
 
 <li><a href="#S_USED_MODULES">used_modules</a></li>
 
+<li><a href="#S_USED_REFINEMENTS">used_refinements</a></li>
+
 </ul>
 </dd>
 
@@ -243,15 +245,21 @@
 
 <li><a href="#I_PUBLIC_METHOD_DEFINED--3F">public_method_defined?</a></li>
 
+<li><a href="#I_REFINEMENTS">refinements</a></li>
+
 <li><a href="#I_REMOVE_CLASS_VARIABLE">remove_class_variable</a></li>
 
 <li><a href="#I_REMOVE_METHOD">remove_method</a></li>
+
+<li><a href="#I_SET_TEMPORARY_NAME">set_temporary_name</a></li>
 
 <li><a href="#I_SINGLETON_CLASS--3F">singleton_class?</a></li>
 
 <li><a href="#I_INSPECT">to_s</a></li>
 
 <li><a href="#I_UNDEF_METHOD">undef_method</a></li>
+
+<li><a href="#I_UNDEFINED_INSTANCE_METHODS">undefined_instance_methods</a></li>
 
 </ul>
 </dd>
@@ -416,6 +424,36 @@ using <span class="no">B</span>
 <span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">used_modules</span>
 <span class="c1">#=&gt; [B, A]
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_USED_REFINEMENTS"><code>used_refinements -&gt; [Refinement]</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Module/s/used_refinements.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-c-used_refinements">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のスコープで using されているすべての <a href="../class/Refinement.html">Refinement</a> を配列で返します。配列内の順番は未定義です。
+</p>
+<p>
+<a href="../method/Module/s/used_modules.html">Module.used_modules</a> が refinement を定義しているモジュール自体を返すのに対し、このメソッドは refinement そのものを返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">A</span>
+  refine <span class="no">Object</span> <span class="k">do</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">B</span>
+  refine <span class="no">Object</span> <span class="k">do</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+using <span class="no">A</span>
+using <span class="no">B</span>
+<span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">used_refinements</span>
+<span class="c1">#=&gt; [#&lt;refinement:Object@B&gt;, #&lt;refinement:Object@A&gt;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/s/used_modules.html">Module.used_modules</a>, <a href="../method/Module/i/refinements.html">Module#refinements</a>
+</p>
 </dd>
 
 
@@ -2382,6 +2420,29 @@ false を指定するとそのモジュールで定義されているメソッ�
 </dd>
 
 
+<dt class="method-heading" id="I_REFINEMENTS"><code>refinements -&gt; [Refinement]</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Module/i/refinements.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-refinements">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self の中で <a href="../method/Module/i/refine.html">Module#refine</a> によって定義された <a href="../class/Refinement.html">Refinement</a> の一覧を配列で返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">A</span>
+  refine <span class="no">Integer</span> <span class="k">do</span>
+  <span class="k">end</span>
+
+  refine <span class="no">String</span> <span class="k">do</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="nb">p</span> <span class="no">A</span><span class="p">.</span><span class="nf">refinements</span>
+<span class="c1">#=&gt; [#&lt;refinement:Integer@A&gt;, #&lt;refinement:String@A&gt;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/refine.html">Module#refine</a>, <a href="../method/Module/s/used_refinements.html">Module.used_refinements</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_REMOVE_CLASS_VARIABLE"><code>remove_class_variable(name) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/remove_class_variable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-remove_class_variable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -2443,6 +2504,66 @@ Ruby 1.8.0 以降は複数のメソッド名を指定して一度に削除でき
 </code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Module/i/undef_method.html">Module#undef_method</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SET_TEMPORARY_NAME"><code>set_temporary_name(string) -&gt; self</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Module/i/set_temporary_name.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-set_temporary_name">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>set_temporary_name(nil) -&gt; self</code></dt>
+<dd class="method-description">
+<p>
+モジュール / クラスに一時的な名前を設定します。self を返します。
+</p>
+<p>
+設定した名前は <a href="../method/Module/i/name.html">Module#name</a> や <a href="../method/Module/i/inspect.html">Module#inspect</a> の結果に反映され、そのモジュール / クラスのインスタンスや定数、メソッドの表示にも使われます。定数に代入せずに、動的に生成したモジュール / クラスを区別したい場合に便利です。
+</p>
+<p>
+引数に nil を指定すると、再び無名の状態に戻ります。
+</p>
+<p>
+定数に代入されて永続的な名前が付くと、一時的な名前は破棄されます。また、既に永続的な名前を持つモジュール / クラスには設定できません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+一時的な名前を文字列で指定します。永続的な名前と紛らわしくならないよう、クラスパスとして有効な文字列は指定できません。nil を指定すると無名に戻ります。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+string がクラスパスとして有効な文字列(<code>Foo</code> や
+<code>Foo::Bar</code> など)である場合や、空文字列である場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+既に永続的な名前を持つモジュール / クラスに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>m <span class="o">=</span> <span class="no">Module</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">name</span>                          <span class="c1"># =&gt; nil
+</span>
+m<span class="p">.</span><span class="nf">set_temporary_name</span><span class="p">(</span><span class="s2">"</span><span class="s2">&lt;my temp&gt;</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">name</span>                          <span class="c1"># =&gt; &quot;&lt;my temp&gt;&quot;
+</span>
+m<span class="p">.</span><span class="nf">set_temporary_name</span><span class="p">(</span><span class="k">nil</span><span class="p">)</span>
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">name</span>                          <span class="c1"># =&gt; nil
+</span></code></pre>
+<span class="caption">例: 定数に代入すると永続的な名前になる</span>
+<pre class="highlight ruby"><code>m <span class="o">=</span> <span class="no">Module</span><span class="p">.</span><span class="nf">new</span>
+m<span class="p">.</span><span class="nf">set_temporary_name</span><span class="p">(</span><span class="s2">"</span><span class="s2">&lt;my temp&gt;</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">name</span> <span class="c1"># =&gt; &quot;&lt;my temp&gt;&quot;
+</span>
+<span class="no">MyModule</span> <span class="o">=</span> m
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">name</span> <span class="c1"># =&gt; &quot;MyModule&quot;
+</span></code></pre>
+<span class="caption">例: 設定できない名前</span>
+<pre class="highlight ruby"><code><span class="no">Module</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">set_temporary_name</span><span class="p">(</span><span class="s2">"</span><span class="s2">Foo</span><span class="s2">"</span><span class="p">)</span>      <span class="c1"># ~&gt; ArgumentError
+</span><span class="no">Module</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">set_temporary_name</span><span class="p">(</span><span class="s2">"</span><span class="s2">Foo::Bar</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># ~&gt; ArgumentError
+</span><span class="no">Module</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">set_temporary_name</span><span class="p">(</span><span class="s2">"</span><span class="s2">"</span><span class="p">)</span>         <span class="c1"># ~&gt; ArgumentError
+</span><span class="no">String</span><span class="p">.</span><span class="nf">set_temporary_name</span><span class="p">(</span><span class="s2">"</span><span class="s2">&lt;x&gt;</span><span class="s2">"</span><span class="p">)</span>          <span class="c1"># ~&gt; RuntimeError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/name.html">Module#name</a>
 </p>
 </dd>
 
@@ -2533,6 +2654,33 @@ self が特異クラスの場合に true を返します。そうでなければ
 </span><span class="no">M2</span><span class="p">.</span><span class="nf">moo</span>
 <span class="nb">p</span> <span class="no">M2</span><span class="p">.</span><span class="nf">instance_methods</span> <span class="k">false</span> <span class="c1">#=&gt; []
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_UNDEFINED_INSTANCE_METHODS"><code>undefined_instance_methods -&gt; [Symbol]</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Module/i/undefined_instance_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Module.html#method-i-undefined_instance_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+そのモジュールで <a href="../method/Module/i/undef_method.html">Module#undef_method</a> によって未定義にされたインスタンスメソッド名の一覧を配列で返します。
+</p>
+<p>
+祖先で未定義にされたメソッドは含まれません。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">bar</span>; <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">baz</span>; <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Sub</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="k">undef</span> bar
+<span class="k">end</span>
+
+<span class="nb">p</span> <span class="no">Sub</span><span class="p">.</span><span class="nf">undefined_instance_methods</span> <span class="c1"># =&gt; [:bar]
+</span><span class="nb">p</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">undefined_instance_methods</span> <span class="c1"># =&gt; []
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/undef_method.html">Module#undef_method</a>, <a href="../method/Module/i/instance_methods.html">Module#instance_methods</a>
+</p>
 </dd>
 
 

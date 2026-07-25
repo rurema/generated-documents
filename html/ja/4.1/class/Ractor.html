@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-24-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-25-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -149,6 +149,10 @@
 <li><a href="#S_SELECT">select</a></li>
 
 <li><a href="#S_SHAREABLE--3F">shareable?</a></li>
+
+<li><a href="#S_SHAREABLE_LAMBDA">shareable_lambda</a></li>
+
+<li><a href="#S_SHAREABLE_PROC">shareable_proc</a></li>
 
 <li><a href="#S_STORE_IF_ABSENT">store_if_absent</a></li>
 
@@ -330,6 +334,44 @@ obj が shareable である場合、true を返します。
 Shareable であるか判定したいオブジェクトを指定します。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="S_SHAREABLE_LAMBDA"><code>shareable_lambda { ... } -&gt; Proc</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ractor/s/shareable_lambda.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ractor.html#method-c-shareable_lambda">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Ractor/s/shareable_proc.html">Ractor.shareable_proc</a> と同じですが、lambda である <a href="../class/Proc.html">Proc</a> を返します。
+</p>
+<pre class="highlight ruby"><code>l <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable_lambda</span> <span class="p">{</span> <span class="mi">42</span> <span class="p">}</span>
+<span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable?</span><span class="p">(</span>l<span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> l<span class="p">.</span><span class="nf">lambda?</span>            <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ractor/s/shareable_proc.html">Ractor.shareable_proc</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_SHAREABLE_PROC"><code>shareable_proc { ... } -&gt; Proc</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ractor/s/shareable_proc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ractor.html#method-c-shareable_proc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+与えられたブロックから shareable な <a href="../class/Proc.html">Proc</a> を作成して返します。
+</p>
+<p>
+通常の <a href="../class/Proc.html">Proc</a> は shareable ではないため、他の Ractor に渡せません。このメソッドで作成した <a href="../class/Proc.html">Proc</a> は shareable になるため、複数の Ractor から利用できます。
+</p>
+<pre class="highlight ruby"><code>pr <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable_proc</span> <span class="p">{</span> <span class="mi">42</span> <span class="p">}</span>
+<span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable?</span><span class="p">(</span>pr<span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> pr<span class="p">.</span><span class="nf">lambda?</span>            <span class="c1"># =&gt; false
+</span>
+<span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable?</span><span class="p">(</span><span class="nb">proc</span> <span class="p">{</span> <span class="mi">42</span> <span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; false （通常の Proc は shareable ではない）
+</span>
+<span class="c1"># 他の Ractor に渡して呼び出せる
+</span><span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>pr<span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="nb">p</span><span class="p">.</span><span class="nf">call</span> <span class="p">}</span><span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; 42
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ractor/s/shareable_lambda.html">Ractor.shareable_lambda</a>, <a href="../method/Ractor/s/make_shareable.html">Ractor.make_shareable</a>
+</p>
 </dd>
 
 
