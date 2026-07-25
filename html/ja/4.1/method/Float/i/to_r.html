@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Float/i/to_r.html">
 
 <title>Float#to_r (Ruby 4.1 リファレンスマニュアル)</title>
-<meta name="description" content="`self' を Rational に変換します。">
+<meta name="description" content="`self' を Rational オブジェクトに変換したものを返します。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-24-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-25-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../../../js/run.js"></script>
 
 </head>
@@ -81,10 +81,28 @@
 <dt class="method-heading" id="I_TO_R"><code>to_r -&gt; Rational</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/Float/i/to_r.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Float.html#method-i-to_r">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を <a href="../../../class/Rational.html">Rational</a> に変換します。
+<code>self</code> を <a href="../../../class/Rational.html">Rational</a> オブジェクトに変換したものを返します。
 </p>
+<p>
+浮動小数点数は、<code>Float::INFINITY</code>, <code>-Float::INFINITY</code>, <code>Float::NAN</code> を除けば数学的には有理数を表しています。その値を得るメソッドです。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>FloatDomainError</code>:</dt>
+<dd>
+<code>self</code> が <code>Float::INFINITY</code>, <code>-Float::INFINITY</code>, <code>Float::NAN</code> の場合に発生します。
+</dd>
+</dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">0.5</span><span class="p">.</span><span class="nf">to_r</span>    <span class="c1"># =&gt; (1/2)
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">0.0</span><span class="p">.</span><span class="nf">to_r</span>  <span class="c1"># =&gt; (0/1)
+</span><span class="nb">p</span> <span class="mf">0.75</span><span class="p">.</span><span class="nf">to_r</span> <span class="c1"># =&gt; (3/4)
+</span></code></pre>
+<span class="caption">リテラルで得られるFloatの厳密値を知る例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">0.1</span><span class="p">.</span><span class="nf">to_r</span> <span class="c1"># =&gt; (3602879701896397/36028797018963968)
+</span><span class="nb">p</span> 0.1r     <span class="c1"># =&gt; (1/10)
+</span><span class="c1"># 浮動小数点数リテラル `0.1` によって生成される Float オブジェクトは
+</span><span class="c1"># 数学的には 0.1 とはわずかに異なる数を表しており、
+</span><span class="c1"># 有理数リテラル `0.1r` で生成される Rational オブジェクトとは
+</span><span class="c1"># 値が一致しない
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/Float/i/rationalize.html">Float#rationalize</a>

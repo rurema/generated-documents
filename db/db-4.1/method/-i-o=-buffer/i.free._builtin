@@ -1,0 +1,36 @@
+names=free
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=free=3.1
+until_by_name=
+
+### def free -> self
+
+バッファが確保しているメモリ領域を解放します。
+
+解放の内容はバッファの種類によって異なります。
+
+  - 内部(internal) -- 確保したメモリを解放します。
+  - 外部(external) -- 元のオブジェクトとの関連を解消します。
+  - マップ(mapped) -- マッピングを解除します。
+
+解放後は、どのメモリ領域も指さない状態になります。
+この状態のバッファは大きさ 0 のバッファとして扱われます。
+
+解放したバッファでも [m:IO::Buffer#resize] を呼べば、あらためてメモリ領域を確保できます。
+
+```ruby
+buf = IO::Buffer.new(4)
+buf.set_string("Ruby")
+
+buf.free
+p buf.null? # => true
+p buf.size  # => 0
+
+# resize すれば再び使える
+buf.resize(4)
+p buf.size  # => 4
+```
+
+- **SEE** [m:IO::Buffer#transfer], [m:IO::Buffer#null?]

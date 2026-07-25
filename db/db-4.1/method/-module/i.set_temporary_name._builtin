@@ -1,0 +1,60 @@
+names=set_temporary_name
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Module.md
+since_by_name=set_temporary_name=3.3
+until_by_name=
+
+### def set_temporary_name(string) -> self
+### def set_temporary_name(nil) -> self
+
+モジュール / クラスに一時的な名前を設定します。self を返します。
+
+設定した名前は [m:Module#name] や [m:Module#inspect] の結果に反映され、
+そのモジュール / クラスのインスタンスや定数、メソッドの表示にも使われます。
+定数に代入せずに、動的に生成したモジュール / クラスを区別したい場合に便利です。
+
+引数に nil を指定すると、再び無名の状態に戻ります。
+
+定数に代入されて永続的な名前が付くと、一時的な名前は破棄されます。
+また、既に永続的な名前を持つモジュール / クラスには設定できません。
+
+- **param** `string` -- 一時的な名前を文字列で指定します。
+             永続的な名前と紛らわしくならないよう、クラスパスとして
+             有効な文字列は指定できません。nil を指定すると無名に戻ります。
+
+- **raise** `ArgumentError` -- string がクラスパスとして有効な文字列(`Foo` や
+             `Foo::Bar` など)である場合や、空文字列である場合に発生します。
+
+- **raise** `RuntimeError` -- 既に永続的な名前を持つモジュール / クラスに対して
+             呼び出した場合に発生します。
+
+```ruby title="例"
+m = Module.new
+p m.name                          # => nil
+
+m.set_temporary_name("<my temp>")
+p m.name                          # => "<my temp>"
+
+m.set_temporary_name(nil)
+p m.name                          # => nil
+```
+
+```ruby title="例: 定数に代入すると永続的な名前になる"
+m = Module.new
+m.set_temporary_name("<my temp>")
+p m.name # => "<my temp>"
+
+MyModule = m
+p m.name # => "MyModule"
+```
+
+```ruby title="例: 設定できない名前"
+Module.new.set_temporary_name("Foo")      # ~> ArgumentError
+Module.new.set_temporary_name("Foo::Bar") # ~> ArgumentError
+Module.new.set_temporary_name("")         # ~> ArgumentError
+String.set_temporary_name("<x>")          # ~> RuntimeError
+```
+
+- **SEE** [m:Module#name]
+

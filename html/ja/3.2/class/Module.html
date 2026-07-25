@@ -139,6 +139,8 @@
 
 <li><a href="#S_USED_MODULES">used_modules</a></li>
 
+<li><a href="#S_USED_REFINEMENTS">used_refinements</a></li>
+
 </ul>
 </dd>
 
@@ -248,6 +250,8 @@
 
 <li><a href="#I_PUBLIC_METHOD_DEFINED--3F">public_method_defined?</a></li>
 
+<li><a href="#I_REFINEMENTS">refinements</a></li>
+
 <li><a href="#I_REMOVE_CLASS_VARIABLE">remove_class_variable</a></li>
 
 <li><a href="#I_REMOVE_METHOD">remove_method</a></li>
@@ -257,6 +261,8 @@
 <li><a href="#I_INSPECT">to_s</a></li>
 
 <li><a href="#I_UNDEF_METHOD">undef_method</a></li>
+
+<li><a href="#I_UNDEFINED_INSTANCE_METHODS">undefined_instance_methods</a></li>
 
 </ul>
 </dd>
@@ -421,6 +427,36 @@ using <span class="no">B</span>
 <span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">used_modules</span>
 <span class="c1">#=&gt; [B, A]
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_USED_REFINEMENTS"><code>used_refinements -&gt; [Refinement]</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Module/s/used_refinements.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Module.html#method-c-used_refinements">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のスコープで using されているすべての <a href="../class/Refinement.html">Refinement</a> を配列で返します。配列内の順番は未定義です。
+</p>
+<p>
+<a href="../method/Module/s/used_modules.html">Module.used_modules</a> が refinement を定義しているモジュール自体を返すのに対し、このメソッドは refinement そのものを返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">A</span>
+  refine <span class="no">Object</span> <span class="k">do</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">B</span>
+  refine <span class="no">Object</span> <span class="k">do</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+using <span class="no">A</span>
+using <span class="no">B</span>
+<span class="nb">p</span> <span class="no">Module</span><span class="p">.</span><span class="nf">used_refinements</span>
+<span class="c1">#=&gt; [#&lt;refinement:Object@B&gt;, #&lt;refinement:Object@A&gt;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/s/used_modules.html">Module.used_modules</a>, <a href="../method/Module/i/refinements.html">Module#refinements</a>
+</p>
 </dd>
 
 
@@ -2387,6 +2423,29 @@ false を指定するとそのモジュールで定義されているメソッ�
 </dd>
 
 
+<dt class="method-heading" id="I_REFINEMENTS"><code>refinements -&gt; [Refinement]</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Module/i/refinements.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Module.html#method-i-refinements">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self の中で <a href="../method/Module/i/refine.html">Module#refine</a> によって定義された <a href="../class/Refinement.html">Refinement</a> の一覧を配列で返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">A</span>
+  refine <span class="no">Integer</span> <span class="k">do</span>
+  <span class="k">end</span>
+
+  refine <span class="no">String</span> <span class="k">do</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="nb">p</span> <span class="no">A</span><span class="p">.</span><span class="nf">refinements</span>
+<span class="c1">#=&gt; [#&lt;refinement:Integer@A&gt;, #&lt;refinement:String@A&gt;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/refine.html">Module#refine</a>, <a href="../method/Module/s/used_refinements.html">Module.used_refinements</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_REMOVE_CLASS_VARIABLE"><code>remove_class_variable(name) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/remove_class_variable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Module.html#method-i-remove_class_variable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -2538,6 +2597,33 @@ self が特異クラスの場合に true を返します。そうでなければ
 </span><span class="no">M2</span><span class="p">.</span><span class="nf">moo</span>
 <span class="nb">p</span> <span class="no">M2</span><span class="p">.</span><span class="nf">instance_methods</span> <span class="k">false</span> <span class="c1">#=&gt; []
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_UNDEFINED_INSTANCE_METHODS"><code>undefined_instance_methods -&gt; [Symbol]</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Module/i/undefined_instance_methods.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Module.html#method-i-undefined_instance_methods">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+そのモジュールで <a href="../method/Module/i/undef_method.html">Module#undef_method</a> によって未定義にされたインスタンスメソッド名の一覧を配列で返します。
+</p>
+<p>
+祖先で未定義にされたメソッドは含まれません。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">bar</span>; <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">baz</span>; <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Sub</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="k">undef</span> bar
+<span class="k">end</span>
+
+<span class="nb">p</span> <span class="no">Sub</span><span class="p">.</span><span class="nf">undefined_instance_methods</span> <span class="c1"># =&gt; [:bar]
+</span><span class="nb">p</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">undefined_instance_methods</span> <span class="c1"># =&gt; []
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/undef_method.html">Module#undef_method</a>, <a href="../method/Module/i/instance_methods.html">Module#instance_methods</a>
+</p>
 </dd>
 
 
