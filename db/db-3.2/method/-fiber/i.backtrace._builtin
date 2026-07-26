@@ -1,0 +1,49 @@
+names=backtrace
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Fiber.md
+since_by_name=backtrace=3.0
+until_by_name=
+
+### def backtrace                -> [String]
+### def backtrace(start)         -> [String]
+### def backtrace(start, length) -> [String]
+### def backtrace(range)         -> [String]
+
+`self` が表すファイバーの現在の実行スタックを返します。
+
+引数を指定すると、返すスタックの範囲を指定できます。
+引数の意味は [m:Kernel?.caller] と同じです。
+
+ファイバーの実行が開始される前と、終了した後は空の配列を返します。
+
+- **param** `start` -- 開始フレームの位置を数値で指定します。
+- **param** `length` -- 取得するフレームの個数を指定します。
+- **param** `range` -- 取得したいフレームの範囲を [c:Range] で指定します。
+
+```ruby
+def level3 = Fiber.yield
+def level2 = level3
+def level1 = level2
+
+f = Fiber.new { level1 }
+
+# 開始前は空
+p f.backtrace # => []
+
+f.resume
+
+p f.backtrace
+# => ["t.rb:1:in `yield'", "t.rb:1:in `level3'", "t.rb:2:in `level2'",
+#     "t.rb:3:in `level1'", "t.rb:5:in `block in <main>'"]
+p f.backtrace(1, 2)
+# => ["t.rb:1:in `level3'", "t.rb:2:in `level2'"]
+
+f.resume
+
+# 終了後も空
+p f.backtrace # => []
+```
+
+- **SEE** [m:Fiber#backtrace_locations], [m:Kernel?.caller]
+

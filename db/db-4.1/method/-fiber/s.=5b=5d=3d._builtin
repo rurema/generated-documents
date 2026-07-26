@@ -1,0 +1,36 @@
+names=[]=
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Fiber.md
+since_by_name==5b=5d=3d=3.2
+until_by_name=
+
+### def []=(key, value)
+
+現在のファイバーの fiber storage の key に対応する値を value に設定します。
+key に対応する値がまだない場合は追加します。
+
+このファイバーから生成したファイバーには、設定した値が引き継がれます。
+逆に、生成後の変更は互いに影響しません。
+
+- **param** `key` -- キーを [c:Symbol] で指定します。
+- **param** `value` -- 格納する値を指定します。
+- **raise** `TypeError` -- key を [c:Symbol] として扱えない場合に発生します。
+
+key には [c:String] も指定できます。この場合 [c:Symbol] に変換されて扱われます。
+
+```ruby
+Fiber[:key] = 1
+
+Fiber.new do
+  p Fiber[:key] # => 1
+  Fiber[:key] = 2
+  p Fiber[:key] # => 2
+end.resume
+
+# 生成したファイバー側での変更は生成元に影響しない
+p Fiber[:key]   # => 1
+```
+
+- **SEE** [m:Fiber.\[\]], [m:Fiber#storage]
+

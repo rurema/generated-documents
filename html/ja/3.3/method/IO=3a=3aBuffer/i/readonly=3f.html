@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="stylesheet" href="../../../search.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/IO=3a=3aBuffer/i/readonly=3f.html">
+
+<title>IO::Buffer#readonly? (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="バッファが読み取り専用の場合に true を返します。">
+<script src="../../../script.js"></script>
+<script>var index_rel_prefix = "../../../";</script>
+<script src="../../../js/search_data.js"></script>
+<script src="../../../js/search_navigation.js"></script>
+<script src="../../../js/search_ranker.js"></script>
+<script src="../../../js/search_controller.js"></script>
+<script src="../../../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.3-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../../../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../../../doc/index.html">Ruby 3.3 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/IO=3a=3aBuffer.html","name":"IO::Bufferクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/IO=3a=3aBuffer/i/readonly=3f.html","name":"readonly?","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/IO=3a=3aBuffer.html">IO::Bufferクラス</a>
+      </li>
+      <li>
+        readonly? 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method IO::Buffer#readonly?</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_READONLY--3F"><code>readonly? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../../../method/IO=3a=3aBuffer/i/readonly=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/Buffer.html#method-i-readonly-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが読み取り専用の場合に true を返します。
+</p>
+<p>
+読み取り専用のバッファは、<code>IO::Buffer#set_value</code> や <a href="../../../method/IO=3a=3aBuffer/i/set_string.html">IO::Buffer#set_string</a>、
+<a href="../../../method/IO=3a=3aBuffer/i/copy.html">IO::Buffer#copy</a> などで変更できません。
+</p>
+<p>
+<code>IO::Buffer.for</code> にブロックを渡さずに作ったバッファは、元の文字列が freeze
+されているかどうかによらず、常に読み取り専用になります。内部で作った文字列の複製をバッファの元として使うためです。ブロックを渡した場合は元の文字列のメモリを直接参照するため、その文字列が freeze されている場合にだけ読み取り専用になります。読み取り専用のファイルから作ったバッファも読み取り専用です。
+</p>
+<pre class="highlight ruby"><code><span class="c1"># ブロックを渡さない場合は、元の文字列が freeze されていなくても読み取り専用
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">readonly?</span>                  <span class="c1"># =&gt; true
+</span>
+<span class="c1"># ブロックを渡した場合は元の文字列に従う
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>buf<span class="o">|</span> buf<span class="p">.</span><span class="nf">readonly?</span> <span class="p">}</span>    <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">.</span><span class="nf">freeze</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>buf<span class="o">|</span> buf<span class="p">.</span><span class="nf">readonly?</span> <span class="p">}</span> <span class="c1"># =&gt; true
+</span>
+<span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">readonly?</span>                       <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

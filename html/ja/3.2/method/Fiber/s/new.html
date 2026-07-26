@@ -83,7 +83,7 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_NEW"><code>new {|obj| ... } -&gt; Fiber</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/Fiber/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new(blocking: false, storage: true) {|obj| ... } -&gt; Fiber</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/Fiber/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられたブロックとともにファイバーを生成して返します。ブロックは <a href="../../../method/Fiber/i/resume.html">Fiber#resume</a> に与えられた引数をその引数として実行されます。
@@ -91,6 +91,20 @@
 <p>
 ブロックが終了した場合は親にコンテキストが切り替わります。その時ブロックの評価値が返されます。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>blocking</code>:</dt>
+<dd>
+偽を指定するとノンブロッキングなファイバーを生成します。真を指定するとブロッキングなファイバーを生成します。詳しくは <a href="../../../class/Fiber.html#nonblocking">Fiber/ノンブロッキングファイバーとスケジューラ</a> を参照してください。
+</dd>
+<dt class='method-param'>[PARAM] <code>storage</code>:</dt>
+<dd>
+生成するファイバーの fiber storage を指定します。
+true を指定すると呼び出し元のファイバーの fiber storage を複製して引き継ぎます。複製なので、生成後の変更は互いに影響しません。
+nil を指定すると引き継ぎません。この場合、最初に書き込んだ時点で空の状態から作られます。
+<a href="../../../class/Hash.html">Hash</a> を指定するとその内容で初期化します。キーは <a href="../../../class/Symbol.html">Symbol</a> で指定します。
+fiber storage については <a href="../../../method/Fiber/i/storage.html">Fiber#storage</a> を参照してください。
+</dd>
+</dl>
 <span class="caption">例:</span>
 <pre class="highlight ruby"><code>a <span class="o">=</span> <span class="k">nil</span>
 f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>obj<span class="o">|</span>
@@ -101,6 +115,13 @@ f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span>
 b <span class="o">=</span> f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span>
 <span class="nb">p</span> a  <span class="c1">#=&gt; :foo
 </span><span class="nb">p</span> b  <span class="c1">#=&gt; :hoge
+</span></code></pre>
+<span class="caption">例: fiber storage の引き継ぎ</span>
+<pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="p">}</span><span class="p">.</span><span class="nf">resume</span>                    <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">storage:</span> <span class="k">nil</span><span class="p">)</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="p">}</span><span class="p">.</span><span class="nf">resume</span>      <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">storage:</span> <span class="p">{</span><span class="ss">key:</span> <span class="mi">2</span><span class="p">}</span><span class="p">)</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="p">}</span><span class="p">.</span><span class="nf">resume</span> <span class="c1"># =&gt; 2
 </span></code></pre>
 </dd>
 

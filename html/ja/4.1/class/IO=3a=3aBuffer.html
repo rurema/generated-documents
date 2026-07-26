@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-25-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-26-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -124,7 +124,8 @@ Ruby 3.1 で導入されました。
 </p>
 <p>
 <a href="../class/String.html">String</a> を経由せずにメモリ領域を扱えるため、コピーを避けた入出力
-(zero-copy IO)を実現するために使われます。主に <a href="../class/Fiber=3a=3aScheduler.html">Fiber::Scheduler</a> の実装のような、低レベルな入出力を扱う場面で利用します。
+(zero-copy IO)を実現するために使われます。主に
+<a class="external" href="https://docs.ruby-lang.org/en/4.0/Fiber/Scheduler.html">Fiber::Scheduler</a> の実装のような、低レベルな入出力を扱う場面で利用します。
 </p>
 <p>
 バッファは以下のいずれかの方法で確保されたメモリ領域を指します。
@@ -171,19 +172,39 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 
 <li><a href="#I_COPY">copy</a></li>
 
+<li><a href="#I_EMPTY--3F">empty?</a></li>
+
+<li><a href="#I_EXTERNAL--3F">external?</a></li>
+
 <li><a href="#I_FREE">free</a></li>
 
 <li><a href="#I_GET_STRING">get_string</a></li>
 
+<li><a href="#I_INTERNAL--3F">internal?</a></li>
+
+<li><a href="#I_LOCKED--3F">locked?</a></li>
+
+<li><a href="#I_MAPPED--3F">mapped?</a></li>
+
+<li><a href="#I_NULL--3F">null?</a></li>
+
+<li><a href="#I_PRIVATE--3F">private?</a></li>
+
+<li><a href="#I_READONLY--3F">readonly?</a></li>
+
 <li><a href="#I_RESIZE">resize</a></li>
 
 <li><a href="#I_SET_STRING">set_string</a></li>
+
+<li><a href="#I_SHARED--3F">shared?</a></li>
 
 <li><a href="#I_SIZE">size</a></li>
 
 <li><a href="#I_SLICE">slice</a></li>
 
 <li><a href="#I_TRANSFER">transfer</a></li>
+
+<li><a href="#I_VALID--3F">valid?</a></li>
 
 </ul>
 </dd>
@@ -274,7 +295,7 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 size バイトの、0 で埋められた新しいバッファを作成して返します。
 </p>
 <p>
-既定では内部(internal)バッファ、すなわち Ruby が直接確保したメモリ領域になります。ただし size が OS 依存の <a href="../method/IO=3a=3aBuffer/c/PAGE_SIZE.html">IO::Buffer::PAGE_SIZE</a> より大きい場合は、仮想メモリ機構(Unix では匿名 mmap、Windows では VirtualAlloc)を用いて確保されます。flags に <a href="../method/IO=3a=3aBuffer/c/MAPPED.html">IO::Buffer::MAPPED</a> を指定すると、
+既定では内部(internal)バッファ、すなわち Ruby が直接確保したメモリ領域になります。ただし size が OS 依存の <a href="../method/IO=3a=3aBuffer/c/PAGE_SIZE.html">IO::Buffer::PAGE_SIZE</a> 以上の場合は、仮想メモリ機構(Unix では匿名 mmap、Windows では VirtualAlloc)を用いて確保されます。flags に <a href="../method/IO=3a=3aBuffer/c/MAPPED.html">IO::Buffer::MAPPED</a> を指定すると、
 size によらず後者の方法で確保されます。
 </p>
 <dl>
@@ -386,6 +407,38 @@ offset と length の合計がバッファのバイト数を超える場合に�
 </dd>
 
 
+<dt class="method-heading" id="I_EMPTY--3F"><code>empty? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/empty=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-empty-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの大きさが 0 の場合に true を返します。
+</p>
+<p>
+大きさ 0 のバッファは、<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> に 0 を渡すか、空文字列から <code>IO::Buffer.for</code> で作った場合などにできます。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">empty?</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">empty?</span> <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_EXTERNAL--3F"><code>external? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/external=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-external-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが外部(external)バッファである場合に true を返します。
+</p>
+<p>
+外部バッファは、バッファ自身が確保・マップしたのではないメモリ領域を参照します。
+<code>IO::Buffer.for</code> で作ったバッファは、文字列のメモリを外部参照します。外部バッファは大きさを変更できません。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">external?</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">external?</span>      <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/internal=3f.html">IO::Buffer#internal?</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_FREE"><code>free -&gt; self</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/free.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-free">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -463,6 +516,104 @@ buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</
 </dd>
 
 
+<dt class="method-heading" id="I_INTERNAL--3F"><code>internal? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/internal=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-internal-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが内部(internal)バッファである場合に true を返します。
+</p>
+<p>
+内部バッファは、バッファ自身が確保したメモリ領域を参照します。文字列などの外部のメモリやファイルのマッピングとは結び付いていません。
+<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> で作られるバッファは既定で内部バッファです。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">internal?</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/external=3f.html">IO::Buffer#external?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LOCKED--3F"><code>locked? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/locked=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-locked-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファがロックされている場合に true を返します。
+</p>
+<p>
+ロックされたバッファは大きさの変更や解放ができず、さらにロックを取得することもできません。システムコールでバッファを使っている間に、そのバッファが移動しないことを保証するための仕組みです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MAPPED--3F"><code>mapped? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/mapped=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-mapped-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファがマップ(mapped)バッファである場合に true を返します。
+</p>
+<p>
+マップバッファは、仮想メモリ機構でマップされたメモリ領域を参照します。
+<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> に <a href="../method/IO=3a=3aBuffer/c/MAPPED.html">IO::Buffer::MAPPED</a> を指定した場合や、大きさが <a href="../method/IO=3a=3aBuffer/c/PAGE_SIZE.html">IO::Buffer::PAGE_SIZE</a> 以上の場合は匿名のマップになります。
+<code>IO::Buffer.map</code> で作った場合はファイルに紐づいたマップになります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_NULL--3F"><code>null? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/null=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-null-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファがどのメモリ領域も指していない場合に true を返します。
+</p>
+<p>
+<a href="../method/IO=3a=3aBuffer/i/free.html">IO::Buffer#free</a> で解放したバッファ、<a href="../method/IO=3a=3aBuffer/i/transfer.html">IO::Buffer#transfer</a> で所有権を手放したバッファ、および最初からメモリ領域を確保していないバッファがこれにあたります。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">null?</span> <span class="c1"># =&gt; true
+</span>
+buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">null?</span> <span class="c1"># =&gt; false
+</span>buf<span class="p">.</span><span class="nf">free</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">null?</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/free.html">IO::Buffer#free</a>, <a href="../method/IO=3a=3aBuffer/i/transfer.html">IO::Buffer#transfer</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRIVATE--3F"><code>private? -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/private=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-private-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファがプライベート(private)バッファである場合に true を返します。
+</p>
+<p>
+プライベートバッファに加えた変更は、元になったファイルのマッピングには反映されません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_READONLY--3F"><code>readonly? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/readonly=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-readonly-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが読み取り専用の場合に true を返します。
+</p>
+<p>
+読み取り専用のバッファは、<code>IO::Buffer#set_value</code> や <a href="../method/IO=3a=3aBuffer/i/set_string.html">IO::Buffer#set_string</a>、
+<a href="../method/IO=3a=3aBuffer/i/copy.html">IO::Buffer#copy</a> などで変更できません。
+</p>
+<p>
+<code>IO::Buffer.for</code> にブロックを渡さずに作ったバッファは、元の文字列が freeze
+されているかどうかによらず、常に読み取り専用になります。内部で作った文字列の複製をバッファの元として使うためです。ブロックを渡した場合は元の文字列のメモリを直接参照するため、その文字列が freeze されている場合にだけ読み取り専用になります。読み取り専用のファイルから作ったバッファも読み取り専用です。
+</p>
+<pre class="highlight ruby"><code><span class="c1"># ブロックを渡さない場合は、元の文字列が freeze されていなくても読み取り専用
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">readonly?</span>                  <span class="c1"># =&gt; true
+</span>
+<span class="c1"># ブロックを渡した場合は元の文字列に従う
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>buf<span class="o">|</span> buf<span class="p">.</span><span class="nf">readonly?</span> <span class="p">}</span>    <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">.</span><span class="nf">freeze</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>buf<span class="o">|</span> buf<span class="p">.</span><span class="nf">readonly?</span> <span class="p">}</span> <span class="c1"># =&gt; true
+</span>
+<span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">readonly?</span>                       <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_RESIZE"><code>resize(size) -&gt; self</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/resize.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-resize">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -472,7 +623,7 @@ buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</
 変更前の内容は保持されます。変更後の大きさによっては、メモリ領域が別の場所に確保しなおされ、内容がそこへコピーされます。
 </p>
 <p>
-<a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a> で作った外部バッファや、ロックされたバッファは大きさを変更できません。
+<code>IO::Buffer.for</code> で作った外部バッファや、ロックされたバッファは大きさを変更できません。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>size</code>:</dt>
@@ -539,6 +690,17 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/get_string.html">IO::Buffer#get_string</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SHARED--3F"><code>shared? -&gt; bool</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/shared=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-shared-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが共有(shared)バッファである場合に true を返します。
+</p>
+<p>
+共有バッファは、他のプロセスと共有できるメモリ領域を参照します。そのため、このプロセスで変更しなくても内容が変わることがあります。
 </p>
 </dd>
 
@@ -614,6 +776,17 @@ other <span class="o">=</span> buf<span class="p">.</span><span class="nf">trans
 </dd>
 
 
+<dt class="method-heading" id="I_VALID--3F"><code>valid? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/valid=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-valid-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファがアクセス可能な場合に true を返します。
+</p>
+<p>
+別のバッファや文字列の一部を参照している(<a href="../method/IO=3a=3aBuffer/i/slice.html">IO::Buffer#slice</a> で作った)バッファは、参照元が解放されたり別のアドレスに再確保されたりすると、アクセスできなくなります。
+</p>
+</dd>
+
+
 </dl>
 
 <h2>定数</h2>
@@ -672,8 +845,7 @@ BIG_ENDIAN と同じ値です。
 バッファがロックされていることを表すフラグです。
 </p>
 <p>
-ロックされている間はバッファの解放やリサイズができません。
-<a href="../method/IO=3a=3aBuffer/i/locked.html">IO::Buffer#locked</a> を参照してください。
+ロックされている間はバッファの解放やリサイズができません。バッファがロックされているかどうかは <a href="../method/IO=3a=3aBuffer/i/locked=3f.html">IO::Buffer#locked?</a> で調べられます。
 </p>
 </dd>
 
