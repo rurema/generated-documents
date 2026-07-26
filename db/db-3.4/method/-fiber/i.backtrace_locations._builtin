@@ -1,0 +1,28 @@
+names=backtrace_locations
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Fiber.md
+since_by_name=backtrace_locations=3.0
+until_by_name=
+
+### def backtrace_locations                -> [Thread::Backtrace::Location]
+### def backtrace_locations(start)         -> [Thread::Backtrace::Location]
+### def backtrace_locations(start, length) -> [Thread::Backtrace::Location]
+### def backtrace_locations(range)         -> [Thread::Backtrace::Location]
+
+[m:Fiber#backtrace] と同じですが、実行スタックの各行を
+[c:Thread::Backtrace::Location] の配列で返します。
+
+引数の意味は [m:Fiber#backtrace] と同じです。
+
+```ruby
+f = Fiber.new { Fiber.yield }
+f.resume
+
+loc = f.backtrace_locations.first
+p loc.class  # => Thread::Backtrace::Location
+p loc.lineno # => 1
+```
+
+- **SEE** [m:Fiber#backtrace], [m:Kernel?.caller_locations]
+

@@ -209,6 +209,24 @@ f<span class="p">.</span><span class="nf">resume</span>
 <span class="c1">#=&gt; t.rb:5:in `resume': fiber called across threads (FiberError)
 </span><span class="c1">#      from t.rb:5:in `&lt;main&gt;'
 </span></code></pre>
+<h2 id='nonblocking'>ノンブロッキングファイバーとスケジューラ</h2>
+<p>
+Ruby 3.0 から、ファイバーはブロッキングとノンブロッキングのどちらかの実行コンテキストを持ちます。
+<a href="../method/Fiber/s/new.html">Fiber.new</a> は既定でノンブロッキングなファイバーを生成します。
+<code>blocking: true</code> を指定するとブロッキングなファイバーになります。
+</p>
+<p>
+ノンブロッキングファイバーの中でブロックしうる操作を行うと、その操作はスケジューラに委譲されます。ブロックしうる操作とは、IO 待ちやスリープなどです。スケジューラは <a href="../method/Fiber/s/set_scheduler.html">Fiber.set_scheduler</a> でスレッドごとに設定します。
+</p>
+<p>
+スケジューラを設定していない場合、ノンブロッキングファイバーはブロッキングファイバーと同じ動作になります。つまりノンブロッキングファイバーであること自体は実行の挙動を変えません。
+</p>
+<p>
+スケジューラは Ruby 本体では提供されていません。フックメソッドを実装したオブジェクトを利用者が用意します。実装すべきメソッドは <a class="external" href="https://docs.ruby-lang.org/en/4.0/Fiber/Scheduler.html">Ruby 本体の Fiber::Scheduler のドキュメント</a>で説明されています。
+</p>
+<p>
+現在の実行コンテキストがどちらであるかは <a href="../method/Fiber/s/blocking=3f.html">Fiber.blocking?</a> で調べられます。また <a href="../method/Fiber/s/schedule.html">Fiber.schedule</a> を使うと、スケジューラ経由でノンブロッキングファイバーを生成できます。
+</p>
 
 
 
@@ -219,9 +237,25 @@ f<span class="p">.</span><span class="nf">resume</span>
 <dd>
 <ul class="class-toc">
 
+<li><a href="#S_--5B--5D">[]</a></li>
+
+<li><a href="#S_--5B--5D--3D">[]=</a></li>
+
+<li><a href="#S_BLOCKING">blocking</a></li>
+
+<li><a href="#S_BLOCKING--3F">blocking?</a></li>
+
 <li><a href="#S_CURRENT">current</a></li>
 
+<li><a href="#S_CURRENT_SCHEDULER">current_scheduler</a></li>
+
 <li><a href="#S_NEW">new</a></li>
+
+<li><a href="#S_SCHEDULE">schedule</a></li>
+
+<li><a href="#S_SCHEDULER">scheduler</a></li>
+
+<li><a href="#S_SET_SCHEDULER">set_scheduler</a></li>
 
 <li><a href="#S_YIELD">yield</a></li>
 
@@ -234,9 +268,19 @@ f<span class="p">.</span><span class="nf">resume</span>
 
 <li><a href="#I_ALIVE--3F">alive?</a></li>
 
+<li><a href="#I_BACKTRACE">backtrace</a></li>
+
+<li><a href="#I_BACKTRACE_LOCATIONS">backtrace_locations</a></li>
+
+<li><a href="#I_BLOCKING--3F">blocking?</a></li>
+
 <li><a href="#I_RAISE">raise</a></li>
 
 <li><a href="#I_RESUME">resume</a></li>
+
+<li><a href="#I_STORAGE">storage</a></li>
+
+<li><a href="#I_STORAGE">storage=</a></li>
 
 <li><a href="#I_TRANSFER">transfer</a></li>
 
@@ -257,6 +301,122 @@ f<span class="p">.</span><span class="nf">resume</span>
 <h2>特異メソッド</h2>
 <dl>
 
+<dt class="method-heading" id="S_--5B--5D"><code>self[key] -&gt; object | nil</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Fiber/s/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のファイバーの fiber storage から key に対応する値を返します。対応する値がない場合は nil を返します。
+</p>
+<p>
+fiber storage については <a href="../method/Fiber/i/storage.html">Fiber#storage</a> を参照してください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>key</code>:</dt>
+<dd>
+キーを <a href="../class/Symbol.html">Symbol</a> で指定します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+key を <a href="../class/Symbol.html">Symbol</a> として扱えない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span>     <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:unknown</span><span class="p">]</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/=5b=5d=3d.html">Fiber.[]=</a>, <a href="../method/Fiber/i/storage.html">Fiber#storage</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_--5B--5D--3D"><code>self[key] = value</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Fiber/s/=5b=5d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-5B-5D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のファイバーの fiber storage の key に対応する値を value に設定します。
+key に対応する値がまだない場合は追加します。
+</p>
+<p>
+このファイバーから生成したファイバーには、設定した値が引き継がれます。逆に、生成後の変更は互いに影響しません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>key</code>:</dt>
+<dd>
+キーを <a href="../class/Symbol.html">Symbol</a> で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>value</code>:</dt>
+<dd>
+格納する値を指定します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+key を <a href="../class/Symbol.html">Symbol</a> として扱えない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="c1"># =&gt; 1
+</span>  <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="c1"># =&gt; 2
+</span><span class="k">end</span><span class="p">.</span><span class="nf">resume</span>
+
+<span class="c1"># 生成したファイバー側での変更は生成元に影響しない
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span>   <span class="c1"># =&gt; 1
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/=5b=5d.html">Fiber.[]</a>, <a href="../method/Fiber/i/storage.html">Fiber#storage</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_BLOCKING"><code>blocking {|fiber| ... } -&gt; object</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Fiber/s/blocking.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-blocking">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ブロックを実行している間だけ、現在のファイバーをブロッキングにします。
+</p>
+<p>
+ブロックには現在のファイバーが渡されます。現在のファイバーがすでにブロッキングである場合は、単にブロックを実行します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+ブロックの評価結果を返します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">blocking?</span>   <span class="c1"># =&gt; false
+</span>  <span class="no">Fiber</span><span class="p">.</span><span class="nf">blocking</span> <span class="k">do</span>
+    <span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">blocking?</span> <span class="c1"># =&gt; 1
+</span>  <span class="k">end</span>
+  <span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">blocking?</span>   <span class="c1"># =&gt; false
+</span><span class="k">end</span>
+f<span class="p">.</span><span class="nf">resume</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/blocking=3f.html">Fiber.blocking?</a>, <a href="../class/Fiber.html#nonblocking">Fiber/ノンブロッキングファイバーとスケジューラ</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_BLOCKING--3F"><code>blocking? -&gt; false | 1</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiber/s/blocking=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-blocking-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在の実行コンテキストがブロッキングである場合に 1 を返します。ノンブロッキングである場合は false を返します。
+</p>
+<p>
+将来のバージョンで、1 以外のブロッキングレベルを表す値が返るようになる可能性があります。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">blocking?</span>                                      <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">blocking?</span> <span class="p">}</span><span class="p">.</span><span class="nf">resume</span>                 <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">blocking:</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">blocking?</span> <span class="p">}</span><span class="p">.</span><span class="nf">resume</span> <span class="c1"># =&gt; 1
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/i/blocking=3f.html">Fiber#blocking?</a>, <a href="../class/Fiber.html#nonblocking">Fiber/ノンブロッキングファイバーとスケジューラ</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_CURRENT"><code>current -&gt; Fiber</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Fiber/s/current.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-current">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.current.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -276,7 +436,22 @@ fb <span class="o">=</span> fr<span class="p">.</span><span class="nf">resume</s
 </dd>
 
 
-<dt class="method-heading" id="S_NEW"><code>new {|obj| ... } -&gt; Fiber</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Fiber/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_CURRENT_SCHEDULER"><code>current_scheduler -&gt; object | nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/Fiber/s/current_scheduler.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-current_scheduler">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のスレッドに設定されているスケジューラを返します。ただし現在のファイバーがブロッキングである場合は nil を返します。
+</p>
+<p>
+現在のファイバーがブロッキングかどうかに関わらずスケジューラを取得したい場合は
+<a href="../method/Fiber/s/scheduler.html">Fiber.scheduler</a> を使用してください。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/scheduler.html">Fiber.scheduler</a>, <a href="../method/Fiber/s/set_scheduler.html">Fiber.set_scheduler</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_NEW"><code>new(blocking: false, storage: true) {|obj| ... } -&gt; Fiber</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Fiber/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられたブロックとともにファイバーを生成して返します。ブロックは <a href="../method/Fiber/i/resume.html">Fiber#resume</a> に与えられた引数をその引数として実行されます。
@@ -284,6 +459,20 @@ fb <span class="o">=</span> fr<span class="p">.</span><span class="nf">resume</s
 <p>
 ブロックが終了した場合は親にコンテキストが切り替わります。その時ブロックの評価値が返されます。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>blocking</code>:</dt>
+<dd>
+偽を指定するとノンブロッキングなファイバーを生成します。真を指定するとブロッキングなファイバーを生成します。詳しくは <a href="../class/Fiber.html#nonblocking">Fiber/ノンブロッキングファイバーとスケジューラ</a> を参照してください。
+</dd>
+<dt class='method-param'>[PARAM] <code>storage</code>:</dt>
+<dd>
+生成するファイバーの fiber storage を指定します。
+true を指定すると呼び出し元のファイバーの fiber storage を複製して引き継ぎます。複製なので、生成後の変更は互いに影響しません。
+nil を指定すると引き継ぎません。この場合、最初に書き込んだ時点で空の状態から作られます。
+<a href="../class/Hash.html">Hash</a> を指定するとその内容で初期化します。キーは <a href="../class/Symbol.html">Symbol</a> で指定します。
+fiber storage については <a href="../method/Fiber/i/storage.html">Fiber#storage</a> を参照してください。
+</dd>
+</dl>
 <span class="caption">例:</span>
 <pre class="highlight ruby"><code>a <span class="o">=</span> <span class="k">nil</span>
 f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>obj<span class="o">|</span>
@@ -295,6 +484,91 @@ b <span class="o">=</span> f<span class="p">.</span><span class="nf">resume</spa
 <span class="nb">p</span> a  <span class="c1">#=&gt; :foo
 </span><span class="nb">p</span> b  <span class="c1">#=&gt; :hoge
 </span></code></pre>
+<span class="caption">例: fiber storage の引き継ぎ</span>
+<pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="p">}</span><span class="p">.</span><span class="nf">resume</span>                    <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">storage:</span> <span class="k">nil</span><span class="p">)</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="p">}</span><span class="p">.</span><span class="nf">resume</span>      <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">storage:</span> <span class="p">{</span><span class="ss">key:</span> <span class="mi">2</span><span class="p">}</span><span class="p">)</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="p">}</span><span class="p">.</span><span class="nf">resume</span> <span class="c1"># =&gt; 2
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_SCHEDULE"><code>schedule(*args) {|*args| ... } -&gt; Fiber</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiber/s/schedule.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-schedule">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のスレッドに設定されているスケジューラを使って、ブロックをノンブロッキングなファイバーで実行します。
+</p>
+<p>
+ファイバーの生成はスケジューラのフックメソッドに委譲されます。そのため、ブロックがただちに実行されるかどうかはスケジューラの実装に依存します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>args</code>:</dt>
+<dd>
+ブロックの引数として渡されます。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+生成されたファイバーを返します。
+</dd>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+スケジューラが設定されていない場合に発生します。
+</dd>
+</dl>
+<span class="caption">例: スケジューラが設定されていない場合</span>
+<pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">.</span><span class="nf">schedule</span> <span class="p">{</span> <span class="p">}</span>  <span class="c1"># ~&gt; RuntimeError: No scheduler is available!
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/set_scheduler.html">Fiber.set_scheduler</a>, <a href="../class/Fiber.html#nonblocking">Fiber/ノンブロッキングファイバーとスケジューラ</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_SCHEDULER"><code>scheduler -&gt; object | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiber/s/scheduler.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-scheduler">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のスレッドに設定されているスケジューラを返します。設定されていない場合は nil を返します。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">scheduler</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/set_scheduler.html">Fiber.set_scheduler</a>
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/current_scheduler.html">Fiber.current_scheduler</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_SET_SCHEDULER"><code>set_scheduler(scheduler) -&gt; object</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiber/s/set_scheduler.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-c-set_scheduler">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のスレッドにスケジューラを設定します。
+</p>
+<p>
+スケジューラを設定すると、ノンブロッキングファイバーの中でブロックしうる操作を行った際に、スケジューラのフックメソッドが呼ばれるようになります。またスレッドの終了時にスケジューラの close メソッドが呼ばれ、終了していないファイバーの後始末ができるようになっています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>scheduler</code>:</dt>
+<dd>
+スケジューラとして振る舞うオブジェクトを指定します。
+nil を指定するとスケジューラを解除します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+<code>scheduler</code> をそのまま返します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+scheduler が必要なフックメソッドを実装していない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">.</span><span class="nf">set_scheduler</span><span class="p">(</span><span class="no">Object</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span> <span class="c1"># ~&gt; ArgumentError: Scheduler must implement #block
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/scheduler.html">Fiber.scheduler</a>, <a href="../method/Fiber/s/schedule.html">Fiber.schedule</a>, <a href="../class/Fiber.html#nonblocking">Fiber/ノンブロッキングファイバーとスケジューラ</a>
+</p>
 </dd>
 
 
@@ -359,6 +633,104 @@ f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><
 </span>fr<span class="p">.</span><span class="nf">resume</span>   <span class="c1"># ブロック内の評価を終えて戻ってくる
 </span><span class="nb">p</span> fr<span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; false
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_BACKTRACE"><code>backtrace -&gt; [String]</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiber/i/backtrace.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-i-backtrace">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>backtrace(start) -&gt; [String]</code></dt>
+<dt class="method-heading"><code>backtrace(start, length) -&gt; [String]</code></dt>
+<dt class="method-heading"><code>backtrace(range) -&gt; [String]</code></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が表すファイバーの現在の実行スタックを返します。
+</p>
+<p>
+引数を指定すると、返すスタックの範囲を指定できます。引数の意味は <a href="../method/Kernel/m/caller.html">Kernel.#caller</a> と同じです。
+</p>
+<p>
+ファイバーの実行が開始される前と、終了した後は空の配列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>start</code>:</dt>
+<dd>
+開始フレームの位置を数値で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+取得するフレームの個数を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>range</code>:</dt>
+<dd>
+取得したいフレームの範囲を <a href="../class/Range.html">Range</a> で指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">level3</span> <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span>
+<span class="k">def</span> <span class="nf">level2</span> <span class="o">=</span> level3
+<span class="k">def</span> <span class="nf">level1</span> <span class="o">=</span> level2
+
+f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> level1 <span class="p">}</span>
+
+<span class="c1"># 開始前は空
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">backtrace</span> <span class="c1"># =&gt; []
+</span>
+f<span class="p">.</span><span class="nf">resume</span>
+
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">backtrace</span>
+<span class="c1"># =&gt; [&quot;t.rb:1:in `yield'&quot;, &quot;t.rb:1:in `level3'&quot;, &quot;t.rb:2:in `level2'&quot;,
+</span><span class="c1">#     &quot;t.rb:3:in `level1'&quot;, &quot;t.rb:5:in `block in &lt;main&gt;'&quot;]
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">backtrace</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># =&gt; [&quot;t.rb:1:in `level3'&quot;, &quot;t.rb:2:in `level2'&quot;]
+</span>
+f<span class="p">.</span><span class="nf">resume</span>
+
+<span class="c1"># 終了後も空
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">backtrace</span> <span class="c1"># =&gt; []
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/i/backtrace_locations.html">Fiber#backtrace_locations</a>, <a href="../method/Kernel/m/caller.html">Kernel.#caller</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_BACKTRACE_LOCATIONS"><code>backtrace_locations -&gt; [Thread::Backtrace::Location]</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiber/i/backtrace_locations.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-i-backtrace_locations">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>backtrace_locations(start) -&gt; [Thread::Backtrace::Location]</code></dt>
+<dt class="method-heading"><code>backtrace_locations(start, length) -&gt; [Thread::Backtrace::Location]</code></dt>
+<dt class="method-heading"><code>backtrace_locations(range) -&gt; [Thread::Backtrace::Location]</code></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Fiber/i/backtrace.html">Fiber#backtrace</a> と同じですが、実行スタックの各行を
+<a href="../class/Thread=3a=3aBacktrace=3a=3aLocation.html">Thread::Backtrace::Location</a> の配列で返します。
+</p>
+<p>
+引数の意味は <a href="../method/Fiber/i/backtrace.html">Fiber#backtrace</a> と同じです。
+</p>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span> <span class="p">}</span>
+f<span class="p">.</span><span class="nf">resume</span>
+
+loc <span class="o">=</span> f<span class="p">.</span><span class="nf">backtrace_locations</span><span class="p">.</span><span class="nf">first</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">class</span>  <span class="c1"># =&gt; Thread::Backtrace::Location
+</span><span class="nb">p</span> loc<span class="p">.</span><span class="nf">lineno</span> <span class="c1"># =&gt; 1
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/i/backtrace.html">Fiber#backtrace</a>, <a href="../method/Kernel/m/caller_locations.html">Kernel.#caller_locations</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_BLOCKING--3F"><code>blocking? -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiber/i/blocking=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-i-blocking-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> がブロッキングなファイバーである場合に true を返します。ノンブロッキングである場合は false を返します。
+</p>
+<p>
+<a href="../method/Fiber/s/new.html">Fiber.new</a> に <code>blocking: true</code> を指定して生成したファイバーがブロッキングです。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="p">}</span><span class="p">.</span><span class="nf">blocking?</span>                 <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">blocking:</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span><span class="p">.</span><span class="nf">blocking?</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/blocking=3f.html">Fiber.blocking?</a>, <a href="../class/Fiber.html#nonblocking">Fiber/ノンブロッキングファイバーとスケジューラ</a>
+</p>
 </dd>
 
 
@@ -449,6 +821,60 @@ f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span>
 </span><span class="nb">p</span> f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="p">)</span> <span class="c1">#=&gt; :fuga
 </span>f<span class="p">.</span><span class="nf">resume</span><span class="p">(</span><span class="p">)</span>   <span class="c1"># ~&gt; FiberError: attempt to resume a terminated fiber
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_STORAGE"><code>storage -&gt; Hash | nil</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Fiber/i/storage.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Fiber.html#method-i-storage">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>storage=(hash)</code></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が表すファイバーの fiber storage を取得、設定します。
+</p>
+<p>
+fiber storage はファイバーごとに持てる記憶領域です。
+<a href="../method/Fiber/s/new.html">Fiber.new</a> で生成したファイバーには複製が引き継がれます。スレッドローカル変数がすべてのファイバーで共有されるのに対し、
+fiber storage はファイバーを起点とする実行単位の中だけで共有されます。リクエスト ID やロガーの設定のように、暗黙のうちに引き回したい状態に向いています。
+</p>
+<p>
+個々の値の読み書きには <a href="../method/Fiber/s/=5b=5d.html">Fiber.[]</a> と <a href="../method/Fiber/s/=5b=5d=3d.html">Fiber.[]=</a> を使います。
+storage が返すのは複製なので、返り値を変更しても fiber storage には反映されません。まだ fiber storage を持たない場合は nil を返します。
+</p>
+<p>
+storage= は実験的な機能です。呼び出すと実験的な機能である旨の警告が出ます。警告は <code>-W:no-experimental</code> オプションで抑制できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>hash</code>:</dt>
+<dd>
+設定する <a href="../class/Hash.html">Hash</a> を指定します。キーは <a href="../class/Symbol.html">Symbol</a> で指定します。
+nil を指定すると fiber storage を空にします。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+storage は fiber storage の複製を返します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<a href="../method/Fiber/s/current.html">Fiber.current</a> 以外のファイバーに対して呼んだ場合に発生します。
+</dd>
+</dl>
+<span class="caption">例: 取得</span>
+<pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">storage</span> <span class="c1"># =&gt; {:key=&gt;1}
+</span>
+<span class="c1"># 返り値は複製なので、変更しても fiber storage には影響しない
+</span><span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">storage</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span>           <span class="c1"># =&gt; 1
+</span></code></pre>
+<span class="caption">例: 設定</span>
+<pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">storage</span> <span class="o">=</span> <span class="p">{</span><span class="ss">other:</span> <span class="mi">2</span><span class="p">}</span> <span class="c1"># 実験的な機能である旨の警告が出る
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span>   <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:other</span><span class="p">]</span> <span class="c1"># =&gt; 2
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/new.html">Fiber.new</a>
+</p>
 </dd>
 
 

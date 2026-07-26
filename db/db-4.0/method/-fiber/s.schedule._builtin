@@ -1,0 +1,25 @@
+names=schedule
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Fiber.md
+since_by_name=schedule=3.0
+until_by_name=
+
+### def schedule(*args) {|*args| ... } -> Fiber
+
+現在のスレッドに設定されているスケジューラを使って、
+ブロックをノンブロッキングなファイバーで実行します。
+
+ファイバーの生成はスケジューラのフックメソッドに委譲されます。
+そのため、ブロックがただちに実行されるかどうかはスケジューラの実装に依存します。
+
+- **param** `args` -- ブロックの引数として渡されます。
+- **return** -- 生成されたファイバーを返します。
+- **raise** `RuntimeError` -- スケジューラが設定されていない場合に発生します。
+
+```ruby title="例: スケジューラが設定されていない場合"
+Fiber.schedule { }  # ~> RuntimeError: No scheduler is available!
+```
+
+- **SEE** [m:Fiber.set_scheduler], [ref:c:Fiber#nonblocking]
+

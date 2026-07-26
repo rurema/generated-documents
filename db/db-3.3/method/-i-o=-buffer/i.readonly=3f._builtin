@@ -1,0 +1,32 @@
+names=readonly?
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=readonly=3f=3.1
+until_by_name=
+
+### def readonly? -> bool
+
+バッファが読み取り専用の場合に true を返します。
+
+読み取り専用のバッファは、`IO::Buffer#set_value` や [m:IO::Buffer#set_string]、
+[m:IO::Buffer#copy] などで変更できません。
+
+`IO::Buffer.for` にブロックを渡さずに作ったバッファは、元の文字列が freeze
+されているかどうかによらず、常に読み取り専用になります。内部で作った文字列の
+複製をバッファの元として使うためです。
+ブロックを渡した場合は元の文字列のメモリを直接参照するため、
+その文字列が freeze されている場合にだけ読み取り専用になります。
+読み取り専用のファイルから作ったバッファも読み取り専用です。
+
+```ruby
+# ブロックを渡さない場合は、元の文字列が freeze されていなくても読み取り専用
+p IO::Buffer.for("test").readonly?                  # => true
+
+# ブロックを渡した場合は元の文字列に従う
+p IO::Buffer.for("test") { |buf| buf.readonly? }    # => false
+p IO::Buffer.for("test".freeze) { |buf| buf.readonly? } # => true
+
+p IO::Buffer.new(4).readonly?                       # => false
+```
+

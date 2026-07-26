@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-25-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-26-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -286,6 +286,8 @@ x86_64上でのlinuxでは16kバイトがページのサイズと決められて
 
 <li><a href="#S_COMPACT">compact</a></li>
 
+<li><a href="#S_CONFIG">config</a></li>
+
 <li><a href="#S_COUNT">count</a></li>
 
 <li><a href="#S_DISABLE">disable</a></li>
@@ -294,13 +296,21 @@ x86_64上でのlinuxでは16kバイトがページのサイズと決められて
 
 <li><a href="#S_LATEST_GC_INFO">latest_gc_info</a></li>
 
+<li><a href="#S_MEASURE_TOTAL_TIME">measure_total_time</a></li>
+
+<li><a href="#S_MEASURE_TOTAL_TIME">measure_total_time=</a></li>
+
 <li><a href="#S_START">start</a></li>
 
 <li><a href="#S_STAT">stat</a></li>
 
+<li><a href="#S_STAT_HEAP">stat_heap</a></li>
+
 <li><a href="#S_STRESS">stress</a></li>
 
 <li><a href="#S_STRESS--3D">stress=</a></li>
+
+<li><a href="#S_TOTAL_TIME">total_time</a></li>
 
 <li><a href="#S_VERIFY_COMPACTION_REFERENCES">verify_compaction_references</a></li>
 
@@ -401,6 +411,56 @@ true を設定するとフルGCのタイミングででヒープをコンパク�
 </dd>
 
 
+<dt class="method-heading" id="S_CONFIG"><code>config -&gt; {Symbol =&gt; object}</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/GC/s/config.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-config">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>config(hash) -&gt; {Symbol =&gt; object}</code></dt>
+<dd class="method-description">
+<p>
+GC の設定を取得、変更します。
+</p>
+<p>
+引数を省略すると現在の設定を返します。
+hash を指定すると、その内容を現在の設定にマージしてから設定を返します。設定に無いキーは無視されます。
+</p>
+<p>
+hash を指定したときの返り値は、Ruby 3.4 では指定したキーだけを含む <a href="../class/Hash.html">Hash</a> で、
+Ruby 4.0 以降では設定全体を含む <a href="../class/Hash.html">Hash</a> です。
+</p>
+<p>
+このメソッドは処理系依存 (CRuby 特有) です。設定できる項目は GC の実装ごとに異なり、予告なく変更される可能性があります。
+</p>
+<p>
+すべての実装に共通する項目は <code>:implementation</code> だけです。これは実装の名前を表す読み取り専用の項目で、Ruby の既定の実装では <code>&quot;default&quot;</code> です。
+</p>
+<p>
+既定の実装では <code>:rgengc_allow_full_mark</code> を設定できます。
+false を指定すると、フルマークを行う GC (major GC) が実行されなくなります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>hash</code>:</dt>
+<dd>
+変更する設定を <a href="../class/Hash.html">Hash</a> で指定します。キーは <a href="../class/Symbol.html">Symbol</a> で指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+設定を <a href="../class/Hash.html">Hash</a> で返します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+hash が <a href="../class/Hash.html">Hash</a> でない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">config</span> <span class="c1"># =&gt; {rgengc_allow_full_mark: true, implementation: &quot;default&quot;}
+</span>
+<span class="no">GC</span><span class="p">.</span><span class="nf">config</span><span class="p">(</span><span class="ss">rgengc_allow_full_mark:</span> <span class="k">false</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">config</span> <span class="c1"># =&gt; {rgengc_allow_full_mark: false, implementation: &quot;default&quot;}
+</span>
+<span class="c1"># 設定に無いキーは無視される
+</span><span class="no">GC</span><span class="p">.</span><span class="nf">config</span><span class="p">(</span><span class="ss">unknown_key:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">config</span> <span class="c1"># =&gt; {rgengc_allow_full_mark: false, implementation: &quot;default&quot;}
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="S_COUNT"><code>count -&gt; Integer</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/GC/s/count.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-count">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -478,6 +538,39 @@ merged <span class="o">=</span> <span class="no">GC</span><span class="p">.</spa
 </span>
 <span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">latest_gc_info</span><span class="p">(</span><span class="ss">:gc_by</span><span class="p">)</span>  <span class="c1"># =&gt; :newobj
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_MEASURE_TOTAL_TIME"><code>measure_total_time -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/GC/s/measure_total_time.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-measure_total_time">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>measure_total_time=(flag)</code></dt>
+<dd class="method-description">
+<p>
+GC にかかった時間を計測するかどうかを取得、設定します。既定では計測が有効です。
+</p>
+<p>
+計測を有効にすると GC のたびに時間を測るため、わずかに実行速度が落ちます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>flag</code>:</dt>
+<dd>
+nil または false を指定すると計測を無効にします。それ以外の値を指定すると有効にします。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+measure_total_time は計測が有効なら true を、無効なら false を返します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">measure_total_time</span> <span class="c1"># =&gt; true
+</span>
+<span class="no">GC</span><span class="p">.</span><span class="nf">measure_total_time</span> <span class="o">=</span> <span class="k">false</span>
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">measure_total_time</span> <span class="c1"># =&gt; false
+</span>
+<span class="no">GC</span><span class="p">.</span><span class="nf">measure_total_time</span> <span class="o">=</span> <span class="k">nil</span>
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">measure_total_time</span> <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/GC/s/total_time.html">GC.total_time</a>
+</p>
 </dd>
 
 
@@ -581,6 +674,56 @@ GC 内部の統計情報を<a href="../class/Hash.html">Hash</a> で返します
 </dd>
 
 
+<dt class="method-heading" id="S_STAT_HEAP"><code>stat_heap -&gt; {Integer =&gt; Hash}</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/GC/s/stat_heap.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-stat_heap">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>stat_heap(heap_id) -&gt; {Symbol =&gt; Integer}</code></dt>
+<dt class="method-heading"><code>stat_heap(heap_id, key) -&gt; Integer</code></dt>
+<dt class="method-heading"><code>stat_heap(heap_id, result_hash) -&gt; {Symbol =&gt; Integer}</code></dt>
+<dt class="method-heading"><code>stat_heap(nil, result_hash) -&gt; {Integer =&gt; Hash}</code></dt>
+<dd class="method-description">
+<p>
+サイズプールごとの GC の統計情報を <a href="../class/Hash.html">Hash</a> で返します。
+</p>
+<p>
+引数を省略すると、すべてのサイズプールの統計情報を、サイズプールの番号をキーとしたハッシュで返します。
+heap_id を指定すると、そのサイズプールの統計情報だけを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>heap_id</code>:</dt>
+<dd>
+サイズプールの番号を <a href="../class/Integer.html">Integer</a> で指定します。
+nil を指定すると、すべてのサイズプールが対象になります。
+</dd>
+<dt class='method-param'>[PARAM] <code>key</code>:</dt>
+<dd>
+特定の情報だけを取得したい場合にキーを <a href="../class/Symbol.html">Symbol</a> で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>result_hash</code>:</dt>
+<dd>
+戻り値のためのハッシュを指定します。省略した場合は新しくハッシュを作成します。result_hash の内容は上書きされます。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+存在しないサイズプールの番号を指定した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="c1"># サイズプールごとの統計情報を返す
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat_heap</span><span class="p">.</span><span class="nf">keys</span> <span class="c1"># =&gt; [0, 1, 2, 3, 4]
+</span>
+<span class="c1"># サイズプール 0 が扱うオブジェクトの大きさ (バイト)
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat_heap</span><span class="p">(</span><span class="mi">0</span>, <span class="ss">:slot_size</span><span class="p">)</span> <span class="c1"># =&gt; 40
+</span></code></pre>
+<p>
+戻り値のハッシュは処理系に依存します。これは将来変更になるかもしれません。
+</p>
+<p>
+本メソッドは C Ruby 以外では動作しません。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/GC/s/stat.html">GC.stat</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_STRESS"><code>stress -&gt; bool</code><span class="permalink">[<a href="../method/GC/s/stress.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-stress">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -636,6 +779,33 @@ malloc/calloc/realloc の後でメジャーGCを動作させる場合に指定�
 </dl>
 <p>
 [SEE_ALSO] <a href="../method/GC/s/stress.html">GC.stress</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_TOTAL_TIME"><code>total_time -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/GC/s/total_time.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-total_time">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+プロセス開始から GC にかかった時間の合計をナノ秒で返します。
+</p>
+<p>
+時間が積算されるのは <a href="../method/GC/s/measure_total_time.html">GC.measure_total_time</a> が true の間だけです。計測を無効にしている間に GC が実行されても、返り値は変化しません。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">measure_total_time</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">total_time</span>         <span class="c1"># =&gt; 625000
+</span>
+<span class="no">GC</span><span class="p">.</span><span class="nf">start</span>
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">total_time</span>         <span class="c1"># =&gt; 937500
+</span>
+<span class="no">GC</span><span class="p">.</span><span class="nf">measure_total_time</span> <span class="o">=</span> <span class="k">false</span>
+<span class="no">GC</span><span class="p">.</span><span class="nf">start</span>
+<span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">total_time</span>         <span class="c1"># =&gt; 937500  計測が無効なので増えない
+</span></code></pre>
+<p>
+返り値は実行環境や実行状況によって異なります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/GC/s/measure_total_time.html">GC.measure_total_time</a>
 </p>
 </dd>
 

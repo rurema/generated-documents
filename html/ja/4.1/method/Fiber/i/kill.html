@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="stylesheet" href="../../../search.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Fiber/i/kill.html">
+
+<title>Fiber#kill (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="`self' が表すファイバーを終了させます。">
+<script src="../../../script.js"></script>
+<script>var index_rel_prefix = "../../../";</script>
+<script src="../../../js/search_data.js"></script>
+<script src="../../../js/search_navigation.js"></script>
+<script src="../../../js/search_ranker.js"></script>
+<script src="../../../js/search_controller.js"></script>
+<script src="../../../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-26-a/dist/ruby+stdlib.wasm">
+<script type="module" src="../../../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../../../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Fiber.html","name":"Fiberクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Fiber/i/kill.html","name":"kill","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/Fiber.html">Fiberクラス</a>
+      </li>
+      <li>
+        kill 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method Fiber#kill</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_KILL"><code>kill -&gt; self | false</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../../../method/Fiber/i/kill.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Fiber.html#method-i-kill">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が表すファイバーを終了させます。
+</p>
+<p>
+捕捉できない例外を発生させて終了させるため、ensure 節は実行されます。
+</p>
+<p>
+まだ開始されていないファイバーに対して呼んだ場合は、ブロックを実行せずに終了状態にします。すでに終了しているファイバーに対して呼んだ場合は何もしません。
+</p>
+<p>
+<code>self</code> 以外のファイバーを終了させられるのは、そのファイバーが <a href="../../../method/Fiber/s/yield.html">Fiber.yield</a> で停止している場合だけです。
+<code>self</code> に対して呼んだ場合は、kill を呼んだ場所で例外が発生します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+<code>self</code> を返します。すでに kill 済みの場合は false を返します。
+</dd>
+<dt>[EXCEPTION] <code>FiberError</code>:</dt>
+<dd>
+他のスレッドに属するファイバーに対して呼んだ場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="k">begin</span>
+    <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span> <span class="ss">:a</span>
+    <span class="no">Fiber</span><span class="p">.</span><span class="nf">yield</span> <span class="ss">:b</span>
+  <span class="k">ensure</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="s2">ensure は実行される</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">resume</span> <span class="c1"># =&gt; :a
+</span>f<span class="p">.</span><span class="nf">kill</span>     <span class="c1"># &quot;ensure は実行される&quot; が出力される
+</span><span class="nb">p</span> f<span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/Thread/i/kill.html">Thread#kill</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
