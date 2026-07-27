@@ -1,0 +1,49 @@
+names=map
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=map=3.1
+until_by_name=
+
+### def map(file, size = nil, offset = 0, flags = 0) -> IO::Buffer
+
+ファイルをメモリにマップしたバッファを作成して返します。
+
+既定では書き込み可能かつ共有(shared)のマップになるため、file は書き込み
+可能な状態で開いておく必要があります。読み込み専用で開いたファイルを
+マップするには、flags に [m:IO::Buffer::READONLY] を指定します。
+[m:IO::Buffer::PRIVATE] を指定するとコピーオンライトのマップになり、
+バッファへの変更はファイルにも他のプロセスにも反映されません。
+
+- **param** `file` -- マップする [c:File] を指定します。
+
+- **param** `size` -- マップするバイト数を指定します。省略するとファイル全体を
+             マップします。0 を指定した場合と空のファイルを指定した場合は
+             エラーになります。
+
+- **param** `offset` -- マップを開始する位置をファイルの先頭からのバイト数で
+             指定します。指定できる値はシステム依存で、多くの環境では
+             ページサイズの倍数である必要があります。
+
+- **param** `flags` -- [m:IO::Buffer::READONLY] や [m:IO::Buffer::PRIVATE] を
+             指定します。
+
+```ruby title="例: 読み込み専用でマップする"
+File.write("test.txt", "hello world")
+
+buffer = IO::Buffer.map(File.open("test.txt"), nil, 0, IO::Buffer::READONLY)
+p buffer.get_string # => "hello world"
+p buffer.mapped?    # => true
+p buffer.readonly?  # => true
+```
+
+```ruby title="例: 書き込み可能なマップ"
+File.write("test.txt", "hello world")
+
+buffer = IO::Buffer.map(File.open("test.txt", "r+"))
+buffer.set_string("HELLO")
+p File.read("test.txt") # => "HELLO world"
+```
+
+- **SEE** [m:IO::Buffer.new], [m:IO::Buffer.for]
+

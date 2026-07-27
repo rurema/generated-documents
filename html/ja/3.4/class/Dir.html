@@ -149,6 +149,10 @@
 
 <li><a href="#S_EXIST--3F">exist?</a></li>
 
+<li><a href="#S_FCHDIR">fchdir</a></li>
+
+<li><a href="#S_FOR_FD">for_fd</a></li>
+
 <li><a href="#S_FOREACH">foreach</a></li>
 
 <li><a href="#S_GETWD">getwd</a></li>
@@ -577,6 +581,9 @@ path を省略した場合、環境変数 HOME または LOGDIR
 <span class="c1"># ~ は展開されない
 </span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="s2">"</span><span class="s2">~/.ssh</span><span class="s2">"</span><span class="p">)</span>        <span class="c1"># =&gt; Errno::ENOENT
 </span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Dir/s/fchdir.html">Dir.fchdir</a>
+</p>
 </dd>
 
 
@@ -785,6 +792,86 @@ file_name で与えられたディレクトリが存在する場合に真を返�
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/File/s/directory=3f.html">File.directory?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_FCHDIR"><code>fchdir(fd) -&gt; 0</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Dir/s/fchdir.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Dir.html#method-c-fchdir">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>fchdir(fd) { ... } -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+カレントディレクトリを、整数のファイルディスクリプタ fd が指すディレクトリに変更します。
+</p>
+<p>
+ファイルディスクリプタを UNIX ソケット経由で渡したり子プロセスに渡したりする場合、<a href="../method/Dir/s/chdir.html">Dir.chdir</a> の代わりに fchdir を使うと TOCTOU (time-of-check to
+time-of-use) 脆弱性を避けられます。
+</p>
+<p>
+ブロックを指定しない場合、カレントディレクトリを fd の指すディレクトリに変更し、
+0 を返します。
+</p>
+<p>
+ブロックを指定した場合、カレントディレクトリの変更はブロックの実行中に限られます。ブロックの実行結果を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>fd</code>:</dt>
+<dd>
+ディレクトリを指すファイルディスクリプタを整数で指定します。
+</dd>
+<dt>[EXCEPTION] <code>Errno::EXXX</code>:</dt>
+<dd>
+失敗した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="s2">"</span><span class="s2">/var/spool/mail</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">pwd</span>            <span class="c1"># =&gt; &quot;/var/spool/mail&quot;
+</span>
+dir <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/usr</span><span class="s2">"</span><span class="p">)</span>
+<span class="no">Dir</span><span class="p">.</span><span class="nf">fchdir</span><span class="p">(</span>dir<span class="p">.</span><span class="nf">fileno</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">pwd</span>            <span class="c1"># =&gt; &quot;/usr&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Dir/s/chdir.html">Dir.chdir</a>, <a href="../method/Dir/i/fileno.html">Dir#fileno</a>, <a href="../method/Dir/s/for_fd.html">Dir.for_fd</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_FOR_FD"><code>for_fd(fd) -&gt; Dir</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Dir/s/for_fd.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Dir.html#method-c-for_fd">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+整数のディレクトリファイルディスクリプタ fd が指すディレクトリを表す、新しい <a href="../class/Dir.html">Dir</a> オブジェクトを返します。
+</p>
+<p>
+返される <a href="../class/Dir.html">Dir</a> オブジェクトには対応するパスがないため、
+<a href="../method/Dir/i/path.html">Dir#path</a> は nil を返します。
+</p>
+<p>
+このメソッドは POSIX 2008 で定義された fdopendir() を使用します。
+POSIX 非対応のプラットフォームでは実装されておらず、
+<a href="../class/NotImplementedError.html">NotImplementedError</a> が発生します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>fd</code>:</dt>
+<dd>
+ディレクトリを指すファイルディスクリプタを整数で指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'tmpdir'</span>
+
+<span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span> <span class="k">do</span> <span class="o">|</span>tmpdir<span class="o">|</span>
+  d0 <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>tmpdir<span class="p">)</span>
+  d1 <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">for_fd</span><span class="p">(</span>d0<span class="p">.</span><span class="nf">fileno</span><span class="p">)</span>
+
+  <span class="nb">p</span> d1<span class="p">.</span><span class="nf">class</span>  <span class="c1"># =&gt; Dir
+</span>  <span class="nb">p</span> d0<span class="p">.</span><span class="nf">path</span>   <span class="c1"># =&gt; tmpdir のパス
+</span>  <span class="nb">p</span> d1<span class="p">.</span><span class="nf">path</span>   <span class="c1"># =&gt; nil
+</span>  d0<span class="p">.</span><span class="nf">close</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Dir/i/fileno.html">Dir#fileno</a>, <a href="../method/Dir/i/path.html">Dir#path</a>, <a href="../method/Dir/s/fchdir.html">Dir.fchdir</a>
 </p>
 </dd>
 

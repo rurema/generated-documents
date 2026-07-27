@@ -1,0 +1,40 @@
+names=each_caller_location
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Thread.md
+since_by_name=each_caller_location=3.2
+until_by_name=
+
+### def each_caller_location(start = 1, length = nil) {|location| ... } -> nil
+### def each_caller_location(range) {|location| ... } -> nil
+
+現在の実行スタックの各フレームを、[c:Thread::Backtrace::Location] オブジェクトと
+してブロックに渡します。
+
+[m:Kernel?.caller_locations] と似ていますが、配列を作らずにブロックへ順に
+渡すため、目的のフレームが見つかった時点で処理を打ち切るような用途で
+無駄な生成を避けられます。
+引数の意味は [m:Kernel?.caller_locations] と同じで、ブロックに渡すフレームの
+範囲を指定できます。引数を渡せるのは Ruby 3.4 以降です。
+
+- **param** `start` -- 開始フレームの位置を数値で指定します。
+
+- **param** `length` -- ブロックに渡すフレームの個数を指定します。
+
+- **param** `range` -- ブロックに渡したいフレームの範囲を示す [c:Range] オブジェクトを指定します。
+
+nil を返します。
+
+```ruby title="例"
+def foo
+  Thread.each_caller_location do |location|
+    p location.class # => Thread::Backtrace::Location
+    break
+  end
+end
+
+foo
+```
+
+- **SEE** [m:Kernel?.caller_locations]
+

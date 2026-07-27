@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Vector.html">
 
 <title>class Vector (Ruby 3.4 リファレンスマニュアル)</title>
-<meta name="description" content="数 Numeric を要素とするベクトルを扱うクラスです。 Vector オブジェクトは Matrix オブジェクトとの演算においては列ベクトルとして扱われます。">
+<meta name="description" content="数ベクトルを表すクラスです。要素は Numeric オブジェクトで表します。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -119,11 +119,19 @@
 
 <h2>要約</h2>
 <p>
-数 <a href="../class/Numeric.html">Numeric</a> を要素とするベクトルを扱うクラスです。
-<a href="../class/Vector.html">Vector</a> オブジェクトは <a href="../class/Matrix.html">Matrix</a> オブジェクトとの演算においては列ベクトルとして扱われます。
+数ベクトルを表すクラスです。要素は <a href="../class/Numeric.html">Numeric</a> オブジェクトで表します。
+</p>
+<p>
+複素ベクトルも表せます。
 </p>
 <p>
 ベクトルの要素のインデックスは 0 から始まることに注意してください。
+</p>
+<p>
+全ての要素がゼロのベクトルを零ベクトルといいます。
+</p>
+<p>
+<a href="../class/Vector.html">Vector</a> オブジェクトは <a href="../class/Matrix.html">Matrix</a> オブジェクトとの演算においては列ベクトルとして扱われます。行ベクトルとして演算を行いたいときは、1行の行列に変換してから行います。
 </p>
 
 
@@ -441,7 +449,7 @@
 可変個引数を要素とするベクトルを生成します。
 </p>
 <p>
-Vector[a1, a2, a3, ... ]としたとき、 引数a1, a2, a3, ... を要素とするベクトルを生成します。
+<code>Vector[a1, a2, a3, ... ]</code> としたとき、 引数 <code>a1</code>, <code>a2</code>, <code>a3</code>, ... を要素とするベクトルを生成します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>a</code>:</dt>
@@ -451,10 +459,8 @@ Vector[a1, a2, a3, ... ]としたとき、 引数a1, a2, a3, ... を要素とす
 </dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
-v1 <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">3</span>, <span class="mi">5</span>, <span class="mi">7</span><span class="p">]</span>
-v2 <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span><span class="mf">5.25</span>, <span class="mf">10.5</span><span class="p">]</span>
-<span class="nb">p</span> v1   <span class="c1"># =&gt; Vector[1, 3, 5, 7]
-</span><span class="nb">p</span> v2   <span class="c1"># =&gt; Vector[5.25, 10.5]
+
+<span class="nb">p</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">3</span>, <span class="mf">4.0</span><span class="p">]</span> <span class="c1"># =&gt; Vector[1, 3, 4.0]
 </span></code></pre>
 </dd>
 
@@ -462,10 +468,11 @@ v2 <span class="o">=</span> <span class="no">Vector</span><span class="p">[</spa
 <dt class="method-heading" id="S_BASIS"><code>basis(size:, index:) -&gt; Vector</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/Vector/s/basis.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-c-basis">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-size 次元ベクトル空間の index 番目の標準基底を返します。
+<code>size</code> 次元ベクトル空間の <code>index</code> 番目の標準基底を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
+
 <span class="nb">p</span> <span class="no">Vector</span><span class="p">.</span><span class="nf">basis</span><span class="p">(</span><span class="ss">size:</span> <span class="mi">3</span>, <span class="ss">index:</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; Vector[0, 1, 0]
 </span></code></pre>
 <dl>
@@ -484,7 +491,7 @@ size 次元ベクトル空間の index 番目の標準基底を返します。
 <dt class="method-heading" id="S_ELEMENTS"><code>elements(a, copy = true) -&gt; Vector</code><span class="permalink">[<a href="../method/Vector/s/elements.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-c-elements">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-配列 a を要素とするベクトルを生成します。ただし、オプション引数 copy が偽 (false) ならば、複製を行いません。
+配列 <code>a</code> を要素とするベクトルを生成します。ただし、オプション引数 <code>copy</code> が偽 (<code>false</code>) ならば、複製を行いません。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>a</code>:</dt>
@@ -493,19 +500,20 @@ size 次元ベクトル空間の index 番目の標準基底を返します。
 </dd>
 <dt class='method-param'>[PARAM] <code>copy</code>:</dt>
 <dd>
-引数の配列 a のコピーをするかどうかのフラグ
+引数の配列 <code>a</code> のコピーをするかどうかのフラグ
 </dd>
 </dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
-a <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">4</span><span class="p">]</span>
+
+a <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span>
 v1 <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span><span class="nf">elements</span><span class="p">(</span>a, <span class="k">true</span><span class="p">)</span>
 v2 <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span><span class="nf">elements</span><span class="p">(</span>a, <span class="k">false</span><span class="p">)</span>
-<span class="nb">p</span> v1        <span class="c1"># =&gt; Vector[1, 2, 3, 4]
-</span><span class="nb">p</span> v2        <span class="c1"># =&gt; Vector[1, 2, 3, 4]
+<span class="nb">p</span> v1        <span class="c1"># =&gt; Vector[1, 2, 3]
+</span><span class="nb">p</span> v2        <span class="c1"># =&gt; Vector[1, 2, 3]
 </span>a<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="nb">p</span> v1        <span class="c1"># =&gt; Vector[1, 2, 3, 4]
-</span><span class="nb">p</span> v2        <span class="c1"># =&gt; Vector[-1, 2, 3, 4]
+<span class="nb">p</span> v1        <span class="c1"># =&gt; Vector[1, 2, 3]
+</span><span class="nb">p</span> v2        <span class="c1"># =&gt; Vector[-1, 2, 3]
 </span></code></pre>
 </dd>
 
@@ -513,7 +521,7 @@ v2 <span class="o">=</span> <span class="no">Vector</span><span class="p">.</spa
 <dt class="method-heading" id="S_INDEPENDENT--3F"><code>independent?(*vectors) -&gt; bool</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/Vector/s/independent=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-c-independent-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-ベクトルの列 vectors が線形独立であれば true を返します。
+ベクトルの列 <code>vectors</code> が線形独立であれば <code>true</code> を返し、そうでなければ <code>false</code> を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>vectors</code>:</dt>
@@ -531,6 +539,7 @@ v2 <span class="o">=</span> <span class="no">Vector</span><span class="p">.</spa
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
+
 <span class="nb">p</span> <span class="no">Vector</span><span class="p">.</span><span class="nf">zero</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; Vector[0, 0, 0]
 </span></code></pre>
 <dl>
@@ -550,18 +559,18 @@ v2 <span class="o">=</span> <span class="no">Vector</span><span class="p">.</spa
 <dt class="method-heading" id="I_--2A"><code>self * other -&gt; Vector</code><span class="permalink">[<a href="../method/Vector/i/=2a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-2A">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-self の各要素に数 other を乗じたベクトルを返します。
+<code>self</code> の各要素に数 <code>other</code> を乗じたベクトルを返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-self の各要素に掛ける <a href="../class/Numeric.html">Numeric</a> オブジェクトを指定します。
+<code>self</code> の各要素に掛ける <a href="../class/Numeric.html">Numeric</a> オブジェクトを指定します。
 </dd>
 </dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
-a <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mf">3.5</span>, <span class="mi">100</span><span class="p">]</span>
-v1 <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span><span class="nf">elements</span><span class="p">(</span>a<span class="p">)</span>
+
+v1 <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mf">3.5</span>, <span class="mi">100</span><span class="p">]</span>
 <span class="nb">p</span> v1<span class="p">.</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>     <span class="c1"># =&gt; Vector[2, 4, 7.0, 200]
 </span><span class="nb">p</span> v1<span class="p">.</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">)</span>  <span class="c1"># =&gt; Vector[-1.5, -3.0, -5.25, -150.0]
 </span></code></pre>
@@ -569,7 +578,7 @@ v1 <span class="o">=</span> <span class="no">Vector</span><span class="p">.</spa
 <dt class="method-heading" id="I_--2A"><code>self * m -&gt; Matrix</code><span class="permalink">[<a href="../method/Vector/i/=2a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-2A">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自分自身を列ベクトル(行列)に変換して (実際には <a href="../method/Matrix/s/column_vector.html">Matrix.column_vector</a>(self) を適用) から、行列 m を右から乗じた行列 (<a href="../class/Matrix.html">Matrix</a> クラス) を返します。
+<code>self</code> を列ベクトル(行列)に変換して (実際には <code>Matrix.column_vector(self)</code> を適用) から、行列 <code>m</code> を右から乗じた行列 (<a href="../class/Matrix.html">Matrix</a> クラス) を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>m</code>:</dt>
@@ -583,7 +592,7 @@ v1 <span class="o">=</span> <span class="no">Vector</span><span class="p">.</spa
 </dl>
 <h3 >注意</h3>
 <p>
-引数の行列 m は自分自身を列ベクトルとした場合に乗算が定義できる行列である必要があります。
+引数の行列 <code>m</code> は <code>self</code> を列ベクトルとした場合に乗算が定義できる行列である必要があります。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
@@ -594,16 +603,19 @@ m <span class="o">=</span> <span class="no">Matrix</span><span class="p">[</span
 
 <span class="nb">p</span> v <span class="o">*</span> m <span class="c1"># =&gt; Matrix[[4, 5, 6], [8, 10, 12]]
 </span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Matrix/s/column_vector.html">Matrix.column_vector</a>
+</p>
 </dd>
 
 
 <dt class="method-heading" id="I_--2B"><code>self + v -&gt; Vector | Matrix</code><span class="permalink">[<a href="../method/Vector/i/=2b.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-2B">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-self にベクトル v を加えたベクトルを返します。
+<code>self</code> にベクトル <code>v</code> を加えたベクトルを返します。
 </p>
 <p>
-v には column_size が 1 の <a href="../class/Matrix.html">Matrix</a> オブジェクトも指定できます。その場合は返り値も <a href="../class/Matrix.html">Matrix</a> オブジェクトになります。
+<code>v</code> には column_size が 1 の <a href="../class/Matrix.html">Matrix</a> オブジェクトも指定できます。その場合は返り値も <a href="../class/Matrix.html">Matrix</a> オブジェクトになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>v</code>:</dt>
@@ -612,7 +624,7 @@ v には column_size が 1 の <a href="../class/Matrix.html">Matrix</a> オブ�
 </dd>
 <dt>[EXCEPTION] <code>ExceptionForMatrix::ErrDimensionMismatch</code>:</dt>
 <dd>
-自分自身と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
+<code>self</code> と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
 </dd>
 </dl>
 </dd>
@@ -621,7 +633,7 @@ v には column_size が 1 の <a href="../class/Matrix.html">Matrix</a> オブ�
 <dt class="method-heading" id="I_--2B--40"><code>+ self -&gt; self</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/Vector/i/=2b=40.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-2B-40">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-単項演算子の + です。 self を返します。
+単項演算子の <code>+</code> です。 <code>self</code> を返します。
 </p>
 </dd>
 
@@ -629,10 +641,10 @@ v には column_size が 1 の <a href="../class/Matrix.html">Matrix</a> オブ�
 <dt class="method-heading" id="I_--2D"><code>self - v -&gt; Vector | Matrix</code><span class="permalink">[<a href="../method/Vector/i/=2d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-2D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-self からベクトル v を減じたベクトルを返します。
+<code>self</code> からベクトル <code>v</code> を減じたベクトルを返します。
 </p>
 <p>
-v には column_size が 1 の <a href="../class/Matrix.html">Matrix</a> オブジェクトも指定できます。その場合は返り値も <a href="../class/Matrix.html">Matrix</a> オブジェクトになります。
+<code>v</code> には column_size が 1 の <a href="../class/Matrix.html">Matrix</a> オブジェクトも指定できます。その場合は返り値も <a href="../class/Matrix.html">Matrix</a> オブジェクトになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>v</code>:</dt>
@@ -641,7 +653,7 @@ v には column_size が 1 の <a href="../class/Matrix.html">Matrix</a> オブ�
 </dd>
 <dt>[EXCEPTION] <code>ExceptionForMatrix::ErrDimensionMismatch</code>:</dt>
 <dd>
-自分自身と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
+<code>self</code> と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
 </dd>
 </dl>
 </dd>
@@ -650,7 +662,7 @@ v には column_size が 1 の <a href="../class/Matrix.html">Matrix</a> オブ�
 <dt class="method-heading" id="I_--2D--40"><code>- self -&gt; self</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/Vector/i/=2d=40.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-2D-40">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-単項演算子の - です。 各要素の符号を反転したベクトルを返します。
+単項演算子の <code>-</code> です。<code>self</code> の逆ベクトル（各要素に <code>-1</code> を乗じたベクトル）を返します。
 </p>
 </dd>
 
@@ -658,16 +670,16 @@ v には column_size が 1 の <a href="../class/Matrix.html">Matrix</a> オブ�
 <dt class="method-heading" id="I_--2F"><code>self / other -&gt; Vector</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Vector/i/=2f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-2F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-self の各要素を数 other で割ったベクトルを返します。
+<code>self</code> の各要素を数 <code>other</code> で割ったベクトルを返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-self の各要素を割る <a href="../class/Numeric.html">Numeric</a> オブジェクトを指定します。
+<code>self</code> の各要素を割る <a href="../class/Numeric.html">Numeric</a> オブジェクトを指定します。
 </dd>
 <dt>[EXCEPTION] <code>ExceptionForMatrix::ErrOperationNotDefined</code>:</dt>
 <dd>
-other が Vector や Matrix
+<code>other</code> が <a href="../class/Vector.html">Vector</a> や <a href="../class/Matrix.html">Matrix</a>
 の場合に発生します
 </dd>
 </dl>
@@ -678,7 +690,7 @@ other が Vector や Matrix
 <dt class="method-heading"><code>eql?(v) -&gt; bool</code></dt>
 <dd class="method-description">
 <p>
-自分自身と引数 v を比較し、true/false を返します。
+<code>self</code> と引数 <code>v</code> を比較し、<code>true</code>/<code>false</code> を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>v</code>:</dt>
@@ -694,7 +706,7 @@ other が Vector や Matrix
 <dt class="method-heading"><code>component(i) -&gt; object | nil</code><span class="method-since-badge">Ruby 1.9.3 から</span></dt>
 <dd class="method-description">
 <p>
-i 番目の要素を返します。インデックスは 0 から開始します。要素が存在しないインデックスを指定した時には nil を返します。
+<code>i</code> 番目の要素を返します。インデックスは 0 から開始します。要素が存在しないインデックスを指定した時には <code>nil</code> を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>i</code>:</dt>
@@ -708,7 +720,7 @@ i 番目の要素を返します。インデックスは 0 から開始します
 <dt class="method-heading" id="I_--5B--5D--3D"><code>self[index] = value</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Vector/i/=5b=5d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-5B-5D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-index 番目の要素を value に変更します。
+<code>index</code> 番目の要素を <code>value</code> に変更します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>index</code>:</dt>
@@ -719,7 +731,7 @@ index 番目の要素を value に変更します。
 <dd>
 設定したい要素の値を指定します。
 </dd>
-<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dt>[EXCEPTION] <code>IndexError</code>:</dt>
 <dd>
 ベクトルの範囲外にある整数を指定したときに、発生します。
 </dd>
@@ -741,7 +753,7 @@ v<span class="p">[</span><span class="mi">99</span><span class="p">]</span> <spa
 <dt class="method-heading" id="I_--5B--5D--3D"><code>self[range] = v</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Vector/i/=5b=5d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-5B-5D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<a href="../class/Range.html">Range</a> オブジェクト range の範囲にある要素を v の内容に置換します。
+<a href="../class/Range.html">Range</a> オブジェクト <code>range</code> の範囲にある要素を <code>v</code> の内容に置換します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>range</code>:</dt>
@@ -750,21 +762,21 @@ v<span class="p">[</span><span class="mi">99</span><span class="p">]</span> <spa
 </dd>
 <dt class='method-param'>[PARAM] <code>v</code>:</dt>
 <dd>
-range の範囲に設定したい要素を指定します。
+<code>range</code> の範囲に設定したい要素を指定します。
 <a href="../class/Vector.html">Vector</a> や 1行の <a href="../class/Matrix.html">Matrix</a> での指定もできます。
 </dd>
-<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dt>[EXCEPTION] <code>IndexError</code>:</dt>
 <dd>
-ベクトルの範囲外にある range を指定したときに、発生します。
+ベクトルの範囲外にある <code>range</code> を指定したときに、発生します。
 </dd>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
 引数の個数が異なるときの他に、
-v に <a href="../class/Vector.html">Vector</a> を指定し、range と v のサイズが一致しないときに発生します。
+<code>v</code> に <a href="../class/Vector.html">Vector</a> を指定し、<code>range</code> と <code>v</code> のサイズが一致しないときに発生します。
 </dd>
-<dt>[EXCEPTION] <code>Matrix::ErrDimensionMismatch</code>:</dt>
+<dt>[EXCEPTION] <code>ExceptionForMatrix::ErrDimensionMismatch</code>:</dt>
 <dd>
-v に <a href="../class/Matrix.html">Matrix</a> を指定し、次元が合わないときに発生します。
+<code>v</code> に <a href="../class/Matrix.html">Matrix</a> を指定し、次元が合わないときに発生します。
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
@@ -786,24 +798,25 @@ v<span class="p">[</span><span class="mi">1</span><span class="o">..</span><span
 <dt class="method-heading" id="I_ANGLE_WITH"><code>angle_with(v) -&gt; Float</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/Vector/i/angle_with.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-angle_with">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-v と self がなす角度を返します。
+<code>v</code> と <code>self</code> がなす角度を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
+
 <span class="nb">p</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">angle_with</span><span class="p">(</span><span class="no">Vector</span><span class="p">[</span><span class="mi">0</span>, <span class="mi">1</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; Math::PI/2
 </span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>v</code>:</dt>
 <dd>
-このベクトルと self とがなす角度を計算します
+このベクトルと <code>self</code> とがなす角度を計算します
 </dd>
-<dt>[EXCEPTION] <code>ZeroVectorError</code>:</dt>
+<dt>[EXCEPTION] <code>Vector::ZeroVectorError</code>:</dt>
 <dd>
-self もしくは v のどちらかが零ベクトルである場合に発生します
+<code>self</code> もしくは <code>v</code> のどちらかが零ベクトルである場合に発生します
 </dd>
 <dt>[EXCEPTION] <code>ExceptionForMatrix::ErrDimensionMismatch</code>:</dt>
 <dd>
-v と self のベクトルの次元が異なる場合に発生します。
+<code>v</code> と <code>self</code> のベクトルの次元が異なる場合に発生します。
 </dd>
 </dl>
 </dd>
@@ -822,13 +835,10 @@ v と self のベクトルの次元が異なる場合に発生します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
-a <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mf">3.5</span>, <span class="o">-</span><span class="mi">10</span><span class="p">]</span>
-v1 <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span><span class="nf">elements</span><span class="p">(</span>a<span class="p">)</span>
-<span class="nb">p</span> v1 <span class="c1"># =&gt; Vector[1, 2, 3.5, -10]
-</span>v2 <span class="o">=</span>  v1<span class="p">.</span><span class="nf">map</span><span class="p">{</span><span class="o">|</span>x<span class="o">|</span>
-  x <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
-<span class="p">}</span>
-<span class="nb">p</span> v2 <span class="c1"># =&gt; Vector[-1, -2, -3.5, 10]
+
+v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mf">3.5</span><span class="p">]</span>
+<span class="nb">p</span> v<span class="p">.</span><span class="nf">map</span><span class="p">{</span> <span class="o">|</span>x<span class="o">|</span> x <span class="o">*</span> <span class="o">-</span><span class="mi">1</span> <span class="p">}</span>
+<span class="c1"># =&gt; Vector[-1, -2, -3.5]
 </span></code></pre>
 </dd>
 
@@ -842,14 +852,14 @@ v1 <span class="o">=</span> <span class="no">Vector</span><span class="p">.</spa
 ベクトルの各要素を順番にブロックに渡して評価し、その結果で要素を置き換えます。
 </p>
 <p>
-ブロックのない場合は、自身と map! から生成した <a href="../class/Enumerator.html">Enumerator</a> オブジェクトを返します。
+ブロックのない場合は、<code>self</code> と <code>map!</code> から生成した <a href="../class/Enumerator.html">Enumerator</a> オブジェクトを返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
 
 v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span>
-<span class="nb">p</span> v<span class="p">.</span><span class="nf">map!</span><span class="p">{</span> <span class="o">|</span>el<span class="o">|</span> el <span class="o">*</span> <span class="mi">2</span> <span class="p">}</span>  <span class="c1">#=&gt; Vector[2, 4, 6]
-</span><span class="nb">p</span> v                      <span class="c1">#=&gt; Vector[2, 4, 6]
+v<span class="p">.</span><span class="nf">map!</span><span class="p">{</span> <span class="o">|</span>el<span class="o">|</span> el <span class="o">*</span> <span class="mi">2</span> <span class="p">}</span>
+<span class="nb">p</span> v <span class="c1"># =&gt; Vector[2, 4, 6]
 </span></code></pre>
 </dd>
 
@@ -858,10 +868,10 @@ v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span
 <dt class="method-heading"><code>collect2(v) -&gt; Enumerator</code></dt>
 <dd class="method-description">
 <p>
-ベクトルの各要素と引数 v の要素との組に対してブロックを評価し、その結果を要素として持つ配列を返します。
+ベクトルの各要素と引数 <code>v</code> の要素との組に対してブロックを評価し、その結果を要素として持つ配列を返します。
 </p>
 <p>
-ベクトルの各要素と、それに対応するインデックスを持つ引数 v (ベクトル or 配列)の要素との組に対して (2引数の) ブロックを評価し、その結果を要素として持つ配列を返します。
+ベクトルの各要素と、それに対応するインデックスを持つ引数 <code>v</code> (ベクトル or 配列)の要素との組に対して (2引数の) ブロックを評価し、その結果を要素として持つ配列を返します。
 </p>
 <p>
 ブロックを省略した場合は <a href="../class/Enumerator.html">Enumerator</a> を返します。
@@ -873,14 +883,14 @@ v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span
 </dd>
 <dt>[EXCEPTION] <code>ExceptionForMatrix::ErrDimensionMismatch</code>:</dt>
 <dd>
-自分自身と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
+<code>self</code> と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
 </dd>
 </dl>
 <p>
 [SEE_ALSO] <a href="../method/Vector/i/map2.html">Vector#map2</a>
 </p>
 <p>
-次の例は、２つのベクトルの要素毎の積を要素とする配列を生成します。
+次の例は、2つのベクトルの要素毎の積を要素とする配列を生成します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
@@ -904,16 +914,19 @@ z <span class="o">=</span> v1<span class="p">.</span><span class="nf">collect2</
 <a href="../class/Matrix.html">Matrix</a> オブジェクトへ変換します。
 </p>
 <p>
-列ベクトル (行列)、すなわち、(n, 1) 型の行列に変換します。実際には <a href="../method/Matrix/s/row_vector.html">Matrix.row_vector</a>(self) を適用します。
+行ベクトル (行列)、すなわち、(1, n) 型の行列に変換します。実際には <code>Matrix.row_vector(self)</code> を適用します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
 
 v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">5</span><span class="p">]</span>
-<span class="nb">p</span> v <span class="c1"># =&gt; Vector[2, 3, 5]
-</span>m <span class="o">=</span> v<span class="p">.</span><span class="nf">covector</span>
-<span class="nb">p</span> m <span class="c1"># =&gt; Matrix[[2, 3, 5]]
+
+<span class="nb">p</span> v<span class="p">.</span><span class="nf">covector</span>
+<span class="c1"># =&gt; Matrix[[2, 3, 5]]
 </span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Matrix/s/row_vector.html">Matrix.row_vector</a>
+</p>
 </dd>
 
 
@@ -921,14 +934,14 @@ v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span
 <dt class="method-heading"><code>cross(*vs) -&gt; Vector</code><span class="method-since-badge">Ruby 2.2.0 から</span></dt>
 <dd class="method-description">
 <p>
-self とベクトル vs とのクロス積を返します。
+<code>self</code> とベクトル <code>vs</code> とのクロス積を返します。
 </p>
 <p>
-self が3次元ベクトル空間のときは普通のクロス積です。それ以外の場合は拡張されたクロス積で
+<code>self</code> が3次元ベクトル空間のときは普通のクロス積です。それ以外の場合は拡張されたクロス積で
 n-1個のn次元ベクトルが張る空間と直交するベクトルを返します。
 </p>
 <p>
-self の次元が n であるとき、 vs は n-2 個の
+<code>self</code> の次元が n であるとき、 <code>vs</code> は n-2 個の
 n次元ベクトルでなければなりません。
 </p>
 <dl>
@@ -938,11 +951,11 @@ n次元ベクトルでなければなりません。
 </dd>
 <dt>[EXCEPTION] <code>ExceptionForMatrix::ErrOperationNotDefined</code>:</dt>
 <dd>
-self の次元が1以下であるときに発生します。
+<code>self</code> の次元が1以下であるときに発生します。
 </dd>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
-vs のベクトルの個数が n-2 以外である場合に発生します。
+<code>vs</code> のベクトルの個数が n-2 以外である場合に発生します。
 </dd>
 </dl>
 </dd>
@@ -952,7 +965,7 @@ vs のベクトルの個数が n-2 以外である場合に発生します。
 <dt class="method-heading"><code>dot(v) -&gt; Float</code><span class="method-since-badge">Ruby 2.2.0 から</span></dt>
 <dd class="method-description">
 <p>
-ベクトル v との内積を返します。
+ベクトル <code>v</code> との内積を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>v</code>:</dt>
@@ -961,7 +974,7 @@ vs のベクトルの個数が n-2 以外である場合に発生します。
 </dd>
 <dt>[EXCEPTION] <code>ExceptionForMatrix::ErrDimensionMismatch</code>:</dt>
 <dd>
-自分自身と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
+<code>self</code> と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
 </dd>
 </dl>
 </dd>
@@ -986,10 +999,10 @@ vs のベクトルの個数が n-2 以外である場合に発生します。
 <dt class="method-heading"><code>each2(v) -&gt; Enumerator</code></dt>
 <dd class="method-description">
 <p>
-ベクトルの各要素と、それに対応するインデックスを持つ引数 v の要素との組に対して (2引数の) ブロックを繰返し評価します。
+ベクトルの各要素と、それに対応するインデックスを持つ引数 <code>v</code> の要素との組に対して (2引数の) ブロックを繰返し評価します。
 </p>
 <p>
-v は配列互換(size メソッドと [] メソッドを持つ)オブジェクトです。
+<code>v</code> は配列互換(<code>size</code> メソッドと <code>[]</code> メソッドを持つ)オブジェクトです。
 <a href="../class/Vector.html">Vector</a> も使えます。
 </p>
 <p>
@@ -1002,7 +1015,7 @@ v は配列互換(size メソッドと [] メソッドを持つ)オブジェク�
 </dd>
 <dt>[EXCEPTION] <code>ExceptionForMatrix::ErrDimensionMismatch</code>:</dt>
 <dd>
-自分自身と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
+<code>self</code> と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
 </dd>
 </dl>
 <p>
@@ -1017,14 +1030,13 @@ v は配列互換(size メソッドと [] メソッドを持つ)オブジェク�
 ベクトルの各成分を<a href="../class/Float.html">Float</a>に変換したベクトルを返します。
 </p>
 <p>
-このメソッドは deprecated です。 map(&amp;:to_f) を使ってください。
+このメソッドは deprecated です。<code>map(&amp;:to_f)</code> を使ってください。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
 
-v <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span><span class="nf">elements</span><span class="p">(</span><span class="p">[</span><span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">5</span>, <span class="mi">7</span>, <span class="mi">9</span><span class="p">]</span><span class="p">)</span>
-<span class="nb">p</span> v<span class="p">.</span><span class="nf">elements_to_f</span>
-<span class="c1"># =&gt; Vector[2.0, 3.0, 5.0, 7.0, 9.0]
+<span class="nb">p</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">5</span><span class="p">]</span><span class="p">.</span><span class="nf">elements_to_f</span>
+<span class="c1"># =&gt; Vector[2.0, 3.0, 5.0]
 </span></code></pre>
 </dd>
 
@@ -1035,13 +1047,13 @@ v <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span
 ベクトルの各成分を<a href="../class/Integer.html">Integer</a>に変換したベクトルを返します。
 </p>
 <p>
-このメソッドは deprecated です。 map(&amp;:to_i) を使ってください。
+このメソッドは deprecated です。<code>map(&amp;:to_i)</code> を使ってください。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
-v <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span><span class="nf">elements</span><span class="p">(</span><span class="p">[</span><span class="mf">2.5</span>, <span class="mf">3.0</span>, <span class="mf">5.01</span>, <span class="mi">7</span><span class="p">]</span><span class="p">)</span>
-<span class="nb">p</span> v<span class="p">.</span><span class="nf">elements_to_i</span>
-<span class="c1"># =&gt; Vector[2, 3, 5, 7]
+
+<span class="nb">p</span> <span class="no">Vector</span><span class="p">[</span><span class="mf">2.5</span>, <span class="mf">3.0</span>, <span class="mf">5.01</span><span class="p">]</span><span class="p">.</span><span class="nf">elements_to_i</span>
+<span class="c1"># =&gt; Vector[2, 3, 5]
 </span></code></pre>
 </dd>
 
@@ -1052,14 +1064,13 @@ v <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span
 ベクトルの各成分を<a href="../class/Rational.html">Rational</a>に変換したベクトルを返します。
 </p>
 <p>
-このメソッドは deprecated です。 map(&amp;:to_r) を使ってください。
+このメソッドは deprecated です。<code>map(&amp;:to_r)</code> を使ってください。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
 
-v <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span><span class="nf">elements</span><span class="p">(</span><span class="p">[</span><span class="mf">2.5</span>, <span class="mf">3.0</span>, <span class="mf">5.75</span>, <span class="mi">7</span><span class="p">]</span><span class="p">)</span>
-<span class="nb">p</span> v<span class="p">.</span><span class="nf">elements_to_r</span>
-<span class="c1"># =&gt; Vector[(5/2), (3/1), (23/4), (7/1)]
+<span class="nb">p</span> <span class="no">Vector</span><span class="p">[</span><span class="mf">2.5</span>, <span class="mf">3.0</span>, <span class="mf">5.75</span><span class="p">]</span><span class="p">.</span><span class="nf">elements_to_r</span>
+<span class="c1"># =&gt; Vector[(5/2), (3/1), (23/4)]
 </span></code></pre>
 </dd>
 
@@ -1067,7 +1078,7 @@ v <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span
 <dt class="method-heading" id="I_HASH"><code>hash -&gt; Integer</code><span class="permalink">[<a href="../method/Vector/i/hash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-hash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自分自身のハッシュ値を返します。
+<code>self</code> のハッシュ値を返します。
 </p>
 </dd>
 
@@ -1075,13 +1086,10 @@ v <span class="o">=</span> <span class="no">Vector</span><span class="p">.</span
 <dt class="method-heading" id="I_INDEPENDENT--3F"><code>independent?(*vectors) -&gt; bool</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/Vector/i/independent=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-independent-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-self とベクトルの列 vectors が線形独立であれば true を返します。
+<code>self</code> とベクトルの列 <code>vectors</code> が線形独立であれば <code>true</code> を返し、そうでなければ <code>false</code> を返します。
 </p>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
-<span class="no">Vector</span><span class="p">.</span><span class="nf">independent?</span><span class="p">(</span><span class="nc">self</span>, <span class="o">*</span>vectors<span class="p">)</span>
-</code></pre>
 <p>
-と同じです。
+<code>Vector.independent?(self, *vectors)</code> と同じです。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>vectors</code>:</dt>
@@ -1109,6 +1117,7 @@ self とベクトルの列 vectors が線形独立であれば true を返しま
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
+
 <span class="nb">p</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">3</span>, <span class="mi">4</span><span class="p">]</span><span class="p">.</span><span class="nf">norm</span> <span class="c1"># =&gt; 5.0
 </span><span class="nb">p</span> <span class="no">Vector</span><span class="p">[</span>1i, <span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">norm</span> <span class="c1"># =&gt; 1.0
 </span></code></pre>
@@ -1121,7 +1130,7 @@ self とベクトルの列 vectors が線形独立であれば true を返しま
 <dt class="method-heading" id="I_MAP2"><code>map2(v) {|x, y| ... } -&gt; Vector</code><span class="permalink">[<a href="../method/Vector/i/map2.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-map2">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-ベクトルの各要素と引数 v の要素との組に対してブロックを評価し、その結果を要素として持つベクトルを返します。
+ベクトルの各要素と引数 <code>v</code> の要素との組に対してブロックを評価し、その結果を要素として持つベクトルを返します。
 </p>
 <p>
 ベクトルの各要素と、それに対応するインデックスを持つ引数 (ベクトル or 配列) の要素との組に対して (2引数の) ブロックを評価した結果を、要素として持つベクトルを返します。
@@ -1136,14 +1145,14 @@ self とベクトルの列 vectors が線形独立であれば true を返しま
 </dd>
 <dt>[EXCEPTION] <code>ExceptionForMatrix::ErrDimensionMismatch</code>:</dt>
 <dd>
-自分自身と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
+<code>self</code> と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
 </dd>
 </dl>
 <p>
 [SEE_ALSO] <a href="../method/Vector/i/collect2.html">Vector#collect2</a>
 </p>
 <p>
-次の例は、２つのベクトルの要素毎の積を要素として持つベクトルを生成します。
+次の例は、2つのベクトルの要素毎の積を要素として持つベクトルを生成します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
@@ -1164,7 +1173,7 @@ z <span class="o">=</span> v1<span class="p">.</span><span class="nf">map2</span
 <dt class="method-heading" id="I_NORMALIZE"><code>normalize -&gt; Vector</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Vector/i/normalize.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-normalize">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身を <a href="../method/Vector/i/norm.html">Vector#norm</a> で正規化したベクトルを返します。
+<code>self</code> を <a href="../method/Vector/i/norm.html">Vector#norm</a> で正規化したベクトルを返します。
 </p>
 <dl>
 <dt>[EXCEPTION] <code>Vector::ZeroVectorError</code>:</dt>
@@ -1174,6 +1183,7 @@ z <span class="o">=</span> v1<span class="p">.</span><span class="nf">map2</span
 </dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
+
 v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">2</span>, <span class="mi">6</span>, <span class="mi">9</span><span class="p">]</span><span class="p">.</span><span class="nf">normalize</span>
 <span class="c1"># =&gt; Vector[0.18181818181818182, 0.5454545454545454, 0.8181818181818182]
 </span><span class="nb">p</span> v<span class="p">.</span><span class="nf">norm</span> <span class="c1"># =&gt; 1.0
@@ -1200,9 +1210,8 @@ v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
 
-v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">5</span>, <span class="mi">7</span>, <span class="mi">9</span><span class="p">]</span>
-<span class="nb">p</span> v<span class="p">.</span><span class="nf">to_a</span>
-<span class="c1"># =&gt; [2, 3, 5, 7, 9]
+<span class="nb">p</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">5</span><span class="p">]</span><span class="p">.</span><span class="nf">to_a</span>
+<span class="c1"># =&gt; [2, 3, 5]
 </span></code></pre>
 </dd>
 
@@ -1215,9 +1224,8 @@ v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
 
-v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">5</span>, <span class="mi">7</span>, <span class="mi">9</span><span class="p">]</span>
-<span class="nb">p</span> v<span class="p">.</span><span class="nf">to_s</span>
-<span class="c1"># =&gt; &quot;Vector[2, 3, 5, 7, 9]&quot;
+<span class="nb">p</span> <span class="no">Vector</span><span class="p">[</span><span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">5</span><span class="p">]</span><span class="p">.</span><span class="nf">to_s</span>
+<span class="c1"># =&gt; &quot;Vector[2, 3, 5]&quot;
 </span></code></pre>
 </dd>
 
@@ -1225,7 +1233,7 @@ v <span class="o">=</span> <span class="no">Vector</span><span class="p">[</span
 <dt class="method-heading" id="I_ZERO--3F"><code>zero? -&gt; bool</code><span class="method-since-badge">Ruby 2.5.0 から</span><span class="permalink">[<a href="../method/Vector/i/zero=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Vector.html#method-i-zero-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/matrix/Vector.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-すべての要素がゼロであれば true を返します。
+<code>self</code> が零ベクトルであれば <code>true</code> を返し、そうでなければ <code>false</code> を返します。
 </p>
 </dd>
 

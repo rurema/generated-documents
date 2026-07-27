@@ -140,7 +140,7 @@
 </p>
 <h2 >使い方</h2>
 <p>
-例:<a href="../../../class/Thread=23raise.html">Thread#raise</a> 発生のタイミングを制御する例
+例:<a href="../../../method/Thread/i/raise.html">Thread#raise</a> 発生のタイミングを制御する例
 </p>
 <pre class="highlight ruby"><code>th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
   <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">RuntimeError</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
@@ -162,23 +162,23 @@
 <a href="../../../class/RuntimeError.html">RuntimeError</a> を無視(延期)している間はリソースの割り当てや ensure
 節でリソースの解放を安全に行う事ができます。
 </p>
-<h3 >TimeoutError 対策</h3>
+<h3 >Timeout::Error 対策</h3>
 <p>
-例:<a href="../../../class/TimeoutError.html">TimeoutError</a> 発生のタイミングを制御する例
+例:<a href="../../../class/Timeout=3a=3aError.html">Timeout::Error</a> 発生のタイミングを制御する例
 </p>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'timeout'</span>
-<span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">TimeoutError</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
-  timeout<span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">{</span>
-    <span class="c1"># TimeoutError =&gt; :never の指定により、ここでは TimeoutError が発生しない。
-</span>    <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">TimeoutError</span> <span class="o">=&gt;</span> <span class="ss">:on_blocking</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1"># :on_blocking な処理は TimeoutError が発生し得る。
+<span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">Timeout</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
+  <span class="no">Timeout</span><span class="p">.</span><span class="nf">timeout</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">{</span>
+    <span class="c1"># Timeout::Error =&gt; :never の指定により、ここでは Timeout::Error が発生しない。
+</span>    <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">Timeout</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> <span class="ss">:on_blocking</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1"># :on_blocking な処理は Timeout::Error が発生し得る。
 </span>    <span class="p">}</span>
-    <span class="c1"># TimeoutError =&gt; :never の指定により、ここでは TimeoutError が発生しない。
+    <span class="c1"># Timeout::Error =&gt; :never の指定により、ここでは Timeout::Error が発生しない。
 </span>  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 <p>
-この例を ensure 節での <a href="../../../class/TimeoutError.html">TimeoutError</a> 発生に応用する事でリソースリークに備える事ができます。<a href="../../../method/Timeout/m/timeout.html">Timeout.#timeout</a> はスレッドを使って実装されているため、Thread.handle_interrupt による制御が有効です。
+この例を ensure 節での <a href="../../../class/Timeout=3a=3aError.html">Timeout::Error</a> 発生に応用する事でリソースリークに備える事ができます。<a href="../../../method/Timeout/m/timeout.html">Timeout.#timeout</a> はスレッドを使って実装されているため、Thread.handle_interrupt による制御が有効です。
 </p>
 <h3 >Stack control settings</h3>
 <p>

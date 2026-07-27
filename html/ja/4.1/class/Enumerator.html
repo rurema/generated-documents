@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-27-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -159,6 +159,8 @@ enumerator を生成して返します。
 <li><a href="#S_NEW">new</a></li>
 
 <li><a href="#S_PRODUCE">produce</a></li>
+
+<li><a href="#S_PRODUCT">product</a></li>
 
 </ul>
 </dd>
@@ -512,6 +514,40 @@ scanner <span class="o">=</span> <span class="no">StringScanner</span><span clas
 </span>unknown <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">produce</span><span class="p">(</span><span class="mi">1</span>, <span class="ss">size:</span> <span class="k">nil</span>, <span class="o">&amp;</span><span class="ss">:succ</span><span class="p">)</span>
 <span class="nb">p</span> unknown<span class="p">.</span><span class="nf">size</span>  <span class="c1"># =&gt; nil
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_PRODUCT"><code>product(*enums) -&gt; Enumerator::Product</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Enumerator/s/product.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Enumerator.html#method-c-product">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Enumerator.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>product(*enums) { |elts| ... } -&gt; nil</code></dt>
+<dd class="method-description">
+<p>
+与えた <a href="../class/Enumerable.html">Enumerable</a> なオブジェクトの直積(デカルト積)を列挙する Enumerator を作って返します。
+</p>
+<p>
+<a href="../method/Enumerator=3a=3aProduct/s/new.html">Enumerator::Product.new</a> と同じです。ブロックを与えた場合は、各要素の配列をブロックに渡して繰り返し、nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>enums</code>:</dt>
+<dd>
+直積を取る <a href="../class/Enumerable.html">Enumerable</a> なオブジェクトを指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>e <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">product</span><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">3</span>, <span class="p">[</span><span class="mi">4</span>, <span class="mi">5</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> e<span class="p">.</span><span class="nf">to_a</span> <span class="c1"># =&gt; [[1, 4], [1, 5], [2, 4], [2, 5], [3, 4], [3, 5]]
+</span><span class="nb">p</span> e<span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; 6
+</span></code></pre>
+<span class="caption">例: ブロックを与えた場合</span>
+<pre class="highlight ruby"><code><span class="no">Enumerator</span><span class="p">.</span><span class="nf">product</span><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">2</span>, <span class="p">[</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>i, s<span class="o">|</span>
+  <span class="nb">p</span> <span class="p">[</span>i, s<span class="p">]</span>
+<span class="k">end</span>
+<span class="c1"># =&gt; [1, &quot;a&quot;]
+</span><span class="c1">#    [1, &quot;b&quot;]
+</span><span class="c1">#    [2, &quot;a&quot;]
+</span><span class="c1">#    [2, &quot;b&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../class/Enumerator=3a=3aProduct.html">Enumerator::Product</a>
+</p>
 </dd>
 
 
@@ -876,7 +912,7 @@ enum <span class="o">=</span> str<span class="p">.</span><span class="nf">each_b
 </dd>
 
 
-<dt class="method-heading" id="I_SIZE"><code>size -&gt; Integer | Float::INFINITY | nil</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Enumerator/i/size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Enumerator.html#method-i-size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Enumerator.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_SIZE"><code>size -&gt; Integer | Float::INFINITY | nil</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Enumerator/i/size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Enumerator.html#method-i-size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Enumerator.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 self の要素数を返します。

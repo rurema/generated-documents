@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-27-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -238,6 +238,8 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 
 <li><a href="#S_CURRENT">current</a></li>
 
+<li><a href="#S_EACH_CALLER_LOCATION">each_caller_location</a></li>
+
 <li><a href="#S_EXIT">exit</a></li>
 
 <li><a href="#S_FORK">fork</a></li>
@@ -311,6 +313,8 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 
 <li><a href="#I_NAME--3D">name=</a></li>
 
+<li><a href="#I_NATIVE_THREAD_ID">native_thread_id</a></li>
+
 <li><a href="#I_PENDING_INTERRUPT--3F">pending_interrupt?</a></li>
 
 <li><a href="#I_PRIORITY">priority</a></li>
@@ -338,6 +342,8 @@ ruby インタプリタを -d オプション 付きで起動した場合も同�
 <li><a href="#I_THREAD_VARIABLE_GET">thread_variable_get</a></li>
 
 <li><a href="#I_THREAD_VARIABLE_SET">thread_variable_set</a></li>
+
+<li><a href="#I_THREAD_VARIABLES">thread_variables</a></li>
 
 <li><a href="#I_INSPECT">to_s</a></li>
 
@@ -432,6 +438,48 @@ val が 真 のときは Integer に変換してから設定します。偽 の�
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span> <span class="c1">#=&gt; #&lt;Thread:0x4022e6fc run&gt;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_EACH_CALLER_LOCATION"><code>each_caller_location(start = 1, length = nil) {|location| ... } -&gt; nil</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Thread/s/each_caller_location.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-c-each_caller_location">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>each_caller_location(range) {|location| ... } -&gt; nil</code></dt>
+<dd class="method-description">
+<p>
+現在の実行スタックの各フレームを、<a href="../class/Thread=3a=3aBacktrace=3a=3aLocation.html">Thread::Backtrace::Location</a> オブジェクトとしてブロックに渡します。
+</p>
+<p>
+<a href="../method/Kernel/m/caller_locations.html">Kernel?.caller_locations</a> と似ていますが、配列を作らずにブロックへ順に渡すため、目的のフレームが見つかった時点で処理を打ち切るような用途で無駄な生成を避けられます。引数の意味は <a href="../method/Kernel/m/caller_locations.html">Kernel?.caller_locations</a> と同じで、ブロックに渡すフレームの範囲を指定できます。引数を渡せるのは Ruby 3.4 以降です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>start</code>:</dt>
+<dd>
+開始フレームの位置を数値で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+ブロックに渡すフレームの個数を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>range</code>:</dt>
+<dd>
+ブロックに渡したいフレームの範囲を示す <a href="../class/Range.html">Range</a> オブジェクトを指定します。
+</dd>
+</dl>
+<p>
+nil を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">each_caller_location</span> <span class="k">do</span> <span class="o">|</span>location<span class="o">|</span>
+    <span class="nb">p</span> location<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; Thread::Backtrace::Location
+</span>    <span class="k">break</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+foo
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Kernel/m/caller_locations.html">Kernel?.caller_locations</a>
+</p>
 </dd>
 
 
@@ -543,7 +591,7 @@ new メソッドと違い initialize メソッドを呼びません。
 </p>
 <h3 >使い方</h3>
 <p>
-例:<a href="../class/Thread=23raise.html">Thread#raise</a> 発生のタイミングを制御する例
+例:<a href="../method/Thread/i/raise.html">Thread#raise</a> 発生のタイミングを制御する例
 </p>
 <pre class="highlight ruby"><code>th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
   <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">RuntimeError</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
@@ -565,23 +613,23 @@ new メソッドと違い initialize メソッドを呼びません。
 <a href="../class/RuntimeError.html">RuntimeError</a> を無視(延期)している間はリソースの割り当てや ensure
 節でリソースの解放を安全に行う事ができます。
 </p>
-<h4 >TimeoutError 対策</h4>
+<h4 >Timeout::Error 対策</h4>
 <p>
-例:<a href="../class/TimeoutError.html">TimeoutError</a> 発生のタイミングを制御する例
+例:<a href="../class/Timeout=3a=3aError.html">Timeout::Error</a> 発生のタイミングを制御する例
 </p>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'timeout'</span>
-<span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">TimeoutError</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
-  timeout<span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">{</span>
-    <span class="c1"># TimeoutError =&gt; :never の指定により、ここでは TimeoutError が発生しない。
-</span>    <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">TimeoutError</span> <span class="o">=&gt;</span> <span class="ss">:on_blocking</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1"># :on_blocking な処理は TimeoutError が発生し得る。
+<span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">Timeout</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> <span class="ss">:never</span><span class="p">)</span> <span class="p">{</span>
+  <span class="no">Timeout</span><span class="p">.</span><span class="nf">timeout</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">{</span>
+    <span class="c1"># Timeout::Error =&gt; :never の指定により、ここでは Timeout::Error が発生しない。
+</span>    <span class="no">Thread</span><span class="p">.</span><span class="nf">handle_interrupt</span><span class="p">(</span><span class="no">Timeout</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> <span class="ss">:on_blocking</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1"># :on_blocking な処理は Timeout::Error が発生し得る。
 </span>    <span class="p">}</span>
-    <span class="c1"># TimeoutError =&gt; :never の指定により、ここでは TimeoutError が発生しない。
+    <span class="c1"># Timeout::Error =&gt; :never の指定により、ここでは Timeout::Error が発生しない。
 </span>  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 <p>
-この例を ensure 節での <a href="../class/TimeoutError.html">TimeoutError</a> 発生に応用する事でリソースリークに備える事ができます。<a href="../method/Timeout/m/timeout.html">Timeout?.timeout</a> はスレッドを使って実装されているため、Thread.handle_interrupt による制御が有効です。
+この例を ensure 節での <a href="../class/Timeout=3a=3aError.html">Timeout::Error</a> 発生に応用する事でリソースリークに備える事ができます。<a href="../method/Timeout/m/timeout.html">Timeout?.timeout</a> はスレッドを使って実装されているため、Thread.handle_interrupt による制御が有効です。
 </p>
 <h4 >Stack control settings</h4>
 <p>
@@ -1331,6 +1379,34 @@ a<span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <
 </dd>
 
 
+<dt class="method-heading" id="I_NATIVE_THREAD_ID"><code>native_thread_id -&gt; Integer | nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/Thread/i/native_thread_id.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-i-native_thread_id">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self に対応するネイティブスレッドの ID を返します。
+</p>
+<p>
+ID は OS に依存します(pthread_self(3) が返す POSIX スレッド ID とは異なります)。
+</p>
+<p>
+* Linux では gettid(2) が返す TID です。
+* macOS では pthread_threadid_np(3) が返すシステム全体で一意な整数の ID です。
+* FreeBSD では pthread_getthreadid_np(3) が返すスレッド固有の整数の ID です。
+* Windows では GetThreadId() が返すスレッド識別子です。
+* その他のプラットフォームでは <a href="../class/NotImplementedError.html">NotImplementedError</a> が発生します。
+</p>
+<p>
+スレッドがまだネイティブスレッドと結びついていない場合や、すでに切り離された場合は nil を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">native_thread_id</span><span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; Integer
+</span>
+thr <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span><span class="p">}</span>
+thr<span class="p">.</span><span class="nf">join</span>
+<span class="nb">p</span> thr<span class="p">.</span><span class="nf">native_thread_id</span>                  <span class="c1"># =&gt; nil
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_PENDING_INTERRUPT--3F"><code>pending_interrupt?(error = nil) -&gt; bool</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Thread/i/pending_interrupt=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-i-pending_interrupt-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -1652,10 +1728,32 @@ me<span class="p">.</span><span class="nf">thread_variable_set</span><span class
   <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="s2">"</span><span class="s2">dog</span><span class="s2">"</span>, <span class="s1">'woof'</span><span class="p">)</span>
 <span class="k">end</span>
 <span class="nb">p</span> thr<span class="p">.</span><span class="nf">join</span>             <span class="c1"># =&gt; #&lt;Thread:0x401b3f10 dead&gt;
-</span><span class="nb">p</span> thr<span class="p">.</span><span class="nf">thread_variables</span> <span class="c1"># =&gt; [:dog, :cat]
+</span><span class="nb">p</span> thr<span class="p">.</span><span class="nf">thread_variables</span> <span class="c1"># =&gt; [:cat, :dog]
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a>, <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a>
+[SEE_ALSO] <a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a>, <a href="../method/Thread/i/thread_variables.html">Thread#thread_variables</a>, <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_THREAD_VARIABLES"><code>thread_variables -&gt; [Symbol]</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Thread/i/thread_variables.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread.html#method-i-thread_variables">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+スレッドローカル変数の名前を <a href="../class/Symbol.html">Symbol</a> の配列で返します。
+</p>
+<p>
+[注意]: <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a> でセットしたローカル変数(Fiber ローカル変数)は対象ではない事に注意してください。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>thr <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="ss">:cat</span>, <span class="s1">'meow'</span><span class="p">)</span>
+  <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="s2">"</span><span class="s2">dog</span><span class="s2">"</span>, <span class="s1">'woof'</span><span class="p">)</span>
+<span class="k">end</span>
+thr<span class="p">.</span><span class="nf">join</span>
+<span class="nb">p</span> thr<span class="p">.</span><span class="nf">thread_variables</span> <span class="c1"># =&gt; [:cat, :dog]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a>, <a href="../method/Thread/i/thread_variable=3f.html">Thread#thread_variable?</a>, <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a>
 </p>
 </dd>
 
