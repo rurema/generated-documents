@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-27-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -482,6 +482,10 @@ IO#sysread                    EOFError
 
 <li><a href="#I_POS">tell</a></li>
 
+<li><a href="#I_TIMEOUT">timeout</a></li>
+
+<li><a href="#I_TIMEOUT--3D">timeout=</a></li>
+
 <li><a href="#I_FILENO">to_i</a></li>
 
 <li><a href="#I_TO_IO">to_io</a></li>
@@ -548,6 +552,8 @@ IO#sysread                    EOFError
 <li><a href="#I_READY--3F">ready?</a></li>
 
 <li><a href="#I_WAIT">wait</a></li>
+
+<li><a href="#I_WAIT_PRIORITY">wait_priority</a></li>
 
 <li><a href="#I_WAIT">wait_readable</a></li>
 
@@ -3584,6 +3590,59 @@ stdio を経由しないので他の出力メソッドと混用すると思わ�
 </dd>
 
 
+<dt class="method-heading" id="I_TIMEOUT"><code>timeout -&gt; Numeric | nil</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO/i/timeout.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO.html#method-i-timeout">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self に設定されている入出力のタイムアウトを返します。設定されていない場合は nil を返します。
+</p>
+<p>
+タイムアウトの設定については <a href="../method/IO/i/timeout=3d.html">IO#timeout=</a> を参照してください。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">timeout</span>      <span class="c1"># =&gt; nil
+</span>r<span class="p">.</span><span class="nf">timeout</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">timeout</span>      <span class="c1"># =&gt; 0.5
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/timeout=3d.html">IO#timeout=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TIMEOUT--3D"><code>timeout=(numeric) -&gt; Numeric</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO/i/timeout=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO.html#method-i-timeout-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>timeout=(nil) -&gt; nil</code></dt>
+<dd class="method-description">
+<p>
+self に入出力のタイムアウトを秒単位で設定します。
+</p>
+<p>
+設定すると、可能な限りすべてのブロッキング操作にこのタイムアウトが適用されます。操作が設定した時間を超えると <a href="../class/IO=3a=3aTimeoutError.html">IO::TimeoutError</a> が発生します。
+</p>
+<p>
+影響を受けるのは <a href="../method/IO/i/gets.html">IO#gets</a>、<a href="../method/IO/i/puts.html">IO#puts</a>、<a href="../method/IO/i/read.html">IO#read</a>、<a href="../method/IO/i/write.html">IO#write</a>、
+<a href="../method/IO/i/wait_readable.html">IO#wait_readable</a>、<a href="../method/IO/i/wait_writable.html">IO#wait_writable</a> などです
+(<a href="../class/Socket.html">Socket</a> のブロッキング操作にも影響します)。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>numeric</code>:</dt>
+<dd>
+タイムアウトの秒数を数値で指定します。
+nil を指定するとタイムアウトを解除します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+r<span class="p">.</span><span class="nf">timeout</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+r<span class="p">.</span><span class="nf">read</span> <span class="c1"># ~&gt; IO::TimeoutError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/timeout.html">IO#timeout</a>, <a href="../class/IO=3a=3aTimeoutError.html">IO::TimeoutError</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_TO_IO"><code>to_io -&gt; self</code><span class="permalink">[<a href="../method/IO/i/to_io.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO.html#method-i-to_io">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -4120,6 +4179,35 @@ self が EOF に達していれば false を返します。
 </dl>
 <p>
 [SEE_ALSO] <a href="../method/IO/i/wait_writable.html">IO#wait_writable</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_WAIT_PRIORITY"><code>wait_priority(timeout = nil) -&gt; bool | self | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/IO/i/wait_priority.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO.html#method-i-wait_priority">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/wait.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/io=2fwait.html">io/wait</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+self が優先データを受信して読み込み可能になるまでブロックし、読み込み可能になったら真値を返します。
+</p>
+<p>
+優先データ(緊急データ)は <a href="../method/Socket=3a=3aConstants/c/MSG_OOB.html">Socket::Constants::MSG_OOB</a> フラグを用いて送受信され、通常はストリーム型のソケットに限られます。
+</p>
+<p>
+より詳しくは、一度ブロックしてから読み込み可能になった場合には
+self を返します。内部のバッファにデータがある場合にはブロックせずに true を返します。
+</p>
+<p>
+timeout を指定した場合は、指定秒数経過するまでブロックし、タイムアウトした場合は nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+タイムアウトまでの秒数を指定します。
+nil を指定すると読み込み可能になるまで待ち続けます。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/wait_readable.html">IO#wait_readable</a>, <a href="../method/IO/i/wait_writable.html">IO#wait_writable</a>
 </p>
 </dd>
 

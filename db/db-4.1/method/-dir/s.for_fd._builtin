@@ -1,0 +1,37 @@
+names=for_fd
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Dir.md
+since_by_name=for_fd=3.3
+until_by_name=
+
+### def for_fd(fd)    -> Dir
+
+整数のディレクトリファイルディスクリプタ fd が指すディレクトリを表す、
+新しい [c:Dir] オブジェクトを返します。
+
+返される [c:Dir] オブジェクトには対応するパスがないため、
+[m:Dir#path] は nil を返します。
+
+このメソッドは POSIX 2008 で定義された fdopendir() を使用します。
+POSIX 非対応のプラットフォームでは実装されておらず、
+[c:NotImplementedError] が発生します。
+
+- **param** `fd` -- ディレクトリを指すファイルディスクリプタを整数で指定します。
+
+```ruby title="例"
+require 'tmpdir'
+
+Dir.mktmpdir do |tmpdir|
+  d0 = Dir.new(tmpdir)
+  d1 = Dir.for_fd(d0.fileno)
+
+  p d1.class  # => Dir
+  p d0.path   # => tmpdir のパス
+  p d1.path   # => nil
+  d0.close
+end
+```
+
+- **SEE** [m:Dir#fileno], [m:Dir#path], [m:Dir.fchdir]
+

@@ -1,0 +1,38 @@
+names=fchdir
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Dir.md
+since_by_name=fchdir=3.3
+until_by_name=
+
+### def fchdir(fd)    -> 0
+### def fchdir(fd) { ... }    -> object
+
+カレントディレクトリを、整数のファイルディスクリプタ fd が指す
+ディレクトリに変更します。
+
+ファイルディスクリプタを UNIX ソケット経由で渡したり子プロセスに渡したりする
+場合、[m:Dir.chdir] の代わりに fchdir を使うと TOCTOU (time-of-check to
+time-of-use) 脆弱性を避けられます。
+
+ブロックを指定しない場合、カレントディレクトリを fd の指すディレクトリに変更し、
+0 を返します。
+
+ブロックを指定した場合、カレントディレクトリの変更はブロックの実行中に限られます。
+ブロックの実行結果を返します。
+
+- **param** `fd` -- ディレクトリを指すファイルディスクリプタを整数で指定します。
+
+- **raise** `Errno::EXXX` -- 失敗した場合に発生します。
+
+```ruby title="例"
+Dir.chdir("/var/spool/mail")
+p Dir.pwd            # => "/var/spool/mail"
+
+dir = Dir.new("/usr")
+Dir.fchdir(dir.fileno)
+p Dir.pwd            # => "/usr"
+```
+
+- **SEE** [m:Dir.chdir], [m:Dir#fileno], [m:Dir.for_fd]
+

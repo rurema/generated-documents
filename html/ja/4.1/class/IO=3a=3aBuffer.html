@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-27-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -159,7 +159,13 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 <dd>
 <ul class="class-toc">
 
+<li><a href="#S_FOR">for</a></li>
+
+<li><a href="#S_MAP">map</a></li>
+
 <li><a href="#S_NEW">new</a></li>
+
+<li><a href="#S_STRING">string</a></li>
 
 </ul>
 </dd>
@@ -289,6 +295,101 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 <h2>特異メソッド</h2>
 <dl>
 
+<dt class="method-heading" id="S_FOR"><code>for(string) -&gt; IO::Buffer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/s/for.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-c-for">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>for(string) {|buffer| ... } -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+文字列 string のメモリ領域を参照する、コピーを伴わないバッファを作成します。
+</p>
+<p>
+ブロックを渡さない場合は、string の内容を複製した凍結済みの文字列をバッファの元として使い、読み取り専用のバッファを返します。元の文字列とは切り離されるため、あとから元の文字列を変更してもバッファの内容は変わりません。
+</p>
+<p>
+ブロックを渡した場合は、string 自身のメモリ領域を参照するバッファをブロックに渡し、ブロックの評価結果を返します。バッファへの書き込みは
+string に反映されます。ブロックの実行中、string は変更できません。
+string が freeze されている場合は読み取り専用のバッファになります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+バッファの元にする <a href="../class/String.html">String</a> を指定します。
+</dd>
+</dl>
+<span class="caption">例: ブロックを渡さない場合</span>
+<pre class="highlight ruby"><code>buffer <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> buffer<span class="p">.</span><span class="nf">get_string</span> <span class="c1"># =&gt; &quot;test&quot;
+</span><span class="nb">p</span> buffer<span class="p">.</span><span class="nf">external?</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> buffer<span class="p">.</span><span class="nf">readonly?</span>  <span class="c1"># =&gt; true
+</span>
+<span class="c1"># 元の文字列を変更してもバッファには影響しない
+</span>str <span class="o">=</span> <span class="o">+</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+buffer <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span>str<span class="p">)</span>
+str <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">XY</span><span class="s2">"</span>
+<span class="nb">p</span> str               <span class="c1"># =&gt; &quot;testXY&quot;
+</span><span class="nb">p</span> buffer<span class="p">.</span><span class="nf">get_string</span> <span class="c1"># =&gt; &quot;test&quot;
+</span></code></pre>
+<span class="caption">例: ブロックを渡した場合</span>
+<pre class="highlight ruby"><code>str <span class="o">=</span> <span class="o">+</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span>
+<span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span>str<span class="p">)</span> <span class="k">do</span> <span class="o">|</span>buffer<span class="o">|</span>
+  <span class="nb">p</span> buffer<span class="p">.</span><span class="nf">readonly?</span> <span class="c1"># =&gt; false
+</span>  buffer<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="nb">p</span> str <span class="c1"># =&gt; &quot;Ruby&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a>, <a href="../method/IO=3a=3aBuffer/s/map.html">IO::Buffer.map</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_MAP"><code>map(file, size = nil, offset = 0, flags = 0) -&gt; IO::Buffer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/s/map.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-c-map">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ファイルをメモリにマップしたバッファを作成して返します。
+</p>
+<p>
+既定では書き込み可能かつ共有(shared)のマップになるため、file は書き込み可能な状態で開いておく必要があります。読み込み専用で開いたファイルをマップするには、flags に <a href="../method/IO=3a=3aBuffer/c/READONLY.html">IO::Buffer::READONLY</a> を指定します。
+<a href="../method/IO=3a=3aBuffer/c/PRIVATE.html">IO::Buffer::PRIVATE</a> を指定するとコピーオンライトのマップになり、バッファへの変更はファイルにも他のプロセスにも反映されません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>file</code>:</dt>
+<dd>
+マップする <a href="../class/File.html">File</a> を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>size</code>:</dt>
+<dd>
+マップするバイト数を指定します。省略するとファイル全体をマップします。0 を指定した場合と空のファイルを指定した場合はエラーになります。
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+マップを開始する位置をファイルの先頭からのバイト数で指定します。指定できる値はシステム依存で、多くの環境ではページサイズの倍数である必要があります。
+</dd>
+<dt class='method-param'>[PARAM] <code>flags</code>:</dt>
+<dd>
+<a href="../method/IO=3a=3aBuffer/c/READONLY.html">IO::Buffer::READONLY</a> や <a href="../method/IO=3a=3aBuffer/c/PRIVATE.html">IO::Buffer::PRIVATE</a> を指定します。
+</dd>
+</dl>
+<span class="caption">例: 読み込み専用でマップする</span>
+<pre class="highlight ruby"><code><span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">test.txt</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hello world</span><span class="s2">"</span><span class="p">)</span>
+
+buffer <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">test.txt</span><span class="s2">"</span><span class="p">)</span>, <span class="k">nil</span>, <span class="mi">0</span>, <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">READONLY</span><span class="p">)</span>
+<span class="nb">p</span> buffer<span class="p">.</span><span class="nf">get_string</span> <span class="c1"># =&gt; &quot;hello world&quot;
+</span><span class="nb">p</span> buffer<span class="p">.</span><span class="nf">mapped?</span>    <span class="c1"># =&gt; true
+</span><span class="nb">p</span> buffer<span class="p">.</span><span class="nf">readonly?</span>  <span class="c1"># =&gt; true
+</span></code></pre>
+<span class="caption">例: 書き込み可能なマップ</span>
+<pre class="highlight ruby"><code><span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">test.txt</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hello world</span><span class="s2">"</span><span class="p">)</span>
+
+buffer <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">test.txt</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
+buffer<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">HELLO</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">test.txt</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;HELLO world&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a>, <a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_NEW"><code>new(size = IO::Buffer::DEFAULT_SIZE, flags = 0) -&gt; IO::Buffer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -313,6 +414,39 @@ size によらず後者の方法で確保されます。
 </span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">internal?</span>  <span class="c1"># =&gt; true
 </span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span> <span class="c1"># =&gt; &quot;\x00\x00\x00\x00&quot;
 </span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a>, <a href="../method/IO=3a=3aBuffer/s/map.html">IO::Buffer.map</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_STRING"><code>string(length) {|buffer| ... } -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/s/string.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-c-string">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+length バイトの文字列を新しく作り、それを元にしたコピーを伴わないバッファをブロックに渡します。ブロックの実行後、その文字列を返します。
+</p>
+<p>
+ブロックの中でバッファに書き込んだ内容が、そのまま返される文字列の内容になります。返される文字列のエンコーディングは <a href="../method/Encoding/c/BINARY.html">Encoding::BINARY</a> です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+作成する文字列のバイト数を整数で指定します。
+</dd>
+<dt>[EXCEPTION] <code>LocalJumpError</code>:</dt>
+<dd>
+ブロックを渡さなかった場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>str <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">string</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>buffer<span class="o">|</span>
+  buffer<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="nb">p</span> str                 <span class="c1"># =&gt; &quot;Ruby&quot;
+</span><span class="nb">p</span> str<span class="p">.</span><span class="nf">encoding</span><span class="p">.</span><span class="nf">name</span>   <span class="c1"># =&gt; &quot;ASCII-8BIT&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a>
+</p>
 </dd>
 
 
@@ -413,7 +547,7 @@ offset と length の合計がバッファのバイト数を超える場合に�
 バッファの大きさが 0 の場合に true を返します。
 </p>
 <p>
-大きさ 0 のバッファは、<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> に 0 を渡すか、空文字列から <code>IO::Buffer.for</code> で作った場合などにできます。
+大きさ 0 のバッファは、<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> に 0 を渡すか、空文字列から <a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a> で作った場合などにできます。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">empty?</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">empty?</span> <span class="c1"># =&gt; false
@@ -428,7 +562,7 @@ offset と length の合計がバッファのバイト数を超える場合に�
 </p>
 <p>
 外部バッファは、バッファ自身が確保・マップしたのではないメモリ領域を参照します。
-<code>IO::Buffer.for</code> で作ったバッファは、文字列のメモリを外部参照します。外部バッファは大きさを変更できません。
+<a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a> で作ったバッファは、文字列のメモリを外部参照します。外部バッファは大きさを変更できません。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">external?</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">external?</span>      <span class="c1"># =&gt; false
@@ -505,8 +639,8 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 </span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;Ruby&quot;
 </span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;uby&quot;
 </span>
-<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">encoding</span>                   <span class="c1"># =&gt; #&lt;Encoding:BINARY (ASCII-8BIT)&gt;
-</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span>, <span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_8</span><span class="p">)</span><span class="p">.</span><span class="nf">encoding</span>  <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">encoding</span><span class="p">.</span><span class="nf">name</span>                   <span class="c1"># =&gt; &quot;ASCII-8BIT&quot;
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span>, <span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_8</span><span class="p">)</span><span class="p">.</span><span class="nf">encoding</span><span class="p">.</span><span class="nf">name</span>  <span class="c1"># =&gt; &quot;UTF-8&quot;
 </span>
 buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">99</span><span class="p">)</span>   <span class="c1"># ~&gt; ArgumentError
 </span></code></pre>
@@ -552,7 +686,7 @@ buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</
 <p>
 マップバッファは、仮想メモリ機構でマップされたメモリ領域を参照します。
 <a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> に <a href="../method/IO=3a=3aBuffer/c/MAPPED.html">IO::Buffer::MAPPED</a> を指定した場合や、大きさが <a href="../method/IO=3a=3aBuffer/c/PAGE_SIZE.html">IO::Buffer::PAGE_SIZE</a> 以上の場合は匿名のマップになります。
-<code>IO::Buffer.map</code> で作った場合はファイルに紐づいたマップになります。
+<a href="../method/IO=3a=3aBuffer/s/map.html">IO::Buffer.map</a> で作った場合はファイルに紐づいたマップになります。
 </p>
 </dd>
 
@@ -599,7 +733,7 @@ buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span>
 <a href="../method/IO=3a=3aBuffer/i/copy.html">IO::Buffer#copy</a> などで変更できません。
 </p>
 <p>
-<code>IO::Buffer.for</code> にブロックを渡さずに作ったバッファは、元の文字列が freeze
+<a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a> にブロックを渡さずに作ったバッファは、元の文字列が freeze
 されているかどうかによらず、常に読み取り専用になります。内部で作った文字列の複製をバッファの元として使うためです。ブロックを渡した場合は元の文字列のメモリを直接参照するため、その文字列が freeze されている場合にだけ読み取り専用になります。読み取り専用のファイルから作ったバッファも読み取り専用です。
 </p>
 <pre class="highlight ruby"><code><span class="c1"># ブロックを渡さない場合は、元の文字列が freeze されていなくても読み取り専用
@@ -623,7 +757,7 @@ buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span>
 変更前の内容は保持されます。変更後の大きさによっては、メモリ領域が別の場所に確保しなおされ、内容がそこへコピーされます。
 </p>
 <p>
-<code>IO::Buffer.for</code> で作った外部バッファや、ロックされたバッファは大きさを変更できません。
+<a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a> で作った外部バッファや、ロックされたバッファは大きさを変更できません。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>size</code>:</dt>
@@ -864,7 +998,7 @@ BIG_ENDIAN と同じ値です。
 OS のページサイズをバイト数で表した値です。
 </p>
 <p>
-<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> は、size がこの値より大きい場合に仮想メモリ機構を用いてバッファを確保します。
+<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> は、size がこの値以上の場合に仮想メモリ機構を用いてバッファを確保します。
 </p>
 <p>
 値は環境依存です。

@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-27-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -164,6 +164,10 @@
 <li><a href="#I_INSPECT">inspect</a></li>
 
 <li><a href="#I_LENGTH">length</a></li>
+
+<li><a href="#I_MATCH">match</a></li>
+
+<li><a href="#I_MATCH_LENGTH">match_length</a></li>
 
 <li><a href="#I_NAMED_CAPTURES">named_captures</a></li>
 
@@ -693,6 +697,85 @@ self の内容を人間に読みやすい文字列にして返します。
 <pre class="highlight ruby"><code><span class="sr">/(foo)(bar)(BAZ)?/</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">foobarbaz</span><span class="s2">"</span>
 <span class="nb">p</span> <span class="vg">$~</span><span class="p">.</span><span class="nf">size</span>       <span class="c1"># =&gt; 4
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_MATCH"><code>match(n) -&gt; String | nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/MatchData/i/match.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/MatchData.html#method-i-match">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/MatchData.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>match(name) -&gt; String | nil</code></dt>
+<dd class="method-description">
+<p>
+n 番目、または name という名前のグループにマッチした部分文字列を返します。
+</p>
+<p>
+<a href="../method/MatchData/i/=5b=5d.html">MatchData#[]</a> と似ていますが、範囲や複数要素の指定はできず、単一のグループに対応する部分文字列だけを返します。マッチしていないグループを指定した場合は nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>n</code>:</dt>
+<dd>
+返す部分文字列のインデックスを 0 以上の整数で指定します。
+0 はマッチ全体を意味します。
+</dd>
+<dt class='method-param'>[PARAM] <code>name</code>:</dt>
+<dd>
+名前付きグループの名前を <a href="../class/String.html">String</a> か <a href="../class/Symbol.html">Symbol</a> で指定します。
+</dd>
+<dt>[EXCEPTION] <code>IndexError</code>:</dt>
+<dd>
+範囲外の n や、存在しない name を指定した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>m <span class="o">=</span> <span class="sr">/(.)(.)(\d+)(\d)(\w)?/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">THX1138.</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; &quot;HX1138&quot;
+</span><span class="nb">p</span> m<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># =&gt; &quot;8&quot;
+</span><span class="nb">p</span> m<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span>
+m <span class="o">=</span> <span class="sr">/(?&lt;foo&gt;.)(.)(?&lt;bar&gt;.+)/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">hoge</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span> <span class="c1"># =&gt; &quot;h&quot;
+</span><span class="nb">p</span> m<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="ss">:bar</span><span class="p">)</span> <span class="c1"># =&gt; &quot;ge&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/MatchData/i/=5b=5d.html">MatchData#[]</a>, <a href="../method/MatchData/i/match_length.html">MatchData#match_length</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MATCH_LENGTH"><code>match_length(n) -&gt; Integer | nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/MatchData/i/match_length.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/MatchData.html#method-i-match_length">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/MatchData.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>match_length(name) -&gt; Integer | nil</code></dt>
+<dd class="method-description">
+<p>
+n 番目、または name という名前のグループにマッチした部分文字列の長さを文字数で返します。
+</p>
+<p>
+マッチしていないグループを指定した場合は nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>n</code>:</dt>
+<dd>
+対象の部分文字列のインデックスを 0 以上の整数で指定します。
+0 はマッチ全体を意味します。
+</dd>
+<dt class='method-param'>[PARAM] <code>name</code>:</dt>
+<dd>
+名前付きグループの名前を <a href="../class/String.html">String</a> か <a href="../class/Symbol.html">Symbol</a> で指定します。
+</dd>
+<dt>[EXCEPTION] <code>IndexError</code>:</dt>
+<dd>
+範囲外の n や、存在しない name を指定した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>m <span class="o">=</span> <span class="sr">/(.)(.)(\d+)(\d)(\w)?/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">THX1138.</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">match_length</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 6
+</span><span class="nb">p</span> m<span class="p">.</span><span class="nf">match_length</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> m<span class="p">.</span><span class="nf">match_length</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span>
+<span class="c1"># 長さは文字数で数える
+</span><span class="nb">p</span> <span class="sr">/(\p{Hiragana}+)/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">あいう</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">match_length</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; 3
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/MatchData/i/match.html">MatchData#match</a>
+</p>
 </dd>
 
 
