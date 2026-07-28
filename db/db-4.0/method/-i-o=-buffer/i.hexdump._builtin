@@ -1,0 +1,56 @@
+names=hexdump
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=hexdump=3.1
+until_by_name=
+
+### def hexdump(offset = 0, length = nil, width = 16) -> String | nil
+
+バッファの内容を 16 進ダンプ形式の文字列で返します。
+
+各行は、バッファの先頭からの位置、16 進数で表したバイト列、
+印字できる文字による表現の順に並びます。
+この表示形式は将来変更される可能性があります。
+
+メモリ領域を指していないバッファでは nil を返します。
+これは [m:IO::Buffer#null?] が真の場合です。
+
+- **param** `offset` -- ダンプを開始する位置をバイト単位の整数で指定します。
+- **param** `length` -- ダンプする長さをバイト単位の整数で指定します。
+             省略した場合は offset からバッファの終わりまでです。
+- **param** `width` -- 1 行に表示するバイト数を整数で指定します。
+
+- **raise** `ArgumentError` -- offset と length の合計がバッファの大きさを
+             超える場合に発生します。
+- **raise** `ArgumentError` -- width に 1 未満を指定した場合に発生します。
+
+```ruby
+buf = IO::Buffer.for("Hello World")
+puts buf.hexdump
+# => 0x00000000  48 65 6c 6c 6f 20 57 6f 72 6c 64                Hello World
+```
+
+```ruby title="例: メモリ領域を指していないバッファ"
+buf = IO::Buffer.new(4)
+buf.free
+p buf.hexdump # => nil
+```
+
+
+```ruby title="例: 位置と長さを指定する"
+buf = IO::Buffer.for("Hello World")
+puts buf.hexdump(6, 5)
+# => 0x00000006  57 6f 72 6c 64                                  World
+```
+
+```ruby title="例: 1 行に表示するバイト数を指定する"
+buf = IO::Buffer.for("Hello World")
+puts buf.hexdump(0, 11, 4)
+# => 0x00000000  48 65 6c 6c Hell
+#    0x00000004  6f 20 57 6f o Wo
+#    0x00000008  72 6c 64    rld
+```
+
+- **SEE** [m:IO::Buffer#inspect], [m:IO::Buffer#null?]
+

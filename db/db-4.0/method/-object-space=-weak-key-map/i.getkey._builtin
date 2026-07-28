@@ -1,0 +1,29 @@
+names=getkey
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/ObjectSpace__WeakKeyMap.md
+since_by_name=getkey=3.3
+until_by_name=
+
+### def getkey(key) -> object | nil
+
+key と等値なキーが登録されていれば、登録されているほうのオブジェクトを
+返します。無い場合は nil を返します。
+
+同じ値を表すオブジェクトを 1 つにまとめる用途に使えます。
+
+- **param** `key` -- 探すキーを指定します。
+
+```ruby
+value = { amount: 1, currency: "USD" }
+
+cache = ObjectSpace::WeakKeyMap.new
+cache[value] = true
+
+# 等値な別のオブジェクトを渡しても、登録済みのオブジェクトが返る
+copy = cache.getkey({ amount: 1, currency: "USD" })
+p copy.equal?(value) # => true
+```
+
+- **SEE** [m:ObjectSpace::WeakKeyMap#\[\]]
+

@@ -1,0 +1,33 @@
+names=inspect
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=inspect=3.1
+until_by_name=
+
+### def inspect -> String
+
+バッファの状態と内容を表した文字列を返します。
+
+[m:IO::Buffer#to_s] と同じ 1 行に続けて、バッファの内容を
+[m:IO::Buffer#hexdump] と同じ 16 進ダンプ形式で表示します。
+この表示形式は将来変更される可能性があります。
+
+ダンプするのは先頭 256 バイトまでです。
+これを超える分は表示されず、代わりに残りのバイト数が示されます。
+
+```ruby
+buf = IO::Buffer.for("Hello World")
+puts buf.inspect
+# => #<IO::Buffer 0x0000000100e726b8+11 EXTERNAL READONLY SLICE>
+#    0x00000000  48 65 6c 6c 6f 20 57 6f 72 6c 64                Hello World
+```
+
+
+```ruby title="例: 256 バイトを超えるバッファ"
+puts IO::Buffer.new(300).inspect.lines.last
+# => (and 44 more bytes not printed)
+```
+
+- **SEE** [m:IO::Buffer#to_s], [m:IO::Buffer#hexdump]
+

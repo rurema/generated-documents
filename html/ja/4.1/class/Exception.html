@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-27-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-28-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -146,6 +146,8 @@
 <li><a href="#I_BACKTRACE_LOCATIONS">backtrace_locations</a></li>
 
 <li><a href="#I_CAUSE">cause</a></li>
+
+<li><a href="#I_DETAILED_MESSAGE">detailed_message</a></li>
 
 <li><a href="#I_EXCEPTION">exception</a></li>
 
@@ -358,6 +360,64 @@ self の前の例外(self が rescue 節や ensure 節の中で発生した例�
 </span>  <span class="nb">p</span> <span class="vg">$!</span><span class="p">.</span><span class="nf">cause</span> <span class="c1"># =&gt; #&lt;RuntimeError: inner&gt;
 </span><span class="k">end</span>
 </code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_DETAILED_MESSAGE"><code>detailed_message(highlight: false, **opt) -&gt; String</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Exception/i/detailed_message.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Exception.html#method-i-detailed_message">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Exception.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+例外のメッセージに情報を追加した文字列を返します。
+</p>
+<p>
+<a href="../method/Exception/i/message.html">Exception#message</a> との違いは、1 行目に例外クラス名が付くことです。
+highlight に true を指定すると、エスケープシーケンスによる文字装飾も付きます。
+</p>
+<p>
+<a href="../method/Exception/i/full_message.html">Exception#full_message</a> と違い、highlight の既定値は常に false です。
+<a href="../method/Exception/s/to_tty=3f.html">Exception.to_tty?</a> の値によって変わることはありません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>highlight</code>:</dt>
+<dd>
+エスケープシーケンスによる文字装飾をつけるかどうかを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>opt</code>:</dt>
+<dd>
+上書きしたメソッドが解釈するためのキーワード引数です。このメソッド自身は解釈せず、知らないキーワードを渡してもエラーになりません。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="k">begin</span>
+  <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
+<span class="k">rescue</span> <span class="o">=&gt;</span> e
+  <span class="nb">p</span> e<span class="p">.</span><span class="nf">message</span>                          <span class="c1"># =&gt; &quot;divided by 0&quot;
+</span>  <span class="nb">p</span> e<span class="p">.</span><span class="nf">detailed_message</span>                 <span class="c1"># =&gt; &quot;divided by 0 (ZeroDivisionError)&quot;
+</span>  <span class="nb">p</span> e<span class="p">.</span><span class="nf">detailed_message</span><span class="p">(</span><span class="ss">highlight:</span> <span class="k">true</span><span class="p">)</span>
+  <span class="c1"># =&gt; &quot;\e[1mdivided by 0 (\e[1;4mZeroDivisionError\e[m\e[1m)\e[m&quot;
+</span><span class="k">end</span>
+</code></pre>
+<p>
+Ruby が捕捉されなかった例外を報告するときに、このメソッドの返り値が使われます。
+<a href="../library/did_you_mean.html">did_you_mean</a> や error_highlight は、このメソッドを上書きして「もしかして」の候補やエラー箇所の指示を追加しています。そのため、実際に得られる文字列は読み込んでいるライブラリによって変わります。
+</p>
+<p>
+このメソッドを上書きする場合は、知らないキーワード引数を渡されてもエラーにならないようにしてください。<code>highlight</code> のほか、<code>did_you_mean</code>、
+<code>error_highlight</code>、<code>syntax_suggest</code> などが渡される可能性があります。
+</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyError</span> <span class="o">&lt;</span> <span class="no">StandardError</span>
+  <span class="k">def</span> <span class="nf">detailed_message</span><span class="p">(</span><span class="ss">highlight:</span> <span class="k">false</span>, <span class="o">**</span>opt<span class="p">)</span>
+    <span class="s2">"</span><span class="s2">custom: </span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">begin</span>
+  <span class="nb">raise</span> <span class="no">MyError</span>, <span class="s2">"</span><span class="s2">x</span><span class="s2">"</span>
+<span class="k">rescue</span> <span class="o">=&gt;</span> e
+  <span class="nb">p</span> e<span class="p">.</span><span class="nf">detailed_message</span> <span class="c1"># =&gt; &quot;custom: x&quot;
+</span><span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Exception/i/message.html">Exception#message</a>, <a href="../method/Exception/i/full_message.html">Exception#full_message</a>
+</p>
 </dd>
 
 

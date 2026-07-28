@@ -1,0 +1,44 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=_builtin
+aliases=
+aliasof=
+source_location=manual/api/_builtin/ObjectSpace__WeakKeyMap.md
+
+キーへの弱参照を持つ、キーと値の組を保持するクラスです。
+
+キーは他から参照されなくなると GC の対象になり、そのときキーと値の組は
+map から取り除かれます。値への参照は強参照なので、map に入っている間は
+GC されません。
+
+[c:ObjectSpace::WeakMap] との違いは以下の 3 点です。
+
+  - 値への参照が強参照です。map に入っている間は GC されません。
+  - キーの比較が同一性([m:Object#equal?])ではなく等値性([m:Object#eql?])で
+    行われます。
+  - GC の対象になるオブジェクトだけをキーにできます。
+
+```ruby
+map = ObjectSpace::WeakKeyMap.new
+key = "name"
+map[key] = 1
+
+# キーは等値性で比較されるので、別のオブジェクトでも引ける
+p map["name"] # => 1
+
+key = nil
+GC.start
+# キーへの参照が無くなったので、キーと値の組が取り除かれる
+p map["name"] # => nil
+```
+
+上の例の [m:GC.start] は説明のために書いたもので、いつでもこのとおりに
+GC されるとは限りません。
+
+同じ値を表すオブジェクトを 1 つだけ保持しておきたい場合、たとえば
+軽量な値オブジェクトのキャッシュを実装する用途に向いています。
+[m:ObjectSpace::WeakKeyMap#getkey] を参照してください。

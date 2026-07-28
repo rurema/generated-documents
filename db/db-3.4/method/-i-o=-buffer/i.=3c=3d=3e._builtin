@@ -1,0 +1,34 @@
+names=<=>
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name==3c=3d=3e=3.1
+until_by_name=
+
+### def <=>(other) -> Integer
+
+バッファの大きさと内容を other と比較します。
+
+まず大きさを比較し、大きさが同じ場合に内容をバイト列として比較します。
+`self` の方が小さければ負の整数を、等しければ 0 を、大きければ正の整数を返します。
+
+大きさが同じ場合の比較には C の `memcmp` を使い、その結果をそのまま返します。
+このため返る整数の絶対値に意味はありません。0 との大小だけを見てください。
+
+[c:Comparable] を include しているため、`<` や `==` などの比較演算子も使えます。
+
+- **param** `other` -- 比較対象のバッファを [c:IO::Buffer] で指定します。
+
+- **raise** `TypeError` -- other が [c:IO::Buffer] でない場合に発生します。
+
+```ruby
+buf = IO::Buffer.for("abc")
+
+p(buf <=> IO::Buffer.for("abc")) # => 0
+p(buf <=> IO::Buffer.for("ab"))  # => 1
+p buf < IO::Buffer.for("abd")    # => true
+```
+
+```ruby title="例: 大きさが同じ場合は memcmp の結果がそのまま返る"
+p(IO::Buffer.for("abc") <=> IO::Buffer.for("abz")) # => -23
+```

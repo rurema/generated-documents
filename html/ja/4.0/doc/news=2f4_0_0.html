@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/news=2f4_0_0.html">
+
+<title>NEWS for Ruby 4.0.0 (Ruby 4.0 リファレンスマニュアル)</title>
+<meta name="description" content="このドキュメントは前回リリース以降のバグ修正を除くユーザーに影響のある機能の変更のリストです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/4.0-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/news=2f4_0_0.html","name":"NEWS for Ruby 4.0.0","position":2}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a>
+        </li>
+        <li>
+          NEWS for Ruby 4.0.0
+        </li>
+      
+    </ol>
+  </nav>
+
+<h1>NEWS for Ruby 4.0.0</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/doc/news/4_0_0.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+<p>
+このドキュメントは前回リリース以降のバグ修正を除くユーザーに影響のある機能の変更のリストです。
+</p>
+<p>
+それぞれのエントリーは参照情報があるため短いです。十分な情報と共に書かれた全ての変更のリストはリンク先を参照してください。
+</p>
+<h1 >言語仕様の変更</h1>
+<ul>
+<li><code>*nil</code> は、<code>**nil</code> が <code>nil.to_hash</code> を呼ばないのと同様に、<code>nil.to_a</code> を呼ばなくなりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21047">[feature#21047]</a></li>
+<li>論理二項演算子(<code>||</code>、<code>&amp;&amp;</code>、<code>and</code>、<code>or</code>)を行頭に置くことで、行頭の <code>.</code> と同様に前の行から継続できるようになりました。以下のコード例はいずれも同じ意味になります。
+<pre class="highlight ruby"><code><span class="k">if</span> <span class="n">condition1</span>
+   <span class="o">&amp;&amp;</span> <span class="n">condition2</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+</code></pre>
+
+従来:
+<pre class="highlight ruby"><code><span class="k">if</span> condition1 <span class="o">&amp;&amp;</span> condition2
+  <span class="c1"># ...
+</span><span class="k">end</span>
+</code></pre>
+
+<pre class="highlight ruby"><code><span class="k">if</span> condition1 <span class="o">&amp;&amp;</span>
+   condition2
+  <span class="c1"># ...
+</span><span class="k">end</span>
+</code></pre>
+
+<a class="external" href="https://bugs.ruby-lang.org/issues/20925">[feature#20925]</a></li>
+</ul>
+<h1 >組み込みクラスの更新(注目すべきもののみ)</h1>
+<ul>
+<li><a href="../class/Array.html">Array</a><ul>
+<li>新規メソッド<ul>
+<li><code>array.reverse_each.find</code> のより効率的な代替として <a href="../method/Array/i/rfind.html">Array#rfind</a> が追加されました。<a class="external" href="https://bugs.ruby-lang.org/issues/21678">[feature#21678]</a></li>
+<li><a href="../method/Enumerable/i/find.html">Enumerable#find</a> のより効率的なオーバーライドとして <code>Array#find</code> が追加されました。<a class="external" href="https://bugs.ruby-lang.org/issues/21678">[feature#21678]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="../class/Binding.html">Binding</a><ul>
+<li>変更されたメソッド<ul>
+<li><a href="../method/Binding/i/local_variables.html">Binding#local_variables</a> が番号指定パラメータを含まなくなりました。また、<a href="../method/Binding/i/local_variable_get.html">Binding#local_variable_get</a>、<a href="../method/Binding/i/local_variable_set.html">Binding#local_variable_set</a>、<a href="../method/Binding/i/local_variable_defined=3f.html">Binding#local_variable_defined?</a> は番号指定パラメータを扱おうとすると拒否するようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21049">[bug#21049]</a></li>
+</ul>
+</li>
+<li>新規メソッド<ul>
+<li>番号指定パラメータと <code>it</code> パラメータにアクセスするための <a href="../method/Binding/i/implicit_parameters.html">Binding#implicit_parameters</a>、<a href="../method/Binding/i/implicit_parameter_get.html">Binding#implicit_parameter_get</a>、<a href="../method/Binding/i/implicit_parameter_defined=3f.html">Binding#implicit_parameter_defined?</a> が追加されました。<a class="external" href="https://bugs.ruby-lang.org/issues/21049">[bug#21049]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="../class/Enumerator.html">Enumerator</a><ul>
+<li>変更されたメソッド<ul>
+<li><a href="../method/Enumerator/s/produce.html">Enumerator.produce</a> がオプションの <code>size</code> キーワード引数を受け取るようになりました。列挙子のサイズを指定するもので、整数、<code>Float::INFINITY</code>、呼び出し可能オブジェクト(ラムダなど)、またはサイズ不明を表す <code>nil</code> を指定できます。指定しなかった場合、サイズはデフォルトで <code>Float::INFINITY</code> になります。
+<pre class="highlight ruby"><code><span class="c1"># 無限の列挙子
+</span>enum <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">produce</span><span class="p">(</span><span class="mi">1</span>, <span class="ss">size:</span> <span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span>, <span class="o">&amp;</span><span class="ss">:succ</span><span class="p">)</span>
+enum<span class="p">.</span><span class="nf">size</span>  <span class="c1"># =&gt; Float::INFINITY
+</span>
+<span class="c1"># サイズが既知/計算可能な有限の列挙子
+</span>abs_dir <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">expand_path</span><span class="p">(</span><span class="s2">"</span><span class="s2">./baz</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;/foo/bar/baz&quot;
+</span>traverser <span class="o">=</span> <span class="no">Enumerator</span><span class="p">.</span><span class="nf">produce</span><span class="p">(</span>abs_dir, <span class="ss">size:</span> <span class="o">-&gt;</span> <span class="p">{</span> abs_dir<span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="s2">"</span><span class="s2">/</span><span class="s2">"</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">}</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nb">raise</span> <span class="no">StopIteration</span> <span class="k">if</span> it <span class="o">==</span> <span class="s2">"</span><span class="s2">/</span><span class="s2">"</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span>it<span class="p">)</span>
+<span class="p">}</span>
+traverser<span class="p">.</span><span class="nf">size</span>  <span class="c1"># =&gt; 4
+</span></code></pre>
+
+<a class="external" href="https://bugs.ruby-lang.org/issues/21701">[feature#21701]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>ErrorHighlight</code><ul>
+<li>ArgumentError が発生したとき、メソッド呼び出し側(caller)とメソッド定義側(callee)の両方のコードスニペットが表示されるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21543">[feature#21543]</a>
+<pre class="highlight text"><code>test.rb:1:in 'Object#add': wrong number of arguments (given 1, expected 2) (ArgumentError)
+
+    caller: test.rb:3
+    | add(1)
+      ^^^
+    callee: test.rb:1
+    | def add(x, y) = x + y
+          ^^^
+        from test.rb:3:in '&lt;main&gt;'
+</code></pre>
+</li>
+</ul>
+</li>
+<li><a href="../class/Fiber.html">Fiber</a><ul>
+<li>新規メソッド<ul>
+<li><a href="../method/Kernel/m/raise.html">Kernel?.raise</a> と同様の <code>cause:</code> 引数を <a href="../method/Fiber/i/raise.html">Fiber#raise</a> でサポートしました。<a class="external" href="https://bugs.ruby-lang.org/issues/21360">[feature#21360]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>Fiber::Scheduler</code><ul>
+<li>新規メソッド<ul>
+<li>指定した例外でファイバーを中断させるための <code>Fiber::Scheduler#fiber_interrupt</code> が導入されました。当初の想定用途は、ブロックする IO 操作を待っているファイバーが、その IO 操作のクローズによって中断されるようにすることです。<a class="external" href="https://bugs.ruby-lang.org/issues/21166">[feature#21166]</a></li>
+<li>シグナル例外が無効化されている場合でもファイバースケジューラが処理を継続できるようにする <code>Fiber::Scheduler#yield</code> が導入されました。<a class="external" href="https://bugs.ruby-lang.org/issues/21633">[bug#21633]</a></li>
+<li>非同期の <a href="../method/IO/i/close.html">IO#close</a> のための <code>Fiber::Scheduler#io_close</code> フックが再導入されました。</li>
+<li>IO の書き込みバッファをフラッシュする際に <code>Fiber::Scheduler#io_write</code> が呼び出されるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21789">[bug#21789]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="../class/File.html">File</a><ul>
+<li>新規メソッド<ul>
+<li>カーネルとファイルシステムが対応していれば、Linux でも statx システムコール(<a class="external" href="http://man7.org/linux/man-pages/man2/statx.2.html">statx(2linux)</a>)を介して <a href="../method/File=3a=3aStat/i/birthtime.html">File::Stat#birthtime</a> が利用できるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21205">[feature#21205]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="../class/IO.html">IO</a><ul>
+<li>変更されたメソッド<ul>
+<li><a href="../method/IO/s/select.html">IO.select</a> がタイムアウト引数として Float::INFINITY を受け取れるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/20610">[feature#20610]</a></li>
+</ul>
+</li>
+<li>非推奨だった、先頭に <code>|</code> を付けた IO のクラスメソッドによるプロセス生成が削除されました。<a class="external" href="https://bugs.ruby-lang.org/issues/19630">[feature#19630]</a></li>
+</ul>
+</li>
+<li><a href="../class/Kernel.html">Kernel</a><ul>
+<li>変更されたメソッド<ul>
+<li><a href="../method/Object/i/inspect.html"><code>Kernel#inspect</code></a>が <code>instance_variables_to_inspect</code> というメソッドの存在を確認するようになり、これによって inspect の出力に含めるインスタンス変数を制御できるようになりました。
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">DatabaseConfig</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span>host, user, password<span class="p">)</span>
+    <span class="vi">@host</span> <span class="o">=</span> host
+    <span class="vi">@user</span> <span class="o">=</span> user
+    <span class="vi">@password</span> <span class="o">=</span> password
+  <span class="k">end</span>
+
+  private <span class="k">def</span> <span class="nf">instance_variables_to_inspect</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:<span class="vi">@host</span>, <span class="ss">:<span class="vi">@user</span><span class="p">]</span>
+end</span>
+
+conf</span> <span class="o">=</span> <span class="no">DatabaseConfig</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">localhost</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">root</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hunter2</span><span class="s2">"</span><span class="p">)</span>
+conf<span class="p">.</span><span class="nf">inspect</span> <span class="c1">#=&gt; #&lt;DatabaseConfig:0x0000000104def350 @host=&quot;localhost&quot;, @user=&quot;root&quot;&gt;
+</span></code></pre>
+
+<a class="external" href="https://bugs.ruby-lang.org/issues/21219">[feature#21219]</a></li>
+</ul>
+</li>
+<li>非推奨だった、先頭に <code>|</code> を付けた <a href="../method/Kernel/m/open.html">Kernel?.open</a> によるプロセス生成が削除されました。<a class="external" href="https://bugs.ruby-lang.org/issues/19630">[feature#19630]</a></li>
+</ul>
+</li>
+<li><a href="../class/Math.html">Math</a><ul>
+<li>新規メソッド<ul>
+<li><code>Math.log1p</code> と <code>Math.expm1</code> が追加されました。<a class="external" href="https://bugs.ruby-lang.org/issues/21527">[feature#21527]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="../class/Pathname.html">Pathname</a><ul>
+<li>Pathname が default gem から Ruby のコアクラスに昇格しました。<a class="external" href="https://bugs.ruby-lang.org/issues/17473">[feature#17473]</a></li>
+</ul>
+</li>
+<li><a href="../class/Proc.html">Proc</a><ul>
+<li>変更されたメソッド<ul>
+<li><a href="../method/Proc/i/parameters.html">Proc#parameters</a> が、匿名の必須引数の場合と表示が一貫するように、匿名のオプション引数を <code>[:opt, nil]</code> ではなく <code>[:opt]</code> として表示するようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/20974">[bug#20974]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="../class/Ractor.html">Ractor</a><ul>
+<li>Ractor 間で通信するための新しい同期機構として <a href="../class/Ractor=3a=3aPort.html">Ractor::Port</a> クラスが追加されました。<a class="external" href="https://bugs.ruby-lang.org/issues/21262">[feature#21262]</a>
+<pre class="highlight ruby"><code>port1 <span class="o">=</span> <span class="no">Ractor</span><span class="o">::</span><span class="no">Port</span><span class="p">.</span><span class="nf">new</span>
+port2 <span class="o">=</span> <span class="no">Ractor</span><span class="o">::</span><span class="no">Port</span><span class="p">.</span><span class="nf">new</span>
+<span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> port1, port2 <span class="k">do</span> <span class="o">|</span>port1, port2<span class="o">|</span>
+  port1 <span class="o">&lt;&lt;</span> <span class="mi">1</span>
+  port2 <span class="o">&lt;&lt;</span> <span class="mi">11</span>
+  port1 <span class="o">&lt;&lt;</span> <span class="mi">2</span>
+  port2 <span class="o">&lt;&lt;</span> <span class="mi">12</span>
+<span class="k">end</span>
+<span class="mi">2</span><span class="p">.</span><span class="nf">times</span><span class="p">{</span> <span class="nb">p</span> port1<span class="p">.</span><span class="nf">receive</span> <span class="p">}</span> <span class="c1">#=&gt; 1, 2
+</span><span class="mi">2</span><span class="p">.</span><span class="nf">times</span><span class="p">{</span> <span class="nb">p</span> port2<span class="p">.</span><span class="nf">receive</span> <span class="p">}</span> <span class="c1">#=&gt; 11, 12
+</span></code></pre>
+
+<a href="../class/Ractor=3a=3aPort.html">Ractor::Port</a> は以下のメソッドを提供します。<ul>
+<li><a href="../method/Ractor=3a=3aPort/i/receive.html">Ractor::Port#receive</a></li>
+<li><a href="../method/Ractor=3a=3aPort/i/send.html">Ractor::Port#send</a> (別名 <a href="../method/Ractor=3a=3aPort/i/=3c=3c.html">Ractor::Port#&lt;&lt;</a>)</li>
+<li><a href="../method/Ractor=3a=3aPort/i/close.html">Ractor::Port#close</a></li>
+<li><a href="../method/Ractor=3a=3aPort/i/closed=3f.html">Ractor::Port#closed?</a></li>
+</ul>
+</li>
+<li>この結果、<code>Ractor.yield</code> と <code>Ractor#take</code> は削除されました。</li>
+<li><a href="../method/Ractor/i/join.html">Ractor#join</a> と <a href="../method/Ractor/i/value.html">Ractor#value</a> が、Ractor の終了を待つために追加されました。それぞれ <a href="../method/Thread/i/join.html">Thread#join</a>、<a href="../method/Thread/i/value.html">Thread#value</a> に相当するものです。</li>
+<li><a href="../method/Ractor/i/monitor.html">Ractor#monitor</a> と <a href="../method/Ractor/i/unmonitor.html">Ractor#unmonitor</a> が、<a href="../method/Ractor/i/join.html">Ractor#join</a> を内部的に実装するために使われる低レベルのインターフェイスとして追加されました。</li>
+<li><a href="../method/Ractor/s/select.html">Ractor.select</a> は Ractor と Port のみを受け付けるようになりました。Ractor を渡した場合は、いずれかの Ractor が終了した時点で返るようになります。</li>
+<li><a href="../method/Ractor/i/default_port.html">Ractor#default_port</a> が追加されました。各 Ractor はデフォルトの port を持っており、<a href="../method/Ractor/i/send.html">Ractor#send</a> や <a href="../method/Ractor/s/receive.html">Ractor.receive</a> に使われます。</li>
+<li><code>Ractor#close_incoming</code> と <code>Ractor#close_outgoing</code> は削除されました。</li>
+<li>shareable な Proc やラムダを作成するための <a href="../method/Ractor/s/shareable_proc.html">Ractor.shareable_proc</a> と <a href="../method/Ractor/s/shareable_lambda.html">Ractor.shareable_lambda</a> が導入されました。<a class="external" href="https://bugs.ruby-lang.org/issues/21550">[feature#21550]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/21557">[feature#21557]</a></li>
+</ul>
+</li>
+<li><a href="../class/Range.html">Range</a><ul>
+<li>変更されたメソッド<ul>
+<li><code>Range#to_set</code> が、終端のない(endless)範囲での問題を防ぐためのサイズチェックを行うようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21654">[bug#21654]</a></li>
+<li><a href="../method/Range/i/overlap=3f.html">Range#overlap?</a> が無限(範囲に境界がない)範囲を正しく扱うようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21185">[bug#21185]</a></li>
+<li>beginless な整数範囲における <a href="../method/Range/i/max.html">Range#max</a> の挙動の不具合が修正されました。<a class="external" href="https://bugs.ruby-lang.org/issues/21174">[bug#21174]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/21175">[bug#21175]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>Ruby</code><ul>
+<li>Ruby に関連する定数を含む新しいトップレベルモジュール <code>Ruby</code> が定義されました。このモジュールは Ruby 3.4 で予約されており、今回正式に定義されました。<a class="external" href="https://bugs.ruby-lang.org/issues/20884">[feature#20884]</a></li>
+</ul>
+</li>
+<li><code>Ruby::Box</code><ul>
+<li>定義の分離を提供する(実験的な)新機能です。詳細は <a class="external" href="https://docs.ruby-lang.org/en/4.0/language/box_md.html">doc/language/box.md</a> を参照してください。<a class="external" href="https://bugs.ruby-lang.org/issues/21311">[feature#21311]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/21385">[misc#21385]</a></li>
+</ul>
+</li>
+<li><a href="../class/Set.html">Set</a><ul>
+<li><a href="../class/Set.html">Set</a> が、autoload される stdlib のクラスではなく、コアクラスになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21216">[feature#21216]</a></li>
+<li><a href="../method/Set/i/inspect.html">Set#inspect</a> が、リテラル配列と同様のよりシンプルな表示を使うようになりました(例: <code>#&lt;Set: {1, 2, 3}&gt;</code> ではなく <code>Set[1, 2, 3]</code>)。<a class="external" href="https://bugs.ruby-lang.org/issues/21389">[feature#21389]</a></li>
+<li><code>Set#to_set</code> と <a href="../method/Enumerable/i/to_set.html">Enumerable#to_set</a> に引数を渡すことは非推奨になりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21390">[feature#21390]</a></li>
+</ul>
+</li>
+<li><a href="../class/Socket.html">Socket</a><ul>
+<li><a href="../method/Socket/s/tcp.html">Socket.tcp</a> と <a href="../method/TCPSocket/s/new.html">TCPSocket.new</a> が、最初の接続のタイムアウトを指定するための open_timeout キーワード引数を受け取るようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21347">[feature#21347]</a></li>
+<li><a href="../method/TCPSocket/s/new.html">TCPSocket.new</a> でユーザー指定のタイムアウトが発生した場合、状況によって <a href="../class/Errno=3a=3aETIMEDOUT.html">Errno::ETIMEDOUT</a> または <a href="../class/IO=3a=3aTimeoutError.html">IO::TimeoutError</a> のいずれかが送出されることがありましたが、常に <a href="../class/IO=3a=3aTimeoutError.html">IO::TimeoutError</a> が送出されるように統一されました。(なお <a href="../method/Socket/s/tcp.html">Socket.tcp</a> では、同様の状況で依然として <a href="../class/Errno=3a=3aETIMEDOUT.html">Errno::ETIMEDOUT</a> が発生する場合があり、また両方のケースにおいて OS レベルでタイムアウトが発生した場合には <a href="../class/Errno=3a=3aETIMEDOUT.html">Errno::ETIMEDOUT</a> が発生することがあります。)</li>
+</ul>
+</li>
+<li><a href="../class/String.html">String</a><ul>
+<li>Unicode のバージョンが 17.0.0 に、絵文字のバージョンが 17.0 に更新されました(これは正規表現にも適用されます)。<a class="external" href="https://bugs.ruby-lang.org/issues/19908">[feature#19908]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/20724">[feature#20724]</a> <a class="external" href="https://bugs.ruby-lang.org/issues/21275">[feature#21275]</a></li>
+<li><a href="../method/String/i/strip.html">String#strip</a>、<a href="../method/String/i/strip=21.html">String#strip!</a>、<a href="../method/String/i/lstrip.html">String#lstrip</a>、<a href="../method/String/i/lstrip=21.html">String#lstrip!</a>、<a href="../method/String/i/rstrip.html">String#rstrip</a>、<a href="../method/String/i/rstrip=21.html">String#rstrip!</a> が <code>*selectors</code> 引数を受け取れるように拡張されました。<a class="external" href="https://bugs.ruby-lang.org/issues/21552">[feature#21552]</a></li>
+</ul>
+</li>
+<li><a href="../class/Thread.html">Thread</a><ul>
+<li>新規メソッド<ul>
+<li><a href="../method/Kernel/m/raise.html">Kernel?.raise</a> と同様の <code>cause:</code> 引数を <a href="../method/Thread/i/raise.html">Thread#raise</a> でサポートしました。<a class="external" href="https://bugs.ruby-lang.org/issues/21360">[feature#21360]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 >標準添付ライブラリの更新(機能追加とバグ修正を除く)</h1>
+<p>
+注目すべき機能変更のみを挙げています。それ以外の変更は以降の各節に記載しています。また、前回同梱されていたバージョン(Ruby 3.4.0)からの GitHub releases がある場合は、そのリリース履歴も記載しています。
+</p>
+<p>
+以下の gems が default gems から bundled gems に変更されました。
+</p>
+<ul>
+<li>ostruct 0.6.3<ul>
+<li>0.6.1 から <a class="external" href="https://github.com/ruby/ostruct/releases/tag/v0.6.2">v0.6.2</a>, <a class="external" href="https://github.com/ruby/ostruct/releases/tag/v0.6.3">v0.6.3</a></li>
+</ul>
+</li>
+<li>pstore 0.2.0<ul>
+<li>0.1.4 から <a class="external" href="https://github.com/ruby/pstore/releases/tag/v0.2.0">v0.2.0</a></li>
+</ul>
+</li>
+<li>benchmark 0.5.0<ul>
+<li>0.4.0 から <a class="external" href="https://github.com/ruby/benchmark/releases/tag/v0.4.1">v0.4.1</a>, <a class="external" href="https://github.com/ruby/benchmark/releases/tag/v0.5.0">v0.5.0</a></li>
+</ul>
+</li>
+<li>logger 1.7.0<ul>
+<li>1.6.4 から <a class="external" href="https://github.com/ruby/logger/releases/tag/v1.6.5">v1.6.5</a>, <a class="external" href="https://github.com/ruby/logger/releases/tag/v1.6.6">v1.6.6</a>, <a class="external" href="https://github.com/ruby/logger/releases/tag/v1.7.0">v1.7.0</a></li>
+</ul>
+</li>
+<li>rdoc 7.0.3<ul>
+<li>6.14.0 から <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v6.14.1">v6.14.1</a>, <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v6.14.2">v6.14.2</a>, <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v6.15.0">v6.15.0</a>, <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v6.15.1">v6.15.1</a>, <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v6.16.0">v6.16.0</a>, <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v6.16.1">v6.16.1</a>, <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v6.17.0">v6.17.0</a>, <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v7.0.0">v7.0.0</a>, <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v7.0.1">v7.0.1</a>, <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v7.0.2">v7.0.2</a>, <a class="external" href="https://github.com/ruby/rdoc/releases/tag/v7.0.3">v7.0.3</a></li>
+</ul>
+</li>
+<li>win32ole 1.9.2<ul>
+<li>1.9.1 から <a class="external" href="https://github.com/ruby/win32ole/releases/tag/v1.9.2">v1.9.2</a></li>
+</ul>
+</li>
+<li>irb 1.16.0<ul>
+<li>1.14.3 から <a class="external" href="https://github.com/ruby/irb/releases/tag/v1.15.0">v1.15.0</a>, <a class="external" href="https://github.com/ruby/irb/releases/tag/v1.15.1">v1.15.1</a>, <a class="external" href="https://github.com/ruby/irb/releases/tag/v1.15.2">v1.15.2</a>, <a class="external" href="https://github.com/ruby/irb/releases/tag/v1.15.3">v1.15.3</a>, <a class="external" href="https://github.com/ruby/irb/releases/tag/v1.16.0">v1.16.0</a></li>
+</ul>
+</li>
+<li>reline 0.6.3<ul>
+<li>0.6.0 から <a class="external" href="https://github.com/ruby/reline/releases/tag/v0.6.1">v0.6.1</a>, <a class="external" href="https://github.com/ruby/reline/releases/tag/v0.6.2">v0.6.2</a>, <a class="external" href="https://github.com/ruby/reline/releases/tag/v0.6.3">v0.6.3</a></li>
+</ul>
+</li>
+<li>readline 0.0.4</li>
+<li>fiddle 1.1.8<ul>
+<li>1.1.6 から <a class="external" href="https://github.com/ruby/fiddle/releases/tag/v1.1.7">v1.1.7</a>, <a class="external" href="https://github.com/ruby/fiddle/releases/tag/v1.1.8">v1.1.8</a></li>
+</ul>
+</li>
+</ul>
+<p>
+以下の default gem が追加されました。
+</p>
+<ul>
+<li>win32-registry 0.1.2</li>
+</ul>
+<p>
+以下の default gems が更新されました。
+</p>
+<ul>
+<li>RubyGems 4.0.3</li>
+<li>bundler 4.0.3</li>
+<li>date 3.5.1<ul>
+<li>3.4.1 から <a class="external" href="https://github.com/ruby/date/releases/tag/v3.5.0">v3.5.0</a>, <a class="external" href="https://github.com/ruby/date/releases/tag/v3.5.1">v3.5.1</a></li>
+</ul>
+</li>
+<li>delegate 0.6.1<ul>
+<li>0.4.0 から <a class="external" href="https://github.com/ruby/delegate/releases/tag/v0.5.0">v0.5.0</a>, <a class="external" href="https://github.com/ruby/delegate/releases/tag/v0.6.0">v0.6.0</a>, <a class="external" href="https://github.com/ruby/delegate/releases/tag/v0.6.1">v0.6.1</a></li>
+</ul>
+</li>
+<li>digest 3.2.1<ul>
+<li>3.2.0 から <a class="external" href="https://github.com/ruby/digest/releases/tag/v3.2.1">v3.2.1</a></li>
+</ul>
+</li>
+<li>english 0.8.1<ul>
+<li>0.8.0 から <a class="external" href="https://github.com/ruby/english/releases/tag/v0.8.1">v0.8.1</a></li>
+</ul>
+</li>
+<li>erb 6.0.1<ul>
+<li>4.0.4 から <a class="external" href="https://github.com/ruby/erb/releases/tag/v5.1.2">v5.1.2</a>, <a class="external" href="https://github.com/ruby/erb/releases/tag/v5.1.3">v5.1.3</a>, <a class="external" href="https://github.com/ruby/erb/releases/tag/v6.0.0">v6.0.0</a>, <a class="external" href="https://github.com/ruby/erb/releases/tag/v6.0.1">v6.0.1</a></li>
+</ul>
+</li>
+<li>error_highlight 0.7.1</li>
+<li>etc 1.4.6</li>
+<li>fcntl 1.3.0<ul>
+<li>1.2.0 から <a class="external" href="https://github.com/ruby/fcntl/releases/tag/v1.3.0">v1.3.0</a></li>
+</ul>
+</li>
+<li>fileutils 1.8.0<ul>
+<li>1.7.3 から <a class="external" href="https://github.com/ruby/fileutils/releases/tag/v1.8.0">v1.8.0</a></li>
+</ul>
+</li>
+<li>forwardable 1.4.0<ul>
+<li>1.3.3 から <a class="external" href="https://github.com/ruby/forwardable/releases/tag/v1.4.0">v1.4.0</a></li>
+</ul>
+</li>
+<li>io-console 0.8.2<ul>
+<li>0.8.1 から <a class="external" href="https://github.com/ruby/io-console/releases/tag/v0.8.2">v0.8.2</a></li>
+</ul>
+</li>
+<li>io-nonblock 0.3.2</li>
+<li>io-wait 0.4.0<ul>
+<li>0.3.2 から <a class="external" href="https://github.com/ruby/io-wait/releases/tag/v0.3.3">v0.3.3</a>, <a class="external" href="https://github.com/ruby/io-wait/releases/tag/v0.3.5.test1">v0.3.5.test1</a>, <a class="external" href="https://github.com/ruby/io-wait/releases/tag/v0.3.5">v0.3.5</a>, <a class="external" href="https://github.com/ruby/io-wait/releases/tag/v0.3.6">v0.3.6</a>, <a class="external" href="https://github.com/ruby/io-wait/releases/tag/v0.4.0">v0.4.0</a></li>
+</ul>
+</li>
+<li>ipaddr 1.2.8</li>
+<li>json 2.18.0<ul>
+<li>2.9.1 から <a class="external" href="https://github.com/ruby/json/releases/tag/v2.10.0">v2.10.0</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.10.1">v2.10.1</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.10.2">v2.10.2</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.11.0">v2.11.0</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.11.1">v2.11.1</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.11.2">v2.11.2</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.11.3">v2.11.3</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.12.0">v2.12.0</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.12.1">v2.12.1</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.12.2">v2.12.2</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.13.0">v2.13.0</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.13.1">v2.13.1</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.13.2">v2.13.2</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.14.0">v2.14.0</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.14.1">v2.14.1</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.15.0">v2.15.0</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.15.1">v2.15.1</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.15.2">v2.15.2</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.16.0">v2.16.0</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.17.0">v2.17.0</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.17.1">v2.17.1</a>, <a class="external" href="https://github.com/ruby/json/releases/tag/v2.18.0">v2.18.0</a></li>
+</ul>
+</li>
+<li>net-http 0.9.1<ul>
+<li>0.6.0 から <a class="external" href="https://github.com/ruby/net-http/releases/tag/v0.7.0">v0.7.0</a>, <a class="external" href="https://github.com/ruby/net-http/releases/tag/v0.8.0">v0.8.0</a>, <a class="external" href="https://github.com/ruby/net-http/releases/tag/v0.9.0">v0.9.0</a>, <a class="external" href="https://github.com/ruby/net-http/releases/tag/v0.9.1">v0.9.1</a></li>
+</ul>
+</li>
+<li>openssl 4.0.0<ul>
+<li>3.3.1 から <a class="external" href="https://github.com/ruby/openssl/releases/tag/v3.3.2">v3.3.2</a>, <a class="external" href="https://github.com/ruby/openssl/releases/tag/v4.0.0">v4.0.0</a></li>
+</ul>
+</li>
+<li>optparse 0.8.1<ul>
+<li>0.6.0 から <a class="external" href="https://github.com/ruby/optparse/releases/tag/v0.7.0">v0.7.0</a>, <a class="external" href="https://github.com/ruby/optparse/releases/tag/v0.8.0">v0.8.0</a>, <a class="external" href="https://github.com/ruby/optparse/releases/tag/v0.8.1">v0.8.1</a></li>
+</ul>
+</li>
+<li>pp 0.6.3<ul>
+<li>0.6.2 から <a class="external" href="https://github.com/ruby/pp/releases/tag/v0.6.3">v0.6.3</a></li>
+</ul>
+</li>
+<li>prism 1.7.0<ul>
+<li>1.5.2 から <a class="external" href="https://github.com/ruby/prism/releases/tag/v1.6.0">v1.6.0</a>, <a class="external" href="https://github.com/ruby/prism/releases/tag/v1.7.0">v1.7.0</a></li>
+</ul>
+</li>
+<li>psych 5.3.1<ul>
+<li>5.2.2 から <a class="external" href="https://github.com/ruby/psych/releases/tag/v5.2.3">v5.2.3</a>, <a class="external" href="https://github.com/ruby/psych/releases/tag/v5.2.4">v5.2.4</a>, <a class="external" href="https://github.com/ruby/psych/releases/tag/v5.2.5">v5.2.5</a>, <a class="external" href="https://github.com/ruby/psych/releases/tag/v5.2.6">v5.2.6</a>, <a class="external" href="https://github.com/ruby/psych/releases/tag/v5.3.0">v5.3.0</a>, <a class="external" href="https://github.com/ruby/psych/releases/tag/v5.3.1">v5.3.1</a></li>
+</ul>
+</li>
+<li>resolv 0.7.0<ul>
+<li>0.6.2 から <a class="external" href="https://github.com/ruby/resolv/releases/tag/v0.6.3">v0.6.3</a>, <a class="external" href="https://github.com/ruby/resolv/releases/tag/v0.7.0">v0.7.0</a></li>
+</ul>
+</li>
+<li>stringio 3.2.0<ul>
+<li>3.1.2 から <a class="external" href="https://github.com/ruby/stringio/releases/tag/v3.1.3">v3.1.3</a>, <a class="external" href="https://github.com/ruby/stringio/releases/tag/v3.1.4">v3.1.4</a>, <a class="external" href="https://github.com/ruby/stringio/releases/tag/v3.1.5">v3.1.5</a>, <a class="external" href="https://github.com/ruby/stringio/releases/tag/v3.1.6">v3.1.6</a>, <a class="external" href="https://github.com/ruby/stringio/releases/tag/v3.1.7">v3.1.7</a>, <a class="external" href="https://github.com/ruby/stringio/releases/tag/v3.1.8">v3.1.8</a>, <a class="external" href="https://github.com/ruby/stringio/releases/tag/v3.1.9">v3.1.9</a>, <a class="external" href="https://github.com/ruby/stringio/releases/tag/v3.2.0">v3.2.0</a></li>
+</ul>
+</li>
+<li>strscan 3.1.6<ul>
+<li>3.1.2 から <a class="external" href="https://github.com/ruby/strscan/releases/tag/v3.1.3">v3.1.3</a>, <a class="external" href="https://github.com/ruby/strscan/releases/tag/v3.1.4">v3.1.4</a>, <a class="external" href="https://github.com/ruby/strscan/releases/tag/v3.1.5">v3.1.5</a>, <a class="external" href="https://github.com/ruby/strscan/releases/tag/v3.1.6">v3.1.6</a></li>
+</ul>
+</li>
+<li>time 0.4.2<ul>
+<li>0.4.1 から <a class="external" href="https://github.com/ruby/time/releases/tag/v0.4.2">v0.4.2</a></li>
+</ul>
+</li>
+<li>timeout 0.6.0<ul>
+<li>0.4.3 から <a class="external" href="https://github.com/ruby/timeout/releases/tag/v0.4.4">v0.4.4</a>, <a class="external" href="https://github.com/ruby/timeout/releases/tag/v0.5.0">v0.5.0</a>, <a class="external" href="https://github.com/ruby/timeout/releases/tag/v0.6.0">v0.6.0</a></li>
+</ul>
+</li>
+<li>uri 1.1.1<ul>
+<li>1.0.4 から <a class="external" href="https://github.com/ruby/uri/releases/tag/v1.1.0">v1.1.0</a>, <a class="external" href="https://github.com/ruby/uri/releases/tag/v1.1.1">v1.1.1</a></li>
+</ul>
+</li>
+<li>weakref 0.1.4<ul>
+<li>0.1.3 から <a class="external" href="https://github.com/ruby/weakref/releases/tag/v0.1.4">v0.1.4</a></li>
+</ul>
+</li>
+<li>zlib 3.2.2<ul>
+<li>3.2.1 から <a class="external" href="https://github.com/ruby/zlib/releases/tag/v3.2.2">v3.2.2</a></li>
+</ul>
+</li>
+</ul>
+<p>
+以下の bundled gems が更新されました。
+</p>
+<ul>
+<li>minitest 6.0.0</li>
+<li>power_assert 3.0.1<ul>
+<li>2.0.5 から <a class="external" href="https://github.com/ruby/power_assert/releases/tag/v3.0.0">v3.0.0</a>, <a class="external" href="https://github.com/ruby/power_assert/releases/tag/v3.0.1">v3.0.1</a></li>
+</ul>
+</li>
+<li>rake 13.3.1<ul>
+<li>13.2.1 から <a class="external" href="https://github.com/ruby/rake/releases/tag/v13.3.0">v13.3.0</a>, <a class="external" href="https://github.com/ruby/rake/releases/tag/v13.3.1">v13.3.1</a></li>
+</ul>
+</li>
+<li>test-unit 3.7.5<ul>
+<li>3.6.7 から <a class="external" href="https://github.com/test-unit/test-unit/releases/tag/3.6.8">3.6.8</a>, <a class="external" href="https://github.com/test-unit/test-unit/releases/tag/3.6.9">3.6.9</a>, <a class="external" href="https://github.com/test-unit/test-unit/releases/tag/3.7.0">3.7.0</a>, <a class="external" href="https://github.com/test-unit/test-unit/releases/tag/3.7.1">3.7.1</a>, <a class="external" href="https://github.com/test-unit/test-unit/releases/tag/3.7.2">3.7.2</a>, <a class="external" href="https://github.com/test-unit/test-unit/releases/tag/3.7.3">3.7.3</a>, <a class="external" href="https://github.com/test-unit/test-unit/releases/tag/3.7.4">3.7.4</a>, <a class="external" href="https://github.com/test-unit/test-unit/releases/tag/3.7.5">3.7.5</a></li>
+</ul>
+</li>
+<li>rexml 3.4.4</li>
+<li>rss 0.3.2<ul>
+<li>0.3.1 から <a class="external" href="https://github.com/ruby/rss/releases/tag/0.3.2">0.3.2</a></li>
+</ul>
+</li>
+<li>net-ftp 0.3.9<ul>
+<li>0.3.8 から <a class="external" href="https://github.com/ruby/net-ftp/releases/tag/v0.3.9">v0.3.9</a></li>
+</ul>
+</li>
+<li>net-imap 0.6.2<ul>
+<li>0.5.8 から <a class="external" href="https://github.com/ruby/net-imap/releases/tag/v0.5.9">v0.5.9</a>, <a class="external" href="https://github.com/ruby/net-imap/releases/tag/v0.5.10">v0.5.10</a>, <a class="external" href="https://github.com/ruby/net-imap/releases/tag/v0.5.11">v0.5.11</a>, <a class="external" href="https://github.com/ruby/net-imap/releases/tag/v0.5.12">v0.5.12</a>, <a class="external" href="https://github.com/ruby/net-imap/releases/tag/v0.5.13">v0.5.13</a>, <a class="external" href="https://github.com/ruby/net-imap/releases/tag/v0.6.0">v0.6.0</a>, <a class="external" href="https://github.com/ruby/net-imap/releases/tag/v0.6.1">v0.6.1</a>, <a class="external" href="https://github.com/ruby/net-imap/releases/tag/v0.6.2">v0.6.2</a></li>
+</ul>
+</li>
+<li>net-smtp 0.5.1<ul>
+<li>0.5.0 から <a class="external" href="https://github.com/ruby/net-smtp/releases/tag/v0.5.1">v0.5.1</a></li>
+</ul>
+</li>
+<li>matrix 0.4.3<ul>
+<li>0.4.2 から <a class="external" href="https://github.com/ruby/matrix/releases/tag/v0.4.3">v0.4.3</a></li>
+</ul>
+</li>
+<li>prime 0.1.4<ul>
+<li>0.1.3 から <a class="external" href="https://github.com/ruby/prime/releases/tag/v0.1.4">v0.1.4</a></li>
+</ul>
+</li>
+<li>rbs 3.10.0<ul>
+<li>3.8.0 から <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.8.1">v3.8.1</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.9.0.dev.1">v3.9.0.dev.1</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.9.0.pre.1">v3.9.0.pre.1</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.9.0.pre.2">v3.9.0.pre.2</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.9.0">v3.9.0</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.9.1">v3.9.1</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.9.2">v3.9.2</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.9.3">v3.9.3</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.9.4">v3.9.4</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.9.5">v3.9.5</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.10.0.pre.1">v3.10.0.pre.1</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.10.0.pre.2">v3.10.0.pre.2</a>, <a class="external" href="https://github.com/ruby/rbs/releases/tag/v3.10.0">v3.10.0</a></li>
+</ul>
+</li>
+<li>typeprof 0.31.1</li>
+<li>debug 1.11.1<ul>
+<li>1.11.0 から <a class="external" href="https://github.com/ruby/debug/releases/tag/v1.11.1">v1.11.1</a></li>
+</ul>
+</li>
+<li>base64 0.3.0<ul>
+<li>0.2.0 から <a class="external" href="https://github.com/ruby/base64/releases/tag/v0.3.0">v0.3.0</a></li>
+</ul>
+</li>
+<li>bigdecimal 4.0.1<ul>
+<li>3.1.8 から <a class="external" href="https://github.com/ruby/bigdecimal/releases/tag/v3.2.0">v3.2.0</a>, <a class="external" href="https://github.com/ruby/bigdecimal/releases/tag/v3.2.1">v3.2.1</a>, <a class="external" href="https://github.com/ruby/bigdecimal/releases/tag/v3.2.2">v3.2.2</a>, <a class="external" href="https://github.com/ruby/bigdecimal/releases/tag/v3.2.3">v3.2.3</a>, <a class="external" href="https://github.com/ruby/bigdecimal/releases/tag/v3.3.0">v3.3.0</a>, <a class="external" href="https://github.com/ruby/bigdecimal/releases/tag/v3.3.1">v3.3.1</a>, <a class="external" href="https://github.com/ruby/bigdecimal/releases/tag/v4.0.0">v4.0.0</a>, <a class="external" href="https://github.com/ruby/bigdecimal/releases/tag/v4.0.1">v4.0.1</a></li>
+</ul>
+</li>
+<li>drb 2.2.3<ul>
+<li>2.2.1 から <a class="external" href="https://github.com/ruby/drb/releases/tag/v2.2.3">v2.2.3</a></li>
+</ul>
+</li>
+<li>syslog 0.3.0<ul>
+<li>0.2.0 から <a class="external" href="https://github.com/ruby/syslog/releases/tag/v0.3.0">v0.3.0</a></li>
+</ul>
+</li>
+<li>csv 3.3.5<ul>
+<li>3.3.2 から <a class="external" href="https://github.com/ruby/csv/releases/tag/v3.3.3">v3.3.3</a>, <a class="external" href="https://github.com/ruby/csv/releases/tag/v3.3.4">v3.3.4</a>, <a class="external" href="https://github.com/ruby/csv/releases/tag/v3.3.5">v3.3.5</a></li>
+</ul>
+</li>
+<li>repl_type_completor 0.1.12</li>
+<li>RubyGems と Bundler<ul>
+<li>Ruby 4.0 には RubyGems と Bundler のバージョン 4 が同梱されました。詳細は以下のリンクを参照してください。<ul>
+<li><a class="external" href="https://blog.rubygems.org/2025/12/03/upgrade-to-rubygems-bundler-4.html">Upgrading to RubyGems/Bundler 4</a></li>
+<li><a class="external" href="https://blog.rubygems.org/2025/12/03/4.0.0-released.html">4.0.0 Released</a></li>
+<li><a class="external" href="https://blog.rubygems.org/2025/12/09/4.0.1-released.html">4.0.1 Released</a></li>
+<li><a class="external" href="https://blog.rubygems.org/2025/12/17/4.0.2-released.html">4.0.2 Released</a></li>
+<li><a class="external" href="https://blog.rubygems.org/2025/12/23/4.0.3-released.html">4.0.3 Released</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 >サポートプラットフォームの変更</h1>
+<ul>
+<li>Windows<ul>
+<li>MSVC 14.0(_MSC_VER 1900)より古いバージョンのサポートを終了しました。これにより Visual Studio 2015 以降が必要になりました。</li>
+</ul>
+</li>
+</ul>
+<h1 >互換性に関する変更</h1>
+<ul>
+<li><a href="../class/Ractor=3a=3aPort.html">Ractor::Port</a> の追加に伴い、以下のメソッドが Ractor から削除されました。<a class="external" href="https://bugs.ruby-lang.org/issues/21262">[feature#21262]</a><ul>
+<li><code>Ractor.yield</code></li>
+<li><code>Ractor#take</code></li>
+<li><code>Ractor#close_incoming</code></li>
+<li><code>Ractor#close_outgoing</code></li>
+</ul>
+</li>
+<li><a href="../method/ObjectSpace/m/_id2ref.html">ObjectSpace?._id2ref</a> が非推奨になりました。<a class="external" href="https://bugs.ruby-lang.org/issues/15408">[feature#15408]</a></li>
+<li><code>Process::Status#&amp;</code> と <code>Process::Status#&gt;&gt;</code> が削除されました。これらは Ruby 3.3 で非推奨になっていました。<a class="external" href="https://bugs.ruby-lang.org/issues/19868">[bug#19868]</a></li>
+<li><code>rb_path_check</code> が削除されました。この関数は Ruby 2.7 で削除された <code>$SAFE</code> のパスチェックに使われていたもので、既に非推奨でした。<a class="external" href="https://bugs.ruby-lang.org/issues/20971">[feature#20971]</a></li>
+<li>「wrong number of arguments」の <a href="../class/ArgumentError.html">ArgumentError</a> のバックトレースに、レシーバのクラス名またはモジュール名が含まれるようになりました(例えば単なる <code>bar</code> の中ではなく <code>Foo#bar</code> の中、というように)。<a class="external" href="https://bugs.ruby-lang.org/issues/21698">[bug#21698]</a></li>
+<li>バックトレースに internal フレームが表示されなくなりました。これらのメソッドは、他の C で実装されたメソッドと同様に、あたかも Ruby のソースファイル中にあるかのように表示されるようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/20968">[bug#20968]</a>
+<span class="caption">変更前</span>
+<pre class="highlight console"><code><span class="go">ruby -e '[1].fetch_values(42)'
+</span><span class="gp">&lt;internal:array&gt;</span>:211:in <span class="s1">'Array#fetch'</span>: index 42 outside of array bounds: <span class="nt">-1</span>...1 <span class="o">(</span>IndexError<span class="o">)</span>
+<span class="gp">        from &lt;internal:array&gt;</span>:211:in <span class="s1">'block in Array#fetch_values'</span>
+<span class="gp">        from &lt;internal:array&gt;</span>:211:in <span class="s1">'Array#map!'</span>
+<span class="gp">        from &lt;internal:array&gt;</span>:211:in <span class="s1">'Array#fetch_values'</span>
+<span class="gp">        from -e:1:in '&lt;main&gt;</span><span class="s1">'
+</span></code></pre>
+
+<span class="caption">変更後</span>
+<pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>ruby <span class="nt">-e</span> <span class="s1">'[1].fetch_values(42)'</span>
+<span class="gp">-e:1:in 'Array#</span>fetch_values<span class="s1">': index 42 outside of array bounds: -1...1 (IndexError)
+</span><span class="gp">        from -e:1:in '&lt;main&gt;</span><span class="s1">'</span>
+</code></pre>
+</li>
+</ul>
+<h1 >標準添付ライブラリの互換性に関する変更</h1>
+<ul>
+<li><a href="../library/cgi.html">cgi</a> ライブラリが default gems から削除されました。現在は以下のメソッドのために <code>cgi/escape</code> のみを提供します。<a class="external" href="https://bugs.ruby-lang.org/issues/21258">[feature#21258]</a><ul>
+<li><a href="../method/CGI/s/escape.html">CGI.escape</a> と <a href="../method/CGI/s/unescape.html">CGI.unescape</a></li>
+<li><a href="../method/CGI/s/escapeHTML.html">CGI.escapeHTML</a> と <a href="../method/CGI/s/unescapeHTML.html">CGI.unescapeHTML</a></li>
+<li><a href="../method/CGI/s/escapeURIComponent.html">CGI.escapeURIComponent</a> と <a href="../method/CGI/s/unescapeURIComponent.html">CGI.unescapeURIComponent</a></li>
+<li><a href="../method/CGI/s/escapeElement.html">CGI.escapeElement</a> と <a href="../method/CGI/s/unescapeElement.html">CGI.unescapeElement</a></li>
+</ul>
+</li>
+<li><a href="../class/Set.html">Set</a> が stdlib からコアクラスに移動したことに伴い、<code>set/sorted_set.rb</code> が削除され、<code>SortedSet</code> は autoload される定数ではなくなりました。<code>SortedSet</code> を使うには sorted_set gem をインストールして <code>require 'sorted_set'</code> してください。<a class="external" href="https://bugs.ruby-lang.org/issues/21287">[feature#21287]</a></li>
+<li><a href="../class/Net=3a=3aHTTP.html">Net::HTTP</a><ul>
+<li>ヘッダで明示的に指定されなかった場合に、ボディを持つリクエスト(<code>POST</code>、<code>PUT</code> など)に対して自動的に <code>Content-Type</code> ヘッダを <code>application/x-www-form-urlencoded</code> に設定するデフォルトの挙動が削除されました。この自動設定に依存していたアプリケーションでは、これ以降 <code>Content-Type</code> ヘッダなしでリクエストが送信されるようになり、特定のサーバーとの互換性が失われる可能性があります。(<a class="external" href="https://github.com/ruby/net-http/issues/205">GH-net-http #205</a>)</li>
+</ul>
+</li>
+</ul>
+<h1 >C APIの変更</h1>
+<ul>
+<li>IO<ul>
+<li><code>rb_thread_fd_close</code> は非推奨となり、何もしない関数になりました。C 拡張ライブラリからファイルディスクリプタを Ruby コードに公開する必要がある場合は、<code>RUBY_IO_MODE_EXTERNAL</code> を使って IO インスタンスを作成し、それを閉じるには <code>rb_io_close(io)</code> を使ってください(この関数は IO インスタンスに対する保留中の全ての操作を中断して待ちます)。ファイルディスクリプタを直接閉じても保留中の操作は中断されず、未定義の動作につながる可能性があります。言い換えると、2つの IO オブジェクトが同じファイルディスクリプタを共有している場合、片方を閉じてももう片方には影響しません。<a class="external" href="https://bugs.ruby-lang.org/issues/18455">[feature#18455]</a></li>
+</ul>
+</li>
+<li>GVL<ul>
+<li><code>rb_thread_call_with_gvl</code> が GVL の有無にかかわらず動作するようになりました。これにより gem は <code>ruby_thread_has_gvl_p</code> のチェックを省略できます。それでも GVL には十分注意してください。<a class="external" href="https://bugs.ruby-lang.org/issues/20750">[feature#20750]</a></li>
+</ul>
+</li>
+<li>Set<ul>
+<li><a href="../class/Set.html">Set</a> のための C API が追加されました。以下のメソッドがサポートされています。<a class="external" href="https://bugs.ruby-lang.org/issues/21459">[feature#21459]</a><ul>
+<li><code>rb_set_foreach</code></li>
+<li><code>rb_set_new</code></li>
+<li><code>rb_set_new_capa</code></li>
+<li><code>rb_set_lookup</code></li>
+<li><code>rb_set_add</code></li>
+<li><code>rb_set_clear</code></li>
+<li><code>rb_set_delete</code></li>
+<li><code>rb_set_size</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 >実装の改善</h1>
+<ul>
+<li><a href="../method/Class/i/new.html">Class#new</a> (例: <code>Object.new</code>)が全てのケースでより高速になりましたが、特にキーワード引数を渡す場合に顕著です。この変更は YJIT と ZJIT にも統合されています。<a class="external" href="https://bugs.ruby-lang.org/issues/21254">[feature#21254]</a></li>
+<li>サイズプールごとの GC ヒープがそれぞれ独立して拡張するようになり、一部のプールにのみ長命なオブジェクトが存在する場合のメモリ使用量が削減されました。</li>
+<li>大きなオブジェクトのページに対する GC のスイープが高速化されました。</li>
+<li>「Generic ivar」オブジェクト(<a href="../class/String.html">String</a>、<a href="../class/Array.html">Array</a>、<code>TypedData</code> など)が、より高速なインスタンス変数アクセスのために新しい内部的な「fields」オブジェクトを使うようになりました。</li>
+<li>GC が、最初に使われるまで内部的な id2ref テーブルを保持しないようになり、object_id の確保と GC のスイープが高速になりました。</li>
+<li><a href="../class/Class.html">Class</a> や <a href="../class/Module.html">Module</a> オブジェクトでの <code>object_id</code> と <code>hash</code> が高速化されました。</li>
+<li>より大きな bignum の <code>Integer</code> が、可変長アロケーション(variable width allocation)を使って埋め込まれたままになれるようになりました。</li>
+<li><a href="../class/Random.html">Random</a>、<a href="../class/Enumerator=3a=3aProduct.html">Enumerator::Product</a>、<a href="../class/Enumerator=3a=3aChain.html">Enumerator::Chain</a>、<a href="../class/Addrinfo.html">Addrinfo</a>、<a href="../class/StringScanner.html">StringScanner</a> や一部の内部オブジェクトが write-barrier protected になり、GC のオーバーヘッドが削減されました。</li>
+</ul>
+<h2 >Ractor</h2>
+<p>
+Ractor をより安定して、高性能で、使いやすくするための多くの作業が行われました。これらの改善により、Ractor の実装は実験的なステータスを卒業することに近づいています。
+</p>
+<ul>
+<li>パフォーマンスの改善<ul>
+<li>フリーズされた文字列とシンボルテーブルが、内部的にロックフリーなハッシュセットを使うようになりました。<a class="external" href="https://bugs.ruby-lang.org/issues/21268">[feature#21268]</a></li>
+<li>メソッドキャッシュの検索が、ほとんどの場合でロックを回避するようになりました。</li>
+<li>クラス(および generic ivar)のインスタンス変数アクセスが高速化され、ロックを回避するようになりました。</li>
+<li>Ractor ごとのカウンタを使うことで、オブジェクト割り当て時の CPU キャッシュの競合を回避するようになりました。</li>
+<li>スレッドローカルなカウンタを使うことで、xmalloc/xfree での CPU キャッシュの競合を回避するようになりました。</li>
+<li><code>object_id</code> が、ほとんどの場合でロックを回避するようになりました。</li>
+</ul>
+</li>
+<li>バグ修正と安定性<ul>
+<li>Ractor と Thread を組み合わせた際に発生しうるデッドロックを修正しました。</li>
+<li>Ractor 内での require と autoload に関する問題を修正しました。</li>
+<li>Ractor をまたいだエンコーディング/トランスコーディングに関する問題を修正しました。</li>
+<li>GC の操作とメソッドの無効化におけるレースコンディションを修正しました。</li>
+<li>Ractor を開始した後にプロセスがフォークする際の問題を修正しました。</li>
+<li>Ractor 下での GC のアロケーションカウントが正確になりました。</li>
+<li>GC の後に <a href="../class/TracePoint.html">TracePoint</a> が動作しなくなる問題を修正しました。<a class="external" href="https://bugs.ruby-lang.org/issues/19112">[bug#19112]</a></li>
+</ul>
+</li>
+</ul>
+<h1 >JIT</h1>
+<h2 >ZJIT</h2>
+<ul>
+<li><a class="external" href="https://docs.ruby-lang.org/en/4.0/jit/zjit_md.html">実験的なメソッド単位の JIT コンパイラ</a>が導入されました。利用可能な環境では、<code>--zjit</code> オプションまたは <code>RubyVM::ZJIT.enable</code> の呼び出しによって実行時に ZJIT を有効化できます。ZJIT を有効にして Ruby をビルドするには Rust 1.85.0 以降が必要です。</li>
+<li>Ruby 4.0.0 の時点では、ZJIT はインタプリタよりも高速ですが、まだ YJIT ほどは高速ではありません。実験的に試すことは推奨しますが、現時点では本番環境への投入は推奨しません。</li>
+<li>私たちの目標は、Ruby 4.1 で ZJIT を YJIT より高速かつ本番投入可能にすることです。</li>
+</ul>
+<h2 >YJIT</h2>
+<ul>
+<li><a href="../method/RubyVM=3a=3aYJIT/s/runtime_stats.html">RubyVM::YJIT.runtime_stats</a><ul>
+<li><code>ratio_in_yjit</code> はデフォルトビルドでは動作しなくなりました。<code>--yjit-stats</code> で有効にするには、configure で <code>--enable-yjit=stats</code> を指定してください。</li>
+<li>TracePoint によって全てのコードが無効化された際にインクリメントされる <code>invalidate_everything</code> がデフォルトの統計に追加されました。</li>
+</ul>
+</li>
+<li><a href="../method/RubyVM=3a=3aYJIT/s/enable.html">RubyVM::YJIT.enable</a> に <code>mem_size:</code> と <code>call_threshold:</code> オプションが追加されました。</li>
+</ul>
+<h2 >RJIT</h2>
+<ul>
+<li><code>--rjit</code> が削除されました。サードパーティ JIT API の実装は <a class="external" href="https://github.com/ruby/rjit">ruby/rjit</a> リポジトリに移されます。</li>
+</ul>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/doc/news/4_0_0.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

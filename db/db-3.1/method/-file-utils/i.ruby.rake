@@ -15,5 +15,5 @@ until_by_name=
 ruby %{-pe '$_.upcase!' <README}
 ```
 
-- **SEE** [m:Kernel?.sh]
+- **SEE** [m:FileUtils#sh]
 
