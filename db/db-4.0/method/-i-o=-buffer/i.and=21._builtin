@@ -1,0 +1,34 @@
+names=and!,or!,xor!
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=and=21=3.2,or=21=3.2,xor=21=3.2
+until_by_name=
+
+### def and!(mask) -> self
+### def or!(mask) -> self
+### def xor!(mask) -> self
+
+[m:IO::Buffer#&] などと同じビット演算を、新しいバッファを作らずに
+自身に対して行います。`self` を返します。
+
+mask が自身より短い場合は、mask を先頭から繰り返し使います。
+
+- **param** `mask` -- マスクを [c:IO::Buffer] で指定します。
+
+- **raise** `IO::Buffer::MaskError` -- mask の大きさが 0 の場合に発生します。
+
+- **raise** `IO::Buffer::AccessError` -- 読み取り専用のバッファに対して
+             呼び出した場合に発生します。
+
+```ruby
+# IO::Buffer.for はブロックを渡さないと読み取り専用になるので、dup で複製する
+buf = IO::Buffer.for("1234567890").dup
+buf.and!(IO::Buffer.for("\xFF\x00\x00\xFF"))
+p buf.get_string.bytes.map {|b| "%02x" % b }.join(" ")  # => "31 00 00 34 35 00 00 38 39 00"
+
+IO::Buffer.for("1234").and!(IO::Buffer.for("\xFF")) # ~> IO::Buffer::AccessError
+```
+
+- **SEE** [m:IO::Buffer#&], [m:IO::Buffer#|], [m:IO::Buffer#^]
+

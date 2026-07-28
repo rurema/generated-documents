@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/ObjectSpace=3a=3aWeakKeyMap.html">
+
+<title>class ObjectSpace::WeakKeyMap (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="キーへの弱参照を持つ、キーと値の組を保持するクラスです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/ObjectSpace=3a=3aWeakKeyMap.html","name":"ObjectSpace::WeakKeyMapクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        ObjectSpace::WeakKeyMapクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class ObjectSpace::WeakKeyMap</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakKeyMap.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        ObjectSpace::WeakKeyMap
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+キーへの弱参照を持つ、キーと値の組を保持するクラスです。
+</p>
+<p>
+キーは他から参照されなくなると GC の対象になり、そのときキーと値の組は
+map から取り除かれます。値への参照は強参照なので、map に入っている間は
+GC されません。
+</p>
+<p>
+<a href="../class/ObjectSpace=3a=3aWeakMap.html">ObjectSpace::WeakMap</a> との違いは以下の 3 点です。
+</p>
+<ul>
+<li>値への参照が強参照です。map に入っている間は GC されません。</li>
+<li>キーの比較が同一性(<a href="../method/Object/i/equal=3f.html">Object#equal?</a>)ではなく等値性(<a href="../method/Object/i/eql=3f.html">Object#eql?</a>)で
+行われます。</li>
+<li>GC の対象になるオブジェクトだけをキーにできます。</li>
+</ul>
+<pre class="highlight ruby"><code>map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakKeyMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">name</span><span class="s2">"</span>
+map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># キーは等値性で比較されるので、別のオブジェクトでも引ける
+</span><span class="nb">p</span> map<span class="p">[</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># =&gt; 1
+</span>
+key <span class="o">=</span> <span class="k">nil</span>
+<span class="no">GC</span><span class="p">.</span><span class="nf">start</span>
+<span class="c1"># キーへの参照が無くなったので、キーと値の組が取り除かれる
+</span><span class="nb">p</span> map<span class="p">[</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+上の例の <a href="../method/GC/s/start.html">GC.start</a> は説明のために書いたもので、いつでもこのとおりに
+GC されるとは限りません。
+</p>
+<p>
+同じ値を表すオブジェクトを 1 つだけ保持しておきたい場合、たとえば軽量な値オブジェクトのキャッシュを実装する用途に向いています。
+<a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/getkey.html">ObjectSpace::WeakKeyMap#getkey</a> を参照してください。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_--5B--5D">[]</a></li>
+
+<li><a href="#I_--5B--5D--3D">[]=</a></li>
+
+<li><a href="#I_CLEAR">clear</a></li>
+
+<li><a href="#I_DELETE">delete</a></li>
+
+<li><a href="#I_GETKEY">getkey</a></li>
+
+<li><a href="#I_INSPECT">inspect</a></li>
+
+<li><a href="#I_KEY--3F">key?</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--5B--5D"><code>self[key] -&gt; object | nil</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace/WeakKeyMap.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakKeyMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+key に対応する値を返します。
+</p>
+<p>
+key に対応する組が無い場合は nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>key</code>:</dt>
+<dd>
+探すキーを指定します。等値性(<a href="../method/Object/i/eql=3f.html">Object#eql?</a>)で比較されます。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakKeyMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">name</span><span class="s2">"</span>
+map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">p</span> map<span class="p">[</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> map<span class="p">[</span><span class="s2">"</span><span class="s2">zzz</span><span class="s2">"</span><span class="p">]</span>  <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/=5b=5d=3d.html">ObjectSpace::WeakKeyMap#[]=</a>, <a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/getkey.html">ObjectSpace::WeakKeyMap#getkey</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_--5B--5D--3D"><code>self[key] = value</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/=5b=5d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace/WeakKeyMap.html#method-i-5B-5D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakKeyMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+key に対応する値として value を登録します。
+</p>
+<p>
+key への参照は弱参照です。他から key を参照するものが無くなると、キーと値の組は GC によって取り除かれます。値そのものへの参照は強参照です。
+</p>
+<p>
+key に対応する組が既にある場合は、値だけを置き換えます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>key</code>:</dt>
+<dd>
+キーを指定します。GC の対象になるオブジェクトだけを指定できます。
+</dd>
+<dt class='method-param'>[PARAM] <code>value</code>:</dt>
+<dd>
+値を指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+GC の対象にならないオブジェクト(<a href="../class/Integer.html">Integer</a> や
+<a href="../class/Symbol.html">Symbol</a> など)をキーに指定した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakKeyMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">name</span><span class="s2">"</span>
+map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">p</span> map<span class="p">[</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># =&gt; 1
+</span>
+map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="nb">p</span> map<span class="p">[</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># =&gt; 2
+</span>
+map<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># ~&gt; ArgumentError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/=5b=5d.html">ObjectSpace::WeakKeyMap#[]</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CLEAR"><code>clear -&gt; self</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/clear.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace/WeakKeyMap.html#method-i-clear">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakKeyMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+すべての組を取り除きます。<code>self</code> を返します。
+</p>
+<pre class="highlight ruby"><code>map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakKeyMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">name</span><span class="s2">"</span>
+map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+map<span class="p">.</span><span class="nf">clear</span>
+<span class="nb">p</span> map<span class="p">[</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">]</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_DELETE"><code>delete(key) -&gt; object | nil</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/delete.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace/WeakKeyMap.html#method-i-delete">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakKeyMap.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>delete(key) {|key| ... } -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+key に対応する組を取り除き、その値を返します。
+</p>
+<p>
+key に対応する組が無い場合、ブロックを指定していなければ nil を返します。ブロックを指定していれば、key を引数としてブロックを実行し、その結果を返します。
+key に対応する組がある場合、ブロックは実行されません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>key</code>:</dt>
+<dd>
+取り除く組のキーを指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakKeyMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">name</span><span class="s2">"</span>
+map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">p</span> map<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> map<span class="p">[</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">]</span>        <span class="c1"># =&gt; nil
+</span>
+<span class="nb">p</span> map<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"</span><span class="s2">zzz</span><span class="s2">"</span><span class="p">)</span>                   <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> map<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"</span><span class="s2">zzz</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>k<span class="o">|</span> <span class="s2">"</span><span class="s2">no </span><span class="si">#{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span> <span class="c1"># =&gt; &quot;no zzz&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_GETKEY"><code>getkey(key) -&gt; object | nil</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/getkey.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace/WeakKeyMap.html#method-i-getkey">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakKeyMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+key と等値なキーが登録されていれば、登録されているほうのオブジェクトを返します。無い場合は nil を返します。
+</p>
+<p>
+同じ値を表すオブジェクトを 1 つにまとめる用途に使えます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>key</code>:</dt>
+<dd>
+探すキーを指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>value <span class="o">=</span> <span class="p">{</span> <span class="ss">amount:</span> <span class="mi">1</span>, <span class="ss">currency:</span> <span class="s2">"</span><span class="s2">USD</span><span class="s2">"</span> <span class="p">}</span>
+
+cache <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakKeyMap</span><span class="p">.</span><span class="nf">new</span>
+cache<span class="p">[</span>value<span class="p">]</span> <span class="o">=</span> <span class="k">true</span>
+
+<span class="c1"># 等値な別のオブジェクトを渡しても、登録済みのオブジェクトが返る
+</span>copy <span class="o">=</span> cache<span class="p">.</span><span class="nf">getkey</span><span class="p">(</span><span class="p">{</span> <span class="ss">amount:</span> <span class="mi">1</span>, <span class="ss">currency:</span> <span class="s2">"</span><span class="s2">USD</span><span class="s2">"</span> <span class="p">}</span><span class="p">)</span>
+<span class="nb">p</span> copy<span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>value<span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/=5b=5d.html">ObjectSpace::WeakKeyMap#[]</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace/WeakKeyMap.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakKeyMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の情報を含む文字列を返します。
+</p>
+<pre class="highlight ruby"><code>map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakKeyMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">name</span><span class="s2">"</span>
+map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">p</span> map<span class="p">.</span><span class="nf">inspect</span> <span class="c1"># =&gt; &quot;#&lt;ObjectSpace::WeakKeyMap:0x00007f8f0a0b1234 size=1&gt;&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_KEY--3F"><code>key?(key) -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/ObjectSpace=3a=3aWeakKeyMap/i/key=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace/WeakKeyMap.html#method-i-key-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakKeyMap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+key に対応する組があれば true を、無ければ false を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>key</code>:</dt>
+<dd>
+探すキーを指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>map <span class="o">=</span> <span class="no">ObjectSpace</span><span class="o">::</span><span class="no">WeakKeyMap</span><span class="p">.</span><span class="nf">new</span>
+key <span class="o">=</span> <span class="s2">"</span><span class="s2">name</span><span class="s2">"</span>
+map<span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">p</span> map<span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> map<span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="s2">"</span><span class="s2">zzz</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/ObjectSpace__WeakKeyMap.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

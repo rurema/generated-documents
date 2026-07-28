@@ -1,0 +1,33 @@
+names=each
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=each=3.2
+until_by_name=
+
+### def each(buffer_type, offset = 0, count = nil) {|offset, value| ... } -> self
+### def each(buffer_type, offset = 0, count = nil) -> Enumerator
+
+バッファの offset の位置から、buffer_type で指定した型の値を順に読み出し、
+その位置と値をブロックに渡して繰り返します。
+
+指定できる型は [m:IO::Buffer#get_value] を参照してください。
+ブロックを省略した場合は [c:Enumerator] を返します。
+
+- **param** `buffer_type` -- 読み出す値の型をシンボルで指定します。
+
+- **param** `offset` -- 読み出しを開始する位置をバッファの先頭からのバイト数で指定します。
+
+- **param** `count` -- 読み出す個数を指定します。省略した場合はバッファの末尾まで
+             読み出します。
+
+```ruby
+IO::Buffer.for("Hello World").each(:U8, 2, 2) do |offset, value|
+  p [offset, value]
+end
+# => [2, 108]
+#    [3, 108]
+```
+
+- **SEE** [m:IO::Buffer#values], [m:IO::Buffer#each_byte]
+

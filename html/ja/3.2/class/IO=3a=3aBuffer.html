@@ -177,9 +177,25 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_--26">&amp;</a></li>
+
+<li><a href="#I_--3C--3D--3E">&lt;=&gt;</a></li>
+
+<li><a href="#I_--26">^</a></li>
+
+<li><a href="#I_--26">|</a></li>
+
+<li><a href="#I_--7E">~</a></li>
+
+<li><a href="#I_AND--21">and!</a></li>
+
 <li><a href="#I_CLEAR">clear</a></li>
 
 <li><a href="#I_COPY">copy</a></li>
+
+<li><a href="#I_EACH">each</a></li>
+
+<li><a href="#I_EACH_BYTE">each_byte</a></li>
 
 <li><a href="#I_EMPTY--3F">empty?</a></li>
 
@@ -189,13 +205,25 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 
 <li><a href="#I_GET_STRING">get_string</a></li>
 
+<li><a href="#I_GET_VALUE">get_value</a></li>
+
+<li><a href="#I_GET_VALUES">get_values</a></li>
+
+<li><a href="#I_HEXDUMP">hexdump</a></li>
+
+<li><a href="#I_INSPECT">inspect</a></li>
+
 <li><a href="#I_INTERNAL--3F">internal?</a></li>
 
 <li><a href="#I_LOCKED--3F">locked?</a></li>
 
 <li><a href="#I_MAPPED--3F">mapped?</a></li>
 
+<li><a href="#I_NOT--21">not!</a></li>
+
 <li><a href="#I_NULL--3F">null?</a></li>
+
+<li><a href="#I_AND--21">or!</a></li>
 
 <li><a href="#I_READONLY--3F">readonly?</a></li>
 
@@ -203,15 +231,25 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 
 <li><a href="#I_SET_STRING">set_string</a></li>
 
+<li><a href="#I_SET_VALUE">set_value</a></li>
+
+<li><a href="#I_SET_VALUES">set_values</a></li>
+
 <li><a href="#I_SHARED--3F">shared?</a></li>
 
 <li><a href="#I_SIZE">size</a></li>
 
 <li><a href="#I_SLICE">slice</a></li>
 
+<li><a href="#I_TO_S">to_s</a></li>
+
 <li><a href="#I_TRANSFER">transfer</a></li>
 
 <li><a href="#I_VALID--3F">valid?</a></li>
+
+<li><a href="#I_VALUES">values</a></li>
+
+<li><a href="#I_AND--21">xor!</a></li>
 
 </ul>
 </dd>
@@ -426,6 +464,112 @@ size によらず後者の方法で確保されます。
 <h2>インスタンスメソッド</h2>
 <dl>
 
+<dt class="method-heading" id="I_--26"><code>self &amp; mask -&gt; IO::Buffer</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/=26.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-26">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>self | mask -&gt; IO::Buffer</code></dt>
+<dt class="method-heading"><code>self ^ mask -&gt; IO::Buffer</code></dt>
+<dd class="method-description">
+<p>
+バッファの各バイトと mask の各バイトのビット演算(AND / OR / XOR)を行い、結果を格納した新しいバッファを返します。
+</p>
+<p>
+返されるバッファの大きさは元のバッファと同じです。
+mask が元のバッファより短い場合は、mask を先頭から繰り返し使います。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>mask</code>:</dt>
+<dd>
+マスクを <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> で指定します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::MaskError</code>:</dt>
+<dd>
+mask の大きさが 0 の場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="c1"># 4 バイトのマスクが 10 バイトに繰り返し適用される
+</span>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">1234567890</span><span class="s2">"</span><span class="p">)</span> <span class="o">&amp;</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">\xFF\x00\x00\xFF</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">size</span>                                              <span class="c1"># =&gt; 10
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">.</span><span class="nf">bytes</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>b<span class="o">|</span> <span class="s2">"</span><span class="s2">%02x</span><span class="s2">"</span> <span class="o">%</span> b <span class="p">}</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="s2"> </span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;31 00 00 34 35 00 00 38 39 00&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/and=21.html">IO::Buffer#and!</a>, <a href="../method/IO=3a=3aBuffer/i/or=21.html">IO::Buffer#or!</a>, <a href="../method/IO=3a=3aBuffer/i/xor=21.html">IO::Buffer#xor!</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_--3C--3D--3E"><code>self &lt;=&gt; other -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/=3c=3d=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-3C-3D-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの大きさと内容を other と比較します。
+</p>
+<p>
+まず大きさを比較し、大きさが同じ場合に内容をバイト列として比較します。
+<code>self</code> の方が小さければ負の整数を、等しければ 0 を、大きければ正の整数を返します。
+</p>
+<p>
+大きさが同じ場合の比較には C の <code>memcmp</code> を使い、その結果をそのまま返します。このため返る整数の絶対値に意味はありません。0 との大小だけを見てください。
+</p>
+<p>
+<a href="../class/Comparable.html">Comparable</a> を include しているため、<code>&lt;</code> や <code>==</code> などの比較演算子も使えます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>other</code>:</dt>
+<dd>
+比較対象のバッファを <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> で指定します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+other が <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> でない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">p</span><span class="p">(</span>buf <span class="o">&lt;=&gt;</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span> <span class="c1"># =&gt; 0
+</span><span class="nb">p</span><span class="p">(</span>buf <span class="o">&lt;=&gt;</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">ab</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>  <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> buf <span class="o">&lt;</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abd</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; true
+</span></code></pre>
+<span class="caption">例: 大きさが同じ場合は memcmp の結果がそのまま返る</span>
+<pre class="highlight ruby"><code><span class="nb">p</span><span class="p">(</span><span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span> <span class="o">&lt;=&gt;</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abz</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span> <span class="c1"># =&gt; -23
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_AND--21"><code>and!(mask) -&gt; self</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/and=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-and-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>or!(mask) -&gt; self</code></dt>
+<dt class="method-heading"><code>xor!(mask) -&gt; self</code></dt>
+<dd class="method-description">
+<p>
+<a href="../method/IO=3a=3aBuffer/i/=26.html">IO::Buffer#&amp;</a> などと同じビット演算を、新しいバッファを作らずに自身に対して行います。<code>self</code> を返します。
+</p>
+<p>
+mask が自身より短い場合は、mask を先頭から繰り返し使います。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>mask</code>:</dt>
+<dd>
+マスクを <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> で指定します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::MaskError</code>:</dt>
+<dd>
+mask の大きさが 0 の場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::AccessError</code>:</dt>
+<dd>
+読み取り専用のバッファに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="c1"># IO::Buffer.for はブロックを渡さないと読み取り専用になるので、dup で複製する
+</span>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">1234567890</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">dup</span>
+buf<span class="p">.</span><span class="nf">and!</span><span class="p">(</span><span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">\xFF\x00\x00\xFF</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">.</span><span class="nf">bytes</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>b<span class="o">|</span> <span class="s2">"</span><span class="s2">%02x</span><span class="s2">"</span> <span class="o">%</span> b <span class="p">}</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="s2"> </span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;31 00 00 34 35 00 00 38 39 00&quot;
+</span>
+<span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">1234</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">and!</span><span class="p">(</span><span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">\xFF</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span> <span class="c1"># ~&gt; IO::Buffer::AccessError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/=26.html">IO::Buffer#&amp;</a>, <a href="../method/IO=3a=3aBuffer/i/=7c.html">IO::Buffer#|</a>, <a href="../method/IO=3a=3aBuffer/i/=5e.html">IO::Buffer#^</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_CLEAR"><code>clear(value = 0, offset = 0, length = nil) -&gt; self</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/clear.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-clear">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -508,6 +652,78 @@ offset と length の合計がバッファのバイト数を超える場合に�
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/set_string.html">IO::Buffer#set_string</a>, <a href="../method/IO=3a=3aBuffer/i/slice.html">IO::Buffer#slice</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_EACH"><code>each(buffer_type, offset = 0, count = nil) {|offset, value| ... } -&gt; self</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/each.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-each">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>each(buffer_type, offset = 0, count = nil) -&gt; Enumerator</code></dt>
+<dd class="method-description">
+<p>
+バッファの offset の位置から、buffer_type で指定した型の値を順に読み出し、その位置と値をブロックに渡して繰り返します。
+</p>
+<p>
+指定できる型は <a href="../method/IO=3a=3aBuffer/i/get_value.html">IO::Buffer#get_value</a> を参照してください。ブロックを省略した場合は <a href="../class/Enumerator.html">Enumerator</a> を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>buffer_type</code>:</dt>
+<dd>
+読み出す値の型をシンボルで指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+読み出しを開始する位置をバッファの先頭からのバイト数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>count</code>:</dt>
+<dd>
+読み出す個数を指定します。省略した場合はバッファの末尾まで読み出します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">Hello World</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="ss">:U8</span>, <span class="mi">2</span>, <span class="mi">2</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>offset, value<span class="o">|</span>
+  <span class="nb">p</span> <span class="p">[</span>offset, value<span class="p">]</span>
+<span class="k">end</span>
+<span class="c1"># =&gt; [2, 108]
+</span><span class="c1">#    [3, 108]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/values.html">IO::Buffer#values</a>, <a href="../method/IO=3a=3aBuffer/i/each_byte.html">IO::Buffer#each_byte</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_EACH_BYTE"><code>each_byte(offset = 0, count = nil) {|byte| ... } -&gt; self</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/each_byte.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-each_byte">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>each_byte(offset = 0, count = nil) -&gt; Enumerator</code></dt>
+<dd class="method-description">
+<p>
+バッファの offset の位置から 1 バイトずつ読み出し、ブロックに渡して繰り返します。
+</p>
+<p>
+ブロックを省略した場合は <a href="../class/Enumerator.html">Enumerator</a> を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+読み出しを開始する位置をバッファの先頭からのバイト数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>count</code>:</dt>
+<dd>
+読み出すバイト数を指定します。省略した場合はバッファの末尾まで読み出します。
+</dd>
+</dl>
+<p>
+Ruby 3.4 以前では引数が正しく扱われません。引数を 1 つだけ渡した場合は無視されて先頭から末尾まで読み出し、2 つ渡した場合は 2 番目の引数が読み出しの開始位置として使われます。位置や個数を指定するには Ruby 4.0 以降が必要です。
+</p>
+<pre class="highlight ruby"><code><span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">Hello</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">each_byte</span> <span class="k">do</span> <span class="o">|</span>byte<span class="o">|</span>
+  <span class="nb">p</span> byte
+<span class="k">end</span>
+<span class="c1"># =&gt; 72
+</span><span class="c1">#    101
+</span><span class="c1">#    108
+</span><span class="c1">#    108
+</span><span class="c1">#    111
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/each.html">IO::Buffer#each</a>
 </p>
 </dd>
 
@@ -622,6 +838,139 @@ buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</
 </dd>
 
 
+<dt class="method-heading" id="I_GET_VALUE"><code>get_value(buffer_type, offset) -&gt; Integer | Float</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/get_value.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-get_value">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの offset の位置から、buffer_type で指定した型の値を読み出して返します。
+</p>
+<p>
+buffer_type には以下のシンボルを指定します。小文字で始まるものはリトルエンディアン、大文字で始まるものはビッグエンディアンです
+(1 バイトの <code>:U8</code> と <code>:S8</code> にバイトオーダーの区別はありません)。
+</p>
+<dl>
+<dt>整数</dt>
+<dd>
+<p>
+<code>:U8</code> <code>:S8</code> (1 バイト)、<code>:u16</code> <code>:U16</code> <code>:s16</code> <code>:S16</code> (2 バイト)、
+<code>:u32</code> <code>:U32</code> <code>:s32</code> <code>:S32</code> (4 バイト)、<code>:u64</code> <code>:U64</code> <code>:s64</code> <code>:S64</code> (8 バイト)
+</p>
+</dd>
+<dt>浮動小数点数</dt>
+<dd>
+<p>
+<code>:f32</code> <code>:F32</code> (4 バイト)、<code>:f64</code> <code>:F64</code> (8 バイト)
+</p>
+</dd>
+</dl>
+<p>
+小文字の <code>u</code> <code>s</code> <code>f</code> で始まるものが符号なし整数・符号付き整数・浮動小数点数を表し、
+<code>u</code> と <code>s</code> の対応する大文字はビッグエンディアンを意味します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>buffer_type</code>:</dt>
+<dd>
+読み出す値の型を上記のシンボルで指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+読み出す位置をバッファの先頭からのバイト数で指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+buffer_type が上記以外の場合や、読み出す範囲がバッファの外にはみ出す場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="p">[</span><span class="mf">1.5</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">f</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_value</span><span class="p">(</span><span class="ss">:f32</span>, <span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 1.5
+</span>
+buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">\x01\x02</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_value</span><span class="p">(</span><span class="ss">:u16</span>, <span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 513
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_value</span><span class="p">(</span><span class="ss">:U16</span>, <span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 258
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/set_value.html">IO::Buffer#set_value</a>, <a href="../method/IO=3a=3aBuffer/i/get_values.html">IO::Buffer#get_values</a>, <a href="../method/IO=3a=3aBuffer/i/values.html">IO::Buffer#values</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_GET_VALUES"><code>get_values(buffer_types, offset) -&gt; [Integer | Float]</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/get_values.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-get_values">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/IO=3a=3aBuffer/i/get_value.html">IO::Buffer#get_value</a> と同じですが、複数の型をまとめて読み出し、値の配列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>buffer_types</code>:</dt>
+<dd>
+読み出す値の型のシンボルの配列を指定します。指定できるシンボルは <a href="../method/IO=3a=3aBuffer/i/get_value.html">IO::Buffer#get_value</a> を参照してください。
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+読み出しを開始する位置をバッファの先頭からのバイト数で指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+型が不正な場合や、読み出す範囲がバッファの外にはみ出す場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="p">[</span><span class="mf">1.5</span>, <span class="mf">2.5</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">ff</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_values</span><span class="p">(</span><span class="p">[</span><span class="ss">:f32</span>, <span class="ss">:f32</span><span class="p">]</span>, <span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; [1.5, 2.5]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/get_value.html">IO::Buffer#get_value</a>, <a href="../method/IO=3a=3aBuffer/i/set_values.html">IO::Buffer#set_values</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_HEXDUMP"><code>hexdump -&gt; String | nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/hexdump.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-hexdump">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの内容を 16 進ダンプ形式の文字列で返します。
+</p>
+<p>
+各行は、バッファの先頭からの位置、16 進数で表したバイト列、印字できる文字による表現の順に並びます。この表示形式は将来変更される可能性があります。
+</p>
+<p>
+メモリ領域を指していないバッファでは nil を返します。これは <a href="../method/IO=3a=3aBuffer/i/null=3f.html">IO::Buffer#null?</a> が真の場合です。
+</p>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">Hello World</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">puts</span> buf<span class="p">.</span><span class="nf">hexdump</span>
+<span class="c1"># =&gt; 0x00000000  48 65 6c 6c 6f 20 57 6f 72 6c 64                Hello World
+</span></code></pre>
+<span class="caption">例: メモリ領域を指していないバッファ</span>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+buf<span class="p">.</span><span class="nf">free</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">hexdump</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/inspect.html">IO::Buffer#inspect</a>, <a href="../method/IO=3a=3aBuffer/i/null=3f.html">IO::Buffer#null?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの状態と内容を表した文字列を返します。
+</p>
+<p>
+<a href="../method/IO=3a=3aBuffer/i/to_s.html">IO::Buffer#to_s</a> と同じ 1 行に続けて、バッファの内容を
+<a href="../method/IO=3a=3aBuffer/i/hexdump.html">IO::Buffer#hexdump</a> と同じ 16 進ダンプ形式で表示します。この表示形式は将来変更される可能性があります。
+</p>
+<p>
+内容をダンプするのは、バッファの大きさが 256 バイト以下の場合だけです。
+256 バイトを超える場合、内容は表示されません。
+</p>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">Hello World</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">puts</span> buf<span class="p">.</span><span class="nf">inspect</span>
+<span class="c1"># =&gt; #&lt;IO::Buffer 0x0000000100e726b8+11 EXTERNAL READONLY SLICE&gt;
+</span><span class="c1">#    0x00000000  48 65 6c 6c 6f 20 57 6f 72 6c 64                Hello World
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/to_s.html">IO::Buffer#to_s</a>, <a href="../method/IO=3a=3aBuffer/i/hexdump.html">IO::Buffer#hexdump</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_INTERNAL--3F"><code>internal? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/internal=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-internal-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -663,6 +1012,27 @@ buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</
 </dd>
 
 
+<dt class="method-heading" id="I_NOT--21"><code>not! -&gt; self</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/not=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-not-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/IO=3a=3aBuffer/i/=7e.html">IO::Buffer#~</a> と同じビット反転を、新しいバッファを作らずに自身に対して行います。<code>self</code> を返します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>IO::Buffer::AccessError</code>:</dt>
+<dd>
+読み取り専用のバッファに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">1234567890</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">dup</span>
+buf<span class="p">.</span><span class="nf">not!</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">.</span><span class="nf">bytes</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>b<span class="o">|</span> <span class="s2">"</span><span class="s2">%02x</span><span class="s2">"</span> <span class="o">%</span> b <span class="p">}</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="s2"> </span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;ce cd cc cb ca c9 c8 c7 c6 cf&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/=7e.html">IO::Buffer#~</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_NULL--3F"><code>null? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/null=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-null-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -690,7 +1060,7 @@ buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span>
 バッファが読み取り専用の場合に true を返します。
 </p>
 <p>
-読み取り専用のバッファは、<code>IO::Buffer#set_value</code> や <a href="../method/IO=3a=3aBuffer/i/set_string.html">IO::Buffer#set_string</a>、
+読み取り専用のバッファは、<a href="../method/IO=3a=3aBuffer/i/set_value.html">IO::Buffer#set_value</a> や <a href="../method/IO=3a=3aBuffer/i/set_string.html">IO::Buffer#set_string</a>、
 <a href="../method/IO=3a=3aBuffer/i/copy.html">IO::Buffer#copy</a> などで変更できません。
 </p>
 <p>
@@ -789,6 +1159,91 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 </dd>
 
 
+<dt class="method-heading" id="I_SET_VALUE"><code>set_value(buffer_type, offset, value) -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/set_value.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-set_value">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの offset の位置に、buffer_type で指定した型で value を書き込みます。
+</p>
+<p>
+指定できる型は <a href="../method/IO=3a=3aBuffer/i/get_value.html">IO::Buffer#get_value</a> を参照してください。整数の型に <a href="../class/Float.html">Float</a> を渡した場合は、小数点以下が切り捨てられます。
+</p>
+<p>
+書き込んだ値の次の位置を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>buffer_type</code>:</dt>
+<dd>
+書き込む値の型をシンボルで指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+書き込む位置をバッファの先頭からのバイト数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>value</code>:</dt>
+<dd>
+書き込む値を数値で指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+buffer_type が不正な場合や、書き込む範囲がバッファの外にはみ出す場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::AccessError</code>:</dt>
+<dd>
+読み取り専用のバッファに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+buf<span class="p">.</span><span class="nf">set_value</span><span class="p">(</span><span class="ss">:U8</span>, <span class="mi">1</span>, <span class="mi">111</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span> <span class="c1"># =&gt; &quot;\x00o\x00\x00\x00\x00\x00\x00&quot;
+</span>
+<span class="c1"># 整数の型に Float を渡すと小数点以下は切り捨てられる
+</span>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+buf<span class="p">.</span><span class="nf">set_value</span><span class="p">(</span><span class="ss">:U32</span>, <span class="mi">0</span>, <span class="mf">2.5</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_value</span><span class="p">(</span><span class="ss">:U32</span>, <span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 2
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/get_value.html">IO::Buffer#get_value</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SET_VALUES"><code>set_values(buffer_types, offset, values) -&gt; Integer</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/set_values.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-set_values">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/IO=3a=3aBuffer/i/set_value.html">IO::Buffer#set_value</a> と同じですが、複数の値をまとめて書き込みます。書き込んだ値の次の位置を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>buffer_types</code>:</dt>
+<dd>
+書き込む値の型のシンボルの配列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+書き込みを開始する位置をバッファの先頭からのバイト数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>values</code>:</dt>
+<dd>
+書き込む値の配列を指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+型が不正な場合や、書き込む範囲がバッファの外にはみ出す場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::AccessError</code>:</dt>
+<dd>
+読み取り専用のバッファに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">set_values</span><span class="p">(</span><span class="p">[</span><span class="ss">:U8</span>, <span class="ss">:U16</span><span class="p">]</span>, <span class="mi">0</span>, <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">3</span><span class="p">)</span>                   <span class="c1"># =&gt; &quot;\x01\x00\x02&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/set_value.html">IO::Buffer#set_value</a>, <a href="../method/IO=3a=3aBuffer/i/get_values.html">IO::Buffer#get_values</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_SHARED--3F"><code>shared? -&gt; bool</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/shared=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-shared-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -848,6 +1303,25 @@ part <span class="o">=</span> buf<span class="p">.</span><span class="nf">slice<
 </dd>
 
 
+<dt class="method-heading" id="I_TO_S"><code>to_s -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/to_s.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-to_s">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの状態を短く表した文字列を返します。
+</p>
+<p>
+メモリ領域のアドレスと大きさ、状態を表すフラグが含まれます。この表示形式は将来変更される可能性があります。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">to_s</span> <span class="c1"># =&gt; &quot;#&lt;IO::Buffer 0x0000600002d10000+4 INTERNAL&gt;&quot;
+</span></code></pre>
+<p>
+アドレスの部分は実行するたびに変わります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/inspect.html">IO::Buffer#inspect</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_TRANSFER"><code>transfer -&gt; IO::Buffer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/transfer.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-transfer">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -878,6 +1352,56 @@ other <span class="o">=</span> buf<span class="p">.</span><span class="nf">trans
 </p>
 <p>
 別のバッファや文字列の一部を参照している(<a href="../method/IO=3a=3aBuffer/i/slice.html">IO::Buffer#slice</a> で作った)バッファは、参照元が解放されたり別のアドレスに再確保されたりすると、アクセスできなくなります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_VALUES"><code>values(buffer_type, offset = 0, count = nil) -&gt; [Integer | Float]</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/values.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-values">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの offset の位置から、buffer_type で指定した型の値を順に読み出し、配列にして返します。
+</p>
+<p>
+指定できる型は <a href="../method/IO=3a=3aBuffer/i/get_value.html">IO::Buffer#get_value</a> を参照してください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>buffer_type</code>:</dt>
+<dd>
+読み出す値の型をシンボルで指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+読み出しを開始する位置をバッファの先頭からのバイト数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>count</code>:</dt>
+<dd>
+読み出す個数を指定します。省略した場合はバッファの末尾まで読み出します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">Hello World</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">values</span><span class="p">(</span><span class="ss">:U8</span>, <span class="mi">2</span>, <span class="mi">2</span><span class="p">)</span> <span class="c1"># =&gt; [108, 108]
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">values</span><span class="p">(</span><span class="ss">:U8</span>, <span class="mi">9</span><span class="p">)</span>    <span class="c1"># =&gt; [108, 100]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/each.html">IO::Buffer#each</a>, <a href="../method/IO=3a=3aBuffer/i/get_values.html">IO::Buffer#get_values</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_--7E"><code>~ self -&gt; IO::Buffer</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/=7e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IO/Buffer.html#method-i-7E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの各バイトのビットを反転した、新しいバッファを返します。
+</p>
+<p>
+返されるバッファの大きさは元のバッファと同じです。
+</p>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="o">~</span><span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">1234567890</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">size</span>                                              <span class="c1"># =&gt; 10
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">.</span><span class="nf">bytes</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span><span class="o">|</span>b<span class="o">|</span> <span class="s2">"</span><span class="s2">%02x</span><span class="s2">"</span> <span class="o">%</span> b <span class="p">}</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="s2"> </span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;ce cd cc cb ca c9 c8 c7 c6 cf&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/not=21.html">IO::Buffer#not!</a>
 </p>
 </dd>
 

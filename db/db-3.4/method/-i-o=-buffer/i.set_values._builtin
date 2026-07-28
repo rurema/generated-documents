@@ -1,0 +1,32 @@
+names=set_values
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=set_values=3.2
+until_by_name=
+
+### def set_values(buffer_types, offset, values) -> Integer
+
+[m:IO::Buffer#set_value] と同じですが、複数の値をまとめて書き込みます。
+書き込んだ値の次の位置を返します。
+
+- **param** `buffer_types` -- 書き込む値の型のシンボルの配列を指定します。
+
+- **param** `offset` -- 書き込みを開始する位置をバッファの先頭からのバイト数で指定します。
+
+- **param** `values` -- 書き込む値の配列を指定します。
+
+- **raise** `ArgumentError` -- 型が不正な場合や、書き込む範囲がバッファの外に
+             はみ出す場合に発生します。
+
+- **raise** `IO::Buffer::AccessError` -- 読み取り専用のバッファに対して
+             呼び出した場合に発生します。
+
+```ruby
+buf = IO::Buffer.new(8)
+p buf.set_values([:U8, :U16], 0, [1, 2]) # => 3
+p buf.get_string(0, 3)                   # => "\x01\x00\x02"
+```
+
+- **SEE** [m:IO::Buffer#set_value], [m:IO::Buffer#get_values]
+

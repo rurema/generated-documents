@@ -14,5 +14,3 @@ until_by_name=
 
 - **param** `opts` -- オプションを指定します。
 
-- **SEE** [m:OptionParser#make_switch]
-
