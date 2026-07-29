@@ -1,0 +1,46 @@
+names=locked
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=locked=3.1
+until_by_name=
+
+### def locked { ... } -> object
+
+ブロックを実行する間、バッファをロックします。ブロックの値を返します。
+
+ロックされている間、そのバッファに対して [m:IO::Buffer#resize] や
+[m:IO::Buffer#free]、さらに [m:IO::Buffer#locked] を呼ぶと
+[c:IO::Buffer::LockedError] が発生します。
+バッファへの読み書き自体はロック中も行えます。
+
+システムコールでバッファを使っている間に、そのバッファが移動したり
+解放されたりしないことを保証するための仕組みです。
+スレッド安全ではないため、複数のスレッドでバッファを共有する場合は
+別に同期の手段が必要です。
+
+ブロックの実行中に例外が発生した場合もロックは解除されます。
+
+- **raise** `LocalJumpError` -- ブロックを渡さなかった場合に発生します。
+
+- **raise** `IO::Buffer::LockedError` -- すでにロックされているバッファに対して
+             呼び出した場合に発生します。
+
+```ruby
+buf = IO::Buffer.new(4)
+
+p buf.locked?                # => false
+p buf.locked { buf.locked? } # => true
+p buf.locked?                # => false
+
+# ブロックの値がそのまま返る
+p buf.locked { "done" }      # => "done"
+```
+
+```ruby title="例: ロック中は大きさの変更や解放ができない"
+buf = IO::Buffer.new(4)
+buf.locked { buf.resize(8) } # ~> IO::Buffer::LockedError
+```
+
+- **SEE** [m:IO::Buffer#locked?], [m:IO::Buffer::LOCKED]
+

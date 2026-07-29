@@ -122,6 +122,15 @@ Ruby の 内部情報へのアクセス手段を提供するクラスです。�
 <h2>目次</h2>
 <dl>
 
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_STAT">stat</a></li>
+
+</ul>
+</dd>
+
 <dt>定数</dt>
 <dd>
 <ul class="class-toc">
@@ -145,6 +154,49 @@ Ruby の 内部情報へのアクセス手段を提供するクラスです。�
 
 
 
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_STAT"><code>stat -&gt; Hash</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/RubyVM/s/stat.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/RubyVM.html#method-c-stat">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>stat(hsh) -&gt; Hash</code></dt>
+<dt class="method-heading"><code>stat(sym) -&gt; Integer</code></dt>
+<dd class="method-description">
+<p>
+VM 内部のキャッシュなどに関する統計情報を返します。
+</p>
+<p>
+引数なしで呼び出すと、統計名のシンボルをキーとするハッシュを返します。ハッシュを渡すとその内容が統計情報で上書きされ、そのハッシュを返します
+(プローブ効果を避けるために使用します)。シンボルを渡すと、その統計名の値のみを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>hsh</code>:</dt>
+<dd>
+結果を格納するハッシュを指定します。内容は上書きされます。
+</dd>
+<dt class='method-param'>[PARAM] <code>sym</code>:</dt>
+<dd>
+取得したい統計名をシンボルで指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+未知の統計名をシンボルで指定した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">RubyVM</span><span class="p">.</span><span class="nf">stat</span>
+<span class="c1"># =&gt; {:constant_cache_invalidations=&gt;2, :constant_cache_misses=&gt;14,
+</span><span class="c1">#     :global_cvar_state=&gt;27, :next_shape_id=&gt;225, :shape_cache_size=&gt;1024}
+</span><span class="nb">p</span> <span class="no">RubyVM</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">:next_shape_id</span><span class="p">)</span>
+<span class="c1"># =&gt; 225
+</span></code></pre>
+<p>
+含まれる統計名と値は処理系の実装の詳細であり、バージョンによって変わります。この値に依存すべきではありません。
+</p>
+</dd>
+
+
+</dl>
 
 <h2>定数</h2>
 <dl>

@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-28-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-29-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -165,6 +165,8 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 
 <li><a href="#S_NEW">new</a></li>
 
+<li><a href="#S_SIZE_OF">size_of</a></li>
+
 <li><a href="#S_STRING">string</a></li>
 
 </ul>
@@ -211,6 +213,8 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 <li><a href="#I_INSPECT">inspect</a></li>
 
 <li><a href="#I_INTERNAL--3F">internal?</a></li>
+
+<li><a href="#I_LOCKED">locked</a></li>
 
 <li><a href="#I_LOCKED--3F">locked?</a></li>
 
@@ -454,6 +458,46 @@ size によらず後者の方法で確保されます。
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a>, <a href="../method/IO=3a=3aBuffer/s/map.html">IO::Buffer.map</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_SIZE_OF"><code>size_of(buffer_type) -&gt; Integer</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/s/size_of.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-c-size_of">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>size_of(buffer_types) -&gt; Integer</code></dt>
+<dd class="method-description">
+<p>
+数値の型が占めるバイト数を返します。
+</p>
+<p>
+型の配列を渡した場合は、それぞれのバイト数の合計を返します。指定できる型については <a href="../method/IO=3a=3aBuffer/i/get_value.html">IO::Buffer#get_value</a> を参照してください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>buffer_type</code>:</dt>
+<dd>
+型を表すシンボルを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>buffer_types</code>:</dt>
+<dd>
+型を表すシンボルの配列を指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+型として使えないシンボルを指定した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+シンボルでも配列でもないオブジェクトを指定した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">size_of</span><span class="p">(</span><span class="ss">:U8</span><span class="p">)</span>          <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">size_of</span><span class="p">(</span><span class="ss">:u32</span><span class="p">)</span>         <span class="c1"># =&gt; 4
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">size_of</span><span class="p">(</span><span class="ss">:f64</span><span class="p">)</span>         <span class="c1"># =&gt; 8
+</span>
+<span class="c1"># 配列を渡すと合計を返す
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">size_of</span><span class="p">(</span><span class="p">[</span><span class="ss">:u32</span>, <span class="ss">:u32</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; 8
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/get_value.html">IO::Buffer#get_value</a>, <a href="../method/IO=3a=3aBuffer/i/get_values.html">IO::Buffer#get_values</a>
 </p>
 </dd>
 
@@ -1058,6 +1102,51 @@ buf<span class="p">.</span><span class="nf">free</span>
 </dd>
 
 
+<dt class="method-heading" id="I_LOCKED"><code>locked { ... } -&gt; object</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/locked.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-locked">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ブロックを実行する間、バッファをロックします。ブロックの値を返します。
+</p>
+<p>
+ロックされている間、そのバッファに対して <a href="../method/IO=3a=3aBuffer/i/resize.html">IO::Buffer#resize</a> や
+<a href="../method/IO=3a=3aBuffer/i/free.html">IO::Buffer#free</a>、さらに <a href="../method/IO=3a=3aBuffer/i/locked.html">IO::Buffer#locked</a> を呼ぶと
+<a href="../class/IO=3a=3aBuffer=3a=3aLockedError.html">IO::Buffer::LockedError</a> が発生します。バッファへの読み書き自体はロック中も行えます。
+</p>
+<p>
+システムコールでバッファを使っている間に、そのバッファが移動したり解放されたりしないことを保証するための仕組みです。スレッド安全ではないため、複数のスレッドでバッファを共有する場合は別に同期の手段が必要です。
+</p>
+<p>
+ブロックの実行中に例外が発生した場合もロックは解除されます。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>LocalJumpError</code>:</dt>
+<dd>
+ブロックを渡さなかった場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::LockedError</code>:</dt>
+<dd>
+すでにロックされているバッファに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">locked?</span>                <span class="c1"># =&gt; false
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">locked</span> <span class="p">{</span> buf<span class="p">.</span><span class="nf">locked?</span> <span class="p">}</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">locked?</span>                <span class="c1"># =&gt; false
+</span>
+<span class="c1"># ブロックの値がそのまま返る
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">locked</span> <span class="p">{</span> <span class="s2">"</span><span class="s2">done</span><span class="s2">"</span> <span class="p">}</span>      <span class="c1"># =&gt; &quot;done&quot;
+</span></code></pre>
+<span class="caption">例: ロック中は大きさの変更や解放ができない</span>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+buf<span class="p">.</span><span class="nf">locked</span> <span class="p">{</span> buf<span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="p">}</span> <span class="c1"># ~&gt; IO::Buffer::LockedError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/locked=3f.html">IO::Buffer#locked?</a>, <a href="../method/IO=3a=3aBuffer/c/LOCKED.html">IO::Buffer::LOCKED</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_LOCKED--3F"><code>locked? -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/locked=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-locked-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -1065,6 +1154,9 @@ buf<span class="p">.</span><span class="nf">free</span>
 </p>
 <p>
 ロックされたバッファは大きさの変更や解放ができず、さらにロックを取得することもできません。システムコールでバッファを使っている間に、そのバッファが移動しないことを保証するための仕組みです。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/locked.html">IO::Buffer#locked</a>
 </p>
 </dd>
 
@@ -1545,7 +1637,7 @@ BIG_ENDIAN と同じ値です。
 バッファがロックされていることを表すフラグです。
 </p>
 <p>
-ロックされている間はバッファの解放やリサイズができません。バッファがロックされているかどうかは <a href="../method/IO=3a=3aBuffer/i/locked=3f.html">IO::Buffer#locked?</a> で調べられます。
+ロックされている間はバッファの解放やリサイズができません。バッファは <a href="../method/IO=3a=3aBuffer/i/locked.html">IO::Buffer#locked</a> のブロックを実行している間ロックされます。ロックされているかどうかは <a href="../method/IO=3a=3aBuffer/i/locked=3f.html">IO::Buffer#locked?</a> で調べられます。
 </p>
 </dd>
 

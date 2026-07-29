@@ -1,0 +1,32 @@
+names=lex_file
+visibility=public
+kind=defined
+source_location=manual/api/prism.md
+since_by_name=lex_file=3.3
+until_by_name=
+
+### module_function def lex_file(filepath, **options) -> Prism::LexResult
+
+`filepath` で指定したファイルを字句解析します。
+オプションは [m:Prism?.parse] と同じです。
+
+- **param** `filepath` -- 解析する Ruby プログラムのファイルパスを指定します。
+
+- **param** `options` -- [m:Prism?.parse] を参照してください。
+
+```ruby title="例"
+require "prism"
+
+File.write("sample.rb", "def foo(a, b) = a + b\n")
+
+result = Prism.lex_file("sample.rb")
+p result.class
+# => Prism::LexResult
+p result.value.map { |token, _state| token.type }
+# => [:KEYWORD_DEF, :IDENTIFIER, :PARENTHESIS_LEFT, :IDENTIFIER, :COMMA,
+#     :IDENTIFIER, :PARENTHESIS_RIGHT, :EQUAL, :IDENTIFIER, :PLUS,
+#     :IDENTIFIER, :NEWLINE, :EOF]
+```
+
+- **SEE** [m:Prism?.lex]
+

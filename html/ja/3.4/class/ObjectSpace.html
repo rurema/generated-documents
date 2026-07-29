@@ -130,6 +130,12 @@
 <dd>
 <ul class="class-toc">
 
+<li><a href="#M_ALLOCATION_CLASS_PATH">allocation_class_path</a></li>
+
+<li><a href="#M_ALLOCATION_GENERATION">allocation_generation</a></li>
+
+<li><a href="#M_ALLOCATION_METHOD_ID">allocation_method_id</a></li>
+
 <li><a href="#M_ALLOCATION_SOURCEFILE">allocation_sourcefile</a></li>
 
 <li><a href="#M_ALLOCATION_SOURCELINE">allocation_sourceline</a></li>
@@ -140,13 +146,21 @@
 
 <li><a href="#M_COUNT_TDATA_OBJECTS">count_tdata_objects</a></li>
 
+<li><a href="#M_DUMP">dump</a></li>
+
+<li><a href="#M_DUMP_ALL">dump_all</a></li>
+
 <li><a href="#M_MEMSIZE_OF">memsize_of</a></li>
 
 <li><a href="#M_MEMSIZE_OF_ALL">memsize_of_all</a></li>
 
 <li><a href="#M_REACHABLE_OBJECTS_FROM">reachable_objects_from</a></li>
 
+<li><a href="#M_REACHABLE_OBJECTS_FROM_ROOT">reachable_objects_from_root</a></li>
+
 <li><a href="#M_TRACE_OBJECT_ALLOCATIONS">trace_object_allocations</a></li>
+
+<li><a href="#M_TRACE_OBJECT_ALLOCATIONS_CLEAR">trace_object_allocations_clear</a></li>
 
 <li><a href="#M_TRACE_OBJECT_ALLOCATIONS_START">trace_object_allocations_start</a></li>
 
@@ -313,6 +327,7 @@ proc の呼び出しで発生した大域脱出(exitや例外)は無視されま
 </p>
 <ul>
 <li>即値の <a href="../class/Integer.html">Integer</a> オブジェクト(ヒープ上に確保される大きな整数は繰り返します)</li>
+<li>Flonum(即値の <a href="../class/Float.html">Float</a> オブジェクト)</li>
 <li>静的な <a href="../class/Symbol.html">Symbol</a> オブジェクト(動的に生成されたシンボルは繰り返します)</li>
 <li><a href="../class/TrueClass.html">TrueClass</a></li>
 <li><a href="../class/FalseClass.html">FalseClass</a></li>
@@ -433,7 +448,125 @@ sample<span class="p">.</span><span class="nf">undef</span>
 <h2>追加されるメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="M_ALLOCATION_SOURCEFILE"><code>allocation_sourcefile(object) -&gt; String</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/allocation_sourcefile.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-allocation_sourcefile">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+<dt class="method-heading" id="M_ALLOCATION_CLASS_PATH"><code>allocation_class_path(object) -&gt; String | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/allocation_class_path.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-allocation_class_path">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+objectの元となったクラスのパス(クラス名)を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>object</code>:</dt>
+<dd>
+元となるクラスのパスを取得したいobjectを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+objectの元となるクラスのパスを返します。存在しない場合はnilを返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">A</span>
+  <span class="k">def</span> <span class="nf">foo</span>
+    <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">trace_object_allocations</span> <span class="k">do</span>
+      obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span>
+      <span class="nb">p</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">allocation_class_path</span><span class="p">(</span>obj<span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">A</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">foo</span>
+<span class="c1"># =&gt; &quot;Class&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace.#trace_object_allocations_start</a>,
+<a href="../method/ObjectSpace/m/trace_object_allocations_stop.html">ObjectSpace.#trace_object_allocations_stop</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_ALLOCATION_GENERATION"><code>allocation_generation(object) -&gt; Integer | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/allocation_generation.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-allocation_generation">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+objectが生成されたときのガベージコレクタの実行回数(<a href="../method/GC/s/count.html">GC.count</a> が返す値と同じもの)を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>object</code>:</dt>
+<dd>
+生成時のガベージコレクタの実行回数を取得したいobjectを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+objectが生成されたときのガベージコレクタの実行回数を返します。存在しない場合はnilを返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">B</span>
+  include <span class="no">ObjectSpace</span>
+
+  <span class="k">def</span> <span class="nf">foo</span>
+    trace_object_allocations <span class="k">do</span>
+      obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span>
+      <span class="nb">p</span> <span class="s2">"</span><span class="s2">Generation is </span><span class="si">#{</span><span class="n">allocation_generation</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">B</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">foo</span>
+<span class="c1"># =&gt; &quot;Generation is 4&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace.#trace_object_allocations_start</a>,
+<a href="../method/ObjectSpace/m/trace_object_allocations_stop.html">ObjectSpace.#trace_object_allocations_stop</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_ALLOCATION_METHOD_ID"><code>allocation_method_id(object) -&gt; Symbol | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/allocation_method_id.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-allocation_method_id">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+objectの元となったメソッド名を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>object</code>:</dt>
+<dd>
+元となるメソッド名を取得したいobjectを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+objectの元となるメソッド名を返します。存在しない場合はnilを返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">A</span>
+  include <span class="no">ObjectSpace</span>
+
+  <span class="k">def</span> <span class="nf">foo</span>
+    trace_object_allocations <span class="k">do</span>
+      obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span>
+      <span class="nb">p</span> <span class="s2">"</span><span class="si">#{</span><span class="n">allocation_class_path</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">#</span><span class="si">#{</span><span class="n">allocation_method_id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">A</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">foo</span>
+<span class="c1"># =&gt; &quot;Class#new&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace.#trace_object_allocations_start</a>,
+<a href="../method/ObjectSpace/m/trace_object_allocations_stop.html">ObjectSpace.#trace_object_allocations_stop</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_ALLOCATION_SOURCEFILE"><code>allocation_sourcefile(object) -&gt; String | nil</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/allocation_sourcefile.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-allocation_sourcefile">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
 </dt>
 <dd class="method-description">
 <p>
@@ -464,7 +597,7 @@ obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</sp
 </dd>
 
 
-<dt class="method-heading" id="M_ALLOCATION_SOURCELINE"><code>allocation_sourceline(object) -&gt; Integer</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/allocation_sourceline.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-allocation_sourceline">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+<dt class="method-heading" id="M_ALLOCATION_SOURCELINE"><code>allocation_sourceline(object) -&gt; Integer | nil</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/allocation_sourceline.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-allocation_sourceline">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
 </dt>
 <dd class="method-description">
 <p>
@@ -603,6 +736,152 @@ rb_data_type_struct に格納された名前が使用されます。
 </dd>
 
 
+<dt class="method-heading" id="M_DUMP"><code>dump(obj, output: :string) -&gt; String | File | IO | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/dump.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-dump">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+obj の内容を JSON 形式でダンプします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>obj</code>:</dt>
+<dd>
+ダンプ対象のオブジェクトを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>output</code>:</dt>
+<dd>
+ダンプ結果の出力先を以下のいずれかで指定します(デフォルトは <code>:string</code>)。
+</dd>
+</dl>
+<dl>
+<dt><code>:string</code></dt>
+<dd>
+<p>
+文字列としてダンプ結果を返します。
+</p>
+</dd>
+<dt><code>:file</code></dt>
+<dd>
+<p>
+一時ファイルにダンプし、その <a href="../class/File.html">File</a> オブジェクトを返します。
+</p>
+</dd>
+<dt><code>:stdout</code></dt>
+<dd>
+<p>
+標準出力にダンプし、nil を返します。
+</p>
+</dd>
+<dt>IO オブジェクト</dt>
+<dd>
+<p>
+指定した IO オブジェクトにダンプし、その IO オブジェクトを返します。
+(StringIO のような IO のサブクラスでないオブジェクトは指定できません)
+</p>
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="nb">puts</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="c1"># =&gt; 5
+</span>
+<span class="nb">puts</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; {&quot;address&quot;:&quot;0x...&quot;, &quot;type&quot;:&quot;STRING&quot;, &quot;shape_id&quot;:0, &quot;slot_size&quot;:40,
+</span><span class="c1">#    &quot;class&quot;:&quot;0x...&quot;, &quot;embedded&quot;:true, &quot;chilled&quot;:true, &quot;bytesize&quot;:5,
+</span><span class="c1">#    &quot;value&quot;:&quot;hello&quot;, &quot;encoding&quot;:&quot;UTF-8&quot;, &quot;coderange&quot;:&quot;7bit&quot;,
+</span><span class="c1">#    &quot;memsize&quot;:40, &quot;flags&quot;:{&quot;wb_protected&quot;:true}}
+</span><span class="c1"># (address の値は実行するたびに変わります)
+</span></code></pre>
+<dl>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+output に上記のいずれでもない値を指定した場合に発生します。
+</dd>
+</dl>
+<p>
+戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒントとして扱う必要があります。
+</p>
+<p>
+本メソッドは C Ruby 以外では動作しない、実験的なメソッドです。出力のフォーマットは将来のバージョンで変更される可能性があります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/dump_all.html">ObjectSpace.#dump_all</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_DUMP_ALL"><code>dump_all(output: :file, full: false, since: nil, shapes: true) -&gt; String | File | IO | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/dump_all.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-dump_all">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+Ruby のヒープの内容を JSON 形式でダンプします。1行につき1オブジェクト
+(または1ルート、1シェイプ)分の JSON が出力されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>output</code>:</dt>
+<dd>
+ダンプ結果の出力先を指定します。指定できる値は
+<a href="../method/ObjectSpace/m/dump.html">ObjectSpace.#dump</a> の output と同じです(デフォルトは <code>:file</code>)。
+</dd>
+<dt class='method-param'>[PARAM] <code>full</code>:</dt>
+<dd>
+真を指定すると、空きスロット(<code>T_NONE</code>)も含めたすべてのヒープスロットをダンプします。偽の場合(デフォルト)は使用中のスロットのみダンプします。
+</dd>
+<dt class='method-param'>[PARAM] <code>since</code>:</dt>
+<dd>
+0 以上の整数または nil を指定します。正の整数を指定した場合、その世代以降に割り当てられたオブジェクトのみをダンプします。現在の世代は <a href="../method/GC/s/count.html">GC.count</a> で取得できます。<a href="../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace.#trace_object_allocations_start</a>
+などでオブジェクト割り当てのトレースを有効にしていないオブジェクトは割り当て世代が記録されないため無視されます。nil を指定した場合(デフォルト)はすべてのオブジェクトをダンプします。
+</dd>
+<dt class='method-param'>[PARAM] <code>shapes</code>:</dt>
+<dd>
+真偽値または 0 以上の整数を指定します。正の整数を指定した場合、指定した shape_id 以降のシェイプのみをダンプします。現在の shape_id は <a href="../method/RubyVM/s/stat.html"><code>RubyVM.stat(:next_shape_id)</code></a> で取得できます。false
+を指定するとシェイプをダンプしません。デフォルトは true です。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+str <span class="o">=</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">dump_all</span><span class="p">(</span><span class="ss">output:</span> <span class="ss">:string</span><span class="p">)</span>
+<span class="nb">puts</span> str<span class="p">.</span><span class="nf">lines</span><span class="p">.</span><span class="nf">size</span>
+<span class="c1"># =&gt; 18369 (ヒープの状態に依存するため実行するたびに変わります)
+</span></code></pre>
+<span class="caption">例:sinceで割り当て世代を絞り込む</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">trace_object_allocations_start</span>
+<span class="no">GC</span><span class="p">.</span><span class="nf">start</span>
+gen <span class="o">=</span> <span class="no">GC</span><span class="p">.</span><span class="nf">count</span>
+obj <span class="o">=</span> <span class="s2">"</span><span class="s2">new string</span><span class="s2">"</span>
+str <span class="o">=</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">dump_all</span><span class="p">(</span><span class="ss">output:</span> <span class="ss">:string</span>, <span class="ss">since:</span> gen<span class="p">)</span>
+<span class="nb">puts</span> str<span class="p">.</span><span class="nf">lines</span><span class="p">.</span><span class="nf">size</span>
+<span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">trace_object_allocations_stop</span>
+<span class="c1"># =&gt; 234 (実行するたびに変わります)
+</span></code></pre>
+<span class="caption">例:shapesを無効にする</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+str <span class="o">=</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">dump_all</span><span class="p">(</span><span class="ss">output:</span> <span class="ss">:string</span>, <span class="ss">shapes:</span> <span class="k">false</span><span class="p">)</span>
+<span class="nb">p</span> str<span class="p">.</span><span class="nf">lines</span><span class="p">.</span><span class="nf">grep</span><span class="p">(</span><span class="sr">/&quot;type&quot;:&quot;SHAPE&quot;/</span><span class="p">)</span><span class="p">.</span><span class="nf">size</span>
+<span class="c1"># =&gt; 0
+</span></code></pre>
+<dl>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+output に <a href="../method/ObjectSpace/m/dump.html">ObjectSpace.#dump</a> で指定できる値以外を指定した場合に発生します。
+</dd>
+</dl>
+<p>
+戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒントとして扱う必要があります。
+</p>
+<p>
+本メソッドは C Ruby 以外では動作しない、実験的なメソッドです。出力のフォーマットは将来のバージョンで変更される可能性があります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/dump.html">ObjectSpace.#dump</a>, <a href="../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace.#trace_object_allocations_start</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="M_MEMSIZE_OF"><code>memsize_of(obj) -&gt; Integer</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/memsize_of.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-memsize_of">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
 </dt>
 <dd class="method-description">
@@ -717,6 +996,39 @@ obj が ObjectSpace::InternalObjectWrapper オブジェクトであった場合�
 </dd>
 
 
+<dt class="method-heading" id="M_REACHABLE_OBJECTS_FROM_ROOT"><code>reachable_objects_from_root -&gt; Hash</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/reachable_objects_from_root.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-reachable_objects_from_root">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+VM のルート(仮想マシンやグローバル変数テーブルなど、ガベージコレクタが生存しているオブジェクトをマークする際に辿る起点)から直接到達可能なオブジェクトを、ルートごとにグループ分けしたハッシュを返します。戻り値のキーはルートの名前を表す文字列、値はそのルートから到達可能なオブジェクトの配列です。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+reachable <span class="o">=</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">reachable_objects_from_root</span>
+<span class="nb">p</span> reachable<span class="p">.</span><span class="nf">keys</span>
+<span class="c1"># =&gt; [&quot;vm&quot;, &quot;global_tbl&quot;, &quot;machine_context&quot;]
+</span><span class="c1"># (内容やキーの構成は処理系やバージョン、実行時の状態に依存します)
+</span></code></pre>
+<p>
+戻り値のハッシュはキーを同一性で比較するため、文字列リテラルを使ってキーを指定して参照することはできません。<a href="../method/Hash/i/keys.html">Hash#keys</a> や <a href="../method/Hash/i/values.html">Hash#values</a> などで取得してください。
+</p>
+<p>
+内部オブジェクトへの参照は <code>ObjectSpace::InternalObjectWrapper</code> オブジェクトでラップされます。詳しくは <a href="../method/ObjectSpace/m/reachable_objects_from.html">ObjectSpace.#reachable_objects_from</a>
+を参照してください。
+</p>
+<p>
+本メソッドはメモリリークの原因を調査するなど、オブジェクトグラフのデバッグに役立ちます。
+</p>
+<p>
+本メソッドは C Ruby 以外では動作しません。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/reachable_objects_from.html">ObjectSpace.#reachable_objects_from</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="M_TRACE_OBJECT_ALLOCATIONS"><code>trace_object_allocations { ... }</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/trace_object_allocations.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-trace_object_allocations">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
 </dt>
 <dd class="method-description">
@@ -739,6 +1051,33 @@ obj が ObjectSpace::InternalObjectWrapper オブジェクトであった場合�
 
 <span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">foo</span> <span class="c1">#=&gt; &quot;objtrace.rb:8&quot;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="M_TRACE_OBJECT_ALLOCATIONS_CLEAR"><code>trace_object_allocations_clear -&gt; nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/trace_object_allocations_clear.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-trace_object_allocations_clear">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+記録されているオブジェクト割り当てのトレース情報をクリアします。
+</p>
+<p>
+トレースの有効/無効の状態には触れません。トレースを有効にしたまま呼び出すと、それ以降のオブジェクト割り当てが引き続き記録されます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">trace_object_allocations_start</span>
+obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">allocation_sourceline</span><span class="p">(</span>obj<span class="p">)</span> <span class="c1"># =&gt; 4
+</span><span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">trace_object_allocations_clear</span>
+<span class="nb">p</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">allocation_sourceline</span><span class="p">(</span>obj<span class="p">)</span> <span class="c1"># =&gt; nil
+</span>
+<span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">trace_object_allocations_stop</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace.#trace_object_allocations_start</a>,
+<a href="../method/ObjectSpace/m/trace_object_allocations_stop.html">ObjectSpace.#trace_object_allocations_stop</a>
+</p>
 </dd>
 
 
