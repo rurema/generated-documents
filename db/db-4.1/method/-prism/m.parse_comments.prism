@@ -1,0 +1,29 @@
+names=parse_comments
+visibility=public
+kind=defined
+source_location=manual/api/prism.md
+since_by_name=parse_comments=3.3
+until_by_name=
+
+### module_function def parse_comments(source, **options) -> Array
+
+`source` を構文解析し、見つかったコメントを表すオブジェクトの
+配列を返します。配列の要素は `Prism::InlineComment`(`# ...` 形式の
+コメント)または `Prism::EmbDocComment`(`=begin`/`=end` 形式の
+コメント)のインスタンスです。オプションは [m:Prism?.parse] と同じです。
+
+- **param** `source` -- 解析する Ruby プログラムの文字列を指定します。
+
+- **param** `options` -- [m:Prism?.parse] を参照してください。
+
+```ruby title="例"
+require "prism"
+
+comments = Prism.parse_comments("# hello\n1 + 1")
+p comments.size                  # => 1
+p comments.first.class           # => Prism::InlineComment
+p comments.first.location.slice  # => "# hello"
+```
+
+- **SEE** [m:Prism::ParseResult#comments]
+

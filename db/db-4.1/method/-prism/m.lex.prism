@@ -1,0 +1,32 @@
+names=lex
+visibility=public
+kind=defined
+source_location=manual/api/prism.md
+since_by_name=lex=3.3
+until_by_name=
+
+### module_function def lex(source, **options) -> Prism::LexResult
+
+`source` を字句解析し、`Prism::LexResult` のインスタンスを返します。
+`value` は `[トークン, 直前からの字句解析器の状態(Integer)]` という
+2 要素配列の配列です。これは [c:Ripper] の [m:Ripper.lex] の戻り値の
+形式に近いものになっています。オプションは [m:Prism?.parse] と同じです。
+
+- **param** `source` -- 解析する Ruby プログラムの文字列を指定します。
+
+- **param** `options` -- [m:Prism?.parse] を参照してください。
+
+```ruby title="例"
+require "prism"
+
+result = Prism.lex("1 + 2")
+p result.class   # => Prism::LexResult
+result.value.each { |token, state| p [token.type, token.value, state] }
+# => [:INTEGER, "1", 2]
+# => [:PLUS, "+", 1]
+# => [:INTEGER, "2", 2]
+# => [:EOF, "", 2]
+```
+
+- **SEE** [m:Prism?.parse], [c:Ripper]
+

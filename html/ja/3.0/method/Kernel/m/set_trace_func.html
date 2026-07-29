@@ -89,8 +89,9 @@ Ruby インタプリタのイベントをトレースする <a href="../../../cl
 Ruby インタプリタがプログラムを実行する過程で、メソッドの呼び出しや式の評価などのイベントが発生する度に、以下で説明する6個の引数とともに登録された <a href="../../../class/Proc.html">Proc</a> オブジェクトを実行します。
 </p>
 <p>
-標準添付の <a href="../../../library/debug.html">debug</a>、<a href="../../../library/tracer.html">tracer</a>、
-<code>profile</code> はこの組み込み関数を利用して実現されています。
+かつて標準添付の <a href="../../../library/debug.html">debug</a>、<code>tracer</code>、<code>profile</code> はこの組み込み関数を利用して実現されていました。ただし <code>tracer</code> は Ruby 3.1 で、<code>profile</code> は Ruby
+2.7 でそれぞれ標準添付ライブラリから削除されています。また debug も
+Ruby 3.1 以降は TracePoint を使った新しい実装(debug gem)に置き換えられており、現在この組み込み関数を使用してはいません。
 </p>
 <h2 >ブロックパラメータの意味</h2>
 <p>
@@ -193,15 +194,15 @@ proc を返します。
 <span class="mi">43</span><span class="p">.</span><span class="nf">to_s</span>
 
 <span class="c1"># ----結果----
-</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 1, :set_trace_func, #&lt;Binding:0xf6ceb8&gt;, Kernel]
-</span><span class="c1"># [&quot;line&quot;, &quot;..&quot;, 4, nil, #&lt;Binding:0x10cbcd8&gt;, nil]
-</span><span class="c1"># [&quot;c-call&quot;, &quot;..&quot;, 4, :inherited, #&lt;Binding:0x10cba98&gt;, Class]
-</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 4, :inherited, #&lt;Binding:0x10cb858&gt;, Class]
-</span><span class="c1"># [&quot;class&quot;, &quot;..&quot;, 4, nil, #&lt;Binding:0x10cb600&gt;, nil]
-</span><span class="c1"># [&quot;end&quot;, &quot;..&quot;, 5, nil, #&lt;Binding:0x10cb3f0&gt;, nil]
-</span><span class="c1"># [&quot;line&quot;, &quot;..&quot;, 6, nil, #&lt;Binding:0x10cb1e0&gt;, nil]
-</span><span class="c1"># [&quot;c-call&quot;, &quot;..&quot;, 6, :to_s, #&lt;Binding:0x10cafd0&gt;, Fixnum]
-</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 6, :to_s, #&lt;Binding:0x10cad78&gt;, Fixnum]
+</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 1, :set_trace_func, nil, Kernel]
+</span><span class="c1"># [&quot;line&quot;, &quot;..&quot;, 4, nil, #&lt;Binding:0x00007f9a2c0a1f38&gt;, nil]
+</span><span class="c1"># [&quot;c-call&quot;, &quot;..&quot;, 4, :inherited, nil, Class]
+</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 4, :inherited, nil, Class]
+</span><span class="c1"># [&quot;class&quot;, &quot;..&quot;, 4, nil, #&lt;Binding:0x00007f9a2c0a1e18&gt;, nil]
+</span><span class="c1"># [&quot;end&quot;, &quot;..&quot;, 5, nil, #&lt;Binding:0x00007f9a2c0a1cf8&gt;, nil]
+</span><span class="c1"># [&quot;line&quot;, &quot;..&quot;, 6, nil, #&lt;Binding:0x00007f9a2c0a1a70&gt;, nil]
+</span><span class="c1"># [&quot;c-call&quot;, &quot;..&quot;, 6, :to_s, nil, Integer]
+</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 6, :to_s, nil, Integer]
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/Kernel/m/caller.html">Kernel.#caller</a>

@@ -269,6 +269,8 @@
 
 <li><a href="#C_-C-O-N-F-I-G">CONFIG</a></li>
 
+<li><a href="#V_-C-P-P-F-L-A-G-S">CPPFLAGS</a></li>
+
 <li><a href="#V_-D-E-F-A-U-L-T_-I-N-P-U-T">DEFAULT_INPUT</a></li>
 
 <li><a href="#V_-D-E-F-A-U-L-T_-O-U-T-P-U-T">DEFAULT_OUTPUT</a></li>
@@ -382,6 +384,8 @@
 <li><a href="#I_FIND_TYPE">find_type</a></li>
 
 <li><a href="#I_GEM">gem</a></li>
+
+<li><a href="#I_HAVE_CONST">have_const</a></li>
 
 <li><a href="#I_HAVE_DEVEL--3F">have_devel?</a></li>
 
@@ -3545,8 +3549,9 @@ Ruby インタプリタのイベントをトレースする <a href="../class/Pr
 Ruby インタプリタがプログラムを実行する過程で、メソッドの呼び出しや式の評価などのイベントが発生する度に、以下で説明する6個の引数とともに登録された <a href="../class/Proc.html">Proc</a> オブジェクトを実行します。
 </p>
 <p>
-標準添付の <a href="../library/debug.html">debug</a>、<a href="../library/tracer.html">tracer</a>、
-<code>profile</code> はこの組み込み関数を利用して実現されています。
+かつて標準添付の <a href="../library/debug.html">debug</a>、<code>tracer</code>、<code>profile</code> はこの組み込み関数を利用して実現されていました。ただし <code>tracer</code> は Ruby 3.1 で、<code>profile</code> は Ruby
+2.7 でそれぞれ標準添付ライブラリから削除されています。また debug も
+Ruby 3.1 以降は TracePoint を使った新しい実装(debug gem)に置き換えられており、現在この組み込み関数を使用してはいません。
 </p>
 <h3 >ブロックパラメータの意味</h3>
 <p>
@@ -3649,15 +3654,17 @@ proc を返します。
 <span class="mi">43</span><span class="p">.</span><span class="nf">to_s</span>
 
 <span class="c1"># ----結果----
-</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 1, :set_trace_func, #&lt;Binding:0xf6ceb8&gt;, Kernel]
-</span><span class="c1"># [&quot;line&quot;, &quot;..&quot;, 4, nil, #&lt;Binding:0x10cbcd8&gt;, nil]
-</span><span class="c1"># [&quot;c-call&quot;, &quot;..&quot;, 4, :inherited, #&lt;Binding:0x10cba98&gt;, Class]
-</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 4, :inherited, #&lt;Binding:0x10cb858&gt;, Class]
-</span><span class="c1"># [&quot;class&quot;, &quot;..&quot;, 4, nil, #&lt;Binding:0x10cb600&gt;, nil]
-</span><span class="c1"># [&quot;end&quot;, &quot;..&quot;, 5, nil, #&lt;Binding:0x10cb3f0&gt;, nil]
-</span><span class="c1"># [&quot;line&quot;, &quot;..&quot;, 6, nil, #&lt;Binding:0x10cb1e0&gt;, nil]
-</span><span class="c1"># [&quot;c-call&quot;, &quot;..&quot;, 6, :to_s, #&lt;Binding:0x10cafd0&gt;, Fixnum]
-</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 6, :to_s, #&lt;Binding:0x10cad78&gt;, Fixnum]
+</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 1, :set_trace_func, nil, Kernel]
+</span><span class="c1"># [&quot;line&quot;, &quot;..&quot;, 4, nil, #&lt;Binding:0x00007f9a2c0a1f38&gt;, nil]
+</span><span class="c1"># [&quot;c-call&quot;, &quot;..&quot;, 4, :const_added, nil, Module]
+</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 4, :const_added, nil, Module]
+</span><span class="c1"># [&quot;c-call&quot;, &quot;..&quot;, 4, :inherited, nil, Class]
+</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 4, :inherited, nil, Class]
+</span><span class="c1"># [&quot;class&quot;, &quot;..&quot;, 4, nil, #&lt;Binding:0x00007f9a2c0a1e18&gt;, nil]
+</span><span class="c1"># [&quot;end&quot;, &quot;..&quot;, 5, nil, #&lt;Binding:0x00007f9a2c0a1cf8&gt;, nil]
+</span><span class="c1"># [&quot;line&quot;, &quot;..&quot;, 6, nil, #&lt;Binding:0x00007f9a2c0a1a70&gt;, nil]
+</span><span class="c1"># [&quot;c-call&quot;, &quot;..&quot;, 6, :to_s, nil, Integer]
+</span><span class="c1"># [&quot;c-return&quot;, &quot;..&quot;, 6, :to_s, nil, Integer]
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Kernel/m/caller.html">Kernel?.caller</a>
@@ -4904,10 +4911,7 @@ n に負の数を指定した場合に発生します。
 </dt>
 <dd class="method-description">
 <p>
-拡張ライブラリをコンパイルするときの C コンパイラのオプションや、ヘッダファイルのディレクトリを指定する文字列です。
-</p>
-<p>
-<a href="../method/Kernel/i/dir_config.html">Kernel#dir_config</a> の検査が成功すると、この変数の値に &quot; -Idir&quot; が追加されます。
+拡張ライブラリをコンパイルするときの C コンパイラのオプションを指定する文字列です。
 </p>
 </dd>
 
@@ -4939,6 +4943,18 @@ out <span class="o">=</span> <span class="sb">`</span>wget https://www.ruby-lang
 <dd class="method-description">
 <p>
 <a href="../method/RbConfig/c/MAKEFILE_CONFIG.html">RbConfig::MAKEFILE_CONFIG</a> と同じです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="V_-C-P-P-F-L-A-G-S"><code>$CPPFLAGS -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Kernel/v/CPPFLAGS.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Kernel.html#method-c-CPPFLAGS">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/mkmf.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/mkmf.html">mkmf</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+拡張ライブラリをコンパイルするときに C プリプロセッサに渡すオプションや、ヘッダファイルのディレクトリを指定する文字列です。
+</p>
+<p>
+<a href="../method/Kernel/i/dir_config.html">Kernel#dir_config</a> の検査が成功すると、この変数の値に &quot; -Idir&quot; が追加されます。
 </p>
 </dd>
 
@@ -6173,6 +6189,53 @@ Gem がロードできた場合は true を返します。ロードできなか�
 </dd>
 
 
+<dt class="method-heading" id="I_HAVE_CONST"><code>have_const(const, headers = nil, opt = &quot;&quot;) -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Kernel/i/have_const.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Kernel.html#method-i-have_const">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/mkmf.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/mkmf.html">mkmf</a>]</span>
+</dt>
+<dt class="method-heading"><code>have_const(const, headers = nil, opt = &quot;&quot;) { ... } -&gt; bool</code> <span class="kindinfo">[added by <a href="../library/mkmf.html">mkmf</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+定数 const がシステムに存在するかどうか検査します。
+</p>
+<p>
+定数 const がシステムに存在する場合は、グローバル変数 <a href="../method/Kernel/v/defs.html">$defs</a> に
+&quot;-DHAVE_CONST_const&quot; (const は大文字に変換されます) を追加し、真を返します。定数 const がシステムに存在しない場合は、偽を返します。
+</p>
+<p>
+const には [定数名, 型] という形式の配列を指定して、定数の型を明示することもできます。
+</p>
+<p>
+例えば、
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'mkmf'</span>
+<span class="nb">p</span> have_const<span class="p">(</span><span class="s1">'FOO'</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+である場合、HAVE_CONST_FOO というプリプロセッサマクロをコンパイラに渡します。
+</p>
+<p>
+型を指定する場合は、以下のように呼び出します。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'mkmf'</span>
+have_const<span class="p">(</span><span class="sx">%w[PTHREAD_MUTEX_INITIALIZER pthread_mutex_t]</span>, <span class="s2">"</span><span class="s2">pthread.h</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
+<dl>
+<dt class='method-param'>[PARAM] <code>const</code>:</dt>
+<dd>
+検査したい定数の名前を指定します。[定数名, 型] という形式の配列も指定できます。
+</dd>
+<dt class='method-param'>[PARAM] <code>headers</code>:</dt>
+<dd>
+追加のヘッダを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>opt</code>:</dt>
+<dd>
+コンパイラに渡す追加のオプションを指定します。
+</dd>
+</dl>
+</dd>
+
+
 <dt class="method-heading" id="I_HAVE_DEVEL--3F"><code>have_devel? -&gt; bool</code><span class="permalink">[<a href="../method/Kernel/i/have_devel=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Kernel.html#method-i-have_devel-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/mkmf.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/mkmf.html">mkmf</a>]</span>
 </dt>
 <dd class="method-description">
@@ -7151,7 +7214,7 @@ $CFLAGS もコンパイラには渡されます。
 C プログラムのソースコード src をプリプロセスします。
 </p>
 <p>
-<code>$CPPFLAGS</code>, <a href="../method/Kernel/v/CFLAGS.html">$CFLAGS</a> の値もプリプロセッサにコマンドライン引数として渡します。
+<a href="../method/Kernel/v/CPPFLAGS.html">$CPPFLAGS</a>, <a href="../method/Kernel/v/CFLAGS.html">$CFLAGS</a> の値もプリプロセッサにコマンドライン引数として渡します。
 </p>
 <p>
 このメソッドはヘッダファイルの存在チェックなどに使用します。

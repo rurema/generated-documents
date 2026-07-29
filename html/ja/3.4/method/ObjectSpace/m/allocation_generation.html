@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="stylesheet" href="../../../search.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/ObjectSpace/m/allocation_generation.html">
+
+<title>ObjectSpace.#allocation_generation (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="objectが生成されたときのガベージコレクタの実行回数(GC.count が返す値と同じもの)を返します。">
+<script src="../../../script.js"></script>
+<script>var index_rel_prefix = "../../../";</script>
+<script src="../../../js/search_data.js"></script>
+<script src="../../../js/search_navigation.js"></script>
+<script src="../../../js/search_ranker.js"></script>
+<script src="../../../js/search_controller.js"></script>
+<script src="../../../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../../../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../../../doc/index.html">Ruby 3.4 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/objspace.html","name":"objspaceライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/ObjectSpace.html","name":"ObjectSpaceモジュール","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/ObjectSpace/m/allocation_generation.html","name":"allocation_generation","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/objspace.html">objspaceライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/ObjectSpace.html">ObjectSpaceモジュール</a>
+      </li>
+      <li>
+        allocation_generation 
+      </li>
+    </ol>
+  </nav>
+
+<h1>module function ObjectSpace.#allocation_generation</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="M_ALLOCATION_GENERATION"><code>allocation_generation(object) -&gt; Integer | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../../../method/ObjectSpace/m/allocation_generation.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/ObjectSpace.html#method-c-allocation_generation">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../../../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+objectが生成されたときのガベージコレクタの実行回数(<a href="../../../method/GC/s/count.html">GC.count</a> が返す値と同じもの)を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>object</code>:</dt>
+<dd>
+生成時のガベージコレクタの実行回数を取得したいobjectを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+objectが生成されたときのガベージコレクタの実行回数を返します。存在しない場合はnilを返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">B</span>
+  include <span class="no">ObjectSpace</span>
+
+  <span class="k">def</span> <span class="nf">foo</span>
+    trace_object_allocations <span class="k">do</span>
+      obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span>
+      <span class="nb">p</span> <span class="s2">"</span><span class="s2">Generation is </span><span class="si">#{</span><span class="n">allocation_generation</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">B</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">foo</span>
+<span class="c1"># =&gt; &quot;Generation is 4&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace.#trace_object_allocations_start</a>,
+<a href="../../../method/ObjectSpace/m/trace_object_allocations_stop.html">ObjectSpace.#trace_object_allocations_stop</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

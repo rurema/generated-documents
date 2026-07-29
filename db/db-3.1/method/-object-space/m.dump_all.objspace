@@ -1,0 +1,55 @@
+names=dump_all
+visibility=public
+kind=added
+source_location=manual/api/objspace.md
+since_by_name=dump_all=3.0
+until_by_name=
+
+### module_function def dump_all(output: :file, full: false, since: nil) -> String | File | IO | nil
+
+Ruby のヒープの内容を JSON 形式でダンプします。1行につき1オブジェクト
+(または1ルート、1シェイプ)分の JSON が出力されます。
+
+- **param** `output` -- ダンプ結果の出力先を指定します。指定できる値は
+  [m:ObjectSpace?.dump] の output と同じです(デフォルトは `:file`)。
+- **param** `full` -- 真を指定すると、空きスロット(`T_NONE`)も含めたすべ
+  てのヒープスロットをダンプします。偽の場合(デフォルト)は使用中のスロッ
+  トのみダンプします。
+- **param** `since` -- 0 以上の整数または nil を指定します。正の整数を指
+  定した場合、その世代以降に割り当てられたオブジェクトのみをダンプしま
+  す。現在の世代は [m:GC.count] で取得できます。[m:ObjectSpace?.trace_object_allocations_start]
+  などでオブジェクト割り当てのトレースを有効にしていないオブジェクトは
+  割り当て世代が記録されないため無視されます。nil を指定した場合(デフォ
+  ルト)はすべてのオブジェクトをダンプします。
+
+```ruby title="例"
+require 'objspace'
+
+str = ObjectSpace.dump_all(output: :string)
+puts str.lines.size
+# => 18369 (ヒープの状態に依存するため実行するたびに変わります)
+```
+
+```ruby title="例:sinceで割り当て世代を絞り込む"
+require 'objspace'
+
+ObjectSpace.trace_object_allocations_start
+GC.start
+gen = GC.count
+obj = "new string"
+str = ObjectSpace.dump_all(output: :string, since: gen)
+puts str.lines.size
+ObjectSpace.trace_object_allocations_stop
+# => 234 (実行するたびに変わります)
+```
+
+
+- **raise** `ArgumentError` -- output に [m:ObjectSpace?.dump] で指定できる値以外を指定した場合に発生します。
+
+戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒ
+ントとして扱う必要があります。
+
+本メソッドは C Ruby 以外では動作しない、実験的なメソッドです。出力の
+フォーマットは将来のバージョンで変更される可能性があります。
+
+- **SEE** [m:ObjectSpace?.dump], [m:ObjectSpace?.trace_object_allocations_start]

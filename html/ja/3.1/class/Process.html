@@ -120,6 +120,8 @@ Process がプロセスを表現するクラスではなく、プロセスに対
 <dd>
 <ul class="class-toc">
 
+<li><a href="#S__FORK">_fork</a></li>
+
 <li><a href="#S_ABORT">abort</a></li>
 
 <li><a href="#S_EXEC">exec</a></li>
@@ -142,6 +144,8 @@ Process がプロセスを表現するクラスではなく、プロセスに対
 <ul class="class-toc">
 
 <li><a href="#M_ARGV0">argv0</a></li>
+
+<li><a href="#M_CLOCK_GETRES">clock_getres</a></li>
 
 <li><a href="#M_CLOCK_GETTIME">clock_gettime</a></li>
 
@@ -323,6 +327,51 @@ Process がプロセスを表現するクラスではなく、プロセスに対
 <h2>特異メソッド</h2>
 <dl>
 
+<dt class="method-heading" id="S__FORK"><code>_fork -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/Process/s/_fork.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Process.html#method-c-_fork">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Process.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+fork のための内部 API です。このメソッドを直接呼び出してはいけません。
+</p>
+<p>
+<a href="../method/Kernel/m/fork.html">Kernel.#fork</a>、<a href="../method/Process/s/fork.html">Process.fork</a>、<a href="../method/IO/s/popen.html">IO.popen</a> に &quot;-&quot; を渡した場合に、その内部から呼び出されます。
+</p>
+<p>
+通常のプログラムのためではなく、アプリケーションを監視するライブラリのために用意されています。このメソッドを上書きすると、fork の前後に独自の処理を挟めます。
+</p>
+<p>
+<a href="../method/Process/m/daemon.html">Process.#daemon</a> も fork(2) を用いて実装されることがありますが、そちらはこのメソッドを経由しません。fork を捕捉する目的によっては、
+<a href="../method/Process/m/daemon.html">Process.#daemon</a> も併せて上書きする必要があります。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+子プロセスでは 0 を、親プロセスでは生成した子プロセスのプロセス ID を返します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">ForkMonitor</span>
+  <span class="k">def</span> <span class="nf">_fork</span>
+    pid <span class="o">=</span> <span class="k">super</span>
+    <span class="k">if</span> pid<span class="p">.</span><span class="nf">zero?</span>
+      <span class="nb">puts</span> <span class="s2">"</span><span class="s2">子プロセスです</span><span class="s2">"</span>
+    <span class="k">else</span>
+      <span class="nb">puts</span> <span class="s2">"</span><span class="s2">親プロセスです。子は </span><span class="si">#{</span><span class="n">pid</span><span class="si">}</span><span class="s2"> です</span><span class="s2">"</span>
+    <span class="k">end</span>
+    pid
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="no">Process</span><span class="p">.</span><span class="nf">singleton_class</span><span class="p">.</span><span class="nf">prepend</span><span class="p">(</span><span class="no">ForkMonitor</span><span class="p">)</span>
+
+pid <span class="o">=</span> <span class="nb">fork</span> <span class="p">{</span> <span class="nb">exit</span> <span class="p">}</span>
+<span class="no">Process</span><span class="p">.</span><span class="nf">waitpid</span><span class="p">(</span>pid<span class="p">)</span>
+<span class="c1"># =&gt; 子プロセスです
+</span><span class="c1">#    親プロセスです。子は 70024 です
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Process/s/fork.html">Process.fork</a>, <a href="../method/Kernel/m/fork.html">Kernel.#fork</a>, <a href="../method/Process/m/daemon.html">Process.#daemon</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_ABORT"><code>abort -&gt; ()</code><span class="permalink">[<a href="../method/Process/s/abort.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Process.html#method-c-abort">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Process.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>abort(message) -&gt; ()</code></dt>
 <dd class="method-description">
@@ -495,6 +544,57 @@ command に渡す引数。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Process/m/setproctitle.html">Process.#setproctitle</a>, <a href="../method/Kernel/v/0.html">$0</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_CLOCK_GETRES"><code>clock_getres(clock_id, unit=:float_second) -&gt; Float | Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Process/m/clock_getres.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Process.html#method-c-clock_getres">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Process.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+POSIX の clock_getres() 関数を使って、クロックの分解能を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">clock_getres</span><span class="p">(</span><span class="no">Process</span><span class="o">::</span><span class="no">CLOCK_MONOTONIC</span><span class="p">)</span> <span class="c1"># =&gt; 1.0e-09
+</span></code></pre>
+<dl>
+<dt class='method-param'>[PARAM] <code>clock_id</code>:</dt>
+<dd>
+クロックの種類を指定します。指定できる値は
+<a href="../method/Process/m/clock_gettime.html">Process.#clock_gettime</a> の clock_id と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>unit</code>:</dt>
+<dd>
+返値の型を指定します。<a href="../method/Process/m/clock_gettime.html">Process.#clock_gettime</a> の
+unit に加えて <code>:hertz</code> を指定できます。
+</dd>
+</dl>
+<p>
+<code>:hertz</code> を指定した場合、1秒あたりのクロック数(<code>:float_second</code> の逆数)
+を返します。times() 関数のクロック数(clock tick)や clock() 関数の
+CLOCKS_PER_SEC の正確な値を得るために使えます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">clock_getres</span><span class="p">(</span><span class="ss">:TIMES_BASED_CLOCK_PROCESS_CPUTIME_ID</span>, <span class="ss">:hertz</span><span class="p">)</span>        <span class="c1"># =&gt; 100.0
+</span><span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">clock_getres</span><span class="p">(</span><span class="ss">:TIMES_BASED_CLOCK_PROCESS_CPUTIME_ID</span>, <span class="ss">:float_second</span><span class="p">)</span> <span class="c1"># =&gt; 0.01
+</span></code></pre>
+<p>
+clock_id にシンボルを指定した場合、返される分解能は不正確な場合があります。例えば以下は 1.0e-06(1マイクロ秒)を返しますが、実際の分解能はより粗いことがあります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">clock_getres</span><span class="p">(</span><span class="ss">:GETTIMEOFDAY_BASED_CLOCK_REALTIME</span><span class="p">)</span> <span class="c1"># =&gt; 1.0e-06
+</span></code></pre>
+<p>
+CLOCK_MONOTONIC や CLOCK_MONOTONIC_RAW については、Linux、macOS、BSD、
+AIX の ARM プロセッサや仮想化環境上で、不正確な分解能が報告されています。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>Errno::EINVAL</code>:</dt>
+<dd>
+clock_id がサポートされていない場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Process/m/clock_gettime.html">Process.#clock_gettime</a>
 </p>
 </dd>
 

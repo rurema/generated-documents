@@ -1,0 +1,30 @@
+names=data_loc
+visibility=public
+kind=defined
+source_location=manual/api/prism/ParseResult.md
+since_by_name=data_loc=3.3
+until_by_name=
+
+### def data_loc -> Prism::Location | nil
+
+ソースコード中に `__END__` 行が存在する場合、その行からファイル末尾
+までの範囲を表す `Prism::Location` を返します。`__END__` 以降の内容は
+組み込み定数 `DATA` に読み込まれる部分に対応します。`__END__` が
+存在しない場合は nil を返します。
+
+```ruby title="例"
+require "prism"
+
+result = Prism.parse(<<~RUBY)
+  puts "hi"
+  __END__
+  some data here
+RUBY
+p result.data_loc.class
+# => Prism::Location
+p result.data_loc.slice
+# => "__END__\nsome data here\n"
+
+p Prism.parse("puts 1").data_loc # => nil
+```
+

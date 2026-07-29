@@ -207,6 +207,8 @@ opts<span class="p">.</span><span class="nf">on</span><span class="p">(</span><s
 
 <li><a href="#I_LOAD">load</a></li>
 
+<li><a href="#I_MAKE_SWITCH">make_switch</a></li>
+
 <li><a href="#I_ON">on</a></li>
 
 <li><a href="#I_ON_HEAD">on_head</a></li>
@@ -694,6 +696,47 @@ options <span class="o">=</span> <span class="p">{</span> <span class="ss">a:</s
 
 <span class="nb">p</span> options <span class="c1"># =&gt; {:a=&gt;true, :b=&gt;true}
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_MAKE_SWITCH"><code>make_switch(opts, block = nil) -&gt; Array</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OptionParser/i/make_switch.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OptionParser.html#method-i-make_switch">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/OptionParser.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OptionParser/i/on.html">OptionParser#on</a> や <a href="../method/OptionParser/i/on_head.html">OptionParser#on_head</a>、<a href="../method/OptionParser/i/on_tail.html">OptionParser#on_tail</a>
+などがオプションを登録する際に内部で使う、下請けのメソッドです。
+opts からオプションの短縮形・完全形・引数の変換方法・説明文などを解析し、その結果をまとめた配列を返します。
+</p>
+<p>
+戻り値は以下の要素からなる配列です。
+</p>
+<ul>
+<li>オプションの引数を解析するオブジェクト(<a href="../class/OptionParser=3a=3aSwitch.html">OptionParser::Switch</a> のインスタンス)</li>
+<li>ショートオプション名の配列(&quot;-&quot; を除いた文字列)</li>
+<li>ロングオプション名の配列(&quot;--&quot; を除いた文字列)</li>
+<li>&quot;--[no-]xxx&quot; 形式のオプションを指定した場合の、否定形を扱う同様のオブジェクト(それ以外は nil)</li>
+<li>否定形のロングオプション名の配列(例: &quot;no-xxx&quot;)</li>
+</ul>
+<dl>
+<dt class='method-param'>[PARAM] <code>opts</code>:</dt>
+<dd>
+<a href="../method/OptionParser/i/on.html">OptionParser#on</a> に指定するのと同じ形式の引数の配列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>block</code>:</dt>
+<dd>
+オプションが指定されたときに呼ばれるブロックを指定します。
+opts の要素として <a href="../class/Proc.html">Proc</a> や <a href="../class/Method.html">Method</a> を含めることでも指定できます。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'optparse'</span>
+
+parser <span class="o">=</span> <span class="no">OptionParser</span><span class="p">.</span><span class="nf">new</span>
+switch, short, long, <span class="o">=</span> parser<span class="p">.</span><span class="nf">make_switch</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">-x</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">--example VALUE</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">説明</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> short <span class="c1"># =&gt; [&quot;x&quot;]
+</span><span class="nb">p</span> long  <span class="c1"># =&gt; [&quot;example&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/OptionParser/i/on.html">OptionParser#on</a>
+</p>
 </dd>
 
 

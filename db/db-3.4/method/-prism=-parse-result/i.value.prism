@@ -1,0 +1,28 @@
+names=value
+visibility=public
+kind=defined
+source_location=manual/api/prism/ParseResult.md
+since_by_name=value=3.3
+until_by_name=
+
+### def value -> Prism::ProgramNode
+
+構文解析によって得られた構文木のルートノードを返します。
+[m:Prism?.parse] や [m:Prism?.parse_file] の戻り値として得られる
+`Prism::ParseResult` では、これは常に `Prism::ProgramNode`
+(`Prism::Node` のサブクラス)のインスタンスです。
+
+構文エラーがあった場合でも nil にはならず、prism が構築できた範囲の
+構文木が返ります。エラーの有無は [m:Prism::ParseResult#success?] で
+確認してください。
+
+```ruby title="例"
+require "prism"
+
+result = Prism.parse("1 + 2")
+p result.value.class # => Prism::ProgramNode
+
+result = Prism.parse("1 +")
+p result.value.class # => Prism::ProgramNode (エラーがあっても構文木は返る)
+```
+
