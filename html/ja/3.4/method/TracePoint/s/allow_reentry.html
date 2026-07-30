@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="stylesheet" href="../../../search.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/TracePoint/s/allow_reentry.html">
+
+<title>TracePoint.allow_reentry (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="ブロックの中に限って、TracePoint の再入を許可します。">
+<script src="../../../script.js"></script>
+<script>var index_rel_prefix = "../../../";</script>
+<script src="../../../js/search_data.js"></script>
+<script src="../../../js/search_navigation.js"></script>
+<script src="../../../js/search_ranker.js"></script>
+<script src="../../../js/search_controller.js"></script>
+<script src="../../../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../../../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../../../doc/index.html">Ruby 3.4 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/TracePoint.html","name":"TracePointクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/TracePoint/s/allow_reentry.html","name":"allow_reentry","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/TracePoint.html">TracePointクラス</a>
+      </li>
+      <li>
+        allow_reentry 
+      </li>
+    </ol>
+  </nav>
+
+<h1>singleton method TracePoint.allow_reentry</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="S_ALLOW_REENTRY"><code>allow_reentry { ... } -&gt; object</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../../../method/TracePoint/s/allow_reentry.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/TracePoint.html#method-c-allow_reentry">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/TracePoint.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ブロックの中に限って、TracePoint の再入を許可します。
+</p>
+<p>
+通常、ある TracePoint のコールバックを実行している間は、他に登録されたコールバックは呼ばれません。再入によって混乱が生じるのを避けるためです。このメソッドを使うと、ブロックの中でだけ他のコールバックが呼ばれるようになります。
+</p>
+<p>
+デバッガのように、自身がコールバックの中にいることで他のライブラリのフックを妨げてはいけない場合に使います。ただしコールバックが際限なく呼ばれることがあるため、使用には注意が必要です。特に、あるコールバックの中でそれ自身を呼び出すイベントを発生させると無限に再帰します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+ブロックの評価結果を返します。
+</dd>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+TracePoint のコールバックの外で呼び出した場合に発生します。すでに再入が許可されている場合も同様です。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">helper</span>
+<span class="k">end</span>
+
+inner <span class="o">=</span> <span class="no">TracePoint</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:call</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>tp<span class="o">|</span>
+  <span class="k">next</span> <span class="k">if</span> tp<span class="p">.</span><span class="nf">method_id</span> <span class="o">!=</span> <span class="ss">:helper</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">  inner ハンドラが呼ばれた</span><span class="s2">"</span>
+<span class="k">end</span>
+inner<span class="p">.</span><span class="nf">enable</span>
+
+outer <span class="o">=</span> <span class="no">TracePoint</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:end</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>tp<span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">再入を許可しない場合:</span><span class="s2">"</span>
+  helper
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">再入を許可した場合:</span><span class="s2">"</span>
+  <span class="no">TracePoint</span><span class="p">.</span><span class="nf">allow_reentry</span> <span class="p">{</span> helper <span class="p">}</span>
+<span class="k">end</span>
+outer<span class="p">.</span><span class="nf">enable</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+<span class="k">end</span>
+
+outer<span class="p">.</span><span class="nf">disable</span>
+inner<span class="p">.</span><span class="nf">disable</span>
+
+<span class="c1"># =&gt; 再入を許可しない場合:
+</span><span class="c1">#    再入を許可した場合:
+</span><span class="c1">#      inner ハンドラが呼ばれた
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/TracePoint/s/new.html">TracePoint.new</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/TracePoint.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,23 @@
+names=leading_comments
+visibility=public
+kind=defined
+source_location=manual/api/prism/Location.md
+since_by_name=leading_comments=3.4
+until_by_name=
+
+### def leading_comments -> Array
+
+この位置の前に付くコメント([c:Prism::Comment] のサブクラスの
+インスタンス)の配列を返します。
+[m:Prism::ParseResult#attach_comments!] を呼び出す前は空配列です。
+
+```ruby title="例"
+require "prism"
+
+result = Prism.parse("# leading\na = 1 # trailing\n")
+result.attach_comments!
+loc = result.value.statements.body[0].location
+p loc.leading_comments.map { |c| c.slice }  # => ["# leading"]
+p loc.trailing_comments.map { |c| c.slice } # => ["# trailing"]
+```
+

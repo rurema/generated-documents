@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Prism=3a=3aLocation.html">
+
+<title>class Prism::Location (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="ソースコード上の範囲(開始バイトオフセットと長さ)を表すクラスです。構文木の各ノードのほか、Prism::Comment・Prism::MagicComment・ Prism::ParseError・Prism::ParseWarning・Prism::Token などの `location' メソッドから得られます。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/prism.html","name":"prismライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Prism=3a=3aLocation.html","name":"Prism::Locationクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/prism.html">prismライブラリ</a>
+      </li>
+      <li>
+        Prism::Locationクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Prism::Location</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Prism::Location
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+ソースコード上の範囲(開始バイトオフセットと長さ)を表すクラスです。構文木の各ノードのほか、<a href="../class/Prism=3a=3aComment.html">Prism::Comment</a>・<a href="../class/Prism=3a=3aMagicComment.html">Prism::MagicComment</a>・
+<a href="../class/Prism=3a=3aParseError.html">Prism::ParseError</a>・<a href="../class/Prism=3a=3aParseWarning.html">Prism::ParseWarning</a>・<a href="../class/Prism=3a=3aToken.html">Prism::Token</a> などの
+<code>location</code> メソッドから得られます。
+</p>
+<p>
+行番号・桁位置への変換や、該当範囲の文字列の取り出しなどのメソッドを持ちます。桁位置を表すメソッドには「バイト単位」(<code>start_column</code> など)と「文字単位」(<code>start_character_column</code> など)の系列があります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+node <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = 1 + 2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+loc <span class="o">=</span> node<span class="p">.</span><span class="nf">location</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">slice</span>        <span class="c1"># =&gt; &quot;x = 1 + 2&quot;
+</span><span class="nb">p</span> loc<span class="p">.</span><span class="nf">start_line</span>   <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> loc<span class="p">.</span><span class="nf">start_offset</span> <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> loc<span class="p">.</span><span class="nf">length</span>       <span class="c1"># =&gt; 9
+</span>
+loc <span class="o">=</span> node<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">location</span> <span class="c1"># 右辺の 1 + 2
+</span><span class="nb">p</span> loc<span class="p">.</span><span class="nf">slice</span>        <span class="c1"># =&gt; &quot;1 + 2&quot;
+</span><span class="nb">p</span> loc<span class="p">.</span><span class="nf">start_column</span> <span class="c1"># =&gt; 4
+</span></code></pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_--3D--3D">==</a></li>
+
+<li><a href="#I_ADJOIN">adjoin</a></li>
+
+<li><a href="#I_CHOP">chop</a></li>
+
+<li><a href="#I_COMMENTS">comments</a></li>
+
+<li><a href="#I_COPY">copy</a></li>
+
+<li><a href="#I_END_CHARACTER_COLUMN">end_character_column</a></li>
+
+<li><a href="#I_END_CHARACTER_OFFSET">end_character_offset</a></li>
+
+<li><a href="#I_END_CODE_UNITS_COLUMN">end_code_units_column</a></li>
+
+<li><a href="#I_END_CODE_UNITS_OFFSET">end_code_units_offset</a></li>
+
+<li><a href="#I_END_COLUMN">end_column</a></li>
+
+<li><a href="#I_END_LINE">end_line</a></li>
+
+<li><a href="#I_END_OFFSET">end_offset</a></li>
+
+<li><a href="#I_JOIN">join</a></li>
+
+<li><a href="#I_LEADING_COMMENTS">leading_comments</a></li>
+
+<li><a href="#I_LENGTH">length</a></li>
+
+<li><a href="#I_SLICE">slice</a></li>
+
+<li><a href="#I_SLICE_LINES">slice_lines</a></li>
+
+<li><a href="#I_SOURCE_LINES">source_lines</a></li>
+
+<li><a href="#I_START_CHARACTER_COLUMN">start_character_column</a></li>
+
+<li><a href="#I_START_CHARACTER_OFFSET">start_character_offset</a></li>
+
+<li><a href="#I_START_CODE_UNITS_COLUMN">start_code_units_column</a></li>
+
+<li><a href="#I_START_CODE_UNITS_OFFSET">start_code_units_offset</a></li>
+
+<li><a href="#I_START_COLUMN">start_column</a></li>
+
+<li><a href="#I_START_LINE">start_line</a></li>
+
+<li><a href="#I_START_LINE_SLICE">start_line_slice</a></li>
+
+<li><a href="#I_START_OFFSET">start_offset</a></li>
+
+<li><a href="#I_TRAILING_COMMENTS">trailing_comments</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--3D--3D"><code>self == other -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+other が同じ範囲を表す <code>Prism::Location</code> であれば true を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>other</code>:</dt>
+<dd>
+比較対象のオブジェクト
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_ADJOIN"><code>adjoin(string) -&gt; Prism::Location</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/adjoin.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-adjoin">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の直後に続くソースコードが string と一致する場合に、その分だけ範囲を伸ばした新しい <code>Prism::Location</code> を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+取り込む文字列
+</dd>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+範囲の直後が string と一致しない場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_CHOP"><code>chop -&gt; Prism::Location</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/chop.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-chop">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+末尾の 1 バイトを除いた新しい <code>Prism::Location</code> を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_COMMENTS"><code>comments -&gt; Array</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/comments.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-comments">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+この位置に関連付けられたコメント(<a href="../class/Prism=3a=3aComment.html">Prism::Comment</a> のサブクラスのインスタンス)の配列を返します。前に付くコメント、後ろに付くコメントの順に並びます。
+</p>
+<p>
+コメントの関連付けは <a href="../method/Prism=3a=3aParseResult/i/attach_comments=21.html">Prism::ParseResult#attach_comments!</a> を呼び出したときに行われます。呼び出す前は空配列です。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_COPY"><code>copy(source: self.source, start_offset: self.start_offset, length: self.length) -&gt; Prism::Location</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/copy.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-copy">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+指定した属性だけを差し替えた新しい <code>Prism::Location</code> を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_END_CHARACTER_COLUMN"><code>end_character_column -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/end_character_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-end_character_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の終端位置の、行頭からの文字単位の桁位置(0 origin)を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+loc <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'s = &quot;あい&quot; + x'</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">end_column</span>           <span class="c1"># =&gt; 16 (バイト単位)
+</span><span class="nb">p</span> loc<span class="p">.</span><span class="nf">end_character_column</span> <span class="c1"># =&gt; 12 (文字単位)
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_END_CHARACTER_OFFSET"><code>end_character_offset -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/end_character_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-end_character_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の終端位置の、ソースコード先頭からの文字単位のオフセットを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_END_CODE_UNITS_COLUMN"><code>end_code_units_column(encoding = Encoding::UTF_16LE) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/end_code_units_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-end_code_units_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の終端位置の、行頭からの指定エンコーディングのコード単位での桁位置を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_END_CODE_UNITS_OFFSET"><code>end_code_units_offset(encoding = Encoding::UTF_16LE) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/end_code_units_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-end_code_units_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の終端位置の、指定エンコーディングのコード単位でのオフセットを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_END_COLUMN"><code>end_column -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/end_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-end_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の終端位置の、行頭からのバイト単位の桁位置(0 origin)を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_END_LINE"><code>end_line -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/end_line.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-end_line">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の終端位置がある行の行番号を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_END_OFFSET"><code>end_offset -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/end_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-end_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の終端位置(最後のバイトの次)のバイトオフセットを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_JOIN"><code>join(other) -&gt; Prism::Location</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/join.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-join">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身の開始位置から other の終端位置までを表す新しい
+<code>Prism::Location</code> を返します。間にある文字列も範囲に含まれます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>other</code>:</dt>
+<dd>
+結合する <code>Prism::Location</code>。自身より後ろにある必要があります。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+body <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo = 1\nbar = 2\n</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span>
+<span class="nb">p</span> body<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span>body<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span><span class="p">)</span><span class="p">.</span><span class="nf">slice</span>
+<span class="c1"># =&gt; &quot;foo = 1\nbar = 2&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_LEADING_COMMENTS"><code>leading_comments -&gt; Array</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/leading_comments.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-leading_comments">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+この位置の前に付くコメント(<a href="../class/Prism=3a=3aComment.html">Prism::Comment</a> のサブクラスのインスタンス)の配列を返します。
+<a href="../method/Prism=3a=3aParseResult/i/attach_comments=21.html">Prism::ParseResult#attach_comments!</a> を呼び出す前は空配列です。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2"># leading\na = 1 # trailing\n</span><span class="s2">"</span><span class="p">)</span>
+result<span class="p">.</span><span class="nf">attach_comments!</span>
+loc <span class="o">=</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">leading_comments</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span>c<span class="o">|</span> c<span class="p">.</span><span class="nf">slice</span> <span class="p">}</span>  <span class="c1"># =&gt; [&quot;# leading&quot;]
+</span><span class="nb">p</span> loc<span class="p">.</span><span class="nf">trailing_comments</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span>c<span class="o">|</span> c<span class="p">.</span><span class="nf">slice</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;# trailing&quot;]
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_LENGTH"><code>length -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/length.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-length">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲のバイト数を返します。<code>end_offset - start_offset</code> と同じです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SLICE"><code>slice -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/slice.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-slice">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲に対応するソースコードの文字列を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SLICE_LINES"><code>slice_lines -&gt; String</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/slice_lines.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-slice_lines">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲を含む行全体(開始行の行頭から終端行の行末まで)の文字列を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SOURCE_LINES"><code>source_lines -&gt; Array</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/source_lines.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-source_lines">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ソースコード全体を行ごとに分割した配列を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_START_CHARACTER_COLUMN"><code>start_character_column -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/start_character_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-start_character_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の開始位置の、行頭からの文字単位の桁位置(0 origin)を返します。マルチバイト文字を含む行では <a href="../method/Prism=3a=3aLocation/i/start_column.html">Prism::Location#start_column</a> と異なる値になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_START_CHARACTER_OFFSET"><code>start_character_offset -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/start_character_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-start_character_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の開始位置の、ソースコード先頭からの文字単位のオフセットを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_START_CODE_UNITS_COLUMN"><code>start_code_units_column(encoding = Encoding::UTF_16LE) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/start_code_units_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-start_code_units_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の開始位置の、行頭からの指定エンコーディングのコード単位での桁位置を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_START_CODE_UNITS_OFFSET"><code>start_code_units_offset(encoding = Encoding::UTF_16LE) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/start_code_units_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-start_code_units_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の開始位置の、指定エンコーディングのコード単位でのオフセットを返します。UTF-16 のコード単位で位置をやりとりする
+LSP(Language Server Protocol)などとの連携向けです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>encoding</code>:</dt>
+<dd>
+コード単位の基準となるエンコーディング
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_START_COLUMN"><code>start_column -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/start_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-start_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の開始位置の、行頭からのバイト単位の桁位置(0 origin)を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_START_LINE"><code>start_line -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/start_line.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-start_line">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の開始位置がある行の行番号を返します。行番号は 1 から始まります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_START_LINE_SLICE"><code>start_line_slice -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/start_line_slice.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-start_line_slice">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+開始位置がある行の、行頭から開始位置の直前までの文字列を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+loc <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = 1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">location</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">slice</span>            <span class="c1"># =&gt; &quot;1&quot;
+</span><span class="nb">p</span> loc<span class="p">.</span><span class="nf">start_line_slice</span> <span class="c1"># =&gt; &quot;x = &quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_START_OFFSET"><code>start_offset -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/start_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-start_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+範囲の開始位置のバイトオフセットを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TRAILING_COMMENTS"><code>trailing_comments -&gt; Array</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/trailing_comments.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Location.html#method-i-trailing_comments">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+この位置の後ろに付くコメントの配列を返します。
+<a href="../method/Prism=3a=3aParseResult/i/attach_comments=21.html">Prism::ParseResult#attach_comments!</a> を呼び出す前は空配列です。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

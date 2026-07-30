@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-29-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-30-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -169,6 +169,8 @@
 <li><a href="#S_--5B--5D">[]</a></li>
 
 <li><a href="#S_NEW">new</a></li>
+
+<li><a href="#S_RUBY2_KEYWORDS_HASH">ruby2_keywords_hash</a></li>
 
 <li><a href="#S_RUBY2_KEYWORDS_HASH--3F">ruby2_keywords_hash?</a></li>
 
@@ -733,7 +735,56 @@ h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </dd>
 
 
-<dt class="method-heading" id="S_RUBY2_KEYWORDS_HASH--3F"><code>ruby2_keywords_hash?(hash) -&gt; bool</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Hash/s/ruby2_keywords_hash=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Hash.html#method-c-ruby2_keywords_hash-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Hash.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_RUBY2_KEYWORDS_HASH"><code>ruby2_keywords_hash(hash) -&gt; Hash</code><span class="method-since-badge">Ruby 2.7.1 から</span><span class="permalink">[<a href="../method/Hash/s/ruby2_keywords_hash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Hash.html#method-c-ruby2_keywords_hash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Hash.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+hash を複製し、<a href="../method/Module/i/ruby2_keywords.html">Module#ruby2_keywords</a>や<a href="../method/Proc/i/ruby2_keywords.html">Proc#ruby2_keywords</a>による
+ruby2_keywords フラグを立てたハッシュを返します。
+</p>
+<p>
+このメソッドはデバッグや調査、引数のデシリアライズのように本当に必要な場合のために用意されていて、普通のプログラムで使うことは想定されていません。
+</p>
+<p>
+複製を返すため、元の hash にフラグは立ちません。
+</p>
+<p>
+ruby 2.7.1 で追加されたため、ruby 2.7.0 では定義されていません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>hash</code>:</dt>
+<dd>
+ruby2_keywords フラグを立てる <a href="../class/Hash.html">Hash</a> を指定します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+hash が <a href="../class/Hash.html">Hash</a> でない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>h <span class="o">=</span> <span class="p">{</span><span class="ss">k:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="nb">p</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">ruby2_keywords_hash?</span><span class="p">(</span>h<span class="p">)</span>       <span class="c1"># =&gt; false
+</span>
+flagged <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">ruby2_keywords_hash</span><span class="p">(</span>h<span class="p">)</span>
+<span class="nb">p</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">ruby2_keywords_hash?</span><span class="p">(</span>flagged<span class="p">)</span> <span class="c1"># =&gt; true
+</span>
+<span class="c1"># 元のハッシュにはフラグが立たない
+</span><span class="nb">p</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">ruby2_keywords_hash?</span><span class="p">(</span>h<span class="p">)</span>       <span class="c1"># =&gt; false
+</span></code></pre>
+<span class="caption">例: フラグを立てたハッシュは配列で渡してもキーワード引数になる</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="ss">k:</span> <span class="mi">42</span><span class="p">)</span>
+  k
+<span class="k">end</span>
+
+<span class="nb">p</span> foo<span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="no">Hash</span><span class="p">.</span><span class="nf">ruby2_keywords_hash</span><span class="p">(</span><span class="p">{</span><span class="ss">k:</span> <span class="mi">1</span><span class="p">}</span><span class="p">)</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span>
+foo<span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="p">{</span><span class="ss">k:</span> <span class="mi">1</span><span class="p">}</span><span class="p">]</span><span class="p">)</span>                             <span class="c1"># ~&gt; ArgumentError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Hash/s/ruby2_keywords_hash=3f.html">Hash.ruby2_keywords_hash?</a>, <a href="../method/Module/i/ruby2_keywords.html">Module#ruby2_keywords</a>, <a href="../method/Proc/i/ruby2_keywords.html">Proc#ruby2_keywords</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_RUBY2_KEYWORDS_HASH--3F"><code>ruby2_keywords_hash?(hash) -&gt; bool</code><span class="method-since-badge">Ruby 2.7.1 から</span><span class="permalink">[<a href="../method/Hash/s/ruby2_keywords_hash=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Hash.html#method-c-ruby2_keywords_hash-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Hash.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 <a href="../method/Module/i/ruby2_keywords.html">Module#ruby2_keywords</a>や<a href="../method/Proc/i/ruby2_keywords.html">Proc#ruby2_keywords</a>による
@@ -1581,7 +1632,7 @@ self にデフォルト値が設定されていても無視されます（挙動
 <dt class="method-heading"><code>filter {|key, value| ... } -&gt; Hash</code><span class="method-since-badge">Ruby 2.6.0 から</span></dt>
 <dd class="method-description">
 <p>
-key, value のペアについてブロックを評価し，真となるペアだけを含むハッシュを生成して返します。
+key, value のペアについてブロックを評価し、真となるペアだけを含むハッシュを生成して返します。
 </p>
 <p>
 ブロックが与えられなかった場合は、自身と select から生成した
@@ -1957,10 +2008,10 @@ bar <span class="o">=</span> <span class="p">{</span><span class="mi">2</span> <
 <dt class="method-heading" id="I_RASSOC"><code>rassoc(value) -&gt; Array | nil</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Hash/i/rassoc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Hash.html#method-i-rassoc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Hash.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-ハッシュ内を検索して，引数 value と 一致する値を探します。
+ハッシュ内を検索して、引数 value と 一致する値を探します。
 </p>
 <p>
-比較は == メソッドを使用して行われます。一致する値があれば，該当するキーとその値とを要素とするサイズ 2 の配列を返します。ない場合には nil を返します。
+比較は == メソッドを使用して行われます。一致する値があれば、該当するキーとその値とを要素とするサイズ 2 の配列を返します。ない場合には nil を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>value</code>:</dt>

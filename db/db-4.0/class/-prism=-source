@@ -1,0 +1,30 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=prism
+aliases=
+aliasof=
+source_location=manual/api/prism/Source.md
+
+解析対象のソースコード全体と各行の開始オフセットの表を保持し、
+バイトオフセットから行番号・桁位置への変換などを提供するクラスです。
+[m:Prism::ParseResult#source] で得られます。
+
+実際に得られるインスタンスは、ASCII のみのソース向けに最適化された
+サブクラス `Prism::ASCIISource` の場合があります。クラスの判定を
+する場合は `instance_of?` ではなく `is_a?(Prism::Source)` を使って
+ください。
+
+
+```ruby title="例"
+require "prism"
+
+source = Prism.parse("foo = 1\nbar = 2\nbaz = foo + bar\n").source
+p source.source[0, 7] # => "foo = 1"
+p source.line(9)      # => 2 (バイトオフセット 9 は 2 行目)
+p source.column(9)    # => 1
+p source.offsets      # => [0, 8, 16, 32]
+```

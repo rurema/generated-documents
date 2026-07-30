@@ -5,9 +5,10 @@ source_location=manual/api/prism.md
 since_by_name=lex=3.3
 until_by_name=
 
-### module_function def lex(source, **options) -> Prism::LexResult
+### module_function def lex(source, **options) -> Prism::ParseResult
 
-`source` を字句解析し、`Prism::LexResult` のインスタンスを返します。
+`source` を字句解析します。Ruby 3.3 の prism には字句解析専用の
+結果クラスがないため、戻り値は [c:Prism::ParseResult] のインスタンスです。
 `value` は `[トークン, 直前からの字句解析器の状態(Integer)]` という
 2 要素配列の配列です。これは [c:Ripper] の [m:Ripper.lex] の戻り値の
 形式に近いものになっています。オプションは [m:Prism?.parse] と同じです。
@@ -20,7 +21,6 @@ until_by_name=
 require "prism"
 
 result = Prism.lex("1 + 2")
-p result.class   # => Prism::LexResult
 result.value.each { |token, state| p [token.type, token.value, state] }
 # => [:INTEGER, "1", 2]
 # => [:PLUS, "+", 1]

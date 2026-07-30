@@ -129,6 +129,8 @@
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_ATTACH_COMMENTS--21">attach_comments!</a></li>
+
 <li><a href="#I_COMMENTS">comments</a></li>
 
 <li><a href="#I_DATA_LOC">data_loc</a></li>
@@ -164,10 +166,29 @@
 <h2>インスタンスメソッド</h2>
 <dl>
 
+<dt class="method-heading" id="I_ATTACH_COMMENTS--21"><code>attach_comments! -&gt; Array</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aParseResult/i/attach_comments=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/ParseResult.html#method-i-attach_comments-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/ParseResult.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Prism=3a=3aParseResult/i/comments.html">Prism::ParseResult#comments</a> の各コメントを、前後の位置関係から構文木の各ノードの位置情報(<a href="../class/Prism=3a=3aLocation.html">Prism::Location</a>)に関連付けます。関連付けた結果は <a href="../method/Prism=3a=3aLocation/i/comments.html">Prism::Location#comments</a> で参照できます。
+</p>
+<p>
+戻り値は <a href="../method/Prism=3a=3aParseResult/i/comments.html">Prism::ParseResult#comments</a> と同じ配列です。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2"># leading\na = 1\n</span><span class="s2">"</span><span class="p">)</span>
+result<span class="p">.</span><span class="nf">attach_comments!</span>
+loc <span class="o">=</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span>c<span class="o">|</span> c<span class="p">.</span><span class="nf">location</span><span class="p">.</span><span class="nf">slice</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;# leading&quot;]
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_COMMENTS"><code>comments -&gt; Array</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aParseResult/i/comments.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/ParseResult.html#method-i-comments">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/ParseResult.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-構文解析中に見つかったコメント(<code>Prism::InlineComment</code> などのインスタンス)の配列を返します。<a href="../method/Prism/m/parse_comments.html">Prism.#parse_comments</a> を呼び出した場合と同じ内容です。
+構文解析中に見つかったコメント(<a href="../class/Prism=3a=3aComment.html">Prism::Comment</a> のサブクラスのインスタンス)の配列を返します。<a href="../method/Prism/m/parse_comments.html">Prism.#parse_comments</a> を呼び出した場合と同じ内容です。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
@@ -186,7 +207,7 @@ comments <span class="o">=</span> <span class="no">Prism</span><span class="p">.
 <dt class="method-heading" id="I_DATA_LOC"><code>data_loc -&gt; Prism::Location | nil</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aParseResult/i/data_loc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/ParseResult.html#method-i-data_loc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/ParseResult.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-ソースコード中に <code>__END__</code> 行が存在する場合、その行からファイル末尾までの範囲を表す <code>Prism::Location</code> を返します。<code>__END__</code> 以降の内容は組み込み定数 <code>DATA</code> に読み込まれる部分に対応します。<code>__END__</code> が存在しない場合は nil を返します。
+ソースコード中に <code>__END__</code> 行が存在する場合、その行からファイル末尾までの範囲を表す <a href="../class/Prism=3a=3aLocation.html">Prism::Location</a> を返します。<code>__END__</code> 以降の内容は組み込み定数 <code>DATA</code> に読み込まれる部分に対応します。<code>__END__</code> が存在しない場合は nil を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
@@ -209,8 +230,7 @@ result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 <dt class="method-heading" id="I_ERRORS"><code>errors -&gt; Array</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aParseResult/i/errors.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/ParseResult.html#method-i-errors">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/ParseResult.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-構文解析中に発生したエラー(<code>Prism::ParseError</code> のインスタンス)の配列を返します。エラーがなければ空配列です。それぞれの要素は
-<code>type</code>、<code>message</code>、<code>location</code>、<code>level</code> といったメソッドを持ちます。
+構文解析中に発生したエラー(<a href="../class/Prism=3a=3aParseError.html">Prism::ParseError</a> のインスタンス)の配列を返します。エラーがなければ空配列です。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
@@ -247,7 +267,7 @@ errors <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 <dt class="method-heading" id="I_MAGIC_COMMENTS"><code>magic_comments -&gt; Array</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aParseResult/i/magic_comments.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/ParseResult.html#method-i-magic_comments">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/ParseResult.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-構文解析中に見つかったマジックコメント(<code>Prism::MagicComment</code> のインスタンス)の配列を返します。<code># frozen_string_literal: true</code> のような、Ruby の動作に影響を与える特別な形式のコメントが対象です。各要素は <code>key</code>(項目名)と <code>value</code>(値)を持ちます。
+構文解析中に見つかったマジックコメント(<a href="../class/Prism=3a=3aMagicComment.html">Prism::MagicComment</a> のインスタンス)の配列を返します。<code># frozen_string_literal: true</code> のような、Ruby の動作に影響を与える特別な形式のコメントが対象です。各要素は <code>key</code>(項目名)と <code>value</code>(値)を持ちます。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
@@ -266,14 +286,13 @@ result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 <dt class="method-heading" id="I_SOURCE"><code>source -&gt; Prism::Source</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aParseResult/i/source.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/ParseResult.html#method-i-source">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/ParseResult.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-解析したソースコードそのものを表す <code>Prism::Source</code>
-(またはそのサブクラス <code>Prism::ASCIISource</code>)のインスタンスを返します。バイトオフセットから行番号・カラム番号を求めるなど、位置情報を扱うための補助的なメソッドを持っていますが、詳細はこのリファレンスでは扱いません。
+解析したソースコードそのものを表す <a href="../class/Prism=3a=3aSource.html">Prism::Source</a> のインスタンスを返します。バイトオフセットから行番号・桁位置を求めるなど、位置情報を扱うための補助的なメソッドを持ちます。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
 
 result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">p</span> result<span class="p">.</span><span class="nf">source</span><span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; Prism::ASCIISource
+<span class="nb">p</span> result<span class="p">.</span><span class="nf">source</span><span class="p">.</span><span class="nf">is_a?</span><span class="p">(</span><span class="no">Prism</span><span class="o">::</span><span class="no">Source</span><span class="p">)</span> <span class="c1"># =&gt; true
 </span></code></pre>
 </dd>
 
@@ -322,7 +341,7 @@ result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 <dt class="method-heading" id="I_WARNINGS"><code>warnings -&gt; Array</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aParseResult/i/warnings.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/ParseResult.html#method-i-warnings">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/ParseResult.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-構文解析中に発生した警告(<code>Prism::ParseWarning</code> のインスタンス)の配列を返します。警告がなければ空配列です。要素が持つメソッドのインターフェースは <a href="../method/Prism=3a=3aParseResult/i/errors.html">Prism::ParseResult#errors</a> と同様です。
+構文解析中に発生した警告(<a href="../class/Prism=3a=3aParseWarning.html">Prism::ParseWarning</a> のインスタンス)の配列を返します。警告がなければ空配列です。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
