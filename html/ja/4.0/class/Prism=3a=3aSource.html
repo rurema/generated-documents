@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Prism=3a=3aSource.html">
+
+<title>class Prism::Source (Ruby 4.0 リファレンスマニュアル)</title>
+<meta name="description" content="解析対象のソースコード全体と各行の開始オフセットの表を保持し、バイトオフセットから行番号・桁位置への変換などを提供するクラスです。 Prism::ParseResult#source で得られます。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/4.0-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/prism.html","name":"prismライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Prism=3a=3aSource.html","name":"Prism::Sourceクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/prism.html">prismライブラリ</a>
+      </li>
+      <li>
+        Prism::Sourceクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Prism::Source</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Prism::Source
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+解析対象のソースコード全体と各行の開始オフセットの表を保持し、バイトオフセットから行番号・桁位置への変換などを提供するクラスです。
+<a href="../method/Prism=3a=3aParseResult/i/source.html">Prism::ParseResult#source</a> で得られます。
+</p>
+<p>
+実際に得られるインスタンスは、ASCII のみのソース向けに最適化されたサブクラス <code>Prism::ASCIISource</code> の場合があります。クラスの判定をする場合は <code>instance_of?</code> ではなく <code>is_a?(Prism::Source)</code> を使ってください。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+source <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo = 1\nbar = 2\nbaz = foo + bar\n</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">source</span>
+<span class="nb">p</span> source<span class="p">.</span><span class="nf">source</span><span class="p">[</span><span class="mi">0</span>, <span class="mi">7</span><span class="p">]</span> <span class="c1"># =&gt; &quot;foo = 1&quot;
+</span><span class="nb">p</span> source<span class="p">.</span><span class="nf">line</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>      <span class="c1"># =&gt; 2 (バイトオフセット 9 は 2 行目)
+</span><span class="nb">p</span> source<span class="p">.</span><span class="nf">column</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>    <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> source<span class="p">.</span><span class="nf">offsets</span>      <span class="c1"># =&gt; [0, 8, 16, 32]
+</span></code></pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_BYTE_OFFSET">byte_offset</a></li>
+
+<li><a href="#I_CHARACTER_COLUMN">character_column</a></li>
+
+<li><a href="#I_CHARACTER_OFFSET">character_offset</a></li>
+
+<li><a href="#I_CODE_UNITS_COLUMN">code_units_column</a></li>
+
+<li><a href="#I_CODE_UNITS_OFFSET">code_units_offset</a></li>
+
+<li><a href="#I_COLUMN">column</a></li>
+
+<li><a href="#I_ENCODING">encoding</a></li>
+
+<li><a href="#I_LINE">line</a></li>
+
+<li><a href="#I_LINE_END">line_end</a></li>
+
+<li><a href="#I_LINE_START">line_start</a></li>
+
+<li><a href="#I_LINES">lines</a></li>
+
+<li><a href="#I_OFFSETS">offsets</a></li>
+
+<li><a href="#I_SLICE">slice</a></li>
+
+<li><a href="#I_SOURCE">source</a></li>
+
+<li><a href="#I_START_LINE">start_line</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_BYTE_OFFSET"><code>byte_offset(line, column) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/byte_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-byte_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+行番号と桁位置からバイトオフセットを求めます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>line</code>:</dt>
+<dd>
+行番号(1 origin)
+</dd>
+<dt class='method-param'>[PARAM] <code>column</code>:</dt>
+<dd>
+行頭からのバイト単位の桁位置(0 origin)
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+source <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo = 1\nbar = 2\n</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">source</span>
+<span class="nb">p</span> source<span class="p">.</span><span class="nf">byte_offset</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; 9
+</span><span class="nb">p</span> source<span class="p">.</span><span class="nf">line</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>           <span class="c1"># =&gt; 2
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_CHARACTER_COLUMN"><code>character_column(byte_offset) -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/character_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-character_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+byte_offset の位置の、行頭からの文字単位の桁位置(0 origin)を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>byte_offset</code>:</dt>
+<dd>
+バイトオフセット
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_CHARACTER_OFFSET"><code>character_offset(byte_offset) -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/character_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-character_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+byte_offset に対応する、ソースコード先頭からの文字単位のオフセットを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>byte_offset</code>:</dt>
+<dd>
+バイトオフセット
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_CODE_UNITS_COLUMN"><code>code_units_column(byte_offset, encoding) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/code_units_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-code_units_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+byte_offset の位置の、行頭からの指定エンコーディングのコード単位での桁位置を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>byte_offset</code>:</dt>
+<dd>
+バイトオフセット
+</dd>
+<dt class='method-param'>[PARAM] <code>encoding</code>:</dt>
+<dd>
+コード単位の基準となるエンコーディング
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_CODE_UNITS_OFFSET"><code>code_units_offset(byte_offset, encoding) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/code_units_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-code_units_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+byte_offset に対応する、指定エンコーディングのコード単位でのオフセットを返します。UTF-16 のコード単位で位置をやりとりする
+LSP(Language Server Protocol)などとの連携向けです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>byte_offset</code>:</dt>
+<dd>
+バイトオフセット
+</dd>
+<dt class='method-param'>[PARAM] <code>encoding</code>:</dt>
+<dd>
+コード単位の基準となるエンコーディング
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_COLUMN"><code>column(byte_offset) -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+byte_offset の位置の、行頭からのバイト単位の桁位置(0 origin)を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>byte_offset</code>:</dt>
+<dd>
+バイトオフセット
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_ENCODING"><code>encoding -&gt; Encoding</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/encoding.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-encoding">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ソースコードのエンコーディングを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LINE"><code>line(byte_offset) -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/line.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-line">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+byte_offset の位置がある行の行番号を返します。行番号は 1 から始まります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>byte_offset</code>:</dt>
+<dd>
+バイトオフセット
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_LINE_END"><code>line_end(byte_offset) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/line_end.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-line_end">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+byte_offset の位置がある行の終端のバイトオフセット(次の行の行頭と同じ位置)を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>byte_offset</code>:</dt>
+<dd>
+バイトオフセット
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_LINE_START"><code>line_start(byte_offset) -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/line_start.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-line_start">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+byte_offset の位置がある行の、行頭のバイトオフセットを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>byte_offset</code>:</dt>
+<dd>
+バイトオフセット
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_LINES"><code>lines -&gt; Array</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/lines.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-lines">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ソースコードを行ごと(改行を含む)に分割した配列を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_OFFSETS"><code>offsets -&gt; Array</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/offsets.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-offsets">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+各行の開始バイトオフセットの配列を返します。末尾にはソースコード全体のバイト数が入ります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SLICE"><code>slice(byte_offset, length) -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/slice.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-slice">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+byte_offset から length バイト分のソースコードを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>byte_offset</code>:</dt>
+<dd>
+開始バイトオフセット
+</dd>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+バイト数
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_SOURCE"><code>source -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/source.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-source">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ソースコード全体を文字列で返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_START_LINE"><code>start_line -&gt; Integer</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/start_line.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Source.html#method-i-start_line">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+先頭行の行番号を返します。通常は 1 です。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

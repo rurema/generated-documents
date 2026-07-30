@@ -149,6 +149,23 @@ set1<span class="p">.</span><span class="nf">add</span><span class="p">(</span><
 set1<span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">p</span> set1                  <span class="c1"># =&gt; Set[&quot;bar&quot;, &quot;baz&quot;, &quot;heh&quot;]
 </span></code></pre>
+<h2 id='subclass'>Set のサブクラスを作る</h2>
+<p>
+Ruby 4.0 で Set は C で再実装され、一部のメソッドの振る舞いが変わりました。
+Set を継承してサブクラスを作る場合、互換性を必要とするかどうかで継承元を選べます。
+</p>
+<p>
+古い実装との互換性が必要な場合は、Set を直接継承します。この場合は互換レイヤが自動的に組み込まれ、振る舞いが古い実装に近くなります。
+</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MySet</span> <span class="o">&lt;</span> <span class="no">Set</span>; <span class="k">end</span>
+<span class="nb">p</span> <span class="no">MySet</span><span class="p">[</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">]</span>      <span class="c1"># =&gt; #&lt;MySet: {[1, 2, 3]}&gt;
+</span></code></pre>
+<p>
+互換性が不要な場合は、<a href="../class/Set=3a=3aCoreSet.html">Set::CoreSet</a> を継承します。互換レイヤを挟まないぶん効率的です。
+</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">MyCoreSet</span> <span class="o">&lt;</span> <span class="no">Set</span><span class="o">::</span><span class="no">CoreSet</span>; <span class="k">end</span>
+<span class="nb">p</span> <span class="no">MyCoreSet</span><span class="p">[</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">]</span>  <span class="c1"># =&gt; MyCoreSet[[1, 2, 3]]
+</span></code></pre>
 
 
 

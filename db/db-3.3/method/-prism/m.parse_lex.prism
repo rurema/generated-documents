@@ -5,11 +5,12 @@ source_location=manual/api/prism.md
 since_by_name=parse_lex=3.3
 until_by_name=
 
-### module_function def parse_lex(source, **options) -> Prism::ParseLexResult
+### module_function def parse_lex(source, **options) -> Prism::ParseResult
 
-`source` に対して構文解析と字句解析の両方を行い、
-`Prism::ParseLexResult` のインスタンスを返します。`value` は
-`[構文木, トークンの配列]` という 2 要素配列です。
+`source` に対して構文解析と字句解析の両方を行います。Ruby 3.3 の
+prism には専用の結果クラスがないため、戻り値は
+[c:Prism::ParseResult] のインスタンスで、`value` が
+`[構文木, トークンの配列]` という 2 要素配列になります。
 
 構文木とトークン列の両方が必要な場合、[m:Prism?.parse] と [m:Prism?.lex]
 を個別に呼び出すよりも効率的です。片方だけが必要な場合はそれぞれ
@@ -24,7 +25,6 @@ until_by_name=
 require "prism"
 
 result = Prism.parse_lex("1 + 2")
-p result.class # => Prism::ParseLexResult
 
 ast, tokens = result.value
 p ast.class    # => Prism::ProgramNode

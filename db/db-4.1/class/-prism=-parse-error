@@ -1,0 +1,29 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=prism
+aliases=
+aliasof=
+source_location=manual/api/prism/ParseError.md
+
+[m:Prism::ParseResult#errors] で得られる、構文解析中に発生した
+エラーを表すクラスです。
+
+例外クラスではないことに注意してください。prism はエラー耐性のある
+パーサであり、構文エラーがあっても例外を発生させず、見つかった
+エラーをこのクラスのインスタンスとして
+[m:Prism::ParseResult#errors] に蓄積します。
+
+```ruby title="例"
+require "prism"
+
+error = Prism.parse("1 +\n").errors.first
+p error.class    # => Prism::ParseError
+p error.message  # => "unexpected end-of-input; expected an expression after the operator"
+p error.location.start_line # => 1
+```
+
+- **SEE** [m:Prism::ParseResult#errors], [c:Prism::ParseWarning]

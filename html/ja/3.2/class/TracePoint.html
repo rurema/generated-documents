@@ -155,6 +155,8 @@
 <dd>
 <ul class="class-toc">
 
+<li><a href="#S_ALLOW_REENTRY">allow_reentry</a></li>
+
 <li><a href="#S_NEW">new</a></li>
 
 <li><a href="#S_STAT">stat</a></li>
@@ -218,6 +220,60 @@
 
 <h2>特異メソッド</h2>
 <dl>
+
+<dt class="method-heading" id="S_ALLOW_REENTRY"><code>allow_reentry { ... } -&gt; object</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/TracePoint/s/allow_reentry.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/TracePoint.html#method-c-allow_reentry">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/TracePoint.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ブロックの中に限って、TracePoint の再入を許可します。
+</p>
+<p>
+通常、ある TracePoint のコールバックを実行している間は、他に登録されたコールバックは呼ばれません。再入によって混乱が生じるのを避けるためです。このメソッドを使うと、ブロックの中でだけ他のコールバックが呼ばれるようになります。
+</p>
+<p>
+デバッガのように、自身がコールバックの中にいることで他のライブラリのフックを妨げてはいけない場合に使います。ただしコールバックが際限なく呼ばれることがあるため、使用には注意が必要です。特に、あるコールバックの中でそれ自身を呼び出すイベントを発生させると無限に再帰します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+ブロックの評価結果を返します。
+</dd>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+TracePoint のコールバックの外で呼び出した場合に発生します。すでに再入が許可されている場合も同様です。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">helper</span>
+<span class="k">end</span>
+
+inner <span class="o">=</span> <span class="no">TracePoint</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:call</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>tp<span class="o">|</span>
+  <span class="k">next</span> <span class="k">if</span> tp<span class="p">.</span><span class="nf">method_id</span> <span class="o">!=</span> <span class="ss">:helper</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">  inner ハンドラが呼ばれた</span><span class="s2">"</span>
+<span class="k">end</span>
+inner<span class="p">.</span><span class="nf">enable</span>
+
+outer <span class="o">=</span> <span class="no">TracePoint</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:end</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>tp<span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">再入を許可しない場合:</span><span class="s2">"</span>
+  helper
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">再入を許可した場合:</span><span class="s2">"</span>
+  <span class="no">TracePoint</span><span class="p">.</span><span class="nf">allow_reentry</span> <span class="p">{</span> helper <span class="p">}</span>
+<span class="k">end</span>
+outer<span class="p">.</span><span class="nf">enable</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+<span class="k">end</span>
+
+outer<span class="p">.</span><span class="nf">disable</span>
+inner<span class="p">.</span><span class="nf">disable</span>
+
+<span class="c1"># =&gt; 再入を許可しない場合:
+</span><span class="c1">#    再入を許可した場合:
+</span><span class="c1">#      inner ハンドラが呼ばれた
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/TracePoint/s/new.html">TracePoint.new</a>
+</p>
+</dd>
+
 
 <dt class="method-heading" id="S_NEW"><code>new(*events) {|obj| ... } -&gt; TracePoint</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/TracePoint/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/TracePoint.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/TracePoint.md">edit</a>]</span></dt>
 <dd class="method-description">

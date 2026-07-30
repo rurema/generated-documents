@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-29-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-30-a/dist/ruby+stdlib.wasm">
 <script type="module" src="../js/run.js"></script>
 
 </head>
@@ -136,6 +136,8 @@ Ruby プログラムの構文解析・字句解析を行うためのモジュー
 
 <li><a href="#M_PARSE_LEX">parse_lex</a></li>
 
+<li><a href="#M_PARSE_LEX_FILE">parse_lex_file</a></li>
+
 <li><a href="#M_PARSE_SUCCESS--3F">parse_success?</a></li>
 
 </ul>
@@ -213,7 +215,7 @@ dumped <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 <dt class="method-heading" id="M_LEX"><code>lex(source, **options) -&gt; Prism::LexResult</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism/m/lex.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism.html#method-c-lex">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>source</code> を字句解析し、<code>Prism::LexResult</code> のインスタンスを返します。
+<code>source</code> を字句解析し、<a href="../class/Prism=3a=3aLexResult.html">Prism::LexResult</a> のインスタンスを返します。
 <code>value</code> は <code>[トークン, 直前からの字句解析器の状態(Integer)]</code> という
 2 要素配列の配列です。これは <a href="../class/Ripper.html">Ripper</a> の <a href="../method/Ripper/s/lex.html">Ripper.lex</a> の戻り値の形式に近いものになっています。オプションは <a href="../method/Prism/m/parse.html">Prism?.parse</a> と同じです。
 </p>
@@ -247,7 +249,8 @@ result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 <dt class="method-heading" id="M_LEX_FILE"><code>lex_file(filepath, **options) -&gt; Prism::LexResult</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism/m/lex_file.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism.html#method-c-lex_file">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>filepath</code> で指定したファイルを字句解析します。オプションは <a href="../method/Prism/m/parse.html">Prism?.parse</a> と同じです。
+<code>filepath</code> で指定したファイルを字句解析します。戻り値の形式は
+<a href="../method/Prism/m/lex.html">Prism?.lex</a> と同じです。オプションは <a href="../method/Prism/m/parse.html">Prism?.parse</a> と同じです。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>filepath</code>:</dt>
@@ -480,7 +483,7 @@ comments <span class="o">=</span> <span class="no">Prism</span><span class="p">.
 <dd class="method-description">
 <p>
 <code>source</code> に対して構文解析と字句解析の両方を行い、
-<code>Prism::ParseLexResult</code> のインスタンスを返します。<code>value</code> は
+<a href="../class/Prism=3a=3aParseLexResult.html">Prism::ParseLexResult</a> のインスタンスを返します。<code>value</code> は
 <code>[構文木, トークンの配列]</code> という 2 要素配列です。
 </p>
 <p>
@@ -511,6 +514,37 @@ ast, tokens <span class="o">=</span> result<span class="p">.</span><span class="
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Prism/m/parse.html">Prism?.parse</a>, <a href="../method/Prism/m/lex.html">Prism?.lex</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_PARSE_LEX_FILE"><code>parse_lex_file(filepath, **options) -&gt; Prism::ParseLexResult</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism/m/parse_lex_file.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism.html#method-c-parse_lex_file">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>filepath</code> で指定したファイルに対して構文解析と字句解析の両方を行います。戻り値の形式は <a href="../method/Prism/m/parse_lex.html">Prism?.parse_lex</a> と同じです。オプションは <a href="../method/Prism/m/parse.html">Prism?.parse</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>filepath</code>:</dt>
+<dd>
+解析する Ruby プログラムのファイルパスを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/Prism/m/parse.html">Prism?.parse</a> を参照してください。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+<span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">sample.rb</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1 + 2\n</span><span class="s2">"</span><span class="p">)</span>
+
+ast, tokens <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse_lex_file</span><span class="p">(</span><span class="s2">"</span><span class="s2">sample.rb</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span>
+<span class="nb">p</span> ast<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; Prism::ProgramNode
+</span><span class="nb">p</span> tokens<span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span>token, _state<span class="o">|</span> token<span class="p">.</span><span class="nf">type</span> <span class="p">}</span>
+<span class="c1"># =&gt; [:INTEGER, :PLUS, :INTEGER, :NEWLINE, :EOF]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism/m/parse_lex.html">Prism?.parse_lex</a>
 </p>
 </dd>
 

@@ -1,0 +1,26 @@
+names=attach_comments!
+visibility=public
+kind=defined
+source_location=manual/api/prism/ParseResult.md
+since_by_name=attach_comments=21=3.3
+until_by_name=
+
+### def attach_comments! -> Array
+
+[m:Prism::ParseResult#comments] の各コメントを、前後の位置関係から
+構文木の各ノードの位置情報([c:Prism::Location])に関連付けます。
+関連付けた結果は [m:Prism::Location#leading_comments]・
+[m:Prism::Location#trailing_comments]・[m:Prism::Location#comments] で
+参照できます。
+
+戻り値は [m:Prism::ParseResult#comments] と同じ配列です。
+
+```ruby title="例"
+require "prism"
+
+result = Prism.parse("# leading\na = 1\n")
+result.attach_comments!
+loc = result.value.statements.body[0].location
+p loc.comments.map { |c| c.location.slice } # => ["# leading"]
+```
+

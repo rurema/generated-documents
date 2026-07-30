@@ -1,0 +1,34 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=prism
+aliases=
+aliasof=
+source_location=manual/api/prism/Location.md
+
+ソースコード上の範囲(開始バイトオフセットと長さ)を表すクラスです。
+構文木の各ノードのほか、[c:Prism::Comment]・[c:Prism::MagicComment]・
+[c:Prism::ParseError]・[c:Prism::ParseWarning]・[c:Prism::Token] などの
+`location` メソッドから得られます。
+
+行番号・桁位置への変換や、該当範囲の文字列の取り出しなどのメソッドを
+持ちます。桁位置を表すメソッドには「バイト単位」(`start_column` など)と
+「文字単位」(`start_character_column` など)の系列があります。
+
+```ruby title="例"
+require "prism"
+
+node = Prism.parse("x = 1 + 2").value.statements.body[0]
+loc = node.location
+p loc.slice        # => "x = 1 + 2"
+p loc.start_line   # => 1
+p loc.start_offset # => 0
+p loc.length       # => 9
+
+loc = node.value.location # 右辺の 1 + 2
+p loc.slice        # => "1 + 2"
+p loc.start_column # => 4
+```
