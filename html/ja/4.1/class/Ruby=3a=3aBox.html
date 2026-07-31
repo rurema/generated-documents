@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Ruby=3a=3aBox.html">
+
+<title>class Ruby::Box (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="クラスやモジュールをプロセス内で分離し、アプリケーションのコードやライブラリ、モンキーパッチを互いに隔離するための機能です。 Ruby 4.0 で導入されました。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.9.4-2026-07-31-a/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Ruby=3a=3aBox.html","name":"Ruby::Boxクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        Ruby::Boxクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Ruby::Box</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Module.html">Module</a>
+        </li>
+        
+      
+      <li>
+        Ruby::Box
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+クラスやモジュールをプロセス内で分離し、アプリケーションのコードやライブラリ、モンキーパッチを互いに隔離するための機能です。
+Ruby 4.0 で導入されました。
+</p>
+<p>
+<code>Ruby::Box</code> は <a href="../class/Module.html">Module</a> のサブクラスで、その各インスタンスは 1 つの隔離された名前空間（ボックス）を表します。あるボックスの中で新しく定義したり変更したりしたクラス・モジュール・定数・グローバル変数は、そのボックスの外や他のボックスからは見えません。
+</p>
+<p>
+<code>Ruby::Box</code> は実験的な機能です。既定では無効で、このとき <a href="../method/Ruby=3a=3aBox/s/enabled=3f.html">Ruby::Box.enabled?</a> は
+<code>false</code> を返し、<a href="../method/Ruby=3a=3aBox/s/new.html">Ruby::Box.new</a> は <a href="../class/RuntimeError.html">RuntimeError</a> を発生させます。利用するには、ruby プロセスの起動時に環境変数 <code>RUBY_BOX</code> に <code>1</code> を設定します。
+<code>1</code> 以外の値や未設定は無効を意味します。また、プロセスの起動後に設定しても有効にはなりません。
+</p>
+<pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span><span class="nv">RUBY_BOX</span><span class="o">=</span>1 ruby script.rb
+</code></pre>
+<p>
+有効な状態で起動すると次の警告が出力されます。
+<code>-W:no-experimental</code> オプションで抑止できます。将来のバージョンで挙動が変更される可能性があります。
+</p>
+<pre>
+ruby: warning: Ruby::Box is experimental, and the behavior may change in the future!
+</pre>
+<p>
+ボックスは <a href="../method/Ruby=3a=3aBox/s/new.html">Ruby::Box.new</a> で作成し、<a href="../method/Ruby=3a=3aBox/i/require.html">Ruby::Box#require</a>（あるいは
+<a href="../method/Ruby=3a=3aBox/i/require_relative.html">Ruby::Box#require_relative</a> や <a href="../method/Ruby=3a=3aBox/i/load.html">Ruby::Box#load</a>）でファイルをそのボックスに読み込みます。読み込んだファイルで定義されたクラス・モジュール・定数は、ボックスオブジェクト経由で参照できます。
+</p>
+<pre class="highlight ruby"><code><span class="c1"># foo.rb
+</span><span class="no">X</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Something</span>
+  <span class="k">def</span> <span class="nf">x</span> <span class="o">=</span> <span class="no">X</span>
+<span class="k">end</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1"># main.rb
+</span>box <span class="o">=</span> <span class="no">Ruby</span><span class="o">::</span><span class="no">Box</span><span class="p">.</span><span class="nf">new</span>
+box<span class="p">.</span><span class="nf">require_relative</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="no">X</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="nb">p</span> <span class="no">X</span>                    <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> box<span class="o">::</span><span class="no">X</span>               <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> box<span class="o">::</span><span class="no">Something</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">x</span> <span class="c1"># =&gt; 1
+</span></code></pre>
+<p>
+ボックスの中では組み込みクラスを開いて再定義できますが、その変更はボックスの外や他のボックスには影響しません。グローバル変数やトップレベルの定数・メソッドの変更も同様にボックスごとに隔離されます。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_CURRENT">current</a></li>
+
+<li><a href="#S_ENABLED--3F">enabled?</a></li>
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_EVAL">eval</a></li>
+
+<li><a href="#I_INSPECT">inspect</a></li>
+
+<li><a href="#I_LOAD">load</a></li>
+
+<li><a href="#I_LOAD_PATH">load_path</a></li>
+
+<li><a href="#I_REQUIRE">require</a></li>
+
+<li><a href="#I_REQUIRE_RELATIVE">require_relative</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+  <h2>継承しているメソッド</h2>
+<dl>
+  
+  
+<dt>Moduleから継承している特異メソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Module/s/constants.html">constants</a></li>
+      
+    
+      <li><a href="../method/Module/s/nesting.html">nesting</a></li>
+      
+    
+      <li><a href="../method/Module/s/used_modules.html">used_modules</a></li>
+      
+    
+      <li><a href="../method/Module/s/used_refinements.html">used_refinements</a></li>
+      
+    
+  </ul>
+</dd>
+  
+  
+<dt>Moduleから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Module/i/=3c.html">&lt;</a></li>
+      
+    
+      <li><a href="../method/Module/i/=3c=3d.html">&lt;=</a></li>
+      
+    
+      <li><a href="../method/Module/i/=3c=3d=3e.html">&lt;=&gt;</a></li>
+      
+    
+      <li><a href="../method/Module/i/=3d=3d=3d.html">===</a></li>
+      
+    
+      <li><a href="../method/Module/i/=3e.html">&gt;</a></li>
+      
+    
+      <li><a href="../method/Module/i/=3e=3d.html">&gt;=</a></li>
+      
+    
+      <li><a href="../method/Module/i/alias_method.html">alias_method</a></li>
+      
+    
+      <li><a href="../method/Module/i/ancestors.html">ancestors</a></li>
+      
+    
+      <li><a href="../method/Module/i/attr.html">attr</a></li>
+      
+    
+      <li><a href="../method/Module/i/attr_accessor.html">attr_accessor</a></li>
+      
+    
+      <li><a href="../method/Module/i/attr_reader.html">attr_reader</a></li>
+      
+    
+      <li><a href="../method/Module/i/attr_writer.html">attr_writer</a></li>
+      
+    
+      <li><a href="../method/Module/i/autoload.html">autoload</a></li>
+      
+    
+      <li><a href="../method/Module/i/autoload=3f.html">autoload?</a></li>
+      
+    
+      <li><a href="../method/Module/i/class_eval.html">class_eval</a></li>
+      
+    
+      <li><a href="../method/Module/i/class_exec.html">class_exec</a></li>
+      
+    
+      <li><a href="../method/Module/i/class_variable_defined=3f.html">class_variable_defined?</a></li>
+      
+    
+      <li><a href="../method/Module/i/class_variable_get.html">class_variable_get</a></li>
+      
+    
+      <li><a href="../method/Module/i/class_variable_set.html">class_variable_set</a></li>
+      
+    
+      <li><a href="../method/Module/i/class_variables.html">class_variables</a></li>
+      
+    
+      <li><a href="../method/Module/i/const_defined=3f.html">const_defined?</a></li>
+      
+    
+      <li><a href="../method/Module/i/const_get.html">const_get</a></li>
+      
+    
+      <li><a href="../method/Module/i/const_missing.html">const_missing</a></li>
+      
+    
+      <li><a href="../method/Module/i/const_set.html">const_set</a></li>
+      
+    
+      <li><a href="../method/Module/i/const_source_location.html">const_source_location</a></li>
+      
+    
+      <li><a href="../method/Module/i/constants.html">constants</a></li>
+      
+    
+      <li><a href="../method/Module/i/define_method.html">define_method</a></li>
+      
+    
+      <li><a href="../method/Module/i/deprecate_constant.html">deprecate_constant</a></li>
+      
+    
+      <li><a href="../method/Module/i/freeze.html">freeze</a></li>
+      
+    
+      <li><a href="../method/Module/i/include.html">include</a></li>
+      
+    
+      <li><a href="../method/Module/i/include=3f.html">include?</a></li>
+      
+    
+      <li><a href="../method/Module/i/included_modules.html">included_modules</a></li>
+      
+    
+      <li><a href="../method/Module/i/instance_method.html">instance_method</a></li>
+      
+    
+      <li><a href="../method/Module/i/instance_methods.html">instance_methods</a></li>
+      
+    
+      <li><a href="../method/Module/i/method_defined=3f.html">method_defined?</a></li>
+      
+    
+      <li><a href="../method/Module/i/class_eval.html">module_eval</a></li>
+      
+    
+      <li><a href="../method/Module/i/class_exec.html">module_exec</a></li>
+      
+    
+      <li><a href="../method/Module/i/inspect.html">name</a></li>
+      
+    
+      <li><a href="../method/Module/i/prepend.html">prepend</a></li>
+      
+    
+      <li><a href="../method/Module/i/private_class_method.html">private_class_method</a></li>
+      
+    
+      <li><a href="../method/Module/i/private_constant.html">private_constant</a></li>
+      
+    
+      <li><a href="../method/Module/i/private_instance_methods.html">private_instance_methods</a></li>
+      
+    
+      <li><a href="../method/Module/i/private_method_defined=3f.html">private_method_defined?</a></li>
+      
+    
+      <li><a href="../method/Module/i/protected_instance_methods.html">protected_instance_methods</a></li>
+      
+    
+      <li><a href="../method/Module/i/protected_method_defined=3f.html">protected_method_defined?</a></li>
+      
+    
+      <li><a href="../method/Module/i/public_class_method.html">public_class_method</a></li>
+      
+    
+      <li><a href="../method/Module/i/public_constant.html">public_constant</a></li>
+      
+    
+      <li><a href="../method/Module/i/public_instance_method.html">public_instance_method</a></li>
+      
+    
+      <li><a href="../method/Module/i/public_instance_methods.html">public_instance_methods</a></li>
+      
+    
+      <li><a href="../method/Module/i/public_method_defined=3f.html">public_method_defined?</a></li>
+      
+    
+      <li><a href="../method/Module/i/refinements.html">refinements</a></li>
+      
+    
+      <li><a href="../method/Module/i/remove_class_variable.html">remove_class_variable</a></li>
+      
+    
+      <li><a href="../method/Module/i/remove_method.html">remove_method</a></li>
+      
+    
+      <li><a href="../method/Module/i/set_temporary_name.html">set_temporary_name</a></li>
+      
+    
+      <li><a href="../method/Module/i/singleton_class=3f.html">singleton_class?</a></li>
+      
+    
+      <li><a href="../method/Module/i/inspect.html">to_s</a></li>
+      
+    
+      <li><a href="../method/Module/i/undef_method.html">undef_method</a></li>
+      
+    
+      <li><a href="../method/Module/i/undefined_instance_methods.html">undefined_instance_methods</a></li>
+      
+    
+  </ul>
+</dd>
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_CURRENT"><code>current -&gt; Ruby::Box | nil</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aBox/s/current.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/Box.html#method-c-current">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在実行中のコードが属しているボックスを返します。
+</p>
+<p>
+<code>Ruby::Box</code> が無効なときは <code>nil</code> を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_ENABLED--3F"><code>enabled? -&gt; bool</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aBox/s/enabled=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/Box.html#method-c-enabled-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>Ruby::Box</code> が有効なら <code>true</code> を、無効なら <code>false</code> を返します。
+</p>
+<p>
+環境変数 <code>RUBY_BOX</code> に <code>1</code> を設定して ruby を起動したときに <code>true</code> になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_NEW"><code>new -&gt; Ruby::Box</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aBox/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/Box.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+他のボックスから独立した新しいボックスを返します。
+</p>
+<p>
+<code>Ruby::Box</code> が無効なとき（環境変数 <code>RUBY_BOX</code> に <code>1</code> を設定せずに起動したとき）は
+<a href="../class/RuntimeError.html">RuntimeError</a> が発生します。
+</p>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_EVAL"><code>eval(code) -&gt; object</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aBox/i/eval.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/Box.html#method-i-eval">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+文字列 <code>code</code> を Ruby のコードとして self（レシーバのボックス）の中で評価し、その結果を返します。
+</p>
+<p>
+ファイルを <a href="../method/Ruby=3a=3aBox/i/load.html">Ruby::Box#load</a> で読み込むのと同様に、<code>code</code> は self の中で実行されます。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aBox/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/Box.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self を表す文字列を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LOAD"><code>load(path, wrap = false) -&gt; true</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aBox/i/load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/Box.html#method-i-load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>path</code> のファイルを self（レシーバのボックス）の中に読み込みます。
+</p>
+<p>
+<a href="../method/Kernel/m/load.html">Kernel?.load</a> と同様ですが、ファイルは self の中で実行されます。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LOAD_PATH"><code>load_path -&gt; [String]</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aBox/i/load_path.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/Box.html#method-i-load_path">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self（レシーバのボックス）のライブラリ読み込みパスを表す配列を返します。
+</p>
+<p>
+<a href="../method/Kernel/v/LOAD_PATH.html">$LOAD_PATH</a> のボックスごとの版に相当します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_REQUIRE"><code>require(feature) -&gt; bool</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aBox/i/require.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/Box.html#method-i-require">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>feature</code> を self（レシーバのボックス）の中に読み込みます。
+</p>
+<p>
+<a href="../method/Kernel/m/require.html">Kernel?.require</a> と同様ですが、読み込まれたファイルは self の中で実行されます。まだ読み込まれていなければ <code>true</code> を、すでに読み込み済みなら <code>false</code> を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_REQUIRE_RELATIVE"><code>require_relative(relative_feature) -&gt; bool</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aBox/i/require_relative.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/Box.html#method-i-require_relative">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>relative_feature</code> を self（レシーバのボックス）の中に読み込みます。
+</p>
+<p>
+<a href="../method/Kernel/m/require_relative.html">Kernel?.require_relative</a> と同様ですが、読み込まれたファイルは self の中で実行されます。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__Box.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
