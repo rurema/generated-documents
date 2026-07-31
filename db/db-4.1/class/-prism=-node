@@ -1,0 +1,41 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=prism
+aliases=
+aliasof=
+source_location=manual/api/prism/Node.md
+
+構文解析の結果得られる構文木の各ノードを表す抽象基底クラスです。
+[m:Prism?.parse] などが返す構文木は、このクラスのサブクラス
+(150 種類以上)のインスタンスで構成されます。`Prism::Node` 自身の
+インスタンスが生成されることはありません。
+
+個々のノードクラス(`Prism::ProgramNode`・`Prism::CallNode` など)に
+固有のフィールド(子ノードや値を取得するアクセサ)はこのリファレンス
+では扱いません。このページで扱うのは、すべてのノードクラスに共通する
+API です。個々のノードクラスの詳細は公式ドキュメントを参照して
+ください。
+
+- プロジェクトページ: <https://github.com/ruby/prism>
+- リファレンス(YARD): <https://www.rubydoc.info/gems/prism>
+- ドキュメントサイト: <https://ruby.github.io/prism/>
+
+```ruby title="例"
+require "prism"
+
+node = Prism.parse("1 + 2").value
+p node.type           # => :program_node
+p node.class          # => Prism::ProgramNode
+p node.location.slice # => "1 + 2"
+
+call = node.statements.body[0]
+p call.type                    # => :call_node
+p call.child_nodes.size        # => 3
+p call.compact_child_nodes.size # => 2
+```
+
+- **SEE** [c:Prism::ParseResult], [c:Prism::Location]

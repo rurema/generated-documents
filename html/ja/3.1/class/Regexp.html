@@ -330,7 +330,7 @@ string の中で正規表現において特別な意味を持つ文字の直前�
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="sr">/(.)(.)/</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">ab</span><span class="s2">"</span>
-<span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span>      <span class="c1"># =&gt; #&lt;MatchData:0x4599e58&gt;
+<span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span>      <span class="c1"># =&gt; #&lt;MatchData &quot;ab&quot; 1:&quot;a&quot; 2:&quot;b&quot;&gt;
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>   <span class="c1"># =&gt; &quot;ab&quot;
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>   <span class="c1"># =&gt; &quot;a&quot;
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>   <span class="c1"># =&gt; &quot;b&quot;
@@ -345,8 +345,7 @@ string の中で正規表現において特別な意味を持つ文字の直前�
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="sr">/(.)(.)/</span> <span class="o">=~</span> <span class="s2">"</span><span class="s2">ab</span><span class="s2">"</span>
-<span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span>      <span class="c1"># =&gt; #&lt;MatchData:0x4599e58&gt;
-</span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;ab&quot;
+<span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;ab&quot;
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;a&quot;
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;b&quot;
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>   <span class="c1"># =&gt; nil
@@ -362,7 +361,7 @@ last_match[1] の形式では例外 <a href="../class/NoMethodError.html">NoMeth
 <span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span> <span class="c1"># =&gt; nil
 </span><span class="k">begin</span>
   <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># ~&gt; NoMethodError
-</span><span class="k">rescue</span> 
+</span><span class="k">rescue</span>
   <span class="nb">puts</span> <span class="vg">$!</span> <span class="c1"># =&gt; undefined method `[]' for nil:NilClass
 </span><span class="k">end</span>
 <span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">last_match</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; nil
@@ -441,12 +440,12 @@ String で与えた場合、それ自身と等しい文字列にマッチする�
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="sr">/foo/i</span>, <span class="sr">/bar/x</span>, <span class="sr">/hoge/m</span><span class="p">)</span> <span class="c1"># =&gt; /(?i-mx:foo)|(?x-mi:bar)|(?m-ix:hoge)/
 </span>
 <span class="c1"># 文字列そのものにマッチする
-</span>rep1 <span class="o">=</span> <span class="p">[</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hoge</span><span class="s2">"</span><span class="p">]</span> 
+</span>rep1 <span class="o">=</span> <span class="p">[</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hoge</span><span class="s2">"</span><span class="p">]</span>
 <span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="o">*</span>rep1<span class="p">)</span> <span class="c1"># =&gt; /foo|bar|hoge/
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span>rep1<span class="p">)</span>  <span class="c1"># =&gt; /foo|bar|hoge/
 </span>
 <span class="c1"># 下記の場合オプションがつくのは最初だけ
-</span>rep2 <span class="o">=</span> <span class="p">[</span> <span class="sr">/foo/x</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hoge</span><span class="s2">"</span><span class="p">]</span> 
+</span>rep2 <span class="o">=</span> <span class="p">[</span> <span class="sr">/foo/x</span>, <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hoge</span><span class="s2">"</span><span class="p">]</span>
 <span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span><span class="o">*</span>rep2<span class="p">)</span> <span class="c1"># =&gt; /(?x-mi:foo)|bar|hoge/
 </span><span class="nb">p</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">union</span><span class="p">(</span>rep2<span class="p">)</span>  <span class="c1"># =&gt; /(?x-mi:foo)|bar|hoge/
 </span></code></pre>
@@ -686,7 +685,7 @@ pos を指定しても <a href="../method/MatchData/i/offset.html">MatchData#off
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>results <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
-<span class="nb">p</span> <span class="sr">/((.)\2)/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>m<span class="o">|</span> results <span class="o">&lt;&lt;</span> m<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;oo&quot;] 
+<span class="nb">p</span> <span class="sr">/((.)\2)/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>m<span class="o">|</span> results <span class="o">&lt;&lt;</span> m<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;oo&quot;]
 </span><span class="nb">p</span> <span class="sr">/((.)\2)/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>m<span class="o">|</span> results <span class="o">&lt;&lt;</span> m<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">}</span> <span class="c1"># =&gt; nil
 </span><span class="nb">p</span> results <span class="c1"># =&gt; [&quot;oo&quot;]
 </span></code></pre>
@@ -708,7 +707,7 @@ pos を指定しても <a href="../method/MatchData/i/offset.html">MatchData#off
 <span class="k">end</span>
 <span class="c1"># =&gt; match
 </span>
-<span class="nb">p</span> reg<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">foobar</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; #&lt;MatchData:0x29403fc&gt;
+<span class="nb">p</span> reg<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">foobar</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; #&lt;MatchData &quot;foo&quot;&gt;
 </span><span class="nb">p</span> reg<span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; nil
 </span>
 <span class="nb">p</span> <span class="sr">/(foo)(bar)(baz)/</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="s2">"</span><span class="s2">foobarbaz</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_a</span><span class="p">.</span><span class="nf">values_at</span><span class="p">(</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]
@@ -900,14 +899,14 @@ Hash のキーは名前付きキャプチャの名前で、値はその名前に
 reg <span class="o">=</span> <span class="no">Regexp</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="o">~</span> reg
-  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">match</span><span class="s2">"</span> 
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">match</span><span class="s2">"</span>
 <span class="k">else</span>
-  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">no match</span><span class="s2">"</span> 
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">no match</span><span class="s2">"</span>
 <span class="k">end</span>
 <span class="c1"># =&gt; no match
 </span>
 <span class="k">if</span> reg
-  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">match</span><span class="s2">"</span> 
+  <span class="nb">puts</span> <span class="s2">"</span><span class="s2">match</span><span class="s2">"</span>
 <span class="k">else</span>
   <span class="nb">puts</span> <span class="s2">"</span><span class="s2">no match</span><span class="s2">"</span>
 <span class="k">end</span>

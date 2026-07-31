@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Prism=3a=3aNode.html">
+
+<title>class Prism::Node (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="構文解析の結果得られる構文木の各ノードを表す抽象基底クラスです。 Prism.#parse などが返す構文木は、このクラスのサブクラス (150 種類以上)のインスタンスで構成されます。`Prism::Node' 自身のインスタンスが生成されることはありません。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.3-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/prism.html","name":"prismライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Prism=3a=3aNode.html","name":"Prism::Nodeクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/prism.html">prismライブラリ</a>
+      </li>
+      <li>
+        Prism::Nodeクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Prism::Node</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Prism::Node
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+構文解析の結果得られる構文木の各ノードを表す抽象基底クラスです。
+<a href="../method/Prism/m/parse.html">Prism.#parse</a> などが返す構文木は、このクラスのサブクラス
+(150 種類以上)のインスタンスで構成されます。<code>Prism::Node</code> 自身のインスタンスが生成されることはありません。
+</p>
+<p>
+個々のノードクラス(<code>Prism::ProgramNode</code>・<code>Prism::CallNode</code> など)に固有のフィールド(子ノードや値を取得するアクセサ)はこのリファレンスでは扱いません。このページで扱うのは、すべてのノードクラスに共通する
+API です。個々のノードクラスの詳細は公式ドキュメントを参照してください。
+</p>
+<ul>
+<li>プロジェクトページ: <a class="external" href="https://github.com/ruby/prism">https://github.com/ruby/prism</a></li>
+<li>リファレンス(YARD): <a class="external" href="https://www.rubydoc.info/gems/prism">https://www.rubydoc.info/gems/prism</a></li>
+<li>ドキュメントサイト: <a class="external" href="https://ruby.github.io/prism/">https://ruby.github.io/prism/</a></li>
+</ul>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+node <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span>
+<span class="nb">p</span> node<span class="p">.</span><span class="nf">type</span>           <span class="c1"># =&gt; :program_node
+</span><span class="nb">p</span> node<span class="p">.</span><span class="nf">class</span>          <span class="c1"># =&gt; Prism::ProgramNode
+</span><span class="nb">p</span> node<span class="p">.</span><span class="nf">location</span><span class="p">.</span><span class="nf">slice</span> <span class="c1"># =&gt; &quot;1 + 2&quot;
+</span>
+call <span class="o">=</span> node<span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">p</span> call<span class="p">.</span><span class="nf">type</span>                    <span class="c1"># =&gt; :call_node
+</span><span class="nb">p</span> call<span class="p">.</span><span class="nf">child_nodes</span><span class="p">.</span><span class="nf">size</span>        <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> call<span class="p">.</span><span class="nf">compact_child_nodes</span><span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; 2
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../class/Prism=3a=3aParseResult.html">Prism::ParseResult</a>, <a href="../class/Prism=3a=3aLocation.html">Prism::Location</a>
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_TYPE">type</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_ACCEPT">accept</a></li>
+
+<li><a href="#I_CHILD_NODES">child_nodes</a></li>
+
+<li><a href="#I_COMMENT_TARGETS">comment_targets</a></li>
+
+<li><a href="#I_COMPACT_CHILD_NODES">compact_child_nodes</a></li>
+
+<li><a href="#I_COPY">copy</a></li>
+
+<li><a href="#I_DECONSTRUCT">deconstruct</a></li>
+
+<li><a href="#I_DECONSTRUCT_KEYS">deconstruct_keys</a></li>
+
+<li><a href="#I_INSPECT">inspect</a></li>
+
+<li><a href="#I_LOCATION">location</a></li>
+
+<li><a href="#I_NEWLINE--3F">newline?</a></li>
+
+<li><a href="#I_PRETTY_PRINT">pretty_print</a></li>
+
+<li><a href="#I_SLICE">slice</a></li>
+
+<li><a href="#I_TO_DOT">to_dot</a></li>
+
+<li><a href="#I_TYPE">type</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_TYPE"><code>type -&gt; Symbol</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/s/type.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-c-type">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Prism=3a=3aNode/i/type.html">Prism::Node#type</a> のクラスメソッド版です。インスタンスを作らずにノードクラス自体からノードの種類を表すシンボルを得られます。
+</p>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ACCEPT"><code>accept(visitor) -&gt; object</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/accept.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-accept">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Visitor パターンの受け入れメソッドです。ノードの種類に応じた
+<code>visitor.visit_xxx</code> を呼び出し、その戻り値を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>visitor</code>:</dt>
+<dd>
+<code>Prism::Visitor</code> (またはそのサブクラス)のインスタンスを指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_CHILD_NODES"><code>child_nodes -&gt; [Prism::Node | nil]</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/child_nodes.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-child_nodes">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+子ノードの配列を返します。存在しないオプショナルな子ノードの位置には nil が入ります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aNode/i/compact_child_nodes.html">Prism::Node#compact_child_nodes</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_COMMENT_TARGETS"><code>comment_targets -&gt; [Prism::Node | Prism::Location]</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/comment_targets.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-comment_targets">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+コメントの関連付け先になりうる子ノードや位置情報の配列を返します。
+<a href="../method/Prism=3a=3aParseResult/i/attach_comments=21.html">Prism::ParseResult#attach_comments!</a> が内部で使用します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_COMPACT_CHILD_NODES"><code>compact_child_nodes -&gt; [Prism::Node]</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/compact_child_nodes.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-compact_child_nodes">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+子ノードの配列を返します。<a href="../method/Prism=3a=3aNode/i/child_nodes.html">Prism::Node#child_nodes</a> と異なり、存在しないオプショナルな子ノードは含まれません(nil を含みません)。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_COPY"><code>copy(**params) -&gt; Prism::Node</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/copy.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-copy">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身と同じクラスの新しいノードを、指定したフィールドだけを差し替えて複製します。渡せるキーワードはノードクラスごとのフィールド名で、指定しなかったフィールドは自身の値を引き継ぎます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+call <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+copied <span class="o">=</span> call<span class="p">.</span><span class="nf">copy</span>
+<span class="nb">p</span> copied<span class="p">.</span><span class="nf">class</span>        <span class="c1"># =&gt; Prism::CallNode
+</span><span class="nb">p</span> copied<span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>call<span class="p">)</span> <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT"><code>deconstruct -&gt; [Prism::Node | nil]</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/deconstruct.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-deconstruct">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Prism=3a=3aNode/i/child_nodes.html">Prism::Node#child_nodes</a> のエイリアスです。パターンマッチの配列パターン(<code>case node; in [a, b]</code>)で使われます。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(keys) -&gt; Hash</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+パターンマッチのハッシュパターン(<code>case node; in {value:}</code>)で使われます。ノードの各フィールドをキーに持つハッシュを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>keys</code>:</dt>
+<dd>
+取り出したいキーの配列。すべて取り出す場合は
+nil を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_INSPECT"><code>inspect(inspector = NodeInspector.new) -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+構文木をツリー形式で表した、人間が読みやすい文字列を返します。
+</p>
+<p>
+<code>inspector</code> は内部実装用の引数なので、通常は省略してください。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+<span class="nb">puts</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">inspect</span>
+</code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_LOCATION"><code>location -&gt; Prism::Location</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/location.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-location">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ノードのソースコード上の位置を表す <a href="../class/Prism=3a=3aLocation.html">Prism::Location</a> を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_NEWLINE--3F"><code>newline? -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/newline=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-newline-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このノードが、<a href="../class/TracePoint.html">TracePoint</a> の <code>:line</code> イベントを発生させる行の位置としてマークされているかどうかを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRETTY_PRINT"><code>pretty_print(q) -&gt; ()</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/pretty_print.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-pretty_print">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>pp</code> ライブラリからの呼び出しに対応します。<a href="../method/Prism=3a=3aNode/i/inspect.html">Prism::Node#inspect</a>
+の出力を、現在のインデントレベルを保ったまま表示します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SLICE"><code>slice -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/slice.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-slice">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ノードの位置に対応するソースコードの文字列を返します。
+<a href="../method/Prism=3a=3aLocation/i/slice.html"><code>location.slice</code></a> と同じです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_DOT"><code>to_dot -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/to_dot.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-to_dot">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+構文木を Graphviz の DOT 言語形式の文字列に変換します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+dot <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_dot</span>
+<span class="nb">p</span> dot<span class="p">.</span><span class="nf">start_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">digraph</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TYPE"><code>type -&gt; Symbol</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/type.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-type">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ノードの種類を表すシンボル(例 <code>:program_node</code>、<code>:call_node</code>)を返します。case 式や配列との比較でノードの種類を判定するときに使えます。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
