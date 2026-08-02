@@ -5,7 +5,7 @@ source_location=manual/api/rubygems/command.md
 since_by_name=add_specific_extra_args=1.9.3
 until_by_name=
 
-### def add_specific_extra_args(cmd, args)
+### def Gem::Command.add_specific_extra_args(cmd, args)
 
 与えられたコマンドに対応する追加の引数を追加します。
 

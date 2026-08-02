@@ -5,7 +5,7 @@ source_location=manual/api/rake/RakeFileUtils.md
 since_by_name=verbose_flag=3d=1.9.3
 until_by_name=
 
-### def verbose_flag=(flag)
+### def RakeFileUtils.verbose_flag=(flag)
 
 詳細を表示するかどうか設定します。
 

@@ -5,7 +5,7 @@ source_location=manual/api/rake/RakeFileUtils.md
 since_by_name=nowrite_flag=1.9.3
 until_by_name=
 
-### def nowrite_flag -> bool
+### def RakeFileUtils.nowrite_flag -> bool
 
 この値が真の場合、実際のファイル書き込みをともなう操作は行いません。
 そうでない場合、ファイル書き込みを行います。

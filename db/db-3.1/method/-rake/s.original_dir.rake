@@ -5,7 +5,7 @@ source_location=manual/api/rake/Rake.md
 since_by_name=original_dir=1.9.3
 until_by_name=
 
-### def original_dir -> String
+### def Rake.original_dir -> String
 
 Rake アプリケーションを開始したディレクトリを返します。
 

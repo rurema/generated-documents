@@ -7,7 +7,7 @@ until_by_name=
 
 ### def path -> String | nil
 
-[m:Kernel?.require] や [m:Kernel?.load] に失敗したパスを返します。
+[m:Kernel?.require]、[m:Kernel?.require_relative]、[m:Kernel?.load] に失敗したパスを返します。
 
 ```ruby
 begin
@@ -17,4 +17,13 @@ rescue LoadError => e
 end
 ```
 
-パスが定まらない場合は nil を返します。
+[m:Kernel?.eval] に与えた文字列中での [m:Kernel?.require_relative] は、読み込み元のファイルが存在しないため、読み込み先のパスが定まらず、`LoadError` が発生し、`LoadError#path` は `nil` を返します。
+
+```ruby title="LoadError#path が nil になる例"
+begin
+  eval "require_relative 'foo'"
+rescue LoadError => e
+  p e.path    # => nil
+  p e.message # => "cannot infer basepath"
+end
+```

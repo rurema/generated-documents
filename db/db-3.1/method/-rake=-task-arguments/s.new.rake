@@ -5,7 +5,7 @@ source_location=manual/api/rake/Rake__TaskArguments.md
 since_by_name=new=1.9.3
 until_by_name=
 
-### def new(names, values, parent = nil)
+### def Rake::TaskArguments.new(names, values, parent = nil)
 
 自身を初期化します。
 

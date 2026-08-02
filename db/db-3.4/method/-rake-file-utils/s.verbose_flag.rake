@@ -5,7 +5,7 @@ source_location=manual/api/rake/RakeFileUtils.md
 since_by_name=verbose_flag=1.9.3
 until_by_name=
 
-### def verbose_flag -> bool
+### def RakeFileUtils.verbose_flag -> bool
 
 この値が真の場合、詳細を表示します。
 

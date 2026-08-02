@@ -5,7 +5,7 @@ source_location=manual/api/pp.md
 since_by_name=
 until_by_name=
 
-### def singleline_pp(obj, out=$>)    -> object
+### def PP.singleline_pp(obj, out=$>)    -> object
 
 指定されたオブジェクト obj を出力先 out に出力します。
 ただし、インデントも改行もしません。

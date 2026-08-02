@@ -5,7 +5,7 @@ source_location=manual/api/rubygems/ext/builder.md
 since_by_name=class_name=1.9.3
 until_by_name=
 
-### def class_name -> String
+### def Gem::Ext::Builder.class_name -> String
 @todo
 
 ビルダーのクラス名を返します。

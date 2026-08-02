@@ -5,7 +5,7 @@ source_location=manual/api/rubygems/command.md
 since_by_name=extra_args=3d=1.9.3
 until_by_name=
 
-### def extra_args=(value)
+### def Gem::Command.extra_args=(value)
 
 追加の引数をセットします。
 
