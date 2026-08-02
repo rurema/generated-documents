@@ -5,7 +5,7 @@ source_location=manual/api/rdoc/parser/../parsers/parse_c.md
 since_by_name=new=1.9.3
 until_by_name=
 
-### def new(top_level, file_name, body, options, stats) -> RDoc::Parser::C
+### def RDoc::Parser::C.new(top_level, file_name, body, options, stats) -> RDoc::Parser::C
 
 自身を初期化します。
 

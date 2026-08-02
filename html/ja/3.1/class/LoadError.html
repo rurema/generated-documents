@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/LoadError.html">
 
 <title>class LoadError (Ruby 3.1 リファレンスマニュアル)</title>
-<meta name="description" content="Kernel.#require や Kernel.#load が失敗したときに発生します。">
+<meta name="description" content="Kernel.#require、Kernel.#require_relative、Kernel.#load が失敗したときに発生します。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -126,7 +126,18 @@
 
 <h2>要約</h2>
 <p>
-<a href="../method/Kernel/m/require.html">Kernel.#require</a> や <a href="../method/Kernel/m/load.html">Kernel.#load</a> が失敗したときに発生します。
+<a href="../method/Kernel/m/require.html">Kernel.#require</a>、<a href="../method/Kernel/m/require_relative.html">Kernel.#require_relative</a>、<a href="../method/Kernel/m/load.html">Kernel.#load</a> が失敗したときに発生します。
+</p>
+<span class="caption">LoadError を捕捉する例</span>
+<pre class="highlight ruby"><code><span class="c1"># lib-a が require できなければ代替の lib-b を使う
+</span><span class="k">begin</span>
+  <span class="nb">require</span> <span class="s2">"</span><span class="s2">lib-a</span><span class="s2">"</span>
+<span class="k">rescue</span> <span class="no">LoadError</span>
+  <span class="nb">require</span> <span class="s2">"</span><span class="s2">lib-b</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+<code>LoadError</code> は <a href="../class/StandardError.html">StandardError</a> のサブクラスではないので、例外型を指定しない <code>rescue</code> では捕捉できないことに注意してください。
 </p>
 
 
@@ -218,7 +229,7 @@
 <dt class="method-heading" id="I_PATH"><code>path -&gt; String | nil</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/LoadError/i/path.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/LoadError.html#method-i-path">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/LoadError.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<a href="../method/Kernel/m/require.html">Kernel.#require</a> や <a href="../method/Kernel/m/load.html">Kernel.#load</a> に失敗したパスを返します。
+<a href="../method/Kernel/m/require.html">Kernel.#require</a>、<a href="../method/Kernel/m/require_relative.html">Kernel.#require_relative</a>、<a href="../method/Kernel/m/load.html">Kernel.#load</a> に失敗したパスを返します。
 </p>
 <pre class="highlight ruby"><code><span class="k">begin</span>
   <span class="nb">require</span> <span class="s1">'this/file/does/not/exist'</span>
@@ -227,8 +238,16 @@
 </span><span class="k">end</span>
 </code></pre>
 <p>
-パスが定まらない場合は nil を返します。
+<a href="../method/Kernel/m/eval.html">Kernel.#eval</a> に与えた文字列中での <a href="../method/Kernel/m/require_relative.html">Kernel.#require_relative</a> は、読み込み元のファイルが存在しないため、読み込み先のパスが定まらず、<code>LoadError</code> が発生し、<code>LoadError#path</code> は <code>nil</code> を返します。
 </p>
+<span class="caption">LoadError#path が nil になる例</span>
+<pre class="highlight ruby"><code><span class="k">begin</span>
+  <span class="nb">eval</span> <span class="s2">"</span><span class="s2">require_relative 'foo'</span><span class="s2">"</span>
+<span class="k">rescue</span> <span class="no">LoadError</span> <span class="o">=&gt;</span> e
+  <span class="nb">p</span> e<span class="p">.</span><span class="nf">path</span>    <span class="c1"># =&gt; nil
+</span>  <span class="nb">p</span> e<span class="p">.</span><span class="nf">message</span> <span class="c1"># =&gt; &quot;cannot infer basepath&quot;
+</span><span class="k">end</span>
+</code></pre>
 </dd>
 
 

@@ -5,7 +5,7 @@ source_location=manual/api/pp.md
 since_by_name=
 until_by_name=
 
-### def pp(obj, out = $>, width = 79)    -> object
+### def PP.pp(obj, out = $>, width = 79)    -> object
 
 指定されたオブジェクト obj を出力先 out に幅 width で出力します。
 出力先 out を返します。

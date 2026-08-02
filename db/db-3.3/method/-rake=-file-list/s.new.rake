@@ -5,7 +5,7 @@ source_location=manual/api/rake/Rake__FileList.md
 since_by_name=new=1.9.3
 until_by_name=
 
-### def new(*patterns){|self| ... }
+### def Rake::FileList.new(*patterns){|self| ... }
 
 与えられたパターンをもとにして自身を初期化します。
 

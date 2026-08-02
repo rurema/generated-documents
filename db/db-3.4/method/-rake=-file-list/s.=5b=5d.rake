@@ -5,7 +5,7 @@ source_location=manual/api/rake/Rake__FileList.md
 since_by_name==5b=5d=1.9.3
 until_by_name=
 
-### def [](*args) -> Rake::FileList
+### def Rake::FileList.[](*args) -> Rake::FileList
 
 与えられたパターンをもとにして自身を初期化します。
 

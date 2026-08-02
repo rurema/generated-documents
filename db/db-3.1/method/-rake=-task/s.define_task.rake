@@ -5,7 +5,7 @@ source_location=manual/api/rake/Rake__Task.md
 since_by_name=define_task=1.9.3
 until_by_name=
 
-### def define_task(*args){ ... } -> Rake::Task
+### def Rake::Task.define_task(*args){ ... } -> Rake::Task
 
 与えられたパラメータと省略可能なブロックを用いてタスクを定義します。
 

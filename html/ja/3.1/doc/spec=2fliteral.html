@@ -317,13 +317,19 @@ ASCIIコード16進表記 (n は <code>0</code>-<code>9</code>, <code>a</code>-<
 <dt><code>\M-x</code></dt>
 <dd>
 <p>
-メタ x (c | 0x80)
+メタ x (x は ASCII 文字)。x のコードの 0x80 のビットを立てたコードの 1 バイトを表します
 </p>
 </dd>
 <dt><code>\M-\C-x</code></dt>
 <dd>
 <p>
-メタ コントロール x
+メタ コントロール x。コントロール x のコードの 0x80 のビットを立てたコードの 1 バイトを表します
+</p>
+<p>
+<code>\M-</code> 系が生成する 1 バイトは 0x80 以上なので、スクリプトエンコーディングが
+UTF-8 の場合は正しいバイト列にならず、これを含む文字列は
+<a href="../method/String/i/valid_encoding=3f.html">String#valid_encoding?</a> が false になります (<code>\xnn</code> で
+0x80 以上を指定した場合と同様です)
 </p>
 </dd>
 <dt><code>\x</code></dt>
@@ -445,6 +451,12 @@ bar\
 <p>
 メタ a のみからなる <a href="../class/String.html">String</a> オブジェクトを生成します。
 </p>
+<p>
+「メタ a」とは、文字 &quot;a&quot; のASCIIコード（0x61）の 0x80 のビットを立てたコード（0xE1）の 1 バイトを持つ文字のことです。「a」の部分には ASCII 文字を入れることができます。
+</p>
+<p>
+ただし、0x80 以上の 1 バイトは、スクリプトエンコーディングが UTF-8 の場合には正しいバイト列にならないため、生成される文字列は <a href="../method/String/i/valid_encoding=3f.html">String#valid_encoding?</a> が false になります（<code>?\x80</code> などで 0x80 以上のコードを直接指定した場合と同様です。ASCII-8BIT のスクリプトでは正しいバイト列として扱われます）。
+</p>
 </dd>
 <dt><code>?\M-\cA</code></dt>
 <dt><code>?\M-\ca</code></dt>
@@ -453,6 +465,9 @@ bar\
 <dd>
 <p>
 メタ-コントロール a のみからなる <a href="../class/String.html">String</a> オブジェクトを生成します。
+</p>
+<p>
+「メタ-コントロール a」とは、「コントロールA」のコード（0x01）の 0x80 のビットを立てたコード（0x81）の 1 バイトを持つ文字のことです。エンコーディングが不正になりうる点は <code>?\M-a</code> と同様です。
 </p>
 </dd>
 </dl>

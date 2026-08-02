@@ -5,7 +5,7 @@ source_location=manual/api/rdoc/markdown.md
 since_by_name=parse=2.0.0
 until_by_name=
 
-### def parse(markdown) -> RDoc::Markup::Document
+### def RDoc::Markdown.parse(markdown) -> RDoc::Markup::Document
 
 引数 markdown で指定したドキュメントを解析して
 `RDoc::Markup::Document` オブジェクトを返します。

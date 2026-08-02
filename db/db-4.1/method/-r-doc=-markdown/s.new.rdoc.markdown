@@ -5,7 +5,7 @@ source_location=manual/api/rdoc/markdown.md
 since_by_name=new=2.0.0
 until_by_name=
 
-### def new(extensions = DEFAULT_EXTENSIONS, debug = false)
+### def RDoc::Markdown.new(extensions = DEFAULT_EXTENSIONS, debug = false)
 
 引数 extensions で与えられた拡張を有効にした [c:RDoc::Markdown] オブ
 ジェクトを初期化します。

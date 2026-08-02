@@ -5,7 +5,7 @@ source_location=manual/api/rubygems/ext/builder.md
 since_by_name=run=1.9.3
 until_by_name=
 
-### def run(command, results)
+### def Gem::Ext::Builder.run(command, results)
 @todo
 
 与えられたコマンドを実行します。

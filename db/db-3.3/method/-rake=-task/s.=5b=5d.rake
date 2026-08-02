@@ -5,7 +5,7 @@ source_location=manual/api/rake/Rake__Task.md
 since_by_name==5b=5d=1.9.3
 until_by_name=
 
-### def [](task_name) -> Rake::Task
+### def Rake::Task.[](task_name) -> Rake::Task
 
 与えられた名前のタスクを返します。
 

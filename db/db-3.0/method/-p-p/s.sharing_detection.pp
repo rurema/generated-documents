@@ -5,8 +5,8 @@ source_location=manual/api/pp.md
 since_by_name=
 until_by_name=
 
-### def sharing_detection                 -> bool
-### def sharing_detection=(boolean)
+### def PP.sharing_detection                 -> bool
+### def PP.sharing_detection=(boolean)
 
 共有検出フラグを表すアクセサです。
 デフォルトは false です。true である場合、

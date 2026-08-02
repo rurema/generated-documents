@@ -5,7 +5,7 @@ source_location=manual/api/rubygems/ext/builder.md
 since_by_name=make=1.9.3
 until_by_name=
 
-### def make(dest_path, results)
+### def Gem::Ext::Builder.make(dest_path, results)
 @todo
 
 Makefile を編集して make, make install を実行します。
