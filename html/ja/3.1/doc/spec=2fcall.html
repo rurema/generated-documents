@@ -216,8 +216,8 @@ super() と括弧を明示します。
 <span class="p">[</span><span class="mi">1</span>,<span class="mi">2</span>,<span class="mi">3</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span>i<span class="o">|</span> <span class="nb">print</span> i<span class="o">*</span><span class="mi">2</span>, <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span> <span class="p">}</span>
 </code></pre>
 <span class="caption">文法</span>
-<pre class="highlight text"><code>method(arg1, arg2, ...)  do [`|' 式 ... `|'] 式 ... end
-method(arg1, arg2, ...) `{' [`|' 式 ... `|'] 式 ... `}'
+<pre class="highlight text"><code>method(arg1, arg2, ...)  do [`|' 式 ... [`;' 識別子 ... ] `|'] 式 ... end
+method(arg1, arg2, ...) `{' [`|' 式 ... [`;' 識別子 ... ] `|'] 式 ... `}'
 method(arg1, arg2, ..., `&amp;' proc_object)
 </code></pre>
 <p>
@@ -252,6 +252,17 @@ do ... end または { ... }  で囲まれたコードの断片
   <span class="nb">p</span> i <span class="o">*</span> m               <span class="c1"># いきなり i を使える
 </span><span class="k">end</span>
 </code></pre>
+<p>
+ブロックパラメータの後に <code>;</code> で区切って識別子を並べると、それらは
+<a href="../doc/glossary.html#block-local-variable">ブロックローカル変数</a>になります。ブロックローカル変数は、外側のスコープに同名のローカル変数があってもそれとは別の変数になり(シャドーイング)、外側の変数に影響を与えずに同じ名前を使えます。値はブロックの呼び出しごとに <code>nil</code> に初期化されます。
+</p>
+<pre class="highlight ruby"><code>x <span class="o">=</span> <span class="mi">10</span>
+<span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span>i; x<span class="o">|</span>  <span class="c1"># x はブロックローカル変数
+</span>  x <span class="o">=</span> i <span class="o">*</span> <span class="mi">10</span>              <span class="c1"># 外側の x とは別の変数
+</span>  <span class="nb">p</span> x                     <span class="c1"># =&gt; 10, 20, 30
+</span><span class="k">end</span>
+<span class="nb">p</span> x                       <span class="c1"># =&gt; 10
+</span></code></pre>
 <p>
 ブロックの部分だけを先に定義して変数に保存しておき、後からブロック付きメソッドに渡すことも出来ます。それを実現するのが手続きオブジェクト(<a href="../class/Proc.html">Proc</a>)です。それをブロックとして渡すにはブロック付きメソッドの最後の引数として <code>&amp;</code> で修飾した手続きオブジェクトを渡します。Proc の代わりにメソッドオブジェクト(<a href="../class/Method.html">Method</a>)を渡すことも出来ます。この場合、そのメソッドを呼ぶ手続きオブジェクトが生成され渡されます。
 </p>
