@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Reline=3a=3aHISTORY.html">
+
+<title>object Reline::HISTORY (Ruby 3.1 リファレンスマニュアル)</title>
+<meta name="description" content="Reline で入力した内容(ヒストリ)にアクセスするための定数です。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+</head>
+<body>
+
+<p class="eol-warning">
+このマニュアルは既にメンテナンスが終了したバージョンの Ruby を対象としています。
+<a href="https://docs.ruby-lang.org/ja/latest/">最新版のマニュアルへ</a>
+</p>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.1 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/reline.html","name":"relineライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Reline=3a=3aHISTORY.html","name":"Reline::HISTORYオブジェクト","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/reline.html">relineライブラリ</a>
+      </li>
+      <li>
+        Reline::HISTORYオブジェクト
+      </li>
+    </ol>
+  </nav>
+
+<h1>object Reline::HISTORY</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline/Reline__HISTORY.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+      <li>
+        <a href="../class/Reline=3a=3aHISTORY.html">Reline::HISTORY</a>
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+Reline で入力した内容(ヒストリ)にアクセスするための定数です。
+</p>
+<p>
+<a href="../class/Array.html">Array</a> のサブクラスである Reline::History クラスのインスタンスで、通常の配列と同じように履歴へアクセスできます。例えば
+<code>Reline::HISTORY[0]</code> で最初の入力内容を、<code>Reline::HISTORY.to_a</code>
+で全履歴を文字列の配列として取得できます。
+</p>
+<p>
+<a href="../method/Reline/s/readline.html">Reline.readline</a> や <a href="../method/Reline/s/readmultiline.html">Reline.readmultiline</a> の引数 <code>add_hist</code>
+に真を指定すると、入力した文字列がここに追加されます。
+</p>
+<p>
+<a href="../class/Array.html">Array</a> と異なる点は以下の通りです。
+</p>
+<ul>
+<li>要素を追加するとき(<code>push</code>・<code>&lt;&lt;</code> など)、inputrc の <code>set history-size</code>
+で設定した履歴サイズを超えないよう、古い履歴から削除されます。履歴サイズが
+0 のときは何も記録されず、負の値のときは無制限です(デフォルトは無制限)。</li>
+<li>追加する文字列のエンコーディングは Reline の内部エンコーディングに変換されます。</li>
+<li><code>to_s</code> は固定の文字列 <code>&quot;HISTORY&quot;</code> を返します。</li>
+</ul>
+<span class="caption">例: 入力のたびにヒストリを配列として表示する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'reline'</span>
+
+<span class="k">while</span> buf <span class="o">=</span> <span class="no">Reline</span><span class="p">.</span><span class="nf">readline</span><span class="p">(</span><span class="s2">"</span><span class="s2">&gt; </span><span class="s2">"</span>, <span class="k">true</span><span class="p">)</span>
+  <span class="nb">p</span> <span class="no">Reline</span><span class="o">::</span><span class="no">HISTORY</span><span class="p">.</span><span class="nf">to_a</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="s2">-&gt; </span><span class="s2">"</span>, buf, <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/reline/Reline__HISTORY.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

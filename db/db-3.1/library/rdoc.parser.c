@@ -6,12 +6,10 @@ is_sublibrary=true
 category=
 source_location=manual/api/rdoc/parser/c.md
 
-C 言語で記述されたソースコードから組み込みクラス/モジュールのドキュメン
-トを解析するためのサブライブラリです。
+C 言語で記述されたソースコードから組み込みクラス/モジュールのドキュメントを解析するためのサブライブラリです。
 
 C 言語で記述された拡張ライブラリなどを解析するのに使用します。
-[f:rb_define_class] や [f:rb_define_method] などで定義されたものに
-対応する C 言語の関数のコメントを解析します。
+[f:rb_define_class] や [f:rb_define_method] などで定義されたものに対応する C 言語の関数のコメントを解析します。
 
 例: Array#flatten の場合。rb_ary_flatten のコメントが解析されます。
 
@@ -44,11 +42,9 @@ C 言語で記述された拡張ライブラリなどを解析するのに使用
    rb_define_method(rb_cArray, "flatten", rb_ary_flatten, 0);
 ```
 
-上記の例の場合、rb_ary_flatten 関数と Init_Array 関数は同じファイルに記
-述されている必要があります。
+上記の例の場合、rb_ary_flatten 関数と Init_Array 関数は同じファイルに記述されている必要があります。
 
-また、Ruby のソースコードとは別にコメントには特別な命令を指定する事がで
-きます。
+また、Ruby のソースコードとは別にコメントには特別な命令を指定する事ができます。
 
 - **`Document-class: name`**:
 
@@ -65,8 +61,7 @@ C 言語で記述された拡張ライブラリなどを解析するのに使用
 
   指定した次の行から次の空行までをメソッド呼び出し列と解釈します。
 
-また、RDoc は rb_define_method などの定義と C 言語の関数の実装が同じファ
-イルにある事を前提としています。そうでない場合は以下のような指定を行います。
+また、RDoc は rb_define_method などの定義と C 言語の関数の実装が同じファイルにある事を前提としています。そうでない場合は以下のような指定を行います。
 
 ```c
 rb_define_method(....);  // in ファイル名

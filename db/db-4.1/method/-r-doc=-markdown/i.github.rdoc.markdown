@@ -7,8 +7,7 @@ until_by_name=
 
 ### def github -> bool
 
-Github Flavored Markdown 拡張の一部を有効にして出力を行うかどうかを返し
-ます。
+Github Flavored Markdown 拡張の一部を有効にして出力を行うかどうかを返します。
 
 デフォルトでは true を返します。
 

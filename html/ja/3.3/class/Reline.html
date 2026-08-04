@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Reline.html">
+
+<title>module Reline (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="GNU Readline 互換の行編集機能を提供するモジュールです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.3-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/reline.html","name":"relineライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Reline.html","name":"Relineモジュール","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/reline.html">relineライブラリ</a>
+      </li>
+      <li>
+        Relineモジュール
+      </li>
+    </ol>
+  </nav>
+
+<h1>module Reline</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+      <li>
+        Reline
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+GNU Readline 互換の行編集機能を提供するモジュールです。
+</p>
+<p>
+<a href="../method/Reline/s/readline.html">Reline.readline</a> でユーザからの一行入力を、<a href="../method/Reline/s/readmultiline.html">Reline.readmultiline</a>
+で複数行の入力を取得できます。入力時には行内編集が可能で、vi モードと
+Emacs モードが用意されています。デフォルトは Emacs モードです。
+</p>
+<p>
+入力した内容は入力履歴(ヒストリ)として記録できます。履歴には定数
+<a href="../class/Reline=3a=3aHISTORY.html">Reline::HISTORY</a>(<a href="../class/Array.html">Array</a> のサブクラスのインスタンス)でアクセスできます。
+</p>
+<p>
+挙動のカスタマイズは Reline モジュールのアトリビュートへの代入で行います。主なものは以下の通りです。
+</p>
+<ul>
+<li><a href="../method/Reline/s/completion_proc=3d.html">Reline.completion_proc=</a> -- 補完候補を計算する Proc を設定します。</li>
+<li><a href="../method/Reline/s/autocompletion=3d.html">Reline.autocompletion=</a> -- 入力中の自動補完表示を有効にします。</li>
+<li><a href="../method/Reline/s/prompt_proc=3d.html">Reline.prompt_proc=</a> -- 行ごとにプロンプトを動的に差し替える Proc を設定します。</li>
+<li><a href="../method/Reline/s/output_modifier_proc=3d.html">Reline.output_modifier_proc=</a> -- 表示前に入力内容を加工(シンタックスハイライトなど)する Proc を設定します。</li>
+<li><a href="../method/Reline/s/auto_indent_proc=3d.html">Reline.auto_indent_proc=</a> -- 自動インデントの幅を計算する Proc を設定します。</li>
+<li><a href="../method/Reline/s/input=3d.html">Reline.input=</a> / <a href="../method/Reline/s/output=3d.html">Reline.output=</a> -- 入出力先を差し替えます。デフォルトは標準入力/標準出力です。</li>
+</ul>
+<p>
+キーバインドや変数は、GNU Readline と同様に inputrc ファイルで設定できます。inputrc は環境変数 <code>INPUTRC</code>、<code>~/.inputrc</code>、XDG
+設定ディレクトリの <code>readline/inputrc</code> から探索されます。inputrc 内では
+<code>$if Ruby</code>(または <code>$if Reline</code>)の条件ブロックも利用できます。
+</p>
+<p>
+また、<a href="../class/Reline=3a=3aFace.html">Reline::Face</a> で補完ダイアログなどの表示スタイルをカスタマイズできます(reline 0.4.0 以降)。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_AUTO_INDENT_PROC">auto_indent_proc</a></li>
+
+<li><a href="#S_AUTO_INDENT_PROC">auto_indent_proc=</a></li>
+
+<li><a href="#S_AUTOCOMPLETION">autocompletion</a></li>
+
+<li><a href="#S_AUTOCOMPLETION">autocompletion=</a></li>
+
+<li><a href="#S_BASIC_QUOTE_CHARACTERS">basic_quote_characters</a></li>
+
+<li><a href="#S_BASIC_QUOTE_CHARACTERS">basic_quote_characters=</a></li>
+
+<li><a href="#S_BASIC_WORD_BREAK_CHARACTERS">basic_word_break_characters</a></li>
+
+<li><a href="#S_BASIC_WORD_BREAK_CHARACTERS">basic_word_break_characters=</a></li>
+
+<li><a href="#S_COMPLETER_QUOTE_CHARACTERS">completer_quote_characters</a></li>
+
+<li><a href="#S_COMPLETER_QUOTE_CHARACTERS">completer_quote_characters=</a></li>
+
+<li><a href="#S_COMPLETER_WORD_BREAK_CHARACTERS">completer_word_break_characters</a></li>
+
+<li><a href="#S_COMPLETER_WORD_BREAK_CHARACTERS">completer_word_break_characters=</a></li>
+
+<li><a href="#S_COMPLETION_APPEND_CHARACTER">completion_append_character</a></li>
+
+<li><a href="#S_COMPLETION_APPEND_CHARACTER">completion_append_character=</a></li>
+
+<li><a href="#S_COMPLETION_CASE_FOLD">completion_case_fold</a></li>
+
+<li><a href="#S_COMPLETION_CASE_FOLD">completion_case_fold=</a></li>
+
+<li><a href="#S_COMPLETION_PROC">completion_proc</a></li>
+
+<li><a href="#S_COMPLETION_PROC">completion_proc=</a></li>
+
+<li><a href="#S_COMPLETION_QUOTE_CHARACTER">completion_quote_character</a></li>
+
+<li><a href="#S_DIG_PERFECT_MATCH_PROC">dig_perfect_match_proc</a></li>
+
+<li><a href="#S_DIG_PERFECT_MATCH_PROC">dig_perfect_match_proc=</a></li>
+
+<li><a href="#S_EMACS_EDITING_MODE">emacs_editing_mode</a></li>
+
+<li><a href="#S_EMACS_EDITING_MODE--3F">emacs_editing_mode?</a></li>
+
+<li><a href="#S_FILENAME_QUOTE_CHARACTERS">filename_quote_characters</a></li>
+
+<li><a href="#S_FILENAME_QUOTE_CHARACTERS">filename_quote_characters=</a></li>
+
+<li><a href="#S_GET_SCREEN_SIZE">get_screen_size</a></li>
+
+<li><a href="#S_INPUT--3D">input=</a></li>
+
+<li><a href="#S_OUTPUT--3D">output=</a></li>
+
+<li><a href="#S_OUTPUT_MODIFIER_PROC">output_modifier_proc</a></li>
+
+<li><a href="#S_OUTPUT_MODIFIER_PROC">output_modifier_proc=</a></li>
+
+<li><a href="#S_PRE_INPUT_HOOK">pre_input_hook</a></li>
+
+<li><a href="#S_PRE_INPUT_HOOK">pre_input_hook=</a></li>
+
+<li><a href="#S_PROMPT_PROC">prompt_proc</a></li>
+
+<li><a href="#S_PROMPT_PROC">prompt_proc=</a></li>
+
+<li><a href="#S_READLINE">readline</a></li>
+
+<li><a href="#S_READMULTILINE">readmultiline</a></li>
+
+<li><a href="#S_SPECIAL_PREFIXES">special_prefixes</a></li>
+
+<li><a href="#S_SPECIAL_PREFIXES">special_prefixes=</a></li>
+
+<li><a href="#S_VI_EDITING_MODE">vi_editing_mode</a></li>
+
+<li><a href="#S_VI_EDITING_MODE--3F">vi_editing_mode?</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_AUTO_INDENT_PROC"><code>auto_indent_proc -&gt; Proc | nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/auto_indent_proc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-auto_indent_proc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>auto_indent_proc=(proc)</code></dt>
+<dd class="method-description">
+<p>
+複数行編集時に、行頭の自動インデントの幅を計算する <a href="../class/Proc.html">Proc</a>
+オブジェクトを取得/設定します。デフォルトは <code>nil</code> です。
+</p>
+<p>
+<code>proc</code> は次の 4 つの引数を受け取り、インデントに使う半角スペースの個数を整数で返すようにします。<code>nil</code>
+を返すとインデントを変更しません。対象の行の行頭の空白は、返した個数の半角スペースに置き換えられます。
+</p>
+<ul>
+<li><code>lines</code>: 入力中の各行の文字列の配列</li>
+<li><code>line_index</code>: インデントを計算する対象の行の <code>lines</code> 内の位置</li>
+<li><code>byte_pointer</code>: 行内のカーソルのバイト単位の位置</li>
+<li><code>is_newline</code>: 改行の入力直後かどうか</li>
+</ul>
+<dl>
+<dt class='method-param'>[PARAM] <code>proc</code>:</dt>
+<dd>
+インデント幅を返す <a href="../class/Proc.html">Proc</a> オブジェクト、または <code>nil</code> を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_AUTOCOMPLETION"><code>autocompletion -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/Reline/s/autocompletion.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-autocompletion">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>autocompletion=(bool)</code></dt>
+<dd class="method-description">
+<p>
+入力中に補完候補を自動的にダイアログ表示するかどうかを取得/設定します。デフォルトは <code>false</code> です。
+</p>
+<p>
+<code>true</code> を指定すると、文字を入力するたびに <a href="../method/Reline/s/completion_proc.html">Reline.completion_proc</a>
+が呼ばれ、候補がダイアログに表示されます(<a href="../library/irb.html">irb</a> の入力補完表示で使われている機能です)。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>bool</code>:</dt>
+<dd>
+自動補完表示を有効にするかどうかを真偽値で指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_BASIC_QUOTE_CHARACTERS"><code>basic_quote_characters -&gt; String</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/basic_quote_characters.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-basic_quote_characters">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>basic_quote_characters=(string)</code></dt>
+<dd class="method-description">
+<p>
+クオートとみなす文字の集合を取得/設定します。
+</p>
+<p>
+デフォルトは <code>&quot;'</code>(ダブルクオートとシングルクオート)です。
+</p>
+<p>
+設定値は保持されますが、現在の reline の補完処理では使用されません。クオートの判定には
+<a href="../method/Reline/s/completer_quote_characters.html">Reline.completer_quote_characters</a> が使われます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+文字列を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_BASIC_WORD_BREAK_CHARACTERS"><code>basic_word_break_characters -&gt; String</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/basic_word_break_characters.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-basic_word_break_characters">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>basic_word_break_characters=(string)</code></dt>
+<dd class="method-description">
+<p>
+単語の区切りを示す文字の集合を取得/設定します。
+</p>
+<p>
+デフォルトは <code>&quot; \t\n`&gt;&lt;=;|&amp;{(&quot;</code>(半角スペースを含む)です。
+</p>
+<p>
+設定値は保持されますが、現在の reline の補完処理では使用されません。補完の単語の区切りには
+<a href="../method/Reline/s/completer_word_break_characters.html">Reline.completer_word_break_characters</a> が使われます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+文字列を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_COMPLETER_QUOTE_CHARACTERS"><code>completer_quote_characters -&gt; String</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/completer_quote_characters.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-completer_quote_characters">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>completer_quote_characters=(string)</code></dt>
+<dd class="method-description">
+<p>
+ユーザの入力の補完を行う際、クオートとみなす文字の集合を取得/設定します。クオートの内側では、<a href="../method/Reline/s/completer_word_break_characters=3d.html">Reline.completer_word_break_characters=</a>
+で指定した文字も通常の文字として扱われます。
+</p>
+<p>
+デフォルトは <code>&quot;'</code>(ダブルクオートとシングルクオート)です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+文字列を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_COMPLETER_WORD_BREAK_CHARACTERS"><code>completer_word_break_characters -&gt; String</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/completer_word_break_characters.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-completer_word_break_characters">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>completer_word_break_characters=(string)</code></dt>
+<dd class="method-description">
+<p>
+ユーザの入力の補完を行う際、単語の区切りを示す文字の集合を取得/設定します。
+</p>
+<p>
+デフォルトは <code>&quot; \t\n`&gt;&lt;=;|&amp;{(&quot;</code>(半角スペースを含む)です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+文字列を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_COMPLETION_APPEND_CHARACTER"><code>completion_append_character -&gt; String | nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/completion_append_character.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-completion_append_character">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>completion_append_character=(string)</code></dt>
+<dd class="method-description">
+<p>
+補完が 1 つの候補に確定したときに、末尾に付加する文字を取得/設定します。デフォルトは
+<code>nil</code>(何も付加しない)です。
+</p>
+<p>
+1 文字しか指定できないため、<code>string</code> に 2 文字以上の文字列を指定した場合は最初の
+1 文字だけが使われます。半角スペース <code>&quot; &quot;</code> などの単語を区切る文字を指定すれば、補完後に続けて入力する際に便利です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+付加する 1 文字を指定します。<code>nil</code> を指定すると何も付加しません。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_COMPLETION_CASE_FOLD"><code>completion_case_fold -&gt; bool</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/completion_case_fold.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-completion_case_fold">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>completion_case_fold=(bool)</code></dt>
+<dd class="method-description">
+<p>
+ユーザの入力を補完する際、大文字と小文字を同一視するかどうかを取得/設定します。<code>bool</code>
+が真ならば同一視します。デフォルトは <code>nil</code> です。
+</p>
+<p>
+inputrc の <code>set completion-ignore-case on</code> でも設定できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>bool</code>:</dt>
+<dd>
+大文字と小文字を同一視する(<code>true</code>)/しない(<code>false</code>)を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_COMPLETION_PROC"><code>completion_proc -&gt; Proc | nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/completion_proc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-completion_proc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>completion_proc=(proc)</code></dt>
+<dd class="method-description">
+<p>
+ユーザからの入力を補完するときの候補を取得する <a href="../class/Proc.html">Proc</a>
+オブジェクトを取得/設定します。デフォルトは <code>nil</code> で、このときは補完を行いません。
+</p>
+<p>
+<code>proc</code> は、引数に入力中の単語(カーソル位置までの、<a href="../method/Reline/s/completer_word_break_characters.html">Reline.completer_word_break_characters</a>
+に含まれる文字で区切られた文字列)を受け取り、候補の文字列の配列を返すようにします。
+2 個以上の引数を受け取る <code>proc</code> を指定した場合は、第 2 引数に単語より前の文字列が、第 3 引数に単語より後ろの文字列も渡されます。
+</p>
+<p>
+補完は Tab キーの押下で実行されます。
+<a href="../method/Reline/s/autocompletion.html">Reline.autocompletion</a> が真のときは、文字の入力のたびに呼ばれて候補がダイアログに表示されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>proc</code>:</dt>
+<dd>
+補完候補を取得する <a href="../class/Proc.html">Proc</a> オブジェクト、または <code>nil</code> を指定します。
+</dd>
+</dl>
+<span class="caption">例: foo、foobar、foobaz を補完する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'reline'</span>
+
+<span class="no">WORDS</span> <span class="o">=</span> <span class="sx">%w(foo foobar foobaz)</span>
+
+<span class="no">Reline</span><span class="p">.</span><span class="nf">completion_proc</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span>word<span class="o">|</span>
+  <span class="no">WORDS</span><span class="p">.</span><span class="nf">grep</span><span class="p">(</span><span class="sr">/\A<span class="si">#{</span><span class="no">Regexp</span><span class="p">.</span><span class="nf">quote</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="si">}</span>/</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">while</span> buf <span class="o">=</span> <span class="no">Reline</span><span class="p">.</span><span class="nf">readline</span><span class="p">(</span><span class="s2">"</span><span class="s2">&gt; </span><span class="s2">"</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="s2">-&gt; </span><span class="s2">"</span>, buf, <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_COMPLETION_QUOTE_CHARACTER"><code>completion_quote_character -&gt; String | nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/completion_quote_character.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-completion_quote_character">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ユーザ入力の補完中(<a href="../method/Reline/s/completion_proc.html">Reline.completion_proc</a> の呼び出し中)に、開いたまま閉じられていないクオート文字(<a href="../method/Reline/s/completer_quote_characters.html">Reline.completer_quote_characters</a>
+のいずれか)があればそれを返します。補完中以外は <code>nil</code> を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_DIG_PERFECT_MATCH_PROC"><code>dig_perfect_match_proc -&gt; Proc | nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/dig_perfect_match_proc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-dig_perfect_match_proc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>dig_perfect_match_proc=(proc)</code></dt>
+<dd class="method-description">
+<p>
+補完候補が 1 つに確定している状態で、さらに補完しようとしたときに呼ばれる
+<a href="../class/Proc.html">Proc</a> オブジェクトを取得/設定します。<code>proc</code>
+は確定した候補の文字列を引数として呼ばれます。デフォルトは <code>nil</code> です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>proc</code>:</dt>
+<dd>
+<a href="../class/Proc.html">Proc</a> オブジェクト、または <code>nil</code> を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_EMACS_EDITING_MODE"><code>emacs_editing_mode -&gt; nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/emacs_editing_mode.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-emacs_editing_mode">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+編集モードを Emacs モードにします。デフォルトは Emacs モードです。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Reline/s/vi_editing_mode.html">Reline.vi_editing_mode</a>、<a href="../method/Reline/s/emacs_editing_mode=3f.html">Reline.emacs_editing_mode?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_EMACS_EDITING_MODE--3F"><code>emacs_editing_mode? -&gt; bool</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/emacs_editing_mode=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-emacs_editing_mode-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+編集モードが Emacs モードかどうかを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Reline/s/emacs_editing_mode.html">Reline.emacs_editing_mode</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_FILENAME_QUOTE_CHARACTERS"><code>filename_quote_characters -&gt; String</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/filename_quote_characters.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-filename_quote_characters">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>filename_quote_characters=(string)</code></dt>
+<dd class="method-description">
+<p>
+ファイル名の補完の際にクオートするための文字の集合を取得/設定します。デフォルトは <code>&quot;&quot;</code> です。
+</p>
+<p>
+設定値は保持されますが、現在の reline の補完処理では使用されません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+文字列を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_GET_SCREEN_SIZE"><code>get_screen_size -&gt; [Integer, Integer]</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/get_screen_size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-get_screen_size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+端末のサイズを [行数, 桁数] の配列で返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_INPUT--3D"><code>input=(input)</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/input=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-input-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Reline が入力の読み取りに使うオブジェクトを <code>input</code> に変更します。デフォルトは標準入力です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>input</code>:</dt>
+<dd>
+<code>getc</code> メソッドを持つオブジェクト(<a href="../class/IO.html">IO</a> など)、または <code>nil</code> を指定します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+<code>input</code> が <code>nil</code> でも <code>getc</code> メソッドを持つオブジェクトでもない場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_OUTPUT--3D"><code>output=(output)</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/output=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-output-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Reline が表示に使うオブジェクトを <code>output</code> に変更します。デフォルトは標準出力です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>output</code>:</dt>
+<dd>
+<code>write</code> メソッドを持つオブジェクト(<a href="../class/IO.html">IO</a> など)、または <code>nil</code> を指定します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+<code>output</code> が <code>nil</code> でも <code>write</code> メソッドを持つオブジェクトでもない場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_OUTPUT_MODIFIER_PROC"><code>output_modifier_proc -&gt; Proc | nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/output_modifier_proc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-output_modifier_proc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>output_modifier_proc=(proc)</code></dt>
+<dd class="method-description">
+<p>
+入力内容を表示する直前に、表示用に加工する <a href="../class/Proc.html">Proc</a>
+オブジェクトを取得/設定します。シンタックスハイライトなどに利用できます。デフォルトは <code>nil</code> です。
+</p>
+<p>
+<code>proc</code> は、第 1 引数に入力内容全体の文字列(末尾に改行を含む)を、キーワード引数
+<code>complete</code> に入力が確定したかどうかの真偽値を受け取り、表示に使う文字列を返すようにします。返した文字列は表示にだけ使われ、<a href="../method/Reline/s/readline.html">Reline.readline</a>
+などの返り値は変わりません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>proc</code>:</dt>
+<dd>
+表示用の文字列を返す <a href="../class/Proc.html">Proc</a> オブジェクト、または <code>nil</code> を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_PRE_INPUT_HOOK"><code>pre_input_hook -&gt; Proc | nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/pre_input_hook.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-pre_input_hook">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>pre_input_hook=(proc)</code></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Reline/s/readline.html">Reline.readline</a> や <a href="../method/Reline/s/readmultiline.html">Reline.readmultiline</a>
+が入力の受け付けを始める直前に呼ばれる <a href="../class/Proc.html">Proc</a>
+オブジェクトを取得/設定します。<code>proc</code> は引数なしで呼ばれます。デフォルトは <code>nil</code> です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>proc</code>:</dt>
+<dd>
+<a href="../class/Proc.html">Proc</a> オブジェクト、または <code>nil</code> を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_PROMPT_PROC"><code>prompt_proc -&gt; Proc | nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/prompt_proc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-prompt_proc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>prompt_proc=(proc)</code></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Reline/s/readmultiline.html">Reline.readmultiline</a> での複数行編集時に、行ごとのプロンプトを動的に生成する
+<a href="../class/Proc.html">Proc</a> オブジェクトを取得/設定します。デフォルトは <code>nil</code> です。
+</p>
+<p>
+<code>proc</code> は、入力中の各行の文字列を要素とする配列を受け取り、行ごとのプロンプト文字列の配列を返すようにします。<a href="../method/Reline/s/readline.html">Reline.readline</a>
+による一行入力では使われません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>proc</code>:</dt>
+<dd>
+プロンプトの配列を返す <a href="../class/Proc.html">Proc</a> オブジェクト、または <code>nil</code> を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_READLINE"><code>readline(prompt = &quot;&quot;, add_hist = false) -&gt; String | nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/readline.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-readline">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>prompt</code> を出力し、ユーザからのキー入力を待ちます。エンターキーの押下などでユーザが文字列を入力し終えると、入力した文字列を返します。返り値の末尾に改行は含まれません。このとき、<code>add_hist</code> が真であれば、入力した文字列を入力履歴 <a href="../class/Reline=3a=3aHISTORY.html">Reline::HISTORY</a>
+に追加します。空の入力は追加されません。何も入力していない状態で EOF(UNIX では ^D)を入力するなどで、ユーザからの入力がない場合は <code>nil</code> を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>prompt</code>:</dt>
+<dd>
+カーソルの前に表示する文字列を指定します。デフォルトは <code>&quot;&quot;</code> です。
+</dd>
+<dt class='method-param'>[PARAM] <code>add_hist</code>:</dt>
+<dd>
+真ならば、入力した文字列を入力履歴に追加します。デフォルトは偽です。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'reline'</span>
+
+<span class="k">while</span> buf <span class="o">=</span> <span class="no">Reline</span><span class="p">.</span><span class="nf">readline</span><span class="p">(</span><span class="s2">"</span><span class="s2">&gt; </span><span class="s2">"</span>, <span class="k">true</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="s2">-&gt; </span><span class="s2">"</span>, buf, <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_READMULTILINE"><code>readmultiline(prompt = &quot;&quot;, add_hist = false) { |text| ... } -&gt; String | nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/readmultiline.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-readmultiline">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>prompt</code> を出力し、ユーザからの複数行の入力を待ちます。
+</p>
+<p>
+一行の入力が確定するたびに、それまでに入力された全体の文字列 <code>text</code>
+を引数としてブロックが呼ばれます。ブロックが真を返すと入力を終了し、入力された複数行全体をひとつの文字列(各行を <code>&quot;\n&quot;</code>
+で連結したもの)として返します。返り値の末尾に改行は含まれません。
+</p>
+<p>
+<code>add_hist</code> が真であれば、入力した複数行全体をひとつのエントリとして入力履歴
+<a href="../class/Reline=3a=3aHISTORY.html">Reline::HISTORY</a> に追加します。空の入力は追加されません。
+</p>
+<p>
+何も入力していない状態で EOF(UNIX では ^D)を入力するなどで、ユーザからの入力がない場合は <code>nil</code> を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>prompt</code>:</dt>
+<dd>
+カーソルの前に表示する文字列を指定します。デフォルトは <code>&quot;&quot;</code> です。
+</dd>
+<dt class='method-param'>[PARAM] <code>add_hist</code>:</dt>
+<dd>
+真ならば、入力した文字列を入力履歴に追加します。デフォルトは偽です。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+ブロックを省略した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例: 「end」だけの行が入力されたら入力を終了する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'reline'</span>
+
+code <span class="o">=</span> <span class="no">Reline</span><span class="p">.</span><span class="nf">readmultiline</span><span class="p">(</span><span class="s2">"</span><span class="s2">&gt; </span><span class="s2">"</span>, <span class="k">true</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>text<span class="o">|</span> text<span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span> <span class="o">==</span> <span class="s2">"</span><span class="s2">end</span><span class="s2">"</span> <span class="p">}</span>
+<span class="nb">puts</span> code
+</code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_SPECIAL_PREFIXES"><code>special_prefixes -&gt; String</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/special_prefixes.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-special_prefixes">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>special_prefixes=(string)</code></dt>
+<dd class="method-description">
+<p>
+補完対象の単語の一部として扱う接頭辞の文字の集合を取得/設定します。デフォルトは <code>&quot;&quot;</code> です。
+</p>
+<p>
+設定値は保持されますが、現在の reline の補完処理では使用されません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+文字列を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_VI_EDITING_MODE"><code>vi_editing_mode -&gt; nil</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/vi_editing_mode.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-vi_editing_mode">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+編集モードを vi モードにします。
+</p>
+<p>
+inputrc の <code>set editing-mode vi</code> でも設定できます。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Reline/s/emacs_editing_mode.html">Reline.emacs_editing_mode</a>、<a href="../method/Reline/s/vi_editing_mode=3f.html">Reline.vi_editing_mode?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_VI_EDITING_MODE--3F"><code>vi_editing_mode? -&gt; bool</code><span class="method-since-badge">Ruby 2.7 から</span><span class="permalink">[<a href="../method/Reline/s/vi_editing_mode=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Reline.html#method-c-vi_editing_mode-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+編集モードが vi モードかどうかを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Reline/s/vi_editing_mode.html">Reline.vi_editing_mode</a>
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/reline.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

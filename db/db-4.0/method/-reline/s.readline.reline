@@ -1,0 +1,27 @@
+names=readline
+visibility=public
+kind=defined
+source_location=manual/api/reline.md
+since_by_name=readline=2.7
+until_by_name=
+
+### def Reline.readline(prompt = "", add_hist = false) -> String | nil
+{: since="2.7"}
+
+`prompt` を出力し、ユーザからのキー入力を待ちます。
+エンターキーの押下などでユーザが文字列を入力し終えると、入力した文字列を返します。返り値の末尾に改行は含まれません。
+このとき、`add_hist` が真であれば、入力した文字列を入力履歴 [c:Reline::HISTORY]
+に追加します。空の入力は追加されません。
+何も入力していない状態で EOF(UNIX では ^D)を入力するなどで、ユーザからの入力がない場合は `nil` を返します。
+
+- **param** `prompt` -- カーソルの前に表示する文字列を指定します。デフォルトは `""` です。
+- **param** `add_hist` -- 真ならば、入力した文字列を入力履歴に追加します。デフォルトは偽です。
+
+```ruby title="例"
+require 'reline'
+
+while buf = Reline.readline("> ", true)
+  print("-> ", buf, "\n")
+end
+```
+

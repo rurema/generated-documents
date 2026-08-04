@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Reline=3a=3aFace.html">
+
+<title>class Reline::Face (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="補完ダイアログなどの表示スタイル(色・文字装飾)をカスタマイズするためのクラスです。reline 0.4.0(Ruby 3.3 に同梱)で導入されました。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/reline.html","name":"relineライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Reline=3a=3aFace.html","name":"Reline::Faceクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/reline.html">relineライブラリ</a>
+      </li>
+      <li>
+        Reline::Faceクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Reline::Face</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline/Reline__Face.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Reline::Face
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+補完ダイアログなどの表示スタイル(色・文字装飾)をカスタマイズするためのクラスです。reline 0.4.0(Ruby 3.3 に同梱)で導入されました。
+</p>
+<p>
+<a href="../method/Reline=3a=3aFace/s/config.html">Reline::Face.config</a> で「face」(表示スタイルの設定の組)を定義します。既定では次の
+2 つの face が定義されています。
+</p>
+<ul>
+<li><code>:default</code> -- 通常のテキストのスタイル</li>
+<li><code>:completion_dialog</code> -- 補完ダイアログのスタイル</li>
+</ul>
+<p>
+それぞれの face では、次の 3 つの部分のスタイルを定義します。定義しなかった部分は
+<code>style: :reset</code> になります。
+</p>
+<ul>
+<li><code>:default</code> -- 基本のスタイル(補完ダイアログでは候補一覧の地の部分)</li>
+<li><code>:enhanced</code> -- 強調部分のスタイル(補完ダイアログでは選択中の候補)</li>
+<li><code>:scrollbar</code> -- スクロールバーのスタイル</li>
+</ul>
+<span class="caption">例: 補完ダイアログの配色を変更する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'reline'</span>
+
+<span class="no">Reline</span><span class="o">::</span><span class="no">Face</span><span class="p">.</span><span class="nf">config</span><span class="p">(</span><span class="ss">:completion_dialog</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>conf<span class="o">|</span>
+  conf<span class="p">.</span><span class="nf">define</span> <span class="ss">:default</span>, <span class="ss">foreground:</span> <span class="ss">:white</span>, <span class="ss">background:</span> <span class="ss">:blue</span>
+  conf<span class="p">.</span><span class="nf">define</span> <span class="ss">:enhanced</span>, <span class="ss">foreground:</span> <span class="ss">:white</span>, <span class="ss">background:</span> <span class="ss">:magenta</span>
+  conf<span class="p">.</span><span class="nf">define</span> <span class="ss">:scrollbar</span>, <span class="ss">foreground:</span> <span class="ss">:white</span>, <span class="ss">background:</span> <span class="ss">:blue</span>
+<span class="k">end</span>
+</code></pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_CONFIG">config</a></li>
+
+<li><a href="#S_CONFIGS">configs</a></li>
+
+<li><a href="#S_FORCE_TRUECOLOR">force_truecolor</a></li>
+
+<li><a href="#S_TRUECOLOR--3F">truecolor?</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_CONFIG"><code>config(name) { |conf| ... } -&gt; object</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Reline=3a=3aFace/s/config.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Reline/Face.html#method-c-config">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline/Reline__Face.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+名前 <code>name</code> の face を定義します。
+</p>
+<p>
+ブロックには設定用のオブジェクトが渡されます。<code>define(part, **attributes)</code>
+を呼んで、face を構成する部分ごとのスタイルを定義します。
+</p>
+<ul>
+<li><code>part</code> -- <code>:default</code>・<code>:enhanced</code>・<code>:scrollbar</code> のいずれかを指定します。</li>
+<li><code>attributes</code> -- スタイルをキーワード引数で指定します。<ul>
+<li><code>foreground:</code>/<code>background:</code> -- 文字色/背景色。色名のシンボル(<code>:black</code>・<code>:red</code>・<code>:green</code>・<code>:yellow</code>・<code>:blue</code>・<code>:magenta</code>・<code>:cyan</code>・<code>:white</code> と、それぞれの <code>:bright_*</code>、<code>:gray</code>)、または
+<code>&quot;#RRGGBB&quot;</code> 形式の文字列で指定します。</li>
+<li><code>style:</code> -- 文字装飾。<code>:reset</code>・<code>:bold</code>・<code>:faint</code>・<code>:italicized</code>・<code>:underlined</code>・<code>:blinking</code>・<code>:negative</code>
+などのシンボル、またはその配列で指定します。</li>
+</ul>
+</li>
+</ul>
+<p>
+<code>&quot;#RRGGBB&quot;</code> 形式の色指定は、トゥルーカラーとして扱われる端末(環境変数
+<code>COLORTERM</code> が <code>truecolor</code> または <code>24bit</code> の環境、もしくは
+<a href="../method/Reline=3a=3aFace/s/force_truecolor.html">Reline::Face.force_truecolor</a> を呼んだ場合)では 24 ビットカラーで、それ以外の端末では近似の
+256 色に変換して出力されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>name</code>:</dt>
+<dd>
+face の名前をシンボルで指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>define</code> に不正な色やスタイルを指定した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例: 補完ダイアログの配色を変更する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'reline'</span>
+
+<span class="no">Reline</span><span class="o">::</span><span class="no">Face</span><span class="p">.</span><span class="nf">config</span><span class="p">(</span><span class="ss">:completion_dialog</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>conf<span class="o">|</span>
+  conf<span class="p">.</span><span class="nf">define</span> <span class="ss">:default</span>, <span class="ss">foreground:</span> <span class="ss">:white</span>, <span class="ss">background:</span> <span class="ss">:blue</span>
+  conf<span class="p">.</span><span class="nf">define</span> <span class="ss">:enhanced</span>, <span class="ss">foreground:</span> <span class="ss">:white</span>, <span class="ss">background:</span> <span class="ss">:magenta</span>
+  conf<span class="p">.</span><span class="nf">define</span> <span class="ss">:scrollbar</span>, <span class="ss">foreground:</span> <span class="ss">:white</span>, <span class="ss">background:</span> <span class="ss">:blue</span>
+<span class="k">end</span>
+
+<span class="no">Reline</span><span class="o">::</span><span class="no">Face</span><span class="p">.</span><span class="nf">configs</span><span class="p">[</span><span class="ss">:completion_dialog</span><span class="p">]</span><span class="p">[</span><span class="ss">:default</span><span class="p">]</span>
+<span class="c1"># =&gt; {foreground: :white, background: :blue, escape_sequence: &quot;\e[0m\e[37;44m&quot;}
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_CONFIGS"><code>configs -&gt; Hash</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Reline=3a=3aFace/s/configs.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Reline/Face.html#method-c-configs">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline/Reline__Face.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+定義されているすべての face の設定内容をハッシュで返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'reline'</span>
+
+<span class="no">Reline</span><span class="o">::</span><span class="no">Face</span><span class="p">.</span><span class="nf">configs</span><span class="p">.</span><span class="nf">keys</span>
+<span class="c1"># =&gt; [:default, :completion_dialog]
+</span><span class="no">Reline</span><span class="o">::</span><span class="no">Face</span><span class="p">.</span><span class="nf">configs</span><span class="p">[</span><span class="ss">:default</span><span class="p">]</span>
+<span class="c1"># =&gt; {default: {style: :reset, escape_sequence: &quot;\e[0m&quot;},
+</span><span class="c1">#     enhanced: {style: :reset, escape_sequence: &quot;\e[0m&quot;},
+</span><span class="c1">#     scrollbar: {style: :reset, escape_sequence: &quot;\e[0m&quot;}}
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_FORCE_TRUECOLOR"><code>force_truecolor -&gt; ()</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Reline=3a=3aFace/s/force_truecolor.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Reline/Face.html#method-c-force_truecolor">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline/Reline__Face.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+端末がトゥルーカラー対応かどうかの判定を、環境変数 <code>COLORTERM</code>
+の値によらず強制的に真にします。
+</p>
+<span class="caption">例: 24 ビットカラーで補完ダイアログの色を指定する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'reline'</span>
+
+<span class="no">Reline</span><span class="o">::</span><span class="no">Face</span><span class="p">.</span><span class="nf">force_truecolor</span>
+<span class="no">Reline</span><span class="o">::</span><span class="no">Face</span><span class="p">.</span><span class="nf">config</span><span class="p">(</span><span class="ss">:completion_dialog</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>conf<span class="o">|</span>
+  conf<span class="p">.</span><span class="nf">define</span> <span class="ss">:default</span>, <span class="ss">foreground:</span> <span class="s2">"</span><span class="s2">#dddddd</span><span class="s2">"</span>, <span class="ss">background:</span> <span class="s2">"</span><span class="s2">#333333</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Reline=3a=3aFace/s/truecolor=3f.html">Reline::Face.truecolor?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_TRUECOLOR--3F"><code>truecolor? -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Reline=3a=3aFace/s/truecolor=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Reline/Face.html#method-c-truecolor-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/reline/Reline__Face.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+端末をトゥルーカラー対応として扱うかどうかを返します。環境変数 <code>COLORTERM</code>
+が <code>truecolor</code> または <code>24bit</code> の場合、もしくは <a href="../method/Reline=3a=3aFace/s/force_truecolor.html">Reline::Face.force_truecolor</a>
+を呼んだ後に真を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Reline=3a=3aFace/s/force_truecolor.html">Reline::Face.force_truecolor</a>
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/reline/Reline__Face.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

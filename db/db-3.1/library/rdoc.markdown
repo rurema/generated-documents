@@ -6,8 +6,7 @@ is_sublibrary=true
 category=
 source_location=manual/api/rdoc/markdown.md
 
-Markdown 形式で記述されたドキュメントを [lib:rdoc] 上で解析するための
-サブライブラリです。
+Markdown 形式で記述されたドキュメントを [lib:rdoc] 上で解析するためのサブライブラリです。
 
 詳しくは以下を参照してください。
 
@@ -19,8 +18,7 @@ Markdown 形式をデフォルトのフォーマットにする場合は、
 
 ### 拡張
 
-以降の Markdown の拡張は [c:RDoc] のパーサ独自にサポートされているも
-のです。ただし、全てがデフォルトで有効になっている訳ではありません。
+以降の Markdown の拡張は [c:RDoc] のパーサ独自にサポートされているものです。ただし、全てがデフォルトで有効になっている訳ではありません。
 
 #### RDoc
 
@@ -35,17 +33,13 @@ Markdown syntax nor MarkdownTest mention this behavior.)
 
 #### Break on Newline
 
-[m:RDoc::Markdown#break_on_newline] を設定する事で改行を保持した状態
-で出力が行えます。詳しくは以下を参照してください。この拡張はデフォルト
-では無効になっています。
+[m:RDoc::Markdown#break_on_newline] を設定する事で改行を保持した状態で出力が行えます。詳しくは以下を参照してください。この拡張はデフォルトでは無効になっています。
 
 - Github Flavored Markdown: <https://github.github.com/gfm/>
 
 #### CSS
 
-[m:RDoc::Markdown#css] を設定する事で CSS を記述した場合に出力に含め
-る事ができます。ただし、それを常に [c:RDoc] の出力に含める事はできま
-せん。この拡張はデフォルトでは無効になっています。
+[m:RDoc::Markdown#css] を設定する事で CSS を記述した場合に出力に含める事ができます。ただし、それを常に [c:RDoc] の出力に含める事はできません。この拡張はデフォルトでは無効になっています。
 
 ```html title="例"
 <style type="text/css">
@@ -55,9 +49,7 @@ h1 { font-size: 3em }
 
 #### 定義リスト
 
-[m:RDoc::Markdown#definition_lists] を設定する事で定義リストを出力す
-る事ができます。詳しくは以下を参照してください。この拡張はデフォルトで
-有効になっています。
+[m:RDoc::Markdown#definition_lists] を設定する事で定義リストを出力する事ができます。詳しくは以下を参照してください。この拡張はデフォルトで有効になっています。
 
 - PHP Markdown Extra syntax: <https://michelf.ca/projects/php-markdown/extra/#def-list>
 
@@ -79,9 +71,7 @@ ant
 
 #### Github
 
-[m:RDoc::Markdown#github] を設定する事で Github Flavored Markdown 拡
-張の一部を有効にして出力が行えます。詳しくは以下を参照してください。こ
-の拡張はデフォルトで有効になっています。
+[m:RDoc::Markdown#github] を設定する事で Github Flavored Markdown 拡張の一部を有効にして出力が行えます。詳しくは以下を参照してください。この拡張はデフォルトで有効になっています。
 
 - Github Flavored Markdown: <https://github.github.com/gfm/>
 
@@ -93,13 +83,11 @@ ant
 
 ##### シンタックスハイライト
 
-コードを「\`\`\` ruby」と「\`\`\`」で囲む事でシンタックスハイライトを有効にで
-きます。(現在は Ruby のみがサポートされています)
+コードを「\`\`\` ruby」と「\`\`\`」で囲む事でシンタックスハイライトを有効にできます。(現在は Ruby のみがサポートされています)
 
 #### HTML
 
-[m:RDoc::Markdown#html] を設定する事で HTML を記述した場合にそのまま
-出力する事ができます。この拡張はデフォルトで有効になっています。
+[m:RDoc::Markdown#html] を設定する事で HTML を記述した場合にそのまま出力する事ができます。この拡張はデフォルトで有効になっています。
 
 ```html title="例"
 <table>
@@ -109,8 +97,7 @@ ant
 
 #### Notes
 
-[m:RDoc::Markdown#notes] を設定する事で脚注を出力する事ができます。こ
-の拡張はデフォルトで有効になっています。
+[m:RDoc::Markdown#notes] を設定する事で脚注を出力する事ができます。この拡張はデフォルトで有効になっています。
 
 ```text title="例"
 Here is some text[^1] including an inline footnote ^[for short footnotes]
@@ -129,8 +116,7 @@ Here is some text[^1] including an inline footnote ^[for short footnotes]
 ### 著者
 
 この Markdown パーサは John MacFarlane が開発した
-peg-markdown(<https://github.com/jgm/peg-markdown>)を kpeg に移植
-しました。
+peg-markdown(<https://github.com/jgm/peg-markdown>)を kpeg に移植しました。
 
 これは MIT ライセンスで提供されています。:
 

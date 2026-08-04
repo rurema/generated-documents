@@ -1,0 +1,33 @@
+names=readmultiline
+visibility=public
+kind=defined
+source_location=manual/api/reline.md
+since_by_name=readmultiline=2.7
+until_by_name=
+
+### def Reline.readmultiline(prompt = "", add_hist = false) { |text| ... } -> String | nil
+{: since="2.7"}
+
+`prompt` を出力し、ユーザからの複数行の入力を待ちます。
+
+一行の入力が確定するたびに、それまでに入力された全体の文字列 `text`
+を引数としてブロックが呼ばれます。ブロックが真を返すと入力を終了し、入力された複数行全体をひとつの文字列(各行を `"\n"`
+で連結したもの)として返します。返り値の末尾に改行は含まれません。
+
+`add_hist` が真であれば、入力した複数行全体をひとつのエントリとして入力履歴
+[c:Reline::HISTORY] に追加します。空の入力は追加されません。
+
+何も入力していない状態で EOF(UNIX では ^D)を入力するなどで、ユーザからの入力がない場合は `nil` を返します。
+
+- **param** `prompt` -- カーソルの前に表示する文字列を指定します。デフォルトは `""` です。
+- **param** `add_hist` -- 真ならば、入力した文字列を入力履歴に追加します。デフォルトは偽です。
+
+- **raise** `ArgumentError` -- ブロックを省略した場合に発生します。
+
+```ruby title="例: 「end」だけの行が入力されたら入力を終了する"
+require 'reline'
+
+code = Reline.readmultiline("> ", true) { |text| text.split("\n").last == "end" }
+puts code
+```
+

@@ -8,8 +8,7 @@ until_by_name=
 ### module_function def spawn(command, options={}) -> Integer
 ### module_function def spawn(env, command, options={}) -> Integer
 
-引数を外部コマンドとして実行しますが、生成した
-子プロセスの終了を待ち合わせません。生成した子プロセスのプロセスIDを返します。
+引数を外部コマンドとして実行しますが、生成した子プロセスの終了を待ち合わせません。生成した子プロセスのプロセスIDを返します。
 
 ### 引数の解釈
 
@@ -34,11 +33,9 @@ until_by_name=
 ### module_function def spawn(program, *args) -> Integer
 ### module_function def spawn(env, program, *args, options={}) -> Integer
 
-引数を外部コマンドとして実行しますが、生成した
-子プロセスの終了を待ち合わせません。生成した子プロセスのプロセスIDを返します。
+引数を外部コマンドとして実行しますが、生成した子プロセスの終了を待ち合わせません。生成した子プロセスのプロセスIDを返します。
 
-env に Hash を渡すことで、[man:exec(2)] で子プロセス内で
-ファイルを実行する前に環境変数を変更できます。
+env に Hash を渡すことで、[man:exec(2)] で子プロセス内でファイルを実行する前に環境変数を変更できます。
 Hash のキーは環境変数名文字列、Hash の値に設定する値とします。
 nil とすることで環境変数が削除([man:unsetenv(3)])されます。
 
@@ -47,17 +44,13 @@ nil とすることで環境変数が削除([man:unsetenv(3)])されます。
 pid = spawn({"FOO"=>"BAR", "BAZ"=>nil}, command)
 ```
 
-親プロセスは [m:Process?.waitpid] で子プロセスの終了を待ち合わせるか
-もしくは [m:Process?.detach] で子プロセスを切り離すかしてください。
+親プロセスは [m:Process?.waitpid] で子プロセスの終了を待ち合わせるかもしくは [m:Process?.detach] で子プロセスを切り離すかしてください。
 そうでないとゾンビプロセスが残る場合があります。
 
 ### 引数の解釈
 
-この形式で呼び出した場合、空白や shell のメタキャラクタも
-そのまま program の引数に渡されます。
-先頭の引数が2要素の配列であった場合、第1要素の文字列が実際に
-起動するプログラムのパスであり、第2要素が「みせかけ」のプロ
-グラム名になります。
+この形式で呼び出した場合、空白や shell のメタキャラクタもそのまま program の引数に渡されます。
+先頭の引数が2要素の配列であった場合、第1要素の文字列が実際に起動するプログラムのパスであり、第2要素が「みせかけ」のプログラム名になります。
 また、第1要素はフルパスで指定しなくても環境変数 PATH から探します。
 
 ### option引数の概要
@@ -139,8 +132,7 @@ Hash の値(親プロセス側)には以下のいずれかが指定できます�
 
 ### option引数の詳細および例
 
-「:unsetenv_others」を使うと、envで指定したもの以外の環境変数を
-クリアします。
+「:unsetenv_others」を使うと、envで指定したもの以外の環境変数をクリアします。
 
 ```ruby
 # すべての環境変数をクリア
@@ -197,8 +189,7 @@ pid = spawn(command, STDERR=>:out)
 pid = spawn(command, STDERR=>STDOUT)
 ```
 
-この例では子プロセス側の stdout には触れていないので、
-親プロセスから引き継がれます。
+この例では子プロセス側の stdout には触れていないので、親プロセスから引き継がれます。
 
 Hash の値にはファイル名も指定できます。
 
@@ -209,12 +200,10 @@ pid = spawn(command, :err=>"log") # write mode
 pid = spawn(command, 3=>"/dev/null") # read mode
 ```
 
-stdout と stderr をリダイレクトした場合は、
-ファイルは write mode で open されます。それ以外の場合は
+stdout と stderr をリダイレクトした場合は、ファイルは write mode で open されます。それ以外の場合は
 read mode で open されます。
 
-ファイルのフラグ(write/read mode)やパーミッションを明示したい
-場合は、配列を用います。
+ファイルのフラグ(write/read mode)やパーミッションを明示したい場合は、配列を用います。
 
 ```ruby
 # なにも指定がなければデフォルトで read mode が使われる。
@@ -240,8 +229,7 @@ pid = spawn(command, [:out, :err]=>["log", "w"])
 複数のファイルデスクリプタを合わせてリダイレクトするには、
 [ :child, FileDescriptor ] を使うこともできます。
 これは子プロセス側で FileDescriptor にリダイレクトすることを意味します。
-これはファイルデスクリプタを直接指定するのと異なるということに
-注意してください。
+これはファイルデスクリプタを直接指定するのと異なるということに注意してください。
 例えば、
 
 ```text
@@ -263,15 +251,11 @@ io = IO.popen(["sh", "-c", "echo out; echo err >&2", :err=>[:child, :out]])
 p io.read #=> "out\nerr\n
 ```
 
-spawn と IO.popen では
-デフォルトでは非標準的なファイルデスクリプタ(3以降)を閉じません。
+spawn と IO.popen ではデフォルトでは非標準的なファイルデスクリプタ(3以降)を閉じません。
 「:close_others」オプションでこの挙動を制御できます。
-標準的ファイルデスクリプタ(0,1,2)は :close で明示的に閉じない
-限り、このオプションの影響を受けません。
+標準的ファイルデスクリプタ(0,1,2)は :close で明示的に閉じない限り、このオプションの影響を受けません。
 
-「:close_others」とは無関係に ruby が open する IO には
-デフォルトでは close_on_exec が設定されていて、自動的に
-閉じられることに注意してください。
+「:close_others」とは無関係に ruby が open する IO にはデフォルトでは close_on_exec が設定されていて、自動的に閉じられることに注意してください。
 
 ```ruby
 pid = spawn(command, :close_others=>true)  # close 3,4,5,...
@@ -316,14 +300,11 @@ p log_r.read
 pid = spawn(command, :out=>:err, :err=>:out)
 ```
 
-このような相互参照を解決するため、spawnの内部で新しい
-ファイルデスクリプタを作り、利用します。
+このような相互参照を解決するため、spawnの内部で新しいファイルデスクリプタを作り、利用します。
 
-:close_others と :close オプションが意味を持つのは、
-子プロセスに閉じていないファイルデスクリプタが全て渡される環境
+:close_others と :close オプションが意味を持つのは、子プロセスに閉じていないファイルデスクリプタが全て渡される環境
 (Unix 系統の環境)のみです。
-例えば Windows では元々子プロセスにはファイルデスクリプタ 0 1 2 のみ
-渡されるので :close_others や :close オプションは意味を持ちません。
+例えば Windows では元々子プロセスにはファイルデスクリプタ 0 1 2 のみ渡されるので :close_others や :close オプションは意味を持ちません。
 
 - **param** `env` -- 更新する環境変数を表す Hash
 - **param** `program` -- 文字列か2要素の配列を指定します。

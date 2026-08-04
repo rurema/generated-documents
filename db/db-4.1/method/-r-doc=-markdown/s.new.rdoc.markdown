@@ -7,8 +7,7 @@ until_by_name=
 
 ### def RDoc::Markdown.new(extensions = DEFAULT_EXTENSIONS, debug = false)
 
-引数 extensions で与えられた拡張を有効にした [c:RDoc::Markdown] オブ
-ジェクトを初期化します。
+引数 extensions で与えられた拡張を有効にした [c:RDoc::Markdown] オブジェクトを初期化します。
 
 - **param** `extensions` -- 有効にする拡張を [c:Symbol] の配列で指定します。
 
