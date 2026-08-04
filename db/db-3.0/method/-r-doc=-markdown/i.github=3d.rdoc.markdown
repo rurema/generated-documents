@@ -7,6 +7,5 @@ until_by_name=
 
 ### def github=(val)
 
-Github Flavored Markdown 拡張の一部を有効にして出力を行うかどうかを設定
-します。
+Github Flavored Markdown 拡張の一部を有効にして出力を行うかどうかを設定します。
 

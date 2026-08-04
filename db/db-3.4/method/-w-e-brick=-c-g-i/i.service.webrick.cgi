@@ -7,8 +7,7 @@ until_by_name=
 
 ### def service(req, res)     -> ()
 
-指定された [c:WEBrick::HTTPRequest] オブジェクト req の [m:WEBrick::HTTPRequest#request_method] に応じて、
-自身の do_GET, do_HEAD, do_POST, do_OPTIONS... いずれかのメソッドを req と res を引数として呼びます。
+指定された [c:WEBrick::HTTPRequest] オブジェクト req の [m:WEBrick::HTTPRequest#request_method] に応じて、自身の do_GET, do_HEAD, do_POST, do_OPTIONS... いずれかのメソッドを req と res を引数として呼びます。
 
 特に理由が無い限り [c:WEBrick::CGI] のサブクラスがこのメソッドを定義する必要はありません。
 

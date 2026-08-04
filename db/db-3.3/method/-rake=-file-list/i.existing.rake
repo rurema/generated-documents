@@ -7,8 +7,7 @@ until_by_name=
 
 ### def existing -> Rake::FileList
 
-自身に含まれるファイルのうちファイルシステムに存在するファイルのみを
-含む [c:Rake::FileList] を返します。
+自身に含まれるファイルのうちファイルシステムに存在するファイルのみを含む [c:Rake::FileList] を返します。
 
 ```ruby
 # Rakefile での記載例とする

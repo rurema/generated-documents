@@ -1,0 +1,37 @@
+names=completion_proc,completion_proc=
+visibility=public
+kind=defined
+source_location=manual/api/reline.md
+since_by_name=completion_proc=2.7,completion_proc=3d=2.7
+until_by_name=
+
+### def Reline.completion_proc -> Proc | nil
+{: since="2.7"}
+### def Reline.completion_proc=(proc)
+{: since="2.7"}
+
+ユーザからの入力を補完するときの候補を取得する [c:Proc]
+オブジェクトを取得/設定します。デフォルトは `nil` で、このときは補完を行いません。
+
+`proc` は、引数に入力中の単語(カーソル位置までの、[m:Reline.completer_word_break_characters]
+に含まれる文字で区切られた文字列)を受け取り、候補の文字列の配列を返すようにします。
+2 個以上の引数を受け取る `proc` を指定した場合は、第 2 引数に単語より前の文字列が、第 3 引数に単語より後ろの文字列も渡されます。
+
+補完は Tab キーの押下で実行されます。
+
+- **param** `proc` -- 補完候補を取得する [c:Proc] オブジェクト、または `nil` を指定します。
+
+```ruby title="例: foo、foobar、foobaz を補完する"
+require 'reline'
+
+WORDS = %w(foo foobar foobaz)
+
+Reline.completion_proc = proc { |word|
+  WORDS.grep(/\A#{Regexp.quote(word)}/)
+}
+
+while buf = Reline.readline("> ")
+  print("-> ", buf, "\n")
+end
+```
+
