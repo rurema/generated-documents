@@ -64,6 +64,9 @@ def create_document(version, edit_base_url: "https://github.com/rurema/doctree/e
   # 一致させる。生成された sitemap.xml 自体も latest symlink 経由の
   # https://docs.ruby-lang.org/ja/latest/sitemap.xml で参照できる
   command << "--sitemap-baseurl=#{CANONICAL_BASE_URL}" if version == VERSIONS[-2]
+  # 同じく最新安定版のみ、各ページの Markdown 版(.md)も .html と並べて
+  # 生成する（AI エージェント等が HTML を剥がさずに本文を取り込める）
+  command << "--markdown-output" if version == VERSIONS[-2]
   system(*command, chdir: DOC_BASE) or raise
   system("rsync", "-acvi", "--no-times", "--delete", outputdir, DOC_ROOT) or raise
   FileUtils.rm_rf outputdir
