@@ -1,0 +1,29 @@
+# Regexp#to_s
+
+### def to_s -> String
+
+正規表現の文字列表現を生成して返します。返される文字列は他の正規表現に埋め込んでもその意味が保持されるようになっています。
+
+```ruby
+re = /foo|bar|baz/i
+p re.to_s       # => "(?i-mx:foo|bar|baz)"
+p /#{re}+/o     # => /(?i-mx:foo|bar|baz)+/
+```
+
+ただし、後方参照を含む正規表現は意図通りにはならない場合があります。
+この場合は名前付きキャプチャを使用すると影響を受けにくくなります。
+
+```ruby
+re = /(foo|bar)\1/      # \1 は、foo か bar
+p /(baz)#{re}/          # \1 は、baz
+
+# => /(baz)(?-mix:(foo|bar)\1)/
+```
+
+```ruby title="使用例"
+re = /foo|bar|baz/i
+p re.to_s       # => "(?i-mx:foo|bar|baz)"
+p /#{re}+/o     # => /(?i-mx:foo|bar|baz)+/
+```
+
+- **SEE** [Regexp#inspect](../../../method/Regexp/i/inspect.md)

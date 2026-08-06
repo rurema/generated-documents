@@ -1,0 +1,22 @@
+# Socket::Option.bool
+
+### def Socket::Option.bool(family, level, optname, boolean) -> Socket::Option
+
+整数をデータとして持つ Socket::Option オブジェクト新たに生成し返します。
+
+family, level, optname には Socket::SOL_SOCKET のような整数の他、文字列("SOL_SOCKET", "SOCKET")、シンボル(:SOL_SOCKET, :SOCKET)を指定できます。
+
+- **param** `family` -- ソケットファミリー
+- **param** `level` -- ソケットオプションレベル
+- **param** `optname` -- オプションの名前
+- **param** `boolean` -- データ(真偽値)
+
+```ruby
+require 'socket'
+
+p Socket::Option.bool(:INET, :SOCKET, :KEEPALIVE, true)
+# => #<Socket::Option: INET SOCKET KEEPALIVE 1>
+
+p Socket::Option.bool(:INET, :SOCKET, :KEEPALIVE, false)
+# => #<Socket::Option: AF_INET SOCKET KEEPALIVE 0>
+```

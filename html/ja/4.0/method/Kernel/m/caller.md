@@ -1,0 +1,59 @@
+# Kernel?.caller
+
+### module_function def caller(start = 1)               -> [String] | nil
+### module_function def caller(start, length)           -> [String] | nil
+### module_function def caller(range)                   -> [String] | nil
+
+start 段上の呼び出し元の情報を [m:$@]
+の形式のバックトレース(文字列の配列)として返します。
+
+トップレベルでは空の配列を返します。caller の戻り値を [m:$@] に代入することで例外の発生位置を設定できます。
+
+引数で指定した値が範囲外の場合は nil を返します。
+
+- **param** `start` -- long の範囲を超えない正の整数でスタックレベルを指定します。
+- **param** `length` -- 取得するスタックの個数を指定します。
+
+- **param** `range` -- 取得したいスタックの範囲を示す [Range](../../../class/Range.md) オブジェクトを指定します。
+
+- **SEE** [Kernel?.set_trace_func](../../../method/Kernel/m/set_trace_func.md),[Kernel?.raise](../../../method/Kernel/m/raise.md),
+     [Kernel?.caller_locations](../../../method/Kernel/m/caller_locations.md)
+
+```ruby title="例"
+def foo
+  p caller(0)
+  p caller(1)
+  p caller(2)
+  p caller(3)
+  p caller(4)
+end
+
+def bar
+  foo
+end
+
+bar
+
+#=> ["-:2:in 'foo'", "-:10:in 'bar'", "-:13:in '<main>'"]
+#   ["-:10:in 'bar'", "-:13:in '<main>'"]
+#   ["-:13:in '<main>'"]
+#   []
+#   nil
+```
+
+caller の要素から呼び出し元のファイル名や行番号、メソッド名を取り出したい場合は、文字列を正規表現でパースするより [Kernel?.caller_locations](../../../method/Kernel/m/caller_locations.md) を使うほうが適切です。
+詳しくは後述の caller_locations の項を参照してください。
+
+以下は、[m:$DEBUG] が真の場合に役に立つ debug 関数のサンプルです。
+
+```ruby title="例"
+$DEBUG = true
+
+def debug(*args)
+  p [caller.first, *args] if $DEBUG
+end
+
+debug "debug information"
+
+#=> ["-:7", "debug information"]
+```

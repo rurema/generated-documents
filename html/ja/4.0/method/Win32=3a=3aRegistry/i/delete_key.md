@@ -1,0 +1,9 @@
+# Win32::Registry#delete_key
+
+### def delete_key(name, recursive = false)
+@todo
+
+サブキー name とそのキーが持つすべての値を削除します。
+
+recursive が false の場合、そのサブキーはサブキーを持っていてはなりません。
+true の場合、キーは再帰的に削除されます。

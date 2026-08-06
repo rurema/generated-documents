@@ -1,0 +1,37 @@
+# Kernel?.trace_var
+
+### module_function def trace_var(varname, hook) -> nil
+### module_function def trace_var(varname){|new_val| .... } -> nil
+### module_function def trace_var(varname, hook) -> [String|Proc]
+
+グローバル変数 varname への代入のフックを登録します。
+
+ここでの「グローバル変数」は、特殊変数
+([spec/variables#builtin](../../../doc/spec=2fvariables.md#builtin) を参照)も含めた `$` で始まる変数のことです。
+
+この呼び出し以降、varname で指定したグローバル変数に値が代入されるたびに hook かブロックが評価されます。hook が Proc オブジェクトの場合代入された値がブロック引数に渡されます。文字列の場合はRubyコードとして評価されます。
+
+trace_var がフックするのは明示的な代入だけです。
+フックは複数登録できます。
+
+フックを解除するには、hook に nil を指定するか、[Kernel?.untrace_var](../../../method/Kernel/m/untrace_var.md) を用います。
+
+hook が nil ならば、設定されていた
+hook をすべて解除してその配列を返します(ブロックで登録されていれば
+[Proc](../../../class/Proc.md) オブジェクトで返されます)
+それ以外は、nil を返します。
+
+- **param** `varname` -- グローバル変数名を文字列か [Symbol](../../../class/Symbol.md) で指定します。
+- **param** `hook` -- フックになる文字列または [Proc](../../../class/Proc.md) オブジェクトです。
+- **return** -- フックを登録した場合は nil を返します。解除した場合は解除した
+        フックを並べた配列を返します。
+
+```ruby title="例"
+trace_var(:$v){|val| puts "hook: $v=#{val.inspect}" }
+$v = 1       #=> hook: $v=1
+$v = "foo"   #=> hook: $v="foo"
+$v.upcase!
+p $v         #=> "FOO"
+```
+
+- **SEE** [Kernel?.untrace_var](../../../method/Kernel/m/untrace_var.md)

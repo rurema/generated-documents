@@ -1,0 +1,14 @@
+# REXML::Element#next_element
+
+### def next_element -> Element | nil
+
+次の兄弟要素を返します。
+
+次の要素が存在しない場合は nil を返します。
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new '<a><b/>text<c/></a>'
+p doc.root.elements['b'].next_element # => <c/>
+p doc.root.elements['c'].next_element # => nil
+```

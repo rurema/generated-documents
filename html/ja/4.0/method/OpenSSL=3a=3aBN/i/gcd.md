@@ -1,0 +1,8 @@
+# OpenSSL::BN#gcd
+
+### def gcd(other) -> OpenSSL::BN
+
+GCD(最大公約数)を返します。
+
+- **param** `other` -- 自身との GCD を計算する数
+- **raise** `OpenSSL::BNError` -- 計算時エラー

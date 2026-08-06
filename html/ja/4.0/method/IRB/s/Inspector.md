@@ -1,0 +1,11 @@
+# IRB.Inspector
+
+### def IRB.Inspector(inspect, init = nil) -> IRB::Inspector
+
+[IRB::Inspector](../../../class/IRB=3a=3aInspector.md) オブジェクトを生成します。
+
+- **param** `inspect` -- 実行結果の出力のための手続きオブジェクトを指定します。
+
+- **param** `init` -- inspect_mode の初期化のための手続きオブジェクトを指定します。
+            あらかじめ require が必要な場合などに、proc { require "foo" }
+            といった指定を行います。

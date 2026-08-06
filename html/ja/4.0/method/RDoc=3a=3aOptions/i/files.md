@@ -1,0 +1,5 @@
+# RDoc::Options#files
+
+### def files -> [String]
+
+解析するファイルの一覧を文字列の配列で返します。

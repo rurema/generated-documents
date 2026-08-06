@@ -1,0 +1,5 @@
+# ID2SYM
+
+### VALUE ID2SYM(ID id)
+
+id を Symbol に変換します。

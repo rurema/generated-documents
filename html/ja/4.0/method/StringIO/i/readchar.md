@@ -1,0 +1,15 @@
+# StringIO#readchar
+
+### def readchar    -> String
+
+自身から 1 文字読み込んで、その文字に対応する String を返します。
+
+文字列の終端に到達した時には例外 [EOFError](../../../class/EOFError.md) を発生させます。
+
+```ruby title="例"
+require "stringio"
+a = StringIO.new("hoge")
+p a.readchar             #=> "h"
+```
+
+- **raise** `EOFError` -- EOFに達した時発生する

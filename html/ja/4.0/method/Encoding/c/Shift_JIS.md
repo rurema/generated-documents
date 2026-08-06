@@ -1,0 +1,9 @@
+# Encoding::Shift_JIS
+
+### const Shift_JIS -> Encoding
+### const SHIFT_JIS -> Encoding
+
+IANA Character Sets にある Shift_JIS のことです。
+
+基本的にはJIS X 0208:1997の付属書1にある「シフト符号化表現」のことですが、
+Ruby M17N では 7bit 部分が US-ASCII になっています。

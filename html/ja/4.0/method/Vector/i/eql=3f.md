@@ -1,0 +1,8 @@
+# Vector#eql?
+
+### def ==(v) -> bool
+### def eql?(v) -> bool
+
+`self` と引数 `v` を比較し、`true`/`false` を返します。
+
+- **param** `v` -- 比較対象ベクトル

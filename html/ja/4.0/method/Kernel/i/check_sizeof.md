@@ -1,0 +1,22 @@
+# Kernel#check_sizeof
+
+### def check_sizeof(type, headers = nil) -> Integer | nil
+### def check_sizeof(type, headers = nil){ ... } -> Integer | nil
+
+与えられた型のサイズを返します。
+
+型 type がシステムに存在する場合は、グローバル変数 [m:$defs] に
+"-DSIZEOF_type=X" を追加し、型のサイズを返します。型 type がシステムに存在しない場合は、nil を返します。
+
+例えば、
+
+```ruby
+require 'mkmf'
+p check_sizeof('mystruct') # => 12
+```
+
+である場合、SIZEOF_MYSTRUCT=12 というプリプロセッサマクロをコンパイラに渡します。
+
+- **param** `type` -- 検査したい型を指定します。
+
+- **param** `headers` -- 追加のヘッダファイルを指定します。

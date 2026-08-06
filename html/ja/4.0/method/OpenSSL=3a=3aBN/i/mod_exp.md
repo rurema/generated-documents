@@ -1,0 +1,15 @@
+# OpenSSL::BN#mod_exp
+
+### def mod_exp(other, m) -> OpenSSL::BN
+
+(self ** other) % m を返します。
+
+```ruby
+require 'openssl'
+
+p OpenSSL::BN.new("7").mod_exp(OpenSSL::BN.new("3"), OpenSSL::BN.new("6")) # => 1
+```
+
+- **param** `other` -- 指数
+- **param** `m` -- 剰余を取る数
+- **raise** `OpenSSL::BNError` -- 計算時エラー

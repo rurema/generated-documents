@@ -1,0 +1,5 @@
+# OpenSSL::OCSP::TRUSTOTHER
+
+### const TRUSTOTHER -> Integer
+
+明示的に渡した証明書を検証なしで信用することを意味します。

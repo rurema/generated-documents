@@ -1,0 +1,14 @@
+# WIN32OLE_RECORD#typename
+
+### def typename -> String
+
+selfが表すVT_RECORD OLE変数の型名（構造体名）を返します。
+
+- **return** -- VT_RECORD OLE変数の型名を文字列で返します。
+
+```ruby title="例"
+require 'win32ole'
+obj = WIN32OLE.new('ComServer.ComClass')
+book = obj.getBook
+book.typename # => "Book"
+```

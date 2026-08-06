@@ -1,0 +1,14 @@
+# Net::FTP#set_socket
+
+### def set_socket(sock, get_greeting = true) -> nil
+
+FTP のコントロール接続のソケットを TCPSocket オブジェクト sock に設定します。
+
+get_greeting に偽が与えられると、
+set_socket は通信先を設定するだけで sock に対する操作を何も行ないません。
+get_greeting が真ならば、通信先を sock に設定したあと、通常FTPサーバが接続時に送ってくるメッセージを読み込みます。
+
+通常このメソッドは使うべきではありません。このライブラリの実装を理解した上で必要な場合のみ利用してください。
+
+- **param** `sock` -- コントロール接続に使うソケットを指定します。
+- **param** `get_greeting` -- ソケットを設定した後接続時メッセージをソケットから読みこむかどうかを指定します。

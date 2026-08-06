@@ -1,0 +1,8 @@
+# WEBrick::HTTPVersion.convert
+
+### def WEBrick::HTTPVersion.convert(version)    -> WEBrick::HTTPVersion
+
+指定された version を HTTPVersion オブジェクトに変換して返します。
+version が HTTPVersion オブジェクトの場合はそのまま version を返します。
+
+- **param** `version` -- HTTP のバージョンを WEBrick::HTTPVersion オブジェクトか文字列で指定します。

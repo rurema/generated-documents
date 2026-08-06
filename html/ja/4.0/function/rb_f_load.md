@@ -1,0 +1,5 @@
+# rb_f_load
+
+### static VALUE rb_f_load(int argc, VALUE *argv)
+
+load の実体。

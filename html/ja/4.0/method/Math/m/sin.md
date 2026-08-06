@@ -1,0 +1,19 @@
+# Math?.sin
+
+### module_function def sin(x) -> Float
+
+`x` の正弦関数（sine）の値を返します。
+
+- **param** `x` -- 実数（ラジアンで与えます）
+
+- **return** -- [-1, 1] の実数
+
+- **raise** `TypeError` -- `x` に数値以外を指定した場合に発生します。
+
+- **raise** `RangeError` -- `x` に実数以外の数値を指定した場合に発生します。
+
+```ruby title="例"
+p Math.sin(Math::PI/2) # => 1.0
+```
+
+- **SEE** [Math?.asin](../../../method/Math/m/asin.md)

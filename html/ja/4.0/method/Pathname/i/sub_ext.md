@@ -1,0 +1,20 @@
+# Pathname#sub_ext
+
+### def sub_ext(replace) -> Pathname
+
+拡張子を与えられた文字列で置き換えた [Pathname](../../../class/Pathname.md) オブジェクトを返します。
+
+自身が拡張子を持たない場合は、与えられた文字列を拡張子として付加します。
+
+- **param** `replace` -- 拡張子を文字列で指定します。
+
+```ruby title="例"
+require "pathname"
+
+p Pathname('/usr/bin/shutdown').sub_ext('.rb')    # => #<Pathname:/usr/bin/shutdown.rb>
+p Pathname('/home/user/test.txt').sub_ext('.pdf') # => #<Pathname:/home/user/test.pdf>
+p Pathname('/home/user/test').sub_ext('.pdf')     # => #<Pathname:/home/user/test.pdf>
+p Pathname('/home/user/test.').sub_ext('.pdf')    # => #<Pathname:/home/user/test..pdf>
+p Pathname('/home/user/.test').sub_ext('.pdf')    # => #<Pathname:/home/user/.test.pdf>
+p Pathname('/home/user/test.tar.gz').sub_ext('.xz') # => #<Pathname:/home/user/test.tar.xz>
+```

@@ -1,0 +1,12 @@
+# OpenSSL::Cipher.ciphers
+
+### def OpenSSL::Cipher.ciphers -> [String]
+
+利用可能な暗号方式名を文字列の配列で返します。
+
+```ruby
+require 'openssl'
+
+p OpenSSL::Cipher.ciphers
+# => ["AES-128-CBC", "AES-128-CFB", "AES-128-CFB1", "AES-128-CFB8", "AES-128-ECB", "AES-128-OFB", "AES-192-CBC", ... ]
+```

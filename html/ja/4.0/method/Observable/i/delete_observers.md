@@ -1,0 +1,7 @@
+# Observable#delete_observers
+
+### def delete_observers -> Array
+
+オブザーバをすべて削除します。
+
+登録されているオブザーバのリストから全てのオブジェクトを取り除き、空となったオブザーバのリストを返します。

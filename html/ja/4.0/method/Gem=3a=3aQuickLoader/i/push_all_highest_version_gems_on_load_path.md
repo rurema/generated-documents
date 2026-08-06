@@ -1,0 +1,5 @@
+# Gem::QuickLoader#push_all_highest_version_gems_on_load_path
+
+### def push_all_highest_version_gems_on_load_path
+
+prelude.c で定義されている内部用のメソッドです。

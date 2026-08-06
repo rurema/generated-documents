@@ -1,0 +1,31 @@
+# REXML::Attributes#get_attribute_ns
+
+### def get_attribute_ns(namespace, name) -> REXML::Attribute | nil
+
+namespace と name で特定される属性を返します。
+
+namespace で名前空間を、 name で prefix を含まない属性名を指定します。
+
+指定された属性が存在しない場合は nil を返します。
+
+XML プロセッサが prefix を置き換えてしまった場合でも、このメソッドを使うことで属性を正しく指定できます。
+
+- **param** `namespace` -- 名前空間(URI, 文字列)
+- **param** `name` -- 属性名(文字列)
+
+```ruby
+require 'rexml/document'
+
+doc = REXML::Document.new(<<-EOS)
+<root xmlns:foo="http://example.org/foo"
+      xmlns:bar="http://example.org/bar">
+  <a foo:att='1' bar:att='2' att='&lt;'/>
+</root>
+EOS
+a = doc.get_elements("/root/a").first
+
+p a.attributes.get_attribute_ns("", "att") # => att='&lt;'
+p a.attributes.get_attribute_ns("http://example.org/foo", "att") # => foo:att='1'
+p a.attributes.get_attribute_ns("http://example.org/baz", "att") # => nil
+p a.attributes.get_attribute_ns("http://example.org/foo", "attt") # => nil
+```

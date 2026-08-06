@@ -1,0 +1,3 @@
+# rb_f_throw
+
+### static VALUE rb_f_throw(int argc, VALUE *argv)

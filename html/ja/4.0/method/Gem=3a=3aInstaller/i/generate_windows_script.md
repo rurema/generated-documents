@@ -1,0 +1,8 @@
+# Gem::Installer#generate_windows_script
+
+### def generate_windows_script(filename, bindir)
+コマンドの実行を容易にするために Windows 向けのバッチファイルを作成します。
+
+- **param** `bindir` -- 実行ファイルを配置するディレクトリを指定します。
+
+- **param** `filename` -- ファイル名を指定します。

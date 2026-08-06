@@ -1,0 +1,5 @@
+# rb_define_class
+
+### VALUE rb_define_class(const char *name, VALUE super)
+
+クラス super の下位クラス name を作成し返します。

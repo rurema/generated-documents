@@ -1,0 +1,32 @@
+# IO#set_encoding
+
+### def set_encoding(enc_str, **opts)           -> self
+### def set_encoding(ext_enc)           -> self
+### def set_encoding(ext_enc, int_enc, **opts)  -> self
+
+IO のエンコーディングを設定します。
+
+引数が "A:B" のようにコロンで区切られた文字列の場合は、
+A を外部エンコーディング、 B を内部エンコーディングに指定します。
+
+引数が一つで、上のような形式でない場合には、それが外部エンコーディングと見なされます。
+
+引数が2つの場合はそのそれぞれを外部エンコーディング、内部エンコーディングに設定します。
+
+キーワード引数で外部エンコーディングを内部エンコーディングに変換する際のオプションを指定します。
+詳しくは [String#encode](../../../method/String/i/encode.md) を参照してください。
+
+- **param** `enc_str` -- エンコーディングを表す文字列を指定します。"A:B" のようにコロンで区切られた
+               文字列を指定した場合 A が外部エンコーディング、B が内部エンコーディングを
+               表します。
+
+- **param** `ext_enc` -- 外部エンコーディングを表す文字列か [Encoding](../../../class/Encoding.md) オブジェクトを指定します。
+
+- **param** `int_enc` -- 内部エンコーディングを表す文字列か [Encoding](../../../class/Encoding.md) オブジェクトを指定します。
+- **param** `opts` -- エンコーディング変換のオプション
+例:
+
+```ruby
+io = File.open(file)
+io.set_encoding("ASCII-8BIT", "EUC-JP")
+```

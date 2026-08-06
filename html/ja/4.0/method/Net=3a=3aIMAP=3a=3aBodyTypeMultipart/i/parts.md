@@ -1,0 +1,5 @@
+# Net::IMAP::BodyTypeMultipart#parts
+
+### def parts -> [Net::IMAP::BodyTypeBasic | Net::IMAP::BodyTypeText | Net::IMAP::BodyTypeMessage | Net::IMAP::BodyTypeMultipart]
+
+マルチパートの各部分を返します。

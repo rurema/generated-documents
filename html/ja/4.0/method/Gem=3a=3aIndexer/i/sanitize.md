@@ -1,0 +1,8 @@
+# Gem::Indexer#sanitize
+
+### def sanitize(spec) -> Gem::Specification
+
+与えられたスペックの詳細を表す属性をサニタイズします。
+
+non-ASCII の文字列は、サイトインデックスを文字化けさせることがあります。
+non-ASCII の文字列を XML エンティティに置換します。

@@ -1,0 +1,17 @@
+# Array#reverse_each
+
+### def reverse_each {|item| ... }    -> self
+### def reverse_each                  -> Enumerator
+
+各要素に対して逆順にブロックを評価します。
+
+ブロックが与えられなかった場合は、自身と reverse_each から生成した
+[Enumerator](../../../class/Enumerator.md) オブジェクトを返します。
+
+```ruby title="例"
+a = [ "a", "b", "c" ]
+a.reverse_each {|x| print x, " " }
+# => c b a
+```
+
+- **SEE** [Array#each](../../../method/Array/i/each.md)

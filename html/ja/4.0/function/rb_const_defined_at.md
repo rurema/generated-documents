@@ -1,0 +1,5 @@
+# rb_const_defined_at
+
+### int rb_const_defined_at(VALUE klass, ID id)
+
+klass 自体に定数 id が定義されていれば真。

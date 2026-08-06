@@ -1,0 +1,20 @@
+# Fiddle::Pointer#eql?
+
+### def eql?(other)     -> bool
+### def ==(other)       -> bool
+
+ポインタの指すアドレスが同一ならばtrueを返します。
+
+- **param** `other` -- 比較対象の Pointer オブジェクト
+
+```ruby title="例"
+require 'fiddle' 
+ 
+s = 'abc'
+cptr  = Fiddle::Pointer[s]
+cptr0 = Fiddle::Pointer[s]
+cptr1 = cptr + 1
+ 
+p cptr == cptr1     #=> false
+p cptr == cptr0     #=> true
+```

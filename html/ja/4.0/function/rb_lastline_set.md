@@ -1,0 +1,5 @@
+# rb_lastline_set
+
+### void rb_lastline_set(VALUE val)
+
+現在評価中の SCOPE の $_ に val を代入します。

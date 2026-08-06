@@ -1,0 +1,6 @@
+# Kernel$topdir
+
+### gvar $topdir -> String
+
+拡張ライブラリを make するためのヘッダファイル、ライブラリ等が存在するディレクトリです。
+通常は [m:$archdir] と同じで、"/usr/local/lib/ruby/バージョン/arch" です。

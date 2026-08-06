@@ -1,0 +1,16 @@
+# Time#sec
+
+### def sec    -> Integer
+
+秒を整数で返します。
+
+```ruby
+p Time.mktime(2000, 1, 1).sec # => 0
+```
+
+通常は0から59を返しますが、うるう秒の場合は60を返します。
+
+```ruby
+ENV['TZ'] = 'right/UTC'
+p Time.mktime(2005, 12, 31, 23, 59, 60).sec # => 60
+```

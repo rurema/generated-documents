@@ -1,0 +1,6 @@
+# rb_define_module_function
+
+### void rb_define_module_function(VALUE module, const char *name, VALUE (*func)(), int argc)
+
+モジュール module にモジュール関数 name を定義します。
+func と argc は rb_define_method と同じです。

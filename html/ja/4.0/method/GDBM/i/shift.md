@@ -1,0 +1,15 @@
+# GDBM#shift
+
+### def shift -> [String]
+
+データベース中の要素を一つ取り出し、データベースから削除します。
+
+```ruby
+require 'gdbm'
+  
+db1 = GDBM.open('aaa.gdbm', 0666, GDBM::NEWDB)
+db1['a'] = 'aaa'
+db1['b'] = 'bbb'
+  
+p db1.shift #=> ["a", "aaa"]
+```

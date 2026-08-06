@@ -1,0 +1,20 @@
+# Pathname#basename
+
+### def basename(suffix = "") -> Pathname
+
+Pathname.new(File.basename(self.to_s, suffix)) と同じです。
+
+- **param** `suffix` -- サフィックスを文字列で与えます。'.*' という文字列を与えた場合、'*' はワイルドカードとして働き
+              '.' を含まない任意の文字列にマッチします。
+
+```ruby title="例"
+require "pathname"
+
+p Pathname("ruby/ruby.c").basename        #=> #<Pathname:"ruby.c">
+p Pathname("ruby/ruby.c").basename(".c")  #=> #<Pathname:"ruby">
+p Pathname("ruby/ruby.c").basename(".*")  #=> #<Pathname:"ruby">
+p Pathname("ruby/ruby.exe").basename(".*")  #=> #<Pathname:"ruby">
+p Pathname("ruby/y.tab.c").basename(".*") #=> #<Pathname:"y.tab">
+```
+
+- **SEE** [File.basename](../../../method/File/s/basename.md)

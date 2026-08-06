@@ -1,0 +1,19 @@
+# StringScanner#matched
+
+### def matched -> String | nil
+
+前回マッチした部分文字列を返します。
+前回のマッチに失敗していると nil を返します。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('test string')
+p s.matched   # => nil
+p s.scan(/\w+/) # => "test"
+p s.matched   # => "test"
+p s.scan(/\w+/) # => nil
+p s.matched   # => nil
+p s.scan(/\s+/) # => " "
+p s.matched   # => " "
+```

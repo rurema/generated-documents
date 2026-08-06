@@ -1,0 +1,23 @@
+# REXML::Child#previous_sibling=
+
+### def previous_sibling=(other)
+
+other を self の前の隣接ノードとします。
+
+つまり、親ノードが持つ子ノード列の self の前に
+other を挿入します。
+
+- **param** `other` -- 挿入するノード
+
+```ruby
+require 'rexml/document'
+
+a = REXML::Element.new("a")
+b = a.add_element("b")
+c = REXML::Element.new("c")
+b.next_sibling = c
+d = REXML::Element.new("d")
+b.previous_sibling = d
+
+p a.to_s # => "<a><d/><b/><c/></a>"
+```

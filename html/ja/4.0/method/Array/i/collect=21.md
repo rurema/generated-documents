@@ -1,0 +1,24 @@
+# Array#collect!
+
+### def collect! {|item| ..}    -> self
+### def map! {|item| ..}        -> self
+### def collect!                -> Enumerator
+### def map!                    -> Enumerator
+
+各要素を順番にブロックに渡して評価し、その結果で要素を置き換えます。
+
+ブロックが与えられなかった場合は、自身と map! から生成した
+[Enumerator](../../../class/Enumerator.md) オブジェクトを返します。
+
+```ruby title="例"
+ary = [1, 2, 3]
+ary.map! {|i| i * 3 }
+p ary   #=> [3, 6, 9]
+
+ary = [1, 2, 3]
+e = ary.map!
+e.each{ 1 }
+p ary           #=> [1, 1, 1]
+```
+
+- **SEE** [Array#collect](../../../method/Array/i/collect.md),  [Enumerator](../../../class/Enumerator.md)

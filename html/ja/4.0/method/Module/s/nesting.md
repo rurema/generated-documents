@@ -1,0 +1,15 @@
+# Module.nesting
+
+### def Module.nesting -> [Class, Module]
+
+このメソッドを呼び出した時点でのクラス/モジュールのネスト情報を配列に入れて返します。
+
+```ruby title="例"
+module Company
+  module Department
+    module Team
+      p Module.nesting   # => [Company::Department::Team, Company::Department, Company]
+    end
+  end
+end
+```

@@ -1,0 +1,30 @@
+# ObjectSpace::WeakMap#key?
+
+### def key?(key)     -> bool
+{: since="2.1.0"}
+### def include?(key) -> bool
+{: since="2.1.0"}
+### def member?(key)  -> bool
+{: since="2.1.0"}
+
+引数 key を参照元とするエントリを保持している場合に true を返します。
+
+判定はオブジェクトの同一性([Object#equal?](../../../method/Object/i/equal=3f.md))によって行われます。
+== や eql? による判定は行われないため、内容が等しくても別オブジェクトであれば
+false になります。
+
+- **param** `key` -- 探索するオブジェクトを指定します。
+
+```ruby title="例"
+weak_map = ObjectSpace::WeakMap.new
+key = "text"
+weak_map[key] = "test"
+
+p weak_map.key?(key)     # => true
+p weak_map.include?(key) # => true
+p weak_map.member?(key)  # => true
+
+p weak_map.key?("text")  # => false (内容は同じでも別オブジェクトなので false)
+```
+
+- **SEE** [ObjectSpace::WeakMap#\[\]](../../../method/ObjectSpace=3a=3aWeakMap/i/=5b=5d.md)

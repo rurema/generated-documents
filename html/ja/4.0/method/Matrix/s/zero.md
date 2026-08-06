@@ -1,0 +1,24 @@
+# Matrix.zero
+
+### def Matrix.zero(n) -> Matrix
+
+n × n の零行列（要素が全て 0 の行列）を生成して返します。
+
+```ruby title="例"
+require 'matrix'
+p Matrix.zero(2) #=> Matrix[[0, 0], [0, 0]]
+```
+
+- **param** `n` -- 生成する正方零行列の次数
+
+### def Matrix.zero(row, column) -> Matrix
+
+row × column の零行列（要素が全て 0 の行列）を生成して返します。
+
+```ruby title="例"
+require 'matrix'
+p Matrix.zero(2, 3) #=> Matrix[[0, 0, 0], [0, 0, 0]]
+```
+
+- **param** `row` -- 生成する行列の行数
+- **param** `column` -- 生成する行列の列数

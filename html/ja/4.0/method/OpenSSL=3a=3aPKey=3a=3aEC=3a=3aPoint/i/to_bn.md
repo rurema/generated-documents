@@ -1,0 +1,7 @@
+# OpenSSL::PKey::EC::Point#to_bn
+
+### def to_bn -> OpenSSL::BN
+
+点を整数に変換します。
+
+- **raise** `OpenSSL::PKey::EC::Point::Error` -- 変換に失敗した場合に発生します

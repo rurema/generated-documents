@@ -1,0 +1,14 @@
+# SystemExit.new
+
+### def SystemExit.new(status = 0, error_message = "") -> SystemExit
+
+SystemExit オブジェクトを生成して返します。
+
+- **param** `status` -- 終了ステータスを整数で指定します。
+
+- **param** `error_message` -- エラーメッセージを文字列で指定します。
+
+```ruby title="例"
+ex = SystemExit.new(1)
+p ex.status   # => 1
+```

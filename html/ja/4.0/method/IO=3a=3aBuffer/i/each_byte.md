@@ -1,0 +1,37 @@
+# IO::Buffer#each_byte
+
+### def each_byte(offset = 0, count = nil) {|byte| ... } -> self
+### def each_byte(offset = 0, count = nil) -> Enumerator
+
+バッファの offset の位置から 1 バイトずつ読み出し、ブロックに渡して繰り返します。
+
+ブロックを省略した場合は [Enumerator](../../../class/Enumerator.md) を返します。
+
+- **param** `offset` -- 読み出しを開始する位置をバッファの先頭からのバイト数で指定します。
+
+- **param** `count` -- 読み出すバイト数を指定します。省略した場合はバッファの末尾まで
+             読み出します。
+
+
+```ruby
+IO::Buffer.for("Hello").each_byte do |byte|
+  p byte
+end
+# => 72
+#    101
+#    108
+#    108
+#    111
+```
+
+
+```ruby title="例: 位置と個数を指定する"
+IO::Buffer.for("Hello World").each_byte(2, 2) do |byte|
+  p byte
+end
+# => 108
+#    108
+```
+
+
+- **SEE** [IO::Buffer#each](../../../method/IO=3a=3aBuffer/i/each.md)

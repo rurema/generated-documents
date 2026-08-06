@@ -1,0 +1,7 @@
+# REXML::Element#previous_element
+
+### def previous_element -> Element | nil
+
+前の兄弟要素を返します。
+
+前の要素が存在しない場合は nil を返します。

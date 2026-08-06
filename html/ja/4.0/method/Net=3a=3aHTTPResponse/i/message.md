@@ -1,0 +1,17 @@
+# Net::HTTPResponse#message
+
+### def message -> String
+### def msg -> String
+
+HTTP サーバがリザルトコードに付加して返すメッセージです。
+例えば 'Not Found' などです。
+
+msg は obsolete です。使わないでください。
+
+```ruby title="例"
+require 'net/http'
+
+uri = "http://www.example.com/index.html"
+response = Net::HTTP.get_response(URI.parse(uri))
+p response.message # => "OK"
+```

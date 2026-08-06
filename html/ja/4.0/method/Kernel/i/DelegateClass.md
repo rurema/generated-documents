@@ -1,0 +1,21 @@
+# Kernel#DelegateClass
+
+### def DelegateClass(superclass) -> object
+
+クラス superclass のインスタンスへメソッドを委譲するクラスを定義し、そのクラスを返します。
+
+- **param** `superclass` -- 委譲先となるクラス
+
+```ruby title="例"
+require 'delegate'
+
+class ExtArray < DelegateClass(Array)
+  def initialize
+    super([])
+  end
+end
+a = ExtArray.new
+p a.class   # => ExtArray
+a.push 25
+p a         # => [25]
+```

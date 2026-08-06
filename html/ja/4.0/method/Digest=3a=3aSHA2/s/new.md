@@ -1,0 +1,9 @@
+# Digest::SHA2.new
+
+### def Digest::SHA2.new(bitlen = 256) -> Digest::SHA2
+
+与えられた bitlen に対応する SHA2 ハッシュを生成するためのオブジェクトを内部で設定して自身を初期化します。
+
+- **param** `bitlen` -- ハッシュの長さを指定します。256, 384, 512 が指定可能です。
+
+- **raise** `ArgumentError` -- bitlen に 256, 384, 512 以外の値を指定した場合に発生します。

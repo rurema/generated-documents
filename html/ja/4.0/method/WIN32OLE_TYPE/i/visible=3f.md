@@ -1,0 +1,12 @@
+# WIN32OLE_TYPE#visible?
+
+### def visible? -> bool
+
+この型が公開されているかどうかを照会します。
+
+- **return** -- 公開されていれば真を返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Application')
+p tobj.visible?  # => true
+```

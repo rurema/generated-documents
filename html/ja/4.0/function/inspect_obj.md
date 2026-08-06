@@ -1,0 +1,3 @@
+# inspect_obj
+
+### static VALUE inspect_obj(VALUE obj, VALUE str)

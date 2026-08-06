@@ -1,0 +1,26 @@
+# ERB#def_module
+
+### def def_module(methodname='erb') -> Module
+
+変換した Ruby スクリプトをメソッドとして定義した無名のモジュールを返します。
+
+- **param** `methodname` -- メソッド名
+
+```ruby title="例"
+require "erb"
+
+erb = ERB.new(<<~ERB)
+  arg1: <%= arg1 %>
+  arg2: <%= arg2 %>
+ERB
+
+MyModule = erb.def_module("render(arg1, arg2)")
+
+class MyClass
+  include MyModule
+end
+
+print MyClass.new.render("foo", 123)
+# => arg1: foo
+#    arg2: 123
+```

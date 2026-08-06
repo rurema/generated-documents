@@ -1,0 +1,22 @@
+# JSON::State#space_before=
+
+### def space_before=(string)
+
+JSON 形式の文字列中で JavaScript のオブジェクトを表す部分にある ':' の前に挿入する文字列をセットします。
+
+- **param** `string` -- JSON 形式の文字列中で JavaScript のオブジェクトを表す部分にある ':' の
+              前に挿入する文字列をセットします。
+
+```ruby title="例"
+require "json"
+
+json_state = JSON::State.new(space_before: "")
+json_state.space_before             # => ""
+puts JSON.generate([1, 2, { name: "tanaka", age: 19 }], json_state)
+# => [1,2,{"name":"tanaka","age":19}]
+
+json_state.space_before = " "
+json_state.space_before             # => " "
+puts JSON.generate([1, 2, { name: "tanaka", age: 19 }], json_state)
+# => [1,2,{"name" :"tanaka","age" :19}]
+```

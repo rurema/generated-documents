@@ -1,0 +1,11 @@
+# TSort#tsort_each_child
+
+### def tsort_each_child(node) {|child| ...} -> ()
+
+TSort で拡張されるクラスで定義されていなければならないメソッドです。
+
+tsort_each_child is used to iterate for child nodes of node.
+
+- **param** `node` -- ノードを指定します。
+
+- **raise** `NotImplementedError` -- TSort で拡張されるクラスで定義されていない場合発生します。

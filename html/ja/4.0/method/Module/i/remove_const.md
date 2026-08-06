@@ -1,0 +1,25 @@
+# Module#remove_const
+
+### def remove_const(name) -> object
+
+name で指定した定数を取り除き、その定数に設定されていた値を返します。
+
+- **param** `name` -- [String](../../../class/String.md) または [Symbol](../../../class/Symbol.md) を指定します。
+
+- **return** -- 引数で指定された定数に設定されていた値を返します。
+
+- **raise** `NameError` -- 引数で指定された定数がそのモジュールやクラスに定義されていない場合に発生します。
+
+```ruby title="例"
+class Registry
+  VALUE = 1
+  p remove_const(:VALUE)    # => 1
+  VALUE       # => uninitialized constant Registry::VALUE (NameError)
+end
+```
+
+組み込みクラス/モジュールを設定している定数や [Kernel?.autoload](../../../method/Kernel/m/autoload.md) を指定した(まだロードしてない)定数を含めて削除する事ができます。
+
+取り除かれた定数は参照できなくなりますが、消える訳ではないので注意して使用してください。
+
+- **SEE** [Module#remove_class_variable](../../../method/Module/i/remove_class_variable.md), [Object#remove_instance_variable](../../../method/Object/i/remove_instance_variable.md)

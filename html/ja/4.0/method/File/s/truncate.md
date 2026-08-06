@@ -1,0 +1,20 @@
+# File.truncate
+
+### def File.truncate(path, length)    -> 0
+
+path で指定されたファイルのサイズを最大 length バイトにします。
+
+サイズの変更に成功すれば 0 を返します。失敗した場合は例外
+[Errno::EXXX](../../../class/Errno=3a=3aEXXX.md) が発生します。
+
+- **param** `path` -- パスを表す文字列を指定します。
+
+- **param** `length` -- 変更したいサイズを整数で与えます。
+
+- **raise** `Errno::EXXX` -- 失敗した場合に発生します。
+
+```ruby title="例"
+IO.write("testfile", "1234567890")
+p File.truncate("testfile", 5) # => 0
+p File.size("testfile")        # => 5
+```

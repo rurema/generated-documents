@@ -1,0 +1,8 @@
+# DBM::VERSION
+
+### const VERSION -> String
+
+libdbm のバージョンを表す文字列です。
+
+DB_VERSION_STRING という定数が C 言語レベルで定義されていない場合は
+"unknown" になります。

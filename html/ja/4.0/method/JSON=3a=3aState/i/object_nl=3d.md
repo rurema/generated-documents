@@ -1,0 +1,24 @@
+# JSON::State#object_nl=
+
+### def object_nl=(string)
+
+JSON 形式の文字列中に現れる JavaScript のオブジェクトの行末に挿入する文字列をセットします。
+
+- **param** `string` -- JSON 形式の文字列中に現れる JavaScript のオブジェクトの行末に挿入する文字列を指定します。
+
+```ruby title="例"
+require "json"
+
+json_state = JSON::State.new(object_nl: "")
+json_state.object_nl             # => ""
+puts JSON.generate([1, 2, { name: "tanaka", age: 19 }], json_state)
+# => [1,2,{"name":"tanaka","age":19}]
+
+json_state.object_nl = "\n"
+json_state.object_nl             # => "\n"
+puts JSON.generate([1, 2, { name: "tanaka", age: 19 }], json_state)
+ # => [1,2,{
+#    "name":"tanaka",
+#    "age":19
+#    }]
+```

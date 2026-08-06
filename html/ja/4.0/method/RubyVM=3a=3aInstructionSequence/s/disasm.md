@@ -1,0 +1,58 @@
+# RubyVM::InstructionSequence.disasm
+
+### def RubyVM::InstructionSequence.disasm(body)      -> String
+### def RubyVM::InstructionSequence.disassemble(body) -> String
+
+引数 body で指定したオブジェクトから作成した
+[RubyVM::InstructionSequence](../../../class/RubyVM=3a=3aInstructionSequence.md) オブジェクトを人間が読める形式の文字列に変換して返します。
+
+- **param** `body` -- [Proc](../../../class/Proc.md)、[Method](../../../class/Method.md) オブジェクトを指定します。
+
+例1:[Proc](../../../class/Proc.md) オブジェクトを指定した場合
+
+```ruby
+# /tmp/proc.rb
+p = proc { num = 1 + 2 }
+puts RubyVM::InstructionSequence.disasm(p)
+```
+
+```text title="出力"
+== disasm: <RubyVM::InstructionSequence:block in <main>@/tmp/proc.rb>===
+== catch table
+| catch type: redo   st: 0000 ed: 0012 sp: 0000 cont: 0000
+| catch type: next   st: 0000 ed: 0012 sp: 0000 cont: 0012
+|------------------------------------------------------------------------
+local table (size: 2, argc: 0 [opts: 0, rest: -1, post: 0, block: -1] s1)
+[ 2] num
+0000 trace            1                                               (   1)
+0002 putobject        1
+0004 putobject        2
+0006 opt_plus         <ic:1>
+0008 dup
+0009 setlocal         num, 0
+0012 leave
+```
+
+例2:[Method](../../../class/Method.md) オブジェクトを指定した場合
+
+```ruby
+# /tmp/method.rb
+def hello
+  puts "hello, world"
+end
+
+puts RubyVM::InstructionSequence.disasm(method(:hello))
+```
+
+```text title="出力"
+== disasm: <RubyVM::InstructionSequence:hello@/tmp/method.rb>============
+0000 trace            8                                               (   1)
+0002 trace            1                                               (   2)
+0004 putself
+0005 putstring        "hello, world"
+0007 send             :puts, 1, nil, 8, <ic:0>
+0013 trace            16                                              (   3)
+0015 leave                                                            (   2)
+```
+
+- **SEE** [RubyVM::InstructionSequence#disasm](../../../method/RubyVM=3a=3aInstructionSequence/i/disasm.md)

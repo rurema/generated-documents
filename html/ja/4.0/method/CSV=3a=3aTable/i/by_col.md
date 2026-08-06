@@ -1,0 +1,20 @@
+# CSV::Table#by_col
+
+### def by_col -> CSV::Table
+
+カラムモードになっている新しい [CSV::Table](../../../class/CSV=3a=3aTable.md) オブジェクトを返します。
+
+元のテーブルモードを変更せずにメソッドチェーンできるので便利です。しかし、大きなデータセットに対しても同じだけメモリを消費するので気をつけてください。
+
+このメソッドは複製したテーブルを返すので、破壊的なメソッドはメソッドチェーンに組込まないようにしてください。
+
+```ruby title="例"
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+table = CSV::Table.new([row1, row2])
+col_table = table.by_col
+p col_table[0] # => ["row1_1", "row2_1"]
+p col_table[1] # => ["row1_2", "row2_2"]
+```

@@ -1,0 +1,6 @@
+# Process::Status#success?
+
+### def success?    -> bool
+
+プロセスの終了状態が成功である場合に true を返します。
+そうでない場合に false を返します。

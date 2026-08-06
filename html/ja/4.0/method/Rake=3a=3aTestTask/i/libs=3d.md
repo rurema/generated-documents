@@ -1,0 +1,7 @@
+# Rake::TestTask#libs=
+
+### def libs=(libs)
+
+テスト実行前に [m:$LOAD_PATH] に追加するパスをセットします。
+
+- **param** `libs` -- [m:$LOAD_PATH] に追加するパスを配列で指定します。

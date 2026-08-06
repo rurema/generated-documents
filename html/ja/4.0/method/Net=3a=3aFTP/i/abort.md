@@ -1,0 +1,9 @@
+# Net::FTP#abort
+
+### def abort -> String
+
+データの転送を中止します。
+
+- **return** -- サーバからの応答を文字列で返します。
+
+- **raise** `Net::FTPReplyError` -- 応答コードが正しくない場合に発生します。

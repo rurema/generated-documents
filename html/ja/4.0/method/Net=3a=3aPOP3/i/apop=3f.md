@@ -1,0 +1,5 @@
+# Net::POP3#apop?
+
+### def apop? -> bool
+
+このインスタンスが APOP を使ってサーバに接続するなら true を返します。

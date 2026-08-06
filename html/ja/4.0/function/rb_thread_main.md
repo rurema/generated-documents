@@ -1,0 +1,5 @@
+# rb_thread_main
+
+### VALUE rb_thread_main(void)
+
+メインスレッド (プロセスの一番最初に存在するスレッド) を返します。

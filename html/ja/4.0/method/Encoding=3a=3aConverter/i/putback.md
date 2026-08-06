@@ -1,0 +1,20 @@
+# Encoding::Converter#putback
+
+### def putback -> String
+### def putback(max_numbytes) -> String
+
+後の変換用に変換器内部で保持しているバイト列を max_numbytes で指定したバイト数だけ返します。max_numbytes を指定しなかった場合は保持しているバイト列の全てを返します。
+
+- **param** `max_numbytes` -- 取得するバイト列の最大値
+
+- **return** -- 格納されていたバイト列
+
+```ruby
+ec = Encoding::Converter.new("utf-16le", "iso-8859-1")
+src = "\x00\xd8\x61\x00"
+dst = ""
+p ec.primitive_convert(src, dst)   #=> :invalid_byte_sequence
+p ec.primitive_errinfo     #=> [:invalid_byte_sequence, "UTF-16LE", "UTF-8", "\x00\xD8", "a\x00"]
+p ec.putback               #=> "a\x00"
+p ec.putback               #=> ""          # no more bytes to put back
+```

@@ -1,0 +1,7 @@
+# StringValuePtr
+
+### char * StringValuePtr(VALUE val)
+
+val が String でなければ to_str メソッドを使って String に変換し、その実体のポインタを返します。
+
+このマクロに渡した VALUE は ruby の GC から確実に保護されます。

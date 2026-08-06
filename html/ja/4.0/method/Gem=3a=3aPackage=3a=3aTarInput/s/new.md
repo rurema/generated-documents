@@ -1,0 +1,9 @@
+# Gem::Package::TarInput.new
+
+### def Gem::Package::TarInput.new(io, security_policy = nil)
+@todo ???
+このクラスを初期化します。
+
+- **param** `io` -- 自身に関連付ける IO を指定します。
+
+- **param** `security_policy` -- ???

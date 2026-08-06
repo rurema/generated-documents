@@ -1,0 +1,19 @@
+# FileUtils?.cd
+
+### module_function def cd(dir, verbose: nil)                   -> 0
+### module_function def cd(dir, verbose: nil) {|dir| .... }     -> object
+### module_function def chdir(dir, verbose: nil)                -> 0
+### module_function def chdir(dir, verbose: nil) {|dir| .... }  -> object
+
+プロセスのカレントディレクトリを dir に変更します。
+
+ブロックとともに呼び出された時はブロック終了後に元のディレクトリに戻ります。
+
+- **param** `dir` -- ディレクトリを指定します。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+```ruby
+require 'fileutils'
+FileUtils.cd('/', verbose: true)   # chdir and report it
+```

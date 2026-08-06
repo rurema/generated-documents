@@ -1,0 +1,26 @@
+# TSort#tsort
+
+### def tsort -> Array
+
+頂点をトポロジカルソートして得られる配列を返します。
+この配列は子から親に向かってソートされています。
+すなわち、最初の要素は子を持たず、最後の要素は親を持ちません。
+
+- **raise** `TSort::Cyclic` -- 閉路が存在するとき、発生します。
+
+```ruby title="使用例"
+require 'tsort'
+
+class Hash
+  include TSort
+  alias tsort_each_node each_key
+  def tsort_each_child(node, &block)
+    fetch(node).each(&block)
+  end
+end
+
+sorted = {1=>[2, 3], 2=>[3], 3=>[], 4=>[]}.tsort
+p sorted #=> [3, 2, 1, 4]
+```
+
+- **SEE** [TSort.tsort](../../../method/TSort/s/tsort.md)

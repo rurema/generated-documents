@@ -1,0 +1,7 @@
+# Gem::DocManager.configured_args=
+
+### def Gem::DocManager.configured_args=(args)
+
+RDoc に渡す引数をセットします。
+
+- **param** `args` -- 文字列の配列か空白区切りの文字列を指定します。

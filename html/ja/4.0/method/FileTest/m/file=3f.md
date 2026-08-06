@@ -1,0 +1,15 @@
+# FileTest?.file?
+
+### module_function def file?(file)    -> bool
+
+ファイルが通常ファイルである時に真を返します。そうでない場合、ファイルが存在しない場合、あるいはシステムコールに失敗した場合などには false を返します。
+
+- **param** `file` -- ファイル名を表す文字列か IO オブジェクトを指定します。
+
+- **raise** `IOError` -- 指定された IO オブジェクト file が既に close されていた場合に発生します。
+
+```ruby title="例"
+p FileTest.file?('/bin/bash') # => true
+p FileTest.file?('/bin') # => false
+p FileTest.file?('/no_such_file') # => false
+```

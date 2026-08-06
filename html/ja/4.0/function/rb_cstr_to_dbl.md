@@ -1,0 +1,3 @@
+# rb_cstr_to_dbl
+
+### double rb_cstr_to_dbl(const char *p, int badcheck)

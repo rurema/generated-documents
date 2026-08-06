@@ -1,0 +1,182 @@
+# String#slice
+
+### def [](nth) -> String | nil
+### def slice(nth) -> String | nil
+
+nth 番目の文字を返します。
+nth が負の場合は文字列の末尾から数えます。
+つまり、 self.size + nth 番目の文字を返します。
+
+nth が範囲外を指す場合は nil を返します。
+
+- **param** `nth` -- 文字の位置を表す整数
+- **return** -- 指定した位置の文字を表す String オブジェクト
+
+```ruby title="例"
+p 'bar'[2]       # => "r"
+p 'bar'[2] == ?r # => true
+p 'bar'[-1]      # => "r"
+p 'bar'[3]       # => nil
+p 'bar'[-4]      # => nil
+```
+
+このメソッドの仕様は 1.8.x 以前から大きく変更されていますので注意が必要です。
+
+### def [](nth, len) -> String | nil
+### def slice(nth, len) -> String | nil
+
+nth 文字目から長さ len 文字の部分文字列を新しく作って返します。
+nth が負の場合は文字列の末尾から数えます。
+
+- **param** `nth` --    取得したい文字列の開始インデックスを整数で指定します。
+- **param** `len` --    取得したい文字列の長さを正の整数で指定します。
+
+- **return** -- nth が範囲外を指す場合は nil を返します。
+
+```ruby title="例"
+str0 = "bar"
+p str0[2, 1]       #=> "r"
+p str0[2, 0]       #=> ""
+p str0[2, 100]     #=> "r"  (右側を超えても平気)
+p str0[-1, 1]      #=> "r"
+p str0[-1, 2]      #=> "r"  (右に向かって len 文字)
+
+p str0[3, 1]       #=> ""
+p str0[4, 1]       #=> nil
+p str0[-4, 1]      #=> nil
+str1 = str0[0, 2]    # (str0 の「一部」を str1 とする)
+p str1             #=> "ba"
+str1[0] = "XYZ"
+p str1             #=> "XYZa" (str1 の内容が破壊的に変更された)
+p str0             #=> "bar" (str0 は無傷、 str1 は str0 と内容を共有していない)
+```
+
+### def [](substr) -> String | nil
+### def slice(substr) -> String | nil
+
+self が substr を含む場合、一致した文字列を新しく作って返します。
+substr を含まなければ nil を返します。
+
+- **param** `substr` --    取得したい文字列のパターン。文字列
+
+```ruby title="例"
+substr = "bar"
+result = "foobar"[substr]
+p result   # => "bar"
+p substr.equal?(result)   # => false
+```
+
+### def [](regexp, nth = 0) -> String
+### def slice(regexp, nth = 0) -> String
+
+正規表現 regexp の nth 番目の括弧にマッチする最初の部分文字列を返します。
+nth を省略したときや 0 の場合は正規表現がマッチした部分文字列全体を返します。
+正規表現が self にマッチしなかった場合や nth に対応する括弧がないときは nil を返します。
+
+このメソッドを実行すると、マッチ結果に関する情報が組み込み変数 [m:$~] に設定されます。
+
+- **param** `regexp` --    取得したい文字列のパターンを示す正規表現
+- **param** `nth` --       取得したい正規表現レジスタのインデックス。整数
+
+```ruby title="例"
+p "foobar"[/bar/]  # => "bar"
+p $~.begin(0)      # => 3
+p "def getcnt(line)"[ /def\s+(\w+)/, 1 ]   # => "getcnt"
+```
+
+### def [](regexp, name) -> String
+### def slice(regexp, name) -> String
+
+正規表現 regexp の name で指定した名前付きキャプチャにマッチする最初の部分文字列を返します。正規表現が self にマッチしなかった場合は nil を返します。
+
+- **param** `regexp` -- 正規表現を指定します。
+- **param** `name` -- 取得したい部分文字列のパターンを示す正規表現レジスタを示す名前
+
+- **raise** `IndexError` -- name に対応する括弧がない場合に発生します。
+
+```ruby title="例"
+s = "FooBar"
+p s[/(?<foo>[A-Z]..)(?<bar>[A-Z]..)/]      # => "FooBar"
+p s[/(?<foo>[A-Z]..)(?<bar>[A-Z]..)/, "foo"] # => "Foo"
+p s[/(?<foo>[A-Z]..)(?<bar>[A-Z]..)/, "bar"] # => "Bar"
+s[/(?<foo>[A-Z]..)(?<bar>[A-Z]..)/, "baz"] # ~> IndexError
+```
+
+### def [](range) -> String
+### def slice(range) -> String
+
+rangeで指定したインデックスの範囲に含まれる部分文字列を返します。
+
+- **param** `range` --   取得したい文字列の範囲を示す Range オブジェクト
+
+### rangeオブジェクトが終端を含む場合
+
+インデックスと文字列の対応については以下の対照図も参照してください。
+
+```text
+  0   1   2   3   4   5   (インデックス)
+ -6  -5  -4  -3  -2  -1   (負のインデックス)
+| a | b | c | d | e | f |
+|<--------->|                'abcdef'[0..2]  # => 'abc'
+                |<----->|    'abcdef'[4..5]  # => 'ef'
+        |<--------->|        'abcdef'[2..4]  # => 'cde'
+```
+
+range.last が文字列の長さ以上のときは
+(文字列の長さ - 1) を指定したものとみなされます。
+
+range.first が 0 より小さいか文字列の長さより大きいときは nil を返します。ただし range.first および range.last のどちらかまたは両方が負の数のときは一度だけ文字列の長さを足して再試行します。
+
+```ruby title="例"
+p 'abcd'[ 2 ..  1] # => ""
+p 'abcd'[ 2 ..  2] # => "c"
+p 'abcd'[ 2 ..  3] # => "cd"
+p 'abcd'[ 2 ..  4] # => "cd"
+
+p 'abcd'[ 2 .. -1] # => "cd"   # str[f..-1] は「f 文字目から
+p 'abcd'[ 3 .. -1] # => "d"    # 文字列の最後まで」を表す慣用句
+
+p 'abcd'[ 1 ..  2] # => "bc"
+p 'abcd'[ 2 ..  2] # => "c"
+p 'abcd'[ 3 ..  2] # => ""
+p 'abcd'[ 4 ..  2] # => ""
+p 'abcd'[ 5 ..  2] # => nil
+
+p 'abcd'[-3 ..  2] # => "bc"
+p 'abcd'[-4 ..  2] # => "abc"
+p 'abcd'[-5 ..  2] # => nil
+```
+
+### rangeオブジェクトが終端を含まない場合
+
+文字列と「隙間」の関係については以下の模式図を参照してください。
+
+```text
+ 0   1   2   3   4   5   6  (隙間番号)
+-6  -5  -4  -3  -2  -1      (負の隙間番号)
+ | a | b | c | d | e | f |
+ |<--------->|                'abcdef'[0...3]  # => 'abc'
+                 |<----->|    'abcdef'[4...6]  # => 'ef'
+         |<--------->|        'abcdef'[2...5]  # => 'cde'
+```
+
+range.last が文字列の長さよりも大きいときは文字列の長さを指定したものとみなされます。
+
+range.first が 0 より小さいか文字列の長さより大きいときは nil を返します。
+ただし range.first と range.last のどちらかまたは両方が負の数であるときは一度だけ文字列の長さを足して再試行します。
+
+```ruby title="例"
+p 'abcd'[ 2 ... 3] # => "c"
+p 'abcd'[ 2 ... 4] # => "cd"
+p 'abcd'[ 2 ... 5] # => "cd"
+
+p 'abcd'[ 1 ... 2] # => "b"
+p 'abcd'[ 2 ... 2] # => ""
+p 'abcd'[ 3 ... 2] # => ""
+p 'abcd'[ 4 ... 2] # => ""
+p 'abcd'[ 5 ... 2] # => nil
+
+p 'abcd'[-3 ... 2] # => "b"
+p 'abcd'[-4 ... 2] # => "ab"
+p 'abcd'[-5 ... 2] # => nil
+```

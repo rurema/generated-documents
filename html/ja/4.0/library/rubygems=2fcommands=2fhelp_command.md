@@ -1,0 +1,26 @@
+# library rubygems/commands/help_command
+
+Gem コマンドに関するヘルプを提供するためのライブラリです。
+
+```text
+Usage: gem help ARGUMENT [options]
+```
+
+```text
+Common Options:
+  -h, --help                       このコマンドのヘルプを表示します
+  -V, --[no-]verbose               表示を詳細にします
+  -q, --quiet                      静かに実行します
+      --config-file FILE           指定された設定ファイルを使用します
+      --backtrace                  バックトレースを表示します
+      --debug                      Ruby 自体のデバッグオプションを有効にします
+```
+
+```text
+Arguments:
+  commands      gem コマンドのサブコマンドの一覧を表示します
+  examples      gem コマンドの使用例を表示します
+  <command>     指定されたコマンドのヘルプを表示します
+Summary:
+  gem コマンドに関するヘルプを提供します
+```

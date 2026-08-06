@@ -1,0 +1,22 @@
+# FileUtils?.remove
+
+### module_function def rm(list, force: nil, noop: nil, verbose: nil)     -> ()
+### module_function def remove(list, force: nil, noop: nil, verbose: nil) -> ()
+
+list で指定された対象を消去します。
+
+- **param** `list` -- 削除する対象。一つの場合は文字列も指定可能です。
+            二つ以上指定する場合は配列で指定します。
+
+- **param** `force` -- 真を指定すると処理中に発生した [StandardError](../../../class/StandardError.md) を無視します。
+
+- **param** `noop` -- 真を指定すると実際の処理は行いません。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+```ruby
+require 'fileutils'
+FileUtils.rm('junk.txt')
+FileUtils.rm(Dir.glob('*~'))
+FileUtils.rm('NotExistFile', force: true)    # never raises exception
+```

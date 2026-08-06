@@ -1,0 +1,28 @@
+# Kernel?.syscall
+
+### module_function def syscall(num, *arg ) -> Integer
+
+numで指定された番号のシステムコールを実行します。
+第2引数以降をシステムコールの引数として渡します。
+
+どの数値がどのシステムコールに対応するかは、
+syscall(2) や
+/usr/include/sys/syscall.h を参照してください。
+
+システムコールの慣習に従い、syscall(2)
+が -1 を返す場合には例外 [Errno::EXXX](../../../class/Errno=3a=3aEXXX.md) が発生します。
+それ以外では、返した値をそのまま数値で返します。
+
+ライブラリ [fiddle](../../../library/fiddle.md) を使えばより高レベルな操作ができます。
+
+- **param** `num` -- システムコール番号です。
+- **param** `arg` -- 文字列か、整数です。最大 9 個まで渡すことができます。
+- **raise** `Errno::EXXX` -- syscall(2) が -1 を返した場合に発生します。
+- **raise** `NotImplementedError` -- 実行環境がこのメソッドに対応していないとき発生します。
+
+```ruby title="例"
+syscall 4, 1, "hello\n", 6   # '4' is write(2) on our box
+# => hello
+```
+
+- **SEE** [fiddle](../../../library/fiddle.md), [man:syscall(2freebsd)], [man:syscall(2linux)]

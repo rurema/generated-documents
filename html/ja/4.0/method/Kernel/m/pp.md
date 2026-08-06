@@ -1,0 +1,25 @@
+# Kernel?.pp
+
+### module_function def pp(*obj)    -> object
+
+指定されたオブジェクト obj を標準出力に見やすい形式(プリティプリント)で出力します。
+obj それぞれを引数として [PP.pp](../../../method/PP/s/pp.md) を呼ぶことと同等です。
+
+初回呼び出し時に自動的に [pp](../../../library/pp.md) を require します。
+
+- **param** `obj` -- 表示したいオブジェクトを指定します。
+
+```ruby title="例"
+require 'pp'
+
+b = [1, 2, 3] * 4
+a = [b, b]
+a << a
+pp a
+
+#=> [[1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3],
+#    [1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3],
+#    [...]]
+```
+
+- **SEE** [PP.pp](../../../method/PP/s/pp.md)

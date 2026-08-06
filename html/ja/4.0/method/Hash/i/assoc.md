@@ -1,0 +1,19 @@
+# Hash#assoc
+
+### def assoc(key)   ->  Array | nil
+
+ハッシュが key をキーとして持つとき、見つかった要素のキーと値のペアを配列として返します。
+
+キーの同一性判定には eql? メソッドではなく == メソッドを使います。
+key が見つからなかった場合は、nil を返します。
+
+- **param** `key` -- 検索するキー
+
+```ruby title="例"
+h = {"colors"  => ["red", "blue", "green"],
+     "letters" => ["a", "b", "c" ]}
+p h.assoc("letters")  #=> ["letters", ["a", "b", "c"]]
+p h.assoc("foo")    #=> nil
+```
+
+- **SEE** [Array#assoc](../../../method/Array/i/assoc.md)

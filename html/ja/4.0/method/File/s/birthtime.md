@@ -1,0 +1,15 @@
+# File.birthtime
+
+### def File.birthtime(filename) -> Time
+
+作成された時刻を返します。
+
+- **param** `filename` -- ファイル名を表す文字列か IO オブジェクトを指定します。
+
+- **raise** `Errno::EXXX` -- ファイルの時刻の取得に失敗した場合に発生します。
+
+- **raise** `NotImplementedError` --  Windows のような birthtime のない環境で発生します。
+
+```ruby title="例"
+p File.birthtime("testfile") #=> Wed Apr 09 08:53:13 CDT 2003
+```

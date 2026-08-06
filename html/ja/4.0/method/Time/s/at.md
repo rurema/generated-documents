@@ -1,0 +1,65 @@
+# Time.at
+
+### def Time.at(time)         -> Time
+### def Time.at(time, in:)    -> Time
+
+time で指定した時刻の Time オブジェクトを返します。
+
+キーワード引数 in でタイムゾーンを指定できます。タイムゾーンの指定がなく引数が数値の場合、生成された Time オブジェクトのタイムゾーンは地方時となります。
+
+- **param** `time` -- Time オブジェクト、もしくは起算時からの経過秒数を表わす数値で指定します。
+- **param** `in` -- "+HH:MM" や "-HH:MM" のような形式の文字列か
+          "UTC" かミリタリータイムゾーンの文字列または
+          数値でタイムゾーンを指定します。
+
+```ruby
+p Time.at(0)                              # => 1970-01-01 09:00:00 +0900
+p Time.at(Time.at(0))                     # => 1970-01-01 09:00:00 +0900
+p Time.at(Time.at(0).getutc)              # => 1970-01-01 00:00:00 UTC
+p Time.at(946702800)                      # => 2000-01-01 14:00:00 +0900
+p Time.at(-284061600)                     # => 1960-12-31 15:00:00 +0900
+p Time.at(946684800.2).usec               # => 200000
+p Time.at(1582721899, in: "+09:00")       # => 2020-02-26 21:58:19 +0900
+p Time.at(1582721899, in: 9*60*60)        # => 2020-02-26 21:58:19 +0900
+p Time.at(1582721899, in: "UTC")          # => 2020-02-26 12:58:19 UTC
+p Time.at(1582721899, in: "C")            # => 2020-02-26 13:58:19 +0300
+```
+
+### def Time.at(time, usec)         -> Time
+### def Time.at(time, usec, in:)    -> Time
+
+time + (usec/1000000) の時刻を表す Time オブジェクトを返します。
+浮動小数点の精度では不十分な場合に使用します。
+
+キーワード引数 in でタイムゾーンを指定できます。タイムゾーンの指定がない場合、生成された Time オブジェクトのタイムゾーンは地方時となります。
+
+- **param** `time` -- 起算時からの経過秒数を表わす値を[Integer](../../../class/Integer.md)、 [Float](../../../class/Float.md)、 [Rational](../../../class/Rational.md)、または他の[Numeric](../../../class/Numeric.md)で指定します。
+
+- **param** `usec` -- マイクロ秒を[Integer](../../../class/Integer.md)、 [Float](../../../class/Float.md)、 [Rational](../../../class/Rational.md)、または他の[Numeric](../../../class/Numeric.md)で指定します。
+
+- **param** `in` -- "+HH:MM" や "-HH:MM" のような形式の文字列か
+          "UTC" かミリタリータイムゾーンの文字列または
+          数値でタイムゾーンを指定します。
+
+```ruby
+p Time.at(946684800, 123456.789).nsec  # => 123456789
+```
+
+### def Time.at(seconds, xseconds, unit)      -> Time
+### def Time.at(seconds, xseconds, unit, in:) -> Time
+
+unit に応じて seconds + xseconds ミリ秒などの時刻を表す Time オブジェクトを返します。
+
+- **param** `seconds` -- 起算時からの経過秒数を表わす値を[Integer](../../../class/Integer.md)、 [Float](../../../class/Float.md)、 [Rational](../../../class/Rational.md)、または他の[Numeric](../../../class/Numeric.md)で指定します。
+- **param** `xseconds` -- unit に対応するミリ秒かマイクロ秒かナノ秒を指定します。
+- **param** `unit` -- :millisecond, :usec, :microsecond, :nsec, :nanosecond のいずれかを指定します。
+- **param** `in` -- "+HH:MM" や "-HH:MM" のような形式の文字列か
+          "UTC" かミリタリータイムゾーンの文字列または
+          数値でタイムゾーンを指定します。
+
+```ruby
+p Time.at(946684800, 123.456789, :millisecond).nsec  # => 123456789
+p Time.at(946684800, 123456.789, :usec).nsec       # => 123456789
+p Time.at(946684800, 123456.789, :microsecond).nsec  # => 123456789
+p Time.at(946684800, 123456789, :nsec).nsec        # => 123456789
+```

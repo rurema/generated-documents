@@ -1,0 +1,5 @@
+# Psych::SyntaxError#line
+
+### def line -> Integer
+
+エラーが生じた行番号を返します。

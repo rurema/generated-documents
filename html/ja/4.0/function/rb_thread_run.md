@@ -1,0 +1,5 @@
+# rb_thread_run
+
+### VALUE rb_thread_run(VALUE thread)
+
+スレッド thread に実行権を渡します。

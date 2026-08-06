@@ -1,0 +1,59 @@
+# Module#module_eval
+
+### def module_eval(expr, fname = "(eval)", lineno = 1) -> object
+### def module_eval{|mod| ... }                         -> object
+### def class_eval(expr, fname = "(eval)", lineno = 1)  -> object
+### def class_eval{|mod| ... }                          -> object
+
+モジュールのコンテキストで文字列 expr またはモジュール自身をブロックパラメータとするブロックを評価してその結果を返します。
+
+モジュールのコンテキストで評価するとは、実行中そのモジュールが self になるということです。
+つまり、そのモジュールの定義式の中にあるかのように実行されます。
+
+ただし、ローカル変数は module_eval/class_eval の外側のスコープと共有します。
+
+定数とクラス変数のスコープは、文字列が与えられた場合とブロックが与えられた場合で挙動が異なります。
+文字列が与えられた場合には、定数とクラス変数のスコープは自身のモジュール定義式内と同じスコープになります。
+ブロックが与えられた場合には、定数とクラス変数のスコープはブロックの外側のスコープになります。
+
+- **param** `expr` -- 評価される文字列。
+
+- **param** `fname` -- 文字列を指定します。ファイル fname に文字列 expr が書かれているかのように実行されます。
+             スタックトレースの表示などを差し替えることができます。
+
+- **param** `lineno` -- 文字列を指定します。行番号 lineno から文字列 expr が書かれているかのように実行されます。
+              スタックトレースの表示などを差し替えることができます。
+
+```ruby title="例"
+class C
+end
+a = 1
+C.class_eval %Q{
+  def m                   # メソッドを動的に定義できる。
+    return :m, #{a}
+  end
+}
+
+p C.new.m        #=> [:m, 1]
+```
+
+```ruby title="定数のスコープが異なる例"
+class C
+end
+
+# ブロックが渡された場合は、ブロックの外側のスコープになる。
+# つまり、この場合はトップレベルに定数 X を定義する。
+C.class_eval { X = 1 }
+
+# 文字列が渡された場合は、モジュール定義式内と同じスコープになる。つまり、この場合は
+# class C
+#   X = 2
+# end
+# と書いたのと同じ意味になる。
+C.class_eval 'X = 2'
+
+p X    #=> 1
+p C::X #=> 2
+```
+
+- **SEE** [BasicObject#instance_eval](../../../method/BasicObject/i/instance_eval.md), [Module.new](../../../method/Module/s/new.md), [Kernel?.eval](../../../method/Kernel/m/eval.md)

@@ -1,0 +1,12 @@
+# File::Stat#dev
+
+### def dev -> String
+
+デバイス番号(ファイルシステム)を返します。
+
+```ruby
+fs = File::Stat.new($0)
+p fs.dev
+#例
+#=> 2
+```

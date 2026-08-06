@@ -1,0 +1,5 @@
+# Gem::Installer.path_warning
+
+### def Gem::Installer.path_warning -> bool
+
+この値が 真の場合は Gem.bindir が PATH に含まれていない場合に警告を表示します。

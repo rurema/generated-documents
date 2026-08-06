@@ -1,0 +1,22 @@
+# StringScanner#check
+
+### def check(regexp) -> String | nil
+
+現在位置から regexp とのマッチを試みます。
+マッチに成功したらマッチした部分文字列を返します。
+マッチに失敗したら nil を返します。
+
+このメソッドはマッチが成功してもスキャンポインタを進めません。
+
+- **param** `regexp` -- マッチに用いる正規表現を指定します。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('test string')
+p s.check(/\w+/) # => "test"
+p s.pos        # => 0
+p s.matched    # => "test"
+p s.check(/\s+/) # => nil
+p s.matched    # => nil
+```

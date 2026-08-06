@@ -1,0 +1,10 @@
+# String#reverse
+
+### def reverse -> String
+
+文字列を文字単位で左右逆転した文字列を返します。
+
+```ruby title="例"
+p "foobar".reverse   # => "raboof"
+p "".reverse         # => ""
+```

@@ -1,0 +1,45 @@
+# String#downcase
+
+### def downcase(*options) -> String
+
+全ての大文字を対応する小文字に置き換えた文字列を返します。
+どの文字がどう置き換えられるかは、オプションの有無や文字列のエンコーディングに依存します。
+
+- **param** `options` -- オプションの意味は以下の通りです。
+
+- **オプションなし**:
+  完全な Unicode ケースマッピングに対応し、ほとんどの言語に適しています。(例外は以下の :turkic,
+  :lithuanian オプションを参照)
+  Unicode 標準の表 3-14 で説明されている、コンテキスト依存のケースマッピングは、現在サポートされていません。
+
+- **`:ascii`**:
+  ASCII の範囲内のみ (A-Z, a-z) が影響します。
+  このオプションは他のオプションと組み合わせることはできません。
+
+- **`:turkic`**:
+  チュルク語族 (トルコ語、アゼルバイジャン語など) に適合した完全な Unicode ケースマッピングです。
+  これはたとえば大文字の I は小文字のドットなしの i (ı) にマッピングされることを意味します。
+
+- **`:lithuanian`**:
+  現在は、ただの完全な Unicode ケースマッピングです。
+  将来、リトアニア語に対応した完全な Unicode ケースマッピングです。
+  (上にアクセントがあっても小文字の i のドットを維持します。)
+
+- **`:fold`**:
+  downcase と downcase! のみで使えます。
+  Unicode ケースフォールディングは Unicode ケースマッピングより広範囲です。
+  このオプションは今の所、他のオプションと組み合わせることはできません。
+  (すなわち現在チュルク語族のバリアントはありません。)
+
+ASCII のみの大文字小文字変換で有効ないくつかの仮定は、より一般的なケース変換では成り立たないことに注意してください。例えば、結果の長さは入力の長さと同じとは限りません (文字数でもバイト数でも)。ラウンドトリップできるという仮定も成り立ちません (例えば str.downcase == str.upcase.downcase)。
+そして、Unicode 正規化 (すなわち [String#unicode_normalize](../../../method/String/i/unicode_normalize.md)) はケースマッピング操作で必ずしも維持されるとは限りません。
+
+現在 ASCII 以外のケースマッピング/フォールディングは、UTF-8, UTF-16BE/LE,
+UTF-32BE/LE, ISO-8859-1~16 の String/Symbol でサポートされています。
+他のエンコーディングもサポートされる予定です。
+
+```ruby title="例"
+p "STRing?".downcase   # => "string?"
+```
+
+- **SEE** [String#downcase!](../../../method/String/i/downcase=21.md), [String#upcase](../../../method/String/i/upcase.md), [String#swapcase](../../../method/String/i/swapcase.md), [String#capitalize](../../../method/String/i/capitalize.md)

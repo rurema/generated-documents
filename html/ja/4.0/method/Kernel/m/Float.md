@@ -1,0 +1,47 @@
+# Kernel?.Float
+
+### module_function def Float(arg, exception: true) -> Float | nil
+
+引数を浮動小数点数([Float](../../../class/Float.md))に変換した結果を返します。
+
+引数が数値の場合は素直に変換し、文字列の場合は整数や浮動小数点数と見なせるもののみ変換します。
+
+メソッド Float は文字列に対し [String#to_f](../../../method/String/i/to_f.md) よりも厳密な変換を行います。
+
+Ruby 3.4 以降は "1." のように小数点以下を省略した表記も受け付けます。
+
+- **param** `arg` -- 変換対象のオブジェクトです。
+- **param** `exception` -- false を指定すると、変換できなかった場合、
+                 例外を発生する代わりに nil を返します。
+- **raise** `ArgumentError` -- 整数や浮動小数点数と見なせない文字列を引数に指定した場合に発生します。
+- **raise** `TypeError` -- nil またはメソッド to_f を持たないオブジェクトを引数に指定したか、
+                 to_f が浮動小数点数を返さなかった場合に発生します。
+
+```ruby title="例"
+p Float(4)            #=> 4.0
+p Float(4_000)        #=> 4000.0
+p Float(9.88)         #=> 9.88
+
+p Float(Time.gm(1986)) #=> 504921600.0
+p Float(Object.new)   # can't convert Object into Float (TypeError)
+p Float(nil)          # can't convert nil into Float (TypeError)
+
+p Float("10")         #=> 10.0
+p Float("10e2")       #=> 1000.0
+p Float("1e-2")       #=> 0.01
+p Float(".1")         #=> 0.1
+p Float("0xa")        #=> 10.0
+p Float("1.")         #=> 1.0
+p Float("1.e2")       #=> 100.0
+
+p Float("nan")        # invalid value for Float(): "nan" (ArgumentError)
+p Float("INF")        # invalid value for Float(): "INF" (ArgumentError)
+p Float("-Inf")       # invalid value for Float(): "-Inf" (ArgumentError)
+p Float(("10" * 1000)) #=> Infinity
+p Float("0xa.a")      # invalid value for Float(): "0xa.a" (ArgumentError)
+p Float(" \n10\s \t") #=> 10.0 # 先頭と末尾の空白類は無視される
+p Float("1\n0")       # invalid value for Float(): "1\n0" (ArgumentError)
+p Float("")           # invalid value for Float(): "" (ArgumentError)
+```
+
+- **SEE** [String#to_f](../../../method/String/i/to_f.md),[Float](../../../class/Float.md)

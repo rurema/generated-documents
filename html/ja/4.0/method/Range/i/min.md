@@ -1,0 +1,56 @@
+# Range#min
+
+### def min               -> object | nil
+{: since=""}
+### def min(n)            -> [object]
+{: since=""}
+
+範囲内の最小の値、もしくは最小の n 要素が昇順で入った配列を返します。
+
+- **param** `n` -- 取得する要素数。
+
+```ruby title="例"
+p (1..5).min  # => 1
+```
+
+```ruby title="例"
+p (1..5).min(3) # => [1, 2, 3]
+```
+
+始端が終端より大きい場合、もしくは、終端を含まない範囲オブジェクトの始端が終端と等しい場合は、引数を指定しない形式では nil を返します。
+引数を指定する形式では、空の配列を返します。
+
+```ruby title="例"
+p (2..1).min   # => nil
+p (1...1).min  # => nil
+```
+
+```ruby title="例"
+p (2..1).min(3)  # => []
+p (1...1).min(3) # => []
+```
+
+### def min {|a, b| ... } -> object | nil
+{: since=""}
+### def min(n) {|a, b| ... } -> [object]
+{: since=""}
+
+ブロックの評価結果で範囲内の各要素の大小判定を行い、最小の要素、もしくは最小の n 要素を返します。引数を指定しない形式では、範囲内に要素が存在しなければ
+nil を返します。引数を指定する形式では、空の配列を返します。
+
+ブロックの値は、a > b のとき正、a == b のとき 0、 a < b のとき負の整数を、期待しています。
+
+- **param** `n` -- 取得する要素数。
+
+- **raise** `TypeError` -- ブロックが整数以外を返したときに発生します。
+
+- **SEE** [Range#first](../../../method/Range/i/first.md), [Range#max](../../../method/Range/i/max.md), [Enumerable#min](../../../method/Enumerable/i/min.md)
+
+```ruby title="例"
+h = { 1 => "C", 2 => "Go", 3 => "Ruby" }
+p (1..3).min { |a, b| h[a].length <=> h[b].length }  # => 1
+```
+
+```ruby title="例"
+p (1..3).min(2) { |a, b| h[a].length <=> h[b].length } # => [1, 2]
+```

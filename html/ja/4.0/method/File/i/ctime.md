@@ -1,0 +1,16 @@
+# File#ctime
+
+### def ctime    -> Time
+
+状態が最後に変更された時刻を Time オブジェクトとして返します。状態の変更とは chmod などによるものです。
+
+- **raise** `IOError` -- 自身が close されている場合に発生します。
+
+- **raise** `Errno::EXXX` -- ファイルの時刻の取得に失敗した場合に発生します。
+
+```ruby title="例:"
+IO.write("testfile", "test")
+p File.open("testfile") { |f| f.ctime } # => 2017-12-21 22:58:17 +0900
+```
+
+- **SEE** [File#lstat](../../../method/File/i/lstat.md), [File#atime](../../../method/File/i/atime.md), [File#mtime](../../../method/File/i/mtime.md), [File#birthtime](../../../method/File/i/birthtime.md)

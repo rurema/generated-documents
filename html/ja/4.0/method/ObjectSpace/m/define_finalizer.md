@@ -1,0 +1,72 @@
+# ObjectSpace?.define_finalizer
+
+### module_function def define_finalizer(obj, proc)         -> Array
+### module_function def define_finalizer(obj) {|id| ...}    -> Array
+
+obj が解放されるときに実行されるファイナライザ proc を登録します。同じオブジェクトについて複数回呼ばれたときは置き換えではなく追加登録されます。固定値 0 と proc を配列にして返します。
+
+ブロックを指定した場合は、そのブロックがファイナライザになります。
+obj の回収時にブロックは obj の ID ([BasicObject#__id__](../../../method/BasicObject/i/__id__.md))を引数として実行されます。
+しかし、後述の問題があるのでブロックでファイナライザを登録するのは難しいでしょう。
+
+- **param** `obj` -- ファイナライザを登録したいオブジェクトを指定します。
+
+- **param** `proc` -- ファイナライザとして [Proc](../../../class/Proc.md) オブジェクトを指定します。proc は obj の回収時に obj の ID を引数として実行されます。
+
+### 使い方の注意
+
+以下は、define_finalizer の使い方の悪い例です。
+
+```ruby title="悪い例"
+class Foo
+  def initialize
+    ObjectSpace.define_finalizer(self) {
+      puts "foo"
+    }
+  end
+end
+Foo.new
+GC.start
+```
+
+これは、渡された proc の self が obj を参照しつづけるため。そのオブジェクトが GC の対象になりません。
+
+[tempfile](../../../library/tempfile.md) は、ファイナライザの使い方の良い例になっています。これは、クラスのコンテキストで [Proc](../../../class/Proc.md) を生成することで上記の問題を回避しています。
+
+```ruby title="例"
+class Bar
+  def Bar.callback
+    proc {
+      puts "bar"
+    }
+  end
+  def initialize
+    ObjectSpace.define_finalizer(self, Bar.callback)
+  end
+end
+Bar.new
+GC.start
+```
+
+proc の呼び出しで発生した大域脱出(exitや例外)は無視されます。
+これは、スクリプトのメイン処理が GC の発生によって非同期に中断されるのを防ぐためです。不安なうちは -d オプションで事前に例外の発生の有無を確認しておいた方が良いでしょう。
+
+```ruby title="例"
+class Baz
+  def initialize
+    ObjectSpace.define_finalizer self, eval(%q{
+      proc {
+        raise "baz" rescue puts $!
+        raise "baz2"
+        puts "baz3"
+      }
+    }, TOPLEVEL_BINDING)
+  end
+end
+Baz.new
+GC.start
+
+# => baz
+```
+
+- **SEE** [spec/rubycmd](../../../doc/spec=2frubycmd.md)

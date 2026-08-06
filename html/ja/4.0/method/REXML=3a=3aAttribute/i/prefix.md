@@ -1,0 +1,16 @@
+# REXML::Attribute#prefix
+
+### def prefix -> String
+
+属性の名前空間を返します。
+
+```ruby
+require 'rexml/document'
+e = REXML::Element.new( "elns:myelement" )
+e.add_attribute( "nsa:a", "aval" )
+e.add_attribute( "b", "bval" )
+p e.attributes.get_attribute( "a" ).prefix   # -> "nsa"
+p e.attributes.get_attribute( "b" ).prefix   # -> "elns"
+a = REXML::Attribute.new( "x", "y" )
+p a.prefix                                   # -> ""
+```

@@ -1,0 +1,5 @@
+# rb_secure
+
+### void rb_secure(int level)
+
+現在のセーフレベルが level 以上のとき、例外 SecurityError を発生します。

@@ -1,0 +1,20 @@
+# JSON::Coder#load
+
+### def load(source) -> object
+### def parse(source) -> object
+
+source を Ruby のオブジェクトに変換します。
+
+parse は load の別名です。
+
+- **param** `source` -- JSON 形式の文字列を指定します。
+
+- **raise** `JSON::ParserError` -- source が正しい JSON 形式の文字列ではない場合に発生します。
+
+```ruby title="例"
+require "json"
+
+coder = JSON::Coder.new
+p coder.load('{"name":"Ruby"}')  # => {"name"=>"Ruby"}
+p coder.parse('{"name":"Ruby"}') # => {"name"=>"Ruby"}
+```

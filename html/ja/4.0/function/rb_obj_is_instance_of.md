@@ -1,0 +1,5 @@
+# rb_obj_is_instance_of
+
+### VALUE rb_obj_is_instance_of(VALUE obj, VALUE klass)
+
+obj がクラス klass のインスタンスならば真。

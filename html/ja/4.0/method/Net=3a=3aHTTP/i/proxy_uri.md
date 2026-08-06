@@ -1,0 +1,7 @@
+# Net::HTTP#proxy_uri
+
+### def proxy_uri -> String|nil
+
+このメソッドは内部用なので使わないでください。
+
+環境変数 http_proxy から得られるプロクシの URI を返します。

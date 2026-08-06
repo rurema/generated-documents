@@ -1,0 +1,6 @@
+# rb_enable_super
+
+### void rb_enable_super(VALUE klass, const char *name)
+
+クラス klass のメソッド name からの super を許可します。
+klass とそのスーパークラスで name というメソッドが定義されていないときは例外 NameError を発生します。

@@ -1,0 +1,7 @@
+# REXML::StreamListener#text
+
+### def text(text) -> ()
+
+XML文書内のテキストをパースしたときに呼び出されるコールバックメソッドです。
+
+- **param** `text` -- テキストが文字列で渡されます

@@ -1,0 +1,3 @@
+# rb_thread_start_0
+
+### static VALUE rb_thread_start_0(VALUE (*fn)(), void *arg, rb_thread_t th_arg)

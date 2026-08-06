@@ -1,0 +1,5 @@
+# class Resolv::DNS::Config::OtherResolvError < Resolv::ResolvError
+
+DNS サーバからの応答がエラーであった場合に発生する例外です。
+
+Resolv::DNSの各メソッドがこの例外を発生させる可能性があります。

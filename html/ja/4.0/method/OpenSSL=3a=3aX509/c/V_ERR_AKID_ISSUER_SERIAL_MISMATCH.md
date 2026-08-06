@@ -1,0 +1,6 @@
+# OpenSSL::X509::V_ERR_AKID_ISSUER_SERIAL_MISMATCH
+
+### const V_ERR_AKID_ISSUER_SERIAL_MISMATCH -> Integer
+
+証明書の拡張領域の Authority Key Identifier のシリアルと
+issuer の証明書のシリアルが一致しないことを意味します。

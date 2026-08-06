@@ -1,0 +1,3 @@
+# rb_thread_fd_close
+
+### void rb_thread_fd_close(int fd)

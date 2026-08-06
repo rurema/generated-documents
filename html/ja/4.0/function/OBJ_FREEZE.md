@@ -1,0 +1,3 @@
+# OBJ_FREEZE
+
+### void OBJ_FREEZE(VALUE x)

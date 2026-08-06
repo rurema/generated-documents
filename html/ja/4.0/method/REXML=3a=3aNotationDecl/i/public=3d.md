@@ -1,0 +1,7 @@
+# REXML::NotationDecl#public=
+
+### def public=(value)
+
+公開識別子を value に変更します。
+
+- **param** `value` -- 設定する公開識別子(文字列)

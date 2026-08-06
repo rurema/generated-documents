@@ -1,0 +1,26 @@
+# REXML::Attributes#each_attribute
+
+### def each_attribute {|attribute| ... } -> ()
+
+各属性に対しブロックを呼び出します。
+
+個々の属性は [REXML::Attribute](../../../class/REXML=3a=3aAttribute.md) オブジェクトで渡されます。
+
+```ruby
+require 'rexml/document'
+
+doc = REXML::Document.new(<<EOS)
+<root xmlns:foo="http://example.org/foo"
+      xmlns:bar="http://example.org/bar">
+  <a foo:att='1' bar:att='2' att='&lt;'/>
+</root>
+EOS
+a = doc.get_elements("/root/a").first
+
+a.attributes.each_attribute do |attr|
+  p [attr.namespace, attr.name, attr.value]
+end
+# => ["http://example.org/foo", "att", "1"]
+# => ["http://example.org/bar", "att", "2"]
+# => ["", "att", "<"]
+```

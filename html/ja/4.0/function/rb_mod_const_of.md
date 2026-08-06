@@ -1,0 +1,3 @@
+# rb_mod_const_of
+
+### void * rb_mod_const_of(VALUE mod, void *data)

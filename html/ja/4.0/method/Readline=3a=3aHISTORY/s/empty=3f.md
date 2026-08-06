@@ -1,0 +1,15 @@
+# Readline::HISTORY.empty?
+
+### def Readline::HISTORY.empty? -> bool
+
+ヒストリに格納された内容の数が 0 の場合は true を、そうでない場合は false を返します。
+
+```ruby title="例"
+require "readline"
+  
+p Readline::HISTORY.empty? #=> true
+Readline::HISTORY.push("foo", "bar", "baz")
+p Readline::HISTORY.empty? #=> false
+```
+
+- **SEE** [Readline::HISTORY.length](../../../method/Readline=3a=3aHISTORY/s/length.md)

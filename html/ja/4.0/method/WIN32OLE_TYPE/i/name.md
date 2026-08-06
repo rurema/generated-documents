@@ -1,0 +1,13 @@
+# WIN32OLE_TYPE#name
+
+### def name -> String
+### def to_s -> String
+
+selfの型名を取得します。
+
+- **return** -- selfの型名を文字列で返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Application')
+p tobj.name   # => "Application"
+```

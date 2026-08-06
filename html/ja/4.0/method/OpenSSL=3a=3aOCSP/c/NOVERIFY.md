@@ -1,0 +1,5 @@
+# OpenSSL::OCSP::NOVERIFY
+
+### const NOVERIFY -> Integer
+
+署名に使った鍵の証明書の検証を行わないことを意味します。

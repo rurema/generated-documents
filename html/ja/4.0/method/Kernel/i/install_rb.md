@@ -1,0 +1,17 @@
+# Kernel#install_rb
+
+### def install_rb(mfile, dest, srcdir = nil) -> Array
+
+このメソッドは create_makefile が使用します。
+内部用のメソッドです。
+
+ディレクトリ srcdir/lib 配下の Ruby スクリプト (*.rb ファイル)
+を dest にインストールするための Makefile 規則を mfile に出力します。
+
+srcdir/lib のディレクトリ構造はそのまま dest 配下に反映されます。
+
+- **param** `mfile` -- Makefile を表す [File](../../../class/File.md) のインスタンスです。
+
+- **param** `dest` -- インストールする先のディレクトリを指定します。
+
+- **param** `srcdir` -- ソースディレクトリを指定します。

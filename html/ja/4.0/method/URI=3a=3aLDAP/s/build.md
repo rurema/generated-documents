@@ -1,0 +1,25 @@
+# URI::LDAP.build
+
+### def URI::LDAP.build(ary)   -> URI::LDAP
+### def URI::LDAP.build(hash)  -> URI::LDAP
+
+引数で与えられた URI 構成要素から URI::LDAP オブジェクトを生成します。
+引数の正当性を検査します。
+
+- **param** `ary` -- 構成要素を表す配列を与えます。要素は次の順です。
+  ```text
+        [:host, :port, :dn, :attributes, :scope, :filter, :extensions]
+  ```
+- **param** `hash` -- 構成要素を表すハッシュを与えます。ハッシュのキーは 
+  ```text
+              :host, :port, :dn, :attributes, :scope, :filter, :extensions 
+  ```
+            のいずれかです。
+
+- **raise** `URI::InvalidComponentError` -- 各要素が適合しない場合に発生します。
+
+```ruby title="例"
+require 'uri'
+p URI::LDAP.build(["example.com", "1", "/a", "b", "c", "d", "e=f"]).to_s   
+#=> "ldap://example.com:1/a?b?c?d?e=f"
+```

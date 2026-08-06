@@ -1,0 +1,21 @@
+# File.chown
+
+### def File.chown(owner, group, *filename)    -> Integer
+
+ファイルのオーナーとグループを変更します。スーパーユーザだけがファイルのオーナーとグループを変更できます。変更を行ったファイルの数を返します。
+
+- **param** `filename` -- ファイル名を表す文字列を指定します。
+
+- **param** `owner` -- [man:chown(2)] と同様に数値で指定します。nil または -1 を指定することで、オーナーを維持できます。
+
+- **param** `group` -- [man:chown(2)] と同様に数値で指定します。nil または -1 を指定することで、グループを維持できます。
+
+- **raise** `Errno::EXXX` -- 変更に失敗した場合に発生します。
+
+```ruby title="例"
+IO.write("test.txt", "test")
+File.chown(502, 12, "test.txt")
+p File.stat("test.txt").uid # => 502
+```
+
+- **SEE** [File#chown](../../../method/File/i/chown.md)

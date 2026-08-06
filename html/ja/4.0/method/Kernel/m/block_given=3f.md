@@ -1,0 +1,22 @@
+# Kernel?.block_given?
+
+### module_function def block_given? -> bool
+### module_function def iterator? -> bool
+
+メソッドにブロックが与えられていれば真を返します。
+
+このメソッドはカレントコンテキストにブロックが与えられているかを調べるので、メソッド内部以外で使っても単に false を返します。
+
+iterator? は （ブロックが必ずイテレートするとはいえないので）推奨されていないので block_given? を使ってください。
+
+```ruby title="例"
+def check
+  if block_given?
+    puts "Block is given."
+  else
+    puts "Block isn't given."
+  end
+end
+p check{} #=> Block is given.
+p check #=> Block isn't given.
+```

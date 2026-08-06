@@ -1,0 +1,21 @@
+# Matrix.build
+
+### def Matrix.build(row_count, column_count = row_count) {|row, col| ... } -> Matrix
+### def Matrix.build(row_count, column_count = row_count) -> Enumerable
+
+`row_count`×`column_count` の行列をブロックの返り値から生成します。
+
+行列の各要素の位置がブロックに渡され、それの返り値が行列の要素となります。
+
+ブロックを省略した場合は [Enumerator](../../../class/Enumerator.md) を返します。
+
+```ruby title="例"
+require 'matrix'
+m = Matrix.build(2, 4) {|row, col| col - row }
+  # => Matrix[[0, 1, 2, 3], [-1, 0, 1, 2]]
+m = Matrix.build(3) { rand }
+  # => a 3x3 matrix with random elements
+```
+
+- **param** `row_count` -- 行列の行数
+- **param** `column_count` -- 行列の列数

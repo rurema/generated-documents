@@ -1,0 +1,8 @@
+# Gem::DependencyList#spec_predecessors
+
+### def spec_predecessors -> Hash
+@todo ???
+
+Return a hash of predecessors.  <tt>result[spec]</tt> is an
+Array of gemspecs that have a dependency satisfied by the named
+spec.

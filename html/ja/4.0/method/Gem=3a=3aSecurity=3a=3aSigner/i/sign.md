@@ -1,0 +1,6 @@
+# Gem::Security::Signer#sign
+
+### def sign(data)
+自身に設定済みのダイジェストアルゴリズムを用いて与えられたデータに署名します。
+
+- **param** `data` -- 署名対象のデータを指定します。

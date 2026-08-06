@@ -1,0 +1,19 @@
+# CSV::Row#each
+
+### def each{|header, field| ... } -> self
+
+与えられたブロックにヘッダとフィールドの組を渡して評価します。
+
+- **return** -- メソッドチェーンのために自身を返します。
+
+```ruby title="例"
+require "csv"
+
+row = CSV::Row.new(["header1", "header2", "header3", "header4"], [1, 2, 3, 4])
+row.each { |header, field| puts "#{header} - #{field}" }
+
+# => header1 - 1
+# => header2 - 2
+# => header3 - 3
+# => header4 - 4
+```

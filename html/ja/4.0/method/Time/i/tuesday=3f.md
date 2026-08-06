@@ -1,0 +1,11 @@
+# Time#tuesday?
+
+### def tuesday? -> bool
+
+self の表す時刻が火曜日である場合に true を返します。
+そうでない場合に false を返します。
+
+```ruby
+t = Time.local(1991, 2, 19)      # => 1991-02-19 00:00:00 +0900
+p t.tuesday?                     # => true
+```

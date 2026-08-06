@@ -1,0 +1,10 @@
+# PStore#ultra_safe=
+
+### def ultra_safe=(flag)
+
+真をセットすると、パフォーマンスと引き換えにファイル更新の衝突を避けることができます。
+
+このフラグの効果があるのは一部のプラットフォームだけです。
+(e.g. all POSIX platforms: Linux, Mac OS X, FreeBSD, etc)
+
+- **param** `flag` -- 真偽値を指定します。

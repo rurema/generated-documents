@@ -1,0 +1,7 @@
+# Gem::Specification#has_unit_tests?
+
+### def has_unit_tests? -> bool
+
+この Gem パッケージがユニットテストを含むかどうか返します。
+
+真の場合はユニットテストを含みます。そうでない場合は偽を返します。

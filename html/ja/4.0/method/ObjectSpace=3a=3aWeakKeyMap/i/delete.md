@@ -1,0 +1,24 @@
+# ObjectSpace::WeakKeyMap#delete
+
+### def delete(key) -> object | nil
+### def delete(key) {|key| ... } -> object
+
+key に対応する組を取り除き、その値を返します。
+
+key に対応する組が無い場合、ブロックを指定していなければ nil を返します。
+ブロックを指定していれば、key を引数としてブロックを実行し、その結果を返します。
+key に対応する組がある場合、ブロックは実行されません。
+
+- **param** `key` -- 取り除く組のキーを指定します。
+
+```ruby
+map = ObjectSpace::WeakKeyMap.new
+key = "name"
+map[key] = 1
+
+p map.delete("name") # => 1
+p map["name"]        # => nil
+
+p map.delete("zzz")                   # => nil
+p map.delete("zzz") { |k| "no #{k}" } # => "no zzz"
+```

@@ -1,0 +1,5 @@
+# warning_unless_e_option
+
+### static void warning_unless_e_option(const char *str)
+
+ruby -e で与えたプログラムの評価中ではなく、しかも $VERBOSE が真ならば、警告メッセージ str を出力する。

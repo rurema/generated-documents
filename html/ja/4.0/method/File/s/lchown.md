@@ -1,0 +1,23 @@
+# File.lchown
+
+### def File.lchown(owner, group, *filename)    -> Integer
+
+[File#chown](../../../method/File/i/chown.md) と同様ですが、シンボリックリンクに関してリンクそのもののオーナー、グループを変更します。
+
+- **param** `filename` -- ファイル名を表す文字列を指定します。
+
+- **param** `owner` -- [man:chown(2)] と同様に数値で指定します。nil または -1 を指定することで、オーナーを維持できます。
+
+- **param** `group` -- [man:chown(2)] と同様に数値で指定します。nil または -1 を指定することで、グループを維持できます。
+
+- **raise** `NotImplementedError` -- [man:lchown(2)] を実装していないシステムでこのメソッドを呼び出すと発生します。
+
+```ruby title="例"
+IO.write("testfile", "test")
+File.symlink("testfile", "testlink")
+File.chown(501, -1, "testfile")
+p File.lstat("testlink").ftype  # => "link"
+File.lchown(0, -1, "testlink")
+p File.stat("testlink").uid     # => 501
+p File.lstat("testlink").uid    # => 0
+```

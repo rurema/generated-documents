@@ -1,0 +1,12 @@
+# Etc?.getgrgid
+
+### module_function def getgrgid(gid) -> Etc::Group
+
+group データベースを検索し、グループ ID が gid
+であるグループエントリを返します。
+
+- **param** `gid` -- 検索する gid
+
+- **raise** `ArgumentError` -- エントリが見つからなかった場合に発生します。
+
+- **SEE** [man:getgrgid(3)], [Etc::Group](../../../class/Etc=3a=3aGroup.md)

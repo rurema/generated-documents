@@ -1,0 +1,7 @@
+# Net::IMAP::Envelope#date
+
+### def date -> String | nil
+
+日付の文字列を返します。
+
+エンベロープに存在しないときは nil を返します。

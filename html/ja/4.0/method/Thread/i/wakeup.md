@@ -1,0 +1,17 @@
+# Thread#wakeup
+
+### def wakeup    -> self
+
+停止状態(stop)のスレッドを実行可能状態(run)にします。
+
+- **raise** `ThreadError` -- 死んでいるスレッドに対して実行すると発生します。
+
+```ruby title="例"
+c = Thread.new { Thread.stop; puts "hey!" }
+sleep 0.1 while c.status!='sleep'
+c.wakeup
+c.join
+# => "hey!"
+```
+
+- **SEE** [Thread#run](../../../method/Thread/i/run.md), [Thread.stop](../../../method/Thread/s/stop.md)

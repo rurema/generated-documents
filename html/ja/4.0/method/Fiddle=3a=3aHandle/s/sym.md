@@ -1,0 +1,11 @@
+# Fiddle::Handle.sym
+
+### def Fiddle::Handle.sym(func) -> Integer
+### def Fiddle::Handle.[](func) -> Integer
+
+ライブラリのデフォルトの検索順序に従い、現在のライブラリ以降のシンボルを探します。
+
+Fiddle::Handle::NEXT.sym(func) と同じです。詳しくは [man:dlsym(3)] の
+RTLD_NEXT を見てください。
+
+- **raise** `Fiddle::DLError` -- シンボルが見つからなかった時に発生します。

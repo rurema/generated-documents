@@ -1,0 +1,20 @@
+# ARGF.class#readbyte
+
+### def readbyte   -> Integer
+{: since=""}
+
+自身から 1 バイトを読み込み整数として返します。
+既に EOF に達していれば EOFError が発生します。
+
+- **raise** `EOFError` -- 既に EOF に達している場合に発生します。
+
+```console
+$ echo "foo" > file
+$ ruby argf.rb file
+
+ARGF.readbyte  # => 102
+ARGF.readbyte  # => 111
+ARGF.readbyte  # => 111
+ARGF.readbyte  # => 10
+ARGF.readbyte  # => end of file reached (EOFError)
+```

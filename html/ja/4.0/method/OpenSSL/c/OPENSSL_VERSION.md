@@ -1,0 +1,5 @@
+# OpenSSL::OPENSSL_VERSION
+
+### const OPENSSL_VERSION -> String
+
+ビルド時に使われた OpenSSL 本体のバージョンを表した文字列です。

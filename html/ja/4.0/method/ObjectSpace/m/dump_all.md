@@ -1,0 +1,61 @@
+# ObjectSpace?.dump_all
+
+### module_function def dump_all(output: :file, full: false, since: nil, shapes: true) -> String | File | IO | nil
+
+Ruby のヒープの内容を JSON 形式でダンプします。1行につき1オブジェクト
+(または1ルート、1シェイプ)分の JSON が出力されます。
+
+- **param** `output` -- ダンプ結果の出力先を指定します。指定できる値は
+  [ObjectSpace?.dump](../../../method/ObjectSpace/m/dump.md) の output と同じです(デフォルトは `:file`)。
+- **param** `full` -- 真を指定すると、空きスロット(`T_NONE`)も含めたすべ
+  てのヒープスロットをダンプします。偽の場合(デフォルト)は使用中のスロッ
+  トのみダンプします。
+- **param** `since` -- 0 以上の整数または nil を指定します。正の整数を指
+  定した場合、その世代以降に割り当てられたオブジェクトのみをダンプしま
+  す。現在の世代は [GC.count](../../../method/GC/s/count.md) で取得できます。[ObjectSpace?.trace_object_allocations_start](../../../method/ObjectSpace/m/trace_object_allocations_start.md)
+  などでオブジェクト割り当てのトレースを有効にしていないオブジェクトは
+  割り当て世代が記録されないため無視されます。nil を指定した場合(デフォ
+  ルト)はすべてのオブジェクトをダンプします。
+- **param** `shapes` -- 真偽値または 0 以上の整数を指定します。正の整数
+  を指定した場合、指定した shape_id 以降のシェイプのみをダンプします。
+  現在の shape_id は [`RubyVM.stat(:next_shape_id)`](../../../method/RubyVM/s/stat.md) で取得できます。false
+  を指定するとシェイプをダンプしません。デフォルトは true です。
+
+```ruby title="例"
+require 'objspace'
+
+str = ObjectSpace.dump_all(output: :string)
+puts str.lines.size
+# => 18369 (ヒープの状態に依存するため実行するたびに変わります)
+```
+
+```ruby title="例:sinceで割り当て世代を絞り込む"
+require 'objspace'
+
+ObjectSpace.trace_object_allocations_start
+GC.start
+gen = GC.count
+obj = "new string"
+str = ObjectSpace.dump_all(output: :string, since: gen)
+puts str.lines.size
+ObjectSpace.trace_object_allocations_stop
+# => 234 (実行するたびに変わります)
+```
+
+
+```ruby title="例:shapesを無効にする"
+require 'objspace'
+
+str = ObjectSpace.dump_all(output: :string, shapes: false)
+p str.lines.grep(/"type":"SHAPE"/).size
+# => 0
+```
+
+
+- **raise** `ArgumentError` -- output に [ObjectSpace?.dump](../../../method/ObjectSpace/m/dump.md) で指定できる値以外を指定した場合に発生します。
+
+戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒントとして扱う必要があります。
+
+本メソッドは C Ruby 以外では動作しない、実験的なメソッドです。出力のフォーマットは将来のバージョンで変更される可能性があります。
+
+- **SEE** [ObjectSpace?.dump](../../../method/ObjectSpace/m/dump.md), [ObjectSpace?.trace_object_allocations_start](../../../method/ObjectSpace/m/trace_object_allocations_start.md)

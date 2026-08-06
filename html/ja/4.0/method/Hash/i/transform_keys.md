@@ -1,0 +1,23 @@
+# Hash#transform_keys
+
+### def transform_keys {|key| ... } -> Hash
+### def transform_keys(hash)        -> Hash
+### def transform_keys              -> Enumerator
+
+すべてのキーに対してブロックを呼び出した結果で置き換えたハッシュを返します。
+値は変化しません。
+
+- **param** `hash` -- 置き換え前のキーから置き換え後のキーへのハッシュを指定します。
+
+```ruby title="例"
+h = { a: 1, b: 2, c: 3 }
+p h.transform_keys {|k| k.to_s } # => {"a"=>1, "b"=>2, "c"=>3}
+p h.transform_keys(a: "a", d: "d") # => {"a"=>1, :b=>2, :c=>3}
+p h.transform_keys(&:to_s)       # => {"a"=>1, "b"=>2, "c"=>3}
+p h.transform_keys.with_index {|k, i| "#{k}.#{i}" }
+                                 # => {"a.0"=>1, "b.1"=>2, "c.2"=>3}
+```
+
+- **SEE** [Hash#transform_keys!](../../../method/Hash/i/transform_keys=21.md)
+- **SEE** [Hash#transform_values](../../../method/Hash/i/transform_values.md)
+- **SEE** [Hash#transform_values!](../../../method/Hash/i/transform_values=21.md)

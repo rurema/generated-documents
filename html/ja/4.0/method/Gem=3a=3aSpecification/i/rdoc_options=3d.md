@@ -1,0 +1,7 @@
+# Gem::Specification#rdoc_options=
+
+### def rdoc_options=(options)
+
+API ドキュメントを生成するときに rdoc コマンドに与えるオプションをセットします。
+
+- **param** `options` -- API ドキュメントを生成するときに rdoc コマンドに与えるオプションを指定します。

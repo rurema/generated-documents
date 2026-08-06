@@ -1,0 +1,27 @@
+# OptionParser#default_argv=
+
+### def default_argv=(argv)
+
+自身がデフォルトでパースする引数を文字列の配列で指定します。
+
+[OptionParser#parse](../../../method/OptionParser/i/parse.md) の引数が指定されなかったときに使われます。
+
+- **param** `argv` -- デフォルトでパースしたい文字列の配列を指定します。
+
+```ruby title="例"
+require "optparse"
+
+config = {}
+opts = OptionParser.new
+opts.on("-r", "--require LIBRARY"){|lib| config[:lib] = lib }
+
+# パラメーター指定なしで実行
+p opts.default_argv # => []
+opts.parse!
+p config          # => {}
+
+opts.default_argv = ["--require", "lib1"] # => ["--require", "lib"]
+p opts.default_argv # => ["--require", "param1"]
+opts.parse!
+p config          # => {:lib=>"lib1"}
+```

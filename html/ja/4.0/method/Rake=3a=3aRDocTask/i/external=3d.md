@@ -1,0 +1,7 @@
+# Rake::RDocTask#external=
+
+### def external=(flag)
+
+外部のシェル経由で rdoc コマンドを実行するかどうかセットします。
+
+- **param** `flag` -- 真または偽を指定します。

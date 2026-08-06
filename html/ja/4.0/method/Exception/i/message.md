@@ -1,0 +1,14 @@
+# Exception#message
+
+### def message    -> String
+### def to_s       -> String
+
+エラーメッセージをあらわす文字列を返します。
+
+```ruby title="例"
+begin
+  1 + nil
+rescue => e
+  p e.message   #=>  "nil can't be coerced into Fixnum"
+end
+```

@@ -1,0 +1,9 @@
+# Fiddle::Closure::BlockCaller#call
+
+### def call(*args) -> object
+
+wrap しているブロックを呼び出します。
+
+そのブロックの返り値がこのメソッドの返り値となります。
+
+- **param** `args` -- 引数

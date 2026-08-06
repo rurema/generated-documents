@@ -1,0 +1,22 @@
+# IO::Buffer#clear
+
+### def clear(value = 0, offset = 0, length = nil) -> self
+
+バッファを value で埋めます。
+
+- **param** `value` -- 埋める値を 0 から 255 の [Integer](../../../class/Integer.md) で指定します。
+- **param** `offset` -- 埋め始める位置をバッファの先頭からのバイト数で指定します。
+- **param** `length` -- 埋めるバイト数を指定します。省略した場合はバッファの末尾までを埋めます。
+- **raise** `IO::Buffer::AccessError` -- 書き込みできないバッファに対して呼び出した場合に発生します。
+
+```ruby
+buf = IO::Buffer.new(4)
+buf.set_string("test")
+
+buf.clear
+p buf.get_string # => "\x00\x00\x00\x00"
+
+# 位置と長さを指定して "A" (0x41) で埋める
+buf.clear(0x41, 1, 2)
+p buf.get_string # => "\x00AA\x00"
+```

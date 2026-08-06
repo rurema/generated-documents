@@ -1,0 +1,56 @@
+# Range#max
+
+### def max               -> object | nil
+{: since=""}
+### def max(n) -> [object]
+{: since=""}
+
+範囲内の最大の値、もしくは最大の n 要素が降順で入った配列を返します。
+
+- **param** `n` -- 取得する要素数。
+
+```ruby title="例"
+p (1..5).max   # => 5
+```
+
+```ruby title="例"
+p (1..5).max(3)  # => [5, 4, 3]
+```
+
+始端が終端より大きい場合、もしくは、終端を含まない範囲オブジェクトの始端が終端と等しい場合は、引数を指定しない形式では nil を返します。
+引数を指定する形式では、空の配列を返します。
+
+```ruby title="例"
+p (2..1).max   # => nil
+p (1...1).max  # => nil
+```
+
+```ruby title="例"
+p (2..1).max(3)  # => []
+p (1...1).max(3) # => []
+```
+
+### def max {|a, b| ... } -> object | nil
+{: since=""}
+### def max(n) {|a, b| ... } -> [object]
+{: since=""}
+
+ブロックの評価結果で範囲内の各要素の大小判定を行い、最大の要素、もしくは最大の n 要素を返します。引数を指定しない形式では、範囲内に要素が存在しなければ nil を返します。
+引数を指定する形式では、空の配列を返します。
+
+ブロックの値は、a > b のとき正、 a == b のとき 0、a < b のとき負の整数を、期待しています。
+
+- **param** `n` -- 取得する要素数。
+
+- **raise** `TypeError` -- ブロックが整数以外を返したときに発生します。
+
+- **SEE** [Range#last](../../../method/Range/i/last.md), [Range#min](../../../method/Range/i/min.md), [Enumerable#max](../../../method/Enumerable/i/max.md)
+
+```ruby title="例"
+h = { 1 => "C", 2 => "Go", 3 => "Ruby" }
+p (1..3).max { |a, b| h[a].length <=> h[b].length }  # => 3
+```
+
+```ruby title="例"
+p (1..3).max(2) { |a, b| h[a].length <=> h[b].length } # => [3, 2]
+```

@@ -1,0 +1,5 @@
+# DBM.new
+
+### def DBM.new(dbname, mode = 0666, flags = nil) -> DBM
+
+dbname で指定したデータベースをモードを mode に設定してオープンします。

@@ -1,0 +1,15 @@
+# Net::HTTPHeader#main_type
+
+### def main_type -> String|nil
+
+"text/html" における "text" のようなタイプを表す文字列を返します。
+
+Content-Type: ヘッダフィールドが存在しない場合には nil を返します。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+res = Net::HTTP.get_response(uri)
+p res.main_type # => "text"
+```

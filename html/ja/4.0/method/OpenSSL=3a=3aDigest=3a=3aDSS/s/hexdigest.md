@@ -1,0 +1,7 @@
+# OpenSSL::Digest::DSS.hexdigest
+
+### def OpenSSL::Digest::DSS.hexdigest(data) -> String
+
+data のダイジェストを DSS で計算し、16進文字列で返します。
+
+- **param** `data` -- ダイジェストを計算する文字列

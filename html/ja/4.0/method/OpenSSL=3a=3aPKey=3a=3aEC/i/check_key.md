@@ -1,0 +1,9 @@
+# OpenSSL::PKey::EC#check_key
+
+### def check_key -> true
+
+パラメータと鍵対をチェックします。
+
+なんらかの意味で鍵対に問題がある場合には例外 ECError を発生します。
+
+- **raise** `OpenSSL::PKey::ECError` -- 鍵に問題がある場合に発生します

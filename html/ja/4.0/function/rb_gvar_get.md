@@ -1,0 +1,5 @@
+# rb_gvar_get
+
+### VALUE rb_gvar_get(struct global_entry *entry)
+
+グローバル変数のエントリ entry から値を取得します。

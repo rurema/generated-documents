@@ -1,0 +1,5 @@
+# RDoc::CodeObject#parent
+
+### def parent -> RDoc::CodeObject
+
+自身を所有する(変数や定数などの形で保持する)オブジェクトを返します。

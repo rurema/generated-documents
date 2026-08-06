@@ -1,0 +1,15 @@
+# REXML::Child#parent=
+
+### def parent=(other)
+
+other を親ノードに設定します。
+
+other が元の親ノードと同じならばこのメソッドは何もしません。
+self が親を持たない場合は単純に other を親ノードに設定します。
+どちらでもない場合は、元の親ノードの子ノード列から self を取り除いてから other を親ノードに設定します。
+
+このメソッドだけでは other の子ノード集合に self は追加されません。
+つまりこのメソッドを呼び出した直後は不完全な状態であり、親ノード側を適切に設定する必要があります。
+
+- **param** `other` -- 新たな親ノード
+- **SEE** [REXML::Child#parent](../../../method/REXML=3a=3aChild/i/parent.md)

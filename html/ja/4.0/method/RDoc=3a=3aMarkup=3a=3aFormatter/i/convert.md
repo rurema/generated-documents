@@ -1,0 +1,7 @@
+# RDoc::Markup::Formatter#convert
+
+### def convert(content) -> ()
+
+content で指定された文字列を変換します。
+
+- **param** `content` -- 変換する文字列を指定します。

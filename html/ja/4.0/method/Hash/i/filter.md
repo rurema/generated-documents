@@ -1,0 +1,19 @@
+# Hash#filter
+
+### def select                       -> Enumerator
+### def select {|key, value| ... }   -> Hash
+### def filter                       -> Enumerator
+### def filter {|key, value| ... }   -> Hash
+
+key, value のペアについてブロックを評価し、真となるペアだけを含むハッシュを生成して返します。
+
+ブロックが与えられなかった場合は、自身と select から生成した
+[Enumerator](../../../class/Enumerator.md) オブジェクトを返します。
+
+```ruby
+h = { "a" => 100, "b" => 200, "c" => 300 }
+p h.select {|k,v| k > "a"}  #=> {"b" => 200, "c" => 300}
+p h.select {|k,v| v < 200}  #=> {"a" => 100}
+```
+
+- **SEE** [Hash#select!](../../../method/Hash/i/select=21.md), [Hash#reject](../../../method/Hash/i/reject.md)

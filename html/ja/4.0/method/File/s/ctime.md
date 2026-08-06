@@ -1,0 +1,17 @@
+# File.ctime
+
+### def File.ctime(filename)    -> Time
+
+状態が最後に変更された時刻を返します。
+状態の変更とは chmod などによるものです。
+
+- **param** `filename` -- ファイル名を表す文字列か IO オブジェクトを指定します。
+
+- **raise** `Errno::EXXX` -- ファイルの時刻の取得に失敗した場合に発生します。
+
+```ruby title="例:"
+IO.write("testfile", "test")
+p File.ctime("testfile") # => 2017-11-30 22:40:49 +0900
+File.chmod(0755, "testfile")
+p File.ctime("testfile") # => 2017-11-30 22:42:12 +0900
+```

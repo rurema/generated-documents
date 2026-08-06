@@ -1,0 +1,32 @@
+# Fiber#resume
+
+### def resume(*arg = nil)   -> object
+
+自身が表すファイバーへコンテキストを切り替えます。
+自身は resume を呼んだファイバーの子となります。
+
+ただし、[Fiber#transfer](../../../method/Fiber/i/transfer.md) を呼び出した後に resume を呼び出す事はできません。
+
+- **param** `arg` -- self が表すファイバーに渡したいオブジェクトを指定します。
+
+- **return** -- コンテキストの切り替えの際に [Fiber.yield](../../../method/Fiber/s/yield.md) に与えられた引数
+        を返します。ブロックの終了まで実行した場合はブロックの評価結果
+        を返します。
+
+- **raise** `FiberError` -- 自身が既に終了している場合、コンテキストの切替が
+                  Thread クラスが表すスレッド間をまたがる場合、自身が resume を
+                  呼んだファイバーの親かその祖先である場合に発生します。
+                  また、[Fiber#transfer](../../../method/Fiber/i/transfer.md) を呼び出した後に resume を
+                  呼び出した場合に発生します。
+
+```ruby title="例:"
+
+f = Fiber.new do
+  Fiber.yield(:hoge)
+  :fuga
+end
+  
+p f.resume() #=> :hoge
+p f.resume() #=> :fuga
+f.resume()   # ~> FiberError: attempt to resume a terminated fiber
+```

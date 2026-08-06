@@ -1,0 +1,13 @@
+# Array#intersect?
+
+### def intersect?(other)   -> bool
+
+other と共通の要素が少なくとも1個あれば true を、なければ false を返します。
+
+```ruby title="例"
+a = [ 1, 2, 3 ]
+b = [ 3, 4, 5 ]
+c = [ 5, 6, 7 ]
+p a.intersect?(b) # => true
+p a.intersect?(c) # => false
+```

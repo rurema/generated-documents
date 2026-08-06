@@ -1,0 +1,64 @@
+# IO.for_fd
+
+### def IO.new(fd, mode = "r", **opts)                -> IO
+### def IO.for_fd(fd, mode = "r", **opts)             -> IO
+### def IO.open(fd, mode = "r", **opts)               -> IO
+### def IO.open(fd, mode = "r", **opts) {|io| ... }   -> object
+
+オープン済みのファイルディスクリプタ fd に対する新しい
+IO オブジェクトを生成して返します。
+
+IO.open にブロックが与えられた場合、IO オブジェクトを生成しそれを引数としてブロックを実行します。ブロックの終了とともに fd はクローズされます。ブロックの結果を返します。
+IO.new, IO.for_fd はブロックを受け付けません。
+
+### キーワード引数
+
+このメソッドは以下のキーワード引数を利用できます。
+  - :mode mode引数と同じ意味です
+  - :external_encoding 外部エンコーディング。"-" はデフォルト外部エンコーディングの
+    別名です。
+  - :internal_encoding 内部エンコーディング。"-" はデフォルト内部エンコーディングの
+    別名です。nilなら変換しません。
+  - :encoding "extenc:intenc" の形で外部/内部エンコーディングを指定します。
+  - :textmode 真を渡すと mode の "t" と同じ意味になります。
+  - :binmode 真を渡すと mode の "b" と同じ意味になります。
+  - :autoclose 偽を渡すと close時/GCでのファイナライザ呼出時に fd を close しません。
+  - :newline 改行の変換方法を指定します。指定するとテキストモードになるため、
+    mode の "b" や :binmode と同時には指定できません(指定すると ArgumentError が発生します)。
+    :universal は読み込み時に "\r\n", "\r", "\n" のいずれの改行も "\n" に変換します。
+    :crlf は書き込み時に "\n" を "\r\n" に変換します。
+    :cr は書き込み時に "\n" を "\r" に変換します。
+    :lf は改行の変換を行いません。
+  - :path 文字列を渡すと、[IO#path](../../../method/IO/i/path.md) メソッドがその値を返すようになります。
+また、[String#encode](../../../method/String/i/encode.md) で説明されている :invalid => :replace などの変換オプションも指定できます。外部エンコーディングから内部エンコーディングへの変換をするときに用いられます。
+
+- **param** `fd` -- ファイルディスクリプタである整数を指定します。
+
+- **param** `mode` -- [Kernel?.open](../../../method/Kernel/m/open.md) と同じ形式で IO のモードを指定します。[File::Constants::RDONLY](../../../method/File=3a=3aConstants/c/RDONLY.md) などの
+            定数(数値)でモードを指定できます。詳細は組み込み関数 [Kernel?.open](../../../method/Kernel/m/open.md) を参照
+            してください。
+            mode は省略可能で、省略時のデフォルトのモードは、
+            [man:fcntl(2)] で F_GETFL フラグが利用できる環境では第一引数で指定した fd のモードを引き継ぎ、
+            利用できない環境では "r" になります。
+
+- **param** `opts` -- キーワード引数
+
+- **raise** `Errno::EXXX` -- IO オブジェクトの生成に失敗した場合に発生します。
+
+```ruby title="例:IO.new による読み込みモードでのファイルオープン"
+io = IO.new(IO.sysopen("testfile"))
+p io.class # => IO
+io.close
+```
+
+```ruby title="例:IO.for_fd による読み込み・バイナリモードでのファイルオープン"
+IO.binwrite("testfile", "\xBF\xAA\x16\x04.\b\xCB\x12\xACoeQ\xFDv2\xCF9+\x81\x18")
+io = IO.for_fd(IO.sysopen("testfile"), "r", binmode: true)
+p io.class # => IO
+p io.binmode? # => true
+io.close
+```
+
+```ruby title="例:IO.open によるファイルオープン"
+p IO.open(IO.sysopen("testfile")) { |io| p io.class } # => IO
+```

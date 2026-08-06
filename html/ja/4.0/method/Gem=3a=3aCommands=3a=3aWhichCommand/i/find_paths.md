@@ -1,0 +1,15 @@
+# Gem::Commands::WhichCommand#find_paths
+
+### def find_paths(package_name, dirs) -> Array
+
+dirs から package_name という名前を持つファイルを探索します。
+
+以下の拡張子を持つファイルが対象です。
+
+```text
+%w[.rb .rbw .so .dll .bundle]
+```
+
+- **param** `package_name` -- ファイルの名前を指定します。
+
+- **param** `dirs` -- 探索するディレクトリを文字列の配列で指定します。

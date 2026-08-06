@@ -1,0 +1,8 @@
+# RDoc::Options#line_numbers
+
+### def line_numbers -> bool
+
+コマンドライン引数の --line-numbers オプションを指定していた場合、true
+を返します。--no-line-numbers オプションを指定していた場合、false を返します。
+
+どちらも指定しなかった場合は false を返します。

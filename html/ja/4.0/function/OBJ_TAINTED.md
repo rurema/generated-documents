@@ -1,0 +1,5 @@
+# OBJ_TAINTED
+
+### int OBJ_TAINTED(VALUE x)
+
+x に汚染マークが付いていたら真。

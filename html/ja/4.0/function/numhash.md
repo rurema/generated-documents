@@ -1,0 +1,6 @@
+# numhash
+
+### static int numhash(long n)
+
+int用のハッシュ関数。
+n に対するハッシュ値を計算する。

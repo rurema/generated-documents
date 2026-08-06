@@ -1,0 +1,6 @@
+# RDoc::Options#warn
+
+### def warn(message) -> nil
+
+--verbose オプションを指定していた場合に message を 標準エラー出力
+$stderr に出力します。

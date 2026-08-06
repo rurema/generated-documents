@@ -1,0 +1,9 @@
+# Gem::SourceInfoCache#reset_cache_for
+
+### def reset_cache_for(url, cache_data) -> Hash
+
+指定された URL に対応するキャッシュデータを更新します。
+
+- **param** `url` -- 取得元 URL を指定します。
+
+- **param** `cache_data` -- キャッシュデータを指定します。　

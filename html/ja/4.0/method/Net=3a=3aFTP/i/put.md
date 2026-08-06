@@ -1,0 +1,21 @@
+# Net::FTP#put
+
+### def put(localfile, remotefile = File.basename(localfile), blocksize = DEFAULT_BLOCKSIZE) -> nil
+### def put(localfile, remotefile = File.basename(localfile), blocksize = DEFAULT_BLOCKSIZE) { |data| .... } -> nil
+
+サーバへファイルを転送します。
+
+[Net::FTP#binary](../../../method/Net=3a=3aFTP/i/binary.md) の値に従って
+[Net::FTP#putbinaryfile](../../../method/Net=3a=3aFTP/i/putbinaryfile.md) もしくは
+[Net::FTP#puttextfile](../../../method/Net=3a=3aFTP/i/puttextfile.md) を呼びだします。
+
+binary が偽のとき、つまりテキストモードのときには blocksize は無視されます。
+
+- **param** `localfile` -- 転送するローカルのファイル名を与えます。
+- **param** `remotefile` -- 転送データを保存するリモートのファイル名を与えます。
+- **param** `blocksize` -- データ転送の単位をバイト単位で与えます。
+
+- **raise** `Net::FTPTempError` -- 応答コードが 4yz のときに発生します。
+- **raise** `Net::FTPPermError` -- 応答コードが 5yz のときに発生します。
+- **raise** `Net::FTPProtoError` -- 応答コードが RFC 的に正しくない場合に発生します。
+- **raise** `Net::FTPReplyError` -- 応答コードが上の場合以外で正しくない場合に発生します。

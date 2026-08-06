@@ -1,0 +1,65 @@
+# Enumerator.produce
+
+### def Enumerator.produce(initial = nil, size: nil) { |prev| ... } -> Enumerator
+
+与えられたブロックを呼び出し続ける、停止しない Enumerator を返します。
+ブロックの戻り値が、次にブロックを呼び出す時に引数として渡されます。
+initial 引数が渡された場合、最初にブロックを呼び出す時にそれがブロック呼び出しの引数として渡されます。initial が渡されなかった場合は nil が渡されます。
+
+ブロックが例外 [StopIteration](../../../class/StopIteration.md)を投げた場合、繰り返しが終了します。
+
+- **param** `initial` -- ブロックに最初に渡される値です。任意のオブジェクトを渡せます。
+- **param** `size` -- 生成する Enumerator の要素数（[Enumerator#size](../../../method/Enumerator/i/size.md) で取得できる値）を
+             指定します。整数、[Float::INFINITY](../../../method/Float/c/INFINITY.md)、[Proc](../../../class/Proc.md) などの呼び出し可能な
+             オブジェクト、または要素数が不明であることを表す nil を指定できます。
+             省略した場合は [Float::INFINITY](../../../method/Float/c/INFINITY.md) になります。
+
+```ruby title="例"
+# 1, 2, 3, 4, ... と続く Enumerator
+Enumerator.produce(1, &:succ)
+
+# next を呼ぶたびランダムな数値を返す Enumerator
+Enumerator.produce { rand(10) }
+
+# ツリー構造の祖先ノードを列挙する Enumerator
+ancestors = Enumerator.produce(node) { |prev| node = prev.parent or raise StopIteration }
+enclosing_section = ancestors.find { |n| n.type == :section }
+```
+
+このメソッドは Enumerable の各メソッドと組み合わせて使うことで、
+while や until ループのような処理を実装できます。
+例えば [Enumerable#detect](../../../method/Enumerable/i/detect.md), [Enumerable#slice_after](../../../method/Enumerable/i/slice_after.md), [Enumerable#take_while](../../../method/Enumerable/i/take_while.md)
+などと合わせて使えるでしょう。
+
+```ruby title="Enumerable のメソッドと組み合わせる例"
+# 次の火曜日を返す例
+require "date"
+Enumerator.produce(Date.today, &:succ).detect(&:tuesday?)
+
+# シンプルなレキサーの例
+require "strscan"
+scanner = StringScanner.new("7+38/6")
+PATTERN = %r{\d+|[-/+*]}
+p Enumerator.produce { scanner.scan(PATTERN) }.slice_after { scanner.eos? }.first
+# => ["7", "+", "38", "/", "6"]
+```
+
+生成する Enumerator の要素数を size: で指定できます。
+
+```ruby title="size: を指定する例"
+# 整数を渡すと Enumerator#size がその値を返す
+enum = Enumerator.produce(1, size: 5, &:succ)
+p enum.size     # => 5
+
+# Float::INFINITY（size: を省略した場合のデフォルトと同じ）
+inf = Enumerator.produce(1, size: Float::INFINITY, &:succ)
+p inf.size      # => Infinity
+
+# 呼び出し可能オブジェクト（size を参照するたびに評価される）
+callable = Enumerator.produce(1, size: -> { 42 }, &:succ)
+p callable.size # => 42
+
+# nil は要素数が不明であることを表す
+unknown = Enumerator.produce(1, size: nil, &:succ)
+p unknown.size  # => nil
+```

@@ -1,0 +1,11 @@
+# Encoding::MACUKRAINE
+
+### const MacUkraine -> Encoding
+### const MACUKRAINE -> Encoding
+
+MacUkraine エンコーディング。
+
+Mac OS で使われる、ウクライナ語キリル文字を取り扱うエンコーディング。
+MacCyrillic の亜種です。
+
+- **SEE** <https://en.wikipedia.org/wiki/Macintosh_Ukrainian_encoding>

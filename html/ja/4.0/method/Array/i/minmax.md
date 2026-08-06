@@ -1,0 +1,19 @@
+# Array#minmax
+
+### def minmax                 -> [object, object]
+{: since=""}
+### def minmax{|a, b| ... }    -> [object, object]
+{: since=""}
+
+自身の各要素のうち最小の要素と最大の要素を要素とするサイズ 2 の配列を返します。
+
+一つ目の形式は、各要素がすべて <=> メソッドを実装していることを仮定しています。二つ目の形式では、要素同士の比較をブロックを用いて行います。
+
+```ruby title="例"
+a = %w(albatross dog horse)
+p a.minmax                               #=> ["albatross", "horse"]
+p a.minmax{|a,b| a.length <=> b.length } #=> ["dog", "albatross"]
+p [].minmax # => [nil, nil]
+```
+
+- **SEE** [Enumerable#minmax](../../../method/Enumerable/i/minmax.md)

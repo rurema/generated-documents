@@ -1,0 +1,34 @@
+# Pathname#each_child
+
+### def each_child(with_directory = true)                  -> Enumerator
+### def each_child(with_directory = true) {|pathname| ...} -> [Pathname]
+
+self.children(with_directory).each と同じです。
+
+- **param** `with_directory` -- 偽を指定するとファイル名のみ返します。デフォルトは真です。
+
+```ruby title="例"
+require "pathname"
+
+Pathname("/usr/local").each_child {|f| p f }
+# => #<Pathname:/usr/local/bin>
+# => #<Pathname:/usr/local/etc>
+# => #<Pathname:/usr/local/include>
+# => #<Pathname:/usr/local/lib>
+# => #<Pathname:/usr/local/opt>
+# => #<Pathname:/usr/local/sbin>
+# => #<Pathname:/usr/local/share>
+# => #<Pathname:/usr/local/var>
+
+Pathname("/usr/local").each_child(false) {|f| p f }
+# => #<Pathname:bin>
+# => #<Pathname:etc>
+# => #<Pathname:include>
+# => #<Pathname:lib>
+# => #<Pathname:opt>
+# => #<Pathname:sbin>
+# => #<Pathname:share>
+# => #<Pathname:var>
+```
+
+- **SEE** [Pathname#children](../../../method/Pathname/i/children.md)

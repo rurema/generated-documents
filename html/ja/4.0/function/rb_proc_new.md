@@ -1,0 +1,6 @@
+# rb_proc_new
+
+### VALUE rb_proc_new(func, val)
+
+VALUE (*func)(ANYARGS);
+VALUE val;

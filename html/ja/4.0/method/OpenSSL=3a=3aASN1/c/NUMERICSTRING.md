@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::NUMERICSTRING
+
+### const NUMERICSTRING -> Integer
+
+ASN.1 UNIVERSAL タグの、
+NUMERICSTRING のタグ番号 18 を表す定数です。

@@ -1,0 +1,3 @@
+# literal_append
+
+### static NODE * literal_append(NODE *head, NODE *tail)

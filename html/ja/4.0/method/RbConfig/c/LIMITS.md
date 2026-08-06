@@ -1,0 +1,12 @@
+# RbConfig::LIMITS
+
+### const LIMITS -> Hash
+
+Ruby インタプリタが作成された環境における、さまざまな型の値の範囲に関する情報を保持します。
+
+下の例では、実行している Ruby インタプリタは INT_MAX が 2147483647 である環境で作成されたことを表しています。
+
+```ruby
+require 'rbconfig/sizeof'
+p RbConfig::LIMITS['INT_MAX'] # => 2147483647
+```

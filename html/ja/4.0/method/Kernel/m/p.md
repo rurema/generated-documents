@@ -1,0 +1,34 @@
+# Kernel?.p
+
+### module_function def p(*arg) -> object | Array
+
+引数を人間に読みやすい形に整形して改行と順番に標準出力 [m:$stdout] に出力します。主にデバッグに使用します。
+
+引数の inspect メソッドの返り値と改行を順番に出力します。つまり以下のコードと同じです。
+
+```ruby title="例"
+print arg[0].inspect, "\n", arg[1].inspect, "\n" #, ...
+```
+
+整形に用いられる[Object#inspect](../../../method/Object/i/inspect.md)は普通に文字列に変換すると区別がつかなくなるようなクラス間の差異も表現できるように工夫されています。
+
+p に引数を与えずに呼び出した場合は特に何もしません。
+
+- **param** `arg` -- 出力するオブジェクトを任意個指定します。
+- **raise** `IOError` -- 標準出力が書き込み用にオープンされていなければ発生します。
+- **raise** `Errno::EXXX` -- 出力に失敗した場合に発生します。
+- **return** -- 指定された引数 arg を返します。複数の引数が指定された場合はそれらを要素とする配列を返します。
+
+```ruby title="例"
+puts "" #=> （空行）
+p "" #=> ""
+
+puts 50,"50"
+#=> 50
+#=> 50
+p 50,"50"
+#=> 50
+#=> "50"
+```
+
+- **SEE** [Object#inspect](../../../method/Object/i/inspect.md),[Kernel?.puts](../../../method/Kernel/m/puts.md),[Kernel?.print](../../../method/Kernel/m/print.md)

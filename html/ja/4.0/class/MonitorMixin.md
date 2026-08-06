@@ -1,0 +1,87 @@
+# module MonitorMixin
+
+スレッドの同期機構としてのモニター機能を提供するモジュールです。
+
+クラスに [Module#include](../method/Module/i/include.md) したり、オブジェクトに
+[Object#extend](../method/Object/i/extend.md) したりすることでそのクラス/オブジェクトにモニタ機能を追加します。
+
+### 例
+
+```ruby title="消費者、生産者問題の例"
+require 'monitor'
+
+buf = []
+buf.extend(MonitorMixin) # 配列にモニタ機能を追加
+empty_cond = buf.new_cond # 配列が空であるかないかを通知する条件変数
+
+# consumer
+Thread.start do
+  loop do
+    buf.synchronize do # ロックする
+      empty_cond.wait_while { buf.empty? } # 配列が空である間はロックを開放して待つ
+      print buf.shift # 配列が空でなくなった後ロックを取得してこの行を実行
+    end # ロックを開放
+  end
+end
+
+# producer
+while line = ARGF.gets
+  buf.synchronize do # ロックする
+    buf.push(line) # 配列を変更(追加)
+    empty_cond.signal # 配列に要素が追加されたことを条件変数を通して通知
+  end # ここでロックを開放
+end
+```
+
+### 初期化
+
+MonitorMixin は初期化される必要があります。
+上の例のように [Object#extend](../method/Object/i/extend.md) を使って利用する場合は自動的に初期化されます。
+
+```ruby title="extend する例"
+require 'monitor'
+buf = []
+buf.extend(MonitorMixin)
+```
+
+しかし、MonitorMixin をクラス定義の際に [Module#include](../method/Module/i/include.md) を使って利用する場合は、initialize メソッドで super() か super を呼んで、初期化する必要があります。
+スーパークラスの initialize に引数を渡したい場合は super を、そうでない場合は super() を呼んで下さい。
+詳しくは、[spec/call#super](../doc/spec=2fcall.md#super) を参照して下さい。
+例えば、以下の MyObject のスーパークラスは Object であり、その initialize は引数を受け付けないので
+super ではなく super() を呼ぶ必要があります。
+
+```ruby title="include する例"
+require 'monitor'
+
+class MyObject
+  include MonitorMixin
+
+  def initialize(val)
+    super()
+    @value = val
+  end
+
+  def to_s
+    synchronize {
+      @value.to_s
+    }
+  end
+end
+```
+
+以下も参考になります。
+
+  - [ruby-dev:9384]
+  - [ruby-dev:9386]
+
+## Instance Methods
+
+- [mon_enter](../method/MonitorMixin/i/mon_enter.md)
+- [mon_exit](../method/MonitorMixin/i/mon_exit.md)
+- [mon_locked?](../method/MonitorMixin/i/mon_locked=3f.md)
+- [mon_owned?](../method/MonitorMixin/i/mon_owned=3f.md)
+- [mon_synchronize](../method/MonitorMixin/i/mon_synchronize.md)
+- [synchronize](../method/MonitorMixin/i/synchronize.md)
+- [mon_try_enter](../method/MonitorMixin/i/mon_try_enter.md)
+- [try_mon_enter](../method/MonitorMixin/i/try_mon_enter.md)
+- [new_cond](../method/MonitorMixin/i/new_cond.md)

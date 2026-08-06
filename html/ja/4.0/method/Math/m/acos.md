@@ -1,0 +1,21 @@
+# Math?.acos
+
+### module_function def acos(x) -> Float
+
+`x` の逆余弦関数（arccosine）の値をラジアンで返します。
+
+- **param** `x` -- `-1.0 <= x <= 1` の範囲内の実数
+
+- **return** -- 返される値の範囲は [0, +π] です。
+
+- **raise** `TypeError` -- `x` に数値以外を指定した場合に発生します。
+
+- **raise** `Math::DomainError` -- `x` に範囲外の実数を指定した場合に発生します。
+
+- **raise** `RangeError` -- `x` に実数以外の数値を指定した場合に発生します。
+
+```ruby title="例"
+p Math.acos(0) == Math::PI/2  # => true
+```
+
+- **SEE** [Math?.cos](../../../method/Math/m/cos.md)

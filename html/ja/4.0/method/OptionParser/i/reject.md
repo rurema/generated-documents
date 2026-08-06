@@ -1,0 +1,32 @@
+# OptionParser#reject
+
+### def reject(klass)    -> ()
+
+[OptionParser#accept](../../../method/OptionParser/i/accept.md) で登録したクラスとブロックを自身から削除します。
+
+- **param** `klass` -- 自身から削除したいクラスを指定します。
+
+```ruby title="例"
+require "optparse"
+require "time"
+
+def parse(option_parser)
+  option_parser.on("-t", "--time [TIME]", Time) do |time|
+    p time.class
+  end
+  option_parser.parse(ARGV)
+end
+
+opts = OptionParser.new
+opts.accept(Time) do |s,|
+  begin
+    Time.parse(s) if s
+  rescue
+    raise OptionParser::InvalidArgument, s
+  end
+end
+
+parse(opts) # => Time
+opts.reject(Time)
+parse(opts) # => unsupported argument type: Time (ArgumentError)
+```

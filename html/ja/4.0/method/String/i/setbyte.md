@@ -1,0 +1,20 @@
+# String#setbyte
+
+### def setbyte(index, b) -> Integer
+
+index バイト目のバイトを b に変更します。
+
+index に負を指定すると末尾から数えた位置を変更します。
+
+セットした値を返します。
+
+- **param** `index` -- バイトをセットする位置
+- **param** `b` -- セットするバイト(0 から 255 までの整数)
+- **raise** `IndexError` -- 範囲外に値をセットしようとした場合に発生します。
+
+```ruby title="例"
+s = "Sunday"
+s.setbyte(0, 77)
+s.setbyte(-5, 111)
+p s # => "Monday"
+```

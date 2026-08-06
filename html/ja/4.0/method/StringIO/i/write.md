@@ -1,0 +1,19 @@
+# StringIO#write
+
+### def write(*obj)    -> Integer
+
+自身に obj を書き込みます。obj が文字列でなければ to_s による文字列化を試みます。
+書き込まれた文字列の長さを返します。
+
+全ての出力メソッドは、最終的に「write」という名のメソッドを呼び出すので、このメソッドを置き換えることで出力関数の挙動を変更できます。
+
+- **param** `obj` -- 書き込みたいオブジェクトを指定します。
+
+- **raise** `IOError` -- 自身が書き込み可能でない時に発生します。
+
+```ruby title="例"
+require "stringio"
+a = StringIO.new("hoge", 'r+')
+p a.write("aaa")               #=> 3
+p a.string                     #=> "aaae"
+```

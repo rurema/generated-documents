@@ -1,0 +1,25 @@
+# Matrix.empty
+
+### def Matrix.empty(row_count=0, column_count=0) -> Matrix
+
+要素を持たない行列を返します。
+
+「要素を持たない」とは、行数もしくは列数が0の行列のことです。
+
+`row_count`、`column_count` のいずれか一方は0である必要があります。
+
+```ruby title="例"
+require 'matrix'
+m = Matrix.empty(2, 0)
+p m == Matrix[ [], [] ]
+# => true
+n = Matrix.empty(0, 3)
+p n == Matrix.columns([ [], [], [] ])
+# => true
+p m * n
+# => Matrix[[0, 0, 0], [0, 0, 0]]
+```
+
+- **param** `row_count` -- 行列の行数
+- **param** `column_count` -- 行列の列数
+- **raise** `ArgumentError` -- `row_count`, `column_count` が両方とも0でない場合に発生します

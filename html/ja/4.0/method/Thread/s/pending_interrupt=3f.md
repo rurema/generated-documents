@@ -1,0 +1,61 @@
+# Thread.pending_interrupt?
+
+### def Thread.pending_interrupt?(error = nil) -> bool
+
+非同期割り込みのキューが空かどうかを返します。
+
+[Thread.handle_interrupt](../../../method/Thread/s/handle_interrupt.md) は非同期割り込みの発生を延期させるのに使用しますが、本メソッドは任意の非同期割り込みが存在するかどうかを確認するのに使用します。
+
+本メソッドが true を返した場合、[Thread.handle_interrupt](../../../method/Thread/s/handle_interrupt.md) で例外の発生を延期するブロックを終了すると延期させられていた例外を発生させることができます。
+
+- **param** `error` -- 対象の例外クラスを指定します。省略した場合は全ての例外を対
+             象に確認を行います。
+
+例: 延期させられていた例外をただちに発生させる。
+
+```ruby
+def Thread.kick_interrupt_immediately
+  Thread.handle_interrupt(Object => :immediate) {
+    Thread.pass
+  }
+end
+```
+
+### 使い方
+
+```ruby
+th = Thread.new{
+  Thread.handle_interrupt(RuntimeError => :on_blocking){
+    while true
+      # ...
+      # ここまでで割り込みが発生しても安全な状態になった。
+      if Thread.pending_interrupt?
+        Thread.handle_interrupt(Object => :immediate){}
+      end
+      # ...
+    end
+  }
+}
+# ...
+th.raise # スレッド停止。
+```
+
+この例は以下のように記述する事もできます。
+
+```ruby
+flag = true
+th = Thread.new{
+  Thread.handle_interrupt(RuntimeError => :on_blocking){
+    while true
+      # ...
+      # ここまでで割り込みが発生しても安全な状態になった。
+      break if flag == false
+      # ...
+    end
+  }
+}
+# ...
+flag = false # スレッド停止
+```
+
+- **SEE** [Thread#pending_interrupt?](../../../method/Thread/i/pending_interrupt=3f.md), [Thread.handle_interrupt](../../../method/Thread/s/handle_interrupt.md)

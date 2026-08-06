@@ -1,0 +1,40 @@
+# ObjectSpace?.dump
+
+### module_function def dump(obj, output: :string) -> String | File | IO | nil
+
+obj の内容を JSON 形式でダンプします。
+
+- **param** `obj` -- ダンプ対象のオブジェクトを指定します。
+- **param** `output` -- ダンプ結果の出力先を以下のいずれかで指定します(デフォルトは `:string`)。
+
+- **`:string`**:
+  文字列としてダンプ結果を返します。
+- **`:file`**:
+  一時ファイルにダンプし、その [File](../../../class/File.md) オブジェクトを返します。
+- **`:stdout`**:
+  標準出力にダンプし、nil を返します。
+- **IO オブジェクト**:
+  指定した IO オブジェクトにダンプし、その IO オブジェクトを返します。
+  (StringIO のような IO のサブクラスでないオブジェクトは指定できません)
+
+```ruby title="例"
+require 'objspace'
+
+puts ObjectSpace.dump(5)
+# => 5
+
+puts ObjectSpace.dump("hello")
+# => {"address":"0x...", "type":"STRING", "shape_id":0, "slot_size":40,
+#    "class":"0x...", "embedded":true, "chilled":true, "bytesize":5,
+#    "value":"hello", "encoding":"UTF-8", "coderange":"7bit",
+#    "memsize":40, "flags":{"wb_protected":true}}
+# (address の値は実行するたびに変わります)
+```
+
+- **raise** `ArgumentError` -- output に上記のいずれでもない値を指定した場合に発生します。
+
+戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒントとして扱う必要があります。
+
+本メソッドは C Ruby 以外では動作しない、実験的なメソッドです。出力のフォーマットは将来のバージョンで変更される可能性があります。
+
+- **SEE** [ObjectSpace?.dump_all](../../../method/ObjectSpace/m/dump_all.md)

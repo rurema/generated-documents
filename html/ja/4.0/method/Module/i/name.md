@@ -1,0 +1,50 @@
+# Module#name
+
+### def name -> String | nil
+### def to_s -> String
+### def inspect -> String
+{: since=""}
+
+モジュールやクラスの名前を文字列で返します。
+
+このメソッドが返す「モジュール / クラスの名前」とは、より正確には「クラスパス」を指します。
+クラスパスとは、ネストしているモジュールすべてを「::」を使って表示した名前のことです。
+クラスパスの例としては「CGI::Session」「Net::HTTP」が挙げられます。
+
+[Module.new](../../../method/Module/s/new.md) や [Class.new](../../../method/Class/s/new.md) で生成した直後の無名のモジュール /
+クラスは、最初にいずれかの定数に代入された時点で名前が確定します。
+一度確定した名前は、その定数を remove_const で取り除いたり、そのモジュール / クラスを別の定数へ代入し直したりしても変わりません。
+返り値の文字列は freeze されています。
+
+- **return** -- 名前のないモジュール / クラスに対しては、name は nil を、それ以外はオブジェクト ID の文字列を返します。
+
+```ruby title="例"
+module A
+  module B
+  end
+
+  p B.name  #=> "A::B"
+
+  class C
+  end
+end
+
+p A.name    #=> "A"
+p A::B.name #=> "A::B"
+p A::C.name #=> "A::C"
+
+# 名前のないモジュール / クラス
+p Module.new.name   #=> nil
+p Class.new.name    #=> nil
+p Module.new.to_s   #=> "#<Module:0x00007f90b09112c8>"
+p Class.new.to_s    #=> "#<Class:0x00007fa5c40b41b0>"
+
+# 名前は最初に代入された定数で確定し、以後は変わらない
+c = Class.new
+p c.name         #=> nil
+Foo = c
+p c.name         #=> "Foo"
+Bar = c
+p c.name         #=> "Foo"
+p c.name.frozen? #=> true
+```

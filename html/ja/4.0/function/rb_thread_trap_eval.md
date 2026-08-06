@@ -1,0 +1,3 @@
+# rb_thread_trap_eval
+
+### void rb_thread_trap_eval(VALUE cmd, int sig)

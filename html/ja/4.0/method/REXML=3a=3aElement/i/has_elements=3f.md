@@ -1,0 +1,14 @@
+# REXML::Element#has_elements?
+
+### def has_elements? -> bool
+
+self が一つでも子要素を持つならば true を返します。
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new("<a><b/><c>Text</c></a>")
+p doc.root.has_elements?             # => true
+p doc.elements["/a/b"].has_elements? # => false
+# /a/c はテキストノードしか持たないので false である
+p doc.elements["/a/c"].has_elements? # => false
+```

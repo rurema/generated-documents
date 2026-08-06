@@ -1,0 +1,41 @@
+# Enumerator::Lazy#enum_for
+
+### def to_enum(method = :each, *args)                 -> Enumerator::Lazy
+### def enum_for(method = :each, *args)                -> Enumerator::Lazy
+### def to_enum(method = :each, *args) {|*args| block} -> Enumerator::Lazy
+### def enum_for(method = :each, *args){|*args| block} -> Enumerator::Lazy
+
+[Object#to_enum](../../../method/Object/i/to_enum.md) と同じですが、Enumerator::Lazy を返します。
+
+to_enum は「ブロック付きで呼ぶとループを実行し、ブロックを省略した場合は
+Enumerator を返す」ようなメソッドを定義するときによく使われます。
+このときに lazy 性が正しく引き継がれるように、Lazy#to_enum は素のEnumerator ではなく Enumerator::Lazy を返すようになっています。
+
+```ruby title="例"
+module Enumerable
+  # 要素をn回ずつ繰り返すメソッド
+  # 例：[1,2,3].repeat(2)  #=> [1,1,2,2,3,3]
+  def repeat(n)
+    raise ArgumentError if n < 0
+    if block_given?
+      each do |*val|
+        n.times { yield *val }
+      end
+    else
+      to_enum(:repeat, n)
+    end
+  end
+end
+
+r = 1..10
+p r.map{|n| n**2}.repeat(2).first(5)
+#=> [1, 1, 4, 4, 9]
+
+r = 1..Float::INFINITY
+p r.lazy.map{|n| n**2}.repeat(2).first(5)
+#=> [1, 1, 4, 4, 9]
+
+# Lazy#to_enum のおかげで、repeat の返り値は
+# もとが Enumerator のときは Enumerator に、
+# もとが Lazy のときは Lazy になる
+```

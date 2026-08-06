@@ -1,0 +1,19 @@
+# Class#allocate
+
+### def allocate    -> object
+
+自身のインスタンスを生成して返します。生成したオブジェクトは自身のインスタンスであること以外には何も特性を持ちません。
+
+```ruby title="例"
+klass = Class.new do
+  def initialize(*args)
+    @initialized = true
+  end
+
+  def initialized?
+    @initialized || false
+  end
+end
+
+p klass.allocate.initialized? #=> false
+```

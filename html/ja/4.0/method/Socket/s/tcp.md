@@ -1,0 +1,31 @@
+# Socket.tcp
+
+### def Socket.tcp(host, port, local_host=nil, local_port=nil, connect_timeout: nil, resolv_timeout: nil, open_timeout: nil, fast_fallback: true) -> Socket
+### def Socket.tcp(host, port, local_host=nil, local_port=nil, connect_timeout: nil, resolv_timeout: nil, open_timeout: nil, fast_fallback: true) {|socket| ... } -> object
+TCP/IP で host:port に接続するソケットオブジェクトを作成します。
+
+local_host や local_port を指定した場合、ソケットをそこにバインドします。
+
+ブロックを渡すと、生成したソケットをそのブロックに渡し呼び出します。
+ブロック終了時にソケットオブジェクトを閉じます。
+
+- **param** `host` -- 接続先のホスト名
+- **param** `port` -- 接続先のポート番号
+- **param** `local_host` -- 接続元のホスト名
+- **param** `local_port` -- 接続元のポート番号
+- **param** `connect_timeout` -- 接続確立のタイムアウトを秒数で指定します。
+- **param** `resolv_timeout` -- 名前解決のタイムアウトを秒数で指定します。
+- **param** `open_timeout` -- 名前解決から接続確立までのタイムアウトを秒数で指定します。
+- **param** `fast_fallback` -- Happy Eyeballs Version 2 ([RFC 8305](https://datatracker.ietf.org/doc/html/rfc8305)) を有効にします。
+- **return** -- ブロック付きで呼ばれた場合はブロックが返した値です。
+        ブロックなしで呼ばれた場合はソケットオブジェクトを返します。
+
+```ruby
+require 'socket'
+
+Socket.tcp("www.ruby-lang.org", 80) {|sock|
+  sock.print "GET / HTTP/1.0\r\nHost: www.ruby-lang.org\r\n\r\n"
+  sock.close_write
+  puts sock.read
+}
+```

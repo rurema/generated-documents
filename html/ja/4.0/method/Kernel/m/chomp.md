@@ -1,0 +1,29 @@
+# Kernel?.chomp
+
+### module_function def chomp(rs = $/)  -> String
+
+$_.chomp とほぼ同じですが、置換が発生したときは、$_の内容を置き換える点が異なります。
+コマンドラインオプションで -p または -n を指定した時のみ定義されます。
+
+暗号的になりすぎるきらいがあるため、このメソッドの使用は推奨されていません。
+今後はより明示的な $_.chomp を使ってください。
+
+$_.chomp とこのメソッド chomp は以下の点で違いがあります。
+
+  - chomp は $_ の値をコピーして、コピーの方を更新し、
+    $_ に再代入します。
+
+- **param** `rs` -- 末尾から削除する改行コードを指定します。
+
+```ruby title="例: ruby -n で \"test\" を入力"
+p $_          # => "test\n"
+p chomp       # => "test"
+```
+
+```ruby title="例: ruby -n で \"test,\" を入力し、 rs に \",\" を指定"
+p $_          # => "test\n"
+p chomp       # => "test,"
+p chomp(",")  # => "test"
+```
+
+- **SEE** [String#chomp](../../../method/String/i/chomp.md),[m:$_],[m:$/]

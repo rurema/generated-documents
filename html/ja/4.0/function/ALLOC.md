@@ -1,0 +1,5 @@
+# ALLOC
+
+### type* ALLOC(type)
+
+type 型のメモリを割り当てる。

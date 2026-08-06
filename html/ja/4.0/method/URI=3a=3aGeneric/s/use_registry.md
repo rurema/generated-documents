@@ -1,0 +1,6 @@
+# URI::Generic.use_registry
+
+### def URI::Generic.use_registry    -> bool
+
+構成要素 registry を受け付けるなら true を返します。
+URI::Generic クラスでは false です。

@@ -1,0 +1,633 @@
+# パターンマッチ
+
+- [patterns](#patterns)
+  - [variable_binding](#variable_binding)
+  - [variable_pinning](#variable_pinning)
+  - [matching_non_primitive_objects](#matching_non_primitive_objects)
+  - [guard_clauses](#guard_clauses)
+  - [current_feature_status](#current_feature_status)
+  - [pattern_syntax](#pattern_syntax)
+  - [some_undefined_behavior_examples](#some_undefined_behavior_examples)
+
+パターンマッチは、構造化された値に対して、構造をチェックし、マッチした部分をローカル変数に束縛するという、深いマッチを可能にする機能です。(『束縛』は、パターンマッチの輸入元である関数型言語の用語で、Ruby では代入と読み替えても問題ありません)
+
+Rubyでのパターンマッチは case/in 式を用いて実装されています。
+
+```text
+case <expression>
+in <pattern1>
+  ...
+in <pattern2>
+  ...
+in <pattern3>
+  ...
+else
+  ...
+end
+```
+
+in 節と when 節は1つの case 式の中に混ぜて書くことはできません。
+
+『=>』 演算子と in 演算子で、単体の式で使用することも可能です。
+
+```text
+<expression> => <pattern>
+
+<expression> in <pattern>
+```
+
+case/in 式は 「網羅的」 です。もし case 式の値がどの節にもマッチせず else 節がない場合、例外 NoMatchingPatternError が発生します。
+
+そのため、条件付きのマッチや展開に case 式が使われることがあります。
+
+
+```ruby
+config = {db: {user: 'admin', password: 'abc123'}}
+
+case config
+in db: {user:} # ネストしてハッシュにマッチして、その値を変数userに代入する
+  puts "Connect with user '#{user}'"
+in connection: {username: }
+  puts "Connect with user '#{username}'"
+else
+  puts "Unrecognized structure of config"
+end
+# "Connect with user 'admin'" と出力
+```
+
+一方、『=>』 演算子は、期待されるデータ構造があらかじめ分かっている場合に、その一部を展開するのに有効です。
+
+```ruby
+config = {db: {user: 'admin', password: 'abc123'}}
+
+config => {db: {user:}} # もし config の構造が期待したものでなかった場合には、例外が発生する
+
+puts "Connect with user '#{user}'"
+# Connect with user 'admin'" と出力
+```
+
+『<expression> in <pattern>』 は 『<expression>; in <pattern>; true; else false; end』 と等価です。
+パターンにマッチするかどうかだけを知りたいときに使えます。
+
+```ruby
+users = [{name: "Alice", age: 12}, {name: "Bob", age: 23}]
+p users.any? {|user| user in {name: /B/, age: 20..} } #=> true
+```
+
+構文の詳細な例と説明は以下を参照してください。
+
+### パターン {#patterns}
+
+パターンで利用できるものには次のものがあります。
+
+  - すべてのRubyオブジェクト (when と同じように、『===』演算子でマッチする) (「Value パターン」)
+  - Array パターン: 『[<subpattern>, <subpattern>, <subpattern>, ...]』 (「Array パターン」)
+  - Find パターン: 『[*variable, <subpattern>, <subpattern>, <subpattern>, ..., *variable]』 (「Find パターン」)
+  - Hash パターン: 『{key: <subpattern>, key: <subpattern>, ...}』 (「Hash パターン」)
+  - 『|』 でのパターンの組み合わせ (「Alternative パターン」)
+  - 変数のキャプチャ: 『<pattern> => variable』 または 『variable』 (「As パターン」, 「Variable パターン」)
+
+Array/Find/Hash パターンの中に 『<subpattern>』 と書かれている場所では任意のパターンをネストさせることができます。
+
+Array パターン と Find パターン は配列か deconstruct メソッド(後述)を持つオブジェクトにマッチします。
+
+Hash パターン はハッシュか deconstruct_keys メソッド(後述)を持つオブジェクトにマッチします。Hash パターン で利用できるキーはシンボルのみです。
+
+Array パターン と Hash パターン の挙動の重要な違いは Array パターンは配列の 「全ての」 要素がマッチする必要があるということです。
+
+```ruby
+p case [1, 2, 3]
+in [Integer, Integer]
+  "matched"
+else
+  "not matched"
+end
+#=> "not matched"
+```
+
+一方 Hash パターン は一部のキーだけ指定している場合(指定しているキー以外にもキーが存在する場合)でもマッチします。
+
+```ruby
+p case {a: 1, b: 2, c: 3}
+in {a: Integer}
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+```
+
+『{}』 だけはこのルールの例外です。『{}』 は空のハッシュのみマッチします。
+
+```ruby
+p case {a: 1, b: 2, c: 3}
+in {}
+  "matched"
+else
+  "not matched"
+end
+#=> "not matched"
+```
+
+```ruby
+p case {}
+in {}
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+```
+
+また、パターンで明示的に指定したキー以外のキーが存在しないハッシュにのみ、マッチさせたい場合には、『**nil』 を使います。
+
+```ruby
+p case {a: 1, b: 2}
+in {a: Integer, **nil} # a: 以外のキーがある場合にはマッチしない
+  "matched a part"
+in {a: Integer, b: Integer, **nil}
+  "matched a whole"
+else
+  "not matched"
+end
+#=> "matched a whole"
+```
+
+Array パターン と Hash パターン ともに残りの部分にマッチする構文をサポートしています。
+
+```ruby
+p case [1, 2, 3]
+in [Integer, *]
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+```
+
+```ruby
+p case {a: 1, b: 2, c: 3}
+in {a: Integer, **}
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+```
+
+Array パターン や Hash パターン は両端の 『[]』 や 『{}』 といった括弧を省略できます。
+
+```ruby
+p case [1, 2]
+in Integer, Integer
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+```
+
+```ruby
+p case {a: 1, b: 2, c: 3}
+in a: Integer
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+```
+
+
+『=>』演算子と in 演算子で括弧を省略する例です。
+
+```ruby
+[1, 2] => a, b
+```
+
+```ruby
+[1, 2] in a, b
+```
+
+```ruby
+{a: 1, b: 2, c: 3} => a:
+```
+
+
+```ruby
+{a: 1, b: 2, c: 3} in a:
+```
+
+
+Find パターン は Array パターン に似ていますが、オブジェクトの一部の要素がマッチしていることを検査できます。
+
+```ruby
+case ["a", 1, "b", "c", 2]
+in [*, String, String, *]
+  "matched"
+else
+  "not matched"
+end
+```
+
+### 変数の束縛 {#variable_binding}
+
+深い構造検査の他のパターンマッチの重要な機能の1つにマッチした部分のローカル変数への束縛があります。束縛の基本的な形はマッチしたパターンの後ろに 『=> 変数名』 と書くことです。(この形は rescue 節で 『rescue ExceptionClass => var』 の形で例外をローカル変数に格納する形に似ています)
+
+```ruby
+p case [1, 2]
+in Integer => a, Integer
+  "matched: #{a}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+```
+
+```ruby
+p case {a: 1, b: 2, c: 3}
+in a: Integer => m
+  "matched: #{m}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+```
+
+追加のチェックが不要で変数への束縛だけがしたい場合は、より簡潔な記法が利用できます。
+
+```ruby
+p case [1, 2]
+in a, Integer
+  "matched: #{a}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+```
+
+```ruby
+p case {a: 1, b: 2, c: 3}
+in a: m
+  "matched: #{m}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+```
+
+Hash パターンでは、もっと単純に書くこともできます。キーのみを指定することで、キーと同じ名前のローカル変数に値を束縛できます。
+
+```ruby
+p case {a: 1, b: 2, c: 3}
+in a:
+  "matched: #{a}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+```
+
+ネストしたパターンの場合も同様に値の束縛を利用できます。
+
+```ruby
+p case {name: 'John', friends: [{name: 'Jane'}, {name: 'Rajesh'}]}
+in name:, friends: [{name: first_friend}, *]
+  "matched: #{first_friend}"
+else
+  "not matched"
+end
+#=> "matched: Jane"
+```
+
+パターンの残りの部分も同様に変数に束縛できます。
+
+```ruby
+p case [1, 2, 3]
+in a, *rest
+  "matched: #{a}, #{rest}"
+else
+  "not matched"
+end
+#=> "matched: 1, [2, 3]"
+```
+
+```ruby
+p case {a: 1, b: 2, c: 3}
+in a:, **rest
+  "matched: #{a}, #{rest}"
+else
+  "not matched"
+end
+#=> "matched: 1, {:b=>2, :c=>3}"
+```
+
+変数への束縛は現状、『|』 で結合される Alternative パターン と同時には利用できません。
+
+```ruby invalid
+case {a: 1, b: 2}
+in {a: } | Array
+  "matched: #{a}"
+else
+  "not matched"
+end
+# SyntaxError (illegal variable in alternative pattern (a))
+```
+
+『_』 で始まる変数は例外で、Alternative パターン と同時に利用できます。
+
+```ruby
+p case {a: 1, b: 2}
+in {a: _, b: _foo} | Array
+  "matched: #{_}, #{_foo}"
+else
+  "not matched"
+end
+# => "matched: 1, 2"
+```
+
+しかし、『_』 で始まる変数の目的は利用しない値を意味するので、束縛された値を再利用することはオススメしません。
+
+### 変数のピン留め {#variable_pinning}
+
+既に存在しているローカル変数は、サブパターン(Array/Find/Hashパターン構文の <subpattern> の部分) として変数の値をそのまま使うことができません。(これは、変数への束縛の機能を実現するための制限です。)
+
+```ruby
+expectation = 18
+
+case [1, 2]
+in expectation, *rest
+  "matched. expectation was: #{expectation}"
+else
+  "not matched. expectation was: #{expectation}"
+end
+# 期待する動作："not matched. expectation was: 18"
+# 実際の動作："matched. expectation was: 1" -- ローカル変数が上書きされてしまっている
+```
+
+この場合、Ruby に「この値をパターンの部品として利用するよ」ということを伝えるためにピン演算子 『^』 を利用できます。
+
+```ruby
+expectation = 18
+p case [1, 2]
+in ^expectation, *rest
+  "matched. expectation was: #{expectation}"
+else
+  "not matched. expectation was: #{expectation}"
+end
+#=> "not matched. expectation was: 18"
+```
+
+ピン演算子の重要な用途の1つはパターンに複数回出てくる値を明記することです。
+
+```ruby
+jane = {school: 'high', schools: [{id: 1, level: 'middle'}, {id: 2, level: 'high'}]}
+john = {school: 'high', schools: [{id: 1, level: 'middle'}]}
+
+p case jane
+in school:, schools: [*, {id:, level: ^school}] # select the last school, level should match
+  "matched. school: #{id}"
+else
+  "not matched"
+end
+#=> "matched. school: 2"
+
+p case john # 指定された school の level は "high" だが、最後の school はマッチしない
+in school:, schools: [*, {id:, level: ^school}]
+  "matched. school: #{id}"
+else
+  "not matched"
+end
+#=> "not matched"
+```
+
+ローカル変数に加えてインスタンス変数やグローバル変数、クラス変数に対してもピン演算子は利用できます。
+
+```ruby
+$gvar = 1
+class A
+  @ivar = 2
+  @@cvar = 3
+  case [1, 2, 3]
+  in ^$gvar, ^@ivar, ^@@cvar
+    "matched"
+  else
+    "not matched"
+  end
+  #=> "matched"
+end
+```
+
+また、括弧を使って任意の式に対してピン演算子を利用できます
+
+```ruby
+a = 1
+b = 2
+case 3
+in ^(a + b)
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+```
+
+
+### 非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド {#matching_non_primitive_objects}
+
+既に述べたように、Array/Find/Hash パターンは、配列やハッシュのリテラルの他に、deconstruct メソッド(Array/Find パターン) あるいは deconstruct_keys メソッド(Hash パターン) を定義しているオブジェクトに対しても、マッチを試みます。
+
+```ruby
+class Point
+  def initialize(x, y)
+    @x, @y = x, y
+  end
+
+  def deconstruct
+    puts "deconstruct called"
+    [@x, @y]
+  end
+
+  def deconstruct_keys(keys)
+    puts "deconstruct_keys called with #{keys.inspect}"
+    {x: @x, y: @y}
+  end
+end
+
+p case Point.new(1, -2)
+in px, Integer  # パターンと変数への束縛も動きます
+  "matched: #{px}"
+else
+  "not matched"
+end
+# "deconstruct called" と出力
+#=> "matched: 1"
+
+p case Point.new(1, -2)
+in x: 0.. => px
+  "matched: #{px}"
+else
+  "not matched"
+end
+# "deconstruct_keys called with [:x]" と出力
+#=> "matched: 1"
+```
+
+deconstruct_keys メソッドに引数 keys を渡すのは、マッチを行うクラスの実装側に最適化の余地を残すためです。もし、ハッシュのすべての要素を計算するのが重い処理になる場合には、keys で指定された、マッチに必要になる部分のみを計算するように実装しても良いでしょう。
+
+『**rest』 パターンが使われた場合には、keys の値として nil が渡されます。
+
+```ruby
+p case Point.new(1, -2)
+in x: 0.. => px, **rest
+  "matched: #{px}"
+else
+  "not matched"
+end
+# "deconstruct_keys called with nil" と出力
+#=> "matched: 1"
+```
+
+さらに、カスタムクラスに対してマッチする場合には、期待するクラスをパターンの部品として指定できます。これは 『===』 でチェックされます。
+
+```ruby
+class SuperPoint < Point
+end
+
+p case Point.new(1, -2)
+in SuperPoint(x: 0.. => px)
+  "matched: #{px}"
+else
+  "not matched"
+end
+#=> "not matched"
+
+p case SuperPoint.new(1, -2)
+in SuperPoint[x: 0.. => px] # 括弧 [] か () が使える
+  "matched: #{px}"
+else
+  "not matched"
+end
+#=> "matched: 1"
+```
+
+以下のクラスは deconstruct や deconstruct_keys を実装しています。
+
+[MatchData#deconstruct](../method/MatchData/i/deconstruct.md)
+[MatchData#deconstruct_keys](../method/MatchData/i/deconstruct_keys.md)
+[Time#deconstruct_keys](../method/Time/i/deconstruct_keys.md)
+[Date#deconstruct_keys](../method/Date/i/deconstruct_keys.md)
+[DateTime#deconstruct_keys](../method/DateTime/i/deconstruct_keys.md)
+
+### ガード節 {#guard_clauses}
+
+if を使って、パターンにマッチしたときに評価される追加の条件式(ガード節)を加えることができます。この条件式では、マッチした値を束縛した変数を使うこともできます。
+
+```ruby
+p case [1, 2]
+in a, b if b == a*2
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+```
+
+```ruby
+p case [1, 1]
+in a, b if b == a*2
+  "matched"
+else
+  "not matched"
+end
+#=> "not matched"
+```
+
+unless も利用できます。
+
+```ruby
+p case [1, 1]
+in a, b unless b == a*2
+  "matched"
+else
+  "not matched"
+end
+#=> "matched"
+```
+
+### 機能の現状 {#current_feature_status}
+
+
+### 付記A: パターンのシンタックス {#pattern_syntax}
+
+おおよその構文は以下のとおりです。
+
+```text
+pattern: value_pattern
+       | variable_pattern
+       | alternative_pattern
+       | as_pattern
+       | array_pattern
+| find_pattern
+       | hash_pattern
+
+value_pattern: literal
+             | Constant
+| ^local_variable
+| ^instance_variable
+| ^class_variable
+| ^global_variable
+| ^(expression)
+
+variable_pattern: variable
+
+alternative_pattern: pattern | pattern | ...
+
+as_pattern: pattern => variable
+
+array_pattern: [pattern, ..., *variable]
+             | Constant(pattern, ..., *variable)
+             | Constant[pattern, ..., *variable]
+
+find_pattern: [*variable, pattern, ..., *variable]
+            | Constant(*variable, pattern, ..., *variable)
+            | Constant[*variable, pattern, ..., *variable]
+
+hash_pattern: {key: pattern, key:, ..., **variable}
+            | Constant(key: pattern, key:, ..., **variable)
+            | Constant[key: pattern, key:, ..., **variable]
+```
+
+### 付記B: \`未定義\` の振る舞いの例 {#some_undefined_behavior_examples}
+
+将来的な最適化の余地を残すため、仕様には一部 \`未定義\` の振る舞いが含まれています。
+
+
+```ruby title="マッチしなかったパターンに指定していた変数を使う"
+case [0, 1]
+in [a, 2]
+  "not matched"
+in b
+  "matched"
+in c
+  "not matched"
+end
+p a #=> 未定義
+p c #=> 未定義
+```
+
+
+```ruby title="deconstruct メソッドや deconstruct_keys メソッドが呼び出された回数"
+$i = 0
+ary = [0]
+def ary.deconstruct
+  $i += 1
+  self
+end
+case ary
+in [0, 1]
+  "not matched"
+in [0]
+  "matched"
+end
+p $i #=> 未定義
+```

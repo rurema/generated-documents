@@ -1,0 +1,13 @@
+# CSV::Row#push
+
+### def push(*args) -> self
+
+複数のフィールドを追加するためのショートカットです。
+
+以下とおなじです:
+
+```ruby
+args.each { |arg| csv_row << arg }
+```
+
+- **return** -- メソッドチェーンのために自身を返します。

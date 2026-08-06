@@ -1,0 +1,10 @@
+# Net::HTTPResponse::CODE_TO_OBJ
+
+### const CODE_TO_OBJ -> Hash
+
+HTTP レスポンスステータスコードから対応するクラスへのハッシュです。
+
+```ruby
+require 'net/http'
+p Net::HTTPResponse::CODE_TO_OBJ['404'] # => Net::HTTPNotFound
+```

@@ -1,0 +1,7 @@
+# OpenSSL::PKey::EC::Group#cofactor
+
+### def cofactor -> OpenSSL::BN
+
+余因子を返します。
+
+- **raise** `OpenSSL::PKey::EC::Group::Error` -- 余因子の取得に失敗した場合に発生します

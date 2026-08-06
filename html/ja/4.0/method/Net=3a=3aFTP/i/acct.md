@@ -1,0 +1,9 @@
+# Net::FTP#acct
+
+### def acct(account) -> nil
+
+サーバーに ACCT コマンドでアカウント情報を送ります。
+
+- **param** `account` -- 送りたいアカウント情報を文字列で与えます。
+
+- **raise** `Net::FTPReplyError` -- 応答コードが2yzでない場合に発生します。

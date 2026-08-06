@@ -1,0 +1,39 @@
+# Kernel$stderr
+
+### gvar $stderr -> object
+
+標準エラー出力です。
+
+Ruby インタプリタが出力するエラーメッセージや警告メッセージ、[Kernel?.warn](../../../method/Kernel/m/warn.md) の出力先となります。
+初期値は [Object::STDERR](../../../method/Object/c/STDERR.md) です。
+
+$stderr に代入するオブジェクトには
+write という名前のメソッドが定義されていなければいけません。
+
+自プロセスの標準エラー出力をリダイレクトしたいときには、
+$stderr に代入すれば十分です。
+
+```ruby title="例"
+# 標準エラー出力の出力先を /tmp/foo に変更
+$stderr = File.open("/tmp/foo", "w")
+puts "foo"         # 出力する
+$stderr = STDERR   # 元に戻す
+```
+
+自プロセスだけでなく、子プロセスの標準エラー出力もリダイレクトしたいときは以下のように [IO#reopen](../../../method/IO/i/reopen.md) を使います。
+
+```ruby title="例"
+$stderr.reopen("/tmp/foo", "w")
+```
+
+また、リダイレクトしたあと出力先をまた元に戻したい場合は以下のようにします。
+
+```ruby title="例"
+stderr_old = $stderr.dup        # 元の $stderr を保存する
+$stderr.reopen("/tmp/foo")      # $stderr を /tmp/foo にリダイレクトする
+puts "foo"                      # /tmp/foo に出力
+$stderr.flush                   # 念のためフラッシュする
+$stderr.reopen stderr_old       # 元に戻す
+```
+
+$stderr はグローバルスコープです。

@@ -1,0 +1,7 @@
+# WEBrick::HTTPUtils?.split_header_value
+
+### module_function def split_header_value(str) -> Array
+
+HTTP ヘッダの値を分割して返します。
+
+- **param** `str` -- HTTP ヘッダの値を返します。

@@ -1,0 +1,45 @@
+# module Net::HTTPHeader
+
+HTTP ヘッダのためのモジュールです。
+
+このモジュールを mix-in に @header という(ハッシュを代入してある)
+変数への「大文字小文字を無視した」ハッシュ的アクセスメソッドを提供します。またよくある HTTP ヘッダへの便利なアクセスメソッドも用意します。
+
+## Instance Methods
+
+- [\[\]](../method/Net=3a=3aHTTPHeader/i/=5b=5d.md)
+- [\[\]=](../method/Net=3a=3aHTTPHeader/i/=5b=5d=3d.md)
+- [add_field](../method/Net=3a=3aHTTPHeader/i/add_field.md)
+- [basic_auth](../method/Net=3a=3aHTTPHeader/i/basic_auth.md)
+- [canonical_each](../method/Net=3a=3aHTTPHeader/i/canonical_each.md)
+- [each_capitalized](../method/Net=3a=3aHTTPHeader/i/each_capitalized.md)
+- [chunked?](../method/Net=3a=3aHTTPHeader/i/chunked=3f.md)
+- [content_length](../method/Net=3a=3aHTTPHeader/i/content_length.md)
+- [content_length=](../method/Net=3a=3aHTTPHeader/i/content_length=3d.md)
+- [content_range](../method/Net=3a=3aHTTPHeader/i/content_range.md)
+- [content_type](../method/Net=3a=3aHTTPHeader/i/content_type.md)
+- [content_type=](../method/Net=3a=3aHTTPHeader/i/content_type=3d.md)
+- [set_content_type](../method/Net=3a=3aHTTPHeader/i/set_content_type.md)
+- [delete](../method/Net=3a=3aHTTPHeader/i/delete.md)
+- [each](../method/Net=3a=3aHTTPHeader/i/each.md)
+- [each_header](../method/Net=3a=3aHTTPHeader/i/each_header.md)
+- [each_capitalized_name](../method/Net=3a=3aHTTPHeader/i/each_capitalized_name.md)
+- [each_key](../method/Net=3a=3aHTTPHeader/i/each_key.md)
+- [each_name](../method/Net=3a=3aHTTPHeader/i/each_name.md)
+- [each_value](../method/Net=3a=3aHTTPHeader/i/each_value.md)
+- [fetch](../method/Net=3a=3aHTTPHeader/i/fetch.md)
+- [form_data=](../method/Net=3a=3aHTTPHeader/i/form_data=3d.md)
+- [set_form_data](../method/Net=3a=3aHTTPHeader/i/set_form_data.md)
+- [get_fields](../method/Net=3a=3aHTTPHeader/i/get_fields.md)
+- [key?](../method/Net=3a=3aHTTPHeader/i/key=3f.md)
+- [length](../method/Net=3a=3aHTTPHeader/i/length.md)
+- [size](../method/Net=3a=3aHTTPHeader/i/size.md)
+- [main_type](../method/Net=3a=3aHTTPHeader/i/main_type.md)
+- [method](../method/Net=3a=3aHTTPHeader/i/method.md)
+- [proxy_basic_auth](../method/Net=3a=3aHTTPHeader/i/proxy_basic_auth.md)
+- [range](../method/Net=3a=3aHTTPHeader/i/range.md)
+- [range=](../method/Net=3a=3aHTTPHeader/i/range=3d.md)
+- [set_range](../method/Net=3a=3aHTTPHeader/i/set_range.md)
+- [range_length](../method/Net=3a=3aHTTPHeader/i/range_length.md)
+- [sub_type](../method/Net=3a=3aHTTPHeader/i/sub_type.md)
+- [type_params](../method/Net=3a=3aHTTPHeader/i/type_params.md)

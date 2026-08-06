@@ -1,0 +1,35 @@
+# Rational#floor
+
+### def floor(precision = 0) -> Integer | Rational
+
+`self` と等しいかより小さな整数のうち最大のものを返します。
+
+- **param** `precision` -- 計算結果の精度
+
+- **raise** `TypeError` -- `precision` に整数以外のものを指定すると発生します。
+
+```ruby title="例"
+p Rational(3).floor   # => 3
+p Rational(2, 3).floor  # => 0
+p Rational(-3, 2).floor # => -2
+```
+
+[Rational#to_i](../../../method/Rational/i/to_i.md) とは違う結果を返す事に注意してください。
+
+```ruby title="例"
+p Rational(+7, 4).to_i  # => 1
+p Rational(+7, 4).floor # => 1
+p Rational(-7, 4).to_i  # => -1
+p Rational(-7, 4).floor # => -2
+```
+
+`precision` を指定した場合は指定した桁数の数値と、上述の性質に最も近い整数か [Rational](../../../class/Rational.md) を返します。
+
+```ruby title="例"
+p Rational('-123.456').floor(+1)     # => (-247/2)
+p Rational('-123.456').floor(+1).to_f  # => -123.5
+p Rational('-123.456').floor(0)      # => -124
+p Rational('-123.456').floor(-1)     # => -130
+```
+
+- **SEE** [Rational#ceil](../../../method/Rational/i/ceil.md), [Rational#round](../../../method/Rational/i/round.md), [Rational#truncate](../../../method/Rational/i/truncate.md)

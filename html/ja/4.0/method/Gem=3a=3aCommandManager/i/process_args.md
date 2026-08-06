@@ -1,0 +1,7 @@
+# Gem::CommandManager#process_args
+
+### def process_args(args) -> ()
+
+引数 args を処理して gem コマンドを実行するために必要な処理を行います。
+
+- **param** `args` -- コマンドラインから受け取った引数を指定します。

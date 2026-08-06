@@ -1,0 +1,8 @@
+# Net::IMAP::ThreadMember#seqno
+
+### def seqno -> Integer | nil
+
+メッセージの sequence number もしくは UID を返します。
+
+root となるメッセージが存在しない場合しない木の場合は
+nil を返します。

@@ -1,0 +1,11 @@
+# OptionParser::ParseError#recover
+
+### def recover(argv) -> Array
+
+argv の先頭に self.args を戻します。
+
+argv を返します。
+
+- **param** `argv` -- [OptionParser#parse](../../../method/OptionParser/i/parse.md) に渡したオブジェクトなどの配列を指定します。
+
+- **return** -- argv を返します。

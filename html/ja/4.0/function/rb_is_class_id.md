@@ -1,0 +1,5 @@
+# rb_is_class_id
+
+### int rb_is_class_id(ID id)
+
+クラス変数名として有効な ID ならば真。

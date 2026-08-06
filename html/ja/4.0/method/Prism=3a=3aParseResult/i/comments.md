@@ -1,0 +1,16 @@
+# Prism::ParseResult#comments
+
+### def comments -> Array
+
+構文解析中に見つかったコメント([Prism::Comment](../../../class/Prism=3a=3aComment.md) のサブクラスのインスタンス)の配列を返します。[Prism?.parse_comments](../../../method/Prism/m/parse_comments.md) を呼び出した場合と同じ内容です。
+
+```ruby title="例"
+require "prism"
+
+comments = Prism.parse("# hello\n1 + 1").comments
+p comments.size                  # => 1
+p comments.first.class           # => Prism::InlineComment
+p comments.first.location.slice  # => "# hello"
+```
+
+- **SEE** [Prism?.parse_comments](../../../method/Prism/m/parse_comments.md)

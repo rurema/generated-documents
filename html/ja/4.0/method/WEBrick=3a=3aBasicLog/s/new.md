@@ -1,0 +1,19 @@
+# WEBrick::BasicLog.new
+
+### def WEBrick::BasicLog.new(log_file = nil, level = WEBrick::BasicLog::INFO)    -> WEBrick::BasicLog
+
+WEBrick::BasicLog オブジェクトを生成して返します。
+
+- **param** `log_file` -- ログを記録する先のオブジェクトを指定します。メソッド << が定義されている必要があります。
+                通常は [String](../../../class/String.md) オブジェクトか [IO](../../../class/IO.md) オブジェクトです。nil
+                を指定した場合、標準エラー出力にログを出力します。
+
+- **param** `level` -- ログレベルを定数で指定します。
+             このログレベルと同じかより重要なレベルのデータのみを記録します。
+             ログレベルは重要度の順に FATAL, ERROR, WARN, INFO, DEBUG の5段階があります。
+             FATAL の重要度が一番高く DEBUG が一番低いです。
+
+```ruby
+require 'webrick'
+logger = WEBrick::BasicLog.new('testfile', WEBrick::BasicLog::FATAL)
+```

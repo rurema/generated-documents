@@ -1,0 +1,165 @@
+# module OpenSSL::ASN1
+
+ASN.1(Abstract Syntax Notation One)
+のデータを取り扱うためのモジュールです。
+
+OpenSSLで証明書などを取り扱うのに必要になります。
+
+このモジュールには、ASN.1関連のモジュール関数や定数、
+ASN.1 のデータ型に対応するクラスが定義されています。
+
+このモジュールは ASN.1 を十分に取り扱うのに必要な機能は持っていません。SSL/TLSで必要な機能しか実装されていません。
+
+ASN.1 は ITU-T と ISO によって定義された、データの構造を定義するための言語を中心とした規格です。
+この言語で定義された抽象的な構造を実際のバイト列で表現する方法は ASN.1 の規格の一部として数種類定義されています。
+このリファレンスで言及されている DER 形式もこのエンコード形式の一種です。
+
+### 概要
+
+このモジュールにおいて、
+ASN.1 のデータ型は [OpenSSL::ASN1::ASN1Data](../class/OpenSSL=3a=3aASN1=3a=3aASN1Data.md) およびそのサブクラスにマップされています。
+
+ASN.1 の単純型(simple type)は [OpenSSL::ASN1::Primitive](../class/OpenSSL=3a=3aASN1=3a=3aPrimitive.md) の各サブクラスに、構造型(structured type)は [OpenSSL::ASN1::Constructive](../class/OpenSSL=3a=3aASN1=3a=3aConstructive.md)
+の各サブクラスに対応しています。通常これらのタグクラスは UNIVERSAL です。
+その値は [OpenSSL::ASN1::ASN1Data#value](../method/OpenSSL=3a=3aASN1=3a=3aASN1Data/i/value.md) で取り出せます。
+単純型は通常の Ruby のオブジェクト、構造型は配列
+UNIVERSAL以外のタグクラスを付けられた型は、
+[OpenSSL::ASN1::ASN1Data](../class/OpenSSL=3a=3aASN1=3a=3aASN1Data.md) に対応します。UNIVERSAL以外のタグクラスでタグ付けられた型のデータは、[OpenSSL::ASN1::ASN1Data](../class/OpenSSL=3a=3aASN1=3a=3aASN1Data.md)のオブジェクトで表現され、その値として文字列(IMPLICITなタグ付けの場合)もしくは配列(EXPLICITなタグ付けの場合)として表現されます。
+[OpenSSL::ASN1::Primitive](../class/OpenSSL=3a=3aASN1=3a=3aPrimitive.md) のタグ付けの情報を使うことで、
+IMPLICIT or EXPLICIT なタグ付けを実現することもできます。
+
+```ruby title="例"
+require 'openssl'
+
+# 単純型のデータ
+x = OpenSSL::ASN1::UTF8String.new("foobar")
+# 構造型のデータ
+y = OpenSSL::ASN1::Sequence.new([OpenSSL::ASN1::Boolean.new(true),
+                                OpenSSL::ASN1::Integer.new(-12)])
+# APPLICATION タグクラスのタグ2番でタグ付けられたデータ
+z = OpenSSL::ASN1::ASN1Data.new([OpenSSL::ASN1::Boolean.new(false)], 
+                                2, :APPLICATION)
+# 上と同様のデータを OpenSSL::ASN1::Boolean.new の2番目以降の
+# 引数で表現する
+z2 = OpenSSL::ASN1::Boolean.new(false, 2, :EXPLICIT, :APPLICATION)
+# IMPLICIT なタグ付けをする
+u = OpenSSL::ASN1::Boolean.new(false, 3, :IMPLICIT, :APPLICATION)
+
+# to_der でエンコード
+p x.to_der  # => "\f\x06foobar"
+p y.to_der  # => "0\x06\x01\x01\xFF\x02\x01\xF4"
+p z.to_der  # => "b\x03\x01\x01\x00"
+p z2.to_der # => "b\x03\x01\x01\x00"  これは z.to_der と同じ
+p u.to_der # => "C\x01\x00"
+# エンコードした文字列をデコード
+p OpenSSL::ASN1.decode(x.to_der)
+# => #<OpenSSL::ASN1::UTF8String:0x000000027cc700 @tag=12, @value="foobar", @tagging=nil, @tag_class=:UNIVERSAL>
+p OpenSSL::ASN1.decode(y.to_der)
+# => #<OpenSSL::ASN1::Sequence:0x000000027c47d0 @tag=16, @value=[#<OpenSSL::ASN1::Boolean:0x000000027c4898 @tag=1, @value=true, @tagging=nil, @tag_class=:UNIVERSAL>, #<OpenSSL::ASN1::Integer:0x000000027c47f8 @tag=2, @value=-12, @tagging=nil, @tag_class=:UNIVERSAL>], @tagging=nil, @tag_class=:UNIVERSAL>
+p OpenSSL::ASN1.decode(z.to_der)
+# => #<OpenSSL::ASN1::ASN1Data:0x000000027bc918 @tag=2, @value=[#<OpenSSL::ASN1::Boolean:0x000000027bc968 @tag=1, @value=false, @tagging=nil, @tag_class=:UNIVERSAL>], @tag_class=:APPLICATION>
+p OpenSSL::ASN1.decode(u.to_der)
+# => #<OpenSSL::ASN1::ASN1Data:0x000000025bef30 @tag=3, @value="\x00", @tag_class=:APPLICATION>
+# @valueが "\x00" という文字列になっている
+```
+
+このモジュールは ASN.1 記法による記述を解釈し、利用する機能はないため、
+IMPLICITなタグ付けをされたデータを適切に取り扱うことは面倒でしょう。
+
+DER形式の文字列をデコードしてRubyのオブジェクトに変換するには
+[OpenSSL::ASN1?.decode](../method/OpenSSL=3a=3aASN1/m/decode.md) もしくは [OpenSSL::ASN1?.decode_all](../method/OpenSSL=3a=3aASN1/m/decode_all.md) を用います。
+逆に、[OpenSSL::ASN1::ASN1Data](../class/OpenSSL=3a=3aASN1=3a=3aASN1Data.md) のオブジェクトを DER 形式の文字列に変換するには、[OpenSSL::ASN1::ASN1Data#to_der](../method/OpenSSL=3a=3aASN1=3a=3aASN1Data/i/to_der.md)を用います。
+
+```text title="クラス階層"
+OpenSSL::ASN1::ASN1Data
+  +-> OpenSSL::ASN1::Primitive
+  |     +-> OpenSSL::ASN1::Boolean
+  |     +-> OpenSSL::ASN1::Integer
+  |     +-> OpenSSL::ASN1::Enumerated
+  |     +-> OpenSSL::ASN1::BitString
+  |     +-> OpenSSL::ASN1::OctetString
+  |     +-> OpenSSL::ASN1::UTF8String
+  |     +-> OpenSSL::ASN1::NumericString
+  |     +-> OpenSSL::ASN1::PrintableString
+  |     +-> OpenSSL::ASN1::T61String
+  |     +-> OpenSSL::ASN1::VideotexString
+  |     +-> OpenSSL::ASN1::IA5String
+  |     +-> OpenSSL::ASN1::GraphicString
+  |     +-> OpenSSL::ASN1::ISO64String
+  |     +-> OpenSSL::ASN1::GeneralString
+  |     +-> OpenSSL::ASN1::UniversalString
+  |     +-> OpenSSL::ASN1::BMPString
+  |     +-> OpenSSL::ASN1::Null
+  |     +-> OpenSSL::ASN1::ObjectId
+  |     +-> OpenSSL::ASN1::UTCTime
+  |     `-> OpenSSL::ASN1::GeneralizedTime
+  `-> OpenSSL::ASN1::Constructive
+        +-> OpenSSL::ASN1::Set
+        `-> OpenSSL::ASN1::Sequence
+```
+
+
+### 参照
+
+- ITU-T Rec. X.680-699 <https://www.itu.int/itu-t/recommendations/index.aspx?ser=X>
+
+## Module Functions
+
+- [BMPString](../method/OpenSSL=3a=3aASN1/m/BMPString.md)
+- [BitString](../method/OpenSSL=3a=3aASN1/m/BitString.md)
+- [Boolean](../method/OpenSSL=3a=3aASN1/m/Boolean.md)
+- [Enumerated](../method/OpenSSL=3a=3aASN1/m/Enumerated.md)
+- [GeneralString](../method/OpenSSL=3a=3aASN1/m/GeneralString.md)
+- [GeneralizedTime](../method/OpenSSL=3a=3aASN1/m/GeneralizedTime.md)
+- [GraphicString](../method/OpenSSL=3a=3aASN1/m/GraphicString.md)
+- [IA5String](../method/OpenSSL=3a=3aASN1/m/IA5String.md)
+- [ISO64String](../method/OpenSSL=3a=3aASN1/m/ISO64String.md)
+- [Integer](../method/OpenSSL=3a=3aASN1/m/Integer.md)
+- [Null](../method/OpenSSL=3a=3aASN1/m/Null.md)
+- [NumericString](../method/OpenSSL=3a=3aASN1/m/NumericString.md)
+- [ObjectId](../method/OpenSSL=3a=3aASN1/m/ObjectId.md)
+- [OctetString](../method/OpenSSL=3a=3aASN1/m/OctetString.md)
+- [PrintableString](../method/OpenSSL=3a=3aASN1/m/PrintableString.md)
+- [Sequence](../method/OpenSSL=3a=3aASN1/m/Sequence.md)
+- [Set](../method/OpenSSL=3a=3aASN1/m/Set.md)
+- [T61String](../method/OpenSSL=3a=3aASN1/m/T61String.md)
+- [UTCTime](../method/OpenSSL=3a=3aASN1/m/UTCTime.md)
+- [UTF8String](../method/OpenSSL=3a=3aASN1/m/UTF8String.md)
+- [UniversalString](../method/OpenSSL=3a=3aASN1/m/UniversalString.md)
+- [VideotexString](../method/OpenSSL=3a=3aASN1/m/VideotexString.md)
+- [decode](../method/OpenSSL=3a=3aASN1/m/decode.md)
+- [decode_all](../method/OpenSSL=3a=3aASN1/m/decode_all.md)
+- [traverse](../method/OpenSSL=3a=3aASN1/m/traverse.md)
+
+## Constants
+
+- [BIT_STRING](../method/OpenSSL=3a=3aASN1/c/BIT_STRING.md)
+- [BMPSTRING](../method/OpenSSL=3a=3aASN1/c/BMPSTRING.md)
+- [BOOLEAN](../method/OpenSSL=3a=3aASN1/c/BOOLEAN.md)
+- [CHARACTER_STRING](../method/OpenSSL=3a=3aASN1/c/CHARACTER_STRING.md)
+- [EMBEDDED_PDV](../method/OpenSSL=3a=3aASN1/c/EMBEDDED_PDV.md)
+- [ENUMERATED](../method/OpenSSL=3a=3aASN1/c/ENUMERATED.md)
+- [EOC](../method/OpenSSL=3a=3aASN1/c/EOC.md)
+- [EXTERNAL](../method/OpenSSL=3a=3aASN1/c/EXTERNAL.md)
+- [GENERALIZEDTIME](../method/OpenSSL=3a=3aASN1/c/GENERALIZEDTIME.md)
+- [GENERALSTRING](../method/OpenSSL=3a=3aASN1/c/GENERALSTRING.md)
+- [GRAPHICSTRING](../method/OpenSSL=3a=3aASN1/c/GRAPHICSTRING.md)
+- [IA5STRING](../method/OpenSSL=3a=3aASN1/c/IA5STRING.md)
+- [INTEGER](../method/OpenSSL=3a=3aASN1/c/INTEGER.md)
+- [ISO64STRING](../method/OpenSSL=3a=3aASN1/c/ISO64STRING.md)
+- [NULL](../method/OpenSSL=3a=3aASN1/c/NULL.md)
+- [NUMERICSTRING](../method/OpenSSL=3a=3aASN1/c/NUMERICSTRING.md)
+- [OBJECT](../method/OpenSSL=3a=3aASN1/c/OBJECT.md)
+- [OBJECT_DESCRIPTOR](../method/OpenSSL=3a=3aASN1/c/OBJECT_DESCRIPTOR.md)
+- [OCTET_STRING](../method/OpenSSL=3a=3aASN1/c/OCTET_STRING.md)
+- [PRINTABLESTRING](../method/OpenSSL=3a=3aASN1/c/PRINTABLESTRING.md)
+- [REAL](../method/OpenSSL=3a=3aASN1/c/REAL.md)
+- [RELATIVE_OID](../method/OpenSSL=3a=3aASN1/c/RELATIVE_OID.md)
+- [SEQUENCE](../method/OpenSSL=3a=3aASN1/c/SEQUENCE.md)
+- [SET](../method/OpenSSL=3a=3aASN1/c/SET.md)
+- [T61STRING](../method/OpenSSL=3a=3aASN1/c/T61STRING.md)
+- [UNIVERSALSTRING](../method/OpenSSL=3a=3aASN1/c/UNIVERSALSTRING.md)
+- [UNIVERSAL_TAG_NAME](../method/OpenSSL=3a=3aASN1/c/UNIVERSAL_TAG_NAME.md)
+- [UTCTIME](../method/OpenSSL=3a=3aASN1/c/UTCTIME.md)
+- [UTF8STRING](../method/OpenSSL=3a=3aASN1/c/UTF8STRING.md)
+- [VIDEOTEXSTRING](../method/OpenSSL=3a=3aASN1/c/VIDEOTEXSTRING.md)

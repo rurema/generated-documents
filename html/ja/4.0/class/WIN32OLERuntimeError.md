@@ -1,0 +1,13 @@
+# class WIN32OLERuntimeError < RuntimeError
+
+COMインターフェイスエラー時に発生する例外です。
+
+Ruby 3.4 から、このクラスは WIN32OLE の名前空間下に移動し、`WIN32OLE::RuntimeError`
+として定義されるようになりました。トップレベル定数 `WIN32OLERuntimeError` は後方互換のためのエイリアスとして残っていますが、非推奨(deprecated)です
+(`Warning[:deprecated]` が有効なら参照時に警告が表示されます)。
+
+WIN32OLERuntimeErrorは、OLEオートメーション呼び出しが例外ステータス（HRESULTのMSBがオン）で返った場合や、メソッド呼び出し時にオートメーション仕様で認められていない値が与えられた場合に発生します。
+
+OLEオートメーション呼び出しが例外ステータスで戻された場合は、メッセージに例外となったHRESULT値と対応するメッセージが表示されます。
+
+HRESULT: <http://msdn.microsoft.com/en-us/library/cc704587(v=PROT.10).aspx>

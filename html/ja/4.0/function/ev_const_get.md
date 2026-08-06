@@ -1,0 +1,5 @@
+# ev_const_get
+
+### static VALUE ev_const_get(NODE *cref, ID id, VALUE self)
+
+外のクラスが cref で self が self として定数 id を参照します。

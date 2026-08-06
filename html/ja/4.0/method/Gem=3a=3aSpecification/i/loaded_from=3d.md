@@ -1,0 +1,7 @@
+# Gem::Specification#loaded_from=
+
+### def loaded_from=(path)
+
+この Gem パッケージの gemspec がある場所をセットします。
+
+- **param** `path` -- この Gem パッケージの gemspec がある場所を指定します。

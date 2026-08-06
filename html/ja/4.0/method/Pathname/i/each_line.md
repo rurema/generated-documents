@@ -1,0 +1,51 @@
+# Pathname#each_line
+
+### def each_line(*args){|line| ... } -> nil
+### def each_line(*args) -> Enumerator
+
+IO.foreach(self.to_s, *args, &block) と同じです。
+
+```ruby title="例"
+require "pathname"
+
+IO.write("testfile", "line1\nline2,\nline3\n")
+p Pathname("testfile").each_line
+# => #<Enumerator: IO:foreach("testfile")>
+```
+
+```ruby title="例 ブロックを指定"
+require "pathname"
+
+IO.write("testfile", "line1\nline2,\nline3\n")
+Pathname("testfile").each_line {|f| p f }
+
+# => "line1\n"
+# => "line2,\n"
+# => "line3\n"
+```
+
+```ruby title="例 limit を指定"
+require "pathname"
+
+IO.write("testfile", "line1\nline2,\nline3\n")
+Pathname("testfile").each_line(4) {|f| p f }
+
+# => "line"
+# => "1\n"
+# => "line"
+# => "2,\n"
+# => "line"
+# => "3\n"
+```
+
+```ruby title="例 sep を指定"
+require "pathname"
+
+IO.write("testfile", "line1\nline2,\nline3\n")
+Pathname("testfile").each_line(",") {|f| p f }
+
+# => "line1\nline2,"
+# => "\nline3\n"
+```
+
+- **SEE** [IO.foreach](../../../method/IO/s/foreach.md)

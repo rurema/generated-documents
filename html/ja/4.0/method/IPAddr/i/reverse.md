@@ -1,0 +1,11 @@
+# IPAddr#reverse
+
+### def reverse -> String
+
+DNS 逆引きのための文字列を返します。
+IPv6 なら [RFC:3172] で定義された形式で返します。
+
+```ruby title="例"
+require "ipaddr"
+p IPAddr.new("192.168.0.1").reverse   # => "1.0.168.192.in-addr.arpa"
+```

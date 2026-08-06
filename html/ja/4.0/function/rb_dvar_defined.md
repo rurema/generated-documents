@@ -1,0 +1,3 @@
+# rb_dvar_defined
+
+### VALUE rb_dvar_defined(ID id)

@@ -1,0 +1,22 @@
+# Addrinfo#connect_to
+
+### def connect_to(host, port, timeout: nil) -> Socket
+### def connect_to(addrinfo, timeout: nil) -> Socket
+### def connect_to(host, port, timeout: nil){|sock| ... } -> object
+### def connect_to(addrinfo, timeout: nil){|sock| ... } -> object
+
+自身のアドレスから指定したホストへソケット接続します。
+
+接続先のアドレスは [Addrinfo#family_addrinfo](../../../method/Addrinfo/i/family_addrinfo.md) により生成されたものが用いられます。
+
+ブロックが渡されたときにはそのブロックに接続済み [Socket](../../../class/Socket.md)
+オブジェクトが渡されます。ブロックの返り値がメソッドの返り値となります。
+ブロックを省略した場合は、接続済み [Socket](../../../class/Socket.md)
+オブジェクトが返されます。
+
+- **param** `host` -- ホスト(IP アドレスもしくはホスト名)
+- **param** `port` -- ポート番号(整数)もしくはサービス名(文字列)
+- **param** `addrinfo` -- 接続先のアドレス情報([Addrinfo](../../../class/Addrinfo.md) オブジェクト)。self とプロトコルファミリ・ソケットタイプが一致している必要があります
+- **param** `timeout` -- 接続確立のタイムアウト秒数
+- **raise** `ArgumentError` -- addrinfo のプロトコルファミリ・ソケットタイプが self と一致しない場合に発生します
+- **raise** `Errno::ETIMEDOUT` -- timeout で指定した時間内に接続が確立しなかった場合に発生します

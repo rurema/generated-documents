@@ -1,0 +1,12 @@
+# Integer#abs
+
+### def abs -> Integer
+### def magnitude -> Integer
+
+`self` の絶対値を返します。
+
+```ruby
+p -12345.abs # => 12345
+p 12345.abs  # => 12345
+p -1234567890987654321.abs # => 1234567890987654321
+```

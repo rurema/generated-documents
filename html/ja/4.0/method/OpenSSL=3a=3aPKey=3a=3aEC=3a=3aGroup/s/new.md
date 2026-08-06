@@ -1,0 +1,33 @@
+# OpenSSL::PKey::EC::Group.new
+
+### def OpenSSL::PKey::EC::Group.new(obj) -> OpenSSL::PKey::EC::Group
+### def OpenSSL::PKey::EC::Group.new(sym, p, a, b) -> OpenSSL::PKey::EC::Group
+
+楕円曲線から定義される群を表すオブジェクトを生成します。
+
+引数の種類と個数によって挙動が異なります。
+
+引数が1つの場合は、シンボル、[OpenSSL::PKey::EC::Group](../../../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aGroup.md) オブジェクト、文字列のいずれかを渡すことができます。
+
+引数にシンボルを渡した場合は対応する群を返します。以下の4つを指定できます。
+  - :GFp_simple
+  - :GFp_mont
+  - :GFp_nist
+  - :GF2m_simple
+この方法で生成された Group オブジェクトは不完全です。
+
+[OpenSSL::PKey::EC::Group](../../../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aGroup.md) オブジェクトを渡した場合はそれを複製したオブジェクトを返します。
+
+文字列を渡した場合は、PEM もしくは DER 形式のデータとみなしてデータを読み込み、オブジェクトを生成します。
+
+曲線名文字列を渡した場合は、その曲線で定義される群を表すオブジェクトを返します。
+
+引数が4つの場合は sym で :GFp_simple もしくは :GF2m_simple を指定し、それと p, a, b という 3 つの整数で定義される楕円曲線から定義される群を返します。
+
+- **param** `obj` -- Groupオブジェクト生成のためのデータ(シンボル、Group, 文字列のいずれか)
+- **param** `sym` -- Group を定義するためのシンボル
+- **param** `p` -- 整数([OpenSSL::BN](../../../class/OpenSSL=3a=3aBN.md))
+- **param** `a` -- 整数([OpenSSL::BN](../../../class/OpenSSL=3a=3aBN.md))
+- **param** `b` -- 整数([OpenSSL::BN](../../../class/OpenSSL=3a=3aBN.md))
+- **raise** `OpenSSL::PKey::EC::Group::Error` -- オブジェクトの生成に失敗した場合に発生します。
+       曲線名が不正である場合などに発生します。

@@ -1,0 +1,27 @@
+# IO::Buffer#and!
+
+### def and!(mask) -> self
+### def or!(mask) -> self
+### def xor!(mask) -> self
+
+[IO::Buffer#&](../../../method/IO=3a=3aBuffer/i/=26.md) などと同じビット演算を、新しいバッファを作らずに自身に対して行います。`self` を返します。
+
+mask が自身より短い場合は、mask を先頭から繰り返し使います。
+
+- **param** `mask` -- マスクを [IO::Buffer](../../../class/IO=3a=3aBuffer.md) で指定します。
+
+- **raise** `IO::Buffer::MaskError` -- mask の大きさが 0 の場合に発生します。
+
+- **raise** `IO::Buffer::AccessError` -- 読み取り専用のバッファに対して
+             呼び出した場合に発生します。
+
+```ruby
+# IO::Buffer.for はブロックを渡さないと読み取り専用になるので、dup で複製する
+buf = IO::Buffer.for("1234567890").dup
+buf.and!(IO::Buffer.for("\xFF\x00\x00\xFF"))
+p buf.get_string.bytes.map {|b| "%02x" % b }.join(" ")  # => "31 00 00 34 35 00 00 38 39 00"
+
+IO::Buffer.for("1234").and!(IO::Buffer.for("\xFF")) # ~> IO::Buffer::AccessError
+```
+
+- **SEE** [IO::Buffer#&](../../../method/IO=3a=3aBuffer/i/=26.md), [IO::Buffer#|](../../../method/IO=3a=3aBuffer/i/=7c.md), [IO::Buffer#^](../../../method/IO=3a=3aBuffer/i/=5e.md)

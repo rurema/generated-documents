@@ -1,0 +1,38 @@
+# Encoding::Converter.search_convpath
+
+### def Encoding::Converter.search_convpath(source_encoding, destination_encoding, options) -> Array
+
+引数で指定した文字エンコーディングの変換の経路を配列にして返します。
+
+- **param** `source_encoding` -- 変換元の文字エンコーディングを [Encoding](../../../class/Encoding.md) オ
+                       ブジェクトか文字列で指定します。
+
+- **param** `destination_encoding` -- 変換先の文字エンコーディングを
+                            [Encoding](../../../class/Encoding.md) オブジェクトか文字列で指定し
+                            ます。
+
+- **param** `options` -- 変換の詳細を指定する定数やハッシュを指定します。
+               [Encoding::Converter.new](../../../method/Encoding=3a=3aConverter/s/new.md) と同じオプションが指定でき
+               ます。
+
+```ruby
+p Encoding::Converter.search_convpath("ISO-8859-1", "EUC-JP")
+# => [[#<Encoding:ISO-8859-1>, #<Encoding:UTF-8>],
+#     [#<Encoding:UTF-8>, #<Encoding:EUC-JP>]]
+
+p Encoding::Converter.search_convpath("ISO-8859-1", "EUC-JP", universal_newline: true)
+# or
+p Encoding::Converter.search_convpath("ISO-8859-1", "EUC-JP", newline: :universal)
+# => [[#<Encoding:ISO-8859-1>, #<Encoding:UTF-8>],
+#     [#<Encoding:UTF-8>, #<Encoding:EUC-JP>],
+#     "universal_newline"]
+
+p Encoding::Converter.search_convpath("ISO-8859-1", "UTF-32BE", universal_newline: true)
+# or
+p Encoding::Converter.search_convpath("ISO-8859-1", "UTF-32BE", newline: :universal)
+# => [[#<Encoding:ISO-8859-1>, #<Encoding:UTF-8>],
+#     "universal_newline",
+#     [#<Encoding:UTF-8>, #<Encoding:UTF-32BE>]]
+```
+
+- **SEE** [Encoding::Converter#convpath](../../../method/Encoding=3a=3aConverter/i/convpath.md), [Encoding::Converter.new](../../../method/Encoding=3a=3aConverter/s/new.md)

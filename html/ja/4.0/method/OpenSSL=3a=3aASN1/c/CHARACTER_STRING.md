@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::CHARACTER_STRING
+
+### const CHARACTER_STRING -> Integer
+
+ASN.1 UNIVERSAL タグの、
+CHARACTER_STRING のタグ番号 29 を表す定数です。

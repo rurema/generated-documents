@@ -1,0 +1,26 @@
+# BigDecimal#floor
+
+### def floor    -> Integer
+### def floor(n) -> BigDecimal
+
+self 以下の最大整数を返します。
+
+- **param** `n` -- 小数点以下の桁数を整数で指定します。
+
+```ruby
+require "bigdecimal"
+p BigDecimal("1.23456").floor # => 1
+p BigDecimal("-1.23456").floor  # => -2
+```
+
+以下のように引数 n を与えることもできます。
+n >= 0 なら、小数点以下 n + 1 位の数字を操作します
+(小数点以下を、最大 n 桁にします)。
+n が負のときは小数点以上 n 桁目を操作します
+(小数点位置から左に少なくとも n 個の 0 が並びます)。
+
+```ruby
+require "bigdecimal"
+p BigDecimal("1.23456").floor(4).to_f # => 1.2345
+p BigDecimal("15.23456").floor(-1).to_f # => 10.0
+```

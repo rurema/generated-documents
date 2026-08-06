@@ -1,0 +1,1 @@
+# class Digest::Class < Object

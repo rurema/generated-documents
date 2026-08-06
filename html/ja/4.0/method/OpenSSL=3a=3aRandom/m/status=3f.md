@@ -1,0 +1,5 @@
+# OpenSSL::Random?.status?
+
+### module_function def status? -> bool
+
+乱数生成器内のエントロピーが十分である場合に true を返します。

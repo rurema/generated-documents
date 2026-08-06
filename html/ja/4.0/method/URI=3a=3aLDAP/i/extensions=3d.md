@@ -1,0 +1,7 @@
+# URI::LDAP#extensions=
+
+### def extensions=(s)
+
+自身の extensions を文字列で設定します。
+
+- **param** `s` -- 自身の extensions を文字列で設定します。

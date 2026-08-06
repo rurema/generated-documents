@@ -1,0 +1,8 @@
+# Resolv::DNS#getnames
+
+### def getnames(address) -> [Resolv::DNS::Name]
+
+IP アドレス address のホスト名をルックアップし、ルックアップ結果のホスト名リストを返します。
+
+- **param** `address` -- IPアドレスを文字列、 Resolv::IPv4 のインスタンス、
+               Resolv::IPv6 のインスタンス、のいずれか与えます。

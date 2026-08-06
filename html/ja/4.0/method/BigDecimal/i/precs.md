@@ -1,0 +1,5 @@
+# BigDecimal#precs
+
+### def precs -> [Integer, Integer]
+
+self の有効数字と最大有効数字の配列を返します。

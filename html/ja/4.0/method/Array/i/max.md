@@ -1,0 +1,49 @@
+# Array#max
+
+### def max    -> object | nil
+{: since=""}
+### def max(n) -> Array
+{: since=""}
+
+最大の要素、もしくは最大の n 要素が降順に入った配列を返します。
+全要素が互いに <=> メソッドで比較できることを仮定しています。
+
+引数を指定しない形式では要素が存在しなければ nil を返します。
+引数を指定する形式では、空の配列を返します。
+
+```ruby title="例"
+p [].max         #=> nil
+p [].max(1)      #=> []
+p [2, 5, 3].max  #=> 5
+p [2, 5, 3].max(2) #=> [5, 3]
+```
+
+- **param** `n` -- 取得する要素数。
+
+- **SEE** [Enumerable#max](../../../method/Enumerable/i/max.md)
+
+### def max {|a, b| ... }    -> object | nil
+{: since=""}
+### def max(n) {|a, b| ... } -> Array
+{: since=""}
+
+ブロックの評価結果で各要素の大小判定を行い、最大の要素、もしくは最大の
+n 要素が降順に入った配列を返します。
+引数を指定しない形式では要素が存在しなければ nil を返します。
+引数を指定する形式では、空の配列を返します。
+
+ブロックの値は、a > b のとき正、
+a == b のとき 0、a < b のとき負の整数を、期待しています。
+
+```ruby title="例"
+p [].max {|a, b| a <=> b }  #=> nil
+p [].max(1) {|a, b| a <=> b } #=> []
+
+ary = %w(albatross dog horse)
+p ary.max {|a, b| a.length <=> b.length }  #=> "albatross"
+p ary.max(2) {|a, b| a.length <=> b.length } #=> ["albatross", "horse"]
+```
+
+- **param** `n` -- 取得する要素数。
+
+- **SEE** [Enumerable#max](../../../method/Enumerable/i/max.md)

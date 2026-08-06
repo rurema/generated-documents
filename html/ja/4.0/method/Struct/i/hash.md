@@ -1,0 +1,16 @@
+# Struct#hash
+
+### def hash    -> Integer
+
+self が保持するメンバのハッシュ値を元にして算出した整数を返します。
+self が保持するメンバの値が変化すればこのメソッドが返す値も変化します。
+
+```ruby title="例"
+Dog = Struct.new(:name, :age)
+dog = Dog.new("fred", 5)
+p dog.hash                    #=> 7917421
+dog.name = "john"
+p dog.hash                    #=> -38913223
+```
+
+[注意] 本メソッドの記述は Struct の下位クラスのインスタンスに対して呼び出す事を想定しています。Struct.new は Struct の下位クラスを作成する点に注意してください。

@@ -1,0 +1,6 @@
+# heredoc_identifier
+
+### static int heredoc_identifier(void)
+
+ヒアドキュメントの「<<」を既に読みこんだものと仮定して開始記号を読みこみ、lex_strterm をセットします。
+返り値は、読み込みに成功したときはシンボル、解析できないときは 0 です。

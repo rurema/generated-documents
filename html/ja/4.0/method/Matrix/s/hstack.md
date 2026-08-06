@@ -1,0 +1,16 @@
+# Matrix.hstack
+
+### def Matrix.hstack(*matrices) -> Matrix
+
+行列 matrices を横に並べた行列を生成します。
+
+```ruby title="例"
+require 'matrix'
+x = Matrix[[1, 2], [3, 4]]
+y = Matrix[[5, 6], [7, 8]]
+p Matrix.hstack(x, y) # => Matrix[[1, 2, 5, 6], [3, 4, 7, 8]]
+```
+
+- **param** `matrices` -- 並べる行列。すべての行列の行数が一致していなければならない
+- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- 行数の異なる行列がある場合に発生します
+- **SEE** [Matrix.vstack](../../../method/Matrix/s/vstack.md), [Matrix#hstack](../../../method/Matrix/i/hstack.md)

@@ -1,0 +1,18 @@
+# Hash#rassoc
+
+### def rassoc(value) -> Array | nil
+
+ハッシュ内を検索して、引数 value と 一致する値を探します。
+
+比較は == メソッドを使用して行われます。一致する値があれば、該当するキーとその値とを要素とするサイズ 2 の配列を返します。
+ない場合には nil を返します。
+
+- **param** `value` -- 探索する値。
+
+```ruby title="例"
+a = {1=> "one", 2 => "two", 3 => "three", "ii" => "two"}
+p a.rassoc("two")  #=> [2, "two"]
+p a.rassoc("four") #=> nil
+```
+
+- **SEE** [Hash#assoc](../../../method/Hash/i/assoc.md), [Array#rassoc](../../../method/Array/i/rassoc.md)

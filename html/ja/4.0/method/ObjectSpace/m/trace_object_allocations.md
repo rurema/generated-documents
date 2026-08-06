@@ -1,0 +1,22 @@
+# ObjectSpace?.trace_object_allocations
+
+### module_function def trace_object_allocations { ... }
+
+与えられたブロック内でオブジェクトのトレースを行います。　
+
+```ruby title="例"
+require 'objspace'
+
+class C
+  include ObjectSpace
+
+  def foo
+    trace_object_allocations do
+      obj = Object.new
+      p "#{allocation_sourcefile(obj)}:#{allocation_sourceline(obj)}"
+    end
+  end
+end
+
+p C.new.foo #=> "objtrace.rb:8"
+```

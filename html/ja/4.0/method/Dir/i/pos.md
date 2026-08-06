@@ -1,0 +1,16 @@
+# Dir#pos
+
+### def pos     -> Integer
+### def tell    -> Integer
+
+ディレクトリストリームの現在の位置を整数で返します。
+
+- **raise** `IOError` -- 既に自身が close している場合に発生します。
+
+```ruby title="例"
+Dir.open("/tmp") {|d|
+  d.each {|f|
+    p d.pos
+  }
+}
+```

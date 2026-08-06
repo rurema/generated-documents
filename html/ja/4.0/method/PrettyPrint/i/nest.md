@@ -1,0 +1,7 @@
+# PrettyPrint#nest
+
+### def nest(indent) {...}     -> ()
+
+自身の現在のインデントを indent だけ増加させてから、ブロックを実行し、元に戻します。
+
+- **param** `indent` -- インデントの増加分を整数で指定します。

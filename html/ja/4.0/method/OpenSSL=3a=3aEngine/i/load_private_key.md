@@ -1,0 +1,8 @@
+# OpenSSL::Engine#load_private_key
+
+### def load_private_key(id=nil, data=nil) -> OpenSSL::PKey::PKey
+
+秘密鍵を engine にロードします。
+
+- **param** `id` -- key id(文字列)
+- **param** `data` -- 文字列

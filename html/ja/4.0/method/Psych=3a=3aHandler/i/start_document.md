@@ -1,0 +1,53 @@
+# Psych::Handler#start_document
+
+### def start_document(version, tag_directives, implicit) ->()
+
+YAML ドキュメントの始まりで呼び出されます。
+
+version には YAML ドキュメントに宣言されているバージョンが
+[major, minor] という配列で渡されます。宣言がない場合は空の配列が渡されます。
+
+tag_directives には tag directive の配列が渡されます。
+それぞれの tag は [prefix, suffix] という配列で表現されます。
+
+implicit にはドキュメントが implicit に始まっているかどうかが真偽値で渡されます。
+
+必要に応じてこのメソッドを override してください。
+
+
+- **param** `version` -- バージョン
+- **param** `tag_directives` -- tag directive の配列
+- **param** `implicit` -- ドキュメントが implicit に始まっているかどうか
+
+### 例
+
+以下の YAML に対しては
+
+```yaml
+%YAML 1.1
+%TAG ! tag:tenderlovemaking.com,2009:
+--- !squee
+```
+
+start_document に渡される引数は以下の通りです
+
+```text
+version         # => [1, 1]
+tag_directives  # => [["!", "tag:tenderlovemaking.com,2009:"]]
+implicit        # => false
+```
+
+以下の YAML に対しては
+
+```yaml
+- x
+- y
+```
+
+start_document に渡される引数は以下の通りです。
+
+```text
+version         # => []
+tag_directives  # => []
+implicit        # => true
+```

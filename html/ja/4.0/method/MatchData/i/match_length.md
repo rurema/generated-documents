@@ -1,0 +1,25 @@
+# MatchData#match_length
+
+### def match_length(n) -> Integer | nil
+### def match_length(name) -> Integer | nil
+
+`n` 番目、または `name` という名前のグループにマッチした部分文字列の長さを文字数で返します。
+
+マッチしていないグループを指定した場合は `nil` を返します。
+
+- **param** `n` -- 対象の部分文字列のインデックスを `0` 以上の整数で指定します。
+           `0` はマッチ全体を意味します。
+- **param** `name` -- 名前付きグループの名前を [String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) で指定します。
+- **raise** `IndexError` -- 範囲外の `n` や、存在しない `name` を指定した場合に発生します。
+
+```ruby title="例"
+m = /(.)(.)(\d+)(\d)(\w)?/.match("THX1138.")
+p m.match_length(0) # => 6
+p m.match_length(4) # => 1
+p m.match_length(5) # => nil
+
+# 長さは文字数で数える
+p /(\p{Hiragana}+)/.match("あいう").match_length(1) # => 3
+```
+
+- **SEE** [MatchData#match](../../../method/MatchData/i/match.md)

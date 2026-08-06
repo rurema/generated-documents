@@ -1,0 +1,5 @@
+# top_local_init
+
+### static void top_local_init(void)
+
+パース中のプログラムのトップレベルのためのローカル変数テーブルをプッシュする。

@@ -1,0 +1,22 @@
+# Enumerable#tally
+
+### def tally        ->   Hash
+### def tally(hash)  ->   Hash
+
+self に含まれる要素を数え上げた結果を Hash で返します。
+Hash のキーは self に含まれる要素で、Hash の値は対応する要素が出現する回数です。
+
+返り値は Hash であり、内部でも Hash と同等に要素を区別し数えます。
+そのため、独自で定義するクラスでも [Object#hash](../../../method/Object/i/hash.md) と [Object#eql?](../../../method/Object/i/eql=3f.md) を適切に定義することで数えることができます。
+
+- **param** `hash` -- 結果を加算していく Hash を指定します。更新される値は Integer である必要があります。
+
+```ruby title="例"
+p ["a", "b", "c", "b"].tally  #=> {"a"=>1, "b"=>2, "c"=>1}
+
+h = {}
+[:a, :b, :c].tally(h)
+[:a, :b, :d].tally(h)
+
+p h # => {:a=>2, :b=>2, :c=>1, :d=>1}
+```

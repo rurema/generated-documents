@@ -1,0 +1,29 @@
+# Enumerable#sum
+
+### def sum(init=0)                    -> object
+### def sum(init=0) {|e| expr }        -> object
+
+要素の合計を返します。
+
+ブロックが与えられた場合、加算する前に各要素にブロックが適用されます。
+
+selfが空の場合、initを返します。
+
+```ruby title="例"
+{ 1 => 10, 2 => 20 }.sum {|k, v| k * v }  # => 50
+p (1..10).sum                             # => 55
+p (1..10).sum {|v| v * 2 }                # => 110
+('a'..'z').sum                            # ~> TypeError
+```
+
+init 引数を明示的に指名すると数値以外のオブジェクトにも使えます。
+
+```ruby title="例"
+{ 1 => 10, 2 => 20 }.sum([])                   #=> [1, 10, 2, 20]
+p "a\nb\nc".each_line.lazy.map(&:chomp).sum("")  #=> "abc"
+p [[1], [[2]], [3]].sum([])        #=> [1, [2], 3]
+```
+
+"+" メソッドが再定義されている場合、Enumerable#sum は再定義を無視することがあります(例えばInteger#+)。
+
+- **SEE** [Array#sum](../../../method/Array/i/sum.md)

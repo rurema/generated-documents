@@ -1,0 +1,24 @@
+# File.path
+
+### def File.path(filename)    -> String
+
+指定されたファイル名を文字列で返します。filename が文字列でない場合は、to_path メソッドを呼びます。
+
+- **param** `filename` -- ファイル名を表す文字列か to_path メソッドが定義されたオブジェクトを指定します。
+
+```ruby title="例"
+require 'pathname'
+
+class MyPath
+  def initialize(path)
+    @path = path
+  end
+  def to_path
+    File.absolute_path(@path)
+  end
+end
+
+p File.path("/dev/null")        # => "/dev/null"
+p File.path(Pathname("/tmp"))   # => "/tmp"
+p File.path(MyPath.new("."))    # => "/Users/user/projects/txt"
+```

@@ -1,0 +1,3 @@
+# rb_thread_wait_other_threads
+
+### static void rb_thread_wait_other_threads(void)

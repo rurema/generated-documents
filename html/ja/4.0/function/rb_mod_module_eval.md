@@ -1,0 +1,5 @@
+# rb_mod_module_eval
+
+### VALUE rb_mod_module_eval(int argc, VALUE *argv, VALUE mod)
+
+Module#module_eval の実体です。

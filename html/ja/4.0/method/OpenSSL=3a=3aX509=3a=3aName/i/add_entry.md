@@ -1,0 +1,10 @@
+# OpenSSL::X509::Name#add_entry
+
+### def add_entry(oid, value, type = nil)
+
+新しい属性を追加します。
+
+- **param** `oid` -- 属性型文字列
+- **param** `value` -- 属性値文字列
+- **param** `type` -- 属性値の(ASN.1の)型、省略時は [OpenSSL::X509::Name::OBJECT_TYPE_TEMPLATE](../../../method/OpenSSL=3a=3aX509=3a=3aName/c/OBJECT_TYPE_TEMPLATE.md) と oid から型が決まる
+- **raise** `OpenSSL::X509::NameError` -- 属性の追加に失敗した場合に発生します

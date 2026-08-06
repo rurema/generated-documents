@@ -1,0 +1,3 @@
+# convert_type
+
+### static VALUE convert_type(VALUE val, const char *tname, const char *method, int raise)

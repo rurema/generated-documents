@@ -1,0 +1,34 @@
+# File.dirname
+
+### def File.dirname(filename, level=1)    -> String
+
+filename の一番後ろのスラッシュより前を文字列として返します。スラッシュを含まないファイル名に対しては
+"."(カレントディレクトリ)を返します。
+
+```ruby title="例"
+p File.dirname("dir/file.ext")    # => "dir"
+p File.dirname("file.ext")        # => "."
+```
+
+File.dirname の動作は [man:dirname(3)]
+に従います。
+
+```ruby title="例"
+p File.dirname("foo/bar/")      # => "foo"
+p File.dirname("foo//bar")      # => "foo"
+```
+
+level が指定されたときは、最後のlevel個を取り除いた文字列を返します。
+
+```ruby title="levelを指定する例"
+p File.dirname("/home/gumby/work/ruby.rb", 2) # => "/home/gumby"
+p File.dirname("/home/gumby/work/ruby.rb", 4) # => "/"
+```
+
+
+- **param** `filename` -- ファイル名を表す文字列を指定します。
+- **param** `level` -- 末尾からいくつ取り除くかを指定します。
+
+- **raise** `ArgumentError` -- level が負の場合に発生します。
+
+- **SEE** [File.basename](../../../method/File/s/basename.md), [File.extname](../../../method/File/s/extname.md)

@@ -1,0 +1,7 @@
+# WEBrick::HTTPResponse#body
+
+### def body        -> String | IO
+
+クライアントに返す内容(エンティティボディ)を返します。
+
+自身が chunked であっても body の値はチャンク形式ではありません。

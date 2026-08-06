@@ -1,0 +1,17 @@
+# StringIO#read
+
+### def read                  -> String
+### def read(len)             -> String | nil
+### def read(len, outbuf)     -> String
+
+自身から len バイト読み込んで返します。len が省略された場合は、最後まで読み込んで返します。
+詳しい仕様は [IO#read](../../../method/IO/i/read.md) を参照して下さい。
+
+- **param** `len` -- 読み込みたい長さを整数で指定します。詳しい仕様は [IO#read](../../../method/IO/i/read.md) を参照して下さい。
+
+- **param** `outbuf` -- 読み込んだ文字列を出力するバッファを文字列で指定します。指定した文字列オブジェクトが
+              あらかじめ length 長の領域であれば、余計なメモリの割当てが行われません。指定した文字列の
+              長さが length と異なる場合、その文字列は一旦 length 長に拡張(あるいは縮小)されたあと、
+              実際に読み込んだデータのサイズになります。[IO#read](../../../method/IO/i/read.md) と同じです。
+
+- **raise** `IOError` -- 自身が読み込み用にオープンされていなければ発生します。

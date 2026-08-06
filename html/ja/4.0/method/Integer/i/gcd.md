@@ -1,0 +1,23 @@
+# Integer#gcd
+
+### def gcd(n) -> Integer
+
+`self` と整数 `n` の最大公約数を返します。
+
+- **raise** `ArgumentError` -- `n` に整数以外のものを指定すると発生します。
+
+```ruby
+p 2.gcd(2)                  # => 2
+p 3.gcd(7)                  # => 1
+p 3.gcd(-7)                 # => 1
+p ((1<<31)-1).gcd((1<<61)-1)  # => 1
+```
+
+また、`self` や `n` が `0` だった場合は、`0` ではない方の整数の絶対値を返します。
+
+```ruby
+p 3.gcd(0)                  # => 3
+p 0.gcd(-7)                 # => 7
+```
+
+- **SEE** [Integer#lcm](../../../method/Integer/i/lcm.md), [Integer#gcdlcm](../../../method/Integer/i/gcdlcm.md)

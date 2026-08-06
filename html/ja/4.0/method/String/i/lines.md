@@ -1,0 +1,34 @@
+# String#lines
+
+### def lines(rs = $/, chomp: false)               -> [String]
+### def lines(rs = $/, chomp: false) {|line| ... } -> self
+
+文字列中の各行を文字列の配列で返します。(self.each_line.to_a と同じです)
+
+```ruby
+p "aa\nbb\ncc\n".lines # => ["aa\n", "bb\n", "cc\n"]
+```
+
+行の区切りは rs に指定した文字列で、 そのデフォルト値は変数 $/ の値です。
+各 line には区切りの文字列も含みます。
+
+rs に nil を指定すると行区切りなしとみなします。 rs に空文字列 "" を指定すると「パラグラフモード」になり、 改行コードが 2 つ以上連続するところで文字列を分割します (つまり空行で分割します)。
+
+chomp に true を指定すると、分割した各行の末尾から rs を取り除きます。
+
+```ruby
+p "hello\nworld\n".lines            # => ["hello\n", "world\n"]
+p "hello\nworld\n".lines(chomp: true) # => ["hello", "world"]
+```
+
+- **param** `rs` -- 行末を示す文字列
+
+- **param** `chomp` -- 分割した各行に対して [String#chomp](../../../method/String/i/chomp.md) と同等の結果を得
+             る場合は true を、そうでない場合は false で指定します。
+             省略した場合は false を指定したとみなされます。
+
+ブロックが指定された場合は [String#each_line](../../../method/String/i/each_line.md) と同じように動作します。
+
+Ruby 2.6 までは deprecated の警告が出ますが、Ruby 2.7 で警告は削除されました。
+
+- **SEE** [String#each_line](../../../method/String/i/each_line.md)

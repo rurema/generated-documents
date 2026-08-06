@@ -1,0 +1,17 @@
+# Hash#key?
+
+### def has_key?(key) -> bool
+### def include?(key) -> bool
+### def key?(key)     -> bool
+### def member?(key)  -> bool
+
+ハッシュが key をキーとして持つ時真を返します。
+
+- **param** `key` -- 探索するキーを指定します。
+
+```ruby
+p({1 => "one"}.key?(1)) # => true
+p({1 => "one"}.key?(2)) # => false
+```
+
+- **SEE** [Hash#value?](../../../method/Hash/i/value=3f.md)

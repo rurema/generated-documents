@@ -1,0 +1,3 @@
+# LONG2NUM
+
+### VALUE LONG2NUM(long v)

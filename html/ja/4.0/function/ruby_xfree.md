@@ -1,0 +1,5 @@
+# ruby_xfree
+
+### void ruby_xfree(void *x)
+
+以前 malloc/calloc/realloc して free していないポインタ x を開放します。ruby のシグナル機構とコンフリクトしません。

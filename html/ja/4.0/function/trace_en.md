@@ -1,0 +1,3 @@
+# trace_en
+
+### static VALUE trace_en(struct global_variable *var)

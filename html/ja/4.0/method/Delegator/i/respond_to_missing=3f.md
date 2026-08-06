@@ -1,0 +1,7 @@
+# Delegator#respond_to_missing?
+
+### def respond_to_missing?(m, include_private) -> bool
+
+- **param** `m` -- メソッド名を指定します。
+
+- **param** `include_private` -- 真を指定すると private メソッドも調べます。

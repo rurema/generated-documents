@@ -1,0 +1,19 @@
+# String#getbyte
+
+### def getbyte(index) -> Integer | nil
+
+index バイト目のバイトを整数で返します。
+
+index に負を指定すると末尾から数えた位置のバイトを取り出します。
+範囲外を指定した場合は nil を返します。
+
+- **param** `index` -- バイトを取り出す位置
+
+```ruby title="例"
+s = "tester"
+p s.bytes           # => [116, 101, 115, 116, 101, 114]
+p s.getbyte(0)      # => 116
+p s.getbyte(1)      # => 101
+p s.getbyte(-1)     # => 114
+p s.getbyte(6)      # => nil
+```

@@ -1,0 +1,41 @@
+# IO.binwrite
+
+### def IO.binwrite(path, string, offset=nil) -> Integer
+
+path で指定されるファイルを開き、string を書き込み、閉じます。
+
+ファイルを開くときの mode が "wb:ASCII-8BIT" で、バイナリモードが有効である点以外は [IO.write](../../../method/IO/s/write.md) と同じです。
+
+Ruby 3.x までは path の先頭が "|" のとき "|" に続くコマンドを実行しましたが、この機能は Ruby 4.0 で削除され、"|" で始まる path も通常のファイル名として扱われます。
+
+offset を指定するとその位置までシークします。
+
+offset を指定しないと、書き込みの末尾でファイルを切り捨てます。
+
+- **param** `path` -- ファイル名文字列
+- **param** `string` -- 書き込む文字列
+- **param** `offset` -- 書き込み開始位置
+
+
+```ruby title="例"
+# 8x8の真っ白なPNG画像データ。
+png = 'iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAAAAADhZOFXAAAADklEQVQIW2P4DwUMlDEA98A/wTjP
+QBoAAAAASUVORK5CYII='.unpack('m').first
+
+# 期待する先頭16バイトの16進ダンプ: どの環境でも同じ。
+puts png[0...16].unpack('C*').map {|c| '%02x' % c }.join(' ')
+# => 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52
+
+# binwriteを使用した場合: どの環境でも正しく保存できる。
+IO.binwrite('white.binmode.png', png)
+puts IO.binread('white.binmode.png', 16).unpack('C*').map {|c| '%02x' % c }.join(' ')
+# => 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52
+
+# binwriteを使用しなかった場合: Windowsで改行文字(0x0a: "\n")と同じビット列が変換されてしまう。
+IO.write('white.txtmode.png', png)
+puts IO.binread('white.txtmode.png', 16).unpack('C*').map {|c| '%02x' % c }.join(' ')
+# => 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 (Linux/Macの場合
+# => 89 50 4e 47 0d 0d 0a 1a 0d 0a 00 00 00 0d 49 48 (Windowsの場合
+```
+
+- **SEE** [IO#io_binmode](../../../class/IO.md#io_binmode), [IO.write](../../../method/IO/s/write.md)

@@ -1,0 +1,69 @@
+# Enumerable#sort_by
+
+### def sort_by               -> Enumerator
+### def sort_by {|item| ... } -> [object]
+
+ブロックの評価結果を <=> メソッドで比較することで、self を昇順にソートします。ソートされた配列を新たに生成して返します。
+
+つまり、以下とほぼ同じ動作をします。
+
+```ruby title="例"
+class Array
+  def sort_by
+    self.map {|i| [yield(i), i] }.
+       sort {|a, b| a[0] <=> b[0] }.
+       map {|i| i[1]}
+  end
+end
+```
+
+[Enumerable#sort](../../../method/Enumerable/i/sort.md) と比較して sort_by が優れている点として、比較条件が複雑な場合の速度が挙げられます。
+sort_by を使わない以下の例では比較を行う度に downcase が実行されます。
+従って downcase の実行速度が遅ければ sort の速度が致命的に低下します。
+
+```ruby
+p ["BAR", "FOO", "bar", "foo"].sort {|a, b| a.downcase <=> b.downcase }
+```
+
+一方、次のように sort_by を使うと downcase の実行回数は要素数と同じです。
+つまり、その部分の実行時間は O(n) のオーダーです。
+
+```ruby
+p ["BAR", "FOO", "bar", "foo"].sort_by {|v| v.downcase }
+```
+
+以下の、実行回数の検証結果を参照してみてください。
+
+```ruby
+class Integer
+  def count
+    $n += 1
+    self
+  end
+end
+
+ary = []
+1.upto(1000) {|v| ary << rand(v) }
+
+$n = 0
+ary.sort {|a,b| a.count <=> b.count }
+p $n          # => 18200
+
+$n = 0
+ary.sort_by {|v| v.count }
+p $n          # => 1000
+```
+
+Enumerable#sort_by は安定ではありません (unstable sort)。
+ただし、sort_by を以下のように使うと安定なソートを実装できます。
+
+```ruby
+i = 0
+ary.sort_by {|v| [v, i += 1] }
+```
+
+※ 比較結果が同じ要素は元の順序通りに並ぶソートを「安定なソート (stable sort)」と言います。
+
+ブロックを省略した場合は [Enumerator](../../../class/Enumerator.md) を返します。
+
+- **SEE** [Enumerable#sort](../../../method/Enumerable/i/sort.md)

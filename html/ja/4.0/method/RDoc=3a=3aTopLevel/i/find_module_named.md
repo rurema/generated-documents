@@ -1,0 +1,8 @@
+# RDoc::TopLevel#find_module_named
+
+### def find_module_named(name) -> RDoc::NormalModule
+
+RDoc が収集したクラスの内、name で指定した名前のモジュールを返します。
+見つからなかった場合は nil を返します。
+
+- **param** `name` -- モジュール名を文字列で指定します。

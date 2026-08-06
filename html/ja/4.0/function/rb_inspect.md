@@ -1,0 +1,5 @@
+# rb_inspect
+
+### VALUE rb_inspect(VALUE obj)
+
+obj.inspect の実体。

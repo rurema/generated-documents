@@ -1,0 +1,3 @@
+# rb_mod_attr_reader
+
+### static VALUE rb_mod_attr_reader(int argc, VALUE *argv, VALUE klass)

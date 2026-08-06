@@ -1,0 +1,10 @@
+# Win32::Registry::Constants::REG_LEGAL_OPTION
+
+### const REG_OPTION_RESERVED
+### const REG_OPTION_NON_VOLATILE
+### const REG_OPTION_VOLATILE
+### const REG_OPTION_CREATE_LINK
+### const REG_OPTION_BACKUP_RESTORE
+### const REG_OPTION_OPEN_LINK
+### const REG_LEGAL_OPTION
+@todo

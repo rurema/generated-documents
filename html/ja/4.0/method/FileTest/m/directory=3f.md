@@ -1,0 +1,19 @@
+# FileTest?.directory?
+
+### module_function def directory?(file)    -> bool
+
+ファイルがディレクトリの時に真を返します。そうでない場合、ファイルが存在しない場合、あるいはシステムコールに失敗した場合などには false を返します。
+
+- **param** `file` -- ファイル名を表す文字列か IO オブジェクトを指定します。
+
+- **raise** `IOError` -- 指定された IO オブジェクト file が既に close されていた場合に発生します。
+
+```ruby title="例"
+p FileTest.directory?('/etc') # => true
+p FileTest.directory?('/etc/passwd') # => false
+
+f = File.open('/etc')
+p FileTest.directory?(f) # => true
+f.close
+FileTest.directory?(f) # ~> IOError: closed stream
+```

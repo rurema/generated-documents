@@ -1,0 +1,18 @@
+# Rake::PackageTask#name=
+
+### def name=(name)
+
+バージョン情報を含まないパッケージの名前をセットします。
+
+- **param** `name` -- パッケージの名前を指定します。
+
+```ruby
+# Rakefile での記載例とする
+require 'rake/packagetask'
+
+Rake::PackageTask.new("sample", "1.0.0") do |package_task|
+  p package_task.name # => "sample"
+  package_task.name = "update"
+  p package_task.name # => "update"
+end
+```

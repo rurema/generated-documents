@@ -1,0 +1,17 @@
+# Math?.sinh
+
+### module_function def sinh(x) -> Float
+
+`x` の双曲線正弦関数（hyperbolic sine）の値を返します。
+
+```text title="定義"
+sinh(x) = (exp(x) - exp(-x)) / 2
+```
+
+- **param** `x` -- 実数
+
+- **raise** `TypeError` -- `x` に数値以外を指定した場合に発生します。
+
+- **raise** `RangeError` -- `x` に実数以外の数値を指定した場合に発生します。
+
+- **SEE** [Math?.asinh](../../../method/Math/m/asinh.md)

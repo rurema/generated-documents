@@ -1,0 +1,21 @@
+# UNIXSocket#send_io
+
+### def send_io(io) -> nil
+
+引数 `io` に対応するファイルディスクリプタをソケットの接続先に送ります。
+
+```ruby
+require 'socket'
+
+s1, s2 = UNIXSocket.pair
+
+s1.send_io STDOUT
+stdout = s2.recv_io
+
+p STDOUT.fileno #=> 1
+p stdout.fileno #=> 6
+
+stdout.puts "hello" # outputs "hello\n" to standard output.
+```
+
+- **param** `io` -- 送るファイルディスクリプタ(整数 or [IO](../../../class/IO.md) オブジェクト)

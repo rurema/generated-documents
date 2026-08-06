@@ -1,0 +1,19 @@
+# rb_ary_store
+
+### void rb_ary_store(VALUE ary, long idx, VALUE val)
+
+配列 ary のインデックス idx に
+val を格納します。idx が範囲を越えるときは
+Ruby レベルと同じく自動的にサイズが拡張されます。
+
+```text title="対応するRubyコード"
+ary[idx] = val
+```
+
+```c title="使用例"
+VALUE ary;
+int idx;
+int n[5] = { 1, 2, 3, 4, 5 };
+ary = rb_ary_new();
+for (idx=0; idx<5; idx++) rb_ary_store(ary, idx, INT2FIX(n[idx])); 
+```

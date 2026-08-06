@@ -1,0 +1,7 @@
+# REXML::SAX2Listener#comment
+
+### def comment(comment) -> ()
+
+XML文書内のコメントに出会ったときに呼び出されるコールバックメソッドです。
+
+- **param** `comment` -- コメントの内容が文字列で渡されます

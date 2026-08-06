@@ -1,0 +1,6 @@
+# class REXML::Parsers::TreeParser < Object
+
+内部用です。使わないでください。
+
+XML 文書から DOMオブジェクトを組み立てるパーサです。
+REXML::Document.new などから使われます。

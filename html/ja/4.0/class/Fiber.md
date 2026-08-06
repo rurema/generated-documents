@@ -1,0 +1,143 @@
+# class Fiber < Object
+
+ノンプリエンプティブな軽量スレッド(以下ファイバーと呼ぶ)を提供します。
+他の言語では coroutine あるいは semicoroutine と呼ばれることもあります。
+[Thread](../class/Thread.md) と違いユーザレベルスレッドとして実装されています。
+
+[Thread](../class/Thread.md) クラスが表すスレッドと違い、明示的に指定しない限りファイバーのコンテキストは切り替わりません。
+またファイバーは親子関係を持ちます。Fiber#resume を呼んだファイバーが親になり呼ばれたファイバーが子になります。親子関係を壊すような遷移(例えば自分の親の親のファイバーへ切り替えるような処理)はできません。
+例外 FiberError が発生します。
+できることは
+- Fiber#resume により子へコンテキストを切り替える
+- Fiber.yield により親へコンテキストを切り替える
+の二通りです。この親子関係は一時的なものであり親ファイバーへコンテキストを切り替えた時点で解消されます。
+
+ファイバーが終了するとその親にコンテキストが切り替わります。
+
+Ruby 3.1 から fiber を require しなくても、コンテキストの切り替えに制限のない [Fiber#transfer](../method/Fiber/i/transfer.md) が使えます。
+任意のファイバーにコンテキストを切り替えることができます。
+
+### 例外
+
+ファイバー実行中に例外が発生した場合、親ファイバーに例外が伝播します。
+
+```ruby title="例:"
+f = Fiber.new do
+  raise StandardError, "hoge"
+end
+
+begin
+f.resume     # ここでも StandardError が発生する。
+rescue => e
+p e.message  #=> "hoge"
+end
+```
+
+### ショートチュートリアル
+
+ファイバーは処理のあるポイントで他のルーチンにコンテキストを切り替え、またそのポイントから再開するという目的のために使います。
+[Fiber.new](../method/Fiber/s/new.md) により与えられたブロックとともにファイバーを生成します。
+生成したファイバーに対して [Fiber#resume](../method/Fiber/i/resume.md) を呼ぶことによりコンテキストを切り替えます。
+子ファイバーのブロック中で [Fiber.yield](../method/Fiber/s/yield.md) を呼ぶと親にコンテキストを切り替えます。
+Fiber.yield の引数が、親での Fiber#resume の返り値になります。
+
+```ruby title="例:"
+f = Fiber.new do
+  n = 0
+  loop do
+    Fiber.yield(n)
+    n += 1
+  end
+end
+
+5.times do
+ p f.resume
+end
+
+#=> 0
+    1
+    2
+    3
+    4
+```
+
+以下は内部イテレータを外部イテレータに変換する例です。
+実際 [Enumerator](../class/Enumerator.md) は Fiber を用いて実装されています。
+
+```ruby title="例:"
+def enum2gen(enum)
+  Fiber.new do
+    enum.each{|i|
+      Fiber.yield(i)
+    }
+  end
+end
+ 
+g = enum2gen(1..100)
+ 
+p g.resume  #=> 1
+p g.resume  #=> 2
+p g.resume  #=> 3
+```
+
+### 注意
+
+Thread クラスが表すスレッド間をまたがるファイバーの切り替えはできません。
+例外 FiberError が発生します。
+
+```ruby title="例:"
+f = nil
+Thread.new do
+  f = Fiber.new{}
+end.join
+f.resume
+#=> t.rb:5:in 'Fiber#resume': fiber called across threads (FiberError)
+#      from t.rb:5:in '<main>'
+```
+
+### ノンブロッキングファイバーとスケジューラ {#nonblocking}
+
+Ruby 3.0 から、ファイバーはブロッキングとノンブロッキングのどちらかの実行コンテキストを持ちます。
+[Fiber.new](../method/Fiber/s/new.md) は既定でノンブロッキングなファイバーを生成します。
+`blocking: true` を指定するとブロッキングなファイバーになります。
+
+ノンブロッキングファイバーの中でブロックしうる操作を行うと、その操作はスケジューラに委譲されます。
+ブロックしうる操作とは、IO 待ちやスリープなどです。
+スケジューラは [Fiber.set_scheduler](../method/Fiber/s/set_scheduler.md) でスレッドごとに設定します。
+
+スケジューラを設定していない場合、ノンブロッキングファイバーはブロッキングファイバーと同じ動作になります。
+つまりノンブロッキングファイバーであること自体は実行の挙動を変えません。
+
+スケジューラは Ruby 本体では提供されていません。
+フックメソッドを実装したオブジェクトを利用者が用意します。
+実装すべきメソッドは [Ruby 本体の Fiber::Scheduler のドキュメント](https://docs.ruby-lang.org/en/4.0/Fiber/Scheduler.html)で説明されています。
+
+現在の実行コンテキストがどちらであるかは [Fiber.blocking?](../method/Fiber/s/blocking=3f.md) で調べられます。
+また [Fiber.schedule](../method/Fiber/s/schedule.md) を使うと、スケジューラ経由でノンブロッキングファイバーを生成できます。
+
+## Class Methods
+
+- [\[\]](../method/Fiber/s/=5b=5d.md)
+- [\[\]=](../method/Fiber/s/=5b=5d=3d.md)
+- [blocking](../method/Fiber/s/blocking.md)
+- [blocking?](../method/Fiber/s/blocking=3f.md)
+- [current](../method/Fiber/s/current.md)
+- [current_scheduler](../method/Fiber/s/current_scheduler.md)
+- [new](../method/Fiber/s/new.md)
+- [schedule](../method/Fiber/s/schedule.md)
+- [scheduler](../method/Fiber/s/scheduler.md)
+- [set_scheduler](../method/Fiber/s/set_scheduler.md)
+- [yield](../method/Fiber/s/yield.md)
+
+## Instance Methods
+
+- [alive?](../method/Fiber/i/alive=3f.md)
+- [backtrace](../method/Fiber/i/backtrace.md)
+- [backtrace_locations](../method/Fiber/i/backtrace_locations.md)
+- [blocking?](../method/Fiber/i/blocking=3f.md)
+- [kill](../method/Fiber/i/kill.md)
+- [raise](../method/Fiber/i/raise.md)
+- [resume](../method/Fiber/i/resume.md)
+- [storage](../method/Fiber/i/storage.md)
+- [storage=](../method/Fiber/i/storage=3d.md)
+- [transfer](../method/Fiber/i/transfer.md)

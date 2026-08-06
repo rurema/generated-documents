@@ -1,0 +1,15 @@
+# IO#sync
+
+### def sync    -> bool
+
+現在の出力が同期モードならば true を返します。そうでない場合は false を返します。
+
+- **raise** `IOError` -- 既に close されていた場合に発生します。 
+
+```ruby title="例"
+File.open("testfile", "w") do |f|
+  p f.sync    # => false
+  f.sync = true
+  p f.sync    # => true
+end
+```

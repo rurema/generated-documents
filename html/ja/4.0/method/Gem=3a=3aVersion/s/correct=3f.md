@@ -1,0 +1,16 @@
+# Gem::Version.correct?
+
+### def Gem::Version.correct?(version) -> bool
+
+version が正しいバージョンであれば true を返します。そうでなければ false を返します。
+
+```ruby
+p Gem::Version.correct?("9.1")       # => true
+p Gem::Version.correct?("incorrect") # => false
+
+p Gem::Version.correct?(nil)         # => true
+# nil versions are discouraged and will be deprecated in Rubygems 4
+# version が nil のときは true を返しますが、推奨はされず、Ruby 2.6以降では警告がでます。
+```
+
+- **param** `version` -- バージョンを文字列か数値で指定します。

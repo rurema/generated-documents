@@ -1,0 +1,36 @@
+# Object#yield_self
+
+### def yield_self {|x| ... } -> object
+### def yield_self            -> Enumerator
+### def then {|x| ... } -> object
+### def then            -> Enumerator
+
+self を引数としてブロックを評価し、ブロックの結果を返します。
+
+```ruby title="例"
+p 3.next.then {|x| x**x }.to_s           # => "256"
+p "my string".yield_self {|s| s.upcase } # => "MY STRING"
+```
+
+値をメソッドチェインのパイプラインに次々と渡すのは良い使い方です。
+
+```ruby title="メソッドチェインのパイプライン"
+require 'open-uri'
+require 'json'
+
+construct_url(arguments).
+  yield_self {|url| URI(url).read }.
+  yield_self {|response| JSON.parse(response) }
+```
+
+ブロックなしで呼び出されたときは Enumerator を返します。
+例えば条件によって値を捨てるのに使えます。
+
+```ruby
+# 条件にあうので何もしない
+p 1.yield_self.detect(&:odd?)          # => 1
+# 条件に合わないので値を捨てる
+p 2.yield_self.detect(&:odd?)          # => nil
+```
+
+- **SEE** [Object#tap](../../../method/Object/i/tap.md)

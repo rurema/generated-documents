@@ -1,0 +1,22 @@
+# CSV::Table#by_col_or_row!
+
+### def by_col_or_row! -> self
+
+自身をミックスモードに変更します。
+
+再びモードが変更されるまで、いくつかのメソッドはミックスモードで動きます。
+
+デフォルトのミックスモードではインデックスによるアクセスは行単位での参照であると見なします。しかし、他の方法ではヘッダによる列単位での参照であると見なします。
+
+- **return** -- 必ず自身を返すので安全にメソッドチェーンできます。
+
+```ruby title="例"
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+table = CSV::Table.new([row1, row2]).by_col!
+p table           # => #<CSV::Table mode:col row_count:3>
+table.by_col_or_row!
+p table           # => #<CSV::Table mode:col_or_row row_count:3>
+```

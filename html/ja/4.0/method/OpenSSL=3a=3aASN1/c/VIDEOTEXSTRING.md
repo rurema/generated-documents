@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::VIDEOTEXSTRING
+
+### const VIDEOTEXSTRING -> Integer
+
+ASN.1 UNIVERSAL タグの、
+VIDEOTEXSTRING のタグ番号 21 を表す定数です。

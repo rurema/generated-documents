@@ -1,0 +1,6 @@
+# GetoptLong#quiet?
+
+### def quiet  -> true | false
+### def quiet? -> true | false
+
+静粛モードが有効であれば、真を返します。そうでなければ、偽を返します。

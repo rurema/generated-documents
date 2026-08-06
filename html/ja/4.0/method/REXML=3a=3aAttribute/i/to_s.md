@@ -1,0 +1,7 @@
+# REXML::Attribute#to_s
+
+### def to_s -> String
+
+正規化された属性値を返します。
+
+属性値の正規化については XML の仕様を参考にしてください。

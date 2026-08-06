@@ -1,0 +1,17 @@
+# Socket.getservbyport
+
+### def Socket.getservbyport(port, protocol_name="tcp") -> String
+
+ポート番号に対応するサービスの正式名を返します。
+
+- **param** `port` -- ポート番号
+- **param** `protocol_name` -- "tcp" や "udp" などのプロトコル名
+- **return** -- サービスの正式名
+
+```ruby
+require 'socket'
+
+p Socket.getservbyport(80)       #=> "www"
+p Socket.getservbyport(514, "tcp") #=> "shell"
+p Socket.getservbyport(514, "udp") #=> "syslog"
+```

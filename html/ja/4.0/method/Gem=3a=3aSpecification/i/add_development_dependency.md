@@ -1,0 +1,16 @@
+# Gem::Specification#add_development_dependency
+
+### def add_development_dependency(gem, *requirements) -> [Gem::Dependency]
+
+この gem の DEVELOPMENT 依存性を追加します。
+この gem の開発時に必要となる gem を指定します。
+
+```ruby
+gem "rack", "~> 1.6", ">= 1.6.12"
+```
+
+- **param** `gem` -- 依存する gem の名前か [Gem::Dependency](../../../class/Gem=3a=3aDependency.md) のインスタンスを指定します。
+
+- **param** `requirements` -- バージョンの必要条件を 0 個以上指定します。デフォルトは ">= 0" です。
+
+- **SEE** [Gem::Specification#add_runtime_dependency](../../../method/Gem=3a=3aSpecification/i/add_runtime_dependency.md), [Gem::Dependency](../../../class/Gem=3a=3aDependency.md)

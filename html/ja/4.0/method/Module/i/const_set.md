@@ -1,0 +1,31 @@
+# Module#const_set
+
+### def const_set(name, value) -> object
+
+モジュールに name で指定された名前の定数を value という値として定義し、value を返します。
+
+そのモジュールにおいてすでにその名前の定数が定義されている場合、警告メッセージが出力されます。
+
+- **param** `name` --  [Symbol](../../../class/Symbol.md),[String](../../../class/String.md) で定数の名前を指定します。
+- **param** `value` -- セットしたい値を指定します。
+
+```ruby title="例"
+module Config; end
+
+# Symbolを指定した場合
+Config.const_set(:VERSION, 123)
+p Config::VERSION # => 123
+
+# Stringを指定した場合
+Config.const_set('NAME', 'abc')
+p Config::NAME # => "abc"
+
+# 既に定義されている定数の名前を指定した場合
+Config.const_set('NAME', '123')
+# warning: already initialized constant Config::NAME
+# warning: previous definition of NAME was here
+# => "123"
+
+# 不適切な定数名を指定した場合
+Config.const_set('name', 1) # ~> NameError: wrong constant name name
+```

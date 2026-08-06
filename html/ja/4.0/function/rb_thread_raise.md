@@ -1,0 +1,3 @@
+# rb_thread_raise
+
+### static VALUE rb_thread_raise(int argc, VALUE *argv, rb_thread_t th)

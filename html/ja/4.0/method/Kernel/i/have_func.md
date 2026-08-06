@@ -1,0 +1,14 @@
+# Kernel#have_func
+
+### def have_func(func, headers = nil) -> bool
+### def have_func(func, headers = nil){ ... } -> bool
+
+関数 func がシステムに存在するかどうかを検査します。
+
+関数 func が存在すれば [m:$defs] に "-DHAVE_func" (func は大文字に変換されます) を追加して true を返します。関数 func が見つからないときはグローバル変数を変更せず false を返します。
+
+- **param** `func` -- 関数名を指定します。
+
+- **param** `headers` -- 関数 func を使用するのに必要なヘッダファイル名を指定しま
+               す。これは関数の型をチェックするためではなく、関数が実際
+               にはマクロで定義されている場合などのために使用します。

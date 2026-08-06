@@ -1,0 +1,15 @@
+# StringIO#closed?
+
+### def closed?    -> bool
+
+自身が既に close されていた場合に true を返します。そうでない場合は、false を返します。
+
+```ruby title="例"
+require "stringio"
+sio = StringIO.open("hoge")
+p sio.closed? # => false
+sio.close_read
+p sio.closed? # => false
+sio.close_write
+p sio.closed?   # => true
+```

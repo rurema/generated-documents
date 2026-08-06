@@ -1,0 +1,39 @@
+# Module#const_get
+
+### def const_get(name, inherit = true) -> object
+
+name で指定される名前の定数の値を取り出します。
+
+[Module#const_defined?](../../../method/Module/i/const_defined=3f.md) と違って [Object](../../../class/Object.md) を特別扱いすることはありません。
+
+- **param** `name` -- 定数名。[String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) で指定します。
+            完全修飾名を指定しなかった場合はモジュールに定義されている
+            name で指定される名前の定数の値を取り出します。
+
+- **param** `inherit` -- false を指定するとスーパークラスや include したモジュールで
+       定義された定数は対象にはなりません。
+
+- **raise** `NameError` -- 定数が定義されていないときに発生します。
+
+```ruby title="例"
+module Loggable
+  LEVEL = 1
+end
+class Object
+  include Loggable
+end
+# Object では include されたモジュールに定義された定数を見付ける
+p Object.const_get(:LEVEL)            # => 1
+
+class Widget
+  include Loggable
+end
+# Object以外でも同様
+p Widget.const_get(:LEVEL)            # => 1
+# 定義されていない定数
+Widget.const_get(:NOT_DEFINED)        # => raise NameError
+# 第二引数に false を指定すると自分自身に定義された定数から探す
+Widget.const_get(:LEVEL, false)       # => raise NameError
+# 完全修飾名を指定すると include や自分自身へ定義されていない場合でも参照できる
+p Class.const_get("Loggable::LEVEL")  # => 1
+```

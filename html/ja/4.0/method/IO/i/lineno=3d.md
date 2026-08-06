@@ -1,0 +1,22 @@
+# IO#lineno=
+
+### def lineno=(number)
+
+現在の行番号を number にセットします。 [m:$.] は次回の読み込みの時に更新されます。
+
+- **param** `number` -- 行番号を整数で指定します。
+
+- **raise** `IOError` -- 読み込み用にオープンされていなければ発生します。
+
+```ruby
+f = File.new("testfile")
+p f.gets                   #=> "This is line one\n"
+p $.                       #=> 1
+f.lineno = 1000
+p f.lineno                 #=> 1000
+p $.                       #=> 1
+p f.gets                   #=> "This is line two\n"
+p $.                       #=> 1001
+```
+
+- **SEE** [m:$.]

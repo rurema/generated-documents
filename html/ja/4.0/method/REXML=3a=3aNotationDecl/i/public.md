@@ -1,0 +1,7 @@
+# REXML::NotationDecl#public
+
+### def public -> String | nil
+
+公開識別子を返します。
+
+宣言が公開識別子を含まない場合は nil を返します。

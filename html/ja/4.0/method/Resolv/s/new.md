@@ -1,0 +1,9 @@
+# Resolv.new
+
+### def Resolv.new(resolvers = [Hosts.new, DNS.new]) -> Resolv
+
+resolvers に与えたリゾルバの配列を先頭から順に名前解決を試すような、新しいリゾルバオブジェクトを返します。
+
+resolvers の各要素は each_address と each_name というメソッドを持っていなければなりません。
+
+- **param** `resolvers` -- リゾルバの配列

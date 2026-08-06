@@ -1,0 +1,7 @@
+# Ripper#yydebug=
+
+### def yydebug=(flag)
+
+yydebugの構文解析器の追跡機能が有効か無効かを指定します。
+
+- **param** `flag` -- true か false を指定します。

@@ -1,0 +1,5 @@
+# rb_equal
+
+### VALUE rb_equal(VALUE obj1, VALUE obj2)
+
+obj1 == obj2 ならば Qtrue、そうでないならば Qfalse。

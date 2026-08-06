@@ -1,0 +1,13 @@
+# ENV.fetch
+
+### def ENV.fetch(key) -> String
+### def ENV.fetch(key, default) -> String
+### def ENV.fetch(key) {|key| ... } -> String
+
+key に関連づけられた値を返します。該当するキーが登録されていない時には、引数 default が与えられていればその値を、ブロックが与えられていればそのブロックを評価した値を返します。そのいずれでもなければ例外が発生します。
+
+- **param** `key` --       環境変数の名前を指定します。 文字列で指定します。
+                 文字列以外のオブジェクトを指定した場合は
+                 to_str メソッドによる暗黙の型変換を試みます。
+- **param** `default` --   keyに対応する環境変数の値がないときにこの値を返します。 
+- **raise**  `KeyError` --   引数defaultもブロックも与えられてない時、キーの探索に失敗すると発生します。

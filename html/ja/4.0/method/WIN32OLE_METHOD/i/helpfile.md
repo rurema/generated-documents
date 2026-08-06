@@ -1,0 +1,20 @@
+# WIN32OLE_METHOD#helpfile
+
+### def helpfile -> String | nil
+
+ヘルプファイルのパス名を取得します。
+
+メソッドにヘルプファイルが関連付けられている場合、該当ヘルプファイルのパス名を返します。
+
+- **return** -- ヘルプファイルのパス名を文字列で返します。ヘルプファイルが未定
+        義ならばnilを返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Workbooks')
+method = WIN32OLE_METHOD.new(tobj, 'Add')
+puts method.helpfile # => C:\...\VBAXL9.CHM
+```
+
+メソッドにヘルプファイルが関連付けられている場合、[WIN32OLE.ole_show_help](../../../method/WIN32OLE/s/ole_show_help.md)にWIN32OLE_METHODオブジェクトを与えてヘルプファイルを表示できます。
+
+- **SEE** [WIN32OLE.ole_show_help](../../../method/WIN32OLE/s/ole_show_help.md)

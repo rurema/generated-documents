@@ -1,0 +1,5 @@
+# rb_const_get
+
+### VALUE rb_const_get(VALUE klass, ID name)
+
+定数 klass::name の値を取得します。

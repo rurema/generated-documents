@@ -1,0 +1,5 @@
+# FL_REVERSE
+
+### void FL_REVERSE(VALUE x, int f)
+
+x のフラグ f を反転する。

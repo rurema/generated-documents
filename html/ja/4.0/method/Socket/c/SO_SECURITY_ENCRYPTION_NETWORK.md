@@ -1,0 +1,4 @@
+# Socket::SO_SECURITY_ENCRYPTION_NETWORK
+
+### const SO_SECURITY_ENCRYPTION_NETWORK -> Integer
+@todo

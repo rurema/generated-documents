@@ -1,0 +1,5 @@
+# umethod_bind
+
+### static VALUE umethod_bind(VALUE method, VALUE recv)
+
+UnboundMethod method を recv に束縛します。

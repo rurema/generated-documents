@@ -1,0 +1,15 @@
+# Etc?.group
+
+### module_function def group -> Etc::Group | nil
+
+/etc/group ファイルから読み込んだエントリを一つ返します。
+
+最初の呼び出しでは、先頭のエントリを返します。それ以降の呼び出しでは、呼び出す度に次のエントリを順に返します。ファイルの終端に達すると nil を返します。
+
+- **raise** `RuntimeError` -- /etc/group ファイルがロックされている場合に発生します。
+
+- **SEE** [Etc?.getgrent](../../../method/Etc/m/getgrent.md), [man:getgrent(3)]
+
+### module_function def group {|gr| ... } -> ()
+
+全てのグループエントリを順にアクセスするためのイテレータです。

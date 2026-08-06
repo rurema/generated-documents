@@ -1,0 +1,11 @@
+# Zlib?.crc32_combine
+
+### module_function def crc32_combine(crc1, crc2, length) -> Integer
+
+与えられた二つの CRC-32 チェックサムを一つにつなげます。
+
+- **param** `crc1` -- CRC-32 チェックサムを指定します。
+
+- **param** `crc2` -- CRC-32 チェックサムを指定します。
+
+- **param** `length` -- crc2 を生成するのに使用した文字列の長さを指定します。

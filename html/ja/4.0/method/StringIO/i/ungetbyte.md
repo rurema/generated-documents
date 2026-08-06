@@ -1,0 +1,11 @@
+# StringIO#ungetbyte
+
+### def ungetbyte(char) -> nil
+
+指定された char を読み戻します。
+
+2バイト以上の読み戻しは保証されません。
+
+- **param** `char` -- 読み戻したい1文字かそのコードポイントを指定します。
+
+- **SEE** [IO#ungetbyte](../../../method/IO/i/ungetbyte.md)

@@ -1,0 +1,8 @@
+# RDoc::Options#force_output
+
+### def force_output -> bool
+
+コマンドライン引数の --force_output オプションを指定していた場合、true
+を返します。--no-force_output オプションを指定していた場合、false を返します。
+
+どちらも指定しなかった場合は true を返します。

@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::SET
+
+### const SET -> Integer
+
+ASN.1 UNIVERSAL タグの、
+SET のタグ番号 17 を表す定数です。

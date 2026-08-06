@@ -1,0 +1,21 @@
+# IO::Buffer.string
+
+### def IO::Buffer.string(length) {|buffer| ... } -> String
+
+length バイトの文字列を新しく作り、それを元にしたコピーを伴わないバッファをブロックに渡します。ブロックの実行後、その文字列を返します。
+
+ブロックの中でバッファに書き込んだ内容が、そのまま返される文字列の内容になります。返される文字列のエンコーディングは [Encoding::BINARY](../../../method/Encoding/c/BINARY.md) です。
+
+- **param** `length` -- 作成する文字列のバイト数を整数で指定します。
+
+- **raise** `LocalJumpError` -- ブロックを渡さなかった場合に発生します。
+
+```ruby
+str = IO::Buffer.string(4) do |buffer|
+  buffer.set_string("Ruby")
+end
+p str                 # => "Ruby"
+p str.encoding.name   # => "ASCII-8BIT"
+```
+
+- **SEE** [IO::Buffer.for](../../../method/IO=3a=3aBuffer/s/for.md)

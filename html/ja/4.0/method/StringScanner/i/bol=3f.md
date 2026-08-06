@@ -1,0 +1,22 @@
+# StringScanner#bol?
+
+### def beginning_of_line? -> bool
+### def bol? -> bool
+
+スキャンポインタが行頭を指しているなら true を、行頭以外を指しているなら false を返します。
+
+行頭の定義は、文字列先頭かまたは \n の直後を指していることです。
+文字列末尾は必ずしも行頭ではありません。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new("test\nstring")
+p s.bol?      # => true
+s.scan(/\w+/)
+p s.bol?      # => false
+s.scan(/\n/)
+p s.bol?      # => true
+s.scan(/\w+/)
+p s.bol?      # => false
+```

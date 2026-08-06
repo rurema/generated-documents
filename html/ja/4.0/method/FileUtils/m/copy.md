@@ -1,0 +1,34 @@
+# FileUtils?.copy
+
+### module_function def cp(src, dest, preserve: nil, noop: nil, verbose: nil)   -> ()
+### module_function def copy(src, dest, preserve: nil, noop: nil, verbose: nil) -> ()
+
+ファイル src を dest にコピーします。
+
+src にファイルが一つだけ与えられた場合、
+dest がディレクトリならdest/src にコピーします。
+dest が既に存在ししかもディレクトリでないときは上書きします。
+
+src にファイルが複数与えられた場合、
+file1 を dest/file1 にコピー、file2 を dest/file2 にコピー、というように、ディレクトリ dest の中にファイル file1、file2、 …を同じ名前でコピーします。dest がディレクトリでない場合は例外
+[Errno::ENOTDIR](../../../class/Errno=3a=3aENOTDIR.md) が発生します。
+
+- **param** `src` -- コピー元。一つの場合は文字列でも指定可能です。
+           二つ以上指定する場合は配列で指定します。
+
+- **param** `dest` -- コピー先のファイルかディレクトリです。
+
+- **param** `preserve` -- 真を指定すると更新時刻と、可能なら所有ユーザ・所有グループもコピーします。
+
+- **param** `noop` -- 真を指定すると実際の処理は行いません。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+- **raise** `Errno::ENOTDIR` -- src が複数のファイルかつ、dest がディレクトリでない場合に発生します。
+
+```ruby
+require 'fileutils'
+FileUtils.cp 'eval.c', 'eval.c.org'
+FileUtils.cp(['cgi.rb', 'complex.rb', 'date.rb'], '/usr/lib/ruby/1.8')
+FileUtils.cp(%w(cgi.rb complex.rb date.rb), '/usr/lib/ruby/1.8', verbose: true)
+```

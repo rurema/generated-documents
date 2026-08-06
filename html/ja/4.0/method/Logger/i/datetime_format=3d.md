@@ -1,0 +1,22 @@
+# Logger#datetime_format=
+
+### def datetime_format=(format)
+
+ログに記録する時の日付のフォーマットをセットします。
+
+```ruby title="例"
+require 'logger'
+
+logger = Logger.new(STDOUT)
+
+p logger.datetime_format # => nil
+logger.debug("test")
+logger.datetime_format = '%Y/%m/%dT%H:%M:%S.%06d' # => "%Y/%m/%dT%H:%M:%S.%06d"
+p logger.datetime_format # => "%Y/%m/%dT%H:%M:%S.%06d"
+logger.debug("test")
+
+# => D, [2019-03-13T23:52:13.674385 #17393] DEBUG -- : test
+#    D, [2019/03/13T23:52:13.000012#17393] DEBUG -- : test
+```
+
+- **SEE** [Time#strftime](../../../method/Time/i/strftime.md), [Logger#datetime_format](../../../method/Logger/i/datetime_format.md)

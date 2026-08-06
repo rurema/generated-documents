@@ -1,0 +1,27 @@
+# REXML::StreamListener#xmldecl
+
+### def xmldecl(version, encoding, standalone) -> ()
+
+XML宣言をパースしたときに呼び出されるコールバックメソッドです。
+
+version, encoding, standalone はXML宣言内で対応する構成要素が省略されている場合には nil が渡されます。
+
+- **param** `version` -- 宣言されているバージョンが文字列で渡されます。
+- **param** `encoding` -- 宣言されているエンコーディングが文字列で渡されます。
+- **param** `standalone` -- スタンドアロン文書であるかどうかが "yes" "no" で渡されます
+
+### 例
+
+```text
+<?xml version="1.0" encoding="utf-8"?>
+```
+
+というXML宣言に対しては
+
+```text
+version: "1.0"
+encoding: "utf-8"
+standalone: nil
+```
+
+という引数が渡されます。

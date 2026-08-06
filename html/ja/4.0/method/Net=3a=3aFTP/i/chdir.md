@@ -1,0 +1,8 @@
+# Net::FTP#chdir
+
+### def chdir(dirname) -> nil
+
+リモートサーバでのカレントディレクトリを dirname に変更します。
+
+- **param** `dirname` -- 変更先のディレクトリを与えます。
+- **raise** `Net::FTPReplyError` -- 応答コードがエラーである場合に発生します。カレントディレクトリ変更に失敗した場合に発生します。

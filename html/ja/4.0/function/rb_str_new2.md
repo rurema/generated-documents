@@ -1,0 +1,5 @@
+# rb_str_new2
+
+### VALUE rb_str_new2(const char *ptr)
+
+rb_str_new(ptr, strlen(ptr))

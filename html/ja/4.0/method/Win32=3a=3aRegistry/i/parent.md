@@ -1,0 +1,7 @@
+# Win32::Registry#parent
+
+### def parent
+@todo
+
+親のキーを表す Win32::Registry オブジェクトを返します。
+定義済キーでは nil を返します。

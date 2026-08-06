@@ -1,0 +1,5 @@
+# rb_mod_clone
+
+### VALUE rb_mod_clone(VALUE mod)
+
+モジュール mod を clone して返します。

@@ -1,0 +1,6 @@
+# WEBrick::BasicLog#warn?
+
+### def warn?    -> bool
+
+自身のログレベルが WARN 以上の時に true を返します。
+そうでない場合に false を返します。

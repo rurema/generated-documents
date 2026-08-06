@@ -1,0 +1,14 @@
+# Logger#progname
+
+### def progname -> String
+
+ログに出力するプログラム名を取得します。
+
+```ruby title="例"
+require 'logger'
+
+logger = Logger.new(STDOUT)
+p logger.progname # => nil
+logger.progname = "MyProgName"
+p logger.progname # => "MyProgName"
+```

@@ -1,0 +1,15 @@
+# Date.ordinal
+
+### def Date.ordinal(year = -4712, yday = 1, start = Date::ITALY) -> Date
+
+年間通算日 (年日付) に相当する日付オブジェクトを生成します。
+
+年の日は負、または正の数でなければなりません (負のときは最後からの序数)。
+零であってはなりません。
+
+[Date.jd](../../../method/Date/s/jd.md)、および [Date.new](../../../method/Date/s/new.md) も参照してください。
+
+- **param** `year` -- 年
+- **param** `yday` -- 年の日
+- **param** `start` -- グレゴリオ暦をつかい始めた日をあらわすユリウス日
+- **raise** `Date::Error` -- 正しくない日付になる組み合わせである場合に発生します。

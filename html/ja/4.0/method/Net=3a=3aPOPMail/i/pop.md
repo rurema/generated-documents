@@ -1,0 +1,52 @@
+# Net::POPMail#pop
+
+### def pop -> String
+### def all -> String
+### def mail -> String
+### def pop {|str| .... } -> nil
+### def all {|str| .... } -> nil
+### def mail {|str| .... } -> nil
+### def pop(io) -> object
+### def all(io) -> object
+### def mail(io) -> object
+
+メールを受信します。
+
+引数もブロックも与えられなかった場合にはメールの内容を文字列で返します。
+
+ブロックが渡されたときは、メールの内容を少しずつ読み込み、読みこんだ文字列を引数としてブロックを呼びだします。
+
+ブロックなしで、オブジェクトを引数として渡すとそのオブジェクトにメールの内容を << メソッドで順次書き込みます。
+通常 [IO](../../../class/IO.md) オブジェクトを渡します。
+この場合引数として渡したオブジェクトを返します。
+
+pop, all, mail はすべて同じ効果ですが、
+all と mail は obsolete です。
+
+```ruby title="使用例"
+require 'net/pop'
+
+Net::POP3.start('pop.example.com', 110,
+                'YourAccount', 'YourPassword') {|pop|
+  pop.mails.each do |m|
+    puts m.pop
+  end
+}
+```
+
+```ruby title="ブロックを利用する例"
+require 'net/pop'
+
+Net::POP3.start('pop.example.com', 110) {|pop|
+  pop.each_mail do |m|
+    m.pop do |str|
+      print str
+    end
+  end
+}
+```
+
+- **param** `io` -- メールの内容を書きこむオブジェクト
+- **raise** `TimeoutError` -- 通信がタイムアウトした場合に発生します
+- **raise** `Net::POPError` -- サーバが認証失敗以外のエラーを報告した場合に発生します
+- **raise** `Net::POPBadResponse` -- サーバからの応答がプロトコル上不正であった場合に発生します

@@ -1,0 +1,34 @@
+# Refinement#import_methods
+
+### def import_methods(*modules) -> self
+
+モジュールからメソッドをインポートします。
+
+[Module#include](../../../method/Module/i/include.md)と違って、`import_methods` はメソッドをコピーして
+refinement に追加して、refinementでインポートしたメソッドを有効化します。
+
+メソッドをコピーするため、Rubyコードで定義されたメソッドだけしかインポートできないことに注意してください。
+
+```ruby
+module StrUtils
+  def indent(level)
+    ' ' * level + self
+  end
+end
+
+module M
+  refine String do
+    import_methods StrUtils
+  end
+end
+
+using M
+p "foo".indent(3) # => "   foo"
+
+module M
+  refine String do
+    import_methods Enumerable
+    # Can't import method which is not defined with Ruby code: Enumerable#drop
+  end
+end
+```

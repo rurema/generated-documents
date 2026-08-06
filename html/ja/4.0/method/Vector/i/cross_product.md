@@ -1,0 +1,18 @@
+# Vector#cross_product
+
+### def cross_product(*vs) -> Vector
+### def cross(*vs) -> Vector
+
+`self` とベクトル `vs` とのクロス積を返します。
+
+`self` が3次元ベクトル空間のときは普通のクロス積です。
+それ以外の場合は拡張されたクロス積で
+n-1個のn次元ベクトルが張る空間と直交するベクトルを返します。
+
+`self` の次元が n であるとき、 `vs` は n-2 個の
+n次元ベクトルでなければなりません。
+
+- **param** `vs` -- クロス積を取るベクトルの集合
+- **raise** `ExceptionForMatrix::ErrOperationNotDefined` -- `self` の
+        次元が1以下であるときに発生します。
+- **raise** `ArgumentError` -- `vs` のベクトルの個数が n-2 以外である場合に発生します。

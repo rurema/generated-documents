@@ -1,0 +1,5 @@
+# local_append
+
+### static int local_append(ID id)
+
+新しいローカル変数 id をテーブルに追加します。

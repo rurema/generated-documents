@@ -1,0 +1,56 @@
+# String#encode
+
+### def encode(encoding, **options) -> String
+### def encode(encoding, from_encoding, **options) -> String
+### def encode(**options) -> String
+
+self を指定したエンコーディングに変換した文字列を作成して返します。引数を2つ与えた場合、第二引数は変換元のエンコーディングを意味します。さもなくば self のエンコーディングが使われます。
+無引数の場合は、[Encoding.default_internal](../../../method/Encoding/s/default_internal.md) が nil でなければそれが変換先のエンコーディングになり、かつ :invalid => :replace と :undef => :replace が指定されたと見なされ、nil ならば変換は行われません。
+
+- **param** `encoding` --       変換先のエンコーディングを表す文字列か [Encoding](../../../class/Encoding.md) オブジェクトを指定します。
+- **param** `from_encoding` --  変換元のエンコーディングを表す文字列か [Encoding](../../../class/Encoding.md) オブジェクトを指定します。
+- **param** `option` --         変換オプションをキーワード引数で与えます。
+- **return** --               変換された文字列
+
+変換オプション
+
+- **`:invalid => nil`**:
+  変換元のエンコーディングにおいて不正なバイトがあった場合に、例外 [Encoding::InvalidByteSequenceError](../../../class/Encoding=3a=3aInvalidByteSequenceError.md) を投げます。(デフォルト)
+- **`:invalid => :replace`**:
+  変換元のエンコーディングにおいて不正なバイトがあった場合に、不正なバイトを置換文字で置き換えます。
+- **`:undef => nil`**:
+  変換先のエンコーディングにおいて文字が定義されていない場合に、例外 [Encoding::UndefinedConversionError](../../../class/Encoding=3a=3aUndefinedConversionError.md) を投げます。(デフォルト)
+- **`:undef => :replace`**:
+  変換先のエンコーディングにおいて文字が定義されていない場合に、未定義文字を置換文字で置き換えます。
+- **`:replace => string`**:
+  前述の :invalid => :replace や :undef => :replace で用いられる置換文字を指定します。デフォルトは Unicode 系のエンコーディングならば U+FFFD、それ以外では "?" です。
+- **`:fallback => Hash | Proc | Method`**:
+  未定義の文字に対する置換文字を設定します。このオプションに与えられるオブジェクトは [Hash](../../../class/Hash.md), [Proc](../../../class/Proc.md), [Method](../../../class/Method.md) のいずれかまたは [] メソッドを持つオブジェクトです。
+  キーは現在のトランスコーダのソースエンコーディングで未定義の文字です。値は、変換先のエンコーディングでの変換後の文字です。
+- **`:xml => :text`**:
+  文字列を XML の CharData として適するように処理します。具体的には、'&'、'<'、'>'、をそれぞれ '&amp;'、'&lt;'、'&gt;' に変換し、未定義文字を文字参照 (大文字16進数) に置き換えます。この出力は HTML の #PCDATA として利用することもできます。
+- **`:xml => :attr`**:
+  文字列を XML の AttValue として適するように処理します。具体的には、'&'、'<'、'>'、'"'、をそれぞれ '&amp;'、'&lt;'、'&gt;'、'&quot;' に変換し、未定義文字を文字参照 (大文字16進数) に置き換えます。この出力は HTML の属性値として利用することもできます。
+- **`:universal_newline => true`**:
+  CR 改行および CRLF 改行を LF 改行に置き換えます。
+- **`:cr_newline => true`**:
+  LF 改行を CR 改行に置き換えます。(CRLF は CRCR になります)
+- **`:crlf_newline => true`**:
+  LF 改行を CRLF 改行に置き換えます。(CRLF は CRCRLF になります)
+
+これ以上細かい指定を行いたい場合は、[Encoding::Converter#convert](../../../method/Encoding=3a=3aConverter/i/convert.md) を用いましょう。
+
+```ruby title="例"
+#coding:UTF-8
+s = "いろは"
+s.encode("EUC-JP")
+s.encode(Encoding::UTF_8)
+
+# U+00B7 MIDDLE DOT, U+2014 EM DASH は対応する文字が Windows-31J には
+# 存在しないのでそのまま変換しようとすると Encoding::UndefinedConversionError が発生する
+str = "\u00b7\u2014"
+str.encode("Windows-31J", fallback: { "\u00b7" => "\xA5".force_encoding("Windows-31J"),
+                                      "\u2014" => "\x81\x5C".force_encoding("Windows-31J") })
+```
+
+- **SEE** [String#encode!](../../../method/String/i/encode=21.md)

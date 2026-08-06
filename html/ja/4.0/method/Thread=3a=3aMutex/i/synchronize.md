@@ -1,0 +1,24 @@
+# Thread::Mutex#synchronize
+
+### def synchronize { ... } -> object
+{: since="1.9.1"}
+
+mutex をロックし、ブロックを実行します。実行後に必ず mutex のロックを解放します。
+
+ブロックが最後に評価した値を返します。
+
+- **raise** `ThreadError` -- self 既にカレントスレッドにロックされている場合に発
+                   生します。
+                   また、[Signal?.trap](../../../method/Signal/m/trap.md) に指定したハンドラ内で実行
+                   した場合に発生します。
+
+```ruby title="例"
+m = Thread::Mutex.new
+result = m.synchronize do
+  p m.locked? # => true
+  # critical part
+  "result"
+end
+p m.locked? # => false
+p result # => "result"
+```

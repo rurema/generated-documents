@@ -1,0 +1,17 @@
+# Net::FTP#retrlines
+
+### def retrlines(cmd){|line| ...} -> nil
+
+サーバーに cmd で指定されたコマンドを送り、テキストデータを 
+取り寄せます。
+
+一行ずつテキストを読み込み、ブロックに渡します。
+
+- **param** `cmd` -- コマンドを文字列で与えます。
+
+- **raise** `Net::FTPTempError` -- 応答コードが 4yz のときに発生します。
+- **raise** `Net::FTPPermError` -- 応答コードが 5yz のときに発生します。
+- **raise** `Net::FTPProtoError` -- 応答コードが RFC 的に正しくない場合に発生します。
+- **raise** `Net::FTPReplyError` -- 応答コードが上の場合以外で正しくない場合(1xy, 3xyが来るべきでないときに来た場合など)に発生します。
+
+- **SEE** [Net::FTP#gettextfile](../../../method/Net=3a=3aFTP/i/gettextfile.md)

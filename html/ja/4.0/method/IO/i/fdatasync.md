@@ -1,0 +1,24 @@
+# IO#fdatasync
+
+### def fdatasync -> 0
+
+IO のすべてのバッファされているデータを直ちにディスクに書き込みます。
+
+[man:fdatasync(2)] をサポートしていない OS 上では代わりに
+[IO#fsync](../../../method/IO/i/fsync.md) を呼びだします。
+
+[IO#fsync](../../../method/IO/i/fsync.md) との違いは [man:fdatasync(2)] を参照してください。
+
+- **raise** `NotImplementedError` -- [man:fdatasync(2)] も [man:fsync(2)] も
+       サポートされていない OS で発生します。
+
+```ruby title="例"
+require "tempfile"
+
+Tempfile.open("testtmpfile") do |f|
+  f.print "test"
+  p File.read(f.path) # => ""
+  f.fdatasync
+  p File.read(f.path) # => "test"
+end
+```

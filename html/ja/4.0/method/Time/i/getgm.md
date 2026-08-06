@@ -1,0 +1,14 @@
+# Time#getgm
+
+### def getgm     -> Time
+### def getutc    -> Time
+
+タイムゾーンを協定世界時に設定した Time オブジェクトを新しく生成して返します。
+
+```ruby
+p t = Time.local(2000,1,1,20,15,1)   #=> 2000-01-01 20:15:01 +0900
+p t.gmt?                             #=> false
+p y = t.getgm                        #=> 2000-01-01 11:15:01 UTC
+p y.gmt?                             #=> true
+p t == y                             #=> true
+```

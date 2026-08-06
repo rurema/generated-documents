@@ -1,0 +1,7 @@
+# OpenSSL::Digest::SHA512.digest
+
+### def OpenSSL::Digest::SHA512.digest(data) -> String
+
+data のダイジェストを SHA512 で計算します。
+
+- **param** `data` -- ダイジェストを計算する文字列

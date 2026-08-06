@@ -1,0 +1,45 @@
+# Class.new
+
+### def Class.new(superclass = Object)                -> Class
+### def Class.new(superclass = Object) {|klass| ... } -> Class
+
+新しく名前の付いていない superclass のサブクラスを生成します。
+
+名前のないクラスは、最初に名前を求める際に代入されている定数名を検索し、見つかった定数名をクラス名とします。
+
+```ruby title="例"
+p foo = Class.new   # => #<Class:0x401b90f8>
+p foo.name          # => nil
+Foo = foo           # ここで p foo すれば "Foo" 固定
+Bar = foo
+p foo.name          # => "Bar"  ("Foo" になるか "Bar" になるかは不定)
+```
+
+ブロックが与えられた場合、生成したクラスを引数としてクラスのコンテキストでブロックを実行します。以下のコードと同じです。
+
+```ruby title="例"
+klass = Class.new(superclass)
+klass.module_eval {|m|
+  # ...
+}
+klass
+```
+
+この場合も生成したクラスを返します。
+ブロックの実行は Class#initialize が行います。
+
+- **param** `superclass` -- 生成するクラスのスーパークラスを指定します。
+
+```ruby title="例"
+k = Class.new{|c|
+  def initialize
+    p "in initialize"
+  end
+
+  def hoge
+    p "hoge hoge hoge"
+  end
+}
+o = k.new              #=> "in initialize"
+p o.hoge               #=> "hoge hoge hoge"
+```

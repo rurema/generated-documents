@@ -1,0 +1,19 @@
+# Math?.tanh
+
+### module_function def tanh(x) -> Float
+
+`x` の双曲線正接関数（hyperbolic tangent）の値を返します。
+
+```text title="定義"
+tanh(x) = sinh(x) / cosh(x)
+```
+
+- **param** `x` -- 実数
+
+- **return** -- [-1, 1] の範囲の実数
+
+- **raise** `TypeError` -- `x` に数値以外を指定した場合に発生します。
+
+- **raise** `RangeError` -- `x` に実数以外の数値を指定した場合に発生します。
+
+- **SEE** [Math?.atanh](../../../method/Math/m/atanh.md)

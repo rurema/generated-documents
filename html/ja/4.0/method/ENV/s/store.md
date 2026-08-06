@@ -1,0 +1,23 @@
+# ENV.store
+
+### def ENV.[]=(key, value)
+### def ENV.store(key, value) -> String
+
+key に対応する環境変数の値を value にします。
+value が nil の時、key に対応する環境変数を取り除きます。
+
+- **param** `key` --   環境変数名を指定します。文字列で指定します。文字列以外のオ
+             ブジェクトを指定した場合は to_str メソッドによる暗黙の型変
+             換を試みます。
+- **param** `value` -- 置き換えるべき値を指定します。文字列で指定します。文字列以
+             外のオブジェクトを指定した場合は to_str メソッドによる暗黙
+             の型変換を試みます。
+
+- **return** -- value を返します。
+
+```ruby
+ENV['NEW_KEY'] = 'some_value'
+p ENV['NEW_KEY'] # => 'some_value'
+p ENV.store('NEW_KEY', nil) # => nil
+p ENV.has_key?('NEW_KEY') # => false
+```

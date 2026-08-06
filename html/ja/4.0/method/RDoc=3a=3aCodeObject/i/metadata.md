@@ -1,0 +1,5 @@
+# RDoc::CodeObject#metadata
+
+### def metadata -> Hash
+
+自身が持つメタデータ(他から任意の値を設定してもよい)を返します。

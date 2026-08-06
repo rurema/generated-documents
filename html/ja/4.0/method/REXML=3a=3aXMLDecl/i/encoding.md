@@ -1,0 +1,8 @@
+# REXML::XMLDecl#encoding
+
+### def encoding -> String | nil
+
+設定されているエンコーディングの名前を文字列で返します。
+
+エンコーディングが指定されていない(デフォルトの UTF-8 とみなされます)
+場合は nil を返します。

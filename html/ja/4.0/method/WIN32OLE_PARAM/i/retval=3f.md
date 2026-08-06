@@ -1,0 +1,21 @@
+# WIN32OLE_PARAM#retval?
+
+### def retval? -> bool
+
+パラメータが戻り値かどうかを判定します。
+
+OLEオートメーションの規定では、メソッドの戻り値は引数リストの最右端のパラメータをout属性（[WIN32OLE_PARAM#output?](../../../method/WIN32OLE_PARAM/i/output=3f.md)が真）とすることで実現します。ただし、そのパラメータをOLEオートメーション呼び出しを記述する言語が戻り値のように扱うか、それとも引数リストに並べるかはretval属性によって決定されます。
+
+retval?メソッドは、戻り値として記述する場合に真となります。
+
+- **return** -- パラメータが戻り値として扱われる場合に真を返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('DirectX 7 for Visual Basic Type Library',
+                         'DirectPlayLobbyConnection')
+method = WIN32OLE_METHOD.new(tobj, 'GetPlayerShortName')
+param = method.params[0]
+puts "#{param.name} #{param.retval?}"  # => name true
+```
+
+- **SEE** <http://msdn.microsoft.com/en-us/library/aa367158(v=VS.85).aspx>

@@ -1,0 +1,7 @@
+# rb_compile_string
+
+### NODE * rb_compile_string(const char *f, VALUE s, int line)
+
+Ruby の文字列 s を構文木にコンパイルし、ruby_eval_tree と
+ruby_eval_tree_begin に格納します。ruby_eval_tree を返します。
+またコンパイルするときにファイル f の line 行目からをコンパイルしていると仮定します。

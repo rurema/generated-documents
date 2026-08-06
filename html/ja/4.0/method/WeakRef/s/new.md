@@ -1,0 +1,7 @@
+# WeakRef.new
+
+### def WeakRef.new(orig) -> WeakRef
+
+与えられたオブジェクトを使って自身を初期化します。
+
+- **param** `orig` -- 任意のオブジェクトを指定します。

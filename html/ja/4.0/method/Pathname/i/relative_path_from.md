@@ -1,0 +1,24 @@
+# Pathname#relative_path_from
+
+### def relative_path_from(base_directory) -> Pathname
+
+base_directory から self への相対パスを求め、その内容の新しい Pathname
+オブジェクトを生成して返します。
+
+パス名の解決は文字列操作によって行われ、ファイルシステムをアクセスしません。
+
+self が相対パスなら base_directory も相対パス、self が絶対パスなら
+base_directory も絶対パスでなければなりません。
+
+- **param** `base_directory` -- ベースディレクトリを表す Pathname オブジェクトを指定します。
+
+- **raise** `ArgumentError` -- Windows上でドライブが違うなど、base_directory から self への相対パスが求められないときに例外が発生します。
+
+```ruby title="例"
+require 'pathname'
+
+path = Pathname.new("/tmp/foo")
+base = Pathname.new("/tmp")
+
+path.relative_path_from(base) # => #<Pathname:foo>
+```

@@ -1,0 +1,15 @@
+# Errno::EXXX.new
+
+### def Errno::EXXX.new() -> Errno::EXXX
+### def Errno::EXXX.new(error_message) -> Errno::EXXX
+
+Errno::EXXX オブジェクトを生成して返します。
+
+- **param** `error_message` -- エラーメッセージを表す文字列
+
+```ruby
+p Errno::ENOENT.new
+    # => #<Errno::ENOENT: No such file or directory>
+p Errno::ENOENT.new('message')
+    # => #<Errno::ENOENT: No such file or directory - message>
+```

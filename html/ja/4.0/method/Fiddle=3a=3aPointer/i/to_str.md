@@ -1,0 +1,10 @@
+# Fiddle::Pointer#to_str
+
+### def to_str         -> String
+### def to_str(len)    -> String
+
+自身が指す領域から長さ len の文字列を複製して返します。
+
+len を省略した場合は、self.size をその代わりに使います。
+
+- **param** `len` -- 文字列の長さを整数で指定します。

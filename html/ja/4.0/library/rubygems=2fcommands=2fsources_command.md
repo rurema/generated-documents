@@ -1,0 +1,30 @@
+# library rubygems/commands/sources_command
+
+Gem パッケージの取得元の情報を管理するためのライブラリです。
+
+```text
+Usage: gem sources [options]
+  Options:
+    -a, --add SOURCE_URI             取得元を追加します
+    -l, --list                       取得元一覧を表示します
+    -r, --remove SOURCE_URI          取得元を削除します
+    -u, --update                     取得元のキャッシュを更新します
+    -c, --clear-all                  全ての取得元を削除し、キャッシュもクリアします
+```
+
+```text
+Common Options:
+  -h, --help                       このコマンドのヘルプを表示します
+  -V, --[no-]verbose               表示を詳細にします
+  -q, --quiet                      静かに実行します
+      --config-file FILE           指定された設定ファイルを使用します
+      --backtrace                  バックトレースを表示します
+      --debug                      Ruby 自体のデバッグオプションを有効にします
+```
+
+```text
+Summary:
+  Gem パッケージの取得元の情報を管理します
+Defaults:
+  --list
+```

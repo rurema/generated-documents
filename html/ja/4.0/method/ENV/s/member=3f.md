@@ -1,0 +1,12 @@
+# ENV.member?
+
+### def ENV.has_key?(key) -> bool
+### def ENV.include?(key) -> bool
+### def ENV.key?(key)     -> bool
+### def ENV.member?(key)  -> bool
+
+key で指定される環境変数が存在する時、真を返します。
+
+- **param** `key` -- 環境変数の名前を指定します。文字列で指定します。
+           文字列以外のオブジェクトを指定した場合は to_str メソッ
+           ドによる暗黙の型変換を試みます。

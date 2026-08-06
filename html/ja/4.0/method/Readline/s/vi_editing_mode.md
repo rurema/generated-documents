@@ -1,0 +1,10 @@
+# Readline.vi_editing_mode
+
+### def Readline.vi_editing_mode -> nil
+
+編集モードを vi モードにします。
+vi モードの詳細は、GNU Readline のマニュアルを参照してください。
+
+  - <http://www.gnu.org/directory/readline.html>
+
+- **raise** `NotImplementedError` -- サポートしていない環境で発生します。

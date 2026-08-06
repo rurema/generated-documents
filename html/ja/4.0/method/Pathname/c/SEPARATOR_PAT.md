@@ -1,0 +1,7 @@
+# Pathname::SEPARATOR_PAT
+
+### const SEPARATOR_PAT -> Regexp
+
+パス名のなかのディレクトリを区切る部分にマッチする正規表現です。
+
+この値は環境依存です。

@@ -1,0 +1,6 @@
+# rb_const_get_at
+
+### VALUE rb_const_get_at(VALUE klass, ID name)
+
+クラス klass で定義された定数 name の値を取得します
+(祖先や外のクラスは調べない)。

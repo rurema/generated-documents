@@ -1,0 +1,5 @@
+# RDoc::Options#inline_source
+
+### def inline_source -> bool
+
+コマンドライン引数の --inline-source オプションか --one-file を指定していた場合、もしくは --fmt オプションに xml 指定した場合に true を返します。そうでない場合は false を返します。

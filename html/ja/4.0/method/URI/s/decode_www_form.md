@@ -1,0 +1,29 @@
+# URI.decode_www_form
+
+### def URI.decode_www_form(str, enc=Encoding::UTF_8) -> [[String, String]]
+
+文字列から URL-encoded form data をデコードします。
+
+application/x-www-form-urlencoded 形式のデータをデコードし、
+[key, value] という形の配列の配列を返します。
+
+enc で指定したエンコーディングの文字列が URL エンコードされたものとみなし、エンコーディングを付加します。
+
+このメソッドは
+<https://url.spec.whatwg.org/#concept-urlencoded-parser>
+にもとづいて実装されています。
+そのため「&」区切りのみに対応していて、「;」区切りには対応していません。
+
+```ruby
+require 'uri'
+ary = URI.decode_www_form("a=1&a=2&b=3")
+p ary                 #=> [['a', '1'], ['a', '2'], ['b', '3']]
+p ary.assoc('a').last #=> '1'
+p ary.assoc('b').last #=> '3'
+p Hash[ary]           #=> {"a"=>"2", "b"=>"3"}
+```
+
+- **param** `str` -- デコード対象の文字列
+- **param** `enc` -- エンコーディング
+- **raise** `ArgumentError` -- str のフォーマットが不正である場合に発生します
+- **SEE** [URI.decode_www_form_component](../../../method/URI/s/decode_www_form_component.md), [URI.encode_www_form](../../../method/URI/s/encode_www_form.md)

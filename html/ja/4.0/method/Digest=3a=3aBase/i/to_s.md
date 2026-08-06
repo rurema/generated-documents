@@ -1,0 +1,29 @@
+# Digest::Base#to_s
+
+### def hexdigest -> String
+### def to_s -> String
+
+updateや<<によって追加した文字列に対するハッシュ値を、
+ASCIIコードを使って16進数の列を示す文字列にエンコードして返します。
+
+返す文字列は、
+MD5では32バイト長、SHA1およびRMD160では40バイト長、SHA256では64バイト長、
+SHA384では96バイト長、SHA512では128バイト長です。
+
+Rubyで書くと以下と同じです。
+
+```ruby
+def hexdigest
+  digest.unpack("H*")[0]
+end
+```
+
+```ruby title="例"
+# MD5の場合
+require 'digest/md5'
+digest = Digest::MD5.new
+digest.update("ruby")
+p digest.hexdigest # => "58e53d1324eef6265fdb97b08ed9aadf"
+```
+
+- **SEE** [Digest::Base#digest](../../../method/Digest=3a=3aBase/i/digest.md)

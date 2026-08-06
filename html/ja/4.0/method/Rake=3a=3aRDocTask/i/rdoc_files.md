@@ -1,0 +1,6 @@
+# Rake::RDocTask#rdoc_files
+
+### def rdoc_files -> Rake::FileList
+
+RDoc の生成に使用するファイルリストを返します。
+デフォルトは空です。

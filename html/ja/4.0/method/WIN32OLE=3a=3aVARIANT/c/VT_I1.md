@@ -1,0 +1,7 @@
+# WIN32OLE::VARIANT::VT_I1
+
+### const VT_I1 -> Integer
+
+符号付き8ビット整数（char）を示します（16）。
+
+OLEオートメーションの仕様上は利用できません。

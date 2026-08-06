@@ -1,0 +1,15 @@
+# URI::MailTo#headers=
+
+### def headers=(s)
+
+自身のヘッダーを文字列で設定します。
+
+- **param** `s` -- ヘッダーを表す文字列を指定します。
+
+- **raise** `URI::InvalidComponentError` -- 不正な引数 s に対して発生します。
+
+```ruby title="例"
+require 'uri'
+m = URI.parse("mailto:nospam@example.com")
+m.headers =  URI.escape("subject=hello hello")
+```

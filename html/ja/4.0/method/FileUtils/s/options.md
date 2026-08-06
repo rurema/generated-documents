@@ -1,0 +1,11 @@
+# FileUtils.options
+
+### def FileUtils.options -> Array
+
+オプション名の配列を返します。
+
+```ruby
+require 'fileutils'
+p FileUtils.options
+# => ["noop", "verbose", "force", "mode", "parents", "owner", "group", "preserve", "dereference_root", "remove_destination", "secure", "mtime", "nocreate"]
+```

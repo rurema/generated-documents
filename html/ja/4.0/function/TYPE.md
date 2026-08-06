@@ -1,0 +1,5 @@
+# TYPE
+
+### int TYPE(VALUE obj)
+
+obj の構造体型 ID を返します。

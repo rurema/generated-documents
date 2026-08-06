@@ -1,0 +1,20 @@
+# Hash#default=
+
+### def default=(value)
+
+ハッシュのデフォルト値を value に変更します。対応する値が存在しないキーで検索した時にはこの値を返すようになります。
+
+デフォルト値（ブロックを含む）が既に設定してあった場合も value で上書きします。
+
+- **param** `value` -- 設定するデフォルト値です。
+- **return** -- value を返します。
+
+```ruby title="例"
+h = {}
+p h.default #=>nil
+
+h.default = "default"
+p h.default #=>"default"
+```
+
+- **SEE** [Hash#default](../../../method/Hash/i/default.md)

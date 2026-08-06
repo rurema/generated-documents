@@ -1,0 +1,7 @@
+# REXML::SAX2Listener#characters
+
+### def characters(text) -> ()
+
+XML の文字データに出会ったときに呼び出されるコールバックメソッドです。
+
+- **param** `text` -- 文字データ(文字列)が渡されます

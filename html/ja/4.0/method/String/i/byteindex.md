@@ -1,0 +1,43 @@
+# String#byteindex
+
+### def byteindex(pattern, offset = 0) -> Integer | nil
+
+文字列の offset から右に向かって pattern を検索し、最初に見つかった部分文字列の左端のバイト単位のインデックスを返します。
+見つからなければ nil を返します。
+
+引数 pattern は探索する部分文字列または正規表現で指定します。
+
+offset が負の場合、文字列の末尾から数えた位置から探索します。
+
+- **param** `pattern` --    探索する部分文字列または正規表現
+- **param** `offset` --     探索を開始するバイト単位のオフセット
+
+- **raise** `IndexError` -- オフセットが文字列の境界以外をさしているときに発生します。
+
+```ruby title="例"
+p 'foo'.byteindex('f') # => 0
+p 'foo'.byteindex('o') # => 1
+p 'foo'.byteindex('oo') # => 1
+p 'foo'.byteindex('ooo') # => nil
+
+p 'foo'.byteindex(/f/) # => 0
+p 'foo'.byteindex(/o/) # => 1
+p 'foo'.byteindex(/oo/) # => 1
+p 'foo'.byteindex(/ooo/) # => nil
+
+p 'foo'.byteindex('o', 1) # => 1
+p 'foo'.byteindex('o', 2) # => 2
+p 'foo'.byteindex('o', 3) # => nil
+
+p 'foo'.byteindex('o', -1) # => 2
+p 'foo'.byteindex('o', -2) # => 1
+p 'foo'.byteindex('o', -3) # => 1
+p 'foo'.byteindex('o', -4) # => nil
+
+p 'あいう'.byteindex('う') # => 6
+p 'あいう'.byteindex('う', 3) # => 6
+p 'あいう'.byteindex('う', -3) # => 6
+'あいう'.byteindex('う', 1) # offset 1 does not land on character boundary (IndexError)
+```
+
+- **SEE** [String#index](../../../method/String/i/index.md), [String#byterindex](../../../method/String/i/byterindex.md)

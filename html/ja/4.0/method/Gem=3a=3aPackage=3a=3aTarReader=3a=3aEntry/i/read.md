@@ -1,0 +1,8 @@
+# Gem::Package::TarReader::Entry#read
+
+### def read(length = nil) -> String
+
+自身から指定されたバイト数読み込みます。
+
+- **param** `length` -- 読み込むバイト数を指定します。
+              省略すると全てを読み込みます。

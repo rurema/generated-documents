@@ -1,0 +1,29 @@
+# Net::HTTP#request_head
+
+### def request_head(path, header = nil) -> Net::HTTPResponse
+### def request_head(path, header = nil) {|response| .... } -> Net::HTTPResponse
+### def head2(path, header = nil) -> Net::HTTPResponse
+### def head2(path, header = nil) {|response| .... } -> Net::HTTPResponse
+
+サーバ上の path にあるエンティティのヘッダのみを取得します。
+[Net::HTTPResponse](../../../class/Net=3a=3aHTTPResponse.md) オブジェクトを返します。
+
+header が nil
+でなければ、リクエストを送るときにその内容を HTTP ヘッダとして送ります。 header は { 'Accept' = > '*/*', ... } という形のハッシュでなければいけません。
+
+ブロックとともに呼び出されたときは、
+[Net::HTTP#request_get](../../../method/Net=3a=3aHTTP/i/request_get.md) と同じ動作をしますが、そもそもヘッダしか要求していないので
+body は空です。そのためこの動作はそれほど意味はありません。
+
+- **param** `path` -- ヘッダを取得するエンティティのパスを
+            文字列で指定します。
+- **param** `header` -- リクエストの HTTP ヘッダをハッシュで指定します。
+
+head2 は時代遅れなので使わないでください。
+
+```ruby title="例"
+response = http.request_head('/index.html')
+p response['content-type']
+```
+
+- **SEE** [Net::HTTP#head](../../../method/Net=3a=3aHTTP/i/head.md)

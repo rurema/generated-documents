@@ -1,0 +1,6 @@
+# Gem::Package::TarReader::Entry#eof?
+
+### def eof? -> bool
+
+自身を最後まで読み込んでいる場合は、真を返します。
+そうでない場合は、偽を返します。

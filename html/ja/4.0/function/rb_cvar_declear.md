@@ -1,0 +1,5 @@
+# rb_cvar_declear
+
+### void rb_cvar_declear(VALUE klass, ID name, VALUE val)
+
+klass のクラス変数 name に val を代入します。

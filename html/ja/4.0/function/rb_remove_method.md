@@ -1,0 +1,6 @@
+# rb_remove_method
+
+### void rb_remove_method(VALUE klass, const char *name)
+
+クラス klass 自体に登録されている name という名前のメソッドを検索し、エントリを削除します。
+見付からなかったときは例外 NameError を発生します。

@@ -1,0 +1,21 @@
+# StringScanner#pos
+
+### def pointer -> Integer
+### def pos -> Integer
+
+現在のスキャンポインタのインデックスを返します。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('test string')
+p s.pos       # => 0
+p s.scan(/\w+/) # => "test"
+p s.pos       # => 4
+p s.scan(/\w+/) # => nil
+p s.pos       # => 4
+p s.scan(/\s+/) # => " "
+p s.pos       # => 5
+```
+
+- **SEE** [StringScanner#charpos](../../../method/StringScanner/i/charpos.md)

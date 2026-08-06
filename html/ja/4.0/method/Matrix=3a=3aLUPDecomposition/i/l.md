@@ -1,0 +1,5 @@
+# Matrix::LUPDecomposition#l
+
+### def l -> Matrix
+
+LUP分解の下半行列部分を返します。

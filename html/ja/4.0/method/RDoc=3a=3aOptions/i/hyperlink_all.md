@@ -1,0 +1,8 @@
+# RDoc::Options#hyperlink_all
+
+### def hyperlink_all -> bool
+
+コマンドライン引数の --hyperlink-all オプションを指定していた場合、
+true を返します。
+
+指定しなかった場合は false を返します。

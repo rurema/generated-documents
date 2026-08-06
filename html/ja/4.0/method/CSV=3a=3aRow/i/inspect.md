@@ -1,0 +1,12 @@
+# CSV::Row#inspect
+
+### def inspect -> String
+
+ASCII 互換であるエンコーディングの文字列で自身の情報を返します。
+
+```ruby title="例"
+require "csv"
+
+row = CSV::Row.new(["header1", "header2", "header1"], [1, 2, 3])
+p row.inspect # => "#<CSV::Row \"header1\":1 \"header2\":2 \"header1\":3>"
+```

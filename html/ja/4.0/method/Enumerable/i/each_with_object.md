@@ -1,0 +1,17 @@
+# Enumerable#each_with_object
+
+### def each_with_object(obj) -> Enumerator
+### def each_with_object(obj) {|(*args), memo_obj| ... } -> object
+
+与えられた任意のオブジェクトと要素をブロックに渡し繰り返し、最初に与えられたオブジェクトを返します。
+
+ブロックを省略した場合は [Enumerator](../../../class/Enumerator.md) を返します。
+
+- **param** `obj` -- 任意のオブジェクトを指定します。
+
+```ruby title="例"
+evens = (1..10).each_with_object([]) {|i, a| a << i*2 }
+# => [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+```
+
+- **SEE** [Enumerator#with_object](../../../method/Enumerator/i/with_object.md)

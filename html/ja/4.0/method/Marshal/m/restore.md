@@ -1,0 +1,38 @@
+# Marshal?.restore
+
+### module_function def load(port, proc = nil, options = {})      -> object
+### module_function def restore(port, proc = nil, options = {})   -> object
+
+port からマーシャルデータを読み込んで、元のオブジェクトと同じ状態をもつオブジェクトを生成します。
+
+proc として手続きオブジェクトが与えられた場合には読み込んだオブジェクトを引数にその手続きを呼び出します。
+
+options の :freeze キーに真が指定された場合、読み込んだオブジェクトを freeze して返します。
+同一の文字列が freeze されているときオブジェクトは一つしか生まれないため、この指定によりメモリ使用効率が向上する場合があります。
+
+```ruby title="例"
+str = Marshal.dump(["a", 1, 10 ** 10, 1.0, :foo])
+p Marshal.load(str, proc {|obj| p obj})
+
+# => "a"
+#    1
+#    10000000000
+#    1.0
+#    :foo
+#    ["a", 1, 10000000000, 1.0, :foo]
+#    ["a", 1, 10000000000, 1.0, :foo]
+```
+
+- **param** `port` -- [String](../../../class/String.md) か [IO](../../../class/IO.md) (またはそのサブクラス)の
+            インスタンスを指定します。
+
+- **param** `proc` -- 手続きオブジェクト。[Proc](../../../class/Proc.md)
+
+- **param** `options` -- オプションをハッシュで指定します。指定可能なオプションは以下の通りです。
+
+- **`:freeze`**:
+  真偽値を指定します。真を指定すると読み込んだオブジェクトを freeze して返します。
+  デフォルトは偽です。
+
+- **raise** `TypeError` -- メジャーバージョンが異なるか、バージョンの大きな
+                 マーシャルデータを読み込んだ場合に発生します。

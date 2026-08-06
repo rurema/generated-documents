@@ -1,0 +1,5 @@
+# rb_require
+
+### VALUE rb_require(const char *fname)
+
+require の C 版です。feature「fname」をロードします。

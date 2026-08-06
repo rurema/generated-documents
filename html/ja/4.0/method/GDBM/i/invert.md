@@ -1,0 +1,14 @@
+# GDBM#invert
+
+### def invert -> Hash
+
+値からキーへのハッシュを返します。
+
+```ruby
+require 'gdbm'
+  
+db1 = GDBM.open('aaa.gdbm', 0666, GDBM::NEWDB)
+db1['a'] = 'aaa'
+db1['b'] = 'bbb'
+p db1.invert #=> {"aaa"=>"a", "bbb"=>"b"}
+```

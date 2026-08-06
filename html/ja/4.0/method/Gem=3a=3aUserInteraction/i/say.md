@@ -1,0 +1,7 @@
+# Gem::UserInteraction#say
+
+### def say(*args) -> ()
+
+与えられた文字列を表示します。
+
+- **param** `args` -- 委譲先のメソッドに与える引数です。

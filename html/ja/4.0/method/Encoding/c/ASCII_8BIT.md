@@ -1,0 +1,8 @@
+# Encoding::ASCII_8BIT
+
+### const ASCII_8BIT -> Encoding
+### const BINARY -> Encoding
+
+ASCII-8BIT、ASCII互換オクテット列用のエンコーディングです。
+
+もっぱら文字エンコーディングを持たないデータ、文字を符号化したのではない単なるバイトの列を表現するために用いますが、このエンコーディングは ASCII 互換であることがポイントです。

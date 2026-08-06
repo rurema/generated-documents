@@ -1,0 +1,21 @@
+# Class#inherited
+
+### def inherited(subclass)     -> ()
+
+クラスのサブクラスが定義された時、新しく生成されたサブクラスを引数にインタプリタから呼び出されます。このメソッドが呼ばれるタイミングはクラス定義文の実行直前です。
+
+- **param** `subclass` -- プログラム内で新たに定義された自身のサブクラスです。
+
+```ruby title="例"
+class Foo
+  def Foo.inherited(subclass)
+    puts "class \"#{self}\" was inherited by \"#{subclass}\""
+  end
+end
+class Bar < Foo
+  puts "executing class body"
+end
+
+# => class "Foo" was inherited by "Bar"
+#    executing class body
+```

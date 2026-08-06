@@ -1,0 +1,6 @@
+# Rake::RDocTask#external
+
+### def external -> bool
+
+この値が真の場合は外部のシェル経由で rdoc コマンドを実行します。
+デフォルトは偽です。

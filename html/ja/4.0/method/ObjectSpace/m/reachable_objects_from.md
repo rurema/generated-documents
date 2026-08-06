@@ -1,0 +1,43 @@
+# ObjectSpace?.reachable_objects_from
+
+### module_function def reachable_objects_from(obj) -> Array | nil
+
+obj から到達可能なすべてのオブジェクトを返します。マーク不能なオブジェクトを指定した場合は nil を返します。本メソッドを使う事でメモリリークの調査が行えます。
+
+```ruby title="例"
+# 配列クラス(Array)と 'a'、'b'、'c' に到達可能。
+p ObjectSpace.reachable_objects_from(['a', 'b', 'c'])
+# => [Array, 'a', 'b', 'c']
+```
+
+obj が 2 つ以上の同じオブジェクト x への参照を持つ場合、戻り値に含まれるオブジェクト x は 1 つだけです。
+
+```ruby title="例"
+# 配列クラス(Array)と v に到達可能。
+p ObjectSpace.reachable_objects_from([v = 'a', v, v])
+# => [Array, 'a']
+
+# 配列クラス(Array)と 3 つの異なる 'a' オブジェクトに到達可能。
+p ObjectSpace.reachable_objects_from(['a', 'a', 'a'])
+# => [Array, 'a', 'a', 'a']
+```
+
+obj にマーク不能なオブジェクト(true、false、nil、[Symbol](../../../class/Symbol.md)、即値の [Integer](../../../class/Integer.md)、Flonum(即値の [Float](../../../class/Float.md) オブジェクト))を指定した場合は
+nil を返します。
+
+```ruby title="例"
+# 1 はマーク不能
+p ObjectSpace.reachable_objects_from(1)
+# => nil
+```
+
+obj が内部でオブジェクトへの参照を持つ場合、
+ObjectSpace::InternalObjectWrapper オブジェクトが戻り値に含まれます。このオブジェクトは obj が内部で持っているオブジェクトを持ちます。内部のオブジェクトの型を確認する場合は ObjectSpace::InternalObjectWrapper#type
+を参照してください。:T_CLASS のような [Symbol](../../../class/Symbol.md) を返します。
+
+obj が ObjectSpace::InternalObjectWrapper オブジェクトであった場合、そのオブジェクトから参照される全てのオブジェクトを返します。
+
+本メソッドは C Ruby 以外では動作しません。
+
+- **SEE** <https://www.atdot.net/~ko1/diary/201212.html#d8>,
+     <https://www.atdot.net/~ko1/diary/201212.html#d9>

@@ -1,0 +1,23 @@
+# Kernel#jj
+
+### def jj(*objects) -> nil
+
+与えられたオブジェクトを JSON 形式の文字列で標準出力に人間に読みやすく整形して出力します。
+
+- **param** `objects` -- JSON 形式で出力したいオブジェクトを指定します。
+
+```ruby title="例"
+require "json"
+
+p jj([1,2,{"name" => "tanaka","age" => 19}])
+# => [
+#      1,
+#      2,
+#      {
+#        "name": "tanaka",
+#        "age": 19
+#      }
+#    ]
+```
+
+- **SEE** [Kernel?.pp](../../../method/Kernel/m/pp.md)

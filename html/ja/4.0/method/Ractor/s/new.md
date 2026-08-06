@@ -1,0 +1,11 @@
+# Ractor.new
+
+### def Ractor.new(*args, name: nil) {|*args| ... } -> Ractor
+
+Ractor を生成して、ブロックの評価を開始します。
+生成した Ractor を返します。
+
+- **param** `args` -- ブロックの引数として渡されます。
+            値が shareable である場合はそのインスタンスが、そうでない場合はコピーが試みられた値が渡されます。
+            コピーできない値であった場合は例外が発生します。
+- **param** `name` -- Ractor の名前を指定します。

@@ -1,0 +1,9 @@
+# Gem::Package::TarWriter::BoundedStream.new
+
+### def Gem::Package::TarWriter::BoundedStream.new(io, limit) -> Gem::Package::TarWriter::BoundedStream
+
+自身を初期化します。
+
+- **param** `io` -- ラップする IO を指定します。
+
+- **param** `limit` -- 書き込み可能な最大のサイズを指定します。

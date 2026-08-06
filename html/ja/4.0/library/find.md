@@ -1,0 +1,37 @@
+# library find
+
+ディレクトリ配下のファイルを探索するためのモジュールです。
+
+### 使い方
+
+```text
+require "find"
+  
+Find.find('/foo','/bar') {|f| ...}
+```
+
+または
+
+```text
+require "find"
+  
+include Find
+find('/foo','/bar') {|f| ...}
+```
+
+以下は、ruby のアーカイブに含まれるサンプルスクリプト
+(<https://github.com/ruby/ruby/blob/master/sample/trojan.rb>) をこのモジュールで書き換えたものです。
+
+```ruby
+#! /usr/bin/env ruby
+require "find"
+# 他人が書き込み可能な危険なコマンドを探す
+  
+for dir in ENV['PATH'].split(File::PATH_SEPARATOR)
+  Find.find(dir) do |fpath|
+    if File.file?(fpath) and (File.stat(fpath).mode & 022) != 0
+      printf("file %s is writable from other users\n", fpath)
+    end
+  end
+end
+```

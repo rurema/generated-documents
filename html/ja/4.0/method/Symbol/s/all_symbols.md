@@ -1,0 +1,31 @@
+# Symbol.all_symbols
+
+### def Symbol.all_symbols -> [Symbol]
+
+定義済みの全てのシンボルオブジェクトの配列を返します。
+
+```ruby
+p Symbol.all_symbols #=> [:RUBY_PLATFORM, :RUBY_VERSION, ...]
+```
+
+リテラルで表記したシンボルのうち、コンパイル時に値が決まるものはその時に生成されます。
+それ以外の式展開を含むリテラルや、メソッドで表記されたものは式の評価時に生成されます。
+(何にも使われないシンボルは最適化により生成されないことがあります)
+
+```ruby
+def number
+  'make_3'
+end
+
+p Symbol.all_symbols.select{|sym|sym.to_s.include? 'make'}
+#=> [:make_1, :make_2]
+
+re  = #確実に生成されるように代入操作を行う
+:make_1,
+:'make_2',
+:"#{number}",
+'make_4'.intern
+
+p Symbol.all_symbols.select{|sym|sym.to_s.include? 'make'}
+#=> [:make_1, :make_2, :make_3, :make_4]
+```

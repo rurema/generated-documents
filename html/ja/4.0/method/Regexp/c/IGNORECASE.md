@@ -1,0 +1,6 @@
+# Regexp::IGNORECASE
+
+### const IGNORECASE -> Integer
+
+文字の大小の違いを無視します。
+正規表現リテラルの //i オプションと同じです。

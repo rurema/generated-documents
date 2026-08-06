@@ -1,0 +1,5 @@
+# rb_gc_mark_children
+
+### void rb_gc_mark_children(VALUE ptr)
+
+v から指されているオブジェクトを全てマークします。

@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::BOOLEAN
+
+### const BOOLEAN -> Integer
+
+ASN.1 UNIVERSAL タグの、
+BOOLEAN のタグ番号 1 を表す定数です。

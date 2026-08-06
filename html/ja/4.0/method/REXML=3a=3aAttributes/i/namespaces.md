@@ -1,0 +1,25 @@
+# REXML::Attributes#namespaces
+
+### def namespaces -> { String => String }
+
+self の中で宣言されている名前空間の集合を返します。
+
+返り値は名前空間の prefix をキーとし、URI を値とする
+[Hash](../../../class/Hash.md) を返します。
+
+```ruby
+require 'rexml/document'
+
+doc = REXML::Document.new(<<EOS)
+<root xmlns:foo="http://example.org/foo"
+      xmlns:bar="http://example.org/bar">
+  <a foo:att='1' bar:att='2' att='&lt;'/>
+</root>
+EOS
+a = doc.get_elements("/root/a").first
+
+p doc.root.attributes.namespaces
+# => {"foo"=>"http://example.org/foo", "bar"=>"http://example.org/bar"}
+p a.attributes.namespaces
+# => {}
+```

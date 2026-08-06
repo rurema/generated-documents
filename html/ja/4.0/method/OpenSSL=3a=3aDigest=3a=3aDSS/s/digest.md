@@ -1,0 +1,7 @@
+# OpenSSL::Digest::DSS.digest
+
+### def OpenSSL::Digest::DSS.digest(data) -> String
+
+data のダイジェストを DSS で計算します。
+
+- **param** `data` -- ダイジェストを計算する文字列

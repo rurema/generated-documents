@@ -1,0 +1,3 @@
+# rb_free_generic_ivar
+
+### void rb_free_generic_ivar(VALUE obj)

@@ -1,0 +1,18 @@
+# JSON::State#max_nesting=
+
+### def max_nesting=(depth)
+
+生成される JSON 形式の文字列のネストの深さの最大値をセットします。
+
+この値にゼロをセットすると、ネストの深さのチェックを行いません。
+
+```ruby title="例"
+require "json"
+
+json_state = JSON::State.new(max_nesting: 2)
+json_state.max_nesting            # => 2
+JSON.generate([[]], json_state)
+json_state.max_nesting = 3
+json_state.max_nesting            # => 3
+JSON.generate([[[[]]]], json_state) # ~> JSON::NestingError
+```

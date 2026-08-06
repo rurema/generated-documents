@@ -1,0 +1,24 @@
+# GDBM#delete
+
+### def delete(key) -> object | nil
+### def delete(key) {|key| ... } -> object
+
+与えられた key に対応する項目を削除します。
+
+- **param** `key` -- キーを指定します。
+
+- **return** -- 指定したキーが存在する場合は、キーに対応する値を返します。
+        指定したキーが存在しない場合は、 nil を返します。
+        また、キーが存在しない場合にブロックを与えている場合は、ブロックを評価した結果を返します。
+
+```ruby
+require 'gdbm'
+GDBM.open("a.db") do |db|
+  db['a'] = "aaa"
+  db['d'] = "ddd"
+  p db.delete("a") # => "aaa"
+  p db.delete("b") # => nil
+  p db.delete("c"){|k| "c is missing" } # => "c is missing"
+  p db.delete("d"){|k| "d is missing" } # => "ddd"
+end
+```

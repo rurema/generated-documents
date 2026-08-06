@@ -1,0 +1,22 @@
+# Regexp.linear_time?
+
+### def Regexp.linear_time?(re) -> bool
+### def Regexp.linear_time?(string, options = 0) -> bool
+
+正規表現 re が入力文字列の長さに対して線形時間でマッチできる場合に true を、そうでない場合に false を返します。
+
+これは Ruby の処理系の性質であって、正規表現そのものの性質ではありません。
+同じ正規表現でも Ruby のビルドや実装によって結果が変わることがあり、返り値について前方互換性も後方互換性も保証されません。
+
+- **param** `re` -- 判定したい正規表現を指定します。
+
+- **param** `string` -- 正規表現を文字列で指定します。
+
+- **param** `options` -- 正規表現のオプションを指定します。
+
+```ruby
+p Regexp.linear_time?(/re/)          # => true
+p Regexp.linear_time?(/^((a|a)+)\1$/) # => false （後方参照があるため）
+```
+
+- **SEE** [Regexp.timeout=](../../../method/Regexp/s/timeout=3d.md)

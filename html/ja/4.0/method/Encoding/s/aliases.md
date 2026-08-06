@@ -1,0 +1,11 @@
+# Encoding.aliases
+
+### def Encoding.aliases    -> Hash
+
+エンコーディングの別名に対して元の名前を対応づけるハッシュを返します。
+
+```ruby title="例"
+p Encoding.aliases
+#=> {"BINARY"=>"ASCII-8BIT", "ASCII"=>"US-ASCII", "ANSI_X3.4-1968"=>"US-ASCII",
+#   "SJIS"=>"Windows-31J", "eucJP"=>"EUC-JP", "CP932"=>"Windows-31J"}
+```

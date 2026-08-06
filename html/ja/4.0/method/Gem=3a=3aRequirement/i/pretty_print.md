@@ -1,0 +1,13 @@
+# Gem::Requirement#pretty_print
+
+### def pretty_print(pp) -> String
+
+わかりやすい形で、条件を表す文字列を返します。
+pp メソッドで出力する際に、内部で用いられます。
+
+- **param** `PP` -- [PP](../../../class/PP.md) オブジェクトを指定します。
+
+```ruby
+req = Gem::Requirement.new(["< 5.0", ">= 1.9"])
+pp req # => Gem::Requirement.new(["< 5.0", ">= 1.9"])
+```

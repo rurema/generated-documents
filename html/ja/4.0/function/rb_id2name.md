@@ -1,0 +1,6 @@
+# rb_id2name
+
+### char * rb_id2name(ID id)
+
+id に対応する文字列を返します。
+返り値は開放できません。

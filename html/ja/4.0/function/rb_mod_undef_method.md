@@ -1,0 +1,3 @@
+# rb_mod_undef_method
+
+### static VALUE rb_mod_undef_method(VALUE mod, VALUE name)

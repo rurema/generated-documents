@@ -1,0 +1,13 @@
+# String.try_convert
+
+### def String.try_convert(obj) -> String | nil
+
+obj を String に変換しようと試みます。変換には [Object#to_str](../../../method/Object/i/to_str.md) メソッドが使われます。変換後の文字列を返すか、何らかの理由により変換できなかった場合は nil が返されます。
+
+- **param** `obj` --   変換する任意のオブジェクト
+- **return** --      変換後の文字列または nil
+
+```ruby title="例"
+p String.try_convert("str")   # => "str"
+p String.try_convert(/re/)    # => nil
+```

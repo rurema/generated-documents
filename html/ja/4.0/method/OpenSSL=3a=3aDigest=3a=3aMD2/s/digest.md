@@ -1,0 +1,7 @@
+# OpenSSL::Digest::MD2.digest
+
+### def OpenSSL::Digest::MD2.digest(data) -> String
+
+data のダイジェストを MD2 で計算します。
+
+- **param** `data` -- ダイジェストを計算する文字列

@@ -1,0 +1,28 @@
+# Object#to_int
+
+### def to_int -> Integer
+{: nomethod}
+
+オブジェクトの [Integer](../../../class/Integer.md) への暗黙の変換が必要なときに内部で呼ばれます。
+デフォルトでは定義されていません。
+
+説明のためここに記載してありますが、このメソッドは実際には Object クラスには定義されていません。
+必要に応じてサブクラスで定義すべきものです。
+
+このメソッドを定義する条件は、
+- 整数が使われるすべての場面で代置可能であるような、
+- 整数そのものとみなせるようなもの
+という厳しいものになっています。
+
+```ruby
+class Foo
+  def to_int
+    1
+  end
+end
+
+ary = [:a, :b, :c]
+p(ary[Foo.new]) # => :b
+```
+
+- **SEE** [Kernel?.Integer](../../../method/Kernel/m/Integer.md)

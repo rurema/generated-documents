@@ -1,0 +1,15 @@
+# rb_ary_pop
+
+### VALUE rb_ary_pop(VALUE ary)
+
+配列 ary の末尾の要素をとりのぞき返します。
+空配列のときは Qnil を返します。
+
+```text title="対応するRubyコード"
+val = ary.pop
+```
+
+```c title="使用例"
+last_error = rb_ary_pop(err_ary);
+VALUE str = rb_funcall(last_error, rb_intern("to_s"), 0);
+```

@@ -1,0 +1,5 @@
+# rb_backref_set
+
+### void rb_backref_set(VALUE val)
+
+現在の SCOPE の $~ に val を代入します。

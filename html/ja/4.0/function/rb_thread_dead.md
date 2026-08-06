@@ -1,0 +1,3 @@
+# rb_thread_dead
+
+### static int rb_thread_dead(rb_thread_t th)

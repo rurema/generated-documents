@@ -1,0 +1,49 @@
+# Array#sample
+
+### def sample        -> object | nil
+### def sample(n)     -> Array
+### def sample(random: Random)    -> object | nil
+### def sample(n, random: Random) -> Array
+
+配列の要素を1個(引数を指定した場合は自身の要素数を越えない範囲で n 個)
+ランダムに選んで返します。
+
+重複したインデックスは選択されません。そのため、自身がユニークな配列の場合は返り値もユニークな配列になります。
+
+配列が空の場合、無引数の場合は nil を、個数を指定した場合は空配列を返します。
+
+srand()が有効です。
+
+- **param** `n` -- 取得する要素の数を指定します。自身の要素数(self.length)以上の
+         値を指定した場合は要素数と同じ数の配列を返します。
+         整数以外のオブジェクトを指定した場合は to_int メソッドによる暗
+         黙の型変換を試みます。
+
+- **param** `random` -- 乱数生成器(主に [Random](../../../class/Random.md) オブジェクト)を指定します。
+              選択する要素のインデックスを返す rand メソッドに応答する
+              オブジェクトであれば指定する事ができます。rand メソッド
+              の引数には [Random#rand](../../../method/Random/i/rand.md)(max) のように選択可能なイン
+              デックスの最大値が指定されます。
+              [Kernel?.rand](../../../method/Kernel/m/rand.md)、[Random](../../../class/Random.md) を使用しないオブジェク
+              トを指定した場合、[Kernel?.srand](../../../method/Kernel/m/srand.md)の指定に影響されません。
+
+- **raise** `TypeError` -- 引数 n に整数以外の(暗黙の型変換が行えない)オブジェク
+                 トを指定した場合に発生します。
+
+- **raise** `ArgumentError` -- 引数 n に負の数を指定した場合に発生します。
+
+```ruby title="例"
+a = (1..10).to_a
+p a.sample        #=>  9
+p a.sample        #=> 10
+p a.sample(3)     #=> [1, 9, 3]
+p a               #=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+```
+
+random [SecureRandom](../../../class/SecureRandom.md) などの乱数生成器を渡すことができます。
+
+```ruby title="例"
+require 'securerandom'
+a = (1..10).to_a
+p a.sample(random: SecureRandom)  #=>  2
+```

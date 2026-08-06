@@ -1,0 +1,62 @@
+# Module#autoload
+
+### def autoload(const_name, feature) -> nil
+
+定数 const_name を最初に参照した時に feature を [Kernel?.require](../../../method/Kernel/m/require.md) するように設定します。
+
+const_name が autoload 設定されていて、まだ定義されてない(ロードされていない)ときは、
+autoload する対象を置き換えます。
+const_name が(autoloadではなく)既に定義されているときは何もしません。
+
+- **param** `const_name` -- [String](../../../class/String.md) または [Symbol](../../../class/Symbol.md) で指定します。
+       なお、const_name には、"::" 演算子を含めることはできません。
+       つまり、self の直下に定義された定数しか指定できません。
+
+- **param** `feature` -- [Kernel?.require](../../../method/Kernel/m/require.md) と同様な方法で autoload する対象を指定する。
+
+```ruby title="例"
+# ------- /tmp/zoo.rb ---------
+class Zoo
+  class Animal
+  end
+end
+# ----- end of /tmp/zoo.rb ----
+
+class Zoo
+  autoload :Animal, '/tmp/zoo'
+end
+p Zoo::Animal # => Zoo::Animal
+```
+
+以下のようにモジュールを明示的にレシーバとして呼び出すこともできます。
+
+```ruby title="例"
+# ------- /tmp/zoo.rb ---------
+class Zoo
+  class Animal
+  end
+end
+# ----- end of /tmp/zoo.rb ----
+
+class Zoo
+end
+Zoo.autoload :Animal, '/tmp/zoo'
+p Zoo::Animal # => Zoo::Animal
+```
+
+以下のように、autoload したライブラリがネストした定数を定義しない場合、NameError が発生します。
+
+```ruby title="例"
+# ------- /tmp/animal.rb ---------
+class Animal
+end
+# ----- end of /tmp/animal.rb ----
+
+class Zoo
+  autoload :Animal, '/tmp/animal.rb'
+end
+Zoo::Animal
+# => -:4:in '<main>': uninitialized constant Zoo::Animal (NameError)
+```
+
+- **SEE** [Kernel?.autoload](../../../method/Kernel/m/autoload.md)

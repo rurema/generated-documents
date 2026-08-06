@@ -1,0 +1,24 @@
+# SecureRandom.urlsafe_base64
+
+### def SecureRandom.urlsafe_base64(n = nil, padding = false)  -> String
+
+ランダムで URL-safe な base64 文字列を生成して返します。
+
+- **param** `n` -- 文字列の生成に使われるランダムネスのサイズを整数で指定します。
+         生成される文字列のサイズはn の約 4/3 倍になります。
+         nil を指定した場合 n として 16 が使われます。
+
+- **param** `padding` -- 真を指定すると '=' でパディングを行います。
+               偽を指定するとパディングを行いません。デフォルトは偽です。
+
+- **raise** `NotImplementedError` --  安全な乱数発生器が使えない場合に発生します。
+
+```ruby
+require 'securerandom'
+p SecureRandom.urlsafe_base64 #=> "b4GOKm4pOYU_-BOXcrUGDg"
+p SecureRandom.urlsafe_base64 #=> "UZLdOkzop70Ddx-IJR0ABg"
+p SecureRandom.urlsafe_base64(nil, true) #=> "i0XQ-7gglIsHGV2_BNPrdQ=="
+p SecureRandom.urlsafe_base64(nil, true) #=> "-M8rLhr7JEpJlqFGUMmOxg=="
+```
+
+- **SEE** [SecureRandom.base64](../../../method/SecureRandom/s/base64.md),  [rfc:3548]

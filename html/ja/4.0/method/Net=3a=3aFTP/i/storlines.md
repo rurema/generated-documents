@@ -1,0 +1,24 @@
+# Net::FTP#storlines
+
+### def storlines(cmd, file) -> nil
+### def storlines(cmd, file){|line| ...} -> nil
+
+サーバーに cmd で指定されたコマンドを送り、テキストデータを送ります。
+
+一行ずつで file からテキストを読み込み、サーバーに送ります。
+
+送るデータは [IO](../../../class/IO.md) のインスタンスを
+file で指定します。
+(実際には [StringIO](../../../class/StringIO.md) のような IO とメソッドレベルで互換するオブジェクトであればなんでもかまいません)。
+
+ブロックが与えられた場合には各行をそのブロックに渡します。
+
+- **param** `cmd` -- コマンドを文字列で与えます。
+- **param** `file` -- 送るデータを与えます。
+
+- **raise** `Net::FTPTempError` -- 応答コードが 4yz のときに発生します。
+- **raise** `Net::FTPPermError` -- 応答コードが 5yz のときに発生します。
+- **raise** `Net::FTPProtoError` -- 応答コードが RFC 的に正しくない場合に発生します。
+- **raise** `Net::FTPReplyError` -- 応答コードが上の場合以外で正しくない場合(1xy, 3xyが来るべきでないときに来た場合など)に発生します。
+
+- **SEE** [Net::FTP#puttextfile](../../../method/Net=3a=3aFTP/i/puttextfile.md)

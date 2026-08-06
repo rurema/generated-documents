@@ -1,0 +1,31 @@
+# Psych::Nodes::Document.new
+
+### def Psych::Nodes::Document.new(version=[], tag_directives=[], implicit=false) -> Psych::Nodes::Document
+
+Document オブジェクトを生成します。
+
+version にはドキュメントのバージョンを指定します。
+[major, minor] という配列で指定します。
+
+tag_directives には tag directive の配列を指定します。
+それぞれの tag は [prefix, suffix] という文字列の配列で表現します。
+
+implicit にはドキュメントが implicit に始まっているかどうかを真偽値で指定します。
+
+- **param** `version` -- YAML ドキュメントのバージョン
+- **param** `tag_directives` -- tag directive の配列
+- **param** `implicit` -- ドキュメントが implicit に始まっているかどうか
+
+### 例
+
+以下の例では、YAML 1.1  のドキュメントで、
+tag directive を1つ持ち、 implicit にドキュメントが開始している Document オブジェクトを生成しています。
+
+```ruby
+Psych::Nodes::Document.new(
+  [1,1],
+  [["!", "tag:tenderlovemaking.com,2009:"]],
+  true)
+```
+
+- **SEE** [Psych::Handler#start_document](../../../method/Psych=3a=3aHandler/i/start_document.md)

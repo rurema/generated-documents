@@ -1,0 +1,19 @@
+# rb_ary_push
+
+### VALUE rb_ary_push(VALUE ary, VALUE item)
+
+配列 ary の末尾に item を追加します。
+
+```text title="対応するRubyコード"
+ary.push(item) または
+ary << item
+```
+
+```c title="使用例"
+VALUE ary = rb_ary_new();
+char line[4096];
+while ((gets(line)) != NULL){
+  item = process_apache_log(line);
+  rb_ary_push(ary, item);
+}
+```

@@ -1,0 +1,27 @@
+# File.ftype
+
+### def File.ftype(filename)    -> String
+
+ファイルのタイプを表す文字列を返します。
+
+文字列は以下のうちのいずれかです。File.lstat(filename).ftype と同じです。
+シンボリックリンクに対して "link" を返します。
+
+- "file"
+- "directory"
+- "characterSpecial"
+- "blockSpecial"
+- "fifo"
+- "link"
+- "socket"
+- "unknown"
+
+- **param** `filename` -- ファイル名を表す文字列を指定します。 
+
+- **raise** `Errno::EXXX` -- 情報の取得に失敗した場合に発生します。
+
+```ruby title="例"
+p File.ftype("testfile")          # => "file"
+p File.ftype("/dev/tty")          # => "characterSpecial"
+p File.ftype("/tmp/.X11-unix/X0") # => "socket"
+```

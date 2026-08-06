@@ -1,0 +1,27 @@
+# Thread::Mutex#sleep
+
+### def sleep(timeout = nil)    -> Integer
+{: since="1.9.1"}
+
+与えられた秒数の間ロックを解除してスリープして、実行後にまたロックします。
+
+- **param** `timeout` -- スリープする秒数を指定します。省略するとスリープし続けます。
+
+- **return** -- タイムアウトした時は nil を、それ以外はスリープしていた秒数を返します。
+
+- **raise** `ThreadError` -- 自身がカレントスレッドによってロックされていない場合に発生します。
+
+[注意] 2.0 以降ではスリープ中でも、シグナルを受信した場合などに実行が再開(spurious wakeup)される場合がある点に注意してください。
+
+```ruby title="例"
+m = Thread::Mutex.new
+th = Thread.new do
+  m.lock
+  m.sleep(2)
+end
+p th.status # => "run"
+sleep 1
+p th.status # => "sleep"
+sleep 1
+p th.status # => false
+```

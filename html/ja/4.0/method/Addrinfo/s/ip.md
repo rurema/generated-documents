@@ -1,0 +1,17 @@
+# Addrinfo.ip
+
+### def Addrinfo.ip(host) -> Addrinfo
+
+IP アドレスに対する Addrinfo オブジェクトを返します。
+
+port, socktype, protocol は 0 で初期化されます。
+つまりこの返り値はソケットを生成するには不適です。
+
+```ruby
+require 'socket'
+
+p Addrinfo.ip("localhost") #=> #<Addrinfo: 127.0.0.1 (localhost)>
+```
+
+- **param** `host` -- ホスト(IP アドレスもしくはホスト名)
+- **SEE** [Addrinfo.new](../../../method/Addrinfo/s/new.md)

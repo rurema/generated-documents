@@ -1,0 +1,12 @@
+# Pathname#root?
+
+### def root? -> bool
+
+self がルートディレクトリであれば真を返します。判断は文字列操作によって行われ、ファイルシステムはアクセスされません。
+
+```ruby title="例"
+require 'pathname'
+
+p Pathname('/').root?       # => true
+p Pathname('/im/sure').root?  # => false
+```

@@ -1,0 +1,5 @@
+# rb_str_dup
+
+### VALUE rb_str_dup(VALUE str)
+
+文字列 str の複製を作成し返します。

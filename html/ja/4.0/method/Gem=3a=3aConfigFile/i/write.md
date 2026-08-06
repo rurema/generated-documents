@@ -1,0 +1,5 @@
+# Gem::ConfigFile#write
+
+### def write
+
+自身を読み込んだ設定ファイルを書き換えます。

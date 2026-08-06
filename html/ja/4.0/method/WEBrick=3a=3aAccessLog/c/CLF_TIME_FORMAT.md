@@ -1,0 +1,10 @@
+# WEBrick::AccessLog::CLF_TIME_FORMAT
+
+### const CLF_TIME_FORMAT -> String
+
+Apache のアクセスログと同じ時刻の形式を表す文字列です。
+
+- **return** -- 以下の文字列を返します。
+  ```text
+    "[%d/%b/%Y:%H:%M:%S %Z]"
+  ```

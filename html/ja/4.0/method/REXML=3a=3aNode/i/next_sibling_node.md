@@ -1,0 +1,7 @@
+# REXML::Node#next_sibling_node
+
+### def next_sibling_node -> REXML::Node | nil
+
+次の兄弟ノードを返します。
+
+次の兄弟ノードが存在しない場合(ノードがルートである場合や、最後のノードである場合)は nil を返します。

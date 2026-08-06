@@ -1,0 +1,8 @@
+# Fiddle::CStruct.size
+
+### def Fiddle::CStruct.size -> Integer
+
+構造体のサイズをバイト数で返します。
+
+このメソッドが返す値は C の構造体としてのサイズです。
+Ruby のオブジェクトとしてはより大きなメモリを消費しています。

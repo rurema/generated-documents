@@ -1,0 +1,25 @@
+# FileUtils?.touch
+
+### module_function def touch(list, noop: nil, verbose: nil, mtime: nil, nocreate: nil) -> ()
+
+list で指定されたファイルの最終変更時刻 (mtime) とアクセス時刻 (atime) を変更します。
+
+list で指定されたファイルが存在しない場合は空のファイルを作成します。
+
+- **param** `list` -- 対象のファイル。一つの場合は文字列も指定可能です。
+            二つ以上指定する場合は配列で指定します。
+
+- **param** `noop` -- 真を指定すると実際の処理は行いません。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+- **param** `mtime` -- 時刻を [Time](../../../class/Time.md) か、起算時からの経過秒数を数値で指定します。
+
+- **param** `nocreate` -- 真を指定するとファイルを作成しません。
+
+```ruby
+require 'fileutils'
+FileUtils.touch('timestamp')
+FileUtils.touch('timestamp', mtime: Time.now)
+FileUtils.touch(Dir.glob('*.c'))
+```

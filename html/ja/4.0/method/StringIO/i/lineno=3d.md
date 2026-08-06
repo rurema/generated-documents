@@ -1,0 +1,7 @@
+# StringIO#lineno=
+
+### def lineno=(n)
+
+現在の行番号を n にセットします。
+
+- **param** `n` -- 行番号を整数で指定します。

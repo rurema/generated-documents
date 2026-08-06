@@ -1,0 +1,5 @@
+# OpenSSL::OCSP::NOEXPLICIT
+
+### const NOEXPLICIT -> Integer
+
+証明書ストア内の Root CA を信用しないことを意味します。

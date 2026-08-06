@@ -1,0 +1,9 @@
+# Net::IMAP::Address#name
+
+### def name -> String | nil
+
+メールアドレスの [RFC:822] の個人名(personal name)を返します。
+
+個人名が存在しない場合は nil を返します。
+
+通常は nil を返します。

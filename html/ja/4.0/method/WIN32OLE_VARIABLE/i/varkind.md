@@ -1,0 +1,16 @@
+# WIN32OLE_VARIABLE#varkind
+
+### def varkind -> Integer
+
+変数の種類（VARKIND）を取得します。
+
+この変数の種類を示す数値を返します。
+
+- **return** -- VARKINDに対応する数値を返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'XlSheetType')
+puts tobj.variables.map {|v| v.varkind}.uniq # => 2
+```
+
+数値の意味については、[WIN32OLE_VARIABLE#variable_kind](../../../method/WIN32OLE_VARIABLE/i/variable_kind.md)の説明を参照してください。

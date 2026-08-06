@@ -1,0 +1,12 @@
+# ENV.merge!
+
+### def ENV.merge!(*others) -> ENV
+### def ENV.merge!(*others) {|key, self_val, other_val| ... } -> ENV
+### def ENV.update(*others) -> ENV
+### def ENV.update(*others) {|key, self_val, other_val| ... } -> ENV
+
+ハッシュ others の内容を環境変数にマージします。重複するキーに対応する値は others の内容で上書きされます。
+
+self と others に同じキーがあった場合はブロック付きか否かで判定方法が違います。ブロック付きのときはブロックを呼び出してその返す値を重複キーに対応する値にします。ブロック付きでない場合は常に others の値を使います。
+
+- **param** `others` -- マージ用のハッシュです。

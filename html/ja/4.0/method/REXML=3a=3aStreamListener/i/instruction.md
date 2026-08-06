@@ -1,0 +1,23 @@
+# REXML::StreamListener#instruction
+
+### def instruction(name, instruction) -> ()
+
+XML処理命令(PI)をパースしたときに呼び出されるコールバックメソッドです。
+
+- **param** `name` -- ターゲット名が文字列で渡されます
+- **param** `instruction` -- 処理命令の内容が文字列で渡されます
+
+### 例
+
+```text
+<?xml-stylesheet type="text/css" href="style.css"?>
+```
+
+というPIに対し
+
+```text
+name: "xml-stylesheet"
+instruction: " type=\"text/css\" href=\"style.css\""
+```
+
+という引数が渡されます。

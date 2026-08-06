@@ -1,0 +1,17 @@
+# Matrix#trace
+
+### def trace -> Integer | Float | Rational | Complex
+### def tr -> Integer | Float | Rational | Complex
+
+トレース (trace) を返します。
+
+行列のトレース (trace) とは、対角要素の和です。
+
+```ruby title="例"
+require 'matrix'
+p Matrix[[7,6], [3,9]].trace # => 16
+```
+
+trace は正方行列でのみ定義されます。
+
+- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- 行列が正方行列でない場合に発生します

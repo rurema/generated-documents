@@ -1,0 +1,25 @@
+# IO#set_encoding_by_bom
+
+### def set_encoding_by_bom -> Encoding | nil
+
+BOM から IO のエンコーディングを設定します。
+
+自身が BOM から始まる場合、BOM を読み進めて外部エンコーディングをセットし、セットしたエンコーディングを返します。
+BOM が見つからなかった場合は nil を返します。
+
+自身がバイナリモードでないかすでにエンコーディングがセットされている場合、例外が発生します。
+
+```ruby title="例"
+File.write("bom.txt", "\u{FEFF}abc")
+File.open("bom.txt", "rb") do |io|
+  p io.set_encoding_by_bom    #=>  #<Encoding:UTF-8>
+  str = io.read
+  p str                       #=>  "abc"
+  p str.encoding              #=>  #<Encoding:UTF-8>
+end
+
+File.write("nobom.txt", "abc")
+File.open("nobom.txt", "rb") do |io|
+  p io.set_encoding_by_bom    #=>  nil
+end
+```

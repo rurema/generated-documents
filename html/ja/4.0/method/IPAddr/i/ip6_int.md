@@ -1,0 +1,6 @@
+# IPAddr#ip6_int
+
+### def ip6_int -> String
+
+IPv6 なら [RFC:1886] 互換形式で DNS 逆引きのための文字列を返します。
+IPv4 の場合は例外を発生します。

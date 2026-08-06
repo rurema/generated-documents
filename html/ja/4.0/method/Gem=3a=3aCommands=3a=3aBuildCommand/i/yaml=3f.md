@@ -1,0 +1,7 @@
+# Gem::Commands::BuildCommand#yaml?
+
+### def yaml?(filename) -> bool
+
+与えられたファイル名を持つファイルが yaml ファイルである場合に真を返します。
+
+- **param** `filename` -- ファイル名を指定します。

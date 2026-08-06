@@ -1,0 +1,7 @@
+# SimpleDelegator.new
+
+### def SimpleDelegator.new(obj) -> object
+
+メソッドを委譲するオブジェクトの設定と、メソッド委譲を行うためのクラスメソッドの定義を行います。
+
+- **param** `obj` -- 委譲先のオブジェクト

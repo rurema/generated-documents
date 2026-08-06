@@ -1,0 +1,11 @@
+# Gem::Requirement#specific?
+
+### def specific? -> bool
+
+条件に上限のある指定で、最新のバージョンにマッチしない可能性のある場合は、true を返します。
+
+```ruby
+p Gem::Requirement.new(">= 3").specific?  # => false
+p Gem::Requirement.new("~> 3").specific?  # => true
+p Gem::Requirement.new("=  3").specific?  # => true
+```

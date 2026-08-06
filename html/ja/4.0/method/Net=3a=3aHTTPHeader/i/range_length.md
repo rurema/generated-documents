@@ -1,0 +1,31 @@
+# Net::HTTPHeader#range_length
+
+### def range_length -> Integer|nil
+
+Content-Range: ヘッダフィールドの表している長さを整数で返します。
+
+ヘッダが設定されていない場合には nil を返します。
+
+- **raise** `Net::HTTPHeaderSyntaxError` -- Content-Range: ヘッダフィールド
+                                  の値が不正である場合に
+                                  発生します。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+req['Content-Range'] = "bytes 1-500/1000"
+p req.range_length # => 500
+```
+
+1 以外から始まる範囲の場合は、末尾の値との差分に 1 を足した値になります。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+req['Content-Range'] = "bytes 200-699/1000"
+p req.range_length # => 500
+```

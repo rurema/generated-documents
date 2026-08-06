@@ -1,0 +1,16 @@
+# Pathname.new
+
+### def Pathname.new(path) -> Pathname
+
+文字列 path を元に Pathname オブジェクトを生成します。
+
+- **param** `path` -- 文字列、または類似のオブジェクトを与えます。
+            実際には to_str に反応するオブジェクトなら何でも構いません。
+
+- **raise** `ArgumentError` -- path が \0 を含んでいると発生します。
+
+```ruby title="例"
+require "pathname"
+
+p Pathname.new(__FILE__) # => #<Pathname:/path/to/file.rb>
+```

@@ -1,0 +1,15 @@
+# File.readlink
+
+### def File.readlink(path)    -> String
+
+シンボリックリンクのリンク先のパスを文字列で返します。
+
+- **param** `path` -- シンボリックリンクを表す文字列を指定します。
+
+- **raise** `Errno::EXXX` -- 指定された path がシンボリックリンクでない場合や、リンクの読み取りに失敗した場合に発生します。
+
+```ruby title="例:"
+IO.write("testfile", "test")
+p File.symlink("testfile", "testlink") # => 0
+p File.readlink("testlink")            # => "testfile"
+```

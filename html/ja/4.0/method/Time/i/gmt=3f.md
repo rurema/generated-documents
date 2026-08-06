@@ -1,0 +1,13 @@
+# Time#gmt?
+
+### def gmt?    -> bool
+### def utc?    -> bool
+
+self のタイムゾーンが協定世界時に設定されていれば真を返します。
+
+```ruby
+p t = Time.local(2017,9,19,15,0,0)   # => 2017-09-19 15:00:00 +0900
+p t.utc?                             # => false
+p utc_t = t.getutc                   # => 2017-09-19 06:00:00 UTC
+p utc_t.utc?                         # => true
+```

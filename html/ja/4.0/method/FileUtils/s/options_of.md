@@ -1,0 +1,12 @@
+# FileUtils.options_of
+
+### def FileUtils.options_of(mid) -> Array
+
+与えられたメソッド名で使用可能なオプション名の配列を返します。
+
+- **param** `mid` -- メソッド名を指定します。
+
+```ruby
+require 'fileutils'
+p FileUtils.options_of(:rm)  # => ["noop", "verbose", "force"]
+```

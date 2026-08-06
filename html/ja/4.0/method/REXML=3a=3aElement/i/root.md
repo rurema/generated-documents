@@ -1,0 +1,23 @@
+# REXML::Element#root
+
+### def root -> REXML::Element
+
+self が属する文書のルート要素を返します。
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new(<<EOS)
+<root>
+<children>
+  <grandchildren />
+</children>
+</root>
+EOS
+
+children = doc.get_elements("/root/children").first
+p children.name # => "children"
+p children.root.name # => "root"
+grandchildren = doc.get_elements("/root/children/grandchildren").first
+p grandchildren.name # => "grandchildren"
+p grandchildren.root.name # => "root"
+```

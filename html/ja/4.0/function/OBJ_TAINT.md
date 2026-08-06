@@ -1,0 +1,5 @@
+# OBJ_TAINT
+
+### void OBJ_TAINT(VALUE x)
+
+x に汚染マークを付ける。

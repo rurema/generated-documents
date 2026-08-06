@@ -1,0 +1,66 @@
+# Kernel$LOAD_PATH
+
+### gvar $:         -> [String]
+### gvar $LOAD_PATH -> [String]
+### gvar $-I        -> [String]
+
+Rubyライブラリをロードするときの検索パスです。
+
+[Kernel?.load](../../../method/Kernel/m/load.md) や [Kernel?.require](../../../method/Kernel/m/require.md)
+がファイルをロードする時に検索するディレクトリのリストを含む配列です。
+
+起動時にはコマンドラインオプション -I で指定したディレクトリ、環境変数 RUBYLIB の値、コンパイル時に指定したデフォルト値をこの順番で含みます。
+
+以下に典型的な UNIX システム上でのロードパスを示します。
+
+- `-I` で指定したパス
+- 環境変数 RUBYLIB の値
+- `/usr/local/lib/ruby/site_ruby/VERSION` -- サイト固有、バージョン依存のライブラリ
+- `/usr/local/lib/ruby/site_ruby/VERSION/ARCH` -- サイト固有、システム依存、拡張ライブラリ
+- `/usr/local/lib/ruby/site_ruby` -- サイト固有ライブラリ
+- `/usr/local/lib/ruby/VERSION` -- 標準ライブラリ
+- `/usr/local/lib/ruby/VERSION/ARCH` -- 標準、システム依存、拡張ライブラリ
+
+上記の VERSION は Ruby のバージョンを表す文字列で、「1.6」や「1.8」です。
+ARCH はハードウェアと OS を表す文字列で、「i686-linux」や「alpha-osf5.1」などです。
+ARCH の値は Config::CONFIG['arch'] で得られます。
+
+コンパイル時のデフォルトパスは多くの UNIX システムでは "/usr/local/lib/ruby" です。
+[platform/mswin32](../../../doc/platform=2fmswin32.md)、[platform/mingw32](../../../doc/platform=2fmingw32.md)、[platform/Cygwin](../../../doc/platform=2fCygwin.md)
+環境では
+ruby.dll の位置からの相対で決まります。
+
+require 'foo' を実行すると、以下のように foo.rb と foo.so が交互に探索されます。
+
+```text
+/usr/local/lib/ruby/site_ruby/VERSION/foo.rb
+/usr/local/lib/ruby/site_ruby/VERSION/foo.so
+/usr/local/lib/ruby/site_ruby/VERSION/ARCH/foo.rb
+/usr/local/lib/ruby/site_ruby/VERSION/ARCH/foo.so
+  :
+  :
+```
+
+なお、共有ライブラリの拡張子が .so でないシステムでは「.so」が適切な拡張子に変更されます。
+例えば HP-UX では require 'foo.so' とすると foo.sl を検索します。
+したがって Ruby で記述されたコードでは常に .so を使うべきです。
+
+なお、ロードパスをコマンドラインから調べるには
+
+```console
+$ ruby -e 'puts $:'
+```
+
+とします。
+
+$LOAD_PATH の特異メソッドとして resolve_feature_path が定義されています。
+require を呼んだときに読み込まれるファイルを特定できます。
+
+```ruby
+p $LOAD_PATH.resolve_feature_path('set')
+# => [:rb, "/build-all-ruby/2.7.0/lib/ruby/2.7.0/set.rb"]
+```
+
+この変数はグローバルスコープです。
+
+- **SEE** [spec/rubycmd](../../../doc/spec=2frubycmd.md), [spec/envvars](../../../doc/spec=2fenvvars.md)

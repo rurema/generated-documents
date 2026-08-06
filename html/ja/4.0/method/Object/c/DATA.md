@@ -1,0 +1,95 @@
+# Object::DATA
+
+### const DATA -> File
+
+スクリプトの `__END__`
+プログラムの終り以降をアクセスする [File](../../../class/File.md) オブジェクト。
+
+[spec/program#terminate](../../../doc/spec=2fprogram.md#terminate)も参照。
+
+ソースファイルの `__END__` 以降は解析・実行の対象にならないのでその部分にプログラムが利用するためのデータを書き込んでおくことができます。
+DATA 定数はそのデータ部分にアクセスするための [File](../../../class/File.md) オブジェクトを保持しています。
+
+`__END__` を含まないプログラムにおいては DATA は定義されません。
+
+### 注意
+
+    - DATA.rewind で移動する読みとり位置は __END__ 直後ではなく、
+      スクリプトファイルの先頭です。
+    - スクリプトが標準入力から読みこまれた場合は標準入力になります。
+    - スクリプトがファイルや標準入力から読みこまれなかった場合や、
+      __END__ で終っていない場合には定義されません。
+    - [Kernel?.require](../../../method/Kernel/m/require.md) や [Kernel?.load](../../../method/Kernel/m/load.md) で
+      読み込まれたファイルの中であってもそのファイル (__FILE__, [spec/variables#pseudo](../../../doc/spec=2fvariables.md#pseudo))
+      ではなく実行されたファイル ([m:$0]) を指します。
+
+### 例1
+
+```ruby
+print DATA.gets # => 故人西辞黄鶴楼
+print DATA.gets # => 烟花三月下揚州
+print DATA.gets # => 孤帆遠影碧空尽
+print DATA.gets # => 唯見長江天際流
+p DATA.gets     # => nil
+
+__END__
+故人西辞黄鶴楼
+烟花三月下揚州
+孤帆遠影碧空尽
+唯見長江天際流
+```
+
+### 例2
+
+```ruby
+sum = 0
+DATA.each_line do |line|
+  sum += line.to_i
+end
+
+DATA.rewind
+p DATA.gets    # => "sum = 0¥n"
+
+__END__
+17
+19
+23
+29
+31
+```
+
+### 例3
+
+```ruby
+DATA.gets    # => uninitialized constant DATA (NameError)
+```
+
+### 例4
+
+ファイル library.rb と app.rb の内容が以下であったとします。
+
+```ruby title="library.rb"
+print DATA.gets
+
+__END__
+data from library
+```
+
+```ruby title="app.rb"
+require_relative 'library.rb'
+
+__END__
+data from app
+```
+
+このときシェルから次を実行すると
+
+```console
+$ ruby app.rb
+```
+
+結果は以下のように出力されます。
+
+```text
+data from app
+```

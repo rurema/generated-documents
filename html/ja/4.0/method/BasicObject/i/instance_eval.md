@@ -1,0 +1,63 @@
+# BasicObject#instance_eval
+
+### def instance_eval(expr, filename = "(eval)", lineno = 1) -> object
+### def instance_eval {|obj| ... }                           -> object
+
+オブジェクトのコンテキストで文字列 expr またはオブジェクト自身をブロックパラメータとするブロックを評価してその結果を返します。
+
+オブジェクトのコンテキストで評価するとは評価中の self をそのオブジェクトにして実行するということです。
+また、文字列 expr やブロック中でメソッドを定義すればそのオブジェクトの特異メソッドが定義されます。
+
+ただし、ローカル変数だけは、文字列 expr の評価では instance_eval の外側のスコープと、ブロックの評価ではそのブロックの外側のスコープと、共有します。
+
+メソッド定義の中で instance_eval でメソッドを定義した場合は、囲むメソッドが実行されたときに初めて instance_eval 内のメソッドが定義されます。これはメソッド定義のネストと同じです。
+[spec/def#nest_method](../../../doc/spec=2fdef.md#nest_method) を参照してください。
+
+BasicObject を継承して作ったクラス内で instance_eval する場合はトップレベルの定数や Kernel モジュールに定義されているメソッドは見えません。
+これは、トップレベルの定数が Object 以下に作成されるためです。
+
+- **param** `expr` --  評価する文字列です。
+
+- **param** `filename` -- 文字列を指定します。ファイル filename に文字列 expr が
+                書かれているかのように実行されます。スタックトレースの
+                表示などを差し替えることができます。
+
+- **param** `lineno` -- 整数を指定します。行番号 lineno から文字列 expr が書かれているかのように実行されます。
+              スタックトレースの表示などを差し替えることができます。
+
+```ruby title="例"
+class Foo
+  def initialize data
+    @key = data
+  end
+  private
+  def do_fuga
+    p 'secret'
+  end
+end
+
+some = Foo.new 'XXX'
+p some.instance_eval{p @key} #=> "XXX"
+p some.instance_eval{do_fuga } #=> "secret" # private メソッドも呼び出せる
+
+some.instance_eval 'raise' # ..:10: (eval):1:  (RuntimeError)
+messg = 'unknown'
+some.instance_eval 'raise messg','file.rb',999 # file.rb:999: unknown (RuntimeError)
+```
+
+```ruby title="例"
+class Bar < BasicObject
+  def call1
+    instance_eval("::ENV.class")
+  end
+  def call2
+    instance_eval("ENV.class")
+  end
+end
+
+bar = Bar.new
+p bar.call1 # => Object
+bar.call2 # raise NameError
+```
+
+- **SEE** [Module#module_eval](../../../method/Module/i/module_eval.md), [Kernel?.eval](../../../method/Kernel/m/eval.md), [BasicObject#instance_exec](../../../method/BasicObject/i/instance_exec.md)

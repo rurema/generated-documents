@@ -1,0 +1,45 @@
+# MatchData#begin
+
+### def begin(n) -> Integer | nil
+
+`n` 番目の部分文字列先頭のオフセットを返します。
+
+`0` はマッチ全体を意味します。
+`n` 番目の部分文字列がマッチしていなければ `nil` を返します。
+
+- **param** `n` -- 部分文字列を指定する数値。
+
+- **raise** `IndexError` -- 範囲外の `n` を指定した場合に発生します。
+
+```ruby title="例"
+/(foo)(bar)(BAZ)?/ =~ "foobarbaz"
+p $~.begin(0)   # => 0
+p $~.begin(1)   # => 0
+p $~.begin(2)   # => 3
+p $~.begin(3)   # => nil
+p $~.begin(4)   # ~> IndexError: index 4 out of matches
+```
+
+- **SEE** [MatchData#end](../../../method/MatchData/i/end.md)
+
+### def begin(name) -> Integer | nil
+
+`name` という名前付きグループの部分文字列先頭のオフセットを返します。
+
+`name` の名前付きグループがマッチしていなければ `nil` を返します。
+
+- **param** `name` -- 名前(シンボルか文字列)
+
+- **raise** `IndexError` -- 正規表現中で定義されていない `name` を指定した場合に発生します。
+
+```ruby title="例"
+/(?<year>\d{4})年(?<month>\d{1,2})月(?:(?<day>\d{1,2})日)?/ =~ "2021年1月"
+p $~.begin('year')    # => 0
+p $~.begin(:year)     # => 0
+p $~.begin('month')   # => 5
+p $~.begin(:month)    # => 5
+p $~.begin('day')     # => nil
+p $~.begin('century') # ~> IndexError: undefined group name reference: century
+```
+
+- **SEE** [MatchData#end](../../../method/MatchData/i/end.md)

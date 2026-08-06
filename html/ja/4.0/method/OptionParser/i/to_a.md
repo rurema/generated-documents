@@ -1,0 +1,17 @@
+# OptionParser#to_a
+
+### def to_a    -> [String]
+
+サマリの各行を要素とした配列を返します。
+
+```ruby title="例"
+require "optparse"
+
+opts = OptionParser.new do |opts|
+  opts.on_head("-i", "--init")
+  opts.on("-u", "--update")
+  opts.on_tail("-h", "--help")
+end
+
+p opts.to_a # => ["Usage: test [options]", "    -i, --init\n", "    -u, --update\n", "    -h, --help\n"]
+```

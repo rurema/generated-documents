@@ -1,0 +1,9 @@
+# Net::FTP#noop
+
+### def noop -> nil
+
+NOOP コマンドを発行します。
+
+サーバから応答が得られる他は何もしません。
+
+- **raise** `Net::FTPReplyError` -- 応答コードが上の場合以外でエラーである場合に発生します。

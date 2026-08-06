@@ -1,0 +1,5 @@
+# IRB::STDIN_FILE_NAME
+
+### const STDIN_FILE_NAME -> "(line)"
+
+標準入力を使用する際のファイル名を文字列で返します。

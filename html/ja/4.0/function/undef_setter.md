@@ -1,0 +1,3 @@
+# undef_setter
+
+### static void undef_setter(VALUE val, ID id, void *data, struct global_variable *var)

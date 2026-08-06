@@ -1,0 +1,17 @@
+# Math?.erfc
+
+### module_function def erfc(x) -> Float
+
+`x` の相補誤差関数（complementary error function）の値を返します。
+
+- **param** `x` -- 実数
+
+- **raise** `TypeError` -- `x` に数値以外を指定した場合に発生します。
+
+- **raise** `RangeError` -- `x` に実数以外の数値を指定した場合に発生します。
+
+```ruby title="例"
+p Math.erfc(0) # => 1.0
+```
+
+- **SEE** [Math?.erf](../../../method/Math/m/erf.md)

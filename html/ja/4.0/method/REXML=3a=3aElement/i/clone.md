@@ -1,0 +1,8 @@
+# REXML::Element#clone
+
+### def clone -> REXML::Element
+
+self を複製して返します。
+
+複製されるのは名前、属性、名前空間のみです。
+子ノードは複製されません。

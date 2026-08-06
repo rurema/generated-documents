@@ -1,0 +1,17 @@
+# BigMath?.PI
+
+### module_function def PI(prec) -> BigDecimal
+
+円周率を prec で指定した精度で計算します。
+
+- **param** `prec` -- 計算結果の精度。
+
+- **raise** `ArgumentError` -- prec に 0 以下が指定された場合に発生します。
+
+```ruby
+require "bigdecimal/math"
+
+puts BigMath::PI(2)  #=> 0.31415926535897932384671233672993238432e1
+puts BigMath::PI(5)  #=> 0.31415926535897932384627534923029509162e1
+puts BigMath::PI(10) #=> 0.3141592653589793238462643388813853786957412e1
+```

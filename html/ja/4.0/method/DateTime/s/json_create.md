@@ -1,0 +1,7 @@
+# DateTime.json_create
+
+### def DateTime.json_create(hash) -> DateTime
+
+JSON のオブジェクトから Ruby のオブジェクトを生成して返します。
+
+- **param** `hash` -- 適切なキーを持つハッシュを指定します。

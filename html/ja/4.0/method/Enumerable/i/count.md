@@ -1,0 +1,25 @@
+# Enumerable#count
+
+### def count                   -> Integer
+### def count(item)             -> Integer
+### def count {|obj| ... }  -> Integer
+
+レシーバの要素数を返します。
+
+引数を指定しない場合は、レシーバの要素数を返します。
+このとき、要素数を一つずつカウントします。
+
+引数を一つ指定した場合は、レシーバの要素のうち引数に一致するものの個数をカウントして返します(一致は == で判定します)。
+
+ブロックを指定した場合は、ブロックを評価して真になった要素の個数をカウントして返します。
+
+- **param** `item` -- カウント対象となる値。
+
+```ruby title="例"
+enum = [1, 2, 4, 2].each
+p enum.count                # => 4
+p enum.count(2)             # => 2
+p enum.count{|x|x%2==0}     # => 3
+```
+
+- **SEE** [Array#count](../../../method/Array/i/count.md)

@@ -1,0 +1,5 @@
+# list_concat
+
+### static NODE * list_concat(NODE *head, NODE *tail)
+
+NODE_LISTのリストheadにNODE_LISTのノードtailを連結し、先頭ノードを返す。head、tailともにNULLであってはならない。

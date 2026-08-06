@@ -1,0 +1,22 @@
+# IO#readbyte
+
+### def readbyte   -> Integer
+
+IO から1バイトを読み込み整数として返します。
+既に EOF に達していれば EOFError が発生します。
+
+- **raise** `EOFError` -- 既に EOF に達している場合に発生します。
+
+```ruby title="例"
+IO.write("testfile", "123")
+File.open("testfile") do |f|
+  begin
+    p f.readbyte  # => 49
+    p f.readbyte  # => 50
+    p f.readbyte  # => 51
+    f.readbyte  # ~> EOFError
+  rescue => e
+    p e.class # => EOFError
+  end
+end
+```

@@ -1,0 +1,31 @@
+# Kernel?.catch
+
+### module_function def catch {|tag| .... } -> object
+### module_function def catch(tag) {|tag| .... } -> object
+
+[Kernel?.throw](../../../method/Kernel/m/throw.md)との組み合わせで大域脱出を行います。 catch はブロックを実行します。
+
+ブロックの実行中に tag と同一のオブジェクトを引数とする [Kernel?.throw](../../../method/Kernel/m/throw.md) が行われた場合は、その throw の第二引数を戻り値として、ブロックの実行を終了します。
+
+主にネストしたループから一気に脱出するのに使用します。
+
+引数を省略した場合、タグとなるオブジェクトが内部で生成され、ブロックパラメータ tag に渡されます。
+
+- **param** `tag` -- タグとなる任意のオブジェクトです。
+- **return** -- ブロックの返り値か、対応するthrowの第二引数を返り値として返します。
+
+```ruby title="例"
+result = catch do |tag|
+  for i in 1..2
+    for j in 1..2
+      for k in 1..2
+        throw tag, k
+      end
+    end
+  end
+end
+
+p result #=> 1
+```
+
+- **SEE** [Kernel?.throw](../../../method/Kernel/m/throw.md)

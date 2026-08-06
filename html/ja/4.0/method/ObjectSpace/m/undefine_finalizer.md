@@ -1,0 +1,37 @@
+# ObjectSpace?.undefine_finalizer
+
+### module_function def undefine_finalizer(obj)    -> object
+
+obj に対するファイナライザをすべて解除します。
+obj を返します。
+
+- **param** `obj` -- ファイナライザを解除したいオブジェクトを指定します。
+
+```ruby title="例"
+class Sample
+  def Sample.callback
+    proc {
+      puts "finalize"
+    }
+  end
+
+  def initialize
+    ObjectSpace.define_finalizer(self, Sample.callback)
+  end
+
+  def undef
+    ObjectSpace.undefine_finalizer(self)
+  end
+end
+
+Sample.new
+p GC.start
+# => finalize
+
+Sample.new
+sample.undef
+GC.start
+# ※何も出力されない
+```
+
+- **SEE** [ObjectSpace?.define_finalizer](../../../method/ObjectSpace/m/define_finalizer.md)

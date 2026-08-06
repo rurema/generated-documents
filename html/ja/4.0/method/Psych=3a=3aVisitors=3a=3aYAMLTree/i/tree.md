@@ -1,0 +1,11 @@
+# Psych::Visitors::YAMLTree#tree
+
+### def tree -> Psych::Nodes::Stream|nil
+
+変換を終了し、構築した AST を返します。
+
+内部で finish を呼び出し、変換処理を終了します。
+
+このメソッドを2回以上呼ぶと、2回目以降は nil を返します。
+
+- **SEE** [Psych::Visitors::YAMLTree#finish](../../../method/Psych=3a=3aVisitors=3a=3aYAMLTree/i/finish.md)

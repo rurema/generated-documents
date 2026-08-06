@@ -1,0 +1,5 @@
+# rb_gvar_set
+
+### VALUE rb_gvar_set(struct global_entry *entry, VALUE val)
+
+グローバル変数のエントリ entry に値を代入します。

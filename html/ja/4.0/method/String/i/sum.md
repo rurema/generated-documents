@@ -1,0 +1,29 @@
+# String#sum
+
+### def sum(bits = 16) -> Integer
+
+文字列の bits ビットのチェックサムを計算します。
+
+以下と同じです。
+
+```ruby
+def sum(bits)
+  sum = 0
+  each_byte {|c| sum += c }
+  return 0 if sum == 0
+  sum & ((1 << bits) - 1)
+end
+```
+
+例えば以下のコードで UNIX System V の
+[man:sum(1)] コマンドと同じ値が得られます。
+
+```ruby title="例"
+sum = 0
+ARGF.each_line do |line|
+  sum += line.sum
+end
+sum %= 65536
+```
+
+- **param** `bits` --    チェックサムのビット数

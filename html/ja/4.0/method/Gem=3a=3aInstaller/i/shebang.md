@@ -1,0 +1,7 @@
+# Gem::Installer#shebang
+
+### def shebang(bin_file_name) -> String
+
+実行ファイル内で使用する shebang line (#! line) を表す文字列を返します。
+
+- **param** `bin_file_name` -- 実行ファイルの名前を指定します。

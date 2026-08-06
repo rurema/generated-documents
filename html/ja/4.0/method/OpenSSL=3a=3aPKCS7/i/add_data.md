@@ -1,0 +1,11 @@
+# OpenSSL::PKCS7#add_data
+
+### def data=(data)
+### def add_data(data) -> data
+
+署名対象のデータを設定します。
+
+このメソッドは使わないでください。
+このメソッドは PKCS#7 の低レベル API であり、正しく使うのは難しいでしょう。
+
+- **param** `data` -- 文字列

@@ -1,0 +1,9 @@
+# FileUtils?.remove_file
+
+### module_function def remove_file(path, force = false) -> ()
+
+ファイル path を削除します。
+
+- **param** `path` -- 削除するファイル。
+
+- **param** `force` -- 真のときは削除中に発生した [StandardError](../../../class/StandardError.md) を無視します。

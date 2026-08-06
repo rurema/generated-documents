@@ -1,0 +1,42 @@
+# WIN32OLE_EVENT#on_event
+
+### def on_event(event = nil) {|*args| ... } -> ()
+
+イベント通知を受けるブロックを登録します。
+
+引数にはイベントのメソッド名を指定します。引数を省略した場合は、すべてのイベントを対象とするブロックの登録となります。
+
+- **param** `event` -- イベント名を文字列かシンボルで指定します。イベント名は大文
+             字小文字を区別します。省略時にはすべてのイベントが対象となります。
+
+- **param** `args` -- サーバがイベント通知時に指定した引数です。
+            eventパラメータを省略した場合、第1引数にはイベントのメソッ
+            ド名が文字列で与えられます。引数の変更が必要な場合は、
+            [WIN32OLE_EVENT#on_event_with_outargs](../../../method/WIN32OLE_EVENT/i/on_event_with_outargs.md)を利用してください。
+
+- **raise** `WIN32OLERuntimeError` -- [WIN32OLE_EVENT#unadvise](../../../method/WIN32OLE_EVENT/i/unadvise.md)によってイベン
+                            トソースと切断済みです。
+
+```ruby
+ie = WIN32OLE.new('InternetExplorer.Application')
+ev = WIN32OLE_EVENT.new(ie, 'DWebBrowserEvents2')
+ev.on_event("NavigateComplete2") do |browser, url| 
+  puts url
+end
+```
+
+同じオブジェクトに対してeventパラメータを指定したブロックと指定しないブロックが混在している場合、通知されたイベントに対応するブロックがあればそちらだけが呼び出されます。
+
+```ruby
+ie = WIN32OLE.new('InternetExplorer.Application')
+ev = WIN32OLE_EVENT.new(ie, 'DWebBrowserEvents2')
+ev.on_event("NavigateComplete2") do |browser, url| 
+  puts url
+end
+ev.on_event do |*args|   # <- NavigateComplete2イベント時は実行されない
+  puts args[0]
+end
+# ...
+```
+
+当メソッドはイベント名の大文字小文字を区別するほか、イベント名の存在確認を行いません。このため、誤ったイベント名を記述してもエラーとはならず、単にイベントを受け取れなくなります。

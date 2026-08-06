@@ -1,0 +1,41 @@
+# Coverage.start
+
+### def Coverage.start(option = {})  -> nil
+
+カバレッジの測定を開始します。既に実行されていた場合には何も起こりません。
+ただし、カバレッジ計測中に測定対象を変更しようとした場合は、RuntimeError となります。
+
+- **param** `option` -- カバレッジの計測モードを指定します。
+              :all か "all" を指定すると、全ての種類を計測します。
+              個別に指定する場合は、ハッシュを渡します。
+              詳細は、[coverage](../../../library/coverage.md) ライブラリ を参照してください。
+
+```ruby title="bool.rb"
+def bool(obj)
+  if obj
+    true
+  else
+    false
+  end
+end
+```
+
+```ruby
+require "coverage"
+
+Coverage.start(:all)
+load "bool.rb"
+bool(0)
+pp Coverage.result
+# {"bool.rb"=>
+#   {:lines=>[1, 1, 1, nil, 0, nil, nil],
+#    :branches=>
+#     {[:if, 0, 2, 2, 6, 5]=>
+#       {[:then, 1, 3, 4, 3, 8]=>1, [:else, 2, 5, 4, 5, 9]=>0}},
+#    :methods=>{[Object, :bool, 1, 0, 7, 3]=>1}}}
+
+Coverage.start(methods: true)
+load "bool.rb"
+bool(0)
+pp Coverage.result  #=> {"bool.rb"=>{:methods=>{[Object, :bool, 1, 0, 7, 3]=>1}}}
+```

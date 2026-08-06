@@ -1,0 +1,40 @@
+# Method#arity
+
+### def arity -> Integer
+
+メソッドが受け付ける引数の数を返します。
+
+ただし、メソッドが可変長引数を受け付ける場合、負の整数
+
+```text
+-(必要とされる引数の数 + 1)
+```
+
+を返します。C 言語レベルで実装されたメソッドが可変長引数を受け付ける場合、-1 を返します。
+
+```ruby title="例"
+class C
+  def u;               end
+  def v(a);            end
+  def w(*a);           end
+  def x(a, b);         end
+  def y(a, b, *c);     end
+  def z(a, b, *c, &d); end
+end
+
+c = C.new
+p c.method(:u).arity     #=> 0
+p c.method(:v).arity     #=> 1
+p c.method(:w).arity     #=> -1
+p c.method(:x).arity     #=> 2
+p c.method(:y).arity     #=> -3
+p c.method(:z).arity     #=> -3
+
+s = "xyz"
+p s.method(:size).arity    #=> 0
+p s.method(:replace).arity #=> 1
+p s.method(:squeeze).arity #=> -1
+p s.method(:count).arity   #=> -1
+```
+
+- **SEE** [glossary#arity](../../../doc/glossary.md#arity)

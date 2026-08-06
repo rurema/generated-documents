@@ -1,0 +1,49 @@
+# Kernel?.abort
+
+### module_function def abort            -> ()
+### module_function def abort(message)   -> ()
+
+Ruby プログラムをエラーメッセージ付きで終了します。終了ステータスは 1 固定です。
+
+このメソッドと [Kernel?.exit](../../../method/Kernel/m/exit.md) との違いは、プログラムの終了ステータスが 1 (正確にはCレベルの定数 EXIT_FAILURE の値)固定であることと、エラーメッセージを標準エラー出力 [m:$stderr] に出力することです。
+
+引数 message を指定すると SystemExit クラスの
+[Exception#message](../../../method/Exception/i/message.md) に message を設定して標準エラー出力に出力します。
+
+引数を省略した呼び出し時に [m:$!] が nil でなければその例外のメッセージとバックトレースを表示します。
+
+- **param** `message` -- エラーメッセージ文字列です。
+
+```ruby
+puts 'start'
+begin
+  puts 'start1...'
+  abort "error1"
+rescue SystemExit => err
+  puts "end1 with #{err.inspect}"
+end
+
+begin
+  puts 'start2...'
+  raise RuntimeError.new
+rescue
+  abort
+ensure
+  puts 'end2...'
+end
+puts 'end' #実行されない
+
+#(標準出力)
+#=> start
+#   start1...
+#   end1 with #<SystemExit: error1>
+#   start2...
+#   end2...
+#終了ステータス:1
+#(標準エラー出力)
+#=> error1
+#   Traceback (most recent call last):
+#   sample.rb:11:in '<main>': RuntimeError (RuntimeError)
+```
+
+- **SEE** [Kernel?.exit](../../../method/Kernel/m/exit.md),[Kernel?.exit!](../../../method/Kernel/m/exit=21.md)

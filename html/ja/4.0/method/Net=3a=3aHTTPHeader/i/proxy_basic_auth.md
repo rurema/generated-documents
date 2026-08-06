@@ -1,0 +1,16 @@
+# Net::HTTPHeader#proxy_basic_auth
+
+### def proxy_basic_auth(account, password) -> [String]
+
+Proxy 認証のために Proxy-Authorization: ヘッダをセットします。
+
+- **param** `account` -- アカウント名を文字列で与えます。
+- **param** `password` -- パスワードを文字列で与えます。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+p req.proxy_basic_auth("account", "password") # => ["Basic YWNjb3VudDpwYXNzd29yZA=="]
+```

@@ -1,0 +1,18 @@
+# StringScanner#string=
+
+### def string=(str)
+
+スキャン対象の文字列を str に変更して、マッチ記録を捨てます。
+
+- **param** `str` -- スキャン対象の文字列を str に変更して、マッチ記録を捨てます。
+
+- **return** -- str を返します。
+
+```ruby title="例"
+require 'strscan'
+
+str = '0123'
+s = StringScanner.new('test string')
+s.string = str     # => "0123"
+p s.scan(/\w+/)    # => "0123"
+```

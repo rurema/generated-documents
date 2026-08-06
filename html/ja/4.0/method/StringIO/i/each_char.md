@@ -1,0 +1,12 @@
+# StringIO#each_char
+
+### def each_char{|c| ... } -> self
+### def each_char           -> Enumerator
+
+自身に含まれる文字を一文字ずつブロックに渡して評価します。
+
+自身は読み込み用にオープンされていなければなりません。
+
+- **raise** `IOError` -- 自身が読み込み用にオープンされていない場合に発生します。
+
+- **SEE** [IO#each_char](../../../method/IO/i/each_char.md)

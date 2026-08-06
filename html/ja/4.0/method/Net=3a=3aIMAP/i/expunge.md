@@ -1,0 +1,9 @@
+# Net::IMAP#expunge
+
+### def expunge -> [Integer] | nil
+
+EXPUNGEコマンドを送り、:Deletedフラグをセットしたメッセージをすべて処理中のメールボックスから削除します。
+
+削除したメッセージの message sequence number を配列で返します。
+
+- **raise** `Net::IMAP::NoResponseError` -- メールボックスが read-only である場合に発生します

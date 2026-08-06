@@ -1,0 +1,8 @@
+# Rake::TestTask#options
+
+### def options -> String
+
+テストスイートに渡すパラメータを返します。
+
+コマンドラインで "TESTOPTS=options" が指定されると、この値を上書きします。
+デフォルトは何も指定されていません。

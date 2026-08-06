@@ -1,0 +1,28 @@
+# Data#with
+
+### def with(**kwargs) -> Data
+
+self をコピーしたオブジェクトを返します。
+
+値オブジェクトのメンバのオブジェクトはコピーされません。つまり参照しているオブジェクトが変わらない「浅い(shallow)」コピーを行います。
+
+キーワード引数が指定された場合、引数に対応するメンバには引数の値が設定されます。存在しないメンバを指定した場合はエラーとなります。
+
+- **param** `kwargs` -- コピーされたオブジェクトに設定されるメンバの値を指定します。
+
+- **raise** `ArgumentError` -- 存在しないメンバを指定した場合に発生します。
+
+```ruby title="例"
+Dog = Data.define(:name, :age)
+dog1 = Dog.new("Fred", 5)  # => #<data Dog name="Fred", age=5>
+dog2 = dog1.with(age: 6)   # => #<data Dog name="Fred", age=6>
+p dog1                     # => #<data Dog name="Fred", age=5>
+dog3 = dog1.with(type: "Terrier")  # ~> ArgumentError: unknown keyword: :type
+
+# メンバのオブジェクトはコピーされず、同じオブジェクトを参照する。
+dog1.name.upcase!
+p dog1 # => #<data Dog name="FRED", age=5>
+p dog2 # => #<data Dog name="FRED", age=6>
+```
+
+[注意] 本メソッドの記述は Data のサブクラスのインスタンスに対して呼び出す事を想定しています。Data.define は Data のサブクラスを作成する点に注意してください。

@@ -1,0 +1,5 @@
+# Date#wday
+
+### def wday -> Integer
+
+曜日を返します (0-6、日曜日は零)。

@@ -1,0 +1,61 @@
+# Hash#merge
+
+### def merge(*others) -> Hash
+### def merge(*others) {|key, self_val, other_val| ... } -> Hash
+
+selfとothersのハッシュの内容を順番にマージ(統合)した結果を返します。
+デフォルト値はselfの設定のままです。
+
+self と others に同じキーがあった場合はブロック付きか否かで判定方法が違います。ブロック付きのときはブロックを呼び出してその返す値を重複キーに対応する値にします。ブロック付きでない場合は常に others の値を使います。
+
+othersがハッシュではない場合、othersのメソッドto_hashを使って暗黙の変換を試みます。
+
+- **param** `others` -- マージ用のハッシュまたはメソッド to_hash でハッシュに変換できるオブジェクトです。
+- **return** -- マージした結果を返します
+
+```ruby
+h1 = { "a" => 100, "b" => 200 }
+h2 = { "b" => 246, "c" => 300 }
+h3 = { "b" => 357, "d" => 400 }
+p h1.merge        #=> {"a"=>100, "b"=>200}
+p h1.merge(h2)    #=> {"a"=>100, "b"=>246, "c"=>300}
+p h1.merge(h2, h3)  #=> {"a"=>100, "b"=>357, "c"=>300, "d"=>400}
+p h1.merge(h2) {|key, oldval, newval| newval - oldval}
+                  #=> {"a"=>100, "b"=>46,  "c"=>300}
+p h1.merge(h2, h3) {|key, oldval, newval| newval - oldval}
+                  #=> {"a"=>100, "b"=>311, "c"=>300, "d"=>400}
+p h1              #=> {"a"=>100, "b"=>200}
+```
+
+```ruby
+foo = {1 => 'a', 2 => 'b', 3 => 'c'}
+bar = {2 => 'B', 3 => 'C', 4 => 'D'}
+
+p foo.merge(bar)
+       # => {1=>"a", 2=>"B", 3=>"C", 4=>"D"}
+p foo  # => {1=>"a", 2=>"b", 3=>"c"}
+
+p foo.merge!(bar) {|key, foo_val, bar_val| foo_val + bar_val }
+       # => {1=>"a", 2=>"bB", 3=>"cC", 4=>"D"}
+p foo  # => {1=>"a", 2=>"bB", 3=>"cC", 4=>"D"}
+```
+
+```ruby
+class Foo
+  def to_hash
+    {:Australia => 'Sydney',
+     :France => 'Paris'
+     }
+  end
+end
+
+h = {:Germany => 'Berlin',
+     :Australia => 'Canberra',
+     :France => 'Paris'
+     }
+
+# 暗黙の変換
+p h.merge(Foo.new) # => {:Germany=>"Berlin", :Australia=>"Sydney", :France=>"Paris"}
+```
+
+- **SEE** [Hash#update](../../../method/Hash/i/update.md),[Hash#replace](../../../method/Hash/i/replace.md)

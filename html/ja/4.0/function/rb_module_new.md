@@ -1,0 +1,5 @@
+# rb_module_new
+
+### VALUE rb_module_new(void)
+
+新しいモジュールオブジェクトを作成し、返します。

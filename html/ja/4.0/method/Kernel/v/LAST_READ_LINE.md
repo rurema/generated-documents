@@ -1,0 +1,22 @@
+# Kernel$LAST_READ_LINE
+
+### gvar $LAST_READ_LINE -> String | nil
+
+[m:$_] の別名
+
+```console
+1 e
+2 f
+3 g
+4 h
+5 i
+# end of a.txt
+
+ruby -rEnglish -ne'p $LAST_READ_LINE' a.txt
+#=>
+"1 e\n"
+"2 f\n"
+"3 g\n"
+"4 h\n"
+"5 i\n"
+```

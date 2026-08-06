@@ -1,0 +1,14 @@
+# REXML::Element#namespaces
+
+### def namespaces -> {String => String}
+
+self の文脈で定義されている名前空間の情報を返します。
+
+対象の要素とその外側の要素で定義されている名前空間を、{ prefix => 識別子 }
+というハッシュテーブルで返します。
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new("<a xmlns:x='1' xmlns:y='2'><b/><c xmlns:z='3'/></a>")
+p doc.elements['//b'].namespaces # => {"x"=>"1", "y"=>"2"}
+```

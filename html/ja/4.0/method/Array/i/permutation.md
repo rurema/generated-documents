@@ -1,0 +1,38 @@
+# Array#permutation
+
+### def permutation(n = self.length) { |p| block }       -> self
+### def permutation(n = self.length)                     -> Enumerator
+
+サイズ n の順列をすべて生成し、それを引数としてブロックを実行します。
+
+引数を省略した場合は配列の要素数と同じサイズの順列に対してブロックを実行します。
+
+得られる順列の順序は保証されません。ブロックなしで呼び出されると、順列を生成する [Enumerator](../../../class/Enumerator.md) オブジェクトを返します。
+
+- **param** `n` -- 生成する配列のサイズを整数で指定します。
+         整数以外のオブジェクトを指定した場合は to_int メソッドによる暗
+         黙の型変換を試みます。
+
+- **raise** `TypeError` -- 引数に整数以外の(暗黙の型変換が行えない)オブジェクトを
+                 指定した場合に発生します。
+
+```ruby title="例"
+a = [1, 2, 3]
+p a.permutation.to_a   #=> [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+p a.permutation(1).to_a  #=> [[1],[2],[3]]
+p a.permutation(2).to_a  #=> [[1,2],[1,3],[2,1],[2,3],[3,1],[3,2]]
+p a.permutation(3).to_a  #=> [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+p a.permutation(0).to_a  #=> [[]]: one permutation of length 0
+p a.permutation(4).to_a  #=> []  : no permutations of length 4
+```
+
+ブロックが与えられた場合、作成した配列の各要素を引数としてブロックを実行して self を返します。
+
+```ruby title="例"
+a = [1, 2, 3]
+result = []
+p a.permutation(2) {|e| result << e} # => [1,2,3]
+p result # => [[1,2],[1,3],[2,1],[2,3],[3,1],[3,2]]
+```
+
+- **SEE** [Array#combination](../../../method/Array/i/combination.md), [Array#repeated_permutation](../../../method/Array/i/repeated_permutation.md)

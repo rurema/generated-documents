@@ -1,0 +1,6 @@
+# Gem::DocManager#rdoc_installed?
+
+### def rdoc_installed? -> bool
+
+RDoc がインストール済みの場合は、真を返します。
+そうでない場合は偽を返します。

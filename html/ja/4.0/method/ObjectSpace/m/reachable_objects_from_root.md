@@ -1,0 +1,25 @@
+# ObjectSpace?.reachable_objects_from_root
+
+### module_function def reachable_objects_from_root -> Hash
+
+VM のルート(仮想マシンやグローバル変数テーブルなど、ガベージコレクタが生存しているオブジェクトをマークする際に辿る起点)から直接到達可能なオブジェクトを、ルートごとにグループ分けしたハッシュを返します。戻り値のキーはルートの名前を表す文字列、値はそのルートから到達可能なオブジェクトの配列です。
+
+```ruby title="例"
+require 'objspace'
+
+reachable = ObjectSpace.reachable_objects_from_root
+p reachable.keys
+# => ["vm", "global_tbl", "machine_context"]
+# (内容やキーの構成は処理系やバージョン、実行時の状態に依存します)
+```
+
+戻り値のハッシュはキーを同一性で比較するため、文字列リテラルを使ってキーを指定して参照することはできません。[Hash#keys](../../../method/Hash/i/keys.md) や [Hash#values](../../../method/Hash/i/values.md) などで取得してください。
+
+内部オブジェクトへの参照は `ObjectSpace::InternalObjectWrapper` オブジェクトでラップされます。詳しくは [ObjectSpace?.reachable_objects_from](../../../method/ObjectSpace/m/reachable_objects_from.md)
+を参照してください。
+
+本メソッドはメモリリークの原因を調査するなど、オブジェクトグラフのデバッグに役立ちます。
+
+本メソッドは C Ruby 以外では動作しません。
+
+- **SEE** [ObjectSpace?.reachable_objects_from](../../../method/ObjectSpace/m/reachable_objects_from.md)

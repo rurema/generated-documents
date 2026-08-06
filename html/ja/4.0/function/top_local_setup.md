@@ -1,0 +1,5 @@
+# top_local_setup
+
+### static void top_local_setup(void)
+
+パース中のプログラムのトップレベルのためのローカル変数テーブルをポップし、現在存在する SCOPE にそれを接ぎ足す。

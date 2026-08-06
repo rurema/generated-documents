@@ -1,0 +1,7 @@
+# WEBrick::HTTPVersion.new
+
+### def WEBrick::HTTPVersion.new(version)    -> WEBrick::HTTPVersion
+
+HTTPVersion オブジェクトを生成します。version は文字列か HTTPVersion オブジェクトです。
+
+- **param** `version` -- HTTP のバージョンを WEBrick::HTTPVersion オブジェクトか文字列で指定します。

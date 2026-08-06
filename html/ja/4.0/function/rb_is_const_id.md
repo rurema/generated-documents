@@ -1,0 +1,5 @@
+# rb_is_const_id
+
+### int rb_is_const_id(ID id)
+
+定数名として有効な ID ならば真。

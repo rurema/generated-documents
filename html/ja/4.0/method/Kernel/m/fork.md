@@ -1,0 +1,51 @@
+# Kernel?.fork
+
+### module_function def fork -> Integer | nil
+### module_function def fork { ... } -> Integer | nil
+
+[man:fork(2)] システムコールを使ってプロセスの複製を作ります。親プロセスでは子プロセスのプロセスIDを、子プロセスでは
+nil を返します。ブロックを指定して呼び出した場合には、生成した子プロセスでブロックを評価します。
+
+fork 前に STDOUT と STDERR を [IO#flush](../../../method/IO/i/flush.md) します。
+
+- **raise** `NotImplementedError` -- 実行環境がこのメソッドに対応していないとき発生します。
+
+```ruby title="ブロックを指定しなかった場合"
+if child_pid = fork
+  puts "parent process. pid: #{Process.pid}, child pid: #{child_pid}"
+  # => parent process. pid: 81060, child pid: 81329
+
+  # 親プロセスでの処理
+  # ...
+
+  # 子プロセスの終了を待って終了。
+  Process.waitpid(child_pid)
+else
+  puts "child process. pid: #{Process.pid}"
+  # => child process. pid: 81329
+
+  # 子プロセスでの処理
+  sleep(1)
+end
+```
+
+```ruby title="ブロックを指定した場合"
+child_pid = fork do
+  puts "child process. pid: #{Process.pid}"
+  # => child process. pid: 79602
+
+  # 子プロセスでの処理
+  sleep(1)
+end
+
+puts "parent process. pid: #{Process.pid}, child pid: #{child_pid}"
+# => parent process. pid: 79055, child pid: 79602
+
+# 親プロセスでの処理
+# ...
+
+# 子プロセスの終了を待って終了。
+Process.waitpid(child_pid)
+```
+
+- **SEE** [IO.popen](../../../method/IO/s/popen.md),[IO.pipe](../../../method/IO/s/pipe.md),[Kernel?.at_exit](../../../method/Kernel/m/at_exit.md),[Kernel?.exit!](../../../method/Kernel/m/exit=21.md), [man:fork(2)]

@@ -1,0 +1,7 @@
+# OpenSSL::X509::Store.new
+
+### def OpenSSL::X509::Store.new -> OpenSSL::X509::Store
+
+空の Store オブジェクトを生成します。
+
+- **raise** `OpenSSL::X509::StoreError` -- オブジェクトの生成に失敗した場合に発生します

@@ -1,0 +1,9 @@
+# YAML::DBM#values_at
+
+### def values_at(*keys) -> [object]
+
+keys に対応する値を配列に格納して返します。
+
+対応するキーが見つからなかった要素には nil が格納されます。
+
+- **param** `keys` -- キーを文字列で指定します。複数指定できます。

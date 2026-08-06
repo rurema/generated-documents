@@ -1,0 +1,5 @@
+# rb_backref_get
+
+### VALUE rb_backref_get(void)
+
+現在の SCOPE の $~ の値を返します。

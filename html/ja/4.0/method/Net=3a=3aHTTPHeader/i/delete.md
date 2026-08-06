@@ -1,0 +1,21 @@
+# Net::HTTPHeader#delete
+
+### def delete(key) -> [String] | nil
+
+key ヘッダフィールドを削除します。
+
+- **param** `key` -- 削除するフィールド名
+- **return** -- 取り除かれたフィールドの値を返します。
+        key ヘッダフィールドが存在しなかった場合には
+        nil を返します。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+req.content_length = 10
+p req.content_length  # => 10
+p req.delete("Content-Length")  # => ["10"]
+p req.content_length  # => nil
+```

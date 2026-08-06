@@ -1,0 +1,16 @@
+# TracePoint#inspect
+
+### def inspect -> String
+
+self の状態を人間に読みやすい文字列にして返します。
+
+```ruby title="例"
+def foo(ret)
+  ret
+end
+trace = TracePoint.new(:call) do |tp|
+  p tp.inspect # "#<TracePoint:call 'foo' /path/to/test.rb:1>"
+end
+trace.enable
+foo 1
+```

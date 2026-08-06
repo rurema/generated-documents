@@ -1,0 +1,19 @@
+# TracePoint#raised_exception
+
+### def raised_exception -> Exception
+
+発生した例外を返します。
+
+- **raise** `RuntimeError` -- :raise イベントのためのイベントフックの外側で実行し
+                    た場合に発生します。
+
+```ruby title="例"
+trace = TracePoint.new(:raise) do |tp|
+  tp.raised_exception # => #<ZeroDivisionError: divided by 0>
+end
+trace.enable
+begin
+  0/0
+rescue
+end
+```

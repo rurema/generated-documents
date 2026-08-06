@@ -1,0 +1,47 @@
+# Time#deconstruct_keys
+
+### def deconstruct_keys(array_of_names_or_nil) -> Hash
+
+パターンマッチに使用する名前と値の [Hash](../../../class/Hash.md) を返します。
+
+キーに利用できる名前は以下の通りです。
+
+  - :year
+  - :month
+  - :day
+  - :yday
+  - :wday
+  - :hour
+  - :min
+  - :sec
+  - :subsec
+  - :dst
+  - :zone
+
+- **param** `array_of_names_or_nil` -- パターンマッチに使用する名前の配列を指定します。nil の場合は全てをパターンマッチに使用します。
+
+```ruby title="例"
+t = Time.utc(2022, 10, 5, 21, 25, 30)
+
+if t in wday: 3, day: ..7 # deconstruct_keys が使われます
+  puts "first Wednesday of the month"
+end
+#=> "first Wednesday of the month" が出力される
+
+case t
+in year: ...2022
+  puts "too old"
+in month: ..9
+  puts "quarter 1-3"
+in wday: 1..5, month:
+  puts "working day in month #{month}"
+end
+#=> "working day in month 10" が出力される
+
+# クラスのチェックと組み合わせて利用することもできます
+if t in Time(wday: 3, day: ..7)
+  puts "first Wednesday of the month"
+end
+```
+
+- **SEE** [spec/pattern_matching#matching_non_primitive_objects](../../../doc/spec=2fpattern_matching.md#matching_non_primitive_objects)

@@ -1,0 +1,16 @@
+# Array#compact
+
+### def compact     -> Array
+### def compact!    -> self | nil
+
+compact は自身から nil を取り除いた配列を生成して返します。
+compact! は自身から破壊的に nil を取り除き、変更が行われた場合は self を、そうでなければ nil を返します。
+
+```ruby title="例"
+ary = [1, nil, 2, nil, 3, nil]
+p ary.compact   #=> [1, 2, 3]
+p ary           #=> [1, nil, 2, nil, 3, nil]
+ary.compact!
+p ary           #=> [1, 2, 3]
+p ary.compact!  #=> nil
+```

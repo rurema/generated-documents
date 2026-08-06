@@ -1,0 +1,13 @@
+# ENV.values_at
+
+### def ENV.values_at(*key) -> [String]
+
+引数で指定されたキー(環境変数名)に対応する値の配列を返します。存在しないキーに対しては nil が対応します。
+
+```ruby title="例"
+ENV.update({'FOO' => 'foo', 'BAR' => 'bar'})
+p ENV.values_at(*%w(FOO BAR BAZ))   # => ["foo", "bar", nil]
+```
+
+- **param** `key` -- 環境変数名を指定します。文字列で指定します。
+           文字列以外のオブジェクトを指定した場合は to_str メソッドによる暗黙の型変換を試みます。

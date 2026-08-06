@@ -1,0 +1,25 @@
+# Matrix#eigen
+
+### def eigen -> Matrix::EigenvalueDecomposition
+### def eigensystem -> Matrix::EigenvalueDecomposition
+
+行列の固有値と左右の固有ベクトルを保持したオブジェクトを返します。
+
+[Matrix::EigenvalueDecomposition](../../../class/Matrix=3a=3aEigenvalueDecomposition.md) は to_ary を定義しているため、多重代入によって3つの行列(右固有ベクトル、固有値行列、左固有ベクトル)
+を得ることができます。
+これを [V, D, W] と書くと、
+(元の行列が対角化可能ならば)、
+D は対角行列で、 self == V*D*W, V = W.inverse を満たします。
+D のそれぞれの対角成分が行列の固有値です。
+
+```ruby title="例"
+require 'matrix'
+m = Matrix[[1, 2], [3, 4]]
+v, d, v_inv = m.eigensystem
+p d.diagonal? # => true
+p v.inv == v_inv # => true
+p (v * d * v_inv).round(5) == m # => true
+```
+
+- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- 行列が正方行列でない場合に発生します
+- **SEE** [Matrix::EigenvalueDecomposition](../../../class/Matrix=3a=3aEigenvalueDecomposition.md)

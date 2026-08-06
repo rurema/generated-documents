@@ -1,0 +1,12 @@
+# REXML::Child.new
+
+### def REXML::Child.new(parent = nil) -> REXML::Child
+
+REXML::Child オブジェクトを生成します。
+
+parent で親ノードを指定します。
+親ノードへの追加は行わないため、オブジェクト生成後に親に適切に設定する必要があります。
+
+通常、このメソッドは直接は使いません。継承先のクラスが適切にこのメソッド(initialize)を呼び出します。
+
+- **param** `parent` -- 親ノード

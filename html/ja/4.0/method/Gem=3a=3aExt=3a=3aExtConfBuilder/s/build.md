@@ -1,0 +1,17 @@
+# Gem::Ext::ExtConfBuilder.build
+
+### def Gem::Ext::ExtConfBuilder.build(extension, directory, dest_path, results) -> Array
+@todo
+
+Makefile が存在しない場合は、extconf.rb を実行して
+Makefile を作成してから make を実行します。
+
+- **param** `extension` -- ファイル名を指定します。
+
+- **param** `directory` -- このメソッドでは使用していません。
+
+- **param** `dest_path` -- ???
+
+- **param** `results` -- コマンドの実行結果を格納します。破壊的に変更されます。
+
+- **SEE** [Gem::Ext::Builder.make](../../../method/Gem=3a=3aExt=3a=3aBuilder/s/make.md)

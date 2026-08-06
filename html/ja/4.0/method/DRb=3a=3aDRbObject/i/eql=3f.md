@@ -1,0 +1,8 @@
+# DRb::DRbObject#eql?
+
+### def ==(other) -> bool
+### def eql?(other) -> bool
+
+[DRb::DRbObject](../../../class/DRb=3a=3aDRbObject.md) オブジェクト同士が同じであるなら真を返します。
+
+この同値判定は、オブジェクトが参照している URI と識別子が等しいかどうかでします。

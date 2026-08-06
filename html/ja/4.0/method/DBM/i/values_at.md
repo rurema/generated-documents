@@ -1,0 +1,17 @@
+# DBM#values_at
+
+### def values_at(*keys) -> [String]
+
+keys に対応する値を配列に格納して返します。
+
+- **param** `keys` -- キー。複数指定可能です。
+
+```ruby
+require 'dbm'
+  
+db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
+db1[:a] = 'aaa'
+db1[:b] = 'bbbbbb'
+  
+p db1.values_at('a', 'b') #=> ["aaa", "bbbbbb"]
+```

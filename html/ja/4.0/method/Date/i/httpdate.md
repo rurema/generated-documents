@@ -1,0 +1,5 @@
+# Date#httpdate
+
+### def httpdate -> String
+
+[RFC:2616] ([RFC:1123]) で定められた書式の文字列を返します。

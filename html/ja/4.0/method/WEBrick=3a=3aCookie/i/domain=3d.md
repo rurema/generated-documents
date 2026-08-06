@@ -1,0 +1,8 @@
+# WEBrick::Cookie#domain=
+
+### def domain         -> String
+### def domain=(value)
+
+ドメイン名を文字列で表すアクセサです。
+
+- **param** `value` -- ドメイン名を表す文字列を指定します。

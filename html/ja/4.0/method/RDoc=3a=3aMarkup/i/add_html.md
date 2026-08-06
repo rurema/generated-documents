@@ -1,0 +1,24 @@
+# RDoc::Markup#add_html
+
+### def add_html(tag, name) -> ()
+
+tag で指定したタグをフォーマットの対象にします。
+
+- **param** `tag` -- 追加するタグ名を文字列で指定します。大文字、小文字のど
+           ちらを指定しても同一のものとして扱われます。
+
+- **param** `name` -- [RDoc::Markup::ToHtml](../../../class/RDoc=3a=3aMarkup=3a=3aToHtml.md) などのフォーマッタに識別させる時の名前を
+            [Symbol](../../../class/Symbol.md) で指定します。
+
+```ruby title="例"
+require 'rdoc/markup/simple_markup'
+require 'rdoc/markup/simple_markup/to_html'
+m = SM::SimpleMarkup.new
+m.add_html("no", :STRIKE)
+
+h = SM::ToHtml.new
+h.add_tag(:STRIKE, "<strike>", "</strike>")
+puts m.convert(input_string, h)
+```
+
+変換時に実際にフォーマットを行うには [RDoc::Markup::Formatter#add_tag](../../../method/RDoc=3a=3aMarkup=3a=3aFormatter/i/add_tag.md) のように、フォーマッタ側でも操作を行う必要があります。

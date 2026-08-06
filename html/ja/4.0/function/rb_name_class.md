@@ -1,0 +1,5 @@
+# rb_name_class
+
+### void rb_name_class(VALUE klass, ID id)
+
+クラス klass を id と命名します。

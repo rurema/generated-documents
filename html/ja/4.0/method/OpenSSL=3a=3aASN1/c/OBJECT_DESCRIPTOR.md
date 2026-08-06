@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::OBJECT_DESCRIPTOR
+
+### const OBJECT_DESCRIPTOR -> Integer
+
+ASN.1 UNIVERSAL タグの、
+OBJECT_DESCRIPTOR のタグ番号 7 を表す定数です。

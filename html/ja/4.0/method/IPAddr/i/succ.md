@@ -1,0 +1,11 @@
+# IPAddr#succ
+
+### def succ -> IPAddr
+
+次の IPAddr オブジェクトを返します。
+
+```ruby
+require 'ipaddr'
+ipaddr = IPAddr.new('192.168.1.1')
+p ipaddr.succ.to_s #=> "192.168.1.2"
+```

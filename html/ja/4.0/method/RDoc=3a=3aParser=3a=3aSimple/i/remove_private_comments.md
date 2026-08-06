@@ -1,0 +1,9 @@
+# RDoc::Parser::Simple#remove_private_comments
+
+### def remove_private_comments(comment) -> String
+
+行頭の "--" から "++" で囲まれたコメントを comment から削除した結果を返します。
+
+- **param** `comment` -- 対象の文字列を指定します。
+
+- **return** -- コメントが削除された文字列を返します。

@@ -1,0 +1,40 @@
+# IO::Buffer.for
+
+### def IO::Buffer.for(string) -> IO::Buffer
+### def IO::Buffer.for(string) {|buffer| ... } -> object
+
+文字列 string のメモリ領域を参照する、コピーを伴わないバッファを作成します。
+
+ブロックを渡さない場合は、string の内容を複製した凍結済みの文字列をバッファの元として使い、読み取り専用のバッファを返します。
+元の文字列とは切り離されるため、あとから元の文字列を変更してもバッファの内容は変わりません。
+
+ブロックを渡した場合は、string 自身のメモリ領域を参照するバッファをブロックに渡し、ブロックの評価結果を返します。バッファへの書き込みは
+string に反映されます。ブロックの実行中、string は変更できません。
+string が freeze されている場合は読み取り専用のバッファになります。
+
+- **param** `string` -- バッファの元にする [String](../../../class/String.md) を指定します。
+
+```ruby title="例: ブロックを渡さない場合"
+buffer = IO::Buffer.for("test")
+p buffer.get_string # => "test"
+p buffer.external?  # => true
+p buffer.readonly?  # => true
+
+# 元の文字列を変更してもバッファには影響しない
+str = +"test"
+buffer = IO::Buffer.for(str)
+str << "XY"
+p str               # => "testXY"
+p buffer.get_string # => "test"
+```
+
+```ruby title="例: ブロックを渡した場合"
+str = +"test"
+IO::Buffer.for(str) do |buffer|
+  p buffer.readonly? # => false
+  buffer.set_string("Ruby")
+end
+p str # => "Ruby"
+```
+
+- **SEE** [IO::Buffer.new](../../../method/IO=3a=3aBuffer/s/new.md), [IO::Buffer.map](../../../method/IO=3a=3aBuffer/s/map.md)

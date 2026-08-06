@@ -1,0 +1,61 @@
+# Range#cover?
+
+### def cover?(obj) -> bool
+
+obj が範囲内に含まれている時に true を返します。
+
+[Range#include?](../../../method/Range/i/include=3f.md) と異なり <=> メソッドによる演算により範囲内かどうかを判定します。
+[Range#include?](../../../method/Range/i/include=3f.md) は原則として離散値を扱い、
+Range#cover? は連続値を扱います。
+（数値については、例外として [Range#include?](../../../method/Range/i/include=3f.md) も連続的に扱います。）
+
+[Range#exclude_end?](../../../method/Range/i/exclude_end=3f.md)がfalseなら「begin <= obj <= end」を、
+trueなら「begin <= obj < end」を意味します。
+
+- **param** `obj` -- 比較対象のオブジェクトを指定します。
+
+```ruby title="数値は連続的に扱われているため、 include? / cover? が同じ結果を返す"
+p (1.1..2.3).include?(1.0)  # => false
+p (1.1..2.3).include?(1.1)  # => true
+p (1.1..2.3).include?(1.555)  # => true
+p (1.1..2.3).cover?(1.0)    # => false
+p (1.1..2.3).cover?(1.1)    # => true
+p (1.1..2.3).cover?(1.555)  # => true
+```
+
+```ruby title="String の例"
+p ('b'..'d').include?('d')  # => true
+p ('b'..'d').include?('ba') # => false
+p ('b'..'d').cover?('d')    # => true
+p ('b'..'d').cover?('ba')   # => true
+```
+
+```ruby title="Date, DateTime の例"
+require 'date'
+p (Date.today - 365 .. Date.today + 365).include?(Date.today)  #=> true
+p (Date.today - 365 .. Date.today + 365).include?(DateTime.now)  #=> false
+p (Date.today - 365 .. Date.today + 365).cover?(Date.today)    #=> true
+p (Date.today - 365 .. Date.today + 365).cover?(DateTime.now)  #=> true
+```
+
+### def cover?(range) -> bool
+
+2.6 以降の cover? は、[Range#include?](../../../method/Range/i/include=3f.md) や [Range#===](../../../method/Range/i/=3d=3d=3d.md) と異なり、引数に Range オブジェクトを指定して比較できます。
+
+引数が Range オブジェクトの場合、引数の範囲が self の範囲に含まれる時に true を返します。
+
+- **param** `range` -- 比較対象の Range クラスのインスタンスを指定します。
+
+```ruby title="引数が Range の例"
+p (1..5).cover?(2..3)   #=> true
+p (1..5).cover?(0..6)   #=> false
+p (1..5).cover?(1...6)  #=> true
+```
+
+「(a..b).cover?(c...d)」のように終端を含まない Range オブジェクトが引数に渡されており、「a <= c && b < d」を満たし、cが数値ではない(つまり引数の Range の終端を求めるために succ メソッドの呼び出しが必要な)場合、パフォーマンスの問題が起きる可能性があります。
+
+```ruby title="パフォーマンス上の問題が起きる例"
+p ('aaaaa'..'zzzzy').cover?('aaaaa'...'zzzzz') # => true
+```
+
+- **SEE** [Range#include?](../../../method/Range/i/include=3f.md), [Range#===](../../../method/Range/i/=3d=3d=3d.md)

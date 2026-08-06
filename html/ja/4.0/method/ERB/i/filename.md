@@ -1,0 +1,14 @@
+# ERB#filename
+
+### def filename -> String
+
+エラーメッセージを表示する際のファイル名を取得します。
+
+```ruby title="例"
+require 'erb'
+filename = 'example.rhtml'
+erb = ERB.new(File.read(filename))
+p erb.filename # => nil
+erb.filename = filename
+p erb.filename # =>"example.rhtml"
+```

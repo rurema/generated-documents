@@ -1,0 +1,16 @@
+# Tempfile#close
+
+### def close(real = false) -> nil
+
+テンポラリファイルをクローズします。
+real が偽ならば、テンポラリファイルはGCによって削除されます。
+そうでなければ、すぐに削除されます。
+
+- **param** `real` -- false もしくはそれ以外を指定します。
+
+```ruby
+require "tempfile"
+tf = Tempfile.open("bar")
+tf.close
+p FileTest.exist?(tf.path) # => true
+```

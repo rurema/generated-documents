@@ -1,0 +1,7 @@
+# RDoc::Options#page_dir=
+
+### def page_dir=(val)
+
+コマンドライン引数の --page-dir オプションと同様の指定を行います。
+
+- **param** `val` -- パスを文字列で指定します。

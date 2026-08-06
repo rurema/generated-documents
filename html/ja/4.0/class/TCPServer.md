@@ -1,0 +1,71 @@
+# class TCPServer < TCPSocket
+
+TCP/IP ストリーム型接続のサーバ側のソケットのクラスです。
+
+このクラスによって簡単にソケットを利用したサーバのプログラミングができます。
+
+例えば echo サーバは以下のようになります。
+
+```ruby
+require "socket"
+  
+gs = TCPServer.open(0)
+socks = [gs]
+addr = gs.addr
+addr.shift
+printf("server is on %s\n", addr.join(":"))
+  
+while true
+  nsock = select(socks)
+  next if nsock == nil
+  for s in nsock[0]
+    if s == gs
+      socks.push(s.accept)
+      print(s, " is accepted\n")
+    else
+      if s.eof?
+        print(s, " is gone\n")
+        s.close
+        socks.delete(s)
+      else
+        str = s.gets
+        s.write(str)
+      end
+    end
+  end
+end
+```
+
+Thread を使えばもっと短くなります。
+
+```ruby
+require "socket"
+  
+gs = TCPServer.open(0)
+addr = gs.addr
+addr.shift
+printf("server is on %s\n", addr.join(":"))
+  
+while true
+  Thread.start(gs.accept) do |s|       # save to dynamic variable
+    print(s, " is accepted\n")
+    while s.gets
+      s.write($_)
+    end
+    print(s, " is gone\n")
+    s.close
+  end
+end
+```
+
+## Class Methods
+
+- [new](../method/TCPServer/s/new.md)
+- [open](../method/TCPServer/s/open.md)
+
+## Instance Methods
+
+- [accept](../method/TCPServer/i/accept.md)
+- [accept_nonblock](../method/TCPServer/i/accept_nonblock.md)
+- [listen](../method/TCPServer/i/listen.md)
+- [sysaccept](../method/TCPServer/i/sysaccept.md)

@@ -1,0 +1,19 @@
+# Array.try_convert
+
+### def Array.try_convert(obj) -> Array | nil
+
+to_ary メソッドを用いて obj を配列に変換しようとします。
+
+何らかの理由で変換できないときには nil を返します。
+このメソッドは引数が配列であるかどうかを調べるために使えます。
+
+```ruby title="例"
+p Array.try_convert([1]) # => [1]
+p Array.try_convert("1") # => nil
+
+if tmp = Array.try_convert(arg)
+  # the argument is an array
+elsif tmp = String.try_convert(arg)
+  # the argument is a string
+end
+```

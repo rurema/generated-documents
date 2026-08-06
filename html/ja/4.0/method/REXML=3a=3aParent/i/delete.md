@@ -1,0 +1,11 @@
+# REXML::Parent#delete
+
+### def delete(object) -> REXML::Child | nil
+
+object を子ノード列から削除します。
+
+削除されたノードの親は nil に設定されます。
+
+削除したノードを返します。削除されなかった場合は nil を返します。
+
+- **param** `object` -- 削除するノード

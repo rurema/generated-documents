@@ -1,0 +1,25 @@
+# Logger#fatal
+
+### def fatal(progname = nil){ ... } -> true
+### def fatal(progname = nil) -> true
+
+FATAL 情報を出力します。
+
+ブロックを与えなかった場合は、progname をメッセージとしてログを出力します。
+
+ブロックを与えた場合は、ブロックを評価した結果をメッセージとしてログを出力します。
+
+引数とブロックを同時に与えた場合は、progname をプログラム名、ブロックを評価した結果をメッセージとしてログを出力します。
+
+- **param** `progname` -- ブロックを与えない場合は、メッセージとして文字列または例外オブジェクトを指定します。
+                ブロックを与えた場合は、プログラム名を文字列として与えます。
+
+```ruby title="例"
+require 'logger'
+
+logger = Logger.new(STDOUT)
+p logger.fatal("fatal1")             # => F, [2019-03-17T22:36:43.042422 #4028] FATAL -- : fatal1
+p logger.fatal("MainApp") { "fatal2" } # => F, [2019-03-17T22:36:43.042462 #4028] FATAL -- MainApp: fatal2
+```
+
+- **SEE** [Logger#debug](../../../method/Logger/i/debug.md)

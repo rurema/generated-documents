@@ -1,0 +1,51 @@
+# StringScanner#peep
+
+### def peek(bytes) -> String
+### def peep(bytes) -> String
+
+スキャンポインタから長さ bytes バイト分だけ文字列を返します。
+
+```ruby title="例"
+require 'strscan'
+s = StringScanner.new('test string')
+p s.peek(4) # => "test"
+```
+
+また、このメソッドを実行してもスキャンポインタは移動しません。
+
+[StringScanner#peep](../../../method/StringScanner/i/peep.md) は将来のバージョンでは削除される予定です。
+代わりに [StringScanner#peek](../../../method/StringScanner/i/peek.md) を使ってください。
+
+- **param** `bytes` -- 0 以上の整数を指定します。
+             ただし、スキャン対象の文字列の長さを超える分は無視されます。
+             bytes が 0 のとき、またはスキャンポインタが文字列の末尾を
+             指しているときは空文字列 ("") を返します。
+
+- **raise** `ArgumentError` -- bytes に負数を与えると発生します。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('test string')
+p s.peek(4)     # => "test"
+p s.peek(20)    # => "test string"
+p s.peek(0)     # => ""
+begin
+  s.peek(-1)
+rescue ArgumentError => err
+  puts err # negative string size (or size too big)
+end
+p s.scan(/\w+/) # => "test"
+p s.scan(/\s+/) # => " "
+p s.scan(/\w+/) # => "string"
+p s.peek(4)     # => ""
+
+# このメソッドを実行してもスキャンポインタは移動しません。
+
+s = StringScanner.new('test string')
+p s.peek(4)     # => "test"
+p s.peek(4)     # => "test"
+p s.scan(/\w+/) # => "test"
+p s.peek(4)     # => " str"
+p s.peek(4)     # => " str"
+```

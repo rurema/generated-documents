@@ -1,0 +1,30 @@
+# Time#xmlschema
+
+### def xmlschema(fractional_seconds = 0) -> String
+### def iso8601(fractional_seconds = 0) -> String
+
+XML Schema で定義されている dateTime として表現される形式の文字列を返します。
+
+XML Schema で定義されている dateTime として表現される形式の文字列をパースするためのクラスメソッド
+[Time.iso8601](../../../method/Time/s/iso8601.md), [Time.xmlschema](../../../method/Time/s/xmlschema.md) もあります。
+
+- **param** `fractional_seconds` -- 小数点以下の秒の桁数を整数で指定します。
+                          省略した場合は0 となります。
+
+- **return** -- 以下の形式の文字列を返します。
+  ```text
+    CCYY-MM-DDThh:mm:ssTZD
+    CCYY-MM-DDThh:mm:ss.sssTZD
+  ```
+        ただし TZD は Z または [+-]hh:mm です。
+
+```ruby title="使用例"
+require 'time'
+
+iso8601_time = '2008-08-31T12:34:56+09:00'
+t = Time.iso8601(iso8601_time)
+p t.xmlschema    #=> "2008-08-31T03:34:56Z"
+p t.xmlschema(9) #=> "2008-08-31T03:34:56.000000000Z"
+```
+
+- **SEE** [Time.iso8601](../../../method/Time/s/iso8601.md), [Time.xmlschema](../../../method/Time/s/xmlschema.md)

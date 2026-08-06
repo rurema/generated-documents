@@ -1,0 +1,32 @@
+# Numeric#modulo
+
+### def modulo(other)    -> Numeric
+### def %(other)         -> Numeric
+
+self を other で割った余り r を返します。
+
+ここで、商 q と余り r は、
+
+  - self == other * q + r
+と
+  - other > 0 のとき  0 <= r < other
+  - other < 0 のとき other < r <= 0
+  - q は整数
+
+をみたす数です。
+余り r は、other と同じ符号になります。
+商  q は、[Numeric#div](../../../method/Numeric/i/div.md) (あるいは 「/」)で求められます。
+modulo はメソッド % の呼び出しとして定義されています。
+
+- **param** `other` -- 自身を割る数を指定します。
+
+```ruby title="例"
+p 13.modulo(4)       #=>  1
+p (11.5).modulo(3.5) #=> 1.0
+p 13.modulo(-4)      #=> -3
+p (-13).modulo(4)    #=>  3
+p (-13).modulo(-4)   #=> -1
+p (-11).modulo(3.5)  #=> 3.0
+```
+
+- **SEE** [Numeric#divmod](../../../method/Numeric/i/divmod.md), [Numeric#remainder](../../../method/Numeric/i/remainder.md)

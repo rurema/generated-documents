@@ -1,0 +1,30 @@
+# Module#deprecate_constant
+
+### def deprecate_constant(*name) -> self
+
+name で指定した定数を deprecate に設定します。
+deprecate に設定した定数を参照すると警告メッセージが表示されます。
+
+Ruby 2.7.2 から Warning[:deprecated] のデフォルト値が false に変更になったため、デフォルトでは警告が表示されません。
+
+コマンドラインオプション(詳細は[spec/rubycmd#cmd_option](../../../doc/spec=2frubycmd.md#cmd_option)参照)で、「-w」か「-W2」などを指定するか、実行中に「Warning[:deprecated] = true」で変更すると表示されるようになります。
+
+「$VERBOSE = true」は「Warning[:deprecated]」に影響しないため、表示されるかどうかは変わりません。
+
+- **param** `name` -- 0 個以上の [String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) を指定します。
+
+- **raise** `NameError` -- 存在しない定数を指定した場合に発生します。
+
+- **return** -- self を返します。
+
+```ruby title="例"
+FOO = 123
+p Object.deprecate_constant(:FOO) # => Object
+
+FOO
+# warning: constant ::FOO is deprecated
+# => 123
+
+Object.deprecate_constant(:BAR)
+# NameError: constant Object::BAR not defined
+```

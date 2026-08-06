@@ -1,0 +1,6 @@
+# nodetype
+
+### static enum node_type nodetype(node)
+
+node の種類を返します。
+デバッグ用です。

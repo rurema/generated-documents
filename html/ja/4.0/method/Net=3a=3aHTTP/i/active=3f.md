@@ -1,0 +1,8 @@
+# Net::HTTP#active?
+
+### def started? -> bool
+### def active? -> bool
+
+HTTP セッションが開始されていたら真を返します。
+
+active? は時代遅れのメソッドです。

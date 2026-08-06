@@ -1,0 +1,5 @@
+# OpenSSL::OCSP::NOTIME
+
+### const NOTIME -> Integer
+
+OCSP 応答の生成時刻を正しく設定しないことを意味します。

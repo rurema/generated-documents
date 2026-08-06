@@ -1,0 +1,6 @@
+# JSON::State#ascii_only?
+
+### def ascii_only? -> bool
+
+ASCII 文字列のみを用いて JSON 形式の文字列を生成する場合に真を返します。
+そうでない場合に偽を返します。

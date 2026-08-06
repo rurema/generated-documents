@@ -1,0 +1,56 @@
+# Float#round
+
+### def round(ndigits = 0)  -> Integer | Float
+### def round(ndigits = 0, half: :up)  -> Integer | Float
+
+`self` ともっとも近い整数もしくは実数を返します。
+
+中央値 0.5, -0.5 はそれぞれ 1,-1 に切り上げされます。
+いわゆる四捨五入ですが、偶数丸めではありません。
+
+- **param** `ndigits` -- 丸める位を指定します。
+       `ndigits` が0ならば、小数点以下を四捨五入し、整数を返します。
+       `ndigits` が0より大きいならば、小数点以下の指定された位で四捨五入されます。
+       `ndigits` が0より小さいならば、小数点以上の指定された位で四捨五入されます。
+- **param** `half` -- ちょうど半分の値の丸め方を指定します。
+       サポートされている値は以下の通りです。
+
+- `:up` or `nil`: 0から遠い方に丸められます。
+- `:even`: もっとも近い偶数に丸められます。
+- `:down`: 0に近い方に丸められます。
+
+- **return** -- 指定された引数に応じて、整数もしくは実数を返します。
+       `ndigits` が0ならば、整数を返します。
+       `ndigits` が0より大きいならば、実数を返します。
+       `ndigits` が0より小さいならば、整数を返します。
+
+- **raise** `TypeError` -- `ndigits` で指定されたオブジェクトが整数に変換できない場
+                 合発生します。
+
+```ruby title="例"
+p 1.0.round    # => 1
+p 1.2.round    # => 1
+p (-1.2).round # => -1
+p (-1.5).round # => -2
+
+t = Math::PI # => 3.141592653589793
+p t.round(3) # => 3.142
+p t.round(0) # => 3
+p t.round(1) # => 3.1
+
+t = t**10      # => 93648.04747608298
+p t.round(-0)  # => 93648
+p t.round(-1)  # => 93650
+p t.round(-2)  # => 93600
+p t.round(-3)  # => 94000
+p t.round(-100)  # => 0
+
+p 2.5.round(half: :up) # => 3
+p 2.5.round(half: :even) # => 2
+p 2.5.round(half: :down) # => 2
+p 3.5.round(half: :up) # => 4
+p 3.5.round(half: :even) # => 4
+p 3.5.round(half: :down) # => 3
+```
+
+- **SEE** [Float#ceil](../../../method/Float/i/ceil.md), [Float#floor](../../../method/Float/i/floor.md), [Float#truncate](../../../method/Float/i/truncate.md)

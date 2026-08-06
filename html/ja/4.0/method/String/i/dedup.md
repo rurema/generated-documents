@@ -1,0 +1,25 @@
+# String#dedup
+
+### def -@ -> String | self
+### def dedup -> String | self
+
+self が freeze されている文字列の場合、self を返します。
+freeze されていない場合は元の文字列の freeze された (できる限り既存の) 複製を返します。
+
+```ruby title="例"
+# frozen_string_literal: false
+
+original_text = "text"
+frozen_text = -original_text
+p frozen_text.frozen?               # => true
+p original_text == frozen_text      # => true
+p original_text.equal?(frozen_text) # => false
+
+original_text = "text".freeze
+frozen_text = -original_text
+p frozen_text.frozen?               # => true
+p original_text == frozen_text      # => true
+p original_text.equal?(frozen_text) # => true
+```
+
+- **SEE** [String#+@](../../../method/String/i/=2b=40.md)

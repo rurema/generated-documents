@@ -1,0 +1,5 @@
+# Date#yday
+
+### def yday -> Integer
+
+年の日を返します (1-366)。

@@ -1,0 +1,6 @@
+# yyerror
+
+### static int yyerror(char *msg)
+
+パースエラーを報告するときに yyparse から呼び出されます。
+エラーメッセージ msg とエラーになった場所を出力して 0 を返します。

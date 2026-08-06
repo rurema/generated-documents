@@ -1,0 +1,11 @@
+# WEBrick::HTTPAuth::BasicAuth.make_passwd
+
+### def WEBrick::HTTPAuth::BasicAuth.make_passwd(realm, user, pass) -> String
+
+pass をランダムなソルトで crypt した文字列を返します。
+
+- **param** `realm` -- レルムを指定します。
+
+- **param** `user` -- ユーザ名を指定します。
+
+- **param** `pass` -- パスワードを指定します。

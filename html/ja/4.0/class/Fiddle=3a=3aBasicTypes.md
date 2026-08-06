@@ -1,0 +1,9 @@
+# module Fiddle::BasicTypes
+
+よく使われる型の別名を定義するモジュールです。
+
+include すると 以下の型が定義されます。
+  - "uint" 
+  - "u_int"
+  - "ulong" 
+  - "u_long"

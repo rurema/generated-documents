@@ -1,0 +1,5 @@
+# rb_thread_wakeup
+
+### VALUE rb_thread_wakeup(VALUE thread)
+
+停止中のスレッド thread を再開させます。

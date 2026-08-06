@@ -1,0 +1,16 @@
+# URI::Generic.default_port
+
+### def URI::Generic.default_port    -> Integer | nil
+
+スキームに対応するデフォルトのポート番号を整数で返します。
+
+```ruby
+require 'uri'
+p URI::Generic.default_port   # => nil
+p URI::FTP.default_port       # => 21
+p URI::HTTP.default_port      # => 80
+p URI::HTTPS.default_port     # => 443
+p URI::LDAP.default_port      # => 389
+p URI::LDAPS.default_port     # => 636
+p URI::MailTo.default_port    # => nil
+```

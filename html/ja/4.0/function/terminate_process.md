@@ -1,0 +1,3 @@
+# terminate_process
+
+### static void terminate_process(int status, const char *mesg, int mlen)

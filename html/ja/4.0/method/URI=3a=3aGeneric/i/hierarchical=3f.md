@@ -1,0 +1,5 @@
+# URI::Generic#hierarchical?
+
+### def hierarchical?    -> bool
+
+自身に path が設定されているなら true を返します。そうでない場合は false を返します。

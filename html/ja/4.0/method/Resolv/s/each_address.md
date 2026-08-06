@@ -1,0 +1,9 @@
+# Resolv.each_address
+
+### def Resolv.each_address(name) {|address| ...} -> ()
+
+ホスト名 name の IP アドレスをルックアップし、各ルックアップ結果のアドレスに対してブロックを評価します。
+
+ルックアップは /etc/hosts, DNS の順で行います。
+
+- **param** `name` -- ホスト名を文字列で与えます。

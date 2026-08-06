@@ -1,0 +1,35 @@
+# REXML::DocType#write
+
+### def write(output, indent = 0, transitive = false, ie_hack = false) -> ()
+
+output に DTD を出力します。
+
+このメソッドは deprecated です。[REXML::Formatters::Default](../../../class/REXML=3a=3aFormatters=3a=3aDefault.md) で出力してください。
+
+- **param** `output` -- 出力先の IO オブジェクト
+- **param** `indent` -- インデントの深さ。指定しないでください。
+- **param** `transitive` -- 無視されます。指定しないでください。
+- **param** `ie_hack` -- 無視されます。指定しないでください。
+
+```ruby
+require 'rexml/document'
+
+doctype = REXML::Document.new(<<EOS).doctype
+<!DOCTYPE books [
+<!ELEMENT book (comment)>
+<!ELEMENT comment (#PCDATA)>
+<!ATTLIST book
+          author CDATA #REQUIRED
+          title CDATA #REQUIRED
+          publisher CDATA "foobar publisher">
+<!ENTITY p "foobar publisher">
+<!ENTITY % q "quzz">
+]>
+EOS
+
+doctype.write(STDOUT)
+# =>
+# <!DOCTYPE books [
+# <!ELEMENT book (comment)>
+# ....
+```

@@ -1,0 +1,15 @@
+# SignalException#signo
+
+### def signo -> Integer
+
+self のシグナル番号を返します。
+
+```ruby title="例"
+p Signal.signame(1) # => "HUP"
+begin
+  Process.kill('HUP', Process.pid)
+  sleep
+rescue SignalException => e
+  p e.signo # => 1
+end
+```

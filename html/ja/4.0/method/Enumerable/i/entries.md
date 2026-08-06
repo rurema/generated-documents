@@ -1,0 +1,16 @@
+# Enumerable#entries
+
+### def to_a(*args)    -> [object]
+### def entries(*args) -> [object]
+
+全ての要素を含む配列を返します。
+
+- **param** `args` -- each の呼び出し時に引数として渡されます。
+
+```ruby title="例"
+p (1..7).to_a                     #=> [1, 2, 3, 4, 5, 6, 7]
+{ 'a'=>1, 'b'=>2, 'c'=>3 }.to_a   #=> [["a", 1], ["b", 2], ["c", 3]]
+
+require 'prime'
+p Prime.entries 10                #=> [2, 3, 5, 7]
+```

@@ -1,0 +1,24 @@
+# SecureRandom.alphanumeric
+
+### def SecureRandom.alphanumeric(n = nil, chars: Random::Formatter::ALPHANUMERIC)    -> String
+
+ランダムな英数字を生成して返します。
+
+- **param** `n` -- 生成される文字列のサイズを整数で指定します。
+         nil を指定した場合 n として 16 が使われます。
+- **param** `chars` -- 生成に使う文字の配列を指定します。
+         省略した場合は A-Z, a-z, 0-9 が使われます。
+- **return** -- A-Z, a-z, 0-9 からなる文字列が返されます。
+         (chars を指定した場合は、chars に含まれる文字からなる文字列が返されます)
+
+- **raise** `NotImplementedError` -- 安全な乱数発生器が使えない場合に発生します。
+
+```ruby
+require 'securerandom'
+p SecureRandom.alphanumeric # => "2BuBuLf3WfSKyQbR"
+p SecureRandom.alphanumeric(10) # => "i6K93NdqiH"
+
+p SecureRandom.alphanumeric(4, chars: [*"0".."9"]) # => "2952"
+```
+
+- **SEE** [Random::Formatter#alphanumeric](../../../method/Random=3a=3aFormatter/i/alphanumeric.md)

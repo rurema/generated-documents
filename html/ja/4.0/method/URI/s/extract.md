@@ -1,0 +1,30 @@
+# URI.extract
+
+### def URI.extract(str)                               -> [String]
+### def URI.extract(str, schemes)                      -> [String]
+### def URI.extract(str) {|uri_str| ... }              -> nil
+### def URI.extract(str, schemes) {|uri_str| ... }     -> nil
+
+文字列 str に対して正規表現によるマッチを試み、絶対URIにマッチした部分文字列からなる配列として返します。
+抽出する URI がなければ空の配列を返します。
+
+第2引数に文字列の配列 schemes が与えられた場合はそのスキームだけを検索します。
+
+ブロックが与えられた場合は [String#scan](../../../method/String/i/scan.md) と同様で、マッチした部分がみつかるたびに uri_str にその部分を代入してブロックを評価します。
+このときは nil を返します。
+
+このメソッドは Ruby 2.2 から obsolete です。
+
+- **param** `str` -- 文字列を与えます。
+
+- **param** `schemes` -- 検索の対象としたいスキームを、文字列の配列として与えます。
+
+```text title="例"
+require 'uri'
+str = "
+        http://www.ruby-lang.org/
+        http://www.ruby-lang.org/man-1.6/
+"
+p URI.extract(str, ["http"])
+=> ["http://www.ruby-lang.org/", "http://www.ruby-lang.org/man-1.6/"]
+```

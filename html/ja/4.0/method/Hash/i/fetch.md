@@ -1,0 +1,30 @@
+# Hash#fetch
+
+### def fetch(key) -> object
+### def fetch(key, default) -> object
+### def fetch(key) {|key| ... } -> object
+
+key に関連づけられた値を返します。該当するキーが登録されていない時には、引数 default が与えられていればその値を、ブロックが与えられていればそのブロックを評価した値を返します。
+
+fetchはハッシュ自身にデフォルト値が設定されていても単に無視します（挙動に変化がありません）。
+
+- **param** `key` -- 探索するキーを指定します。
+- **param** `default` -- 該当するキーが登録されていない時の返り値を指定します。
+- **raise**  `KeyError` --   引数defaultもブロックも与えられてない時、キーの探索に失敗すると発生します。
+
+```ruby title="例"
+h = {one: nil}
+p h[:one],h[:two]                        #=> nil,nil これではキーが存在するのか判別できない。
+p h.fetch(:one)                          #=> nil
+h.fetch(:two)                            # ~> KeyError: key not found: :two
+p h.fetch(:two,"error")                  #=> "error"
+p h.fetch(:two){|key|"#{key} not exist"} #=> "two not exist"
+p h.fetch(:two, "error"){|key|           #=> "two not exist"
+    "#{key} not exist"                   #  warning: block supersedes default value argument
+  }                                      #  警告が表示される。
+
+h.default = "default"
+h.fetch(:two)                            # ~> KeyError: key not found: :two
+```
+
+- **SEE** [Hash#\[\]](../../../method/Hash/i/=5b=5d.md)

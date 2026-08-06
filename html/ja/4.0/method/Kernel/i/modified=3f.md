@@ -1,0 +1,10 @@
+# Kernel#modified?
+
+### def modified?(target, times) -> Time | nil
+
+target が times の全ての要素よりも新しい場合は target の更新時刻を返します。
+そうでない場合は nil を返します。target が存在しない場合も nil を返します。
+
+- **param** `target` -- 対象のファイル名を指定します。
+
+- **param** `times` -- [Time](../../../class/Time.md) の配列か [Time](../../../class/Time.md) を一つ指定します。

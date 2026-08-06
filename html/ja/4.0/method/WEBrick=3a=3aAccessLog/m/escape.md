@@ -1,0 +1,7 @@
+# WEBrick::AccessLog?.escape
+
+### module_function def escape(data) -> String
+
+与えられた文字列が汚染されている場合、制御文字を無効化します。
+
+- **param** `data` -- エスケープする文字列を指定します。

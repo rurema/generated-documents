@@ -1,0 +1,56 @@
+# JSON?.unparse
+
+### module_function def generate(object, state = nil) -> String
+### module_function def unparse(object, state = nil) -> String
+
+与えられたオブジェクトを一行の JSON 形式の文字列に変換して返します。
+
+デフォルトでは、サイズが最小となる JSON 形式の文字列を生成します。
+また、循環参照のチェックを行います。[JSON::NaN](../../../method/JSON/c/NaN.md), [JSON::Infinity](../../../method/JSON/c/Infinity.md),
+[JSON::MinusInfinity](../../../method/JSON/c/MinusInfinity.md) を生成することもありません。
+
+unparse は将来削除される予定です。
+
+- **param** `object` -- JSON 形式の文字列に変換するオブジェクトを指定します。
+
+- **param** `state` -- [JSON::State](../../../class/JSON=3a=3aState.md) または、to_hash や to_h メソッドでハッシュに変換可能なオブジェクトを指定できます。
+       ハッシュを使用する場合指定可能なオプションは以下の通りです。
+
+- **`:indent`**:
+  インデントに使用する文字列を指定します。デフォルトは空文字列です。
+- **`:space`**:
+  a string that is put after, a : or , delimiter (default: '')
+- **`:space_before`**:
+  a string that is put before a : pair delimiter (default: '')
+- **`:object_nl`**:
+  a string that is put at the end of a JSON object (default: '')
+- **`:array_nl`**:
+  a string that is put at the end of a JSON array (default: '')
+- **`:check_circular`**:
+  真を指定した場合、生成するオブジェクトの循環をチェックします。
+  この動作がデフォルトです。
+- **`:allow_nan`**:
+  真を指定した場合、[JSON::NaN](../../../method/JSON/c/NaN.md), [JSON::Infinity](../../../method/JSON/c/Infinity.md),
+  [JSON::MinusInfinity](../../../method/JSON/c/MinusInfinity.md) を生成することを許すようになります。
+  偽を指定した場合、これらの値を生成しようとすると例外が発生します。
+  デフォルトは偽です。
+- **`:max_nesting`**:
+  入れ子になっているデータの最大の深さを指定します。
+  偽を指定すると深さのチェックを行いません。デフォルトは 19 です。
+
+- **raise** `JSON::GeneratorError` -- [JSON::NaN](../../../method/JSON/c/NaN.md), [JSON::Infinity](../../../method/JSON/c/Infinity.md),[JSON::MinusInfinity](../../../method/JSON/c/MinusInfinity.md)
+       を生成しようとした場合に発生します。
+
+- **raise** `JSON::CircularDatastructure` -- 与えられたオブジェクトが循環参照を持つ場合に発生します。
+
+```ruby title="例"
+require "json"
+
+p JSON.generate([1, 2, { name: "tanaka", age: 19 }])
+# => "[1,2,{\"name\":\"tanaka\",\"age\":19}]"
+json_state = JSON::State.new(space: " ")
+p JSON.generate([1, 2, { name: "tanaka", age: 19 }], json_state)
+# => "[1,2,{\"name\": \"tanaka\",\"age\": 19}]"
+```
+
+- **SEE** [JSON::State](../../../class/JSON=3a=3aState.md), [JSON?.pretty_generate](../../../method/JSON/m/pretty_generate.md)

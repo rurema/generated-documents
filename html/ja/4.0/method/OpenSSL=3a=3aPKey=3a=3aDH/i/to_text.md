@@ -1,0 +1,7 @@
+# OpenSSL::PKey::DH#to_text
+
+### def to_text -> String
+
+鍵パラメータを人間が読める形式に変換します。
+
+鍵対の値は出力されません。

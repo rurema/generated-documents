@@ -1,0 +1,20 @@
+# WIN32OLE.create_guid
+
+### def WIN32OLE.create_guid -> String
+
+GUID(グローバル一意識別子：Global Unique Identifier)を生成します。
+
+GUIDは、COMのクラス識別子(CLSID)、インターフェイス識別子(IID)など多数の領域でWindows上のオブジェクトの識別に利用される128ビットの値です。
+
+WIN32OLEが生成するGUIDは以下の形式によるGUIDの文字列表現です。なお00〜
+FFはGUIDの先頭からのバイト位置を示します。これはレジストリのキーとして利用される形式です。
+
+```text
+{33221100-5544-7766-8899-AABBCCDDEEFF}
+```
+
+- **return** -- GUIDの文字列表現を返します。
+
+```ruby
+p WIN32OLE.create_guid # => "{????????-????-????-????-????????????}"
+```

@@ -1,0 +1,3 @@
+# val_setter
+
+### static void val_setter(VALUE val, ID id, void *data, struct global_variable *var)

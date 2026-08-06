@@ -1,0 +1,7 @@
+# Gem::Specification#add_bindir
+
+### def add_bindir(executables) -> Array | nil
+
+実行コマンドの格納場所を返します。
+
+- **param** `executables` -- 実行コマンド名を格納した配列を指定します。

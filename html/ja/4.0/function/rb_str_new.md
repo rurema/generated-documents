@@ -1,0 +1,12 @@
+# rb_str_new
+
+### VALUE rb_str_new(const char *ptr, long len)
+
+ptr から len バイト分をコピーして
+Ruby の文字列を作成し返します。
+
+```c
+rb_str_new(0,0)
+```
+
+では空文字列を生成して返します。

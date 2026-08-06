@@ -1,0 +1,10 @@
+# rb_ary_shift
+
+### VALUE rb_ary_shift(VALUE ary)
+
+配列 ary の先頭の要素を取り除き返します。
+空配列のときは Qnil を返します。
+
+```text title="対応するRubyコード"
+val = ary.shift
+```

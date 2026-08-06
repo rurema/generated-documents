@@ -1,0 +1,27 @@
+# File.basename
+
+### def File.basename(filename, suffix = "")     -> String
+
+filename の一番後ろのスラッシュに続く要素を返します。もし、引数 suffix が与えられて、かつそれが filename の末尾に一致するなら、それを取り除いたものを返します。
+
+```ruby title="例"
+p File.basename("ruby/ruby.c")          #=> "ruby.c"
+p File.basename("ruby/ruby.c", ".c")    #=> "ruby"
+p File.basename("ruby/ruby.c", ".*")    #=> "ruby"
+p File.basename("ruby/ruby.exe", ".*")  #=> "ruby"
+p File.basename("ruby/y.tab.c", ".*")   #=> "y.tab"
+```
+
+File.basename の動作は [man:basename(3)] 
+に従います。
+
+```ruby title="例"
+p File.basename("foo/bar/")      # => "bar"
+```
+
+- **param** `filename` -- ファイル名を表す文字列を指定します。
+
+- **param** `suffix` -- サフィックスを文字列で与えます。'.*' という文字列を与えた場合、'*' はワイルドカードとして働き
+              '.' を含まない任意の文字列にマッチします。
+
+- **SEE** [File.dirname](../../../method/File/s/dirname.md), [File.extname](../../../method/File/s/extname.md)

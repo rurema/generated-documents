@@ -1,0 +1,5 @@
+# Fcntl::F_SETLKW
+
+### const F_SETLKW -> Integer
+
+ファイルの範囲のロックを取得します。必要があればロックを取得できるまで待ちます。

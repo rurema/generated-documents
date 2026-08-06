@@ -1,0 +1,5 @@
+# WEBrick::HTTPRequest#user
+
+### def user          -> String
+
+REMOTE_USER を文字列として返します。

@@ -1,0 +1,5 @@
+# Resolv::IPv6#address
+
+### def address -> String
+
+IPv6アドレスを表す 16 byte の文字列(バイト列)を返します。

@@ -1,0 +1,10 @@
+# REXML::NotationDecl.new
+
+### def REXML::NotationDecl.new(name, middle, pub, sys) -> REXML::NotationDecl
+
+NotationDecl オブジェクトを生成します。
+
+- **param** `name` -- 記法名(文字列)
+- **param** `middle` -- 種別("PUBLIC" もしくは "SYSTEM")
+- **param** `pub` -- 公開識別子(文字列)
+- **param** `sys` -- URI(文字列)

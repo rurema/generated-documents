@@ -1,0 +1,13 @@
+# Complex#to_s
+
+### def to_s -> String
+
+自身を "実部 + 虚部i" 形式の文字列にして返します。
+
+```ruby title="例"
+p Complex(2).to_s                     # => "2+0i"
+p Complex('-8/6').to_s                # => "-4/3+0i"
+p Complex('1/2i').to_s                # => "0+1/2i"
+p Complex(0, Float::INFINITY).to_s    # => "0+Infinity*i"
+p Complex(Float::NAN, Float::NAN).to_s  # => "NaN+NaN*i"
+```

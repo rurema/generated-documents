@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::PRINTABLESTRING
+
+### const PRINTABLESTRING -> Integer
+
+ASN.1 UNIVERSAL タグの、
+PRINTABLESTRING のタグ番号 19 を表す定数です。

@@ -1,0 +1,5 @@
+# WEBrick::HTTPRequest#each
+
+### def each {|key, val| ... }
+
+リクエストの各ヘッダ名を key、内容を val としてブロックを評価します。

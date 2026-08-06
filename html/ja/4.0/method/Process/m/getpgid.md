@@ -1,0 +1,13 @@
+# Process?.getpgid
+
+### module_function def getpgid(pid)   -> Integer
+
+プロセス ID が pid であるプロセスのプロセスグループ ID を整数で返します。
+
+- **param** `pid` -- プロセス ID を整数で指定します。0 の時はカレントプロセス ID を指定したのと同じです。
+
+- **raise** `Errno::EXXX` -- プロセスグループの取得に失敗した場合に発生します。
+
+- **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
+
+- **SEE** [man:getpgid(2)]

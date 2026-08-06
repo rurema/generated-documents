@@ -1,0 +1,10 @@
+# Base64?.strict_encode64
+
+### module_function def strict_encode64(bin) -> String
+
+与えられたデータを Base64 エンコードした文字列を返します。
+
+このメソッドは [RFC:4648] に対応しています。
+改行コードを追加することはありません。
+
+- **param** `bin` -- Base64 エンコードするデータを指定します。

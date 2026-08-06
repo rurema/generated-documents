@@ -1,0 +1,24 @@
+# StringScanner#inspect
+
+### def inspect -> String
+
+StringScannerオブジェクトを表す文字列を返します。
+
+文字列にはクラス名の他、以下の情報が含まれます。
+
+    - スキャナポインタの現在位置。
+    - スキャン対象の文字列の長さ。
+    - スキャンポインタの前後にある文字。上記実行例の @ がスキャンポインタを表します。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('test string')
+p s.inspect                          # => "#<StringScanner 0/11 @ \"test ...\">"
+p s.scan(/\w+/)                      # => "test"
+p s.inspect                          # => "#<StringScanner 4/11 \"test\" @ \" stri...\">"
+p s.scan(/\s+/)                      # => " "
+p s.inspect                          # => "#<StringScanner 5/11 \"test \" @ \"strin...\">"
+p s.scan(/\w+/)                      # => "string"
+p s.inspect                          # => "#<StringScanner fin>"
+```

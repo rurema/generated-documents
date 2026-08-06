@@ -1,0 +1,20 @@
+# Complex#denominator
+
+### def denominator -> Integer
+
+分母を返します。
+
+以下のように、実部と虚部の分母の最小公倍数を整数で返します。
+
+```text
+1   2       3+4i  <-  numerator(分子)
+- + -i  ->  ----
+2   3        6    <-  denominator(分母)
+```
+
+```ruby title="例"
+p Complex('1/2+2/3i').denominator # => 6
+p Complex(3).denominator          # => 1
+```
+
+- **SEE** [Complex#numerator](../../../method/Complex/i/numerator.md)

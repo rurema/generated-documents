@@ -1,0 +1,9 @@
+# Net::FTP#voidcmd
+
+### def voidcmd(cmd) -> nil
+
+cmd で指定されたコマンドをサーバーに送ります。
+
+- **param** `cmd` -- コマンドを文字列で指定します。
+
+- **raise** `Net::FTPReplyError` -- 応答コードが 2yz 以外の場合に発生します。

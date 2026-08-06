@@ -1,0 +1,6 @@
+# Kernel$sitelibdir
+
+### gvar $sitelibdir -> String
+
+サイト固有のライブラリを置くディレクトリです。
+通常は "/usr/local/lib/ruby/site_ruby/バージョン" です。

@@ -1,0 +1,12 @@
+# Rational#coerce
+
+### def coerce(other) -> Array
+
+`self` と `other` が同じクラスになるよう、`self` か `other` を変換し `[other, self]` という配列にして返します。
+
+- **param** `other` -- 比較または変換するオブジェクト
+
+```ruby title="例"
+p Rational(1).coerce(2) # => [(2/1), (1/1)]
+p Rational(1).coerce(2.2) # => [2.2, 1.0]
+```

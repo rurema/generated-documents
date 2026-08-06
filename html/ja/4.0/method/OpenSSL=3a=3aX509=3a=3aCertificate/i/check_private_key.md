@@ -1,0 +1,8 @@
+# OpenSSL::X509::Certificate#check_private_key
+
+### def check_private_key(private_key) -> bool
+
+与えられた秘密鍵が証明書に記載されている subject の公開鍵と対応するものかを確かめます。
+
+確認に成功した場合に真を返します。
+- **param** `private_key` -- 確認用の秘密鍵

@@ -1,0 +1,14 @@
+# FileTest?.world_writable?
+
+### module_function def world_writable?(path)    -> bool
+
+path が全てのユーザから書き込めるならば、そのファイルのパーミッションを表す整数を返します。そうでない場合は nil を返します。
+
+整数の意味はプラットフォームに依存します。
+
+- **param** `path` -- パスを表す文字列を指定します。
+
+```ruby
+m = FileTest.world_writable?("/tmp")
+p "%o" % m                             #=> "777"
+```

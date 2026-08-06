@@ -1,0 +1,32 @@
+# ERB#def_class
+
+### def def_class(superklass=Object, methodname='erb') -> Class
+
+変換した Ruby スクリプトをメソッドとして定義した無名のクラスを返します。
+
+ 
+- **param** `superklass` -- 無名クラスのスーパークラス
+
+- **param** `methodname` -- メソッド名
+
+```ruby title="例"
+require "erb"
+
+class MyBaseClass
+  def initialize(arg1, arg2)
+    @arg1 = arg1
+    @arg2 = arg2
+  end
+end
+
+erb = ERB.new(<<~ERB)
+  arg1: <%= @arg1 %>
+  arg2: <%= @arg2 %>
+ERB
+
+MySubClass = erb.def_class(MyBaseClass, :render)
+
+print MySubClass.new("foo", 123).render()
+# => arg1: foo
+#    arg2: 123
+```

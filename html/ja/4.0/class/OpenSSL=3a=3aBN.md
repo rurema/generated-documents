@@ -1,0 +1,60 @@
+# class OpenSSL::BN < Object
+
+OpenSSL内で利用される多倍長整数クラスです。
+
+通常多倍長整数を利用するには [Integer](../class/Integer.md) を用いてください。
+
+## Class Methods
+
+- [generate_prime](../method/OpenSSL=3a=3aBN/s/generate_prime.md)
+- [new](../method/OpenSSL=3a=3aBN/s/new.md)
+- [pseudo_rand](../method/OpenSSL=3a=3aBN/s/pseudo_rand.md)
+- [pseudo_rand_range](../method/OpenSSL=3a=3aBN/s/pseudo_rand_range.md)
+- [rand](../method/OpenSSL=3a=3aBN/s/rand.md)
+- [rand_range](../method/OpenSSL=3a=3aBN/s/rand_range.md)
+
+## Instance Methods
+
+- [%](../method/OpenSSL=3a=3aBN/i/=25.md)
+- [*](../method/OpenSSL=3a=3aBN/i/=2a.md)
+- [**](../method/OpenSSL=3a=3aBN/i/=2a=2a.md)
+- [+](../method/OpenSSL=3a=3aBN/i/=2b.md)
+- [-](../method/OpenSSL=3a=3aBN/i/=2d.md)
+- [/](../method/OpenSSL=3a=3aBN/i/=2f.md)
+- [<<](../method/OpenSSL=3a=3aBN/i/=3c=3c.md)
+- [<=>](../method/OpenSSL=3a=3aBN/i/=3c=3d=3e.md)
+- [cmp](../method/OpenSSL=3a=3aBN/i/cmp.md)
+- [==](../method/OpenSSL=3a=3aBN/i/=3d=3d.md)
+- [===](../method/OpenSSL=3a=3aBN/i/=3d=3d=3d.md)
+- [eql?](../method/OpenSSL=3a=3aBN/i/eql=3f.md)
+- [>>](../method/OpenSSL=3a=3aBN/i/=3e=3e.md)
+- [bit_set?](../method/OpenSSL=3a=3aBN/i/bit_set=3f.md)
+- [clear_bit!](../method/OpenSSL=3a=3aBN/i/clear_bit=21.md)
+- [coerce](../method/OpenSSL=3a=3aBN/i/coerce.md)
+- [copy](../method/OpenSSL=3a=3aBN/i/copy.md)
+- [gcd](../method/OpenSSL=3a=3aBN/i/gcd.md)
+- [lshift!](../method/OpenSSL=3a=3aBN/i/lshift=21.md)
+- [mask_bits!](../method/OpenSSL=3a=3aBN/i/mask_bits=21.md)
+- [mod_add](../method/OpenSSL=3a=3aBN/i/mod_add.md)
+- [mod_exp](../method/OpenSSL=3a=3aBN/i/mod_exp.md)
+- [mod_inverse](../method/OpenSSL=3a=3aBN/i/mod_inverse.md)
+- [mod_mul](../method/OpenSSL=3a=3aBN/i/mod_mul.md)
+- [mod_sqr](../method/OpenSSL=3a=3aBN/i/mod_sqr.md)
+- [mod_sub](../method/OpenSSL=3a=3aBN/i/mod_sub.md)
+- [negative?](../method/OpenSSL=3a=3aBN/i/negative=3f.md)
+- [num_bits](../method/OpenSSL=3a=3aBN/i/num_bits.md)
+- [num_bytes](../method/OpenSSL=3a=3aBN/i/num_bytes.md)
+- [odd?](../method/OpenSSL=3a=3aBN/i/odd=3f.md)
+- [one?](../method/OpenSSL=3a=3aBN/i/one=3f.md)
+- [pretty_print](../method/OpenSSL=3a=3aBN/i/pretty_print.md)
+- [prime?](../method/OpenSSL=3a=3aBN/i/prime=3f.md)
+- [prime_fasttest?](../method/OpenSSL=3a=3aBN/i/prime_fasttest=3f.md)
+- [rshift!](../method/OpenSSL=3a=3aBN/i/rshift=21.md)
+- [set_bit!](../method/OpenSSL=3a=3aBN/i/set_bit=21.md)
+- [sqr](../method/OpenSSL=3a=3aBN/i/sqr.md)
+- [to_bn](../method/OpenSSL=3a=3aBN/i/to_bn.md)
+- [to_i](../method/OpenSSL=3a=3aBN/i/to_i.md)
+- [to_int](../method/OpenSSL=3a=3aBN/i/to_int.md)
+- [to_s](../method/OpenSSL=3a=3aBN/i/to_s.md)
+- [ucmp](../method/OpenSSL=3a=3aBN/i/ucmp.md)
+- [zero?](../method/OpenSSL=3a=3aBN/i/zero=3f.md)

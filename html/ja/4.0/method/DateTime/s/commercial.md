@@ -1,0 +1,17 @@
+# DateTime.commercial
+
+### def DateTime.commercial(cwyear = -4712, cweek = 1, cwday = 1, hour = 0, min = 0, sec = 0, offset = 0, start = Date::ITALY) -> DateTime
+
+暦週日付に相当する日時オブジェクトを生成します。
+
+[DateTime.new](../../../method/DateTime/s/new.md) も参照してください。
+
+- **param** `cwyear` -- 年
+- **param** `cweek` -- 週
+- **param** `cwday` -- 週の日 (曜日)
+- **param** `hour` -- 時
+- **param** `min` -- 分
+- **param** `sec` -- 秒
+- **param** `offset` -- 時差
+- **param** `start` -- グレゴリオ暦をつかい始めた日をあらわすユリウス日
+- **raise** `ArgumentError` -- 正しくない日時

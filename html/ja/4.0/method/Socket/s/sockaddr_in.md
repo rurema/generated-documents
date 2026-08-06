@@ -1,0 +1,21 @@
+# Socket.sockaddr_in
+
+### def Socket.sockaddr_in(port, host) -> String
+### def Socket.pack_sockaddr_in(port, host) -> String
+
+指定したアドレスを[socket#pack_string](../../../library/socket.md#pack_string)
+で返します。port は、ポート番号を表す [Integer](../../../class/Integer.md) あるいは、ポート番号、サービス名を表す文字列です。
+
+- **param** `port` --  ポート番号を表す [Integer](../../../class/Integer.md) あるいは、ポート番号、サービス名を表す文字列を指定します。
+
+- **param** `host` -- ホストを文字列で指定します。
+
+- **return** -- 指定したアドレスを返します。
+
+```text title="例"
+require 'socket'
+p Socket.sockaddr_in("echo", "localhost")
+=> "\002\000\000\a\177\000\000\001\000\000\000\000\000\000\000\000"
+p Socket.sockaddr_in("echo", "::1")
+=> "\n\000\000\a\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\001\000\000\000\000"
+```

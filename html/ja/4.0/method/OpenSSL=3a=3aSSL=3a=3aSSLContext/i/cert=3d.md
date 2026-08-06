@@ -1,0 +1,10 @@
+# OpenSSL::SSL::SSLContext#cert=
+
+### def cert=(certificate)
+
+自分自身を証明するための証明書を設定します。
+
+デフォルトは nil (証明書なし)です。
+
+- **param** `certificate` -- 設定する証明書([OpenSSL::X509::Certificate](../../../class/OpenSSL=3a=3aX509=3a=3aCertificate.md) のインスタンス)
+- **SEE** [OpenSSL::SSL::SSLContext#cert](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/cert.md)

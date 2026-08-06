@@ -1,0 +1,24 @@
+# File.rename
+
+### def File.rename(from, to)    -> 0
+
+ファイルの名前を変更します。ディレクトリが異なる場合には移動も行います。[man:rename(2)] を参照してください。移動先のファイルが存在する時には上書きされます。
+
+ファイルの移動に成功した場合 0 を返します。失敗した場合は例外
+[Errno::EXXX](../../../class/Errno=3a=3aEXXX.md) が発生します。
+
+- **param** `from` -- ファイルの名前を文字列で与えます。
+
+- **param** `to` -- 新しいファイル名を文字列で与えます。
+
+- **raise** `Errno::EXXX` -- 失敗した場合に発生します。
+
+```ruby title="例"
+begin
+  p File.rename("testfile", "testfile.bak") # => 0
+  File.rename("testfile", "testfile.bak")
+rescue
+  # 2回目の rename 時にすでに testfile が存在しないため例外が発生する
+  p $! # => #<Errno::ENOENT: No such file or directory @ rb_file_s_rename - (testfile, testfile.bak)>
+end
+```

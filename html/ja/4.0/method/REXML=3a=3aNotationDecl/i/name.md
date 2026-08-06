@@ -1,0 +1,5 @@
+# REXML::NotationDecl#name
+
+### def name -> String
+
+記法宣言の名前を返します。

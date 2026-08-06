@@ -1,0 +1,20 @@
+# IO#close_read
+
+### def close_read    -> nil
+
+読み込み用の IO を close します。主にパイプや読み書き両用に作成した IO オブジェクトで使用します。
+
+既に close されていた場合には単に無視されます。
+
+- **raise** `IOError` -- 自身が読み込み用にオープンされていなければ発生します。
+
+- **raise** `Errno::EXXX` -- close に失敗した場合に発生します。
+
+```ruby title="例"
+IO.popen("/bin/sh","r+") do |f|
+  f.close_read
+  # f.readlines # => IOError: not opened for reading
+end
+```
+
+- **SEE** [IO#close](../../../method/IO/i/close.md), [IO#closed?](../../../method/IO/i/closed=3f.md), [IO#close_write](../../../method/IO/i/close_write.md)

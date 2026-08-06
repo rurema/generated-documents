@@ -1,0 +1,45 @@
+# Kernel?.caller_locations
+
+### module_function def caller_locations(start = 1, length = nil) -> [Thread::Backtrace::Location] | nil
+### module_function def caller_locations(range)                   -> [Thread::Backtrace::Location] | nil
+
+現在のフレームを [Thread::Backtrace::Location](../../../class/Thread=3a=3aBacktrace=3a=3aLocation.md) の配列で返します。引数で指定した値が範囲外の場合は nil を返します。
+
+- **param** `start` -- 開始フレームの位置を数値で指定します。
+
+- **param** `length` -- 取得するフレームの個数を指定します。
+
+- **param** `range` --  取得したいフレームの範囲を示す [Range](../../../class/Range.md) オブジェクトを指定します。
+
+```ruby title="例"
+def test1(start, length)
+  locations = caller_locations(start, length)
+  p locations
+  p locations.map(&:lineno)
+  p locations.map(&:path)
+end
+
+def test2(start, length)
+  test1(start, length)
+end
+
+def test3(start, length)
+  test2(start, length)
+end
+
+p caller_locations # => []
+test3(1, nil)
+# => ["/Users/user/test.rb:9:in 'Object#test2'", "/Users/user/test.rb:13:in 'Object#test3'", "/Users/user/test.rb:17:in '<main>'"]
+# => [9, 13, 17]
+# => ["/Users/user/test.rb", "/Users/user/test.rb", "/Users/user/test.rb"]
+test3(1, 2)
+# => ["/Users/user/test.rb:9:in 'Object#test2'", "/Users/user/test.rb:13:in 'Object#test3'"]
+# => [9, 13]
+# => ["/Users/user/test.rb", "/Users/user/test.rb"]
+test3(2, 1)
+# => ["/Users/user/test.rb:13:in 'Object#test3'"]
+# => [13]
+# => ["/Users/user/test.rb"]
+```
+
+- **SEE** [Thread::Backtrace::Location](../../../class/Thread=3a=3aBacktrace=3a=3aLocation.md), [Kernel?.caller](../../../method/Kernel/m/caller.md)

@@ -1,0 +1,18 @@
+# File::Stat#chardev?
+
+### def chardev? -> bool
+
+キャラクタスペシャルファイルの時に真を返します。
+
+```ruby
+Dir.glob("/dev/*") {|bd|
+  if File::Stat.new(bd).chardev?
+    puts bd
+  end
+}
+#例
+#...
+#=> /dev/tty1
+#=> /dev/stderr
+#...
+```

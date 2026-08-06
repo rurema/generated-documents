@@ -1,0 +1,16 @@
+# WIN32OLE_VARIABLE#name
+
+### def name -> String
+### def to_s -> String
+
+変数名を取得します。
+
+- **return** -- 変数名を文字列で返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'XlSheetType')
+variables = tobj.variables
+variables.each do |variable|
+  puts "#{variable.name}"   # => xlChart, xlDialogSheet, ...
+end
+```

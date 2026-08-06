@@ -1,0 +1,7 @@
+# RDoc::TopLevel#file_relative_name=
+
+### def file_relative_name=(val)
+
+自身が管理するファイルに関する相対パスを文字列で設定します。
+
+- **param** `val` -- パスを文字列で指定します。

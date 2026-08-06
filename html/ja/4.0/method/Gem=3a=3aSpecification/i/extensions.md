@@ -1,0 +1,5 @@
+# Gem::Specification#extensions
+
+### def extensions -> [String]
+
+拡張ライブラリをコンパイルするために必要な extconf.rb 形式のファイルのリストを返します。

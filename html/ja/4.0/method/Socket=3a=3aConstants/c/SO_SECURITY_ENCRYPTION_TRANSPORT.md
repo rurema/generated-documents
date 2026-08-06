@@ -1,0 +1,4 @@
+# Socket::Constants::SO_SECURITY_ENCRYPTION_TRANSPORT
+
+### const SO_SECURITY_ENCRYPTION_TRANSPORT -> Integer
+@todo

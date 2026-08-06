@@ -1,0 +1,7 @@
+# OpenSSL::PKey::RSA#dmq1
+
+### def dmq1 -> OpenSSL::BN
+
+鍵の exponent2 (d mod (q-1)) です。
+
+秘密鍵の情報です。

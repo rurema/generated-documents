@@ -1,0 +1,7 @@
+# CSV::FieldInfo#line=
+
+### def line=(val)
+
+行番号をセットします。
+
+- **param** `val` -- 行番号を指定します。

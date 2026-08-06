@@ -1,0 +1,5 @@
+# Jacobian?.dfdxi
+
+### module_function def dfdxi(f, fx, x, i) -> [Numeric]
+
+関数 f の 微分係数を計算します。ライブラリ内部で使用します。

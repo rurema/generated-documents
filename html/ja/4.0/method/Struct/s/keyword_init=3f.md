@@ -1,0 +1,17 @@
+# Struct.keyword_init?
+
+### def Struct.keyword_init? -> bool | nil
+
+(このメソッドは Struct の下位クラスにのみ定義されています)
+構造体が作成されたときに keyword_init: true を指定されていたら true を返します。
+false を指定されていたら false を返します。
+それ以外の場合は nil を返します。
+
+```ruby title="例"
+Foo = Struct.new(:a)
+p Foo.keyword_init? # => nil
+Bar = Struct.new(:a, keyword_init: true)
+p Bar.keyword_init? # => true
+Baz = Struct.new(:a, keyword_init: false)
+p Baz.keyword_init? # => false
+```

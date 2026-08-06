@@ -1,0 +1,7 @@
+# Net::IMAP::MailboxQuotaRoot#quotaroots
+
+### def quotaroots -> [String]
+
+問い合わせしたメールボックスの quota root 名を配列で返します。
+
+空の場合もありえます。

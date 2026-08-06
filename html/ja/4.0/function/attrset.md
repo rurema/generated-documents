@@ -1,0 +1,3 @@
+# attrset
+
+### static NODE * attrset(NODE *recv, ID id)

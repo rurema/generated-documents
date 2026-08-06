@@ -1,0 +1,22 @@
+# KeyError.new
+
+### def KeyError.new(error_message = "")                   -> KeyError
+### def KeyError.new(error_message = "", receiver:)        -> KeyError
+### def KeyError.new(error_message = "", key:)             -> KeyError
+### def KeyError.new(error_message = "", receiver:, key:)  -> KeyError
+{: since="1.9.1"}
+
+例外オブジェクトを生成して返します。
+
+- **param** `error_message` -- エラーメッセージを表す文字列です
+
+- **param** `receiver` -- 原因となったメソッド呼び出しのレシーバ
+- **param** `key` --      原因となったメソッド呼び出しのキー
+
+```ruby title="例"
+h = {foo: 1}
+err = KeyError.new("Message", receiver: h, key: :bar)
+p err.message  # => "Message"
+p err.receiver # => {:foo=>1}
+p err.key      # => :bar
+```

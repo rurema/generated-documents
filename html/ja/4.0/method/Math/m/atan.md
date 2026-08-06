@@ -1,0 +1,19 @@
+# Math?.atan
+
+### module_function def atan(x) -> Float
+
+`x` の逆正接関数（arctangent）の値をラジアンで返します。
+
+- **param** `x` -- 実数
+
+- **return** -- 返される値の範囲は [-π/2, +π/2] です。
+
+- **raise** `TypeError` -- `x` に数値以外を指定した場合に発生します。
+
+- **raise** `RangeError` -- `x` に実数以外の数値を指定した場合に発生します。
+
+```ruby title="例"
+p Math.atan(0) # => 0.0
+```
+
+- **SEE** [Math?.atan2](../../../method/Math/m/atan2.md), [Math?.tan](../../../method/Math/m/tan.md)

@@ -1,0 +1,34 @@
+# Integer#round
+
+### def round(ndigits = 0, half: :up) -> Integer
+{: since=""}
+
+`self` ともっとも近い整数を返します。
+
+- **param** `ndigits` -- 10進数での小数点以下の有効桁数を整数で指定します。
+               負の整数を指定した場合、小数点位置から左に少なくとも `n` 個の `0` が並びます。
+- **param** `half` -- ちょうど半分の値の丸め方を指定します。
+       サポートされている値は以下の通りです。
+
+- `:up` or `nil`: 0から遠い方に丸められます。
+- `:even`: もっとも近い偶数に丸められます。
+- `:down`: 0に近い方に丸められます。
+
+```ruby
+p 1.round       # => 1
+p 1.round(2)    # => 1
+p 15.round(-1)  # =>  20
+p (-15).round(-1) # => -20
+
+p 25.round(-1, half: :up)    # => 30
+p 25.round(-1, half: :down)  # => 20
+p 25.round(-1, half: :even)  # => 20
+p 35.round(-1, half: :up)    # => 40
+p 35.round(-1, half: :down)  # => 30
+p 35.round(-1, half: :even)  # => 40
+p (-25).round(-1, half: :up) # => -30
+p (-25).round(-1, half: :down) # => -20
+p (-25).round(-1, half: :even) # => -20
+```
+
+- **SEE** [Numeric#round](../../../method/Numeric/i/round.md)

@@ -1,0 +1,15 @@
+# DBM#select
+
+### def select{|key, value| ... } -> [Array]
+
+ブロックを評価して真になった要素のみを配列に格納して返します。
+
+```ruby
+require 'dbm'
+  
+db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
+db1[:a] = 'aaa'
+db1[:b] = 'bbbbbb'
+  
+p db1.select {|key, value| key == 'a' } #=> [["a", "aaa"]]
+```

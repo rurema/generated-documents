@@ -1,0 +1,31 @@
+# Coverage.line_stub
+
+### def Coverage.line_stub(file)  -> Array
+
+行カバレッジの配列のスタブを返します。
+
+測定対象となる行の要素は 0, 空行やコメントなどにより測定対象外となる行の要素は nil となります。
+
+```ruby title="foo.rb"
+s = 0
+10.times do |x|
+  s += x
+end
+
+if s == 45
+  p :ok
+else
+  p :ng
+end
+```
+
+このファイルに対して line_stub を実行すると、次のようになります。
+
+```ruby
+require "coverage"
+p Coverage.line_stub("foo.rb")  #=> [0, 0, 0, nil, nil, 0, 0, nil, 0, nil]
+```
+
+この例において、空行, else, end の行は測定対象外であるため、nil となっています。
+
+- **param** `file` -- ファイル名を表す文字列

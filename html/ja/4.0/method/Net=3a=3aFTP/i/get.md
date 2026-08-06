@@ -1,0 +1,21 @@
+# Net::FTP#get
+
+### def get(remotefile, localfile = File.basename(remotefile), blocksize = DEFAULT_BLOCKSIZE) -> nil
+### def get(remotefile, localfile = File.basename(remotefile), blocksize = DEFAULT_BLOCKSIZE) { |data| .... } -> nil
+
+サーバ上のファイルを取得します。
+
+[Net::FTP#binary](../../../method/Net=3a=3aFTP/i/binary.md) の値に従って
+[Net::FTP#getbinaryfile](../../../method/Net=3a=3aFTP/i/getbinaryfile.md) もしくは
+[Net::FTP#gettextfile](../../../method/Net=3a=3aFTP/i/gettextfile.md) を呼びだします。
+
+binary が偽のとき、つまりテキストモードのときには blocksize は無視されます。
+
+- **param** `remotefile` -- 取得対象のリモートのファイル名を与えます。
+- **param** `localfile` -- 取得したデータを格納するローカルのファイル名を与えます。
+- **param** `blocksize` -- データ転送の単位をバイト単位で与えます。
+
+- **raise** `Net::FTPTempError` -- 応答コードが 4yz のときに発生します。
+- **raise** `Net::FTPPermError` -- 応答コードが 5yz のときに発生します。
+- **raise** `Net::FTPProtoError` -- 応答コードが RFC 的に正しくない場合に発生します。
+- **raise** `Net::FTPReplyError` -- 応答コードが上の場合以外で正しくない場合に発生します。

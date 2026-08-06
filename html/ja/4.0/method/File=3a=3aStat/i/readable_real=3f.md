@@ -1,0 +1,9 @@
+# File::Stat#readable_real?
+
+### def readable_real? -> bool
+
+実ユーザ/実グループによって読み込み可能な時に真を返します。
+
+```ruby
+p File::Stat.new($0).readable_real? #=> true
+```

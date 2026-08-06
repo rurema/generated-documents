@@ -1,0 +1,11 @@
+# Kernel#cpp_command
+
+### def cpp_command(outfile, opt = "") -> String
+
+実際にプリプロセッサを実行する際に使用するコマンドを返します。
+
+- **param** `outfile` -- 出力ファイルの名前を指定します。
+
+- **param** `opt` -- プリプロセッサに与える追加のコマンドライン引数を指定します。
+
+- **SEE** [RbConfig.expand](../../../method/RbConfig/s/expand.md)

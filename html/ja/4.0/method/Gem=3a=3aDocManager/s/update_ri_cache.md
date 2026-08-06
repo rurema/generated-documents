@@ -1,0 +1,6 @@
+# Gem::DocManager.update_ri_cache
+
+### def Gem::DocManager.update_ri_cache
+
+RDoc 2 がインストールされている場合は RI のキャッシュを更新します。
+そうでない場合は何もしません。

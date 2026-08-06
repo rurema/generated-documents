@@ -1,0 +1,6 @@
+# BigDecimal#finite?
+
+### def finite? -> bool
+
+self が ∞または NaN でないときに true を返します。それ以外のときに
+false を返します。

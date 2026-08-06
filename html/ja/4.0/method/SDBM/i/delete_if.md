@@ -1,0 +1,18 @@
+# SDBM#delete_if
+
+### def reject! { |key, value|  ...  }   -> self
+### def delete_if { |key, value|  ...  } -> self
+
+ブロックを評価した値が真であれば該当する項目を削除します。
+
+```ruby
+require 'sdbm'
+  
+db1 = SDBM.open('aaa.gdbm', 0666)
+db1['a'] = 'aaa'
+db1['b'] = 'bbb'
+db1['c'] = 'ccc'
+  
+p db1                                    #=> #<SDBM:0xb7cc96f8>
+p db1.reject!{ |key, value| key == 'a' } #=> #<SDBM:0xb7cc96f8>
+```

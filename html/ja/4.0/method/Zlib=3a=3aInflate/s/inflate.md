@@ -1,0 +1,30 @@
+# Zlib::Inflate.inflate
+
+### def Zlib::Inflate.inflate(string) -> String
+
+string を展開します。
+
+ちなみに、このメソッドは以下のコードとほぼ同じです:
+
+```ruby
+require 'zlib'
+
+def inflate(string)
+  zstream = Zlib::Inflate.new
+  buf = zstream.inflate(string)
+  zstream.finish
+  zstream.close
+  buf
+end
+```
+
+- **param** `string` -- 展開する文字列を指定します。
+
+- **raise** `Zlib::NeedDict` -- 展開に辞書が必要な場合に発生します。
+
+```ruby
+require 'zlib'
+
+cstr = "x\234\313\310OOUH+MOTH\315K\001\000!\251\004\276"
+p Zlib::Inflate.inflate(cstr) #=> "hoge fuga end"
+```

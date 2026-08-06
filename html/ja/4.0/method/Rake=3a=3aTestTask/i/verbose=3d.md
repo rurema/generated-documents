@@ -1,0 +1,7 @@
+# Rake::TestTask#verbose=
+
+### def verbose=(flag)
+
+テストの実行結果を詳細に表示するかどうかをセットします。
+
+- **param** `flag` -- 真または偽を指定します。

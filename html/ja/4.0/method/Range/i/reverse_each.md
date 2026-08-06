@@ -1,0 +1,28 @@
+# Range#reverse_each
+
+### def reverse_each -> Enumerator
+### def reverse_each {|element| ... } -> self
+
+逆順に各要素に対してブロックを評価します。
+
+内部で各要素を保持した配列を作ります。ただし、端点が [Integer](../../../class/Integer.md) である場合は、配列を作らないように最適化が行われています。
+
+始端を持たない範囲(beginless range)であっても、終端が [Integer](../../../class/Integer.md) であれば、終端から下降しながら反復できます。この場合は要素が無限に生成されるため、
+`first` や `take` で打ち切るか、ブロック内で break してください。
+
+ブロックを省略した場合は、各要素を逆順に辿る
+[Enumerator](../../../class/Enumerator.md) を返します。
+
+- **raise** `TypeError` -- 終端を持たない範囲オブジェクトに対してこのメソッドを呼んだ場合に発生します。
+
+```ruby title="例"
+p (1..3).reverse_each # => #<Enumerator: ...>
+(1..3).reverse_each { |v| p v }
+# => 3
+#    2
+#    1
+# 始端を持たない範囲は終端から下降しながら反復する(無限に生成される)
+p (..5).reverse_each.first(3) # => [5, 4, 3]
+
+(1..).reverse_each { |v| p v } # raises: TypeError: can't iterate from NilClass
+```

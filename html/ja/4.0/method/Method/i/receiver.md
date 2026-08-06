@@ -1,0 +1,17 @@
+# Method#receiver
+
+### def receiver    -> object
+
+このメソッドオブジェクトのレシーバを返します。
+
+```ruby title="例"
+class Foo
+  def foo(arg)
+    "foo called with arg #{arg}"
+  end
+end
+
+m = Foo.new.method(:foo) # => #<Method: Foo#foo>
+p m.receiver # => #<Foo:0x007fb39203eb78>
+p m.receiver.foo(1) # => "foo called with arg 1"
+```

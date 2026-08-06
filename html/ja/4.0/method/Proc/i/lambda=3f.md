@@ -1,0 +1,61 @@
+# Proc#lambda?
+
+### def lambda? -> bool
+
+手続きオブジェクトの引数の取扱が厳密であるならば true を返します。
+
+引数の取扱の厳密さの意味は以下の例を参考にしてください。
+
+```ruby title="例"
+# lambda で生成した Proc オブジェクトでは true 
+p lambda{}.lambda? # => true
+# proc で生成した Proc オブジェクトでは false
+proc{}.lambda?   # => false
+# Proc.new で生成した Proc オブジェクトでは false
+p Proc.new{}.lambda? # => false
+
+# 以下、lambda?が偽である場合
+# 余分な引数を無視する
+proc{|a,b| [a,b]}.call(1,2,3) # => [1,2]
+# 足りない引数には nil が渡される
+proc{|a,b| [a,b]}.call(1) # => [1, nil]
+# 配列1つだと展開される
+proc{|a,b| [a,b]}.call([1,2]) # => [1,2]
+# lambdaの場合これらはすべて ArgumentError となる
+ 
+# &が付いた仮引数で生成される Proc は lambda? が偽となる
+def n(&b) b.lambda? end
+p n {} # => false
+
+# &が付いた実引数によるものは、lambda?が元の Procオブジェクトから
+# 引き継がれる
+p lambda(&lambda {}).lambda? #=> true
+proc(&lambda {}).lambda?     #=> true
+p Proc.new(&lambda {}).lambda? #=> true
+
+p lambda(&proc {}).lambda?   #=> false
+proc(&proc {}).lambda?       #=> false
+p Proc.new(&proc {}).lambda? #=> false
+
+p n(&lambda {})              #=> true
+p n(&proc {})                #=> false
+p n(&Proc.new {})            #=> false
+
+# Method#to_proc によるものは lambda?が真となる
+def m() end
+p method(:m).to_proc.lambda? #=> true
+
+# Module#define_method は特別扱いで、
+# これで定義されたメソッドの引数は常に厳密に取り扱われる
+class C
+  define_method(:d) {}
+end
+C.new.d(1,2)       # ~> ArgumentError
+p C.new.method(:d).to_proc.lambda? #=> true
+
+class C
+  define_method(:e, &proc {})
+end
+C.new.e(1,2)       # ~> ArgumentError
+p C.new.method(:e).to_proc.lambda? #=> true
+```

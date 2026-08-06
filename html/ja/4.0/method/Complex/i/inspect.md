@@ -1,0 +1,13 @@
+# Complex#inspect
+
+### def inspect -> String
+
+自身を人間が読みやすい形の文字列表現にして返します。
+
+```ruby title="例"
+p Complex(2).inspect                     # => "(2+0i)"
+p Complex('-8/6').inspect                # => "((-4/3)+0i)"
+p Complex('1/2i').inspect                # => "(0+(1/2)*i)"
+p Complex(0, Float::INFINITY).inspect    # => "(0+Infinity*i)"
+p Complex(Float::NAN, Float::NAN).inspect  # => "(NaN+NaN*i)"
+```

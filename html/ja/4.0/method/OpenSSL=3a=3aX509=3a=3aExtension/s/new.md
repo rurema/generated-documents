@@ -1,0 +1,31 @@
+# OpenSSL::X509::Extension.new
+
+### def OpenSSL::X509::Extension.new(der) -> OpenSSL::X509::Extension
+### def OpenSSL::X509::Extension.new(oid, value, critical=false) -> OpenSSL::X509::Extension
+
+[OpenSSL::X509::Extension](../../../class/OpenSSL=3a=3aX509=3a=3aExtension.md) オブジェクトを生成します。
+
+引数が1つの場合は DER 形式の文字列を渡します。
+
+引数が2つ以上の場合は、oid には拡張領域の OID の ドット区切り表記、
+short name、long name のいずれかである文字列を与えます。
+value にはその値を表す DER 形式の文字列、もしくは 
+[OpenSSL::ASN1::ASN1Data](../../../class/OpenSSL=3a=3aASN1=3a=3aASN1Data.md) のサブクラスを与えます。
+
+```ruby title="例"
+require 'openssl'
+include OpenSSL
+oid = "subjectKeyIdentifier"
+val = "\004\024\206\312\245\"\201b\357\255\n\211\274\255rA,)I\364\206V"
+ex = X509::Extension.new(oid, val)
+p ex.value # => "86:CA:A5:22:81:62:EF:AD:0A:89:BC:AD:72:41:2C:29:49:F4:86:56"
+ex2 = X509::Extension.new("2.5.29.19", "0\x03\x01\x01\xFF")
+p ex2.oid # => "basicConstrains"
+ex3 = X509::Extension.new("basicConstraints", ASN1.Sequence([ASN1::Boolean(false)]))
+p ex3 # => basicConstraints = CA:FALSE
+```
+
+- **param** `der` -- DER形式の文字列
+- **param** `oid` -- OIDを表す文字列(ドット区切り、short name, long nameのいずれか)
+- **param** `value` -- 拡張領域の値を表す DER 形式文字列
+- **param** `critical` -- 拡張領域の重要度

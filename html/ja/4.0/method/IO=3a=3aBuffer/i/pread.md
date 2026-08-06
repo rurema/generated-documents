@@ -1,0 +1,42 @@
+# IO::Buffer#pread
+
+### def pread(io, from, length = nil, offset = 0) -> Integer
+
+io の指定した位置から読み込んだ内容をバッファに書き込みます。
+
+[IO::Buffer#read](../../../method/IO=3a=3aBuffer/i/read.md) と異なり、読み込む位置を io の中で直接指定します。
+io の現在の位置は変わりません。
+
+- **param** `io` -- 読み込み元の [IO](../../../class/IO.md) を指定します。
+
+- **param** `from` -- 読み込みを開始する位置を、io の先頭からのバイト数で
+             指定します。
+
+- **param** `length` -- 読み込む最小のバイト数を整数で指定します。
+             省略するか nil を指定した場合は、バッファの大きさから offset を
+             引いた値、つまりバッファの残り全体になります。
+             0 を指定した場合は [man:pread(2)] をちょうど 1 回呼びます。
+
+- **param** `offset` -- 読み込んだ内容を書き込む位置を、バッファの先頭からの
+             バイト数で指定します。
+
+- **return** -- 読み込んだバイト数を返します。読み込みに失敗した場合は
+             errno を負にした整数を返します。例外は発生しません。
+
+- **raise** `ArgumentError` -- offset と length の合計がバッファの大きさを
+             超える場合に発生します。
+
+
+```ruby
+File.write("test.txt", "Hello World")
+
+buf = IO::Buffer.new(5)
+File.open("test.txt") do |io|
+  p buf.pread(io, 6, 5) # => 5
+  p io.pos              # => 0
+end
+p buf.get_string        # => "World"
+```
+
+
+- **SEE** [IO::Buffer#read](../../../method/IO=3a=3aBuffer/i/read.md), [IO::Buffer#pwrite](../../../method/IO=3a=3aBuffer/i/pwrite.md), [man:pread(2)]

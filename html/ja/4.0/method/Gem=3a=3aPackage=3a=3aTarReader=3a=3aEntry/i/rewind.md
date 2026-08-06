@@ -1,0 +1,7 @@
+# Gem::Package::TarReader::Entry#rewind
+
+### def rewind -> 0
+
+ファイルポインタを先頭に移動します。
+
+- **raise** `Gem::Package::NonSeekableIO` -- シークできない場合に発生します。

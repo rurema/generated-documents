@@ -1,0 +1,9 @@
+# REXML::Namespace#name=
+
+### def name=(name)
+
+名前を設定します。
+
+prefix を持つ名前も持たない名前も受け付けます。
+
+- **param** `name` -- 名前(文字列)

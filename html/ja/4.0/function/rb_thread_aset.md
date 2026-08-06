@@ -1,0 +1,3 @@
+# rb_thread_aset
+
+### static VALUE rb_thread_aset(VALUE thread, VALUE id, VALUE val)

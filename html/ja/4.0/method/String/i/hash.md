@@ -1,0 +1,13 @@
+# String#hash
+
+### def hash -> Integer
+
+self のハッシュ値を返します。
+eql? で等しい文字列は、常にハッシュ値も等しくなります。
+
+```ruby title="例"
+p "test".hash                      # => 4038258770210371295
+p ("te" + "st").hash == "test".hash  # => true
+```
+
+- **SEE** [Hash](../../../class/Hash.md)

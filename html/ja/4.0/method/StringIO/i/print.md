@@ -1,0 +1,18 @@
+# StringIO#print
+
+### def print()        -> nil
+### def print(*obj)    -> nil
+
+自身に引数を順に出力します。引数を省略した場合は、[m:$_] を出力します。
+引数の扱いは [Kernel?.print](../../../method/Kernel/m/print.md) を参照して下さい。
+
+- **param** `obj` -- 書き込みたいオブジェクトを指定します。
+
+- **raise** `IOError` -- 自身が書き込み用にオープンされていなければ発生します。
+
+```ruby title="例"
+require "stringio"
+a = StringIO.new("", 'r+')
+a.print("hoge", "bar", "foo")
+p a.string                   #=> "hogebarfoo"
+```

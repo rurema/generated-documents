@@ -1,0 +1,18 @@
+# Matrix#coerce
+
+### def coerce(other) -> Array
+
+他の数値オブジェクトとの変換を行います。
+
+他の数値オブジェクトを`Matrix::Scalar`のオブジェクトに変換し、selfとの組を配列として返します。
+
+- **param** `other` -- 変換する数値オブジェクト
+
+```ruby title="例"
+require 'matrix'
+a1 = [1, 2]
+a2 = [-1.25, 2.2]
+m = Matrix[a1, a2]
+r = 1/2r
+p m.coerce(r) #=> [#<Matrix::Scalar:0x832df18 @value=(1/2)>, Matrix[[1, 2], [-1.25, 2.2]]]
+```

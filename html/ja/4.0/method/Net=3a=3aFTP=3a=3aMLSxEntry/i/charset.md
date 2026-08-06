@@ -1,0 +1,9 @@
+# Net::FTP::MLSxEntry#charset
+
+### def charset -> String|nil
+
+エンコーディング情報を返します。
+
+IANA character set name の値を返します。
+
+情報がない場合は nil を返します。

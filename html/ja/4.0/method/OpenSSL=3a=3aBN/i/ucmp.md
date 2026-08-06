@@ -1,0 +1,19 @@
+# OpenSSL::BN#ucmp
+
+### def ucmp(other) -> -1 | 0 | 1
+
+自身と other の絶対値を比較し、自身の絶対値が小さいときには -1、等しいときには 0、 大きいときには 1 を返します。
+
+```ruby
+require 'openssl'
+
+p OpenSSL::BN.new(-5).ucmp(5)  # =>  0
+
+p OpenSSL::BN.new(5).ucmp(OpenSSL::BN.new(-9))  # => -1
+p OpenSSL::BN.new(-5).ucmp(OpenSSL::BN.new(5))  # =>  0
+p OpenSSL::BN.new(-5).ucmp(OpenSSL::BN.new(2))  # =>  1
+```
+
+- **param** `other` -- 比較する整数
+- **raise** `TypeError` -- 比較できないときに発生します。
+- **SEE** [OpenSSL::BN#cmp](../../../method/OpenSSL=3a=3aBN/i/cmp.md)

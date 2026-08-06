@@ -1,0 +1,15 @@
+# Matrix#real
+
+### def real -> Matrix
+
+行列の実部を返します。
+
+```ruby title="例"
+require 'matrix'
+p Matrix[[1+2i, 1i, 0], [1, 2, 3]]
+#  => 1+2i  i  0
+#        1  2  3
+p Matrix[[1+2i, 1i, 0], [1, 2, 3]].real
+#  =>    1  0  0
+#        1  2  3
+```

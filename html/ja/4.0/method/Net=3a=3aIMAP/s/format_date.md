@@ -1,0 +1,14 @@
+# Net::IMAP.format_date
+
+### def Net::IMAP.format_date(time) -> String
+
+時刻オブジェクトを IMAP の日付フォーマットでの文字列に変換します。
+
+```ruby
+require 'net/imap'
+
+p Net::IMAP.format_date(Time.new(2011, 6, 20))
+# => "20-Jun-2011"
+```
+
+- **param** `time` -- 変換する時刻オブジェクト

@@ -1,0 +1,9 @@
+# IO#winsize=
+
+### def winsize=(size)
+
+端末のサイズを設定します。
+
+- **param** `size` -- [rows, columns] を数値の配列で指定します。
+
+効果はプラットフォームや環境に依存します。

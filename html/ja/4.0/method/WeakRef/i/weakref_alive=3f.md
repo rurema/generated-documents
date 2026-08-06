@@ -1,0 +1,6 @@
+# WeakRef#weakref_alive?
+
+### def weakref_alive? -> bool
+
+参照先のオブジェクトがまだ生きていれば真を返します。
+GC されていれば偽を返します。

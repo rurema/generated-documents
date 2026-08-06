@@ -1,0 +1,20 @@
+# Encoding.list
+
+### def Encoding.list -> [Encoding]
+
+現在ロードされているエンコーディングのリストを返します。
+
+```ruby title="例"
+p Encoding.list
+# => [#<Encoding:ASCII-8BIT>, #<Encoding:EUC-JP>,
+#     #<Encoding:Shift_JIS>, #<Encoding:UTF-8>,
+#     #<Encoding:ISO-2022-JP (dummy)>]
+
+p Encoding.find("US-ASCII")
+# => #<Encoding:US-ASCII>
+
+p Encoding.list
+# => [#<Encoding:ASCII-8BIT>, #<Encoding:EUC-JP>,
+#     #<Encoding:Shift_JIS>, #<Encoding:UTF-8>,
+#     #<Encoding:US-ASCII>, #<Encoding:ISO-2022-JP (dummy)>]
+```

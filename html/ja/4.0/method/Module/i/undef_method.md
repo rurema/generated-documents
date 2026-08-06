@@ -1,0 +1,69 @@
+# Module#undef_method
+
+### def undef_method(*name) -> self
+
+このモジュールのインスタンスメソッド name を未定義にします。
+
+- **param** `name` -- 0 個以上の [String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) を指定します。
+
+- **raise** `NameError` -- 指定したインスタンスメソッドが定義されていない場合に発生します。
+
+### 「未定義にする」とは
+
+このモジュールのインスタンスに対して name というメソッドを呼び出すことを禁止するということです。
+スーパークラスの定義が継承されるかどうかという点において、「未定義」は「メソッドの削除」とは区別されます。
+以下のコード例を参照してください。
+
+```ruby title="例"
+class A
+  def ok
+    puts 'A'
+  end
+end
+class B < A
+  def ok
+    puts 'B'
+  end
+end
+
+p B.new.ok # => B
+
+# undef_method の場合はスーパークラスに同名のメソッドがあっても
+# その呼び出しはエラーになる
+class B
+  undef_method :ok
+end
+B.new.ok   # ~> NoMethodError
+
+# remove_method の場合はスーパークラスに同名のメソッドがあると
+# それが呼ばれる
+class B
+  remove_method :ok
+end
+p B.new.ok # => A
+```
+
+また、undef 文と undef_method の違いは、メソッド名を [String](../../../class/String.md) または [Symbol](../../../class/Symbol.md) で与えられることです。
+
+```ruby title="例"
+module M1
+  def foo
+  end
+  def self.moo
+    undef foo
+  end
+end
+p M1.instance_methods false #=> ["foo"]
+M1.moo
+p M1.instance_methods false #=> []
+module M2
+  def foo
+  end
+  def self.moo
+    undef_method :foo
+  end
+end
+p M2.instance_methods false #=> ["foo"]
+M2.moo
+p M2.instance_methods false #=> []
+```

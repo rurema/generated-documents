@@ -1,0 +1,7 @@
+# Gem::SpecFetcher#list
+
+### def list(all = false) -> Array
+
+`Gem.sources` に格納されている各ソースから利用可能な Gem のリストを取得して返します。
+
+- **param** `list` -- 真を指定すると全てのバージョンの情報を返します。

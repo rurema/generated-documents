@@ -1,0 +1,35 @@
+# Module#module_exec
+
+### def module_exec(*args) {|*vars| ... }       -> object
+### def class_exec(*args) {|*vars| ... }        -> object
+
+与えられたブロックを指定された args を引数としてモジュールのコンテキストで評価します。
+
+モジュールのコンテキストで評価するとは、実行中そのモジュールが self になるということです。
+つまり、そのモジュールの定義式の中にあるかのように実行されます。
+
+ローカル変数、定数とクラス変数のスコープはブロックの外側のスコープになります。
+
+- **param** `args` -- ブロックに渡す引数を指定します。
+
+```ruby title="例"
+class Thing
+end
+c = 1
+
+Thing.class_exec{
+  def hello() 
+    "Hello there!" 
+  end
+
+  define_method(:foo) do   # ローカル変数がブロックの外側を参照している
+    c
+  end
+}
+
+t = Thing.new
+p t.hello()            #=> "Hello there!"
+p t.foo()              #=> 1
+```
+
+- **SEE** [Module#module_eval](../../../method/Module/i/module_eval.md), [Module#class_eval](../../../method/Module/i/class_eval.md)

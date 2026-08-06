@@ -1,0 +1,8 @@
+# Socket::Constants::INADDR_MAX_LOCAL_GROUP
+
+### const INADDR_MAX_LOCAL_GROUP -> Integer
+
+The last local network multicast group。
+IPv4の 244.0.0.255 に対応する整数です。
+
+- **SEE** <http://www.iana.org/assignments/multicast-addresses/multicast-addresses.xml>, [RFC:5771]

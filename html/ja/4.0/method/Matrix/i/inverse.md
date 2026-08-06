@@ -1,0 +1,14 @@
+# Matrix#inverse
+
+### def inverse -> Matrix
+### def inv -> Matrix
+
+逆行列を返します。
+
+```ruby title="例"
+require 'matrix'
+
+p Matrix[[2, 1], [3, 2]].inv         #=> Matrix[[(2/1), (-1/1)], [(-3/1), (2/1)]]
+
+p Matrix[[2.0, 1.0], [3.0, 2.0]].inv #=> Matrix[[2.0000000000000004, -1.0000000000000002], [-3.000000000000001, 2.0000000000000004]]
+```

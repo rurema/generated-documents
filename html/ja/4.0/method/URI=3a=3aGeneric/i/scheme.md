@@ -1,0 +1,5 @@
+# URI::Generic#scheme
+
+### def scheme    -> String | nil
+
+自身の scheme を文字列で返します。設定されていない場合は nil を返します。

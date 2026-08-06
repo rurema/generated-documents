@@ -1,0 +1,34 @@
+# CSV::Table#each
+
+### def each{|row| ... } -> self
+### def each{|column_name, values| ... } -> self
+
+デフォルトのミックスモードかロウモードでは、行単位で繰り返します。カラムモードでは、ブロックに列名と対応する値の配列を与え、列単位で繰り返します。
+
+```ruby title="例 ロウモード"
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+row3 = CSV::Row.new(["header1", "header2"], ["row3_1", "row3_2"])
+table = CSV::Table.new([row1, row2, row3])
+table.each { |row| p row }
+
+# => #<CSV::Row "header1":"row1_1" "header2":"row1_2">
+# => #<CSV::Row "header1":"row2_1" "header2":"row2_2">
+# => #<CSV::Row "header1":"row3_1" "header2":"row3_2">
+```
+
+```ruby title="例 カラムモード"
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+row3 = CSV::Row.new(["header1", "header2"], ["row3_1", "row3_2"])
+table = CSV::Table.new([row1, row2, row3])
+table.by_col!
+table.each { |column_name, values| print column_name, values, "\n" }
+
+# => header1["row1_1", "row2_1", "row3_1"]
+# => header2["row1_2", "row2_2", "row3_2"]
+```

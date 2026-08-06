@@ -1,0 +1,5 @@
+# ruby_stop
+
+### void ruby_stop(int ex)
+
+評価器プロセスを停止します。

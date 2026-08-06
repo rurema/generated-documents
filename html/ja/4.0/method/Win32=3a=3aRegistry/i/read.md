@@ -1,0 +1,22 @@
+# Win32::Registry#read
+
+### def read(name, *rtype)
+@todo
+
+レジストリ値 name を読み、[ type, data ]
+の配列で返します。
+name が nil の場合、(標準) レジストリ値が読み込まれます。
+
+type はレジストリ値の型です。(⇒[Win32::Registry::Constants](../../../class/Win32=3a=3aRegistry=3a=3aConstants.md))
+data はレジストリ値のデータで、クラスは以下の通りです:
+  - REG_SZ, REG_EXPAND_SZ
+    String
+  - REG_MULTI_SZ
+    String の配列
+  - REG_DWORD, REG_DWORD_BIG_ENDIAN, REG_QWORD
+    Integer
+  - REG_BINARY, REG_NONE
+    String (バイナリデータを含みます)
+
+オプション引数 rtype が指定されていた場合、レジストリ値の型が与えられた rtype の配列に存在するかチェックされ、存在しない場合に
+[TypeError](../../../class/TypeError.md) が発生します。

@@ -1,0 +1,5 @@
+# rb_singleton_class_attached
+
+### void rb_singleton_class_attached(VALUE klass, VALUE obj)
+
+特異クラス klass にその唯一のインスタンス obj を結びつけます。

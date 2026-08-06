@@ -1,0 +1,17 @@
+# Math?.asinh
+
+### module_function def asinh(x) -> Float
+
+`x` の逆双曲線正弦関数（area hyperbolic sine）の値を返します。
+
+```text title="定義"
+asinh(x) = log(x + sqrt(x * x + 1))
+```
+
+- **param** `x` -- 実数
+
+- **raise** `TypeError` -- `x` に数値以外を指定した場合に発生します。
+
+- **raise** `RangeError` -- `x` に実数以外の数値を指定した場合に発生します。
+
+- **SEE** [Math?.sinh](../../../method/Math/m/sinh.md)

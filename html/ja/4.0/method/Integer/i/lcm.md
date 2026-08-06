@@ -1,0 +1,22 @@
+# Integer#lcm
+
+### def lcm(n) -> Integer
+
+`self` と整数 `n` の最小公倍数を返します。
+
+- **raise** `ArgumentError` -- `n` に整数以外のものを指定すると発生します。
+
+```ruby
+p 2.lcm(2)                  # => 2
+p 3.lcm(-7)                 # => 21
+p ((1<<31)-1).lcm((1<<61)-1)  # => 4951760154835678088235319297
+```
+
+また、`self` や `n` が `0` だった場合は、`0` を返します。
+
+```ruby
+p 3.lcm(0)                  # => 0
+p 0.lcm(-7)                 # => 0
+```
+
+- **SEE** [Integer#gcd](../../../method/Integer/i/gcd.md), [Integer#gcdlcm](../../../method/Integer/i/gcdlcm.md)

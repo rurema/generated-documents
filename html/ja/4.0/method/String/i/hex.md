@@ -1,0 +1,30 @@
+# String#hex
+
+### def hex -> Integer
+
+文字列に 16 進数で数値が表現されていると解釈して整数に変換します。
+接頭辞 "0x", "0X" とアンダースコアは無視されます。
+文字列が [_0-9a-fA-F] 以外の文字を含むときはその文字以降を無視します。
+
+self が空文字列のときは 0 を返します。
+
+```ruby title="例"
+p "10".hex    # => 16
+p "ff".hex    # => 255
+p "0x10".hex  # => 16
+p "-0x10".hex # => -16
+
+p "xyz".hex   # => 0
+p "10z".hex   # => 16
+p "1_0".hex   # => 16
+
+p "".hex      # => 0
+```
+
+- **SEE** [String#oct](../../../method/String/i/oct.md), [String#to_i](../../../method/String/i/to_i.md), [String#to_f](../../../method/String/i/to_f.md),
+     [Kernel?.Integer](../../../method/Kernel/m/Integer.md), [Kernel?.Float](../../../method/Kernel/m/Float.md)
+
+このメソッドの逆に数値を文字列に変換するには
+[Kernel?.sprintf](../../../method/Kernel/m/sprintf.md), [String#%](../../../method/String/i/=25.md),
+[Integer#to_s](../../../method/Integer/i/to_s.md)
+などを使ってください。

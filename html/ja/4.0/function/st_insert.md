@@ -1,0 +1,6 @@
+# st_insert
+
+### int st_insert(register st_table *table, register char *key, char *value)
+
+ハッシュに key と value の組を追加する。
+古いライブラリなので void* のかわりに char* を使っている。

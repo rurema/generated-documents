@@ -1,0 +1,30 @@
+# WIN32OLE_EVENT#on_event_with_outargs
+
+### def on_event_with_outargs(event = nil) {|*args| ... } -> ()
+
+イベント通知を受けて結果を呼び出し元へ返すブロックを登録します。
+
+引数にはイベントのメソッド名を指定します。引数を省略した場合は、すべてのイベントを対象とするブロックの登録となります。
+
+[WIN32OLE_EVENT#on_event](../../../method/WIN32OLE_EVENT/i/on_event.md)と異なり、イベントのブロック変数に戻り値を設定できます。
+
+- **param** `event` -- イベント名を文字列かシンボルで指定します。イベント名は大文
+             字小文字を区別します。省略時にはすべてのイベントが対象となります。
+
+- **param** `args` -- サーバがイベント通知時に指定した引数の配列です。
+            eventパラメータを省略した場合、第1要素にはイベントのメソッ
+            ド名が文字列で与えられます。なお、引数に値を設定するには、
+            ブロック変数を分割せずに配列の形式で受けてください。
+
+- **raise** `WIN32OLERuntimeError` -- [WIN32OLE_EVENT#unadvise](../../../method/WIN32OLE_EVENT/i/unadvise.md)によってイベン
+                            トソースと切断済みです。
+
+```ruby
+ie = WIN32OLE.new('InternetExplorer.Application')
+ev = WIN32OLE_EVENT.new(ie, 'DWebBrowserEvents2')
+ev.on_event('BeforeNavigate2') do |*args|
+  args[6] = true unless args[4]  # Cancel = true unless PostData
+end
+```
+
+当メソッドはイベント名の大文字小文字を区別するほか、イベント名の存在確認を行いません。このため、誤ったイベント名を記述してもエラーとはならず、単にイベントを受け取れなくなります。

@@ -1,0 +1,7 @@
+# CSV::FieldInfo#header=
+
+### def header=(val)
+
+ヘッダを表す文字列をセットします。
+
+- **param** `val` -- ヘッダを表す文字列を指定します。

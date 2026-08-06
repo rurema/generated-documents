@@ -1,0 +1,5 @@
+# Prime::PseudoPrimeGenerator#upper_bound
+
+### def upper_bound -> Integer | nil
+
+現在の列挙上界を返します。 nil は上界がなく無限に素数を列挙すべきであることを意味します。

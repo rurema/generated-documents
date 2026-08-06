@@ -1,0 +1,39 @@
+# Module#method_defined?
+
+### def method_defined?(name, inherit=true) -> bool
+
+モジュールにインスタンスメソッド name が定義されており、かつその可視性が public または protected であるときに
+true を返します。
+
+- **param** `name` -- [Symbol](../../../class/Symbol.md) か [String](../../../class/String.md) を指定します。
+- **param** `inherit` -- 真を指定するとスーパークラスや include したモジュールで
+       定義されたメソッドも対象になります。
+
+- **SEE** [Module#public_method_defined?](../../../method/Module/i/public_method_defined=3f.md), [Module#private_method_defined?](../../../method/Module/i/private_method_defined=3f.md), [Module#protected_method_defined?](../../../method/Module/i/protected_method_defined=3f.md)
+
+```ruby title="例"
+module A
+  def method1()  end
+  def protected_method1()  end
+  protected :protected_method1
+end
+class B
+  def method2()  end
+  def private_method2()  end
+  private :private_method2
+end
+class C < B
+  include A
+  def method3()  end
+end
+
+p A.method_defined? :method1            #=> true
+p C.method_defined? "method1"           #=> true
+p C.method_defined? "method2"           #=> true
+p C.method_defined? "method2", true     #=> true
+p C.method_defined? "method2", false    #=> false
+p C.method_defined? "method3"           #=> true
+p C.method_defined? "protected_method1" #=> true
+p C.method_defined? "method4"           #=> false
+p C.method_defined? "private_method2"   #=> false
+```

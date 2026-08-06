@@ -1,0 +1,5 @@
+# rb_obj_is_proc
+
+### static VALUE rb_obj_is_proc(VALUE proc)
+
+proc が Proc のインスタンスであれば真。

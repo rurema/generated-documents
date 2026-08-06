@@ -1,0 +1,18 @@
+# Integer#floor
+
+### def floor(ndigits = 0) -> Integer
+{: since=""}
+
+`self` と等しいかより小さな整数のうち最大のものを返します。
+
+- **param** `ndigits` -- 10進数での小数点以下の有効桁数を整数で指定します。
+               負の整数を指定した場合、小数点位置から左に少なくとも `n` 個の `0` が並びます。
+
+```ruby
+p 1.floor         # => 1
+p 1.floor(2)      # => 1
+p 18.floor(-1)    # => 10
+p (-18).floor(-1) # => -20
+```
+
+- **SEE** [Numeric#floor](../../../method/Numeric/i/floor.md)

@@ -1,0 +1,5 @@
+# specific_eval
+
+### static VALUE specific_eval(int argc, VALUE *argv, VALUE klass, VALUE self)
+
+rb_obj_instance_eval と rb_mod_module_eval を共通化するための補助関数です。

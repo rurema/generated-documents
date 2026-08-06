@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::EOC
+
+### const EOC -> Integer
+
+ASN.1 UNIVERSAL タグの、
+EOC のタグ番号 0 を表す定数です。

@@ -1,0 +1,3 @@
+# stack_extend
+
+### static void stack_extend(rb_thread_t th, int exit)

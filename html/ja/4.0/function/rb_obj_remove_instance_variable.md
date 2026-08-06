@@ -1,0 +1,3 @@
+# rb_obj_remove_instance_variable
+
+### VALUE rb_obj_remove_instance_variable(VALUE obj, VALUE name)

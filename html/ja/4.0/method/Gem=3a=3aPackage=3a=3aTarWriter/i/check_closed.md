@@ -1,0 +1,7 @@
+# Gem::Package::TarWriter#check_closed
+
+### def check_closed
+自身に関連付けられた IO が既に close されているかどうかチェックします。
+
+- **raise** `IOError` -- 自身に関連付けられた IO が既に close されている場合に発
+               生します。

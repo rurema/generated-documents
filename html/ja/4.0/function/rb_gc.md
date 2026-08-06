@@ -1,0 +1,5 @@
+# rb_gc
+
+### VALUE rb_gc(void)
+
+明示的に GC を開始します。rb_gc_disable() で禁止中のときおよびすでに GC が実行中のときは実際には行われません。

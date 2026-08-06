@@ -1,0 +1,3 @@
+# thread_mark
+
+### static void thread_mark(rb_thread_t th)

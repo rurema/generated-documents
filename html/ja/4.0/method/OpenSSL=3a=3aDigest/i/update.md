@@ -1,0 +1,8 @@
+# OpenSSL::Digest#update
+
+### def update(data) -> self
+### def <<(data) -> self
+
+data でダイジェストオブジェクトの内部状態を更新します。
+
+- **param** `data` -- 入力文字列

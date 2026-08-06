@@ -1,0 +1,21 @@
+# Matrix#skew_symmetric?
+
+### def antisymmetric? -> bool
+### def skew_symmetric? -> bool
+
+行列が反対称行列 (交代行列、歪〔わい〕対称行列とも) ならば true を返します。
+
+- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- 行列が正方行列でない場合に発生します
+
+```ruby
+require 'matrix'
+
+p Matrix[[0, -2, 1+3i], [2, 0, 5], [-(1+3i), -5, 0]].antisymmetric? # => true
+p Matrix.empty.antisymmetric? # => true
+
+p Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]].antisymmetric? # => false
+# 対角要素が違う
+p Matrix[[1, -2, 3], [2, 0, 6], [-3, -6, 0]].antisymmetric? # => false
+# 符号が違う
+p Matrix[[0, 2, -3], [2, 0, 6], [-3, 6, 0]].antisymmetric? # => false
+```

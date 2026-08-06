@@ -1,0 +1,34 @@
+# Module#autoload?
+
+### def autoload?(const_name, inherit = true) -> String | nil
+
+autoload 定数がまだ定義されてない(ロードされていない) ときにそのパス名を返します。
+また、ロード済みなら nil を返します。
+
+- **param** `const_name` -- [String](../../../class/String.md) または [Symbol](../../../class/Symbol.md) で指定します。
+
+- **param** `inherit` -- false にすると、スーパークラスや include したモジュールで
+       定義された autoload を検索対象にしません。
+
+- **SEE** [Kernel?.autoload?](../../../method/Kernel/m/autoload=3f.md)
+
+```ruby title="例"
+autoload :Date, 'date'
+
+p autoload?(:Date) # => "date"
+Date
+p autoload?(:Date) # => nil
+p autoload?(:Foo) # => nil
+```
+
+```ruby title="例: inherit引数"
+class Parent
+  autoload :Logger, "logger"
+end
+
+class Child < Parent
+end
+
+p Child.autoload?(:Logger)        # => "logger"
+p Child.autoload?(:Logger, false) # => nil
+```

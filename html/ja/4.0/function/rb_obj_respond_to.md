@@ -1,0 +1,3 @@
+# rb_obj_respond_to
+
+### static VALUE rb_obj_respond_to(int argc, VALUE *argv, VALUE obj)

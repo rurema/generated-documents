@@ -1,0 +1,7 @@
+# OpenSSL::PKCS7#recipients
+
+### def recipients -> [OpenSSL::PKCS7::RecipientInfo]
+
+メッセージの送信先の情報を配列で返します。
+
+これは暗号化した場合のみ意味があります。

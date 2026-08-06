@@ -1,0 +1,14 @@
+# OpenSSL::PKCS7.new
+
+### def OpenSSL::PKCS7.new -> OpenSSL::PKCS7
+### def OpenSSL::PKCS7.new(obj) -> OpenSSL::PKCS7
+
+PKCS7 オブジェクトを生成します。
+
+引数を渡さなかった場合は空のオブジェクトを作ります。
+
+引数を渡した場合は、文字列もしくは [IO](../../../class/IO.md) オブジェクトから
+PEM 形式もしくは DER 形式の文字列を読み込み
+PKCS7 オブジェクトを生成します。
+
+- **param** `obj` -- データを読みこむ文字列もしくは IO オブジェクト

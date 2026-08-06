@@ -1,0 +1,7 @@
+# Gem::Specification#loaded?
+
+### def loaded? -> bool
+
+この Gem パッケージの gemspec が既にロードされているかどうかを返します。
+
+既にロードされている場合は真を返します。そうでない場合は偽を返します。

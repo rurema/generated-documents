@@ -1,0 +1,15 @@
+# Encoding::Converter#replacement
+
+### def replacement -> String
+
+変換器に設定されている置換文字を返します。
+
+- **return** -- 変換器に設定されている置換文字
+
+```ruby
+ec = Encoding::Converter.new("euc-jp", "us-ascii")
+p ec.replacement    #=> "?"
+
+ec = Encoding::Converter.new("euc-jp", "utf-8")
+p ec.replacement    #=> "\uFFFD"
+```

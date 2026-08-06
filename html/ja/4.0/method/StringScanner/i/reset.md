@@ -1,0 +1,23 @@
+# StringScanner#reset
+
+### def reset -> self
+
+スキャンポインタを文字列の先頭 (インデックス 0) に戻し、マッチ記録を捨てます。
+
+pos = 0と同じ動作です。
+
+- **return** -- self を返します。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('test string')
+p s.scan(/\w+/) # => "test"
+p s.matched   # => "test"
+p s.pos       # => 4
+p s[0]        # => "test"
+s.reset
+p s.matched   # => nil
+p s[0]        # => nil
+p s.pos       # => 0
+```

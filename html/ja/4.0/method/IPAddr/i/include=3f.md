@@ -1,0 +1,9 @@
+# IPAddr#include?
+
+### def include?(ipaddr) -> bool
+### def ===(ipaddr)      -> bool
+
+与えられた IPAddr オブジェクトが自身の範囲に入っているかを判定します。
+
+- **param** `ipaddr` -- 範囲に入っているかどうか調べる対象となる IPAddr オブジェクト。
+              また、数値や文字列も受け付けます。

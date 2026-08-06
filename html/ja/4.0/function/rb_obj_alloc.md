@@ -1,0 +1,5 @@
+# rb_obj_alloc
+
+### VALUE rb_obj_alloc(VALUE klass)
+
+klass のインスタンスを作成する。

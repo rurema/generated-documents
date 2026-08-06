@@ -1,0 +1,6 @@
+# local_push
+
+### static void local_push(int top)
+
+ローカル変数テーブルをプッシュします。
+プログラムのトップレベルをパースしているときは top を真にします。

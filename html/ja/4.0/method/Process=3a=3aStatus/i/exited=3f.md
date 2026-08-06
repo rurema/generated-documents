@@ -1,0 +1,6 @@
+# Process::Status#exited?
+
+### def exited?    -> bool
+
+プロセスが [man:exit(2)] などにより正常に終了した場合に、真を返します。
+そうでない場合に false を返します。

@@ -1,0 +1,21 @@
+# Time#getlocal
+
+### def getlocal             -> Time
+### def getlocal(utc_offset) -> Time
+
+タイムゾーンを地方時に設定した Time オブジェクトを新しく生成して返します。
+
+- **param** `utc_offset` -- タイムゾーンを地方時に設定する代わりに協定世界時との
+                  時差を、秒を単位とする整数か、"+HH:MM" "-HH:MM" 形式
+                  の文字列で指定します。
+
+```ruby
+p t = Time.utc(2000,1,1,20,15,1)  # => 2000-01-01 20:15:01 UTC
+p t.utc?                          # => true
+p l = t.getlocal                  # => 2000-01-02 05:15:01 +0900
+p l.utc?                          # => false
+p t == l                          # => true
+p j = t.getlocal("+09:00")        # => 2000-01-02 05:15:01 +0900
+p j.utc?                          # => false
+p t == j                          # => true
+```

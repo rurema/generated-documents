@@ -1,0 +1,5 @@
+# rb_eql
+
+### VALUE rb_eql(VALUE obj1, VALUE obj2)
+
+obj1.equal?(obj2) ならば Qtrue、そうでないならば Qfalse。

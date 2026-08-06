@@ -1,0 +1,6 @@
+# rb_include_module
+
+### void rb_include_module(VALUE klass, VALUE module)
+
+Module#append_features の実体。
+クラスまたはモジュール klass にモジュール module をインクルードします。

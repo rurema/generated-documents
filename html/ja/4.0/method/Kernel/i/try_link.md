@@ -1,0 +1,22 @@
+# Kernel#try_link
+
+### def try_link(src, opt = "", *options) -> bool
+### def try_link(src, opt = "", *options){ ... } -> bool
+
+C プログラムのソースコード src をコンパイル、リンクします。
+
+このメソッドは [m:$CFLAGS] と [m:$LDFLAGS] の値もコンパイラまたはリンカに渡します。
+
+問題なくリンクできたら true を返します。
+コンパイルとリンクに失敗したら false を返します。
+
+- **param** `src` -- C プログラムのソースコードを指定します。
+
+- **param** `opt` -- リンカにコマンド引数として渡す値を指定します。
+
+```ruby title="例"
+require 'mkmf'
+if try_link("int main() { sin(0.0); }", '-lm')
+  $stderr.puts "sin() exists"
+end
+```

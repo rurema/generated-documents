@@ -1,0 +1,11 @@
+# FalseClass#inspect
+
+### def to_s    -> String
+### def inspect -> String
+{: since=""}
+
+常に文字列 "false" を返します。
+
+```ruby title="例"
+p false.to_s    # => "false"
+```

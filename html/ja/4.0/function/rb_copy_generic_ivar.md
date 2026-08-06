@@ -1,0 +1,3 @@
+# rb_copy_generic_ivar
+
+### void rb_copy_generic_ivar(VALUE clone, VALUE obj)

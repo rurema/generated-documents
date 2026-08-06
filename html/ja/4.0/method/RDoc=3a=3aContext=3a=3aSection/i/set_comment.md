@@ -1,0 +1,16 @@
+# RDoc::Context::Section#set_comment
+
+### def set_comment(comment) -> ()
+
+自身にコメントを設定します。
+
+- **param** `comment` -- 文字列を指定します。
+
+comment の最初の行に :section: を含んでいた場合、その行以降の文字列をコメントとして設定します。そうでない場合は comment すべてをコメントとして設定します。
+
+```text
+# ---------------------
+# :section: The title
+# The body
+# ---------------------
+```

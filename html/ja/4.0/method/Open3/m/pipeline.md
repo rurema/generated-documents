@@ -1,0 +1,40 @@
+# Open3?.pipeline
+
+### module_function def pipeline(*cmds) -> [Process::Status]
+
+指定したコマンドのリストをパイプで繋いで順番に実行します。
+
+- **param** `cmds` -- 実行するコマンドのリストを指定します。それぞれのコマンドは
+            以下のように [String](../../../class/String.md) か [Array](../../../class/Array.md) で指定します。
+            commandline にはコマンド全体(例. "nroff -man")を表す
+            [String](../../../class/String.md) を指定します。
+            options には [Hash](../../../class/Hash.md) で指定します。
+            env には環境変数を [Hash](../../../class/Hash.md) で指定します。
+            cmdname にはコマンド名を表す [String](../../../class/String.md) を指定します。
+            1、2、3 は shell 経由で実行されます。
+
+1. commandline
+2. [commandline, options]
+3. [env, commandline, options]
+4. [env, cmdname, arg1, arg2, ..., options]
+5. [env, [cmdname, argv0], arg1, ..., options]
+
+- **return** -- 実行したコマンドの終了ステータスを配列で返します。
+
+```ruby title="例1"
+require "open3"
+
+fname = "/usr/share/man/man1/ruby.1.gz"
+p Open3.pipeline(["zcat", fname], "nroff -man", "less")
+#=> [#<Process::Status: pid 11817 exit 0>,
+#    #<Process::Status: pid 11820 exit 0>,
+#    #<Process::Status: pid 11828 exit 0>]
+```
+
+```ruby title="例2"
+require "open3"
+
+Open3.pipeline([{"LANG"=>"C"}, "env"], ["grep", "LANG"], "less")
+```
+
+- **SEE** [Open3?.popen3](../../../method/Open3/m/popen3.md)

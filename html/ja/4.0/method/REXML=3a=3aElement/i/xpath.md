@@ -1,0 +1,17 @@
+# REXML::Element#xpath
+
+### def xpath -> String
+
+文書上の対象の要素にのみマッチする xpath 文字列を返します。
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new('<a><b/><c/></a>')
+c = doc.root.elements[2] # <a> .. </a> の中の <c/> 要素
+p c # => <c/>
+p c.xpath # => "/a/c"
+doc = REXML::Document.new('<a><b/><b/></a>')
+b = doc.root.elements[2] # <a> .. </a> の中の2番目の <b/> 要素
+p b # => <b/>
+p b.xpath # => "/a/b[2]"
+```

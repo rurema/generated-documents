@@ -1,0 +1,14 @@
+# Addrinfo#connect
+
+### def connect(timeout: nil) -> Socket
+### def connect(timeout: nil){|sock| ... } -> object
+
+自身のアドレスへソケットを接続します。
+
+ブロックが渡されたときにはそのブロックに接続済み [Socket](../../../class/Socket.md)
+オブジェクトが渡されます。ブロックの返り値がメソッドの返り値となります。
+ブロックを省略した場合は、接続済み [Socket](../../../class/Socket.md)
+オブジェクトが返されます。
+
+- **param** `timeout` -- 接続確立のタイムアウト秒数
+- **raise** `Errno::ETIMEDOUT` -- timeout で指定した時間内に接続が確立しなかった場合に発生します

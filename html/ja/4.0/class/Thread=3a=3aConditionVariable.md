@@ -1,0 +1,132 @@
+# class Thread::ConditionVariable < Object
+
+スレッドの同期機構の一つである状態変数を実現するクラスです。
+
+以下も ConditionVariable を理解するのに参考になります。
+
+<https://ruby-doc.com/docs/ProgrammingRuby/html/tut_threads.html#UF>
+
+### Condition Variable とは
+
+あるスレッド A が排他領域で動いていたとします。スレッド A は現在空いていないリソースが必要になったので空くまで待つことにしたとします。これはうまくいきません。
+なぜなら、スレッド A は排他領域で動いているわけですから、他のスレッドは動くことができません。リソースを空けることもできません。スレッド A がリソースの空きを待っていても、いつまでも空くことはありません。
+
+以上のような状況を解決するのが Condition Variable です。
+
+スレッド a で条件(リソースが空いているかなど)が満たされるまで wait メソッドでスレッドを止めます。他のスレッド b において条件が満たされたなら signal
+メソッドでスレッド a に対して条件が成立したことを通知します。これが典型的な使用例です。
+
+```ruby
+mutex = Thread::Mutex.new
+cv = Thread::ConditionVariable.new
+
+a = Thread.start {
+    mutex.synchronize {
+      # ...
+      while (条件が満たされない)
+        cv.wait(mutex)
+      end
+      # ...
+    }
+}
+
+b = Thread.start {
+    mutex.synchronize {
+      # 上の条件を満たすための操作
+      cv.signal
+    }
+}
+```
+
+以下は [ruby-list:14445] で紹介されている例です。@q が空になった場合、あるいは満タンになった場合に Condition Variable を使って wait しています。
+
+```ruby
+class TinyQueue
+  def initialize(max=2)
+    @max = max
+    @full = Thread::ConditionVariable.new
+    @empty = Thread::ConditionVariable.new
+    @mutex = Thread::Mutex.new
+    @q = []
+  end
+
+  def count
+    @q.size
+  end
+
+  def enq(v)
+    @mutex.synchronize{
+      @full.wait(@mutex) if count == @max
+      @q.push v
+      @empty.signal if count == 1
+    }
+  end
+
+  def deq
+    @mutex.synchronize{
+      @empty.wait(@mutex) if count == 0
+      v = @q.shift
+      @full.signal if count == (@max - 1)
+      v
+    }
+  end
+
+  alias send enq
+  alias recv deq
+end
+
+if __FILE__ == $0
+  q = TinyQueue.new(1)
+  foods = 'Apple Banana Strawberry Udon Rice Milk'.split
+  l = []
+
+  th = Thread.new {
+    for obj in foods
+      q.send(obj)
+      print "sent ", obj, "\n"
+    end
+    q.send nil
+  }
+
+  l.push th
+
+  th = Thread.new {
+    while obj = q.recv
+      print "recv ", obj, "\n"
+    end
+  }
+  l.push th
+
+  l.each do |t|
+    t.join
+  end
+end
+```
+
+実行すると以下のように出力します。
+
+```console
+$ ruby condvar.rb
+sent Apple
+recv Apple
+sent Banana
+recv Banana
+sent Strawberry
+recv Strawberry
+sent Udon
+recv Udon
+sent Rice
+recv Rice
+sent Milk
+recv Milk
+```
+
+## Class Methods
+
+- [new](../method/Thread=3a=3aConditionVariable/s/new.md)
+
+## Instance Methods
+
+- [broadcast](../method/Thread=3a=3aConditionVariable/i/broadcast.md)
+- [signal](../method/Thread=3a=3aConditionVariable/i/signal.md)
+- [wait](../method/Thread=3a=3aConditionVariable/i/wait.md)

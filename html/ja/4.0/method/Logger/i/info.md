@@ -1,0 +1,25 @@
+# Logger#info
+
+### def info(progname = nil){ ... } -> true
+### def info(progname = nil) -> true
+
+INFO 情報を出力します。
+
+ブロックを与えなかった場合は、progname をメッセージとしてログを出力します。
+
+ブロックを与えた場合は、ブロックを評価した結果をメッセージとしてログを出力します。
+
+引数とブロックを同時に与えた場合は、progname をプログラム名、ブロックを評価した結果をメッセージとしてログを出力します。
+
+- **param** `progname` -- ブロックを与えない場合は、メッセージとして文字列または例外オブジェクトを指定します。
+                ブロックを与えた場合は、プログラム名を文字列として与えます。
+
+```ruby title="例"
+require 'logger'
+
+logger = Logger.new(STDOUT)
+p logger.info("info1")             # => I, [2019-03-21T03:36:28.003418 #2533]  INFO -- : info1
+p logger.info("MainApp") { "info2" } # => I, [2019-03-21T03:36:28.003493 #2533]  INFO -- MainApp: info2
+```
+
+- **SEE** [Logger#debug](../../../method/Logger/i/debug.md)

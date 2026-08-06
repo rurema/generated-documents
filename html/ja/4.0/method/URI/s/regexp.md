@@ -1,0 +1,22 @@
+# URI.regexp
+
+### def URI.regexp             -> Regexp
+### def URI.regexp(schemes)    -> Regexp
+
+URIにマッチする正規表現を返します。
+
+schemes を与えた場合は、そのスキームの URI にのみマッチする正規表現を返します。
+
+いずれの場合も返り値の正規表現は不定数の正規表現グループ
+(括弧) を含みます。この括弧の数はバージョンによって変動する可能性があるので、それに依存したコードを書くべきではありません。
+
+また、有効なURIではない文字列(たとえば"http://") にもマッチするため、有効なURIかどうかは必要に応じて別途検査してください。
+
+このメソッドは Ruby 2.2 から obsolete です。
+
+- **param** `schemes` -- マッチさせたいスキームを、文字列の配列として与えます。
+
+```ruby title="例"
+require 'uri'
+p URI.regexp =~ "http://www.ruby-lang.org/"  #=> 0
+```

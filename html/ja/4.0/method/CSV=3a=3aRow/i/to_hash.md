@@ -1,0 +1,15 @@
+# CSV::Row#to_hash
+
+### def to_hash -> Hash
+
+自身をシンプルなハッシュに変換します。
+
+フィールドの順序は無視されます。
+重複したフィールドは削除されます。
+
+```ruby title="例"
+require "csv"
+
+row = CSV::Row.new(["header2", "header1", "header2"], [1, 2, 3])
+p row.to_hash # => {"header2"=>3, "header1"=>2}
+```

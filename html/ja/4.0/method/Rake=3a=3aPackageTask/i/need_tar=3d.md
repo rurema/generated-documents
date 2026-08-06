@@ -1,0 +1,18 @@
+# Rake::PackageTask#need_tar=
+
+### def need_tar=(flag)
+
+gzip した tar ファイル (tgz) を作成するかどうかを設定します。
+
+- **param** `flag` -- 真または偽を指定します。
+
+```ruby
+# Rakefile での記載例とする
+require 'rake/packagetask'
+
+Rake::PackageTask.new("sample", "1.0.0") do |package_task|
+  p package_task.need_tar # => false
+  package_task.need_tar = true
+  p package_task.need_tar # => true
+end
+```

@@ -1,0 +1,7 @@
+# REXML::Instruction#target=
+
+### def target=(value)
+
+XML 処理命令のターゲットを value に変更します。
+
+- **param** `value` -- 新たなターゲット(文字列)

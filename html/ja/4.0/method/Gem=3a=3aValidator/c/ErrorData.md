@@ -1,0 +1,10 @@
+# Gem::Validator::ErrorData
+
+### const ErrorData
+@todo
+
+エラー情報を記録するための構造体です。
+以下の属性を持っています。
+
+- path
+- problem

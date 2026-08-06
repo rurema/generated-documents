@@ -1,0 +1,18 @@
+# ObjectSpace::WeakMap#keys
+
+### def keys -> [object]
+{: since="2.1.0"}
+
+保持しているエントリの参照元オブジェクトからなる配列を返します。
+
+GC によって参照先が回収されたエントリのキーは含まれません。返される配列の要素の順序は不定です。
+
+```ruby title="例"
+weak_map = ObjectSpace::WeakMap.new
+key = "text"
+weak_map[key] = "test"
+
+p weak_map.keys # => ["text"]
+```
+
+- **SEE** [ObjectSpace::WeakMap#values](../../../method/ObjectSpace=3a=3aWeakMap/i/values.md)

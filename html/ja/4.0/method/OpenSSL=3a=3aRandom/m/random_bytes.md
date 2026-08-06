@@ -1,0 +1,7 @@
+# OpenSSL::Random?.random_bytes
+
+### module_function def random_bytes(len) -> String
+
+暗号論的な予測不可能性を持つ乱数生成器によって、 len バイトのランダムなバイト列を返します。
+
+- **param** `len` -- 必要なランダムバイト列の長さ

@@ -1,0 +1,39 @@
+# IO.write
+
+### def IO.write(path, string, **opts) -> Integer
+### def IO.write(path, string, offset=nil, **opts) -> Integer
+
+path で指定されるファイルを開き、string を書き込み、閉じます。
+
+Ruby 3.x までは path の先頭が "|" のとき "|" に続くコマンドを実行しましたが、この機能は Ruby 4.0 で削除され、"|" で始まる path も通常のファイル名として扱われます。
+
+offset を指定するとその位置までシークします。
+
+offset を指定しないと、書き込みの末尾でファイルを切り捨てます。ただし、キーワード引数 mode に "a" (追記モード) を指定した場合は、ファイルは切り詰められず、既存の内容の末尾に string が追記されます。
+
+キーワード引数はファイルを開くときに使われ、エンコーディングなどを指定できます。
+詳しくは [IO.open](../../../method/IO/s/open.md) を見てください。
+
+- **param** `path` -- ファイル名文字列
+- **param** `string` -- 書き込む文字列
+- **param** `offset` -- 書き込み開始位置
+- **param** `opts` -- ファイルを開くときのキーワード引数
+
+```ruby title="例"
+text = "This is line one\nThis is line two\nThis is line three\nAnd so on...\n"
+p IO.write("testfile", text)            # => 66
+p IO.write("testfile", "0123456789", 20)  #=> 10
+p IO.read("testfile")
+# => "This is line one\nThi0123456789two\nThis is line three\nAnd so on...\n"
+p IO.write("testfile", "0123456789")    #=> 10
+p IO.read("testfile")                   # => "0123456789"
+```
+
+```ruby title="例: mode: \"a\" を指定した場合は切り詰められない"
+IO.write("testfile", "This is line one\n")
+IO.write("testfile", "This is line two\n", mode: "a")
+p IO.read("testfile")
+# => "This is line one\nThis is line two\n"
+```
+
+- **SEE** [IO.binwrite](../../../method/IO/s/binwrite.md)

@@ -1,0 +1,6 @@
+# Kernel$sitearchdir
+
+### gvar $sitearchdir -> String
+
+サイト固有でかつマシン固有のライブラリを置くディレクトリです。
+通常は "/usr/local/lib/ruby/site_ruby/バージョン/arch" です。

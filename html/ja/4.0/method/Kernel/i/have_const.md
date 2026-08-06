@@ -1,0 +1,35 @@
+# Kernel#have_const
+
+### def have_const(const, headers = nil, opt = "") -> bool
+### def have_const(const, headers = nil, opt = ""){ ... } -> bool
+
+定数 const がシステムに存在するかどうか検査します。
+
+定数 const がシステムに存在する場合は、グローバル変数 [m:$defs] に
+"-DHAVE_CONST_const" (const は大文字に変換されます) を追加し、真を返します。
+定数 const がシステムに存在しない場合は、偽を返します。
+
+const には [定数名, 型] という形式の配列を指定して、定数の型を明示することもできます。
+
+例えば、
+
+```ruby
+require 'mkmf'
+p have_const('FOO') # => true
+```
+
+である場合、HAVE_CONST_FOO というプリプロセッサマクロをコンパイラに渡します。
+
+型を指定する場合は、以下のように呼び出します。
+
+```ruby
+require 'mkmf'
+have_const(%w[PTHREAD_MUTEX_INITIALIZER pthread_mutex_t], "pthread.h")
+```
+
+- **param** `const` -- 検査したい定数の名前を指定します。[定数名, 型] という
+              形式の配列も指定できます。
+
+- **param** `headers` -- 追加のヘッダを指定します。
+
+- **param** `opt` -- コンパイラに渡す追加のオプションを指定します。

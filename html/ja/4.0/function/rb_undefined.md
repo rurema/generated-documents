@@ -1,0 +1,3 @@
+# rb_undefined
+
+### static VALUE rb_undefined(VALUE obj, ID id, int argc, VALUE *argv, int call_status)

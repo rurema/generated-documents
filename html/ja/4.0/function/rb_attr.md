@@ -1,0 +1,3 @@
+# rb_attr
+
+### void rb_attr(VALUE klass, ID id, int read, int write, int ex)

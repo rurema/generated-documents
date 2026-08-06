@@ -1,0 +1,12 @@
+# Date.today
+
+### def Date.today(start = Date::ITALY) -> Date
+
+現在の日付に相当する日付オブジェクトを生成します。
+
+- **param** `start` -- グレゴリオ暦をつかい始めた日をあらわすユリウス日
+
+```ruby title="例"
+require 'date'
+p Date.today  # => #<Date: 2017-09-20 ...>
+```

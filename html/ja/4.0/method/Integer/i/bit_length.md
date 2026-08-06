@@ -1,0 +1,28 @@
+# Integer#bit_length
+
+### def bit_length -> Integer
+
+`self` を表すのに必要なビット数を返します。
+
+「必要なビット数」とは符号ビットを除く最上位ビットの位置の事を意味します。
+`2**n` の場合は `n+1` になります。`self` にそのようなビットがない(`0` や `-1` である)場合は `0` を返します。
+
+```ruby title="例: ceil(log2(int < 0 ? -int : int+1)) と同じ結果"
+p (-2**12-1).bit_length   # => 13
+p (-2**12).bit_length     # => 12
+p (-2**12+1).bit_length   # => 12
+p -0x101.bit_length       # => 9
+p -0x100.bit_length       # => 8
+p -0xff.bit_length        # => 8
+p -2.bit_length           # => 1
+p -1.bit_length           # => 0
+p 0.bit_length            # => 0
+p 1.bit_length            # => 1
+p 0xff.bit_length         # => 8
+p 0x100.bit_length        # => 9
+p (2**12-1).bit_length    # => 12
+p (2**12).bit_length      # => 13
+p (2**12+1).bit_length    # => 13
+```
+
+- **SEE** [Integer#size](../../../method/Integer/i/size.md)

@@ -1,0 +1,14 @@
+# URI::Generic#route_to
+
+### def route_to(dst)     -> URI::Generic
+
+自身から dst への相対パスを返します。
+
+- **param** `dst` -- URI を文字列かURIオブジェクトで与えます。
+
+```ruby title="例"
+require 'uri'
+p URI.parse('http://example.com/').route_to('http://example.com/foo/bar.html')
+  
+#=> #<URI::Generic:0x20100198 URL:foo/bar.html>
+```

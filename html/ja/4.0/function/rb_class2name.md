@@ -1,0 +1,12 @@
+# rb_class2name
+
+### char * rb_class2name(VALUE klass)
+
+klass の名前を返します。
+返り値の内容を変更したり free してはいけません。
+
+```c
+RSTRING(rb_class_path(klass))->ptr
+```
+
+と同じです。

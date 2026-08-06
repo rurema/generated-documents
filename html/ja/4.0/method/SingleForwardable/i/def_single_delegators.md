@@ -1,0 +1,26 @@
+# SingleForwardable#def_single_delegators
+
+### def def_single_delegators(accessor, *methods)    -> ()
+### def def_delegators(accessor, *methods)           -> ()
+
+メソッドの委譲先をまとめて設定します。
+
+- **param** `accessor` -- 委譲先のオブジェクト
+
+- **param** `methods` -- 委譲するメソッドのリスト
+
+委譲元のオブジェクトで methods のそれぞれのメソッドが呼び出された場合に、委譲先のオブジェクトの同名のメソッドへ処理が委譲されるようになります。
+
+def_delegators は def_singleton_delegators の別名になります。
+
+また、以下の 2 つの例は同じ意味です。
+
+```ruby
+def_delegators :@records, :size, :<<, :map
+
+def_delegator :@records, :size
+def_delegator :@records, :<<
+def_delegator :@records, :map
+```
+
+- **SEE** [SingleForwardable#def_delegator](../../../method/SingleForwardable/i/def_delegator.md)

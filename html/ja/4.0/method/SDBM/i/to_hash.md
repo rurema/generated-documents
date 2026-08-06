@@ -1,0 +1,17 @@
+# SDBM#to_hash
+
+### def to_hash -> Hash
+
+self の各要素を格納したハッシュを返します。
+
+```ruby
+require 'sdbm'
+  
+db1 = SDBM.open('aaa.gdbm', 0666)
+db1.clear
+db1['a'] = 'aaa'
+db1['b'] = 'bbb'
+db1['c'] = 'ccc'
+  
+p db1.to_hash #=> {"a"=>"aaa", "b"=>"bbb", "c"=>"ccc"}
+```

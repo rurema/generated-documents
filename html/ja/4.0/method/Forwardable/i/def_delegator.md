@@ -1,0 +1,39 @@
+# Forwardable#def_delegator
+
+### def def_instance_delegator(accessor, method, ali = method) -> ()
+### def def_delegator(accessor, method, ali = method)          -> ()
+
+メソッドの委譲先を設定します。
+
+- **param** `accessor` -- 委譲先のオブジェクト
+
+- **param** `method` -- 委譲先のメソッド
+
+- **param** `ali` -- 委譲元のメソッド
+
+委譲元のオブジェクトで ali が呼び出された場合に、委譲先のオブジェクトの method へ処理が委譲されるようになります。
+
+委譲元と委譲先のメソッド名が同じ場合は, ali を省略することが可能です。
+
+def_delegator は def_instance_delegator の別名になります。
+
+```ruby title="例"
+require 'forwardable'
+
+class MyQueue
+  extend Forwardable
+  attr_reader :queue
+  def initialize
+    @queue = []
+  end
+
+  def_delegator :@queue, :push, :mypush
+end
+
+q = MyQueue.new
+q.mypush 42
+p q.queue  # => [42]
+q.push 23  # ~> NoMethodError
+```
+
+- **SEE** [Forwardable#def_delegators](../../../method/Forwardable/i/def_delegators.md)

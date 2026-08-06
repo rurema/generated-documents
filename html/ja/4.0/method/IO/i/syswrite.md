@@ -1,0 +1,23 @@
+# IO#syswrite
+
+### def syswrite(string)    -> Integer    
+
+[man:write(2)] を用いて string を出力します。
+string が文字列でなければ to_s による文字列化を試みます。
+実際に出力できたバイト数を返します。
+
+stdio を経由しないので他の出力メソッドと混用すると思わぬ動作をすることがあります。
+
+- **param** `string` -- 自身に書き込みたい文字列を指定します。
+
+- **raise** `IOError` -- 自身が書き込み用にオープンされていなければ発生します。
+
+- **raise** `Errno::EXXX` -- 出力に失敗した場合に発生します。
+
+```ruby title="例"
+File.open("testfile", "w+") do |f|
+  p f.syswrite("ABCDE") # => 5
+  p f.syswrite(:ABC)  # => 3
+end
+p File.read("testfile") # => "ABCDEABC"
+```

@@ -1,0 +1,82 @@
+# Kernel?.Rational
+
+### module_function def Rational(x, y = 1, exception: true) -> Rational | nil
+
+引数を有理数([Rational](../../../class/Rational.md))に変換した結果を返します。
+
+- **param** `x` -- 変換対象のオブジェクトです。
+
+- **param** `y` -- 変換対象のオブジェクトです。省略した場合は x だけを用いて
+         [Rational](../../../class/Rational.md) オブジェクトを作成します。
+
+- **param** `exception` -- false を指定すると、変換できなかった場合、
+                 例外を発生する代わりに nil を返します。
+
+- **raise** `ArgumentError` -- 変換できない形式の文字列を指定した場合に発生します。
+
+- **raise** `TypeError` -- 変換できない型のオブジェクトを指定した場合に発生します。
+
+引数 y を省略した場合は、x を [Rational](../../../class/Rational.md) に変換します。
+引数 x、y の両方を指定した場合、x/y した [Rational](../../../class/Rational.md) オブジェクトを返します。
+
+```ruby title="例"
+p Rational(5)             # => (5/1)
+p Rational("1/3")         # => (1/3)
+p Rational(1, 3)          # => (1/3)
+p Rational("0.1", "0.3")  # => (1/3)
+p Rational(Complex(1,2), 2) # => ((1/2)+(1/1)*i)
+```
+
+ただし、1.8系とは異なり、[Rational](../../../class/Rational.md) オブジェクトは常に既約(それ以上約分できない状態)である事に注意してください。
+
+```ruby title="例"
+p Rational(2, 6)       # => (1/3)
+p Rational(1, 3) * 3   # => (1/1)
+```
+
+引数に文字列を指定する場合、以下のいずれかの形式で指定します。
+
+- "1/3" のような分数の形式
+- "0.3" のような10進数の形式
+- "0.3E0" のような x.xEn の形式
+- 数字をアンダースコアで繋いだ形式
+
+"1.2/3" や "1/3.1" のように、分子だけでなく分母も実数にする事が可能です。また、[Kernel?.Integer](../../../method/Kernel/m/Integer.md) とは違い "0x10" のような進数を表す接頭辞を含めた指定は行えません。
+
+```ruby title="例"
+p Rational("1/3")      # => (1/3)
+p Rational("0.3")      # => (3/10)
+p Rational('0.3E0')    # => (3/10)
+p Rational('0.1E1/3')  # => (1/3)
+p Rational('1.2/3')    # => (2/5)
+p Rational('1/3.1')    # => (10/31)
+p Rational('3.0', '3.0') # => (1/1)
+p Rational('3/3', '3/3') # => (1/1)
+p Rational('1_234_567')  # => (1234567/1)
+p Rational(" \n10\t ") # => (10/1) # 空白類は無視される
+Rational("0x10")       # ~> ArgumentError
+```
+
+文字列として不正な形式を指定した場合には [ArgumentError](../../../class/ArgumentError.md) が、
+nil や変換できない型のオブジェクトを指定した場合には [TypeError](../../../class/TypeError.md)
+が発生します。
+
+```ruby title="例"
+Rational("")           # ~> ArgumentError
+Rational("10 cents")   # ~> ArgumentError
+Rational(Object.new)   # ~> TypeError
+Rational(nil)          # ~> TypeError
+Rational(1, nil)       # ~> TypeError
+```
+
+また、Rational('0.3') と Rational(0.3) は異なるオブジェクトを返す事に注意してください。前者は正確に 3/10 ですが、後者はそうではありません。
+ただし、Rational(0.5) のように 2 の累乗を分母とする値であれば、
+[Float](../../../class/Float.md) を経由しても誤差なく変換されます。
+
+```ruby title="例"
+p Rational('0.3')      # => (3/10)
+p Rational(0.5)        # => (1/2)
+p Rational(0.3)        # => (5404319552844595/18014398509481984)
+```
+
+- **SEE** [Rational](../../../class/Rational.md)

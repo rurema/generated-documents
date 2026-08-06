@@ -1,0 +1,8 @@
+# Enumerator::ArithmeticSequence#last
+
+### def last      -> Numeric | nil
+### def last(n)   -> [Numeric]
+
+等差数列の最後の要素、もしくは最後の n 要素を返します。
+
+- **param** `n` -- 取得する要素数。

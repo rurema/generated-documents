@@ -1,0 +1,5 @@
+# warn_unless_e_option
+
+### static void warn_unless_e_option(const char *str)
+
+ruby -e で与えたプログラムの評価中ではないなら、警告メッセージ str を出力する。

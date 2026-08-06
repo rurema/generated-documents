@@ -1,0 +1,18 @@
+# Integer#truncate
+
+### def truncate(ndigits = 0) -> Integer
+{: since=""}
+
+`0` から `self` までの整数で、`self` にもっとも近い整数を返します。
+
+- **param** `ndigits` -- 10進数での小数点以下の有効桁数を整数で指定します。
+               負の整数を指定した場合、小数点位置から左に少なくとも `n` 個の `0` が並びます。
+
+```ruby
+p 1.truncate         # => 1
+p 1.truncate(2)      # => 1
+p 18.truncate(-1)    # =>  10
+p (-18).truncate(-1) # => -10
+```
+
+- **SEE** [Numeric#truncate](../../../method/Numeric/i/truncate.md)

@@ -1,0 +1,17 @@
+# IPSocket#peeraddr
+
+### def peeraddr -> Array
+
+接続相手先ソケットの情報を表す配列を返します。配列の各要素は
+[IPSocket#addr](../../../method/IPSocket/i/addr.md) メソッドが返す配列と同じです。
+
+- **raise** `Errno::EXXX` -- [man:getpeername(2)] が 0 未満の値を返した場合に発生します。
+
+```ruby title="例"
+require 'socket'
+
+TCPSocket.open("localhost", "http") {|s|
+  p s.peeraddr    #=> ["AF_INET", 80, "localhost.localdomain", "127.0.0.1"]
+  p s.addr        #=> ["AF_INET", 52615, "localhost.localdomain", "127.0.0.1"]
+}
+```

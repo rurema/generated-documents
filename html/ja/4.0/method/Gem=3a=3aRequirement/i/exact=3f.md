@@ -1,0 +1,13 @@
+# Gem::Requirement#exact?
+
+### def exact? -> bool
+
+条件がちょうどのバージョンが指定されている場合は、true を返します。
+
+```ruby
+p Gem::Requirement.new("= 3").exact?          # => true
+p Gem::Requirement.new("= 3", "= 3").exact?   # => true
+p Gem::Requirement.new("= 3", "= 5").exact?   # => false
+p Gem::Requirement.new("= 3", ">= 3").exact?  # => false
+p Gem::Requirement.new(">= 3").exact?         # => false
+```

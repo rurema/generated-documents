@@ -1,0 +1,8 @@
+# OpenSSL::PKey::EC#to_text
+
+### def to_text -> String
+
+鍵を人間が読める形式に変換します。
+
+- **raise** `OpenSSL::PKey::ECError` -- 文字列への変換に失敗した場合に発生します。
+       公開鍵が含まれていない場合や、鍵が妥当でない場合などに失敗します。

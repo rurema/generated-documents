@@ -1,0 +1,30 @@
+# Net::HTTP.start
+
+### def Net::HTTP.start(address, port = 80, proxy_addr = :ENV, proxy_port = nil, proxy_user=nil, proxy_pass=nil) -> Net::HTTP
+### def Net::HTTP.start(address, port = 80, proxy_addr = :ENV, proxy_port = nil, proxy_user=nil, proxy_pass=nil) {|http| .... } -> object
+
+新しい [Net::HTTP](../../../class/Net=3a=3aHTTP.md) オブジェクトを生成し、
+TCP コネクション、 HTTP セッションを開始します。
+
+ブロックを与えた場合には生成したオブジェクトをそのブロックに渡し、ブロックが終わったときに接続を閉じます。このときはブロックの値を返り値とします。
+
+ブロックを与えなかった場合には生成したオブジェクトを渡します。
+利用後にはこのオブジェクトを [Net::HTTP#finish](../../../method/Net=3a=3aHTTP/i/finish.md) してください。
+
+proxy_addr に :ENV を指定すると環境変数 http_proxy からプロクシの URI を取り出し利用します。環境変数 http_proxy が定義されていない場合にはプロクシは利用しません。
+
+このメソッドは以下と同じです。
+
+```ruby title="例"
+require 'net/http'
+Net::HTTP.new(address, port, proxy_addr, proxy_port, proxy_user, proxy_pass).start(&block)
+```
+
+- **param** `address` -- 接続するホスト名を文字列で指定します。
+- **param** `port` -- 接続するポート番号を指定します。
+- **param** `proxy_addr` -- プロクシのホスト名もしくはアドレスを文字列で指定します。:ENV を指定すると環境変数 http_proxy を利用してプロクシの設定をします。省略した場合には直接接続します。
+- **param** `proxy_port` -- プロクシのポートを指定します。
+- **param** `proxy_user` -- プロクシの認証のユーザ名を指定します。省略した場合には認証はなされません。
+- **param** `proxy_pass` -- プロクシの認証のパスワードを指定します。
+- **raise** `Net::OpenTimeout` -- 接続がタイムアウトしたときに発生します
+- **SEE** [Net::HTTP.new](../../../method/Net=3a=3aHTTP/s/new.md), [Net::HTTP#start](../../../method/Net=3a=3aHTTP/i/start.md)

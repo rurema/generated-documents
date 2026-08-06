@@ -1,0 +1,8 @@
+# WEBrick::HTTPRequest#keep_alive?
+
+### def keep_alive     -> bool
+### def keep_alive?    -> bool
+
+リクエストが Keep-Alive を要求しているかを真偽で返します。
+http_version が 1.1 より小さい場合は Keep-Alive を要求していても無視して
+false となります。

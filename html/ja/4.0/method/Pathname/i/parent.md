@@ -1,0 +1,22 @@
+# Pathname#parent
+
+### def parent -> Pathname
+
+self の親ディレクトリを指す新しい Pathname オブジェクトを返します。
+
+```ruby title="例 絶対パス"
+require "pathname"
+
+path = Pathname("/usr")
+path        # => #<Pathname:/usr>
+path.parent # => #<Pathname:/>
+```
+
+```ruby title="例 相対パス"
+require "pathname"
+
+path = Pathname("foo/bar")
+path.parent               # => #<Pathname:foo>
+path.parent.parent        # => #<Pathname:.>
+path.parent.parent.parent # => #<Pathname:..>
+```

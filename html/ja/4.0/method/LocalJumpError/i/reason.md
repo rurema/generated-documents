@@ -1,0 +1,34 @@
+# LocalJumpError#reason
+
+### def reason -> Symbol
+
+例外を発生させた原因をシンボルで返します。
+
+返す値は以下のいずれかです。
+
+  - :break
+  - :redo
+  - :retry
+  - :next
+  - :return
+  - :noreason
+
+```ruby title="意図的に LocalJumpError を起こして reason を確認"
+def foo
+  proc { return 10 }
+end
+  
+begin
+  foo.call
+rescue LocalJumpError => err
+  p err              # => #<LocalJumpError: unexpected return>
+  p err.reason       # => :return
+end
+
+begin
+  Proc.new { break 5 }.call
+rescue LocalJumpError => err
+  p err              # => #<LocalJumpError: break from proc-closure>
+  p err.reason       # => :break
+end
+```

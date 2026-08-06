@@ -1,0 +1,14 @@
+# Float#modulo
+
+### def %(other) -> Float
+### def modulo(other) -> Float
+
+算術演算子。剰余を計算します。
+
+- **param** `other` -- 二項演算の右側の引数(対象)
+
+```ruby title="例"
+# 剰余
+p 3.0 % 1.2 # => 0.6000000000000001
+3.0 % 0.0   # ZeroDivisionError
+```

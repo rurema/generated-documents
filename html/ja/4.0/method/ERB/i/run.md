@@ -1,0 +1,17 @@
+# ERB#run
+
+### def run(b=TOPLEVEL_BINDING) -> nil
+
+ERB を b の binding で実行し、結果を標準出力へ印字します。
+
+- **param** `b` -- eRubyスクリプトが実行されるときのbinding
+
+```ruby title="例"
+require 'erb'
+erb = ERB.new("test <%= test1 %>\ntest <%= test2 %>\n")
+test1 = "foo"
+test2 = "bar"
+erb.run
+# test foo
+# test bar
+```

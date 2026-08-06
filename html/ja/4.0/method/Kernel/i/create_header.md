@@ -1,0 +1,30 @@
+# Kernel#create_header
+
+### def create_header(header = "extconf.h") -> String
+
+[Kernel#have_func](../../../method/Kernel/i/have_func.md), [Kernel#have_header](../../../method/Kernel/i/have_header.md) などの検査結果を元に、ヘッダファイルを生成します。
+
+このメソッドは extconf.rb の最後で呼び出すようにしてください。
+
+- **param** `header` -- ヘッダファイルの名前を指定します。
+
+- **return** -- ヘッダファイルの名前を返します。
+
+```ruby title="例"
+# extconf.rb
+require 'mkmf'
+have_func('realpath')
+have_header('sys/utime.h')
+create_header
+create_makefile('foo')
+```
+
+上の extconf.rb は以下の extconf.h を生成します。
+
+```c
+#ifndef EXTCONF_H
+#define EXTCONF_H
+#define HAVE_REALPATH 1
+#define HAVE_SYS_UTIME_H 1
+#endif
+```

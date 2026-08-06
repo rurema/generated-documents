@@ -1,0 +1,20 @@
+# TracePoint#lineno
+
+### def lineno -> Integer
+
+発生したイベントの行番号を返します。
+
+- **raise** `RuntimeError` -- イベントフックの外側で実行した場合に発生します。
+
+```ruby title="例"
+def foo(ret)
+  ret
+end
+trace = TracePoint.new(:call, :return) do |tp|
+  tp.lineno
+end
+trace.enable
+p foo 1
+# => 1
+# 3
+```

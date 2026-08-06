@@ -1,0 +1,17 @@
+# StringIO#puts
+
+### def puts(*obj)    -> nil
+
+obj と改行を順番に自身に出力します。引数がなければ改行のみを出力します。
+詳しい仕様は [Kernel?.puts](../../../method/Kernel/m/puts.md) を参照して下さい。
+
+- **param** `obj` -- 書き込みたいオブジェクトを指定します。
+
+- **raise** `IOError` -- 自身が書き込み用にオープンされていなければ発生します。
+
+```ruby title="例"
+require "stringio"
+a = StringIO.new("", 'r+')
+a.puts("hoge", "bar", "foo")
+p a.string                   #=> "hoge\nbar\nfoo\n"
+```

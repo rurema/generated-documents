@@ -1,0 +1,16 @@
+# IO#cooked
+
+### def cooked {|io| ... } -> object
+
+cooked モードを有効にして指定されたブロックを評価します。
+
+ブロック引数には self が渡されます。ブロックを評価した結果を返します。
+
+- **raise** `LocalJumpError` -- ブロックを指定しなかった場合に発生します。
+
+以下の例では、標準入力からエコーバック付きで文字列を一行読み込みます。
+
+```ruby
+require "io/console"
+STDIN.cooked(&:gets)
+```

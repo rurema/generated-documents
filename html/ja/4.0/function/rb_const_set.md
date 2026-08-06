@@ -1,0 +1,5 @@
+# rb_const_set
+
+### void rb_const_set(VALUE klass, ID name, VALUE val)
+
+定数 klass::name の値を val として定義します。

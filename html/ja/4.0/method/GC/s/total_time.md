@@ -1,0 +1,24 @@
+# GC.total_time
+
+### def GC.total_time -> Integer
+
+プロセス開始から GC にかかった時間の合計をナノ秒で返します。
+
+時間が積算されるのは [GC.measure_total_time](../../../method/GC/s/measure_total_time.md) が true の間だけです。
+計測を無効にしている間に GC が実行されても、返り値は変化しません。
+
+```ruby
+p GC.measure_total_time # => true
+p GC.total_time         # => 625000
+
+GC.start
+p GC.total_time         # => 937500
+
+GC.measure_total_time = false
+GC.start
+p GC.total_time         # => 937500  計測が無効なので増えない
+```
+
+返り値は実行環境や実行状況によって異なります。
+
+- **SEE** [GC.measure_total_time](../../../method/GC/s/measure_total_time.md)

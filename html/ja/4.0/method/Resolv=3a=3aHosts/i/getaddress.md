@@ -1,0 +1,8 @@
+# Resolv::Hosts#getaddress
+
+### def getaddress(name) -> String
+
+ホスト名 name の IP アドレスをルックアップし、ルックアップ結果の最初のアドレスを返します。
+
+- **param** `name` -- ホスト名を文字列で与えます。
+- **raise** `Resolv::ResolvError` -- ルックアップに失敗したときに発生します。

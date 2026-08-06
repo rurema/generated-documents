@@ -1,0 +1,5 @@
+# FL_SET
+
+### void FL_SET(VALUE x, int f)
+
+x に対してフラグ f をセットする。

@@ -1,0 +1,8 @@
+# OpenSSL::PKey::DSA#params
+
+### def params -> {String => OpenSSL::BN}
+
+鍵のパラメータを {パラメータ名 => その整数値} というハッシュで返します。
+
+公開鍵における priv_key のように自身が持っていないパラメータは
+0 がセットされます。

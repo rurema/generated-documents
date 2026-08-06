@@ -1,0 +1,13 @@
+# File.split
+
+### def File.split(pathname)    -> [String]
+
+pathname を dirname とbasename に分割して、2 要素の配列を返します。
+
+```ruby
+[File.dirname(pathname), File.basename(pathname)]
+```
+
+と同じです。
+
+- **param** `pathname` -- パス名を表す文字列を指定します。

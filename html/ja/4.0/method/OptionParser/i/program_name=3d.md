@@ -1,0 +1,18 @@
+# OptionParser#program_name=
+
+### def program_name=(name)
+
+プログラムの名前を文字列で指定します。
+
+- **param** `name` -- プログラムの名前を文字列で指定します。
+
+```ruby title="例"
+require "optparse"
+
+OptionParser.new do |opts|
+  p $0                       # => /path/to/filename.rb
+  p opts.program_name        # => filename
+  opts.program_name = 'test' # => "test"
+  p opts.program_name        # => "test"
+end
+```
