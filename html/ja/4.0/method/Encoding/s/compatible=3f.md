@@ -1,0 +1,30 @@
+# Encoding.compatible?
+
+### def Encoding.compatible?(obj1, obj2) -> Encoding | nil
+
+2つのオブジェクトのエンコーディングに関する互換性をチェックします。
+互換性がある場合はそのエンコーディングを、ない場合は nil を返します。
+
+引数が両方とも文字列である場合、互換性があるならばその文字列を結合できます。この場合返り値のエンコーディングは結合した文字列が取るであろう Encoding オブジェクトを返します。
+
+```ruby title="例"
+p Encoding.compatible?("\xa1".force_encoding("iso-8859-1"), "b")
+#=> #<Encoding:ISO-8859-1>
+
+Encoding.compatible?(
+  "\xa1".force_encoding("iso-8859-1"),
+  "\xa1\xa1".force_encoding("euc-jp"))
+#=> nil
+```
+
+引数が文字列でない場合でも、両方のオブジェクトが encoding を持つ場合には互換性を判定できます。
+
+```ruby title="例"
+p Encoding.compatible?(Encoding::UTF_8, Encoding::CP932)
+# => nil
+p Encoding.compatible?(Encoding::UTF_8, Encoding::US_ASCII)
+# => #<Encoding:UTF-8>
+```
+
+- **param** `obj1` -- チェック対象のオブジェクト
+- **param** `obj2` -- チェック対象のオブジェクト

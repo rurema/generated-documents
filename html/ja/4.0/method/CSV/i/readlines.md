@@ -1,0 +1,35 @@
+# CSV#readlines
+
+### def read -> [Array] | CSV::Table
+### def readlines -> [Array] | CSV::Table
+
+残りの行を読み込んで配列の配列を返します。
+self の生成時に headers オプションに偽でない値が指定されていた場合は [CSV::Table](../../../class/CSV=3a=3aTable.md) オブジェクトを返します。
+
+データソースは読み込み用にオープンされている必要があります。
+
+```ruby title="例 headers: false"
+require "csv"
+
+csv = CSV.new(DATA.read)
+p csv.read
+# => [["header1", "header2"], ["row1_1", "row1_2"], ["row2_1", "row2_2"]]
+
+__END__
+header1,header2
+row1_1,row1_2
+row2_1,row2_2
+```
+
+```ruby title="例 headers: true"
+require "csv"
+
+csv = CSV.new(DATA.read, headers: true)
+p csv.read
+# => #<CSV::Table mode:col_or_row row_count:3>
+
+__END__
+header1,header2
+row1_1,row1_2
+row2_1,row2_2
+```

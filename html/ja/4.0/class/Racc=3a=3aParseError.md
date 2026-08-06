@@ -1,0 +1,1 @@
+# class Racc::ParseError < StandardError

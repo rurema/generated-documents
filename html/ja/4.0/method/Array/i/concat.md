@@ -1,0 +1,36 @@
+# Array#concat
+
+### def concat(other)    -> self
+
+配列 other を自身の末尾に破壊的に連結します。
+
+- **param** `other` -- 自身と連結したい配列を指定します。
+
+```ruby title="例"
+array = [1, 2]
+a     = [3, 4]
+array.concat a
+p array          # => [1, 2, 3, 4]
+p a              # => [3, 4]       # こちらは変わらない
+```
+
+### def concat(*other_arrays)    -> self
+
+other_arrays の要素を自身の末尾に破壊的に連結します。
+
+- **param** `other_arrays` -- 自身と連結したい配列を指定します。
+
+```ruby title="例"
+p [ "a", "b" ].concat( ["c", "d"] ) #=> [ "a", "b", "c", "d" ]
+p [ "a" ].concat( ["b"], ["c", "d"] ) #=> [ "a", "b", "c", "d" ]
+p [ "a" ].concat #=> [ "a" ]
+
+a = [ 1, 2, 3 ]
+a.concat( [ 4, 5 ] )
+p a                               #=> [ 1, 2, 3, 4, 5 ]
+
+a = [ 1, 2 ]
+p a.concat(a, a)                  #=> [1, 2, 1, 2, 1, 2]
+```
+
+- **SEE** [Array#+](../../../method/Array/i/=2b.md)

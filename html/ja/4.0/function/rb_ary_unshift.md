@@ -1,0 +1,5 @@
+# rb_ary_unshift
+
+### VALUE rb_ary_unshift(VALUE ary, VALUE item)
+
+配列 ary の先頭に item を挿入します。

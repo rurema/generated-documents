@@ -1,0 +1,16 @@
+# Range#size
+
+### def size -> Integer | Float::INFINITY | nil
+
+範囲内の要素数を返します。
+
+始端が整数でない場合は、始端が succ メソッドを持つ場合は nil を返し、始端が succ メソッドを持たない場合は TypeError が発生します。
+
+- **raise** `TypeError` -- self がイテレート可能でない場合に発生します。
+
+```ruby title="例"
+p (10..20).size  # => 11
+p ("a".."z").size  # => nil
+p (1..).size     # => Infinity
+(-Float::INFINITY..Float::INFINITY).size # => can't iterate from Float (TypeError)
+```

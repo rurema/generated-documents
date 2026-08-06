@@ -1,0 +1,21 @@
+# BigDecimal#split
+
+### def split -> [Integer, String, Integer, Integer]
+
+BigDecimal 値を 0.xxxxxxx*10**n と表現したときに、符号 (NaNのときは 0、それ以外は+1か-1になります)、仮数部分の文字列("xxxxxxx")と、基数(10)、更に指数 n を配列で返します。
+
+```ruby
+require "bigdecimal"
+a = BigDecimal("3.14159265")
+f, x, y, z = a.split
+```
+
+とすると、f = 1、x = "314159265"、y = 10、z = 1 になります。
+従って、以下のようにする事で [Float](../../../class/Float.md) に変換できます。
+
+```ruby
+s = "0."+x
+b = f*(s.to_f)*(y**z)
+```
+
+- **SEE** [BigDecimal#to_f](../../../method/BigDecimal/i/to_f.md)

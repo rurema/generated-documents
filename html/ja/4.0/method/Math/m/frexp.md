@@ -1,0 +1,16 @@
+# Math?.frexp
+
+### module_function def frexp(x) -> [Float, Integer]
+
+実数 `x` の仮数部と指数部の配列を返します。
+
+- **param** `x` -- 実数
+
+- **raise** `TypeError` -- `x` に数値以外を指定した場合に発生します。
+
+- **raise** `RangeError` -- `x` に実数以外の数値を指定した場合に発生します。
+
+```ruby title="例"
+fraction, exponent = Math.frexp(1234)   # => [0.6025390625, 11]
+p fraction * 2**exponent                # => 1234.0
+```

@@ -1,0 +1,3 @@
+# rb_f_exit
+
+### static VALUE rb_f_exit(int argc, VALUE *argv, VALUE obj)

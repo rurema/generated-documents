@@ -1,0 +1,28 @@
+# Symbol#to_proc
+
+### def to_proc -> Proc
+
+self に対応する Proc オブジェクトを返します。
+
+生成される Proc オブジェクトを呼びだす([Proc#call](../../../method/Proc/i/call.md))と、
+Proc#callの第一引数をレシーバとして、 self という名前のメソッドを残りの引数を渡して呼びだします。
+
+生成される Proc オブジェクトは lambda です。
+
+```ruby
+p :object_id.to_proc.lambda? # => true
+```
+
+```ruby title="明示的に呼ぶ例"
+p :to_i.to_proc["ff", 16]  # => 255 ← "ff".to_i(16)と同じ
+```
+
+```ruby title="暗黙に呼ばれる例"
+# メソッドに & とともにシンボルを渡すと
+# to_proc が呼ばれて Proc 化され、
+# それがブロックとして渡される。
+p (1..3).collect(&:to_s)  # => ["1", "2", "3"]
+p (1..3).select(&:odd?) # => [1, 3]
+```
+
+- **SEE** [spec/call#block](../../../doc/spec=2fcall.md#block)

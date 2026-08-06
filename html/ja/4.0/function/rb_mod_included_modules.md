@@ -1,0 +1,5 @@
+# rb_mod_included_modules
+
+### VALUE rb_mod_included_modules(VALUE mod)
+
+モジュール mod にインクルードされているモジュールの配列を返します。

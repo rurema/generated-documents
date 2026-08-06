@@ -1,0 +1,3 @@
+# bmcall
+
+### static VALUE bmcall(VALUE args, VALUE method)

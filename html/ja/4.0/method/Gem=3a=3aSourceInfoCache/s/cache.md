@@ -1,0 +1,7 @@
+# Gem::SourceInfoCache.cache
+
+### def Gem::SourceInfoCache.cache(all = false) -> Gem::SourceInfoCache
+
+自身のインスタンスを生成するためのメソッドです。
+
+- **param** `all` -- 真を指定すると、インスタンス生成時に全てのキャッシュを再作成します。

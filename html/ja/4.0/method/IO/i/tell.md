@@ -1,0 +1,17 @@
+# IO#tell
+
+### def pos    -> Integer
+### def tell   -> Integer
+
+ファイルポインタの現在の位置を整数で返します。
+
+- **raise** `IOError` -- 既に close されている場合に発生します。
+
+```ruby title="例"
+IO.write("testfile", "This is line one\n")
+File.open("testfile") do |f|
+  p f.pos  # => 0
+  p f.gets # => "This is line one\n"
+  p f.pos  # => 17
+end
+```

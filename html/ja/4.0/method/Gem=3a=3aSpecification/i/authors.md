@@ -1,0 +1,5 @@
+# Gem::Specification#authors
+
+### def authors -> Array
+
+作成者の名前の配列を返します。

@@ -1,0 +1,3 @@
+# rb_fix_new
+
+### VALUE rb_fix_new(long v)

@@ -1,0 +1,21 @@
+# ThreadGroup#enclosed?
+
+### def enclosed?    -> bool
+
+自身が enclose されているなら true を返します。そうでないなら false を返します。デフォルトは false です。
+
+freeze された ThreadGroup には Thread の追加/削除ができませんが、enclosed? は false を返します。
+
+```ruby
+thg = ThreadGroup.new
+p thg.enclosed?         # => false
+thg.enclose
+p thg.enclosed?         # => true
+
+thg = ThreadGroup.new
+p thg.enclosed?         # => false
+thg.freeze
+p thg.enclosed?         # => false
+```
+
+- **SEE** [ThreadGroup#enclose](../../../method/ThreadGroup/i/enclose.md)

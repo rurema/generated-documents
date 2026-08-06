@@ -1,0 +1,5 @@
+# OpenSSL::X509::V_ERR_UNABLE_TO_VERIFY_LEAF_SIGNATURE
+
+### const V_ERR_UNABLE_TO_VERIFY_LEAF_SIGNATURE -> Integer
+
+証明書チェインにある証明書がただ一つでその証明書が自己署名証明書でないことを意味します。

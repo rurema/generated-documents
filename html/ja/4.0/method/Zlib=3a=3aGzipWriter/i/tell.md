@@ -1,0 +1,24 @@
+# Zlib::GzipWriter#tell
+
+### def pos -> Integer
+### def tell -> Integer
+
+現在までに圧縮したデータの長さの合計を返します。
+ファイルポインタの位置ではないことに注意して下さい。
+
+```ruby
+require 'zlib'
+
+filename='hoge1.gz'
+f = File.open(filename, "w")
+Zlib::GzipWriter.wrap(f, Zlib::BEST_COMPRESSION){|gz|
+  (1..10).each {|i|
+    gz.print i
+    puts gz.pos
+  }
+}
+#=> 1
+#=> 2
+#=> 3
+# ...
+```

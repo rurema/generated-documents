@@ -1,0 +1,5 @@
+# WIN32OLE::VERSION
+
+### const VERSION  -> String
+
+Major.Minor.Patch形式のWIN32OLEのバージョン番号を示す文字列です。

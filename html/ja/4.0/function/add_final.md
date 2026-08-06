@@ -1,0 +1,3 @@
+# add_final
+
+### static VALUE add_final(VALUE os, VALUE proc)

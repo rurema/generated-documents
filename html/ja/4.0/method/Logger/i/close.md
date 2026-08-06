@@ -1,0 +1,15 @@
+# Logger#close
+
+### def close -> nil
+
+ログ出力に使用していた IO オブジェクトを閉じます。
+
+```ruby title="例"
+require 'logger'
+
+logger = Logger.new(STDOUT)
+
+p logger.info("test") # => I, [2019-04-16T00:40:11.837898 #2795]  INFO -- : test
+logger.close
+p logger.info("test") # => log writing failed. closed stream
+```

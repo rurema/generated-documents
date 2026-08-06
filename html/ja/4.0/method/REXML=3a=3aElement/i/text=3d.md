@@ -1,0 +1,28 @@
+# REXML::Element#text=
+
+### def text=(text)
+
+「先頭の」テキストノードを text で置き換えます。
+
+テキストノードを1つ以上保持している場合はそのうち最初のノードを置き換えます。
+
+要素がテキストノードを保持していない場合は新たなテキストノードが追加されます。
+
+text には文字列、[REXML::Text](../../../class/REXML=3a=3aText.md)、nil のいずれかが指定できます。
+REXML::Text オブジェクトを指定した場合には、それが設定され、文字列を指定した場合には
+[REXML::Text.new](../../../method/REXML=3a=3aText/s/new.md)(text, whitespace(), nil, raw())
+で生成される Text オブジェクトが設定されます。
+nil を指定すると最初のテキストノードが削除されます。
+
+- **param** `text` -- 置き換え後のテキスト(文字列、[REXML::Text](../../../class/REXML=3a=3aText.md), nil(削除))
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new('<a><b/></a>')
+p doc.to_s # => "<a><b/></a>"
+doc.root.text = "Foo"; doc.to_s # => "<a><b/>Foo</a>"
+doc.root.text = "Bar"; doc.to_s # => "<a><b/>Bar</a>"
+doc.root.add_element "c"
+doc.root.text = "Baz"; doc.to_s # => "<a><b/>Baz<c/></a>"
+doc.root.text = nil; doc.to_s # => "<a><b/><c/></a>"
+```

@@ -1,0 +1,12 @@
+# OpenSSL::BN#negative?
+
+### def negative? -> bool
+
+自身が負である場合に true を返します。Ruby 2.5, OpenSSL 2.1.0 から利用できます。
+
+```ruby
+require 'openssl'
+p 15.to_bn.negative?    # => false
+p  0.to_bn.negative?    # => false
+p (-5).to_bn.negative?  # => true
+```

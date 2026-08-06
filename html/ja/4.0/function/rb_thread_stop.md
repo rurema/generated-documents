@@ -1,0 +1,6 @@
+# rb_thread_stop
+
+### VALUE rb_thread_stop(void)
+
+現在実行中のスレッドを停止します。
+他のスレッドから rb_thread_wakeup を呼ばれると再開します。

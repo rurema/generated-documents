@@ -1,0 +1,3 @@
+# sv_i
+
+### static int sv_i(ID key, VALUE value, st_table *tbl)

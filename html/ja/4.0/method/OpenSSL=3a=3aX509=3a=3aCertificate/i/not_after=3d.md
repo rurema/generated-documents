@@ -1,0 +1,8 @@
+# OpenSSL::X509::Certificate#not_after=
+
+### def not_after=(time)
+
+証明書が無効になる時刻を設定します。
+
+- **param** `time` -- 証明書の終了時刻
+- **raise** `OpenSSL::X509::CertificateError` -- 設定に失敗した場合に発生します

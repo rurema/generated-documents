@@ -1,0 +1,34 @@
+# Thread::Mutex#unlock
+
+### def unlock     -> self
+{: since="1.9.1"}
+
+mutex のロックを解放します。mutex のロック待ちになっていたスレッドの実行は再開されます。
+
+- **return** -- self を返します。
+
+```ruby title="例"
+m = Thread::Mutex.new
+begin 
+  m.lock
+  # critical part
+ensure
+  m.unlock
+end
+```
+
+Mutex はロックしたスレッド以外からロックを開放することは出来ません。
+ロックしたスレッド以外から unlock が呼ばれると ThreadError が発生します。
+
+```ruby
+m = Thread::Mutex.new
+m.lock
+Thread.new do
+  m.unlock # ~> ThreadError
+end.join
+```
+
+- **raise** `ThreadError` -- self がロックされていない場合や self をロックしたス
+                   レッド以外から呼ばれた場合に発生します。
+                   また、[Signal?.trap](../../../method/Signal/m/trap.md) に指定したハンドラ内で実行
+                   した場合に発生します。

@@ -1,0 +1,12 @@
+# Struct#members
+
+### def members -> [Symbol]
+
+構造体のメンバの名前([Symbol](../../../class/Symbol.md))の配列を返します。
+
+```ruby title="例"
+Foo = Struct.new(:foo, :bar)
+p Foo.new.members  # => [:foo, :bar]
+```
+
+[注意] 本メソッドの記述は Struct の下位クラスのインスタンスに対して呼び出す事を想定しています。Struct.new は Struct の下位クラスを作成する点に注意してください。

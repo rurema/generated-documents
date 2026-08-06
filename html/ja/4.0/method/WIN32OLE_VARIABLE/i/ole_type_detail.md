@@ -1,0 +1,32 @@
+# WIN32OLE_VARIABLE#ole_type_detail
+
+### def ole_type_detail -> [String]
+
+変数の型と属性を取得します。
+
+- **return** -- 変数の型と属性を文字列配列で返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft XML, v5.0', 'tagSTATSTG')
+tobj.variables.each do |v|
+  puts "#{v.ole_type} [#{v.ole_type_detail.join(', ')}] #{v.name}"
+end
+```
+
+出力結果
+
+```text
+Unknown Type 31 [] pwcsName   # => VT_LPWSTR はWIN32OLE::VARIANTで未定義なので変換できない
+UI4 [UI4] type
+_ULARGE_INTEGER [USERDEFINED, _ULARGE_INTEGER] cbSize
+_FILETIME [USERDEFINED, _FILETIME] mtime
+_FILETIME [USERDEFINED, _FILETIME] ctime
+_FILETIME [USERDEFINED, _FILETIME] atime
+UI4 [UI4] grfMode
+UI4 [UI4] grfLocksSupported
+GUID [USERDEFINED, GUID] clsid
+UI4 [UI4] grfStateBits
+UI4 [UI4] reserved
+```
+
+上例のように、WIN32OLE_VARIABLEで取得できる変数あるいはその元となる構造体は、必ずしもOLEオートメーション互換データというわけではありません。このようなデータはWIN32OLEからは利用できません。

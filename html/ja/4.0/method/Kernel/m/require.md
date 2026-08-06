@@ -1,0 +1,39 @@
+# Kernel?.require
+
+### module_function def require(feature) -> bool
+
+Ruby ライブラリ feature をロードします。拡張子補完を行い、同じファイルの複数回ロードはしません。
+
+feature が絶対パスのときは feature からロードします。
+feature が相対パスのときは組み込み変数 [m:$:]
+に示されるパスを順番に探し、最初に見付かったファイルをロードします。このとき、$: の要素文字列の先頭文字が
+`~` (チルダ) だと、環境変数 HOME の値に展開されます。
+また `~USER` はそのユーザのホームディレクトリに展開されます。
+
+ただし、feature が `./` や `../` で始まる場合は [m:$:] を探索せず、その時点のカレントディレクトリ (Dir.pwd) を基準に絶対パスのときと同様解決されます。ロード元のファイルの位置ではなくカレントディレクトリが基準になる点に注意してください（[Kernel?.load](../../../method/Kernel/m/load.md) も同様です）。ロード元のファイルからの相対パスを指定したい場合は
+[Kernel?.require_relative](../../../method/Kernel/m/require_relative.md) を使ってください。
+
+Ruby ライブラリとは Ruby スクリプト (*.rb) か拡張ライブラリ
+(*.so,*.o,*.dll など) であり、feature の拡張子が省略された場合はその両方から探します( *.rb が優先されます)。
+省略されなかった場合は指定された種別のみを探します。
+また、feature の拡張子にはアーキテクチャで実際に使われる拡張子に関らず拡張ライブラリの拡張子として常に .so を用いることができます（内部で適切に変換されます）。
+
+ライブラリのロードに成功した時には true を返し、ロードした feature の名前を(拡張子も含めて) 変数 [m:$"] に追加します。ただし、feature の名前が既に $"
+に含まれていた場合はロードせずに false を返します。
+
+- **param** `feature` -- ファイル名の文字列です。
+- **raise** `LoadError` -- ロードに失敗した場合に発生します。
+
+```ruby title="例"
+p $LOADED_FEATURES.grep(/prime/).size # => 0
+p require "prime"     # => true
+p $LOADED_FEATURES.grep(/prime/).size # => 1
+p require "prime"     # => false
+begin
+  require "invalid"
+rescue LoadError => e
+  p e.message # => "cannot load such file -- invalid"
+end
+```
+
+- **SEE** [Kernel?.load](../../../method/Kernel/m/load.md),[Kernel?.autoload](../../../method/Kernel/m/autoload.md),[Kernel?.require_relative](../../../method/Kernel/m/require_relative.md)

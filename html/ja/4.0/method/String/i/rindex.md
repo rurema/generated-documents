@@ -1,0 +1,44 @@
+# String#rindex
+
+### def rindex(pattern, pos = self.size) -> Integer | nil
+
+文字列のインデックス pos から左に向かって pattern を探索します。
+最初に見つかった部分文字列の左端のインデックスを返します。
+見つからなければ nil を返します。
+
+引数 pattern は探索する部分文字列または正規表現で指定します。
+
+pos が負の場合は、文字列の末尾から数えた位置から探索します。
+
+rindex と [String#index](../../../method/String/i/index.md) とでは、探索方向だけが逆になります。
+完全に左右が反転した動作をするわけではありません。
+探索はその開始位置を右から左にずらしながら行いますが、部分文字列の照合はどちらのメソッドも左から右に向かって行います。
+以下の例を参照してください。
+
+```ruby title="String#index の場合"
+p "stringstring".index("ing", 1)    # => 3
+  # ing            # ここから探索を始める
+  #  ing
+  #   ing          # 右にずらしていってここで見つかる
+```
+
+```ruby title="String#rindex の場合"
+p "stringstring".rindex("ing", -1)  # => 9
+  #           ing    # インデックス -1 の文字から探索を始める
+  #          ing
+  #         ing      # 左にずらしていってここで見つかる
+```
+
+- **param** `pattern` --    探索する部分文字列または正規表現
+- **param** `pos` --       探索を始めるインデックス
+
+```ruby title="例"
+p "astrochemistry".rindex("str")        # => 10
+p "character".rindex(?c)                # => 5
+p "regexprindex".rindex(/e.*x/, 2)      # => 1
+
+p "foobarfoobar".rindex("bar", 6)       # => 3
+p "foobarfoobar".rindex("bar", -6)      # => 3
+```
+
+- **SEE** [String#index](../../../method/String/i/index.md)

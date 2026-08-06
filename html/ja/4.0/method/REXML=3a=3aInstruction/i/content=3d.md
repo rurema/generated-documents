@@ -1,0 +1,7 @@
+# REXML::Instruction#content=
+
+### def content=(value)
+
+XML 処理命令の内容を変更します。
+
+- **param** `value` -- 新たなデータ(文字列)

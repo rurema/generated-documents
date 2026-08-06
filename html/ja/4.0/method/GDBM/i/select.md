@@ -1,0 +1,19 @@
+# GDBM#select
+
+### def select{|key, value| ... } -> [[String]]
+
+ブロックを評価して真になった要素のみを配列に格納して返します。
+
+```ruby
+require 'gdbm'
+  
+db1 = GDBM.open('aaa.gdbm', 0666, GDBM::NEWDB)
+db1['a'] = 'aaa'
+db1['b'] = 'bbb'
+db1['c'] = 'ccc'
+  
+p db1.select{ |key, value| key == 'a' } #=> [["a", "aaa"]]
+p db1.select{ |key, value| key != 'a' } #=> [["c", "ccc"], ["b", "bbb"]]
+```
+
+- **SEE** [Hash#select](../../../method/Hash/i/select.md)

@@ -1,0 +1,17 @@
+# Net::HTTPGenericRequest#request_body_permitted?
+
+### def request_body_permitted? -> bool
+
+リクエストにエンティティボディを一緒に送ることが許されている
+HTTP メソッド (POST など)の場合真を返します。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+post = Net::HTTP::Post.new(uri.request_uri)
+post.request_body_permitted?   # => true
+
+head = Net::HTTP::Head.new(uri.request_uri)
+p head.request_body_permitted? # => false
+```

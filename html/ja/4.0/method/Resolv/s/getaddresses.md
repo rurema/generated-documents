@@ -1,0 +1,10 @@
+# Resolv.getaddresses
+
+### def Resolv.getaddresses(name) -> [String]
+
+ホスト名 name の IP アドレスをルックアップし、ルックアップ結果のアドレスリストを返します。
+
+ルックアップは /etc/hosts, DNS の順で行います。
+ルックアップに失敗した場合は空の配列が返されます。
+
+- **param** `name` -- ホスト名を文字列で与えます。

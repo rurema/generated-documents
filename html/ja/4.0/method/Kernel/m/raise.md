@@ -1,0 +1,82 @@
+# Kernel?.raise
+
+### module_function def raise -> ()
+### module_function def fail  -> ()
+### module_function def raise(message, cause: $!) -> ()
+### module_function def fail(message, cause: $!)  -> ()
+### module_function def raise(error_type, message = nil, backtrace = caller(0), cause: $!) -> ()
+### module_function def fail(error_type, message = nil, backtrace = caller(0), cause: $!)  -> ()
+
+例外を発生させます。
+発生した例外は変数 [m:$!] に格納されます。また例外が発生した時のスタックトレースは変数 [m:$@] に格納されます。発生した例外は rescue 節で捕捉できます。
+
+引数無しの場合は、同スレッドの同じブロック内で最後に rescue された例外オブジェクト ([m:$!]) を再発生させます。そのような例外が存在しないが自身は捕捉されている時には例外 [RuntimeError](../../../class/RuntimeError.md) を発生させます。
+
+```ruby title="例"
+begin
+  open("nonexist")
+rescue
+  raise   #=> 'open': No such file or directory - "nonexist" (Errno::ENOENT)
+end
+```
+
+引数を渡した場合は、例外メッセージ message を持った error_type の示す例外(省略時 RuntimeError)を発生させます。
+
+error_type として例外ではないクラスやオブジェクトを指定した場合、そのオブジェクトの exception メソッドが返す値を発生する例外にします。
+その際、exception メソッドに引数として変数 message を渡すことができます。
+
+- **param** `error_type` -- 発生させる例外を例外クラスまたは例外クラスのインスタンスで指定します。
+- **param** `message` -- 例外のメッセージとなる文字列です。
+- **param** `backtrace` -- 例外発生時のスタックトレースで、[Kernel?.caller](../../../method/Kernel/m/caller.md) の戻り値と同じ
+  形式で指定しなければいけません。
+  Ruby 3.4 からは、[Kernel?.caller_locations](../../../method/Kernel/m/caller_locations.md) の戻り値と同じ
+  [Thread::Backtrace::Location](../../../class/Thread=3a=3aBacktrace=3a=3aLocation.md) の配列も指定できます。
+- **param** `cause` -- 現在の例外([m:$!])の代わりに [Exception#cause](../../../method/Exception/i/cause.md) に設定する例外を指定します。
+  [Exception](../../../class/Exception.md) オブジェクトまたは nil を指定できます。
+- **raise** `TypeError` -- exception メソッドが例外オブジェクトを返さなかった場合に発生します。
+
+例外の捕捉の例を示します。
+
+```ruby title="例1"
+begin
+  raise NameError,"!!error!!"
+rescue ArgumentError => err
+rescue NameError => err
+rescue TypeError => err
+ensure
+  p err #=> #<NameError: !!error!!>
+end
+```
+
+```ruby title="例2"
+def foo num
+  print 'in method.'
+  raise "error!!" if num <= 9
+rescue RuntimeError
+  num += 10
+  print 'in rescue.'
+  retry
+else
+  print 'in else.'
+ensure
+  print "in ensure.\n"
+end
+
+p foo(4) #=> in method.in rescue.in method.in else.in ensure.
+```
+
+```ruby title="例3"
+class MyException
+  def exception(mesg=nil)
+    SecurityError.new(mesg)
+  end
+end
+
+begin
+  raise MyException.new
+rescue SecurityError
+  p $! #=> #<SecurityError: SecurityError>
+end
+```
+
+- **SEE** [Kernel?.caller](../../../method/Kernel/m/caller.md)

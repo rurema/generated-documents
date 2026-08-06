@@ -1,0 +1,33 @@
+# Math?.expm1
+
+### module_function def expm1(x) -> Float
+
+e の `x` 乗から 1 を引いた値、すなわち `exp(x) - 1` を返します（e は自然対数の底）。
+
+`x` が 0 に近いとき、[Math?.exp](../../../method/Math/m/exp.md) の結果から 1 を引くと桁落ちによって精度が失われますが、このメソッドはそれを避けて計算します。
+
+- **param** `x` -- 実数
+
+- **raise** `TypeError` -- `x` に数値以外を指定した場合に発生します。
+
+- **raise** `RangeError` -- `x` に実数以外の数値を指定した場合に発生します。
+
+```ruby title="例"
+p Math.expm1(0)    # => 0.0
+p Math.expm1(-1.0) # => -0.6321205588285577
+p Math.expm1(0.5)  # => 0.6487212707001282
+```
+
+```ruby title="例: 0 に近い値での精度"
+p Math.exp(1e-16) - 1 # => 0.0     （桁落ちして 0 になる）
+p Math.expm1(1e-16)   # => 1.0e-16
+```
+
+`x` に負の無限大を渡した場合は `-1.0` を返します。
+
+```ruby title="例: 無限大を渡す"
+p Math.expm1(-Float::INFINITY) # => -1.0
+p Math.expm1(Float::INFINITY)  # => Infinity
+```
+
+- **SEE** [man:expm1(3)], [Math?.exp](../../../method/Math/m/exp.md), [Math?.log1p](../../../method/Math/m/log1p.md)

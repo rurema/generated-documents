@@ -1,0 +1,29 @@
+# String#prepend
+
+### def prepend(other_str) -> String
+
+文字列 other_str を先頭に破壊的に追加します。
+
+- **param** `other_str` -- 追加したい文字列を指定します。
+
+```ruby title="例"
+a = "world"
+p a.prepend("hello ") # => "hello world"
+p a                 # => "hello world"
+```
+
+### def prepend(*arguments) -> String
+
+複数の文字列を先頭に破壊的に追加します。
+
+- **param** `arguments` -- 追加したい文字列を指定します。
+
+```ruby title="例"
+a = "!!!"
+p a.prepend # => "!!!"
+p a       # => "!!!"
+
+a = "!!!"
+p a.prepend "hello ", "world" # => "hello world!!!"
+p a                         # => "hello world!!!"
+```

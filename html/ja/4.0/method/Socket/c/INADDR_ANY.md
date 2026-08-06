@@ -1,0 +1,9 @@
+# Socket::INADDR_ANY
+
+### const INADDR_ANY -> Integer
+
+A socket bound to INADDR_ANY receives packets from 
+all interfaces and sends from the default IP address。
+IPv4アドレスの 0.0.0.0 に対応する整数です。
+
+- **SEE** [man:netinet/in.h(header)], [man:ip(7linux)], [man:ip(4freebsd)]

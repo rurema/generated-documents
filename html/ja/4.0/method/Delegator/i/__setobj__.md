@@ -1,0 +1,9 @@
+# Delegator#__setobj__
+
+### def __setobj__(obj) -> object
+
+委譲先のオブジェクトをセットします。
+
+- **param** `obj` -- 委譲先のオブジェクトを指定します。
+
+- **raise** `NotImplementedError` -- サブクラスにて本メソッドが再定義されていない場合に発生します。

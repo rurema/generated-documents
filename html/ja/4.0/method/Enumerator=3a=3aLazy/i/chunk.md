@@ -1,0 +1,16 @@
+# Enumerator::Lazy#chunk
+
+### def chunk {|elt| ... } -> Enumerator::Lazy
+### def chunk(initial_state) {|elt, state| ... } -> Enumerator::Lazy
+
+[Enumerable#chunk](../../../method/Enumerable/i/chunk.md) と同じですが、配列ではなく Enumerator::Lazy を返します。
+
+```ruby title="例"
+p 1.step.lazy.chunk{ |n| n % 3 == 0 }
+# => #<Enumerator::Lazy: #<Enumerator: #<Enumerator::Generator:0x007f8bf18118f0>:each>>
+
+p 1.step.lazy.chunk{ |n| n % 3 == 0 }.take(5).force
+# => [[false, [1, 2]], [true, [3]], [false, [4, 5]], [true, [6]], [false, [7, 8]]]
+```
+
+- **SEE** [Enumerable#chunk](../../../method/Enumerable/i/chunk.md)

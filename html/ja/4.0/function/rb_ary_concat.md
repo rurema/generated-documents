@@ -1,0 +1,5 @@
+# rb_ary_concat
+
+### VALUE rb_ary_concat(VALUE ary, VALUE x)
+
+ary.concat x

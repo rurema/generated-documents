@@ -1,0 +1,35 @@
+# Float#floor
+
+### def floor(ndigits = 0) -> Integer | Float
+
+`self` と等しいかより小さな整数のうち最大のものを返します。
+
+- **param** `ndigits` -- 10進数での小数点以下の有効桁数を整数で指定します。
+               正の整数を指定した場合、[Float](../../../class/Float.md) を返します。
+               小数点以下を、最大 n 桁にします。
+               負の整数を指定した場合、[Integer](../../../class/Integer.md) を返します。
+               小数点位置から左に少なくとも n 個の 0 が並びます。
+
+```ruby title="例"
+p 1.2.floor    # => 1
+p 2.0.floor    # => 2
+p (-1.2).floor # => -2
+p (-2.0).floor # => -2
+
+p 1.234567.floor(2) # => 1.23
+p 1.234567.floor(3) # => 1.234
+p 1.234567.floor(4) # => 1.2345
+p 1.234567.floor(5) # => 1.23456
+
+p 34567.89.floor(-5)  # => 0
+p 34567.89.floor(-4)  # => 30000
+p 34567.89.floor(-3)  # => 34000
+p 34567.89.floor(-2)  # => 34500
+p 34567.89.floor(-1)  # => 34560
+p 34567.89.floor(0) # => 34567
+p 34567.89.floor(1) # => 34567.8
+p 34567.89.floor(2) # => 34567.89
+p 34567.89.floor(3) # => 34567.89
+```
+
+- **SEE** [Numeric#ceil](../../../method/Numeric/i/ceil.md), [Numeric#round](../../../method/Numeric/i/round.md), [Float#truncate](../../../method/Float/i/truncate.md)

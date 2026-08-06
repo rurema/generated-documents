@@ -1,0 +1,10 @@
+# OpenSSL::Digest.digest
+
+### def OpenSSL::Digest.digest(name, data) -> String
+
+data のダイジェストを計算します。
+
+name でハッシュ関数を指定します。
+
+- **param** `name` -- ハッシュ関数の種類を文字列("md5", "sha256" など)で指定
+- **param** `data` -- ダイジェストを計算する文字列

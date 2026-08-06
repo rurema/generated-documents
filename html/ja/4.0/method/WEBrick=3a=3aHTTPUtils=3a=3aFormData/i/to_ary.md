@@ -1,0 +1,16 @@
+# WEBrick::HTTPUtils::FormData#to_ary
+
+### def list      -> Array
+### def to_ary    -> Array
+
+自身が表す各フォームデータを収納した配列を生成して返します。
+
+```ruby title="例"
+require "webrick/cgi"
+class MyCGI < WEBrick::CGI
+  def do_GET(req, res)
+    p req.query['q'].list    #=> ["val1", "val2", "val3"]
+  end
+end
+MyCGI.new.start()
+```

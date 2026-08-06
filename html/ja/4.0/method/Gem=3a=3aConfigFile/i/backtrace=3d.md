@@ -1,0 +1,7 @@
+# Gem::ConfigFile#backtrace=
+
+### def backtrace=(backtrace)
+
+エラー発生時にバックトレースを出力するかどうか設定します。
+
+- **param** `backtrace` -- 真を指定するとエラー発生時にバックトレースを出力するようになります。

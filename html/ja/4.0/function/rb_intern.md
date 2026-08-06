@@ -1,0 +1,5 @@
+# rb_intern
+
+### ID rb_intern(const char *name)
+
+任意の char* と一対一に対応する整数 ID を返す。

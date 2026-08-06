@@ -1,0 +1,9 @@
+# Vector#independent?
+
+### def independent?(*vectors) -> bool
+
+`self` とベクトルの列 `vectors` が線形独立であれば `true` を返し、そうでなければ `false` を返します。
+
+`Vector.independent?(self, *vectors)` と同じです。
+
+- **param** `vectors` -- 線形独立性を判定するベクトル列

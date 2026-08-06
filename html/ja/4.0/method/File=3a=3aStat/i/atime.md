@@ -1,0 +1,14 @@
+# File::Stat#atime
+
+### def atime -> Time
+
+最終アクセス時刻を返します。
+
+```ruby
+fs = File::Stat.new($0)
+#例
+p fs.atime.to_a  #=> [45, 5, 21, 5, 9, 2007, 3, 248, false, "\223\214\213\236 (\225W\217\200\216\236) "]
+```
+
+
+- **SEE** [Time](../../../class/Time.md)

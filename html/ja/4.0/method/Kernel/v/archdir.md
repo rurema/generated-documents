@@ -1,0 +1,6 @@
+# Kernel$archdir
+
+### gvar $archdir -> String
+
+マシン固有のライブラリを置くディレクトリです。
+通常は "/usr/local/lib/ruby/バージョン/arch" です。

@@ -1,0 +1,11 @@
+# GDBM#cachesize=
+
+### def cachesize=(size)
+
+内部のキャッシュのサイズを指定します。
+
+詳しくは [man:gdbm(3)] の GDBM_CACHESIZE の項を参照ください。
+
+- **param** `size` -- 新しい内部のキャッシュサイズ。
+
+- **SEE** [man:gdbm(3)]

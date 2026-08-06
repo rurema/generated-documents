@@ -1,0 +1,3 @@
+# readonly_setter
+
+### static void readonly_setter(VALUE val, ID id, void *var)

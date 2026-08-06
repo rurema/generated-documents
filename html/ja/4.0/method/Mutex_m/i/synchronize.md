@@ -1,0 +1,8 @@
+# Mutex_m#synchronize
+
+### def mu_synchronize{ ... } -> object
+### def synchronize{ ... } -> object
+
+self のロックを取得し、ブロックを実行します。実行後に必ずロックを解放します。
+
+ブロックで最後に評価した値を返します。

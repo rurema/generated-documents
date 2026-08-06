@@ -1,0 +1,42 @@
+# BigDecimal#round
+
+### def round    -> Integer
+### def round(n) -> BigDecimal
+### def round(n, b) -> BigDecimal
+
+クラスメソッド [BigDecimal.mode](../../../method/BigDecimal/s/mode.md)([BigDecimal::ROUND_MODE](../../../method/BigDecimal/c/ROUND_MODE.md),flag) で指定した
+[BigDecimal::ROUND_MODE](../../../method/BigDecimal/c/ROUND_MODE.md) に従って丸め操作を実行します。
+
+- **param** `n` -- 小数点以下の桁数を整数で指定します。
+
+- **param** `b` -- 丸め処理の方式として、[BigDecimal.mode](../../../method/BigDecimal/s/mode.md) の第 1 引数と同じ
+         値を指定します。
+
+[BigDecimal.mode](../../../method/BigDecimal/s/mode.md)([BigDecimal::ROUND_MODE](../../../method/BigDecimal/c/ROUND_MODE.md),flag) で何も指定せず、かつ、引数を指定しない場合は「小数点以下第一位の数を四捨五入して整数(BigDecimal 値)」にします。
+
+```ruby
+require "bigdecimal"
+p BigDecimal("1.23456").round # => 1
+p BigDecimal("-1.23456").round  # => -1
+```
+
+以下のように引数を与えて、小数点以下 n+1 位の数字を操作することもできます。
+n が正の時は、小数点以下 n+1 位の数字を丸めます(小数点以下を、最大 n 桁にします)。
+n が負のときは小数点以上 n 桁目を丸めます(小数点位置から左に少なくとも n 個の 0 が並びます)。
+
+```ruby
+require "bigdecimal"
+p BigDecimal("1.23456").round(4).to_f  # => 1.2346
+p BigDecimal("15.23456").round(-1).to_f  # => 20.0
+```
+
+2番目の引数を指定すると、[BigDecimal.mode](../../../method/BigDecimal/s/mode.md) の指定を無視して、指定された方法で丸め操作を実行します。
+
+```ruby
+require "bigdecimal"
+p BigDecimal("1.23456").round(3,BigDecimal::ROUND_HALF_EVEN).to_f # => 1.235
+require "bigdecimal"
+p BigDecimal("1.23356").round(3,BigDecimal::ROUND_HALF_EVEN).to_f # => 1.234
+```
+
+- **SEE** [BigDecimal.mode](../../../method/BigDecimal/s/mode.md)

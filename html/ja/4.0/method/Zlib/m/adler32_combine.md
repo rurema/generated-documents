@@ -1,0 +1,11 @@
+# Zlib?.adler32_combine
+
+### module_function def adler32_combine(adler1, adler2, length) -> Integer
+
+与えられた二つの Adler-32 チェックサムを一つにつなげます。
+
+- **param** `adler1` -- Adler-32 チェックサムを指定します。
+
+- **param** `adler2` -- Adler-32 チェックサムを指定します。
+
+- **param** `length` -- adler2 を生成するのに使用した文字列の長さを指定します。

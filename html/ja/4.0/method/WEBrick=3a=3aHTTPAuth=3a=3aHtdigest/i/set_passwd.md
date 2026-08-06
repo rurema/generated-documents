@@ -1,0 +1,10 @@
+# WEBrick::HTTPAuth::Htdigest#set_passwd
+
+### def set_passwd(realm, user, pass)
+与えられた情報をもとに、パスワードをハッシュ化して保存します。
+
+- **param** `realm` -- レルムを指定します。
+
+- **param** `user` -- ユーザ名を指定します。
+
+- **param** `pass` -- パスワードを指定します。

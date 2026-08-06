@@ -1,0 +1,3 @@
+# rb_thread_join
+
+### static int rb_thread_join(rb_thread_t th, double limit)

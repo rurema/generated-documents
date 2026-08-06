@@ -1,0 +1,8 @@
+# WEBrick::HTTPServlet::FileHandler.add_handler
+
+### def WEBrick::HTTPServlet::FileHandler.add_handler(suffix, handler)
+与えられた拡張子のファイルを処理するためのサーブレットを登録します。
+
+- **param** `suffix` -- 拡張子を指定します。
+
+- **param** `handler` -- サーブレットを指定します。

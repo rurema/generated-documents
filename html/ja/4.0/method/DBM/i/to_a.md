@@ -1,0 +1,15 @@
+# DBM#to_a
+
+### def to_a -> [Array]
+
+キーと値のペアを配列に変換して返します。
+
+```ruby
+require 'dbm'
+  
+db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
+db1[:a] = 'aaa'
+db1[:b] = 'bbbbbb'
+
+p db1.to_a #=> [["b", "bbbbbb"], ["a", "aaa"]]
+```

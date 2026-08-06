@@ -1,0 +1,18 @@
+# Process?.waitall
+
+### module_function def waitall    -> [[Integer, Process::Status]]
+
+全ての子プロセスが終了するのを待ちます。
+終了した子プロセスの pid と終了ステータス
+([Process::Status](../../../class/Process=3a=3aStatus.md)) の配列の配列を返します。
+子プロセスがいない状態でこのメソッドを呼び出すと空の配列を返します。
+
+[m:$?] には最後に終了した子プロセスの [Process::Status](../../../class/Process=3a=3aStatus.md) オブジェクトが設定されます。
+
+```ruby
+2.times {|n|
+  Process.fork() { exit n }
+}
+p Process.waitall
+#=> [[2766, #<Process::Status: pid=2766,exited(1)>], [2765, #<Process::Status: pid=2765,exited(1)>]]
+```

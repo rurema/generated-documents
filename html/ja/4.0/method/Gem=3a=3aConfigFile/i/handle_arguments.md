@@ -1,0 +1,7 @@
+# Gem::ConfigFile#handle_arguments
+
+### def handle_arguments(arg_list)
+
+コマンドに渡された引数を処理します。
+
+- **param** `arg_list` -- コマンドに渡された引数の配列を指定します。

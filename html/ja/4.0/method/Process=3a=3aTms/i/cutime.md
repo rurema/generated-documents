@@ -1,0 +1,7 @@
+# Process::Tms#cutime
+
+### def cutime -> Float
+
+終了した子プロセスのユーザー CPU 時間の合計(秒)を返します。
+
+Windows 上では常に 0 を返します。

@@ -1,0 +1,3 @@
+# rb_gc_mark_global_tbl
+
+### void rb_gc_mark_global_tbl(void)

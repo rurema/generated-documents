@@ -1,0 +1,6 @@
+# WEBrick::BasicLog#fatal?
+
+### def fatal?    -> bool
+
+自身のログレベルが FATAL 以上の時に true を返します。
+そうでない場合に false を返します。

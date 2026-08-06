@@ -1,0 +1,6 @@
+# st_init_numtable_with_size
+
+### st_table * st_init_numtable_with_size(int size)
+
+キーが int 型であるハッシュテーブルを作成する。
+st_init_table() に int 用の操作関数を渡しているだけ。

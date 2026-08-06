@@ -1,0 +1,9 @@
+# Fiddle?.malloc
+
+### module_function def malloc(size)    -> Integer
+
+size バイトのメモリ領域を確保し、その領域を指す整数を返します。
+
+メモリを確保できなかった場合、例外 NoMemoryError が発生するか、あるいは ruby インタプリタが強制終了します。
+
+- **param** `size` -- 必要なメモリ領域のサイズを整数で指定します。

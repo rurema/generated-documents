@@ -1,0 +1,9 @@
+# Net::IMAP::Address#route
+
+### def route -> String | nil
+
+メールアドレスの SMTP at-domain-list を返します。
+
+存在しない場合は nil を返します。
+
+通常は nil を返します。

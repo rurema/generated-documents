@@ -1,0 +1,11 @@
+# GC::Profiler.total_time
+
+### def GC::Profiler.total_time -> Float
+
+GC のプロファイル情報から GC の総計時間を計算し、msec 単位で返します。
+
+```ruby title="例"
+GC::Profiler.enable
+GC.start
+p GC::Profiler.total_time # => 0.0011530000000000012
+```

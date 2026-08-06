@@ -1,0 +1,8 @@
+# OpenSSL::PKey::EC::Group#eql?
+
+### def ==(other) -> bool
+### def eql?(other) -> bool
+
+自身が other と等しいときは true を返します。
+
+- **param** `other` -- 比較対象の [OpenSSL::PKey::EC::Group](../../../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aGroup.md) オブジェクト

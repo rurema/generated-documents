@@ -1,0 +1,90 @@
+# Regexp#match
+
+### def match(str, pos = 0) -> MatchData | nil
+### def match(str, pos = 0) {|m| ... } -> object | nil
+
+指定された文字列 str に対して位置 pos から自身が表す正規表現によるマッチングを行います。マッチした場合には結果を MatchData オブジェクトで返します。
+マッチしなかった場合 nil を返します。
+
+省略可能な第二引数 pos を指定すると、マッチの開始位置を pos から行うよう制御できます(pos のデフォルト値は 0)。
+
+```ruby title="例"
+p(/(.).(.)/.match("foobar", 3).captures)   # => ["b", "r"]
+p(/(.).(.)/.match("foobar", -3).captures)  # => ["b", "r"]
+```
+
+pos を指定しても [MatchData#offset](../../../method/MatchData/i/offset.md) 等の結果には影響しません。つまり、
+
+```ruby
+re.match(str[pos..-1])
+```
+
+と
+
+```ruby
+re.match(str, pos)
+```
+
+は異なります。
+
+ブロックを渡すと、マッチした場合に限り MatchData オブジェクトがブロック引数に渡されて実行されます。
+マッチした場合はブロックの値を返し、マッチしなかった場合は nil を返します。
+
+```ruby title="例"
+results = []
+p /((.)\2)/.match("foo") {|m| results << m[0] } # => ["oo"]
+p /((.)\2)/.match("bar") {|m| results << m[0] } # => nil
+p results # => ["oo"]
+```
+
+- **param** `str` -- 文字列を指定します。str との正規表現マッチを行います。
+
+- **param** `pos` -- 整数を指定します。マッチの開始位置を pos から行うよう制御できます(pos のデフォルト値は 0)。
+
+```ruby title="例"
+reg = Regexp.new("foo")
+
+if reg.match("foobar")
+  puts "match"
+end
+# => match
+
+p reg.match("foobar") # => #<MatchData "foo">
+p reg.match("bar")    # => nil
+
+p /(foo)(bar)(baz)/.match("foobarbaz").to_a.values_at(1,2,3) # => ["foo", "bar", "baz"]
+```
+
+### 便利な使いかた
+
+正規表現にマッチした部分文字列だけが必要な場合に、
+
+```ruby
+bar = /foo(.*)baz/.match("foobarbaz").to_a[1]
+
+foo, bar, baz = /(foo)(bar)(baz)/.match("foobarbaz").to_a.values_at(1,2,3)
+```
+
+のように使用できます。(to_a は、マッチに失敗した場合を考慮しています。)
+
+多重代入の規則では右辺が配列でない一つのオブジェクトで to_a
+メソッドを持つ場合、右辺に * を付けることで to_a の結果を利用できます。つまり、上記は以下のように書くことができます。(ここでの
+`_` は、[m:$&] を捨てるために適当に選んだ変数名)
+
+```ruby title="例"
+_, foo, bar, baz = */(foo)(bar)(baz)/.match("foobarbaz")
+p [foo, bar, baz]
+
+# => ["foo", "bar", "baz"]
+```
+
+このような用途に [MatchData#captures](../../../method/MatchData/i/captures.md) が使えると考えるかも知れませんが、captures では、マッチに失敗した場合、
+nil.captures を呼び出そうとして例外 [NoMethodError](../../../class/NoMethodError.md) が発生してしまいます。
+
+```ruby title="例"
+foo, bar, baz = /(foo)(bar)(baz)/.match("foobar").captures
+
+# => -:1: undefined method 'captures' for nil:NilClass (NoMethodError)
+```
+
+- **SEE** [Regexp#match?](../../../method/Regexp/i/match=3f.md)

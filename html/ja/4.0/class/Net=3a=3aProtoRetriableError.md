@@ -1,0 +1,3 @@
+# class Net::ProtoRetriableError < Net::ProtocolError
+
+なんらかの再試行をすることで、処理の継続が可能であるようなエラーが発生した場合に発生する例外です。

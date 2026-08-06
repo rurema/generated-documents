@@ -1,0 +1,6 @@
+# st_init_strtable_with_size
+
+### st_table * st_init_strtable_with_size(int size)
+
+キーが char* 型であるハッシュテーブルを作成する。
+[st_init_table](../function/st_init_table.md) に文字列用の操作関数を渡しているだけ。

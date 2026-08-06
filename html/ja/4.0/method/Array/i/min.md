@@ -1,0 +1,49 @@
+# Array#min
+
+### def min    -> object | nil
+{: since=""}
+### def min(n) -> Array
+{: since=""}
+
+最小の要素、もしくは最小の n 要素が昇順で入った配列を返します。
+全要素が互いに <=> メソッドで比較できることを仮定しています。
+
+引数を指定しない形式では要素が存在しなければ nil を返します。
+引数を指定する形式では、空の配列を返します。
+
+```ruby title="例"
+p [].min         #=> nil
+p [].min(1)      #=> []
+p [2, 5, 3].min  #=> 2
+p [2, 5, 3].min(2) #=> [2, 3]
+```
+
+- **param** `n` -- 取得する要素数。
+
+- **SEE** [Enumerable#min](../../../method/Enumerable/i/min.md)
+
+### def min {|a, b| ... }    -> object | nil
+{: since=""}
+### def min(n) {|a, b| ... } -> Array
+{: since=""}
+
+ブロックの評価結果で各要素の大小判定を行い、最小の要素、もしくは最小の
+n 要素が昇順で入った配列を返します。
+引数を指定しない形式では要素が存在しなければ nil を返します。
+引数を指定する形式では、空の配列を返します。
+
+ブロックの値は、a > b のとき正、a == b のとき 0、
+a < b のとき負の整数を、期待しています。
+
+```ruby title="例"
+p [].min {|a, b| a <=> b }  #=> nil
+p [].min(1) {|a, b| a <=> b } #=> []
+
+ary = %w(albatross dog horse)
+p ary.min {|a, b| a.length <=> b.length }  #=> "dog"
+p ary.min(2) {|a, b| a.length <=> b.length } #=> ["dog", "horse"]
+```
+
+- **param** `n` -- 取得する要素数。
+
+- **SEE** [Enumerable#min](../../../method/Enumerable/i/min.md)

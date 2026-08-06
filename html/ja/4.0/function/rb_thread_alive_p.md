@@ -1,0 +1,3 @@
+# rb_thread_alive_p
+
+### static VALUE rb_thread_alive_p(VALUE thread)

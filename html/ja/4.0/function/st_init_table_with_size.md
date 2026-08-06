@@ -1,0 +1,6 @@
+# st_init_table_with_size
+
+### st_table * st_init_table_with_size(struct st_hash_type *type, int size)
+
+st_table を作成する。_with_size はサイズを指定して生成する。
+struct st_hash_type はハッシュ値を得る関数と、同値判定を行う関数を持つ。

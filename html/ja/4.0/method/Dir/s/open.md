@@ -1,0 +1,53 @@
+# Dir.open
+
+### def Dir.new(path)                                                      -> Dir
+### def Dir.new(path, encoding: Encoding.find("filesystem"))               -> Dir
+### def Dir.open(path)                                                     -> Dir
+### def Dir.open(path, encoding: Encoding.find("filesystem"))              -> Dir
+### def Dir.open(path) {|dir| ...}                                         -> object
+### def Dir.open(path, encoding: Encoding.find("filesystem")) {|dir| ...}  -> object
+
+path に対するディレクトリストリームをオープンして返します。
+
+ブロックを指定して呼び出した場合は、ディレクトリストリームを引数としてブロックを実行します。ブロックの実行が終了すると、ディレクトリは自動的にクローズされます。
+ブロックの実行結果を返します。
+
+- **param** `path` -- ディレクトリのパスを文字列で指定します。
+
+- **param** `encoding` -- ディレクトリのエンコーディングを文字列か
+                [Encoding](../../../class/Encoding.md) オブジェクトで指定します。省略した場合は
+                ファイルシステムのエンコーディングと同じになります。
+
+- **raise** `Errno::EXXX` -- オープンに失敗した場合に発生します。
+
+```ruby title="例: Dir.new"
+require 'tmpdir'
+
+Dir.mktmpdir do |tmpdir|
+  d = Dir.new(tmpdir)
+  p d.class         # => Dir
+  p d.read.encoding # => #<Encoding:UTF-8>
+  d.close
+
+  d = Dir.new(tmpdir, encoding: Encoding::UTF_8)
+  p d.class         # => Dir
+  p d.read.encoding # => #<Encoding:UTF-8>
+  d.close
+end
+```
+
+```ruby title="例: Dir.open"
+require 'tmpdir'
+
+Dir.mktmpdir do |tmpdir|
+  d = Dir.open(tmpdir, encoding: Encoding::UTF_8)
+  p d.class         # => Dir
+  p d.read.encoding # => #<Encoding:UTF-8>
+  d.close
+
+  Dir.open(tmpdir, encoding: Encoding::UTF_8) do |d|
+    p d.class         # => Dir
+    p d.read.encoding # => #<Encoding:UTF-8>
+  end
+end
+```

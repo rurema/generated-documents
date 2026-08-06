@@ -1,0 +1,9 @@
+# Net::FTP#site
+
+### def site(arg) -> nil
+
+SITE コマンドを発行します。
+
+- **param** `arg` -- SITEコマンドのパラメータを指定します。
+
+- **raise** `Net::FTPReplyError` -- 応答コードが上の場合以外でエラーである場合に発生します。

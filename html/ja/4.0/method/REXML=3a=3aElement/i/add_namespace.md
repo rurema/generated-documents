@@ -1,0 +1,25 @@
+# REXML::Element#add_namespace
+
+### def add_namespace(prefix, uri) -> self
+### def add_namespace(uri)
+
+名前空間を要素に追加します。
+
+引数が2個の場合は prefix と uri を指定します。
+引数が1個の場合はデフォルトの namespace の uri を指定します。
+
+既に同じ prefix が存在する場合はそれが上書きされます。
+
+- **param** `prefix` -- 名前空間の prefix
+- **param** `uri` -- 名前空間の uri
+
+```ruby
+require 'rexml/document'
+a = REXML::Element.new("a")
+a.add_namespace("xmlns:foo", "bar" )
+a.add_namespace("foo", "bar")  # 上と同じ意味
+a.add_namespace("twiddle")
+p a.to_s # => "<a xmlns:foo='bar' xmlns='twiddle'/>"
+a.add_namespace("foo", "baz")
+p a.to_s # => "<a xmlns:foo='baz' xmlns='twiddle'/>"
+```

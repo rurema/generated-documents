@@ -1,0 +1,8 @@
+# OpenSSL::X509::Store#add_path
+
+### def add_path(path) -> self
+
+path が指し示すディレクトリに含まれる証明書ファイルを信頼する証明書として加えます。
+
+- **param** `path` -- 証明書が含まれるディレクトリのパス
+- **raise** `OpenSSL::X509::StoreError` -- 追加に失敗した場合に発生します

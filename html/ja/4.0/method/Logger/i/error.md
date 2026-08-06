@@ -1,0 +1,28 @@
+# Logger#error
+
+### def error(progname = nil){ ... } -> true
+### def error(progname = nil) -> true
+
+ERROR 情報を出力します。
+
+ブロックを与えなかった場合は、progname をメッセージとしてログを出力します。
+
+ブロックを与えた場合は、ブロックを評価した結果をメッセージとしてログを出力します。
+
+引数とブロックを同時に与えた場合は、progname をプログラム名、ブロックを評価した結果をメッセージとしてログを出力します。
+
+- **param** `progname` -- ブロックを与えない場合は、メッセージとして文字列または例外オブジェクトを指定します。
+                ブロックを与えた場合は、プログラム名を文字列として与えます。
+
+```ruby title="例"
+require 'logger'
+
+logger = Logger.new(STDOUT)
+p logger.error("error1") # => E, [2019-03-15T22:54:37.925635 #14878] ERROR -- : error1
+p logger.error("MainApp") { "error2" } # => E, [2019-03-16T03:50:58.062094 #2172] ERROR -- MainApp: error2
+logger.level = Logger::Severity::FATAL
+# 出力されない
+logger.error("error3")
+```
+
+- **SEE** [Logger#debug](../../../method/Logger/i/debug.md)

@@ -1,0 +1,13 @@
+# WEBrick::HTTPStatus?.reason_phrase
+
+### module_function def reason_phrase(code)     -> String
+
+指定された整数が表すステータスコードに対応する reason phrase
+を表す文字列を返します。
+
+- **param** `code` -- HTTP のステータスコードを表す整数か文字列を指定します。
+
+```ruby
+require 'webrick'
+p WEBrick::HTTPStatus.reason_phrase(304)   #=> "Not Modified"
+```

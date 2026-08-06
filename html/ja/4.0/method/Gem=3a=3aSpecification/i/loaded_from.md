@@ -1,0 +1,7 @@
+# Gem::Specification#loaded_from
+
+### def loaded_from -> String
+
+この Gem パッケージの gemspec がある場所を返します。
+
+この属性は永続化されません。

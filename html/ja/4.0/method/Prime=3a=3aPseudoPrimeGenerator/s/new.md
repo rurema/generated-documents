@@ -1,0 +1,7 @@
+# Prime::PseudoPrimeGenerator.new
+
+### def Prime::PseudoPrimeGenerator.new(upper_bound = nil) -> Prime::PseudoPrimeGenerator
+
+自身を初期化します。
+
+- **param** `upper_bound` -- 列挙する素数の上界を指定します。

@@ -1,0 +1,3 @@
+# class OpenSSL::PKey::ECError < OpenSSL::PKey::PKeyError
+
+楕円曲線暗号関連のエラーが生じた場合に発生する例外です。

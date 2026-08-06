@@ -1,0 +1,9 @@
+# RDoc::Text#markup
+
+### def markup(text) -> String
+
+引数を整形します。
+
+include したクラスに self#formatter メソッドが必要です。
+
+- **param** `text` -- 文字列を指定します。

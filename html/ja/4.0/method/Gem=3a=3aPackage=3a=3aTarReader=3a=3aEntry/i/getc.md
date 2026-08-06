@@ -1,0 +1,6 @@
+# Gem::Package::TarReader::Entry#getc
+
+### def getc -> String | nil
+
+自身から外部エンコーディングに従い 1 文字読み込んで返します。
+EOF に到達した時には nil を返します。

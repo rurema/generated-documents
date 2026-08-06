@@ -1,0 +1,10 @@
+# OpenSSL::Random?.random_add
+
+### module_function def random_add(str, entropy) -> self
+
+乱数生成器にエントロピーを追加します。
+
+entropy には str が持っているエントロピーの予測値(の下限)をバイト単位で渡します。
+
+- **param** `str` -- 予測不可能な内容の文字列
+- **param** `entropy` -- str が持っているエントロピーの予測値(バイト単位)の浮動小数点数

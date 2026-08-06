@@ -1,0 +1,18 @@
+# Net::HTTPHeader#chunked?
+
+### def chunked? -> bool
+
+Transfer-Encoding: ヘッダフィールドが "chunked" である場合に真を返します。
+
+Transfer-Encoding: ヘッダフィールドが存在しなかったり、
+"chunked" 以外である場合には偽を返します。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+p req.chunked? # => false
+req["Transfer-Encoding"] = "chunked"
+p req.chunked? # => true
+```

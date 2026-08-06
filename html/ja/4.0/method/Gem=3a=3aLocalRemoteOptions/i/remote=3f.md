@@ -1,0 +1,6 @@
+# Gem::LocalRemoteOptions#remote?
+
+### def remote? -> bool
+
+リモートの情報を取得する場合は真を返します。
+そうでない場合は偽を返します。

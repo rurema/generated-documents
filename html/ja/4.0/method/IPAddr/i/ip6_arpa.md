@@ -1,0 +1,6 @@
+# IPAddr#ip6_arpa
+
+### def ip6_arpa -> String
+
+IPv6 なら [RFC:3172] で定義された形式で DNS 逆引きのための文字列を返します。
+IPv4 の場合は例外を発生します。

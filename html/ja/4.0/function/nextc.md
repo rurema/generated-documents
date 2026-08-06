@@ -1,0 +1,6 @@
+# nextc
+
+### static int nextc(void)
+
+入力から次の一文字を読み込みます。
+CR LF に対して LF を、EOF に対して -1 を返します。

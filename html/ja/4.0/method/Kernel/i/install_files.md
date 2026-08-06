@@ -1,0 +1,14 @@
+# Kernel#install_files
+
+### def install_files(mfile, ifiles, map = nil, srcprefix = nil) -> []
+
+このメソッドは create_makefile, install_rb が使用します。
+内部用のメソッドです。
+
+- **param** `mfile` -- Makefile を表す [File](../../../class/File.md) のインスタンスです。
+
+- **param** `ifiles` -- インストールするファイルのリストを指定します。
+
+- **param** `map` -- ???
+
+- **param** `srcprefix` -- ソースディレクトリを指定します。

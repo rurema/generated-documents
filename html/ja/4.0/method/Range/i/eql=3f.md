@@ -1,0 +1,14 @@
+# Range#eql?
+
+### def eql?(other)   -> bool
+
+指定された other が Range クラスのインスタンスであり、始端と終端が eql? メソッドで比較して等しく、[Range#exclude_end?](../../../method/Range/i/exclude_end=3f.md) が同じ場合に
+true を返します。そうでない場合に false を返します。
+
+- **param** `other` -- 自身と比較したいオブジェクトを指定します。
+
+```ruby title="例"
+p (1..2).eql?(1..2)                 # => true
+p (1..2).eql?(1...2)                # => false
+p (1..2).eql?(Range.new(1.0, 2.0))  # => false
+```

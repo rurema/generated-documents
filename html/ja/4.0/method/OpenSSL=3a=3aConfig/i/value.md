@@ -1,0 +1,14 @@
+# OpenSSL::Config#value
+
+### def value(name) -> String | nil
+### def value(section, name) -> String | nil
+
+このメソッドは obsolete です。
+
+オブジェクトが持っている設定情報を返します。
+
+引数が一つの場合はグローバルセクションの情報を返し、
+2つの場合は section で指定したセクションの情報を返します。
+
+- **param** `section` -- セクションを表す文字列
+- **param** `name` -- キーを表す文字列

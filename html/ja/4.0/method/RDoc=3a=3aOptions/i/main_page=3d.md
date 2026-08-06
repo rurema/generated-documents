@@ -1,0 +1,7 @@
+# RDoc::Options#main_page=
+
+### def main_page=(val)
+
+コマンドライン引数の --main オプションと同様の指定を行います。
+
+- **param** `val` -- 設定するファイル名、クラス/モジュール名を文字列で指定します。

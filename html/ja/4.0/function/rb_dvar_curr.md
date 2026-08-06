@@ -1,0 +1,5 @@
+# rb_dvar_curr
+
+### VALUE rb_dvar_curr(ID id)
+
+現在のブロックローカル変数スコープで id を参照します。

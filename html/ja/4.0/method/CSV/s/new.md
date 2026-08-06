@@ -1,0 +1,126 @@
+# CSV.new
+
+### def CSV.new(data, options = Hash.new) -> CSV
+
+このメソッドは CSV ファイルを読み込んだり、書き出したりするために
+[String](../../../class/String.md) か [IO](../../../class/IO.md) のインスタンスをラップします。
+
+ラップされた文字列の先頭から読み込むことになります。
+文字列に追記したい場合は [CSV.generate](../../../method/CSV/s/generate.md) を使用してください。
+他の位置から処理したい場合はあらかじめそのように設定した [StringIO](../../../class/StringIO.md) を渡してください。
+
+- **param** `data` -- [String](../../../class/String.md) か [IO](../../../class/IO.md) のインスタンスを指定します。
+            [String](../../../class/String.md) のインスタンスを指定した場合、[CSV#string](../../../method/CSV/i/string.md) を使用して
+            後からデータを取り出すことが出来ます。
+
+- **param** `options` -- CSV をパースするためのオプションをハッシュで指定します。
+               パフォーマンス上の理由でインスタンスメソッドではオプションを上書きすることが
+               出来ないので、上書きしたい場合は必ずここで上書きするようにしてください。
+
+- **`:col_sep`**:
+  フィールドの区切り文字列を指定します。この文字列はパースする前にデータの
+  エンコーディングに変換されます。
+- **`:row_sep`**:
+  行区切りの文字列を指定します。:auto という特別な値をセットできます。
+  :auto を指定した場合データから自動的に行区切りの文字列を見つけ出します。このとき
+  データの先頭から次の "\r\n", "\n", "\r" の並びまでを読みます。
+  A sequence will be selected even if it occurs in a quoted field, assuming that you
+  would have the same line endings there.  If none of those sequences is
+  found, +data+ is [ARGF](../../../class/ARGF.md), [Object::STDIN](../../../method/Object/c/STDIN.md), [Object::STDOUT](../../../method/Object/c/STDOUT.md), or
+  [Object::STDERR](../../../method/Object/c/STDERR.md), or the stream is only  available for output, the default
+  [m:$INPUT_RECORD_SEPARATOR]  ([m:$/]) is used.  Obviously,
+  discovery takes a little time.  Set  manually if speed is important.  Also
+  note that IO objects should be opened  in binary mode on Windows if this
+  feature will be used as the  line-ending translation can cause
+  problems with resetting the document  position to where it was before the
+  read ahead. This String will be  transcoded into the data's Encoding  before parsing.
+- **`:quote_char`**:
+  フィールドをクオートする文字を指定します。長さ 1 の文字列でなければなりません。
+  正しいダブルクオートではなく間違ったシングルクオートを使用しているアプリケーション
+  で便利です。
+  CSV will always consider a double  sequence this character to be an
+  escaped quote.
+  この文字列はパースする前にデータのエンコーディングに変換されます。
+- **`:field_size_limit`**:
+  This is a maximum size CSV will read  ahead looking for the closing quote
+  for a field.  (In truth, it reads to  the first line ending beyond this
+  size.)  If a quote cannot be found  within the limit CSV will raise a
+  MalformedCSVError, assuming the data  is faulty.  You can use this limit to
+  prevent what are effectively DoS  attacks on the parser.  However, this
+  limit can cause a legitimate parse to  fail and thus is set to +nil+, or off,
+  by default.
+- **`:converters`**:
+  [CSV::Converters](../../../method/CSV/c/Converters.md) から取り出した名前の配列です。変換器が一つだけ
+  の場合は配列に格納する必要はありません。
+  全ての組み込みの変換器は、値を変換する前に UTF-8 にエンコーディング変
+  換を試みます。エンコーディング変換に失敗した場合はフィールドは変換さ
+  れません。
+- **`:unconverted_fields`**:
+  真をセットすると `CSV::Row#unconverted_fields` という変換前のフィー
+  ルドを返すメソッドを全ての行に追加します。headers オプションによって
+  追加したヘッダはフィールドではないので
+  `CSV::Row#unconverted_fields` は空の配列を返します。
+- **`:headers`**:
+  :first_row というシンボルか真を指定すると、CSV ファイルの一行目をヘッダとして扱います。
+  配列を指定するとそれをヘッダとして扱います。文字列を指定すると [CSV.parse_line](../../../method/CSV/s/parse_line.md) を
+  使用してパースした結果をヘッダとして扱います。このとき、:col_sep, :row_sep, :quote_char
+  はこのインスタンスと同じものを使用します。この設定は [CSV#shift](../../../method/CSV/i/shift.md)
+  の返り値を配列のかわりに [CSV::Row](../../../class/CSV=3a=3aRow.md) のインスタンスに変更します。
+  [CSV#read](../../../method/CSV/i/read.md) の返り値を配列の配列のかわりに [CSV::Table](../../../class/CSV=3a=3aTable.md) のイン
+  スタンスに変更します。
+- **`:return_headers`**:
+  偽を指定すると、ヘッダ行を無視します。真を指定すると、ヘッダ行を
+  ヘッダと値が同一の [CSV::Row](../../../class/CSV=3a=3aRow.md) のインスタンスとして返します。
+- **`:write_headers`**:
+  真を指定して :headers にも値をセットすると、ヘッダを出力します。
+- **`:header_converters`**:
+  :converters オプションに似ていますが、ヘッダ専用の変換器を定義します。
+  全ての組み込みの変換器は、値を変換する前に UTF-8 にエンコーディング変
+  換を試みます。エンコーディング変換に失敗した場合はヘッダは変換されま
+  せん。
+- **`:skip_blanks`**:
+  真を指定すると、空行を読み飛ばします。
+- **`:force_quotes`**:
+  真を指定すると、全てのフィールドを作成時にクオートします。
+- **`:skip_lines`**:
+  指定した正規表現にマッチしたそれぞれの行をコメントとして読み飛ばします。
+
+- **raise** `CSV::MalformedCSVError` -- 不正な CSV をパースしようとしたときに発生します。
+
+```ruby title="例: ファイルの読み込み"
+require "csv"
+
+users =<<-EOS
+id,first name,last name,age
+1,taro,tanaka,20
+2,jiro,suzuki,18
+3,ami,sato,19
+4,yumi,adachi,21
+EOS
+
+File.write("test.csv", users)
+
+File.open("test.csv", "r") do |f|
+  csv = CSV.new(f, headers: true)
+  p csv.class # => CSV
+  p csv.first # => #<CSV::Row "id":"1" "first name":"taro" "last name":"tanaka" "age":"20">
+end
+```
+
+```ruby title="例 文字列の読み込み"
+require "csv"
+
+users =<<-EOS
+id|first name|last name|age
+1|taro|tanaka|20
+2|jiro|suzuki|18
+3|ami|sato|19
+4|yumi|adachi|21
+EOS
+
+csv = CSV.new(users, headers: true, col_sep: "|")
+p csv.class # => CSV
+p csv.first # => #<CSV::Row "id":"1" "first name":"taro" "last name":"tanaka" "age":"20">
+```
+
+- **SEE** [CSV::DEFAULT_OPTIONS](../../../method/CSV/c/DEFAULT_OPTIONS.md), [CSV.open](../../../method/CSV/s/open.md)

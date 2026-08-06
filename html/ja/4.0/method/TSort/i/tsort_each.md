@@ -1,0 +1,39 @@
+# TSort#tsort_each
+
+### def tsort_each {|node| ...} -> nil
+### def tsort_each -> Enumerator
+
+[TSort#tsort](../../../method/TSort/i/tsort.md) メソッドのイテレータ版です。
+obj.tsort_each は obj.tsort.each と似ていますが、ブロックの評価中に obj が変更された場合は予期しない結果になることがあります。
+
+tsort_each は nil を返します。
+閉路が存在するとき、例外 [TSort::Cyclic](../../../class/TSort=3a=3aCyclic.md) を起こします。
+
+- **raise** `TSort::Cyclic` -- 閉路が存在するとき、発生します.
+
+```ruby title="使用例"
+require 'tsort'
+
+class Hash
+  include TSort
+  alias tsort_each_node each_key
+  def tsort_each_child(node, &block)
+    fetch(node).each(&block)
+  end
+end
+
+non_sort = {1=>[2, 3], 2=>[3], 3=>[], 4=>[]}
+
+non_sort.tsort_each {|node|
+  non_sort.tsort_each_child(node){|child|
+    printf("%d -> %d\n", node, child)
+  }
+}
+
+# 出力
+#=> 2 -> 3
+#=> 1 -> 2
+#=> 1 -> 3
+```
+
+- **SEE** [TSort.tsort_each](../../../method/TSort/s/tsort_each.md)

@@ -1,0 +1,5 @@
+# rb_const_defined
+
+### int rb_const_defined(VALUE klass, ID id)
+
+klass とそのスーパークラスに定数 id が定義されていれば真。

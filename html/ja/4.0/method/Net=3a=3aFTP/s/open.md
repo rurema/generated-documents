@@ -1,0 +1,26 @@
+# Net::FTP.open
+
+### def Net::FTP.open(host, user = nil, passwd = nil, acct = nil) -> Net::FTP
+### def Net::FTP.open(host, user = nil, passwd = nil, acct = nil){|ftp| ... } -> object
+
+新しい Net::FTP インスタンスを生成します。
+
+[Net::FTP.new](../../../method/Net=3a=3aFTP/s/new.md) と異なり host を省略できません。
+
+ブロックを与えた場合には、生成したインスタンスをブロックに渡して呼びだします。この場合、ブロック終了時に
+[Net::FTP#close](../../../method/Net=3a=3aFTP/i/close.md) を呼びだし、ブロックの値を返します。
+
+ブロックを与えなかった場合には生成したインスタンスを返します。
+
+user が指定された場合は [Net::FTP#login](../../../method/Net=3a=3aFTP/i/login.md) 
+を呼び出します。
+
+- **param** `host` -- 接続するホストを指定します。
+- **param** `user` -- ログインに使うユーザ名を指定します。
+- **param** `passwd` -- ログインに使うパスワードを指定します。
+- **param** `acct` -- ログイン後に送る ACCT コマンドのパラメータを指定します。
+
+- **raise** `Net::FTPTempError` -- 応答コードが 4yz のときに発生します。
+- **raise** `Net::FTPPermError` -- 応答コードが 5yz のときに発生します。
+- **raise** `Net::FTPProtoError` -- 応答コードが RFC 的に正しくない場合に発生します。
+- **raise** `Net::FTPReplyError` -- 応答コードが上の場合以外で正しくない場合(1xy, 3xyが来るべきでないときに来た場合など)に発生します。

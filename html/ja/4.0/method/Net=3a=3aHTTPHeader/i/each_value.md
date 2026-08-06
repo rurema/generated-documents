@@ -1,0 +1,19 @@
+# Net::HTTPHeader#each_value
+
+### def each_value {|value| .... } -> ()
+
+保持しているヘッダの値をブロックに渡し、呼びだします。
+
+渡される文字列は ", " で連結したものです。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+req.each_value { |value| puts value }
+
+# => gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+# => */*
+# => Ruby
+```

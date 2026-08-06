@@ -1,0 +1,14 @@
+# Thread#inspect
+
+### def inspect -> String
+### def to_s -> String
+{: since=""}
+
+自身を人間が読める形式に変換した文字列を返します。
+
+```ruby title="例"
+a = Thread.current
+p a.inspect # => "#<Thread:0x00007fdbaf07ddb0 run>"
+b = Thread.new{}
+p b.inspect # => "#<Thread:0x00007fdbaf8f7d10 (irb):3 dead>"
+```

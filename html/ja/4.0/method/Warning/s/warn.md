@@ -1,0 +1,27 @@
+# Warning.warn
+
+### def Warning.warn(message, category: nil) -> nil
+
+引数 message を標準エラー出力 [m:$stderr] に出力します。
+
+本メソッドはRubyが出力する全ての警告に対して呼び出されます。
+そのため本メソッドをオーバーライドすることで Ruby から出力される警告の動作を変更できます。
+またオーバーライドしたメソッドからは super を呼び出すことで、デフォルトの動作である [m:$stderr] への出力ができます。
+
+```ruby
+module Warning
+  # 警告メッセージに category を表示し、message 末尾に !!! を追加する
+  def self.warn(message, category: nil)
+    super("#{category} warning : #{message.chomp}!!!\n")
+  end
+end
+
+warn("hoge", category: :deprecated)
+# => deprecated warning : hoge!!!
+```
+
+- **param** `message` -- 出力するオブジェクトを指定します。
+
+- **param** `category` -- 警告のカテゴリを指定します。サポートされている category については [Warning.\[\]](../../../method/Warning/s/=5b=5d.md) を参照してください。
+
+- **SEE** [Kernel?.warn](../../../method/Kernel/m/warn.md), [Warning#warn](../../../method/Warning/i/warn.md)

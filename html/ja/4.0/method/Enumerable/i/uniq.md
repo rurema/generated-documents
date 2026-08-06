@@ -1,0 +1,23 @@
+# Enumerable#uniq
+
+### def uniq                -> Array
+### def uniq { |item| ... } -> Array
+
+self から重複した値を取り除いた配列を返します。
+
+ブロックが与えられた場合、ブロックが返した値が重複した要素を取り除いた配列を返します。
+
+```ruby title="例"
+olympics = {
+  1896 => 'Athens',
+  1900 => 'Paris',
+  1904 => 'Chicago',
+  1906 => 'Athens',
+  1908 => 'Rome',
+}
+p olympics.uniq{|k,v| v} # => [[1896, "Athens"], [1900, "Paris"], [1904, "Chicago"], [1908, "Rome"]]
+
+p (1..100).uniq{|x| (x**2) % 10 } # => [1, 2, 3, 4, 5, 10]
+```
+
+- **SEE** [Array#uniq](../../../method/Array/i/uniq.md)

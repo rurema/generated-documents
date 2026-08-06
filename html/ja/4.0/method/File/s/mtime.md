@@ -1,0 +1,13 @@
+# File.mtime
+
+### def File.mtime(filename)    -> Time
+
+最終更新時刻を返します。
+
+- **param** `filename` -- ファイル名を表す文字列か IO オブジェクトを指定します。
+
+- **raise** `Errno::EXXX` -- ファイルの時刻の取得に失敗した場合に発生します。
+
+```ruby title="例"
+p File.mtime(__FILE__) # => 2017-12-03 03:16:22 +0900
+```

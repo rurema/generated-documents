@@ -1,0 +1,5 @@
+# DATA_PTR
+
+### void * DATA_PTR(VALUE dta)
+
+実際は struct RData* 型である dta から、それがラップしているポインタを取り出します。

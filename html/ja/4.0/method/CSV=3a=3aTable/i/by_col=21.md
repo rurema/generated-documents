@@ -1,0 +1,20 @@
+# CSV::Table#by_col!
+
+### def by_col! -> self
+
+自身をカラムモードに変更します。
+
+再びモードが変更されるまで、いくつかのメソッドはカラム単位で動きます。
+
+- **return** -- 必ず自身を返すので安全にメソッドチェーンできます。
+
+```ruby title="例"
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+table = CSV::Table.new([row1, row2])
+table.by_col!
+p table[0] # => ["row1_1", "row2_1"]
+p table[1] # => ["row1_2", "row2_2"]
+```

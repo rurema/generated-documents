@@ -1,0 +1,8 @@
+# Gem::DigestAdapter#hexdigest
+
+### def hexdigest(string) -> String
+@todo
+
+与えられた文字列のヘックスダイジェストを返します。
+
+- **param** `string` -- ダイジェストを取得したい文字列を指定します。

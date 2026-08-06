@@ -1,0 +1,5 @@
+# CHR2FIX
+
+### VALUE CHR2FIX(char x)
+
+char 型の整数 x を Ruby の Fixnum に変換します。

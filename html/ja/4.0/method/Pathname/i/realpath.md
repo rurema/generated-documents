@@ -1,0 +1,35 @@
+# Pathname#realpath
+
+### def realpath(basedir = nil) -> Pathname
+### def realpath -> Pathname
+
+余計な "."、".." や "/" を取り除いた新しい Pathname オブジェクトを返します。
+
+また、ファイルシステムをアクセスし、実際に存在するパスを返します。
+シンボリックリンクも解決されます。
+
+self が指すパスが存在しない場合は例外 [Errno::ENOENT](../../../class/Errno=3a=3aENOENT.md) が発生します。
+
+- **param** `basedir` -- ベースディレクトリを指定します。省略するとカレントディレクトリになります。
+
+```ruby title="例"
+require 'pathname'
+
+Dir.rmdir("/tmp/foo")      rescue nil
+File.unlink("/tmp/bar/foo") rescue nil
+Dir.rmdir("/tmp/bar")      rescue nil
+
+Dir.mkdir("/tmp/foo")
+Dir.mkdir("/tmp/bar")
+File.symlink("../foo", "/tmp/bar/foo")
+path = Pathname.new("bar/././//foo/../bar")
+
+Dir.chdir("/tmp")
+
+p path.realpath
+
+# => ruby 1.8.0 (2003-10-10) [i586-linux]
+#    #<Pathname:/tmp/bar>
+```
+
+- **SEE** [Pathname#realdirpath](../../../method/Pathname/i/realdirpath.md), [File.realpath](../../../method/File/s/realpath.md)

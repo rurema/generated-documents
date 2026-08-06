@@ -1,0 +1,5 @@
+# rb_gc_mark_maybe
+
+### void rb_gc_mark_maybe(VALUE v)
+
+v が Ruby のオブジェクトであればマークします。

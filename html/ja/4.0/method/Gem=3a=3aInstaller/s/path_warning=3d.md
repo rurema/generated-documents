@@ -1,0 +1,8 @@
+# Gem::Installer.path_warning=
+
+### def Gem::Installer.path_warning=(flag)
+
+Gem.bindir が PATH に含まれていない場合に警告を表示するかどうかセットします。
+
+- **param** `flag` -- 真を指定すると、Gem.bindir が PATH に含まれていない場合に警
+            告を表示するようになります。

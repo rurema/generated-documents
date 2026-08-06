@@ -1,0 +1,7 @@
+# Float::EPSILON
+
+### const EPSILON -> Float
+
+`1.0 + Float::EPSILON != 1.0` となる最小の正の値です。
+
+通常はデフォルトで 2.2204460492503131e-16 です。

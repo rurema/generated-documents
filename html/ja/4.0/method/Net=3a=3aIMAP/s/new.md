@@ -1,0 +1,37 @@
+# Net::IMAP.new
+
+### def Net::IMAP.new(host, port = 143, usessl = false, certs = nil, verify = true) -> Net::IMAP
+### def Net::IMAP.new(host, options) -> Net::IMAP
+
+新たな Net::IMAP オブジェクトを生成し、指定したホストの指定したポートに接続し、接続語の IMAP オブジェクトを返します。
+
+usessl が真ならば、サーバに繋ぐのに SSL/TLS を用います。
+SSL/TLS での接続には OpenSSL と [openssl](../../../library/openssl.md) が使える必要があります。
+certs は利用する証明書のファイル名もしくは証明書があるディレクトリ名を文字列で渡します。
+certs に nil を渡すと、OpenSSL のデフォルトの証明書を使います。
+verify は接続先を検証するかを真偽値で設定します。
+真が [OpenSSL::SSL::VERIFY_PEER](../../../method/OpenSSL=3a=3aSSL/c/VERIFY_PEER.md) に、偽が [OpenSSL::SSL::VERIFY_NONE](../../../method/OpenSSL=3a=3aSSL/c/VERIFY_NONE.md) に対応します。
+
+パラメータは Hash で渡すこともできます。以下のキーを使うことができます。
+  - :port ポート番号
+    省略時は SSL/TLS 使用時→993 不使用時→143 となります。
+  - :ssl OpenSSL に渡すパラメータをハッシュで指定します。
+    省略時は SSL/TLS を使わず接続します。
+    これで渡せるパラメータは
+    [OpenSSL::SSL::SSLContext#set_params](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.md) と同じです。
+これの :ssl パラメータを使うことで、OpenSSL のパラメータを詳細に調整できます。
+
+```ruby title="例"
+require 'net/imap'
+
+imap = Net::IMAP.new('imap.example.com', :port => 993,
+                     :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_PEER,
+                               :timeout => 600 } )
+```
+
+- **param** `host` -- 接続するホスト名の文字列
+- **param** `port` -- 接続するポート番号
+- **param** `usessl` -- 真でSSL/TLSを使う
+- **param** `certs` -- 証明書のファイル名/ディレクトリ名の文字列
+- **param** `verify` -- 真で接続先を検証する
+- **param** `options` -- 各種接続パラメータのハッシュ

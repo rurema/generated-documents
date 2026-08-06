@@ -1,0 +1,35 @@
+# MatchData#bytebegin
+
+### def bytebegin(n) -> Integer | nil
+### def bytebegin(name) -> Integer | nil
+
+`n` 番目の部分文字列先頭のバイトオフセットを返します。
+
+`0` はマッチ全体を意味します。
+`n` 番目の部分文字列がマッチしていなければ `nil` を返します。
+
+引数に文字列またはシンボルを渡した場合は、対応する名前付きキャプチャの先頭のバイトオフセットを返します。
+
+- **param** `n` -- 部分文字列を指定する数値。
+- **param** `name` -- 名前付きキャプチャを指定する文字列またはシンボル。
+
+- **raise** `IndexError` -- 範囲外の `n` を指定した場合に発生します。
+- **raise** `IndexError` -- 正規表現中で定義されていない `name` を指定した場合に発生します。
+
+```ruby title="例"
+/(c).*(いう).*(e.*)/ =~ 'abcあいうdef'
+p $~              # => #<MatchData "cあいうdef" 1:"c" 2:"いう" 3:"ef">
+p $~.bytebegin(0) # => 2
+p $~.bytebegin(1) # => 2
+p $~.bytebegin(2) # => 6
+p $~.bytebegin(3) # => 13
+p $~.bytebegin(4) # ~> IndexError: index 4 out of matches
+```
+
+```ruby title="シンボルを指定する例"
+/(?<key>\S+):\s*(?<value>\S+)/ =~ "name: ruby"
+p $~                   # => #<MatchData "name: ruby" key:"name" value:"ruby">
+p $~.bytebegin(:key)   # => 0
+p $~.bytebegin(:value) # => 6
+$~.bytebegin(:foo)     # ~> IndexError: undefined group name reference: foo
+```

@@ -1,0 +1,7 @@
+# URI::LDAP#attributes=
+
+### def attributes=(s)
+
+自身の Attribute を文字列で設定します。
+
+- **param** `s` -- 自身の Attribute を文字列で設定します。

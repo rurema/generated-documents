@@ -1,0 +1,51 @@
+# Range#overlap?
+
+### def overlap?(range) -> bool
+
+self と range に重なりがある場合は true を、そうでない場合は false を返します。
+
+- **param** `range` -- self と重なりがあるかどうかを調べたい Range オブジェクトを指定します。
+
+- **raise** `TypeError` -- 引数に Range でないオブジェクトを指定した場合に発生します。
+
+- **SEE** [Range#cover?](../../../method/Range/i/cover=3f.md)
+
+```ruby title="例"
+p (0..2).overlap?(1..3)  #=> true
+p (0..2).overlap?(3..4)  #=> false
+p (0..).overlap?(..0)  #=> true
+p (0..).overlap?(...0) #=> false
+```
+
+self の端点と range の端点が比較可能でない（<=> メソッドが nil を返す）場合、false を返します。
+
+```ruby title="比較可能でない例"
+p (1..3).overlap?('a'..'d') #=> false
+```
+
+self または range が空である場合、false を返します。
+
+ここで、Range が空であるとは、
+
+- 始端が終端より大きい
+- [Range#exclude_end?](../../../method/Range/i/exclude_end=3f.md) が true であり、始端と終端が等しい
+
+のいずれかを満たすことをいいます。
+
+```ruby title="Range が空である例"
+p (0..2).overlap?(1...1) #=> false
+p (1...1).overlap?(0..2) #=> false
+p (0..2).overlap?(2..0)  #=> false
+```
+
+なお、上記の意味において空であることと、その Range オブジェクトが表す範囲に含まれるオブジェクトが存在しないこととは、同値ではないことに注意してください。
+
+例えば、[Float](../../../class/Float.md) クラスにおいては -Float::INFINITY が最小値であり、-Float::INFINITY より小さい値は存在しません。
+従って、...-Float::INFINITY という Range オブジェクトが表す範囲に含まれるオブジェクトは存在しません。
+
+しかしながら、overlap? メソッドでは、...-Float::INFINITY は上記の「空である」条件を満たさないため、「空ではない」とみなされます。
+そのため、...-Float::INFINITY は ...-Float::INFINITY 自身と重なりがあると判定されます。
+
+```ruby title="例"
+p (...-Float::INFINITY).overlap?(...-Float::INFINITY) #=> true
+```

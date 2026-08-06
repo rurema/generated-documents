@@ -1,0 +1,20 @@
+# Set#delete?
+
+### def delete(o) -> self
+### def delete?(o) -> self | nil
+
+集合からオブジェクト o を削除します。
+
+delete は常に self を返します。
+
+delete? は、集合の要素が削除された場合には self を、変化がなかった場合には nil を返します。
+
+- **param** `o` -- 削除対象のオブジェクトを指定します。
+
+```ruby
+s = Set[10, 20, 30]
+s.delete(10)
+p s              # => Set[20, 30]
+p s.delete?(20)  # => Set[30]
+p s.delete?(10)  # => nil
+```

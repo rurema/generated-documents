@@ -1,0 +1,23 @@
+# Thread#native_thread_id
+
+### def native_thread_id -> Integer | nil
+
+self に対応するネイティブスレッドの ID を返します。
+
+ID は OS に依存します(pthread_self(3) が返す POSIX スレッド ID とは異なります)。
+
+  * Linux では gettid(2) が返す TID です。
+  * macOS では pthread_threadid_np(3) が返すシステム全体で一意な整数の ID です。
+  * FreeBSD では pthread_getthreadid_np(3) が返すスレッド固有の整数の ID です。
+  * Windows では GetThreadId() が返すスレッド識別子です。
+  * その他のプラットフォームでは [NotImplementedError](../../../class/NotImplementedError.md) が発生します。
+
+スレッドがまだネイティブスレッドと結びついていない場合や、すでに切り離された場合は nil を返します。
+
+```ruby title="例"
+p Thread.current.native_thread_id.class # => Integer
+
+thr = Thread.new {}
+thr.join
+p thr.native_thread_id                  # => nil
+```

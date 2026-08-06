@@ -1,0 +1,27 @@
+# String#append_as_bytes
+
+### def append_as_bytes(*objects) -> self
+
+引数で与えたオブジェクトをバイト列として、self に破壊的に連結します。
+
+このメソッドはエンコーディングの検査や変換を一切行いません。
+
+引数が整数である場合は、その数をバイトの値とみなして連結します。
+その数が1バイトの範囲を越える場合は、最下位のバイトのみを使用します。
+
+```ruby title="例"
+s = "あ".b                # => "\xE3\x81\x82"
+p s.encoding              # => #<Encoding:BINARY (ASCII-8BIT)>
+p s.append_as_bytes("い") # => "\xE3\x81\x82\xE3\x81\x84"
+
+# s << "い" では連結できない
+s << "い" # => "incompatible character encodings: BINARY (ASCII-8BIT) and UTF-8 (Encoding::CompatibilityError)
+```
+
+```ruby title="引数で整数を渡す例"
+t = ""
+p t.append_as_bytes(0x61) # => "a"
+p t.append_as_bytes(0x3062) # => "ab"
+```
+
+- **SEE** [String#<<](../../../method/String/i/=3c=3c.md), [String#concat](../../../method/String/i/concat.md)

@@ -1,0 +1,14 @@
+# Process::GID?.from_name
+
+### module_function def from_name(name) -> Integer
+
+引数で指定した名前の実グループ ID を返します。
+
+```ruby
+p Process::GID.from_name("wheel") # => 0
+Process::GID.from_name("nosuchgroup") # => can't find group for nosuchgroup (ArgumentError)
+```
+
+- **param** `name` -- グループ名を指定します。
+
+- **raise** `ArgumentError` -- 引数で指定したグループが存在しない場合に発生します。

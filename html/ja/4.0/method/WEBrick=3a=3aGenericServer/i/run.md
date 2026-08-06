@@ -1,0 +1,8 @@
+# WEBrick::GenericServer#run
+
+### def run(sock)    -> ()
+
+クライアントと接続された TCPSocket オブジェクトを引数として呼ばれ、具体的な処理を行います。
+WEBrick::GenericServer のサブクラスはこのメソッドを適切に再定義しなければいけません。
+
+- **param** `sock` -- クライアントと接続された TCPSocket オブジェクトを指定します。

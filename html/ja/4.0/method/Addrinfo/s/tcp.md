@@ -1,0 +1,15 @@
+# Addrinfo.tcp
+
+### def Addrinfo.tcp(host, port) -> Addrinfo
+
+TCP アドレスに対する Addrinfo オブジェクトを返します。
+
+```ruby
+require 'socket'
+
+p Addrinfo.tcp("localhost", "smtp")
+#=> #<Addrinfo: 127.0.0.1:25 TCP (localhost:smtp)>
+```
+
+- **param** `host` -- ホスト(IP アドレスもしくはホスト名)
+- **param** `port` -- ポート番号(整数)もしくはサービス名(文字列)

@@ -1,0 +1,7 @@
+# OptionParser::ParseError#reason
+
+### def reason -> String
+
+エラーの内容を文字列で返します。
+
+- **return** -- 文字列を返します。

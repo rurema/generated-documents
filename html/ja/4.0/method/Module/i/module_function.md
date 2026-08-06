@@ -1,0 +1,56 @@
+# Module#module_function
+
+### def module_function() -> nil
+### def module_function(name) -> String | Symbol
+### def module_function(*name) -> Array
+
+メソッドをモジュール関数にします。
+
+引数が与えられた時には、引数で指定されたメソッドをモジュール関数にします。
+引数なしのときは今後このモジュール定義文内で新しく定義されるメソッドをすべてモジュール関数にします。
+
+モジュール関数とは、プライベートメソッドであると同時にモジュールの特異メソッドでもあるようなメソッドです。
+例えば [Math](../../../class/Math.md) モジュールのメソッドはすべてモジュール関数です。
+
+単一の引数が与えられた時には与えられた引数をそのまま返します。
+複数の引数が与えられた時には配列にまとめて返します。
+引数なしの時は nil を返します。
+
+- **param** `name` -- [String](../../../class/String.md) または [Symbol](../../../class/Symbol.md) を 0 個以上指定します。
+
+### 注意
+
+module_function はメソッドに「モジュール関数」という属性をつけるメソッドではなく、プライベートメソッドとモジュールの特異メソッドの 2
+つを同時に定義するメソッドです。
+そのため、以下のように書いてもモジュール関数の別名は定義できません。
+
+```ruby title="例"
+module M
+  def foo
+    p "foo"
+  end
+  module_function :foo
+  alias bar foo
+end
+
+p M.foo # => "foo"
+M.bar   # => undefined method 'bar' for module M (NoMethodError)
+```
+
+このコードでは、モジュール関数 foo とプライベートインスタンスメソッド bar を定義してしまいます。
+
+正しくモジュール関数に別名を付けるには、以下のように、先に別名を定義してからそれぞれをモジュール関数にしなければいけません。
+
+```ruby title="例"
+module M
+  def foo
+    p "foo"
+  end
+
+  alias bar foo
+  module_function :foo, :bar
+end
+
+p M.foo # => "foo"
+p M.bar # => "foo"
+```

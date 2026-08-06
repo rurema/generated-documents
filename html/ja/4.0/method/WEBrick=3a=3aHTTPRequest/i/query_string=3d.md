@@ -1,0 +1,8 @@
+# WEBrick::HTTPRequest#query_string=
+
+### def query_string=(value)
+
+リクエスト URI のクエリーを文字列で表すアクセサです。
+デフォルトは request_uri.query です。
+
+- **param** `value` -- クエリーを表す文字列を指定します。

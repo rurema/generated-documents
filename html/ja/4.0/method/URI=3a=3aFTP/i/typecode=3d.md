@@ -1,0 +1,9 @@
+# URI::FTP#typecode=
+
+### def typecode=(t)
+
+ファイル転送のタイプを文字列で指定します。
+
+- **param** `t` -- ファイル転送のタイプを文字列で指定します。"a" はテキスト、"i" はバイナリ、"d" はディレクトリを表します。
+
+- **raise** `URI::InvalidComponentError` -- 不正な引数 s に対して発生します。

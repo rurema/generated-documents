@@ -1,0 +1,6 @@
+# Date::JULIAN
+
+### const JULIAN -> Date::Infinity
+
+常にユリウス暦であることを示します。
+改暦日は無限の未来にあると考えられます。

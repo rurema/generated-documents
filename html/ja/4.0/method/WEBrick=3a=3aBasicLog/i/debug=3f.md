@@ -1,0 +1,6 @@
+# WEBrick::BasicLog#debug?
+
+### def debug?    -> bool
+
+自身のログレベルが DEBUG 以上の時に true を返します。
+そうでない場合に false を返します。

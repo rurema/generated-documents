@@ -1,0 +1,15 @@
+# File::Stat#ctime
+
+### def ctime -> Time
+
+最終状態変更時刻を返します。
+(状態の変更とは chmod などによるもので、Unix では i-node の変更を意味します)
+
+```ruby
+fs = File::Stat.new($0)
+#例
+p fs.ctime.to_f   #=> 1188719843.0
+```
+
+
+- **SEE** [Time](../../../class/Time.md)

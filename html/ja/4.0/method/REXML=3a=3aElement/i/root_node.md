@@ -1,0 +1,27 @@
+# REXML::Element#root_node
+
+### def root_node -> REXML::Document | REXML::Node
+
+self が属する文書のルートノードを返します。
+
+通常はその要素が属する文書([REXML::Document](../../../class/REXML=3a=3aDocument.md)) オブジェクトが返されます。
+
+その要素が属する [REXML::Document](../../../class/REXML=3a=3aDocument.md) オブジェクトが存在しない場合は木構造上のルートノードが返されます。
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new(<<EOS)
+<root>
+<children>
+  <grandchildren />
+</children>
+</root>
+EOS
+
+children = doc.get_elements("/root/children").first
+p children.name # => "children"
+p children.root_node == doc # => true
+grandchildren = doc.get_elements("/root/children/grandchildren").first
+p grandchildren.name # => "grandchildren"
+p grandchildren.root_node == doc # => true
+```

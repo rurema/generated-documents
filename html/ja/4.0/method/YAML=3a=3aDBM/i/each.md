@@ -1,0 +1,8 @@
+# YAML::DBM#each
+
+### def each                        -> YAML::DBM
+### def each_pair {|key, val| ... } -> YAML::DBM
+
+自身のキーと値を引数としてブロックを評価します。
+
+自身を返します。

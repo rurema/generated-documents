@@ -1,0 +1,6 @@
+# lex_getline
+
+### static VALUE lex_getline(void)
+
+関数 lex_gets を使って lex_input から
+Ruby プログラムを一行読みこみます。

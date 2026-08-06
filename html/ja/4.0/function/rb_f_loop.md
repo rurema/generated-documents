@@ -1,0 +1,5 @@
+# rb_f_loop
+
+### static VALUE rb_f_loop(void)
+
+loop の実体。永遠に yield を繰り返します。

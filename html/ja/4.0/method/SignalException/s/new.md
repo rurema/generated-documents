@@ -1,0 +1,29 @@
+# SignalException.new
+
+### def SignalException.new(sig_number)           -> SignalException
+### def SignalException.new(sig_name)             -> SignalException
+### def SignalException.new(sig_number, sig_name) -> SignalException
+
+引数で指定したシグナルに関する SignalException オブジェクトを生成して返します。
+
+引数は [Signal?.list](../../../method/Signal/m/list.md) に含まれるもののいずれかを指定する必要があります。
+
+- **param** `sig_name` -- シグナル名を [Symbol](../../../class/Symbol.md) オブジェクト、文字列のいずれ
+                かで指定します。
+
+- **param** `sig_number` -- シグナル番号を指定します。整数以外のオブジェクトを指
+                  定した場合は to_int メソッドによる暗黙の型変換を試み
+                  ます。
+
+```ruby title="例"
+signal_number = Signal.list["INT"]
+se = SignalException.new(signal_number) # => #<SignalException: SIGINT>
+p se.signo # => 2
+```
+
+```ruby title="例"
+se = SignalException.new("INT") # => #<SignalException: SIGINT>
+p se.signm # => "SIGINT"
+```
+
+- **SEE** [Signal?.list](../../../method/Signal/m/list.md)

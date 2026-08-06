@@ -1,0 +1,6 @@
+# special_local_set
+
+### static void special_local_set(char c, VALUE val)
+
+$~ と $_ をセットします。
+現在は c=0 が $_ で c=1 が $~ です。

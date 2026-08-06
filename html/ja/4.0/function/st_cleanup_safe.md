@@ -1,0 +1,5 @@
+# st_cleanup_safe
+
+### void st_cleanup_safe(st_table *table, char *never)
+
+never と同じ値を持つエントリーを削除する。

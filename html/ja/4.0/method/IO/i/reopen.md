@@ -1,0 +1,40 @@
+# IO#reopen
+
+### def reopen(io)                   -> self
+
+自身を指定された io に繋ぎ換えます。
+
+クラスも io に等しくなることに注意してください。
+[IO#pos](../../../method/IO/i/pos.md), [IO#lineno](../../../method/IO/i/lineno.md) などは指定された io と等しくなります。
+
+- **param** `io` -- 自身を繋ぎ換えたい IO オブジェクトを指定します。
+
+- **raise** `IOError` -- 指定された io が close されている場合に発生します。
+
+### def reopen(path)                 -> self
+### def reopen(path, mode)     -> self
+
+path で指定されたファイルにストリームを繋ぎ換えます。
+
+第二引数を省略したとき self のモードをそのまま引き継ぎます。
+[IO#pos](../../../method/IO/i/pos.md), [IO#lineno](../../../method/IO/i/lineno.md) などはリセットされます。
+
+- **param** `path` -- パスを表す文字列を指定します。
+
+- **param** `mode` -- パスを開く際のモードを文字列で指定します。
+
+- **raise** `Errno::EXXX` -- 失敗した場合に発生します。
+
+```ruby title="例"
+IO.write("testfile", "This is line one\nThis is line two\n")
+f1 = File.new("testfile", "a+")
+f2 = File.new("testfile")
+f1.print("This is line three\n")
+p f2.readlines              # => ["This is line one\n", "This is line two\n"]
+f1.close
+p f2.reopen("testfile", "r")  # => #<File:testfile>
+p f2.readlines              # => ["This is line one\n", "This is line two\n", "This is line three\n"]
+f2.close
+```
+
+- **SEE** [Kernel?.open](../../../method/Kernel/m/open.md)

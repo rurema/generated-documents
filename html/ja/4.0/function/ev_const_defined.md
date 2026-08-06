@@ -1,0 +1,5 @@
+# ev_const_defined
+
+### static VALUE ev_const_defined(NODE *cref, ID id, VALUE self)
+
+外のクラスが cref で self が self のとき、定数 id が定義されていたら真。

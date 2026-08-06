@@ -1,0 +1,5 @@
+# RDoc::Context#classes
+
+### def classes -> [RDoc::SingleClass | RDoc::NormalClass]
+
+追加されたクラスの配列を返します。

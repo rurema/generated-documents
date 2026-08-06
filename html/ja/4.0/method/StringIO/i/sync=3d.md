@@ -1,0 +1,7 @@
+# StringIO#sync=
+
+### def sync=(bool)
+
+何もせずに bool を返します。
+
+- **param** `bool` -- true か false を指定します。

@@ -1,0 +1,17 @@
+# File.symlink
+
+### def File.symlink(old, new)    -> 0
+
+old への new という名前のシンボリックリンクを生成します。
+
+シンボリックリンクの作成に成功すれば 0 を返します。失敗した場合は例外 [Errno::EXXX](../../../class/Errno=3a=3aEXXX.md) が発生します。
+
+- **param** `old` -- ファイル名を表す文字列を指定します。 
+
+- **param** `new` -- シンボリックリンクを表す文字列を指定します。 
+
+- **raise** `Errno::EXXX` -- 失敗した場合に発生します。
+
+```ruby title="例"
+p File.symlink("testfile", "testlink") # => 0
+```

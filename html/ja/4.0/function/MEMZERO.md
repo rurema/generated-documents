@@ -1,0 +1,5 @@
+# MEMZERO
+
+### void MEMZERO(p, type, n)
+
+type 型のメモリ領域 p をゼロクリアする。 n は要素数。

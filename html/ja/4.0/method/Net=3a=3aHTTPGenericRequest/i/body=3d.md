@@ -1,0 +1,17 @@
+# Net::HTTPGenericRequest#body=
+
+### def body=(body)
+
+サーバに送るリクエストのエンティティボディを文字列で設定します。
+
+- **param** `body` -- 設定するボディを文字列で与えます。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Post.new(uri.request_uri)
+req.body = "Test Post Data" # => "Test Post Data"
+```
+
+- **SEE** [Net::HTTPGenericRequest#body](../../../method/Net=3a=3aHTTPGenericRequest/i/body.md)

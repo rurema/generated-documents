@@ -1,0 +1,10 @@
+# Socket.getservbyname
+
+### def Socket.getservbyname(service, proto = "tcp") -> Integer
+
+service, protoに対応するポート番号を返します。protoの省略値は"tcp"です。
+
+- **param** `service` -- サービス名を文字列で指定します。例えば、"ftp", "telnet" が相当します。
+- **param** `proto` --  プロトコル名を文字列で指定します。省略値は"tcp" です。
+
+- **return** -- ポート番号を整数で返します。

@@ -1,0 +1,19 @@
+# StringScanner#skip_until
+
+### def skip_until(regexp) -> Integer | nil
+
+regexp が一致するまで文字列をスキャンします。
+マッチに成功したらスキャンポインタを進めて、スキャン開始位置からマッチ部分の末尾までの部分文字列の長さを返します。
+マッチに失敗したら nil を返します。
+
+- **param** `regexp` -- マッチに使用する正規表現を指定します。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('test string')
+p s.scan_until(/str/) # => 8
+p s.matched         # => "str"
+p s.pos             # => 8
+p s.pre_match       # => "test "
+```

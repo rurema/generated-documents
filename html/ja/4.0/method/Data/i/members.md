@@ -1,0 +1,12 @@
+# Data#members
+
+### def members -> [Symbol]
+
+値オブジェクトのメンバの名前([Symbol](../../../class/Symbol.md))の配列を返します。
+
+```ruby title="例"
+Foo = Data.define(:foo, :bar)
+p Foo.new(1, 2).members      # => [:foo, :bar]
+```
+
+[注意] 本メソッドの記述は Data のサブクラスのインスタンスに対して呼び出す事を想定しています。Data.define は Data のサブクラスを作成する点に注意してください。

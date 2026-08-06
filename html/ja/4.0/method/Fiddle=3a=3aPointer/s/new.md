@@ -1,0 +1,15 @@
+# Fiddle::Pointer.new
+
+### def Fiddle::Pointer.new(addr, size = 0, free = nil)   -> Fiddle::Pointer
+
+与えられた addr が指すメモリ領域を表す Pointer オブジェクトを生成して返します。
+
+size を指定した場合、アドレス addr に確保されているメモリ領域のサイズは
+size であると仮定されます。GC は free 関数を使用してメモリを解放します。
+
+- **param** `addr` -- 生成する Pointer オブジェクトが指すアドレスを整数で指定します。
+
+- **param** `size` -- 生成する Pointer オブジェクトが指すメモリ領域のサイズを整数で指定します。
+
+- **param** `free` -- GC 時に呼ばれる free 関数を [Fiddle::Function](../../../class/Fiddle=3a=3aFunction.md) オブジェクトか
+       整数で指定します。

@@ -1,0 +1,19 @@
+# StringScanner#skip
+
+### def skip(regexp) -> Integer | nil
+
+スキャンポインタの地点だけで regexp と文字列のマッチを試します。
+マッチしたらスキャンポインタを進めマッチした部分文字列の長さを返します。マッチしなかったら nil を返します。
+
+- **param** `regexp` -- マッチに使用する正規表現を指定します。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('test string')
+p s.skip(/\w+/)   #=> 4
+p s.skip(/\w+/)   #=> nil
+p s.skip(/\s+/)   #=> 1
+p s.skip(/\w+/)   #=> 6
+p s.skip(/./)     #=> nil
+```

@@ -1,0 +1,16 @@
+# Coverage.running?
+
+### def Coverage.running? -> bool
+
+カバレッジ測定中かどうかを返します。カバレッジの測定中とは、Coverage.start の呼び出し後から Coverage.result の呼び出し前です。
+
+```ruby
+require 'coverage'
+p Coverage.running?    #=> false
+Coverage.start
+p Coverage.running?    #=> true
+p Coverage.peek_result #=> {}
+p Coverage.running?    #=> true
+p Coverage.result      #=> {}
+p Coverage.running?    #=> false
+```

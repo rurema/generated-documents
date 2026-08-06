@@ -1,0 +1,5 @@
+# Addrinfo#ipv6_v4mapped?
+
+### def ipv6_v4mapped? -> bool
+
+IPv6 の v4にマップされたアドレス(::ffff:0:0/80)であれば真を返します。

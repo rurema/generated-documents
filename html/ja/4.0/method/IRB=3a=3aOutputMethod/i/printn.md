@@ -1,0 +1,7 @@
+# IRB::OutputMethod#printn
+
+### def printn(*objs) -> nil
+
+各 obj を self に出力し、最後に改行を出力します。
+
+- **param** `objs` -- 任意のオブジェクトを指定します。

@@ -1,0 +1,5 @@
+# rb_str_cat2
+
+### VALUE rb_str_cat2(VALUE str, const char *ptr)
+
+文字列 str に C の文字列 ptr を破壊的に連結します。ptr はヌル終端を仮定しています。

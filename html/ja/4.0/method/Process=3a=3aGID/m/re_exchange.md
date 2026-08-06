@@ -1,0 +1,17 @@
+# Process::GID?.re_exchange
+
+### module_function def re_exchange    -> Integer
+
+現在のプロセスの実グループ ID と実効グループ ID を入れ替えます。
+保存ユーザ ID は新しい実効ユーザ ID と同じになります。
+新しい実効グループ ID を返します。
+
+利用できるかはプラットフォームに依存します。
+
+- **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
+
+```ruby
+p [Process.gid, Process.egid] #=> [0, 33]
+p Process::GID.re_exchange    #=> 0
+p [Process.gid, Process.egid] #=> [33, 0]
+```

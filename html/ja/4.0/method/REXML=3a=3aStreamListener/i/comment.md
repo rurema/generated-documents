@@ -1,0 +1,7 @@
+# REXML::StreamListener#comment
+
+### def comment(comment) -> ()
+
+XML文書内のコメントをパースしたときに呼び出されるコールバックメソッドです。
+
+- **param** `comment` -- コメントの内容が文字列で渡されます

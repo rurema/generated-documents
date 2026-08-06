@@ -1,0 +1,43 @@
+# Enumerable#slice_after
+
+### def slice_after(pattern) -> Enumerator
+### def slice_after {|elt| bool } -> Enumerator
+
+パターンがマッチした要素、もしくはブロックが真を返した要素を末尾の要素としてチャンク化(グループ化)したものを繰り返す [Enumerator](../../../class/Enumerator.md) を 返します。
+
+パターンを渡した場合は各要素に対し === が呼び出され、 それが真になったところをチャンクの末尾と見なします。 ブロックを渡した場合は、各要素に対しブロックを適用し 返り値が真であった要素をチャンクの末尾と見なします。
+
+パターンもブロックも最初から最後の要素まで呼び出されます。
+
+各チャンクは配列として表現されます。そのため、以下のような呼び出しを行う事もできます。
+
+```ruby title="例"
+enum.slice_after(pattern).each { |ary|
+  # ...
+}
+enum.slice_after { |elt| bool }.each { |ary|
+  # ...
+}
+```
+
+```ruby title="例"
+# 偶数要素をチャンクの末尾と見なす
+p [0,2,4,1,2,4,5,3,1,4,2].slice_after(&:even?).to_a
+# => [[0], [2], [4], [1, 2], [4], [5, 3, 1, 4], [2]]
+
+# 奇数要素をチャンクの末尾と見なす
+p [0,2,4,1,2,4,5,3,1,4,2].slice_after(&:odd?).to_a
+# => [[0, 2, 4, 1], [2, 4, 5], [3], [1], [4, 2]]
+
+# バックスラッシュで終わる行を継続
+lines = ["foo\n", "bar\\\n", "baz\n", "\n", "qux\n"]
+e = lines.slice_after(/(?<!\\)\n\z/)
+p e.to_a
+#=> [["foo\n"], ["bar\\\n", "baz\n"], ["\n"], ["qux\n"]]
+p e.map {|ll| ll[0...-1].map {|l| l.sub(/\\\n\z/, "") }.join + ll.last }
+#=>["foo\n", "barbaz\n", "\n", "qux\n"]
+```
+
+[Enumerable#map](../../../method/Enumerable/i/map.md) のようなメソッドを使うこともできます。
+
+- **SEE** [Enumerable#chunk](../../../method/Enumerable/i/chunk.md), [Enumerable#slice_before](../../../method/Enumerable/i/slice_before.md)

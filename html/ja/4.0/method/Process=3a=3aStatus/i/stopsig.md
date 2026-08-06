@@ -1,0 +1,6 @@
+# Process::Status#stopsig
+
+### def stopsig    -> Integer | nil
+
+stopped? が真の場合そのシグナルの番号を、そうでない場合は
+nil を返します。

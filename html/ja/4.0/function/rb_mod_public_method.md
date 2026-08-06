@@ -1,0 +1,3 @@
+# rb_mod_public_method
+
+### static VALUE rb_mod_public_method(int argc, VALUE *argv, VALUE obj)

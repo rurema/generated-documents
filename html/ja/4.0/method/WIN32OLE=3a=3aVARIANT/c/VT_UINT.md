@@ -1,0 +1,7 @@
+# WIN32OLE::VARIANT::VT_UINT
+
+### const VT_UINT -> Integer
+
+符号なし整数（unsigned int）を示します（23）。
+
+OLEオートメーションでは利用できません。代わりにVT_I4を利用してください。

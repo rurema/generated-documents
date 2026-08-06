@@ -1,0 +1,6 @@
+# rb_iv_set
+
+### VALUE rb_iv_set(VALUE obj, char *name, VALUE val)
+
+オブジェクト obj のインスタンス変数 name に
+val を代入します。

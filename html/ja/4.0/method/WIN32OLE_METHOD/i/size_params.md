@@ -1,0 +1,14 @@
+# WIN32OLE_METHOD#size_params
+
+### def size_params -> Integer | nil
+
+パラメータ数を取得します。
+
+- **return** -- パラメータ数を整数で返します。メソッドの詳細情報を取得できない
+        場合はnilを返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Workbook')
+method = WIN32OLE_METHOD.new(tobj, 'SaveAs')
+puts method.size_params # => 12
+```

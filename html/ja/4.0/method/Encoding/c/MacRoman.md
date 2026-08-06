@@ -1,0 +1,13 @@
+# Encoding::MacRoman
+
+### const MacRoman -> Encoding
+### const MACROMAN -> Encoding
+
+MacRoman エンコーディング。
+
+Mac OSで使われる
+8bit single-byte エンコーディングで、西欧を中心としたラテン文字を用いる諸語を取り扱うためのものです。
+
+IANA character-sets で "macintosh" で表現されるものです。
+
+- **SEE** <https://en.wikipedia.org/wiki/Mac_OS_Roman>

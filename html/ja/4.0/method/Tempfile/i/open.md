@@ -1,0 +1,16 @@
+# Tempfile#open
+
+### def open -> self
+
+クローズしたテンポラリファイルを再オープンします。
+"r+" でオープンされるので、クローズ前の内容を再度読むことができます。
+
+```ruby
+require "tempfile"
+tf = Tempfile.new("foo")
+tf.print("foobar,hoge\n")
+tf.print("bar,ugo\n")
+tf.close
+tf.open
+p tf.gets # => "foobar,hoge\n"
+```

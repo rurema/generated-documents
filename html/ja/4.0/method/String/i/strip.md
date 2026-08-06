@@ -1,0 +1,45 @@
+# String#strip
+
+### def strip(*selectors) -> String
+
+文字列先頭と末尾の空白文字を全て取り除いた文字列を生成して返します。
+空白文字の定義は " \t\r\n\f\v\0" です。
+
+selectors を与えた場合、空白文字として selectors で指定された文字を取り除きます。
+
+selectors の形式は [man:tr(1)] と同じです。
+つまり、「"a-c"」は文字 a から c を意味し、「"^0-9"」のように文字列の先頭が「^」の場合は指定文字以外を意味します。
+
+文字「-」は文字列の両端にない場合にだけ範囲指定の意味になります。
+同様に、「^」も文字列の先頭にあるときだけ否定の効果を発揮します。
+また、「-」「^」「\」はバックスラッシュ (「\」) によりエスケープできます。
+
+引数を複数指定した場合は、すべての引数にマッチした文字だけを数えます。
+
+- **param** `selectors` --    取り除く文字。
+
+```ruby title="例"
+p "  abc  \r\n".strip    #=> "abc"
+p "abc\n".strip          #=> "abc"
+p "  abc".strip          #=> "abc"
+p "abc".strip            #=> "abc"
+p "  \0  abc  \0".strip  #=> "abc"
+
+str = "\tabc\n"
+p str.strip              #=> "abc"
+p str                    #=> "\tabc\n" (元の文字列は変化しない)
+```
+
+
+```ruby title="取り除く文字を指定"
+p "---abc+++".strip("-+") # => "abc"
+p "---abc+++".strip("+-") # => "abc"
+```
+
+```ruby title="範囲、否定、複数の指定"
+"01234abc56789".strip("0-9") # "abc"
+"01234abc56789".strip("0-9", "^4-6") # "4abc56"
+```
+
+
+- **SEE** [String#lstrip](../../../method/String/i/lstrip.md), [String#rstrip](../../../method/String/i/rstrip.md)

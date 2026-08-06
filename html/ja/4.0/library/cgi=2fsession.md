@@ -1,0 +1,185 @@
+# library cgi/session
+
+CGI のセッション管理を行うライブラリ。
+
+Ruby 4.0 から cgi ライブラリは default gems から削除されたため、このライブラリを利用するには cgi gem をインストールしてください。
+詳細は [cgi](../library/cgi.md) を参照してください。
+
+セッションとは、HTTP の一連のリクエストとレスポンスが属するべきコンテクスト (状況) のことをいいます。
+セッション管理には従来通り [cgi](../library/cgi.md) ライブラリが提供するクッキーを使用してもいいですが、この cgi/session を使用した方がよりわかりやすいでしょう。
+セッション情報は [Hash](../class/Hash.md) ライクなインターフェースです。
+
+セッションはセッション ID とプログラムが記録したセッション情報から構成されます。
+デフォルトでは [CGI::Session::FileStore](../class/CGI=3a=3aSession=3a=3aFileStore.md) が使用され、記録できるのは文字列のみです。
+
+セッション情報は [CGI::Session::FileStore](../class/CGI=3a=3aSession=3a=3aFileStore.md) か
+[CGI::Session::PStore](../class/CGI=3a=3aSession=3a=3aPStore.md) を使用した場合はサーバのローカルファイルに記録され、次回のリクエスト時に利用されます。
+デフォルトでは明示的に操作を行なわなくてもプログラム終了時にセッション情報はファイルに保存されます。
+セッション毎に新しいファイルが作成されます。
+
+クライアントにはセッション情報に対応するセッション ID をクッキーあるいは form の hidden input として渡すことになります。
+クッキーはデフォルトでは expires が指定されていないために、ブラウザを終了した時点で消滅します。
+
+### 使い方 (生成)
+
+```ruby
+require 'cgi/session'
+cgi = CGI.new
+session = CGI::Session.new(cgi)
+```
+
+[CGI::Session.new](../method/CGI=3a=3aSession/s/new.md) に [CGI](../class/CGI.md) オブジェクトを渡します。クライアントから渡されたセッション ID はクッキーかクエリーとして cgi に格納されているため、意識する必要はありません。
+
+### 使い方 (セッション情報を記録する)
+
+```ruby
+session['name'] = "value"
+```
+
+[CGI::Session](../class/CGI=3a=3aSession.md) オブジェクトは [Hash](../class/Hash.md) のようなもので、キーに対応する値を記録します。
+デフォルトではプログラム終了時にセッション情報はファイルに記録されます。
+
+### 使い方 (セッション情報を得る)
+
+```ruby
+name = session['name']
+```
+
+別な CGI でこのセッション情報を取り出すときは、このようにします。
+
+### 使い方 (ヘッダ出力)
+
+ヘッダ出力は [CGI#out](../method/CGI/i/out.md)、[CGI#header](../method/CGI/i/header.md) を使っている限り通常通りで構いません。
+cgi/session は内部的にクッキーを使用していますが、これらのメソッドが面倒を見てくれるので、意識をする必要はありません。
+
+### umask 値
+
+umask 値が 0022 ならばセッション情報ファイルのパーミッションが 644 になるので、任意のユーザがそのセッション情報ファイルを見ることができます。
+それが嫌な場合は CGI::Session オブジェクト生成前に umask 値を設定してください。
+
+セッション情報ファイルは 0600 で作成されるようになりました。
+
+### CGI::HtmlExtension#form の出力
+
+[CGI::Session.new](../method/CGI=3a=3aSession/s/new.md) 後の [CGI::HtmlExtension#form](../method/CGI=3a=3aHtmlExtension/i/form.md) は、セッション ID を埋め込んだ隠しフィールドを自動出力するようになります。
+[CGI::Session.new](../method/CGI=3a=3aSession/s/new.md) は、これによって生成されたフォームフィールド値を、セッション ID として自動認識します。
+
+[CGI::HtmlExtension#form](../method/CGI=3a=3aHtmlExtension/i/form.md) を使い、<INPUT TYPE="submit"> でページ遷移をするようにすれば、クッキーが使えない環境でのセッション維持に利用できます。
+
+```text
+#!/usr/bin/ruby
+require 'cgi'
+require 'cgi/session'
+
+cgi = CGI.new('html3')
+File.umask(0077)
+session = CGI::Session.new(cgi)
+cgi.out('charset'=>'euc-jp') {
+  html = cgi.html {
+    cgi.head { cgi.title {'Form Demo'} }
+    cgi.body {
+      cgi.form('action'=>"#{CGI.escapeHTML(cgi.script_name)}") {
+        cgi.p {
+          'あなたの名前は？' +
+          cgi.text_field('name') +
+          cgi.hidden('cmd', 'hello') +
+          cgi.submit('です。')
+        }
+      }
+    }
+  }
+  CGI.pretty(html)
+}
+#=>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+  <BODY>
+    <FORM METHOD="post" ENCTYPE="application/x-www-form-urlencoded" action="/sample.rb">
+      <P>
+        あなたの名前は？
+        <INPUT NAME="name" SIZE="40" TYPE="text">
+        <INPUT NAME="cmd" TYPE="hidden" VALUE="hello">
+        <INPUT TYPE="submit" VALUE="です。">
+      </P>
+      <INPUT TYPE="HIDDEN" NAME="_session_id" VALUE="bc315cc069266e21">    # これ
+    </FORM>
+  </BODY>
+</HTML>
+```
+
+### 使用例
+
+ただ名前を入力するとあいさつをするだけのつまらない CGI スクリプト。
+
+```ruby title="ソースコード"
+#!/usr/bin/ruby
+require 'kconv'
+require 'cgi'
+require 'cgi/session'
+  
+class SessionDemo
+  def initialize
+    @cgi = CGI.new
+    File.umask(0077)                                # セッションファイルは誰にも読まれたくないよ
+    @session = CGI::Session.new(@cgi)               # セッションはこうして生成する。
+    @cmd = "#{@cgi['cmd'].first}"                   # ruby 1.8 でも動くように(warning は出ます)
+    @cmd = 'start' if @cmd.empty?
+    @header = { "type" => "text/html", "charset" => "euc-jp" }
+      
+    __send__("cmd_#{@cmd}")
+  end
+    
+  def cmd_start
+    @cgi.out(@header) {
+      <<-END
+      <html><head><title>CGI::Session Demo</title></head>
+      <body>
+       <form action="#{CGI.escapeHTML(ENV['SCRIPT_NAME'])}" method="get">
+       <p>
+       あなたの名前は？
+       <input type="text" name="name">
+       <input type="hidden" name="cmd" value="hello">
+       <input type="submit" value="です。">
+       </p>
+       </form>
+      </body></html>
+      END
+    }
+  end
+    
+  def cmd_hello
+    name = Kconv.toeuc(@cgi['name'].first)
+    @session['name'] = name                         # セッションに記憶
+    @cgi.out(@header) {                             # セッション情報は隠れクッキーで保持されるため、CGI#outで出力
+      <<-END
+      <html><head><title>CGI::Session Demo</title></head>
+      <body>
+       <p>こんにちは、#{CGI.escapeHTML(name)}さん</p>
+       <p><a href="#{CGI.escapeHTML(ENV['SCRIPT_NAME'])}?cmd=bye">[次へ]</a></p>
+      </body></html>
+      END
+    }
+  end
+    
+  def cmd_bye
+    name = @session['name']                         # セッションデータから取り出し
+    @cgi.out(@header) {
+      <<-END
+      <html><head><title>CGI::Session Demo</title></head>
+      <body>
+       <p>#{CGI.escapeHTML(name)}さん、さようなら</p>
+       <p><a href="#{CGI.escapeHTML(ENV['SCRIPT_NAME'])}">[戻る]</a></p>
+      </body></html>
+      END
+    }
+  end
+end
+  
+SessionDemo.new
+```
+
+### 参考URL
+
+  - <http://www.shugo.net/article/webdb2/#label:13>
+  - <https://web.archive.org/web/20060220193743/http://www.modruby.net/doc/faq.ja.jis.html#label-13>
+  - <http://www.ruby-doc.org/stdlib/libdoc/cgi/rdoc/index.html>

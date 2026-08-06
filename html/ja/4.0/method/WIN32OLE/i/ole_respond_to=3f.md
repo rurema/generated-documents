@@ -1,0 +1,19 @@
+# WIN32OLE#ole_respond_to?
+
+### def ole_respond_to?(name) -> bool
+
+指定したメソッドをオブジェクトがサポートしているか調べます。
+
+OLEオートメーションサーバが引数で指定した名前のメソッド（プロパティ）をサポートしているかどうかを調べます。
+
+なお、OLEオートメーションの仕様により、メソッド名の大文字、小文字は区別されません。
+
+- **param** `name` -- 調べるメソッド名を文字列またはシンボルで指定します。
+
+- **return** -- nameで指定したメソッドをオブジェクトが提供していれば真を返します。
+
+```ruby
+excel = WIN32OLE.new('Excel.Application')
+p excel.ole_respond_to?(:quit) #=> true
+p excel.ole_respond_to?(:exit) #=> false
+```

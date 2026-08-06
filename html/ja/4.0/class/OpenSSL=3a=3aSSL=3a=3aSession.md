@@ -1,0 +1,62 @@
+# class OpenSSL::SSL::Session < Object
+
+SSL/TLS セッションを表すクラスです。
+
+セッションとは、SSL/TLS のハンドシェイクで確立される仮想的なオブジェクトであり、安全な通信路を実現するために必要な、クライアント側とサーバ側で共有される情報の集合体です。SSL/TLS ハンドシェイクで必要な計算(特に署名の検証)
+はかなり高コストであり、以前にそのような計算を済ませたという事実を利用してハンドシェイクの高速化を図ることができます。
+これがセッションの再利用です。
+
+より具体的には、以下のような手順で再利用が行われます。
+  - まずは普通にクライアントとサーバでハンドシェイクを行う
+  - クライアントとサーバの両側でハンドシェイクによって共有された
+    情報をキャッシュしておく
+  - 再びクライアントから SSL/TLS のハンドシェイク開始を要求する
+    このときにクライアントはキャッシュしておいた
+    セッションのセッション ID を渡す
+  - サーバ側は渡されたセッション ID に対応するセッションキャッシュ
+    を自身が保持しているキャッシュ領域から探しだす
+  - 以降のハンドシェイクは双方でキャッシュされた情報を利用して鍵合意
+    などを行い、コネクションを確立する
+
+セッションキャッシュが利用されるかどうかはハンドシェークで決まった SSL/TLS 暗号スイートに依存します。
+
+### クライアント側のセッションキャッシュ
+
+クライアント側では OpenSSL はキャッシュの保持、管理のための機能を提供していません。コネクション確立後に
+[OpenSSL::SSL::SSLSocket#session](../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/session.md) でセッションを取り出し、次の [OpenSSL::SSL::SSLSocket#connect](../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/connect.md) によるハンドシェイク前に [OpenSSL::SSL::SSLSocket#session=](../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/session=3d.md) で再利用するセッションを設定してやることでセッションを再利用します。
+
+
+### サーバ側のセッションキャッシュ
+
+サーバ側では [OpenSSL::SSL::SSLContext](../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.md) によりセッションキャッシュの保持および管理が行われます。
+
+[OpenSSL::SSL::SSLContext#session_cache_mode=](../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/session_cache_mode=3d.md) でキャッシュの挙動を設定します。
+デフォルトで [OpenSSL::SSL::SSLContext::SESSION_CACHE_SERVER](../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/c/SESSION_CACHE_SERVER.md)
+フラグが立っているため、サーバ側のセッションキャッシュ機構はデフォルトで有効になっています。
+
+セッションキャッシュ機構が有効化されている場合、
+SSL/TLS ハンドシェイク終了時に [OpenSSL::SSL::SSLContext](../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.md) 内のキャッシュ保持領域にキャッシュが保持されます。
+クライアント側からセッション再利用要求に対してはキャッシュ保持領域の探索および外部キャッシュへの問合せを行い、再利用するセッションを特定します。
+キャッシュ保持領域の探索はライブラリが自動的にしますが、外部キャッシュの探索はアプリケーションプログラマによって実装する必要があります
+([OpenSSL::SSL::SSLContext#session_get_cb=](../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/session_get_cb=3d.md) で設定したコールバックで対応するセッションを返します)。
+
+これらの挙動は
+[OpenSSL::SSL::SSLContext::SESSION_CACHE_NO_INTERNAL_STORE](../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/c/SESSION_CACHE_NO_INTERNAL_STORE.md) や
+[OpenSSL::SSL::SSLContext::SESSION_CACHE_NO_INTERNAL_LOOKUP](../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/c/SESSION_CACHE_NO_INTERNAL_LOOKUP.md) を
+[OpenSSL::SSL::SSLContext#session_cache_mode=](../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/session_cache_mode=3d.md)に渡すことで変更できます。
+
+## Class Methods
+
+- [new](../method/OpenSSL=3a=3aSSL=3a=3aSession/s/new.md)
+
+## Instance Methods
+
+- [==](../method/OpenSSL=3a=3aSSL=3a=3aSession/i/=3d=3d.md)
+- [id](../method/OpenSSL=3a=3aSSL=3a=3aSession/i/id.md)
+- [time](../method/OpenSSL=3a=3aSSL=3a=3aSession/i/time.md)
+- [time=](../method/OpenSSL=3a=3aSSL=3a=3aSession/i/time=3d.md)
+- [timeout](../method/OpenSSL=3a=3aSSL=3a=3aSession/i/timeout.md)
+- [timeout=](../method/OpenSSL=3a=3aSSL=3a=3aSession/i/timeout=3d.md)
+- [to_der](../method/OpenSSL=3a=3aSSL=3a=3aSession/i/to_der.md)
+- [to_pem](../method/OpenSSL=3a=3aSSL=3a=3aSession/i/to_pem.md)
+- [to_text](../method/OpenSSL=3a=3aSSL=3a=3aSession/i/to_text.md)

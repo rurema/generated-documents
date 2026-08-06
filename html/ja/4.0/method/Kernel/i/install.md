@@ -1,0 +1,15 @@
+# Kernel#install
+
+### def install -> ()
+
+ファイルをコピーし、その属性を設定します。
+
+```console
+ruby -run -e install -- [OPTION] SOURCE DEST
+
+-p          ファイルのアクセス時刻と修正時刻を保持します。
+-m          chmod と同じようにファイルのパーミッションを設定します。
+-v          詳細表示
+```
+
+- **SEE** [man:install(1)]

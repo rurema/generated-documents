@@ -1,0 +1,7 @@
+# Process::Sys?.getgid
+
+### module_function def getgid    -> Integer
+
+システムコールの [man:getgid(2)] を呼びます。返り値を整数で返します。
+
+- **raise** `NotImplementedError` -- システムコールが現在のプラットフォームで提供されていない場合に発生します。

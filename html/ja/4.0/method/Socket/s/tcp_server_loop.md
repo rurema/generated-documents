@@ -1,0 +1,55 @@
+# Socket.tcp_server_loop
+
+### def Socket.tcp_server_loop(port){|sock,addr| ...} -> ()
+### def Socket.tcp_server_loop(host, port){|sock,addr| ...} -> ()
+
+TCP/IP で host:port で待ち受けるサーバ側のソケットを作成し、新しい接続を受け入れるごとにブロックを呼び出します。
+
+ブロックには新しい接続を表すソケットオブジェクトと、クライアントアドレスを表す [Addrinfo](../../../class/Addrinfo.md) オブジェクトが渡されます。
+
+ブロックの実行が終わってもソケットは close されません。
+アプリケーション側が明示的に close する必要があります。
+
+このメソッドはブロックを逐次的に呼び出します。
+つまりブロックからリターンするまで次のコネクションを受け入れません。
+そのため、同時に複数のクライアントと通信したい場合はスレッドのような並列機構を使う必要があります。
+
+サーバのソケットアドレスを決めるために
+[Addrinfo.getaddrinfo](../../../method/Addrinfo/s/getaddrinfo.md) が用いられることに注意してください。
+[Addrinfo.getaddrinfo](../../../method/Addrinfo/s/getaddrinfo.md) は複数のアドレスを返す(IPv4 と IPv6 など)
+場合があり、その場合その全てが用いられます。つまり IPv4 と IPv6 の両方を待ち受けます。getaddrinfo が 0 個のアドレスを返す場合はエラーになります。1つ以上を返した場合にそれが用いられます。
+
+```ruby
+# 逐次的な echo サーバ
+# 一度に一つのクライアントした取り扱えない
+require 'socket'
+
+Socket.tcp_server_loop(16807) {|sock, client_addrinfo|
+  begin
+    IO.copy_stream(sock, sock)
+  ensure
+    sock.close
+  end
+}
+  
+# スレッドを使った echo サーバ
+# 同時に複数のクライアントを取り扱える
+# 以下の例だと接続制限がない(つまり接続過剰になりえる)ことに注意
+require 'socket'
+
+Socket.tcp_server_loop(16807) {|sock, client_addrinfo|
+  Thread.new {
+    begin
+      IO.copy_stream(sock, sock)
+    ensure
+      sock.close
+    end
+  }
+}
+```
+
+内部的には [Socket.tcp_server_sockets](../../../method/Socket/s/tcp_server_sockets.md) で生成したソケットを [Socket.accept_loop](../../../method/Socket/s/accept_loop.md) で処理しています。
+
+- **param** `host` -- 割り当てるホスト名
+- **param** `port` -- 割り当てるポート番号
+- **SEE** [Socket.tcp_server_sockets](../../../method/Socket/s/tcp_server_sockets.md), [Socket.accept_loop](../../../method/Socket/s/accept_loop.md)

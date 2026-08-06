@@ -1,0 +1,17 @@
+# Net::HTTPHeader#key?
+
+### def key?(key) -> bool
+
+key というヘッダフィールドがあれば真を返します。
+key は大文字小文字を区別しません。
+
+- **param** `key` -- 探すヘッダフィールド名を文字列で与えます。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+res = Net::HTTP.get_response(uri)
+p res.key?('content-type')   # => true
+p res.key?('nonexist-header')  # => false
+```

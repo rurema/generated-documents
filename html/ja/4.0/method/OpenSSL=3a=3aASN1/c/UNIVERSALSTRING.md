@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::UNIVERSALSTRING
+
+### const UNIVERSALSTRING -> Integer
+
+ASN.1 UNIVERSAL タグの、
+UNIVERSALSTRING のタグ番号 28 を表す定数です。

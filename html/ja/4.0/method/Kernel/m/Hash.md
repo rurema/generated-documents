@@ -1,0 +1,18 @@
+# Kernel?.Hash
+
+### module_function def Hash(arg) -> Hash
+
+引数 arg で指定したオブジェクトを to_hash メソッドを呼び出す事で
+[Hash](../../../class/Hash.md) オブジェクトに変換します。nil か [] を指定した場合は空の
+[Hash](../../../class/Hash.md) オブジェクトを返します。
+
+- **param** `arg` -- 変換対象のオブジェクトを指定します。
+
+```ruby title="例"
+p Hash([])        # => {}
+p Hash(nil)       # => {}
+p Hash(key: :value) # => {:key => :value}
+Hash([1, 2, 3])   # ~> TypeError
+```
+
+- **raise** `TypeError` -- 変換できないオブジェクトを指定した場合に発生します。

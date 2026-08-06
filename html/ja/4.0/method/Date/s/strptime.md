@@ -1,0 +1,13 @@
+# Date.strptime
+
+### def Date.strptime(str = '-4712-01-01', format = '%F', start = Date::ITALY) -> Date
+
+与えられた雛型で日付表現を解析し、その情報に基づいて日付オブジェクトを生成します。
+
+[Date._strptime](../../../method/Date/s/_strptime.md) も参照してください。
+また [man:strptime(3)]、および [Date#strftime](../../../method/Date/i/strftime.md) も参照してください。
+
+- **param** `str` -- 日付をあらわす文字列
+- **param** `format` -- 書式
+- **param** `start` -- グレゴリオ暦をつかい始めた日をあらわすユリウス日
+- **raise** `Date::Error` -- 正しくない日付になる組み合わせである場合に発生します。

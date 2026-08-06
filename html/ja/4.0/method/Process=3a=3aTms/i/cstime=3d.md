@@ -1,0 +1,5 @@
+# Process::Tms#cstime=
+
+### def cstime=(n)
+
+終了した子プロセスのシステム CPU 時間の合計(秒)をセットします。

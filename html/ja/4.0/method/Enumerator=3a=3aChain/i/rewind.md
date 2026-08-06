@@ -1,0 +1,8 @@
+# Enumerator::Chain#rewind
+
+### def rewind -> object
+
+列挙状態を巻き戻します。
+
+self が持つ繰り返し可能なオブジェクトに対して、逆順で rewind メソッドを呼びます。
+ただし rewind メソッドを持たないオブジェクトに対しては rewind メソッドを呼びません。

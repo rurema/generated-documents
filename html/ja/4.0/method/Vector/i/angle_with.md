@@ -1,0 +1,17 @@
+# Vector#angle_with
+
+### def angle_with(v) -> Float
+
+`v` と `self` がなす角度を返します。
+
+```ruby title="例"
+require 'matrix'
+
+p Vector[1, 0].angle_with(Vector[0, 1]) # => Math::PI/2
+```
+
+- **param** `v` -- このベクトルと `self` とがなす角度を計算します
+- **raise** `Vector::ZeroVectorError` -- `self` もしくは `v` のどちらかが零ベクトルである場合に
+       発生します
+- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- `v` と `self` の
+       ベクトルの次元が異なる場合に発生します。

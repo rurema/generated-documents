@@ -1,0 +1,26 @@
+# Thread#report_on_exception
+
+### def report_on_exception               -> bool
+### def report_on_exception=(newstate)
+
+真の場合、そのスレッドが例外によって終了した時に、その内容を $stderr に報告します。
+
+デフォルトはスレッド作成時の [Thread.report_on_exception](../../../method/Thread/s/report_on_exception.md) です。
+
+- **param** `newstate` -- スレッド実行中に例外発生した場合、その内容を報告するかどうかを true か false で指定します。
+
+```ruby title="例"
+a = Thread.new{ Thread.stop; raise }
+a.report_on_exception = true
+p a.report_on_exception # => true
+a.run
+# => #<Thread:0x00007fc3f48c7908 (irb):1 run> terminated with exception (report_on_exception is true):
+#    Traceback (most recent call last):
+#    (irb):1:in 'block in irb_binding': unhandled exception
+#    #<Thread:0x00007fc3f48c7908 (irb):1 dead>
+b = Thread.new{ Thread.stop; raise }
+b.report_on_exception = false
+p b.run # => #<Thread:0x00007fc3f48aefc0 (irb):4 dead>
+```
+
+- **SEE** [Thread.report_on_exception](../../../method/Thread/s/report_on_exception.md)

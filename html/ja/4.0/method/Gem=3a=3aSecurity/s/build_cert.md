@@ -1,0 +1,11 @@
+# Gem::Security.build_cert
+
+### def Gem::Security.build_cert(name, key, options = {}) -> OpenSSL::X509::Certificate
+
+与えられた DN と秘密鍵を使用して証明書を作成します。
+
+- **param** `name` -- DN を指定します。
+
+- **param** `key` -- 秘密鍵を指定します。
+
+- **param** `options` -- オプションを指定します。

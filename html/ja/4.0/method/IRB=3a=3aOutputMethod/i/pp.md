@@ -1,0 +1,7 @@
+# IRB::OutputMethod#pp
+
+### def pp(*objs) -> object
+
+各 obj を inspect した文字列を self に出力し、最後に改行を出力します。
+
+- **param** `objs` -- 任意のオブジェクトを指定します。

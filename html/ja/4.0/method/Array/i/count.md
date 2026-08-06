@@ -1,0 +1,27 @@
+# Array#count
+
+### def count                   -> Integer
+{: since=""}
+### def count(item)             -> Integer
+{: since=""}
+### def count {|obj| ... }  -> Integer
+{: since=""}
+
+レシーバの要素数を返します。
+
+引数を指定しない場合は、配列の要素数を返します。
+
+引数を一つ指定した場合は、レシーバの要素のうち引数に一致するものの個数をカウントして返します(一致は == で判定します)。
+
+ブロックを指定した場合は、ブロックを評価して真になった要素の個数をカウントして返します。
+
+- **param** `item` -- カウント対象となる値。
+
+```ruby title="例"
+ary = [1, 2, 4, 2.0]
+p ary.count           # => 4
+p ary.count(2)        # => 2
+p ary.count{|x|x%2==0}  # => 3
+```
+
+- **SEE** [Enumerable#count](../../../method/Enumerable/i/count.md)

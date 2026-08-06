@@ -1,0 +1,7 @@
+# Gem::CommandManager#find_command_possibilities
+
+### def find_command_possibilities(command_name) -> Array
+
+登録されているコマンドでマッチする可能性のあるものを返します。
+
+- **param** `command_name` -- コマンド名を文字列で指定します。

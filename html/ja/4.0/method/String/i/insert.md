@@ -1,0 +1,25 @@
+# String#insert
+
+### def insert(pos, other) -> self
+
+文字列 other を self に挿入して self を返します。
+
+pos が正の場合、pos 番目の文字の直前に文字列 other を挿入します。
+self[pos, 0] = other と同じ操作です。
+
+pos が負の場合、self の末尾から逆方向に数えて pos+1 (self[index] の後) に other を挿入します。
+
+- **param** `pos` --      文字列を挿入するインデックス
+- **param** `other` --    挿入する文字列
+
+```ruby title="例"
+# pos が正の場合、String#insert と String#[]= は同じ操作を行う
+p 'foo'.insert(1, 'bar')             # => "fbaroo"
+str = 'foo'; str[1, 0] = 'bar'; str  # => "fbaroo"
+
+# pos が負の場合、String#insert と String#[]= は異なる操作を行う
+p 'foo'.insert(-1, 'bar')            # => "foobar"
+str = 'foo'; str[-1, 0] = 'bar'; str # => "fobaro"
+```
+
+- **SEE** [String#\[\]=](../../../method/String/i/=5b=5d=3d.md)

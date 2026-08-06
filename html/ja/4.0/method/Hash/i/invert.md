@@ -1,0 +1,27 @@
+# Hash#invert
+
+### def invert -> Hash
+
+値からキーへのハッシュを作成して返します。
+
+異なるキーに対して等しい値が登録されている場合、最後に定義されている値が使用されます。
+
+```ruby title="例"
+h = { "a" => 0, "b" => 100, "c" => 200, "d" => 300, "e" => 300 }
+p h.invert   #=> {0=>"a", 100=>"b", 200=>"c", 300=>"e"}
+```
+
+### 参考
+
+値が重複していたときに備えて、変換後の値を配列として保持するには、次のようにします。
+
+```ruby
+def safe_invert(orig_hash)
+  orig_hash.each_key.group_by do |key|
+    orig_hash[key]
+  end
+end
+p safe_invert({"a"=>1, "b"=>1, "c"=>3}) # => {1=>["a", "b"], 3=>["c"]}
+```
+
+- **SEE** [Hash#key](../../../method/Hash/i/key.md)

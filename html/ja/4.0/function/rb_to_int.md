@@ -1,0 +1,5 @@
+# rb_to_int
+
+### VALUE rb_to_int(VALUE val)
+
+val を to_int メソッドを使って Ruby の整数に変換します。

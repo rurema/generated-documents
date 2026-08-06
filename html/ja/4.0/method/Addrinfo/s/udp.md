@@ -1,0 +1,15 @@
+# Addrinfo.udp
+
+### def Addrinfo.udp(host, port) -> Addrinfo
+
+UDP アドレスに対する Addrinfo オブジェクトを返します。
+
+```ruby
+require 'socket'
+
+p Addrinfo.udp("localhost", "daytime")
+#=> #<Addrinfo: 127.0.0.1:13 UDP (localhost:daytime)>
+```
+
+- **param** `host` -- ホスト(IP アドレスもしくはホスト名)
+- **param** `port` -- ポート番号(整数)もしくはサービス名(文字列)

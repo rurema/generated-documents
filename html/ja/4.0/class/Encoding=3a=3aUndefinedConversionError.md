@@ -1,0 +1,36 @@
+# class Encoding::UndefinedConversionError < EncodingError
+
+エンコーディング変換後の文字が存在しない場合に発生する例外。
+
+UTF-8 にしかない文字を EUC-JP に変換しようとした場合などに発生します。
+
+```ruby title="例"
+"\u2603".encode(Encoding::EUC_JP)
+# ~> Encoding::UndefinedConversionError: U+2603 from UTF-8 to EUC-JP
+```
+
+変換が多段階でなされ、その途中で例外が生じた場合は、例外オブジェクトが保持するエラー情報はその中間のものになります。
+
+```ruby title="例"
+ec = Encoding::Converter.new("ISO-8859-1", "EUC-JP")
+# ISO-8859-1 -> UTF-8 -> EUC-JP
+begin
+  ec.convert("\xa0")
+  # NO-BREAK SPACE, which is available in UTF-8 but not in EUC-JP.
+rescue Encoding::UndefinedConversionError
+  p $!.source_encoding              #=> #<Encoding:UTF-8>
+  p $!.destination_encoding         #=> #<Encoding:EUC-JP>
+  p $!.source_encoding_name         #=> "UTF-8"
+  p $!.destination_encoding_name    #=> "EUC-JP"
+  puts $!.error_char.dump   #=> "\u{a0}"
+  p $!.error_char.encoding  #=> #<Encoding:UTF-8>
+end
+```
+
+## Instance Methods
+
+- [destination_encoding](../method/Encoding=3a=3aUndefinedConversionError/i/destination_encoding.md)
+- [destination_encoding_name](../method/Encoding=3a=3aUndefinedConversionError/i/destination_encoding_name.md)
+- [error_char](../method/Encoding=3a=3aUndefinedConversionError/i/error_char.md)
+- [source_encoding](../method/Encoding=3a=3aUndefinedConversionError/i/source_encoding.md)
+- [source_encoding_name](../method/Encoding=3a=3aUndefinedConversionError/i/source_encoding_name.md)

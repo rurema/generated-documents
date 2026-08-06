@@ -1,0 +1,21 @@
+# StringScanner#rest
+
+### def rest -> String
+
+文字列の残り (rest) を返します。
+具体的には、スキャンポインタが指す位置からの文字列を返します。
+
+スキャンポインタが文字列の末尾を指していたら空文字列 ("") を返します。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('test string')
+p s.rest       # => "test string"
+p s.scan(/\w+/)  # => "test"
+p s.rest       # => " string"
+p s.scan(/\s+/)  # => " "
+p s.rest       # => "string"
+p s.scan(/\w+/)  # => "string"
+p s.rest       # => ""
+```

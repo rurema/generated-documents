@@ -1,0 +1,6 @@
+# WEBrick::HTTPResponse#filename
+
+### def filename            -> String | nil
+
+自身の内容があるファイルのそれである場合に、そのファイル名を返します。
+デフォルトは nil です。

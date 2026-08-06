@@ -1,0 +1,99 @@
+# Kernel?.system
+
+### module_function def system(command, options={}) -> bool | nil
+### module_function def system(env, command, options={}) -> bool | nil
+
+引数を外部コマンドとして実行して、成功した時に真を返します。
+
+子プロセスが終了ステータス 0 で終了すると成功とみなし true を返します。
+それ以外の終了ステータスの場合は false を返します。
+コマンドを実行できなかった場合は nil を返します。
+
+options で :exception に true を指定することで、
+nil や false を返す代わりに例外を発生するようにできます。
+
+終了ステータスは変数 [m:$?] で参照できます。
+
+コマンドを実行できなかった場合、多くのシェルはステータス
+127 を返します。シェルを介さない場合は Ruby の子プロセスがステータス
+127 で終了します。
+コマンドが実行できなかったのか、コマンドが失敗したのかは、普通
+[m:$?] を参照することで判別可能です。
+
+### 引数の解釈
+
+この形式では command が shell のメタ文字
+
+```text
+  * ? {} [] <> () ~ & | \ $ ; ' ` " \n
+```
+
+を含む場合、shell 経由で実行されます。
+そうでなければインタプリタから直接実行されます。
+
+- **param** `command` -- command コマンドを文字列で指定します。
+- **param** `env` -- 更新する環境変数を表す Hash
+- **param** `options` -- オプションパラメータ Hash
+- **raise** `Errno::EXXX` -- exception: true が指定されていて、コマンドの実行が失敗したときに発生します。
+- **raise** `RuntimeError` -- exception: true が指定されていて、コマンドの終了ステータスが 0 以外のときに発生します。
+
+```ruby title="シェル経由でコマンドを実行"
+p system("echo *") # => true
+# fileA fileB fileC ...
+```
+
+```ruby title="exceptionオプションを指定"
+p system("sad", exception: true)                 # => Errno::ENOENT (No such file or directory - sad)
+system('ruby -e "exit(false)"', exception: true) # ~> RuntimeError: Command failed with exit 1: ruby -e "exit(false)"
+p system('ruby -e "exit(true)"', exception: true)  # => true
+```
+
+- **SEE** [Kernel?.`](../../../method/Kernel/m/=60.md),[Kernel?.spawn](../../../method/Kernel/m/spawn.md),[Kernel?.exec](../../../method/Kernel/m/exec.md),[man:system(3)]
+
+### module_function def system(program, *args, options={}) -> bool | nil
+### module_function def system(env, program, *args, options={}) -> bool | nil
+
+引数を外部コマンドとして実行して、成功した時に真を返します。
+
+子プロセスが終了ステータス 0 で終了すると成功とみなし true を返します。
+それ以外の終了ステータスの場合は false を返します。
+コマンドを実行できなかった場合は nil を返します。
+
+options で :exception に true を指定することで、
+nil や false を返す代わりに例外を発生するようにできます。
+
+終了ステータスは変数 [m:$?] で参照できます。
+
+コマンドを実行できなかった場合、多くのシェルはステータス
+127 を返します。シェルを介さない場合は Ruby の子プロセスがステータス
+127 で終了します。コマンドが実行できなかったのか、コマンドが失敗したのかは、普通 [m:$?] を参照することで判別可能です。
+
+Hash を options として渡すことで、起動される子プロセスの
+  - プロセスグループ
+  - resource limit
+  - カレントディレクトリ
+  - umask
+  - 子プロセスでのリダイレクト
+などを変更できます。環境変数のクリアなども指定できます。
+詳しくは [Kernel?.spawn](../../../method/Kernel/m/spawn.md) を参照してください。
+
+### 引数の解釈
+
+この形式で呼び出した場合、空白や shell のメタキャラクタもそのまま program の引数に渡されます。
+先頭の引数が2要素の配列であった場合、第1要素の文字列が実際に起動するプログラムのパスであり、第2要素が「みせかけ」のプログラム名になります。
+また、第1要素はフルパスで指定しなくても環境変数 PATH から探します。
+
+- **param** `program` -- 文字列か2要素の配列です。
+- **param** `args` -- program に渡す引数を 0 個以上指定する
+- **param** `env` -- 更新する環境変数を表す Hash
+- **param** `options` -- オプションパラメータ Hash
+- **raise** `ArgumentError` -- 第一引数が配列かつ要素数が 2 でない場合に発生します。
+- **raise** `Errno::EXXX` -- exception: true が指定されていて、コマンドの実行が失敗したときに発生します。
+- **raise** `RuntimeError` -- exception: true が指定されていて、コマンドの終了ステータスが 0 以外のときに発生します。
+
+```ruby title="インタプリタから直接コマンドを実行"
+p system("echo", "*") # => true
+# *
+```
+
+- **SEE** [Kernel?.`](../../../method/Kernel/m/=60.md),[Kernel?.spawn](../../../method/Kernel/m/spawn.md),[Kernel?.exec](../../../method/Kernel/m/exec.md),[man:system(3)]

@@ -1,0 +1,8 @@
+# Net::IMAP#create
+
+### def create(mailbox) -> Net::IMAP::TaggedResponse
+
+CREATE  コマンドを送り、新しいメールボックスを作ります。
+
+- **param** `mailbox` -- 新しいメールボックスの名前(文字列)
+- **raise** `Net::IMAP::NoResponseError` -- 指定した名前のメールボックスが作れなかった場合に発生します

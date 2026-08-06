@@ -1,0 +1,14 @@
+# Logger#info?
+
+### def info? -> bool
+
+現在の Logger オブジェクトが INFO 以上のログレベルのメッセージを記録するなら真を返します。
+
+```ruby title="例"
+require 'logger'
+
+logger = Logger.new(STDOUT)
+p logger.info? # => true
+logger.level = Logger::Severity::ERROR
+p logger.info? # => false
+```

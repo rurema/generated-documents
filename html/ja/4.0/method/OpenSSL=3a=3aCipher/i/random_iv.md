@@ -1,0 +1,7 @@
+# OpenSSL::Cipher#random_iv
+
+### def random_iv -> String
+
+IV を乱数で生成し、暗号オブジェクトに設定します。
+
+生成した IV を文字列で返します。

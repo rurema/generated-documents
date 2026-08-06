@@ -1,0 +1,17 @@
+# library optparse/date
+
+[OptionParser#on](../method/OptionParser/i/on.md) で使用可能なクラスに [Date](../class/Date.md) と [DateTime](../class/DateTime.md) が追加されます。
+オプションの引数はそれぞれのクラスのインスタンスに変換されてから、
+[OptionParser#on](../method/OptionParser/i/on.md) のブロックに渡されます。
+
+```ruby
+require 'optparse/date'
+opts = OptionParser.new
+
+opts.on("-d DATE", Date){|d|
+  p d.to_s #=> 2000-01-01
+}
+opts.parse!
+
+# ruby command -d 2000/1/1
+```

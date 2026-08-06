@@ -1,0 +1,5 @@
+# Gem::ConfigFile#each
+
+### def each{|key, value| ... } -> Hash
+
+設定ファイルの各項目のキーと値をブロック引数として与えられたブロックを評価します。

@@ -1,0 +1,5 @@
+# URI::Generic#registry
+
+### def registry    -> String | nil
+
+自身の registry を文字列で返します。設定されていない場合は nil を返します。

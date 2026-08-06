@@ -1,0 +1,5 @@
+# WEBrick::HTTPAuth::Authenticator::AuthScheme
+
+### const AuthScheme -> nil
+
+認証方法を表わします。派生クラスで上書きしなければなりません。

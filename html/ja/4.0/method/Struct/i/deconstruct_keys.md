@@ -1,0 +1,23 @@
+# Struct#deconstruct_keys
+
+### def deconstruct_keys(array_of_names) -> Hash
+{: since="2.7.0"}
+
+self のメンバの名前と値の組を [Hash](../../../class/Hash.md) で返します。
+
+- **param** `array_of_names` -- 返り値に含めるメンバの名前の配列を指定します。nil の場合は全てのメンバを意味します。
+
+```ruby title="例"
+Customer = Struct.new(:name, :address, :zip)
+joe = Customer.new("Joe Smith", "123 Maple, Anytown NC", 12345)
+h = joe.deconstruct_keys([:zip, :address])
+p h # => {:zip=>12345, :address=>"123 Maple, Anytown NC"}
+
+# 引数が nil の場合は全てのメンバを返します。
+h = joe.deconstruct_keys(nil)
+p h # => {:name=>"Joseph Smith, Jr.", :address=>"123 Maple, Anytown NC", :zip=>12345}
+```
+
+[注意] 本メソッドの記述は Struct の下位クラスのインスタンスに対して呼び出す事を想定しています。Struct.new は Struct の下位クラスを作成する点に注意してください。
+
+- **SEE** [spec/pattern_matching#matching_non_primitive_objects](../../../doc/spec=2fpattern_matching.md#matching_non_primitive_objects)

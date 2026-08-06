@@ -1,0 +1,7 @@
+# URI::LDAP#dn=
+
+### def dn=(s)
+
+自身の Distinguished Name を文字列で設定します。
+
+- **param** `s` -- 自身の Distinguished Name を文字列で指定します。

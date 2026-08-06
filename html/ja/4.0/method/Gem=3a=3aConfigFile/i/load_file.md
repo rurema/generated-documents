@@ -1,0 +1,7 @@
+# Gem::ConfigFile#load_file
+
+### def load_file(file_name) -> object
+
+与えられたファイル名のファイルが存在すれば YAML ファイルとしてロードします。
+
+- **param** `file_name` -- YAML 形式で記述された設定ファイル名を指定します。

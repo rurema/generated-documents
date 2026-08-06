@@ -1,0 +1,22 @@
+# OptionParser#banner=
+
+### def banner=(heading)
+
+サマリの最初に表示される文字列を指定します。
+
+- **param** `heading` -- サマリの最初に表示される文字列を指定します。
+
+```ruby title="例"
+require "optparse"
+
+options = {}
+opts = OptionParser.new do |opts|
+  opts.banner = "Usage: example.rb [options]" # => "Usage: example.rb [options]"
+
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+end
+
+p opts.banner # => "Usage: example.rb [options]"
+```

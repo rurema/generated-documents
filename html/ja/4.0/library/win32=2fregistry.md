@@ -1,0 +1,38 @@
+# library win32/registry
+
+win32/registry は Win32 プラットフォームでレジストリをアクセスするためのライブラリです。Win32 API の呼び出しに [Fiddle::Importer](../class/Fiddle=3a=3aImporter.md) を使います
+(`Win32API` は 1.9.1 で非推奨となり、現在は標準添付から外れています)。
+
+```text
+require 'win32/registry'
+
+Win32::Registry::HKEY_CURRENT_USER.open('SOFTWARE\foo') do |reg|
+  value = reg['foo']                               # 値の読み込み
+  value = reg['foo', Win32::Registry::REG_SZ]      # 型を限定した読み込み
+  type, value = reg.read('foo')                    # 値の読み込み
+  reg['foo'] = 'bar'                               # 値の書き込み
+  reg['foo', Win32::Registry::REG_SZ] = 'bar'      # 型指定付き値の書き込み
+  reg.write('foo', Win32::Registry::REG_SZ, 'bar') # 値の書き込み
+
+  reg.each_value { |name, type, data| ... }        # 値の列挙
+  reg.each_key { |key, wtime| ... }                # サブキーの列挙
+
+  reg.delete_value('foo')                          # 値の削除
+  reg.delete_key('foo')                            # サブキーの削除
+  reg.delete_key('foo', true)                      # サブキーの再帰削除
+end
+```
+
+### WSH を用いたレジストリアクセス
+
+レジストリをアクセスするには [WIN32OLE](../class/WIN32OLE.md) を使って WScript.Shell オブジェクト経由でアクセスする方法もあります。
+
+```ruby
+require 'win32ole'
+
+wsh = WIN32OLE.new('WScript.Shell')
+value = wsh.RegRead 'HKLM\Software\Microsoft\Windows\...'
+wsh.RegWrite 'HKCU\Software\foo\barfile\shell\open\command\\', '"C:\..." "%1"', 'REG_SZ'
+```
+
+ただし、キーを列挙したり、自由なバイナリ値を読み書きできません。

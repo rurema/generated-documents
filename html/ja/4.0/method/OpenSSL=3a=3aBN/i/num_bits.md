@@ -1,0 +1,15 @@
+# OpenSSL::BN#num_bits
+
+### def num_bits -> Integer
+
+自身を表現するのに使っているビット数を返します。
+
+符号は無視されます。
+
+```ruby
+require 'openssl'
+
+p OpenSSL::BN.new("127").num_bits # => 7
+p OpenSSL::BN.new("-127").num_bits # => 7
+p OpenSSL::BN.new("128").num_bits # => 8
+```

@@ -1,0 +1,20 @@
+# FileTest?.empty?
+
+### module_function def zero?(file)    -> bool
+### module_function def empty?(file)   -> bool
+
+ファイルが存在して、そのサイズが 0 である時に真を返します。
+そうでない場合、あるいはシステムコールに失敗した場合には false を返します。
+
+- **param** `file` -- ファイル名を表す文字列か IO オブジェクトを指定します。
+
+- **raise** `IOError` -- 指定された IO オブジェクト file が既に close されていた場合に発生します。
+
+```ruby title="例:"
+IO.write("zero.txt", "")
+p FileTest.zero?("zero.txt")    # => true
+IO.write("nonzero.txt", "1")
+p FileTest.zero?("nonzero.txt")  # => false
+```
+
+- **SEE** [FileTest?.size](../../../method/FileTest/m/size.md), [FileTest?.size?](../../../method/FileTest/m/size=3f.md)

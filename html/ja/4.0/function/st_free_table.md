@@ -1,0 +1,5 @@
+# st_free_table
+
+### void st_free_table(st_table *table)
+
+table を解放する。キー、値は解放されない。

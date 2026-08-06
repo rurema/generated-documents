@@ -1,0 +1,7 @@
+# Gem::UserInteraction#ask
+
+### def ask(*args) -> String
+
+質問をして、ユーザの入力を待ち受けて回答を返します。
+
+- **param** `args` -- 委譲先のメソッドに与える引数です。

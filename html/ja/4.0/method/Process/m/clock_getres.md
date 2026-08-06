@@ -1,0 +1,37 @@
+# Process?.clock_getres
+
+### module_function def clock_getres(clock_id, unit=:float_second) -> Float | Integer
+
+POSIX の clock_getres() 関数を使って、クロックの分解能を返します。
+
+```ruby title="例"
+p Process.clock_getres(Process::CLOCK_MONOTONIC) # => 1.0e-09
+```
+
+- **param** `clock_id` -- クロックの種類を指定します。指定できる値は
+                [Process?.clock_gettime](../../../method/Process/m/clock_gettime.md) の clock_id と同じです。
+
+- **param** `unit` -- 返値の型を指定します。[Process?.clock_gettime](../../../method/Process/m/clock_gettime.md) の
+                unit に加えて `:hertz` を指定できます。
+
+`:hertz` を指定した場合、1秒あたりのクロック数(`:float_second` の逆数)
+を返します。times() 関数のクロック数(clock tick)や clock() 関数の
+CLOCKS_PER_SEC の正確な値を得るために使えます。
+
+```ruby title="例"
+p Process.clock_getres(:TIMES_BASED_CLOCK_PROCESS_CPUTIME_ID, :hertz)        # => 100.0
+p Process.clock_getres(:TIMES_BASED_CLOCK_PROCESS_CPUTIME_ID, :float_second) # => 0.01
+```
+
+clock_id にシンボルを指定した場合、返される分解能は不正確な場合があります。例えば以下は 1.0e-06(1マイクロ秒)を返しますが、実際の分解能はより粗いことがあります。
+
+```ruby title="例"
+p Process.clock_getres(:GETTIMEOFDAY_BASED_CLOCK_REALTIME) # => 1.0e-06
+```
+
+CLOCK_MONOTONIC や CLOCK_MONOTONIC_RAW については、Linux、macOS、BSD、
+AIX の ARM プロセッサや仮想化環境上で、不正確な分解能が報告されています。
+
+- **raise** `Errno::EINVAL` -- clock_id がサポートされていない場合に発生します。
+
+- **SEE** [Process?.clock_gettime](../../../method/Process/m/clock_gettime.md)

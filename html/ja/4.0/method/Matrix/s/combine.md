@@ -1,0 +1,17 @@
+# Matrix.combine
+
+### def Matrix.combine(*matrices) {|*elements| ... } -> Matrix
+### def Matrix.combine(*matrices) -> Enumerator
+
+要素ごとにブロックを呼び出した結果を組み合わせた Matrix を返します。
+
+```ruby title="例"
+require 'matrix'
+x = Matrix[[6, 6], [4, 4]]
+y = Matrix[[1, 2], [3, 4]]
+p Matrix.combine(x, y) {|a, b| a - b} # => Matrix[[5, 4], [1, 0]]
+```
+
+- **param** `matrices` -- 並べる行列。すべての行列の行数と列数が一致していなければならない
+- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- 行や列の要素数が一致しない時に発生します
+- **SEE** [Matrix#combine](../../../method/Matrix/i/combine.md)

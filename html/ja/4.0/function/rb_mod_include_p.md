@@ -1,0 +1,5 @@
+# rb_mod_include_p
+
+### VALUE rb_mod_include_p(VALUE mod, VALUE mod2)
+
+モジュール mod が mod2 をインクルードしていれば真。

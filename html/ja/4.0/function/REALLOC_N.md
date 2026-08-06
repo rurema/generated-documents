@@ -1,0 +1,5 @@
+# REALLOC_N
+
+### type* REALLOC_N(var, type, n)
+
+type 型のメモリ領域 var のサイズを n 個に変更する。

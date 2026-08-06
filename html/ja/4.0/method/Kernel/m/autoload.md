@@ -1,0 +1,29 @@
+# Kernel?.autoload
+
+### module_function def autoload(const_name, feature) -> nil
+
+定数 const_name を最初に参照した時に feature を
+[Kernel?.require](../../../method/Kernel/m/require.md) するように設定します。
+
+const_name には、 "::" 演算子を含めることはできません。
+ネストした定数を指定する方法は [Module#autoload](../../../method/Module/i/autoload.md) を参照してください。
+
+const_name が autoload 設定されていて、まだ定義されてない(ロードされていない)ときは、
+autoload する対象を置き換えます。
+const_name が(autoloadではなく)既に定義されているときは何もしません。
+
+- **param** `const_name` -- 定数をString または Symbol で指定します。
+- **param** `feature` -- require と同様な方法で autoload する対象を指定します。
+- **raise** `LoadError` -- featureのロードに失敗すると発生します。
+
+```ruby
+# ------- /tmp/foo.rb ---------
+class Bar
+end
+# ----- end of /tmp/foo.rb ----
+
+autoload :Bar, '/tmp/foo'
+p Bar #=> Bar
+```
+
+- **SEE** [Kernel?.autoload?](../../../method/Kernel/m/autoload=3f.md),[Module#autoload](../../../method/Module/i/autoload.md),[Kernel?.require](../../../method/Kernel/m/require.md)

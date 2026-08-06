@@ -1,0 +1,28 @@
+# Class#attached_object
+
+### def attached_object    -> object
+
+自身が特異クラスであるとき、その特異クラスが属しているオブジェクトを返します。
+
+- **raise** `TypeError` -- 自身が特異クラスでない場合に発生します。
+
+```ruby
+class Foo; end
+
+p Foo.singleton_class.attached_object      # => Foo
+
+obj = Foo.new
+p obj.singleton_class.attached_object.equal?(obj) # => true
+
+# 特異クラスの特異クラスも特異クラスなので、その属するオブジェクトを返す
+p Foo.singleton_class.singleton_class.attached_object # => #<Class:Foo>
+```
+
+```ruby title="例: 特異クラスでない場合"
+class Foo; end
+
+Foo.attached_object       # ~> TypeError
+NilClass.attached_object  # ~> TypeError
+```
+
+- **SEE** [Object#singleton_class](../../../method/Object/i/singleton_class.md)

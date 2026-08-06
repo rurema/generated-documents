@@ -1,0 +1,16 @@
+# BigDecimal#sub
+
+### def sub(other, n) -> BigDecimal
+
+差を計算します。
+
+self - other を最大で n 桁まで計算します。計算結果の精度が n より大きいときは [BigDecimal.mode](../../../method/BigDecimal/s/mode.md) で指定された方法で丸められます。
+
+- **param** `other` -- self から引く数を指定します。
+
+- **param** `n` -- 有効桁数を整数で指定します。0 を指定した場合は
+         [BigDecimal#-](../../../method/BigDecimal/i/=2d.md) と同じ値を返します。
+
+- **raise** `ArgumentError` -- n に負の数を指定した場合に発生します。
+
+- **SEE** [BigDecimal#-](../../../method/BigDecimal/i/=2d.md)

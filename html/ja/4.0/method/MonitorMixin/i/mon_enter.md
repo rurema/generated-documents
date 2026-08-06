@@ -1,0 +1,27 @@
+# MonitorMixin#mon_enter
+
+### def mon_enter -> ()
+
+モニターをロックします。
+
+一度に一つのスレッドだけがモニターをロックできます。
+既にモニターがロックされている場合は、ロックが開放されるまでそのスレッドは待ちます。
+
+[Thread::Mutex#lock](../../../method/Thread=3a=3aMutex/i/lock.md) に相当します。
+Mutex#lock と違うのは現在のモニターの所有者が現在実行されているスレッドである場合、何度でもロックできる点です。ロックした回数だけ mon_exit を呼ばなければモニターは解放されません。
+
+```ruby title="例"
+require 'monitor'
+buf = []
+buf.extend(MonitorMixin)
+buf.mon_enter
+buf.mon_enter
+```
+
+Mutex#lock ではデッドロックが起きます。
+
+```ruby title="Mutex でデッドロックする例"
+m = Mutex.new
+m.lock
+m.lock # => deadlock; recursive locking (ThreadError)
+```

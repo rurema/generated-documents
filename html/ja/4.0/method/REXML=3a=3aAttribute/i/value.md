@@ -1,0 +1,7 @@
+# REXML::Attribute#value
+
+### def value -> String
+
+正規化されていない属性値を返します。
+
+属性値の正規化については XML の仕様を参考にしてください。

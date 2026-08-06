@@ -1,0 +1,31 @@
+# REXML::Element#delete_element
+
+### def delete_element(element) -> REXML::Element
+
+子要素を削除します。
+
+element で削除する要素を指定できます。整数、文字列、[REXML::Element](../../../class/REXML=3a=3aElement.md)
+オブジェクトのいずれかが指定できます。
+
+REXML::Element を指定すると、その要素が削除されます。
+整数を指定すると、element 番目の要素を削除します(1-originで指定します)。
+文字列を指定すると、XPath としてマッチする要素を削除します。
+複数の要素がマッチする場合はそのうち1つが削除されます。
+
+- **param** `element` -- 削除する要素
+- **SEE** [REXML::Elements#delete](../../../method/REXML=3a=3aElements/i/delete.md)
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new '<a><b/><c/><c id="1"/><d/><c/></a>'
+doc.delete_element("/a/b")
+p doc.to_s # => "<a><c/><c id='1'/><d/><c/></a>"
+doc.delete_element("a/c[@id='1']")
+p doc.to_s # => "<a><c/><d/><c/></a>"
+doc.root.delete_element("c")
+p doc.to_s # => "<a><d/><c/></a>"
+doc.root.delete_element("c")
+p doc.to_s # => "<a><d/></a>"
+doc.root.delete_element(1)
+p doc.to_s # => "<a/>"
+```

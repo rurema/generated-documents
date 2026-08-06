@@ -1,0 +1,6 @@
+# WEBrick::BasicLog#info?
+
+### def info?    -> bool
+
+自身のログレベルが INFO 以上の時に true を返します。
+そうでない場合に false を返します。

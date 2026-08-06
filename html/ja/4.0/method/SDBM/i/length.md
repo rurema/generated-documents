@@ -1,0 +1,10 @@
+# SDBM#length
+
+### def length -> Integer
+### def size   -> Integer
+
+データベース中の要素の数を返します。
+
+### 注意
+
+現在の実現では要素数を数えるためにデータベースを全部検索します。

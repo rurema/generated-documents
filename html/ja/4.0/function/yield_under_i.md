@@ -1,0 +1,5 @@
+# yield_under_i
+
+### static VALUE yield_under_i(VALUE self)
+
+yield_under の補助関数です。

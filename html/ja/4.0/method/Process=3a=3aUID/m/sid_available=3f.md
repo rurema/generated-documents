@@ -1,0 +1,13 @@
+# Process::UID?.sid_available?
+
+### module_function def sid_available?    -> bool
+
+保存ユーザ ID を持つ環境かどうかを真偽値で返します。
+保存ユーザ ID を持つなら true を返します。
+
+ただし、このメソッドの値には保証がありません。
+現在は次の条件のいずれかが満足される場合には保存ユーザ ID を持つものと判定しています。
+
+  - setresuid() を持つ
+  - seteuid() を持つ
+  - _POSIX_SAVED_IDS が真として定義されている

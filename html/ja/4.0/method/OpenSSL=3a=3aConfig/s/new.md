@@ -1,0 +1,13 @@
+# OpenSSL::Config.new
+
+### def OpenSSL::Config.load(filename = nil) -> OpenSSL::Config
+### def OpenSSL::Config.new(filename = nil) -> OpenSSL::Config
+
+OpenSSL::Config オブジェクトを生成します。
+
+filename で指定したファイルから設定データを読みこみます。
+
+filename を省略した場合は空のオブジェクトが生成されます。
+
+- **param** `filename` -- ファイル名文字列
+- **raise** `OpenSSL::ConfigError` -- 設定ファイルの文法が正しくない場合に発生します

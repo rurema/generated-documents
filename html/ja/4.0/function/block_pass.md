@@ -1,0 +1,5 @@
+# block_pass
+
+### static VALUE block_pass(VALUE self, NODE *node)
+
+node を評価して Proc オブジェクトを得、それを積みます。

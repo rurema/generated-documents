@@ -1,0 +1,7 @@
+# class Net::FTPTempError < Net::FTPError
+
+FTP の応答コード 4yz 
+(Transient Negative Completion reply)
+を表す例外クラスです。
+
+詳しくは [RFC:959] を参照してください。

@@ -1,0 +1,31 @@
+# IO#eof?
+
+### def eof     -> bool
+### def eof?    -> bool
+
+ストリームがファイルの終端に達した場合、true を返します。そうでない場合、false を返します。
+
+```ruby
+f = File.new("testfile")
+dummy = f.readlines
+p f.eof #=> true
+```
+
+自身がパイプやソケットなどのストリームであった場合、相手がデータを送るか close するまでブロックします。
+
+```ruby
+r, w = IO.pipe
+Thread.new { sleep 10; w.close }
+p r.eof?  #=> 10秒ブロックしてから true を返す。
+
+r, w = IO.pipe
+Thread.new { sleep 10; w.puts "a" }
+p r.eof?  #=> 10秒ブロックしてから false を返す。
+
+r, w = IO.pipe
+r.eof?  # 永久にブロックします。
+```
+
+eof, eof? は入力バッファにデータを読み込むので、[IO#sysread](../../../method/IO/i/sysread.md) と同時に使うと正常に動作しません。
+
+- **raise** `IOError` -- 自身が読み込み用にオープンされていなければ発生します。

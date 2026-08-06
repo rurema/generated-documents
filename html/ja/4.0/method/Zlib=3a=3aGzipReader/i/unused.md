@@ -1,0 +1,6 @@
+# Zlib::GzipReader#unused
+
+### def unused -> String | nil
+
+gzip フォーマットの解析のために読み込んだ余剰のデータを返します。
+gzip ファイルが最後まで解析されていない場合は nil を返します。

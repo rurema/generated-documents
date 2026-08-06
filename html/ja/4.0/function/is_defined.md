@@ -1,0 +1,5 @@
+# is_defined
+
+### static char * is_defined(VALUE self, NODE *node, char *buf)
+
+node を self = self で評価したとき値が得られそうな式であれば、node の種別を表す文字列を返します。

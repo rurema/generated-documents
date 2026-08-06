@@ -1,0 +1,7 @@
+# DateTime.now
+
+### def DateTime.now(start = Date::ITALY) -> DateTime
+
+現在の時刻に相当する日時オブジェクトを生成します。
+
+- **param** `start` -- グレゴリオ暦をつかい始めた日をあらわすユリウス日

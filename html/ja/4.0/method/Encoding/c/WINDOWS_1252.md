@@ -1,0 +1,14 @@
+# Encoding::WINDOWS_1252
+
+### const Windows_1252 -> Encoding
+### const CP1252 -> Encoding
+### const WINDOWS_1252 -> Encoding
+
+Windows-1252 エンコーディングです。
+
+ISO8859-1 の亜種です。
+
+- **SEE** [Encoding::ISO_8859_1](../../../method/Encoding/c/ISO_8859_1.md)
+     <http://www.iana.org/assignments/character-sets>,
+     <https://web.archive.org/web/20090207073615/http://www.microsoft.com/globaldev/reference/sbcs/1252.mspx>,
+     <https://en.wikipedia.org/wiki/Windows-1252>

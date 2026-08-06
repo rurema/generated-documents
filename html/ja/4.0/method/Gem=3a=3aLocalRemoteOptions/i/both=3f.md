@@ -1,0 +1,6 @@
+# Gem::LocalRemoteOptions#both?
+
+### def both? -> bool
+
+ローカルとリモートの情報を両方とも取得する場合は真を返します。
+そうでない場合は偽を返します。

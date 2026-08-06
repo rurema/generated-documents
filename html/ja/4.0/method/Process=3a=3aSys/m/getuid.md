@@ -1,0 +1,7 @@
+# Process::Sys?.getuid
+
+### module_function def getuid    -> Integer
+
+システムコールの [man:getuid(2)] を呼びます。返り値を整数で返します。
+
+- **raise** `NotImplementedError` -- システムコールが現在のプラットフォームで提供されていない場合に発生します。

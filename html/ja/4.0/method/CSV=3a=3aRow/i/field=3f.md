@@ -1,0 +1,16 @@
+# CSV::Row#field?
+
+### def field?(data) -> bool
+
+自身に与えられた値が含まれている場合は真を返します。
+そうでない場合は偽を返します。
+
+- **param** `data` -- この行に含まれているかどうか調べたい値を指定します。
+
+```ruby title="例"
+require "csv"
+
+row = CSV::Row.new(["header1", "header2", "header3", "header4"], [1, 2, 3, 4])
+p row.field?(1) # => true
+p row.field?(5) # => false
+```

@@ -1,0 +1,11 @@
+# OpenSSL::PKCS7.read_smime
+
+### def OpenSSL::PKCS7.read_smime(obj) -> OpenSSL::PKCS7
+
+S/MIME 形式のデータを読み込み、PKCS7 オブジェクトを返します。
+
+引数 obj からデータを読み込みます。文字列もしくは
+[IO](../../../class/IO.md) オブジェクトから読み出すことができます。
+
+- **param** `obj` -- データを読み出すオブジェクト
+- **raise** `OpenSSL::PKCS7::PKCS7Error` -- 読み込みに失敗した場合に発生します

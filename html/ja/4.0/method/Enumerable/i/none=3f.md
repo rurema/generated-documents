@@ -1,0 +1,27 @@
+# Enumerable#none?
+
+### def none?               -> bool
+### def none?{|obj| ... }   -> bool
+### def none?(pattern)      -> bool
+
+ブロックを指定しない場合は、 Enumerable オブジェクトのすべての要素が偽であれば真を返します。そうでなければ偽を返します。
+
+ブロックを指定した場合は、Enumerable オブジェクトのすべての要素をブロックで評価した結果が、すべて偽であれば真を返します。
+そうでなければ偽を返します。
+
+自身に要素が存在しない場合は true を返します。
+
+- **param** `pattern` -- ブロックの代わりに各要素に対して pattern === item を評価します。
+
+```ruby title="例"
+require 'set'
+p Set['ant', 'bear', 'cat'].none? {|word| word.length == 5}  # => true
+p Set['ant', 'bear', 'cat'].none? {|word| word.length >= 4}  # => false
+p Set['ant', 'bear', 'cat'].none?(/d/)                     # => true
+p Set[].none?                                              # => true
+p Set[nil].none?                                           # => true
+p Set[nil,false].none?                                     # => true
+p Set[nil, false, true].none?                              # => false
+```
+
+- **SEE** [Array#none?](../../../method/Array/i/none=3f.md)

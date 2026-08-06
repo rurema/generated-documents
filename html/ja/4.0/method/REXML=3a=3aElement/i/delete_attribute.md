@@ -1,0 +1,19 @@
+# REXML::Element#delete_attribute
+
+### def delete_attribute(key) -> REXML::Attribute | nil
+
+要素から key という属性名の属性を削除します。
+
+削除された属性を返します。
+
+key という属性名の属性が存在しない場合は削除されずに、nil を返します。
+
+- **param** `key` -- 削除する要素(文字列(属性名) or [REXML::Attribute](../../../class/REXML=3a=3aAttribute.md)オブジェクト)
+
+```ruby
+require 'rexml/document'
+e = REXML::Element.new("E")
+p e.add_attribute("x", "foo"); e # => <E x='foo'/>
+p e.add_attribute("y:x", "bar"); e # => <E x='foo' y:x='bar'/>
+p e.delete_attribute("x"); e # => <E y:x='bar'/>
+```

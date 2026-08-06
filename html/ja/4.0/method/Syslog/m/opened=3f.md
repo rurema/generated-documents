@@ -1,0 +1,14 @@
+# Syslog?.opened?
+
+### module_function def opened? -> bool
+
+syslog をオープンしていれば真を返します。
+
+```ruby title="使用例"
+require 'syslog'
+
+p Syslog.opened? #=> false
+Syslog.open("syslogtest")
+Syslog.log(Syslog::LOG_WARNING, "the sky is falling in %d seconds!", 100)
+p Syslog.opened? #=> true
+```

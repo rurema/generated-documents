@@ -1,0 +1,7 @@
+# Gem::CommandManager#run
+
+### def run(args) -> ()
+
+引数 args を処理して gem コマンドを実行中のエラーを捕捉します。
+
+- **param** `args` -- コマンドラインから受け取った引数を指定します。

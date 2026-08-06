@@ -1,0 +1,11 @@
+# Process?.setsid
+
+### module_function def setsid    -> Integer
+
+新しいセッションを作成して、tty を切り離します。デーモンを簡単に作ることができます。セッション ID を返します。
+
+- **raise** `Errno::EXXX` -- セッションの作成に失敗した場合に発生します。
+
+- **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
+
+- **SEE** [man:setsid(2)]

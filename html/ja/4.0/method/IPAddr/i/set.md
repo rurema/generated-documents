@@ -1,0 +1,9 @@
+# IPAddr#set
+
+### def set(addr, *family) -> self
+
+このオブジェクトの IP アドレスとアドレスファミリをセットして自身を返します。
+
+- **param** `addr` -- セットする IP アドレスの数値表現。
+
+- **param** `family` -- セットするアドレスファミリ。

@@ -1,0 +1,8 @@
+# Matrix#eql?
+
+### def ==(other) -> bool
+### def eql?(other) -> bool
+
+自分自身と other を比較し、同値であれば真(true)を返します。
+
+- **param** `other` -- 比較対象のオブジェクト

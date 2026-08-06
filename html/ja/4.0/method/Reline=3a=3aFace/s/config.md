@@ -1,0 +1,37 @@
+# Reline::Face.config
+
+### def Reline::Face.config(name) { |conf| ... } -> object
+
+名前 `name` の face を定義します。
+
+ブロックには設定用のオブジェクトが渡されます。`define(part, **attributes)`
+を呼んで、face を構成する部分ごとのスタイルを定義します。
+
+- `part` -- `:default`・`:enhanced`・`:scrollbar` のいずれかを指定します。
+- `attributes` -- スタイルをキーワード引数で指定します。
+  - `foreground:`/`background:` -- 文字色/背景色。色名のシンボル(`:black`・`:red`・`:green`・`:yellow`・`:blue`・`:magenta`・`:cyan`・`:white` と、それぞれの `:bright_*`、`:gray`)、または
+    `"#RRGGBB"` 形式の文字列で指定します。
+  - `style:` -- 文字装飾。`:reset`・`:bold`・`:faint`・`:italicized`・`:underlined`・`:blinking`・`:negative`
+    などのシンボル、またはその配列で指定します。
+
+`"#RRGGBB"` 形式の色指定は、トゥルーカラーとして扱われる端末(環境変数
+`COLORTERM` が `truecolor` または `24bit` の環境、もしくは
+[Reline::Face.force_truecolor](../../../method/Reline=3a=3aFace/s/force_truecolor.md) を呼んだ場合)では 24 ビットカラーで、それ以外の端末では近似の
+256 色に変換して出力されます。
+
+- **param** `name` -- face の名前をシンボルで指定します。
+
+- **raise** `ArgumentError` -- `define` に不正な色やスタイルを指定した場合に発生します。
+
+```ruby title="例: 補完ダイアログの配色を変更する"
+require 'reline'
+
+Reline::Face.config(:completion_dialog) do |conf|
+  conf.define :default, foreground: :white, background: :blue
+  conf.define :enhanced, foreground: :white, background: :magenta
+  conf.define :scrollbar, foreground: :white, background: :blue
+end
+
+Reline::Face.configs[:completion_dialog][:default]
+# => {foreground: :white, background: :blue, escape_sequence: "\e[0m\e[37;44m"}
+```

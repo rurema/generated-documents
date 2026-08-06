@@ -1,0 +1,14 @@
+# YAML::DBM#index
+
+### def index(value) -> String | nil
+
+value を持つ要素のキーを返します。
+
+対応するキーが見つからなかった場合は nil を返します。
+
+- **param** `value` -- 検索したい値を指定します。YAML 形式に変換できるオブジェク
+             トが指定できます。
+
+[注意] 非推奨のメソッドです。代わりに #key を使用してください。
+
+- **SEE** [YAML::DBM#key](../../../method/YAML=3a=3aDBM/i/key.md)

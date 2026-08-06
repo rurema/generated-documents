@@ -1,0 +1,32 @@
+# Net::HTTPHeader#range=
+
+### def range=(r)
+### def range=(n)
+### def set_range(i, len) -> ()
+### def set_range(r) -> ()
+### def set_range(n) -> ()
+
+範囲を指定してエンティティを取得するためのヘッダ Range: をセットします。
+
+以下は同じことを表しています。
+
+```ruby title="例"
+req.range = 0..1023
+req.range = 0...1024
+req.range = 1024
+req.set_range(0, 1024)
+req.set_range(0..1023)
+req.set_range(0...1024)
+req.set_range(1024)
+```
+
+特別な場合として、
+n に負数を与えた場合にnは最初から(-n)バイトまでの範囲を表します。
+r を x..-1 とした場合には、x が正ならば
+x バイト目から最後までの範囲を、
+x が負ならば最初から x バイト目までの範囲を表します。
+
+- **param** `r` -- 範囲を [Range](../../../class/Range.md) オブジェクトで与えます。
+- **param** `i` -- 範囲の始点を整数で与えます。
+- **param** `len` -- 範囲の長さを整数で与えます。
+- **param** `n` -- 0からの長さを整数で与えます。

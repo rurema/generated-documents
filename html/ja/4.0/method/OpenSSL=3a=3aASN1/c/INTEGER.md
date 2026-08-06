@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::INTEGER
+
+### const INTEGER -> Integer
+
+ASN.1 UNIVERSAL タグの、
+INTEGER のタグ番号 2 を表す定数です。

@@ -1,0 +1,32 @@
+# Binding#local_variables
+
+### def local_variables -> [Symbol]
+
+ローカル変数の一覧を [Symbol](../../../class/Symbol.md) の配列で返します。
+
+```ruby title="例"
+def foo
+  a = 1
+  2.times do |n|
+    p binding.local_variables #=> [:a, :n]
+  end
+end
+```
+
+番号指定パラメータ（_1 など）は 4.0 からローカル変数として扱われなくなり、返り値に含まれなくなりました。
+
+```ruby
+[1].each do
+  p _1                      # => 1
+  p binding.local_variables # => []（Ruby 3.4 以前は [:_1]）
+end
+```
+
+番号指定パラメータ自体は従来どおり参照できます（[spec/call#numbered_parameters](../../../doc/spec=2fcall.md#numbered_parameters)）。
+[Binding](../../../class/Binding.md) から番号指定パラメータを扱うには [Binding#implicit_parameters](../../../method/Binding/i/implicit_parameters.md) を使用してください。
+
+このメソッドは以下のコードと同様の動作をします。
+
+```ruby
+binding.eval("local_variables")
+```

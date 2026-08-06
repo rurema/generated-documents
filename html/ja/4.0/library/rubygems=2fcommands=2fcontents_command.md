@@ -1,0 +1,31 @@
+# library rubygems/commands/contents_command
+
+インストールされている Gem パッケージに含まれているファイルリストを表示するためのライブラリです。
+
+```console
+Usage: gem contents GEMNAME [options]
+  Options:
+    -v, --version VERSION            指定されたバージョンの Gem パッケージの内容を表示します
+    -s, --spec-dir a,b,c             指定されたパス以下にある Gem パッケージを検索します
+    -l, --[no-]lib-only              Gem パッケージの lib ディレクトリ以下にある
+                                     ファイルのみを表示します
+```
+
+```text
+Common Options:
+  -h, --help                       このコマンドのヘルプを表示します
+  -V, --[no-]verbose               表示を詳細にします
+  -q, --quiet                      静かに実行します
+      --config-file FILE           指定された設定ファイルを使用します
+      --backtrace                  バックトレースを表示します
+      --debug                      Ruby 自体のデバッグオプションを有効にします
+```
+
+```console
+Arguments:
+  GEMNAME       Gem パッケージの名前を指定します
+Summary:
+  インストールされている Gem パッケージに含まれるファイルの一覧を表示します
+Defaults:
+  --no-lib-only
+```

@@ -1,0 +1,7 @@
+# REXML::Document#xml_decl
+
+### def xml_decl -> REXML::XMLDecl | nil
+
+文書の XML 宣言を返します。
+
+文書が XML 宣言を持たない場合は nil を返します。

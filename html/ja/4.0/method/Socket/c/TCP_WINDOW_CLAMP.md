@@ -1,0 +1,9 @@
+# Socket::TCP_WINDOW_CLAMP
+
+### const TCP_WINDOW_CLAMP -> Integer
+
+Clamp the size of the advertised window。
+[BasicSocket#getsockopt](../../../method/BasicSocket/i/getsockopt.md), [BasicSocket#setsockopt](../../../method/BasicSocket/i/setsockopt.md)
+の第2引数(optname)に使用します。
+
+- **SEE** [man:tcp(7linux)]

@@ -1,0 +1,15 @@
+# Resolv.getname
+
+### def Resolv.getname(address) -> String
+
+IP アドレス address のホスト名をルックアップし、ルックアップ結果の最初のホスト名を文字列で返します。
+
+ルックアップは /etc/hosts, DNS の順で行います。
+
+```ruby
+require "resolv"
+p Resolv.getname("221.186.184.68") #=> "carbon.ruby-lang.org"
+```
+
+- **param** `address` -- IPアドレスを文字列で与えます。
+- **raise** `Resolv::ResolvError` -- ルックアップに失敗したときに発生します。

@@ -1,0 +1,6 @@
+# Kernel$hdrdir
+
+### gvar $hdrdir -> String
+
+Ruby のヘッダファイル ruby.h が存在するディレクトリです。
+通常は [m:$archdir] と同じで、"/usr/local/lib/ruby/バージョン/arch" です。

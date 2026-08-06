@@ -1,0 +1,12 @@
+# DRb?.current_server
+
+### module_function def current_server -> DRb::DRbServer
+
+「カレントサーバ」を返します。
+
+リモートメソッドが呼び出された場合、そのスレッドでは、その呼び出しを管理しているサーバがカレントサーバとなります。そうでない場合はプライマリサーバとなります。
+
+通常、カレントサーバとプライマリサーバは一致しますが、複数のサーバを異なる URI で起動した場合などにはこの2つが異なる場合があります。
+
+- **raise** `DRb::DRbServerNotFound` -- カレントサーバが存在しない場合に発生します
+- **SEE** [DRb?.primary_server](../../../method/DRb/m/primary_server.md)

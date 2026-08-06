@@ -1,0 +1,14 @@
+# Enumerable#drop
+
+### def drop(n)               -> Array
+
+Enumerable オブジェクトの先頭の n 要素を捨てて、残りの要素を配列として返します。
+
+- **param** `n` -- 捨てる要素数。
+
+```ruby title="例"
+e = [1, 2, 3, 4, 5, 0].each
+p e.drop(3)           # => [4, 5, 0]
+```
+
+- **SEE** [Array#drop](../../../method/Array/i/drop.md)

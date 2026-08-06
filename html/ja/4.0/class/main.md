@@ -1,0 +1,39 @@
+# object main
+
+トップレベルでの self を表すオブジェクトです。
+
+main では参照できない事に注意してください。トップレベルで self から参照してください。
+
+トップレベルで定義したメソッドは [Object](../class/Object.md) の private インスタンスメソッドとして定義されます。
+
+```ruby title="例: トップレベルで定義したメソッドの確認"
+basic_private_methods = private_methods(false)
+basic_public_methods = public_methods(false)
+private def explicit_private_method
+end
+
+# トップレベルで定義したメソッドは main オブジェクトの private メソッドと して定義される
+def implicit_private_method
+end
+
+public def explicit_public_method
+end
+
+# main オブジェクトで独自定義した private method のみを取得する
+p private_methods(false) - basic_private_methods
+# => [:explicit_private_method, :implicit_private_method]
+
+# main オブジェクトで独自定義した public method のみを取得する
+p public_methods(false) - basic_public_methods
+# => [:explicit_public_method]
+```
+
+## Class Methods
+
+- [define_method](../method/main/s/define_method.md)
+- [include](../method/main/s/include.md)
+- [inspect](../method/main/s/inspect.md)
+- [to_s](../method/main/s/to_s.md)
+- [private](../method/main/s/private.md)
+- [public](../method/main/s/public.md)
+- [using](../method/main/s/using.md)

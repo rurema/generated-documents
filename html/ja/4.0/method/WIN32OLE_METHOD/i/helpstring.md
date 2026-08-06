@@ -1,0 +1,15 @@
+# WIN32OLE_METHOD#helpstring
+
+### def helpstring -> String | nil
+
+メソッドのヘルプ文字列を取得します。
+
+helpstringは、IDEがメソッドのバルーンヘルプを表示するような場合に利用可能な、1行程度でメソッドを説明する文字列です。
+
+- **return** -- ヘルプ文字列を返します。未定義ならばnilを返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Internet Controls', 'IWebBrowser')
+method = WIN32OLE_METHOD.new(tobj, 'Navigate')
+puts method.helpstring # => Navigates to a URL or file.
+```

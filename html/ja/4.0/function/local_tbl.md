@@ -1,0 +1,5 @@
+# local_tbl
+
+### static ID * local_tbl(void)
+
+ローカル変数テーブルスタックの先頭にあるテーブルを取得します。

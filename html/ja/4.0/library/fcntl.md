@@ -1,0 +1,19 @@
+# library fcntl
+
+ファイルディスクリプタを扱う Unix のシステムコール [IO#fcntl](../method/IO/i/fcntl.md) (つまり
+[man:fcntl(2)]) で使用できる定数を集めたモジュールです。
+
+```ruby title="例"
+require "fcntl"
+m = s.fcntl(Fcntl::F_GETFL, 0)
+f.fcntl(Fcntl::F_SETFL, Fcntl::O_NONBLOCK|m)
+    
+require 'fcntl'
+    
+fd = IO.sysopen('/tmp/tempfile', 
+     Fcntl::O_WRONLY | Fcntl::O_EXCL | Fcntl::O_CREAT)
+f = IO.open(fd)
+f.syswrite("TEMP DATA")
+    
+f.close
+```

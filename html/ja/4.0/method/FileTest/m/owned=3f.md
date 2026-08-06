@@ -1,0 +1,17 @@
+# FileTest?.owned?
+
+### module_function def owned?(file)    -> bool
+
+ファイルのユーザがカレントプロセスの実効ユーザと等しい時に真を返します。そうでない場合、ファイルが存在しない場合、あるいはシステムコールに失敗した場合などには false を返します。
+
+- **param** `file` -- ファイル名を表す文字列か IO オブジェクトを指定します。
+
+- **raise** `IOError` -- 指定された IO オブジェクト file が既に close されていた場合に発生します。
+
+```ruby title="例"
+IO.write("testfile", "")
+File.chown(Process.uid, -1, "testfile")
+p FileTest.owned?("testfile")    # => true
+File.chown(501, -1, "testfile")
+p FileTest.owned?("testfile")    # => false
+```

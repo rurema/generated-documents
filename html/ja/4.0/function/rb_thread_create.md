@@ -1,0 +1,6 @@
+# rb_thread_create
+
+### VALUE rb_thread_create(fn, arg)
+
+VALUE (*fn)();
+void *arg;

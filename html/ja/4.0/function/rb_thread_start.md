@@ -1,0 +1,3 @@
+# rb_thread_start
+
+### static VALUE rb_thread_start(VALUE klass, VALUE args)

@@ -1,0 +1,9 @@
+# Gem::SourceInfoCache#set_cache_data
+
+### def set_cache_data(hash) -> true
+
+直接キャッシュデータをセットします。
+
+このメソッドは主にユニットテストで使用します。
+
+- **param** `hash` -- キャッシュデータとして使用するハッシュを指定します。

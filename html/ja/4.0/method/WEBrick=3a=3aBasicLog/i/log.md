@@ -1,0 +1,9 @@
+# WEBrick::BasicLog#log
+
+### def log(level, msg)    -> ()
+
+指定された msg を指定されたログレベル level でログに記録します。
+
+- **param** `level` -- 記録したい msg のレベルを FATAL, ERROR, WARN, INFO, DEBUG のいずれかの定数で指定します。
+
+- **param** `msg` -- 記録したい文字列を指定します。

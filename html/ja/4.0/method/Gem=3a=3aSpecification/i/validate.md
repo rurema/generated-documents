@@ -1,0 +1,9 @@
+# Gem::Specification#validate
+
+### def validate -> bool
+
+必須属性のチェックと自身の基本的な正当性チェックを行います。
+
+チェックにパスした場合は常に true を返します。そうでない場合は例外が発生します。
+
+- **raise** `Gem::InvalidSpecificationException` -- チェックにパスしなかった場合に発生します。

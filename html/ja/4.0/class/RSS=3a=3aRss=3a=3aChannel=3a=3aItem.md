@@ -1,0 +1,27 @@
+# class RSS::Rss::Channel::Item < RSS::Element
+
+## Instance Methods
+
+- [author](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/author.md)
+- [author=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/author=3d.md)
+- [categories](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/categories.md)
+- [category](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/category.md)
+- [category=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/category=3d.md)
+- [comments](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/comments.md)
+- [comments=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/comments=3d.md)
+- [date](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/date.md)
+- [date=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/date=3d.md)
+- [description](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/description.md)
+- [description=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/description=3d.md)
+- [enclosure](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/enclosure.md)
+- [enclosure=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/enclosure=3d.md)
+- [guid](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/guid.md)
+- [guid=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/guid=3d.md)
+- [link](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/link.md)
+- [link=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/link=3d.md)
+- [pubDate](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/pubDate.md)
+- [pubDate=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/pubDate=3d.md)
+- [source](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/source.md)
+- [source=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/source=3d.md)
+- [title](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/title.md)
+- [title=](../method/RSS=3a=3aRss=3a=3aChannel=3a=3aItem/i/title=3d.md)

@@ -1,0 +1,7 @@
+# REXML::Document#doctype
+
+### def doctype -> REXML::DocType | nil
+
+文書の DTD を返します。
+
+文書が DTD を持たない場合は nil を返します。

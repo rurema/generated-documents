@@ -1,0 +1,35 @@
+# REXML::Element#add_element
+
+### def add_element(element, attrs = nil) -> Element
+
+子要素を追加します。
+
+element として追加する要素を指定します。
+[REXML::Element](../../../class/REXML=3a=3aElement.md) オブジェクトもしくは文字列を指定します。
+
+element として REXML::Element オブジェクトを指定した場合、それが追加されます。
+文字列を指定した場合は、それを要素名とする要素を追加します。
+
+attrs に { String => String } という Hash を渡すと、追加する要素の属性を指定できます。
+
+子要素の最後に追加されます。
+
+返り値は追加された要素です。
+
+- **param** `element` -- 追加する要素
+- **param** `attrs` -- 追加する要素に設定する属性
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new('<a/>')
+el = doc.root.add_element 'my-tag' # => <my-tag/>
+p doc.root.to_s # => "<a><my-tag/></a>"
+el = doc.root.add_element 'my-tag', {'attr1'=>'val1', 'attr2'=>'val2'}
+# => <my-tag attr1='val1' attr2='val2'/>
+p doc.root.to_s # => "<a><my-tag/><my-tag attr1='val1' attr2='val2'/></a>"
+el = REXML::Element.new 'my-tag'
+p doc.root.add_element el # => <my-tag/>
+p doc.root.to_s # => "<a><my-tag/><my-tag attr1='val1' attr2='val2'/><my-tag/></a>"
+```
+
+- **SEE** [REXML::Elements#add](../../../method/REXML=3a=3aElements/i/add.md), [REXML::Element.new](../../../method/REXML=3a=3aElement/s/new.md)

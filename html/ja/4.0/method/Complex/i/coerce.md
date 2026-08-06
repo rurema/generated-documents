@@ -1,0 +1,11 @@
+# Complex#coerce
+
+### def coerce(other) -> [Complex, Complex]
+
+other を [Complex](../../../class/Complex.md) に変換して [変換後の other, self] の配列を返します。
+
+- **raise** `TypeError` -- 変換できないオブジェクトを指定した場合に発生します。
+
+```ruby title="例"
+p Complex(1).coerce(2) # => [(2+0i), (1+0i)]
+```

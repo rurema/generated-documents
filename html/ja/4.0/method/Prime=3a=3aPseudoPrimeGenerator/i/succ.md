@@ -1,0 +1,11 @@
+# Prime::PseudoPrimeGenerator#succ
+
+### def next -> ()
+### def succ -> ()
+
+次の擬似素数を返します。
+また内部的な位置を進めます。
+
+サブクラスで実装してください。
+
+- **raise** `NotImplementedError` -- 必ず発生します。

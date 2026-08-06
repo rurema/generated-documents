@@ -1,0 +1,3 @@
+# logop
+
+### static NODE * logop(enum node_type type, NODE *left, NODE *right)

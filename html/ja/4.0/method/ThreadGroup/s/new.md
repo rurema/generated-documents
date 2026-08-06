@@ -1,0 +1,13 @@
+# ThreadGroup.new
+
+### def ThreadGroup.new    -> ThreadGroup
+
+新たな ThreadGroup を生成して返します。
+
+```ruby title="例"
+thread_group = ThreadGroup.new
+thread_group.add Thread.new { sleep 0.1; Thread.new { sleep 1 }; sleep 1 }
+thread_group.add Thread.new { sleep 2 }
+sleep 0.5
+p thread_group.list # => [#<Thread:0x007fc6f1842d70 sleep>, #<Thread:0x007fc6f1842c80 sleep>, #<Thread:0x007fc6f080dba8 sleep>]
+```

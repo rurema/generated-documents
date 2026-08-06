@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::GRAPHICSTRING
+
+### const GRAPHICSTRING -> Integer
+
+ASN.1 UNIVERSAL タグの、
+GRAPHICSTRING のタグ番号 25 を表す定数です。

@@ -1,0 +1,17 @@
+# WEBrick::HTTPResponse#reason_phrase=
+
+### def reason_phrase=(val)
+
+HTTP のレスポンスの最初の行の reason phrase をセットします。
+この値が nil の場合 reason phrase は status から生成されます。
+デフォルトは nil です。
+
+- **param** `val` -- reason phrase を表す文字列を指定します。
+
+```ruby
+require 'webrick'
+res = WEBrick::HTTPResponse.new( { :HTTPVersion => "1.1" } )
+res.status = 404
+  
+p res.reason_phrase    #=> "Not Found"
+```

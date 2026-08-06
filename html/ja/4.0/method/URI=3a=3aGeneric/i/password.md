@@ -1,0 +1,5 @@
+# URI::Generic#password
+
+### def password    -> String | nil
+
+自身の password を文字列で返します。設定されていない場合は nil を返します。

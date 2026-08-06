@@ -1,0 +1,12 @@
+# Encoding::SJIS_DoCoMo
+
+### const SJIS_DOCOMO -> Encoding
+### const SJIS_DoCoMo -> Encoding
+
+SJIS-DoCoMo エンコーディングです。
+
+Shift_JIS, CP932 の亜種です。
+DoCoMo の携帯電話で使われる絵文字が含まれています。
+
+- **SEE** <https://www.nttdocomo.co.jp/english/service/developer/make/content/pictograph/basic/index.html>,
+     <https://www.nttdocomo.co.jp/english/service/developer/make/content/pictograph/extention/index.html>

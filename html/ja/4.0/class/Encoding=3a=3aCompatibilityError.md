@@ -1,0 +1,10 @@
+# class Encoding::CompatibilityError < EncodingError
+
+2つのエンコーディング間に互換性がない場合に発生する例外。
+
+エンコーディングの異なる文字列を連結しようとした場合などに発生します。
+
+```ruby title="例"
+"あ".encode("EUC-JP") + "あ".encode("UTF-8")
+# ~> Encoding::CompatibilityError: incompatible character encodings: EUC-JP and UTF-8
+```

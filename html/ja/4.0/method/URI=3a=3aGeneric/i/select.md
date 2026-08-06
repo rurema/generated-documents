@@ -1,0 +1,15 @@
+# URI::Generic#select
+
+### def select(*components)    -> [String]
+
+指定された components に対応する構成要素を文字列の配列として返します。
+
+- **param** `components` -- 構成要素名をシンボルで指定します。
+
+```ruby title="例"
+require 'uri'
+  
+uri = URI.parse('http://myuser:mypass@my.example.com/test.rbx')
+p uri.select(:userinfo, :host, :path)
+# => ["myuser:mypass", "my.example.com", "/test.rbx"]
+```

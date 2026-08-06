@@ -1,0 +1,37 @@
+# GC.config
+
+### def GC.config -> {Symbol => object}
+### def GC.config(hash) -> {Symbol => object}
+
+GC の設定を取得、変更します。
+
+引数を省略すると現在の設定を返します。
+hash を指定すると、その内容を現在の設定にマージしてから設定を返します。
+設定に無いキーは無視されます。
+
+hash を指定したときの返り値は、Ruby 3.4 では指定したキーだけを含む [Hash](../../../class/Hash.md) で、
+Ruby 4.0 以降では設定全体を含む [Hash](../../../class/Hash.md) です。
+
+このメソッドは処理系依存 (CRuby 特有) です。
+設定できる項目は GC の実装ごとに異なり、予告なく変更される可能性があります。
+
+すべての実装に共通する項目は `:implementation` だけです。
+これは実装の名前を表す読み取り専用の項目で、Ruby の既定の実装では `"default"` です。
+
+既定の実装では `:rgengc_allow_full_mark` を設定できます。
+false を指定すると、フルマークを行う GC (major GC) が実行されなくなります。
+
+- **param** `hash` -- 変更する設定を [Hash](../../../class/Hash.md) で指定します。キーは [Symbol](../../../class/Symbol.md) で指定します。
+- **return** -- 設定を [Hash](../../../class/Hash.md) で返します。
+- **raise** `ArgumentError` -- hash が [Hash](../../../class/Hash.md) でない場合に発生します。
+
+```ruby
+p GC.config # => {rgengc_allow_full_mark: true, implementation: "default"}
+
+GC.config(rgengc_allow_full_mark: false)
+p GC.config # => {rgengc_allow_full_mark: false, implementation: "default"}
+
+# 設定に無いキーは無視される
+GC.config(unknown_key: 1)
+p GC.config # => {rgengc_allow_full_mark: false, implementation: "default"}
+```

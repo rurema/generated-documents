@@ -1,0 +1,17 @@
+# Kernel$LAST_MATCH_INFO
+
+### gvar $LAST_MATCH_INFO -> MatchData | nil
+
+[m:$~] の別名
+
+```ruby
+require "English"
+
+str = "<a href=https://www.ruby-lang.org/en/about/license.txt>license</a>"
+
+if /<a href=(.+?)>/ =~ str
+  p $LAST_MATCH_INFO[0] #=> "<a href=https://www.ruby-lang.org/en/about/license.txt>"
+  p $LAST_MATCH_INFO[1] #=> "https://www.ruby-lang.org/en/about/license.txt"
+  p $LAST_MATCH_INFO[2] #=> nil
+end
+```

@@ -1,0 +1,9 @@
+# PStore#ultra_safe
+
+### def ultra_safe -> bool
+
+真であれば、パフォーマンスと引き換えにファイル更新の衝突を避けることができます。
+デフォルトは偽です。
+
+このフラグの効果があるのは一部のプラットフォームだけです。
+(e.g. all POSIX platforms: Linux, Mac OS X, FreeBSD, etc)

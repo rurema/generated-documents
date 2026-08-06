@@ -1,0 +1,7 @@
+# OpenSSL::PKey::EC::Group#order
+
+### def order -> OpenSSL::BN
+
+生成元の位数を返します。
+
+- **raise** `OpenSSL::PKey::EC::Group::Error` -- 位数の取得に失敗した場合に発生します

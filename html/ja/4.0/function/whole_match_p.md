@@ -1,0 +1,5 @@
+# whole_match_p
+
+### static int whole_match_p(char *eos, int len, int indent)
+
+現在の入力行がヒアドキュメントの終端記号であれば真。

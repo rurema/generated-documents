@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::ISO64STRING
+
+### const ISO64STRING -> Integer
+
+ASN.1 UNIVERSAL タグの、
+ISO64STRING のタグ番号 26 を表す定数です。

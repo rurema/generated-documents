@@ -1,0 +1,19 @@
+# WIN32OLE_VARIABLE#ole_type
+
+### def ole_type -> String
+
+変数の型を取得します。
+
+- **return** -- 変数の型名を文字列で返します。型名を文字列に変換できない場合は、
+       「Unknown Type nn」（nnはバリアント型を示す数値）の形式の文字列
+        を返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'XlSheetType')
+variables = tobj.variables
+variables.each do |variable|
+  puts "#{variable.ole_type} #{variable.name}"
+end
+```
+
+OLEオートメーションの型名は、対応する[WIN32OLE::VARIANT](../../../class/WIN32OLE=3a=3aVARIANT.md)の定数の先頭の「VT_」を削除した名称を持ちます。

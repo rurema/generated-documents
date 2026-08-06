@@ -1,0 +1,14 @@
+# Gem::Package::TarWriter#add_file_simple
+
+### def add_file_simple(name, mode, size) -> self
+### def add_file_simple(name, mode, size){|io| ... } -> self
+
+自身に関連付けられた IO にファイルを追加します。
+
+ブロックを与えると、自身に関連付けられた IO をブロックに渡してブロックを評価します。
+
+- **param** `name` -- 追加するファイルの名前を指定します。
+
+- **param** `mode` -- 追加するファイルのパーミッションを指定します。
+
+- **param** `size` -- 追加するファイルのサイズを指定します。

@@ -1,0 +1,17 @@
+# Prime.each
+
+### def Prime.each(upper_bound = nil, generator = EratosthenesGenerator.new){|prime| ... } -> object
+### def Prime.each(upper_bound = nil, generator = EratosthenesGenerator.new)               -> Enumerator
+
+Prime.instance.each と同じです。
+
+- **param** `upper_bound` -- 任意の正の整数を指定します。列挙の上界です。
+                   nil が与えられた場合は無限に列挙し続けます。
+
+- **param** `generator` -- 素数生成器のインスタンスを指定します。
+
+- **return** -- ブロックの最後に評価された値を返します。
+        ブロックが与えられなかった場合は、[Enumerator](../../../class/Enumerator.md) と互換性のある外部イテレータを返します。
+
+
+- **SEE** [Prime#each](../../../method/Prime/i/each.md)

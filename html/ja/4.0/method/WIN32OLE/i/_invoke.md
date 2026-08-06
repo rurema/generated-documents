@@ -1,0 +1,56 @@
+# WIN32OLE#_invoke
+
+### def _invoke(dispid, args, types) -> object | nil
+
+DISPIDとパラメータの型を指定してオブジェクトのメソッドを呼び出します。
+
+呼び出すメソッドのインターフェイスを事前に知っている場合に、DISPIDとパラメータの型を指定してメソッドを呼び出します。
+
+このメソッドは引数の変換方法をプログラマが制御できるようにすることと、
+COMアーリーバインディングを利用して外部プロセスサーバとのラウンドトリップを減らして処理速度を向上させることを目的としたものです。後者の目的については、DLLの形式で型情報（TypeLib）を提供しているサーバに対してはあまり意味を持ちません。そのため、型の高精度な制御が不要な場合は、直接メソッド名を指定したメソッド呼び出しを行うことを、プログラムの可読性の点から推奨します。
+
+- **param** `dispid` -- メソッドのDISPID（メソッドを一意に特定する数値）を指定し
+              ます。
+
+- **param** `args` -- メソッドの引数を配列で指定します。引数の順序は最左端の引数
+            のインデックスを0とします。引数が不要な場合は空配列を指定し
+            ます。
+
+- **param** `types` -- メソッドの引数の型を配列で指定します。引数の順序は最左端の
+             引数のインデックスを0とします。型の指定には、
+             [WIN32OLE::VARIANT](../../../class/WIN32OLE=3a=3aVARIANT.md)の定数を利用します。引数が不要な場
+             合は空配列を指定します。
+
+- **return** -- メソッドの返り値。ただし返り値を持たないメソッドの場合はnil。
+
+- **raise** `WIN32OLERuntimeError` -- オートメーションサーバの呼び出しに失敗しました。
+                            理由はメッセージのHRESULTを調べてください。
+
+```ruby
+excel = WIN32OLE.new('Excel.Application')
+excel._invoke(302, [], []) #  DISPID 302は、Quitメソッド
+```
+
+MFCの制約により、バイト配列の型情報は通常
+[WIN32OLE::VARIANT::VT_VARIANT](../../../method/WIN32OLE=3a=3aVARIANT/c/VT_VARIANT.md)となります。このような場合に、バイト配列を与えるつもりで
+
+```ruby
+include WIN32OLE::VARIANT
+obj.method(DISPID, [[0, 1, 2, 3]], [VT_VARIANT])
+```
+
+のように記述すると、単に32ビット整数（VT_I4）の配列が送られることになり空間効率が低下します。
+
+引数の最終的な型がわかっている場合は、下記の例のように型指定パラメータには実際の型を指定してください。
+
+```ruby
+include WIN32OLE::VARIANT
+obj.method(DISPID, [[0, 1, 2, 3]], [VT_BYREF | VT_ARRAY | VT_UI1])
+```
+
+なお、VB6で作成したCOMコンポーネントのパラメータに配列を与える場合は、
+[WIN32OLE::VARIANT::VT_BYREF](../../../method/WIN32OLE=3a=3aVARIANT/c/VT_BYREF.md)の指定が必須です。
+
+DISPIDは[WIN32OLE_METHOD#dispid](../../../method/WIN32OLE_METHOD/i/dispid.md)から取得できます。
+
+- **SEE** [WIN32OLE::VARIANT](../../../class/WIN32OLE=3a=3aVARIANT.md)

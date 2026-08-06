@@ -1,0 +1,5 @@
+# FL_ABLE
+
+### int FL_ABLE(VALUE x)
+
+x が即値の VALUE でなければ真。

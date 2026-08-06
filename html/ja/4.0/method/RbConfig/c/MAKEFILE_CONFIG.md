@@ -1,0 +1,39 @@
+# RbConfig::MAKEFILE_CONFIG
+
+### const MAKEFILE_CONFIG -> Hash
+
+[RbConfig::CONFIG](../../../method/RbConfig/c/CONFIG.md)
+と同じですが、その値は以下のような形で他の変数への参照を含みます。
+
+```text
+MAKEFILE_CONFIG["bindir"] = "$(exec_prefix)/bin"
+```
+
+これは、Makefile の変数参照の形式で MAKEFILE_CONFIG は、
+Makefile 作成の際に利用されることを想定しています。
+
+```text
+require 'rbconfig'
+  
+print <<-END_OF_MAKEFILE
+prefix = #{RbConfig::MAKEFILE_CONFIG['prefix']}
+exec_prefix = #{RbConfig::MAKEFILE_CONFIG['exec_prefix']}
+bindir = #{RbConfig::MAKEFILE_CONFIG['bindir']}
+END_OF_MAKEFILE
+  
+=> prefix = /usr/local
+   exec_prefix = $(prefix)
+   bindir = $(exec_prefix)/bin
+```
+
+[RbConfig.expand](../../../method/RbConfig/s/expand.md)
+は、このような参照を解決するメソッドとして rbconfig 内部で利用されています。
+(CONFIG 変数は、MAKEFILE_CONFIG の内容から
+[RbConfig.expand](../../../method/RbConfig/s/expand.md)
+を使って生成されています)
+
+```ruby
+require 'rbconfig'
+p Config.expand(RbConfig::MAKEFILE_CONFIG["bindir"])
+# => "/usr/local/bin"
+```

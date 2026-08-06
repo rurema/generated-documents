@@ -1,0 +1,19 @@
+# CSV::Table#to_csv
+
+### def to_csv(options = Hash.new) -> String
+### def to_s(options = Hash.new) -> String
+
+CSV の文字列に変換して返します。
+
+ヘッダを一行目に出力します。その後に残りのデータを出力します。
+
+デフォルトでは、ヘッダを出力します。オプションに :write_headers =>
+false を指定するとヘッダを出力しません。
+
+```ruby
+require 'csv'
+csv = CSV.new("a,b,c\n1,2,3", headers: true)
+table = csv.read
+p table.to_csv                       # => "a,b,c\n1,2,3\n"
+p table.to_csv(write_headers: false) # => "1,2,3\n"
+```

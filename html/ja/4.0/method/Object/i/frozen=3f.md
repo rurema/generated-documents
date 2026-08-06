@@ -1,0 +1,14 @@
+# Object#frozen?
+
+### def frozen? -> bool
+
+オブジェクトが凍結（内容の変更を禁止）されているときに真を返します。
+
+```ruby
+obj = "someone"
+p obj.frozen? #=> false
+obj.freeze
+p obj.frozen? #=> true
+```
+
+- **SEE** [Object#freeze](../../../method/Object/i/freeze.md)

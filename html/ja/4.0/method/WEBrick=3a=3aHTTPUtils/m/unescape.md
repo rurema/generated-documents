@@ -1,0 +1,7 @@
+# WEBrick::HTTPUtils?.unescape
+
+### module_function def unescape(str) -> String
+
+与えられた文字列を数値参照文字列から元の文字列に変換します。
+
+- **param** `str` -- 文字列を指定します。

@@ -1,0 +1,27 @@
+# CSV#field_size_limit
+
+### def field_size_limit -> Integer
+
+フィールドサイズの最大値を返します。
+
+```ruby title="例"
+require "csv"
+
+csv = CSV.new(DATA)
+p csv.field_size_limit # => nil
+p csv.read # => [["a", "b"], ["\n2\n2\n", ""]]
+
+DATA.rewind
+csv = CSV.new(DATA, field_size_limit: 4)
+p csv.field_size_limit # => 4
+csv.read # => #<CSV::MalformedCSVError: Field size exceeded on line 2.>
+
+__END__
+"a","b"
+"
+2
+2
+",""
+```
+
+- **SEE** [CSV.new](../../../method/CSV/s/new.md)

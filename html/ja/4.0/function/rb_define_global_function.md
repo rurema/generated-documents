@@ -1,0 +1,19 @@
+# rb_define_global_function
+
+### void rb_define_global_function(const char *name, VALUE (*func)(), int argc)
+
+関数 name を定義します。
+func と argc は rb_define_method と同じです。
+
+```c title="例"
+static VALUE 
+return_obj_dup(VALUE obj) 
+{
+      VALUE dup = rb_obj_dup(obj); // オブジェクトを複製
+      return dup;
+}
+
+void Init_func() {
+      rb_define_global_function("dup_obj", return_obj_dup, 1); // 関数 dup_objを定義しています。
+}
+```

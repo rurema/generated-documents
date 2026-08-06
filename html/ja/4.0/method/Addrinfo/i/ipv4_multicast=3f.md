@@ -1,0 +1,5 @@
+# Addrinfo#ipv4_multicast?
+
+### def ipv4_multicast? -> bool
+
+IPv4 のマルチキャストアドレス(224.0.0.0/4)であれば真を返します。

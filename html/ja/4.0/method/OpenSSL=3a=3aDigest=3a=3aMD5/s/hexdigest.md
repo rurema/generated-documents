@@ -1,0 +1,7 @@
+# OpenSSL::Digest::MD5.hexdigest
+
+### def OpenSSL::Digest::MD5.hexdigest(data) -> String
+
+data のダイジェストを MD5 で計算し、16進文字列で返します。
+
+- **param** `data` -- ダイジェストを計算する文字列

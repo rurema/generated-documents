@@ -1,0 +1,5 @@
+# rb_is_local_id
+
+### int rb_is_local_id(ID id)
+
+ローカル変数名として有効な ID ならば真。

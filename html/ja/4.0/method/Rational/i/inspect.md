@@ -1,0 +1,18 @@
+# Rational#inspect
+
+### def inspect -> String
+
+`self` を人間が読みやすい形の文字列表現にして返します。
+
+"(3/5)", "(-17/7)" のように10進数の表記を返します。
+
+- **return** -- 有理数の表記にした文字列を返します。
+
+```ruby title="例"
+p Rational(5, 8).inspect  # => "(5/8)"
+p Rational(2).inspect   # => "(2/1)"
+p Rational(-8, 6).inspect # => "(-4/3)"
+p Rational(0.5).inspect # => "(1/2)"
+```
+
+- **SEE** [Rational#to_s](../../../method/Rational/i/to_s.md)

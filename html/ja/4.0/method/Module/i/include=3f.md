@@ -1,0 +1,20 @@
+# Module#include?
+
+### def include?(mod) -> bool
+
+self かその親クラス / 親モジュールがモジュール mod をインクルードしていれば true を返します。
+
+- **param** `mod` -- [Module](../../../class/Module.md) を指定します。
+
+```ruby title="例"
+module M
+end
+class C1
+  include M
+end
+class C2 < C1
+end
+
+p C1.include?(M)   # => true
+p C2.include?(M)   # => true
+```

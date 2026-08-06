@@ -1,0 +1,8 @@
+# OpenSSL::Random?.pseudo_bytes
+
+### module_function def pseudo_bytes(len) -> String
+
+暗号論的な予測不可能性を持たない(が高速な)
+乱数生成器によって、 len バイトのランダムなバイト列を返します。
+
+- **param** `len` -- 必要なランダムバイト列の長さ

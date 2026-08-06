@@ -1,0 +1,37 @@
+# TracePoint#disable
+
+### def disable         -> bool
+### def disable { ... } -> object
+
+self のトレースを無効にします。
+
+実行前の [TracePoint#enabled?](../../../method/TracePoint/i/enabled=3f.md) を返します。(トレースが既に有効であった場合は true を返します。そうでなければ false を返します)
+
+```ruby title="例"
+p trace.enabled? # => true
+p trace.disable  # => false (実行前の状態)
+p trace.enabled? # => false
+p trace.disable  # => false
+```
+
+ブロックが与えられた場合、ブロック内でのみトレースが無効になります。
+この場合はブロックの評価結果を返します。
+
+```ruby title="例"
+p trace.enabled? # => true
+
+trace.disable do
+  p trace.enabled? # => false
+end
+
+p trace.enabled? # => true
+```
+
+[注意] イベントフックのためのメソッドに、ブロックの外側で参照した場合は
+[RuntimeError](../../../class/RuntimeError.md) が発生する事に注意してください。
+
+```ruby
+trace.enable { p trace.lineno } # ~> RuntimeError: access from outside
+```
+
+- **SEE** [TracePoint#enable](../../../method/TracePoint/i/enable.md), [TracePoint#enabled?](../../../method/TracePoint/i/enabled=3f.md)

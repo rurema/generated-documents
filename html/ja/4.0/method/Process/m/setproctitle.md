@@ -1,0 +1,17 @@
+# Process?.setproctitle
+
+### module_function def setproctitle(title) -> String
+
+[man:ps(1)] が出力する現在実行中の Ruby スクリプトの名前を引数 title
+で指定した文字列に変更します。
+
+OS によっては何も行われません。また、処理結果に関係なく例外は発生しません。サポートされる OS ではない場合であっても [NotImplementedError](../../../class/NotImplementedError.md)
+が発生する事はありません。本メソッドを実行しても [m:$0] への影響はありません。
+
+```ruby
+Process.setproctitle('myapp: worker #%d' % worker_id)
+```
+
+本メソッドは 2.1 以降でグローバル変数を用いないで現在実行中の Ruby スクリプトの名前を表す文字列を設定する手段として提供されました。
+
+- **SEE** [Process?.argv0](../../../method/Process/m/argv0.md), [m:$0]

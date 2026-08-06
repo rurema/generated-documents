@@ -1,0 +1,32 @@
+# Syslog?.mask
+
+### module_function def mask -> Integer | nil
+### module_function def mask=(mask)
+
+ログの優先度のマスクを取得または設定します。
+マスクは永続的であり、
+Syslog.openやSyslog.close
+ではリセットされません。
+
+- **param** `mask` -- ログの優先度のマスクを設定します。
+
+- **raise** `RuntimeError` -- syslog がオープンされていない場合、発生します。
+
+```ruby title="使用例"
+require 'syslog'
+include Syslog::Constants
+# ログの場所は実行環境によって異なる。詳しくはsyslog.conf を参照
+log = '/var/log/ftp.log'
+
+Syslog.open('ftpd', LOG_PID | LOG_NDELAY, LOG_FTP)
+Syslog.mask = Syslog::LOG_UPTO(LOG_ERR)
+
+[ LOG_CRIT, LOG_ERR, LOG_WARNING,
+  LOG_NOTICE, LOG_INFO, LOG_DEBUG ].each_with_index { |c, i|
+  Syslog.log(c, "test for syslog FTP #{c}, #{i}")
+}
+Syslog.close
+File.foreach(log){|line|
+  print line if line =~ /FTP/
+}
+```

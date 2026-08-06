@@ -1,0 +1,8 @@
+# REXML::Entity#external
+
+### def external -> String | nil
+
+実体が外部実体(external entity)宣言である場合は
+"SYSTEM" もしくは "PUBLIC" という文字列を返します。
+
+内部実体(internal entity)宣言である場合には nil を返します。

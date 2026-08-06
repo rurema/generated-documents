@@ -1,0 +1,9 @@
+# Gem::DocManager#run_rdoc
+
+### def run_rdoc(*args)
+
+与えられた引数を使用して RDoc を実行します。
+
+- **param** `args` -- RDoc に与える引数を指定します。
+
+- **raise** `Gem::FilePermissionError` -- RDoc でドキュメント生成中にファイルにアクセス出来なかった場合に発生します。

@@ -1,0 +1,18 @@
+# Kernel?.__method__
+
+### module_function def __method__ -> Symbol | nil
+
+現在のメソッド名を返します。
+メソッドの外で呼ばれると nil を返します。
+
+```ruby title="例"
+def foo
+  p __method__
+end
+alias :bar :foo
+p foo #=> :foo
+p bar #=> :foo
+p __method__ #=> nil
+```
+
+現在のメソッド名が alias されたメソッドの場合でも alias 元のメソッド名を返します。

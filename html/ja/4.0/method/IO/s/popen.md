@@ -1,0 +1,128 @@
+# IO.popen
+
+### def IO.popen(env = {}, command, mode = "r", opt={}) -> IO
+### def IO.popen(env = {}, command, mode = "r", opt={}){|f| ... } -> object
+### def IO.popen([env = {}, cmdname, *args, execopt={}], mode = "r", opt={}) -> IO
+### def IO.popen([env = {}, cmdname, *args, execopt={}], mode = "r", opt={}){|f| ... } -> object
+### def IO.popen([env = {}, [cmdname, arg0], *args, execopt={}], mode = "r", opt={}) -> IO
+### def IO.popen([env = {}, [cmdname, arg0], *args, execopt={}], mode = "r", opt={}){|f| ... } -> object
+### def IO.popen(env = {}, [cmdname, *args, execopt={}], mode = "r", opt={}) -> IO
+### def IO.popen(env = {}, [cmdname, *args, execopt={}], mode = "r", opt={}){|f| ... } -> object
+### def IO.popen(env = {}, [[cmdname, arg0], *args, execopt={}], mode = "r", opt={}) -> IO
+### def IO.popen(env = {}, [[cmdname, arg0], *args, execopt={}], mode = "r", opt={}){|f| ... } -> object
+
+サブプロセスを実行し、そのプロセスの標準入出力との間にパイプラインを確立します。生成したパイプを [IO](../../../class/IO.md) オブジェクトとして返します。
+
+```ruby
+p io = IO.popen("cat", "r+")  # => #<IO:fd 4>
+io.puts "foo"
+io.close_write
+p io.gets                     # => "foo\n"
+```
+
+サブプロセスを指定する方法は2通りあります。文字列を指定する場合と配列を指定する場合です。
+文字列の場合は、シェルを経由して子プロセスを実行し、配列の場合は、シェルを経由せずに子プロセスを実行します。
+
+シェルを経由しない場合(上のシグネチャで cmdname を含む場合)には *args
+がサブプロセスの引数として使われます。この場合には *args はシェルでのワイルドカード展開などはなされません。
+
+配列内に配列を指定することで、arg0(みせかけのプログラム名)を指定できます。
+
+ブロックが与えられた場合は生成した IO オブジェクトを引数にブロックを実行し、ブロックの実行結果を返します。ブロックの実行後、生成したパイプは自動的にクローズされます。
+
+```ruby
+p IO.popen("cat", "r+") {|io|
+  io.puts "foo"
+  io.close_write
+  io.gets
+}
+# => "foo\n"
+```
+
+opt でプロセス起動のためのオプションや、パイプ IO オブジェクトの属性(エンコーディングや読み書き能力)を指定できます。
+プロセス起動のためのオプションは [Kernel?.spawn](../../../method/Kernel/m/spawn.md) と、パイプオブジェクトの属性の指定のオプションは [IO.new](../../../method/IO/s/new.md) と共通です。
+つまり、 :external_encoding や :unsetenv_others が指定できます。
+オプションの詳しい意味は [Kernel?.spawn](../../../method/Kernel/m/spawn.md) や [IO.new](../../../method/IO/s/new.md) を参照してください。
+
+```ruby
+# nkfプロセスから得られる文字列を EUC-JP と指定する
+# IO.new などと共通のオプションが指定できる
+IO.popen("nkf -e filename", external_encoding: "EUC-JP"){|nkf_io|
+  nkf_io.read 
+}
+```
+
+これに加えて、プロセス起動のためのオプションを execopt で指定することもできます。
+execopt ではエンコーディングなどは指定できません。
+
+```ruby
+# 標準エラー出力を子プロセス側で標準出力にリダイレクトする
+# 標準エラー出力と標準出力がマージされる
+# Kernel.#spawn と共通のオプション
+IO.popen(["ls", "/", :err=>[:child, :out]]) {|ls_io|
+  ls_result_with_error = ls_io.read
+}
+  
+# 上と同じ、配列の外側でもオプションが指定できる
+IO.popen(["ls", "/"], :err=>[:child, :out]) {|ls_io|
+  ls_result_with_error = ls_io.read
+}
+```
+
+- **param** `env` -- 環境変数を { 変数名 => 内容 } という形式の [Hash](../../../class/Hash.md) で渡します。
+- **param** `command` -- コマンド名を文字列で指定します。シェルを経由して実行されます。
+- **param** `cmdname` -- コマンド名を文字列で指定します
+- **param** `arg0` -- みせかけのコマンド名を指定します
+- **param** `args` -- コマンドのパラメータを文字列で指定します
+- **param** `execopt` -- プロセス実行に関するオプションを Hash で指定します。
+- **param** `mode` -- オープンする IO ポートのモードを指定します。mode の詳細は [Kernel?.open](../../../method/Kernel/m/open.md) 参照して下さい。
+- **param** `opt` -- プロセス実行やパイプのIOのエンコーディングなどを設定するオプションを指定します
+
+- **raise** `Errno::EXXX` -- パイプ、あるいは子プロセスの生成に失敗した場合に発生します。
+
+### def IO.popen("-", mode = "r", opt={})                -> IO
+### def IO.popen("-", mode = "r", opt={}) {|io| ... }    -> object
+### def IO.popen(env, "-", mode = "r", opt={})            -> IO
+### def IO.popen(env, "-", mode = "r", opt={}){|io| ... } -> object
+
+第一引数に文字列 "-" が指定された時、[man:fork(2)] を行い子プロセスの標準入出力との間にパイプラインを確立します。
+親プロセスでは IO オブジェクトを返し、子プロセスでは
+nil を返します。
+
+```ruby
+io = IO.popen("-", "r+")
+if io  # parent
+  io.puts "foo"
+  p io.gets                   # => "child output: foo\n"
+  io.close
+else   # child
+  s = gets
+  print "child output: " + s
+  exit
+end
+```
+  
+ブロックを与えられた場合、親プロセスでは生成した IO オブジェクトを引数にブロックを実行し、その結果を返します。ブロックの実行後、生成したパイプは自動的にクローズされます。
+子プロセスでは nil を引数にブロックを実行し終了します。  
+
+```ruby
+p IO.popen("-", "r+") {|io|
+  if io   # parent
+    io.puts "foo"
+    io.gets
+  else    # child
+    s = gets
+    puts "child output: " + s
+  end
+}
+# => "child output: foo\n"
+```
+
+opt ではエンコーディングの設定やプロセス起動のためのオプションが指定できます。
+[IO.new](../../../method/IO/s/new.md) や [Kernel?.spawn](../../../method/Kernel/m/spawn.md) で指定できるものと共通なので詳しくはそちらを見てください。
+
+- **param** `env` -- 環境変数を { 変数名 => 内容 } という形式の [Hash](../../../class/Hash.md) で渡します。
+- **param** `mode` -- オープンする IO ポートのモードを指定します。mode の詳細は [Kernel?.open](../../../method/Kernel/m/open.md) 参照して下さい。
+- **param** `opt` -- エンコーディングなどを設定するオプション引数(see [IO.new](../../../method/IO/s/new.md))
+
+- **raise** `Errno::EXXX` -- パイプ、あるいは子プロセスの生成に失敗した場合に発生します。

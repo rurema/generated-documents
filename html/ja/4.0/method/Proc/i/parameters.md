@@ -1,0 +1,54 @@
+# Proc#parameters
+
+### def parameters(lambda: nil) -> [object]
+Proc オブジェクトの引数の情報を返します。
+
+Proc オブジェクトが引数を取らなければ空の配列を返します。引数を取る場合は、配列の配列を返し、各配列の要素は引数の種類に対応した以下のような Symbol と、引数名を表す Symbol の 2 要素です。
+
+- **`:req`**:
+  必須の引数
+- **`:opt`**:
+  デフォルト値が指定されたオプショナルな引数
+- **`:rest`**:
+  * で指定された残りすべての引数
+- **`:keyreq`**:
+  必須のキーワード引数
+- **`:key`**:
+  デフォルト値が指定されたオプショナルなキーワード引数
+- **`:keyrest`**:
+  ** で指定された残りのキーワード引数
+- **`:block`**:
+  & で指定されたブロック引数
+
+- **param** `lambda` -- true なら lambda として扱ったとき、false なら lambda ではない Proc として
+              扱ったときの引数の情報を返します。
+
+分割代入を使った `|(a, b)|` のように引数名を持たない引数の場合は、引数の種類を表す
+Symbol だけの 1 要素の配列になります。
+これは必須の引数でもオプショナルな引数でも同様です。
+
+```ruby title="引数名を持たない引数の例"
+p lambda { |(a, b)| }.parameters  # => [[:req]]
+p proc { |(a, b)| }.parameters    # => [[:opt]]
+p proc { |x, (a, b)| }.parameters # => [[:opt, :x], [:opt]]
+```
+
+  ```ruby title="例"
+  prc = lambda{|x, y=42, *other, k_x:, k_y: 42, **k_other, &b|}
+  prc.parameters #=> [[:req, :x], [:opt, :y], [:rest, :other], [:keyreq, :k_x], [:key, :k_y], [:keyrest, :k_other], [:block, :b]]
+  ```
+
+
+```ruby title="lambda: の例"
+prc = proc{|x, y=42, *other|}
+p prc.parameters  # => [[:opt, :x], [:opt, :y], [:rest, :other]]
+prc = lambda{|x, y=42, *other|}
+p prc.parameters  # => [[:req, :x], [:opt, :y], [:rest, :other]]
+prc = proc{|x, y=42, *other|}
+p prc.parameters(lambda: true)  # => [[:req, :x], [:opt, :y], [:rest, :other]]
+prc = lambda{|x, y=42, *other|}
+p prc.parameters(lambda: false) # => [[:opt, :x], [:opt, :y], [:rest, :other]]
+```
+
+
+- **SEE** [Method#parameters](../../../method/Method/i/parameters.md), [UnboundMethod#parameters](../../../method/UnboundMethod/i/parameters.md)

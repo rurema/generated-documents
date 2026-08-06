@@ -1,0 +1,15 @@
+# Rake::TaskArguments#names
+
+### def names -> Array
+
+パラメータ名のリストを返します。
+
+```ruby
+# Rakefile での記載例とする
+
+task default: :test_rake_app
+task :test_rake_app do
+  arguments = Rake::TaskArguments.new(["name1", "name2"], ["value1", "value2"])
+  p arguments.names # => ["name1", "name2"]
+end
+```

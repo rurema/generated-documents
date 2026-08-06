@@ -1,0 +1,52 @@
+# Coverage.result
+
+### def Coverage.result(stop: true, clear: true)  -> Hash
+
+対象ファイル名をキー、測定結果を値したハッシュを返します。
+測定結果の詳細は、[coverage](../../../library/coverage.md) ライブラリ を参照してください。
+
+- **param** `stop` -- true であれば、カバレッジの測定を終了します。
+- **param** `clear` -- true であれば、測定記録をクリアします。
+
+- **return** -- 測定結果を表すハッシュ
+
+- **raise** `RuntimeError` -- [Coverage.start](../../../method/Coverage/s/start.md) を実行する前に実行された場合に
+                    発生します。
+
+```ruby title="bool.rb"
+def bool(obj)
+  if obj
+    true
+  else
+    false
+  end
+end
+```
+
+```ruby
+require "coverage"
+Coverage.start
+load "bool.rb"
+p Coverage.result  #=> {"bool.rb"=>[1, 0, 0, nil, 0, nil, nil]}
+bool(0)
+p Coverage.result  # coverage measurement is not enabled (RuntimeError)
+```
+
+Ruby 2.6 以降では、オプションを指定できます。
+Coverage.result(clear: true, stop: false) と指定することで、続けて新しく実行された行だけを記録できます。
+
+```ruby
+require "coverage"
+Coverage.start(oneshot_lines: true)
+load "bool.rb"
+p Coverage.result(clear: true, stop: false)  #=> {"bool.rb"=>{:oneshot_lines=>[1]}}
+bool(0)
+p Coverage.result(clear: true, stop: false)  #=> {"bool.rb"=>{:oneshot_lines=>[2, 3]}}
+bool(nil)
+p Coverage.result(clear: true, stop: false)  #=> {"bool.rb"=>{:oneshot_lines=>[5]}}
+```
+
+上記のコード例で、bool(0) で実行された2行目の条件式は、測定記録がクリアされたあと bool(nil) で実行されても新しく記録されません。
+測定記録をクリアしても、記録を開始してから実行されたことまでリセットされているわけではないことに注意して下さい。
+
+- **SEE** [Coverage.peek_result](../../../method/Coverage/s/peek_result.md)

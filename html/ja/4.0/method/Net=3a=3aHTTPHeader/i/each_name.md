@@ -1,0 +1,20 @@
+# Net::HTTPHeader#each_name
+
+### def each_name {|name| ... } -> ()
+### def each_key {|name| ... } -> ()
+
+保持しているヘッダ名をブロックに渡して呼びだします。
+
+ヘッダ名は小文字で統一されます。
+
+```ruby title="例"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+req.each_name { |name| puts name }
+
+# => accept-encoding
+# => accept
+# => user-agent
+```

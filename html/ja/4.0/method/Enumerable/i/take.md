@@ -1,0 +1,14 @@
+# Enumerable#take
+
+### def take(n)               -> Array
+
+Enumerable オブジェクトの先頭から n 要素を配列として返します。
+
+- **param** `n` -- 要素数を指定します。
+
+```ruby title="例"
+e = [1, 2, 3, 4, 5, 0].each
+p e.take(3)           # => [1, 2, 3]
+```
+
+- **SEE** [Array#take](../../../method/Array/i/take.md)

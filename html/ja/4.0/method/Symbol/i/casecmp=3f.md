@@ -1,0 +1,25 @@
+# Symbol#casecmp?
+
+### def casecmp?(other) -> bool | nil
+
+大文字小文字の違いを無視しシンボルを比較します。
+シンボルが一致する場合には true を返し、一致しない場合には false を返します。
+
+- **param** `other` -- 比較対象のシンボルを指定します。
+
+```ruby
+p :abcdef.casecmp?(:abcde)   #=> false
+p :aBcDeF.casecmp?(:abcdef)  #=> true
+p :abcdef.casecmp?(:abcdefg) #=> false
+p :abcdef.casecmp?(:ABCDEF)  #=> true
+p :"\u{e4 f6 fc}".casecmp?(:"\u{c4 d6 dc}") #=> true
+```
+
+other がシンボルではない場合や、文字列のエンコーディングが非互換の場合は、nil を返します。
+
+```ruby
+p :foo.casecmp?("foo") #=> nil
+p "\u{e4 f6 fc}".encode("ISO-8859-1").to_sym.casecmp?(:"\u{c4 d6 dc}") #=> nil
+```
+
+- **SEE** [String#casecmp?](../../../method/String/i/casecmp=3f.md), [Symbol#casecmp](../../../method/Symbol/i/casecmp.md)

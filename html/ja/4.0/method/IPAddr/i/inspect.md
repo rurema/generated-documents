@@ -1,0 +1,5 @@
+# IPAddr#inspect
+
+### def inspect -> String
+
+オブジェクトを人間が読める形式に変換した文字列を返します。

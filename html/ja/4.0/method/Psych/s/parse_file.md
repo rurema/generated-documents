@@ -1,0 +1,8 @@
+# Psych.parse_file
+
+### def Psych.parse_file(filename) -> Psych::Nodes::Document
+
+filename で指定したファイルをパースして YAML の AST を返します。
+
+- **param** `filename` -- パースするファイルの名前
+- **raise** `Psych::SyntaxError` -- YAMLドキュメントに文法エラーが発見されたときに発生します

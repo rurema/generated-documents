@@ -1,0 +1,66 @@
+# Object#clone
+
+### def clone(freeze: nil) -> object
+
+オブジェクトの複製を作成して返します。
+
+clone は、オブジェクトの内容に加えて freeze の状態や特異メソッドなどの情報も含めた完全な複製を作成します。
+
+clone や dup は浅い(shallow)コピーであることに注意してください。後述。
+
+[TrueClass](../../../class/TrueClass.md), [FalseClass](../../../class/FalseClass.md), [NilClass](../../../class/NilClass.md), [Symbol](../../../class/Symbol.md), そして [Numeric](../../../class/Numeric.md) クラスのインスタンスなど一部のオブジェクトは複製ではなくインスタンス自身を返します。
+
+- **param** `freeze` -- true を指定すると freeze されたコピーを返します。
+              false を指定すると freeze されていないコピーを返します。
+              nil を指定すると、レシーバが freeze されていれば freeze されたコピーを、freeze されていなければ freeze されていないコピーを返します。
+- **raise** `ArgumentError` -- [TrueClass](../../../class/TrueClass.md) などの常に freeze されているオブジェクトの freeze されていないコピーを作成しようとしたときに発生します。
+
+```ruby
+obj = "string"
+def obj.fuga
+end
+obj.freeze
+
+p(obj.equal?(obj))          #=> true
+p(obj == obj)               #=> true
+p(obj.frozen?)              #=> true
+p(obj.respond_to?(:fuga))   #=> true
+
+obj_c = obj.clone
+
+p(obj.equal?(obj_c))        #=> false
+p(obj == obj_c)             #=> true
+p(obj_c.frozen?)            #=> true
+p(obj_c.respond_to?(:fuga)) #=> true
+```
+
+- **SEE** [Object#initialize_copy](../../../method/Object/i/initialize_copy.md), [Object#initialize_clone](../../../method/Object/i/initialize_clone.md), [Object#dup](../../../method/Object/i/dup.md)
+
+### 深いコピーと浅いコピー
+
+clone や dup はオブジェクト自身を複製するだけで、オブジェクトの指している先(たとえば配列の要素など)までは複製しません。これを浅いコピー(shallow copy)といいます。
+
+深い(deep)コピーが必要な場合には、
+[Marshal](../../../class/Marshal.md)モジュールを利用して
+
+```ruby
+Marshal.load(Marshal.dump(obj))
+```
+
+このように複製を作成する方法があります。ただしMarshal出来ないオブジェクトが含まれている場合には使えません。
+
+```ruby
+obj = ["a","b","c"]
+
+obj_d = obj.dup
+obj_d[0] << "PLUS"
+
+p obj   #=> ["aPLUS", "b", "c"]
+p obj_d #=> ["aPLUS", "b", "c"]
+
+obj_m = Marshal.load(Marshal.dump(obj))
+obj_m[1] << "PLUS"
+
+p obj   #=> ["aPLUS", "b", "c"]
+p obj_m #=> ["aPLUS", "bPLUS", "c"]
+```

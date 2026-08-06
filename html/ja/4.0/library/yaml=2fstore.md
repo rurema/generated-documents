@@ -1,0 +1,33 @@
+# library yaml/store
+
+RubyのオブジェクトをYAML形式の外部ファイルに格納するためのクラスです。
+
+```ruby title="例"
+require 'yaml/store'
+
+Person = Struct.new :first_name, :last_name
+
+people = [Person.new("Bob", "Smith"), Person.new("Mary", "Johnson")]
+
+store = YAML::Store.new "test.store"
+
+store.transaction do
+  store["people"] = people
+  store["greeting"] = { "hello" => "world" }
+end
+```
+
+上記のコードを実行すると "test.store" は以下のようになります。
+
+```yaml
+---
+people:
+- !ruby/struct:Person
+  first_name: Bob
+  last_name: Smith
+- !ruby/struct:Person
+  first_name: Mary
+  last_name: Johnson
+greeting:
+  hello: world
+```

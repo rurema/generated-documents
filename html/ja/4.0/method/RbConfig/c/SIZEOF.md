@@ -1,0 +1,12 @@
+# RbConfig::SIZEOF
+
+### const SIZEOF -> Hash
+
+Ruby インタプリタが作成された環境における、C の型のサイズ情報を保持します。
+
+下の例では、実行している Ruby インタプリタは int が 4 バイトである環境で作成されたことを表しています。
+
+```ruby
+require 'rbconfig/sizeof'
+p RbConfig::SIZEOF['int'] # => 4
+```

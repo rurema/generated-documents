@@ -1,0 +1,7 @@
+# Encoding::Converter#inspect
+
+### def inspect -> String
+
+Encoding::Converter オブジェクトの情報を簡単に表示します。
+
+- **return** -- 変換器の情報を簡単に可視化した文字列です。

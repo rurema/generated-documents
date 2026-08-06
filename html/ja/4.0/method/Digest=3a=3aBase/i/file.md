@@ -1,0 +1,15 @@
+# Digest::Base#file
+
+### def file(path) -> self
+
+ファイル名 file で指定したファイルの内容を読み込んでダイジェストを更新し、オブジェクト自身を返します。
+
+- **param** `path` -- 読み込み対象のファイル名です。
+- **return** -- ダイジェストオブジェクトを返します。
+
+```ruby title="例(MD5の場合)"
+require 'digest/md5'
+digest = Digest::MD5.new
+p digest.file("/path/to/file") # => Digest::MD5のインスタンス
+p digest.hexdigest # => "/path/to/file"のMD5値
+```

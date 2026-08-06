@@ -1,0 +1,15 @@
+# Matrix#row_vectors
+
+### def row_vectors -> [Vector]
+
+自分自身を行ベクトルの配列として返します。
+
+```ruby title="例"
+require 'matrix'
+a1 = [ 1,  2,  3]
+a2 = [10, 15, 20]
+a3 = [-1, -2, 1.5]
+m = Matrix[a1, a2, a3]
+
+p m.row_vectors # => [Vector[1, 2, 3], Vector[10, 15, 20], Vector[-1, -2, 1.5]]
+```

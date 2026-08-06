@@ -1,0 +1,3 @@
+# rb_mod_const_defined
+
+### static VALUE rb_mod_const_defined(VALUE mod, VALUE name)

@@ -1,0 +1,36 @@
+# module Singleton
+
+Singleton パターンを提供するモジュールです。
+
+Mix-in により singleton パターンを提供します。
+
+Singleton モジュールを include することにより、クラスは高々ひとつのインスタンスしか持たないことが保証されます。
+
+Singleton を Mix-in したクラスのクラスメソッド instance はその唯一のインスタンスを返します。
+
+new は private メソッドに移され、外部から呼び出そうとするとエラーになります。
+
+### サンプルコード
+
+```ruby
+require 'singleton'
+
+class SomeSingletonClass
+  include Singleton
+ #....
+end
+
+a = SomeSingletonClass.instance
+b = SomeSingletonClass.instance # a and b are same object
+p [a,b] # => [#<SomeSingletonClass:0x0000562e6e18ddd0>, #<SomeSingletonClass:0x0000562e6e18ddd0>]
+a = SomeSingletonClass.new  # ~> NoMethodError: private method 'new' called for class SomeSingletonClass
+```
+
+## Class Methods
+
+- [instance](../method/Singleton/s/instance.md)
+
+## Instance Methods
+
+- [clone](../method/Singleton/i/clone.md)
+- [dup](../method/Singleton/i/dup.md)

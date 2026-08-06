@@ -1,0 +1,14 @@
+# WIN32OLE_PARAM#optional?
+
+### def optional? -> bool
+
+パラメータがオプションかどうかを取得します。
+
+- **return** -- パラメータがオプション（省略可能）であれば真を返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Excel 9.0 Object Library', 'Workbook')
+method = WIN32OLE_METHOD.new(tobj, 'SaveAs')
+param1 = method.params[0]
+puts "#{param1.name} #{param1.optional?}" # => Filename true
+```

@@ -1,0 +1,3 @@
+# rb_define_hooked_variable
+
+### void rb_define_hooked_variable(const char *name, VALUE *var, VALUE (*getter)(), VALUE (*setter)())

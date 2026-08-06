@@ -1,0 +1,14 @@
+# REXML::Elements#size
+
+### def size -> Integer
+
+保持している要素の個数を返します。
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new '<a>sean<b/>elliott<b/>russell<b/></a>'
+# doc.root は3つの要素と3つのテキストノードを持つため、6を返す
+p doc.root.size          # => 6
+# そのうち要素は3つであるため、以下は3を返す
+p doc.root.elements.size # => 3
+```

@@ -1,0 +1,17 @@
+# ObjectSpace?.garbage_collect
+
+### module_function def garbage_collect(full_mark: true, immediate_sweep: true) -> nil
+
+どこからも参照されなくなったオブジェクトを回収します。
+[GC.start](../../../method/GC/s/start.md) と同じです。
+
+- **param** `full_mark` -- マイナー GC を動作させる場合は false を、そうでない場
+                 合は true を指定します。
+
+- **param** `immediate_sweep` -- sweep を遅らせる(Lazy Sweep を行う)場合は false
+                       を、そうでない場合は true を指定します。
+
+注意: これらのキーワード引数は Ruby の実装やバージョンによって異なります。将来のバージョンとの互換性も保証されません。また、Ruby の実装がサポートしていない場合はキーワード引数を指定しても無視される可能性があります。
+
+
+- **SEE** [GC.start](../../../method/GC/s/start.md)

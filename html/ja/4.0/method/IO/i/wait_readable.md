@@ -1,0 +1,22 @@
+# IO#wait_readable
+
+### def wait(timeout = nil)          -> bool | self | nil
+### def wait_readable(timeout = nil) -> bool | self | nil
+
+self が読み込み可能になるまでブロックし、読み込み可能になったら真値を返します。タイムアウト、もしくはEOFでそれ以上読みこめない場合は偽の値を返します。
+
+より詳しくは、一度ブロックしてから読み込み可能になった場合には
+selfを返します。
+内部のバッファにデータがある場合にはブロックせずに true を返します。
+内部のバッファとはRubyの処理系が保持管理しているバッファのことです。
+
+つまり、読み込み可能である場合にはtrueを返す場合と
+selfを返す場合があることに注意してください。
+
+timeout を指定した場合は、指定秒数経過するまでブロックし、タイムアウトした場合は nil を返します。
+
+self が EOF に達していれば false を返します。
+
+- **param** `timeout` -- タイムアウトまでの秒数を指定します。
+
+- **SEE** [IO#wait_writable](../../../method/IO/i/wait_writable.md)

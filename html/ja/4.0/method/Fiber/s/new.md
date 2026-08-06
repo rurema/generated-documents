@@ -1,0 +1,40 @@
+# Fiber.new
+
+### def Fiber.new(blocking: false, storage: true) {|obj| ... } -> Fiber
+
+与えられたブロックとともにファイバーを生成して返します。
+ブロックは [Fiber#resume](../../../method/Fiber/i/resume.md) に与えられた引数をその引数として実行されます。
+
+ブロックが終了した場合は親にコンテキストが切り替わります。
+その時ブロックの評価値が返されます。
+
+- **param** `blocking` -- 偽を指定するとノンブロッキングなファイバーを生成します。
+  真を指定するとブロッキングなファイバーを生成します。
+  詳しくは [Fiber#nonblocking](../../../class/Fiber.md#nonblocking) を参照してください。
+- **param** `storage` -- 生成するファイバーの fiber storage を指定します。
+  true を指定すると呼び出し元のファイバーの fiber storage を複製して引き継ぎます。
+  複製なので、生成後の変更は互いに影響しません。
+  nil を指定すると引き継ぎません。この場合、最初に書き込んだ時点で空の状態から作られます。
+  [Hash](../../../class/Hash.md) を指定するとその内容で初期化します。キーは [Symbol](../../../class/Symbol.md) で指定します。
+  fiber storage については [Fiber#storage](../../../method/Fiber/i/storage.md) を参照してください。
+
+```ruby title="例:"
+a = nil
+f = Fiber.new do |obj|
+  a = obj
+  :hoge
+end
+  
+b = f.resume(:foo)
+p a  #=> :foo
+p b  #=> :hoge
+```
+
+
+```ruby title="例: fiber storage の引き継ぎ"
+Fiber[:key] = 1
+
+p Fiber.new { Fiber[:key] }.resume                    # => 1
+p Fiber.new(storage: nil) { Fiber[:key] }.resume      # => nil
+p Fiber.new(storage: {key: 2}) { Fiber[:key] }.resume # => 2
+```

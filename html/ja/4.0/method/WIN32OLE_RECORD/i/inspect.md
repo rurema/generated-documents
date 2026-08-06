@@ -1,0 +1,26 @@
+# WIN32OLE_RECORD#inspect
+
+### def inspect -> String
+
+selfが表すOLEの構造体名と各メンバ名、その値を含む文字列を返します。
+
+なお、返す文字列中のクラス名部分は、selfをトップレベル定数
+`WIN32OLE_RECORD`経由で生成した場合であっても、常に`WIN32OLE::Record`
+と表示されます。
+
+VB.NETのComServerプロジェクトで作成したCOMサーバの以下のBook構造体に対して、
+
+```text
+Imports System.Runtime.InteropServices
+Public Class ComClass
+    <MarshalAs(UnmanagedType.BStr)> _
+    Public title As String
+    Public cost As Integer
+End Class
+```
+
+```ruby title="例"
+server = WIN32OLE.new('ComServer.ComClass')
+obj = WIN32OLE_RECORD.new('Book', server)
+obj.inspect # => "#<WIN32OLE::Record(ComClass) {\"title\" => nil, \"cost\" => nil}>"
+```

@@ -1,0 +1,52 @@
+# JSON::State.new
+
+### def JSON::State.new(options = {}) -> JSON::State
+
+自身を初期化します。
+
+- **param** `options` -- ハッシュを指定します。
+       指定可能なオプションは以下の通りです。
+
+- **`:indent`**:
+  インデントに使用する文字列を指定します。デフォルトは空文字列です。
+- **`:space`**:
+  JSON 形式の文字列のトークン間に挿入する文字列を指定します。デフォルトは空文字列です。
+- **`:space_before`**:
+  JSON 形式の文字列中で JavaScript のオブジェクトを表す部分にある ':' の
+  前に挿入する文字列をセットします。デフォルトは空文字列です。
+- **`:object_nl`**:
+  JSON 形式の文字列中に現れる JavaScript のオブジェクトの行末に挿入する文字列を指定します。
+  デフォルトは空文字列です。
+- **`:array_nl`**:
+  JSON 形式の文字列中に現れる JavaScript の配列の行末に挿入する文字列を指定します。
+  デフォルトは空文字列です。
+- **`:check_circular`**:
+  真を指定した場合、生成するオブジェクトの循環をチェックします。
+  この動作がデフォルトです。
+- **`:allow_nan`**:
+  真を指定した場合、[JSON::NaN](../../../method/JSON/c/NaN.md), [JSON::Infinity](../../../method/JSON/c/Infinity.md),
+  [JSON::MinusInfinity](../../../method/JSON/c/MinusInfinity.md) を生成することを許すようになります。
+  偽を指定した場合、これらの値を生成しようとすると例外が発生します。
+  デフォルトは偽です。
+- **`:ascii_only`**:
+  真を指定した場合、ASCII 文字列のみを用いて JSON 形式の文字列を生成します。
+  デフォルトは偽です。
+- **`:buffer_initial_length`**:
+  JSON 形式の文字列を生成する際に使用する内部バッファの初期の長さを指定します。デフォルトは 1024 です。
+
+  ```ruby title="例 Hash を指定"
+  require "json"
+
+  json_state = JSON::State.new(indent: "\t")
+  json_state.class  # => JSON::Ext::Generator::State
+  json_state.indent # => "\t"
+  ```
+
+  ```ruby title="例 JSON::State を指定"
+  require "json"
+
+  json_state = JSON::State.new(indent: "\t")
+  copy = JSON::State.new(json_state)
+  copy.class  # => JSON::Ext::Generator::State
+  copy.indent # => "\t"
+  ```

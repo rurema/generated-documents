@@ -1,0 +1,5 @@
+# tokadd
+
+### static void tokadd(char c)
+
+トークンバッファに文字 c を追加します。

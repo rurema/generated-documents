@@ -1,0 +1,9 @@
+# Gem::Package::TarWriter#mkdir
+
+### def mkdir(name, mode) -> self
+
+自身に関連付けられた IO にディレクトリを追加します。
+
+- **param** `name` -- 追加するディレクトリの名前を指定します。
+
+- **param** `mode` -- 追加するディレクトリのパーミッションを指定します。

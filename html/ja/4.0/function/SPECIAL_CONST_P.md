@@ -1,0 +1,7 @@
+# SPECIAL_CONST_P
+
+### int SPECIAL_CONST_P(VALUE obj)
+
+obj が実体の構造体を持たないとき真。
+現時点で真になるのは Qnil, Qtrue, Qfalse と、
+Fixnum, Symbol のインスタンス。

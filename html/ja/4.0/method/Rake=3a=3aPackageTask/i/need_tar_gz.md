@@ -1,0 +1,15 @@
+# Rake::PackageTask#need_tar_gz
+
+### def need_tar_gz -> bool
+
+この値が真である場合は gzip した tar ファイル (tar.gz) を作成します。
+デフォルトは偽です。
+
+```ruby
+# Rakefile での記載例とする
+require 'rake/packagetask'
+
+Rake::PackageTask.new("sample", "1.0.0") do |package_task|
+  p package_task.need_tar_gz # => false
+end
+```

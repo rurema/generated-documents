@@ -1,0 +1,38 @@
+# Integer#pow
+
+### def **(other) -> Numeric
+### def pow(other) -> Numeric
+### def pow(other, modulo) -> Integer
+
+算術演算子。冪(べき乗)を計算します。
+
+- **param** `other` -- 二項演算の右側の引数(対象)
+- **param** `modulo` -- 指定すると、計算途中に巨大な値を生成せずに `(self**other) % modulo` と同じ結果を返します。
+- **return** -- 計算結果
+- **raise** `TypeError` -- 2引数 `pow` で `Integer` 以外を指定した場合に発生します。
+- **raise** `RangeError` -- 2引数 `pow` で `other` に負の数を指定した場合に発生します。
+- **raise** `ArgumentError` -- 計算結果が巨大になりすぎる場合に発生します。
+
+```ruby
+p 2 ** 3 # => 8
+p 2 ** 0 # => 1
+p 0 ** 0 # => 1
+p 3.pow(3,  8)  # =>  3
+p 3.pow(3, -8)  # => -5
+p 3.pow(2, -2)  # => -1
+p -3.pow(3,  8) # =>  5
+p -3.pow(3, -8) # => -3
+p 5.pow(2, -8)  # => -7
+```
+
+
+計算結果が巨大すぎるときは [ArgumentError](../../../class/ArgumentError.md) が発生します。
+
+```ruby title="計算結果が巨大すぎる例"
+p 100**9999999999999999999
+# => exponent is too large (ArgumentError)
+```
+
+判定の閾値は変わりえます。
+
+- **SEE** [BigDecimal#power](../../../method/BigDecimal/i/power.md)

@@ -1,0 +1,5 @@
+# rb_lastline_get
+
+### VALUE rb_lastline_get(void)
+
+現在評価中の SCOPE の $_ の値を取得します。

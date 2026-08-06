@@ -1,0 +1,15 @@
+# Net::IMAP#getquotaroot
+
+### def getquotaroot(mailbox) -> [Net::IMAP::MailboxQuotaRoot | Net::IMAP::MailboxQuota]
+
+GETQUOTAROOT コマンドを送って指定したメールボックスの quota root の一覧と、関連する quota の情報を返します。
+
+quota root の情報は [Net::IMAP::MailboxQuotaRoot](../../../class/Net=3a=3aIMAP=3a=3aMailboxQuotaRoot.md) のオブジェクトで、返り値の配列の中に唯一含まれています。
+quota の情報はメールボックスに関連付けられた quota root ごとに
+[Net::IMAP::MailboxQuota](../../../class/Net=3a=3aIMAP=3a=3aMailboxQuota.md) オブジェクトで得られます。
+
+詳しくは [RFC:2087] を見てください。
+このコマンドは [Net::IMAP#capability](../../../method/Net=3a=3aIMAP/i/capability.md) の返り値を見ることで利用可能かどうか判断できます。
+
+- **param** `mailbox` -- quota root を得たいメールボックス名(文字列)
+- **raise** `Net::IMAP::NoResponseError` -- 指定したメールボックスが存在しない場合に発生します

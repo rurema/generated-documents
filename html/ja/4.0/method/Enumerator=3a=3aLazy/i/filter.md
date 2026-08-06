@@ -1,0 +1,19 @@
+# Enumerator::Lazy#filter
+
+### def select {|item| ... } -> Enumerator::Lazy
+### def find_all {|item| ... } -> Enumerator::Lazy
+### def filter {|item| ... } -> Enumerator::Lazy
+
+[Enumerable#select](../../../method/Enumerable/i/select.md) と同じですが、配列ではなくEnumerator::Lazy を返します。
+
+- **raise** `ArgumentError` -- ブロックを指定しなかった場合に発生します。
+
+```ruby title="例"
+p 1.step.lazy.find_all { |i| i.even? }
+# => #<Enumerator::Lazy: #<Enumerator::Lazy: #<Enumerator: 1:step>>:find_all>
+
+p 1.step.lazy.select { |i| i.even? }.take(10).force
+# => [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+```
+
+- **SEE** [Enumerable#select](../../../method/Enumerable/i/select.md)

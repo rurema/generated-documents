@@ -1,0 +1,85 @@
+# Kernel?.exec
+
+### module_function def exec(command, options={}) -> ()
+### module_function def exec(env, command, options={}) -> ()
+
+引数で指定されたコマンドを実行します。
+
+プロセスの実行コードはそのコマンド(あるいは shell)になるので、起動に成功した場合、このメソッドからは戻りません。
+
+### 引数の解釈
+
+この形式では command が shell のメタ文字
+
+```text
+  * ? {} [] <> () ~ & | \ $ ; ' ` " \n
+```
+
+を含む場合、shell 経由で実行されます。
+そうでなければインタプリタから直接実行されます。
+
+- **param** `command` -- コマンドを文字列で指定します。
+- **param** `env` -- 更新する環境変数を表す Hash
+- **param** `options` -- オプションパラメータ Hash
+- **raise** `Errno::EXXX` -- 起動に失敗し、ruby インタプリタに制御が戻った場合に発生します。
+
+```ruby title="例"
+# a.rb
+puts '実行前'
+exec 'echo "実行中"'
+puts '実行後'
+```
+
+上記のスクリプトを実行すると以下のようになります。
+
+```console
+$ ruby a.rb
+実行前
+実行中
+# '実行後' は表示されない
+```
+
+### module_function def exec(program, *args, options={}) -> ()
+### module_function def exec(env, program, *args, options={}) -> ()
+
+引数で指定されたコマンドを実行します。
+
+プロセスの実行コードはそのコマンド(あるいは shell)になるので、起動に成功した場合、このメソッドからは戻りません。
+
+この形式では、常に shell を経由せずに実行されます。
+
+[man:exec(3)] でコマンドを実行すると、元々のプログラムの環境をある程度(ファイルデスクリプタなど)引き継ぎます。
+Hash を options として渡すことで、この挙動を変更できます。
+詳しくは [Kernel?.spawn](../../../method/Kernel/m/spawn.md) を参照してください。
+
+### 引数の解釈
+
+この形式で呼び出した場合、空白や shell のメタキャラクタもそのまま program の引数に渡されます。
+先頭の引数が2要素の配列であった場合、第1要素の文字列が実際に起動するプログラムのパスであり、第2要素が「みせかけ」のプログラム名になります。
+また、第1要素はフルパスで指定しなくても環境変数 PATH から探します。
+
+- **param** `program` -- 文字列か2要素の配列を指定します。
+- **param** `args` -- 渡される引数です。0 個以上の文字列を指定します。
+- **param** `env` -- 更新する環境変数を表す Hash
+- **param** `options` -- オプションパラメータ Hash
+- **raise** `ArgumentError` -- 第一引数が配列かつ要素数が 2 でない場合に発生します。
+- **raise** `Errno::EXXX` -- 起動に失敗し、ruby インタプリタに制御が戻った場合に発生します。
+
+
+
+```ruby title="例"
+# a.rb
+exec ['sleep', 'mysleep'], '600'
+```
+
+上記スクリプトを実行すると以下のようになります。
+
+```console
+$ ruby a.rb
+## sleep してるので制御が戻ってこない。別の仮想端末に切替えて以下を実行
+$ ps aux|grep sleep
+xxxx    32754  0.0  0.0   2580   468 pts/3    S+   22:01   0:00 mysleep 600
+xxxx    32761  0.0  0.0   2824   792 pts/6    S+   22:01   0:00 grep sleep
+```
+
+- **SEE** [Kernel?.system](../../../method/Kernel/m/system.md),[Kernel?.`](../../../method/Kernel/m/=60.md),[Kernel?.spawn](../../../method/Kernel/m/spawn.md),[Kernel?.fork](../../../method/Kernel/m/fork.md),[IO.popen](../../../method/IO/s/popen.md),[IO.pipe](../../../method/IO/s/pipe.md),[Kernel?.open](../../../method/Kernel/m/open.md),[man:exec(3)]

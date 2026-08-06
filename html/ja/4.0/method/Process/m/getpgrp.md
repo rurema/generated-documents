@@ -1,0 +1,11 @@
+# Process?.getpgrp
+
+### module_function def getpgrp            -> Integer
+
+現在のプロセスのプロセスグループ ID を整数で返します。
+
+- **raise** `Errno::EXXX` -- プロセスグループの取得に失敗した場合に発生します。
+
+- **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
+
+- **SEE** [man:getpgrp(2)]

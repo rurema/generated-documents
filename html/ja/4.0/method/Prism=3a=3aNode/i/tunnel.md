@@ -1,0 +1,18 @@
+# Prism::Node#tunnel
+
+### def tunnel(line, column) -> [Prism::Node]
+
+指定した行・桁を位置に含むノードを、自分自身から子孫の方向へ順に並べた配列で返します。エディタ上のカーソル位置に対応するノードを特定するといった用途に使えます。
+
+- **param** `line` -- 行番号(1 始まり)を指定します。
+- **param** `column` -- 行頭からのバイト単位の桁位置(0 始まり)を
+       指定します。
+
+```ruby title="例"
+require "prism"
+
+node = Prism.parse("x = 1 + 2").value
+path = node.tunnel(1, 4)
+p path.map(&:type)
+# => [:program_node, :statements_node, :local_variable_write_node, :call_node, :integer_node]
+```

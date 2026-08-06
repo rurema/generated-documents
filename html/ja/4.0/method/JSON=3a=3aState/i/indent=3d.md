@@ -1,0 +1,19 @@
+# JSON::State#indent=
+
+### def indent=(string)
+
+インデントに使用する文字列をセットします。
+
+- **param** `string` -- インデントに使用する文字列を指定します。
+
+```ruby title="例"
+require "json"
+
+json_state = JSON::State.new(indent: "\t")
+json_state.indent # => "\t"
+p JSON.generate({key1: "value1", key2: "value2"}, json_state)
+# => "{\t\"key1\":\"value1\",\t\"key2\":\"value2\"}"
+json_state.indent = "  "
+p JSON.generate({key1: "value1", key2: "value2"}, json_state)
+# => "{  \"key1\":\"value1\",  \"key2\":\"value2\"}"
+```

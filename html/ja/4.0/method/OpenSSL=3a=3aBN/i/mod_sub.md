@@ -1,0 +1,15 @@
+# OpenSSL::BN#mod_sub
+
+### def mod_sub(other, m) -> OpenSSL::BN
+
+(self - other) % m を返します。
+
+```ruby
+require 'openssl'
+
+p OpenSSL::BN.new("27").mod_sub(OpenSSL::BN.new("3"), OpenSSL::BN.new("5")) # => 4
+```
+
+- **param** `other` -- 引く数
+- **param** `m` -- 剰余を取る数
+- **raise** `OpenSSL::BNError` -- 計算時エラー

@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::GENERALSTRING
+
+### const GENERALSTRING -> Integer
+
+ASN.1 UNIVERSAL タグの、
+GENERALSTRING のタグ番号 27 を表す定数です。

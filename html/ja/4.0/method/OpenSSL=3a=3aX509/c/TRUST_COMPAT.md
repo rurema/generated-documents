@@ -1,0 +1,5 @@
+# OpenSSL::X509::TRUST_COMPAT
+
+### const TRUST_COMPAT -> Integer
+
+ルート CA 証明書が自分自身の秘密鍵で署名されています。

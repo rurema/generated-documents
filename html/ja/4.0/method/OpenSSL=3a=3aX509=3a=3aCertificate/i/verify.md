@@ -1,0 +1,9 @@
+# OpenSSL::X509::Certificate#verify
+
+### def verify(key) -> bool
+
+証明書の発行者の公開鍵で署名を検証します。
+
+検証に成功した、すなわち self が key で署名されたことが確認された場合に真を返します。
+
+- **param** `key` -- 検証に利用する発行者の公開鍵

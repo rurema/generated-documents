@@ -1,0 +1,43 @@
+# URI.encode_www_form
+
+### def URI.encode_www_form(enum, enc=nil) -> String
+
+enum から URL-encoded form data を生成します。
+
+HTML5 で定義されている application/x-www-form-urlencoded 形式の文字列を生成します。
+
+enum には通常 [key, value] という形の配列の配列を渡します。
+以下の例を見てください。
+
+```ruby
+require 'uri'
+p URI.encode_www_form([["a", "1"], ["b", "2"], ["c", "x yz"]])
+# => "a=1&b=2&c=x+yz"
+```
+
+実際には、each のブロック呼び出しで [key, value] の形のデータを渡すものであれば何でも渡すことができます(例えば [Hash](../../../class/Hash.md) など)。
+
+```ruby
+require 'uri'
+p URI.encode_www_form({"a"=>"1", "b"=>"2", "c"=>"x yz"})
+# => "a=1&b=2&c=x+yz"
+```
+
+このメソッドは引数のエンコーディングを変換しません。そのため送るデータのエンコーディングを変換したい場合はあらかじめ変換しておいてください(例えば ASCII incompatible なものを
+UTF-8 に変換する場合など)。
+各要素のエンコーディングがばらばらの場合もあらかじめエンコーディングを揃えてからこのメソッドを使うべきです。
+
+このメソッドはファイルを入力にすることはできません。
+ファイルを送りたい場合は multipart/form-data をつかうべきでこのメソッドを使うべきではありません。
+
+このメソッドは内部的に
+[URI.encode_www_form_component](../../../method/URI/s/encode_www_form_component.md)
+を使っています。
+
+このメソッドは
+<https://url.spec.whatwg.org/#concept-urlencoded-serializer>
+にもとづいて実装されています。
+
+- **param** `enum` -- エンコードするデータ列([key, value] という形のデータの列)
+- **param** `enc` -- 指定された場合、パーセントエンコーディングする前に、このエンコーディングに変換
+- **SEE** [URI.encode_www_form_component](../../../method/URI/s/encode_www_form_component.md), [URI.decode_www_form](../../../method/URI/s/decode_www_form.md)

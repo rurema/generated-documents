@@ -1,0 +1,19 @@
+# Etc?.confstr
+
+### module_function def confstr(name) -> String | nil
+
+[man:confstr(3)] で取得したシステム設定変数の値を返します。
+
+- **param** `name` -- [Etc](../../../class/Etc.md) モジュールの CS_ で始まる定数のいずれかを指定します。
+
+引数 name に対応する設定が行われていない状態の場合は nil を返します。
+([man:confstr(3)] が -1 を返し、errno が設定されていない場合)
+
+```ruby
+require "etc"
+p Etc.confstr(Etc::CS_PATH) # => "/bin:/usr/bin"
+
+# GNU/Linux
+p Etc.confstr(Etc::CS_GNU_LIBC_VERSION) # => "glibc 2.18"
+p Etc.confstr(Etc::CS_GNU_LIBPTHREAD_VERSION) # => "NPTL 2.18"
+```

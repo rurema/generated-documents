@@ -1,0 +1,19 @@
+# Pathname#sub
+
+### def sub(pattern, replace)  -> Pathname
+### def sub(pattern) {|matched| ... } -> Pathname
+
+self を表現するパス文字列に対して sub メソッドを呼び出し、その結果を内容とする新しい Pathname オブジェクトを生成し、返します。
+
+- **param** `pattern` -- 置き換える文字列のパターンを指定します。
+
+- **param** `replace` -- pattern で指定した文字列と置き換える文字列を指定します。
+
+```ruby title="例"
+require 'pathname'
+
+path1 = Pathname('/usr/bin/perl')
+path1.sub('perl', 'ruby') #=> #<Pathname:/usr/bin/ruby>
+```
+
+- **SEE** [String#sub](../../../method/String/i/sub.md)

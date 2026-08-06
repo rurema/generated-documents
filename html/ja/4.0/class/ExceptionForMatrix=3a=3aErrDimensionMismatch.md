@@ -1,0 +1,3 @@
+# class ExceptionForMatrix::ErrDimensionMismatch < StandardError
+
+行列/ベクトル計算時に次元が合わない場合に発生する例外です。

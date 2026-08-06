@@ -1,0 +1,29 @@
+# Array#all?
+
+### def all?               -> bool
+{: since=""}
+### def all? {|item| ... } -> bool
+{: since=""}
+### def all?(pattern)      -> bool
+{: since=""}
+
+すべての要素が真である場合に true を返します。
+偽である要素があれば、ただちに false を返します。
+
+ブロックを伴う場合は、各要素に対してブロックを評価し、すべての結果が真である場合に true を返します。ブロックが偽を返した時点で、ただちに false を返します。
+
+要素の数が 0 である配列に対しては true を返します。
+
+- **param** `pattern` -- ブロックの代わりに各要素に対して pattern === item を評価します。
+
+```ruby title="例"
+# すべて正の数か？
+p [5,  6, 7].all? {|v| v > 0 }   # => true
+p [5, -1, 7].all? {|v| v > 0 }   # => false
+p [].all? {|v| v > 0 }           # => true
+p %w[ant bear cat].all?(/t/)     # => false
+p [1, 2, 3].all?(Integer)        # => true
+p [1, 2, 3.0].all?(Integer)      # => false
+```
+
+- **SEE** [Enumerable#all?](../../../method/Enumerable/i/all=3f.md)

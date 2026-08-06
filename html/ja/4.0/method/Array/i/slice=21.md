@@ -1,0 +1,40 @@
+# Array#slice!
+
+### def slice!(nth)       -> object | nil
+
+指定した要素を自身から取り除き、取り除いた要素を返します。取り除く要素がなければ nil
+を返します。
+
+- **param** `nth` -- 取り除く要素のインデックスを整数で指定します。
+
+```ruby title="例"
+a = [ "a", "b", "c" ]
+p a.slice!(1)   #=> "b"
+p a             #=> ["a", "c"]
+p a.slice!(-1)  #=> "c"
+p a             #=> ["a"]
+p a.slice!(100) #=> nil
+p a             #=> ["a"]
+```
+
+### def slice!(start, len)  -> Array | nil
+### def slice!(range)     -> Array | nil
+
+指定した部分配列を自身から取り除き、取り除いた部分配列を返します。取り除く要素がなければ nil
+を返します。
+
+- **param** `start` -- 削除したい部分配列の先頭のインデックスを整数で指定します。
+
+- **param** `len` -- 削除したい部分配列の長さを整数で指定します。
+
+- **param** `range` -- 削除したい配列の範囲を [Range](../../../class/Range.md) オブジェクトで指定します。
+
+```ruby title="例"
+a = [ "a", "b", "c" ]
+p a.slice!(1, 2)   #=> ["b", "c"]
+p a                #=> ["a"]
+
+a = [ "a", "b", "c" ]
+p a.slice!(1, 0)   #=> []
+p a                #=> [ "a", "b", "c" ]
+```

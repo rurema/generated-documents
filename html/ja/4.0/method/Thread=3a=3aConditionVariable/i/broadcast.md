@@ -1,0 +1,42 @@
+# Thread::ConditionVariable#broadcast
+
+### def broadcast -> self
+
+状態変数を待っているスレッドをすべて再開します。再開されたスレッドは [Thread::ConditionVariable#wait](../../../method/Thread=3a=3aConditionVariable/i/wait.md)
+で指定した mutex のロックを試みます。
+
+- **return** -- 常に self を返します。
+
+```ruby title="例"
+mutex = Thread::Mutex.new
+cv = Thread::ConditionVariable.new
+flg = true
+
+3.times {
+  Thread.start {
+    mutex.synchronize {
+      puts "a1"
+      while (flg)
+        cv.wait(mutex)
+      end
+      puts "a2"
+    }
+  }
+}
+
+Thread.start {
+  mutex.synchronize {
+    flg = false
+    cv.broadcast
+  }
+}
+
+sleep 1
+
+# => a1
+# => a1
+# => a1
+# => a2
+# => a2
+# => a2
+```

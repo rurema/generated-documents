@@ -1,0 +1,21 @@
+# Rinda::TupleSpace#write
+
+### def write(tuple, sec = nil) -> Rinda::TupleEntry
+
+tuple をタプルスペースに加えます。
+tuple を管理するための [Rinda::TupleEntry](../../../class/Rinda=3a=3aTupleEntry.md) オブジェクトを返します。
+
+sec で追加したタプルの有効期限を指定できます。
+追加されてから sec 秒過ぎたタプルはタプルスペースから削除されます。
+nil は無限を意味し、この場合にはタプルは経過時間によっては削除されません。
+
+返り値の [Rinda::TupleEntry](../../../class/Rinda=3a=3aTupleEntry.md) オブジェクトを使ってタプルを明示的にキャンセルしたり有効期限を変更したりできます。ただし、利用にはGCなどに気を付ける必要があります。
+詳しくは[Rinda::TupleEntry](../../../class/Rinda=3a=3aTupleEntry.md) のエントリーを見てください。
+
+- **param** `tuple` -- 追加する tuple (配列かHash)
+- **param** `sec` -- 有効期限(秒数)
+
+- **raise** `Rinda::InvalidHashTupleKey` -- 不正な Hash tuple (キーが文字列以外のもの)を
+       追加しようとすると発生します
+
+- **return** -- tuple 管理用の [Rinda::TupleEntry](../../../class/Rinda=3a=3aTupleEntry.md) オブジェクト

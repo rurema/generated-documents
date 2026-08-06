@@ -1,0 +1,8 @@
+# OpenSSL::X509::Certificate#version=
+
+### def version=(version)
+
+証明書のバージョンを設定します。
+
+- **param** `version` -- バージョン(0以上の整数)
+- **raise** `OpenSSL::X509::CertificateError` -- 設定に失敗した場合に発生します

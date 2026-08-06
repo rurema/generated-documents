@@ -1,0 +1,15 @@
+# Matrix#column_vectors
+
+### def column_vectors -> [Vector]
+
+自分自身を列ベクトルの配列として返します。
+
+```ruby title="例"
+require 'matrix'
+a1 = [ 1,  2,  3]
+a2 = [10, 15, 20]
+a3 = [-1, -2, 1.5]
+m = Matrix[a1, a2, a3]
+
+p m.column_vectors # => [Vector[1, 10, -1], Vector[2, 15, -2], Vector[3, 20, 1.5]]
+```

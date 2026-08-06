@@ -1,0 +1,24 @@
+# BigMath?.exp
+
+### module_function def exp(x, prec) -> BigDecimal
+
+x の指数関数を prec で指定した精度で計算します。
+
+x に正の無限大を指定した場合は正の無限大を返します。負の無限大を指定した場合には 0 を返します。NaN を指定した場合には NaNを返します。
+
+- **param** `x` -- 計算対象の数値を [Integer](../../../class/Integer.md)、[BigDecimal](../../../class/BigDecimal.md)、
+         [Float](../../../class/Float.md)、[Rational](../../../class/Rational.md)オブジェクトのいずれかで指定します。
+
+- **param** `prec` -- 計算結果の精度を指定します。
+
+- **raise** `ArgumentError` -- x に [Integer](../../../class/Integer.md)、[BigDecimal](../../../class/BigDecimal.md)、
+                     [Float](../../../class/Float.md)、[Rational](../../../class/Rational.md)以外のオブジェクトを指
+                     定した場合に発生します。
+
+- **raise** `ArgumentError` -- prec に 0 以下の数値が指定された場合に発生します。
+
+```ruby
+require "bigdecimal/math"
+
+puts BigMath::exp(BigDecimal('1'), 10) #=> 0.2718281828e1
+```

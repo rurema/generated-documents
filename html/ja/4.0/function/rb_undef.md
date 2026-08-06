@@ -1,0 +1,5 @@
+# rb_undef
+
+### void rb_undef(VALUE klass, ID id)
+
+クラス klass のメソッド id を undef します。

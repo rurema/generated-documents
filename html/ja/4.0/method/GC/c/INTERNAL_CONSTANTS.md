@@ -1,0 +1,10 @@
+# GC::INTERNAL_CONSTANTS
+
+### const INTERNAL_CONSTANTS -> {Symbol => Integer}
+
+GC用内部定数の値を保持するハッシュテーブルです。
+
+```ruby
+p GC::INTERNAL_CONSTANTS
+# => {:RVALUE_SIZE=>40, :HEAP_PAGE_OBJ_LIMIT=>408, :HEAP_PAGE_BITMAP_SIZE=>56, :HEAP_PAGE_BITMAP_PLANES=>4}
+```

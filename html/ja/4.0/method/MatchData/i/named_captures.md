@@ -1,0 +1,28 @@
+# MatchData#named_captures
+
+### def named_captures(symbolize_names: false) -> Hash
+
+名前付きキャプチャをHashで返します。
+
+Hashのキーは名前付きキャプチャの名前です。Hashの値はキーの名前に対応した名前付きグループのうち最後にマッチした文字列です。
+
+- **param** `symbolize_names` -- 真を指定するとハッシュのキーを文字列ではなくシンボルにします。デフォルトは偽です。
+
+```ruby title="例"
+m = /(?<a>.)(?<b>.)/.match("01")
+p m.named_captures # => {"a" => "0", "b" => "1"}
+
+m = /(?<a>.)(?<b>.)?/.match("0")
+p m.named_captures # => {"a" => "0", "b" => nil}
+
+m = /(?<a>.)(?<a>.)/.match("01")
+p m.named_captures # => {"a" => "1"}
+
+m = /(?<a>x)|(?<a>y)/.match("x")
+p m.named_captures # => {"a" => "x"}
+
+m = /(?<a>.)(?<a>.)/.match("01")
+p m.named_captures(symbolize_names: true) #=> {:a => "1"}
+```
+
+- **SEE** [MatchData#captures](../../../method/MatchData/i/captures.md), [MatchData#deconstruct_keys](../../../method/MatchData/i/deconstruct_keys.md)

@@ -1,0 +1,7 @@
+# OpenSSL::X509::ExtensionFactory#subject_request
+
+### def subject_request -> OpenSSL::X509::Request | nil
+
+自身に設定されている証明書署名要求オブジェクトを返します。
+
+設定されていない場合は nil を返します。

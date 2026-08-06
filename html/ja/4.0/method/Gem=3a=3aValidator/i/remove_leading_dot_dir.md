@@ -1,0 +1,5 @@
+# Gem::Validator#remove_leading_dot_dir
+
+### def remove_leading_dot_dir(path) -> String
+
+与えられたパスの先頭のドットを取り除いた文字列を返します。

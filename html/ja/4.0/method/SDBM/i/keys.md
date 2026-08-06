@@ -1,0 +1,15 @@
+# SDBM#keys
+
+### def keys -> [String]
+
+データベース中に存在するキー全てを含む配列を返します。
+
+```ruby
+require 'sdbm'
+  
+db1 = SDBM.open('aaa.gdbm', 0666)
+db1['a'] = 'aaa'
+db1['b'] = 'bbb'
+db1['c'] = 'ccc'
+p db1.keys #=> ["a", "b","c"]
+```

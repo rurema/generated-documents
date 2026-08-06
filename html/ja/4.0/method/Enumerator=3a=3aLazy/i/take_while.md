@@ -1,0 +1,16 @@
+# Enumerator::Lazy#take_while
+
+### def take_while -> Enumerator::Lazy
+### def take_while {|item| ... } -> Enumerator::Lazy
+
+[Enumerable#take_while](../../../method/Enumerable/i/take_while.md) と同じですが、配列ではなくEnumerator::Lazy を返します。
+
+```ruby title="例"
+p 1.step.lazy.zip(('a'..'z').cycle).take_while { |e| e.first < 100_000 }
+# => #<Enumerator::Lazy: #<Enumerator::Lazy: #<Enumerator::Lazy: #<Enumerator: 1:step>>:zip(#<Enumerator: "a".."z":cycle>)>:take_while>
+
+p 1.step.lazy.zip(('a'..'z').cycle).take_while { |e| e.first < 100_000 }.force.last(5)
+# => [[99995, "y"], [99996, "z"], [99997, "a"], [99998, "b"], [99999, "c"]]
+```
+
+- **SEE** [Enumerable#take_while](../../../method/Enumerable/i/take_while.md)

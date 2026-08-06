@@ -1,0 +1,15 @@
+# Pathname#relative?
+
+### def relative? -> bool
+
+self が相対パス指定であれば真を返します。
+
+```ruby title="例"
+require 'pathname'
+
+p = Pathname.new('/im/sure')
+p.relative? #=> false
+
+p = Pathname.new('not/so/sure')
+p.relative? #=> true
+```

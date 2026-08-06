@@ -1,0 +1,17 @@
+# Logger#level=
+
+### def level=(level)
+### def sev_threshold=(level)
+
+Logger オブジェクトのログレベルを設定します。ログレベルがこれより低いメッセージは出力されません。
+
+- **param** `level` -- ログレベルを指定します。
+
+```ruby title="例"
+require 'logger'
+
+logger = Logger.new(STDOUT)
+p logger.level # => 0
+logger.level = Logger::Severity::ERROR # => 3
+p logger.level # => 3
+```

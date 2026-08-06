@@ -1,0 +1,6 @@
+# rb_ivar_set
+
+### VALUE rb_ivar_set(VALUE obj, ID name, VALUE val)
+
+オブジェクト obj のインスタンス変数 name に
+val を代入します。

@@ -1,0 +1,12 @@
+# CSV#inspect
+
+### def inspect -> String
+
+ASCII 互換文字列で自身の情報を表したものを返します。
+
+```ruby title="例"
+require "csv"
+
+csv = CSV.new("header1,header2\nrow1_1,row1_2")
+p csv.inspect # => "<#CSV io_type:StringIO encoding:UTF-8 lineno:0 col_sep:\",\" row_sep:\"\\n\" quote_char:\"\\\"\">"
+```

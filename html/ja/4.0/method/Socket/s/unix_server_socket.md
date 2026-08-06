@@ -1,0 +1,25 @@
+# Socket.unix_server_socket
+
+### def Socket.unix_server_socket(path) -> Socket
+### def Socket.unix_server_socket(path){|sock| ... } -> object
+
+Unix サーバソケットを生成します。
+
+ブロックが省略されたときは、生成されたソケットが返されます。
+
+ブロックが渡されたときは、生成されたソケットを引数としてブロックを呼び出します。メソッドの返り値はブロックの評価値となります。また、ブロックの終了後にソケットを [IO#close](../../../method/IO/i/close.md) します。
+
+```ruby
+require 'socket'
+
+socket = Socket.unix_server_socket("/tmp/s")
+p socket                  #=> #<Socket:fd 3>
+p socket.local_address    #=> #<Addrinfo: /tmp/s SOCK_STREAM>
+  
+Socket.unix_server_socket("/tmp/sock") {|s|
+  p s                     #=> #<Socket:fd 3>
+  p s.local_address       #=> # #<Addrinfo: /tmp/sock SOCK_STREAM>
+}
+```
+
+- **param** `path` -- 接続を待ち受けるパス(文字列)

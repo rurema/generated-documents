@@ -1,0 +1,7 @@
+# Fiddle::TYPE_CHAR
+
+### const TYPE_CHAR -> Integer
+
+C の char 型を表す定数。
+
+unsigned char を表すには符号を逆転させます。

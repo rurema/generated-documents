@@ -1,0 +1,32 @@
+# OpenSSL::PKey::RSA.new
+
+### def OpenSSL::PKey::RSA.new(size, exponent = 65537) -> OpenSSL::PKey::RSA
+### def OpenSSL::PKey::RSA.new(size, exponent = 65537){|u,n| ... }  -> OpenSSL::PKey::RSA
+### def OpenSSL::PKey::RSA.new(obj, pass = nil) -> OpenSSL::PKey::RSA
+### def OpenSSL::PKey::RSA.new(obj, pass = nil){|flag| ... } -> OpenSSL::PKey::RSA
+
+RSA 暗号鍵オブジェクトを生成します。
+
+引数なしでの呼び出しは [ArgumentError](../../../class/ArgumentError.md) が発生するため使用できません。
+新しい鍵を生成する場合は [OpenSSL::PKey::RSA.generate](../../../method/OpenSSL=3a=3aPKey=3a=3aRSA/s/generate.md) を使用してください。
+
+第一引数に整数を指定した場合には、[OpenSSL::PKey::RSA.generate](../../../method/OpenSSL=3a=3aPKey=3a=3aRSA/s/generate.md) により公開鍵と秘密鍵のペアを生成し、それを返します。
+
+それ以外の場合には、以下のようにして鍵データを読みこみ、RSA オブジェクトを生成します。
+  - 第一引数が文字列の場合は、PEM 形式もしくは DER 形式と仮定して
+    鍵データを読み込みます
+  - 第一引数が [IO](../../../class/IO.md) オブジェクトの場合は、その内容を
+    読み込んで RSA オブジェクトを生成します。
+  - 第一引数が to_der メソッドを持つ場合は、それにより DER 形式の
+    文字列に変換してから読み込みます
+pass が指定された場合は、秘密鍵を pass を使って復号化します。
+
+鍵データにパスフレーズが設定されているにもかかわらず、passが省略された場合は、渡されたブロックを呼びだしてパスフレーズを要求します。ブロックの返り値をパスフレーズとみなして復号します。ブロックの引数は通常は false が渡されますが、これはそのパスフレーズが秘密鍵の復号に使われることを意味します。
+ブロックが渡されなかった場合にはターミナルに問い合わせをします。
+
+- **param** `size` -- 鍵生成をする場合の鍵のサイズ
+- **param** `exponent` -- public exponent
+- **param** `obj` -- 鍵データ
+- **param** `pass` -- 鍵データに設定したパスフレーズ
+- **raise** `ArgumentError` -- 引数なしで呼び出した場合に発生します。
+- **raise** `OpenSSL::PKey::RSAError` -- 鍵の読み込みに失敗した場合に発生します。

@@ -1,0 +1,12 @@
+# Time#isdst
+
+### def isdst    -> bool
+### def dst?     -> bool
+
+自身が表す日時が夏時間なら true を返します。そうでないなら false を返します。
+
+```ruby
+ENV['TZ'] = 'US/Pacific'
+p Time.local(2000, 7, 1).isdst   # => true
+p Time.local(2000, 1, 1).isdst   # => false
+```

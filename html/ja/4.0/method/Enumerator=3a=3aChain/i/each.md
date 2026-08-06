@@ -1,0 +1,9 @@
+# Enumerator::Chain#each
+
+### def each(*args) { |*args| ...} -> object
+### def each(*args) -> Enumerator
+
+まず最初の繰り返し可能なオブジェクトの each メソッドを
+args 引数とともに呼び出した後、続く繰り返し可能なオブジェクトも同様に呼び出します。
+
+ブロックが渡されない場合は [Enumerator](../../../class/Enumerator.md) を返します。

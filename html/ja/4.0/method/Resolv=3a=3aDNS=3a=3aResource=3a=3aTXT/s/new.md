@@ -1,0 +1,8 @@
+# Resolv::DNS::Resource::TXT.new
+
+### def Resolv::DNS::Resource::TXT.new(first_string, *rest_strings) -> Resolv::DNS::Resource::TXT
+
+Resolv::DNS::Resource::TXTのインスタンスを生成します。
+
+- **param** `first_string` -- レコードの最初の文字列
+- **param** `rest_strings` -- レコードの残りの文字列

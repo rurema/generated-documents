@@ -1,0 +1,11 @@
+# Benchmark?.realtime
+
+### module_function def realtime { ... } -> Float
+
+与えられたブロックを評価して実行時間を計測して返します。
+返り値の単位は、秒です。
+
+```ruby
+require 'benchmark'
+puts Benchmark.realtime { [0] * (10**8) } # => 1.0929416846483946
+```

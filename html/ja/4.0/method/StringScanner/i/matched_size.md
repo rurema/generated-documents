@@ -1,0 +1,35 @@
+# StringScanner#matched_size
+
+### def matched_size -> Integer | nil
+
+前回マッチした部分文字列の長さを返します。
+前回マッチに失敗していたら nil を返します。
+
+マッチしたサイズは文字単位でなくバイト単位となります。
+
+```ruby
+require 'strscan'
+
+def run(encode)
+  utf8 = "\u{308B 3073 3044}" # るびい
+  s = StringScanner.new(utf8.encode(encode))
+  s.scan(/#{"\u{308B}".encode(encode)}/)
+  s.matched_size
+end
+
+p run("UTF-8")     #=> 3
+p run("EUC-JP")    #=> 2
+p run("Shift_Jis") #=> 2
+
+```
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('test string')
+p s.matched_size # => nil
+p s.scan(/\w+/)  # => "test"
+p s.matched_size # => 4
+p s.scan(/\w+/)  # => nil
+p s.matched_size # => nil
+```

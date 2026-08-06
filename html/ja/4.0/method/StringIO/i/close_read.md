@@ -1,0 +1,7 @@
+# StringIO#close_read
+
+### def close_read    -> nil
+
+自身に対する読み取りを禁止します。
+
+- **raise** `IOError` -- 自身がすでに読み取り不可だった場合に発生します。

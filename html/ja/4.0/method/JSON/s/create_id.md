@@ -1,0 +1,39 @@
+# JSON.create_id
+
+### def JSON.create_id -> String
+
+json_create メソッドで使用するクラスを決定するために使用する値を返します。
+
+デフォルトは "json_class" です。
+
+```ruby title="例"
+require "json"
+
+class User
+  attr :id, :name
+  def initialize(id, name)
+    @id, @name = id, name
+  end
+
+  def self.json_create(object)
+    new(object['id'], object["name"])
+  end
+
+  def as_json(*)
+    {
+      JSON.create_id => self.class.name,
+      "id" => id,
+      "name" => name,
+    }
+  end
+
+  def to_json(*)
+    as_json.to_json
+  end
+end
+
+json = JSON.generate(User.new(1, "tanaka"))
+p json # => "{\"json_class\":\"User\",\"id\":1,\"name\":\"tanaka\"}"
+p JSON.parse(json, create_additions: true)
+# => #<User:0x0000557709b269e0 @id=1, @name="tanaka">
+```

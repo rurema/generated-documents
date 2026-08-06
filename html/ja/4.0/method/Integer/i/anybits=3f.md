@@ -1,0 +1,19 @@
+# Integer#anybits?
+
+### def anybits?(mask) -> bool
+
+`self & mask` のいずれかのビットが `1` なら `true` を返します。
+
+`self & mask != 0` と等価です。
+
+- **param** `mask` -- ビットマスクを整数で指定します。
+
+```ruby
+p 42.anybits?(42)                 # => true
+p 0b1010_1010.anybits?(0b1000_0010) # => true
+p 0b1010_1010.anybits?(0b1000_0001) # => true
+p 0b1000_0010.anybits?(0b0010_1100) # => false
+```
+
+- **SEE** [Integer#allbits?](../../../method/Integer/i/allbits=3f.md)
+- **SEE** [Integer#nobits?](../../../method/Integer/i/nobits=3f.md)

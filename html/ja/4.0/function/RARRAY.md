@@ -1,0 +1,6 @@
+# RARRAY
+
+### struct RArray * RARRAY(VALUE obj)
+
+obj を struct RArray* にキャストする。
+本当は obj が struct RArray* でないとしてもキャストしてしまう。

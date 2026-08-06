@@ -1,0 +1,7 @@
+# OpenSSL::X509::CRL#to_der
+
+### def to_der -> String
+
+DER 形式に変換します。
+
+- **raise** `OpenSSL::X509::CRLError` -- 変換に失敗した場合に発生します

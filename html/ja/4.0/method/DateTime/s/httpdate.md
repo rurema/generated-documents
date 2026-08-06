@@ -1,0 +1,10 @@
+# DateTime.httpdate
+
+### def DateTime.httpdate(str = 'Mon, 01 Jan -4712 00:00:00 GMT', start = Date::ITALY) -> DateTime
+
+[RFC:2616] で定められた書式の日付を解析し、その情報に基づいて日付オブジェクトを生成します。
+
+[Date._httpdate](../../../method/Date/s/_httpdate.md) も参照してください。
+
+- **param** `str` -- 日付をあらわす文字列
+- **param** `start` -- グレゴリオ暦をつかい始めた日をあらわすユリウス日

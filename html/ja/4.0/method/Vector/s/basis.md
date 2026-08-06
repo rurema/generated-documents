@@ -1,0 +1,14 @@
+# Vector.basis
+
+### def Vector.basis(size:, index:) -> Vector
+
+`size` 次元ベクトル空間の `index` 番目の標準基底を返します。
+
+```ruby title="例"
+require 'matrix'
+
+p Vector.basis(size: 3, index: 1) # => Vector[0, 1, 0]
+```
+
+- **param** `size` -- ベクトルの次元
+- **param** `index` -- 標準基底の何番目か。0 origin

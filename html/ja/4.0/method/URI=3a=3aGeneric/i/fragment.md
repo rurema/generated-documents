@@ -1,0 +1,11 @@
+# URI::Generic#fragment
+
+### def fragment     -> String | nil
+
+自身の fragment を文字列で返します。設定されていない場合は nil を返します。
+
+```ruby title="例"
+require 'uri'
+u = URI.parse('http://example.com/#frgmt')
+p u.fragment                                #=> "frgmt"
+```

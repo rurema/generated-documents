@@ -1,0 +1,7 @@
+# OpenSSL::X509::Request#to_der
+
+### def to_der -> String
+
+DER 形式の文字列に変換して返します。
+
+- **raise** `OpenSSL::X509::RequestError` -- 変換に失敗した場合に発生します

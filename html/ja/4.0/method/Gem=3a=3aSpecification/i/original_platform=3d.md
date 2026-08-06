@@ -1,0 +1,7 @@
+# Gem::Specification#original_platform=
+
+### def original_platform=(platform)
+
+この属性は古いバージョンの Gem パッケージをアンインストールするために残されています。
+
+- **param** `platform` -- プラットフォームを指定します。

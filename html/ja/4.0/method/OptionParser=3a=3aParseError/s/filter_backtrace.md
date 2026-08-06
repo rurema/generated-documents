@@ -1,0 +1,11 @@
+# OptionParser::ParseError.filter_backtrace
+
+### def OptionParser::ParseError.filter_backtrace(array) -> [String]
+
+array で指定されたバックトレースから optparse ライブラリに関する行を除外します。
+
+デバッグモード([m:$DEBUG]が真)の場合は何もしません。
+
+- **param** `array` -- バックトレースを文字列の配列で指定します。
+
+- **return** -- array を返します。

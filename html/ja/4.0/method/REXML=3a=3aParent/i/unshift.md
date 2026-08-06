@@ -1,0 +1,9 @@
+# REXML::Parent#unshift
+
+### def unshift(object) -> ()
+
+object を子ノード列の最初に追加します。
+
+object の親ノードには self が設定されます。
+
+- **param** `object` -- 追加するノード

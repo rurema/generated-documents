@@ -1,0 +1,27 @@
+# OpenSSL::PKey::DH.new
+
+### def OpenSSL::PKey::DH.new(size, generator = 2) -> OpenSSL::PKey::DH
+### def OpenSSL::PKey::DH.new(obj) -> OpenSSL::PKey::DH
+### def OpenSSL::PKey::DH.new() -> OpenSSL::PKey::DH
+
+DH オブジェクトを生成します。
+
+第1引数に整数を渡した場合は、[OpenSSL::PKey::DH.generate](../../../method/OpenSSL=3a=3aPKey=3a=3aDH/s/generate.md) と同じです。
+
+それ以外の場合には、以下のようにして鍵パラメータを読みこみ、DH オブジェクトを生成します。
+  - 第一引数が文字列の場合は、PEM 形式もしくは DER 形式と仮定して
+    鍵パラメータを読み込みます
+  - 第一引数が [IO](../../../class/IO.md) オブジェクトの場合は、その内容を
+    読み込んで DH オブジェクトを生成します。
+  - 第一引数が to_der メソッドを持つ場合は、それにより DER 形式の
+    文字列に変換してから読み込みます
+この場合鍵対は空です。
+
+引数をまったく与えない場合は空の DH オブジェクトが生成されます。
+このオブジェクトには鍵パラメータも鍵対も設定されていません。
+
+- **param** `size` -- 鍵パラメータの素数のサイズ(ビット数)
+- **param** `generator` -- 鍵パラメータの生成元(2以上の整数、通常2か5)
+- **param** `obj` -- 鍵パラメータを読み込むオブジェクト
+- **raise** `OpenSSL::PKey::DHError` -- オブジェクトの生成に失敗した場合に発生します
+- **SEE** [OpenSSL::PKey::DH#generate_key!](../../../method/OpenSSL=3a=3aPKey=3a=3aDH/i/generate_key=21.md)

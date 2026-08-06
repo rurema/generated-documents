@@ -1,0 +1,27 @@
+# WIN32OLE_VARIABLE#variable_kind
+
+### def variable_kind -> String
+
+変数の種類（VARKIND）を取得します。
+
+この変数の種類を示す文字列を返します。
+
+- **return** -- VARKINDに対応する文字列を返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'XlSheetType')
+puts tobj.variables.map {|v| v.variable_kind}.uniq # => CONSTANT
+```
+
+返送値は以下のいずれかとなります。
+
+- **`PERINSTANCE`**:
+  インスタンス毎の変数。構造体やユーザ定義体のフィールド。(0)
+- **`STATIC`**:
+  クラスの静的変数。(1)
+- **`CONSTANT`**:
+  定数。enumやモジュールのメンバ。(2)
+- **`DISPATCH`**:
+  変数アクセスにオートメーションを利用。旧型式のプロパティ。(3)
+
+- **SEE** [WIN32OLE_VARIABLE#varkind](../../../method/WIN32OLE_VARIABLE/i/varkind.md)

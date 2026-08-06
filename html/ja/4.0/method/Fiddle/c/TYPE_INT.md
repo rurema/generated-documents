@@ -1,0 +1,7 @@
+# Fiddle::TYPE_INT
+
+### const TYPE_INT -> Integer
+
+C の int 型を表す定数。
+
+unsigned int を表すには符号を逆転させます。

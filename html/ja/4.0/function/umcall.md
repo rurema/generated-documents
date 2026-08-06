@@ -1,0 +1,3 @@
+# umcall
+
+### static VALUE umcall(VALUE args, VALUE method)

@@ -1,0 +1,55 @@
+# Net::HTTPHeader#fetch
+
+### def fetch(key) -> String
+### def fetch(key, default) -> String
+### def fetch(key) {|hash| .... } -> String
+
+key ヘッダフィールドを返します。
+
+たとえばキー 'content-length' に対しては  '2048'
+のような文字列が得られます。キーが存在しなければ nil を返します。
+
+該当するキーが登録されていない時には、引数 default が与えられていればその値を、ブロックが与えられていればそのブロックを評価した値を返します。
+
+一種類のヘッダフィールドが一つのヘッダの中に複数存在する場合にはそれを全て ", " で連結した文字列を返します。
+key は大文字小文字を区別しません。
+
+- **param** `key` -- ヘッダフィールド名を文字列で与えます。
+- **param** `default` -- 該当するキーが登録されていない時の返り値を指定します。
+- **raise** `IndexError` -- 引数defaultもブロックも与えられてない時、キーの探索に 失敗すると発生します。
+
+```ruby title="例 key のみ指定。key が存在する"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+p req.fetch("user-agent") # => "Ruby"
+```
+
+```ruby title="例 key のみ指定。key が存在しない"
+require 'net/http'
+
+begin
+  req.fetch("content-length")
+rescue => e
+  e # => #<KeyError: key not found: "content-length">
+end
+```
+
+```ruby title="例 key , default を指定"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+p req.fetch("content-length", "default") # => "default"
+```
+
+```ruby title="例 key とブロックを指定"
+require 'net/http'
+
+uri = URI.parse('http://www.example.com/index.html')
+req = Net::HTTP::Get.new(uri.request_uri)
+p req.fetch("content-length") { |e| 99 } # => 99
+```
+
+- **SEE** [Net::HTTPHeader#\[\]](../../../method/Net=3a=3aHTTPHeader/i/=5b=5d.md)

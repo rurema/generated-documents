@@ -1,0 +1,26 @@
+# OpenSSL::SSL::SSLContext#ciphers=
+
+### def ciphers=(ciphers)
+
+利用可能な共通鍵暗号を設定します。
+
+これによって、SSL コネクションにおいて特定の共通鍵暗号だけを利用可能にできます。
+
+指定の方法は2種類あります。1つは
+
+```text
+"ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
+```
+
+のような文字列で指定する方法で、もう一つは配列で
+
+```text
+["ALL", "!ADH", "!LOW", "!EXP", "!MD5", "@STRENGTH"]
+```
+
+という配列で指定する方法です。上の2つの例は同じ内容を意味しています。
+詳しくは OpenSSL のマニュアルの
+SSL_CTX_set_cipher_list の項を見てください。
+
+- **param** `ciphers` -- 利用可能にする共通鍵暗号の種類
+- **raise** `OpenSSL::SSL::SSLError` -- 設定に失敗した場合に発生します

@@ -1,0 +1,6 @@
+# rb_cvar_set
+
+### void rb_cvar_set(VALUE klass, ID name, VALUE val)
+
+klass のクラス変数 name に val を代入します。
+変数がまだ定義されていない場合は NameError を発生します。

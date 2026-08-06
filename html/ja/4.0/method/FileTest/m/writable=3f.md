@@ -1,0 +1,15 @@
+# FileTest?.writable?
+
+### module_function def writable?(file)    -> bool
+
+ファイルがカレントプロセスにより書き込み可能である時に真を返します。そうでない場合、ファイルが存在しない場合、あるいはシステムコールに失敗した場合などには false を返します。
+
+- **param** `file` -- ファイル名を表す文字列を指定します。
+
+```ruby title="例"
+IO.write("testfile", "test")
+File.chmod(0600, "testfile")
+p FileTest.writable?("testfile")    # => true
+File.chmod(0400, "testfile")
+p FileTest.writable?("testfile")    # => false
+```

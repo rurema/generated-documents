@@ -1,0 +1,24 @@
+# StringIO#readline
+
+### def readline(rs = $/)    -> String
+
+自身から 1 行読み込んで、その文字列を返します。
+
+文字列の終端に到達した時には、例外 EOFError を発生させます。
+[IO#readline](../../../method/IO/i/readline.md) と違い読み込んだ文字列を変数 [m:$_] にセットしません。
+
+- **param** `rs` -- 行の区切りを文字列で指定します。rs に nil を指定すると行区切りなしとみなします。空文字列 "" を指定すると連続する改行を行の区切りとみなします(パラグラフモード)。
+
+- **raise** `EOFError` -- 文字列の終端に到達した時に発生します。
+
+- **raise** `IOError` -- 自身が読み込み用にオープンされていなければ発生します。
+
+```ruby title="例"
+require "stringio"
+a = StringIO.new("hoge\nfoo\nbar\n")
+p a.readline                         #=> "hoge\n"
+p a.readline(nil)                    #=> "foo\nbar\n"
+a.readline                           # ~> EOFError
+```
+
+- **SEE** [m:$/]

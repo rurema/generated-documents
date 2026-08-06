@@ -1,0 +1,5 @@
+# rb_provide
+
+### void rb_provide(const char *feature)
+
+ライブラリ feature をロードしたものとしてロックをかけます。

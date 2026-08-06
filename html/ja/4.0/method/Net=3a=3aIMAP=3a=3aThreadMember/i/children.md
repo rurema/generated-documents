@@ -1,0 +1,5 @@
+# Net::IMAP::ThreadMember#children
+
+### def children -> [Net::IMAP::ThreadMember]
+
+スレッドの木構造における自身の下位の部分を返します。

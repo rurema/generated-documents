@@ -1,0 +1,14 @@
+# Thread::SizedQueue#max=
+
+### def max=(n)
+
+キューの最大サイズを設定します。
+
+- **param** `n` -- キューの最大サイズを指定します。
+
+```ruby title="例"
+q = Thread::SizedQueue.new(4)
+p q.max # => 4
+q.max = 5
+p q.max # => 5
+```

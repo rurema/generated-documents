@@ -1,0 +1,9 @@
+# Gem::Security::Signer.new
+
+### def Gem::Security::Signer.new(key, cert_chain) -> Gem::Security::Signer
+
+与えられた鍵と証明書チェーンを用いて自身を初期化します。
+
+- **param** `key` -- 鍵を指定します。
+
+- **param** `cert_chain` -- 証明書チェーンを指定します。

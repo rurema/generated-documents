@@ -1,0 +1,5 @@
+# Forwardable.debug=
+
+### def Forwardable.debug= -> bool
+
+委譲部分をバックトレースに含めるかどうかの状態を設定します。

@@ -1,0 +1,173 @@
+# Kernel?.lambda
+
+### module_function def proc { ... } -> Proc
+### module_function def lambda { ... } -> Proc
+
+与えられたブロックから手続きオブジェクト ([Proc](../../../class/Proc.md) のインスタンス)
+を生成して返します。[Proc.new](../../../method/Proc/s/new.md) に近い働きをします。
+
+また、lambda に & 引数を渡すのは推奨されません。& 引数ではなくてブロック記法で記述する必要があります。
+
+& 引数(リテラルでないブロック)を渡して lambda を呼び出すと、[ArgumentError](../../../class/ArgumentError.md)
+「the lambda method requires a literal block」が発生します。
+
+- **raise** `ArgumentError` -- ブロックを省略した呼び出しを行ったときに発生します。
+- **raise** `ArgumentError` -- & 引数(リテラルでないブロック)を渡して呼び出したときに発生します。
+
+```ruby title="例"
+def foo &block
+  proc(&block)
+end
+
+it = foo{p 12}
+p it.call #=> 12
+```
+
+- **SEE** [Proc](../../../class/Proc.md),[Proc.new](../../../method/Proc/s/new.md)
+
+### Proc オブジェクトの生成 {#proc_generation}
+
+Proc オブジェクトを生成する手段には、主に以下の四つがあります。
+
+* [Proc.new](../../../method/Proc/s/new.md)
+* [Kernel?.proc](../../../method/Kernel/m/proc.md)
+* [Kernel?.lambda](../../../method/Kernel/m/lambda.md)
+* `->(){ }` (`->` を使った lambda の短縮記法)
+
+このうち [Proc.new](../../../method/Proc/s/new.md) と [Kernel?.proc](../../../method/Kernel/m/proc.md) は同じ性質の Proc オブジェクトを生成し、
+[Kernel?.lambda](../../../method/Kernel/m/lambda.md) と `->(){ }` も互いに同じ性質の Proc オブジェクトを生成しますが、前二者と後二者では、生成される Proc オブジェクトの引数の扱いや return・break の挙動などが異なります(詳細は後述)。生成された Proc オブジェクトが後二者
+(lambda)に該当するかどうかは [Proc#lambda?](../../../method/Proc/i/lambda=3f.md) で調べることができます。
+
+このほか、メソッド呼び出しにブロックを渡した場合、そのブロックをブロック引数
+(`&block` など)で受け取ると Proc オブジェクトが生成されます。
+
+### 手続きを中断して値を返す {#should_use_next}
+
+手続きオブジェクトを中断して、呼出し元(呼び出しブロックでは yield、それ以外では [Proc#call](../../../method/Proc/i/call.md))
+へジャンプし値を返すには next を使います。break や return ではありません。
+
+```ruby title="例"
+def foo
+  f = Proc.new{
+    next 1
+    2              # この行に到達することはない
+  }
+end
+
+p foo().call       #=> 1
+```
+
+### Proc オブジェクトをブロック付きメソッド呼び出しに使う {#block}
+
+ブロック付きメソッドに対して Proc オブジェクトを \`&\` を指定して渡すと呼び出しブロックのように動作します。
+しかし、厳密には以下の違いがあります。
+これらは、Proc オブジェクトが呼び出しブロックとして振舞う際の制限です。
+
+```ruby title="問題なし"
+(1..5).each { break }
+```
+
+```ruby title="LocalJumpError が発生します。"
+pr = Proc.new { break }
+(1..5).each(&pr)
+```
+
+### lambda と proc と Proc.new とイテレータの違い {#lambda_proc}
+
+[Kernel?.lambda](../../../method/Kernel/m/lambda.md) と [Proc.new](../../../method/Proc/s/new.md) はどちらも [Proc](../../../class/Proc.md) クラスのインスタンス(手続きオブジェクト)を生成しますが、生成された手続きオブジェクトはいくつかの場面で挙動が異なります。 lambda の生成する手続きオブジェクトのほうがよりメソッドに近い働きをするように設計されています。
+
+[Kernel?.proc](../../../method/Kernel/m/proc.md) は Proc.new と同じになります。
+引数に & を付けることで手続きオブジェクト化したブロックは、Proc.new で生成されたそれと同じように振る舞います。
+
+#### 引数の扱い
+
+lambda のほうがより厳密です。引数の数が違っていると（メソッドのように）エラーになります。
+Proc.new は引数を多重代入に近い扱い方をします。
+
+```ruby title="Proc.new は引数の数が違っていてもエラーにならない"
+b = Proc.new{|a,b,c|
+  p a,b,c
+}
+p b.call(2, 4)
+#=> 2
+    4
+    nil
+```
+
+```ruby title="lambda は引数の数が違うとエラーになる"
+b = lambda{|a,b,c|
+  p a,b,c
+}
+p b.call(2, 4)
+# => wrong number of arguments (given 2, expected 3)
+```
+
+[spec/call#block_arg](../../../doc/spec=2fcall.md#block_arg) も参照してください。
+
+#### ジャンプ構文の挙動の違い
+
+return と break は、lambda と Proc.new では挙動が異なります。
+例えば return を行った場合、lambda では手続きオブジェクト自身を抜けますが、
+Proc.new では手続きオブジェクトを囲むメソッドを抜けます。
+
+```ruby title="例"
+def test_proc
+  f = Proc.new { return :from_proc }
+  f.call
+  return :from_method
+end
+
+def test_lambda
+  f = lambda { return :from_lambda }
+  f.call
+  return :from_method
+end
+
+def test_block
+  tap { return :from_block }
+  return :from_method
+end
+
+p test_proc()   #=> :from_proc
+p test_lambda() #=> :from_method
+p test_block()  #=> :from_block
+```
+
+以下の表は、手続きオブジェクトの実行を上の例と同じように、手続きオブジェクトが定義されたのと同じメソッド内で行った場合の結果です。
+
+```text
+               return                          next                        break
+Proc.new   メソッドを抜ける            手続きオブジェクトを抜ける   例外が発生する
+proc       メソッドを抜ける            手続きオブジェクトを抜ける   例外が発生する
+lambda     手続きオブジェクトを抜ける  手続きオブジェクトを抜ける   手続きオブジェクトを抜ける
+イテレータ メソッドを抜ける            手続きオブジェクトを抜ける   手続きオブジェクトを抜ける
+```
+
+### orphan な手続きオブジェクトの挙動 {#orphan}
+
+Proc(lambda を除く)を生成したメソッド呼び出しが終了した後で、その手続きオブジェクトに対して return を実行すると、戻る先のメソッド呼び出しがすでに存在しないため、例外 [LocalJumpError](../../../class/LocalJumpError.md) が発生します。
+
+break の場合は条件がやや異なります。その手続きオブジェクトをブロックとして受け取ったメソッド呼び出しがすでに終了している場合に加えて、
+`Proc.new { break }.call` のようにブロックとしてメソッドに渡されていない手続きオブジェクトで break を実行した場合にも、脱出先となるメソッド呼び出しが存在しないため例外 [LocalJumpError](../../../class/LocalJumpError.md) が発生します。
+
+ここでいう「作成元が終了している」とは、生成元のコード上の位置(レキシカルスコープ)が失われるという意味ではありません。同じメソッドを複数回呼び出した場合、それぞれの呼び出しで生成された手続きオブジェクトは、呼び出しごとに独立してこの状態になります。
+
+ただし、上でも説明した通り lambda で生成した手続きオブジェクトはメソッドと同じように振る舞うことを意図されているため、例外 [LocalJumpError](../../../class/LocalJumpError.md) は発生しません。
+
+```ruby title="例"
+def foo
+  Proc.new { return }
+end
+
+foo.call
+# => in 'block in Object#foo': unexpected return (LocalJumpError)
+```
+
+以下の表は、手続きオブジェクトの実行を上の例と同じように、手続きオブジェクトが定義されたメソッドを脱出してから行った場合の結果です。
+
+```text
+               return                          next                        break
+Proc.new   例外が発生する              手続きオブジェクトを抜ける   例外が発生する
+proc       例外が発生する              手続きオブジェクトを抜ける   例外が発生する
+lambda     手続きオブジェクトを抜ける  手続きオブジェクトを抜ける   手続きオブジェクトを抜ける
+```

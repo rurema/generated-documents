@@ -1,0 +1,21 @@
+# Kernel#egrep_cpp
+
+### def egrep_cpp(pattern, src, opt = "") -> bool
+### def egrep_cpp(pattern, src, opt = ""){ ... } -> bool
+
+C プログラムのソースコード src をプリプロセスし、その結果が正規表現 pattern にマッチするかどうかを判定します。
+
+```text
+CPP $CFLAGS opt | egrep pat
+```
+
+を実行し、その結果が正常かどうかを true または false で返します。
+
+このメソッドはヘッダファイルに関数などの宣言があるかどうか検査するために使用します。
+
+- **param** `pattern` -- 「egrep の」正規表現を文字列で指定します。
+                Ruby の正規表現ではありません。
+
+- **param** `src` -- C 言語のソースコードを文字列で記述します。
+
+- **SEE** [man:egrep(1)]

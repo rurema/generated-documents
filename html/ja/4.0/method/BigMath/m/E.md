@@ -1,0 +1,17 @@
+# BigMath?.E
+
+### module_function def E(prec) -> BigDecimal
+
+自然対数の底 e を prec で指定した精度で計算します。
+
+- **param** `prec` -- 計算結果の精度。
+
+- **raise** `ArgumentError` -- prec に 0 以下が指定された場合に発生します。
+
+```ruby
+require "bigdecimal/math"
+
+puts BigMath::E(2)  #=> 0.27e1
+puts BigMath::E(4)  #=> 0.2718e1
+puts BigMath::E(10) #=> 0.2718281828e1
+```

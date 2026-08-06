@@ -1,0 +1,7 @@
+# RDoc::TopLevel.find_class_named
+
+### def RDoc::TopLevel.find_class_named(name) -> RDoc::NormalClass | RDoc::SingleClass | nil
+
+RDoc が収集したクラスの内、name で指定した名前のクラスを返します。見つからなかった場合は nil を返します。
+
+- **param** `name` -- クラス名を文字列で指定します。

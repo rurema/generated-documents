@@ -1,0 +1,7 @@
+# REXML::AttlistDecl#include?
+
+### def include?(key) -> bool
+
+key が属性名であるならば真を返します。
+
+- **param** `key` -- 属性名であるかどうか判定する文字列

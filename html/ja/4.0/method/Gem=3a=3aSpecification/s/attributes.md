@@ -1,0 +1,9 @@
+# Gem::Specification.attributes
+
+### def Gem::Specification.attributes(*args) -> ()
+
+複数の属性を一度に作成するために使用します。
+
+各属性のデフォルト値は nil になります。
+
+- **param** `args` -- 属性名を一つ以上指定します。

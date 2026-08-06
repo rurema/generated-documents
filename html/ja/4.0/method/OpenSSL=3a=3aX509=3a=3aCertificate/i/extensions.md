@@ -1,0 +1,5 @@
+# OpenSSL::X509::Certificate#extensions
+
+### def extensions -> [OpenSSL::X509::Extension]
+
+証明書の拡張領域の内容を返します。

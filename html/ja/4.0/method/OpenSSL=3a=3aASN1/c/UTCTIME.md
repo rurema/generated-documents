@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::UTCTIME
+
+### const UTCTIME -> Integer
+
+ASN.1 UNIVERSAL タグの、
+UTCTIME のタグ番号 23 を表す定数です。

@@ -1,0 +1,29 @@
+# Rational#round
+
+### def round(precision = 0) -> Integer | Rational
+
+`self` ともっとも近い整数を返します。
+
+中央値 `0.5`, `-0.5` はそれぞれ `1`, `-1` に切り上げされます。
+
+- **param** `precision` -- 計算結果の精度
+
+- **raise** `TypeError` -- `precision` に整数以外のものを指定すると発生します。
+
+```ruby title="例"
+p Rational(3).round   # => 3
+p Rational(2, 3).round  # => 1
+p Rational(-3, 2).round # => -2
+```
+
+`precision` を指定した場合は指定した桁数の数値と、上述の性質に最も近い整数か [Rational](../../../class/Rational.md) を返します。
+
+```ruby title="例"
+p Rational('-123.456').round(+1)    # => (-247/2)
+p Rational('-123.456').round(+1).to_f # => -123.5
+p Rational('-123.456').round(0)     # => -123
+p Rational('-123.456').round(-1)    # => -120
+p Rational('-123.456').round(-2)    # => -100
+```
+
+- **SEE** [Rational#ceil](../../../method/Rational/i/ceil.md), [Rational#floor](../../../method/Rational/i/floor.md), [Rational#truncate](../../../method/Rational/i/truncate.md)

@@ -1,0 +1,35 @@
+# Float#ceil
+
+### def ceil(ndigits = 0) -> Integer | Float
+
+`self` と等しいかより大きな整数のうち最小のものを返します。
+
+- **param** `ndigits` -- 10進数での小数点以下の有効桁数を整数で指定します。
+               正の整数を指定した場合、[Float](../../../class/Float.md) を返します。
+               小数点以下を、最大 n 桁にします。
+               負の整数を指定した場合、[Integer](../../../class/Integer.md) を返します。
+               小数点位置から左に少なくとも n 個の 0 が並びます。
+
+```ruby title="例"
+p 1.2.ceil    # => 2
+p 2.0.ceil    # => 2
+p (-1.2).ceil # => -1
+p (-2.0).ceil # => -2
+
+p 1.234567.ceil(2) # => 1.24
+p 1.234567.ceil(3) # => 1.235
+p 1.234567.ceil(4) # => 1.2346
+p 1.234567.ceil(5) # => 1.23457
+
+p 34567.89.ceil(-5)  # => 100000
+p 34567.89.ceil(-4)  # => 40000
+p 34567.89.ceil(-3)  # => 35000
+p 34567.89.ceil(-2)  # => 34600
+p 34567.89.ceil(-1)  # => 34570
+p 34567.89.ceil(0) # => 34568
+p 34567.89.ceil(1) # => 34567.9
+p 34567.89.ceil(2) # => 34567.89
+p 34567.89.ceil(3) # => 34567.89
+```
+
+- **SEE** [Float#floor](../../../method/Float/i/floor.md), [Float#round](../../../method/Float/i/round.md), [Float#truncate](../../../method/Float/i/truncate.md)

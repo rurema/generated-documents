@@ -1,0 +1,17 @@
+# Gem::RemoteFetcher#download
+
+### def download(spec, source_uri, install_dir = Gem.dir) -> String
+
+source_uri から取得した Gem パッケージをキャッシュディレクトリに配置します。
+
+既に Gem パッケージが存在する場合は、ファイルを置き換えませんが source_uri がローカルパス (file://) である場合は常にファイルを置き換えます。
+
+- **param** `spec` -- [Gem::Specification](../../../class/Gem=3a=3aSpecification.md) のインスタンスを指定します。
+
+- **param** `source_uri` -- 取得先の URI を指定します。
+
+- **param** `install_dir` -- ダウンロードしたファイルの配置先を指定します。
+
+- **return** -- ローカルにコピーした Gem ファイルのパスを返します。
+
+- **raise** `Gem::RemoteFetcher::FetchError` -- Gem の取得に失敗した場合に発生します。

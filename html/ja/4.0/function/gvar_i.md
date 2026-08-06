@@ -1,0 +1,3 @@
+# gvar_i
+
+### static int gvar_i(ID key, struct global_entry *entry, VALUE ary)

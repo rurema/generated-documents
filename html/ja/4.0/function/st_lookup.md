@@ -1,0 +1,9 @@
+# st_lookup
+
+### int st_lookup(st_table *table, register char *key, char **value)
+
+key に対応する値をみつけて value にポインタを書きこむ。
+返り値は見つかったかどうかの真偽値。
+
+任意の型ポインタにvoid*でなくchar*を使っているのは古いライブラリだからだ。ANSI C以前はvoid*の意味に
+char*を使っていた。

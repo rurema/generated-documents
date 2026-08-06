@@ -1,0 +1,13 @@
+# Encoding::BIG5_HKSCS
+
+### const Big5_HKSCS -> Encoding
+### const BIG5_HKSCS -> Encoding
+### const BIG5_HKSCS_2008 -> Encoding
+### const Big5_HKSCS_2008 -> Encoding
+
+Big5-HKSCS エンコーディングです。
+
+香港で使われている Big5 の亜種です。
+
+- **SEE** <http://www.iana.org/assignments/charset-reg/Big5-HKSCS>,
+     <http://www.ogcio.gov.hk/en/business/tech_promotion/ccli/hkscs/>

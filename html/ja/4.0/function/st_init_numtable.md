@@ -1,0 +1,5 @@
+# st_init_numtable
+
+### st_table * st_init_numtable(void)
+
+キーが int 型であるハッシュテーブルを作成する。

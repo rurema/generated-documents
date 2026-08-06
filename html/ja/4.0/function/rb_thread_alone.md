@@ -1,0 +1,5 @@
+# rb_thread_alone
+
+### int rb_thread_alone(void)
+
+評価器にスレッドが一つしか存在しないとき真。

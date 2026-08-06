@@ -1,0 +1,69 @@
+# String#byterindex
+
+### def byterindex(pattern, offset = self.bytesize) -> Integer | nil
+
+文字列のバイト単位のインデックス offset から左に向かって pattern を探索します。
+最初に見つかった部分文字列の左端のバイト単位のインデックスを返します。
+見つからなければ nil を返します。
+
+引数 pattern は探索する部分文字列または正規表現で指定します。
+
+offset が負の場合は、文字列の末尾から数えた位置から探索します。
+
+byterindex と [String#byteindex](../../../method/String/i/byteindex.md) とでは、探索方向だけが逆になります。
+完全に左右が反転した動作をするわけではありません。
+探索はその開始位置を右から左にずらしながら行いますが、部分文字列の照合はどちらのメソッドも左から右に向かって行います。
+以下の例を参照してください。
+
+```ruby title="String#byteindex の場合"
+p "stringstring".byteindex("ing", 1)    # => 3
+  # ing            # ここから探索を始める
+  #  ing
+  #   ing          # 右にずらしていってここで見つかる
+```
+
+```ruby title="String#byterindex の場合"
+p "stringstring".byterindex("ing", -1)  # => 9
+  #           ing    # インデックス -1 の文字から探索を始める
+  #          ing
+  #         ing      # 左にずらしていってここで見つかる
+```
+
+- **param** `pattern` --    探索する部分文字列または正規表現
+- **param** `offset` --     探索を始めるバイト単位のインデックス
+
+```ruby title="例"
+p 'foo'.byterindex('f') # => 0
+p 'foo'.byterindex('o') # => 2
+p 'foo'.byterindex('oo') # => 1
+p 'foo'.byterindex('ooo') # => nil
+
+p 'foo'.byterindex(/f/) # => 0
+p 'foo'.byterindex(/o/) # => 2
+p 'foo'.byterindex(/oo/) # => 1
+p 'foo'.byterindex(/ooo/) # => nil
+
+# 右でのマッチが優先
+p 'foo'.byterindex(/o+/) # => 2
+p $~ #=> #<MatchData "o">
+
+# 最長にするには否定戻り読み(negative look-behind)と組み合わせる
+p 'foo'.byterindex(/(?<!o)o+/) # => 1
+p $~ #=> #<MatchData "oo">
+
+# またはbyteindexを否定先読み(negative look-ahead)
+p 'foo'.byteindex(/o+(?!.*o)/) # => 1
+p $~ #=> #<MatchData "oo">
+
+p 'foo'.byterindex('o', 0) # => nil
+p 'foo'.byterindex('o', 1) # => 1
+p 'foo'.byterindex('o', 2) # => 2
+p 'foo'.byterindex('o', 3) # => 2
+
+p 'foo'.byterindex('o', -1) # => 2
+p 'foo'.byterindex('o', -2) # => 1
+p 'foo'.byterindex('o', -3) # => nil
+p 'foo'.byterindex('o', -4) # => nil
+```
+
+- **SEE** [String#rindex](../../../method/String/i/rindex.md), [String#byteindex](../../../method/String/i/byteindex.md)

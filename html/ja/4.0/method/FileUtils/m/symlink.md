@@ -1,0 +1,43 @@
+# FileUtils?.symlink
+
+### module_function def ln_s(src, dest, force: nil, relative: false, target_directory: true, noop: nil, verbose: nil)    -> ()
+### module_function def symlink(src, dest, force: nil, relative: false, target_directory: true, noop: nil, verbose: nil) -> ()
+
+src へのシンボリックリンク dest を作成します。
+
+src が一つの場合、
+dest がすでに存在しディレクトリであるときは dest/src を作成します。
+dest がすでに存在しディレクトリでないならば例外 Errno::EEXIST が発生します。
+ただし :force オプションを指定したときは dest を上書きします。
+
+src が複数の場合、
+src[0] へのシンボリックリンク dest/src[0]、src[1] へのシンボリックリンク dest/src[1] …を作成します。
+dest がディレクトリでない場合は例外 Errno::ENOTDIR が発生します。
+
+relative オプションを指定すると、dest からの相対パスによるシンボリックリンクを作成します。
+[FileUtils?.ln_sr](../../../method/FileUtils/m/ln_sr.md) を使うのと同じです。
+
+- **param** `src` -- リンク元。一つの場合は文字列でも指定可能です。
+           二つ以上指定する場合は配列で指定します。
+
+- **param** `dest` -- リンク作成先のファイルかディレクトリです。
+
+- **param** `force` -- 真を指定すると dest を上書きします。
+
+- **param** `relative` -- 真を指定すると dest からの相対パスでシンボリックリンクを作成します。
+
+- **param** `target_directory` -- dest をディレクトリとして扱うかどうかを指定します(真がデフォルトです)。
+
+- **param** `noop` -- 真を指定すると実際の処理は行いません。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+- **raise** `Errno::EEXIST` -- src が一つで dest がすでに存在しディレクトリでない場合に発生します。
+- **raise** `Errno::ENOTDIR` -- src が複数で dest がディレクトリでない場合に発生します。
+
+```ruby
+require 'fileutils'
+FileUtils.ln_s('/usr/bin/ruby', '/usr/local/bin/ruby')
+FileUtils.ln_s('verylongsourcefilename.c', 'c', force: true)
+FileUtils.ln_s(Dir.glob('bin/*.rb'), '/home/aamine/bin')
+```

@@ -1,0 +1,37 @@
+# library rubygems/commands/uninstall_command
+
+Gem パッケージをアンインストールするためのライブラリです。
+
+Usage: gem uninstall GEMNAME [GEMNAME ...] [options]
+
+```text
+Options:
+  -a, --[no-]all                   Uninstall all matching versions
+  -I, --[no-]ignore-dependencies   Ignore dependency requirements while
+                                   uninstalling
+  -x, --[no-]executables           Uninstall applicable executables without
+                                   confirmation
+  -i, --install-dir DIR            Directory to uninstall gem from
+  -n, --bindir DIR                 Directory to remove binaries from
+  -v, --version VERSION            Specify version of gem to uninstall
+      --platform PLATFORM          Specify the platform of gem to uninstall
+```
+
+```text
+Common Options:
+  -h, --help                       このコマンドのヘルプを表示します
+  -V, --[no-]verbose               表示を詳細にします
+  -q, --quiet                      静かに実行します
+      --config-file FILE           指定された設定ファイルを使用します
+      --backtrace                  バックトレースを表示します
+      --debug                      Ruby 自体のデバッグオプションを有効にします
+```
+
+```text
+Arguments:
+  GEMNAME       アンインストールする Gem パッケージ名を指定します。
+Summary:
+  Gem パッケージをアンインストールします
+Defaults:
+  --version '>= 0' --no-force --install-dir /usr/lib/ruby/gems/1.8
+```

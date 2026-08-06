@@ -1,0 +1,13 @@
+# Kernel#have_header
+
+### def have_header(header, preheaders = nil) -> bool
+### def have_header(header, preheaders = nil){ ... } -> bool
+
+ヘッダファイル header がシステムに存在するかどうか検査します。
+
+ヘッダファイル header が存在する場合は、グローバル変数 [m:$defs] に
+"-DHAVE_header" を追加して true を返します。ヘッダファイル header が存在しない場合は $defs は変更せず false を返します。
+
+- **param** `header` -- 検査したいヘッダファイルを指定します。
+
+- **param** `preheaders` -- ヘッダファイルを検査する前に読み込んでおくヘッダファイルを指定します。

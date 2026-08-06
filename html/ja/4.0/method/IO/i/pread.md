@@ -1,0 +1,25 @@
+# IO#pread
+
+### def pread(maxlen, offset, outbuf = "")    -> string
+
+[man:pread(2)] システムコールを使ってファイルポインタを変更せずに、また現在のファイルポインタに依存せずにmaxlenバイト読み込みます。
+
+[IO#seek](../../../method/IO/i/seek.md)と[IO#read](../../../method/IO/i/read.md)の組み合わせと比べて、アトミックな操作になるという点が優れていて、複数スレッド/プロセスから同じIOオブジェクトを様々な位置から読み込むことを許します。
+どのユーザー空間のIO層のバッファリングもバイパスします。
+
+- **param** `maxlen` -- 読み込むバイト数を指定します。
+- **param** `offset` -- 読み込み開始位置のファイルの先頭からのオフセットを指定します。
+- **param** `outbuf` -- データを受け取る String を指定します。
+
+- **raise** `Errno::EXXX` -- シークまたは書き込みが失敗した場合に発生します。
+- **raise** `EOFError` -- EOF に到達した時に発生します。
+- **raise** `NotImplementedError` -- システムコールがサポートされていない OS で発生します。
+
+```ruby title="例"
+File.write("testfile", "This is line one\nThis is line two\n")
+File.open("testfile") do |f|
+  p f.read           # => "This is line one\nThis is line two\n"
+  p f.pread(12, 0)   # => "This is line"
+  p f.pread(9, 8)    # => "line one\n"
+end
+```

@@ -1,0 +1,27 @@
+# Array#none?
+
+### def none?               -> bool
+{: since=""}
+### def none?{|obj| ... }   -> bool
+{: since=""}
+### def none?(pattern)      -> bool
+{: since=""}
+
+すべての要素が偽である場合に true を返します。真である要素があれば、ただちに false を返します。
+
+ブロックを伴う場合は、各要素に対してブロックを評価し、すべての結果が偽である場合に true を返します。ブロックが真を返した時点で、ただちに false を返します。
+要素の数が 0 である配列に対しては true を返します。
+
+- **param** `pattern` -- ブロックの代わりに各要素に対して pattern === item を評価します。
+
+```ruby title="例"
+p %w{ant bear cat}.none? {|word| word.length == 5}  # => true
+p %w{ant bear cat}.none? {|word| word.length >= 4}  # => false
+p %w{ant bear cat}.none?(/d/)                     # => true
+p [].none?                                        # => true
+p [nil].none?                                     # => true
+p [nil,false].none?                               # => true
+p [nil, false, true].none?                        # => false
+```
+
+- **SEE** [Enumerable#none?](../../../method/Enumerable/i/none=3f.md)

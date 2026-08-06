@@ -1,0 +1,31 @@
+# Kernel?.putc
+
+### module_function def putc(ch) -> object
+
+文字 ch を 標準出力 [m:$stdout] に出力します。
+
+ch が数値なら 0 〜 255 の範囲の対応する文字を出力します。
+ch が文字列なら、その先頭1文字を出力します。
+どちらでもない場合は、ch.to_int で整数に変換を試みます。
+
+- **param** `ch` -- 出力する文字です。数または文字列で指定します。
+- **return** -- ch を返します
+- **raise** `RangeError` -- C の long に収まらない大きな整数を引数にした場合に発生します。
+- **raise** `IOError` -- 標準出力が書き込み用にオープンされていなければ発生します。
+- **raise** `Errno::EXXX` -- 出力に失敗した場合に発生します。
+- **raise** `TypeError` -- [Integer](../../../class/Integer.md) に変換できないオブジェクトを引数に
+                 指定した場合に発生します。
+
+
+```ruby title="例"
+putc("ch")
+putc(?c)
+putc(99)
+putc(355)
+#=> cccc
+
+putc(99.00) #=> c
+putc(33333333333333333333333333333333333) # bignum too big to convert into 'long' (RangeError)
+```
+
+- **SEE** [IO#putc](../../../method/IO/i/putc.md)

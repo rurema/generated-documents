@@ -1,0 +1,13 @@
+# Regexp#casefold?
+
+### def casefold? -> bool
+
+正規表現が大文字小文字の判定をしないようにコンパイルされている時、真を返します。
+
+```ruby title="例"
+reg = Regexp.new("foobar", Regexp::IGNORECASE)
+p reg.casefold? # => true
+
+reg = Regexp.new("hogehoge")
+p reg.casefold? # => false
+```

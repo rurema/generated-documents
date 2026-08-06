@@ -1,0 +1,7 @@
+# Gem::Commands::LockCommand#spec_path
+
+### def spec_path(gem_full_name) -> String
+
+指定された Gem パッケージの gemspec ファイルのフルパスを返します。
+
+- **param** `gem_full_name` -- Gem パッケージの名前を指定します。

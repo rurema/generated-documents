@@ -1,0 +1,13 @@
+# Gem::Version#marshal_load
+
+### def marshal_load(array) -> nil
+
+ダンプされた情報をロードし、自身を破壊的に変更します。
+
+```ruby
+version = Gem::Version.new('')
+version.marshal_load(["1.2.0a"])
+p version # => #<Gem::Version "1.2.0a">
+```
+
+- **param** `array` -- バージョン情報を含む配列を指定します。

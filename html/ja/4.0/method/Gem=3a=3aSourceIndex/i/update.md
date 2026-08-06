@@ -1,0 +1,9 @@
+# Gem::SourceIndex#update
+
+### def update(source_uri, all) -> bool
+
+第一引数で指定された URI を使用して自身を更新します。
+
+- **param** `source_uri` -- 更新に使用する URI を指定します。文字列か [URI::Generic](../../../class/URI=3a=3aGeneric.md) のサブクラスを指定します。
+
+- **param** `all` -- 偽を指定すると最新バージョンの Gem のみ取得します。真を指定すると全てのバージョンの Gem を取得します。

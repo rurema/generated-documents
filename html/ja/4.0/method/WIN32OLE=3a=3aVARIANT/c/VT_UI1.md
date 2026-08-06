@@ -1,0 +1,5 @@
+# WIN32OLE::VARIANT::VT_UI1
+
+### const VT_UI1 -> Integer
+
+符号なし8ビット整数（unsigned char）を示します（17）。

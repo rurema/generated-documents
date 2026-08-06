@@ -1,0 +1,6 @@
+# gettable
+
+### static NODE * gettable(ID id)
+
+id が変数・定数として有効ならば、それを参照するノードを返します。
+(get + able であって get table ではない)

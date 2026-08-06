@@ -1,0 +1,5 @@
+# rb_undef_method
+
+### void rb_undef_method(VALUE klass, const char *name)
+
+クラス klass のインスタンスメソッド name を undef します。

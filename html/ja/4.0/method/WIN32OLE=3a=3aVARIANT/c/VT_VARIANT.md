@@ -1,0 +1,5 @@
+# WIN32OLE::VARIANT::VT_VARIANT
+
+### const VT_VARIANT -> Integer
+
+VARIANT型を示します（12）。

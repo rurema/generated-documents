@@ -1,0 +1,15 @@
+# Logger::LogDevice.new
+
+### def Logger::LogDevice.new(log = nil, opt = {}) -> Logger::LogDevice
+
+ログの出力先を初期化します。
+
+- **param** `log` -- ログの出力先。IO オブジェクトを指定します。
+           省略すると nil が使用されますが、実行中に例外が発生します。
+
+- **param** `opt` -- オプションをハッシュで指定します。
+           ハッシュのキーには :shift_age, :shift_size を指定します。
+           省略すると、それぞれ 7, 1048756 (1 MByte) が使用されます。
+
+
+- **SEE** [Logger.new](../../../method/Logger/s/new.md)

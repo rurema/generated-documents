@@ -1,0 +1,7 @@
+# RDoc::Options#static_path=
+
+### def static_path=(vals)
+
+コマンドライン引数の --copy-files オプションと同様の指定を行います。
+
+- **param** `vals` -- パスを文字列の配列で指定します。

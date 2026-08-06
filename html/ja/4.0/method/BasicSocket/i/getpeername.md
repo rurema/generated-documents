@@ -1,0 +1,17 @@
+# BasicSocket#getpeername
+
+### def getpeername -> String
+
+接続の相手先のソケットの情報を取得します。sockaddr 構造体をパックした文字列を返します。[man:getpeername(2)] を参照してください。
+
+```ruby title="例"
+require 'socket'
+
+serv = TCPServer.open("", 0)
+c = TCPSocket.open(*Socket.unpack_sockaddr_in(serv.getsockname).reverse)
+s = serv.accept
+addr = c.getpeername
+p addr      #=> "\002\000\267\214\177\000\000\001\000\000\000\000\000\000\000\000"
+p Socket.unpack_sockaddr_in(addr)   #=> [46988, "127.0.0.1"]
+p addr == s.getsockname     #=> true
+```

@@ -1,0 +1,24 @@
+# String#casecmp?
+
+### def casecmp?(other) -> bool | nil
+
+大文字小文字の違いを無視し文字列を比較します。
+文字列が一致する場合には true を返し、一致しない場合には false を返します。
+
+- **param** `other` --    self と比較する文字列
+
+```ruby title="例"
+p "abcdef".casecmp?("abcde")   #=> false
+p "aBcDeF".casecmp?("abcdef")  #=> true
+p "abcdef".casecmp?("abcdefg") #=> false
+p "abcdef".casecmp?("ABCDEF")  #=> true
+p "\u{e4 f6 fc}".casecmp?("\u{c4 d6 dc}") #=> true
+```
+
+nil は文字列のエンコーディングが非互換の時に返されます。
+
+```ruby
+p "\u{e4 f6 fc}".encode("ISO-8859-1").casecmp?("\u{c4 d6 dc}") #=> nil
+```
+
+- **SEE** [String#casecmp](../../../method/String/i/casecmp.md)

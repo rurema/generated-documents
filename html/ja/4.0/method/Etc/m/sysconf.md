@@ -1,0 +1,19 @@
+# Etc?.sysconf
+
+### module_function def sysconf(name) -> Integer | nil
+
+[man:sysconf(3)] で取得したシステム設定変数の値を返します。
+
+引数 name が制限に関する設定値であり、設定が制限がない状態の場合は nil
+を返します。([man:sysconf(3)] が -1 を返し、errno が設定されていない場合)
+
+- **param** `name` -- [Etc](../../../class/Etc.md) モジュールの SC_ で始まる定数のいずれかを指定します。
+
+```ruby
+require "etc"
+p Etc.sysconf(Etc::SC_ARG_MAX) # => 2097152
+
+# Number of processors.
+# It is not standardized.
+p Etc.sysconf(Etc::SC_NPROCESSORS_ONLN) # => 4
+```

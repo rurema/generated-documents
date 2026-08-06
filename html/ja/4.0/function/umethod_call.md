@@ -1,0 +1,3 @@
+# umethod_call
+
+### static VALUE umethod_call(int argc, VALUE *argv, VALUE method)

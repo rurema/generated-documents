@@ -1,0 +1,16 @@
+# Time#subsec
+
+### def subsec -> Integer | Rational
+
+時刻を表す分数を返します。
+
+[Rational](../../../class/Rational.md) を返す場合があります。
+
+```ruby
+t = Time.local(2000,1,2,3,4,5,6)
+p "%10.9f" % t.to_f   # => "946749845.000005960"
+p t.subsec            #=> (3/500000)
+```
+
+to_f の値と subsec の値の下のほうの桁の値は異なる場合があります。
+というのは IEEE 754 double はそれを表すのに十分な精度を持たないからです。subsec で得られる値が正確です。

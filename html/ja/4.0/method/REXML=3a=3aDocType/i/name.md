@@ -1,0 +1,14 @@
+# REXML::DocType#name
+
+### def name -> String
+
+ルート要素名を返します。
+
+```ruby
+document = REXML::Document.new(<<EOS)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+EOS
+doctype = document.doctype
+p doctype.name # => "html"
+```

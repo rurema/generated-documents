@@ -1,0 +1,7 @@
+# Gem::Specification#extensions=
+
+### def extensions=(paths)
+
+拡張ライブラリをコンパイルするために必要な extconf.rb 形式のファイルのリストをセットします。
+
+- **param** `paths` -- 拡張ライブラリをコンパイルするために必要な extconf.rb 形式のファイルのリストを指定します。

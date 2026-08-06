@@ -1,0 +1,7 @@
+# OpenSSL::PKey::EC::Group#to_text
+
+### def to_text -> String
+
+自身を人間に可読な形式の文字列に変換します。
+
+- **raise** `OpenSSL::PKey::EC::Group::Error` -- 変換に失敗した場合に発生します。

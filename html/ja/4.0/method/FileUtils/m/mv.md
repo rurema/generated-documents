@@ -1,0 +1,35 @@
+# FileUtils?.mv
+
+### module_function def mv(src, dest, force: nil, noop: nil, verbose: nil, secure: nil)   -> ()
+### module_function def move(src, dest, force: nil, noop: nil, verbose: nil, secure: nil) -> ()
+
+ファイル src を dest に移動します。
+
+src が一つの場合、
+dest がすでに存在しディレクトリであるときは src を dest/src へ移動します。
+dest がすでに存在しディレクトリでないときは src は dest を上書きします。
+
+src が複数の場合、
+src[0] を dest/src[0]、src[1] を dest/src[1] へ移動します。
+dest がディレクトリでない場合は例外 Errno::ENOTDIR が発生します。
+
+- **param** `src` -- 元のファイル。一つの場合は文字列でも指定可能です。
+           二つ以上指定する場合は配列で指定します。
+
+- **param** `dest` -- 移動先のファイル、またはディレクトリ。
+
+- **param** `force` -- 真を指定すると処理中に発生した [StandardError](../../../class/StandardError.md) を無視します。
+
+- **param** `noop` -- 真を指定すると実際の処理は行いません。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+- **param** `secure` -- 真を指定するとファイルの削除に [FileUtils?.remove_entry_secure](../../../method/FileUtils/m/remove_entry_secure.md) を使用します。
+
+```ruby
+require 'fileutils'
+FileUtils.mv('badname.rb', 'goodname.rb')
+FileUtils.mv('stuff.rb', 'lib/ruby', force: true)
+FileUtils.mv(['junk.txt', 'dust.txt'], "#{ENV['HOME']}/.trash")
+FileUtils.mv(Dir.glob('test*.rb'), 'test', noop: true, verbose: true)
+```

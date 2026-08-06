@@ -1,0 +1,18 @@
+# CSV::Table.new
+
+### def CSV::Table.new(array_of_rows) -> CSV::Table
+
+自身を初期化します。
+
+全ての行が同じヘッダを持つことを仮定しています。
+
+- **param** `array_of_rows` -- [CSV::Row](../../../class/CSV=3a=3aRow.md) のインスタンスの配列を指定します。
+
+```ruby title="例"
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "row2_2"])
+table = CSV::Table.new([row1, row2])
+p table.to_a # => [["header1", "header2"], ["row1_1", "row1_2"], ["row2_1", "row2_2"]]
+```

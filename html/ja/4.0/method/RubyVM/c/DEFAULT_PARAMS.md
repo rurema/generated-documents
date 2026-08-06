@@ -1,0 +1,7 @@
+# RubyVM::DEFAULT_PARAMS
+
+### const DEFAULT_PARAMS -> {Symbol => Integer}
+
+[RubyVM](../../../class/RubyVM.md) のデフォルトのパラメータを返します。
+
+[注意] この値は C Ruby 固有のものです。変更しても [RubyVM](../../../class/RubyVM.md) の動作には影響しません。また、仕様は変更される場合があるため、この値に依存すべきではありません。

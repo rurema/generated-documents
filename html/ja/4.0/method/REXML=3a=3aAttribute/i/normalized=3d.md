@@ -1,0 +1,9 @@
+# REXML::Attribute#normalized=
+
+### def normalized=(value)
+
+正規化された属性値を設定します。
+
+通常はライブラリが自動的にこの値を設定するのでユーザはこれを使う必要はないでしょう。
+
+- **param** `value` -- 正規化された属性値

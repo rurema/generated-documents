@@ -1,0 +1,13 @@
+# Net::IMAP::ContentDisposition#param
+
+### def param -> { String => String } | nil
+
+Content-Disposition フィールドのパラメータをハッシュテーブルで返します。
+
+ハッシュテーブルのキーは以下のような値を取ります。詳しくは
+[RFC:2183] などを見てください。
+  - "FILENAME"
+  - "CREATION-DATE"
+  - "MODIFICATION-DATE"
+  - "READ-DAT"
+  - "SIZE"

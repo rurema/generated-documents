@@ -1,0 +1,5 @@
+# Ripper#yydebug
+
+### def yydebug -> bool
+
+yydebugの構文解析器の追跡機能が有効か無効かを返します。

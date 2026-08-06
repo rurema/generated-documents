@@ -1,0 +1,18 @@
+# File#chmod
+
+### def chmod(mode)    -> 0
+
+ファイルのモードを指定された mode に変更します。
+
+モードの変更に成功した場合は 0 を返します。失敗した場合は例外 [Errno::EXXX](../../../class/Errno=3a=3aEXXX.md) が発生します。
+
+- **param** `mode` -- [man:chmod(2)] と同様に整数で指定します。
+
+- **raise** `IOError` -- 自身が close されている場合に発生します。
+
+- **raise** `Errno::EXXX` -- 失敗した場合に発生します。
+
+```ruby title="例"
+f = File.new("out", "w");
+p f.chmod(0644) #=> 0
+```

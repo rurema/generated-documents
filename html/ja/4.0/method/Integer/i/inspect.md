@@ -1,0 +1,20 @@
+# Integer#inspect
+
+### def to_s(base=10)    -> String
+### def inspect(base=10) -> String
+{: since=""}
+
+整数を 10 進文字列表現に変換します。
+
+引数を指定すれば、それを基数とした文字列表現に変換します。
+
+```ruby
+p 10.to_s(2)    # => "1010"
+p 10.to_s(8)    # => "12"
+p 10.to_s(16)   # => "a"
+p 35.to_s(36)   # => "z"
+```
+
+- **return** --     数値の文字列表現
+- **param** `base` -- 基数となる 2〜36 の数値。
+- **raise** `ArgumentError` -- `base` に 2〜36 以外の数値を指定した場合に発生します。

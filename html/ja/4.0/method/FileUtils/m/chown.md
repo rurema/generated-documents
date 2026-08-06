@@ -1,0 +1,26 @@
+# FileUtils?.chown
+
+### module_function def chown(user, group, list, noop: nil, verbose: nil) -> Array
+
+ファイル list の所有ユーザと所有グループを user と group に変更します。
+
+user, group に nil または -1 を渡すとその項目は変更しません。
+
+- **param** `user` -- ユーザー名か uid を指定します。nil/-1 を指定すると変更しません。
+
+- **param** `group` -- グループ名か gid を指定します。nil/-1 を指定すると変更しません。
+
+- **param** `list` -- ファイルのリストを指定します。対象のファイルが一つの場合は文字列でも指定可能です。
+           二つ以上指定する場合は配列で指定します。
+
+- **param** `noop` -- 真を指定すると実際の処理は行いません。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+- **return** -- list を配列として返します。
+
+```ruby
+require 'fileutils'
+FileUtils.chown 'root', 'staff', '/usr/local/bin/ruby'
+FileUtils.chown nil, 'bin', Dir.glob('/usr/bin/*'), verbose: true
+```

@@ -1,0 +1,26 @@
+# Zlib::GzipWriter#write
+
+### def write(*str) -> Integer
+
+自身に str を出力します。str が文字列でなければ to_s による文字列化を試みます。
+
+- **param** `str` -- 出力する文字列を指定します。文字列でない場合は to_s で文字列に変換します。
+
+- **return** -- 実際に出力できたバイト数を返します。
+
+```ruby
+require 'zlib'
+
+filename='hoge1.gz'
+fw = File.open(filename, "w")
+Zlib::GzipWriter.wrap(fw, Zlib::BEST_COMPRESSION){|gz|
+  gz.write "foo"
+}
+fr = File.open(filename)
+Zlib::GzipReader.wrap(fr){|gz|
+  puts gz.read
+}
+#=> foo
+```
+
+- **SEE** [IO#write](../../../method/IO/i/write.md)

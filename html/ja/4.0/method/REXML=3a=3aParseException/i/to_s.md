@@ -1,0 +1,5 @@
+# REXML::ParseException#to_s
+
+### def to_s -> String
+
+例外情報を文字列化して返します。

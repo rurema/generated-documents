@@ -1,0 +1,33 @@
+# Hash#filter!
+
+### def keep_if -> Enumerator
+### def keep_if {|key, value| ... } -> self
+### def select! -> Enumerator
+### def select! {|key, value| ... } -> self | nil
+### def filter! -> Enumerator
+### def filter! {|key, value| ... }   -> self | nil
+
+キーと値を引数としてブロックを評価した結果が真であるような要素を self
+に残します。
+
+keep_if は常に self を返します。
+filter! と select! はオブジェクトが変更された場合に self を、されていない場合に nil を返します。
+
+ブロックが与えられなかった場合は、自身と keep_if から生成した
+[Enumerator](../../../class/Enumerator.md) オブジェクトを返します。
+
+```ruby title="例"
+h1 = {}
+c = ("a".."g")
+c.each_with_index {|e, i| h1[i] = e }
+
+h2 = h1.dup
+p h1.select!  # => #<Enumerator: {0=>"a", 1=>"b", 2=>"c", 3=>"d", 4=>"e", 5=>"f", 6=>"g"}:select!>
+
+p h1.select! { |k, v| k % 3 == 0 }  # => {0=>"a", 3=>"d", 6=>"g"}
+p h1.select! { |k, v| true }      # => nil
+p h2.keep_if { |k, v| k % 3 == 0 }  # => {0=>"a", 3=>"d", 6=>"g"}
+p h2.keep_if { |k, v| true }      # => {0=>"a", 3=>"d", 6=>"g"}
+```
+
+- **SEE** [Hash#select](../../../method/Hash/i/select.md), [Hash#delete_if](../../../method/Hash/i/delete_if.md), [Hash#reject!](../../../method/Hash/i/reject=21.md)

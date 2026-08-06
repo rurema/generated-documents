@@ -1,0 +1,24 @@
+# Enumerator::Product#each
+
+### def each { |*args| ... } -> self
+### def each -> Enumerator
+
+各オブジェクトの直積の要素を、配列としてブロックに渡して繰り返します。
+
+各オブジェクトに対しては each ではなく each_entry を呼び出します。
+そのため、N 個のオブジェクトの直積は、各繰り返しでちょうど N 要素の配列になります。
+
+オブジェクトを1つも与えずに作った場合は、空の引数リストでブロックを1回だけ呼びます。
+
+ブロックを渡さない場合は [Enumerator](../../../class/Enumerator.md) を返します。
+
+```ruby title="例"
+e = Enumerator::Product.new(1..2, ["a", "b"])
+e.each do |i, s|
+  p [i, s]
+end
+# => [1, "a"]
+#    [1, "b"]
+#    [2, "a"]
+#    [2, "b"]
+```

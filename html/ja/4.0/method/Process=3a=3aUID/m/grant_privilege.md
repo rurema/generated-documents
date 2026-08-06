@@ -1,0 +1,28 @@
+# Process::UID?.grant_privilege
+
+### module_function def grant_privilege(id)    -> Integer
+### module_function def eid=(id)
+
+現在のプロセスの実効ユーザ ID を id に変更します。成功したら id を返します。
+
+実ユーザ ID は変更されないことが保証されます。
+保存ユーザ ID が変更されないかもしれないので root 権限の完全放棄には使えません。
+保存ユーザ ID が変化するかどうかは [Process::UID?.re_exchangeable?](../../../method/Process=3a=3aUID/m/re_exchangeable=3f.md)
+が true を返すかどうかで決まります。
+
+- true の環境では、実ユーザ ID と異なる値を設定した場合、保存ユーザ ID は新しい実効ユーザ ID の値に設定されます。
+- false の環境では保存ユーザ ID は変化しません。
+
+利用できるかはプラットフォームに依存します。
+
+- **param** `id` -- ユーザ ID を整数で指定します。
+
+- **raise** `Errno::EXXX` -- 変更できない場合に発生します。
+
+- **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
+
+```ruby
+p [Process.uid, Process.euid]        #=> [0, 0]
+p Process::UID.grant_privilege(33)   #=> 33
+p [Process.uid, Process.euid]        #=> [0, 33]
+```

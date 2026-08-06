@@ -1,0 +1,8 @@
+# RDoc::Parser.can_parse
+
+### def RDoc::Parser.can_parse(file_name) -> RDoc::Parser | nil
+
+file_name を解析できるパーサクラスを返します。見つからなかった場合は
+nil を返します。
+
+- **param** `file_name` -- 解析するファイルの名前を指定します。

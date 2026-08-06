@@ -1,0 +1,10 @@
+# Range#exclude_end?
+
+### def exclude_end? -> bool
+
+範囲オブジェクトが終端を含まないとき真を返します。
+
+```ruby title="例"
+p (1..5).exclude_end?   # => false
+p (1...5).exclude_end?  # => true
+```

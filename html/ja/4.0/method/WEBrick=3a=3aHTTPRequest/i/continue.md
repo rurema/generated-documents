@@ -1,0 +1,6 @@
+# WEBrick::HTTPRequest#continue
+
+### def continue
+@todo 1.9.3
+Generate HTTP/1.1 100 continue response if the client expects it,
+otherwise does nothing.

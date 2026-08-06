@@ -1,0 +1,17 @@
+# UNIXSocket#peeraddr
+
+### def peeraddr -> [String, String]
+
+接続相手先ソケットの情報を表す配列を返します。配列の各要素は第1要素が文字列 `"AF_UNIX"`、第2要素がパスを表す文字列です。
+
+```ruby title="例"
+require 'socket'
+
+UNIXServer.open("/tmp/s") {|serv|
+  c = UNIXSocket.open("/tmp/s")
+  p c.peeraddr    #=> ["AF_UNIX", "/tmp/s"]
+  p c.addr #=> ["AF_UNIX", ""]
+}
+```
+
+- **SEE** [UNIXSocket#addr](../../../method/UNIXSocket/i/addr.md)

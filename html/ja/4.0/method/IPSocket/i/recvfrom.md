@@ -1,0 +1,26 @@
+# IPSocket#recvfrom
+
+### def recvfrom(maxlen, flags = 0) -> Array
+
+recv と同様にソケットからデータを受け取りますが、戻り値は文字列と相手ソケットのアドレス (形式は
+[IPSocket#addr](../../../method/IPSocket/i/addr.md) 参照) のペアです。引数については [BasicSocket#recv](../../../method/BasicSocket/i/recv.md) と同様です。
+
+- **param** `maxlen` -- 受け取る文字列の最大の長さを指定します。
+
+- **param** `flags` -- [man:recv(2)] を参照してください。
+
+- **raise** `IOError` --
+
+- **raise** `Errno::EXXX` -- [man:recvfrom(2)] がエラーになった場合などに発生します。
+
+```ruby title="例"
+require 'socket'
+
+s1 = UDPSocket.new
+s1.bind("0.0.0.0", 0) # 適当に空いている port を割り当てる
+s2 = UDPSocket.new
+s2.send("foo", 0, s1.getsockname)
+mesg, inet_addr = s1.recvfrom(100)
+p mesg            #=> "foo"
+p inet_addr       #=> ["AF_INET", 32876, "localhost.localdomain", "127.0.0.1"]
+```

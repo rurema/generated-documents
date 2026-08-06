@@ -1,0 +1,5 @@
+# REXML::ParseException#position
+
+### def position -> Integer
+
+パースエラーが起きた(XML上の)場所を先頭からのバイト数で返します。

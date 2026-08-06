@@ -1,0 +1,28 @@
+# library prism
+
+Ruby プログラムを解析するための、エラー耐性のあるパーサライブラリです。
+
+prism は Ruby 3.3 で default gem として導入され、Ruby 3.4 以降は
+CRuby 本体が Ruby プログラムをコンパイルする際に使われるデフォルトのパーサの実装になっています(3.3 の時点では `ruby --parser=prism`
+オプションで試験的に切り替えられる位置づけでした)。
+
+設計上の目標として、構文エラーがあっても可能な限り解析を継続する「エラー耐性(error tolerant)」を重視しており、エディタや IDE、linter
+といった、エラーを含む可能性があるコードも解析する必要があるツールから利用しやすくなっています。また C99 で実装された移植性の高いライブラリ
+(libprism)でもあり、CRuby 以外の Ruby 処理系やツール、他言語のバインディングからも利用できます。
+
+構文解析の結果得られる構文木の各ノードは [Prism::Node](../class/Prism=3a=3aNode.md) のサブクラス
+(150 種類以上)として表現されます。すべてのノードに共通する API は
+[Prism::Node](../class/Prism=3a=3aNode.md) で扱いますが、個々のノードクラスの詳細はこのリファレンスでは扱いません。ノードクラスも含めた完全な API については公式ドキュメントを参照してください。
+
+- プロジェクトページ: <https://github.com/ruby/prism>
+- リファレンス(YARD): <https://www.rubydoc.info/gems/prism>
+- ドキュメントサイト: <https://ruby.github.io/prism/>
+
+```ruby title="例"
+require "prism"
+
+result = Prism.parse("1 + 2")
+p result.class          # => Prism::ParseResult
+p result.value.class    # => Prism::ProgramNode
+p result.success?       # => true
+```

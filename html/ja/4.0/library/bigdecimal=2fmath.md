@@ -1,0 +1,33 @@
+# library bigdecimal/math
+
+BigDecimalを使った数学的な機能を提供します。
+
+以下の計算が行えます。
+
+- sqrt(x, prec)
+- sin (x, prec)
+- cos (x, prec)
+- atan(x, prec)
+- PI  (prec)
+- E   (prec)
+
+引数:
+
+- **`x`**:
+
+  計算対象の BigDecimal オブジェクト。
+
+- **`prec`**:
+
+  計算結果の精度。
+
+  ```ruby title="例"
+  require "bigdecimal"
+  require "bigdecimal/math"
+
+  include BigMath
+
+  a = BigDecimal((PI(100)/2).to_s)
+  puts sin(a,100)
+  #=> 0.99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999998765917571575217785e0
+  ```

@@ -1,0 +1,36 @@
+# Array#repeated_permutation
+
+### def repeated_permutation(n) { |p| ... } -> self
+### def repeated_permutation(n)             -> Enumerator
+
+サイズ n の重複順列をすべて生成し、それを引数としてブロックを実行します。
+
+得られる順列の順序は保証されません。ブロックなしで呼び出されると、順列を生成する Enumerator オブジェクトを返します。
+
+- **param** `n` -- 生成する配列のサイズを整数で指定します。
+         整数以外のオブジェクトを指定した場合は to_int メソッドによる暗
+         黙の型変換を試みます。
+
+- **raise** `TypeError` -- 引数に整数以外の(暗黙の型変換が行えない)オブジェクトを
+                 指定した場合に発生します。
+
+```ruby title="例"
+a = [1, 2]
+p a.repeated_permutation(1).to_a  #=> [[1], [2]]
+p a.repeated_permutation(2).to_a  #=> [[1,1],[1,2],[2,1],[2,2]]
+p a.repeated_permutation(3).to_a  #=> [[1,1,1],[1,1,2],[1,2,1],[1,2,2],
+                                #    [2,1,1],[2,1,2],[2,2,1],[2,2,2]]
+p a.repeated_permutation(0).to_a  #=> [[]] # one permutation of length 0
+```
+
+ブロックが与えられた場合、作成した配列の各要素を引数としてブロックを実行して self を返します。
+
+```ruby title="例"
+a = [1, 2]
+result = []
+p a.repeated_permutation(3) {|e| result << e} # => [1,2]
+p result  #=> [[1,1,1],[1,1,2],[1,2,1],[1,2,2],
+        #    [2,1,1],[2,1,2],[2,2,1],[2,2,2]]
+```
+
+- **SEE** [Array#repeated_combination](../../../method/Array/i/repeated_combination.md), [Array#permutation](../../../method/Array/i/permutation.md)

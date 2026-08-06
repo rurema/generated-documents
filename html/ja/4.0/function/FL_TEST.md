@@ -1,0 +1,5 @@
+# FL_TEST
+
+### int FL_TEST(VALUE x, int f)
+
+x のフラグ f が立っていたら真。

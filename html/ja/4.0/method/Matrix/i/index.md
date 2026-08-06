@@ -1,0 +1,28 @@
+# Matrix#index
+
+### def index(value, selector = :all) -> [Integer, Integer] | nil
+### def index(selector = :all){|e| ... } -> [Integer, Integer] | nil
+### def index(selector = :all) -> Enumerator
+### def find_index(value, selector = :all) -> [Integer, Integer] | nil
+### def find_index(selector = :all){|e| ... } -> [Integer, Integer] | nil
+### def find_index(selector = :all) -> Enumerator
+
+指定した値と一致する要素の位置を [row, column] という配列で返します。
+ブロックを与えた場合は各要素を引数としてブロックを呼び出し、返り値が真であった要素の位置を返します。
+
+複数の位置で値が一致する/ブロックが真を返す、場合は最初に見つかった要素の位置を返します。
+
+selector で行列のどの部分を探すかを指定します。この引数の意味は
+[Matrix#each](../../../method/Matrix/i/each.md) を参照してください。
+
+```ruby title="例"
+require 'matrix'
+p Matrix[ [1,2], [3,4] ].index(&:even?) # => [0, 1]
+p Matrix[ [1,1], [1,1] ].index(1, :strict_lower) # => [1, 0]
+```
+
+value を指定せず、さらにブロックを省略した場合、
+[Enumerator](../../../class/Enumerator.md) を返します。
+
+- **param** `value` -- 探索する値
+- **param** `selector` -- 探索範囲

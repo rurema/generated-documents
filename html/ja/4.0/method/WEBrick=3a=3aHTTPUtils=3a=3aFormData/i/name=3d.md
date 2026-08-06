@@ -1,0 +1,18 @@
+# WEBrick::HTTPUtils::FormData#name=
+
+### def name          -> String | nil
+### def name=(value)
+
+フォームデータの name 属性を文字列で表すアクセサです。
+
+- **param** `value` -- フォームデータの name 属性を文字列で指定します。
+
+```ruby title="例"
+require "webrick/cgi"
+class MyCGI < WEBrick::CGI
+  def do_GET(req, res)
+    p req.query['q'].name   #=> "q"
+  end
+end
+MyCGI.new.start()
+```

@@ -1,0 +1,15 @@
+# FileTest?.executable_real?
+
+### module_function def executable_real?(file)    -> bool
+
+ファイルがカレントプロセスの実ユーザか実グループで実行できる時に真を返します。そうでない場合、ファイルが存在しない場合、あるいはシステムコールに失敗した場合などには false を返します。
+
+- **param** `file` -- ファイル名を表す文字列を指定します。
+
+```ruby title="例"
+IO.write("empty.txt", "")
+File.chmod(0744, "empty.txt")
+p FileTest.executable_real?("empty.txt")    # => true
+File.chmod(0644, "empty.txt")
+p FileTest.executable_real?("empty.txt")    # => false
+```

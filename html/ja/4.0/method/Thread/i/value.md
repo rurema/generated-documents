@@ -1,0 +1,24 @@
+# Thread#value
+
+### def value    -> object 
+
+スレッド self が終了するまで待ち([Thread#join](../../../method/Thread/i/join.md) と同じ)、そのスレッドのブロックが返した値を返します。スレッド実行中に例外が発生した場合には、その例外を再発生させます。
+
+スレッドが [Thread#kill](../../../method/Thread/i/kill.md) によって終了した場合は、返り値は不定です。
+
+以下は、生成したすべてのスレッドの終了を待ち結果を出力する例です。
+
+```ruby
+threads = []
+threads.push(Thread.new { n = rand(5); sleep n; n })
+threads.push(Thread.new { n = rand(5); sleep n; n })
+threads.push(Thread.new { n = rand(5); sleep n; n })
+
+threads.each {|t| p t.value}
+```
+
+最後の行で、待ち合わせを行っていることがわかりにくいと思うなら以下のように書くこともできます。
+
+```ruby
+threads.each {|t| p t.join.value}
+```

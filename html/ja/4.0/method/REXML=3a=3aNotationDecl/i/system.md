@@ -1,0 +1,7 @@
+# REXML::NotationDecl#system
+
+### def system -> String | nil
+
+システム識別子(URI)を返します。
+
+宣言がシステム識別子を含まない場合は nil を返します。

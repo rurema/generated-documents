@@ -1,0 +1,15 @@
+# Enumerator::Lazy#drop_while
+
+### def drop_while {|item| ... } -> Enumerator::Lazy
+
+[Enumerable#drop_while](../../../method/Enumerable/i/drop_while.md) と同じですが、配列ではなくEnumerator::Lazy を返します。
+
+```ruby title="例"
+p 1.step.lazy.drop_while { |i| i < 42 }
+# => #<Enumerator::Lazy: #<Enumerator::Lazy: #<Enumerator: 1:step>>:drop_while>
+
+p 1.step.lazy.drop_while { |i| i < 42 }.take(10).force
+# => [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+```
+
+- **SEE** [Enumerable#drop_while](../../../method/Enumerable/i/drop_while.md)

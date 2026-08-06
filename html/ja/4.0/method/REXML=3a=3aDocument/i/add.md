@@ -1,0 +1,12 @@
+# REXML::Document#add
+
+### def add(child) -> ()
+### def <<(child) -> ()
+
+子ノードを追加します。
+
+追加できるものは
+  - XML宣言([REXML::XMLDecl](../../../class/REXML=3a=3aXMLDecl.md))
+  - DTD([REXML::DocType](../../../class/REXML=3a=3aDocType.md))
+  - ルート要素
+のいずれかです。

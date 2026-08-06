@@ -1,0 +1,38 @@
+# Psych.load
+
+### def Psych.load(yaml, filename: nil, fallback: false, symbolize_names: false) -> object
+
+YAML ドキュメントを Ruby のデータ構造(オブジェクト)に変換します。
+
+入力に複数のドキュメントが含まれている場合は、先頭のものを変換して返します。
+
+filename はパース中に発生した例外のメッセージに用います。
+
+- **param** `yaml` -- YAML ドキュメント(文字列 or IO オブジェクト)
+- **param** `filename` -- [Psych::SyntaxError](../../../class/Psych=3a=3aSyntaxError.md) 発生時にファイル名として表示する文字列。
+- **param** `fallback` -- 引数 yaml に空のYAMLを指定した場合の戻り値を指定します。デフォルトは false です。
+- **param** `symbolize_names` -- ハッシュ(YAMLの仕様では正確にはマッピング)のキー
+                       を [Symbol](../../../class/Symbol.md) に変換するかどうかを指定します。
+                       true を指定した場合は変換します。デフォルトでは
+                       文字列に変換されます。
+- **raise** `Psych::SyntaxError` -- YAMLドキュメントに文法エラーが発見されたときに発生します
+- **SEE** [Psych.parse](../../../method/Psych/s/parse.md)
+
+```ruby title="例"
+p Psych.load("--- a")         # => 'a'
+p Psych.load("---\n - a\n - b") # => ['a', 'b']
+
+begin
+  Psych.load("--- `", filename: "file.txt")
+rescue Psych::SyntaxError => ex
+  p ex.file    # => 'file.txt'
+  p ex.message # => "(file.txt): found character that cannot start any token while scanning for the next token at line 1 column 5"
+end
+```
+
+キーワード引数 symbolize_names に true を指定した場合はハッシュのキーを [Symbol](../../../class/Symbol.md) に変換して返します。
+
+```ruby title="例"
+p Psych.load("---\n foo: bar")                       # => {"foo"=>"bar"}
+p Psych.load("---\n foo: bar", symbolize_names: true)  # => {:foo=>"bar"}
+```

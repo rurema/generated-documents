@@ -1,0 +1,5 @@
+# proc_yield
+
+### static VALUE proc_yield(VALUE proc, VALUE args)
+
+Proc.yield の実体。

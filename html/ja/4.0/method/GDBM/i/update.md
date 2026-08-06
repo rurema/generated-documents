@@ -1,0 +1,9 @@
+# GDBM#update
+
+### def update(other) -> self
+
+self と other の内容をマージします。
+
+重複するキーに対応する値はother の内容で上書きされます。
+
+- **param** `other` -- each_pair メソッドを持つオブジェクトでなければなりません。

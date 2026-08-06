@@ -1,0 +1,17 @@
+# File#path
+
+### def path    -> String
+### def to_path -> String
+
+オープン時に使用したパスを文字列で返します。
+
+パスは self に対応するファイルを指しているとは限りません。
+たとえば、ファイルが移動されていたり、削除されていたりする場合です。
+
+- **raise** `IOError` -- TMPFILE [File::Constants::TMPFILE](../../../method/File=3a=3aConstants/c/TMPFILE.md)オプション付きで作成されている場合に発生します。
+
+```ruby title="例"
+p File.open("testfile") {|f| f.path }                      #=> "testfile"
+p File.open("/tmp/../tmp/xxx", "w") {|f| f.path }          #=> "/tmp/../tmp/xxx"
+File.open("/tmp", File::RDWR | File::TMPFILE){|f| f.path } # IOError: File is unnamed (TMPFILE?)
+```

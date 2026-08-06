@@ -1,0 +1,7 @@
+# OpenSSL::X509::Attribute#to_der
+
+### def to_der -> String
+
+自身を DER 形式のバイト列に変換します。
+
+- **raise** `OpenSSL::X509::AttributeError` -- 変換に失敗した場合に発生します

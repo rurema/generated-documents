@@ -1,0 +1,6 @@
+# OpenSSL::ASN1::EMBEDDED_PDV
+
+### const EMBEDDED_PDV -> Integer
+
+ASN.1 UNIVERSAL タグの、
+EMBEDDED_PDV のタグ番号 11 を表す定数です。

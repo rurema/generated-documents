@@ -1,0 +1,6 @@
+# NoMethodError#private_call?
+
+### def private_call? -> bool
+
+メソッド呼び出しが private なメソッドを呼び出せる形式
+(関数形式(レシーバを省略した形式)) で呼ばれたかどうかを返します。

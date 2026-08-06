@@ -1,0 +1,10 @@
+# Regexp#hash
+
+### def hash -> Integer
+
+正規表現のオプションやテキストに基づいたハッシュ値を返します。
+
+```ruby title="例"
+p /abc/i.hash # => 4893115
+p /abc/.hash  # => 4856055
+```

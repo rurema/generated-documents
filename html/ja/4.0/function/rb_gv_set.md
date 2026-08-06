@@ -1,0 +1,6 @@
+# rb_gv_set
+
+### VALUE rb_gv_set(const char *name, VALUE val)
+
+Ruby のグローバル変数 name に val を代入します。
+val を返します。

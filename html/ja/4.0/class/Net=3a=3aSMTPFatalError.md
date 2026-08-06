@@ -1,0 +1,3 @@
+# class Net::SMTPFatalError < Net::ProtoFatalError
+
+SMTP 致命的エラー(エラーコード 5xx、 ただし500除く)に対応する例外クラスです。

@@ -1,0 +1,43 @@
+# SystemCallError.new
+
+### def SystemCallError.new(error_message) -> SystemCallError
+
+SystemCallError オブジェクトを生成して返します。
+
+- **param** `error_message` -- エラーメッセージを表す文字列
+
+```ruby title="例"
+p SystemCallError.new("message")
+    # => #<SystemCallError: unknown error - message>
+```
+
+### def SystemCallError.new(error_message, errno, location = nil) -> SystemCallError
+### def SystemCallError.new(errno) -> SystemCallError
+
+整数 errno に対応する [Errno::EXXX](../../../class/Errno=3a=3aEXXX.md) オブジェクトを生成して返します。
+
+整数 errno をシステムコールで発生したエラーの原因を示すコードであると解釈し、対応する例外クラスのインスタンスを生成して返します。
+
+生成されるオブジェクトは SystemCallError の直接のインスタンスではなく、サブクラスのインスタンスです。
+それらのサブクラスは [Errno](../../../class/Errno.md) モジュール内に定義されています。
+対応するサブクラスが存在しないコードを与えた場合には、 SystemCallError の直接のインスタンスが生成されます。
+
+エラーコードの取り得る値および意味はシステムに依存します。詳しくは [Errno::EXXX](../../../class/Errno=3a=3aEXXX.md) を参照してください。
+
+location と error_message を両方指定した場合、エラーが発生した場所を表す情報としてエラーメッセージに location が付加されます。
+
+- **param** `error_message` -- エラーメッセージを表す文字列
+- **param** `errno` -- システム依存のエラーコード
+- **param** `location` -- エラーが発生した場所を表す文字列
+- **raise** `TypeError` -- errno を整数に変換できないときに発生します。
+
+```ruby title="例"
+p SystemCallError.new("message", 2)
+    # => #<Errno::ENOENT: No such file or directory - message>
+p SystemCallError.new(2)
+    # => #<Errno::ENOENT: No such file or directory>
+p SystemCallError.new(256)
+    # => #<SystemCallError: Unknown error 256>
+p SystemCallError.new("message", 2, "location")
+    # => #<Errno::ENOENT: No such file or directory @ location - message>
+```

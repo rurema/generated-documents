@@ -1,0 +1,5 @@
+# OpenSSL::PKey::DSA#public?
+
+### def public? -> bool
+
+自身が公開鍵をもっている場合に true を返します。

@@ -1,0 +1,7 @@
+# search_method
+
+### static NODE * search_method(VALUE klass, ID id, VALUE *origin)
+
+クラス klass から id という名前のメソッドエントリを検索し、返します。見付からなければ NULL を返します。
+
+このメソッドは undef を考慮しません。つまり m_tbl にエントリがあるならその内容に関らず探索は成功します。

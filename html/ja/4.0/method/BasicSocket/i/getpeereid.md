@@ -1,0 +1,26 @@
+# BasicSocket#getpeereid
+
+### def getpeereid -> [Integer, Integer]
+
+Unix ドメインソケットにおいて接続相手の euid と egid を返します。
+
+配列の最初の要素が euid, 2番目の要素が egid です。
+
+ソケットが Unix ドメインソケットでない場合の返り値は不定です。
+
+```ruby
+require 'socket'
+
+Socket.unix_server_loop("/tmp/sock") {|s|
+  begin
+    euid, egid = s.getpeereid
+      
+    # Check the connected client is myself or not.
+    next if euid != Process.uid
+      
+    # do something about my resource.
+  ensure
+    s.close
+  end
+}
+```

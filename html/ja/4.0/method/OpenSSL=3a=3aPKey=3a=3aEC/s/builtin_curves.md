@@ -1,0 +1,18 @@
+# OpenSSL::PKey::EC.builtin_curves
+
+### def OpenSSL::PKey::EC.builtin_curves -> [[String, String]]
+
+組み込みの曲線の名前と、それに対する説明を文字列の配列ペアの配列で返します。
+
+```ruby title="例"
+require 'openssl'
+
+p OpenSSL::PKey::EC.builtin_curves
+# => [["secp112r1", "SECG/WTLS curve over a 112 bit prime field"],
+#     ["secp112r2", "SECG curve over a 112 bit prime field"], 
+#     ["secp128r1", "SECG curve over a 128 bit prime field"], 
+#     ["secp128r2", "SECG curve over a 128 bit prime field"],
+#     ... ]
+```
+
+- **SEE** [OpenSSL::PKey::EC::Group.new](../../../method/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aGroup/s/new.md)

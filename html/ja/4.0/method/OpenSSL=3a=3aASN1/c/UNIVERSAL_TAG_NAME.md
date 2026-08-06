@@ -1,0 +1,18 @@
+# OpenSSL::ASN1::UNIVERSAL_TAG_NAME
+
+### const UNIVERSAL_TAG_NAME -> [String]
+
+タグ番号が表す ASN.1 オブジェクト名を収録した配列です。
+
+```ruby title="例"
+require 'openssl'
+p OpenSSL::ASN1::UNIVERSAL_TAG_NAME[0]  # => "EOC"
+p OpenSSL::ASN1::UNIVERSAL_TAG_NAME[12] # => "UTF8STRING"
+```
+
+ASN.1 オブジェクトのタグ番号を表す定数が以下のように定義されています。
+
+```ruby
+require 'openssl'
+p OpenSSL::ASN1::UTF8STRING # => 12
+```

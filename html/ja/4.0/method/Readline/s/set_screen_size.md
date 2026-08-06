@@ -1,0 +1,13 @@
+# Readline.set_screen_size
+
+### def Readline.set_screen_size(rows, columns) -> Readline
+
+端末のサイズを引数 row、columns に設定します。
+
+- **param** `rows` -- 行数を整数で指定します。
+
+- **param** `columns` -- 列数を整数で指定します。
+
+- **raise** `NotImplementedError` -- サポートしていない環境で発生します。
+
+- **SEE** GNU Readline ライブラリの rl_set_screen_size 関数

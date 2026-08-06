@@ -1,0 +1,6 @@
+# proc_new
+
+### static VALUE proc_new(VALUE klass)
+
+評価器のその時点でのスナップショットを保存する
+Proc オブジェクトを生成します。クラスを klass にします。

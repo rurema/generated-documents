@@ -1,0 +1,5 @@
+# LONG2FIX
+
+### VALUE LONG2FIX(long i)
+
+INT2FIX と同じです。

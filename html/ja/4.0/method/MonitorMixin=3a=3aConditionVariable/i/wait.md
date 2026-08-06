@@ -1,0 +1,24 @@
+# MonitorMixin::ConditionVariable#wait
+
+### def wait(timeout = nil) -> bool
+
+モニタのロックを開放し、現在のスレッドを停止します。
+
+これを呼ぶスレッドはモニタのロックを保持している必要があります。
+
+[MonitorMixin::ConditionVariable#signal](../../../method/MonitorMixin=3a=3aConditionVariable/i/signal.md) や
+[MonitorMixin::ConditionVariable#broadcast](../../../method/MonitorMixin=3a=3aConditionVariable/i/broadcast.md)
+で起こされるまでスレッドは停止し続けます。
+
+timeout を与えた場合は最大 timeout 秒まで停止した後にスレッドを再開します。
+
+実行を再開したスレッドはモニタのロックを保持した状態になります。
+これによって危険領域(critical section)上で動作しているスレッドはただ一つになり、排他を実現します。
+
+true を返します。timeout が与えられていて待ち時間が timeout を越えた場合は false を返します。
+
+- **param** `timeout` -- タイムアウトまでの秒数。指定しなかった場合はタイムアウトしません。
+
+- **raise** `ThreadError` -- ロックを持っていないスレッドがこのメソッドを呼びだした場合に発生します
+
+- **SEE** [MonitorMixin::ConditionVariable#wait_while](../../../method/MonitorMixin=3a=3aConditionVariable/i/wait_while.md), [MonitorMixin::ConditionVariable#wait_until](../../../method/MonitorMixin=3a=3aConditionVariable/i/wait_until.md)

@@ -1,0 +1,26 @@
+# Pathname#ascend
+
+### def ascend {|pathname| ... } -> nil
+### def ascend                   -> Enumerator
+
+self のパス名から親方向に辿っていったときの各パス名を新しい Pathname オブジェクトとして生成し、ブロックへの引数として渡して実行します。
+ブロックを省略した場合は [Enumerator](../../../class/Enumerator.md) を返します。
+
+```ruby title="例"
+require 'pathname'
+
+Pathname.new('/path/to/some/file.rb').ascend {|v| p v}
+# => #<Pathname:/path/to/some/file.rb>
+#    #<Pathname:/path/to/some>
+#    #<Pathname:/path/to>
+#    #<Pathname:/path>
+#    #<Pathname:/>
+
+Pathname.new('path/to/some/file.rb').ascend {|v| p v}
+# => #<Pathname:path/to/some/file.rb>
+#    #<Pathname:path/to/some>
+#    #<Pathname:path/to>
+#    #<Pathname:path>
+```
+
+ファイルシステムにはアクセスしません。

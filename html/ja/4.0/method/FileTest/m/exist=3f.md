@@ -1,0 +1,16 @@
+# FileTest?.exist?
+
+### module_function def exist?(file)    -> bool
+
+ファイルが存在する時に真を返します。そうでない場合、あるいはシステムコールに失敗した場合などには false を返します。
+
+- **param** `file` -- ファイル名を表す文字列か IO オブジェクトを指定します。
+
+- **raise** `IOError` -- 指定された IO オブジェクト file が既に close されていた場合に発生します。
+
+```ruby title="例"
+p FileTest.exist?('/etc/passwd') # => true
+p FileTest.exist?('/etc') # => true
+p FileTest.exist?('/etc/no_such_file') # => false
+p FileTest.exist?('/etc/no_such_directory') # => false
+```

@@ -1,0 +1,10 @@
+# Resolv::DNS::Resource::IN::SRV.new
+
+### def Resolv::DNS::Resource::IN::SRV.new(priority, weight, port, target) -> Resolv::DNS::Resource::IN::SRV
+
+Resolv::DNS::Resource::IN::SRV のインスタンスを生成します。
+
+- **param** `priority` -- ホストの優先順位
+- **param** `weight` --
+- **param** `port` -- ポート番号
+- **param** `target` -- ホスト名

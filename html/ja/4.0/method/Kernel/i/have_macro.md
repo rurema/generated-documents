@@ -1,0 +1,13 @@
+# Kernel#have_macro
+
+### def have_macro(macro, headers = nil, opt = "") -> bool
+### def have_macro(macro, headers = nil, opt = ""){ ... } -> bool
+
+与えられた macro が共通のヘッダファイルか headers に定義されている場合は真を返します。
+そうでない場合は偽を返します。
+
+- **param** `macro` -- マクロの名前を指定します。
+
+- **param** `headers` -- 追加のヘッダファイルを指定します。
+
+- **param** `opt` -- C コンパイラに渡すコマンドライン引数を指定します。

@@ -1,0 +1,1 @@
+# class RSS::Error < StandardError

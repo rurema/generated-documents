@@ -1,0 +1,11 @@
+# REXML::Attributes#to_a
+
+### def to_a -> [Attribute]
+
+属性の配列を返します。
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new("<a x='1' y='2' z='3' />")
+p doc.root.attributes.to_a # => [x='1', y='2', z='3']
+```

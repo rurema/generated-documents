@@ -1,0 +1,3 @@
+# rb_thread_local_aset
+
+### VALUE rb_thread_local_aset(VALUE thread, ID id, VALUE val)

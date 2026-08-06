@@ -1,0 +1,16 @@
+# WEBrick::HTTPResponse#status=
+
+### def status=(status)
+
+レスポンスのステータスコードを整数で指定します。
+reason_phrase も適切なものに設定されます。
+
+- **param** `status` -- ステータスコードを整数で指定します。
+
+```ruby
+require 'webrick'
+res = WEBrick::HTTPResponse.new( { :HTTPVersion => "1.1" } )
+res.status = 404
+  
+p res.reason_phrase    #=> "Not Found"
+```

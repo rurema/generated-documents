@@ -1,0 +1,7 @@
+# RDoc::Options#generator=
+
+### def generator=(val)
+
+コマンドライン引数の --fmt オプションと同様の指定を行います。
+
+- **param** `val` -- 設定する Generator を指定します。

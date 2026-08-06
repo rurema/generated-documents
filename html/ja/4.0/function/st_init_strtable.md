@@ -1,0 +1,5 @@
+# st_init_strtable
+
+### st_table * st_init_strtable(void)
+
+キーが char* 型であるハッシュテーブルを作成する。

@@ -1,0 +1,44 @@
+# CSV::Row#delete
+
+### def delete(header_or_index, minimum_index = 0) -> [object, object] | nil
+
+ヘッダの名前かインデックスで行からフィールドを削除するために使用します。
+
+- **param** `header_or_index` -- ヘッダの名前かインデックスを指定します。
+
+- **param** `minimum_index` -- このインデックスより後で、ヘッダの名前を探します。
+                     重複しているヘッダがある場合に便利です。
+
+- **return** -- 削除したヘッダとフィールドの組を返します。削除対象が見つからなかった場合は nil を返します。
+
+```ruby title="例 ヘッダの名前で指定"
+require "csv"
+
+row = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+
+p row # => #<CSV::Row "header1":"row1_1" "header2":"row1_2">
+row.delete("header1")
+p row # => #<CSV::Row "header2":"row1_2">
+```
+
+```ruby title="例 ヘッダの index で指定"
+require "csv"
+
+row = CSV::Row.new(["header1", "header2"], ["row1_1", "row1_2"])
+
+p row # => #<CSV::Row "header1":"row1_1" "header2":"row1_2">
+row.delete(0)
+p row # => #<CSV::Row "header2":"row1_2">
+```
+
+```ruby title="例 ヘッダの名前と offset で指定"
+require "csv"
+
+row = CSV::Row.new(["header1", "header2", "header1"], ["row1_1", "row1_2", "row1_3"])
+
+p row # => #<CSV::Row "header1":"row1_1" "header2":"row1_2" "header1":"row1_3">
+row.delete("header1", 1)
+p row # => #<CSV::Row "header1":"row1_1" "header2":"row1_2">
+```
+
+- **SEE** [CSV::Row#field](../../../method/CSV=3a=3aRow/i/field.md)

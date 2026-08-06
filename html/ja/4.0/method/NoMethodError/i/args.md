@@ -1,0 +1,19 @@
+# NoMethodError#args
+
+### def args -> [object]
+
+メソッド呼び出しに使われた引数を配列で返します。
+
+```ruby title="例"
+begin
+  foobar(1,2,3)
+rescue NoMethodError
+  p $!
+  p $!.name
+  p $!.args
+end
+
+# => #<NoMethodError: undefined method 'foobar' for main>
+# => :foobar
+# => [1, 2, 3]
+```

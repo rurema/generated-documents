@@ -1,0 +1,5 @@
+# rb_ivar_get
+
+### VALUE rb_ivar_get(VALUE obj, ID name)
+
+オブジェクト obj のインスタンス変数 name の値を取得します。

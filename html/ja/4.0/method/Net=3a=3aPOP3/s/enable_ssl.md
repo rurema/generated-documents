@@ -1,0 +1,26 @@
+# Net::POP3.enable_ssl
+
+### def Net::POP3.enable_ssl(verify_or_params={}, certs=nil) -> ()
+
+新しく生成する [Net::POP3](../../../class/Net=3a=3aPOP3.md) オブジェクトが
+SSL による通信利用するように設定します。
+
+verify_or_params にハッシュを渡した場合には、接続時に生成される
+[OpenSSL::SSL::SSLContext](../../../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.md) オブジェクトの
+[OpenSSL::SSL::SSLContext#set_params](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.md) に渡されます。
+certs は無視されます。
+
+verify_or_params がハッシュでない場合には、接続時に生成される
+[OpenSSL::SSL::SSLContext](../../../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.md) オブジェクトの
+[OpenSSL::SSL::SSLContext#set_params](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.md) に
+
+```text
+{ :verify_mode => verify_or_params, :ca_path => certs }
+```
+
+というハッシュが渡されます。
+
+- **param** `verify_or_params` -- SSLの設定のハッシュ、もしくは SSL の verify_mode
+- **param** `certs` -- SSL の ca_path
+
+- **SEE** [Net::POP3.disable_ssl](../../../method/Net=3a=3aPOP3/s/disable_ssl.md), [Net::POP3.use_ssl?](../../../method/Net=3a=3aPOP3/s/use_ssl=3f.md)

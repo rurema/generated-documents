@@ -1,0 +1,10 @@
+# FileUtils.have_option?
+
+### def FileUtils.have_option?(mid, opt) -> bool
+
+mid というメソッドが opt というオプションを持つ場合、真を返します。
+そうでない場合は、偽を返します。
+
+- **param** `mid` -- メソッド名を指定します。
+
+- **param** `opt` -- オプション名を指定します。

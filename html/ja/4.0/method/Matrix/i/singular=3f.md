@@ -1,0 +1,12 @@
+# Matrix#singular?
+
+### def singular? -> bool
+
+行列が正方で特異なら true を、正則なら false を返します。
+
+行列が特異(singular)であるとは、正則でないことです。
+行列式が0であること同値です。
+
+正方行列でない場合には例外 ExceptionForMatrix::ErrDimensionMismatch を発生させます。
+
+- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- 行列が正方行列でない場合に発生します

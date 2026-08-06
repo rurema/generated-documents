@@ -1,0 +1,6 @@
+# rb_Array
+
+### VALUE rb_Array(VALUE obj)
+
+obj が Array でない場合は to_a を使って
+Array に変換します。

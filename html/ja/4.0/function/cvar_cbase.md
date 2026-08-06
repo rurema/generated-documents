@@ -1,0 +1,5 @@
+# cvar_cbase
+
+### static VALUE cvar_cbase(void)
+
+現在のコンテキストで、クラス変数の探索の起点となるモジュールを返します。

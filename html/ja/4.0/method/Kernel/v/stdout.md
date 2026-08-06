@@ -1,0 +1,43 @@
+# Kernel$stdout
+
+### gvar $>      -> object
+### gvar $stdout -> object
+
+標準出力です。
+
+組み込み関数 [Kernel?.print](../../../method/Kernel/m/print.md)、[Kernel?.puts](../../../method/Kernel/m/puts.md) や
+[Kernel?.p](../../../method/Kernel/m/p.md) などのデフォルトの出力先となります。
+初期値は [Object::STDOUT](../../../method/Object/c/STDOUT.md) です。
+コマンドラインオプション -i を指定した場合には読み込み元と同じ名前のファイルを表します。
+
+$stdout に代入するオブジェクトには
+write という名前のメソッドが定義されていなければいけません。
+
+自プロセスの標準出力をリダイレクトしたいときには、以下のように $stdout に代入すれば十分です。
+
+```ruby title="例"
+# 標準出力の出力先を /tmp/foo に変更
+$stdout = File.open("/tmp/foo", "w")
+puts "foo"         # 出力する
+$stdout = STDOUT   # 元に戻す
+```
+
+自プロセスだけでなく、子プロセスの標準出力もリダイレクトしたいときは以下のように [IO#reopen](../../../method/IO/i/reopen.md) を使います。
+
+```ruby title="例"
+STDOUT.reopen("/tmp/foo", "w")
+```
+
+また、リダイレクトしたあと出力先をまた元に戻したい場合は以下のようにします。
+
+```ruby title="例"
+stdout_old = $stdout.dup        # 元の $stdout を保存する
+$stdout.reopen("/tmp/foo")      # $stdout を /tmp/foo にリダイレクトする
+puts "foo"                      # /tmp/foo に出力
+$stdout.flush                   # 念のためフラッシュする
+$stdout.reopen stdout_old       # 元に戻す
+```
+
+$stdout はグローバルスコープです。
+
+- **SEE** [spec/rubycmd](../../../doc/spec=2frubycmd.md)

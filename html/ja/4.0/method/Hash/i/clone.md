@@ -1,0 +1,26 @@
+# Hash#clone
+
+### def clone -> Hash
+### def dup -> Hash
+
+selfと同じ内容を持つ新しいハッシュを返します。
+
+clone は frozen singleton-class の情報も含めてコピーしますが、
+dup は内容だけをコピーします。
+またどちらのメソッドも要素それ自体のコピーはしません。
+つまり参照しているオブジェクトが変わらない「浅い(shallow)」コピーを行います。
+
+```ruby title="例"
+h1 = {"have" => "have a","as" => "as a" }
+h2 = h1.dup
+
+h2["have"] = "has"
+p h2 #=> {"have"=>"has", "as"=>"as a"}
+p h1 #=> {"have"=>"have a", "as"=>"as a"}
+
+h2["as"].upcase!
+p h2 #=> {"have"=>"has", "as"=>"AS A"}
+p h1 #=> {"have"=>"have a", "as"=>"AS A"}
+```
+
+- **SEE** [Object#clone](../../../method/Object/i/clone.md)

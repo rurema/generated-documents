@@ -1,0 +1,46 @@
+# CSV.parse
+
+### def CSV.parse(str, options = Hash.new){|row| ... } -> nil
+### def CSV.parse(str, options = Hash.new) -> Array
+
+このメソッドは文字列を簡単にパースできます。
+ブロックを与えた場合は、ブロックにそれぞれの行を渡します。
+ブロックを省略した場合は、配列の配列を返します。
+
+- **param** `str` -- 文字列を指定します。
+
+- **param** `options` -- [CSV.new](../../../method/CSV/s/new.md) のオプションと同じオプションを指定できます。
+
+```ruby title="例"
+require 'csv'
+require 'pp'
+
+s = <<EOS
+id,first name,last name,age
+1,taro,tanaka,20
+2,jiro,suzuki,18
+EOS
+
+pp CSV.parse(s)
+# => [["id", "first name", "last name", "age"],
+#     ["1", "taro", "tanaka", "20"],
+#     ["2", "jiro", "suzuki", "18"]]
+
+CSV.parse(s, headers: true).each do |row|
+  p [row['first name'], row['age']]
+end
+# => ["taro", "20"]
+#    ["jiro", "18"]
+```
+
+```ruby title="例"
+require "csv"
+
+csv = "id|first name|last name|age\n1|taro|tanaka|20\n2|jiro|suzuki|18"
+CSV.parse(csv, col_sep: '|') do |row|
+  p [row[1], row[2]]
+end
+# => ["first name", "last name"]
+# => ["taro", "tanaka"]
+# => ["jiro", "suzuki"]
+```

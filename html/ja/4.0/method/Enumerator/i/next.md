@@ -1,0 +1,56 @@
+# Enumerator#next
+
+### def next -> object
+
+「次」のオブジェクトを返します。
+
+現在までの列挙状態に応じて「次」のオブジェクトを返し、列挙状態を1つ分進めます。
+列挙が既に最後へ到達している場合は、
+[StopIteration](../../../class/StopIteration.md) 例外を発生します。このとき列挙状態は変化しません。
+つまりもう一度 next を呼ぶと再び例外が発生します。
+
+next メソッドによる外部列挙の状態は他のイテレータメソッドによる内部列挙には影響を与えません。
+ただし、 [IO#each_line](../../../method/IO/i/each_line.md) のようにおおもとの列挙メカニズムが副作用を伴っている場合には影響があり得ます。
+
+- **raise** `StopIteration` -- 列挙状態が既に最後へ到達しているとき
+- **SEE** [Enumerator#rewind](../../../method/Enumerator/i/rewind.md)
+
+```ruby title="例1"
+str = "xyz"
+enum = str.each_byte
+
+str.bytesize.times do
+  puts enum.next
+end
+    # => 120
+    #    121
+    #    122
+```
+
+```ruby title="例2"
+str = "xyz"
+enum = str.each_byte
+
+begin
+  puts enum.next while true
+rescue StopIteration
+  puts "iteration reached at end"
+end
+    # => 120
+    #    121
+    #    122
+    #    iteration reached at end
+puts enum.next
+    #=> 再度 StopIteration 例外が発生
+```
+
+```ruby title="例3: Kernel.#loop は StopIteration を捕捉します。"
+str = "xyz"
+enum = str.each_byte
+loop do
+  puts enum.next
+end
+    # => 120
+    #    121
+    #    122
+```

@@ -1,0 +1,6 @@
+# set_trace_func
+
+### static VALUE set_trace_func(VALUE obj, VALUE trace)
+
+Kernel#set_trace_func の実体。
+評価器に対するフック手続きを登録します。

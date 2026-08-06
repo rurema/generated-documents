@@ -1,0 +1,32 @@
+# Math?.log1p
+
+### module_function def log1p(x) -> Float
+
+1 に `x` を足した値の自然対数、すなわち `log(x + 1)` を返します。
+
+`x` が 0 に近いとき、1 に `x` を足してから [Math?.log](../../../method/Math/m/log.md) を取ると桁落ちによって精度が失われますが、このメソッドはそれを避けて計算します。
+
+- **param** `x` -- -1 以上の実数
+
+- **raise** `TypeError` -- `x` に数値以外を指定した場合に発生します。
+
+- **raise** `RangeError` -- `x` に実数以外の数値を指定した場合に発生します。
+
+- **raise** `Math::DomainError` -- `x` に -1 未満の実数を指定した場合に発生します。
+
+```ruby title="例"
+p Math.log1p(0)             # => 0.0
+p Math.log1p(Math::E - 1)   # => 1.0
+p Math.log1p(-1.0)          # => -Infinity
+```
+
+```ruby title="例: 0 に近い値での精度"
+p Math.log(1 + 1e-16) # => 0.0     （桁落ちして 0 になる）
+p Math.log1p(1e-16)   # => 1.0e-16
+```
+
+```ruby title="例: 定義域外"
+Math.log1p(-2.0) # ~> Math::DomainError
+```
+
+- **SEE** [man:log1p(3)], [Math?.log](../../../method/Math/m/log.md), [Math?.expm1](../../../method/Math/m/expm1.md)

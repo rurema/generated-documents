@@ -1,0 +1,38 @@
+# Regexp#fixed_encoding?
+
+### def fixed_encoding? -> bool
+
+正規表現が任意の ASCII 互換エンコーディングとマッチ可能な時に false を返します。
+
+```ruby title="例"
+# -*- coding:utf-8 -*-
+
+r = /a/
+p r.fixed_encoding?                             # => false
+p r.encoding                                    # => #<Encoding:US-ASCII>
+p r =~ "\u{6666} a"                             # => 2
+p r =~ "\xa1\xa2 a".force_encoding("euc-jp")    # => 2
+p r =~ "abc".force_encoding("euc-jp")           # => 0
+
+r = /a/u
+p r.fixed_encoding?                             # => true
+p r.encoding                                    # => #<Encoding:UTF-8>
+p r =~ "\u{6666} a"                             # => 2
+begin
+  r =~ "\xa1\xa2".force_encoding("euc-jp")
+rescue => e
+  e.class                                       # => Encoding::CompatibilityError
+end
+p r =~ "abc".force_encoding("euc-jp")           # => 0
+
+r = /\u{6666}/
+p r.fixed_encoding?                             # => true
+p r.encoding                                    # => #<Encoding:UTF-8>
+p r =~ "\u{6666} a"                             # => 0
+begin
+  r =~ "\xa1\xa2".force_encoding("euc-jp")
+rescue => e
+  e.class                                       # => Encoding::CompatibilityError
+end
+p r =~ "abc".force_encoding("euc-jp")           # => nil
+```

@@ -1,0 +1,19 @@
+# CSV::Row#deconstruct
+
+### def deconstruct -> [object]
+
+パターンマッチに使用する行の値の配列を返します。
+
+```ruby title="例"
+require "csv"
+row = CSV::Row.new(["header1", "header2", "header3"], [1, 2, 3])
+case row
+in [2.., 2.., 2..]
+  puts "all 2 or more"
+in [...2, 2.., 2..]
+  puts "first column is less than 2, and rest columns are 2 or more"
+end
+#=> "first column is less than 2, and rest columns are 2 or more" が出力される
+```
+
+- **SEE** [spec/pattern_matching#matching_non_primitive_objects](../../../doc/spec=2fpattern_matching.md#matching_non_primitive_objects)

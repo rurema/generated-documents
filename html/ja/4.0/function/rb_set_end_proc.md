@@ -1,0 +1,3 @@
+# rb_set_end_proc
+
+### void rb_set_end_proc(void (*func)(VALUE), VALUE data)

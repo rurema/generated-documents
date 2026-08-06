@@ -1,0 +1,22 @@
+# String#chr
+
+### def chr -> String
+
+self の最初の文字だけを含む文字列を返します。
+
+```ruby title="例"
+a = "abcde"
+p a.chr  #=> "a"
+```
+
+Ruby 1.9 で IO#getc の戻り値が Integer から String を返すように変更になりました。
+Ruby 1.8 以前と1.9以降の互換性を保つために  String#chr が存在します。
+
+```console title="例"
+# ruby 1.8 系では STDIN.getc が 116 を返すため Integer#chr が呼び出される
+$ echo test | ruby -e "p STDIN.getc.chr" # => "t"
+# ruby 1.9 系以降では STDIN.getc が "t" を返すため String#chr が呼び出される
+$ echo test | ruby -e "p STDIN.getc.chr" # => "t"
+```
+
+- **SEE** [String#ord](../../../method/String/i/ord.md), [Integer#chr](../../../method/Integer/i/chr.md)

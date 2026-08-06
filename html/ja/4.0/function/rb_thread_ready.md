@@ -1,0 +1,3 @@
+# rb_thread_ready
+
+### static void rb_thread_ready(rb_thread_t th)

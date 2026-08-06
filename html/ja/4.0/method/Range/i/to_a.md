@@ -1,0 +1,22 @@
+# Range#to_a
+
+### def to_a -> Array
+{: since=""}
+### def entries -> Array
+{: since=""}
+
+self を配列に変換します。
+
+- **raise** `RangeError` -- 終端のない Range オブジェクトを変換しようとしたときに発生します。
+
+```ruby title="例"
+p (5..0).to_a      # => []
+p (0..3).to_a      # => [0, 1, 2, 3]
+p ('a'..'c').to_a  # => ["a", "b", "c"]
+p (:a..:d).to_a  # => [:a, :b, :c, :d]
+
+require 'date'
+p (Date.new(1965, 4, 14) .. Date.new(1965, 4, 14)).to_a # => [#<Date: 1965-04-14 ((2438865j,0s,0n),+0s,2299161j)>]
+
+(1..).to_a   # RangeError: cannot convert endless range to an array
+```

@@ -1,0 +1,101 @@
+# Kernel?.set_trace_func
+
+### module_function def set_trace_func(proc) -> Proc
+
+Ruby インタプリタのイベントをトレースする [Proc](../../../class/Proc.md) オブジェクトとして指定された proc を登録します。 nil を指定するとトレースがオフになります。
+
+Ruby インタプリタがプログラムを実行する過程で、メソッドの呼び出しや式の評価などのイベントが発生する度に、以下で説明する6個の引数とともに登録された [Proc](../../../class/Proc.md) オブジェクトを実行します。
+
+かつて標準添付の [debug](../../../library/debug.md)、`tracer`、`profile` はこの組み込み関数を利用して実現されていました。ただし `tracer` は Ruby 3.1 で、`profile` は Ruby
+2.7 でそれぞれ標準添付ライブラリから削除されています。また debug も
+Ruby 3.1 以降は TracePoint を使った新しい実装(debug gem)に置き換えられており、現在この組み込み関数を使用してはいません。
+
+### ブロックパラメータの意味
+
+渡す Proc オブジェクトのパラメータは
+
+```ruby
+proc{|event, file, line, id, binding, klass| "..." }
+```
+
+で、意味は以下の通りです。
+
+- **`event`**:
+  実行のタイプを表す、以下のいずれかの文字列。
+  ```
+    "line":      式の評価。
+    "call":      メソッドの呼び出し。
+    "return":    メソッド呼び出しからのリターン。
+    "c-call":    Cで記述されたメソッドの呼び出し。
+    "c-return":  Cで記述されたメソッド呼び出しからのリターン。
+    "class":     クラス定義、特異クラス定義、モジュール定義への突入。
+    "end":       クラス定義、特異クラス定義、モジュール定義の終了。
+    "raise":     例外の発生。
+  ```
+- **`file`**:
+  実行中のプログラムのソースファイル名 (文字列)。
+
+- **`line`**:
+  実行中のプログラムのソースファイル上の行番号 (整数)。
+
+- **`id`**:
+  event に応じ、以下のものが渡されます。
+  第六ブロック引数の klass と対応しています。
+  ```
+      line
+          最後に呼び出されたメソッドを表す Symbol オブジェクト。
+          トップレベルでは nil。
+      call/return/c-call/c-return
+          呼び出された/リターンするメソッドを表す Symbol オブジェクト。
+      class/end
+          nil。
+      raise
+          最後に呼び出されたメソッドを表す Symbol オブジェクト。
+          トップレベルでは nil。
+  ```
+- **`binding`**:
+  実行中のプログラムのコンテキストを表す [Binding](../../../class/Binding.md) オブジェクト。
+
+- **`klass`**:
+  event に応じ、以下のものが渡されます。
+  第四ブロック引数の id と対応しています。
+  ```
+      line
+          最後に呼び出されたメソッドが属するクラスを表す
+          Class オブジェクト。トップレベルでは nil。
+      call/return/c-call/c-return
+          呼び出された/リターンするメソッドが属するクラス
+          を表す Class オブジェクト。
+      class/end
+          nil。
+      raise
+          最後に呼び出されたメソッドが属するクラスを表す
+          Class オブジェクト。トップレベルでは nil。
+  ```
+- **param** `proc` -- トレース用 [Proc](../../../class/Proc.md) オブジェクトを指定します。nil を指定した場合、トレースをオフにします。
+
+- **return** -- proc を返します。
+
+```ruby title="例"
+set_trace_func lambda {|*arg|
+  p arg
+}
+class Foo
+end
+43.to_s
+
+# ----結果----
+# ["c-return", "..", 1, :set_trace_func, nil, Kernel]
+# ["line", "..", 4, nil, #<Binding:0x00007f9a2c0a1f38>, nil]
+# ["c-call", "..", 4, :const_added, nil, Module]
+# ["c-return", "..", 4, :const_added, nil, Module]
+# ["c-call", "..", 4, :inherited, nil, Class]
+# ["c-return", "..", 4, :inherited, nil, Class]
+# ["class", "..", 4, nil, #<Binding:0x00007f9a2c0a1e18>, nil]
+# ["end", "..", 5, nil, #<Binding:0x00007f9a2c0a1cf8>, nil]
+# ["line", "..", 6, nil, #<Binding:0x00007f9a2c0a1a70>, nil]
+# ["c-call", "..", 6, :to_s, nil, Integer]
+# ["c-return", "..", 6, :to_s, nil, Integer]
+```
+
+- **SEE** [Kernel?.caller](../../../method/Kernel/m/caller.md)

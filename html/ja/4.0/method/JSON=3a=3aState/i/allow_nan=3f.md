@@ -1,0 +1,17 @@
+# JSON::State#allow_nan?
+
+### def allow_nan? -> bool
+
+NaN, Infinity, -Infinity を生成できる場合、真を返します。
+そうでない場合は偽を返します。
+
+```ruby title="例"
+require "json"
+
+json_state = JSON::State.new({})
+json_state.allow_nan? # => false
+json_state = JSON::State.new(allow_nan: true)
+json_state.allow_nan? # => true
+```
+
+- **SEE** [rfc:4627]

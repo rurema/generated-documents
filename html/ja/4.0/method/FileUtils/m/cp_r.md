@@ -1,0 +1,33 @@
+# FileUtils?.cp_r
+
+### module_function def cp_r(src, dest, preserve: nil, noop: nil, verbose: nil, dereference_root: true, remove_destination: nil) -> ()
+
+src を dest にコピーします。src がディレクトリであったら再帰的にコピーします。その際 dest がディレクトリなら dest/src にコピーします。
+
+- **param** `src` -- コピー元。一つの場合は文字列でも指定可能です。
+           二つ以上指定する場合は配列で指定します。
+
+- **param** `dest` -- コピー先のファイルかディレクトリです。
+
+- **param** `preserve` -- 真を指定すると更新時刻と、可能なら所有ユーザ・所有グループもコピーします。
+
+- **param** `noop` -- 真を指定すると実際の処理は行いません。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+- **param** `dereference_root` -- 真を指定すると src についてだけシンボリックリンクの指す
+                        内容をコピーします。偽の場合はシンボリックリンク自体をコピーします。
+
+- **param** `remove_destination` -- 真を指定するとコピーを実行する前にコピー先を削除します。
+
+```ruby
+# installing ruby library "mylib" under the site_ruby
+require 'fileutils'
+FileUtils.rm_r(site_ruby + '/mylib', force: true)
+FileUtils.cp_r('lib/', site_ruby + '/mylib')
+# other sample
+require 'fileutils'
+FileUtils.cp_r(%w(mail.rb field.rb debug/), site_ruby + '/tmail')
+FileUtils.cp_r(Dir.glob('*.rb'), '/home/taro/lib/ruby',
+                noop: true, verbose: true)
+```

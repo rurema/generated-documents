@@ -1,0 +1,25 @@
+# Thread#backtrace_locations
+
+### def backtrace_locations(start = 0, length = nil) -> [Thread::Backtrace::Location] | nil
+### def backtrace_locations(range)                   -> [Thread::Backtrace::Location] | nil
+
+スレッドの現在のバックトレースを [Thread::Backtrace::Location](../../../class/Thread=3a=3aBacktrace=3a=3aLocation.md) の配列で返します。
+
+引数で指定した値が範囲外の場合、スレッドがすでに終了している場合は nil
+を返します。
+
+- **param** `start` -- 開始フレームの位置を数値で指定します。
+
+- **param** `length` -- 取得するフレームの個数を指定します。
+
+- **param** `range` -- 取得したいフレームの範囲を示す Range オブジェクトを指定します。
+
+[Kernel?.caller_locations](../../../method/Kernel/m/caller_locations.md) と似ていますが、本メソッドは self に限定した情報を返します。
+
+```ruby title="例"
+thread = Thread.new { sleep 1 }
+thread.run
+p thread.backtrace_locations # => ["/path/to/test.rb:1:in 'sleep'", "/path/to/test.rb:1:in 'block in <main>'"]
+```
+
+- **SEE** [Thread::Backtrace::Location](../../../class/Thread=3a=3aBacktrace=3a=3aLocation.md)

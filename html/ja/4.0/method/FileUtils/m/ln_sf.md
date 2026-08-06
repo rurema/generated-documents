@@ -1,0 +1,20 @@
+# FileUtils?.ln_sf
+
+### module_function def ln_sf(src, dest, noop: nil, verbose: nil) -> ()
+
+src へのシンボリックリンク dest を作成します。
+
+ln_s(src, dest, force: true) と同じです。
+
+- **param** `src` -- リンク元。一つの場合は文字列でも指定可能です。
+           二つ以上指定する場合は配列で指定します。
+
+- **param** `dest` -- リンク作成先のファイルかディレクトリです。
+
+- **param** `noop` -- 真を指定すると実際の処理は行いません。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+- **raise** `Errno::ENOTDIR` -- src が複数で dest がディレクトリでない場合に発生します。
+
+- **SEE** [FileUtils?.ln_s](../../../method/FileUtils/m/ln_s.md)

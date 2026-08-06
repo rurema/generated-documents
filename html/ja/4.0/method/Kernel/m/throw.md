@@ -1,0 +1,38 @@
+# Kernel?.throw
+
+### module_function def throw(tag, value = nil) -> ()
+
+[Kernel?.catch](../../../method/Kernel/m/catch.md)との組み合わせで大域脱出を行います。 throw
+は同じ tag を指定した catch のブロックの終わりまでジャンプします。
+
+throw は探索時に呼び出しスタックをさかのぼるので、ジャンプ先は同じメソッド内にあるとは限りません。
+もし ensure節 が存在するならジャンプ前に実行します。
+
+同じ tag で待っている catch が存在しない場合は、例外でスレッドが終了します。
+
+同じ tag であるとは [Object#object_id](../../../method/Object/i/object_id.md) が同じであるという意味です。
+
+- **param** `tag` -- catch の引数に対応する任意のオブジェクトです。
+- **param** `value` -- catch の戻り値になります。
+- **raise** `UncaughtThrowError` -- 同じ tag で待っている catch が存在しない場合に発生します。
+
+```ruby title="例"
+def foo
+  throw :exit, 25
+end
+
+ret = catch(:exit) do
+  begin
+    foo
+    some_process()    # 絶対に実行されない
+    10
+  ensure
+    puts "ensure"
+  end
+end
+puts ret
+#=> ensure
+#   25
+```
+
+- **SEE** [Kernel?.catch](../../../method/Kernel/m/catch.md)

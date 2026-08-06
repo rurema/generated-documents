@@ -1,0 +1,21 @@
+# RubyVM::InstructionSequence#disassemble
+
+### def disasm      -> String
+### def disassemble -> String
+
+self が表す命令シーケンスを人間が読める形式の文字列に変換して返します。
+
+```ruby
+puts RubyVM::InstructionSequence.compile('1 + 2').disasm
+```
+
+```text title="出力"
+== disasm: <RubyVM::InstructionSequence:<compiled>@<compiled>>==========
+0000 trace            1                                               (   1)
+0002 putobject        1
+0004 putobject        2
+0006 opt_plus         <ic:1>
+0008 leave
+```
+
+- **SEE** [RubyVM::InstructionSequence.disasm](../../../method/RubyVM=3a=3aInstructionSequence/s/disasm.md)

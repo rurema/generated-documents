@@ -1,0 +1,5 @@
+# Jacobian?.isEqual
+
+### module_function def isEqual(a, b, zero = 0.0, e = 1.0e-8) -> bool
+
+引数 a、b が等しいかどうかを返します。ライブラリ内部で使用します。

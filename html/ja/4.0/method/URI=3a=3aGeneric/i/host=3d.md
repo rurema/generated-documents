@@ -1,0 +1,13 @@
+# URI::Generic#host=
+
+### def host=(s)
+
+自身の host を設定します。
+
+- **param** `s` -- 自身の host を表す文字列を指定します。
+
+- **raise** `URI::InvalidComponentError` -- 不正な引数 s に対して発生します。
+
+- **raise** `URI::InvalidURIError` -- host と registry を同時に設定した場合に発生します。
+
+- **SEE** [URI::Generic#hostname=](../../../method/URI=3a=3aGeneric/i/hostname=3d.md)

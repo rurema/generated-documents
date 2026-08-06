@@ -1,0 +1,6 @@
+# URI::Generic#userinfo
+
+### def userinfo    -> String | nil
+
+自身の userinfo を "username:password" という形式の文字列で返します。
+設定されていない場合は nil を返します。

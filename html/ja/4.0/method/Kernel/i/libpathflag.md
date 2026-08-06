@@ -1,0 +1,7 @@
+# Kernel#libpathflag
+
+### def libpathflag(libpath = $DEFLIBPATH|$LIBPATH) -> String
+
+与えられた libpath を -L 付きの文字列に変換して返します。
+
+- **param** `libpath` -- LIBPATH に指定する値を指定します。

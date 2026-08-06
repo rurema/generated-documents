@@ -1,0 +1,26 @@
+# String#unicode_normalize
+
+### def unicode_normalize(form = :nfc) -> String
+
+self を NFC、NFD、NFKC、NFKD のいずれかの正規化形式で Unicode 正規化した文字列を返します。
+
+- **param** `form` -- 正規化形式を :nfc、:nfd、:nfkc、:nfkd のいずれかで指定しま
+            す。省略した場合は :nfc になります。
+
+- **raise** `Encoding::CompatibilityError` -- self が Unicode 文字列ではない場合
+                                    に発生します。
+
+このメソッドでの "Unicode 文字列" とは、UTF-8、UTF-16BE/LE、
+UTF-32BE/LE だけではなく GB18030、UCS_2BE、and UCS_4BE を含みます。
+
+また、self が UTF-8 以外のエンコーディングであった場合は一度 UTF-8 に変換してから正規化されるため、UTF-8 よりも遅くなっています。
+
+```ruby title="例"
+p "a\u0300".unicode_normalize      # => 'à' ("\u00E0" と同じ)
+p "a\u0300".unicode_normalize(:nfc)  # => 'à' ("\u00E0" と同じ)
+p "\u00E0".unicode_normalize(:nfd) # => 'à' ("a\u0300" と同じ)
+"\xE0".force_encoding('ISO-8859-1').unicode_normalize(:nfd)
+                                   # ~> Encoding::CompatibilityError: Unicode Normalization not appropriate for ISO-8859-1
+```
+
+- **SEE** [String#unicode_normalize!](../../../method/String/i/unicode_normalize=21.md), [String#unicode_normalized?](../../../method/String/i/unicode_normalized=3f.md)

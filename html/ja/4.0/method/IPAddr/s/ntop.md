@@ -1,0 +1,7 @@
+# IPAddr.ntop
+
+### def IPAddr.ntop(addr) -> String
+
+ネットワークバイトオーダーのバイト列で表現された IP アドレスを人間の読める形式に変換します。
+
+- **param** `addr` -- ネットワークバイトオーダーのバイト列。

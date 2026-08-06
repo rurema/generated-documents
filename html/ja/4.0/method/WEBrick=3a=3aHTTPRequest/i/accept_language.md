@@ -1,0 +1,6 @@
+# WEBrick::HTTPRequest#accept_language
+
+### def accept_language    -> [String]
+
+Accept-Language  ヘッダの内容を自然言語を表す文字列の配列で返します。
+配列は品質係数(qvalue)でソートされています。

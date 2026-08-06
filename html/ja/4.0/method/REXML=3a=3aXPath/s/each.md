@@ -1,0 +1,38 @@
+# REXML::XPath.each
+
+### def REXML::XPath.each(element, path = nil, namespaces = {}, variables = {}) {|e| ... } -> ()
+
+element の path で指定した XPath 文字列にマッチする各ノードに対してブロックを呼び出します。
+
+path に相対パスを指定した場合は element からの相対位置でマッチするノードを探します。
+絶対パスを指定した場合は element が属する文書のルート要素からの位置でマッチするノードを探します。
+path を省略すると "*" を指定したことになります。
+
+namespace で名前空間の対応付けを [Hash](../../../class/Hash.md) で指定します。
+
+variable で XPath 内の変数に対応する値を指定できます。
+XPathインジェクション攻撃を避けるため、適切なエスケープを付加するため、に用います。
+
+- **param** `element` -- 要素([REXML::Element](../../../class/REXML=3a=3aElement.md))
+- **param** `path` -- XPath文字列
+- **param** `namespace` -- 名前空間とURLの対応付け
+- **param** `variables` -- 変数名とその値の対応付け
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new(<<EOS)
+<root xmlns:x='1'>
+  <a>
+    <b>b1</b>
+    <x:c />
+    <b>b2</b>
+    <d />
+  </a>
+  <b> b3 </b>
+</root>
+EOS
+
+REXML::XPath.each(doc, "/root/a/b"){|e| p e.text }
+# >> "b1"
+# >> "b2"
+```

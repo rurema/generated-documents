@@ -1,0 +1,11 @@
+# String#b
+
+### def b -> String
+{: since="2.0.0"}
+
+self の文字エンコーディングを ASCII-8BIT にした文字列の複製を返します。
+
+```ruby title="例"
+p 'abc123'.encoding  # => #<Encoding:UTF-8>
+p 'abc123'.b.encoding  # => #<Encoding:ASCII-8BIT>
+```

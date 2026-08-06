@@ -1,0 +1,34 @@
+# GC.stat_heap
+
+### def GC.stat_heap                     -> {Integer => Hash}
+### def GC.stat_heap(heap_id)            -> {Symbol => Integer}
+### def GC.stat_heap(heap_id, key)       -> Integer
+### def GC.stat_heap(heap_id, result_hash) -> {Symbol => Integer}
+### def GC.stat_heap(nil, result_hash)   -> {Integer => Hash}
+
+サイズプールごとの GC の統計情報を [Hash](../../../class/Hash.md) で返します。
+
+引数を省略すると、すべてのサイズプールの統計情報を、サイズプールの番号をキーとしたハッシュで返します。
+heap_id を指定すると、そのサイズプールの統計情報だけを返します。
+
+- **param** `heap_id` -- サイズプールの番号を [Integer](../../../class/Integer.md) で指定します。
+           nil を指定すると、すべてのサイズプールが対象になります。
+- **param** `key` -- 特定の情報だけを取得したい場合にキーを [Symbol](../../../class/Symbol.md) で指定します。
+- **param** `result_hash` -- 戻り値のためのハッシュを指定します。省略した場合は新
+                   しくハッシュを作成します。result_hash の内容は上書き
+                   されます。
+- **raise** `ArgumentError` -- 存在しないサイズプールの番号を指定した場合に発生します。
+
+```ruby
+# サイズプールごとの統計情報を返す
+p GC.stat_heap.keys # => [0, 1, 2, 3, 4]
+
+# サイズプール 0 が扱うオブジェクトの大きさ (バイト)
+p GC.stat_heap(0, :slot_size) # => 40
+```
+
+戻り値のハッシュは処理系に依存します。これは将来変更になるかもしれません。
+
+本メソッドは C Ruby 以外では動作しません。
+
+- **SEE** [GC.stat](../../../method/GC/s/stat.md)

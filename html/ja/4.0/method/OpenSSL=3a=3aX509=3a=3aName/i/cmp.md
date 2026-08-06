@@ -1,0 +1,11 @@
+# OpenSSL::X509::Name#cmp
+
+### def cmp(other) ->  -1 | 0 | 1 | nil
+### def <=>(other) ->  -1 | 0 | 1 | nil
+
+他の [OpenSSL::X509::Name](../../../class/OpenSSL=3a=3aX509=3a=3aName.md) オブジェクトと比較します。
+
+自身が other と一致する場合は 0、otherより大きい場合は1、小さい場合は -1 を返します。
+比較できない場合は nil を返します。
+
+- **param** `other` -- 比較するオブジェクト

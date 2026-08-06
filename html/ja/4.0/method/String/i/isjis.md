@@ -1,0 +1,7 @@
+# String#isjis
+
+### def isjis -> bool
+
+self が ISO-2022-JP なバイト列として正当であるかどうかを判定します。
+
+Kconv.isjis(self) と同じです。

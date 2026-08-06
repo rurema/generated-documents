@@ -1,0 +1,7 @@
+# WEBrick::HTTPResponse#reason_phrase
+
+### def reason_phrase         -> String | nil
+
+HTTP のレスポンスの最初の行の reason phrase を返します。
+この値が nil の場合 reason phrase は status から生成されます。
+デフォルトは nil です。

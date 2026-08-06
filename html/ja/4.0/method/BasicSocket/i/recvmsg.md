@@ -1,0 +1,52 @@
+# BasicSocket#recvmsg
+
+### def recvmsg(maxmesglen=nil, flags=0, maxcontrollen=nil, opts={}) -> [String, Addrinfo, Integer, *Socket::AncillaryData] | nil
+
+[man:recvmsg(2)] を用いてメッセージを受け取ります。
+
+このメソッドはブロックします。ノンブロッキング方式で通信したい場合は [BasicSocket#recvmsg_nonblock](../../../method/BasicSocket/i/recvmsg_nonblock.md) を用います。
+
+TCP や UNIXSocket のようなストリームソケットで、接続が閉じられている場合 (EOF) は
+nil を返します。
+
+maxmesglen, maxcontrollen で受け取るメッセージおよび補助データ
+([Socket::AncillaryData](../../../class/Socket=3a=3aAncillaryData.md))の最大長をバイト単位で指定します。
+省略した場合は必要なだけ内部バッファを拡大してデータが切れないようにします。
+
+flags では Socket::MSG_* という名前の定数の biwsise OR を取ったものを渡します。
+
+opts にはその他のオプションを渡します。今のところ :scm_right => bool
+というオプションのみ利用できます。このオプションに真を渡すと、 SCM_RIGHTS 制御メッセージを受け取ったときに、メッセージに含まれる
+IO オブジェクトを生成します。詳しくは [Socket::AncillaryData#unix_rights](../../../method/Socket=3a=3aAncillaryData/i/unix_rights.md)
+を参照してください。
+
+返り値は配列で得られます。
+
+返り値の配列の最初の要素は受け取ったメッセージを表す文字列です。
+
+2番目の要素は connection-less socket の場合には送り元のアドレスが [Addrinfo](../../../class/Addrinfo.md) オブジェクトとして含まれています。
+TCP のような connection-oriented socket の場合は何が含まれているかはプラットフォーム依存です。
+
+3番目の要素は受け取ったメッセージに付加されているフラグで、
+Socket::MSG_* 定数の bitwise OR で表現されています。
+
+残りの要素は補助データ([Socket::AncillaryData](../../../class/Socket=3a=3aAncillaryData.md) オブジェクト)です。
+
+```ruby
+require 'socket'
+  
+# UnixSocket#recv_io を recvmsg で実装する例
+mesg, sender_sockaddr, rflags, *controls = sock.recvmsg(:scm_rights=>true)
+controls.each {|ancdata|
+  if ancdata.cmsg_is?(:SOCKET, :RIGHTS)
+    return ancdata.unix_rights[0]
+  end
+}
+```
+
+- **param** `maxmesglen` -- 受け取るメッセージの最大長
+- **param** `flags` -- フラグ
+- **param** `maxcontrollen` -- 受け取る補助データの最大長
+- **param** `opts` -- ハッシュオプション
+
+- **SEE** [bug:19012]

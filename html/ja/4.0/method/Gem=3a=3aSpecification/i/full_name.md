@@ -1,0 +1,7 @@
+# Gem::Specification#full_name
+
+### def full_name -> String
+
+この Gem パッケージのバージョンを含む完全な名前 (name-version) を返します。
+
+プラットフォームの情報が指定されている場合は、それも含みます (name-version-platform)。

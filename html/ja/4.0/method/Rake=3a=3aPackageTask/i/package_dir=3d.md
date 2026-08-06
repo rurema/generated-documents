@@ -1,0 +1,18 @@
+# Rake::PackageTask#package_dir=
+
+### def package_dir=(dirname)
+
+パッケージに入れるファイルを保存するディレクトリ名をセットします。
+
+- **param** `dirname` -- パッケージに入れるファイルを保存するディレクトリ名を指定します。
+
+```ruby
+# Rakefile での記載例とする
+require 'rake/packagetask'
+
+Rake::PackageTask.new("sample", "1.0.0") do |package_task|
+  p package_task.package_dir # => "pkg"
+  package_task.package_dir = "package"
+  p package_task.package_dir # => "package"
+end
+```

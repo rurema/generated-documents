@@ -1,0 +1,6 @@
+# WEBrick::HTTPAuth::Htpasswd#flush
+
+### def flush(path = nil)
+ファイルに書き込みます。ファイル名を与えた場合は、そこに書き込みます。
+
+- **param** `path` -- ファイル名を指定します。

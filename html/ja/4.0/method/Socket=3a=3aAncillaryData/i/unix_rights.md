@@ -1,0 +1,42 @@
+# Socket::AncillaryData#unix_rights
+
+### def unix_rights -> [IO] | nil
+
+Unix domain socket の SCM_RIGHTS 制御メッセージに含まれるファイルディスクリプタを IO オブジェクトの配列として返します。
+
+得られる IO オブジェクトか [IO](../../../class/IO.md) か [Socket](../../../class/Socket.md) です。
+
+この配列は [Socket::AncillaryData](../../../class/Socket=3a=3aAncillaryData.md) が初期化されたときに作られます。例えば [BasicSocket#recvmsg](../../../method/BasicSocket/i/recvmsg.md) を :scm_rights => true
+
+```text
+オプションを付けて呼びだし、
+```
+
+SCM_RIGHTS な 制御メッセージを受け取ったときに配列が作られます。
+適切なオプションを指定しなかった場合は配列は生成されず、このメソッドは nil を返します。
+
+```ruby
+require 'socket'
+
+# recvmsg needs :scm_rights=>true for unix_rights
+s1, s2 = UNIXSocket.pair
+p s1                                         #=> #<UNIXSocket:fd 3>
+s1.sendmsg "stdin and a socket", 0, nil, Socket::AncillaryData.unix_rights(STDIN, s1)
+_, _, _, ctl = s2.recvmsg(:scm_rights=>true)
+p ctl
+#=> #<Socket::AncillaryData: UNIX SOCKET RIGHTS 6 7>
+p ctl.unix_rights                            #=> [#<IO:fd 6>, #<Socket:fd 7>]
+p File.identical?(STDIN, ctl.unix_rights[0]) #=> true
+p File.identical?(s1, ctl.unix_rights[1])    #=> true
+  
+# If :scm_rights=>true is not given, unix_rights returns nil
+s1, s2 = UNIXSocket.pair
+s1.sendmsg "stdin and a socket", 0, nil, Socket::AncillaryData.unix_rights(STDIN, s1)
+_, _, _, ctl = s2.recvmsg
+p ctl #=> #<Socket::AncillaryData: UNIX SOCKET RIGHTS 6 7>
+p ctl.unix_rights #=> nil
+```
+
+- **raise** `TypeError` -- family/level/type が AF_UNIX/SOL_SOCKET/SCM_RIGHTS でない場合
+       に発生します。
+- **SEE** [Socket::Constants::SCM_RIGHTS](../../../method/Socket=3a=3aConstants/c/SCM_RIGHTS.md)

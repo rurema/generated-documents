@@ -1,0 +1,5 @@
+# rb_gvar_defined
+
+### VALUE rb_gvar_defined(struct global_entry *entry)
+
+entry で示されるグローバル変数が定義されているなら真。

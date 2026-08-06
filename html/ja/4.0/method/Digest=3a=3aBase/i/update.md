@@ -1,0 +1,29 @@
+# Digest::Base#update
+
+### def update(str) -> self
+### def <<(str)     -> self
+
+文字列を追加します。self を返します。
+複数回updateを呼ぶことは文字列を連結してupdateを呼ぶことと同じです。
+すなわち m.update(a); m.update(b) は
+m.update(a + b) と、 m << a << b は m << a + b とそれぞれ等価です。
+
+- **param** `str` -- 追加する文字列
+
+```ruby
+require 'digest/md5'
+
+digest = Digest::MD5.new
+digest.update("r")
+digest.update("u")
+digest.update("b")
+digest.update("y")
+p digest.hexdigest # => "58e53d1324eef6265fdb97b08ed9aadf"
+
+digest = Digest::MD5.new
+digest << "r"
+digest << "u"
+digest << "b"
+digest << "y"
+p digest.hexdigest # => "58e53d1324eef6265fdb97b08ed9aadf"
+```

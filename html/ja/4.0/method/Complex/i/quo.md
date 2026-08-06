@@ -1,0 +1,15 @@
+# Complex#quo
+
+### def /(other)   -> Complex
+### def quo(other) -> Complex
+
+商を計算します。
+
+- **param** `other` -- 自身を割る数
+
+```ruby title="例"
+p Complex(10.0) / 3  # => (3.3333333333333335+(0/1)*i)
+p Complex(10)   / 3  # => ((10/3)+(0/1)*i)
+```
+
+- **SEE** [Numeric#quo](../../../method/Numeric/i/quo.md)

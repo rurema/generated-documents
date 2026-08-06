@@ -1,0 +1,31 @@
+# Net::HTTP.get_print
+
+### def Net::HTTP.get_print(uri) -> ()
+### def Net::HTTP.get_print(host, path, port = 80) -> ()
+
+指定した対象から HTTP でエンティティボディを取得し、
+[m:$stdout] に出力します。
+
+対象の指定方法は [URI](../../../class/URI.md) で指定するか、
+(host, path, port) で指定するかのいずれかです。
+
+- **param** `uri` -- データの取得対象を [URI](../../../class/URI.md) で指定します。
+- **param** `host` -- 接続先のホストを文字列で指定します。
+- **param** `path` -- データの存在するパスを文字列で指定します。
+- **param** `port` -- 接続するポートを整数で指定します。
+- **SEE** [Net::HTTP.get](../../../method/Net=3a=3aHTTP/s/get.md)
+
+### 例
+
+```ruby
+require 'net/http'
+require 'uri'
+Net::HTTP.get_print URI.parse('http://www.example.com/index.html')
+```
+
+もしくは
+
+```ruby
+require 'net/http'
+Net::HTTP.get_print 'www.example.com', '/index.html'
+```

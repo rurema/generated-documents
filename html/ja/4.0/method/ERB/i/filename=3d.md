@@ -1,0 +1,16 @@
+# ERB#filename=
+
+### def filename= -> String
+
+エラーメッセージを表示する際のファイル名を設定します。
+
+filename を設定しておくことにより、エラーが発生した eRuby スクリプトの特定が容易になります。filename を設定していない場合は、エラー発生箇所は「 (ERB) 」という出力となります。
+
+```ruby title="例"
+require 'erb'
+filename = 'example.rhtml'
+erb = ERB.new(File.read(filename))
+p erb.filename # => nil
+erb.filename = filename
+p erb.filename # =>"example.rhtml"
+```

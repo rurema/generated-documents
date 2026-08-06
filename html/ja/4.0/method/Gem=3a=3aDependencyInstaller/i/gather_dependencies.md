@@ -1,0 +1,6 @@
+# Gem::DependencyInstaller#gather_dependencies
+
+### def gather_dependencies -> Array
+
+依存関係を無視するように指定されていない限り、インストールするように指定された
+Gem が依存している Gem の情報を集めて返します。

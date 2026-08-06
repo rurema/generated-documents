@@ -1,0 +1,12 @@
+# Pathname#utime
+
+### def utime(atime, mtime) -> Integer
+
+File.utime(atime, mtime, self.to_s) と同じです。
+
+- **param** `atime` -- 最終アクセス時刻を [Time](../../../class/Time.md) か、起算時からの経過秒数を数値で指定します。
+
+- **param** `mtime` -- 更新時刻を [Time](../../../class/Time.md) か、起算時からの経過秒数を数値で指定します。
+
+
+- **SEE** [File.utime](../../../method/File/s/utime.md)

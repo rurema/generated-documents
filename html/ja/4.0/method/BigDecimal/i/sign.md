@@ -1,0 +1,34 @@
+# BigDecimal#sign
+
+### def sign -> -3 | -2 | -1 | 0 | 1 | 2 | 3
+
+自身の符号等の性質に応じて、[Integer](../../../class/Integer.md) を返します。
+
+符号が正であれば正の整数を返し、負であれば負の整数を返し、NaN であれば 0 を返します。
+
+| 自身の値 | 返り値 | 同じ値の定数 |
+|---|---:|---|
+| NaN | 0 | BigDecimal::SIGN_NaN |
+| +0 | 1 | BigDecimal::SIGN_POSITIVE_ZERO |
+| -0 | -1 | BigDecimal::SIGN_NEGATIVE_ZERO |
+| 有限の正の値 | 2 | BigDecimal::SIGN_POSITIVE_FINITE |
+| 有限の負の値 | -2 | BigDecimal::SIGN_NEGATIVE_FINITE |
+| +Infinity | 3 | BigDecimal::SIGN_POSITIVE_INFINITE |
+| -Infinity | -3 | BigDecimal::SIGN_NEGATIVE_INFINITE |
+
+BigDecimal は、 0 であっても、+ か - の符号を持つことに注意して下さい。
+(「[bigdecimal#internal_structure](../../../library/bigdecimal.md#internal_structure)」を参照)
+
+```ruby
+require "bigdecimal"
+
+p BigDecimal("NaN").sign       # =>  0
+p BigDecimal("0").sign         # =>  1
+p BigDecimal("100").sign       # =>  2
+p BigDecimal("Infinity").sign  # =>  3
+p BigDecimal("-0").sign        # => -1
+p BigDecimal("-5").sign        # => -2
+p BigDecimal("-Infinity").sign # => -3
+
+p BigDecimal("0").sign == BigDecimal::SIGN_POSITIVE_ZERO  # => true
+```

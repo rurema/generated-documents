@@ -1,0 +1,36 @@
+# Net::SMTP#sendmail
+
+### def send_message(mailsrc, from_addr, *to_addrs) -> ()
+### def send_mail(mailsrc, from_addr, *to_addrs) -> ()
+### def sendmail(mailsrc, from_addr, *to_addrs) -> ()
+
+メールを送信します。
+
+mailsrc をメールとして送信します。
+mailsrc は each イテレータを持つオブジェクトならなんでも構いません(たとえば String や File)。
+
+from_domain は送り主のメールアドレス ('...@...'のかたち) 、
+to_addrs には送信先メールアドレスを文字列で渡します。
+
+```ruby
+require 'net/smtp'
+
+Net::SMTP.start('smtp.example.com') {|smtp|
+  smtp.send_message mail_string,
+                    'from@example.com',
+                    'to1@example.net', 'to2@example.net'
+}
+```
+
+sendmail は obsolete です。
+
+- **param** `mailsrc` -- メールの内容
+- **param** `from_addr` -- 送信元のメールアドレス
+- **param** `to_addrs` -- 送信先のメールアドレス(複数可、少なくとも1個)
+
+- **raise** `IOError` -- すでにセッションが終了している場合に発生します
+- **raise** `TimeoutError` -- 接続がタイムアウトした場合に発生します
+- **raise** `Net::SMTPServerBusy` -- SMTPエラーコード420,450の場合に発生します
+- **raise** `Net::SMTPSyntaxError` -- SMTPエラーコード500の場合に発生します
+- **raise** `Net::SMTPFatalError` -- SMTPエラーコード5xxの場合に発生します
+- **raise** `Net::SMTPUnknownError` -- SMTPエラーコードがプロトコル上不正な場合に発生します

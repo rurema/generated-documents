@@ -1,0 +1,19 @@
+# ENV.delete
+
+### def ENV.delete(key) -> String | nil
+### def ENV.delete(key) {|key| ... } -> String | nil
+
+key に対応する環境変数を取り除きます。取り除かれた環境変数の値を返しますが、key に対応する環境変数が存在しない時には
+nil を返します。
+
+ブロックが与えられた時には key にマッチするものがなかった時に評価されます。
+
+- **param** `key` -- 環境変数名を指定します。文字列で指定します。文字列で指定しま
+           す。文字列以外のオブジェクトを指定した場合は to_str メソッド
+           による暗黙の型変換を試みます。
+
+```ruby
+ENV['TEST'] = 'foo'
+p ENV.delete('TEST')  # => "foo"
+ENV.delete('TEST') { |key| puts "#{key} is not found in ENV" } # TEST is not found in ENV
+```

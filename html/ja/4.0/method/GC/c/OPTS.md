@@ -1,0 +1,25 @@
+# GC::OPTS
+
+### const OPTS -> [String]
+
+コンパイル時に指定したGCのオプションです。
+
+可能性があるオプション文字列は以下の通りです。
+
+  - "GC_DEBUG"
+  - "USE_RGENGC"
+  - "RGENGC_DEBUG"
+  - "RGENGC_CHECK_MODE"
+  - "RGENGC_PROFILE"
+  - "RGENGC_ESTIMATE_OLDMALLOC"
+  - "GC_PROFILE_MORE_DETAIL"
+  - "GC_ENABLE_LAZY_SWEEP"
+  - "CALC_EXACT_MALLOC_SIZE"
+  - "MALLOC_ALLOCATED_SIZE"
+  - "MALLOC_ALLOCATED_SIZE_CHECK"
+  - "GC_PROFILE_DETAIL_MEMORY"
+
+```ruby title="例"
+p GC::OPTS # => ["USE_RGENGC", "RGENGC_ESTIMATE_OLDMALLOC", "GC_ENABLE_LAZY_SWEEP"]
+# この場合、GCデバッグ機能やプロファイル機能は無効化されている
+```

@@ -1,0 +1,13 @@
+# Gem::Requirement#concat
+
+### def concat(requirements) -> Array
+
+新しい条件(配列)を自身の条件に破壊的に加えます。
+
+- **param** `requirements` -- 条件の配列を指定します。
+
+```ruby
+req = Gem::Requirement.new("< 5.0")
+req.concat(["= 1.9"])
+puts req  # => < 5.0, = 1.9
+```

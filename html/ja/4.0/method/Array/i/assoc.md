@@ -1,0 +1,16 @@
+# Array#assoc
+
+### def assoc(key)    -> Array | nil
+
+配列の配列を検索して、その 0 番目の要素が key に == で等しい最初の要素を返します。該当する要素がなければ nil を返します。
+
+- **param** `key` -- 検索するオブジェクトを指定します。
+
+```ruby title="例"
+ary = [[1,15], [2,25], [3,35]]
+p ary.assoc(2)           # => [2, 25]
+p ary.assoc(100)         # => nil
+p ary.assoc(15)          # => nil
+```
+
+- **SEE** [Array#rassoc](../../../method/Array/i/rassoc.md)

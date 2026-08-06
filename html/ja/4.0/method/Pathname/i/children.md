@@ -1,0 +1,16 @@
+# Pathname#children
+
+### def children(with_directory = true) -> [Pathname]
+
+self 配下にあるパス名(Pathnameオブジェクト)の配列を返します。
+
+ただし、 ".", ".." は要素に含まれません。
+
+- **param** `with_directory` -- 偽を指定するとファイル名のみ返します。デフォルトは真です。
+
+- **raise** `Errno::EXXX` -- self が存在しないパスであったりディレクトリでなければ例外が発生します。
+
+```ruby title="例"
+require 'pathname'
+p Pathname.new("/tmp").children # => [#<Pathname:.X11-unix>, #<Pathname:.iroha_unix>, ... ]
+```

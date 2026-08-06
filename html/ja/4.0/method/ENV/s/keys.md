@@ -1,0 +1,5 @@
+# ENV.keys
+
+### def ENV.keys -> [String]
+
+全環境変数の名前の配列を返します。

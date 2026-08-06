@@ -1,0 +1,30 @@
+# Hash#shift
+
+### def shift -> [object, object] | nil
+
+ハッシュからキーが追加された順で先頭の要素をひとつ取り除き、
+[key, value]という配列として返します。
+
+shiftは破壊的メソッドです。selfは要素を取り除かれた残りのハッシュに変更されます。
+
+
+ハッシュが空の場合、デフォルト値に関わらず nil を返します。
+
+```ruby title="例"
+h = {:ab => "some" , :cd => "all"}
+p h.shift               #=> [:ab, "some"]
+p h.shift               #=> [:cd, "all"]
+p h                     #=> {}
+p h.shift               #=> nil
+
+h1 = Hash.new("default value")
+p h1                    #=> {}
+p h1.shift              #=> nil
+
+h2 = Hash.new {|*arg| arg}
+p h2                    #=> {}
+p h2.shift              #=> nil
+```
+
+
+- **SEE** [Array#shift](../../../method/Array/i/shift.md)

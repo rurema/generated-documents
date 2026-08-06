@@ -1,0 +1,5 @@
+# heredoc_restore
+
+### static void heredoc_restore(NODE *here)
+
+ヒアドキュメントの本体の読み込みに失敗したとき、開始記号のある行を復帰します。here は lex_strterm です。

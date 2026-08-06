@@ -1,0 +1,16 @@
+# Resolv::DNS::Name#subdomain_of?
+
+### def subdomain_of?(other) -> bool
+
+other が self のサブドメインであるかどうかを返します。
+
+```ruby
+require "resolv"
+domain = Resolv::DNS::Name.create("y.z")
+p Resolv::DNS::Name.create("w.x.y.z").subdomain_of?(domain) #=> true
+p Resolv::DNS::Name.create("x.y.z").subdomain_of?(domain) #=> true
+p Resolv::DNS::Name.create("y.z").subdomain_of?(domain) #=> false
+p Resolv::DNS::Name.create("z").subdomain_of?(domain) #=> false
+p Resolv::DNS::Name.create("x.y.z.").subdomain_of?(domain) #=> false
+p Resolv::DNS::Name.create("w.z").subdomain_of?(domain) #=> false
+```

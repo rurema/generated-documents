@@ -1,0 +1,33 @@
+# Enumerable#all?
+
+### def all?               -> bool
+### def all? {|item| ... } -> bool
+### def all?(pattern)      -> bool
+
+すべての要素が真である場合に true を返します。
+偽である要素があれば、ただちに false を返します。
+
+ブロックを伴う場合は、各要素に対してブロックを評価し、すべての結果が真である場合に true を返します。ブロックが偽を返した時点で、ただちに false を返します。
+
+自身に要素が存在しない場合は true を返します。
+
+- **param** `pattern` -- ブロックの代わりに各要素に対して pattern === item を評価します。
+
+```ruby title="例"
+require 'set'
+
+# すべて正の数か？
+p Set[5,  6, 7].all? {|v| v > 0 }      # => true
+p Set[5, -1, 7].all? {|v| v > 0 }      # => false
+p Set[].all? {|v| v > 0 }              # => true
+
+p Set['ant', 'bear', 'cat'].all?(/t/)  # => false
+p (1..4).all?(Integer)                 # => true
+p [1, 2, 3].all?(Integer)              # => true
+p [1, 2, 3.0].all?(Integer)            # => false
+# Hashは[k, v]のペアなのでArray/Hash === [k, v]で評価
+p({foo: 0, bar: 1}.all?(Array))        # => true
+p({foo: 0, bar: 1}.all?(Hash))         # => false
+```
+
+- **SEE** [Array#all?](../../../method/Array/i/all=3f.md)

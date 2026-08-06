@@ -1,0 +1,13 @@
+# URI::Generic#normalize
+
+### def normalize     -> URI::Generic
+### def normalize!    -> String | nil
+
+URI オブジェクトを正規化して返します。ホスト名を小文字にし、パスと構成要素がなければ '/' をセットします。
+
+```ruby title="例"
+require 'uri'
+u = URI.parse('http://Example.Com')
+p u.to_s                            #=> "http://Example.Com"
+p u.normalize.to_s                  #=> "http://example.com/"
+```

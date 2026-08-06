@@ -1,0 +1,16 @@
+# Method#name
+
+### def name    -> Symbol
+
+このメソッドの名前を返します。
+
+```ruby title="例"
+class Foo
+  def foo(arg)
+    "foo called with arg #{arg}"
+  end
+end
+
+m = Foo.new.method(:foo) # => #<Method: Foo#foo>
+p m.name # => :foo
+```

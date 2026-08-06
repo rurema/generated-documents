@@ -1,0 +1,5 @@
+# OpenSSL::X509::Certificate#version
+
+### def version -> Integer
+
+X509 証明書の version です。 v1の場合は 0 、v3 の場合は 2 となります。

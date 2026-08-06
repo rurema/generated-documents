@@ -1,0 +1,5 @@
+# rb_thread_current
+
+### VALUE rb_thread_current(void)
+
+現在実行中のスレッドを返します。

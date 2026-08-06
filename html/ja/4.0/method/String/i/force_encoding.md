@@ -1,0 +1,21 @@
+# String#force_encoding
+
+### def force_encoding(encoding)   -> self
+
+文字列の持つエンコーディング情報を指定された encoding に変えます。
+
+このとき実際のエンコーディングは変換されず、検査もされません。
+[Array#pack](../../../method/Array/i/pack.md) などで得られたバイト列のエンコーディングを指定する時に使います。
+
+- **param** `encoding` --   変更するエンコーディング情報を表す文字列か Encoding オブジェクトを指定します。
+
+```ruby title="例"
+s = [164, 164, 164, 237, 164, 207].pack("C*")
+p s.encoding                                  #=> ASCII-8BIT
+p s.force_encoding("EUC-JP")                  #=> "いろは"
+p s.force_encoding(Encoding::EUC_JP)          #=> "いろは"
+
+u = [12411, 12408, 12392].pack("U*")
+p u.force_encoding("UTF-8")                   #=> "ほへと"
+p u.force_encoding(Encoding::UTF_8)           #=> "ほへと"
+```

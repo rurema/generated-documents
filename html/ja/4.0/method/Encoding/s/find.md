@@ -1,0 +1,15 @@
+# Encoding.find
+
+### def Encoding.find(name) -> Encoding
+
+指定された name という名前を持つ Encoding オブジェクトを返します。
+
+- **param** `name` -- エンコーディング名を表す [String](../../../class/String.md) を指定します。
+- **return** -- 発見された Encoding オブジェクトを返します。
+- **raise** `ArgumentError` -- 指定した名前のエンコーディングが発見できないと発生します。
+
+特殊なエンコーディング名として、ロケールエンコーディングを表す locale、default_external を表す external、default_internal を表す internal、ファイルシステムエンコーディングを表す filesystem があります。
+
+```ruby title="例"
+p Encoding.find("utf-8")       #=> #<Encoding:UTF-8>
+```

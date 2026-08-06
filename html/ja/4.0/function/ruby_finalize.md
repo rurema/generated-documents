@@ -1,0 +1,5 @@
+# ruby_finalize
+
+### void ruby_finalize(void)
+
+評価器プロセスの終了処理を行います。

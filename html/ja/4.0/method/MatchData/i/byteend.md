@@ -1,0 +1,35 @@
+# MatchData#byteend
+
+### def byteend(n) -> Integer | nil
+### def byteend(name) -> Integer | nil
+
+`n` 番目の部分文字列終端のバイトオフセットを返します。
+
+`0` はマッチ全体を意味します。
+`n` 番目の部分文字列がマッチしていなければ `nil` を返します。
+
+引数に文字列またはシンボルを渡した場合は、対応する名前付きキャプチャの終端のバイトオフセットを返します。
+
+- **param** `n` -- 部分文字列を指定する数値。
+- **param** `name` -- 名前付きキャプチャを指定する文字列またはシンボル。
+
+- **raise** `IndexError` -- 範囲外の `n` を指定した場合に発生します。
+- **raise** `IndexError` -- 正規表現中で定義されていない `name` を指定した場合に発生します。
+
+```ruby title="例"
+/(c).*(いう).*(e.*)/ =~ 'abcあいうdef'
+p $~            # => #<MatchData "cあいうdef" 1:"c" 2:"いう" 3:"ef">
+p $~.byteend(0) # => 15
+p $~.byteend(1) # => 3
+p $~.byteend(2) # => 12
+p $~.byteend(3) # => 15
+p $~.byteend(4) # ~> IndexError: index 4 out of matches
+```
+
+```ruby title="シンボルを指定する例"
+/(?<key>\S+):\s*(?<value>\S+)/ =~ "name: ruby"
+p $~               # => #<MatchData "name: ruby" key:"name" value:"ruby">
+p $~.byteend(:key) # => 4
+p $~.byteend(:value) # => 10
+$~.byteend(:foo)   # ~> IndexError: undefined group name reference: foo
+```

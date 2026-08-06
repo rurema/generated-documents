@@ -1,0 +1,9 @@
+# Continuation#call
+
+### def [](*ret)      -> ()
+### def call(*ret)    -> ()
+
+self が記憶した状態を継続します。引数は そのまま
+[Kernel?.callcc](../../../method/Kernel/m/callcc.md) の戻り値になります。
+
+- **param** `ret` -- 継続に復帰した時に返す値を指定します。

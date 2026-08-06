@@ -1,0 +1,7 @@
+# REXML::Document#root
+
+### def root -> REXML::Element | nil
+
+文書のルート要素を返します。
+
+文書がルート要素を持たない場合は nil を返します。

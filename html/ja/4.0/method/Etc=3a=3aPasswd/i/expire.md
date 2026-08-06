@@ -1,0 +1,5 @@
+# Etc::Passwd#expire
+
+### def expire -> Integer
+
+アカウント有効期限(整数)を返します。このメンバはシステム依存です。

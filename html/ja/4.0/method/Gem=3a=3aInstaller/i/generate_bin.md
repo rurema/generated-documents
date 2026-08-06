@@ -1,0 +1,6 @@
+# Gem::Installer#generate_bin
+
+### def generate_bin
+Gem でインストールされる実行ファイルを作成します。
+
+- **raise** `Gem::FilePermissionError` -- インストール先に書込み出来ない場合に発生します。

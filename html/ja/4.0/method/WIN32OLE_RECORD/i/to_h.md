@@ -1,0 +1,37 @@
+# WIN32OLE_RECORD#to_h
+
+### def to_h -> Hash
+
+selfが表すVT_RECORD値をRubyのHashオブジェクトに変換して返します。
+
+Hashのキーは、VT_RECORD OLE変数のメンバ名、値はその値です。
+
+- **return** -- VT_RECORD値の各メンバ名と値からなるHashオブジェクトを返します。
+
+VB.NETのComServerプロジェクトで作成したCOMサーバの以下のgetBookメソッドの戻り値に対して、
+
+```text
+Imports System.Runtime.InteropServices
+Public Class ComClass
+    Public Structure Book
+        <MarshalAs(UnmanagedType.BStr)> _
+        Public title As String
+        Public cost As Integer
+    End Structure
+    Public Function getBook() As Book
+        Dim book As New Book
+        book.title = "The Ruby Book"
+        book.cost = 20
+        Return book
+    End Function
+End Class
+```
+
+WIN32OLE_RECORD#to_hを呼び出すと、以下のようになります。
+
+```ruby title="例"
+require 'win32ole'
+obj = WIN32OLE.new('ComServer.ComClass')
+book = obj.getBook
+book.to_h # => {"title"=>"The Ruby Book", "cost"=>20}
+```

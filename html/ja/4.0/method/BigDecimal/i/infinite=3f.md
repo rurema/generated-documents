@@ -1,0 +1,5 @@
+# BigDecimal#infinite?
+
+### def infinite? -> 1 | -1 | nil
+
+self が +∞のときに 1 、-∞のときに-1、それ以外のときに nil を返します。

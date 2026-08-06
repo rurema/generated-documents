@@ -1,0 +1,14 @@
+# WIN32OLE_METHOD#event_interface
+
+### def event_interface -> String | nil
+
+メソッドがイベントの場合、イベントのインターフェイス名を取得します。
+
+- **return** -- メソッドがイベントであれば、イベントのインターフェイス名を返し
+        ます。イベントでなければnilを返します。
+
+```ruby
+tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Workbook')
+method = WIN32OLE_METHOD.new(tobj, 'SheetActivate')
+puts method.event_interface # =>  WorkbookEvents
+```

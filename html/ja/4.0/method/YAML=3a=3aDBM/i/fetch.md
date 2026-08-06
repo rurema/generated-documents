@@ -1,0 +1,11 @@
+# YAML::DBM#fetch
+
+### def fetch(key, ifnone = nil) -> object
+
+データベースからキーを探して対応する要素の値を返します。
+
+対応する値が見つからなかった場合は ifnone で指定した値を返します。
+
+- **param** `key` -- キーを文字列で指定します。
+
+- **SEE** [YAML::DBM#\[\]](../../../method/YAML=3a=3aDBM/i/=5b=5d.md)

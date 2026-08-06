@@ -1,0 +1,19 @@
+# WEBrick::Cookie.parse
+
+### def WEBrick::Cookie.parse(str)    -> [WEBrick::Cookie]
+
+ユーザーエージェントから送られてきた Cookie ヘッダの値 str をパースし、新しく [WEBrick::Cookie](../../../class/WEBrick=3a=3aCookie.md) オブジェクトを生成しその配列を返します。
+各属性の形式が仕様に準拠しているかを確認しません。
+
+- **param** `str` -- Cookie を表す文字列を指定します。
+
+```ruby
+require 'webrick'
+include WEBrick
+c = Cookie.parse('$Version="1"; Customer="WILE"; $Path="/foo"; P_Number="Rocket"; $Path="/foo/hoge"')
+p c[1].name, c[1].path
+ 
+#=> 
+"P_Number"
+"/foo/hoge"
+```

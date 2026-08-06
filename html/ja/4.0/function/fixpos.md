@@ -1,0 +1,6 @@
+# fixpos
+
+### static void fixpos(NODE *node, NODE *orig)
+
+orig に格納されているファイル名と行番号を node にコピーします。
+node もしくは orig が NULL のときは何もしません。

@@ -1,0 +1,5 @@
+# local_id
+
+### static int local_id(ID id)
+
+現在のスコープでローカル変数 id が定義されていれば真。

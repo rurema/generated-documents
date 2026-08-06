@@ -1,0 +1,9 @@
+# Encoding::US_ASCII
+
+### const US_ASCII -> Encoding
+### const ASCII -> Encoding
+### const ANSI_X3_4_1968 -> Encoding
+
+US-ASCII、いわゆる ASCII のことで、ISO 646 IRV と一致します。
+
+7bit の範囲のみを含み、8bit 目の立っている文字 (たとえば \x80 など) が含まれる場合は正しいエンコーディングであるとみなしません。

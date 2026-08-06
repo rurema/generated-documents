@@ -1,0 +1,11 @@
+# Readline.emacs_editing_mode
+
+### def Readline.emacs_editing_mode -> nil
+
+編集モードを Emacs モードにします。デフォルトは Emacs モードです。
+
+Emacs モードの詳細は、 GNU Readline のマニュアルを参照してください。
+
+  - <http://www.gnu.org/directory/readline.html>
+
+- **raise** `NotImplementedError` -- サポートしていない環境で発生します。

@@ -1,0 +1,11 @@
+# String#reverse!
+
+### def reverse! -> self
+
+文字列を文字単位で左右逆転します。
+
+```ruby title="例"
+str = "foobar"
+str.reverse!
+p str   # => "raboof"
+```

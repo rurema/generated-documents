@@ -1,0 +1,34 @@
+# Net::IMAP#fetch
+
+### def fetch(set, attr) -> [Net::IMAP::FetchData]
+
+FETCH コマンドを送り、メールボックス内のメッセージに関するデータを取得します。
+
+[Net::IMAP#examine](../../../method/Net=3a=3aIMAP/i/examine.md) もしくは [Net::IMAP#select](../../../method/Net=3a=3aIMAP/i/select.md) で指定したメールボックスを対象とします。
+
+set で対象とするメッセージを指定します。
+これには sequence number、sequence number の配列、もしくは
+[Range](../../../class/Range.md) オブジェクトを渡します。
+attr には取得するアトリビュートを文字列の配列で渡してください。
+指定可能なアトリビュートについては [Net::IMAP::FetchData#attr](../../../method/Net=3a=3aIMAP=3a=3aFetchData/i/attr.md) 
+を見てください。
+
+```ruby title="例"
+p imap.fetch(6..8, "UID")
+#=> [#<Net::IMAP::FetchData seqno=6, attr={"UID"=>98}>, #<Net::IMAP::FetchData seqno=7, attr={"UID"=>99}>, #<Net::IMAP::FetchData seqno=8, attr={"UID"=>100}>]
+p imap.fetch(6, "BODY[HEADER.FIELDS (SUBJECT)]")
+#=> [#<Net::IMAP::FetchData seqno=6, attr={"BODY[HEADER.FIELDS (SUBJECT)]"=>"Subject: test\r\n\r\n"}>]
+data = imap.uid_fetch(98, ["RFC822.SIZE", "INTERNALDATE"])[0]
+p data.seqno
+#=> 6
+p data.attr["RFC822.SIZE"]
+#=> 611
+p data.attr["INTERNALDATE"]
+#=> "12-Oct-2000 22:40:59 +0900"
+p data.attr["UID"]
+#=> 98
+```
+
+- **param** `set` -- 処理対象のメッセージの sequence number
+- **param** `attr` -- アトリビュート(文字列配列)
+- **SEE** [Net::IMAP#uid_fetch](../../../method/Net=3a=3aIMAP/i/uid_fetch.md)

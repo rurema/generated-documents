@@ -1,0 +1,17 @@
+# Digest::Base#digest_length
+
+### def digest_length -> Integer
+### def length -> Integer
+### def size -> Integer
+
+ダイジェストのハッシュ値のバイト長を取得します。
+例えば、Digest::MD5であれば16、Digest::SHA1であれば20です。
+
+本メソッドは、Digest::MD5などのダイジェストのサブクラスにより、それぞれの実装に適したものにオーバーライドされます。
+
+例: Digest::MD、Digest::SHA1、Digest::SHA512のハッシュ値のバイト長を順番に調べる。
+
+```ruby
+require 'digest'
+p ["MD5", "SHA1", "SHA512"].map{|a| Digest(a).new().digest_length } # => [16, 20, 64]
+```

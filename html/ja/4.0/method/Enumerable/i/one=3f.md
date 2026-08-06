@@ -1,0 +1,26 @@
+# Enumerable#one?
+
+### def one?                -> bool
+### def one?{|obj| ... }    -> bool
+### def one?(pattern)       -> bool
+
+ブロックを指定しない場合は、 Enumerable オブジェクトの要素のうちちょうど一つだけが真であれば、真を返します。
+そうでなければ偽を返します。
+
+ブロックを指定した場合は、Enumerable オブジェクトの要素をブロックで評価した結果、一つの要素だけが真であれば真を返します。
+そうでなければ偽を返します。
+
+- **param** `pattern` -- ブロックの代わりに各要素に対して pattern === item を評価します。
+
+```ruby title="例"
+require 'set'
+p Set['ant', 'bear', 'cat'].one? {|word| word.length == 4}  # => true
+p Set['ant', 'bear', 'cat'].one? {|word| word.length > 4} # => false
+p Set['ant', 'bear', 'cat'].one?(/t/)                     # => false
+p Set[nil, true, 99].one?                                 # => false
+p Set[nil, true, false].one?                              # => true
+p Set[nil, true, 99].one?(Integer)                        # => true
+p Set[].one?                                              # => false
+```
+
+- **SEE** [Array#one?](../../../method/Array/i/one=3f.md)

@@ -1,0 +1,9 @@
+# Net::IMAP::ContentDisposition#dsp_type
+
+### def dsp_type -> String
+
+Content-Disposition フィールドのタイプを文字列で返します。
+
+"INLINE", "ATTACHMENT" などの文字列を返します。
+
+詳しくは [RFC:2183] などを見てください。

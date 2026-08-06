@@ -1,0 +1,5 @@
+# rb_ary_delete
+
+### VALUE rb_ary_delete(VALUE ary, VALUE item)
+
+ary.delete

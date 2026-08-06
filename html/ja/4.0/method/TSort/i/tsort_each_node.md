@@ -1,0 +1,9 @@
+# TSort#tsort_each_node
+
+### def tsort_each_node {|node| ...} -> ()
+
+TSort で拡張されるクラスで定義されていなければならないメソッドです。
+
+tsort_each_node is used to iterate for all nodes over a graph.
+
+- **raise** `NotImplementedError` -- TSort で拡張されるクラスで定義されていない場合発生します。

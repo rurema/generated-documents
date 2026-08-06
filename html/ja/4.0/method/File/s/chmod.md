@@ -1,0 +1,11 @@
+# File.chmod
+
+### def File.chmod(mode, *filename)    -> Integer
+
+ファイルのモードを mode に変更します。モードを変更したファイルの数を返します。
+
+- **param** `filename` -- ファイル名を表す文字列を指定します。
+
+- **param** `mode` -- [man:chmod(2)] と同様に整数で指定します。
+
+- **raise** `Errno::EXXX` -- モードの変更に失敗した場合に発生します。

@@ -1,0 +1,5 @@
+# rb_str_substr
+
+### VALUE rb_str_substr(VALUE str, long beg, long len)
+
+str[beg, len]

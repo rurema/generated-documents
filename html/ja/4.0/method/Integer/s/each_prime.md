@@ -1,0 +1,13 @@
+# Integer.each_prime
+
+### def Integer.each_prime(upper_bound){|prime| ... } -> object
+### def Integer.each_prime(upper_bound) -> Enumerator
+
+全ての素数を列挙し、それぞれの素数をブロックに渡して評価します。
+
+- **param** `upper_bound` -- 任意の正の整数を指定します。列挙の上界です。
+                   nil が与えられた場合は無限に列挙し続けます。
+- **return** -- ブロックの最後に評価された値を返します。
+        ブロックが与えられなかった場合は、[Enumerator](../../../class/Enumerator.md) と互換性のある外部イテレータを返します。
+
+- **SEE** [Prime#each](../../../method/Prime/i/each.md)

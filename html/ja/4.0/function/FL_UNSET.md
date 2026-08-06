@@ -1,0 +1,5 @@
+# FL_UNSET
+
+### void FL_UNSET(VALUE x, int f)
+
+x のフラグ f をクリアする。

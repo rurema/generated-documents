@@ -1,0 +1,25 @@
+# GC.stress=
+
+### def GC.stress=(value)
+
+GCのストレスモードを引数 value に設定します。
+引数 value が真に設定されている間は、GC を行えるすべての機会に GC を行います。
+
+この機能はデバッグ用途に提供されています。ストレスモードを有効にするとプログラムのパフォーマンスが低下します。
+
+- **param** `value` -- 任意のオブジェクト。整数以外の値を指定した場合は真偽値として解釈されます。
+             整数を指定する場合は以下のフラグをOR演算した値を指定します。
+- **`0x01`**:
+  マイナー GC を動作させる場合に指定します。
+- **`0x02`**:
+  sweep を遅らせる(Lazy Sweep を行う)に指定します。
+- **`0x04`**:
+  malloc/calloc/realloc の後でメジャーGCを動作させる場合に指定します。
+
+  ```ruby title="例"
+  p GC.stress # => false
+  GC.stress = true
+  p GC.stress # => true
+  ```
+
+- **SEE** [GC.stress](../../../method/GC/s/stress.md)

@@ -1,0 +1,16 @@
+# RubyVM::YJIT.runtime_stats
+
+### def RubyVM::YJIT.runtime_stats(key = nil) -> Hash | object | nil
+
+`--yjit-stats` コマンドラインオプションを指定して収集した統計情報を返します。
+
+- **param** `key` -- Symbol を指定すると、そのキーに対応する値のみを返します。
+  (Ruby 3.4 で追加された引数です)
+- **return** -- `key` を指定しない場合は統計情報のハッシュを返します。`key` を指定した場合は
+  対応する値を返します。統計収集が無効な場合は `nil` を返します。
+- **raise** `TypeError` -- `key` に Symbol 以外(`nil` を除く)を指定した場合に発生します。
+
+統計情報の内容(キー)はバージョンによって増減します。詳細はビルド時の設定やコマンドラインオプションに依存するため、本ページでは個々のキーの説明は省略します。
+
+
+- **SEE** [RubyVM::YJIT.stats_enabled?](../../../method/RubyVM=3a=3aYJIT/s/stats_enabled=3f.md), [RubyVM::YJIT.reset_stats!](../../../method/RubyVM=3a=3aYJIT/s/reset_stats=21.md)

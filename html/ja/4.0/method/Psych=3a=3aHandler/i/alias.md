@@ -1,0 +1,22 @@
+# Psych::Handler#alias
+
+### def alias(anchor) -> ()
+
+anchor という名前の alias を見付けたときに呼び出されます。
+
+必要に応じてこのメソッドを override してください。
+
+- **param** `anchor` -- aliasのアンカー文字列
+
+### 例
+
+以下の YAMLドキュメントは自分自身への参照を持つ配列を表しています。
+
+```yaml
+--- &ponies
+- first element
+- *ponies
+```
+
+この &ponies が anchor で *ponies が alias です。この場合、
+alias メソッドは "poines" という引数で呼び出されます。

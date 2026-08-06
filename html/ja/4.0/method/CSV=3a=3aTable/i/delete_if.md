@@ -1,0 +1,32 @@
+# CSV::Table#delete_if
+
+### def delete_if{|row| ... } -> self
+### def delete_if{|column_name, values| ... } -> self
+
+ブロックを評価した結果が真である行か列を削除します。
+
+デフォルトのミックスモードかロウモードでは、行単位で繰り返します。カラムモードでは、ブロックに列名と対応する値の配列を与え、列単位で繰り返します。
+
+```ruby title="例 ロウモード"
+require "csv"
+
+row1 = CSV::Row.new(["header1", "header2"], ["row1_1", "valid"])
+row2 = CSV::Row.new(["header1", "header2"], ["row2_1", "invalid"])
+row3 = CSV::Row.new(["header1", "header2"], ["row3_1", "valid"])
+table = CSV::Table.new([row1, row2, row3])
+table.delete_if { |row| row["header2"] == "invalid" }
+p table.to_a # => [["header1", "header2"], ["row1_1", "valid"], ["row3_1", "valid"]]
+```
+
+```ruby title="例 カラムモード"
+require "csv"
+row1 = CSV::Row.new(["id", "name"], [1, "tanaka"])
+row2 = CSV::Row.new(["id", "name"], [2, "suzuki"])
+row3 = CSV::Row.new(["id", "name"], [3, "sato"])
+table = CSV::Table.new([row1, row2, row3])
+table.by_col!
+table.delete_if { |column_name, values| column_name == "id" }
+p table.to_a # => [["name"], ["tanaka"], ["suzuki"], ["sato"]]
+```
+
+- **SEE** [CSV::Table#delete](../../../method/CSV=3a=3aTable/i/delete.md)

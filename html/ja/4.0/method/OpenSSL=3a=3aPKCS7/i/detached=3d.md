@@ -1,0 +1,10 @@
+# OpenSSL::PKCS7#detached=
+
+### def detached=(b)
+
+平文に署名を付ける形式(multipart/signed)かどうかを設定します。
+
+このメソッドは使わないでください。
+このメソッドは PKCS#7 の低レベル API であり、正しく使うのは難しいでしょう。
+
+- **param** `b` -- 設定する真偽値

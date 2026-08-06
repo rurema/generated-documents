@@ -1,0 +1,30 @@
+# Thread#add_trace_func
+
+### def add_trace_func(pr) -> Proc
+
+スレッドにトレース用ハンドラを追加します。
+
+追加したハンドラを返します。
+
+- **param** `pr` -- トレースハンドラ([Proc](../../../class/Proc.md) オブジェクト)
+
+```ruby title="例"
+th = Thread.new do
+  class Trace
+  end
+  43.to_s
+end
+th.add_trace_func lambda {|*arg| p arg }
+th.join
+
+# => ["line", "example.rb", 4, nil, #<Binding:0x00007f98e107d0d8>, nil]
+# => ["c-call", "example.rb", 4, :inherited, #<Binding:0x00007f98e1087448>, Class]
+# => ["c-return", "example.rb", 4, :inherited, #<Binding:0x00007f98e1085d00>, Class]
+# => ["class", "example.rb", 4, nil, #<Binding:0x00007f98e108f210>, nil]
+# => ["end", "example.rb", 5, nil, #<Binding:0x00007f98e108e5e0>, nil]
+# => ["line", "example.rb", 6, nil, #<Binding:0x00007f98e108d4b0>, nil]
+# => ["c-call", "example.rb", 6, :to_s, #<Binding:0x00007f98e1097aa0>, Integer]
+# => ["c-return", "example.rb", 6, :to_s, #<Binding:0x00007f98e1095cc8>, Integer]
+```
+
+- **SEE** [Thread#set_trace_func](../../../method/Thread/i/set_trace_func.md) [Kernel?.set_trace_func](../../../method/Kernel/m/set_trace_func.md)

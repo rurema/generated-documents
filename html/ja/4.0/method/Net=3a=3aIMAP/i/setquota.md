@@ -1,0 +1,17 @@
+# Net::IMAP#setquota
+
+### def setquota(mailbox, quota) -> Net::IMAP::TaggedResponse
+
+SETQUOTA コマンドを送り、指定したメールボックスに
+quota を設定します。
+
+quota が nil ならば、mailbox の quota を破棄します。
+quota が整数なら STORAGE をその値に変更します。
+
+詳しくは [RFC:2087] を見てください。
+このコマンドは [Net::IMAP#capability](../../../method/Net=3a=3aIMAP/i/capability.md) の返り値を見ることで利用可能かどうか判断できます。
+
+- **param** `mailbox` -- quota を設定するメールボックス名(文字列)
+- **param** `quota` -- quotaの値(ストレージのサイズ、もしくは nil)
+- **raise** `Net::IMAP::NoResponseError` -- 指定したメールボックスが quota root 
+       でない場合、もしくは権限が存在しない場合に発生します。

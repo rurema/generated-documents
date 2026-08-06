@@ -1,0 +1,9 @@
+# OpenSSL::Engine#cipher
+
+### def cipher(name) -> OpenSSL::Cipher
+
+engine から暗号化/復号化オブジェクトを生成します。
+
+- **param** `name` -- 暗号化方式名(文字列)
+- **raise** `OpenSSL::Engine::EngineError` -- 指定した暗号化方式が存在しない、もしくは
+       engine がサポートしていない場合に発生します。

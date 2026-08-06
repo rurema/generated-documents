@@ -1,0 +1,17 @@
+# File.lstat
+
+### def File.lstat(filename)   -> File::Stat
+
+[File.stat](../../../method/File/s/stat.md)と同様ですが、シンボリックリンクに関してリンクそのものの情報を File::Stat として返します。[man:lstat(2)] を実装していないシステムでは、File.stat と同じです。
+
+- **param** `filename` -- ファイル名を表す文字列を指定します。 
+
+- **raise** `Errno::EXXX` -- 情報の取得に失敗した場合に発生します。
+
+```ruby title="例"
+# link.rb は t.rb のシンボリックリンク
+p File.lstat("link.rb") == File.stat("t.rb") # => false
+p File.stat("link.rb")  == File.stat("t.rb") # => true
+```
+
+- **SEE** [IO#stat](../../../method/IO/i/stat.md), [File#lstat](../../../method/File/i/lstat.md)

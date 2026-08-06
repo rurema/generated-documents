@@ -1,0 +1,41 @@
+# Module#const_defined?
+
+### def const_defined?(name, inherit = true) -> bool
+
+モジュールに name で指定される名前の定数が定義されている時真を返します。
+
+スーパークラスや include したモジュールで定義された定数を検索対象にするかどうかは第二引数で制御できます。
+
+- **param** `name` -- [String](../../../class/String.md), [Symbol](../../../class/Symbol.md) で指定される定数名。
+
+- **param** `inherit` -- false を指定するとスーパークラスや include したモジュールで
+       定義された定数は対象にはなりません。
+
+```ruby title="例"
+module Kernel
+  ANSWER = 42
+end
+
+# Object は include したモジュールの定数に対しても
+# true を返す
+p Object.const_defined?(:ANSWER)        # => true
+
+module Greeting
+  HELLO = 'hello'
+end
+class Object
+  include Greeting
+end
+# ユーザ定義のモジュールに対しても同様
+p Object.const_defined?(:HELLO)         # => true
+
+class Robot
+  include Greeting
+end
+# Object 以外でも同様になった
+# 第二引数のデフォルト値が true であるため
+p Robot.const_defined?(:HELLO)          # => true
+
+# 第二引数を false にした場合
+p Robot.const_defined?(:HELLO, false)   # => false
+```

@@ -1,0 +1,20 @@
+# REXML::Element#namespace
+
+### def namespace(prefix=nil) -> String
+
+self の文脈で prefix が指している名前空間の URI を返します。
+
+prefix を省略すると、デフォルトの名前空間の URI を返します。
+
+prefix で指示される名前空間の宣言が存在しない場合は nil を返します。
+
+```ruby
+require 'rexml/document'
+doc = REXML::Document.new("<a xmlns='1' xmlns:y='2'><b/><c xmlns:z='3'/><y:d /></a>")
+b = doc.elements['//b']
+p b.namespace    # => "1"
+p b.namespace("y") # => "2"
+p b.namespace("z") # => nil
+d = doc.elements['//y:d']
+p d.namespace    # => "2"
+```

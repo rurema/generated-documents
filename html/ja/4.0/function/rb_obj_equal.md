@@ -1,0 +1,5 @@
+# rb_obj_equal
+
+### static VALUE rb_obj_equal(VALUE obj1, VALUE obj2)
+
+obj1 と obj2 が同一のオブジェクトなら真。

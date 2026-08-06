@@ -1,0 +1,10 @@
+# WEBrick::AccessLog::COMBINED_LOG_FORMAT
+
+### const COMBINED_LOG_FORMAT -> String
+
+Apache のアクセスログで一般的に使われる形式を表す文字列です。
+
+- **return** -- 以下の文字列を返します。
+  ```text
+    "%h %l %u %t \"%r\" %s %b \"%{Referer}i\" \"%{User-agent}i\""
+  ```

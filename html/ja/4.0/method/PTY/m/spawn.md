@@ -1,0 +1,20 @@
+# PTY?.spawn
+
+### module_function def getpty(command)                          -> [IO, IO, Integer]
+### module_function def getpty(command){|read, write, pid| ... } -> nil
+### module_function def spawn(command)                           -> [IO, IO, Integer]
+### module_function def spawn(command){|read, write, pid| ... }  -> nil
+
+擬似 tty を確保し、指定されたコマンドをその擬似 tty の向こうで実行し、配列を返します。
+
+プラットフォームに依存しますが、対応していれば、作られたプロセスはセッションリーダーになり、その制御端末は作成された擬似 tty に設定されます。
+
+- **param** `command` -- 擬似 tty 上で実行するコマンド
+
+- **return** -- 返値は3つの要素からなる配列です。最初の要素は擬似 tty から
+        読み出すための IO オブジェクト、2番目の要素は書きこむための IO オブジェクト、
+        3番目の要素は子プロセスのプロセス ID です。
+        このメソッドがブロック付き呼ばれた場合、これらの要素はブロックパラメータとして渡され、
+        メソッド自体は nil を返します。
+
+- **SEE** [Kernel?.spawn](../../../method/Kernel/m/spawn.md), [Kernel?.system](../../../method/Kernel/m/system.md), [IO.popen](../../../method/IO/s/popen.md), [man:signal(2)]

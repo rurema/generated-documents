@@ -1,0 +1,28 @@
+# Kernel?.chop
+
+### module_function def chop  -> String
+
+$_.chop とほぼ同じですが、置換が発生したときは、$_の内容を置き換える点が異なります。
+コマンドラインオプションで -p または -n を指定した時のみ定義されます。
+
+暗号的になりすぎるきらいがあるため、このメソッドの使用は推奨されていません。
+今後はより明示的な $_.chop を使ってください。
+
+$_.chopとこのメソッド chop は以下の点で違いがあります。
+
+  - chop は $_ の値をコピーして、コピーの方を更新し、
+    $_ に再代入します。
+
+```ruby title="例"
+$_ = "test\r\n"
+p $_        # => "test\r\n"
+p chop      # => "test"
+$_ = "test\n"
+p $_        # => "test\n"
+p chop      # => "test"
+$_ = "test"
+p $_        # => "test"
+p chop      # => "tes"
+```
+
+- **SEE** [String#chop](../../../method/String/i/chop.md),[m:$_]

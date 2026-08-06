@@ -1,0 +1,27 @@
+# OpenSSL::SSL::SSLContext#renegotiation_cb=
+
+### def renegotiation_cb=(cb)
+@todo
+
+ハンドシェイク開始時に呼び出されるコールバックを設定します。
+
+コールバックには [OpenSSL::SSL::SSLSocket](../../../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.md) オブジェクトが渡されます。
+
+このコールバック内で何らかの例外が生じた場合には以降のSSLの処理を停止します。
+
+再ネゴシエーションのたびにこのコールバックが呼び出されるため、何らかの理由で再ネゴシエーションを禁止したい場合などに利用できます。
+
+nil を渡すとコールバックは無効になります。
+
+以下の例は再ネゴシエーションを一切禁止します。
+
+```ruby
+num_handshakes = 0
+ctx.renegotiation_cb = lambda do |ssl|
+  num_handshakes += 1
+  raise RuntimeError.new("Client renegotiation disabled") if num_handshakes > 1
+end
+```
+
+- **param** `cb` -- コールバック(Proc, Method など)もしくは nil
+- **SEE** [OpenSSL::SSL::SSLContext#renegotiation_cb](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/renegotiation_cb.md)

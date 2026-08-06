@@ -1,0 +1,12 @@
+# Encoding::WINDOWS_1250
+
+### const Windows_1250 -> Encoding
+### const CP1250 -> Encoding
+### const WINDOWS_1250 -> Encoding
+
+Windows-1250 エンコーディング。
+
+ISO8859-2 の亜種です。
+
+- **SEE** <https://web.archive.org/web/20060207020926/http://www.microsoft.com/globaldev/reference/sbcs/1250.mspx>,
+     <https://en.wikipedia.org/wiki/Windows-1250>

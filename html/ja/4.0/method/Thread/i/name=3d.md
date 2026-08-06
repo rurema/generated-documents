@@ -1,0 +1,19 @@
+# Thread#name=
+
+### def name=(name)
+
+self の名前を name に設定します。
+
+プラットフォームによっては pthread やカーネルにも設定を行う場合があります。
+
+- **raise** `ArgumentError` -- 引数に ASCII 互換ではないエンコーディングのものを
+                     指定した場合に発生します。
+
+```ruby title="例"
+a = Thread.new{}
+a.name = 'named'
+p a.name    # => "named"
+p a.inspect # => "#<Thread:0x00007f85ac8721f0@named (irb):1 dead>"
+```
+
+- **SEE** [Thread#name](../../../method/Thread/i/name.md)

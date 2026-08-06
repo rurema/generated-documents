@@ -1,0 +1,66 @@
+# IO#each_line
+
+### def each(rs = $/, chomp: false) {|line| ... }         -> self
+### def each(limit, chomp: false) {|line| ... }           -> self
+### def each(rs, limit, chomp: false) {|line| ... }       -> self
+### def each(rs = $/, chomp: false)                       -> Enumerator
+### def each(limit, chomp: false)                         -> Enumerator
+### def each(rs, limit, chomp: false)                     -> Enumerator
+### def each_line(rs = $/, chomp: false) {|line| ... }    -> self
+### def each_line(limit, chomp: false) {|line| ... }      -> self
+### def each_line(rs, limit, chomp: false) {|line| ... }  -> self
+### def each_line(rs = $/, chomp: false)                  -> Enumerator
+### def each_line(limit, chomp: false)                    -> Enumerator
+### def each_line(rs, limit, chomp: false)                -> Enumerator
+
+IO の現在位置から 1 行ずつ文字列として読み込み、それを引数として与えられたブロックを実行します。
+
+ブロックが与えられなかった場合は、自身から生成した
+[Enumerator](../../../class/Enumerator.md) オブジェクトを返します。
+
+テキスト読み込みメソッドとして動作します。
+
+limit で最大読み込みバイト数を指定します。ただしマルチバイト文字が途中で切れないように余分に読み込む場合があります。
+
+- **param** `rs` -- 行の区切りを文字列で指定します。rs に nil を指定すると行区切りなしとみなします。
+          空文字列 "" を指定すると連続する改行を行の区切りとみなします(パラグラフモード)。
+- **param** `limit` -- 最大の読み込みバイト数
+- **param** `chomp` -- true を指定すると各行の末尾から "\n", "\r", または "\r\n" を取り除きます。
+
+- **raise** `IOError` -- 自身が読み込み用にオープンされていなければ発生します。
+
+```ruby title="例: 引数なし"
+IO.write("testfile", "This is line one,\nThis is line two,\nThis is line three,\nAnd so on...")
+f = File.new("testfile")
+f.each { |line| p "#{f.lineno}: #{line}" }
+# => "1: This is line one,\n"
+# "2: This is line two,\n"
+# "3: This is line three,\n"
+# "4: And so on..."
+```
+
+```ruby title="例: 行の区切りに半角カンマ、最大読み取りバイト数に 10 を指定"
+IO.write("testfile", "This is line one,This is line two,This is line three,And so on...")
+f = File.new("testfile")
+f.each(",", 10) { |line| p "#{f.lineno}: #{line}" }
+# => "0: This is li"
+# "1: ne one,"
+# "1: This is li"
+# "2: ne two,"
+# "2: This is li"
+# "3: ne three,"
+# "3: And so on."
+# "4: .."
+```
+
+```ruby title="例: chomp = true"
+IO.write("testfile", "This is line one\nThis is line two\nThis is line three\nAnd so on...")
+f = File.new("testfile")
+f.each(chomp: true) { |line| p "#{f.lineno}: #{line}" }
+# => "1: This is line one"
+# "2: This is line two"
+# "3: This is line three"
+# "4: And so on..."
+```
+
+- **SEE** [m:$/], [IO#gets](../../../method/IO/i/gets.md)

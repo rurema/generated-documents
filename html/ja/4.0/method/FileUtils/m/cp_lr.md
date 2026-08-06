@@ -1,0 +1,45 @@
+# FileUtils?.cp_lr
+
+### module_function def cp_lr(src, dest, noop: nil, verbose: nil, dereference_root: true, remove_destination: false)
+
+src へのハードリンク dest を作成します。
+src がディレクトリの場合、再帰的にリンクします。
+dest がディレクトリの場合、src へのハードリンク dest/src を作成します。
+
+- **param** `src` -- リンク元。一つの場合は文字列でも指定可能です。
+           二つ以上指定する場合は配列で指定します。
+
+- **param** `dest` -- リンク作成先のファイルかディレクトリです。
+
+- **param** `noop` -- 真を指定すると実際の処理は行いません。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+- **param** `dereference_root` -- 真を指定すると src についてだけシンボリックリンクの指す
+                        内容をコピーします。偽の場合はシンボリックリンク自体をコピーします。
+
+- **param** `remove_destination` -- 真を指定するとコピーを実行する前にコピー先を削除します。
+
+- **raise** `ArgumentError` -- dest が src に含まれる場合に発生します。
+- **raise** `Errno::EEXIST` -- src が一つで dest がすでに存在しディレクトリでない場合に発生します。
+- **raise** `Errno::ENOTDIR` -- src が複数で dest がディレクトリでない場合に発生します。
+
+```ruby title="\"mylib\" ライブラリを site_ruby にインストールする例"
+require 'fileutils'
+FileUtils.rm_r site_ruby + '/mylib', force: true
+FileUtils.cp_lr 'lib/', site_ruby + '/mylib'
+```
+
+```ruby title="様々なファイルを対象ディレクトリにリンクする例"
+require 'fileutils'
+FileUtils.cp_lr %w(mail.rb field.rb debug/), site_ruby + '/tmail'
+FileUtils.cp_lr Dir.glob('*.rb'), '/home/aamine/lib/ruby', noop: true, verbose: true
+```
+
+```ruby title="内容をリンクする例"
+require 'fileutils'
+# ディレクトリそのものではなく、ディレクトリの内容をリンクしたい場合は、
+# 以下のようになります。(たとえば src/x -> dest/x, src/y -> dest/y)
+FileUtils.cp_lr 'src/.', 'dest'
+# FileUtils.cp_lr('src', 'dest') は dest ディレクトリが存在すれば dest/src を作成しますが、この例はしません。
+```

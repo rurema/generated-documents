@@ -1,0 +1,13 @@
+# Process::Sys?.setregid
+
+### module_function def setregid(rid, eid)    -> nil
+
+システムコールの [man:setregid(2)] を呼びます。
+
+- **param** `rid` -- システムコールの引数を整数で指定します。
+
+- **param** `eid` -- システムコールの引数を整数で指定します。
+
+- **raise** `NotImplementedError` -- システムコールが現在のプラットフォームで提供されていない場合に発生します。
+
+- **raise** `Errno::EXXX` -- システムコールに失敗した場合に発生します。

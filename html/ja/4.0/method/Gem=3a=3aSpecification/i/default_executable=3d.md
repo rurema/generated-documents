@@ -1,0 +1,7 @@
+# Gem::Specification#default_executable=
+
+### def default_executable=(executable)
+
+Gem パッケージ内で gem コマンド経由で実行するファイルをセットします。
+
+- **param** `executable` -- 実行ファイルを指定します。

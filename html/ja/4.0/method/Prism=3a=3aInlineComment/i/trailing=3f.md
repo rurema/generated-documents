@@ -1,0 +1,17 @@
+# Prism::InlineComment#trailing?
+
+### def trailing? -> bool
+
+コードの後ろに続く行末コメントであれば true を、行頭(または空白だけ)
+から始まる独立した行のコメントであれば false を返します。
+
+```ruby title="例"
+require "prism"
+
+comments = Prism.parse(<<~RUBY).comments
+  # 独立した行のコメント
+  1 + 1 # 行末コメント
+RUBY
+p comments[0].trailing? # => false
+p comments[1].trailing? # => true
+```

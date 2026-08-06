@@ -1,0 +1,23 @@
+# Rake::FileList#excluded_from_list?
+
+### def excluded_from_list?(file_name) -> bool
+
+与えられたファイル名が除外される場合は、真を返します。
+そうでない場合は偽を返します。
+
+- **param** `file_name` -- ファイル名を指定します。
+
+```ruby
+# Rakefile での記載例とする
+
+IO.write("test1.rb", "test")
+IO.write("test2.rb", "test")
+
+task default: :test_rake_app
+task :test_rake_app do
+  file_list = FileList.new("test1.rb", "test2.rb")
+  file_list.exclude("test1.rb")
+  p file_list.excluded_from_list?("test1.rb") # => true
+  p file_list.excluded_from_list?("test2.rb") # => false
+end
+```

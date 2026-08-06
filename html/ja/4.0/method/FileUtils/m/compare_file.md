@@ -1,0 +1,17 @@
+# FileUtils?.compare_file
+
+### module_function def cmp(file_a, file_b)          -> bool
+### module_function def compare_file(file_a, file_b) -> bool
+### module_function def identical?(file_a, file_b)   -> bool
+
+ファイル file_a と file_b の内容が同じなら真を返します。
+
+- **param** `file_a` -- ファイル名。
+
+- **param** `file_b` -- ファイル名。
+
+```ruby
+require 'fileutils'
+p FileUtils.cmp('somefile', 'somefile')    #=> true
+p FileUtils.cmp('/dev/null', '/dev/urandom') #=> false
+```

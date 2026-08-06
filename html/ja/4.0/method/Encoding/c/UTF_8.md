@@ -1,0 +1,10 @@
+# Encoding::UTF_8
+
+### const UTF_8 -> Encoding
+### const CP65001 -> Encoding
+
+UTF-8。Unicode や ISO 10646 を ASCII 互換な形で符号化するための方式です。
+
+BOM を含みません。
+
+- **SEE** <https://tools.ietf.org/html/rfc3629>

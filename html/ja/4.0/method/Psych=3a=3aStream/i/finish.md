@@ -1,0 +1,5 @@
+# Psych::Stream#finish
+
+### def finish -> ()
+
+YAML document への変換を完了し、io への出力を完了します。

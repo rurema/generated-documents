@@ -1,0 +1,7 @@
+# REXML::SAX2Listener#end_prefix_mapping
+
+### def end_prefix_mapping(prefix) -> ()
+
+名前空間の接頭辞(prefix)の適用範囲が終了したときに呼び出されるコールバックメソッドです。
+
+- **param** `prefix` -- 接頭辞の文字列が渡されます

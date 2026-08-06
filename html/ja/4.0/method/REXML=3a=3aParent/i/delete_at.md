@@ -1,0 +1,8 @@
+# REXML::Parent#delete_at
+
+### def delete_at(index) -> REXML::Child | nil
+
+子ノード列上の index で指定された場所の要素を取り除きます。
+
+取り除いだノードを返します。indexが範囲外である場合は何もせず
+nil を返します。

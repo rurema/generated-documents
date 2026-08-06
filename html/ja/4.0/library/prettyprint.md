@@ -1,0 +1,47 @@
+# library prettyprint
+
+pretty printing アルゴリズムのためのライブラリです。
+
+### 使い方
+
+pretty printing アルゴリズムは読みやすいインデントと改行を決定するためのアルゴリズムです。
+インデントと改行はユーザによって与えられたツリー構造から決定されます。
+つまりユーザは以下のように表示したい内容を保持したツリーを作成する必要があります。
+
+- [PrettyPrint.new](../method/PrettyPrint/s/new.md) でバッファを生成します。このとき、バッファの幅と改行文字を指定します。
+- [PrettyPrint#text](../method/PrettyPrint/i/text.md) を使って、文字列を適宜 挿入します。
+- [PrettyPrint#group](../method/PrettyPrint/i/group.md) を使って子ノードをつくります。同時に子ノードのインデントの深さも決めます。
+- [PrettyPrint#breakable](../method/PrettyPrint/i/breakable.md) を使って改行しても良い場所を指定します。
+
+同じノード内で呼ばれた breakable は、改行するならば全て同時に改行します。
+
+```ruby
+require 'prettyprint'
+
+p2 = PrettyPrint.new('', 10)
+s = 'hello'
+p2.text(s)
+p2.group(p2.indent + s.size + 1) do
+  p2.breakable
+  p2.text('a')
+  p2.breakable
+  p2.text('b')
+  p2.breakable
+  p2.text('c')
+end
+p2.flush
+puts p2.output
+#=>
+# hello
+#       a
+#       b
+#       c
+```
+
+### References
+
+Christian Lindig, Strictly Pretty, March 2000,
+<http://www.st.cs.uni-sb.de/~lindig/papers/pretty/strictly-pretty.html>
+
+Philip Wadler, A prettier printer, March 1998,
+<https://homepages.inf.ed.ac.uk/wadler/topics/language-design.html#prettier>

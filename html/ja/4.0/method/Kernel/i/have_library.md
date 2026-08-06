@@ -1,0 +1,15 @@
+# Kernel#have_library
+
+### def have_library(lib, func = nil, headers = nil) -> bool
+### def have_library(lib, func = nil, headers = nil){ ... } -> bool
+
+ライブラリ lib がシステムに存在し、関数 func が定義されているかどうかをチェックします。
+チェックが成功すれば [m:$libs] に lib を追加し true を返します。
+チェックが失敗したら false を返します。
+
+- **param** `lib` -- ライブラリの名前を指定します。
+
+- **param** `func` -- 検査する関数名を指定します。
+            nil または空文字列のときは、"main" になります。
+
+- **param** `headers` -- 追加のヘッダファイルを指定します。

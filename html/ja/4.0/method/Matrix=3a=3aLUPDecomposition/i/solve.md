@@ -1,0 +1,21 @@
+# Matrix::LUPDecomposition#solve
+
+### def solve(b) -> Vector | Matrix
+
+self が正方行列 A の LUP 分解の時、一次方程式 Ax = b の解を返します。
+b には [Vector](../../../class/Vector.md), [Matrix](../../../class/Matrix.md), 数値の配列を指定出来ます。
+
+それぞれベクトルのサイズ、行列の行数、配列のサイズが A の列数と一致していなければなりません。
+返り値は b が行列なら行列、それ以外はベクトルになります。
+
+- **param** `b` -- 一次方程式の定数項を指定します。
+
+```ruby
+require 'matrix'
+
+lup = Matrix[[2, 1], [1, 2]].lup
+
+p lup.solve([1, -1])                #=> Vector[(1/1), (-1/1)]
+p lup.solve(Vector[3, 0])           #=> Vector[(2/1), (-1/1)]
+p lup.solve(Matrix[[1, 3], [-1, 0]])  #=> Matrix[[(1/1), (2/1)], [(-1/1), (-1/1)]]
+```

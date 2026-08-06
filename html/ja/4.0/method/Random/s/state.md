@@ -1,0 +1,5 @@
+# Random.state
+
+### def Random.state -> Integer
+
+C言語レベルで定義されている構造体MTの静的変数default_randの状態を参照します。詳しくはrandom.c を参照してください。

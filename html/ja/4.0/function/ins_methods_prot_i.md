@@ -1,0 +1,6 @@
+# ins_methods_prot_i
+
+### static int ins_methods_prot_i(ID key, NODE *body, VALUE ary)
+
+rb_class_instance_methods() のイテレータブロック
+(protected メソッド版)。

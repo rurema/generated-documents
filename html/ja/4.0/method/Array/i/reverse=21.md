@@ -1,0 +1,18 @@
+# Array#reverse!
+
+### def reverse     -> Array
+### def reverse!    -> self
+
+reverse は自身の要素を逆順に並べた新しい配列を生成して返します。
+reverse! は自身を破壊的に並べ替えます。
+reverse! は self を返します。
+
+```ruby title="例"
+a = ["a", 2, true]
+p a.reverse         #=> [true, 2, "a"]
+p a                 #=> ["a", 2, true] (変化なし)
+
+a = ["a", 2, true]
+p a.reverse!        #=> [true, 2, "a"]
+p a                 #=> [true, 2, "a"]
+```

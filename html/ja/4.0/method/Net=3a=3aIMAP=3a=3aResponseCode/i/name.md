@@ -1,0 +1,7 @@
+# Net::IMAP::ResponseCode#name
+
+### def name -> String
+
+レスポンスコードを表す文字列を返します。
+ 
+"ALERT"、"PERMANENTFLAGS"、"UIDVALIDITY" などを返します。

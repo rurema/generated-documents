@@ -1,0 +1,30 @@
+# Enumerator#with_index
+
+### def with_index(offset = 0) {|(*args), idx| ... } -> object
+### def with_index(offset = 0) -> Enumerator
+
+生成時のパラメータに従って、要素にインデックスを添えて繰り返します。
+インデックスは offset から始まります。
+
+ブロックを指定した場合の戻り値は生成時に指定したレシーバ自身です。
+
+```ruby title="例"
+str = "xyz"
+
+enum = Enumerator.new {|y| str.each_byte {|b| y << b }}
+enum.with_index {|byte, idx| p [byte, idx] }
+    # => [120, 0]
+    #    [121, 1]
+    #    [122, 2]
+
+require "stringio"
+StringIO.new("foo|bar|baz").each("|").with_index(1) {|s, i| p [s, i] }
+    # => ["foo|", 1]
+    #    ["bar|", 2]
+    #    ["baz", 3]
+```
+
+生成時のパラメータに従って、要素にインデックスを添えてブロックを繰り返します。
+インデックスは 0 から始まります。
+[Enumerator#with_index](../../../method/Enumerator/i/with_index.md) は offset 引数を受け取りますが、
+each_with_index は受け取りません (引数はイテレータメソッドにそのまま渡されます)。

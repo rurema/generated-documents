@@ -1,0 +1,7 @@
+# Float::DIG
+
+### const DIG -> Integer
+
+`Float` が表現できる最大の 10 進桁数です。
+
+通常はデフォルトで 15 です。

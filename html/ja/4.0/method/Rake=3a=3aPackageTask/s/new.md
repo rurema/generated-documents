@@ -1,0 +1,27 @@
+# Rake::PackageTask.new
+
+### def Rake::PackageTask.new(name = nil, version = nil){|t| ... } -> Rake::PackageTask
+
+自身を初期化してタスクを定義します。
+
+ブロックが与えられた場合は、自身をブロックパラメータとしてブロックを評価します。
+
+- **param** `name` -- パッケージ名を指定します。
+
+- **param** `version` -- パッケージのバージョンを指定します。
+               ':noversion' というシンボルを指定するとバージョン情報をセットしません。
+
+```ruby
+# Rakefile での記載例とする
+require 'rake/packagetask'
+
+Rake::PackageTask.new("sample", "1.0.0") do |package_task|
+  package_task.package_dir = "./pkg"
+  package_task.package_files.include("lib/**/*")
+end
+
+# rake -T を実行すると以下になる
+# => rake clobber_package  # Remove package products
+#    rake package          # Build all the packages
+#    rake repackage        # Force a rebuild of the package files
+```

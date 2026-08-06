@@ -1,0 +1,17 @@
+# FileTest?.grpowned?
+
+### module_function def grpowned?(file)    -> bool
+
+ファイルのグループ ID がカレントプロセスの実効グループ ID と等しい時に真を返します。そうでない場合、ファイルが存在しない場合、あるいはシステムコールに失敗した場合などには false を返します。
+
+- **param** `file` -- ファイル名を表す文字列か IO オブジェクトを指定します。
+
+- **raise** `IOError` -- 指定された IO オブジェクト file が既に close されていた場合に発生します。
+
+```ruby title="例"
+IO.write("testfile", "")
+File.chown(-1, Process.gid, "testfile")
+p FileTest.grpowned?("testfile")    # => true
+File.chown(-1, Process.gid + 10, "testfile")
+p FileTest.grpowned?("testfile")    # => false
+```

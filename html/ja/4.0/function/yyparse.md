@@ -1,0 +1,6 @@
+# yyparse
+
+### static int yyparse(void)
+
+パースを開始します。
+この関数は yacc が自動的に生成するので parse.y には存在しません。

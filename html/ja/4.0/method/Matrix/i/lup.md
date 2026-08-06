@@ -1,0 +1,23 @@
+# Matrix#lup
+
+### def lup -> Matrix::LUPDecomposition
+### def lup_decomposition -> Matrix::LUPDecomposition
+
+行列の LUP 分解を保持したオブジェクトを返します。
+
+[Matrix::LUPDecomposition](../../../class/Matrix=3a=3aLUPDecomposition.md) は to_ary を定義しているため、多重代入によって3つの行列(下三角行列、上三角行列、置換行列)
+を得ることができます。これを [L, U, P] と書くと、
+L*U = P*self を満たします。
+
+```ruby title="例"
+require 'matrix'
+a = Matrix[[1, 2], [3, 4]]
+l, u, p = a.lup
+p l.lower_triangular? # => true
+p u.upper_triangular? # => true
+p.permutation?      # => true
+p l * u == p * a    # => true
+p a.lup.solve([2, 5]) # => Vector[(1/1), (1/2)]
+```
+
+- **SEE** [Matrix::LUPDecomposition](../../../class/Matrix=3a=3aLUPDecomposition.md)

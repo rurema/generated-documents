@@ -1,0 +1,29 @@
+# Exception#full_message
+
+### def full_message(highlight: true, order: :bottom)  -> String
+
+例外の整形された文字列を返します。
+
+返される文字列は Ruby が捕捉されなかった例外を標準エラー出力に出力するときと同じ形式です。
+そのため、メソッド呼び出し時に $stderr が変更されておらず、$stderr.tty? が真の場合はエスケープシーケンスによる文字装飾がついています。
+
+- **param** `highlight` -- エスケープシーケンスによる文字装飾をつけるかどうかを指定します。
+                 デフォルト値は [Exception.to_tty?](../../../method/Exception/s/to_tty=3f.md) の返り値と同じです。
+
+- **param** `order` -- :top か :bottom で指定する必要があります。
+             バックトレースの一番奥がエラーメッセージの上(top)か下(bottom)かを指定します。
+             デフォルト値は [Exception.to_tty?](../../../method/Exception/s/to_tty=3f.md) が真なら :bottom で偽なら :top です。
+
+```ruby title="例"
+begin
+  raise "test"
+rescue => e
+  p e.full_message   # => "\e[1mTraceback \e[m(most recent call last):\ntest.rb:2:in '<main>': \e[1mtest (\e[4;1mRuntimeError\e[m\e[1m)\n\e[m"
+  $stderr = $stdout
+  p e.full_message   # => "test.rb:2:in '<main>': test (RuntimeError)\n"
+  $stderr = STDERR
+  p e.full_message   # => "\e[1mTraceback \e[m(most recent call last):\ntest.rb:2:in '<main>': \e[1mtest (\e[4;1mRuntimeError\e[m\e[1m)\n\e[m"
+end
+```
+
+- **SEE** [Exception.to_tty?](../../../method/Exception/s/to_tty=3f.md)

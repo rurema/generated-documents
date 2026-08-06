@@ -1,0 +1,23 @@
+# Fiber.yield
+
+### def Fiber.yield(*arg = nil)   -> object
+
+現在のファイバーの親にコンテキストを切り替えます。
+
+コンテキストの切り替えの際に [Fiber#resume](../../../method/Fiber/i/resume.md) に与えられた引数を yield メソッドは返します。
+
+- **param** `arg` -- 現在のファイバーの親に渡したいオブジェクトを指定します。
+
+- **raise** `FiberError` -- Fiber でのルートファイバーで呼ばれた場合に発生します。
+
+```ruby title="例:"
+a = nil
+f = Fiber.new do
+  a = Fiber.yield()
+end
+  
+f.resume()
+f.resume(:foo)
+
+p a  #=> :foo
+```

@@ -1,0 +1,5 @@
+# RTEST
+
+### int RTEST(VALUE obj)
+
+obj が Qfalse でも Qnil でもないとき真。

@@ -1,0 +1,5 @@
+# Etc::Passwd#change
+
+### def change -> Integer
+
+パスワード変更時間(整数)を返します。このメンバはシステム依存です。

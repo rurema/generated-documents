@@ -1,0 +1,11 @@
+# String#replace
+
+### def replace(other) -> String
+
+self の内容を other の内容で置き換えます。
+
+```ruby title="例"
+str = "foo"
+str.replace "bar"
+p str   # => "bar"
+```

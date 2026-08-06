@@ -1,0 +1,30 @@
+# CSV::DEFAULT_OPTIONS
+
+### const DEFAULT_OPTIONS -> Hash
+
+このオプションは呼び出し側で上書きしなかったときに使用するオプションです。
+
+- **`:col_sep`**:
+  ","
+- **`:row_sep`**:
+  :auto
+- **`:quote_char`**:
+  '"'
+- **`:field_size_limit`**:
+  nil
+- **`:converters`**:
+  nil
+- **`:unconverted_fields`**:
+  nil
+- **`:headers`**:
+  false
+- **`:return_headers`**:
+  false
+- **`:header_converters`**:
+  nil
+- **`:skip_blanks`**:
+  false
+- **`:force_quotes`**:
+  false
+- **`:skip_lines`**:
+  nil

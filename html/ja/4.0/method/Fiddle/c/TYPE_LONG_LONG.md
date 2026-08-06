@@ -1,0 +1,7 @@
+# Fiddle::TYPE_LONG_LONG
+
+### const TYPE_LONG_LONG -> Integer
+
+C の long long 型を表す定数。
+
+unsigned long long を表すには符号を逆転させます。

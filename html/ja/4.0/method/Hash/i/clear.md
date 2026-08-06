@@ -1,0 +1,19 @@
+# Hash#clear
+
+### def clear -> self
+
+ハッシュの中身を空にします。
+
+空にした後のselfを返します。
+デフォルト値の設定はクリアされません。
+
+```ruby title="例"
+h = Hash.new("default value")
+h[:some] = "some"
+p h #=> {:some=>"some"}
+
+h.clear
+
+p h #=> {}
+p h.default #=> "default value"
+```

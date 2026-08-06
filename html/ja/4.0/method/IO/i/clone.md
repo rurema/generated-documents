@@ -1,0 +1,23 @@
+# IO#clone
+
+### def clone    -> IO
+### def dup      -> IO
+
+レシーバと同じ IO を参照する新しい IO オブジェクトを返します。
+参照しているファイル記述子は [man:dup(2)] されます。
+
+clone の際に self は一旦 [IO#flush](../../../method/IO/i/flush.md) されます。
+フリーズした IO の clone は同様にフリーズされた IO を返しますが、
+dup は内容の等しいフリーズされていない IO を返します。
+
+- **raise** `IOError` -- 既に close されていた場合に発生します。 
+
+```ruby title="例"
+clone_io = nil
+IO.write("testfile", "test")
+File.open("testfile") do |io|
+  clone_io = io.clone
+end
+p clone_io.read # => "test"
+clone_io.close
+```

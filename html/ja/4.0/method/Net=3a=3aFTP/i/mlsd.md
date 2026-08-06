@@ -1,0 +1,55 @@
+# Net::FTP#mlsd
+
+### def mlsd(pathname = nil) -> [Net::FTP::MLSxEntry]
+### def mlsd(pathname = nil) {|entry| ... } -> ()
+
+pathname で指定したディレクトリに含まれているファイルの詳細な情報を得ます。
+
+ディレクトリの各ファイルの情報が
+[Net::FTP::MLSxEntry](../../../class/Net=3a=3aFTP=3a=3aMLSxEntry.md) のオブジェクトの配列として得られます。
+どのような情報を取り出せるかは [Net::FTP::MLSxEntry](../../../class/Net=3a=3aFTP=3a=3aMLSxEntry.md)
+を参照してください。
+[Net::FTP#list](../../../method/Net=3a=3aFTP/i/list.md) は結果が文字列で得られるため、それを適当に解釈する必要がありますが、このコマンドの結果は適切に解釈された結果を直接得ることができます。
+
+pathname を省略した場合はカレントディレクトリを指定したことになります。
+
+ブロックを渡した場合にはディレクトリの各ファイルごとにそのブロックを呼び出します。
+
+FTP の MLST コマンド [rfc:3659] を使います。FTPのLISTコマンドはその出力結果の標準化がなされていないため、標準的結果を得るコマンドとして
+MLST/MLSD が定義されました。
+
+- **param** `pathname` -- 情報を得るディレクトリ名
+- **SEE** [Net::FTP#mlst](../../../method/Net=3a=3aFTP/i/mlst.md)
+
+```ruby
+require 'net/ftp'
+  
+Net::FTP.open("ftp.example.org") do |ftp|
+  ftp.login("anonymous", "foobar@example.com")
+  p ftp.mlsd("/")
+  # =>
+  #  [#<Net::FTP::MLSxEntry:0x00558fbfa379c0
+  #    @facts=
+  #    {"modify"=>2014-08-25 16:44:41 UTC,
+  #    "perm"=>"fle",
+  #    "type"=>"cdir",
+  #    "unique"=>"801U1FE8E6",
+  #    "unix.group"=>1042,
+  #    "unix.mode"=>493,
+  #    "unix.owner"=>106},
+  #    @pathname => ".",
+  #  #<Net::FTP::MLSxEntry:0x00558fbfa33e10
+  #   @facts=
+  #   {"modify"=>2004-12-22 08:56:36 UTC,
+  #   "perm"=>"adfr",
+  #   "size"=>1128,
+  #   "type"=>"file",
+  #   "unique"=>"801U1FEF97",
+  #   "unix.group"=>0,
+  #   "unix.mode"=>420,
+  #   "unix.owner"=>106},
+  #   @pathname="README.txt">,
+  #      :
+  #  ]
+end
+```

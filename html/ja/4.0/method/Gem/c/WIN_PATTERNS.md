@@ -1,0 +1,5 @@
+# Gem::WIN_PATTERNS
+
+### const WIN_PATTERNS -> Array
+
+Windows 上で動いている Ruby を識別するための正規表現の配列。

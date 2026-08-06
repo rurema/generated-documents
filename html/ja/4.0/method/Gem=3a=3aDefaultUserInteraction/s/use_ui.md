@@ -1,0 +1,7 @@
+# Gem::DefaultUserInteraction.use_ui
+
+### def Gem::DefaultUserInteraction.use_ui(new_ui){ ... }
+
+与えられたブロックを評価している間だけ UI として new_ui を使用します。
+
+- **param** `new_ui` -- 新しい UI を指定します。

@@ -1,0 +1,29 @@
+# TCPSocket.open
+
+### def TCPSocket.open(host, service, local_host=nil, local_service=nil, resolv_timeout: nil, connect_timeout: nil, open_timeout: nil, fast_fallback: true) -> TCPSocket
+### def TCPSocket.new(host, service, local_host=nil, local_service=nil, resolv_timeout: nil, connect_timeout: nil, open_timeout: nil, fast_fallback: true) -> TCPSocket
+
+host で指定したホストの service で指定したポートと接続したソケットを返します。host はホスト名、またはインターネットアドレスを示す文字列、service は /etc/services (または NIS) に登録されているサービス名かポート番号です。
+
+引数 local_host, local_service を指定した場合、そのアドレスに対して [man:bind(2)] します。
+
+- **param** `host` --           ホスト名、またはインターネットアドレスを示す文字列を指定します。
+- **param** `service` --        /etc/services (または NIS) に登録されているサービス名かポート番号を指定します。
+- **param** `local_host` --     ホスト名、またはインターネットアドレスを示す文字列を指定します。
+- **param** `local_service` --  /etc/services (または NIS) に登録されているサービス名かポート番号を指定します。
+- **param** `resolv_timeout` -- 名前解決のタイムアウトを秒数で指定します。
+- **param** `connect_timeout` -- 接続確立のタイムアウトを秒数で指定します。
+- **param** `open_timeout` -- 名前解決から接続確立までのタイムアウトを秒数で指定します。
+- **param** `fast_fallback` -- Happy Eyeballs Version 2 ([RFC 8305](https://datatracker.ietf.org/doc/html/rfc8305)) を有効にします。
+
+### def TCPSocket.open(host, serv, local_host=nil, local_service=nil) -> TCPSocket
+### def TCPSocket.new(host, serv, local_host=nil, local_service=nil) -> TCPSocket
+
+[TCPSocket.new](../../../method/TCPSocket/s/new.md) のパラメータ host と local_host 
+の名前解決に [resolv](../../../library/resolv.md) ライブラリを使います。
+
+- **param** `host` --           ホスト名、またはインターネットアドレスを示す文字列を指定します。
+- **param** `service` --        /etc/services (または NIS) に登録されているサービス名かポート番号を指定します。
+- **param** `local_host` --     ホスト名、またはインターネットアドレスを示す文字列を指定します。
+- **param** `local_service` --  /etc/services (または NIS) に登録されているサービス名かポート番号を指定します。
+- **raise** `SocketError` -- 名前解決に失敗した場合に発生します。

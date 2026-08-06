@@ -1,0 +1,5 @@
+# rb_to_id
+
+### VALUE rb_to_id(VALUE name)
+
+String・Fixnum・Symbol を ID に変換します。

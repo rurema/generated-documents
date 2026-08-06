@@ -1,0 +1,16 @@
+# Logger#progname=
+
+### def progname=(name)
+
+ログに出力するプログラム名を設定します。
+
+```ruby title="例"
+require 'logger'
+
+logger = Logger.new(STDOUT)
+p logger.progname                        # => nil
+logger.progname = "MyProgName"           # => "MyProgName"
+p logger.progname                        # => "MyProgName"
+p logger.info("info1")                   # => I, [2019-04-23T00:08:55.585459 #2823]  INFO -- MyProgName: info1
+p logger.info("OtherProgName") { "info2" } # => I, [2019-04-23T00:08:55.585500 #2823]  INFO -- OtherProgName: info2
+```

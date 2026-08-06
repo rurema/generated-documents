@@ -1,0 +1,37 @@
+# IO.readlines
+
+### def IO.readlines(path, rs = $/, chomp: false, opts={})    -> [String]
+### def IO.readlines(path, limit, chomp: false, opts={})      -> [String]
+### def IO.readlines(path, rs, limit, chomp: false, opts={})  -> [String]
+
+path で指定されたファイルを全て読み込んで、その各行を要素としてもつ配列を返します。
+
+Ruby 3.x までは path の先頭が "|" のとき "|" に続くコマンドの出力を読み取れましたが、この機能は Ruby 4.0 で削除され、"|" で始まる path も通常のファイル名として扱われます。
+
+テキスト読み込みメソッドとして動作します。
+
+limit で最大読み込みバイト数を指定します。ただしマルチバイト文字が途中で切れないように余分に読み込む場合があります。
+
+opts でファイルを開くときのオプションを指定します。エンコーディングなどを指定できます。
+[File.open](../../../method/File/s/open.md) と同様なのでそちらを参照してください。
+
+- **param** `path` -- ファイル名を表す文字列を指定します。
+
+- **param** `rs` -- 行の区切りを文字列で指定します。rs に nil を指定すると行区切りなしとみなします。空文字列 "" を指定すると連続する改行を行の区切りとみなします(パラグラフモード)。
+- **param** `limit` -- 最大の読み込みバイト数
+- **param** `chomp` -- true を指定すると各行の末尾から rs を取り除きます。
+- **param** `opts` -- ファイルを開くときのオプション引数
+
+- **raise** `Errno::EXXX` -- path のオープン、ファイルの読み込みに失敗した場合に発生します。
+
+```ruby title="例"
+IO.write("testfile", "line1\nline2,\nline3\n")
+p IO.readlines("testfile")           # => ["line1\n", "line2,\n", "line3\n"]
+p IO.readlines("testfile", ",")      # => ["line1\nline2,", "\nline3\n"]
+```
+
+```ruby title="例: rs を取り除く（chomp = true）"
+IO.write("testfile", "line1,\rline2,\r\nline3,\n")
+p IO.readlines("testfile", chomp: true)      # => ["line1,\rline2,", "line3,"]
+p IO.readlines("testfile", "\r", chomp: true)  # => ["line1,", "line2,", "\nline3,\n"]
+```

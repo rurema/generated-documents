@@ -1,0 +1,8 @@
+# Resolv::IPv4.create
+
+### def Resolv::IPv4.create(address) -> Resolv::IPv4
+
+"192.168.0.1" のように "." で区切られた IPv4 表記の文字列 address から
+Resolv::IPv4 のインスタンスを生成します。
+
+- **param** `address` -- IPv4 表記の文字列

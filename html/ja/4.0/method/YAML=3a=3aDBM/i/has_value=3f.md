@@ -1,0 +1,8 @@
+# YAML::DBM#has_value?
+
+### def has_value?(value) -> bool
+
+value を値とする組がデータベース中に存在する時、真を返します。
+
+- **param** `value` -- 検索したい値を指定します。YAML 形式に変換できるオブジェク
+             トが指定できます。

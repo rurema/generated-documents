@@ -1,0 +1,13 @@
+# File.atime
+
+### def File.atime(filename)    -> Time
+
+最終アクセス時刻を返します。
+
+- **param** `filename` -- ファイル名を表す文字列か IO オブジェクトを指定します。
+
+- **raise** `Errno::EXXX` -- ファイルの時刻の取得に失敗した場合に発生します。
+
+```ruby title="例"
+p File.atime(__FILE__) # => 2017-11-28 22:38:44 +0900
+```

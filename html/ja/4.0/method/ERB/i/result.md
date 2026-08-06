@@ -1,0 +1,19 @@
+# ERB#result
+
+### def result(b=TOPLEVEL_BINDING) -> String
+
+ERB を b の binding で実行し、結果の文字列を返します。
+
+- **param** `b` -- eRubyスクリプトが実行されるときのbinding
+
+```ruby title="例"
+require 'erb'
+erb = ERB.new("test <%= test1 %>\ntest <%= test2 %>\n")
+test1 = "foo"
+test2 = "bar"
+puts erb.result
+# test foo
+# test bar
+```
+
+- **SEE** [ERB#result_with_hash](../../../method/ERB/i/result_with_hash.md)

@@ -1,0 +1,13 @@
+# Random.bytes
+
+### def Random.bytes(size) -> String
+
+ランダムなバイナリー文字列を返します。結果の文字列のサイズを指定できます。
+
+- **param** `size` -- 結果の文字列のサイズをバイト数で指定します。
+
+```ruby
+p Random.bytes(10) # => "\xAC\n\x7F\x8C/\xAA\xC4\x97u\xA6"
+```
+
+- **SEE** [Random#bytes](../../../method/Random/i/bytes.md)

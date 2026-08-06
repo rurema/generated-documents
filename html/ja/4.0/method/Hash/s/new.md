@@ -1,0 +1,95 @@
+# Hash.new
+
+### def Hash.new(ifnone = nil, capacity: 0) -> Hash
+
+空の新しいハッシュを生成します。ifnone はキーに対応する値が存在しない時のデフォルト値です。設定したデフォルト値は[Hash#default](../../../method/Hash/i/default.md)で参照できます。
+
+ifnoneを省略した Hash.new は {} と同じです。
+
+デフォルト値として、毎回同一のオブジェクトifnoneを返します。
+それにより、一箇所のデフォルト値の変更が他の値のデフォルト値にも影響します。
+
+```ruby
+h = Hash.new([])
+h[0] << 0
+h[1] << 1
+p h.default #=> [0, 1]
+```
+
+これを避けるには、破壊的でないメソッドで再代入する必要が有ります。
+また、このようなミスを防ぐためにもifnoneは freeze して破壊的操作を禁止しておくのが無難です。
+
+
+capacity を指定すると、指定した要素数を格納するのに充分なメモリをあらかじめ確保します。
+要素数の多いハッシュを構築する際にメモリの再配置やハッシュテーブルの再構築が不要となるため、パフォーマンスの改善が期待できます。
+
+- **param** `ifnone` -- キーに対応する値が存在しない時のデフォルト値です。
+- **param** `capacity` -- 指定した要素数に相当するメモリをあらかじめ確保します。
+
+```ruby title="例"
+h = Hash.new([])
+
+p h[1]                  #=> []
+p h[1].object_id        #=> 6127150
+p h[1] << "bar"         #=> ["bar"]
+p h[1]                  #=> ["bar"]
+
+p h[2]                  #=> ["bar"]
+p h[2].object_id        #=> 6127150
+
+p h                     #=> {}
+
+
+h = Hash.new([].freeze)
+h[0] += [0] #破壊的でないメソッドはOK
+h[1] << 1     # ~> FrozenError: can't modify frozen Array: []
+```
+
+### def Hash.new(capacity: 0) {|hash, key| ... } -> Hash
+空の新しいハッシュを生成します。ブロックの評価結果がデフォルト値になります。設定したデフォルト値は[Hash#default_proc](../../../method/Hash/i/default_proc.md)で参照できます。
+
+値が設定されていないハッシュ要素を参照するとその都度ブロックを実行し、その結果を返します。
+ブロックにはそのハッシュとハッシュを参照したときのキーが渡されます。
+
+- **param** `capacity` -- 指定した要素数に相当するメモリをあらかじめ確保します。
+
+- **raise** `ArgumentError` -- ifnone などの位置引数とブロックを同時に与えると発生します。
+
+```ruby title="例"
+# ブロックではないデフォルト値は全部同一のオブジェクトなので、
+# 破壊的変更によって他のキーに対応する値も変更されます。
+h = Hash.new("foo")
+
+p h[1]                  #=> "foo"
+p h[1].object_id        #=> 6127170
+p h[1] << "bar"         #=> "foobar"
+p h[1]                  #=> "foobar"
+
+p h[2]                  #=> "foobar"
+p h[2].object_id        #=> 6127170
+
+p h                     #=> {}
+
+# ブロックを与えると、対応する値がまだ無いキーが呼び出される度に
+# ブロックを評価するので、全て別のオブジェクトになります。
+h = Hash.new {|hash, key| hash[key] = "foo"}
+
+p h[1]                  #=> "foo"
+p h[1].object_id        #=> 6126900
+p h[1] << "bar"         #=> "foobar"
+p h[1]                  #=> "foobar"
+
+p h[2]                  #=> "foo"
+p h[2].object_id        #=> 6126840
+
+p h                     #=> {1=>"foobar", 2=>"foo"}
+
+# 値が設定されていないときに(fetchのように)例外をあげるようにもできる
+h = Hash.new {|hash, key|
+                raise(IndexError, "hash[#{key}] has no value")
+             }
+h[1]
+# ~> IndexError: hash[1] has no value
+```
+
+- **SEE** [Hash#default=](../../../method/Hash/i/default=3d.md),[Hash#default](../../../method/Hash/i/default.md),[Hash#default_proc](../../../method/Hash/i/default_proc.md)
