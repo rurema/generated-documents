@@ -451,7 +451,7 @@
 </dd>
 <dt>[EXCEPTION] <code>Math::DomainError</code>:</dt>
 <dd>
-<code>n</code> が負の整数の時に発生します。
+<code>n</code> が負の整数のときに発生します。
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Integer</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>      <span class="c1"># =&gt; 0
@@ -461,10 +461,10 @@
 </span><span class="nb">p</span> <span class="no">Integer</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">400</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="o">**</span><span class="mi">200</span> <span class="c1"># =&gt; true
 </span></code></pre>
 <p>
-Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の限界によって真の値とは違う結果になることがあります。
+<code>Math.sqrt(n).floor</code> と数学的には同じ意味ですが、後者は浮動小数点数の精度の限界によって真の値とは違う結果になることがあります。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Integer</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">46</span><span class="p">)</span>   <span class="c1">#=&gt; 100000000000000000000000
-</span><span class="nb">p</span> <span class="no">Math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">46</span><span class="p">)</span><span class="p">.</span><span class="nf">floor</span>  <span class="c1">#=&gt;  99999999999999991611392 (!)
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Integer</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">46</span><span class="p">)</span>    <span class="c1"># =&gt; 100000000000000000000000
+</span><span class="nb">p</span> <span class="no">Math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">46</span><span class="p">)</span><span class="p">.</span><span class="nf">floor</span> <span class="c1"># =&gt;  99999999999999991611392 (!)
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Math/m/sqrt.html">Math.#sqrt</a>
@@ -475,30 +475,31 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="S_TRY_CONVERT"><code>try_convert(obj) -&gt; Integer | nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/Integer/s/try_convert.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-c-try_convert">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>obj</code> を <code>Integer</code> に変換しようと試みます。変換には <a href="../method/Object/i/to_int.html">Object#to_int</a>
-メソッドが使われます。
+<code>obj</code> を <code>Integer</code> に変換するためのメソッドです。
 </p>
 <p>
-<code>Integer</code> ならそのまま <code>obj</code> を返します。そうでなければ <code>obj.to_int</code> の結果を返すか、<code>nil</code> が返されます。
+<code>obj</code> が <code>Integer</code> ならそのまま <code>obj</code> を返します。
+</p>
+<p>
+<code>obj</code> が <code>Integer</code> でないとき、<code>to_int</code> メソッドに応答するなら <code>obj.to_int</code> の結果を返し、応答しないなら <code>nil</code> を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>obj</code>:</dt>
 <dd>
 変換する任意のオブジェクト
 </dd>
-<dt>[RETURN]</dt>
-<dd>
-<code>Integer</code> または <code>nil</code>
-</dd>
 <dt>[EXCEPTION] <code>TypeError</code>:</dt>
 <dd>
-<code>to_int</code> が <code>Integer</code> を返さなかった場合に発生します。
+<code>obj.to_int</code> が <code>Integer</code> オブジェクトを返さなかった場合に発生します。
 </dd>
 </dl>
-<span class="caption">例</span>
+<span class="caption">変換できる例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Integer</span><span class="p">.</span><span class="nf">try_convert</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># =&gt; 1
 </span><span class="nb">p</span> <span class="no">Integer</span><span class="p">.</span><span class="nf">try_convert</span><span class="p">(</span><span class="mf">1.25</span><span class="p">)</span> <span class="c1"># =&gt; 1
-</span><span class="nb">p</span> <span class="no">Integer</span><span class="p">.</span><span class="nf">try_convert</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<span class="caption">変換できない例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Integer</span><span class="p">.</span><span class="nf">try_convert</span><span class="p">(</span><span class="s2">"</span><span class="s2">1</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span><span class="c1"># String#to_int メソッドは存在しないため
 </span></code></pre>
 </dd>
 
@@ -512,21 +513,20 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading"><code>modulo(other) -&gt; Numeric</code></dt>
 <dd class="method-description">
 <p>
-算術演算子。剰余を計算します。
+<code>self</code> を <code>other</code> で割った余り（剰余）を返します。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">13</span> <span class="o">%</span> <span class="mi">4</span>  <span class="c1"># =&gt;  1
-</span><span class="nb">p</span> <span class="mi">13</span> <span class="o">%</span> <span class="o">-</span><span class="mi">4</span> <span class="c1"># =&gt; -3
-</span><span class="nb">p</span> <span class="o">-</span><span class="mi">13</span> <span class="o">%</span> <span class="mi">4</span> <span class="c1"># =&gt;  3
-</span><span class="nb">p</span> <span class="o">-</span><span class="mi">13</span> <span class="o">%</span> <span class="o">-</span><span class="mi">4</span>  <span class="c1"># =&gt; -1
+<p>
+<code>Integer</code> オブジェクトを左項とする算術演算子 <code>%</code> はこのメソッドの呼び出しになります。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span>  <span class="mi">5</span> <span class="o">%</span>  <span class="mi">3</span> <span class="c1"># =&gt;  2
+</span><span class="nb">p</span>  <span class="mi">5</span> <span class="o">%</span> <span class="o">-</span><span class="mi">3</span> <span class="c1"># =&gt; -1
+</span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span> <span class="o">%</span>  <span class="mi">3</span> <span class="c1"># =&gt;  1
+</span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span> <span class="o">%</span> <span class="o">-</span><span class="mi">3</span> <span class="c1"># =&gt; -2
 </span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-計算結果
+<code>self</code> に対する除数
 </dd>
 </dl>
 </dd>
@@ -535,7 +535,10 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--26"><code>self &amp; other -&gt; Integer</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=26.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-26">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-ビット二項演算子。論理積を計算します。
+<code>self</code> と <code>other</code> のビット論理積を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする二項演算子 <code>&amp;</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -552,16 +555,15 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--2A"><code>self * other -&gt; Numeric</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=2a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-2A">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-算術演算子。積を計算します。
+<code>self</code> に <code>other</code> を掛けた値（＝積）を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする算術演算子 <code>*</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-計算結果
+<code>self</code> に対する乗数
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">3</span> <span class="c1"># =&gt; 6
@@ -574,24 +576,23 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading"><code>pow(other, modulo) -&gt; Integer</code><span class="method-since-badge">Ruby 2.5.0 から</span></dt>
 <dd class="method-description">
 <p>
-算術演算子。冪(べき乗)を計算します。
+<code>self</code> の <code>other</code> 乗を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする算術演算子 <code>**</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
+<code>self</code> に対する冪指数（べきしすう）
 </dd>
 <dt class='method-param'>[PARAM] <code>modulo</code>:</dt>
 <dd>
 指定すると、計算途中に巨大な値を生成せずに <code>(self**other) % modulo</code> と同じ結果を返します。
 </dd>
-<dt>[RETURN]</dt>
-<dd>
-計算結果
-</dd>
 <dt>[EXCEPTION] <code>TypeError</code>:</dt>
 <dd>
-2引数 <code>pow</code> で <code>Integer</code> 以外を指定した場合に発生します。
+2引数 <code>pow</code> で <code>other</code> や <code>modulo</code> に <code>Integer</code> 以外を指定した場合に発生します。
 </dd>
 <dt>[EXCEPTION] <code>RangeError</code>:</dt>
 <dd>
@@ -628,16 +629,15 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--2B"><code>self + other -&gt; Numeric</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=2b.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-2B">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-算術演算子。和を計算します。
+<code>self</code> に <code>other</code> を足した値（＝和）を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする算術演算子 <code>+</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-計算結果
+<code>self</code> に加算する数値
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span> <span class="c1"># =&gt; 7
@@ -648,19 +648,18 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--2D"><code>self - other -&gt; Numeric</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=2d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-2D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-算術演算子。差を計算します。
+<code>self</code> から <code>other</code> を引いた値（＝差）を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする算術演算子 <code>-</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-計算結果
+<code>self</code> から減算する数値
 </dd>
 </dl>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">4</span> <span class="o">-</span> <span class="mi">1</span> <span class="c1">#=&gt; 3
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">4</span> <span class="o">-</span> <span class="mi">1</span> <span class="c1"># =&gt; 3
 </span></code></pre>
 </dd>
 
@@ -668,8 +667,10 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--2D--40"><code>- self -&gt; Integer</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=2d=40.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-2D-40">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-単項演算子の - です。
 <code>self</code> の符号を反転させたものを返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトに対する単項演算子 <code>-</code> はこのメソッドの呼び出しになります。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span><span class="p">(</span><span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># =&gt; -10
 </span><span class="nb">p</span><span class="p">(</span><span class="o">-</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># =&gt; 10
@@ -680,7 +681,7 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--2F"><code>self / other -&gt; Numeric</code><span class="permalink">[<a href="../method/Integer/i/=2f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-2F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-除算の算術演算子。
+<code>self</code> を <code>other</code> で割った値（＝商）を返します。<code>other</code> のクラスによって除算の種類が異なります。
 </p>
 <p>
 <code>other</code> が <code>Integer</code> の場合、整商（整数の商）を <code>Integer</code> で返します。普通の商（剰余を考えない商）を越えない最大の整数をもって整商とします。
@@ -688,19 +689,21 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <p>
 <code>other</code> が <a href="../class/Float.html">Float</a>、<a href="../class/Rational.html">Rational</a>、<a href="../class/Complex.html">Complex</a> の場合、普通の商を <code>other</code> と同じクラスのインスタンスで返します。
 </p>
+<p>
+<code>Integer</code> オブジェクトを左項とする算術演算子 <code>/</code> はこのメソッドの呼び出しになります。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-計算結果
+<code>self</code> に対する除数
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">2</span> <span class="c1"># =&gt; 3
+<pre class="highlight ruby"><code><span class="c1"># 整商を返す例
+</span><span class="nb">p</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">2</span> <span class="c1"># =&gt; 3
 </span><span class="nb">p</span> <span class="mi">7</span> <span class="o">/</span> <span class="o">-</span><span class="mi">2</span> <span class="c1"># =&gt; -4
+</span>
+<span class="c1"># 普通の商を返す例
 </span><span class="nb">p</span> <span class="mi">7</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="c1"># =&gt; 3.5
 </span><span class="nb">p</span> <span class="mi">7</span> <span class="o">/</span> 2r <span class="c1"># =&gt; (7/2)
 </span><span class="nb">p</span> <span class="mi">7</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">+</span>0i<span class="p">)</span> <span class="c1"># =&gt; ((7/2)+0i)
@@ -720,7 +723,10 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--3C"><code>self &lt; other -&gt; bool</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-比較演算子。数値として小さいか判定します。
+数値として小さいか判定します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする比較演算子 <code>&lt;</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -741,7 +747,10 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--3C--3C"><code>self &lt;&lt; bits -&gt; Integer</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3c=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3C-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-シフト演算子。<code>bits</code> だけビットを左にシフトします。
+<code>self</code> を <code>bits</code> だけ左にビットシフトした整数を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とするシフト演算子 <code>&lt;&lt;</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>bits</code>:</dt>
@@ -758,7 +767,10 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--3C--3D"><code>self &lt;= other -&gt; bool</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3c=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3C-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-比較演算子。数値として等しいまたは小さいか判定します。
+数値として等しいまたは小さいか判定します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする比較演算子 <code>&lt;=</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -780,7 +792,10 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--3C--3D--3E"><code>self &lt;=&gt; other -&gt; -1 | 0 | 1 | nil</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3c=3d=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3C-3D-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> と <code>other</code> を比較して、<code>self</code> が大きい時に <code>1</code>、等しい時に <code>0</code>、小さい時に <code>-1</code>、比較できない時に <code>nil</code> を返します。
+<code>self</code> を <code>other</code> と比較して、<code>self</code> のほうが大きいときに <code>1</code>、等しいときに <code>0</code>、小さいときに <code>-1</code>、比較できないときに <code>nil</code> を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする二項演算子 <code>&lt;=&gt;</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -795,7 +810,7 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;=&gt;</span> <span class="mi">2</span>  <span class="c1"># =&gt; -1
 </span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;=&gt;</span> <span class="mi">1</span>  <span class="c1"># =&gt; 0
 </span><span class="nb">p</span> <span class="mi">2</span> <span class="o">&lt;=&gt;</span> <span class="mi">1</span>  <span class="c1"># =&gt; 1
-</span><span class="nb">p</span> <span class="mi">2</span> <span class="o">&lt;=&gt;</span> <span class="s1">''</span> <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="mi">2</span> <span class="o">&lt;=&gt;</span> <span class="s1">'1'</span> <span class="c1"># =&gt; nil
 </span></code></pre>
 </dd>
 
@@ -804,7 +819,13 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading"><code>self === other -&gt; bool</code></dt>
 <dd class="method-description">
 <p>
-比較演算子。数値として等しいか判定します。
+<code>self</code> が 数値として <code>other</code> と等しければ <code>true</code> を返し、そうでないとき <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないときは <code>false</code> を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする比較演算子 <code>==</code> および <code>===</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -816,8 +837,9 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <code>self</code> と <code>other</code> が等しい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
 </dd>
 </dl>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">2</span>    <span class="c1"># =&gt; false
-</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">==</span> <span class="mf">1.0</span>  <span class="c1"># =&gt; true
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">2</span>   <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">==</span> <span class="mf">1.0</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">==</span> <span class="s2">"</span><span class="s2">1</span><span class="s2">"</span> <span class="c1"># =&gt; false
 </span></code></pre>
 </dd>
 
@@ -825,7 +847,10 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--3E"><code>self &gt; other -&gt; bool</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-比較演算子。数値として大きいか判定します。
+数値として大きいか判定します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする比較演算子 <code>&gt;</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -846,7 +871,10 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--3E--3D"><code>self &gt;= other -&gt; bool</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3e=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3E-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-比較演算子。数値として等しいまたは大きいか判定します。
+数値として等しいまたは大きいか判定します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする比較演算子 <code>&gt;=</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -868,7 +896,10 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading" id="I_--3E--3E"><code>self &gt;&gt; bits -&gt; Integer</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3e=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3E-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-シフト演算子。<code>bits</code> だけビットを右にシフトします。
+<code>self</code> を <code>bits</code> だけ右にビットシフトした整数を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とするシフト演算子 <code>&gt;&gt;</code> はこのメソッドの呼び出しになります。
 </p>
 <p>
 右シフトは、符号ビット(最上位ビット(MSB))が保持されます。
@@ -891,7 +922,7 @@ Math.sqrt(n).floor と同等ですが、後者は浮動小数点数の精度の�
 <dt class="method-heading"><code>self[range] -&gt; Integer</code></dt>
 <dd class="method-description">
 <p>
-<code>nth</code> 番目のビット(最下位ビット(LSB)が 0 番目)が立っている時 <code>1</code>
+<code>nth</code> 番目のビット(最下位ビット(LSB)が 0 番目)が立っているとき <code>1</code>
 を、そうでなければ <code>0</code> を返します。
 </p>
 <dl>
@@ -973,7 +1004,10 @@ immutable であるためです。
 <dt class="method-heading" id="I_--5E"><code>self ^ other -&gt; Integer</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=5e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-5E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-ビット二項演算子。排他的論理和を計算します。
+<code>self</code> と <code>other</code> のビット排他的論理和を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする二項演算子 <code>^</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -1118,7 +1152,7 @@ immutable であるためです。
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> を割る数を指定します。
+<code>self</code> に対する除数
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">3</span><span class="p">.</span><span class="nf">ceildiv</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; 1
@@ -1128,6 +1162,15 @@ immutable であるためです。
 </span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span><span class="p">.</span><span class="nf">ceildiv</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; -1
 </span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span><span class="p">.</span><span class="nf">ceildiv</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; 2
 </span></code></pre>
+<span class="caption">使い道の例</span>
+<pre class="highlight ruby"><code><span class="c1"># n 個の品物を m 個入るケースで運ぶとき、ケースはいくつ必要か
+</span>n <span class="o">=</span> <span class="mi">31</span>
+m <span class="o">=</span> <span class="mi">7</span>
+<span class="nb">p</span> n<span class="p">.</span><span class="nf">ceildiv</span><span class="p">(</span>m<span class="p">)</span> <span class="c1"># =&gt; 5
+</span>
+<span class="c1"># n 個の品物を m 人になるべく均等に（差が 1 以下に収まるように）分配するとき
+</span><span class="c1"># 多い人は何個受け取るか、という問題と同じ答え
+</span></code></pre>
 </dd>
 
 
@@ -1135,12 +1178,12 @@ immutable であるためです。
 <dt class="method-heading"><code>chr(encoding) -&gt; String</code></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を文字コードとして見た時に、引数で与えたエンコーディング <code>encoding</code> に対応する文字を返します。
+<code>self</code> を文字コードとして見たときに、引数で与えたエンコーディング <code>encoding</code> に対応する文字を返します。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">65</span><span class="p">.</span><span class="nf">chr</span>
 <span class="c1"># =&gt; &quot;A&quot;
 </span><span class="nb">p</span> <span class="mi">12354</span><span class="p">.</span><span class="nf">chr</span>
-<span class="c1"># =&gt; `chr': 12354 out of char range (RangeError)
+<span class="c1"># ~&gt; RangeError: 12354 out of char range
 </span>
 <span class="nb">p</span> <span class="mi">12354</span><span class="p">.</span><span class="nf">chr</span><span class="p">(</span><span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_8</span><span class="p">)</span>
 <span class="c1"># =&gt; &quot;あ&quot;
@@ -1176,19 +1219,16 @@ immutable であるためです。
 <dt class="method-heading" id="I_DENOMINATOR"><code>denominator -&gt; Integer</code><span class="permalink">[<a href="../method/Integer/i/denominator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-denominator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-分母(常に1)を返します。
+常に <code>1</code> を返します。
 </p>
-<dl>
-<dt>[RETURN]</dt>
-<dd>
-分母を返します。
-</dd>
-</dl>
+<p>
+これは <code>self</code> を既約分数で表したときの分母（denominator）です。
+</p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">10</span><span class="p">.</span><span class="nf">denominator</span>  <span class="c1"># =&gt; 1
 </span><span class="nb">p</span> <span class="o">-</span><span class="mi">10</span><span class="p">.</span><span class="nf">denominator</span> <span class="c1"># =&gt; 1
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/Integer/i/numerator.html">Integer#numerator</a>
+[SEE_ALSO] <a href="../method/Integer/i/numerator.html">Integer#numerator</a>, <a href="../method/Rational/i/denominator.html">Rational#denominator</a>
 </p>
 </dd>
 
@@ -1197,21 +1237,25 @@ immutable であるためです。
 <dt class="method-heading"><code>digits(base) -&gt; [Integer]</code></dt>
 <dd class="method-description">
 <p>
-<code>base</code> を基数として <code>self</code> を位取り記数法で表記した数値を配列で返します。
+<code>base</code> を基数として <code>self</code> を位取り記数法で表記した各桁の数を並べた配列を返します。配列の先頭が最下位桁の数です。
 <code>base</code> を指定しない場合の基数は <code>10</code> です。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">16</span><span class="p">.</span><span class="nf">digits</span>   <span class="c1"># =&gt; [6, 1]
-</span><span class="nb">p</span> <span class="mi">16</span><span class="p">.</span><span class="nf">digits</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span> <span class="c1"># =&gt; [0, 1]
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">123</span><span class="p">.</span><span class="nf">digits</span>    <span class="c1"># =&gt; [3, 2, 1]
+</span><span class="nb">p</span> <span class="mi">8</span><span class="p">.</span><span class="nf">digits</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>   <span class="c1"># =&gt; [0, 0, 0, 1]
+</span><span class="nb">p</span> <span class="mi">0xF8</span><span class="p">.</span><span class="nf">digits</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span> <span class="c1"># =&gt; [8, 15]
 </span></code></pre>
 <p>
-<code>self</code> は非負整数でなければいけません。非負整数でない場合は、<a href="../class/Math=3a=3aDomainError.html">Math::DomainError</a> が発生します。
+<code>self</code> が <code>0</code> のとき返り値は <code>[0]</code> です。この場合を除き、返り値の配列の末尾の要素は必ず正になります。
 </p>
-<pre class="highlight ruby"><code><span class="o">-</span><span class="mi">10</span><span class="p">.</span><span class="nf">digits</span>  <span class="c1"># Math::DomainError: out of domain が発生
+<p>
+<code>self</code> が負の場合、<a href="../class/Math=3a=3aDomainError.html">Math::DomainError</a> が発生します。
+</p>
+<pre class="highlight ruby"><code><span class="o">-</span><span class="mi">10</span><span class="p">.</span><span class="nf">digits</span> <span class="c1"># ~&gt; Math::DomainError: out of domain
 </span></code></pre>
 <dl>
 <dt>[RETURN]</dt>
 <dd>
-位取り記数法で表した時の数値の配列
+位取り記数法で表したときの各桁の数の配列
 </dd>
 <dt class='method-param'>[PARAM] <code>base</code>:</dt>
 <dd>
@@ -1232,22 +1276,21 @@ immutable であるためです。
 <dt class="method-heading" id="I_DIV"><code>div(other) -&gt; Integer</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/div.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-div">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-整商（整数の商）を返します。普通の商（剰余を考えない商）を越えない最大の整数をもって整商とします。
+<code>self</code> を整除法によって <code>other</code> で割った値（＝整商）を返します。
+</p>
+<p>
+普通の商（剰余を考えない商）を越えない最大の整数をもって整商とします。
 </p>
 <p>
 <code>other</code> が <code>Integer</code> オブジェクトの場合、<a href="../method/Integer/i/=2f.html">Integer#/</a> の結果と一致します。
 </p>
 <p>
-<code>div</code> に対応する剰余メソッドは <code>modulo</code> です。
+<code>div</code> に対応する剰余メソッドは <a href="../method/Integer/i/modulo.html">Integer#modulo</a> です。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-計算結果
+<code>self</code> に対する除数
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -1278,12 +1321,12 @@ immutable であるためです。
 <dt class="method-heading" id="I_DIVMOD"><code>divmod(other) -&gt; [Integer, Numeric]</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/divmod.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-divmod">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を <code>other</code> で割った商 <code>q</code> と余り <code>r</code> を、<code>[q, r]</code> という 2 要素の配列にして返します。 商 <code>q</code> は常に整数ですが、余り <code>r</code> は整数であるとは限りません。
+<code>self</code> を <code>other</code> で割った商 <code>q</code> と余り <code>r</code> を、<code>[q, r]</code> という 2 要素の配列にして返します。商 <code>q</code> は常に整数ですが、余り <code>r</code> は整数であるとは限りません。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> を割る数。
+<code>self</code> に対する除数
 </dd>
 </dl>
 <p>
@@ -1309,7 +1352,11 @@ immutable であるためです。
 <code>self</code> を返します。
 </dd>
 </dl>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">5</span><span class="p">.</span><span class="nf">downto</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>i<span class="o">|</span> <span class="nb">print</span> i, <span class="s2">"</span><span class="s2"> </span><span class="s2">"</span> <span class="p">}</span> <span class="c1"># =&gt; 5 4 3 2 1
+<pre class="highlight ruby"><code><span class="mi">2</span><span class="p">.</span><span class="nf">downto</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>i<span class="o">|</span> <span class="nb">p</span> i <span class="p">}</span>
+<span class="c1"># =&gt; 2
+</span><span class="c1">#    1
+</span><span class="c1">#    0
+</span><span class="c1">#    -1
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Integer/i/upto.html">Integer#upto</a>, <a href="../method/Numeric/i/step.html">Numeric#step</a>, <a href="../method/Integer/i/times.html">Integer#times</a>
@@ -1336,7 +1383,7 @@ immutable であるためです。
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> を割る数を指定します。
+<code>self</code> に対する除数
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -1499,10 +1546,13 @@ immutable であるためです。
 <p>
 <code>self</code> の次の整数を返します。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span><span class="p">.</span><span class="nf">next</span>    <span class="c1">#=&gt; 2
-</span><span class="nb">p</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="p">.</span><span class="nf">next</span> <span class="c1">#=&gt; 0
-</span><span class="nb">p</span> <span class="mi">1</span><span class="p">.</span><span class="nf">succ</span>    <span class="c1">#=&gt; 2
-</span><span class="nb">p</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="p">.</span><span class="nf">succ</span> <span class="c1">#=&gt; 0
+<p>
+メソッド名 <code>succ</code> は successor（次ぐもの）より。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span><span class="p">.</span><span class="nf">next</span>    <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="p">.</span><span class="nf">next</span> <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="mi">1</span><span class="p">.</span><span class="nf">succ</span>    <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="p">.</span><span class="nf">succ</span> <span class="c1"># =&gt; 0
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Integer/i/pred.html">Integer#pred</a>
@@ -1541,19 +1591,16 @@ immutable であるためです。
 <dt class="method-heading" id="I_NUMERATOR"><code>numerator -&gt; Integer</code><span class="permalink">[<a href="../method/Integer/i/numerator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-numerator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-分子(常に <code>self</code>)を返します。
+常に <code>self</code> を返します。
 </p>
-<dl>
-<dt>[RETURN]</dt>
-<dd>
-分子を返します。
-</dd>
-</dl>
+<p>
+これは <code>self</code> を既約分数で表したときの分子（numerator）です。
+</p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">10</span><span class="p">.</span><span class="nf">numerator</span>  <span class="c1"># =&gt; 10
 </span><span class="nb">p</span> <span class="o">-</span><span class="mi">10</span><span class="p">.</span><span class="nf">numerator</span> <span class="c1"># =&gt; -10
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/Integer/i/denominator.html">Integer#denominator</a>
+[SEE_ALSO] <a href="../method/Integer/i/denominator.html">Integer#denominator</a>, <a href="../method/Rational/i/numerator.html">Rational#numerator</a>
 </p>
 </dd>
 
@@ -1587,10 +1634,13 @@ immutable であるためです。
 <dt class="method-heading" id="I_PRED"><code>pred -&gt; Integer</code><span class="permalink">[<a href="../method/Integer/i/pred.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-pred">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> から <code>-1</code> した値を返します。
+<code>self</code> から <code>1</code> を引いた値を返します。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span><span class="p">.</span><span class="nf">pred</span>    <span class="c1">#=&gt; 0
-</span><span class="nb">p</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="p">.</span><span class="nf">pred</span> <span class="c1">#=&gt; -2
+<p>
+メソッド名 <code>pred</code> は predecessor（前のもの）より。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span><span class="p">.</span><span class="nf">pred</span>    <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="p">.</span><span class="nf">pred</span> <span class="c1"># =&gt; -2
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Integer/i/next.html">Integer#next</a>
@@ -1602,7 +1652,7 @@ immutable であるためです。
 <dt class="method-heading"><code>rationalize(eps) -&gt; Rational</code></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を <a href="../class/Rational.html">Rational</a> に変換します。
+<code>self</code> を <a href="../class/Rational.html">Rational</a> に変換して返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>eps</code>:</dt>
@@ -1611,7 +1661,7 @@ immutable であるためです。
 </dd>
 </dl>
 <p>
-引数 <code>eps</code> は常に無視されます。
+このメソッドは <a href="../method/Rational/i/rationalize.html">Rational#rationalize</a> や <a href="../method/Float/i/rationalize.html">Float#rationalize</a> などに合わせて用意されていますが、<code>Integer</code> においては引数 <code>eps</code> は常に無視され、<a href="../method/Integer/i/to_r.html">Integer#to_r</a> と同じ値を返します。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">2</span><span class="p">.</span><span class="nf">rationalize</span>    <span class="c1"># =&gt; (2/1)
 </span><span class="nb">p</span> <span class="mi">2</span><span class="p">.</span><span class="nf">rationalize</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="c1"># =&gt; (2/1)
@@ -1623,7 +1673,7 @@ immutable であるためです。
 <dt class="method-heading" id="I_REMAINDER"><code>remainder(other) -&gt; Numeric</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/remainder.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-remainder">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を <code>other</code> で割った余り <code>r</code> を返します。
+<code>self</code> を <code>other</code> で割った余り（剰余）<code>r</code> を返します。
 </p>
 <p>
 <code>r</code> の符号は <code>self</code> と同じになります。
@@ -1631,13 +1681,13 @@ immutable であるためです。
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> を割る数。
+<code>self</code> に対する除数
 </dd>
 </dl>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">5</span><span class="p">.</span><span class="nf">remainder</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt;  2
-</span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span><span class="p">.</span><span class="nf">remainder</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; -2
-</span><span class="nb">p</span> <span class="mi">5</span><span class="p">.</span><span class="nf">remainder</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt;  2
-</span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span><span class="p">.</span><span class="nf">remainder</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; -2
+<pre class="highlight ruby"><code><span class="nb">p</span>  <span class="mi">5</span><span class="p">.</span><span class="nf">remainder</span><span class="p">(</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt;  2
+</span><span class="nb">p</span>  <span class="mi">5</span><span class="p">.</span><span class="nf">remainder</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt;  2
+</span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span><span class="p">.</span><span class="nf">remainder</span><span class="p">(</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; -2
+</span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span><span class="p">.</span><span class="nf">remainder</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; -2
 </span>
 <span class="nb">p</span> <span class="o">-</span><span class="mi">1234567890987654321</span><span class="p">.</span><span class="nf">remainder</span><span class="p">(</span><span class="mi">13731</span><span class="p">)</span>    <span class="c1"># =&gt; -6966
 </span><span class="nb">p</span> <span class="o">-</span><span class="mi">1234567890987654321</span><span class="p">.</span><span class="nf">remainder</span><span class="p">(</span><span class="mf">13731.24</span><span class="p">)</span> <span class="c1"># =&gt; -9906.22531493148
@@ -1752,7 +1802,7 @@ immutable であるためです。
 <dt class="method-heading" id="I_TO_R"><code>to_r -&gt; Rational</code><span class="permalink">[<a href="../method/Integer/i/to_r.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-to_r">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を <a href="../class/Rational.html">Rational</a> に変換します。
+<code>self</code> を <a href="../class/Rational.html">Rational</a> に変換して返します。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span><span class="p">.</span><span class="nf">to_r</span>      <span class="c1"># =&gt; (1/1)
 </span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">64</span><span class="p">)</span><span class="p">.</span><span class="nf">to_r</span>  <span class="c1"># =&gt; (18446744073709551616/1)
@@ -1810,7 +1860,10 @@ immutable であるためです。
 <dt class="method-heading" id="I_--7C"><code>self | other -&gt; Integer</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=7c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-7C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-ビット二項演算子。論理和を計算します。
+<code>self</code> と <code>other</code> のビット論理和を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトを左項とする二項演算子 <code>|</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -1827,7 +1880,10 @@ immutable であるためです。
 <dt class="method-heading" id="I_--7E"><code>~ self -&gt; Integer</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=7e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-7E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-ビット演算子。否定を計算します。
+<code>self</code> をビット論理反転した整数を返します。
+</p>
+<p>
+<code>Integer</code> オブジェクトに対する単項演算子 <code>~</code> はこのメソッドの呼び出しになります。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="o">~</span><span class="mi">1</span>  <span class="c1"># =&gt; -2
 </span><span class="nb">p</span> <span class="o">~</span><span class="mi">3</span>  <span class="c1"># =&gt; -4

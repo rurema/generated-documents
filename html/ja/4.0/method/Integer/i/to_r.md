@@ -2,7 +2,7 @@
 
 ### def to_r -> Rational
 
-`self` を [Rational](../../../class/Rational.md) に変換します。
+`self` を [Rational](../../../class/Rational.md) に変換して返します。
 
 ```ruby
 p 1.to_r      # => (1/1)

@@ -8,21 +8,24 @@ until_by_name=
 ### def digits -> [Integer]
 ### def digits(base) -> [Integer]
 
-`base` を基数として `self` を位取り記数法で表記した数値を配列で返します。
+`base` を基数として `self` を位取り記数法で表記した各桁の数を並べた配列を返します。配列の先頭が最下位桁の数です。
 `base` を指定しない場合の基数は `10` です。
 
 ```ruby
-p 16.digits   # => [6, 1]
-p 16.digits(16) # => [0, 1]
+p 123.digits    # => [3, 2, 1]
+p 8.digits(2)   # => [0, 0, 0, 1]
+p 0xF8.digits(16) # => [8, 15]
 ```
 
-`self` は非負整数でなければいけません。非負整数でない場合は、[c:Math::DomainError] が発生します。
+`self` が `0` のとき返り値は `[0]` です。この場合を除き、返り値の配列の末尾の要素は必ず正になります。
+
+`self` が負の場合、[c:Math::DomainError] が発生します。
 
 ```ruby
--10.digits  # Math::DomainError: out of domain が発生
+-10.digits # ~> Math::DomainError: out of domain
 ```
 
-- **return** --     位取り記数法で表した時の数値の配列
+- **return** --     位取り記数法で表したときの各桁の数の配列
 - **param** `base` -- 基数となる数値。
 - **raise** `ArgumentError` -- `base` に正の整数以外を指定した場合に発生します。
 - **raise** `Math::DomainError` -- 非負整数以外に対して呼び出した場合に発生します。

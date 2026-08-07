@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/spec=2fmemory_view.html">
+
+<title>メモリビュー (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="メモリビュー（ MemoryView ）は、固定サイズの要素からなる型が均一な多次元配列を、拡張ライブラリ間で共有する機能を提供します。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/spec=2fmemory_view.html","name":"メモリビュー","position":2}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      
+        <li>
+          <a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+        </li>
+        <li>
+          メモリビュー
+        </li>
+      
+    </ol>
+  </nav>
+
+<h1>メモリビュー</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/doc/spec/memory_view.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+<p>
+メモリビュー（ MemoryView ）は、固定サイズの要素からなる型が均一な多次元配列を、拡張ライブラリ間で共有する機能を提供します。
+</p>
+<p>
+この機能は実験段階であり、将来仕様が変更になるかもしれません。
+</p>
+<p>
+<a class="external" href="https://tech.speee.jp/entry/2020/12/24/093131">https://tech.speee.jp/entry/2020/12/24/093131</a> も参照してください。
+</p>
+<h2 >概要</h2>
+<p>
+numo-narray の <code>Numo::NArray</code> や rmagick の <code>Magick::Image</code> といった、 contiguous な（連続配置の）メモリ領域に、型が均一な固定サイズの要素が並んだ配列を内部表現として持つオブジェクトを扱うことがあります。メモリビューはそういったオブジェクトの内部データをコピーせずにライブラリ間で共有するハブの役割を果たします。
+</p>
+<p>
+コピーレスでデータを共有することは、データ分析、機械学習、画像処理といった領域においては非常に重要です。これらの領域では、いくつかのライブラリを使ってメモリ上の巨大なデータを扱わなくてはならないのです。もしライブラリ間でデータを交換する際にコピーしなければならないとなったら、処理時間の大半がコピーに費やされてしまうでしょう。メモリビューを使うことでそうした時間消費を避けることができるのです。
+</p>
+<p>
+メモリビューには二種類の API があります。
+</p>
+<dl>
+<dt>1. プロデューサ（提供側） API</dt>
+<dd>
+<p>
+クラスにメモリビューのエントリを登録できます。そのクラスのオブジェクトは自身のメモリビューを公開できるようになります。
+</p>
+</dd>
+<dt>2. コンシューマ（使用側） API</dt>
+<dd>
+<p>
+コンシューマ API を使ってオブジェクトのメモリビューを取得・管理できるようになります。
+</p>
+</dd>
+</dl>
+<h2 >メモリビュー構造体</h2>
+<p>
+メモリビュー構造体 <code>rb_memory_view_t</code> を使ってあるオブジェクトのメモリビューをエクスポートできます。この構造体は所有者であるそのオブジェクトへの参照、エクスポートするメモリの先頭へのポインタ、メモリ上の構造を記述したメタデータからなります。メタデータによって多次元配列をストライドと共に記述することが可能になっています。
+</p>
+<h2 >メモリビュー構造体のメンバ</h2>
+<p>
+メモリビュー構造体には以下のメンバがあります。
+</p>
+<dl>
+<dt><code>VALUE obj</code></dt>
+<dd>
+<p>
+メモリビュー経由でメモリをエクスポートしている元のオブジェクト。 RubyVM は、メモリビューをエクスポートしているオブジェクトを GC から保護するために参照カウントを管理します。コンシューマはこのオブジェクトを GC から保護するために何かする必要はありません。
+</p>
+</dd>
+<dt><code>void *data</code></dt>
+<dd>
+<p>
+エクスポートするメモリの先頭へのポインタ。
+</p>
+</dd>
+<dt><code>ssize_t byte_size</code></dt>
+<dd>
+<p>
+<code>data</code> が指すメモリのバイト数。
+</p>
+</dd>
+<dt><code>bool readonly</code></dt>
+<dd>
+<p>
+読み取り専用メモリであれば <code>true</code> 、書き込み可能なメモリであれば <code>false</code> 。
+</p>
+</dd>
+<dt><code>const char *format</code></dt>
+<dd>
+<p>
+要素のフォーマットを表す文字列。 <code>NULL</code> であれば符号なしバイト列。詳細は <a href="#format">フォーマット文字列</a> を参照。
+</p>
+</dd>
+<dt><code>ssize_t item_size</code></dt>
+<dd>
+<p>
+各要素のバイト数。 <code>rb_memory_view_item_size_from_format(format)</code> と等しくなるはずです。
+</p>
+</dd>
+<dt><code>const rb_memory_view_item_component_t *item_desc.components</code></dt>
+<dd>
+<p>
+一つの要素内の成分メタデータの配列。 <code>rb_memory_view_prepare_item_desc</code> と <code>rb_memory_view_get_item</code> が必要に応じてメモリーを割り当て、 <code>rb_memory_view_release</code> が解放します。 <a href="#component-structure">メモリビュー成分構造体</a> も参照。
+</p>
+</dd>
+<dt><code>size_t item_desc.length</code></dt>
+<dd>
+<p>
+<code>item_desc.components</code> 内の要素数。
+</p>
+</dd>
+<dt><code>ssize_t ndim</code></dt>
+<dd>
+<p>
+次元数。
+</p>
+</dd>
+<dt><code>const ssize_t *shape</code></dt>
+<dd>
+<p>
+各次元の要素数を示す、長さ <code>ndim</code> の配列。<code>ndim</code> が 1 の時は <code>NULL</code> になることがあります。
+</p>
+</dd>
+<dt><code>const ssize_t *strides</code></dt>
+<dd>
+<p>
+それぞれの次元で次の要素まで進むのに何バイトスキップすればよいかを示す、長さ <code>ndim</code> の配列。各要素は負数になることもあります。メモリビューが行指向の contiguous （連続配置）な配列の場合は <code>NULL</code> になることもあります。
+</p>
+</dd>
+<dt><code>const ssize_t *sub_offsets</code></dt>
+<dd>
+<p>
+メモリビューがネストされた配列をエクスポートする場合に、それぞれの次元におけるオフセットからなる、長さ <code>ndim</code> の配列。メモリビューが平坦な配列の場合は <code>NULL</code> になることがあります。
+</p>
+</dd>
+<dt><code>void *private_data</code>(Ruby 3.0 では <code>void *const private</code>)</dt>
+<dd>
+<p>
+メモリビューのプロデューサが内部的に使用するプライベートなデータ。不要な場合は <code>NULL</code> になることがあります。
+</p>
+</dd>
+</dl>
+<h3 id='format'>フォーマット文字列</h3>
+<p>
+<code>format</code> は以下の <a href="../doc/pack_template.html">pack テンプレート文字列</a> を並べた文字列です。
+</p>
+<pre class="highlight text"><code>c, C, s, s!, S, S!, n, v, i, i!, I, I!, l, l!, L, L!,
+N, V, f, e, g, q, q!, Q, Q!, d, E, G, j, J, x
+</code></pre>
+<p>
+例えば <code>&quot;dd&quot;</code> は二つの浮動小数点数からなる要素で、 <code>&quot;CCC&quot;</code> は RGB カラーの三つ組などの三つのバイト列からなる要素です。
+</p>
+<p>
+また、型指定文字の後に <code>'&lt;'</code> か <code>'&gt;'</code> を続けることで明示的に値のエンディアンを指定できます。
+</p>
+<p>
+要素は contiguous （連続配置）にパックされます。構造体メンバのアラインメントを模倣する場合は <code>'|'</code> をフォーマット文字列の最初に置いてください。例えば x86_64 Linux ABI では <code>&quot;|iqc&quot;</code> というフォーマットの要素は 13 バイトではなく 24 バイトです。
+</p>
+<h2 id='component-structure'>メモリビュー成分構造体</h2>
+<p>
+メモリビュー成分構造体（ <code>rb_memory_view_item_component_t</code> ）によってメモリビューの成分のメタデータを表現します。
+</p>
+<p>
+<code>rb_memory_view_t-&gt;item_desc.components</code> の一要素です。
+</p>
+<h3 >メモリビュー成分構造体のメンバ</h3>
+<dl>
+<dt><code>char format</code></dt>
+<dd>
+<p>
+<code>rb_memory_view_t-&gt;format</code> 参照。
+</p>
+</dd>
+<dt><code>bool native_size_p</code></dt>
+<dd>
+<p>
+ネイティブ（システム依存）のサイズかどうか。 <a href="../doc/pack_template.html">pack テンプレート文字列</a> の「整数のテンプレート文字のシステム依存性」の項参照。
+</p>
+</dd>
+<dt><code>bool little_endian_p</code></dt>
+<dd>
+<p>
+成分のエンディアン。
+</p>
+</dd>
+<dt><code>size_t offset</code></dt>
+<dd>
+<p>
+成分のオフセット。
+</p>
+</dd>
+<dt><code>size_t size</code></dt>
+<dd>
+<p>
+成分のサイズ。
+</p>
+</dd>
+<dt><code>size_t repeat</code></dt>
+<dd>
+<p>
+成分の繰り返し回数。例えば <code>&quot;C3&quot;</code> の <code>repeat</code> は 3です。
+</p>
+</dd>
+</dl>
+<h2 >エントリ構造体</h2>
+<p>
+クラスとメモリビューエントリ構造体 <code>rb_memory_view_entry_t</code> を <a href="../function/rb_memory_view_register.html">rb_memory_view_register</a> に渡して、そのクラスのオブジェクトがメモリビューをエクスポートできるようにします。エントリ構造体にはメモリビューをエクスポート、解放、対応可否の判定をする際に必要な関数ポインタをメンバとして持たせます。
+</p>
+<h3 >エントリ構造体のメンバ</h3>
+<p>
+エントリ構造体には以下のメンバがあります。
+</p>
+<dl>
+<dt>rb_memory_view_get_func_t get_func</dt>
+<dd>
+<p>
+メモリビューをエクスポートする時に呼ばれます。 <code>rb_memory_view_get_func_t</code> のシグネチャは <code>bool (* rb_memory_view_get_func_t)(VALUE obj, rb_memory_view_t *view, int flags)</code> です。
+</p>
+</dd>
+<dt>rb_memory_view_release_func_t release_func</dt>
+<dd>
+<p>
+メモリビューを解放する時に呼ばれます。 <code>rb_memory_view_release_func_t</code> のシグネチャは <code>bool (* rb_memory_view_release_func_t)(VALUE obj, rb_memory_view_t *view)</code> です。
+</p>
+</dd>
+<dt>rb_memory_view_available_p_func_t available_p_func</dt>
+<dd>
+<p>
+メモリビューのエクスポートに対応しているかどうか調べる時に呼ばれます。 <code>rb_memory_view_available_p_func_t</code> のシグネチャは <code>bool (* rb_memory_view_available_p_func_t)(VALUE obj)</code> です。
+</p>
+</dd>
+</dl>
+<h2 >API</h2>
+<h3 >プロデューサ API</h3>
+<ul>
+<li><a href="../function/rb_memory_view_register.html">rb_memory_view_register</a></li>
+<li><a href="../function/rb_memory_view_init_as_byte_array.html">rb_memory_view_init_as_byte_array</a></li>
+<li><a href="../function/rb_memory_view_fill_contiguous_strides.html">rb_memory_view_fill_contiguous_strides</a></li>
+<li><a href="../function/rb_memory_view_prepare_item_desc.html">rb_memory_view_prepare_item_desc</a></li>
+</ul>
+<h3 >コンシューマ API</h3>
+<ul>
+<li><a href="../function/rb_memory_view_available_p.html">rb_memory_view_available_p</a></li>
+<li><a href="../function/rb_memory_view_get.html">rb_memory_view_get</a></li>
+<li><a href="../function/rb_memory_view_release.html">rb_memory_view_release</a></li>
+<li><a href="../function/rb_memory_view_parse_item_format.html">rb_memory_view_parse_item_format</a></li>
+<li><a href="../function/rb_memory_view_item_size_from_format.html">rb_memory_view_item_size_from_format</a></li>
+<li><a href="../function/rb_memory_view_get_item_pointer.html">rb_memory_view_get_item_pointer</a></li>
+<li><a href="../function/rb_memory_view_get_item.html">rb_memory_view_get_item</a></li>
+<li><a href="../function/rb_memory_view_is_contiguous.html">rb_memory_view_is_contiguous</a></li>
+<li><a href="../function/rb_memory_view_extract_item_members.html">rb_memory_view_extract_item_members</a></li>
+<li><a href="../function/rb_memory_view_is_row_major_contiguous.html">rb_memory_view_is_row_major_contiguous</a></li>
+<li><a href="../function/rb_memory_view_is_column_major_contiguous.html">rb_memory_view_is_column_major_contiguous</a></li>
+</ul>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/doc/spec/memory_view.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

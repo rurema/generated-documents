@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/function/rb_memory_view_get.html">
+
+<title>function rb_memory_view_get (Ruby 4.0 リファレンスマニュアル)</title>
+<meta name="description" content="`obj' が `flags' に適合するメモリビューのエクスポートをサポートする場合、 `view' をメモリビューの情報で埋めて `true' を返します。その場合、 `view-&gt;obj' の参照カウントが増えます。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/4.0-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/index.html","name":"C API 関数一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/rb_memory_view_get.html","name":"rb_memory_view_get","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../function/index.html">C API 関数一覧</a>
+      </li>
+      <li>
+        rb_memory_view_get 
+      </li>
+    </ol>
+  </nav>
+
+<h1>function rb_memory_view_get</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/capi/memory_view.md">edit</a>]</span>
+
+</header>
+
+<main>
+<dl class="functionlist">
+<dt>
+  <code>bool rb_memory_view_get(VALUE obj, rb_memory_view_t *view, int flags)</code>
+</dt>
+<dd>
+<dd class="function-description">
+<p>
+<code>obj</code> が <code>flags</code> に適合するメモリビューのエクスポートをサポートする場合、 <code>view</code> をメモリビューの情報で埋めて <code>true</code> を返します。その場合、 <code>view-&gt;obj</code> の参照カウントが増えます。
+</p>
+<p>
+<code>obj</code> と <code>flags</code> の組み合わせがメモリビューをエクスポートできない場合、 <code>false</code> を返します。この場合 <code>view</code> の内容は変わりません。
+</p>
+<p>
+エクスポートされたメモリビューは不要になった時に <a href="../function/rb_memory_view_release.html">rb_memory_view_release</a> で解放しなければなりません。
+</p>
+<p>
+<code>flags</code> は以下をビット OR で組み合わせて指定します。
+</p>
+<pre class="highlight c"><code><span class="n">RUBY_MEMORY_VIEW_SIMPLE</span>            <span class="o">=</span> <span class="mi">0</span>
+<span class="n">RUBY_MEMORY_VIEW_WRITABLE</span>          <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">RUBY_MEMORY_VIEW_FORMAT</span>            <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">RUBY_MEMORY_VIEW_MULTI_DIMENSIONAL</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">RUBY_MEMORY_VIEW_STRIDES</span>           <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">3</span><span class="p">)</span> <span class="o">|</span> <span class="n">RUBY_MEMORY_VIEW_MULTI_DIMENSIONAL</span>
+<span class="n">RUBY_MEMORY_VIEW_ROW_MAJOR</span>         <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">4</span><span class="p">)</span> <span class="o">|</span> <span class="n">RUBY_MEMORY_VIEW_STRIDES</span>
+<span class="n">RUBY_MEMORY_VIEW_COLUMN_MAJOR</span>      <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">5</span><span class="p">)</span> <span class="o">|</span> <span class="n">RUBY_MEMORY_VIEW_STRIDES</span>
+<span class="n">RUBY_MEMORY_VIEW_ANY_CONTIGUOUS</span>    <span class="o">=</span> <span class="n">RUBY_MEMORY_VIEW_ROW_MAJOR</span> <span class="o">|</span> <span class="n">RUBY_MEMORY_VIEW_COLUMN_MAJOR</span>
+<span class="n">RUBY_MEMORY_VIEW_INDIRECT</span>          <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">6</span><span class="p">)</span> <span class="o">|</span> <span class="n">RUBY_MEMORY_VIEW_STRIDES</span>
+</code></pre>
+<p>
+<code>rb_memory_view_entry_t-&gt;get_func</code> が呼ばれます。
+</p>
+</dd>
+
+</dd>
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/capi/memory_view.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Integer/i/digits.html">
 
 <title>Integer#digits (Ruby 3.3 リファレンスマニュアル)</title>
-<meta name="description" content="`base' を基数として `self' を位取り記数法で表記した数値を配列で返します。 `base' を指定しない場合の基数は `10' です。">
+<meta name="description" content="`base' を基数として `self' を位取り記数法で表記した各桁の数を並べた配列を返します。配列の先頭が最下位桁の数です。 `base' を指定しない場合の基数は `10' です。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -83,21 +83,25 @@
 <dt class="method-heading"><code>digits(base) -&gt; [Integer]</code></dt>
 <dd class="method-description">
 <p>
-<code>base</code> を基数として <code>self</code> を位取り記数法で表記した数値を配列で返します。
+<code>base</code> を基数として <code>self</code> を位取り記数法で表記した各桁の数を並べた配列を返します。配列の先頭が最下位桁の数です。
 <code>base</code> を指定しない場合の基数は <code>10</code> です。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">16</span><span class="p">.</span><span class="nf">digits</span>   <span class="c1"># =&gt; [6, 1]
-</span><span class="nb">p</span> <span class="mi">16</span><span class="p">.</span><span class="nf">digits</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span> <span class="c1"># =&gt; [0, 1]
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">123</span><span class="p">.</span><span class="nf">digits</span>    <span class="c1"># =&gt; [3, 2, 1]
+</span><span class="nb">p</span> <span class="mi">8</span><span class="p">.</span><span class="nf">digits</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>   <span class="c1"># =&gt; [0, 0, 0, 1]
+</span><span class="nb">p</span> <span class="mi">0xF8</span><span class="p">.</span><span class="nf">digits</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span> <span class="c1"># =&gt; [8, 15]
 </span></code></pre>
 <p>
-<code>self</code> は非負整数でなければいけません。非負整数でない場合は、<a href="../../../class/Math=3a=3aDomainError.html">Math::DomainError</a> が発生します。
+<code>self</code> が <code>0</code> のとき返り値は <code>[0]</code> です。この場合を除き、返り値の配列の末尾の要素は必ず正になります。
 </p>
-<pre class="highlight ruby"><code><span class="o">-</span><span class="mi">10</span><span class="p">.</span><span class="nf">digits</span>  <span class="c1"># Math::DomainError: out of domain が発生
+<p>
+<code>self</code> が負の場合、<a href="../../../class/Math=3a=3aDomainError.html">Math::DomainError</a> が発生します。
+</p>
+<pre class="highlight ruby"><code><span class="o">-</span><span class="mi">10</span><span class="p">.</span><span class="nf">digits</span> <span class="c1"># ~&gt; Math::DomainError: out of domain
 </span></code></pre>
 <dl>
 <dt>[RETURN]</dt>
 <dd>
-位取り記数法で表した時の数値の配列
+位取り記数法で表したときの各桁の数の配列
 </dd>
 <dt class='method-param'>[PARAM] <code>base</code>:</dt>
 <dd>
