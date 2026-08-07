@@ -4,12 +4,13 @@
 ### def pow(other) -> Numeric
 ### def pow(other, modulo) -> Integer
 
-算術演算子。冪(べき乗)を計算します。
+`self` の `other` 乗を返します。
 
-- **param** `other` -- 二項演算の右側の引数(対象)
+`Integer` オブジェクトを左項とする算術演算子 `**` はこのメソッドの呼び出しになります。
+
+- **param** `other` -- `self` に対する冪指数（べきしすう）
 - **param** `modulo` -- 指定すると、計算途中に巨大な値を生成せずに `(self**other) % modulo` と同じ結果を返します。
-- **return** -- 計算結果
-- **raise** `TypeError` -- 2引数 `pow` で `Integer` 以外を指定した場合に発生します。
+- **raise** `TypeError` -- 2引数 `pow` で `other` や `modulo` に `Integer` 以外を指定した場合に発生します。
 - **raise** `RangeError` -- 2引数 `pow` で `other` に負の数を指定した場合に発生します。
 - **raise** `ArgumentError` -- 計算結果が巨大になりすぎる場合に発生します。
 

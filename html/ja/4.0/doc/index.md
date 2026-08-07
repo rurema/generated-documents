@@ -48,6 +48,7 @@ Ruby の文法:
   - [spec/m17n](../doc/spec=2fm17n.md)
   - [spec/regexp](../doc/spec=2fregexp.md)
   - [spec/lambda_proc](../doc/spec=2flambda_proc.md)
+  - [spec/memory_view](../doc/spec=2fmemory_view.md)
 
 #### ライブラリ
 

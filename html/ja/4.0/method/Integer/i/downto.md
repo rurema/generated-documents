@@ -10,7 +10,11 @@
 - **return** --      `self` を返します。
 
 ```ruby
-p 5.downto(1) {|i| print i, " " } # => 5 4 3 2 1
+2.downto(-1) { |i| p i }
+# => 2
+#    1
+#    0
+#    -1
 ```
 
 - **SEE** [Integer#upto](../../../method/Integer/i/upto.md), [Numeric#step](../../../method/Numeric/i/step.md), [Integer#times](../../../method/Integer/i/times.md)

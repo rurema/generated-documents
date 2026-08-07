@@ -8,4 +8,15 @@
 
 要素はインデックスし直され、重複削除されます。
 
+```ruby
+array = [1]
+set = Set[array]
+p set  # => Set[[1]]
+array << 2
+set.add(array)
+p set  # => Set[[1, 2], [1, 2]]
+set.reset
+p set  # => Set[[1, 2]]
+```
+
 - **SEE** [Hash#rehash](../../../method/Hash/i/rehash.md)
