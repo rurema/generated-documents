@@ -1,9 +1,9 @@
 # main.public
 
-### def public() -> nil
-### def public(name) -> String | Symbol
-### def public(*name) -> Array
-### def public(names) -> Array
+### def main.public() -> nil
+### def main.public(name) -> String | Symbol
+### def main.public(*name) -> Array
+### def main.public(names) -> Array
 
 メソッドを public に設定します。
 

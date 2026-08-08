@@ -14,7 +14,6 @@
 - **param** `pattern` -- ブロックの代わりに各要素に対して pattern === item を評価します。
 
 ```ruby title="例"
-require 'set'
 p Set['ant', 'bear', 'cat'].none? {|word| word.length == 5}  # => true
 p Set['ant', 'bear', 'cat'].none? {|word| word.length >= 4}  # => false
 p Set['ant', 'bear', 'cat'].none?(/d/)                     # => true

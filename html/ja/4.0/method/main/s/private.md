@@ -1,9 +1,9 @@
 # main.private
 
-### def private() -> nil
-### def private(name) -> String | Symbol
-### def private(*name) -> Array
-### def private(names) -> Array
+### def main.private() -> nil
+### def main.private(name) -> String | Symbol
+### def main.private(*name) -> Array
+### def main.private(names) -> Array
 
 メソッドを private に設定します。
 

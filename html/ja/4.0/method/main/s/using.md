@@ -1,6 +1,6 @@
 # main.using
 
-### def using(module) -> self
+### def main.using(module) -> self
 {: since="2.0.0"}
 
 引数で指定したモジュールで定義された拡張を有効にします。

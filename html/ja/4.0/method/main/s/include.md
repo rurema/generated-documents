@@ -1,6 +1,6 @@
 # main.include
 
-### def include(*modules) -> self
+### def main.include(*modules) -> self
 
 引数 modules で指定したモジュールを後ろから順番に [Object](../../../class/Object.md) にインクルードします。
 
