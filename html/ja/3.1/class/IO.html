@@ -235,35 +235,34 @@ s <span class="o">=</span> f<span class="p">.</span><span class="nf">read</span>
 <p>
 読み込んだ文字列のエンコーディング
 </p>
-<pre class="highlight text"><code>                                                   バイナリ読み込みメソッド      テキスト読み込みメソッド
-----------------------------------------------------------------------------------------------------------
-                                        指定無し        ASCII-8BIT                   default_external
- 
-                           default_internal のみ        ASCII-8BIT                   default_internal
- 
-                        外部エンコーディングのみ        ASCII-8BIT                 外部エンコーディング
- 
-                    内部エンコーディング指定あり        ASCII-8BIT                 内部エンコーディング
-  
-    内部エンコーディングと default_internal 両方        ASCII-8BIT                 内部エンコーディング
-</code></pre>
+<table>
+<thead>
+<tr><th></th><th>バイナリ読み込みメソッド</th><th>テキスト読み込みメソッド</th></tr>
+</thead>
+<tbody>
+<tr><td>指定無し</td><td>ASCII-8BIT</td><td>default_external</td></tr>
+<tr><td>default_internal のみ</td><td>ASCII-8BIT</td><td>default_internal</td></tr>
+<tr><td>外部エンコーディングのみ</td><td>ASCII-8BIT</td><td>外部エンコーディング</td></tr>
+<tr><td>内部エンコーディング指定あり</td><td>ASCII-8BIT</td><td>内部エンコーディング</td></tr>
+<tr><td>内部エンコーディングと default_internal 両方</td><td>ASCII-8BIT</td><td>内部エンコーディング</td></tr>
+</tbody>
+</table>
 <p>
 エンコーディングの変換
 </p>
-<pre class="highlight text"><code>                                              バイナリ読み込みメソッド   テキスト読み込みメソッド   書き込みメソッド
----------------------------------------------------------------------------------------------------------------------
-                                  指定無し           変換なし                 変換なし                   変換なし
-
-                  外部エンコーディングのみ           変換なし                 変換なし                   変換あり
-         
-                     default_internal のみ           変換なし                 変換あり                   変換あり 
-  
-                  内部エンコーディングのみ           変換なし                 変換あり                   変換あり
-
-外部エンコーディングと内部エンコーディング           変換なし                 変換あり                   変換あり
-
-   外部エンコーディングと default_internal           変換なし                 変換あり                   変換あり
-</code></pre>
+<table>
+<thead>
+<tr><th></th><th>バイナリ読み込みメソッド</th><th>テキスト読み込みメソッド</th><th>書き込みメソッド</th></tr>
+</thead>
+<tbody>
+<tr><td>指定無し</td><td>変換なし</td><td>変換なし</td><td>変換なし</td></tr>
+<tr><td>外部エンコーディングのみ</td><td>変換なし</td><td>変換なし</td><td>変換あり</td></tr>
+<tr><td>default_internal のみ</td><td>変換なし</td><td>変換あり</td><td>変換あり</td></tr>
+<tr><td>内部エンコーディングのみ</td><td>変換なし</td><td>変換あり</td><td>変換あり</td></tr>
+<tr><td>外部エンコーディングと内部エンコーディング</td><td>変換なし</td><td>変換あり</td><td>変換あり</td></tr>
+<tr><td>外部エンコーディングと default_internal</td><td>変換なし</td><td>変換あり</td><td>変換あり</td></tr>
+</tbody>
+</table>
 <h3 >デフォルトの外部エンコーディングの指定</h3>
 <p>
 <a href="../method/Encoding/s/default_external.html">Encoding.default_external</a> はコマンドオプション -E で指定します。
@@ -288,27 +287,35 @@ Windows の IO にはテキストモードとバイナリモードという2種�
 空ファイルや EOF での各読み込みメソッドの振る舞いは以下のとおりです。ただし、length を指定できるメソッドに関しては、length に nil または 0 を指定した場合、
 EOF であっても常に空文字列 &quot;&quot; を返します。
 </p>
-<pre class="highlight text"><code>メソッド                      空のファイルに対して
-
-IO.read(空ファイル)           ""
-IO.read(空ファイル, length)   nil
-IO.readlines(空ファイル)      []
-IO.foreach(空ファイル)        何もしない
-</code></pre>
-<pre class="highlight text"><code>メソッド                      既にEOFだったら
-
-IO#each_byte                  何もしない
-IO#getc                       nil
-IO#gets                       nil
-IO#read()                     ""
-IO#read(length)               nil
-IO#read_nonblock              EOFError
-IO#readchar                   EOFError
-IO#readline                   EOFError
-IO#readlines                  []
-IO#readpartial                EOFError
-IO#sysread                    EOFError
-</code></pre>
+<table>
+<thead>
+<tr><th>メソッド</th><th>空のファイルに対して</th></tr>
+</thead>
+<tbody>
+<tr><td>IO.read(空ファイル)</td><td><code>&quot;&quot;</code></td></tr>
+<tr><td>IO.read(空ファイル, length)</td><td><code>nil</code></td></tr>
+<tr><td>IO.readlines(空ファイル)</td><td><code>[]</code></td></tr>
+<tr><td>IO.foreach(空ファイル)</td><td>何もしない</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><th>メソッド</th><th>既にEOFだったら</th></tr>
+</thead>
+<tbody>
+<tr><td>IO#each_byte</td><td>何もしない</td></tr>
+<tr><td>IO#getc</td><td><code>nil</code></td></tr>
+<tr><td>IO#gets</td><td><code>nil</code></td></tr>
+<tr><td>IO#read()</td><td><code>&quot;&quot;</code></td></tr>
+<tr><td>IO#read(length)</td><td><code>nil</code></td></tr>
+<tr><td>IO#read_nonblock</td><td><code>EOFError</code></td></tr>
+<tr><td>IO#readchar</td><td><code>EOFError</code></td></tr>
+<tr><td>IO#readline</td><td><code>EOFError</code></td></tr>
+<tr><td>IO#readlines</td><td><code>[]</code></td></tr>
+<tr><td>IO#readpartial</td><td><code>EOFError</code></td></tr>
+<tr><td>IO#sysread</td><td><code>EOFError</code></td></tr>
+</tbody>
+</table>
 
 
 

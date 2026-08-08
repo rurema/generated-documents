@@ -1,7 +1,7 @@
 # main.define_method
 
-### def define_method(name, method) -> Symbol
-### def define_method(name) { ... } -> Symbol
+### def main.define_method(name, method) -> Symbol
+### def main.define_method(name) { ... } -> Symbol
 {: since="2.0.0"}
 
 インスタンスメソッド name を [Object](../../../class/Object.md) に定義します。

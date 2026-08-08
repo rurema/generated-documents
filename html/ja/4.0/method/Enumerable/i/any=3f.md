@@ -14,7 +14,6 @@
 - **param** `pattern` -- ブロックの代わりに各要素に対して pattern === item を評価します。
 
 ```ruby title="例"
-require 'set'
 p Set[1, 2, 3].any? {|v| v > 3 }         # => false
 p Set[1, 2, 3].any? {|v| v > 1 }         # => true
 p Set[].any? {|v| v > 0 }                # => false

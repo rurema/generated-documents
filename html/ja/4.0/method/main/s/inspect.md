@@ -1,7 +1,7 @@
 # main.inspect
 
-### def to_s    -> "main"
-### def inspect -> "main"
+### def main.to_s    -> "main"
+### def main.inspect -> "main"
 {: since=""}
 
 "main" を返します。
