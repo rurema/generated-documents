@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Integer/i/=3c.html">
 
 <title>Integer#&lt; (Ruby 4.1 リファレンスマニュアル)</title>
-<meta name="description" content="数値として小さいか判定します。">
+<meta name="description" content="`self' を数値として `other' と比較し、`self' のほうが小さければ `true' を、そうでなければ `false' を返します。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-09-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-10-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -82,7 +82,16 @@
 <dt class="method-heading" id="I_--3C"><code>self &lt; other -&gt; bool</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../../../method/Integer/i/=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Integer.html#method-i-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-数値として小さいか判定します。
+<code>self</code> を数値として <code>other</code> と比較し、<code>self</code> のほうが小さければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が <a href="../../../class/Complex.html">Complex</a> オブジェクトのとき、たとえ虚部がゼロでも <code>NoMethodError</code> が発生します。
+</p>
+<p>
+<code>other</code> が NaN のとき、<code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないとき、<code>ArgumentError</code> が発生します。
 </p>
 <p>
 <code>Integer</code> オブジェクトを左項とする比較演算子 <code>&lt;</code> はこのメソッドの呼び出しになります。
@@ -94,11 +103,15 @@
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-<code>self</code> よりも <code>other</code> が大きい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
+<code>self</code> が <code>other</code> より小さければ <code>true</code> を、そうでなければ <code>false</code> を返します。
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">1</span>  <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">2</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span> <span class="c1"># =&gt; false
+</span>
+<span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">0</span><span class="p">)</span>  <span class="c1"># ~&gt; NoMethodError
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="s2">"</span><span class="s2">2</span><span class="s2">"</span> <span class="c1"># ~&gt; ArgumentError: comparison of Integer with String failed
 </span></code></pre>
 </dd>
 
