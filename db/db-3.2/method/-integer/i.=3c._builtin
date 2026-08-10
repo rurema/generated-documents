@@ -7,16 +7,25 @@ until_by_name=
 
 ### def <(other)  -> bool
 
-数値として小さいか判定します。
+`self` を数値として `other` と比較し、`self` のほうが小さければ `true` を、そうでなければ `false` を返します。
+
+`other` が [c:Complex] オブジェクトのとき、たとえ虚部がゼロでも `NoMethodError` が発生します。
+
+`other` が NaN のとき、`false` を返します。
+
+`other` が数値でないとき、`ArgumentError` が発生します。
 
 `Integer` オブジェクトを左項とする比較演算子 `<` はこのメソッドの呼び出しになります。
 
 - **param** `other` -- 比較対象の数値
-- **return** --      `self` よりも `other` が大きい場合 `true` を返します。
-             そうでなければ `false` を返します。
+- **return** -- `self` が `other` より小さければ `true` を、そうでなければ `false` を返します。
 
 ```ruby
 p 1 < 1  # => false
 p 1 < 2  # => true
+p 1 < Float::NAN # => false
+
+p 1 < Complex(2, 0)  # ~> NoMethodError
+p 1 < "2" # ~> ArgumentError: comparison of Integer with String failed
 ```
 

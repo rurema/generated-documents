@@ -2,7 +2,7 @@
 
 ### def to_f -> Float
 
-`self` を浮動小数点数([Float](../../../class/Float.md))に変換します。
+`self` を浮動小数点数([Float](../../../class/Float.md))に変換して返します。
 
 `self` が [Float](../../../class/Float.md) の範囲に収まらない場合、[Float::INFINITY](../../../method/Float/c/INFINITY.md) を返します。
 

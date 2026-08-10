@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Integer.html">
 
 <title>class Integer (Ruby 3.3 リファレンスマニュアル)</title>
-<meta name="description" content="整数クラスです。">
+<meta name="description" content="整数を表すクラスです。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -130,7 +130,7 @@
 
 <h2>要約</h2>
 <p>
-整数クラスです。
+整数を表すクラスです。
 </p>
 <p>
 整数オブジェクトに特異メソッドを追加する事はできません。追加した場合、
@@ -139,6 +139,24 @@
 <p>
 かつて <code>Integer</code> クラスのエイリアスであった <code>Fixnum</code> と <code>Bignum</code> は Ruby 3.2 で削除されました。
 </p>
+<p>
+<code>Integer</code> には <a href="../method/Integer/i/=7e.html">Integer#~</a> や <a href="../method/Integer/i/=26.html">Integer#&amp;</a> のようなビット論理演算がいくつか定義されています。これらは、整数を「2 の補数表記」したビット列とみなして、位ごとに論理演算を行うものです。
+</p>
+<p>
+<code>Integer</code> のビット論理演算において、整数は以下の例のように左（上位）に無限に <code>0</code> または <code>1</code> が続くビット列として扱われます（<code>..</code> は、その右隣に書かれた数字が左に向かって無限に続くことを意味する）。
+</p>
+<table>
+<thead>
+<tr><th style="text-align:center">10 進表記</th><th style="text-align:right">2 進表記</th><th style="text-align:right">ビット列</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center"><code>6</code></td><td style="text-align:right"><code>0b110</code></td><td style="text-align:right"><code>..0110</code></td></tr>
+<tr><td style="text-align:center"><code>1</code></td><td style="text-align:right"><code>0b1</code></td><td style="text-align:right"><code>..01</code></td></tr>
+<tr><td style="text-align:center"><code>0</code></td><td style="text-align:right"><code>0b0</code></td><td style="text-align:right"><code>..0</code></td></tr>
+<tr><td style="text-align:center"><code>-1</code></td><td style="text-align:right"><code>-0b1</code></td><td style="text-align:right"><code>..1</code></td></tr>
+<tr><td style="text-align:center"><code>-6</code></td><td style="text-align:right"><code>-0b110</code></td><td style="text-align:right"><code>..1010</code></td></tr>
+</tbody>
+</table>
 
 
 
@@ -518,17 +536,17 @@
 <p>
 <code>Integer</code> オブジェクトを左項とする算術演算子 <code>%</code> はこのメソッドの呼び出しになります。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span>  <span class="mi">5</span> <span class="o">%</span>  <span class="mi">3</span> <span class="c1"># =&gt;  2
-</span><span class="nb">p</span>  <span class="mi">5</span> <span class="o">%</span> <span class="o">-</span><span class="mi">3</span> <span class="c1"># =&gt; -1
-</span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span> <span class="o">%</span>  <span class="mi">3</span> <span class="c1"># =&gt;  1
-</span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span> <span class="o">%</span> <span class="o">-</span><span class="mi">3</span> <span class="c1"># =&gt; -2
-</span></code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
 <code>self</code> に対する除数
 </dd>
 </dl>
+<pre class="highlight ruby"><code><span class="nb">p</span>  <span class="mi">5</span> <span class="o">%</span>  <span class="mi">3</span> <span class="c1"># =&gt;  2
+</span><span class="nb">p</span>  <span class="mi">5</span> <span class="o">%</span> <span class="o">-</span><span class="mi">3</span> <span class="c1"># =&gt; -1
+</span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span> <span class="o">%</span>  <span class="mi">3</span> <span class="c1"># =&gt;  1
+</span><span class="nb">p</span> <span class="o">-</span><span class="mi">5</span> <span class="o">%</span> <span class="o">-</span><span class="mi">3</span> <span class="c1"># =&gt; -2
+</span></code></pre>
 </dd>
 
 
@@ -723,7 +741,16 @@
 <dt class="method-heading" id="I_--3C"><code>self &lt; other -&gt; bool</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-数値として小さいか判定します。
+<code>self</code> を数値として <code>other</code> と比較し、<code>self</code> のほうが小さければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が <a href="../class/Complex.html">Complex</a> オブジェクトのとき、たとえ虚部がゼロでも <code>NoMethodError</code> が発生します。
+</p>
+<p>
+<code>other</code> が NaN のとき、<code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないとき、<code>ArgumentError</code> が発生します。
 </p>
 <p>
 <code>Integer</code> オブジェクトを左項とする比較演算子 <code>&lt;</code> はこのメソッドの呼び出しになります。
@@ -735,11 +762,15 @@
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-<code>self</code> よりも <code>other</code> が大きい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
+<code>self</code> が <code>other</code> より小さければ <code>true</code> を、そうでなければ <code>false</code> を返します。
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">1</span>  <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">2</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span> <span class="c1"># =&gt; false
+</span>
+<span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">0</span><span class="p">)</span>  <span class="c1"># ~&gt; NoMethodError
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="s2">"</span><span class="s2">2</span><span class="s2">"</span> <span class="c1"># ~&gt; ArgumentError: comparison of Integer with String failed
 </span></code></pre>
 </dd>
 
@@ -767,7 +798,16 @@
 <dt class="method-heading" id="I_--3C--3D"><code>self &lt;= other -&gt; bool</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3c=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3C-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-数値として等しいまたは小さいか判定します。
+<code>self</code> を数値として <code>other</code> と比較し、<code>self</code> が <code>other</code> より小さいか等しければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が <a href="../class/Complex.html">Complex</a> オブジェクトのとき、たとえ虚部がゼロでも <code>NoMethodError</code> が発生します。
+</p>
+<p>
+<code>other</code> が NaN のとき、<code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないとき、<code>ArgumentError</code> が発生します。
 </p>
 <p>
 <code>Integer</code> オブジェクトを左項とする比較演算子 <code>&lt;=</code> はこのメソッドの呼び出しになります。
@@ -779,12 +819,17 @@
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-<code>self</code> よりも <code>other</code> の方が大きい場合か、両者が等しい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
+<code>self</code> が <code>other</code> より小さいか等しければ <code>true</code> を、そうでなければ <code>false</code> を返します。
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="mi">0</span>  <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="mi">1</span>  <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="mi">2</span>  <span class="c1"># =&gt; true
+</span>
+<span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span> <span class="c1"># =&gt; false
+</span>
+<span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">0</span><span class="p">)</span>  <span class="c1"># ~&gt; NoMethodError
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="s2">"</span><span class="s2">2</span><span class="s2">"</span> <span class="c1"># ~&gt; ArgumentError: comparison of Integer with String failed
 </span></code></pre>
 </dd>
 
@@ -800,7 +845,7 @@
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-比較対象の数値
+比較対象
 </dd>
 <dt>[RETURN]</dt>
 <dd>
@@ -819,7 +864,7 @@
 <dt class="method-heading"><code>self === other -&gt; bool</code></dt>
 <dd class="method-description">
 <p>
-<code>self</code> が 数値として <code>other</code> と等しければ <code>true</code> を返し、そうでないとき <code>false</code> を返します。
+<code>self</code> が数値として <code>other</code> と等しければ <code>true</code> を返し、そうでないとき <code>false</code> を返します。
 </p>
 <p>
 <code>other</code> が数値でないときは <code>false</code> を返します。
@@ -830,7 +875,7 @@
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-比較対象の数値
+比較対象
 </dd>
 <dt>[RETURN]</dt>
 <dd>
@@ -847,7 +892,16 @@
 <dt class="method-heading" id="I_--3E"><code>self &gt; other -&gt; bool</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-数値として大きいか判定します。
+<code>self</code> を数値として <code>other</code> と比較し、<code>self</code> が <code>other</code> より大きければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が <a href="../class/Complex.html">Complex</a> オブジェクトのとき、たとえ虚部がゼロでも <code>NoMethodError</code> が発生します。
+</p>
+<p>
+<code>other</code> が NaN のとき、<code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないとき、<code>ArgumentError</code> が発生します。
 </p>
 <p>
 <code>Integer</code> オブジェクトを左項とする比較演算子 <code>&gt;</code> はこのメソッドの呼び出しになります。
@@ -859,11 +913,16 @@
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-<code>self</code> よりも <code>other</code> の方が小さい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
+<code>self</code> が <code>other</code> より大きければ <code>true</code> を、そうでなければ <code>false</code> を返します。
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">0</span>  <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">1</span>  <span class="c1"># =&gt; false
+</span>
+<span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span> <span class="c1"># =&gt; false
+</span>
+<span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">0</span><span class="p">)</span>  <span class="c1"># ~&gt; NoMethodError
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="s2">0</span><span class="s2">"</span> <span class="c1"># ~&gt; ArgumentError: comparison of Integer with String failed
 </span></code></pre>
 </dd>
 
@@ -871,7 +930,16 @@
 <dt class="method-heading" id="I_--3E--3D"><code>self &gt;= other -&gt; bool</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/=3e=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-3E-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-数値として等しいまたは大きいか判定します。
+<code>self</code> を数値として <code>other</code> と比較し、<code>self</code> が <code>other</code> より大きいか等しければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が <a href="../class/Complex.html">Complex</a> オブジェクトのとき、たとえ虚部がゼロでも <code>NoMethodError</code> が発生します。
+</p>
+<p>
+<code>other</code> が NaN のとき、<code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないとき、<code>ArgumentError</code> が発生します。
 </p>
 <p>
 <code>Integer</code> オブジェクトを左項とする比較演算子 <code>&gt;=</code> はこのメソッドの呼び出しになります。
@@ -883,12 +951,17 @@
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-<code>self</code> よりも <code>other</code> の方が小さい場合か、両者が等しい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
+<code>self</code> が <code>other</code> より大きいか等しければ <code>true</code> を、そうでなければ <code>false</code> を返します。
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span>  <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">1</span>  <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">2</span>  <span class="c1"># =&gt; false
+</span>
+<span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span> <span class="c1"># =&gt; false
+</span>
+<span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">0</span><span class="p">)</span>  <span class="c1"># ~&gt; NoMethodError
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="s2">"</span><span class="s2">0</span><span class="s2">"</span> <span class="c1"># ~&gt; ArgumentError: comparison of Integer with String failed
 </span></code></pre>
 </dd>
 
@@ -1475,15 +1548,19 @@ m <span class="o">=</span> <span class="mi">7</span>
 <dt class="method-heading"><code>inspect(base=10) -&gt; String</code></dt>
 <dd class="method-description">
 <p>
-整数を 10 進文字列表現に変換します。
+<code>base</code> を基数とする位取り記数法で <code>self</code> を表した文字列を返します。
 </p>
 <p>
-引数を指定すれば、それを基数とした文字列表現に変換します。
+つまり「<code>base</code> 進法」による整数の表記を返します。デフォルトは 10 進法です。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">10</span><span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>    <span class="c1"># =&gt; &quot;1010&quot;
-</span><span class="nb">p</span> <span class="mi">10</span><span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>    <span class="c1"># =&gt; &quot;12&quot;
-</span><span class="nb">p</span> <span class="mi">10</span><span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;a&quot;
-</span><span class="nb">p</span> <span class="mi">35</span><span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;z&quot;
+<p>
+<code>base</code> が 11 以上のとき、<code>&quot;a&quot;</code> から <code>&quot;z&quot;</code> までのアルファベットが 10〜35 を表す「数字」として用いられます。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">10</span><span class="p">.</span><span class="nf">to_s</span>     <span class="c1"># =&gt; &quot;10&quot;
+</span><span class="nb">p</span> <span class="mi">10</span><span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;1010&quot;
+</span><span class="nb">p</span> <span class="mi">10</span><span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;12&quot;
+</span><span class="nb">p</span> <span class="mi">10</span><span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span> <span class="c1"># =&gt; &quot;a&quot;
+</span><span class="nb">p</span> <span class="mi">35</span><span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span> <span class="c1"># =&gt; &quot;z&quot;
 </span></code></pre>
 <dl>
 <dt>[RETURN]</dt>
@@ -1492,13 +1569,16 @@ m <span class="o">=</span> <span class="mi">7</span>
 </dd>
 <dt class='method-param'>[PARAM] <code>base</code>:</dt>
 <dd>
-基数となる 2〜36 の数値。
+基数となる 2〜36 の整数。
 </dd>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
 <code>base</code> に 2〜36 以外の数値を指定した場合に発生します。
 </dd>
 </dl>
+<p>
+[SEE_ALSO] <a href="../method/String/i/to_i.html">String#to_i</a>
+</p>
 </dd>
 
 
@@ -1776,7 +1856,7 @@ m <span class="o">=</span> <span class="mi">7</span>
 <dt class="method-heading" id="I_TO_F"><code>to_f -&gt; Float</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Integer/i/to_f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Integer.html#method-i-to_f">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Integer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を浮動小数点数(<a href="../class/Float.html">Float</a>)に変換します。
+<code>self</code> を浮動小数点数(<a href="../class/Float.html">Float</a>)に変換して返します。
 </p>
 <p>
 <code>self</code> が <a href="../class/Float.html">Float</a> の範囲に収まらない場合、<a href="../method/Float/c/INFINITY.html">Float::INFINITY</a> を返します。
