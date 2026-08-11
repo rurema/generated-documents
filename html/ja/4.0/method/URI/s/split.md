@@ -23,5 +23,5 @@ URI を要素に分割した文字列の配列を返します。
 ```ruby title="例"
 require 'uri'
 p URI.split("http://www.ruby-lang.org/")
-#=> ["http", nil, "www.ruby-lang.org", nil, nil, "/", nil, nil, nil]
+# => ["http", nil, "www.ruby-lang.org", nil, nil, "/", nil, nil, nil]
 ```

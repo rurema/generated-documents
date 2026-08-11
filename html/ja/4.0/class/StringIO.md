@@ -5,12 +5,12 @@
 ```ruby title="例"
 require "stringio"
 sio = StringIO.new("hoge", 'r+')
-p sio.read                 #=> "hoge"
+p sio.read                 # => "hoge"
 sio.rewind
-p sio.read(1)              #=> "h"
+p sio.read(1)              # => "h"
 sio.write("OGE")
 sio.rewind
-p sio.read                 #=> "hOGE"
+p sio.read                 # => "hOGE"
 ```
 
 ### 例外

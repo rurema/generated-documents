@@ -26,7 +26,7 @@ t = Time.utc(2022, 10, 5, 21, 25, 30)
 if t in wday: 3, day: ..7 # deconstruct_keys が使われます
   puts "first Wednesday of the month"
 end
-#=> "first Wednesday of the month" が出力される
+# => "first Wednesday of the month" が出力される
 
 case t
 in year: ...2022
@@ -36,7 +36,7 @@ in month: ..9
 in wday: 1..5, month:
   puts "working day in month #{month}"
 end
-#=> "working day in month 10" が出力される
+# => "working day in month 10" が出力される
 
 # クラスのチェックと組み合わせて利用することもできます
 if t in Time(wday: 3, day: ..7)

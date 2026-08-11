@@ -71,27 +71,22 @@ p Thread.new {sleep 1} # => #<Thread:0xa039de0 sleep>
 - **run (実行or実行可能状態)**:
   生成されたばかりのスレッドや [Thread#run](../method/Thread/i/run.md) や
   [Thread#wakeup](../method/Thread/i/wakeup.md) で起こされたスレッドはこの状態です。
-  [Thread#join](../method/Thread/i/join.md) でスレッドの終了を待っているスレッドもスレッドの
-  終了によりこの状態になります。
+  [Thread#join](../method/Thread/i/join.md) でスレッドの終了を待っているスレッドもスレッドの終了によりこの状態になります。
  
   この状態のスレッドは「生きて」います。
 
 - **sleep (停止状態)**:
-  [Thread.stop](../method/Thread/s/stop.md) や [Thread#join](../method/Thread/i/join.md) により停止されたスレッ
-  ドはこの状態になります。
+  [Thread.stop](../method/Thread/s/stop.md) や [Thread#join](../method/Thread/i/join.md) により停止されたスレッドはこの状態になります。
  
   この状態のスレッドは「生きて」います。
 
 - **aborting (終了処理中)**:
-  [Thread#kill](../method/Thread/i/kill.md) 等で終了されるスレッドは一時的にこの状態になりま
-  す。この状態から停止状態(sleep)になることもあります。
+  [Thread#kill](../method/Thread/i/kill.md) 等で終了されるスレッドは一時的にこの状態になります。この状態から停止状態(sleep)になることもあります。
  
   この状態のスレッドはまだ「生きて」います。
 
 - **dead (終了状態)**:
-  [Thread#kill](../method/Thread/i/kill.md) 等で終了したスレッドはこの状態になります。この状
-  態のスレッドはどこからも参照されていなければ GC によりメモリ上から
-  なくなります。
+  [Thread#kill](../method/Thread/i/kill.md) 等で終了したスレッドはこの状態になります。この状態のスレッドはどこからも参照されていなければ GC によりメモリ上からなくなります。
  
   この状態のスレッドは「死んで」います。
 

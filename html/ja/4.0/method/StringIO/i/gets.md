@@ -12,10 +12,10 @@
 ```ruby title="例"
 require "stringio"
 a = StringIO.new("hoge")
-p a.gets                #=> "hoge"
-p $_                    #=> "hoge"
-p a.gets                #=> nil
-p $_                    #=> nil
+p a.gets                # => "hoge"
+p $_                    # => "hoge"
+p a.gets                # => nil
+p $_                    # => nil
 ```
 
 - **SEE** [m:$/]

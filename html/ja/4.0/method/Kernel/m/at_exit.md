@@ -17,7 +17,7 @@ END{puts "END"}
 at_exit{puts "at_exit"}
 puts "main_end"
 
-#=> main_end
+# => main_end
 #   at_exit
 #   END
 #   at_exit2

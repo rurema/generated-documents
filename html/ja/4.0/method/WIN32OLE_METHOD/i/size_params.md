@@ -4,8 +4,7 @@
 
 パラメータ数を取得します。
 
-- **return** -- パラメータ数を整数で返します。メソッドの詳細情報を取得できない
-        場合はnilを返します。
+- **return** -- パラメータ数を整数で返します。メソッドの詳細情報を取得できない場合はnilを返します。
 
 ```ruby
 tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Workbook')

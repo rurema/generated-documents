@@ -20,7 +20,7 @@ obj = Foo.new
 def obj.foo
 end
 
-#=> singleton method "foo" was added
+# => singleton method "foo" was added
 ```
 
 - **SEE** [Module#method_added](../../../method/Module/i/method_added.md),[BasicObject#singleton_method_removed](../../../method/BasicObject/i/singleton_method_removed.md),[BasicObject#singleton_method_undefined](../../../method/BasicObject/i/singleton_method_undefined.md)

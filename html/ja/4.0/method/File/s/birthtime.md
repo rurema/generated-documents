@@ -11,5 +11,5 @@
 - **raise** `NotImplementedError` --  Windows のような birthtime のない環境で発生します。
 
 ```ruby title="例"
-p File.birthtime("testfile") #=> Wed Apr 09 08:53:13 CDT 2003
+p File.birthtime("testfile") # => Wed Apr 09 08:53:13 CDT 2003
 ```

@@ -17,5 +17,5 @@ def Fred.foo
   class_variable_get(:@@foo)
 end
 
-p Fred.foo #=> 99
+p Fred.foo # => 99
 ```

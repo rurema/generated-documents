@@ -10,8 +10,7 @@
 
 - **param** `v` -- ブロック内で評価される(ベクトル or 配列)
 
-- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- `self` と引数のベクト
-       ルの要素の数(次元)が異なっていたときに発生します。
+- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- `self` と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
 
 - **SEE** [Vector#collect2](../../../method/Vector/i/collect2.md)
 

@@ -4,8 +4,7 @@
 
 [Gem::Requirement](../../../class/Gem=3a=3aRequirement.md) のインスタンスを作成するためのファクトリメソッドです。
 
-- **param** `input` -- 文字列か配列か [Gem::Requirement](../../../class/Gem=3a=3aRequirement.md), [Gem::Version](../../../class/Gem=3a=3aVersion.md) のインスタンス
-             のいずれかを指定します。
+- **param** `input` -- 文字列か配列か [Gem::Requirement](../../../class/Gem=3a=3aRequirement.md), [Gem::Version](../../../class/Gem=3a=3aVersion.md) のインスタンスのいずれかを指定します。
 
 - **return** -- 上記以外の値を input に指定するとデフォルト値を返します。
 

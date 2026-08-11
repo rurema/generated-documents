@@ -10,5 +10,5 @@ path が全てのユーザから書き込めるならば、そのファイルの
 
 ```ruby title="例"
 m = File.world_writable?("/tmp")
-p "%o" % m                             #=> "777"
+p "%o" % m                             # => "777"
 ```

@@ -9,7 +9,7 @@
 require "webrick/cgi"
 class MyCGI < WEBrick::CGI
   def do_GET(req, res)
-    p req.query['q'].list    #=> ["val1", "val2", "val3"]
+    p req.query['q'].list    # => ["val1", "val2", "val3"]
   end
 end
 MyCGI.new.start()

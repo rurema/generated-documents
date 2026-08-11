@@ -23,8 +23,8 @@ require 'time'
 
 iso8601_time = '2008-08-31T12:34:56+09:00'
 t = Time.iso8601(iso8601_time)
-p t.xmlschema    #=> "2008-08-31T03:34:56Z"
-p t.xmlschema(9) #=> "2008-08-31T03:34:56.000000000Z"
+p t.xmlschema    # => "2008-08-31T03:34:56Z"
+p t.xmlschema(9) # => "2008-08-31T03:34:56.000000000Z"
 ```
 
 - **SEE** [Time.iso8601](../../../method/Time/s/iso8601.md), [Time.xmlschema](../../../method/Time/s/xmlschema.md)

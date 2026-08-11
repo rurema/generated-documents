@@ -6,5 +6,5 @@
 
 ```ruby title="例"
 require 'uri'
-p URI.parse("mailto:nospam@example.com").to     #=> "nospam@example.com"
+p URI.parse("mailto:nospam@example.com").to     # => "nospam@example.com"
 ```

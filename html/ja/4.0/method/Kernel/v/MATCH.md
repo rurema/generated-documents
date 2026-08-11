@@ -10,5 +10,5 @@ require "English"
 str = 'hoge,foo,bar,hee,hoo'
 
 /(foo|bar)/ =~ str
-p $MATCH     #=> "foo"
+p $MATCH     # => "foo"
 ```

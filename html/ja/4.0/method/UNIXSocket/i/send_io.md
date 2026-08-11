@@ -12,8 +12,8 @@ s1, s2 = UNIXSocket.pair
 s1.send_io STDOUT
 stdout = s2.recv_io
 
-p STDOUT.fileno #=> 1
-p stdout.fileno #=> 6
+p STDOUT.fileno # => 1
+p stdout.fileno # => 6
 
 stdout.puts "hello" # outputs "hello\n" to standard output.
 ```

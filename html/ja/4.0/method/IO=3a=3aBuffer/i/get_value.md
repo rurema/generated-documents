@@ -20,8 +20,7 @@ buffer_type には以下のシンボルを指定します。
 
 - **param** `offset` -- 読み出す位置をバッファの先頭からのバイト数で指定します。
 
-- **raise** `ArgumentError` -- buffer_type が上記以外の場合や、読み出す範囲が
-             バッファの外にはみ出す場合に発生します。
+- **raise** `ArgumentError` -- buffer_type が上記以外の場合や、読み出す範囲がバッファの外にはみ出す場合に発生します。
 
 ```ruby
 buf = IO::Buffer.for([1.5].pack("f"))

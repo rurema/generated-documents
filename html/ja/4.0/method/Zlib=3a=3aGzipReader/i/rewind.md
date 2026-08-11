@@ -17,9 +17,9 @@ Zlib::GzipWriter.open('hoge.gz') { |gz|
 =end
 
 gz = Zlib::GzipReader.open('hoge.gz')
-puts gz.gets #=> hoge
-puts gz.gets #=> fuga
-p gz.rewind  #=> 0
-puts gz.gets #=> hoge
+puts gz.gets # => hoge
+puts gz.gets # => fuga
+p gz.rewind  # => 0
+puts gz.gets # => hoge
 gz.close
 ```

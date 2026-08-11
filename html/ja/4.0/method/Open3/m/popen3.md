@@ -13,9 +13,7 @@ stdin, stdout, stderr, wait_thr = *Open3.popen3("/usr/bin/nroff -man")
 - **param** `cmd` -- 実行するコマンドを指定します。
 
 - **return** -- ブロックを指定した場合はブロックの最後に評価された値を返します。
-        ブロックを指定しなかった場合は標準入力、標準出力、標準エラー出
-        力と実行したプロセスを待つためのスレッドに接続されたパイプを返
-        します。
+        ブロックを指定しなかった場合は標準入力、標準出力、標準エラー出力と実行したプロセスを待つためのスレッドに接続されたパイプを返します。
 
 ブロックを指定するとパイプの配列を引数にブロックを実行し、最後にパイプを close します。この場合はブロックの最後の式の結果を返します。
 
@@ -48,7 +46,7 @@ Open3.popen3({"foo" => "1", "bar" => "2"}, "env") {|i, o, e, t|
   i.close
   print o.read
 }
-#=> ...
+# => ...
 #   foo=1
 #   bar=2
 ```
@@ -61,13 +59,13 @@ require "open3"
 # オプションを指定した場合。
 Dir.chdir("/tmp")
 Open3.popen3("pwd", :chdir=> "/") {|i,o,e,t|
-  p o.read.chomp #=> "/"
+  p o.read.chomp # => "/"
 }
 
 # オプションを指定しない場合。
 Dir.chdir("/tmp")
 Open3.popen3("pwd") {|i,o,e,t|
-  p o.read.chomp #=> "/tmp"
+  p o.read.chomp # => "/tmp"
 }
 ```
 

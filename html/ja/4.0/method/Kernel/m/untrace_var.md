@@ -16,13 +16,13 @@ varname のフックを全て解除します。
 trace_var(:$v){|val| print "hookA.#{val.inspect},\n" }
 block = proc{|val| print "hookB.#{val.inspect}," }
 trace_var(:$v,&block)
-$v = 'str'        #=> hookB."str",hookA."str",
+$v = 'str'        # => hookB."str",hookA."str",
 
 untrace_var(:$v,block)
-$v = 'str'        #=> hookA."str",
+$v = 'str'        # => hookA."str",
 
 trace_var(:$v){|val| print "hookC.#{val.inspect}," }
-p untrace_var(:$v) #=> [#<Proc:0x02b68f58 ..:9>, #<Proc:0x02b6978c ..:3>]
+p untrace_var(:$v) # => [#<Proc:0x02b68f58 ..:9>, #<Proc:0x02b6978c ..:3>]
 $v = 'str'        # なにも出力されない
 ```
 

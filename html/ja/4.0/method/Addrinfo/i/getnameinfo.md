@@ -10,9 +10,9 @@ flags には Socket::NI_??? という名前の定数のビット OR を渡しま
 require 'socket'
 
 p Addrinfo.tcp("127.0.0.1", 80).getnameinfo
-#=> ["localhost", "www"]
+# => ["localhost", "www"]
 p Addrinfo.tcp("127.0.0.1", 80).getnameinfo(Socket::NI_NUMERICSERV)
-#=> ["localhost", "80"]
+# => ["localhost", "80"]
 ```
 
 - **param** `flags` -- フラグ

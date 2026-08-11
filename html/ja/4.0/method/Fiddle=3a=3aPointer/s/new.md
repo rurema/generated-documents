@@ -11,5 +11,4 @@ size であると仮定されます。GC は free 関数を使用してメモリ
 
 - **param** `size` -- 生成する Pointer オブジェクトが指すメモリ領域のサイズを整数で指定します。
 
-- **param** `free` -- GC 時に呼ばれる free 関数を [Fiddle::Function](../../../class/Fiddle=3a=3aFunction.md) オブジェクトか
-       整数で指定します。
+- **param** `free` -- GC 時に呼ばれる free 関数を [Fiddle::Function](../../../class/Fiddle=3a=3aFunction.md) オブジェクトか整数で指定します。

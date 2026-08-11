@@ -15,10 +15,10 @@
 
 ```ruby
 require 'securerandom'
-p SecureRandom.urlsafe_base64 #=> "b4GOKm4pOYU_-BOXcrUGDg"
-p SecureRandom.urlsafe_base64 #=> "UZLdOkzop70Ddx-IJR0ABg"
-p SecureRandom.urlsafe_base64(nil, true) #=> "i0XQ-7gglIsHGV2_BNPrdQ=="
-p SecureRandom.urlsafe_base64(nil, true) #=> "-M8rLhr7JEpJlqFGUMmOxg=="
+p SecureRandom.urlsafe_base64 # => "b4GOKm4pOYU_-BOXcrUGDg"
+p SecureRandom.urlsafe_base64 # => "UZLdOkzop70Ddx-IJR0ABg"
+p SecureRandom.urlsafe_base64(nil, true) # => "i0XQ-7gglIsHGV2_BNPrdQ=="
+p SecureRandom.urlsafe_base64(nil, true) # => "-M8rLhr7JEpJlqFGUMmOxg=="
 ```
 
 - **SEE** [SecureRandom.base64](../../../method/SecureRandom/s/base64.md),  [rfc:3548]

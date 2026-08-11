@@ -13,5 +13,5 @@ true を返します。そうでない場合に false を返します。
 s = "bar"
 a = s.method(:size)
 b = s.method(:size)
-p a == b                            #=> true
+p a == b                            # => true
 ```

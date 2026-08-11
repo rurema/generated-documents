@@ -4,8 +4,7 @@
 
 ログを出力する際に使用するフォーマッターをセットします。
 
-- **param** `formatter` -- 4 つの引数 (severity, time, program name, message) を
-                 受け取る call メソッドを 持つオブジェクトを指定します。
+- **param** `formatter` -- 4 つの引数 (severity, time, program name, message) を受け取る call メソッドを 持つオブジェクトを指定します。
 
 引数 formatter が持つ call メソッドは以下の 4 つの引数 (severity,
 time, program name, message) を受けとります。

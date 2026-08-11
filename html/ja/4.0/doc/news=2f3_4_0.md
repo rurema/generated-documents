@@ -62,7 +62,7 @@
       ```ruby
       o = Object.new
       o.extend(Module.new{def a = 1})
-      o.singleton_method(:a).call #=> 1
+      o.singleton_method(:a).call # => 1
       ```
 
 - [Ractor](../class/Ractor.md)
@@ -81,7 +81,7 @@
 
       ```ruby
       (Time.utc(2022, 2, 24)..).step(24*60*60).take(3)
-      #=> [2022-02-24 00:00:00 UTC, 2022-02-25 00:00:00 UTC, 2022-02-26 00:00:00 UTC]
+      # => [2022-02-24 00:00:00 UTC, 2022-02-25 00:00:00 UTC, 2022-02-26 00:00:00 UTC]
       ```
 
 - [Rational](../class/Rational.md)

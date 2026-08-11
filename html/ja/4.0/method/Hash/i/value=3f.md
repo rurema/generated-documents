@@ -9,8 +9,8 @@
 - **param** `value` -- 探索する値を指定します。
 
 ```ruby
-p({1 => "one"}.value?("one")) #=> true
-p({1 => "one"}.value?("two")) #=> false
+p({1 => "one"}.value?("one")) # => true
+p({1 => "one"}.value?("two")) # => false
 ```
 
 - **SEE** [Hash#key?](../../../method/Hash/i/key=3f.md)

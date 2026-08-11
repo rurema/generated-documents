@@ -15,11 +15,9 @@
 
 - **param** `value` -- 書き込む値を数値で指定します。
 
-- **raise** `ArgumentError` -- buffer_type が不正な場合や、書き込む範囲が
-             バッファの外にはみ出す場合に発生します。
+- **raise** `ArgumentError` -- buffer_type が不正な場合や、書き込む範囲がバッファの外にはみ出す場合に発生します。
 
-- **raise** `IO::Buffer::AccessError` -- 読み取り専用のバッファに対して
-             呼び出した場合に発生します。
+- **raise** `IO::Buffer::AccessError` -- 読み取り専用のバッファに対して呼び出した場合に発生します。
 
 ```ruby
 buf = IO::Buffer.new(8)

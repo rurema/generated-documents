@@ -9,7 +9,7 @@
 require "readline"
   
 Readline::HISTORY.push("foo", "bar", "baz")
-p Readline::HISTORY.length #=> 3
+p Readline::HISTORY.length # => 3
 ```
 
 - **SEE** [Readline::HISTORY.empty?](../../../method/Readline=3a=3aHISTORY/s/empty=3f.md)

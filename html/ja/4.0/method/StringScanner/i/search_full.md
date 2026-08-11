@@ -32,9 +32,9 @@ regexp で指定された正規表現とマッチするまで文字列をスキ�
 require 'strscan'
 
 s = StringScanner.new('test string')
-p s.search_full(/t/, true, true)       #=> "t"
-p s.search_full(/str/, false, true)    #=> "est str"
-p s.search_full(/string/, true, true)  #=> "est string"
+p s.search_full(/t/, true, true)       # => "t"
+p s.search_full(/str/, false, true)    # => "est str"
+p s.search_full(/string/, true, true)  # => "est string"
 ```
 
 - **SEE** [StringScanner#scan_until](../../../method/StringScanner/i/scan_until.md) [StringScanner#skip_until](../../../method/StringScanner/i/skip_until.md) [StringScanner#check_until](../../../method/StringScanner/i/check_until.md) [StringScanner#exist?](../../../method/StringScanner/i/exist=3f.md)

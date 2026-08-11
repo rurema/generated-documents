@@ -7,7 +7,7 @@
 
 ```ruby title="例"
 a = {}
-p a.hash     #=> 0
+p a.hash     # => 0
 a[1] = :x
-p a.hash     #=> 329543
+p a.hash     # => 329543
 ```

@@ -20,7 +20,7 @@ end
 non_sort = {1=>[2], 2=>[3, 4], 3=>[2], 4=>[]}
 
 p non_sort.strongly_connected_components
-#=> [[4], [2, 3], [1]]
+# => [[4], [2, 3], [1]]
 ```
 
 - **SEE** [TSort.strongly_connected_components](../../../method/TSort/s/strongly_connected_components.md)

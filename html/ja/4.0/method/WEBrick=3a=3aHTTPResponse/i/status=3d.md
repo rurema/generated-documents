@@ -12,5 +12,5 @@ require 'webrick'
 res = WEBrick::HTTPResponse.new( { :HTTPVersion => "1.1" } )
 res.status = 404
   
-p res.reason_phrase    #=> "Not Found"
+p res.reason_phrase    # => "Not Found"
 ```

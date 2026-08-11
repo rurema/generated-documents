@@ -12,7 +12,7 @@ Dir.glob("/bin/*") {|bd|
 }
 #例
 #...
-#=> /bin/ping
-#=> /bin/su
+# => /bin/ping
+# => /bin/su
 #...
 ```

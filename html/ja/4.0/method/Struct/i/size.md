@@ -10,5 +10,5 @@
 ```ruby title="例"
 Customer = Struct.new(:name, :address, :zip)
 joe = Customer.new("Joe Smith", "123 Maple, Anytown NC", 12345)
-p joe.length #=> 3
+p joe.length # => 3
 ```

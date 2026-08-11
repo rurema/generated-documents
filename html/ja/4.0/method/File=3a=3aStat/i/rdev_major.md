@@ -7,5 +7,5 @@ rdev の major 番号部を返します。
 ```ruby
 fs = File::Stat.new($0)
 #例
-p fs.rdev_major #=> nil
+p fs.rdev_major # => nil
 ```

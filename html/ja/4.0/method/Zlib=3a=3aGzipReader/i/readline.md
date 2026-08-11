@@ -48,9 +48,9 @@ Zlib::GzipReader.open('hoge.gz') { |gz|
     break
   end while true
 }
-#=> hoge
-#=> fuga
-#=> end of file reached
+# => hoge
+# => fuga
+# => end of file reached
 ```
 
 - **SEE** [IO#readline](../../../method/IO/i/readline.md)

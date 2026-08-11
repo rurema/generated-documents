@@ -5,19 +5,19 @@
 ロケールエンコーディングを決定するために用いる、locale charmap 名を返します。nl_langinfo 等がない環境では nil を、miniruby では ASCII_8BIT を返します。
 
 ```ruby title="Debian GNU/Linux + LANG=C"
-p Encoding.locale_charmap #=> "ANSI_X3.4-1968"
+p Encoding.locale_charmap # => "ANSI_X3.4-1968"
 ```
 
 ```ruby title="LANG=ja_JP.EUC-JP"
-p Encoding.locale_charmap #=> "EUC-JP"
+p Encoding.locale_charmap # => "EUC-JP"
 ```
 
 ```ruby title="SunOS 5 + LANG=C"
-p Encoding.locale_charmap #=> "646"
+p Encoding.locale_charmap # => "646"
 ```
 
 ```ruby title="SunOS 5 + LANG=ja"
-p Encoding.locale_charmap #=> "eucJP"
+p Encoding.locale_charmap # => "eucJP"
 ```
 
 - **SEE** [man:charmap(5)]

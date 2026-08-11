@@ -28,11 +28,11 @@ class Foo
   end
 end
 foo = Foo.new(['foo', 'bar'])
-p foo                      #=> #<Foo:0xbaf234 @foo=["foo", "bar"]>
+p foo                      # => #<Foo:0xbaf234 @foo=["foo", "bar"]>
 dms = Marshal.dump(foo)
-p dms                      #=> "\004\bu:\bFoo\023\004\b[\a\"\bfoo\"\bbar"
-result = Marshal.load(dms) #=> "\004\b[\a\"\bfoo\"\bbar" # self._load の引数
-p result                   #=> #<Foo:0xbaf07c @foo=["foo", "bar"]>
+p dms                      # => "\004\bu:\bFoo\023\004\b[\a\"\bfoo\"\bbar"
+result = Marshal.load(dms) # => "\004\b[\a\"\bfoo\"\bbar" # self._load の引数
+p result                   # => #<Foo:0xbaf07c @foo=["foo", "bar"]>
 ```
 
 インスタンス変数の情報は普通マーシャルデータに含まれるので、上例のように _dump を定義する必要はありません(ただし _dump を定義するとインスタンス変数の情報は dump されなくなります)。

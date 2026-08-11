@@ -9,7 +9,7 @@
 ```ruby title="例"
 require "stringio"
 a = StringIO.new("hoge")
-p a.readbyte             #=> 104
+p a.readbyte             # => 104
 ```
 
 - **raise** `EOFError` -- 文字列の終端に到達した時に発生します。

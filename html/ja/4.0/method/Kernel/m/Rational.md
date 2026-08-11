@@ -9,8 +9,7 @@
 - **param** `y` -- 変換対象のオブジェクトです。省略した場合は x だけを用いて
          [Rational](../../../class/Rational.md) オブジェクトを作成します。
 
-- **param** `exception` -- false を指定すると、変換できなかった場合、
-                 例外を発生する代わりに nil を返します。
+- **param** `exception` -- false を指定すると、変換できなかった場合、例外を発生する代わりに nil を返します。
 
 - **raise** `ArgumentError` -- 変換できない形式の文字列を指定した場合に発生します。
 

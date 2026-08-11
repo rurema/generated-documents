@@ -12,6 +12,6 @@
 ```ruby title="例"
 require 'fiddle'
 addr = Fiddle.malloc(10)
-p addr               #=> 136942800
+p addr               # => 136942800
 Fiddle.free(addr)
 ```

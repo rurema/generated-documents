@@ -11,7 +11,7 @@
 require "webrick/cgi"
 class MyCGI < WEBrick::CGI
   def do_GET(req, res)
-    p req.query['q'].name   #=> "q"
+    p req.query['q'].name   # => "q"
   end
 end
 MyCGI.new.start()

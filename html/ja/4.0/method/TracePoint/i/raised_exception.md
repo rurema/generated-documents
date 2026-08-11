@@ -4,8 +4,7 @@
 
 発生した例外を返します。
 
-- **raise** `RuntimeError` -- :raise イベントのためのイベントフックの外側で実行し
-                    た場合に発生します。
+- **raise** `RuntimeError` -- :raise イベントのためのイベントフックの外側で実行した場合に発生します。
 
 ```ruby title="例"
 trace = TracePoint.new(:raise) do |tp|

@@ -8,7 +8,7 @@
 ```ruby title="例"
 require "openssl"
 oid = OpenSSL::ASN1::ObjectId.new("subjectAltName")
-p oid.sn   #=> "subjectAltName"
+p oid.sn   # => "subjectAltName"
 ```
 
 - **SEE** [OpenSSL::ASN1::ObjectId#ln](../../../method/OpenSSL=3a=3aASN1=3a=3aObjectId/i/ln.md)

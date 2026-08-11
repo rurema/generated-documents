@@ -13,8 +13,7 @@ ch が文字列なら、その先頭1文字を出力します。
 - **raise** `RangeError` -- C の long に収まらない大きな整数を引数にした場合に発生します。
 - **raise** `IOError` -- 標準出力が書き込み用にオープンされていなければ発生します。
 - **raise** `Errno::EXXX` -- 出力に失敗した場合に発生します。
-- **raise** `TypeError` -- [Integer](../../../class/Integer.md) に変換できないオブジェクトを引数に
-                 指定した場合に発生します。
+- **raise** `TypeError` -- [Integer](../../../class/Integer.md) に変換できないオブジェクトを引数に指定した場合に発生します。
 
 
 ```ruby title="例"

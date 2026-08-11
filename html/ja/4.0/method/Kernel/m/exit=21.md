@@ -24,7 +24,7 @@ ensure
 end
 puts 'end' #実行されない
 
-#=> start
+# => start
 #   start1...
 #終了ステータス:1
 ```

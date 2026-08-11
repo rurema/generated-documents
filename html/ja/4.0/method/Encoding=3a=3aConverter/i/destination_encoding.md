@@ -8,5 +8,5 @@
 
 ```ruby
 ec = Encoding::Converter.new("utf-8", "euc-jp")
-p ec.destination_encoding #=> #<Encoding:EUC-JP>
+p ec.destination_encoding # => #<Encoding:EUC-JP>
 ```

@@ -7,17 +7,11 @@ DISPIDとパラメータの型を指定してオブジェクトのプロパテ�
 アクセスするプロパティのインターフェイスを事前に知っている場合に、
 DISPIDとパラメータの型を指定してプロパティを参照します。
 
-- **param** `dispid` -- プロパティのDISPID（メソッドを一意に特定する数値）を指定
-              します。
+- **param** `dispid` -- プロパティのDISPID（メソッドを一意に特定する数値）を指定します。
 
-- **param** `args` -- プロパティが引数を取る場合に配列で指定します。引数の順序は
-            最左端の引数のインデックスを0とします。引数が不要な場合は空
-            配列を指定します。
+- **param** `args` -- プロパティが引数を取る場合に配列で指定します。引数の順序は最左端の引数のインデックスを0とします。引数が不要な場合は空配列を指定します。
 
-- **param** `types` -- プロパティが引数を取る場合に配列で引数の型を指定します。引
-             数の順序は最左端の引数のインデックスを0とします。型の指定
-             には、[WIN32OLE::VARIANT](../../../class/WIN32OLE=3a=3aVARIANT.md)の定数を利用します。引数が不
-             要な場合は空配列を指定します。
+- **param** `types` -- プロパティが引数を取る場合に配列で引数の型を指定します。引数の順序は最左端の引数のインデックスを0とします。型の指定には、[WIN32OLE::VARIANT](../../../class/WIN32OLE=3a=3aVARIANT.md)の定数を利用します。引数が不要な場合は空配列を指定します。
 
 このメソッドはCOMアーリーバインディングを利用することで外部プロセスサーバとのラウンドトリップを減らして処理速度を向上させることを目的としたものです。このため、DLLの形式で型情報（TypeLib）を提供しているサーバに対してはあまり意味を持ちません。
 
@@ -33,7 +27,7 @@ puts excel._getproperty(558, [], []) # VisibleプロパティのDISPIDは558
 workbook = excel.Workbooks.Add
 sheet = workbook.Worksheets[1]
 sheet._setproperty(DISPID_CELLS, [1, 2, 'hello'], [VT_I2, VT_I2, VT_BSTR])
-puts sheet._getproperty(DISPID_CELLS, [1, 2], [VT_I2, VT_I2]).value  #=> 'hello'
+puts sheet._getproperty(DISPID_CELLS, [1, 2], [VT_I2, VT_I2]).value  # => 'hello'
 workbook.Close(:SaveChanges => false)
 excel.Quit
 ```

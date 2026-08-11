@@ -14,8 +14,7 @@ ARGF の外部／内部エンコーディングを設定します。
 
 詳しくは [IO#set_encoding](../../../method/IO/i/set_encoding.md) を参照してください。
 
-- **param** `enc_str` -- 外部／内部エンコーディングを"A:B" のようにコロンで
-               区切って指定します。
+- **param** `enc_str` -- 外部／内部エンコーディングを"A:B" のようにコロンで区切って指定します。
 - **param** `ext_enc` -- 外部エンコーディングを表す文字列か
                [Encoding](../../../class/Encoding.md) オブジェクトを指定します。
 - **param** `int_enc` -- 内部エンコーディングを表す文字列か

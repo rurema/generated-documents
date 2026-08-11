@@ -4,8 +4,7 @@
 
 新しい [TracePoint](../../../class/TracePoint.md) オブジェクトを作成して自動的にトレースを開始します。[TracePoint.new](../../../method/TracePoint/s/new.md) のコンビニエンスメソッドです。
 
-- **param** `events` -- トレースするイベントを [String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) で任
-              意の数指定します。指定できる値については
+- **param** `events` -- トレースするイベントを [String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) で任意の数指定します。指定できる値については
               [TracePoint.new](../../../method/TracePoint/s/new.md) を参照してください。
 
 ```ruby title="例"

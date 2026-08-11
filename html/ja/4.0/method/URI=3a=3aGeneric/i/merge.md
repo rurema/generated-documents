@@ -13,10 +13,10 @@ rel が文字列の場合は URI.parse(rel) によって、URI に変換して�
 ```ruby title="例"
 require 'uri'
 p URI.parse('http://example.com/') + '/foo/bar.html'
-#=> #<URI::HTTP:0x201001c0 URL:http://example.com/foo/bar.html>
-p URI('http://a/b/c/d;p?q').merge('?y')             #=> #<URI::HTTP:0xb7ca2e2c URL:http://a/b/c/d;p?y>
-p URI('http://a/b/c/d;p?q').merge('/./g')           #=> #<URI::HTTP:0xb7ca2738 URL:http://a/g>
-p URI('http://a/b/c/d;p?q').merge('/../g')          #=> #<URI::HTTP:0xb7ca2008 URL:http://a/g>
-p URI('http://a/b/c/d;p?q').merge('../../../g')     #=> #<URI::HTTP:0xb7ca1888 URL:http://a/g>
-p URI('http://a/b/c/d;p?q').merge('../../../../g')  #=> #<URI::HTTP:0xb7ca10a4 URL:http://a/g>
+# => #<URI::HTTP:0x201001c0 URL:http://example.com/foo/bar.html>
+p URI('http://a/b/c/d;p?q').merge('?y')             # => #<URI::HTTP:0xb7ca2e2c URL:http://a/b/c/d;p?y>
+p URI('http://a/b/c/d;p?q').merge('/./g')           # => #<URI::HTTP:0xb7ca2738 URL:http://a/g>
+p URI('http://a/b/c/d;p?q').merge('/../g')          # => #<URI::HTTP:0xb7ca2008 URL:http://a/g>
+p URI('http://a/b/c/d;p?q').merge('../../../g')     # => #<URI::HTTP:0xb7ca1888 URL:http://a/g>
+p URI('http://a/b/c/d;p?q').merge('../../../../g')  # => #<URI::HTTP:0xb7ca10a4 URL:http://a/g>
 ```

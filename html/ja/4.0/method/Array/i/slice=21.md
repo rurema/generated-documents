@@ -9,12 +9,12 @@
 
 ```ruby title="例"
 a = [ "a", "b", "c" ]
-p a.slice!(1)   #=> "b"
-p a             #=> ["a", "c"]
-p a.slice!(-1)  #=> "c"
-p a             #=> ["a"]
-p a.slice!(100) #=> nil
-p a             #=> ["a"]
+p a.slice!(1)   # => "b"
+p a             # => ["a", "c"]
+p a.slice!(-1)  # => "c"
+p a             # => ["a"]
+p a.slice!(100) # => nil
+p a             # => ["a"]
 ```
 
 ### def slice!(start, len)  -> Array | nil
@@ -31,10 +31,10 @@ p a             #=> ["a"]
 
 ```ruby title="例"
 a = [ "a", "b", "c" ]
-p a.slice!(1, 2)   #=> ["b", "c"]
-p a                #=> ["a"]
+p a.slice!(1, 2)   # => ["b", "c"]
+p a                # => ["a"]
 
 a = [ "a", "b", "c" ]
-p a.slice!(1, 0)   #=> []
-p a                #=> [ "a", "b", "c" ]
+p a.slice!(1, 0)   # => []
+p a                # => [ "a", "b", "c" ]
 ```

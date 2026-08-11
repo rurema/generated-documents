@@ -9,6 +9,6 @@
 ```ruby title="例"
 require 'fiddle'
 s = 'abc'
-p addr = Fiddle.dlwrap(s)   #=> 136122440
-p Fiddle.dlunwrap(addr)     #=> "abc"
+p addr = Fiddle.dlwrap(s)   # => 136122440
+p Fiddle.dlunwrap(addr)     # => "abc"
 ```

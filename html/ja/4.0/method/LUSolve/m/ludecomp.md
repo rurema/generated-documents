@@ -7,8 +7,7 @@ n 次正方行列を表す配列 a を破壊的に変更し、返り値と併せ
 [LUSolve?.lusolve](../../../method/LUSolve/m/lusolve.md) の引数を構築するために使います。
 
 - **param** `a` -- 行列を [BigDecimal](../../../class/BigDecimal.md) の配列で指定します。(各要素を
-         Row-major order で 1 次元の配列にしたオブジェクトを指定し
-         ます)
+         Row-major order で 1 次元の配列にしたオブジェクトを指定します)
 
 - **param** `n` -- 引数 a の次元を整数で指定します。
 

@@ -13,5 +13,5 @@ require "stringio"
 a = StringIO.new("hoge", 'r+')
 a.pos = 10
 a << 'Z'
-p a.string                      #=> "hoge\000\000\000\000\000\000Z"
+p a.string                      # => "hoge\000\000\000\000\000\000Z"
 ```

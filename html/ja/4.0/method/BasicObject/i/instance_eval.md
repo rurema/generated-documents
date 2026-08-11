@@ -18,9 +18,7 @@ BasicObject を継承して作ったクラス内で instance_eval する場合�
 
 - **param** `expr` --  評価する文字列です。
 
-- **param** `filename` -- 文字列を指定します。ファイル filename に文字列 expr が
-                書かれているかのように実行されます。スタックトレースの
-                表示などを差し替えることができます。
+- **param** `filename` -- 文字列を指定します。ファイル filename に文字列 expr が書かれているかのように実行されます。スタックトレースの表示などを差し替えることができます。
 
 - **param** `lineno` -- 整数を指定します。行番号 lineno から文字列 expr が書かれているかのように実行されます。
               スタックトレースの表示などを差し替えることができます。
@@ -37,8 +35,8 @@ class Foo
 end
 
 some = Foo.new 'XXX'
-p some.instance_eval{p @key} #=> "XXX"
-p some.instance_eval{do_fuga } #=> "secret" # private メソッドも呼び出せる
+p some.instance_eval{p @key} # => "XXX"
+p some.instance_eval{do_fuga } # => "secret" # private メソッドも呼び出せる
 
 some.instance_eval 'raise' # ..:10: (eval):1:  (RuntimeError)
 messg = 'unknown'

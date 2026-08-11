@@ -7,5 +7,5 @@
 ```ruby
 require 'socket'
 
-p Addrinfo.tcp("localhost", 80).afamily == Socket::AF_INET #=> true
+p Addrinfo.tcp("localhost", 80).afamily == Socket::AF_INET # => true
 ```

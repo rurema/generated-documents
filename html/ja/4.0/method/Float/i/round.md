@@ -24,8 +24,7 @@
        `ndigits` が0より大きいならば、実数を返します。
        `ndigits` が0より小さいならば、整数を返します。
 
-- **raise** `TypeError` -- `ndigits` で指定されたオブジェクトが整数に変換できない場
-                 合発生します。
+- **raise** `TypeError` -- `ndigits` で指定されたオブジェクトが整数に変換できない場合発生します。
 
 ```ruby title="例"
 p 1.0.round    # => 1

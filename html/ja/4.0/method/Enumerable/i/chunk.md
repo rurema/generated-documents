@@ -78,7 +78,7 @@ IO.popen("svn log README") {|f|
     pp lines
   }
 }
-#=> ["r20018 | knu | 2008-10-29 13:20:42 +0900 (Wed, 29 Oct 2008) | 2 lines\n",
+# => ["r20018 | knu | 2008-10-29 13:20:42 +0900 (Wed, 29 Oct 2008) | 2 lines\n",
 #    "\n",
 #    "* README, README.ja: Update the portability section.\n",
 #    "\n"]

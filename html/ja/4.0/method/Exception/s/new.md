@@ -5,8 +5,7 @@
 
 例外オブジェクトを生成して返します。
 
-- **param** `error_message` -- エラーメッセージを表す文字列を指定します。このメッセージは
-                     属性 [Exception#message](../../../method/Exception/i/message.md) の値になり、デフォルトの例外ハンドラで表示されます。
+- **param** `error_message` -- エラーメッセージを表す文字列を指定します。このメッセージは属性 [Exception#message](../../../method/Exception/i/message.md) の値になり、デフォルトの例外ハンドラで表示されます。
 
 ```ruby title="例"
 e = Exception.new("some message")

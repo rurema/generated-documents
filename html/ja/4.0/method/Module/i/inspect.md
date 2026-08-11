@@ -23,28 +23,28 @@ module A
   module B
   end
 
-  p B.name  #=> "A::B"
+  p B.name  # => "A::B"
 
   class C
   end
 end
 
-p A.name    #=> "A"
-p A::B.name #=> "A::B"
-p A::C.name #=> "A::C"
+p A.name    # => "A"
+p A::B.name # => "A::B"
+p A::C.name # => "A::C"
 
 # 名前のないモジュール / クラス
-p Module.new.name   #=> nil
-p Class.new.name    #=> nil
-p Module.new.to_s   #=> "#<Module:0x00007f90b09112c8>"
-p Class.new.to_s    #=> "#<Class:0x00007fa5c40b41b0>"
+p Module.new.name   # => nil
+p Class.new.name    # => nil
+p Module.new.to_s   # => "#<Module:0x00007f90b09112c8>"
+p Class.new.to_s    # => "#<Class:0x00007fa5c40b41b0>"
 
 # 名前は最初に代入された定数で確定し、以後は変わらない
 c = Class.new
-p c.name         #=> nil
+p c.name         # => nil
 Foo = c
-p c.name         #=> "Foo"
+p c.name         # => "Foo"
 Bar = c
-p c.name         #=> "Foo"
-p c.name.frozen? #=> true
+p c.name         # => "Foo"
+p c.name.frozen? # => true
 ```

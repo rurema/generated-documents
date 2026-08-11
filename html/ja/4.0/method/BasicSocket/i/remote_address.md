@@ -11,13 +11,13 @@
 require 'socket'
 
 TCPSocket.open("www.ruby-lang.org", 80) {|s|
-  p s.remote_address #=> #<Addrinfo: 221.186.184.68:80 TCP>
+  p s.remote_address # => #<Addrinfo: 221.186.184.68:80 TCP>
 }
   
 TCPServer.open("127.0.0.1", 1728) {|serv|
   c = TCPSocket.new("127.0.0.1", 1728)
   s = serv.accept
-  p s.remote_address #=> #<Addrinfo: 127.0.0.1:36504 TCP>
+  p s.remote_address # => #<Addrinfo: 127.0.0.1:36504 TCP>
 }
 ```
 

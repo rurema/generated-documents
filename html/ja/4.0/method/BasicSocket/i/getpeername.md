@@ -11,7 +11,7 @@ serv = TCPServer.open("", 0)
 c = TCPSocket.open(*Socket.unpack_sockaddr_in(serv.getsockname).reverse)
 s = serv.accept
 addr = c.getpeername
-p addr      #=> "\002\000\267\214\177\000\000\001\000\000\000\000\000\000\000\000"
-p Socket.unpack_sockaddr_in(addr)   #=> [46988, "127.0.0.1"]
-p addr == s.getsockname     #=> true
+p addr      # => "\002\000\267\214\177\000\000\001\000\000\000\000\000\000\000\000"
+p Socket.unpack_sockaddr_in(addr)   # => [46988, "127.0.0.1"]
+p addr == s.getsockname     # => true
 ```

@@ -45,10 +45,10 @@ Zlib::GzipReader.open('hoge.gz') { |gz|
     break
   end while true
 }
-#=> 104
-#=> 111
-#=> 103
-#=> 101
-#=> 10
-#=> end of file reached
+# => 104
+# => 111
+# => 103
+# => 101
+# => 10
+# => end of file reached
 ```

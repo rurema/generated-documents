@@ -7,10 +7,8 @@ mutex をロックし、ブロックを実行します。実行後に必ず mute
 
 ブロックが最後に評価した値を返します。
 
-- **raise** `ThreadError` -- self 既にカレントスレッドにロックされている場合に発
-                   生します。
-                   また、[Signal?.trap](../../../method/Signal/m/trap.md) に指定したハンドラ内で実行
-                   した場合に発生します。
+- **raise** `ThreadError` -- self 既にカレントスレッドにロックされている場合に発生します。
+                   また、[Signal?.trap](../../../method/Signal/m/trap.md) に指定したハンドラ内で実行した場合に発生します。
 
 ```ruby title="例"
 m = Thread::Mutex.new

@@ -7,13 +7,13 @@
 
 ```ruby title="例"
 h = Hash.new {|hash, key| "The #{key} not exist in #{hash.inspect}"}
-p h.default              #=> nil
-p block = h.default_proc #=> #<Proc:0x0x401a9ff4>
-p block.call({},:foo)    #=> "The foo not exist in {}"
+p h.default              # => nil
+p block = h.default_proc # => #<Proc:0x0x401a9ff4>
+p block.call({},:foo)    # => "The foo not exist in {}"
 
 h = Hash.new("default")
-p h.default              #=> "default"
-p h.default_proc         #=> nil
+p h.default              # => "default"
+p h.default_proc         # => nil
 ```
 
 - **SEE** [Hash#default](../../../method/Hash/i/default.md)

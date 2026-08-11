@@ -9,8 +9,8 @@
 ```ruby
 printf "%s %s\n", $:[0], File::Stat.new($:[0]).grpowned?
 #例
-#=> /usr/local/lib/site_ruby/1.8 false
+# => /usr/local/lib/site_ruby/1.8 false
 printf "%s %s\n", $0, File::Stat.new($0).grpowned?
 #例
-#=> filestat.rb true
+# => filestat.rb true
 ```

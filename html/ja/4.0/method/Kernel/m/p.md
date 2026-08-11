@@ -20,15 +20,15 @@ p に引数を与えずに呼び出した場合は特に何もしません。
 - **return** -- 指定された引数 arg を返します。複数の引数が指定された場合はそれらを要素とする配列を返します。
 
 ```ruby title="例"
-puts "" #=> （空行）
-p "" #=> ""
+puts "" # => （空行）
+p "" # => ""
 
 puts 50,"50"
-#=> 50
-#=> 50
+# => 50
+# => 50
 p 50,"50"
-#=> 50
-#=> "50"
+# => 50
+# => "50"
 ```
 
 - **SEE** [Object#inspect](../../../method/Object/i/inspect.md),[Kernel?.puts](../../../method/Kernel/m/puts.md),[Kernel?.print](../../../method/Kernel/m/print.md)

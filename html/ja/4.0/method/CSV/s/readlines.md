@@ -10,8 +10,7 @@ headers オプションに偽でない値を指定した場合は [CSV::Table](.
 
 - **param** `options` -- [CSV.new](../../../method/CSV/s/new.md) のオプションと同じオプションを指定できます。
                :encoding というキーを使用すると入力のエンコーディングを指定できます。
-               入力のエンコーディングが [Encoding.default_external](../../../method/Encoding/s/default_external.md) と異なる場合は
-               必ず指定しなければなりません。
+               入力のエンコーディングが [Encoding.default_external](../../../method/Encoding/s/default_external.md) と異なる場合は必ず指定しなければなりません。
 
 ```ruby title="例"
 require "csv"

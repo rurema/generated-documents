@@ -13,7 +13,7 @@ require 'benchmark'
 puts Benchmark::CAPTION
 puts Benchmark.measure { "a"*1_000_000 }
 
-#=>
+# =>
 #
 #     user     system      total        real
 # 1.166667   0.050000   1.216667 (  0.571355)

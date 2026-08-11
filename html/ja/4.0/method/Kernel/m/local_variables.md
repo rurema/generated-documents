@@ -6,7 +6,7 @@
 
 ```ruby title="例"
 yuyu = 0
-p local_variables #=> [:yuyu]
+p local_variables # => [:yuyu]
 ```
 
 番号指定パラメータ（_1 など）は 4.0 からローカル変数として扱われなくなり、返り値に含まれなくなりました。

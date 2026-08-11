@@ -8,8 +8,8 @@
 
 ```ruby
 ec = Encoding::Converter.new("euc-jp", "us-ascii")
-p ec.replacement    #=> "?"
+p ec.replacement    # => "?"
 
 ec = Encoding::Converter.new("euc-jp", "utf-8")
-p ec.replacement    #=> "\uFFFD"
+p ec.replacement    # => "\uFFFD"
 ```

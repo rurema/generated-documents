@@ -5,8 +5,8 @@
 [FileTest](../class/FileTest.md) に同名のモジュール関数がある場合はそれと同じ働きをします。ただ、ファイル名を引数に取るかわりに Stat 自身について判定する点が違います。
 
 ```ruby
-p File::Stat.new($0).directory? #=> false
-p FileTest.directory?($0) #=> false
+p File::Stat.new($0).directory? # => false
+p FileTest.directory?($0) # => false
 ```
 
 1.8 以降では、属性メソッドがシステムでサポートされていない場合 nil が返ります。

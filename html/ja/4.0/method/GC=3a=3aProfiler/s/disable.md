@@ -6,7 +6,7 @@ GC のプロファイラを停止します。
 
 ```ruby title="例"
 GC::Profiler.disable
-p GC::Profiler.enabled? #=> false
+p GC::Profiler.enabled? # => false
 ```
 
 このメソッドでは、蓄積したプロファイル情報は破棄しません。

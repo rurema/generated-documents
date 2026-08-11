@@ -12,9 +12,9 @@ arg に to_ary, to_a のいずれのメソッドも定義されていない場�
 - **raise** `TypeError` -- to_ary, to_a の返り値が配列でなければ発生します
 
 ```ruby title="例"
-p Array({:it => 3}) #=> [[:it, 3]]
-p Array(nil) #=> []
-p Array("fefe") #=> ["fefe"]
+p Array({:it => 3}) # => [[:it, 3]]
+p Array(nil) # => []
+p Array("fefe") # => ["fefe"]
 ```
 
 - **SEE** [Object#to_a](../../../method/Object/i/to_a.md),[Object#to_ary](../../../method/Object/i/to_ary.md),[Array](../../../class/Array.md)

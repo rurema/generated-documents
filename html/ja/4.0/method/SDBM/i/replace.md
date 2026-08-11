@@ -18,10 +18,10 @@ db2['c'] = 'ccc'
 db2['d'] = 'ddd'
 hash = { 'x' => 'xxx', 'y' => 'yyy'}
   
-p db1               #=> #<SDBM:0xb7c304d0>
-p db1.to_hash       #=> {"a"=>"aaa", "b"=>"bbb", "c"=>"ccc"}
-p db1.replace(db2)  #=> #<SDBM:0xb7c304d0>
-p db1.to_hash       #=> {"c"=>"ccc", "d"=>"ddd"}
-p db1.replace(hash) #=> #<SDBM:0xb7c304d0>
-p db1.to_hash       #=> {"x"=>"xxx", "y"=>"yyy"}
+p db1               # => #<SDBM:0xb7c304d0>
+p db1.to_hash       # => {"a"=>"aaa", "b"=>"bbb", "c"=>"ccc"}
+p db1.replace(db2)  # => #<SDBM:0xb7c304d0>
+p db1.to_hash       # => {"c"=>"ccc", "d"=>"ddd"}
+p db1.replace(hash) # => #<SDBM:0xb7c304d0>
+p db1.to_hash       # => {"x"=>"xxx", "y"=>"yyy"}
 ```

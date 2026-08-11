@@ -9,8 +9,7 @@ inherit に真を指定するとスーパークラスやインクルードして
 
 得られる定数の順序は保証されません。
 
-- **param** `inherit` -- true を指定するとスーパークラスや include したモジュールで
-       定義された定数が対象にはなります。false を指定した場合 対象にはなりません。
+- **param** `inherit` -- true を指定するとスーパークラスや include したモジュールで定義された定数が対象にはなります。false を指定した場合 対象にはなりません。
 
 - **SEE** [Module.constants](../../../method/Module/s/constants.md), [Kernel?.local_variables](../../../method/Kernel/m/local_variables.md), [Kernel?.global_variables](../../../method/Kernel/m/global_variables.md), [Object#instance_variables](../../../method/Object/i/instance_variables.md), [Module#class_variables](../../../method/Module/i/class_variables.md)
 

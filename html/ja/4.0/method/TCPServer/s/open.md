@@ -15,5 +15,4 @@ host に指定できる形式は[socket#host_format](../../../library/socket.md#
 - **param** `host` -- 接続したいホストを指定します。
             host に指定できる形式は[socket#host_format](../../../library/socket.md#host_format)を見てください。
 
-- **param** `service` -- /etc/services (または NIS) に登録されているサービ
-               ス名かポート番号で指定します。
+- **param** `service` -- /etc/services (または NIS) に登録されているサービス名かポート番号で指定します。

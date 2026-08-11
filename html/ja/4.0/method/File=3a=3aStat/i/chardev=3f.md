@@ -12,7 +12,7 @@ Dir.glob("/dev/*") {|bd|
 }
 #例
 #...
-#=> /dev/tty1
-#=> /dev/stderr
+# => /dev/tty1
+# => /dev/stderr
 #...
 ```

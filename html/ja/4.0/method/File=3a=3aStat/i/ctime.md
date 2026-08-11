@@ -8,7 +8,7 @@
 ```ruby
 fs = File::Stat.new($0)
 #例
-p fs.ctime.to_f   #=> 1188719843.0
+p fs.ctime.to_f   # => 1188719843.0
 ```
 
 

@@ -7,5 +7,5 @@
 ```ruby
 fs = File::Stat.new($0)
 #例
-p fs.blksize #=> nil
+p fs.blksize # => nil
 ```

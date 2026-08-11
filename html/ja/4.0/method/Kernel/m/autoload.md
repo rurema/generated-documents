@@ -23,7 +23,7 @@ end
 # ----- end of /tmp/foo.rb ----
 
 autoload :Bar, '/tmp/foo'
-p Bar #=> Bar
+p Bar # => Bar
 ```
 
 - **SEE** [Kernel?.autoload?](../../../method/Kernel/m/autoload=3f.md),[Module#autoload](../../../method/Module/i/autoload.md),[Kernel?.require](../../../method/Kernel/m/require.md)

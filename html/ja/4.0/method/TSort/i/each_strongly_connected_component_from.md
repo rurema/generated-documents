@@ -35,17 +35,17 @@ non_sort.each_strongly_connected_component{|nodes|
 }
 
 #出力
-#=> [4]
-#=> 4 -> 4
-#=> [2, 3]
-#=> 2 -> 4
-#=> 2 -> 2,3
-#=> 3 -> 4
-#=> 3 -> 3,2
-#=> [1]
-#=> 1 -> 4
-#=> 1 -> 2,3
-#=> 1 -> 1
+# => [4]
+# => 4 -> 4
+# => [2, 3]
+# => 2 -> 4
+# => 2 -> 2,3
+# => 3 -> 4
+# => 3 -> 3,2
+# => [1]
+# => 1 -> 4
+# => 1 -> 2,3
+# => 1 -> 1
 ```
 
 - **SEE** [TSort.each_strongly_connected_component_from](../../../method/TSort/s/each_strongly_connected_component_from.md)

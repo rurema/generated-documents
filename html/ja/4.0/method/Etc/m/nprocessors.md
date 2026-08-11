@@ -6,5 +6,5 @@
 
 ```ruby
 require 'etc'
-p Etc.nprocessors #=> 4
+p Etc.nprocessors # => 4
 ```

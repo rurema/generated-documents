@@ -23,7 +23,7 @@ enum = Enumerator.new{|y|
 }
 enum.each{|i| p i }
 
-#=>  5
+# =>  5
 #   10
 
 
@@ -35,5 +35,5 @@ fib = Enumerator.new { |y|
   }
 }
 
-p fib.take(10) #=> [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+p fib.take(10) # => [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
 ```

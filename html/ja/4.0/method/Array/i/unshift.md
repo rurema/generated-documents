@@ -11,11 +11,11 @@
 ```ruby title="例"
 arr = [1,2,3]
 arr.unshift 0
-p arr             #=> [0, 1, 2, 3]
+p arr             # => [0, 1, 2, 3]
 arr.unshift [0]
-p arr             #=> [[0], 0, 1, 2, 3]
+p arr             # => [[0], 0, 1, 2, 3]
 arr.unshift 1, 2
-p arr             #=> [1, 2, [0], 0, 1, 2, 3]
+p arr             # => [1, 2, [0], 0, 1, 2, 3]
 ```
 
 - **SEE** [Array#push](../../../method/Array/i/push.md), [Array#pop](../../../method/Array/i/pop.md), [Array#shift](../../../method/Array/i/shift.md)

@@ -13,8 +13,8 @@
 ec = Encoding::Converter.new("utf-16le", "iso-8859-1")
 src = "\x00\xd8\x61\x00"
 dst = ""
-p ec.primitive_convert(src, dst)   #=> :invalid_byte_sequence
-p ec.primitive_errinfo     #=> [:invalid_byte_sequence, "UTF-16LE", "UTF-8", "\x00\xD8", "a\x00"]
-p ec.putback               #=> "a\x00"
-p ec.putback               #=> ""          # no more bytes to put back
+p ec.primitive_convert(src, dst)   # => :invalid_byte_sequence
+p ec.primitive_errinfo     # => [:invalid_byte_sequence, "UTF-16LE", "UTF-8", "\x00\xD8", "a\x00"]
+p ec.putback               # => "a\x00"
+p ec.putback               # => ""          # no more bytes to put back
 ```

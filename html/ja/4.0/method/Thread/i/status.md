@@ -7,26 +7,26 @@
 [Thread#alive?](../../../method/Thread/i/alive=3f.md) が真を返すなら、このメソッドも真です。
 
 ```ruby title="例"
-p Thread.current.status #=> "run"
+p Thread.current.status # => "run"
 
 a = Thread.new { raise("die now") }
 sleep 0.1
-p a.status              #=> nil
+p a.status              # => nil
 
 b = Thread.new { Thread.stop }
 sleep 0.1
-p b.status              #=> "sleep"
+p b.status              # => "sleep"
 
 c = Thread.new { Thread.exit }
 sleep 0.1
-p c.status              #=> false
+p c.status              # => false
 
 d = Thread.new { sleep }
 sleep 0.1
-p d.status              #=> "sleep"
+p d.status              # => "sleep"
 d.kill
 sleep 0.1
-p d.status              #=> false
+p d.status              # => false
 ```
 
 - **SEE** [Thread#alive?](../../../method/Thread/i/alive=3f.md), [Thread#stop?](../../../method/Thread/i/stop=3f.md)

@@ -11,6 +11,6 @@ Dir.glob("/tmp/*"){|file|
   end
 }
 #例
-#=> /tmp/uimhelper-hogehoge
+# => /tmp/uimhelper-hogehoge
 #...
 ```

@@ -6,5 +6,5 @@
 
 ```ruby title="例"
 require 'uri'
-p URI.parse('http://example.com/').to_s #=> "http://example.com/"
+p URI.parse('http://example.com/').to_s # => "http://example.com/"
 ```

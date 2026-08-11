@@ -4,5 +4,4 @@
 
 自身を初期化します。
 
-- **param** `attribute_manager` -- `RDoc::AttributeManager` オブジェクトを指
-                         定します。
+- **param** `attribute_manager` -- `RDoc::AttributeManager` オブジェクトを指定します。

@@ -93,19 +93,19 @@ String オブジェクトは自身のエンコーディング情報を持ちま�
 エンコーディングの変換にはメソッド [String#encode](../method/String/i/encode.md) を使います。
 
 ```ruby title="例:エンコーディングの変換"
-p "いろは".size      #=> 3
-p "漢字"[0]          #=> "漢"
-p "山本山".reverse   #=> "山本山" (回文なので分からないですね)
-p "ループ".reverse   #=> "プール"
+p "いろは".size      # => 3
+p "漢字"[0]          # => "漢"
+p "山本山".reverse   # => "山本山" (回文なので分からないですね)
+p "ループ".reverse   # => "プール"
 
 s = "ruビー"
 s[0..1] = "ル"
-p s                  #=> "ルビー"
+p s                  # => "ルビー"
 
 e = "言語".encode("EUC-JP")
 u = "言語".encode("UTF-8")
-p e.encoding                   #=> Encoding::EUC_JP
-p u.encoding                   #=> Encoding::UTF_8
+p e.encoding                   # => Encoding::EUC_JP
+p u.encoding                   # => Encoding::UTF_8
 ```
 
 より詳しく知りたい場合は、[spec/m17n](../doc/spec=2fm17n.md) を参照してください。
@@ -121,10 +121,10 @@ p u.encoding                   #=> Encoding::UTF_8
 s = "いろは"
 a = s.encode("EUC-JP")
 b = s.encode("UTF-8")
-p a == b                            #=> false
+p a == b                            # => false
 
 s = "合".encode("EUC-JP")
-p s + "\u{4f53}".encode("EUC-JP")   #=> "合体"
+p s + "\u{4f53}".encode("EUC-JP")   # => "合体"
 s + "\u{4f53}"                      # ~> Encoding::CompatibilityError
 ```
 
@@ -137,7 +137,7 @@ s = "いろは"
 s.force_encoding("EUC-JP")
 h[s] = 1
 s.force_encoding("ASCII-8BIT")
-p h[s]                             #=> nil
+p h[s]                             # => nil
 ```
 
 #### 7bit クリーンな文字列
@@ -151,8 +151,8 @@ ASCII 互換エンコーディングをもつ文字列にエンコーディン�
 s = "abc"
 a = s.encode("EUC-JP")
 b = s.encode("UTF-8")
-p a == b                           #=> true
-p a + b                            #=> "abcabc"
+p a == b                           # => true
+p a + b                            # => "abcabc"
 ```
 
 ここで言う「ASCII互換エンコーディング」とは、コードポイントが同一という意味ではなくバイト列が同じことを意味します。従って UTF-16 はASCII互換ではありません。

@@ -9,6 +9,6 @@
 begin
   1 + nil
 rescue => e
-  p e.message   #=>  "nil can't be coerced into Fixnum"
+  p e.message   # =>  "nil can't be coerced into Fixnum"
 end
 ```

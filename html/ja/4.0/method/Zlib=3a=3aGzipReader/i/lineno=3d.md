@@ -48,10 +48,10 @@ Zlib::GzipReader.open('hoge.gz') { |gz|
     printf "%s %d\n", l, gz.lineno
   end
 }
-#=> h 1
-#=> o 1001
-#=> g 1002
-#=> e 1003
+# => h 1
+# => o 1001
+# => g 1002
+# => e 1003
 ```
 
 - **SEE** [IO#lineno=](../../../method/IO/i/lineno=3d.md)

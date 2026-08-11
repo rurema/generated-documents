@@ -25,7 +25,7 @@ dt = DateTime.new(2022, 10, 5, 13, 30)
 if dt in wday: 1..5, hour: 10..18 # deconstruct_keys が使われます
   puts "Working time"
 end
-#=> "Working time" が出力される
+# => "Working time" が出力される
 
 case dt
 in year: ...2022
@@ -35,7 +35,7 @@ in month: ..9
 in wday: 1..5, month:
   puts "working day in month #{month}"
 end
-#=> "working day in month 10" が出力される
+# => "working day in month 10" が出力される
 
 # クラスのチェックと組み合わせて利用することもできます
 if dt in DateTime(wday: 1..5, hour: 10..18, day: ..7)

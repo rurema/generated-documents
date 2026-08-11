@@ -18,5 +18,5 @@ class C
   end
 end
 
-p C.new.foo #=> "objtrace.rb:8"
+p C.new.foo # => "objtrace.rb:8"
 ```

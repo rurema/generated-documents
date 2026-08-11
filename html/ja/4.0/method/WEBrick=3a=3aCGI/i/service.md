@@ -11,5 +11,4 @@
 - **param** `res` -- クライアントへのレスポンスを表す [WEBrick::HTTPResponse](../../../class/WEBrick=3a=3aHTTPResponse.md) オブジェクトです。
 
 - **raise** `WEBrick::HTTPStatus::MethodNotAllowed` -- 指定された
-       [WEBrick::HTTPRequest](../../../class/WEBrick=3a=3aHTTPRequest.md) オブジェクト req が自身に定義されてい
-       ないHTTP のメソッドであった場合発生します。
+       [WEBrick::HTTPRequest](../../../class/WEBrick=3a=3aHTTPRequest.md) オブジェクト req が自身に定義されていないHTTP のメソッドであった場合発生します。

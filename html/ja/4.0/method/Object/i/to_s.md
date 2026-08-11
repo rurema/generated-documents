@@ -14,7 +14,7 @@ class Foo
 end
 it = Foo.new(40)
 
-puts it #=> #<Foo:0x2b69110>
+puts it # => #<Foo:0x2b69110>
 
 class Foo
   def to_s
@@ -22,7 +22,7 @@ class Foo
   end
 end
 
-puts it #=> Class:Foo Number:40
+puts it # => Class:Foo Number:40
 ```
 
 - **SEE** [Object#to_str](../../../method/Object/i/to_str.md),[Kernel?.String](../../../method/Kernel/m/String.md)

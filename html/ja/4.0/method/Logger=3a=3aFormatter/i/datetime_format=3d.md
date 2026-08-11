@@ -4,8 +4,7 @@
 
 ログの日時フォーマットをセットします。
 
-- **param** `format` -- 日時のフォーマット文字列。[Time#strftime](../../../method/Time/i/strftime.md) で使用するフォーマット文字列と
-              同じものを使用できます。
+- **param** `format` -- 日時のフォーマット文字列。[Time#strftime](../../../method/Time/i/strftime.md) で使用するフォーマット文字列と同じものを使用できます。
 
 ```ruby title="例"
 require 'logger'

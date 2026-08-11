@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-10-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-11-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -147,10 +147,10 @@ Rubyの内部実装では、メソッド名や変数名、定数名、クラス�
 <p>
 名前を管理するという役割上、シンボルと文字列は一対一に対応します。また、文字列と違い、immutable (変更不可)であり、同値ならば必ず同一です。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span> <span class="o">==</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span> <span class="c1">#=&gt; true
-</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; false
-</span><span class="nb">p</span> <span class="ss">:abc</span> <span class="o">==</span> <span class="ss">:abc</span> <span class="c1">#=&gt; true
-</span><span class="nb">p</span> <span class="ss">:abc</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span><span class="ss">:abc</span><span class="p">)</span> <span class="c1">#=&gt; true ←同値ならば同一
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span> <span class="o">==</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="ss">:abc</span> <span class="o">==</span> <span class="ss">:abc</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:abc</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span><span class="ss">:abc</span><span class="p">)</span> <span class="c1"># =&gt; true ←同値ならば同一
 </span></code></pre>
 <h3 >用途</h3>
 <p>
@@ -335,7 +335,7 @@ Ruby によって GC されます。すなわち、ある使わなくなった�
 <p>
 定義済みの全てのシンボルオブジェクトの配列を返します。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Symbol</span><span class="p">.</span><span class="nf">all_symbols</span> <span class="c1">#=&gt; [:RUBY_PLATFORM, :RUBY_VERSION, ...]
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Symbol</span><span class="p">.</span><span class="nf">all_symbols</span> <span class="c1"># =&gt; [:RUBY_PLATFORM, :RUBY_VERSION, ...]
 </span></code></pre>
 <p>
 リテラルで表記したシンボルのうち、コンパイル時に値が決まるものはその時に生成されます。それ以外の式展開を含むリテラルや、メソッドで表記されたものは式の評価時に生成されます。
@@ -346,7 +346,7 @@ Ruby によって GC されます。すなわち、ある使わなくなった�
 <span class="k">end</span>
 
 <span class="nb">p</span> <span class="no">Symbol</span><span class="p">.</span><span class="nf">all_symbols</span><span class="p">.</span><span class="nf">select</span><span class="p">{</span><span class="o">|</span>sym<span class="o">|</span>sym<span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">include?</span> <span class="s1">'make'</span><span class="p">}</span>
-<span class="c1">#=&gt; [:make_1, :make_2]
+<span class="c1"># =&gt; [:make_1, :make_2]
 </span>
 re  <span class="o">=</span> <span class="c1">#確実に生成されるように代入操作を行う
 </span><span class="ss">:make_1</span>,
@@ -355,7 +355,7 @@ re  <span class="o">=</span> <span class="c1">#確実に生成されるように
 <span class="s1">'make_4'</span><span class="p">.</span><span class="nf">intern</span>
 
 <span class="nb">p</span> <span class="no">Symbol</span><span class="p">.</span><span class="nf">all_symbols</span><span class="p">.</span><span class="nf">select</span><span class="p">{</span><span class="o">|</span>sym<span class="o">|</span>sym<span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">include?</span> <span class="s1">'make'</span><span class="p">}</span>
-<span class="c1">#=&gt; [:make_1, :make_2, :make_3, :make_4]
+<span class="c1"># =&gt; [:make_1, :make_2, :make_3, :make_4]
 </span></code></pre>
 </dd>
 
@@ -403,8 +403,8 @@ other が同じシンボルの時に真を返します。そうでない場合�
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:aaa</span> <span class="o">==</span> <span class="ss">:aaa</span>  <span class="c1">#=&gt; true
-</span><span class="nb">p</span> <span class="ss">:aaa</span> <span class="o">==</span> <span class="ss">:xxx</span>  <span class="c1">#=&gt; false
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:aaa</span> <span class="o">==</span> <span class="ss">:aaa</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:aaa</span> <span class="o">==</span> <span class="ss">:xxx</span>  <span class="c1"># =&gt; false
 </span></code></pre>
 </dd>
 
@@ -549,9 +549,9 @@ rangeで指定したインデックスの範囲に含まれる部分文字列を
 <p>
 (self.to_s.capitalize.intern と同じです。)
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:foobar</span><span class="p">.</span><span class="nf">capitalize</span>   <span class="c1">#=&gt; :Foobar
-</span><span class="nb">p</span> <span class="ss">:fooBar</span><span class="p">.</span><span class="nf">capitalize</span>   <span class="c1">#=&gt; :Foobar
-</span><span class="nb">p</span> <span class="ss">:FOOBAR</span><span class="p">.</span><span class="nf">capitalize</span>   <span class="c1">#=&gt; :Foobar
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:foobar</span><span class="p">.</span><span class="nf">capitalize</span>   <span class="c1"># =&gt; :Foobar
+</span><span class="nb">p</span> <span class="ss">:fooBar</span><span class="p">.</span><span class="nf">capitalize</span>   <span class="c1"># =&gt; :Foobar
+</span><span class="nb">p</span> <span class="ss">:FOOBAR</span><span class="p">.</span><span class="nf">capitalize</span>   <span class="c1"># =&gt; :Foobar
 </span><span class="nb">p</span> <span class="ss">:"foobar--<span class="s2">"</span><span class="p">.</span><span class="nf">capitalize</span> <span class="c1"># =&gt; &quot;Foobar--&quot;
 </span></code></pre>
 <p>
@@ -575,17 +575,17 @@ Unicode 全体ではなく、A-Z/a-z だけです。
 比較対象のシンボルを指定します。
 </dd>
 </dl>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:aBcDeF</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:abcde</span><span class="p">)</span>   <span class="c1">#=&gt; 1
-</span><span class="nb">p</span> <span class="ss">:aBcDeF</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:abcdef</span><span class="p">)</span>  <span class="c1">#=&gt; 0
-</span><span class="nb">p</span> <span class="ss">:aBcDeF</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:abcdefg</span><span class="p">)</span> <span class="c1">#=&gt; -1
-</span><span class="nb">p</span> <span class="ss">:abcdef</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:ABCDEF</span><span class="p">)</span>  <span class="c1">#=&gt; 0
-</span><span class="nb">p</span> <span class="ss">:"\u{e4 f6 fc}<span class="s2">"</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:"\u{c4 d6 dc}<span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; 1
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:aBcDeF</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:abcde</span><span class="p">)</span>   <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="ss">:aBcDeF</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:abcdef</span><span class="p">)</span>  <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="ss">:aBcDeF</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:abcdefg</span><span class="p">)</span> <span class="c1"># =&gt; -1
+</span><span class="nb">p</span> <span class="ss">:abcdef</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:ABCDEF</span><span class="p">)</span>  <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="ss">:"\u{e4 f6 fc}<span class="s2">"</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:"\u{c4 d6 dc}<span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 1
 </span></code></pre>
 <p>
 other がシンボルではない場合や、文字列のエンコーディングが非互換の場合は、nil を返します。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; nil
-</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\u{e4 f6 fc}</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">ISO-8859-1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:"\u{c4 d6 dc}<span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; nil
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\u{e4 f6 fc}</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">ISO-8859-1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">.</span><span class="nf">casecmp</span><span class="p">(</span><span class="ss">:"\u{c4 d6 dc}<span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; nil
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/casecmp.html">String#casecmp</a>, <a href="../method/Symbol/i/=3c=3d=3e.html">Symbol#&lt;=&gt;</a>, <a href="../method/Symbol/i/casecmp=3f.html">Symbol#casecmp?</a>
@@ -604,17 +604,17 @@ other がシンボルではない場合や、文字列のエンコーディン�
 比較対象のシンボルを指定します。
 </dd>
 </dl>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:abcdef</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:abcde</span><span class="p">)</span>   <span class="c1">#=&gt; false
-</span><span class="nb">p</span> <span class="ss">:aBcDeF</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:abcdef</span><span class="p">)</span>  <span class="c1">#=&gt; true
-</span><span class="nb">p</span> <span class="ss">:abcdef</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:abcdefg</span><span class="p">)</span> <span class="c1">#=&gt; false
-</span><span class="nb">p</span> <span class="ss">:abcdef</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:ABCDEF</span><span class="p">)</span>  <span class="c1">#=&gt; true
-</span><span class="nb">p</span> <span class="ss">:"\u{e4 f6 fc}<span class="s2">"</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:"\u{c4 d6 dc}<span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; true
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:abcdef</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:abcde</span><span class="p">)</span>   <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="ss">:aBcDeF</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:abcdef</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:abcdef</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:abcdefg</span><span class="p">)</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="ss">:abcdef</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:ABCDEF</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:"\u{e4 f6 fc}<span class="s2">"</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:"\u{c4 d6 dc}<span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; true
 </span></code></pre>
 <p>
 other がシンボルではない場合や、文字列のエンコーディングが非互換の場合は、nil を返します。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; nil
-</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\u{e4 f6 fc}</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">ISO-8859-1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:"\u{c4 d6 dc}<span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; nil
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\u{e4 f6 fc}</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">ISO-8859-1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">.</span><span class="nf">casecmp?</span><span class="p">(</span><span class="ss">:"\u{c4 d6 dc}<span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; nil
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/casecmp=3f.html">String#casecmp?</a>, <a href="../method/Symbol/i/casecmp.html">Symbol#casecmp</a>
@@ -630,7 +630,7 @@ other がシンボルではない場合や、文字列のエンコーディン�
 <p>
 (self.to_s.downcase.intern と同じです。)
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:FOO</span><span class="p">.</span><span class="nf">downcase</span> <span class="c1">#=&gt; :foo
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:FOO</span><span class="p">.</span><span class="nf">downcase</span> <span class="c1"># =&gt; :foo
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/downcase.html">String#downcase</a>
@@ -643,8 +643,8 @@ other がシンボルではない場合や、文字列のエンコーディン�
 <p>
 自身が :&quot;&quot; (length が 0 のシンボル)かどうかを返します。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:"<span class="s2">"</span><span class="p">.</span><span class="nf">empty?</span>  <span class="c1">#=&gt; true
-</span><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">empty?</span> <span class="c1">#=&gt; false
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:"<span class="s2">"</span><span class="p">.</span><span class="nf">empty?</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">empty?</span> <span class="c1"># =&gt; false
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/empty=3f.html">String#empty?</a>
@@ -689,11 +689,11 @@ self の末尾が suffixes のいずれかであるとき true を返します�
 <p>
 [SEE_ALSO] <a href="../method/String/i/end_with=3f.html">String#end_with?</a>
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">end_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">ello</span><span class="s2">"</span><span class="p">)</span>             <span class="c1">#=&gt; true
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">end_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">ello</span><span class="s2">"</span><span class="p">)</span>             <span class="c1"># =&gt; true
 </span>
 <span class="c1"># returns true if one of the +suffixes+ matches.
-</span><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">end_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">heaven</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">ello</span><span class="s2">"</span><span class="p">)</span>   <span class="c1">#=&gt; true
-</span><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">end_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">heaven</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">paradise</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; false
+</span><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">end_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">heaven</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">ello</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">end_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">heaven</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">paradise</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; false
 </span></code></pre>
 </dd>
 
@@ -733,7 +733,7 @@ s <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">bar<
 <p>
 自身を人間に読みやすい文字列にして返します。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:fred</span><span class="p">.</span><span class="nf">inspect</span> <span class="c1">#=&gt; &quot;:fred&quot;
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:fred</span><span class="p">.</span><span class="nf">inspect</span> <span class="c1"># =&gt; &quot;:fred&quot;
 </span></code></pre>
 </dd>
 
@@ -762,7 +762,7 @@ self を返します。
 <p>
 (self.to_s.length と同じです。)
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">length</span> <span class="c1">#=&gt; 3
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">length</span> <span class="c1"># =&gt; 3
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/length.html">String#length</a>, <a href="../method/String/i/size.html">String#size</a>
@@ -878,12 +878,12 @@ self の先頭が prefixes のいずれかであるとき true を返します�
 <p>
 [SEE_ALSO] <a href="../method/String/i/start_with=3f.html">String#start_with?</a>
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">start_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">hell</span><span class="s2">"</span><span class="p">)</span>             <span class="c1">#=&gt; true
-</span><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">start_with?</span><span class="p">(</span><span class="sr">/H/i</span><span class="p">)</span>               <span class="c1">#=&gt; true
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">start_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">hell</span><span class="s2">"</span><span class="p">)</span>             <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">start_with?</span><span class="p">(</span><span class="sr">/H/i</span><span class="p">)</span>               <span class="c1"># =&gt; true
 </span>
 <span class="c1"># returns true if one of the prefixes matches.
-</span><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">start_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">heaven</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hell</span><span class="s2">"</span><span class="p">)</span>   <span class="c1">#=&gt; true
-</span><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">start_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">heaven</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">paradise</span><span class="s2">"</span><span class="p">)</span> <span class="c1">#=&gt; false
+</span><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">start_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">heaven</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">hell</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:hello</span><span class="p">.</span><span class="nf">start_with?</span><span class="p">(</span><span class="s2">"</span><span class="s2">heaven</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">paradise</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; false
 </span></code></pre>
 </dd>
 
@@ -943,7 +943,7 @@ Proc#callの第一引数をレシーバとして、 self という名前のメ�
 <p>
 (self.to_s.upcase.intern と同じです。)
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">upcase</span> <span class="c1">#=&gt; :FOO
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">upcase</span> <span class="c1"># =&gt; :FOO
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/upcase.html">String#upcase</a>

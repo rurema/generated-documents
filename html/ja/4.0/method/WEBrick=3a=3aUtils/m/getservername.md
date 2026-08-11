@@ -6,5 +6,5 @@
 
 ```ruby
 require 'webrick'
-p WEBrick::Utils.getservername   #=> "localhost"
+p WEBrick::Utils.getservername   # => "localhost"
 ```

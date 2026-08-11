@@ -24,5 +24,5 @@ p map[a.object_id] # => "hoge"
 
 ```ruby title="例"
 a = "hoge"
-p ObjectSpace._id2ref(a.__id__) #=> "hoge"
+p ObjectSpace._id2ref(a.__id__) # => "hoge"
 ```

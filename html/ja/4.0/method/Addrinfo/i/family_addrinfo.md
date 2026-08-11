@@ -11,10 +11,10 @@
 require 'socket'
 
 p Addrinfo.tcp("0.0.0.0", 4649).family_addrinfo("www.ruby-lang.org", 80)
-#=> #<Addrinfo: 221.186.184.68:80 TCP (www.ruby-lang.org:80)>
+# => #<Addrinfo: 221.186.184.68:80 TCP (www.ruby-lang.org:80)>
   
 p Addrinfo.unix("/tmp/sock").family_addrinfo("/tmp/sock2")
-#=> #<Addrinfo: /tmp/sock2 SOCK_STREAM>
+# => #<Addrinfo: /tmp/sock2 SOCK_STREAM>
 ```
 
 - **param** `host` -- ホスト(IP アドレスもしくはホスト名)

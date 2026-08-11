@@ -11,5 +11,5 @@ db1 = SDBM.open('aaa.gdbm', 0666)
 db1['a'] = 'aaa'
 db1['b'] = 'bbb'
 db1['c'] = 'ccc'
-p db1.shift #=> ["a", "aaa"]
+p db1.shift # => ["a", "aaa"]
 ```

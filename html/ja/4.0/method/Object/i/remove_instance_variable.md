@@ -11,7 +11,7 @@
 class Foo
   def foo
     @foo = 1
-    p remove_instance_variable(:@foo) #=> 1
+    p remove_instance_variable(:@foo) # => 1
     p remove_instance_variable(:@foo) # instance variable @foo not defined (NameError)
   end
 end

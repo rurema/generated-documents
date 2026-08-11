@@ -12,7 +12,7 @@ require "stringio"
 sio = StringIO.new
 sio << "abc"
 s = sio.string
-p s                    #=> "abc"
+p s                    # => "abc"
 sio << "xyz"
-p s                    #=> "abcxyz"
+p s                    # => "abcxyz"
 ```

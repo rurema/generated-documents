@@ -6,11 +6,10 @@
 変換元の文字列の末尾がバイト列の途中で終わっていた場合、保持しているバイト列全てを返します。
 
 - **return** -- 変換結果の末尾
-- **raise** `Encoding::InvalidByteSequenceError` -- 変換元のエンコーディングにお
-       いて不正なバイト列があった場合に発生します。
+- **raise** `Encoding::InvalidByteSequenceError` -- 変換元のエンコーディングにおいて不正なバイト列があった場合に発生します。
 
 ```ruby
 ec = Encoding::Converter.new("utf-8", "iso-2022-jp")
-p ec.convert("\u3042")     #=> "\e$B$\""
-p ec.finish                #=> "\e(B"
+p ec.convert("\u3042")     # => "\e$B$\""
+p ec.finish                # => "\e(B"
 ```

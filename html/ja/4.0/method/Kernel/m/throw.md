@@ -31,7 +31,7 @@ ret = catch(:exit) do
   end
 end
 puts ret
-#=> ensure
+# => ensure
 #   25
 ```
 

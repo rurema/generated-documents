@@ -13,5 +13,4 @@ SELECT コマンドを送り、指定したメールボックスを処理対象�
 [Net::IMAP#add_response_handler](../../../method/Net=3a=3aIMAP/i/add_response_handler.md) を使うとそのような更新情報を即座に取得できます。
 
 - **param** `mailbox` -- 処理対象としたいメールボックスの名前(文字列)
-- **raise** `Net::IMAP::NoResponseError` -- mailboxが存在しない等の理由でコマンドの実行に失敗
-       した場合に発生します。
+- **raise** `Net::IMAP::NoResponseError` -- mailboxが存在しない等の理由でコマンドの実行に失敗した場合に発生します。

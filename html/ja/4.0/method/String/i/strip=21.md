@@ -23,16 +23,16 @@ selectors の形式は [man:tr(1)] と同じです。
 
 ```ruby title="例"
 str = "  abc\r\n"
-p str.strip!     #=> "abc"
-p str            #=> "abc"
+p str.strip!     # => "abc"
+p str            # => "abc"
 
 str = "abc"
-p str.strip!     #=> nil
-p str            #=> "abc"
+p str.strip!     # => nil
+p str            # => "abc"
 
 str = "  \0  abc  \0"
 str.strip!
-p str            #=> "abc"
+p str            # => "abc"
 ```
 
 

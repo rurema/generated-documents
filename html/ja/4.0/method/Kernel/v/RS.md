@@ -13,7 +13,7 @@ array = []
 while line = DATA.gets
   array << line
 end
-p array #=> ["ugo|", "ego|", "fogo\n"]
+p array # => ["ugo|", "ego|", "fogo\n"]
 
 __END__
 ugo|ego|fogo

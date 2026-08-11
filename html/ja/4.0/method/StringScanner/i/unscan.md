@@ -19,9 +19,7 @@ p s.scan(/\w+/) # => "test"
 2 回分以上戻そうとしたときは例外 StringScanner::Error が発生します。
 また、まだマッチを一度も行っていないときや、前回のマッチが失敗していたときも例外 StringScanner::Error が発生します。
 
-- **raise** `StringScanner::Error` -- 2 回分以上戻そうとした時や、
-                            まだマッチを一度も行っていない時、
-                            前回のマッチが失敗していた時に発生します。
+- **raise** `StringScanner::Error` -- 2 回分以上戻そうとした時や、まだマッチを一度も行っていない時、前回のマッチが失敗していた時に発生します。
 
 ```ruby title="例"
 require 'strscan'
@@ -33,7 +31,7 @@ begin
 rescue StringScanner::Error => err
   puts err
   # 出力例
-  #=> unscan failed: previous match had failed
+  # => unscan failed: previous match had failed
 end
 p s.scan(/\w+/) # => "test"
 s.unscan
@@ -43,7 +41,7 @@ begin
 rescue StringScanner::Error => err
   puts err
   # 出力例
-  #=> unscan failed: previous match had failed
+  # => unscan failed: previous match had failed
 end
 p s.scan(/\w+/) # => "test"
 p s.scan(/\w+/) # => nil
@@ -53,6 +51,6 @@ begin
 rescue => err
   puts err
   # 出力例
-  #=> unscan failed: previous match had failed
+  # => unscan failed: previous match had failed
 end
 ```

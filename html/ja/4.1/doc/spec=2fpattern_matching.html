@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-10-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-11-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -135,13 +135,13 @@ case/in 式は 「網羅的」 です。もし case 式の値がどの節にも�
 config <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">db:</span> <span class="p">{</span><span class="ss">user:</span><span class="p">}</span><span class="p">}</span> <span class="c1"># もし config の構造が期待したものでなかった場合には、例外が発生する
 </span>
 <span class="nb">puts</span> <span class="s2">"</span><span class="s2">Connect with user '</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="s2">'</span><span class="s2">"</span>
-<span class="c1"># Connect with user 'admin'&quot; と出力
+<span class="c1"># &quot;Connect with user 'admin'&quot; と出力
 </span></code></pre>
 <p>
-『&lt;expression&gt; in &lt;pattern&gt;』 は 『&lt;expression&gt;; in &lt;pattern&gt;; true; else false; end』 と等価です。パターンにマッチするかどうかだけを知りたいときに使えます。
+『&lt;expression&gt; in &lt;pattern&gt;』 は 『case &lt;expression&gt;; in &lt;pattern&gt;; true; else false; end』 と等価です。パターンにマッチするかどうかだけを知りたいときに使えます。
 </p>
 <pre class="highlight ruby"><code>users <span class="o">=</span> <span class="p">[</span><span class="p">{</span><span class="ss">name:</span> <span class="s2">"</span><span class="s2">Alice</span><span class="s2">"</span>, <span class="ss">age:</span> <span class="mi">12</span><span class="p">}</span>, <span class="p">{</span><span class="ss">name:</span> <span class="s2">"</span><span class="s2">Bob</span><span class="s2">"</span>, <span class="ss">age:</span> <span class="mi">23</span><span class="p">}</span><span class="p">]</span>
-<span class="nb">p</span> users<span class="p">.</span><span class="nf">any?</span> <span class="p">{</span><span class="o">|</span>user<span class="o">|</span> user <span class="k">in</span> <span class="p">{</span><span class="ss">name:</span> <span class="sr">/B/</span>, <span class="ss">age:</span> <span class="mi">20</span><span class="o">..</span><span class="p">}</span> <span class="p">}</span> <span class="c1">#=&gt; true
+<span class="nb">p</span> users<span class="p">.</span><span class="nf">any?</span> <span class="p">{</span><span class="o">|</span>user<span class="o">|</span> user <span class="k">in</span> <span class="p">{</span><span class="ss">name:</span> <span class="sr">/B/</span>, <span class="ss">age:</span> <span class="mi">20</span><span class="o">..</span><span class="p">}</span> <span class="p">}</span> <span class="c1"># =&gt; true
 </span></code></pre>
 <p>
 構文の詳細な例と説明は以下を参照してください。
@@ -176,7 +176,7 @@ Array パターン と Hash パターン の挙動の重要な違いは Array �
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;not matched&quot;
+<span class="c1"># =&gt; &quot;not matched&quot;
 </span></code></pre>
 <p>
 一方 Hash パターン は一部のキーだけ指定している場合(指定しているキー以外にもキーが存在する場合)でもマッチします。
@@ -187,7 +187,7 @@ Array パターン と Hash パターン の挙動の重要な違いは Array �
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched&quot;
+<span class="c1"># =&gt; &quot;matched&quot;
 </span></code></pre>
 <p>
 『{}』 だけはこのルールの例外です。『{}』 は空のハッシュのみマッチします。
@@ -198,7 +198,7 @@ Array パターン と Hash パターン の挙動の重要な違いは Array �
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;not matched&quot;
+<span class="c1"># =&gt; &quot;not matched&quot;
 </span></code></pre>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="k">case</span> <span class="p">{</span><span class="p">}</span>
 <span class="k">in</span> <span class="p">{</span><span class="p">}</span>
@@ -206,7 +206,7 @@ Array パターン と Hash パターン の挙動の重要な違いは Array �
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched&quot;
+<span class="c1"># =&gt; &quot;matched&quot;
 </span></code></pre>
 <p>
 また、パターンで明示的に指定したキー以外のキーが存在しないハッシュにのみ、マッチさせたい場合には、『**nil』 を使います。
@@ -230,7 +230,7 @@ Array パターン と Hash パターン ともに残りの部分にマッチす
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched&quot;
+<span class="c1"># =&gt; &quot;matched&quot;
 </span></code></pre>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
 <span class="k">in</span> <span class="p">{</span><span class="ss">a:</span> <span class="no">Integer</span>, <span class="o">**</span><span class="p">}</span>
@@ -238,7 +238,7 @@ Array パターン と Hash パターン ともに残りの部分にマッチす
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched&quot;
+<span class="c1"># =&gt; &quot;matched&quot;
 </span></code></pre>
 <p>
 Array パターン や Hash パターン は両端の 『[]』 や 『{}』 といった括弧を省略できます。
@@ -249,7 +249,7 @@ Array パターン や Hash パターン は両端の 『[]』 や 『{}』 と�
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched&quot;
+<span class="c1"># =&gt; &quot;matched&quot;
 </span></code></pre>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
 <span class="k">in</span> <span class="ss">a:</span> <span class="no">Integer</span>
@@ -257,7 +257,7 @@ Array パターン や Hash パターン は両端の 『[]』 や 『{}』 と�
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched&quot;
+<span class="c1"># =&gt; &quot;matched&quot;
 </span></code></pre>
 <p>
 『=&gt;』演算子と in 演算子で括弧を省略する例です。
@@ -290,7 +290,7 @@ Find パターン は Array パターン に似ていますが、オブジェク
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched: 1&quot;
+<span class="c1"># =&gt; &quot;matched: 1&quot;
 </span></code></pre>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
 <span class="k">in</span> <span class="ss">a:</span> <span class="no">Integer</span> <span class="o">=&gt;</span> m
@@ -298,7 +298,7 @@ Find パターン は Array パターン に似ていますが、オブジェク
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched: 1&quot;
+<span class="c1"># =&gt; &quot;matched: 1&quot;
 </span></code></pre>
 <p>
 追加のチェックが不要で変数への束縛だけがしたい場合は、より簡潔な記法が利用できます。
@@ -309,7 +309,7 @@ Find パターン は Array パターン に似ていますが、オブジェク
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched: 1&quot;
+<span class="c1"># =&gt; &quot;matched: 1&quot;
 </span></code></pre>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
 <span class="k">in</span> <span class="ss">a:</span> m
@@ -317,7 +317,7 @@ Find パターン は Array パターン に似ていますが、オブジェク
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched: 1&quot;
+<span class="c1"># =&gt; &quot;matched: 1&quot;
 </span></code></pre>
 <p>
 Hash パターンでは、もっと単純に書くこともできます。キーのみを指定することで、キーと同じ名前のローカル変数に値を束縛できます。
@@ -328,7 +328,7 @@ Hash パターンでは、もっと単純に書くこともできます。キー
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched: 1&quot;
+<span class="c1"># =&gt; &quot;matched: 1&quot;
 </span></code></pre>
 <p>
 ネストしたパターンの場合も同様に値の束縛を利用できます。
@@ -339,7 +339,7 @@ Hash パターンでは、もっと単純に書くこともできます。キー
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched: Jane&quot;
+<span class="c1"># =&gt; &quot;matched: Jane&quot;
 </span></code></pre>
 <p>
 パターンの残りの部分も同様に変数に束縛できます。
@@ -350,7 +350,7 @@ Hash パターンでは、もっと単純に書くこともできます。キー
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched: 1, [2, 3]&quot;
+<span class="c1"># =&gt; &quot;matched: 1, [2, 3]&quot;
 </span></code></pre>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="k">case</span> <span class="p">{</span><span class="ss">a:</span> <span class="mi">1</span>, <span class="ss">b:</span> <span class="mi">2</span>, <span class="ss">c:</span> <span class="mi">3</span><span class="p">}</span>
 <span class="k">in</span> <span class="ss">a:</span>, <span class="o">**</span>rest
@@ -358,7 +358,7 @@ Hash パターンでは、もっと単純に書くこともできます。キー
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched: 1, {:b=&gt;2, :c=&gt;3}&quot;
+<span class="c1"># =&gt; &quot;matched: 1, {:b=&gt;2, :c=&gt;3}&quot;
 </span></code></pre>
 <p>
 変数への束縛は現状、『|』 で結合される Alternative パターン と同時には利用できません。
@@ -410,7 +410,7 @@ Hash パターンでは、もっと単純に書くこともできます。キー
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched. expectation was: </span><span class="si">#{</span><span class="n">expectation</span><span class="si">}</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;not matched. expectation was: 18&quot;
+<span class="c1"># =&gt; &quot;not matched. expectation was: 18&quot;
 </span></code></pre>
 <p>
 ピン演算子の重要な用途の1つはパターンに複数回出てくる値を明記することです。
@@ -447,11 +447,11 @@ john <span class="o">=</span> <span class="p">{</span><span class="ss">school:</
   <span class="k">else</span>
     <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
   <span class="k">end</span>
-  <span class="c1">#=&gt; &quot;matched&quot;
+  <span class="c1"># =&gt; &quot;matched&quot;
 </span><span class="k">end</span>
 </code></pre>
 <p>
-また、括弧を使って任意の式に対してピン演算子を利用できます
+また、括弧を使って任意の式に対してピン演算子を利用できます。
 </p>
 <pre class="highlight ruby"><code>a <span class="o">=</span> <span class="mi">1</span>
 b <span class="o">=</span> <span class="mi">2</span>
@@ -461,7 +461,7 @@ b <span class="o">=</span> <span class="mi">2</span>
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched&quot;
+<span class="c1"># =&gt; &quot;matched&quot;
 </span></code></pre>
 <h2 id='matching_non_primitive_objects'>非プリミティブなオブジェクトのマッチ: deconstruct メソッドと deconstruct_keys メソッド</h2>
 <p>
@@ -558,7 +558,7 @@ if を使って、パターンにマッチしたときに評価される追加�
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched&quot;
+<span class="c1"># =&gt; &quot;matched&quot;
 </span></code></pre>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="k">case</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">1</span><span class="p">]</span>
 <span class="k">in</span> a, b <span class="k">if</span> b <span class="o">==</span> a<span class="o">*</span><span class="mi">2</span>
@@ -566,7 +566,7 @@ if を使って、パターンにマッチしたときに評価される追加�
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;not matched&quot;
+<span class="c1"># =&gt; &quot;not matched&quot;
 </span></code></pre>
 <p>
 unless も利用できます。
@@ -577,7 +577,7 @@ unless も利用できます。
 <span class="k">else</span>
   <span class="s2">"</span><span class="s2">not matched</span><span class="s2">"</span>
 <span class="k">end</span>
-<span class="c1">#=&gt; &quot;matched&quot;
+<span class="c1"># =&gt; &quot;matched&quot;
 </span></code></pre>
 <h2 id='current_feature_status'>機能の現状</h2>
 <h2 id='pattern_syntax'>付記A: パターンのシンタックス</h2>

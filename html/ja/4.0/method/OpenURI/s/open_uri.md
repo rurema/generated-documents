@@ -55,14 +55,10 @@ sio = OpenURI.open_uri('http://www.example.com',
 
 - **`:content_length_proc`**:
   値にはブロックを与えます。ブロックは対象となる URI の
-  Content-Length ヘッダの値を引数として、実際の転送が始まる前に評価されます。Redirect された場合は、
-  実際に転送されるリソースの HTTP ヘッダを利用します。Content-Length ヘッダがない場合は、nil を
-  引数としてブロックを評価します。ブロックの返り値は特に利用されません。
+  Content-Length ヘッダの値を引数として、実際の転送が始まる前に評価されます。Redirect された場合は、実際に転送されるリソースの HTTP ヘッダを利用します。Content-Length ヘッダがない場合は、nil を引数としてブロックを評価します。ブロックの返り値は特に利用されません。
 
 - **`:progress_proc`**:
-  値にはブロックを与えます。ブロックは対象となる URI からデータの
-  断片が転送されるたびに、その断片のサイズを引数として評価されます。ブロックの返り値は特に
-  利用されません。
+  値にはブロックを与えます。ブロックは対象となる URI からデータの断片が転送されるたびに、その断片のサイズを引数として評価されます。ブロックの返り値は特に利用されません。
 
 - **`:proxy_http_basic_authentication`**:
   パスワード付きプロクシの設定を与えます。
@@ -81,8 +77,7 @@ sio = OpenURI.open_uri('http://www.example.com',
   ```
 
 - **`:read_timeout`**:
-  http コネクションのタイムアウト秒数を指定します。nil でタイムアウトなしを
-  指定できます。
+  http コネクションのタイムアウト秒数を指定します。nil でタイムアウトなしを指定できます。
 
 - **`:ssl_ca_cert`**:
   SSL の CA 証明書を指定します。これを指定した場合は OpenSSL がデフォルトで使う
@@ -105,8 +100,7 @@ sio = OpenURI.open_uri('http://www.example.com',
   デフォルトは false (passive mode) です。
 
 - **`:redirect`**:
-  HTTP でサーバがリダイレクトを指示してきたとき、
-  対応するかどうかを指定します。
+  HTTP でサーバがリダイレクトを指示してきたとき、対応するかどうかを指定します。
   デフォルトは true (リダイレクトする) です。
 
   HTTP と FTP の間のリダイレクトもこれで指定します。
@@ -114,10 +108,8 @@ sio = OpenURI.open_uri('http://www.example.com',
 - **`:encoding`**:
   取得した内容の外部エンコーディングを指定します。
   "euc-jp" のような文字列か [Encoding](../../../class/Encoding.md) オブジェクトを与えます。
-  指定すると、返り値の StringIO オブジェクトの外部エンコーディングが
-  その値に設定されます。指定しなかった場合は Content-Type ヘッダの
-  charset に基づいて設定されます。いずれの場合も内容の変換(transcode)は
-  行われず、エンコーディングが設定されるだけです。
+  指定すると、返り値の StringIO オブジェクトの外部エンコーディングがその値に設定されます。指定しなかった場合は Content-Type ヘッダの
+  charset に基づいて設定されます。いずれの場合も内容の変換(transcode)は行われず、エンコーディングが設定されるだけです。
 
   同じ指定を mode 引数の文字列("r:euc-jp" のように)で行うこともできますが、
   mode と :encoding の両方でエンコーディングを指定すると
@@ -133,8 +125,7 @@ sio = OpenURI.open_uri('http://www.example.com',
 
 - **return** -- 返り値である StringIO オブジェクトは [OpenURI::Meta](../../../class/OpenURI=3a=3aMeta.md) モジュールで extend されています。
 
-- **raise** `OpenURI::HTTPError` -- 対象となる URI のスキームが http であり、
-                          かつリソースの取得に失敗した時に発生します。
+- **raise** `OpenURI::HTTPError` -- 対象となる URI のスキームが http であり、かつリソースの取得に失敗した時に発生します。
 
 - **raise** `Net::FTPError` -- 対象となる URI のスキームが ftp であり、かつリソースの取得に失敗した時に
                      [Net::FTPError](../../../class/Net=3a=3aFTPError.md) のサブクラスが発生します。詳しくは [net/ftp](../../../library/net=2fftp.md)

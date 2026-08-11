@@ -6,8 +6,7 @@
 
 このメソッドのパラメータを[WIN32OLE_PARAM](../../../class/WIN32OLE_PARAM.md)の配列として返します。配列の最初の要素が最左端のパラメータに対応します。
 
-- **return** -- [WIN32OLE_PARAM](../../../class/WIN32OLE_PARAM.md)の配列。無引数のメソッドであれば要素数0の配
-        列を返します。
+- **return** -- [WIN32OLE_PARAM](../../../class/WIN32OLE_PARAM.md)の配列。無引数のメソッドであれば要素数0の配列を返します。
 
 ```text
 tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Workbook')

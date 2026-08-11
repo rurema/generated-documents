@@ -4,9 +4,9 @@
 
 パラメータがクライアントからサーバへ与えるものかを判定します。
 
-OLEオートメーションのパラメータは、in(クライアントからサーバへ与える。
-[WIN32OLE_PARAM#input?](../../../method/WIN32OLE_PARAM/i/input=3f.md)が真)、out（サーバがクライアントへ与える。
-[WIN32OLE_PARAM#output?](../../../method/WIN32OLE_PARAM/i/output=3f.md)が真)および、inout（クライアントからサーバへ与え、サーバがクライアントへ与える）の3種類の方向属性のいずれかを持ちます。
+OLEオートメーションのパラメータは、in（クライアントからサーバへ与える。
+[WIN32OLE_PARAM#input?](../../../method/WIN32OLE_PARAM/i/input=3f.md)が真）、out（サーバがクライアントへ与える。
+[WIN32OLE_PARAM#output?](../../../method/WIN32OLE_PARAM/i/output=3f.md)が真）および、inout（クライアントからサーバへ与え、サーバがクライアントへ与える）の3種類の方向属性のいずれかを持ちます。
 
 input?メソッドはin属性またはinout属性なら真を返します。
 

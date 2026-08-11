@@ -9,7 +9,7 @@ selfが参照するCOMオブジェクトのIUnknown::Releaseを呼び出すこ�
 ```ruby
 excel = WIN32OLE.new('Excel.Application')
 excel.ole_free  # オブジェクトの解放
-excel.Quit      #=> RuntimeError (failed to get Dispatch Interface)
+excel.Quit      # => RuntimeError (failed to get Dispatch Interface)
 ```
 
 通常は利用されなくなったWIN32OLEオブジェクトはGCのタイミングで自動的に解放されるため、当メソッドを呼び出す必要はありません。Officeのような外部プロセスサーバ呼び出し時に、スクリプト終了後もサーバが解放されない場合に強制的にサーバを終了するために当メソッドを利用できます。ただし、現実には途中で生成される子オブジェクトからの逆参照などがあるため、

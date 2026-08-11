@@ -15,5 +15,5 @@ require 'time'
 
 iso8601_time = '2008-08-31T12:34:56+09:00'
 t = Time.iso8601(iso8601_time)
-p t.httpdate     #=> "Sun, 31 Aug 2008 03:34:56 GMT"
+p t.httpdate     # => "Sun, 31 Aug 2008 03:34:56 GMT"
 ```

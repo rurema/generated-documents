@@ -25,12 +25,12 @@ f = File.open('hoge.gz')
 Zlib::GzipReader.wrap(f){|gz|
   print gz.read
 }
-p f.closed? #=> true
+p f.closed? # => true
 
 f = File.open('hoge.gz')
 Zlib::GzipReader.wrap(f){|gz|
   print gz.read
   gz.finish
 }
-p f.closed? #=> false
+p f.closed? # => false
 ```

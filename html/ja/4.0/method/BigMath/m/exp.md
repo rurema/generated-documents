@@ -12,13 +12,12 @@ x に正の無限大を指定した場合は正の無限大を返します。負
 - **param** `prec` -- 計算結果の精度を指定します。
 
 - **raise** `ArgumentError` -- x に [Integer](../../../class/Integer.md)、[BigDecimal](../../../class/BigDecimal.md)、
-                     [Float](../../../class/Float.md)、[Rational](../../../class/Rational.md)以外のオブジェクトを指
-                     定した場合に発生します。
+                     [Float](../../../class/Float.md)、[Rational](../../../class/Rational.md)以外のオブジェクトを指定した場合に発生します。
 
 - **raise** `ArgumentError` -- prec に 0 以下の数値が指定された場合に発生します。
 
 ```ruby
 require "bigdecimal/math"
 
-puts BigMath::exp(BigDecimal('1'), 10) #=> 0.2718281828e1
+puts BigMath::exp(BigDecimal('1'), 10) # => 0.2718281828e1
 ```

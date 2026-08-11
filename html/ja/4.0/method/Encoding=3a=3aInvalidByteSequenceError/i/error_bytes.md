@@ -10,9 +10,9 @@ begin
   ec.convert("abc\xA1\xFFdef")
 rescue Encoding::InvalidByteSequenceError
   p $!
-  #=> #<Encoding::InvalidByteSequenceError: "\xA1" followed by "\xFF" on EUC-JP>
-  puts $!.error_bytes.dump          #=> "\xA1"
-  puts $!.readagain_bytes.dump      #=> "\xFF"
+  # => #<Encoding::InvalidByteSequenceError: "\xA1" followed by "\xFF" on EUC-JP>
+  puts $!.error_bytes.dump          # => "\xA1"
+  puts $!.readagain_bytes.dump      # => "\xFF"
 end
 ```
 

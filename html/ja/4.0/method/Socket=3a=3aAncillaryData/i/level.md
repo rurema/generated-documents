@@ -8,7 +8,7 @@
 require 'socket'
 
 p Socket::AncillaryData.new(:INET6, :IPV6, :PKTINFO, "").level
-#=> 41
+# => 41
 ```
 
 - **SEE** [Socket::AncillaryData.new](../../../method/Socket=3a=3aAncillaryData/s/new.md)

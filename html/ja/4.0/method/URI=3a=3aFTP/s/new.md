@@ -9,8 +9,8 @@
 require 'uri'
 p ftp = URI.parse("ftp://ftp.ruby-lang.org/pub/ruby/;type=d")
 p ftp.typecode
-#=> #<URI::FTP:0x2010029c URL:ftp://ftp.ruby-lang.org/pub/ruby/;type=d>
-#=> "d"
+# => #<URI::FTP:0x2010029c URL:ftp://ftp.ruby-lang.org/pub/ruby/;type=d>
+# => "d"
 ```
 
 - **param** `scheme` -- 構成要素を表す文字列を与えます。

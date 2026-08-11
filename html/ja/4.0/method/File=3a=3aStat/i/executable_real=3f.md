@@ -7,5 +7,5 @@
 ```ruby
 p File::Stat.new($0).executable_real?
 #例
-#=> true
+# => true
 ```

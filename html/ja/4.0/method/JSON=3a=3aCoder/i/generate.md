@@ -16,9 +16,7 @@ generate は dump の別名です。
 
 - **param** `io` -- [IO](../../../class/IO.md) のように write メソッドを実装しているオブジェクトを指定します。
 
-- **raise** `JSON::GeneratorError` -- object(またはその内部の値)が JSON に
-  ネイティブ対応しておらず、[JSON::Coder.new](../../../method/JSON=3a=3aCoder/s/new.md) にブロックも指定されていなかった場合に
-  発生します。
+- **raise** `JSON::GeneratorError` -- object(またはその内部の値)が JSON にネイティブ対応しておらず、[JSON::Coder.new](../../../method/JSON=3a=3aCoder/s/new.md) にブロックも指定されていなかった場合に発生します。
 
 ```ruby title="例"
 require "json"

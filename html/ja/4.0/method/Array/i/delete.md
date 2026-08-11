@@ -12,13 +12,13 @@
 
 ```ruby title="例"
 array = [1, 2, 3, 2, 1]
-p array.delete(2)       #=> 2
-p array                 #=> [1, 3, 1]
+p array.delete(2)       # => 2
+p array                 # => [1, 3, 1]
 
 # ブロックなしの引数に nil を渡すとその戻り値から削除が
 # 行われたかどうかの判定をすることはできない
 ary = [nil,nil,nil]
-p ary.delete(nil)       #=> nil
-p ary                   #=> []
-p ary.delete(nil)       #=> nil
+p ary.delete(nil)       # => nil
+p ary                   # => []
+p ary.delete(nil)       # => nil
 ```

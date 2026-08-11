@@ -16,14 +16,14 @@ db2 = DBM.open('bbb.db', 0666, DBM::NEWDB)
 db2[:bb] = 'bbb'
 db2[:cc] = 'ccc'
   
-p db1.keys #=> ['b', 'a']
+p db1.keys # => ['b', 'a']
   
 db1.replace(db2)
   
-p db1.keys #=> ['bb', 'cc']
-p db2.keys #=> ['bb', 'cc']
+p db1.keys # => ['bb', 'cc']
+p db2.keys # => ['bb', 'cc']
   
 hash = {'x' => 'xxx', 'y' => 'yyy' }
-p db1               #=> #<DBM:0xb7c7eb08>
-p db1.replace(hash) #=> #<DBM:0xb7c7eb08>
+p db1               # => #<DBM:0xb7c7eb08>
+p db1.replace(hash) # => #<DBM:0xb7c7eb08>
 ```

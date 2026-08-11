@@ -35,7 +35,7 @@ end
 
 it = Bar.new('myname','0500')
 p it
-#=> initialize Bar
+# => initialize Bar
 #   initialize Foo
 #   #<Bar:0x2b68f08 @name="myname", @pass="0500">
 ```

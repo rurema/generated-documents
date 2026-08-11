@@ -25,6 +25,6 @@ val が整数の場合はそれをアドレスとする Pointer オブジェク�
 ```ruby title="例"
 require 'fiddle'
 s = "abc"
-p Fiddle::Pointer[s].to_i                 #=> 136186388
-p [s].pack('p*').unpack('l!*')[0]  #=> 136186388
+p Fiddle::Pointer[s].to_i                 # => 136186388
+p [s].pack('p*').unpack('l!*')[0]  # => 136186388
 ```

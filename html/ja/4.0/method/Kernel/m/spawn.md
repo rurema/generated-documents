@@ -70,8 +70,7 @@ Hash を options として渡すことで、起動される子プロセスの
   nil を渡すとプロセスグループを変更しません。デフォルトは nil です。
 
 - **`:rlimit_core, :rlimit_cpu, etc`**:
-  resource limit を設定します。詳しくは [Process?.setrlimit](../../../method/Process/m/setrlimit.md) を見て
-  ください。引数には整数、もしくは整数2つの配列を渡します。
+  resource limit を設定します。詳しくは [Process?.setrlimit](../../../method/Process/m/setrlimit.md) を見てください。引数には整数、もしくは整数2つの配列を渡します。
 
 - **`:chdir`**:
   指定した文字列をカレントディレクトリにします。
@@ -86,9 +85,7 @@ Hash を options として渡すことで、起動される子プロセスの
   ファイル名を指定することでリダイレクトを実現できます。
 
 - **`:close_others`**:
-  これを true に設定すると
-  リダイレクトされていない、0(stdin), 1(stdout), 2(stderr) 以外の
-  ファイルデスクリプタをすべて閉じます。
+  これを true に設定するとリダイレクトされていない、0(stdin), 1(stdout), 2(stderr) 以外のファイルデスクリプタをすべて閉じます。
   false がデフォルトです。
 
 - **`:exception`**:
@@ -111,7 +108,7 @@ Hash の値(親プロセス側)には以下のいずれかが指定できます�
   - [リダイレクト先のファイル名文字列, モード文字列]
     open(ファイル名, モード, 0644) でファイルを開いてリダイレクト
     します。
-  - [リダイレクト先のファイル名文字列, モード文字列, パーミション(整数)]
+  - [リダイレクト先のファイル名文字列, モード文字列, パーミッション(整数)]
     open(ファイル名, モード, パーミッション) でファイルを
     開いてリダイレクトします。
   - [:child, ファイルデスクリプタ]
@@ -243,7 +240,7 @@ stderr と stdout を混ぜる例を以下に示します。
 
 ```ruby
 io = IO.popen(["sh", "-c", "echo out; echo err >&2", :err=>[:child, :out]])
-p io.read #=> "out\nerr\n
+p io.read # => "out\nerr\n
 ```
 
 spawn と IO.popen ではデフォルトでは非標準的なファイルデスクリプタ(3以降)を閉じません。

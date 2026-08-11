@@ -6,11 +6,11 @@
 
 ```ruby title="例"
 h1 = {}
-p h1.compare_by_identity? #=> false
+p h1.compare_by_identity? # => false
 
 h1.compare_by_identity
 
-p h1.compare_by_identity? #=> true
+p h1.compare_by_identity? # => true
 ```
 
 - **SEE** [Hash#compare_by_identity](../../../method/Hash/i/compare_by_identity.md)

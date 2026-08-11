@@ -29,21 +29,21 @@ p n {} # => false
 
 # &が付いた実引数によるものは、lambda?が元の Procオブジェクトから
 # 引き継がれる
-p lambda(&lambda {}).lambda? #=> true
-proc(&lambda {}).lambda?     #=> true
-p Proc.new(&lambda {}).lambda? #=> true
+p lambda(&lambda {}).lambda? # => true
+proc(&lambda {}).lambda?     # => true
+p Proc.new(&lambda {}).lambda? # => true
 
-p lambda(&proc {}).lambda?   #=> false
-proc(&proc {}).lambda?       #=> false
-p Proc.new(&proc {}).lambda? #=> false
+p lambda(&proc {}).lambda?   # => false
+proc(&proc {}).lambda?       # => false
+p Proc.new(&proc {}).lambda? # => false
 
-p n(&lambda {})              #=> true
-p n(&proc {})                #=> false
-p n(&Proc.new {})            #=> false
+p n(&lambda {})              # => true
+p n(&proc {})                # => false
+p n(&Proc.new {})            # => false
 
 # Method#to_proc によるものは lambda?が真となる
 def m() end
-p method(:m).to_proc.lambda? #=> true
+p method(:m).to_proc.lambda? # => true
 
 # Module#define_method は特別扱いで、
 # これで定義されたメソッドの引数は常に厳密に取り扱われる
@@ -51,11 +51,11 @@ class C
   define_method(:d) {}
 end
 C.new.d(1,2)       # ~> ArgumentError
-p C.new.method(:d).to_proc.lambda? #=> true
+p C.new.method(:d).to_proc.lambda? # => true
 
 class C
   define_method(:e, &proc {})
 end
 C.new.e(1,2)       # ~> ArgumentError
-p C.new.method(:e).to_proc.lambda? #=> true
+p C.new.method(:e).to_proc.lambda? # => true
 ```

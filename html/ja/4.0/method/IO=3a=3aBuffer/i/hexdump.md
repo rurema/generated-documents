@@ -15,8 +15,7 @@
              省略した場合は offset からバッファの終わりまでです。
 - **param** `width` -- 1 行に表示するバイト数を整数で指定します。
 
-- **raise** `ArgumentError` -- offset と length の合計がバッファの大きさを
-             超える場合に発生します。
+- **raise** `ArgumentError` -- offset と length の合計がバッファの大きさを超える場合に発生します。
 - **raise** `ArgumentError` -- width に 1 未満を指定した場合に発生します。
 
 ```ruby

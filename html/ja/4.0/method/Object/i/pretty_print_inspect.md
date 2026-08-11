@@ -7,5 +7,4 @@
 出力する全てのオブジェクトに [Object#pretty_print](../../../method/Object/i/pretty_print.md) が定義されている必要があります。
 そうでない場合には [RuntimeError](../../../class/RuntimeError.md) が発生します。
 
-- **raise** `RuntimeError` -- 出力する全てのオブジェクトに [Object#pretty_print](../../../method/Object/i/pretty_print.md) が定義されて
-                    いない場合に発生します。
+- **raise** `RuntimeError` -- 出力する全てのオブジェクトに [Object#pretty_print](../../../method/Object/i/pretty_print.md) が定義されていない場合に発生します。

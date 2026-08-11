@@ -23,8 +23,7 @@ p "hello\nworld\n".lines(chomp: true) # => ["hello", "world"]
 
 - **param** `rs` -- 行末を示す文字列
 
-- **param** `chomp` -- 分割した各行に対して [String#chomp](../../../method/String/i/chomp.md) と同等の結果を得
-             る場合は true を、そうでない場合は false で指定します。
+- **param** `chomp` -- 分割した各行に対して [String#chomp](../../../method/String/i/chomp.md) と同等の結果を得る場合は true を、そうでない場合は false で指定します。
              省略した場合は false を指定したとみなされます。
 
 ブロックが指定された場合は [String#each_line](../../../method/String/i/each_line.md) と同じように動作します。

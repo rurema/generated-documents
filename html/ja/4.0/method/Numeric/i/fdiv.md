@@ -14,8 +14,8 @@ Numeric のサブクラスは、このメソッドを適切に再定義しなけ
 - **param** `other` -- 自身を割る数を指定します。
 
 ```ruby title="例"
-p 1.fdiv(3)      #=> 0.3333333333333333
-p (1+1i).fdiv 1  #=> (1.0+1.0i)
+p 1.fdiv(3)      # => 0.3333333333333333
+p (1+1i).fdiv 1  # => (1.0+1.0i)
 1.fdiv(1+1i)   # ~> RangeError: can't convert 0.5-0.5i into Float
 ```
 

@@ -17,8 +17,7 @@ p 1.public_send(:+, 2)  # => 3
 
 - **raise** `ArgumentError` -- name を指定しなかった場合に発生します。
 
-- **raise** `NoMethodError` -- protected メソッドや private メソッドに対して実行
-                     した場合に発生します。
+- **raise** `NoMethodError` -- protected メソッドや private メソッドに対して実行した場合に発生します。
 
 ```ruby
 1.public_send(:puts, "hello")  # ~> NoMethodError

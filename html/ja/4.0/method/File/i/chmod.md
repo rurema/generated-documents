@@ -14,5 +14,5 @@
 
 ```ruby title="例"
 f = File.new("out", "w");
-p f.chmod(0644) #=> 0
+p f.chmod(0644) # => 0
 ```

@@ -34,7 +34,7 @@ C.class_eval %Q{
   end
 }
 
-p C.new.m        #=> [:m, 1]
+p C.new.m        # => [:m, 1]
 ```
 
 ```ruby title="定数のスコープが異なる例"
@@ -52,8 +52,8 @@ C.class_eval { X = 1 }
 # と書いたのと同じ意味になる。
 C.class_eval 'X = 2'
 
-p X    #=> 1
-p C::X #=> 2
+p X    # => 1
+p C::X # => 2
 ```
 
 - **SEE** [BasicObject#instance_eval](../../../method/BasicObject/i/instance_eval.md), [Module.new](../../../method/Module/s/new.md), [Kernel?.eval](../../../method/Kernel/m/eval.md)

@@ -13,5 +13,5 @@ self は読み込み用にオープンされていなければなりません。
 
 ```ruby
 f = File.new("testfile")
-p f.each_char {|c| print c, ' ' } #=> #<File:testfile>
+p f.each_char {|c| print c, ' ' } # => #<File:testfile>
 ```

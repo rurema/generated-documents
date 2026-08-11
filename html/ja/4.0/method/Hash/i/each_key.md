@@ -10,7 +10,7 @@
 
 ```ruby title="例"
 {:a=>1, :b=>2}.each_key {|k| p k}
-#=> :a
+# => :a
 #   :b
 
 p({:a=>1, :b=>2}.each_key)  # => #<Enumerator: {:a=>1, :b=>2}:each_key>

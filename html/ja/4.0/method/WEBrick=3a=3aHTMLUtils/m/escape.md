@@ -8,5 +8,5 @@
 
 ```ruby
 require 'webrick'
-p WEBrick::HTMLUtils.escape('/?q=foo&hl=<ja>')    #=> "/?q=foo&amp;hl=&lt;ja&gt;"
+p WEBrick::HTMLUtils.escape('/?q=foo&hl=<ja>')    # => "/?q=foo&amp;hl=&lt;ja&gt;"
 ```

@@ -12,9 +12,9 @@ Enumerable オブジェクトが空の場合、引数を指定しない形式で
 
 ```ruby title="例"
 e = "abcd".each_byte
-p e.first #=> 97
-p e.first(2) #=> [97,98]
+p e.first # => 97
+p e.first(2) # => [97,98]
 e = "".each_byte
-p e.first #=> nil
-p e.first(2) #=> []
+p e.first # => nil
+p e.first(2) # => []
 ```

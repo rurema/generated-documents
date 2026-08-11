@@ -11,7 +11,7 @@ Socket::AncillaryData オブジェクトを生成します。
 require 'socket'
 
 p Socket::AncillaryData.int(:UNIX, :SOCKET, :RIGHTS, STDERR.fileno)
-#=> #<Socket::AncillaryData: UNIX SOCKET RIGHTS 2>
+# => #<Socket::AncillaryData: UNIX SOCKET RIGHTS 2>
 ```
 
 - **param** `family` -- ソケットファミリー

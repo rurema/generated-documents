@@ -7,11 +7,11 @@ compact は自身から value が nil のもの取り除いた Hash を生成し
 
 ```ruby title="例"
 hash = {a: 1, b: nil, c: 3}
-p hash.compact  #=> {:a=>1, :c=>3}
-p hash          #=> {:a=>1, :b=>nil, :c=>3}
+p hash.compact  # => {:a=>1, :c=>3}
+p hash          # => {:a=>1, :b=>nil, :c=>3}
 hash.compact!
-p hash          #=> {:a=>1, :c=>3}
-p hash.compact! #=>  nil
+p hash          # => {:a=>1, :c=>3}
+p hash.compact! # =>  nil
 ```
 
 - **SEE** [Array#compact](../../../method/Array/i/compact.md)

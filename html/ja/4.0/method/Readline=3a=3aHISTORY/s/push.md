@@ -13,7 +13,7 @@ self を返します。
 require "readline"
 
 Readline::HISTORY.push("foo")
-p Readline::HISTORY[-1] #=> "foo"
+p Readline::HISTORY[-1] # => "foo"
 ```
 
 例: "foo"、"bar"を追加する。
@@ -22,8 +22,8 @@ p Readline::HISTORY[-1] #=> "foo"
 require "readline"
 
 Readline::HISTORY.push("foo", "bar")
-p Readline::HISTORY[-1] #=> "bar"
-p Readline::HISTORY[-2] #=> "foo"
+p Readline::HISTORY[-1] # => "bar"
+p Readline::HISTORY[-2] # => "foo"
 ```
 
 - **SEE** [Readline::HISTORY.<<](../../../method/Readline=3a=3aHISTORY/s/=3c=3c.md)

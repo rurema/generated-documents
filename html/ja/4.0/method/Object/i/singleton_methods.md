@@ -11,8 +11,7 @@ self がクラスの場合はスーパークラスのクラスメソッド([Clas
 
 singleton_methods(false) は、[Object#methods](../../../method/Object/i/methods.md)(false) と同じです。
 
-- **param** `inherited_too` -- 継承した特異メソッドを含める場合は真を、
-                     そうでない場合は偽を指定します。
+- **param** `inherited_too` -- 継承した特異メソッドを含める場合は真を、そうでない場合は偽を指定します。
 
 ```ruby title="例1"
 Parent = Class.new

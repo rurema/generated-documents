@@ -12,6 +12,6 @@ TCPServer.open("", 0) {|serv|
   c = TCPSocket.new(*serv.addr.values_at(3,1))
   s = serv.accept
   c.write "foo"
-  p s.recv(10)  #=> "foo"
+  p s.recv(10)  # => "foo"
 }
 ```

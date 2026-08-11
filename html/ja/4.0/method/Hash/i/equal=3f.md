@@ -7,9 +7,9 @@
 - **param** `other` -- 自身と比較したい Hash オブジェクトを指定します。
 
 ```ruby title="例"
-p({}.equal?({}))     #=> false
+p({}.equal?({}))     # => false
 a = {}
-p a.equal?(a)        #=> true
+p a.equal?(a)        # => true
 ```
 
 - **SEE** [Hash#==](../../../method/Hash/i/=3d=3d.md)

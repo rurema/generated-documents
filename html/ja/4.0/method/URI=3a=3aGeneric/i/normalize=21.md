@@ -8,6 +8,6 @@ URI オブジェクトを正規化して返します。ホスト名を小文字�
 ```ruby title="例"
 require 'uri'
 u = URI.parse('http://Example.Com')
-p u.to_s                            #=> "http://Example.Com"
-p u.normalize.to_s                  #=> "http://example.com/"
+p u.to_s                            # => "http://Example.Com"
+p u.normalize.to_s                  # => "http://example.com/"
 ```

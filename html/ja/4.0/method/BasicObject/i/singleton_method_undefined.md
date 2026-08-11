@@ -28,7 +28,7 @@ class << obj
 end
 obj.instance_eval {undef bar}
 
-#=> singleton method "foo" was undefined
+# => singleton method "foo" was undefined
 #   singleton method "bar" was undefined
 ```
 

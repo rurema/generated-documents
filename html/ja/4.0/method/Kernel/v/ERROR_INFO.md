@@ -11,7 +11,7 @@ class SomethingError < StandardError; end
 begin
   raise SomethingError
 rescue
-  p $ERROR_INFO.backtrace #=> ["sample.rb:5"]
-  p $ERROR_INFO.to_s #=> "SomethingError"
+  p $ERROR_INFO.backtrace # => ["sample.rb:5"]
+  p $ERROR_INFO.to_s # => "SomethingError"
 end
 ```

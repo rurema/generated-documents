@@ -48,8 +48,8 @@ p (1.2 - 1.0) == 0.2 # => false
 
 ```ruby
 require "bigdecimal"
-p BigDecimal("1.0") / BigDecimal("0.0")  #=> Infinity
-p BigDecimal("-1.0") / BigDecimal("0.0")  #=> -Infinity
+p BigDecimal("1.0") / BigDecimal("0.0")  # => Infinity
+p BigDecimal("-1.0") / BigDecimal("0.0")  # => -Infinity
 ```
 
 無限大を表す [BigDecimal](../class/BigDecimal.md) オブジェクトを作成する場合、

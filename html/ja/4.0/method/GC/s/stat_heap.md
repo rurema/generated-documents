@@ -14,9 +14,7 @@ heap_id を指定すると、そのサイズプールの統計情報だけを返
 - **param** `heap_id` -- サイズプールの番号を [Integer](../../../class/Integer.md) で指定します。
            nil を指定すると、すべてのサイズプールが対象になります。
 - **param** `key` -- 特定の情報だけを取得したい場合にキーを [Symbol](../../../class/Symbol.md) で指定します。
-- **param** `result_hash` -- 戻り値のためのハッシュを指定します。省略した場合は新
-                   しくハッシュを作成します。result_hash の内容は上書き
-                   されます。
+- **param** `result_hash` -- 戻り値のためのハッシュを指定します。省略した場合は新しくハッシュを作成します。result_hash の内容は上書きされます。
 - **raise** `ArgumentError` -- 存在しないサイズプールの番号を指定した場合に発生します。
 
 ```ruby

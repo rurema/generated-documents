@@ -10,7 +10,7 @@ def foo
   binding
 end
 
-p eval("p a", foo)  #=> 1
+p eval("p a", foo)  # => 1
 ```
 
 - **SEE** [Kernel?.eval](../../../method/Kernel/m/eval.md),[Object::TOPLEVEL_BINDING](../../../method/Object/c/TOPLEVEL_BINDING.md)

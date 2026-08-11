@@ -5,8 +5,7 @@
 自身の開始位置から other の終端位置までを表す新しい
 `Prism::Location` を返します。間にある文字列も範囲に含まれます。
 
-- **param** `other` -- 結合する `Prism::Location`。自身より後ろに
-  ある必要があります。
+- **param** `other` -- 結合する `Prism::Location`。自身より後ろにある必要があります。
 
 ```ruby title="例"
 require "prism"

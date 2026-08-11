@@ -8,8 +8,8 @@
 
 ```ruby
 f = File.new("testfile")
-p f.readline             #=> "This is line one\n"
-p f.rewind               #=> 0
-p f.lineno               #=> 0
-p f.readline             #=> "This is line one\n"
+p f.readline             # => "This is line one\n"
+p f.rewind               # => 0
+p f.lineno               # => 0
+p f.readline             # => "This is line one\n"
 ```

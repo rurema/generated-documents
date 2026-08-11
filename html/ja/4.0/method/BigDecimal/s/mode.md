@@ -11,11 +11,9 @@
          [BigDecimal::ROUND_MODE](../../../method/BigDecimal/c/ROUND_MODE.md) のいずれかで指定します。
 
 - **param** `v` -- 引数 s が [BigDecimal::ROUND_MODE](../../../method/BigDecimal/c/ROUND_MODE.md) の場合は
-         [BigDecimal::ROUND_MODE](../../../method/BigDecimal/c/ROUND_MODE.md) 以外の BigDecimal::_ROUND* のいず
-         れかを指定します。指定した丸め処理が有効になります。
+         [BigDecimal::ROUND_MODE](../../../method/BigDecimal/c/ROUND_MODE.md) 以外の BigDecimal::_ROUND* のいずれかを指定します。指定した丸め処理が有効になります。
          それ以外の場合は、true、false、nil のいずれかを指定します。
-         true を指定した場合は設定値が有効になり、false を指定した場合
-         は設定値が無効になります。
+         true を指定した場合は設定値が有効になり、false を指定した場合は設定値が無効になります。
 
 - **raise** `TypeError` -- 引数 s に有効でない値を指定した場合に発生します。
 

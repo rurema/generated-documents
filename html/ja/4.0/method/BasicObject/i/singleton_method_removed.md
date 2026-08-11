@@ -24,7 +24,7 @@ class << obj
   remove_method :foo
 end
 
-#=> singleton method "foo" was removed
+# => singleton method "foo" was removed
 ```
 
 - **SEE** [Module#method_removed](../../../method/Module/i/method_removed.md),[BasicObject#singleton_method_added](../../../method/BasicObject/i/singleton_method_added.md),[BasicObject#singleton_method_undefined](../../../method/BasicObject/i/singleton_method_undefined.md)

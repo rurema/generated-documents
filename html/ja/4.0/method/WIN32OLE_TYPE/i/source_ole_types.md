@@ -13,5 +13,5 @@ ActiveXコントロールのようにイベント（[WIN32OLE_EVENT](../../../cl
 
 ```ruby
 tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-p tobj.source_ole_types.map {|intf| intf.name} #=> ["DocEvents"]
+p tobj.source_ole_types.map {|intf| intf.name} # => ["DocEvents"]
 ```

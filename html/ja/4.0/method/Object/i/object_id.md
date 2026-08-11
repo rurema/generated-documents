@@ -11,20 +11,20 @@ Rubyでは、(Garbage Collectされていない)アクティブなオブジェ�
 これは、Immutable ならば複数の場所から参照されても`破壊的操作`による問題が発生しないので、同じ内容のインスタンスを複数生成しないという内部実装が理由です。
 
 ```ruby
-p "ruby".object_id #=> 60
-p "ruby".object_id #=> 80
+p "ruby".object_id # => 60
+p "ruby".object_id # => 80
 
-p [].object_id #=> 100
-p [].object_id #=> 120
+p [].object_id # => 100
+p [].object_id # => 120
 
-p :ruby.object_id #=> 710428
-p :ruby.object_id #=> 710428
+p :ruby.object_id # => 710428
+p :ruby.object_id # => 710428
 
-p 11.object_id #=> 23
-p 11.object_id #=> 23
+p 11.object_id # => 23
+p 11.object_id # => 23
 
-p true.object_id #=> 20
-p true.object_id #=> 20
+p true.object_id # => 20
+p true.object_id # => 20
 ```
 
 - **SEE** [Object#equal?](../../../method/Object/i/equal=3f.md),[BasicObject#__id__](../../../method/BasicObject/i/__id__.md),[Symbol](../../../class/Symbol.md)

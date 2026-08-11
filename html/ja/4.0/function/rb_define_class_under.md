@@ -13,5 +13,4 @@ super のサブクラスとして新しい Ruby クラスを、outer の定数�
 - **raise** `TypeError` -- 引数 name と同じ名前の定数が既に存在し、それが
                  [Class](../class/Class.md) オブジェクトではない場合に発生します。
 
-- **raise** `TypeError` -- 定義済みのクラスと継承元のクラスが一致しない場合に発生
-                 します。
+- **raise** `TypeError` -- 定義済みのクラスと継承元のクラスが一致しない場合に発生します。

@@ -11,7 +11,7 @@ class MyCGI < WEBrick::CGI
     req.query['q'].each_data{|s|
       p s
     }
-    #=> "val1"
+    # => "val1"
         "val2"
         "val3"
   end

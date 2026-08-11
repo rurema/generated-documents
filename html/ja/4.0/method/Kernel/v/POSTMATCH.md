@@ -10,5 +10,5 @@ require "English"
 str = 'hoge,foo,bar,hee,hoo'
 
 /foo/ =~ str
-p $POSTMATCH #=> ",bar,hee,hoo"
+p $POSTMATCH # => ",bar,hee,hoo"
 ```

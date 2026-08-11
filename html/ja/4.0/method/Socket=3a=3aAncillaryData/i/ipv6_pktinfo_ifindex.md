@@ -12,7 +12,7 @@ require 'socket'
 addr = Addrinfo.ip("::1")
 ifindex = 0
 ancdata = Socket::AncillaryData.ipv6_pktinfo(addr, ifindex)
-p ancdata.ipv6_pktinfo_ifindex #=> 0
+p ancdata.ipv6_pktinfo_ifindex # => 0
 ```
 
 - **SEE** [Socket::AncillaryData.ipv6_pktinfo](../../../method/Socket=3a=3aAncillaryData/s/ipv6_pktinfo.md), 

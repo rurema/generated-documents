@@ -12,7 +12,7 @@ selfを破壊的に変更したい場合はかわりに[Hash#delete_if](../../..
 ```ruby title="例"
 h = { 2 =>"8" ,4 =>"6" ,6 =>"4" ,8 =>"2" }
 
-p h.reject{|key, value| key.to_i < value.to_i} #=> {6=>"4", 8=>"2"}
+p h.reject{|key, value| key.to_i < value.to_i} # => {6=>"4", 8=>"2"}
 ```
 
 - **SEE** [Hash#delete_if](../../../method/Hash/i/delete_if.md),[Hash#delete](../../../method/Hash/i/delete.md),[Enumerable#reject](../../../method/Enumerable/i/reject.md)

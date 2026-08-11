@@ -9,8 +9,7 @@
 
 - **param** `n` -- 小数点以下の桁数を整数で指定します。
 
-- **param** `b` -- 丸め処理の方式として、[BigDecimal.mode](../../../method/BigDecimal/s/mode.md) の第 1 引数と同じ
-         値を指定します。
+- **param** `b` -- 丸め処理の方式として、[BigDecimal.mode](../../../method/BigDecimal/s/mode.md) の第 1 引数と同じ値を指定します。
 
 [BigDecimal.mode](../../../method/BigDecimal/s/mode.md)([BigDecimal::ROUND_MODE](../../../method/BigDecimal/c/ROUND_MODE.md),flag) で何も指定せず、かつ、引数を指定しない場合は「小数点以下第一位の数を四捨五入して整数(BigDecimal 値)」にします。
 

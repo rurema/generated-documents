@@ -13,6 +13,6 @@
 require 'socket'
 
 list = Addrinfo.getaddrinfo("www.ruby-lang.org", 80, :INET, :STREAM, nil, Socket::AI_CANONNAME)
-p list[0] #=> #<Addrinfo: 221.186.184.68:80 TCP carbon.ruby-lang.org (www.ruby-lang.org:80)>
-p list[0].canonname #=> "carbon.ruby-lang.org"
+p list[0] # => #<Addrinfo: 221.186.184.68:80 TCP carbon.ruby-lang.org (www.ruby-lang.org:80)>
+p list[0].canonname # => "carbon.ruby-lang.org"
 ```

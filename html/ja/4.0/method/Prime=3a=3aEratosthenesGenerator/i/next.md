@@ -10,9 +10,9 @@
 ```ruby title="例"
 require 'prime'
 generator = Prime::EratosthenesGenerator.new
-p generator.next #=> 2
-p generator.next #=> 3
-p generator.succ #=> 5
-p generator.succ #=> 7
-p generator.next #=> 11
+p generator.next # => 2
+p generator.next # => 3
+p generator.succ # => 5
+p generator.succ # => 7
+p generator.next # => 11
 ```

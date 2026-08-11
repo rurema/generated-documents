@@ -11,9 +11,9 @@
 require 'strscan'
 
 s = StringScanner.new('test string')
-p s.skip(/\w+/)   #=> 4
-p s.skip(/\w+/)   #=> nil
-p s.skip(/\s+/)   #=> 1
-p s.skip(/\w+/)   #=> 6
-p s.skip(/./)     #=> nil
+p s.skip(/\w+/)   # => 4
+p s.skip(/\w+/)   # => nil
+p s.skip(/\s+/)   # => 1
+p s.skip(/\w+/)   # => 6
+p s.skip(/./)     # => nil
 ```

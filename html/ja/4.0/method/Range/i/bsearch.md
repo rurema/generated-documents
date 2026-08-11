@@ -48,7 +48,6 @@ p (0..4).bsearch {|i|  50 - ary[i] } # => nil
 
 ブロックが与えられなかった場合は、 [Enumerator](../../../class/Enumerator.md) のインスタンスを返します。
 
-- **raise** `TypeError` -- ブロックの評価結果が true、false、nil、数値以外であっ
-                 た場合に発生します。
+- **raise** `TypeError` -- ブロックの評価結果が true、false、nil、数値以外であった場合に発生します。
 
 - **SEE** [Array#bsearch](../../../method/Array/i/bsearch.md)

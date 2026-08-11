@@ -7,11 +7,11 @@
 
 ```ruby
 f = open("/dev/null")
-p f.close_on_exec?               #=> true
+p f.close_on_exec?               # => true
 f.close_on_exec = false
-p f.close_on_exec?               #=> false
+p f.close_on_exec?               # => false
 f.close_on_exec = true
-p f.close_on_exec?               #=> true
+p f.close_on_exec?               # => true
 ```
 
 - **SEE** [IO#close_on_exec=](../../../method/IO/i/close_on_exec=3d.md)

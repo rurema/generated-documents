@@ -13,8 +13,7 @@ TSort.each_strongly_connected_component_fromは[TSort](../../../class/TSort.md)�
 
 - **param** `node` -- ノードを指定します。
 
-- **param** `each_child` -- 引数で与えられた頂点の子をそれぞれ評価するcallメソッ
-                  ドを持つオブジェクトを指定します。
+- **param** `each_child` -- 引数で与えられた頂点の子をそれぞれ評価するcallメソッドを持つオブジェクトを指定します。
 
 ```ruby title="使用例"
 require 'tsort'

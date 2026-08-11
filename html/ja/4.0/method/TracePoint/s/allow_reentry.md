@@ -11,8 +11,7 @@
 
 - **return** -- ブロックの評価結果を返します。
 
-- **raise** `RuntimeError` -- TracePoint のコールバックの外で呼び出した場合に
-             発生します。すでに再入が許可されている場合も同様です。
+- **raise** `RuntimeError` -- TracePoint のコールバックの外で呼び出した場合に発生します。すでに再入が許可されている場合も同様です。
 
 ```ruby
 def helper

@@ -14,5 +14,5 @@ a1 = [1, 2]
 a2 = [-1.25, 2.2]
 m = Matrix[a1, a2]
 r = 1/2r
-p m.coerce(r) #=> [#<Matrix::Scalar:0x832df18 @value=(1/2)>, Matrix[[1, 2], [-1.25, 2.2]]]
+p m.coerce(r) # => [#<Matrix::Scalar:0x832df18 @value=(1/2)>, Matrix[[1, 2], [-1.25, 2.2]]]
 ```

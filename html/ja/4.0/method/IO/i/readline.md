@@ -23,10 +23,10 @@ limit で最大読み込みバイト数を指定します。ただしマルチ�
 
 ```ruby
 f = File.new("oneline_file")
-p f.readline                    #=> "This is line one\n"
-p $_                            #=> "This is line one\n"
+p f.readline                    # => "This is line one\n"
+p $_                            # => "This is line one\n"
 f.readline                      # ~> EOFError
-p $_                            #=> nil
+p $_                            # => nil
 ```
 
 - **SEE** [m:$/], [IO#gets](../../../method/IO/i/gets.md)

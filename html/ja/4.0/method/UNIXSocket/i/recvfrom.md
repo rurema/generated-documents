@@ -17,7 +17,7 @@ UNIXServer.open("/tmp/s") {|serv|
   c = UNIXSocket.open("/tmp/s")
   s = serv.accept
   s.send "a", 0
-  p c.recvfrom(10)[0]     #=> "a"
+  p c.recvfrom(10)[0]     # => "a"
 }
 ```
 

@@ -12,9 +12,9 @@ nil を返します。
 ```ruby title="例"
 h = {:ab => "some" , :cd => "all" , :ef => "all"}
 
-p h.key("some") #=> :ab
-p h.key("all") #=> :cd
-p h.key("at") #=> nil
+p h.key("some") # => :ab
+p h.key("all") # => :cd
+p h.key("at") # => nil
 ```
 
 - **SEE** [Hash#invert](../../../method/Hash/i/invert.md)

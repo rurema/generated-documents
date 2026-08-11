@@ -11,9 +11,7 @@ HTTPServer オブジェクトを生成して返します。
 - **`:HTTPVersion`**:
   使用する HTTP のバージョンです。[WEBrick::HTTPVersion](../../../class/WEBrick=3a=3aHTTPVersion.md) オブジェクトで指定します。デフォルトは 1.1 です。
 - **`:AccessLog`**:
-  アクセスログの出力先とフォーマットを [[io, format], [io, format], ...] のような
-  配列で指定します。io は [IO](../../../class/IO.md) オブジェクトです。format は文字列です。デフォルトでは
-  フォーマットの形式は Apache のそれに準拠し標準エラー出力に出力します。
+  アクセスログの出力先とフォーマットを [[io, format], [io, format], ...] のような配列で指定します。io は [IO](../../../class/IO.md) オブジェクトです。format は文字列です。デフォルトではフォーマットの形式は Apache のそれに準拠し標準エラー出力に出力します。
   <http://httpd.apache.org/docs/mod/mod_log_config.html#formats>
   [WEBrick::AccessLog::COMMON_LOG_FORMAT](../../../method/WEBrick=3a=3aAccessLog/c/COMMON_LOG_FORMAT.md) [WEBrick::AccessLog::REFERER_LOG_FORMAT](../../../method/WEBrick=3a=3aAccessLog/c/REFERER_LOG_FORMAT.md)
   も参照して下さい。
@@ -23,15 +21,11 @@ HTTPServer オブジェクトを生成して返します。
 - **`:DirectoryIndex`**:
   ディレクトリのインデックスとなるファイル名を配列で指定します。
 - **`:DocumentRoot`**:
-  サーバ上のルートディレクトリに対応させる、ローカルのファイルシステムの
-  ディレクトリを文字列で指定します。
+  サーバ上のルートディレクトリに対応させる、ローカルのファイルシステムのディレクトリを文字列で指定します。
 - **`:DocumentRootOptions`**:
-  ルートディレクトリの処理を担当する [WEBrick::HTTPServlet::FileHandler](../../../class/WEBrick=3a=3aHTTPServlet=3a=3aFileHandler.md) のコンストラクタに
-  渡されるオプションをハッシュで指定します。デフォルトは { :FancyIndexing => true } ですので、
-  ディレクトリにアクセスするとディレクトリの内容を適当な形式で表示します。
+  ルートディレクトリの処理を担当する [WEBrick::HTTPServlet::FileHandler](../../../class/WEBrick=3a=3aHTTPServlet=3a=3aFileHandler.md) のコンストラクタに渡されるオプションをハッシュで指定します。デフォルトは { :FancyIndexing => true } ですので、ディレクトリにアクセスするとディレクトリの内容を適当な形式で表示します。
 - **`:RequestCallback`**:
-  クライアントからのリクエストを受け付けた時に呼ばれる [Proc](../../../class/Proc.md) オブジェクトを
-  指定します。callback.call(req, res) のように [WEBrick::HTTPRequest](../../../class/WEBrick=3a=3aHTTPRequest.md) オブジェクトと
+  クライアントからのリクエストを受け付けた時に呼ばれる [Proc](../../../class/Proc.md) オブジェクトを指定します。callback.call(req, res) のように [WEBrick::HTTPRequest](../../../class/WEBrick=3a=3aHTTPRequest.md) オブジェクトと
   [WEBrick::HTTPResponse](../../../class/WEBrick=3a=3aHTTPResponse.md) オブジェクトを引数として呼ばれます。
 - **`:ServerAlias`**:
   サーバのホスト名の別名を文字列の配列で指定します。

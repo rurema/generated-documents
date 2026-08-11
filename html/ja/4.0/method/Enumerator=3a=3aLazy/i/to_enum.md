@@ -14,7 +14,7 @@ Enumerator を返す」ようなメソッドを定義するときによく使わ
 ```ruby title="例"
 module Enumerable
   # 要素をn回ずつ繰り返すメソッド
-  # 例：[1,2,3].repeat(2)  #=> [1,1,2,2,3,3]
+  # 例：[1,2,3].repeat(2)  # => [1,1,2,2,3,3]
   def repeat(n)
     raise ArgumentError if n < 0
     if block_given?
@@ -29,11 +29,11 @@ end
 
 r = 1..10
 p r.map{|n| n**2}.repeat(2).first(5)
-#=> [1, 1, 4, 4, 9]
+# => [1, 1, 4, 4, 9]
 
 r = 1..Float::INFINITY
 p r.lazy.map{|n| n**2}.repeat(2).first(5)
-#=> [1, 1, 4, 4, 9]
+# => [1, 1, 4, 4, 9]
 
 # Lazy#to_enum のおかげで、repeat の返り値は
 # もとが Enumerator のときは Enumerator に、

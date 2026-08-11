@@ -13,9 +13,9 @@ self の末尾が suffixes のいずれかであるとき true を返します�
 - **SEE** [String#end_with?](../../../method/String/i/end_with=3f.md)
 
 ```ruby
-p :hello.end_with?("ello")             #=> true
+p :hello.end_with?("ello")             # => true
 
 # returns true if one of the +suffixes+ matches.
-p :hello.end_with?("heaven", "ello")   #=> true
-p :hello.end_with?("heaven", "paradise") #=> false
+p :hello.end_with?("heaven", "ello")   # => true
+p :hello.end_with?("heaven", "paradise") # => false
 ```

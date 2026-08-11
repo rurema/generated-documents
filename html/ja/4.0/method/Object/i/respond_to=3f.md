@@ -16,9 +16,7 @@ Rubyで実装されたメソッドで NotImplementedError が発生する場合�
 
 - **param** `name` -- [Symbol](../../../class/Symbol.md) または文字列で指定するメソッド名です。
 
-- **param** `include_all` -- private メソッドと protected メソッドを確認の対象に
-                   含めるかを true か false で指定します。省略した場合
-                   は false(含めない) を指定した事になります。
+- **param** `include_all` -- private メソッドと protected メソッドを確認の対象に含めるかを true か false で指定します。省略した場合は false(含めない) を指定した事になります。
 
 ```ruby
 class F
@@ -36,10 +34,10 @@ end
 list = [F.new,D.new]
 
 list.each{|it| puts it.hello if it.respond_to?(:hello)}
-#=> Bonjour
+# => Bonjour
 
 list.each{|it| it.instance_eval("puts hello if it.respond_to?(:hello, true)")}
-#=> Bonjour
+# => Bonjour
 #   Guten Tag
 
 module Template

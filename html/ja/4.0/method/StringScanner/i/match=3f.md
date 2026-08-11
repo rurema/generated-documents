@@ -15,7 +15,7 @@ def case1(encode)
   s.match?(/#{"\u{308B}".encode(encode)}/)
 end
 
-p case1("EUC-JP")     #=> 2
+p case1("EUC-JP")     # => 2
 ```
 
 - **param** `regexp` -- マッチに用いる正規表現を指定します。
@@ -24,7 +24,7 @@ p case1("EUC-JP")     #=> 2
 require 'strscan'
 
 s = StringScanner.new('test string')
-p s.match?(/\w+/)   #=> 4
-p s.match?(/\w+/)   #=> 4
-p s.match?(/\s+/)   #=> nil
+p s.match?(/\w+/)   # => 4
+p s.match?(/\w+/)   # => 4
+p s.match?(/\s+/)   # => nil
 ```

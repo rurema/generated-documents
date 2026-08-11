@@ -6,7 +6,6 @@ irb のプロンプトでの評価結果を表示するかどうかを設定し�
 
 .irbrc ファイル中で IRB.conf[:ECHO] を設定する事でも同様の操作が行えます。
 
-- **param** `val` -- true を指定した場合、irb のプロンプトでの評価結果を表示しま
-           す。false を指定した場合は表示しません。
+- **param** `val` -- true を指定した場合、irb のプロンプトでの評価結果を表示します。false を指定した場合は表示しません。
 
 - **SEE** [IRB::Context#echo](../../../method/IRB=3a=3aContext/i/echo.md)

@@ -8,8 +8,8 @@
 require 'socket'
 
 serv = TCPServer.open("", 0)
-p serv.getsockname        #=> "\002\000\236C\000\000\000\000\000\000\000\000\000\000\000\000"
-p Socket.unpack_sockaddr_in(serv.getsockname)     #=> [40515, "0.0.0.0"]
+p serv.getsockname        # => "\002\000\236C\000\000\000\000\000\000\000\000\000\000\000\000"
+p Socket.unpack_sockaddr_in(serv.getsockname)     # => [40515, "0.0.0.0"]
 c = TCPSocket.open(*Socket.unpack_sockaddr_in(serv.getsockname).reverse)
 s = serv.accept
 ```

@@ -8,8 +8,8 @@
 GC::Profiler.enable
 GC.start
 GC.start
-p GC::Profiler.report #=> 2 回分の GC のプロファイル情報出力する。
+p GC::Profiler.report # => 2 回分の GC のプロファイル情報出力する。
 GC::Profiler.clear
 GC.start
-p GC::Profiler.report #=> 1 回分の GC のプロファイル情報出力する。
+p GC::Profiler.report # => 1 回分の GC のプロファイル情報出力する。
 ```

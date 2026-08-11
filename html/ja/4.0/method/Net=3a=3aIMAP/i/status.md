@@ -12,10 +12,9 @@ STATUS コマンドを送り、mailbox のステータスを得ます。
 
 ```ruby title="例"
 p imap.status("inbox", ["MESSAGES", "RECENT"])
-#=> {"RECENT"=>0, "MESSAGES"=>44}
+# => {"RECENT"=>0, "MESSAGES"=>44}
 ```
 
 - **param** `mailbox` -- 問い合わせ対象のメールボックス(文字列)
 - **param** `attr` -- 問合せたいアトリビュート名(文字列)の配列
-- **raise** `Net::IMAP::NoResponseError` -- メールボックスが存在しない場合や、
-       アトリビュート名が存在しない場合に発生します
+- **raise** `Net::IMAP::NoResponseError` -- メールボックスが存在しない場合や、アトリビュート名が存在しない場合に発生します

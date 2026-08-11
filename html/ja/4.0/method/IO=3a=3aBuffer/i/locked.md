@@ -17,8 +17,7 @@
 
 - **raise** `LocalJumpError` -- ブロックを渡さなかった場合に発生します。
 
-- **raise** `IO::Buffer::LockedError` -- すでにロックされているバッファに対して
-             呼び出した場合に発生します。
+- **raise** `IO::Buffer::LockedError` -- すでにロックされているバッファに対して呼び出した場合に発生します。
 
 ```ruby
 buf = IO::Buffer.new(4)

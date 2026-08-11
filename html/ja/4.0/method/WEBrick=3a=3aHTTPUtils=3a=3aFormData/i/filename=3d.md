@@ -11,7 +11,7 @@
 require "webrick/cgi"
 class MyCGI < WEBrick::CGI
   def do_GET(req, res)
-    p req.query['q'].filename   #=> "my_file.txt"
+    p req.query['q'].filename   # => "my_file.txt"
   end
 end
 MyCGI.new.start()

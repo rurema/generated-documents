@@ -14,6 +14,6 @@
 ```ruby title="例"
 require "stringio"
 a = StringIO.new("hoge", 'r+')
-p a.write("aaa")               #=> 3
-p a.string                     #=> "aaae"
+p a.write("aaa")               # => 3
+p a.string                     # => "aaae"
 ```

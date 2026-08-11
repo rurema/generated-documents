@@ -10,8 +10,8 @@
 
 ```ruby
 me = -365.method(:abs)
-p me #=> #<Method: Integer#abs>
-p me.call #=> 365
+p me # => #<Method: Integer#abs>
+p me.call # => 365
 ```
 
 [Method](../../../class/Method.md)・[UnboundMethod](../../../class/UnboundMethod.md) オブジェクトを取得するメソッドの対比は次のとおりです。

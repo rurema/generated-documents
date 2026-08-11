@@ -10,6 +10,6 @@ require 'socket'
 
 UNIXServer.open("/tmp/s") {|serv|
   c = UNIXSocket.open("/tmp/s")
-  p serv.sysaccept        #=> 6
+  p serv.sysaccept        # => 6
 }
 ```

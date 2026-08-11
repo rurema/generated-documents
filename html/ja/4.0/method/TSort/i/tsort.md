@@ -20,7 +20,7 @@ class Hash
 end
 
 sorted = {1=>[2, 3], 2=>[3], 3=>[], 4=>[]}.tsort
-p sorted #=> [3, 2, 1, 4]
+p sorted # => [3, 2, 1, 4]
 ```
 
 - **SEE** [TSort.tsort](../../../method/TSort/s/tsort.md)

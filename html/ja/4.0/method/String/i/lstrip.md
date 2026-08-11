@@ -19,9 +19,9 @@ selectors の形式は [man:tr(1)] と同じです。
 - **param** `selectors` --    取り除く文字。
 
 ```ruby title="例"
-p "  abc\n".lstrip     #=> "abc\n"
-p "\t abc\n".lstrip    #=> "abc\n"
-p "abc\n".lstrip       #=> "abc\n"
+p "  abc\n".lstrip     # => "abc\n"
+p "\t abc\n".lstrip    # => "abc\n"
+p "abc\n".lstrip       # => "abc\n"
 ```
 
 

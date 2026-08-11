@@ -14,7 +14,7 @@
 - **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
 
 ```ruby
-p [Process.uid, Process.euid]        #=> [0, 0]
-p Process::UID.change_privilege(33)  #=> 33
-p [Process.uid, Process.euid]        #=> [33, 33]
+p [Process.uid, Process.euid]        # => [0, 0]
+p Process::UID.change_privilege(33)  # => 33
+p [Process.uid, Process.euid]        # => [33, 33]
 ```

@@ -17,10 +17,10 @@ original = "a"
 copied = original.dup
 substituted = original
 
-p original == copied        #=> true
-p original == substituted   #=> true
-p original.equal? copied    #=> false
-p original.equal? substituted #=> true
+p original == copied        # => true
+p original == substituted   # => true
+p original.equal? copied    # => false
+p original.equal? substituted # => true
 ```
 
 - **SEE** [Object#equal?](../../../method/Object/i/equal=3f.md), [Object#==](../../../method/Object/i/=3d=3d.md), [Object#eql?](../../../method/Object/i/eql=3f.md)

@@ -13,6 +13,5 @@ n-1個のn次元ベクトルが張る空間と直交するベクトルを返し�
 n次元ベクトルでなければなりません。
 
 - **param** `vs` -- クロス積を取るベクトルの集合
-- **raise** `ExceptionForMatrix::ErrOperationNotDefined` -- `self` の
-        次元が1以下であるときに発生します。
+- **raise** `ExceptionForMatrix::ErrOperationNotDefined` -- `self` の次元が1以下であるときに発生します。
 - **raise** `ArgumentError` -- `vs` のベクトルの個数が n-2 以外である場合に発生します。

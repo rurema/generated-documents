@@ -6,10 +6,10 @@
 
 ```ruby title="例"
 a = ["a", "b", 1]
-p a.hash              #=>  321
+p a.hash              # =>  321
 b = a.dup
-p b.hash              #=>  321
+p b.hash              # =>  321
 
-p ["a", 1, "b"].hash  #=>  491
-p ["a", 1.0, "b"].hash  #=>  466227
+p ["a", 1, "b"].hash  # =>  491
+p ["a", 1.0, "b"].hash  # =>  466227
 ```

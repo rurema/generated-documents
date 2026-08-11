@@ -9,12 +9,12 @@
 
 ```ruby title="例"
 p Encoding.compatible?("\xa1".force_encoding("iso-8859-1"), "b")
-#=> #<Encoding:ISO-8859-1>
+# => #<Encoding:ISO-8859-1>
 
 Encoding.compatible?(
   "\xa1".force_encoding("iso-8859-1"),
   "\xa1\xa1".force_encoding("euc-jp"))
-#=> nil
+# => nil
 ```
 
 引数が文字列でない場合でも、両方のオブジェクトが encoding を持つ場合には互換性を判定できます。

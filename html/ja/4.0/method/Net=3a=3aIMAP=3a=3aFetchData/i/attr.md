@@ -30,8 +30,7 @@
     [Net::IMAP::Envelope](../../../class/Net=3a=3aIMAP=3a=3aEnvelope.md) オブジェクト。
 - **`FLAGS`**:
     メッセージにセットされたフラグ。
-    [Symbol](../../../class/Symbol.md) の配列。[String#capitalize](../../../method/String/i/capitalize.md) でキャピタライズ
-    されている。
+    [Symbol](../../../class/Symbol.md) の配列。[String#capitalize](../../../method/String/i/capitalize.md) でキャピタライズされている。
 - **`INTERNALDATE`**:
     メッセージの内部日付。文字列。
 - **`RFC822`**:

@@ -12,8 +12,8 @@ db1['a'] = 'aaa'
 db1['b'] = 'bbb'
 db1['c'] = 'ccc'
   
-p db1.select{ |key, value| key == 'a' } #=> [["a", "aaa"]]
-p db1.select{ |key, value| key != 'a' } #=> [["c", "ccc"], ["b", "bbb"]]
+p db1.select{ |key, value| key == 'a' } # => [["a", "aaa"]]
+p db1.select{ |key, value| key != 'a' } # => [["c", "ccc"], ["b", "bbb"]]
 ```
 
 - **SEE** [Hash#select](../../../method/Hash/i/select.md)

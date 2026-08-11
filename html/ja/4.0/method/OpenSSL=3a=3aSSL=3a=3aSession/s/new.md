@@ -12,5 +12,4 @@
 PEM 形式もしくは DER 形式とみなしてセッションオブジェクトを生成します。
 
 - **param** `obj` -- セッションオブジェクトの生成元オブジェクト
-- **raise** `OpenSSL::SSL::Session::SessionError` -- オブジェクトの生成に
-       失敗した場合に発生します
+- **raise** `OpenSSL::SSL::Session::SessionError` -- オブジェクトの生成に失敗した場合に発生します

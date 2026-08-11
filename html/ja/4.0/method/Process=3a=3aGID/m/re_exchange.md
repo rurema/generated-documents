@@ -11,7 +11,7 @@
 - **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
 
 ```ruby
-p [Process.gid, Process.egid] #=> [0, 33]
-p Process::GID.re_exchange    #=> 0
-p [Process.gid, Process.egid] #=> [33, 0]
+p [Process.gid, Process.egid] # => [0, 33]
+p Process::GID.re_exchange    # => 0
+p [Process.gid, Process.egid] # => [33, 0]
 ```

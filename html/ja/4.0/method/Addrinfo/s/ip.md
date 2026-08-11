@@ -10,7 +10,7 @@ port, socktype, protocol は 0 で初期化されます。
 ```ruby
 require 'socket'
 
-p Addrinfo.ip("localhost") #=> #<Addrinfo: 127.0.0.1 (localhost)>
+p Addrinfo.ip("localhost") # => #<Addrinfo: 127.0.0.1 (localhost)>
 ```
 
 - **param** `host` -- ホスト(IP アドレスもしくはホスト名)

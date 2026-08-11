@@ -12,6 +12,6 @@
 
 ```ruby
 require 'fileutils'
-p FileUtils.cmp('somefile', 'somefile')    #=> true
-p FileUtils.cmp('/dev/null', '/dev/urandom') #=> false
+p FileUtils.cmp('somefile', 'somefile')    # => true
+p FileUtils.cmp('/dev/null', '/dev/urandom') # => false
 ```

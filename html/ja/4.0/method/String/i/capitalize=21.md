@@ -6,8 +6,7 @@
 
 - **param** `options` -- オプションの詳細は [String#downcase](../../../method/String/i/downcase.md) を参照してください。
 
-- **return** -- capitalize! は self を変更して返しますが、
-        変更が起こらなかった場合は nil を返します。
+- **return** -- capitalize! は self を変更して返しますが、変更が起こらなかった場合は nil を返します。
 
 ```ruby title="例"
 str = "foobar"

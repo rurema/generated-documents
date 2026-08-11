@@ -14,8 +14,8 @@
 
 ```ruby title="例"
 require 'prime'
-p Prime.prime_division(12) #=> [[2,2], [3,1]]
-p Prime.prime_division(10) #=> [[2,1], [5,1]]
+p Prime.prime_division(12) # => [[2,2], [3,1]]
+p Prime.prime_division(10) # => [[2,1], [5,1]]
 ```
 
 - **SEE** [Prime.prime_division](../../../method/Prime/s/prime_division.md), [Prime::EratosthenesGenerator](../../../class/Prime=3a=3aEratosthenesGenerator.md), [Prime::TrialDivisionGenerator](../../../class/Prime=3a=3aTrialDivisionGenerator.md), [Prime::Generator23](../../../class/Prime=3a=3aGenerator23.md)

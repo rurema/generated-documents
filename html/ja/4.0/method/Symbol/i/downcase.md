@@ -7,7 +7,7 @@
 (self.to_s.downcase.intern と同じです。)
 
 ```ruby
-p :FOO.downcase #=> :foo
+p :FOO.downcase # => :foo
 ```
 
 - **SEE** [String#downcase](../../../method/String/i/downcase.md)

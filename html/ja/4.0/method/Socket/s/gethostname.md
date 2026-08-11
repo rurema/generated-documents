@@ -11,5 +11,5 @@
 ```ruby title="例"
 require 'socket'
 
-p Socket.gethostname   #=> "helium.ruby-lang.org"
+p Socket.gethostname   # => "helium.ruby-lang.org"
 ```

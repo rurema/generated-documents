@@ -9,7 +9,7 @@
 ```ruby
 require "cgi"
 
-p CGI.unescapeURIComponent("%27Stop%21%27%20said%20Fred") #=> "'Stop!' said Fred"
+p CGI.unescapeURIComponent("%27Stop%21%27%20said%20Fred") # => "'Stop!' said Fred"
 ```
 
 - **SEE** [CGI.unescape](../../../method/CGI/s/unescape.md), [CGI.escapeURIComponent](../../../method/CGI/s/escapeURIComponent.md)

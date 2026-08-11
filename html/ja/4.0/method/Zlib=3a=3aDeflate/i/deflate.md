@@ -15,5 +15,5 @@ flush には [Zlib::NO_FLUSH](../../../method/Zlib/c/NO_FLUSH.md), [Zlib::SYNC_F
 require 'zlib'
 
 dez = Zlib::Deflate.new
-p dez.deflate("123" * 20, Zlib::FINISH) #=> "x\2343426$\027\001\000e\217\v\271"
+p dez.deflate("123" * 20, Zlib::FINISH) # => "x\2343426$\027\001\000e\217\v\271"
 ```

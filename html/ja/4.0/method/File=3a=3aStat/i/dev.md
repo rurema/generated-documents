@@ -8,5 +8,5 @@
 fs = File::Stat.new($0)
 p fs.dev
 #例
-#=> 2
+# => 2
 ```

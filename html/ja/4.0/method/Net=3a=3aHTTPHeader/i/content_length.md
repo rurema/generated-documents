@@ -6,8 +6,7 @@ Content-Length: ヘッダフィールドの表している値を整数で返し�
 
 ヘッダが設定されていない場合には nil を返します。
 
-- **raise** `Net::HTTPHeaderSyntaxError` -- フィールドの値が不正である場合に
-                                  発生します。
+- **raise** `Net::HTTPHeaderSyntaxError` -- フィールドの値が不正である場合に発生します。
 
 ```ruby title="例"
 require 'net/http'

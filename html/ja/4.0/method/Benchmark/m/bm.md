@@ -19,7 +19,7 @@ Benchmark.bm do |x|
   x.report { 1.upto(n) do ; a = "1"; end }
 end
 
-#=>
+# =>
 #
 #     user     system      total        real
 # 1.033333   0.016667   1.016667 (  0.492106)
@@ -39,7 +39,7 @@ Benchmark.bm(7) do |x|
   x.report("upto:")  { 1.upto(n) do ; a = "1"; end }
 end
 
-#=>
+# =>
 #              user     system      total        real
 # for:     1.050000   0.000000   1.050000 (  0.503462)
 # times:   1.533333   0.016667   1.550000 (  0.735473)
@@ -59,7 +59,7 @@ Benchmark.bm(7, ">total:", ">avg:") do |x|
   [tf + tt + tu, (tf + tt + tu) / 3]
 end
 
-#=>
+# =>
 #               user     system      total        real
 # for:      0.001467   0.004727   0.006194 (  0.006193)
 # times:    0.003814   0.000000   0.003814 (  0.003814)

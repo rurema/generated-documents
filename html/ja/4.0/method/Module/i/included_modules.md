@@ -12,8 +12,8 @@ module Outer
   include Mixin
 end
 
-p Mixin.included_modules #=> []
-p Outer.included_modules #=> [Mixin]
+p Mixin.included_modules # => []
+p Outer.included_modules # => [Mixin]
 ```
 
 - **SEE** [Module#ancestors](../../../method/Module/i/ancestors.md)

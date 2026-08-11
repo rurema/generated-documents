@@ -6,9 +6,9 @@
 
 ```ruby
 require 'uri'
-p URI.parse('http://example.com/hoge').path       #=> "/hoge"
-p URI.parse('http://example.com').path            #=> ""
-p URI.parse('mailto:nospam@localhost').path       #=> nil
-p URI('ftp://example.com/foo').path    #=> 'foo'
-p URI('ftp://example.com/%2Ffoo').path #=> '/foo'
+p URI.parse('http://example.com/hoge').path       # => "/hoge"
+p URI.parse('http://example.com').path            # => ""
+p URI.parse('mailto:nospam@localhost').path       # => nil
+p URI('ftp://example.com/foo').path    # => 'foo'
+p URI('ftp://example.com/%2Ffoo').path # => '/foo'
 ```

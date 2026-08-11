@@ -10,7 +10,7 @@
 require 'socket'
 
 ancdata = Socket::AncillaryData.int(:UNIX, :SOCKET, :RIGHTS, STDERR.fileno)
-p ancdata.int #=> 2
+p ancdata.int # => 2
 ```
 
 - **raise** `TypeError` -- cmgs data のサイズが int のバイト数と異なる場合に発生します

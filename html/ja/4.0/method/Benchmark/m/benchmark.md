@@ -53,7 +53,7 @@
     [tf+tt+tu, (tf+tt+tu)/3]
   end
 
-  #=>
+  # =>
   #
   #              user     system      total        real
   # for:     1.016667   0.016667   1.033333 (  0.485749)

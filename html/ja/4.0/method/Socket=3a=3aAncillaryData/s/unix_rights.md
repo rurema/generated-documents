@@ -9,7 +9,7 @@ ios で指定したファイルのファイルデスクリプタをデータと�
 require 'socket'
 
 p Socket::AncillaryData.unix_rights(STDERR)
-#=> #<Socket::AncillaryData: UNIX SOCKET RIGHTS 2>
+# => #<Socket::AncillaryData: UNIX SOCKET RIGHTS 2>
 ```
 
 - **param** `ios` -- IO オブジェクトの配列

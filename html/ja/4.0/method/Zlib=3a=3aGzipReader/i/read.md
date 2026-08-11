@@ -40,9 +40,9 @@ Zlib::GzipWriter.open('hoge.gz') { |gz|
 =end
 
 Zlib::GzipReader.open('hoge.gz') { |gz|
-  p gz.read(4)  #=> "hoge"
-  p gz.read     #=> "_fuga\n"
-  p gz.read(1)  #=> nil
+  p gz.read(4)  # => "hoge"
+  p gz.read     # => "_fuga\n"
+  p gz.read(1)  # => nil
 }
 ```
 

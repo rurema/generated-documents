@@ -24,7 +24,7 @@ def k.hi
   "Hi, @iv = #{@iv}"
 end
 m = k.singleton_method(:hi)    # => #<Method: #<Demo:0xf8b0c3c4 @iv=99>.hi>
-p m.call #=> "Hi, @iv = 99"
+p m.call # => "Hi, @iv = 99"
 m = k.singleton_method(:hello) # ~> NameError
 ```
 

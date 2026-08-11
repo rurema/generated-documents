@@ -11,7 +11,7 @@ require 'stringio'
 sio = StringIO.new("hoge", 'r+')
 sio2 = StringIO.new("foo", 'r+')
 sio.reopen(sio2)
-p sio.read                       #=> "foo"
+p sio.read                       # => "foo"
 ```
 
 ### def reopen(str, mode = 'r+')     -> StringIO
@@ -33,5 +33,5 @@ p sio.read                       #=> "foo"
 require 'stringio'
 sio = StringIO.new("hoge", 'r+')
 sio.reopen('foo')
-p sio.read                      #=> "foo"
+p sio.read                      # => "foo"
 ```

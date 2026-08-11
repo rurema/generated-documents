@@ -33,20 +33,17 @@ p Marshal.dump(Hash.new {})
 
 - **param** `port` -- [IO](../../../class/IO.md) かそのサブクラスのインスタンスを指定します。
 
-- **param** `limit` -- 指定した場合、limit 段以上深くリンクしたオブジェクトを
-             ダンプできません。負の limit を指定すると深さチェックを行いません。
+- **param** `limit` -- 指定した場合、limit 段以上深くリンクしたオブジェクトをダンプできません。負の limit を指定すると深さチェックを行いません。
              デフォルトは -1 です。
 
 - **return** -- port を省略すると、obj をダンプした [String](../../../class/String.md) を返します。
              port を指定すると port を返します。
 
-- **raise** `TypeError` -- ファイルに書き出せないオブジェクトをファイルに
-                 書きだそうとした場合に発生します。
+- **raise** `TypeError` -- ファイルに書き出せないオブジェクトをファイルに書きだそうとした場合に発生します。
 
 - **raise** `ArgumentError` -- 名前の付いていない [Class](../../../class/Class.md) や [Module](../../../class/Module.md)
                      オブジェクトをダンプしようとした場合に発生します。
 
-- **raise** `ArgumentError` -- limit 段以上深くリンクしたオブジェクトをダンプしようと
-                     した場合に発生します。
+- **raise** `ArgumentError` -- limit 段以上深くリンクしたオブジェクトをダンプしようとした場合に発生します。
 
 - **SEE** [Object#marshal_dump](../../../method/Object/i/marshal_dump.md), [Object#marshal_load](../../../method/Object/i/marshal_load.md)

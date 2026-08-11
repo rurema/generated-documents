@@ -5,5 +5,5 @@
 現在のプロセスの実グループ ID を返します。
 
 ```ruby
-p Process.rid #=> 500
+p Process.rid # => 500
 ```

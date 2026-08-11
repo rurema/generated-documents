@@ -13,12 +13,12 @@
 ```ruby title="例"
 ary = [1, 2, 3]
 ary.map! {|i| i * 3 }
-p ary   #=> [3, 6, 9]
+p ary   # => [3, 6, 9]
 
 ary = [1, 2, 3]
 e = ary.map!
 e.each{ 1 }
-p ary           #=> [1, 1, 1]
+p ary           # => [1, 1, 1]
 ```
 
 - **SEE** [Array#collect](../../../method/Array/i/collect.md),  [Enumerator](../../../class/Enumerator.md)

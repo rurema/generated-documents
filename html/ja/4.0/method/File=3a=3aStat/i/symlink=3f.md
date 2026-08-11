@@ -10,9 +10,9 @@
 require 'fileutils'
 outfile = $0 + ".ln"
 FileUtils.ln_s($0, outfile)
-p File::Stat.new(outfile).symlink? #=> false
-p File.lstat(outfile).symlink?     #=> true
-p FileTest.symlink?(outfile)       #=> true
+p File::Stat.new(outfile).symlink? # => false
+p File.lstat(outfile).symlink?     # => true
+p FileTest.symlink?(outfile)       # => true
 ```
 
 - **SEE** [File.lstat](../../../method/File/s/lstat.md)

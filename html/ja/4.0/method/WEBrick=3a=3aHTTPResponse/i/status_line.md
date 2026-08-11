@@ -9,5 +9,5 @@ require 'webrick'
 res = WEBrick::HTTPResponse.new( { :HTTPVersion => "1.1" } )
 res.status = 404
   
-p res.status_line    #=>  "HTTP/1.1 404 Not Found \r\n"
+p res.status_line    # =>  "HTTP/1.1 404 Not Found \r\n"
 ```

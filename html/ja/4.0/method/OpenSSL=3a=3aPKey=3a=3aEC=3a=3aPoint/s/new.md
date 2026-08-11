@@ -15,5 +15,4 @@ Point オブジェクトを生成します。
 - **param** `point` -- 複製する [OpenSSL::PKey::EC::Point](../../../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint.md) オブジェクト
 - **param** `group` -- 関連付ける群([OpenSSL::PKey::EC::Group](../../../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aGroup.md) オブジェクト)
 - **param** `bn` -- 点を表す整数([OpenSSL::BN](../../../class/OpenSSL=3a=3aBN.md) オブジェクト)
-- **raise** `OpenSSL::PKey::EC::Point::Error` -- オブジェクトの生成に失敗した場合
-       に発生します。
+- **raise** `OpenSSL::PKey::EC::Point::Error` -- オブジェクトの生成に失敗した場合に発生します。

@@ -10,6 +10,6 @@ UNIX ソケットのパスを返します。
 require 'socket'
 
 UNIXServer.open("/tmp/s") {|serv|
-  p serv.path     #=> "/tmp/s"
+  p serv.path     # => "/tmp/s"
 }
 ```

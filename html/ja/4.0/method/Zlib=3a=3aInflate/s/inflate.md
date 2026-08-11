@@ -26,5 +26,5 @@ end
 require 'zlib'
 
 cstr = "x\234\313\310OOUH+MOTH\315K\001\000!\251\004\276"
-p Zlib::Inflate.inflate(cstr) #=> "hoge fuga end"
+p Zlib::Inflate.inflate(cstr) # => "hoge fuga end"
 ```

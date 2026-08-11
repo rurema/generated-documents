@@ -15,11 +15,11 @@ reject! は、要素を削除しなかった場合には nil を返し、そう�
 ```ruby title="例"
 h = { 2 => "8" ,4 => "6" ,6 => "4" ,8 => "2" }
 
-p h.reject!{|key, value| key.to_i < value.to_i }   #=> { 6 => "4", 8 => "2" }
-p h                                                #=> { 6 => "4", 8 => "2" }
+p h.reject!{|key, value| key.to_i < value.to_i }   # => { 6 => "4", 8 => "2" }
+p h                                                # => { 6 => "4", 8 => "2" }
 
-p h.delete_if{|key, value| key.to_i < value.to_i } #=> { 6 => "4", 8 => "2" }
-p h.reject!{|key, value| key.to_i < value.to_i }   #=> nil
+p h.delete_if{|key, value| key.to_i < value.to_i } # => { 6 => "4", 8 => "2" }
+p h.reject!{|key, value| key.to_i < value.to_i }   # => nil
 ```
 
 - **SEE** [Hash#reject](../../../method/Hash/i/reject.md),[Hash#delete](../../../method/Hash/i/delete.md)

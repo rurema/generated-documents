@@ -9,8 +9,7 @@
 
 - **param** `hash` -- 置き換え前のキーから置き換え後のキーへのハッシュを指定します。
 - **return** -- transform_keys! は常に self を返します。
-        ブロックが与えられなかった場合は、[Enumerator](../../../class/Enumerator.md) オブジェクトを
-        返します。
+        ブロックが与えられなかった場合は、[Enumerator](../../../class/Enumerator.md) オブジェクトを返します。
 
 ```ruby title="例"
 h = { a: 1, b: 2, c: 3 }

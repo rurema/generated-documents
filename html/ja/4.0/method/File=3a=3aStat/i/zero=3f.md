@@ -5,5 +5,5 @@
 サイズが0である時に真を返します。
 
 ```ruby
-p File::Stat.new($0).zero? #=> false
+p File::Stat.new($0).zero? # => false
 ```

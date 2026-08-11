@@ -10,8 +10,7 @@ WIN32OLEはここで示されたコードページを利用してRubyのString�
 ロード時の既定値はEncoding.default_internal、または
 Encoding.default_internalがnilの場合はEncoding.default_externalによって求めたエンコーディングに対応するコードページです。もし、該当するコードページが見つからない場合は、[WIN32OLE::CP_ACP](../../../method/WIN32OLE/c/CP_ACP.md)を利用します。
 
-- **return** -- WIN32OLEがオートメーション呼び出しの文字列変換に利用するコード
-        ページを返します。
+- **return** -- WIN32OLEがオートメーション呼び出しの文字列変換に利用するコードページを返します。
 
 ```ruby
 p WIN32OLE.codepage # => 932 （日本語Windowsの既定値）

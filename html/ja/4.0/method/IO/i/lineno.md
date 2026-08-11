@@ -9,11 +9,11 @@
 
 ```ruby
 f = File.new("testfile")
-p f.lineno               #=> 0
-p f.gets                 #=> "This is line one\n"
-p f.lineno               #=> 1
-p f.gets                 #=> "This is line two\n"
-p f.lineno               #=> 2
+p f.lineno               # => 0
+p f.gets                 # => "This is line one\n"
+p f.lineno               # => 1
+p f.gets                 # => "This is line two\n"
+p f.lineno               # => 2
 ```
 
 - **SEE** [m:$.]

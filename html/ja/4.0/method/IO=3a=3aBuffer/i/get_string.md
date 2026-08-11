@@ -6,8 +6,7 @@
 
 - **param** `offset` -- 読み出しを開始する位置をバッファの先頭からのバイト数で指定します。
 
-- **param** `length` -- 読み出すバイト数を指定します。省略した場合は offset から
-               バッファの終端までを読み出します。
+- **param** `length` -- 読み出すバイト数を指定します。省略した場合は offset からバッファの終端までを読み出します。
 
 - **param** `encoding` -- 返す文字列のエンコーディングを指定します。
                  省略した場合は [Encoding::BINARY](../../../method/Encoding/c/BINARY.md) になります。

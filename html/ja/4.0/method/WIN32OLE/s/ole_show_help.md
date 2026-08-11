@@ -8,19 +8,15 @@ Windows標準のヘルプ表示コンポーネントのHHCtrl.OCXを利用して
 
 また、chmファイルのフルパス名を指定して表示させることも可能です。
 
-- **param** `obj` -- [WIN32OLE_TYPE](../../../class/WIN32OLE_TYPE.md)オブジェクトまたは[WIN32OLE_METHOD](../../../class/WIN32OLE_METHOD.md)オ
-           ブジェクト。直接ヘルプファイルのフルパス名を指定することも可
-           能です。
+- **param** `obj` -- [WIN32OLE_TYPE](../../../class/WIN32OLE_TYPE.md)オブジェクトまたは[WIN32OLE_METHOD](../../../class/WIN32OLE_METHOD.md)オブジェクト。直接ヘルプファイルのフルパス名を指定することも可能です。
 
 - **param** `helpcontext` -- obj引数に[WIN32OLE_TYPE](../../../class/WIN32OLE_TYPE.md)オブジェクトまたは
-                  [WIN32OLE_METHOD](../../../class/WIN32OLE_METHOD.md)オブジェクトを指定した場合は、こ
-                  れらのオブジェクトの設定値を利用するため指定不要です。
+                  [WIN32OLE_METHOD](../../../class/WIN32OLE_METHOD.md)オブジェクトを指定した場合は、これらのオブジェクトの設定値を利用するため指定不要です。
                   obj引数にヘルプファイルのフルパス名を設定した場合は
                   0を指定してください。
 
 - **raise** `RuntimeError` -- オブジェクトが関連するヘルプファイルを持たない場合
-                    (no helpfile of `オブジェクト名`) や、ヘルプファイル
-                    がインストールされていない場合 (failed to open
+                    (no helpfile of `オブジェクト名`) や、ヘルプファイルがインストールされていない場合 (failed to open
                     help file `ファイル名`) に通知します。
 
 ```ruby

@@ -22,7 +22,7 @@ class Foo
 end
 
 it = Foo.new
-p([1,2] + it) #=> [1, 2, 3, 4]
+p([1,2] + it) # => [1, 2, 3, 4]
 ```
 
 - **SEE** [Object#to_a](../../../method/Object/i/to_a.md),[Kernel?.Array](../../../method/Kernel/m/Array.md)

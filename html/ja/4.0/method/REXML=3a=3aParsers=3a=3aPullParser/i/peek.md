@@ -13,5 +13,4 @@
 - **param** `depth` -- 先頭から depth 番目のイベントを取り出します
 
 - **raise** `REXML::ParseException` -- XML文書のパースに失敗した場合に発生します
-- **raise** `REXML::UndefinedNamespaceException` -- XML文書のパース中に、定義されていない名前空間
-       が現れた場合に発生します
+- **raise** `REXML::UndefinedNamespaceException` -- XML文書のパース中に、定義されていない名前空間が現れた場合に発生します

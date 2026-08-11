@@ -98,7 +98,7 @@ ifnoneを省略した Hash.new は {} と同じです。
 <pre class="highlight ruby"><code>h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="p">)</span>
 h<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
 h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
-<span class="nb">p</span> h<span class="p">.</span><span class="nf">default</span> <span class="c1">#=&gt; [0, 1]
+<span class="nb">p</span> h<span class="p">.</span><span class="nf">default</span> <span class="c1"># =&gt; [0, 1]
 </span></code></pre>
 <p>
 これを避けるには、破壊的でないメソッドで再代入する必要が有ります。また、このようなミスを防ぐためにもifnoneは freeze して破壊的操作を禁止しておくのが無難です。
@@ -112,15 +112,15 @@ h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="p">)</span>
 
-<span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1">#=&gt; []
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1">#=&gt; 6127150
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>         <span class="c1">#=&gt; [&quot;bar&quot;]
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1">#=&gt; [&quot;bar&quot;]
+<span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1"># =&gt; []
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1"># =&gt; 6127150
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>         <span class="c1"># =&gt; [&quot;bar&quot;]
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1"># =&gt; [&quot;bar&quot;]
 </span>
-<span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span>                  <span class="c1">#=&gt; [&quot;bar&quot;]
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1">#=&gt; 6127150
+<span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span>                  <span class="c1"># =&gt; [&quot;bar&quot;]
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1"># =&gt; 6127150
 </span>
-<span class="nb">p</span> h                     <span class="c1">#=&gt; {}
+<span class="nb">p</span> h                     <span class="c1"># =&gt; {}
 </span>
 
 h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="p">.</span><span class="nf">freeze</span><span class="p">)</span>
@@ -147,29 +147,29 @@ ifnone などの位置引数とブロックを同時に与えると発生しま�
 </span><span class="c1"># 破壊的変更によって他のキーに対応する値も変更されます。
 </span>h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1">#=&gt; &quot;foo&quot;
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1">#=&gt; 6127170
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>         <span class="c1">#=&gt; &quot;foobar&quot;
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1">#=&gt; &quot;foobar&quot;
+<span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1"># =&gt; &quot;foo&quot;
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1"># =&gt; 6127170
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>         <span class="c1"># =&gt; &quot;foobar&quot;
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1"># =&gt; &quot;foobar&quot;
 </span>
-<span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span>                  <span class="c1">#=&gt; &quot;foobar&quot;
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1">#=&gt; 6127170
+<span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span>                  <span class="c1"># =&gt; &quot;foobar&quot;
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1"># =&gt; 6127170
 </span>
-<span class="nb">p</span> h                     <span class="c1">#=&gt; {}
+<span class="nb">p</span> h                     <span class="c1"># =&gt; {}
 </span>
 <span class="c1"># ブロックを与えると、対応する値がまだ無いキーが呼び出される度に
 </span><span class="c1"># ブロックを評価するので、全て別のオブジェクトになります。
 </span>h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span><span class="o">|</span><span class="nb">hash</span>, key<span class="o">|</span> <span class="nb">hash</span><span class="p">[</span>key<span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span><span class="p">}</span>
 
-<span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1">#=&gt; &quot;foo&quot;
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1">#=&gt; 6126900
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>         <span class="c1">#=&gt; &quot;foobar&quot;
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1">#=&gt; &quot;foobar&quot;
+<span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1"># =&gt; &quot;foo&quot;
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1"># =&gt; 6126900
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>         <span class="c1"># =&gt; &quot;foobar&quot;
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1"># =&gt; &quot;foobar&quot;
 </span>
-<span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span>                  <span class="c1">#=&gt; &quot;foo&quot;
-</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1">#=&gt; 6126840
+<span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span>                  <span class="c1"># =&gt; &quot;foo&quot;
+</span><span class="nb">p</span> h<span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">object_id</span>        <span class="c1"># =&gt; 6126840
 </span>
-<span class="nb">p</span> h                     <span class="c1">#=&gt; {1=&gt;&quot;foobar&quot;, 2=&gt;&quot;foo&quot;}
+<span class="nb">p</span> h                     <span class="c1"># =&gt; {1=&gt;&quot;foobar&quot;, 2=&gt;&quot;foo&quot;}
 </span>
 <span class="c1"># 値が設定されていないときに(fetchのように)例外をあげるようにもできる
 </span>h <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span><span class="o">|</span><span class="nb">hash</span>, key<span class="o">|</span>

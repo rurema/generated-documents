@@ -6,8 +6,7 @@ dbname で指定したデータベースをモードを mode に設定してオ�
 
 - **param** `dbname` -- データベースの名前を指定します。
 
-- **param** `mode` -- 省略値は 0666 です。mode として nil を指定するとデータベースが
-            存在しない時には新たなデータベースを作らず nil を返します。
+- **param** `mode` -- 省略値は 0666 です。mode として nil を指定するとデータベースが存在しない時には新たなデータベースを作らず nil を返します。
 
 - **param** `flags` -- flags には、[GDBM::FAST](../../../method/GDBM/c/FAST.md), [GDBM::SYNC](../../../method/GDBM/c/SYNC.md), [GDBM::NOLOCK](../../../method/GDBM/c/NOLOCK.md)
              の論理和を指定します。デフォルト値は指定なし(つまり0)です。

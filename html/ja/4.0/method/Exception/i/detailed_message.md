@@ -10,12 +10,10 @@ highlight に true を指定すると、エスケープシーケンスによる�
 [Exception#full_message](../../../method/Exception/i/full_message.md) と違い、highlight の既定値は常に false です。
 [Exception.to_tty?](../../../method/Exception/s/to_tty=3f.md) の値によって変わることはありません。
 
-- **param** `highlight` -- エスケープシーケンスによる文字装飾をつけるかどうかを
-                 指定します。
+- **param** `highlight` -- エスケープシーケンスによる文字装飾をつけるかどうかを指定します。
 
 - **param** `opt` -- 上書きしたメソッドが解釈するためのキーワード引数です。
-             このメソッド自身は解釈せず、知らないキーワードを渡しても
-             エラーになりません。
+             このメソッド自身は解釈せず、知らないキーワードを渡してもエラーになりません。
 
 ```ruby
 begin

@@ -20,8 +20,6 @@ Gem パッケージを配布したり Gem パッケージに同梱されてい�
 以下のインデックスはレガシーなものです。
 
 - **`"/Marshal.#{Gem.marshal_version}"`**:
-  インストールされている Gem パッケージの [Gem::SourceIndex](../class/Gem=3a=3aSourceIndex.md) を [Marshal](../class/Marshal.md) の
-  形式でダンプしたものを返します。
+  インストールされている Gem パッケージの [Gem::SourceIndex](../class/Gem=3a=3aSourceIndex.md) を [Marshal](../class/Marshal.md) の形式でダンプしたものを返します。
 - **`"/yaml"`**:
-  インストールされている Gem パッケージの [Gem::SourceIndex](../class/Gem=3a=3aSourceIndex.md) を YAML 形式で
-  ダンプしたメタデータを返します。この機能は非推奨です。
+  インストールされている Gem パッケージの [Gem::SourceIndex](../class/Gem=3a=3aSourceIndex.md) を YAML 形式でダンプしたメタデータを返します。この機能は非推奨です。

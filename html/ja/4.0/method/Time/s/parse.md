@@ -17,7 +17,7 @@ Time.parse(...) {|y| y < 100 ? (y >= 69 ? y + 1900 : y + 2000) : y}
 ```ruby
 require 'time'
 time = Time.local(2019, 5, 1)
-p Time.parse("12:00", time) #=> 2019-05-01 12:00:00 +0900
+p Time.parse("12:00", time) # => 2019-05-01 12:00:00 +0900
 ```
 
 下位の要素がなかったり壊れていた場合、最小値(1か0)が使われます。
@@ -35,9 +35,9 @@ require 'time'
 
 # 現在時刻が "Thu Nov 29 14:33:20 GMT 2001" で
 # タイムゾーンがGMTとすると:
-p Time.parse("16:30")   #=> Thu Nov 29 16:30:00 GMT 2001
-p Time.parse("7/23")    #=> Mon Jul 23 00:00:00 GMT 2001
-p Time.parse("2002/1")  #=> Tue Jan 01 00:00:00 GMT 2002
+p Time.parse("16:30")   # => Thu Nov 29 16:30:00 GMT 2001
+p Time.parse("7/23")    # => Mon Jul 23 00:00:00 GMT 2001
+p Time.parse("2002/1")  # => Tue Jan 01 00:00:00 GMT 2002
 ```
 
 [Date._parse](../../../method/Date/s/_parse.md)がdateから情報を取り出せないとき、または [Time](../../../class/Time.md) クラスが指定された日時を表現できないときに

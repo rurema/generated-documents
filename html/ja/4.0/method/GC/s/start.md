@@ -9,8 +9,7 @@
 
 nil を返します。
 
-- **param** `full_mark` -- マイナー GC を動作させる場合は false を、そうでない場
-                 合は true を指定します。
+- **param** `full_mark` -- マイナー GC を動作させる場合は false を、そうでない場合は true を指定します。
 
 - **param** `immediate_mark` -- mark を遅らせる(Lazy Mark を行う)場合は false
                        を、そうでない場合は true を指定します。

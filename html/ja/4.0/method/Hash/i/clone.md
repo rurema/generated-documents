@@ -15,12 +15,12 @@ h1 = {"have" => "have a","as" => "as a" }
 h2 = h1.dup
 
 h2["have"] = "has"
-p h2 #=> {"have"=>"has", "as"=>"as a"}
-p h1 #=> {"have"=>"have a", "as"=>"as a"}
+p h2 # => {"have"=>"has", "as"=>"as a"}
+p h1 # => {"have"=>"have a", "as"=>"as a"}
 
 h2["as"].upcase!
-p h2 #=> {"have"=>"has", "as"=>"AS A"}
-p h1 #=> {"have"=>"have a", "as"=>"AS A"}
+p h2 # => {"have"=>"has", "as"=>"AS A"}
+p h1 # => {"have"=>"have a", "as"=>"AS A"}
 ```
 
 - **SEE** [Object#clone](../../../method/Object/i/clone.md)

@@ -69,8 +69,8 @@ puts '\n'.gsub(/\\/) { '\\\\' }      # => \\n        # OK
 - **return** -- 新しい文字列
 
 ```ruby title="例"
-p 'abcabc'.gsub(/[bc]/) {|s| s.upcase }  #=> "aBCaBC"
-p 'abcabc'.gsub(/[bc]/) { $&.upcase }    #=> "aBCaBC"
+p 'abcabc'.gsub(/[bc]/) {|s| s.upcase }  # => "aBCaBC"
+p 'abcabc'.gsub(/[bc]/) { $&.upcase }    # => "aBCaBC"
 ```
 
 - **SEE** [String#sub](../../../method/String/i/sub.md), [String#scan](../../../method/String/i/scan.md)
@@ -84,6 +84,6 @@ p 'abcabc'.gsub(/[bc]/) { $&.upcase }    #=> "aBCaBC"
 
 ```ruby title="例"
 hash = {'b'=>'B', 'c'=>'C'}
-p "abcabc".gsub(/[bc]/){hash[$&]} #=> "aBCaBC"
-p "abcabc".gsub(/[bc]/, hash)     #=> "aBCaBC"
+p "abcabc".gsub(/[bc]/){hash[$&]} # => "aBCaBC"
+p "abcabc".gsub(/[bc]/, hash)     # => "aBCaBC"
 ```

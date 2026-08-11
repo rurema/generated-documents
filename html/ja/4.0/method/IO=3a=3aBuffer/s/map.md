@@ -9,16 +9,11 @@
 
 - **param** `file` -- マップする [File](../../../class/File.md) を指定します。
 
-- **param** `size` -- マップするバイト数を指定します。省略するとファイル全体を
-             マップします。0 を指定した場合と空のファイルを指定した場合は
-             エラーになります。
+- **param** `size` -- マップするバイト数を指定します。省略するとファイル全体をマップします。0 を指定した場合と空のファイルを指定した場合はエラーになります。
 
-- **param** `offset` -- マップを開始する位置をファイルの先頭からのバイト数で
-             指定します。指定できる値はシステム依存で、多くの環境では
-             ページサイズの倍数である必要があります。
+- **param** `offset` -- マップを開始する位置をファイルの先頭からのバイト数で指定します。指定できる値はシステム依存で、多くの環境ではページサイズの倍数である必要があります。
 
-- **param** `flags` -- [IO::Buffer::READONLY](../../../method/IO=3a=3aBuffer/c/READONLY.md) や [IO::Buffer::PRIVATE](../../../method/IO=3a=3aBuffer/c/PRIVATE.md) を
-             指定します。
+- **param** `flags` -- [IO::Buffer::READONLY](../../../method/IO=3a=3aBuffer/c/READONLY.md) や [IO::Buffer::PRIVATE](../../../method/IO=3a=3aBuffer/c/PRIVATE.md) を指定します。
 
 ```ruby title="例: 読み込み専用でマップする"
 File.write("test.txt", "hello world")

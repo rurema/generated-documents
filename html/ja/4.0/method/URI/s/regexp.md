@@ -18,5 +18,5 @@ schemes を与えた場合は、そのスキームの URI にのみマッチす�
 
 ```ruby title="例"
 require 'uri'
-p URI.regexp =~ "http://www.ruby-lang.org/"  #=> 0
+p URI.regexp =~ "http://www.ruby-lang.org/"  # => 0
 ```

@@ -12,6 +12,6 @@ Dir.glob("/usr/sbin/*") {|bd|
 }
 #例
 #...
-#=> /usr/sbin/postqueue
+# => /usr/sbin/postqueue
 #...
 ```

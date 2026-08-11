@@ -23,10 +23,10 @@ limit で最大の読み込みバイト数を指定します。ただしファ�
 
 ```ruby
 f = File.new("oneline_file")
-p f.gets                        #=> "This is line one\n"
-p $_                            #=> "This is line one\n"
-p f.gets                        #=> nil
-p $_                            #=> nil
+p f.gets                        # => "This is line one\n"
+p $_                            # => "This is line one\n"
+p f.gets                        # => nil
+p $_                            # => nil
 ```
 
 - **SEE** [m:$/], [IO#readline](../../../method/IO/i/readline.md)

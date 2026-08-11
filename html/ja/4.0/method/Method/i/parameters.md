@@ -24,8 +24,8 @@ Method オブジェクトが引数を取らなければ空の配列を返しま�
 
   ```ruby title="例"
   m = Class.new{define_method(:m){|x, y=42, *other, k_x:, k_y: 42, **k_other, &b|}}.instance_method(:m)
-  p m.parameters #=> [[:req, :x], [:opt, :y], [:rest, :other], [:keyreq, :k_x], [:key, :k_y], [:keyrest, :k_other], [:block, :b]]
-  p File.method(:symlink).parameters #=> [[:req], [:req]]
+  p m.parameters # => [[:req, :x], [:opt, :y], [:rest, :other], [:keyreq, :k_x], [:key, :k_y], [:keyrest, :k_other], [:block, :b]]
+  p File.method(:symlink).parameters # => [[:req], [:req]]
   ```
 
 - **SEE** [Proc#parameters](../../../method/Proc/i/parameters.md)

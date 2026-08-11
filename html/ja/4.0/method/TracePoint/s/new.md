@@ -25,8 +25,7 @@ puts "Hello, TracePoint!"
 trace.disable
 ```
 
-- **param** `events` -- トレースするイベントを [String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) で任
-              意の数指定します。
+- **param** `events` -- トレースするイベントを [String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) で任意の数指定します。
 
 - **`:line`**:
 

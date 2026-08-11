@@ -21,8 +21,5 @@
 通信データをある程度の大きさのブロック単位で暗号化/復号化するためです。
 
 - **param** `s` -- 出力する文字列
-- **raise** `OpenSSL::SSL::SSLError` -- ソケットが読み込み/書き込み可能状態になるのを
-       待つ必要がある場合に発生します。
-       読み込み可能状態を待つ必要がある場合には [IO::WaitReadable](../../../class/IO=3a=3aWaitReadable.md) を、
-       書き込み可能状態を待つ必要がある場合には [IO::WaitWritable](../../../class/IO=3a=3aWaitWritable.md) を、
-       それぞれ extend した例外オブジェクトが生成されます。
+- **raise** `OpenSSL::SSL::SSLError` -- ソケットが読み込み/書き込み可能状態になるのを待つ必要がある場合に発生します。
+       読み込み可能状態を待つ必要がある場合には [IO::WaitReadable](../../../class/IO=3a=3aWaitReadable.md) を、書き込み可能状態を待つ必要がある場合には [IO::WaitWritable](../../../class/IO=3a=3aWaitWritable.md) を、それぞれ extend した例外オブジェクトが生成されます。

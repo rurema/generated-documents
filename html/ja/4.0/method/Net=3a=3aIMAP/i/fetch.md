@@ -15,18 +15,18 @@ attr には取得するアトリビュートを文字列の配列で渡してく
 
 ```ruby title="例"
 p imap.fetch(6..8, "UID")
-#=> [#<Net::IMAP::FetchData seqno=6, attr={"UID"=>98}>, #<Net::IMAP::FetchData seqno=7, attr={"UID"=>99}>, #<Net::IMAP::FetchData seqno=8, attr={"UID"=>100}>]
+# => [#<Net::IMAP::FetchData seqno=6, attr={"UID"=>98}>, #<Net::IMAP::FetchData seqno=7, attr={"UID"=>99}>, #<Net::IMAP::FetchData seqno=8, attr={"UID"=>100}>]
 p imap.fetch(6, "BODY[HEADER.FIELDS (SUBJECT)]")
-#=> [#<Net::IMAP::FetchData seqno=6, attr={"BODY[HEADER.FIELDS (SUBJECT)]"=>"Subject: test\r\n\r\n"}>]
+# => [#<Net::IMAP::FetchData seqno=6, attr={"BODY[HEADER.FIELDS (SUBJECT)]"=>"Subject: test\r\n\r\n"}>]
 data = imap.uid_fetch(98, ["RFC822.SIZE", "INTERNALDATE"])[0]
 p data.seqno
-#=> 6
+# => 6
 p data.attr["RFC822.SIZE"]
-#=> 611
+# => 611
 p data.attr["INTERNALDATE"]
-#=> "12-Oct-2000 22:40:59 +0900"
+# => "12-Oct-2000 22:40:59 +0900"
 p data.attr["UID"]
-#=> 98
+# => 98
 ```
 
 - **param** `set` -- 処理対象のメッセージの sequence number

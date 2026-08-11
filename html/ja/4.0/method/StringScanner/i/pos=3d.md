@@ -24,7 +24,7 @@ p s.scan(/\w+/) # => "ring"
 begin
   s.pos = 20
 rescue RangeError => err
-  puts err #=> index out of range
+  puts err # => index out of range
 end
 p s.pos = -4    # => -4
 p s.scan(/\w+/) # => "ring"

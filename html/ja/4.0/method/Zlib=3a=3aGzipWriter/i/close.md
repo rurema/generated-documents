@@ -18,7 +18,7 @@ def case_finish
   f = gz.finish
   p f.atime
   # 例
-  #=> Sun Jul 06 15:43:57 +0900 2008
+  # => Sun Jul 06 15:43:57 +0900 2008
 end
  
 def case_close
@@ -29,7 +29,7 @@ def case_close
   begin
     p f.atime
   rescue IOError => err
-    puts err #=> closed stream
+    puts err # => closed stream
   end
 end
  

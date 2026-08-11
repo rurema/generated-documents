@@ -8,7 +8,7 @@
 (self.to_s.length と同じです。)
 
 ```ruby
-p :foo.length #=> 3
+p :foo.length # => 3
 ```
 
 - **SEE** [String#length](../../../method/String/i/length.md), [String#size](../../../method/String/i/size.md)

@@ -10,9 +10,9 @@ def foo
   p __method__
 end
 alias :bar :foo
-p foo #=> :foo
-p bar #=> :foo
-p __method__ #=> nil
+p foo # => :foo
+p bar # => :foo
+p __method__ # => nil
 ```
 
 現在のメソッド名が alias されたメソッドの場合でも alias 元のメソッド名を返します。

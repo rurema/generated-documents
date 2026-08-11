@@ -21,5 +21,5 @@ class Foo
 end
 
 it = Foo.new
-p doing(&it) #=> "ok"
+p doing(&it) # => "ok"
 ```

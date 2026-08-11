@@ -11,8 +11,8 @@
 
 ```ruby title="例"
 a = {1=> "one", 2 => "two", 3 => "three", "ii" => "two"}
-p a.rassoc("two")  #=> [2, "two"]
-p a.rassoc("four") #=> nil
+p a.rassoc("two")  # => [2, "two"]
+p a.rassoc("four") # => nil
 ```
 
 - **SEE** [Hash#assoc](../../../method/Hash/i/assoc.md), [Array#rassoc](../../../method/Array/i/rassoc.md)

@@ -44,7 +44,7 @@ ruby 1.9以降のRubyのThreadとネイティブスレッドが1対1で対応す
 ```ruby
 excel = WIN32OLE.new('Excel.Application')
 Thread.start do
-  workbook = excel.Workbooks.Open('workbook.xls') #=> HRESULT error code:0x800401f0
+  workbook = excel.Workbooks.Open('workbook.xls') # => HRESULT error code:0x800401f0
   workbook.PrintOut
   workbook.Close(:SaveChanges => false)
 end.join

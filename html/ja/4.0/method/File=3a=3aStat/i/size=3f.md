@@ -8,10 +8,10 @@
 require 'tempfile'
 
 fp = Tempfile.new("temp")
-p fp.size #=> 0
-p File::Stat.new(fp.path).size? #=> nil
+p fp.size # => 0
+p File::Stat.new(fp.path).size? # => nil
 fp.print "not 0 "
 fp.close
-p FileTest.exist?(fp.path) #=> true
-p File::Stat.new(fp.path).size? #=> 6
+p FileTest.exist?(fp.path) # => true
+p File::Stat.new(fp.path).size? # => 6
 ```

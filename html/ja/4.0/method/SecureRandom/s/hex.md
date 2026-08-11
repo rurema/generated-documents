@@ -12,5 +12,5 @@
 
 ```ruby
 require 'securerandom'
-p SecureRandom.hex(3)    #=> "f72233"   (文字列のサイズは 3 でない)
+p SecureRandom.hex(3)    # => "f72233"   (文字列のサイズは 3 でない)
 ```

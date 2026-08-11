@@ -15,7 +15,7 @@
 require "stringio"
 a = StringIO.new("hoge\nfoo\n")
 a.each{|l| p l }
-#=> "hoge\n"
+# => "hoge\n"
 #   "foo\n"
 ```
 

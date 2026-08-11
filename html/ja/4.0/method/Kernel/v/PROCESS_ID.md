@@ -8,5 +8,5 @@
 ```ruby
 require "English"
 
-p sprintf("something%s", $PID) #=> "something5543" など
+p sprintf("something%s", $PID) # => "something5543" など
 ```

@@ -6,8 +6,7 @@ Range: ヘッダの示す範囲を [Range](../../../class/Range.md) オブジェ
 
 ヘッダにない場合は nil を返します。
 
-- **raise** `Net::HTTPHeaderSyntaxError` -- Range:ヘッダの中身が規格通り
-                                  でない場合に発生します。
+- **raise** `Net::HTTPHeaderSyntaxError` -- Range:ヘッダの中身が規格通りでない場合に発生します。
 
 ```ruby title="例 正常な値"
 require 'net/http'

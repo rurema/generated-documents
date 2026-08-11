@@ -19,5 +19,5 @@ end
 using A
 using B
 p Module.used_modules
-#=> [B, A]
+# => [B, A]
 ```

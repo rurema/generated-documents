@@ -22,6 +22,6 @@ Zlib::GzipReader.open('hoge.gz'){|gz|
   gz.each_line{|line|
     puts line
   }
-  p gz.eof? #=> true
+  p gz.eof? # => true
 }
 ```

@@ -11,7 +11,7 @@
 - **raise** `NotImplementedError` --  Windows のような birthtime のない環境で発生します。
 
 ```ruby
-p File.new("testfile").birthtime #=> Wed Apr 09 08:53:14 CDT 2003
+p File.new("testfile").birthtime # => Wed Apr 09 08:53:14 CDT 2003
 ```
 
 - **SEE** [File#lstat](../../../method/File/i/lstat.md), [File#atime](../../../method/File/i/atime.md), [File#ctime](../../../method/File/i/ctime.md), [File#mtime](../../../method/File/i/mtime.md)

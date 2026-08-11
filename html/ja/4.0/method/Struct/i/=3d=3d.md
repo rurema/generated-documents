@@ -12,9 +12,9 @@ Dog = Struct.new(:name, :age)
 dog1 = Dog.new("fred", 5)
 dog2 = Dog.new("fred", 5)
 
-p dog1 == dog2                #=> true
-p dog1.eql?(dog2)             #=> true
-p dog1.equal?(dog2)           #=> false
+p dog1 == dog2                # => true
+p dog1.eql?(dog2)             # => true
+p dog1.equal?(dog2)           # => false
 ```
 
 [注意] 本メソッドの記述は Struct の下位クラスのインスタンスに対して呼び出す事を想定しています。Struct.new は Struct の下位クラスを作成する点に注意してください。

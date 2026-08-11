@@ -15,6 +15,5 @@ POST/PUT の時は data も与えられます
 - **param** `request` -- リクエストオブジェクトを与えます。
 - **param** `data` -- リクエストのボディを文字列で与えます。
 
-- **raise** `ArgumentError` -- dataを与えるべきでないリクエストでdataを
-                     与えた場合に発生します。
+- **raise** `ArgumentError` -- dataを与えるべきでないリクエストでdataを与えた場合に発生します。
 - **SEE** [Net::HTTP#send_request](../../../method/Net=3a=3aHTTP/i/send_request.md)

@@ -14,11 +14,11 @@ EOF に到達した時には nil を返します。
 ```ruby title="例"
 File.write("testfile", "test")
 f = File.new("testfile")
-p f.getc                 #=> "い"
-p f.getc                 #=> "ろ"
-p f.getc                 #=> "は"
+p f.getc                 # => "い"
+p f.getc                 # => "ろ"
+p f.getc                 # => "は"
 f.read
-p f.getc                 #=> nil
+p f.getc                 # => nil
 ```
 
 - **SEE** [IO#readchar](../../../method/IO/i/readchar.md)

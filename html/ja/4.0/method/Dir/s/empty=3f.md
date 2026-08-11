@@ -6,10 +6,10 @@ path_name で与えられたディレクトリが空の場合に真を返しま�
 ディレクトリでない場合や空でない場合に偽を返します。
 
 ```ruby title="例"
-p Dir.empty?('.')    #=> false
-p Dir.empty?(IO::NULL) #=> false
+p Dir.empty?('.')    # => false
+p Dir.empty?(IO::NULL) # => false
 require 'tmpdir'
-p Dir.mktmpdir { |dir| Dir.empty?(dir) } #=> true
+p Dir.mktmpdir { |dir| Dir.empty?(dir) } # => true
 ```
 
 - **param** `path_name` -- 確認したいディレクトリ名。

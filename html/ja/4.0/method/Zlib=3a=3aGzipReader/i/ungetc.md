@@ -48,13 +48,13 @@ Zlib::GzipReader.open('hoge.gz') { |gz|
   end while true
 }
 
-#=> h -> o
-#=> o -> g
-#=> g -> e
-#=> e -> f
-#=> f -> u
-#=> u -> g
-#=> g -> a
+# => h -> o
+# => o -> g
+# => g -> e
+# => e -> f
+# => f -> u
+# => u -> g
+# => g -> a
 ```
   
 - **SEE** [IO#ungetc](../../../method/IO/i/ungetc.md)

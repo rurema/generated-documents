@@ -29,7 +29,7 @@ ensure
 end
 puts 'end' #実行されない
 
-#=> start
+# => start
 #   start1...
 #   end1 with #<SystemExit: exit>
 #   start2...

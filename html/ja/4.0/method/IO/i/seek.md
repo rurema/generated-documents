@@ -8,8 +8,7 @@ offset 位置への移動が成功すれば 0 を返します。
 - **param** `offset` -- ファイルポインタを移動させるオフセットを整数で指定します。
 
 - **param** `whence` -- 値は以下のいずれかです。
-              それぞれ代わりに :SET、:CUR、:END、:DATA、:HOLE を指定す
-              る事も可能です。
+              それぞれ代わりに :SET、:CUR、:END、:DATA、:HOLE を指定する事も可能です。
 
   - IO::SEEK_SET: ファイルの先頭から (デフォルト)
   - IO::SEEK_CUR: 現在のファイルポインタから
@@ -23,8 +22,8 @@ offset 位置への移動が成功すれば 0 を返します。
 
 ```ruby
 f = File.new("testfile")
-p f.seek(-13, IO::SEEK_END) #=> 0
-p f.readline                #=> "And so on...\n"
+p f.seek(-13, IO::SEEK_END) # => 0
+p f.readline                # => "And so on...\n"
 ```
 
 - **SEE** [IO#sysseek](../../../method/IO/i/sysseek.md)

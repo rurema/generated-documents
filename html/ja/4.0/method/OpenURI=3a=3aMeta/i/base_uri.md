@@ -9,6 +9,6 @@
 require 'open-uri'
 URI.open('http://www.ruby-lang.org/') {|f|
   p f.base_uri
-  #=> #<URI::HTTP:0xb7043aa0 URL:http://www.ruby-lang.org/en/>
+  # => #<URI::HTTP:0xb7043aa0 URL:http://www.ruby-lang.org/en/>
 }
 ```

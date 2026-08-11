@@ -14,5 +14,5 @@ db1['a'] = 'aaa'
 db1['b'] = 'bbb'
 db1['c'] = 'ccc'
   
-p db1.values_at('a', 'b')  #=> ["aaa", "bbb"]
+p db1.values_at('a', 'b')  # => ["aaa", "bbb"]
 ```

@@ -11,5 +11,5 @@ db1 = GDBM.open('aaa.gdbm', 0666, GDBM::NEWDB)
 db1['a'] = 'aaa'
 db1['b'] = 'bbb'
   
-p db1.shift #=> ["a", "aaa"]
+p db1.shift # => ["a", "aaa"]
 ```

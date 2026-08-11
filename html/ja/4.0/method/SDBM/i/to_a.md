@@ -16,5 +16,5 @@ db1['a'] = 'aaa'
 db1['b'] = 'bbb'
 db1['c'] = 'ccc'
   
-p db1.to_a #=> [["a", "aaa"], ["b", "bbb"], ["c", "ccc"]]
+p db1.to_a # => [["a", "aaa"], ["b", "bbb"], ["c", "ccc"]]
 ```

@@ -26,8 +26,8 @@ p item.invokeVerb(v)   # => ゴミ箱への移動ダイアログを表示
 ```ruby
 include WIN32OLE::VARIANT
 bytes = WIN32OLE_VARIANT.new([1,2,3,4,5], VT_UI1 | VT_ARRAY)
-p bytes.value        #=> "\x01\x02\x03\x04\x05"
-p bytes.value.encoding #=> #<Encoding:ASCII-8BIT>
+p bytes.value        # => "\x01\x02\x03\x04\x05"
+p bytes.value.encoding # => #<Encoding:ASCII-8BIT>
 ```
 
 - **SEE** [WIN32OLE::VARIANT](../../../class/WIN32OLE=3a=3aVARIANT.md)

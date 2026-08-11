@@ -13,7 +13,7 @@ in [2.., 2.., 2..]
 in [...2, 2.., 2..]
   puts "first column is less than 2, and rest columns are 2 or more"
 end
-#=> "first column is less than 2, and rest columns are 2 or more" が出力される
+# => "first column is less than 2, and rest columns are 2 or more" が出力される
 ```
 
 - **SEE** [spec/pattern_matching#matching_non_primitive_objects](../../../doc/spec=2fpattern_matching.md#matching_non_primitive_objects)

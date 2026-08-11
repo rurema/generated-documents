@@ -4,8 +4,7 @@
 
 引数 address で指定した文字列から Resolv::IPv6 のインスタンスを生成します。
 
-- **param** `address` -- human readable な IPv6 アドレスの文字列表現を以下のいず
-               れかの形式で指定します。
+- **param** `address` -- human readable な IPv6 アドレスの文字列表現を以下のいずれかの形式で指定します。
 
   - 8Hex
   - CompressedHex

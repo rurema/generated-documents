@@ -6,6 +6,6 @@
 そうでない場合は偽を返します。
 
 ```ruby title="例"
-p Encoding::UTF_8.ascii_compatible?   #=> true
-p Encoding::UTF_16BE.ascii_compatible?  #=> false
+p Encoding::UTF_8.ascii_compatible?   # => true
+p Encoding::UTF_16BE.ascii_compatible?  # => false
 ```

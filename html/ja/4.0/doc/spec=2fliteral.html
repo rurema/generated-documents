@@ -194,7 +194,7 @@ ruby インタプリタは <code>_</code> を単に無視し、特別な解釈�
 <code>_</code> は、<code>0x</code> などのプリフィクスの直後に書くことはできません。また、<code>_</code> を連続して書いてもエラーになります。他、細かい部分でこのあたりの規則は見直され統一されました。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1_000_000_000</span> <span class="c1"># =&gt; 1000000000
-</span><span class="nb">p</span> <span class="mi">0xffff_ffff</span> <span class="c1"># =&gt; 0xffffffff
+</span><span class="nb">p</span> <span class="mi">0xffff_ffff</span> <span class="c1"># =&gt; 4294967295
 </span></code></pre>
 <h2 id='string'>文字列リテラル</h2>
 <span class="caption">例</span>
@@ -371,8 +371,8 @@ bar\
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="c1"># ($ruby = &quot;RUBY&quot;の場合)
 </span>
-<span class="nb">p</span> <span class="s2">"</span><span class="s2">my name is </span><span class="si">#{</span><span class="vg">$ruby</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; &quot;my name is RUBY&quot;
-</span><span class="nb">p</span> <span class="s1">'my name is #{$ruby}'</span> <span class="c1">#=&gt; &quot;my name is #{$ruby}&quot;
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">my name is </span><span class="si">#{</span><span class="vg">$ruby</span><span class="si">}</span><span class="s2">"</span> <span class="c1"># =&gt; &quot;my name is RUBY&quot;
+</span><span class="nb">p</span> <span class="s1">'my name is #{$ruby}'</span> <span class="c1"># =&gt; &quot;my name is #{$ruby}&quot;
 </span></code></pre>
 <p>
 ダブルクォート <code>&quot;</code> で囲まれた文字列式、コマンド文字列および正規表現の中では <code>#{式}</code> という形式で式の内容(を文字列化したもの)を埋め込むことができます。式が変数記号（<code>$</code>, <code>@</code>）で始まる変数の場合には <code>{ }</code>を省略して、<code>#変数名</code> という形式でも展開できます。文字 <code>#</code> に続く文字が <code>{</code>, <code>$</code>, <code>@</code> でなければ、そのまま文字 <code>#</code> として解釈されます。明示的に式展開を止めるには <code>#</code> の前にバックスラッシュを置きます。
@@ -524,7 +524,7 @@ bar\
 <span class="c1"># =&gt; &quot;THE LOWER CASE STRING\n&quot;
 </span></code></pre>
 <p>
-開始ラベルの次の行は常にヒアドキュメントとなります。例えば、以下のような記述は文法エラーになります
+開始ラベルの次の行は常にヒアドキュメントとなります。例えば、以下のような記述は文法エラーになります。
 </p>
 <pre class="highlight text"><code>printf('%s%d',
        &lt;&lt;EOS,
@@ -687,7 +687,7 @@ bar/x</span>
 </p>
 <p>
 正規表現リテラルはその中に<a href="#exp">式展開</a>を含まなければ、何度評価されても同一の正規表現オブジェクトを返します。
-<a href="#exp">式展開</a>を含む場合は評価のたびに(式展開の結果を元に)正規表現がコンパイルされ正規表現オブジェクトが生成されます(ただし上記の <code>o</code> オプションを指定すれば、同一の正規表現オブジェクトを返します)
+<a href="#exp">式展開</a>を含む場合は評価のたびに(式展開の結果を元に)正規表現がコンパイルされ正規表現オブジェクトが生成されます(ただし上記の <code>o</code> オプションを指定すれば、同一の正規表現オブジェクトを返します)。
 </p>
 <h2 id='array'>配列式</h2>
 <span class="caption">例</span>
@@ -789,9 +789,9 @@ bar/x</span>
 <p>
 以下の記法も使えます。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:'foo-bar'</span> <span class="c1">#=&gt; :&quot;foo-bar&quot;
-</span><span class="nb">p</span> <span class="ss">:"foo-bar<span class="s2">"</span> <span class="c1">#=&gt; :&quot;foo-bar&quot;
-</span><span class="nb">p</span> <span class="ss">%s{foo-bar<span class="s2">}</span> <span class="c1">#=&gt; :&quot;foo-bar&quot;
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:'foo-bar'</span> <span class="c1"># =&gt; :&quot;foo-bar&quot;
+</span><span class="nb">p</span> <span class="ss">:"foo-bar<span class="s2">"</span> <span class="c1"># =&gt; :&quot;foo-bar&quot;
+</span><span class="nb">p</span> <span class="ss">%s{foo-bar<span class="s2">}</span> <span class="c1"># =&gt; :&quot;foo-bar&quot;
 </span></code></pre>
 <p>
 この記法では、任意のシンボルを定義できます。

@@ -21,11 +21,11 @@ end
 
 class Foo
 end
-p Foo.autoload?(:Bar)         #=> nil
+p Foo.autoload?(:Bar)         # => nil
 Foo.autoload :Bar, '/tmp/foo'
-p Foo.autoload?(:Bar)         #=> "/tmp/foo"
-p Foo::Bar                    #=> Foo::Bar
-p Foo.autoload?(:Bar)         #=> nil
+p Foo.autoload?(:Bar)         # => "/tmp/foo"
+p Foo::Bar                    # => Foo::Bar
+p Foo.autoload?(:Bar)         # => nil
 ```
 
 - **SEE** [Kernel?.autoload](../../../method/Kernel/m/autoload.md)

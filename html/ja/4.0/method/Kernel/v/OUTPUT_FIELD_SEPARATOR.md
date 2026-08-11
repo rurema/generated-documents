@@ -9,7 +9,7 @@
 require "English"
 
 array = %w|hoge fuga ugo bar foo|
-p array.join #=> "hogefugaugobarfoo"
+p array.join # => "hogefugaugobarfoo"
 $OUTPUT_FIELD_SEPARATOR = ","
-p array.join #=> "hoge,fuga,ugo,bar,foo"
+p array.join # => "hoge,fuga,ugo,bar,foo"
 ```

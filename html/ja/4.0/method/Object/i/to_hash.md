@@ -22,5 +22,5 @@ class Foo
 end
 
 it = Foo.new
-p({:as => 12}.merge(it)) #=> {"as"=>24, :as=>12}
+p({:as => 12}.merge(it)) # => {"as"=>24, :as=>12}
 ```

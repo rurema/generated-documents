@@ -9,8 +9,7 @@ time で指定した時刻の Time オブジェクトを返します。
 
 - **param** `time` -- Time オブジェクト、もしくは起算時からの経過秒数を表わす数値で指定します。
 - **param** `in` -- "+HH:MM" や "-HH:MM" のような形式の文字列か
-          "UTC" かミリタリータイムゾーンの文字列または
-          数値でタイムゾーンを指定します。
+          "UTC" かミリタリータイムゾーンの文字列または数値でタイムゾーンを指定します。
 
 ```ruby
 p Time.at(0)                              # => 1970-01-01 09:00:00 +0900
@@ -38,8 +37,7 @@ time + (usec/1000000) の時刻を表す Time オブジェクトを返します�
 - **param** `usec` -- マイクロ秒を[Integer](../../../class/Integer.md)、 [Float](../../../class/Float.md)、 [Rational](../../../class/Rational.md)、または他の[Numeric](../../../class/Numeric.md)で指定します。
 
 - **param** `in` -- "+HH:MM" や "-HH:MM" のような形式の文字列か
-          "UTC" かミリタリータイムゾーンの文字列または
-          数値でタイムゾーンを指定します。
+          "UTC" かミリタリータイムゾーンの文字列または数値でタイムゾーンを指定します。
 
 ```ruby
 p Time.at(946684800, 123456.789).nsec  # => 123456789
@@ -54,8 +52,7 @@ unit に応じて seconds + xseconds ミリ秒などの時刻を表す Time オ�
 - **param** `xseconds` -- unit に対応するミリ秒かマイクロ秒かナノ秒を指定します。
 - **param** `unit` -- :millisecond, :usec, :microsecond, :nsec, :nanosecond のいずれかを指定します。
 - **param** `in` -- "+HH:MM" や "-HH:MM" のような形式の文字列か
-          "UTC" かミリタリータイムゾーンの文字列または
-          数値でタイムゾーンを指定します。
+          "UTC" かミリタリータイムゾーンの文字列または数値でタイムゾーンを指定します。
 
 ```ruby
 p Time.at(946684800, 123.456789, :millisecond).nsec  # => 123456789

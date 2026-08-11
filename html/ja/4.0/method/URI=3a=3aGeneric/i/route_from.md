@@ -10,5 +10,5 @@
 ```ruby title="例"
 require 'uri'
 p URI.parse('http://example.com/foo/bar.html') - 'http://example.com/'
-#=> #<URI::Generic:0x20100256 URL:foo/bar.html>
+# => #<URI::Generic:0x20100256 URL:foo/bar.html>
 ```

@@ -11,11 +11,11 @@
 
 ```ruby title="例"
 a =  {1=> "one", 2 => [2,"two"], 3 => "three"}
-p a.flatten   #=> [1, "one", 2, [2, "two"], 3, "three"]
-p a.flatten(1)  #=> [1, "one", 2, [2, "two"], 3, "three"]
-p a.flatten(2)  #=> [1, "one", 2, 2, "two", 3, "three"]
-p a.flatten(0)  #=> [[1, "one"], [2, [2, "two"]], [3, "three"]]
-p a.flatten(-1) #=> [1, "one", 2, 2, "two", 3, "three"]
+p a.flatten   # => [1, "one", 2, [2, "two"], 3, "three"]
+p a.flatten(1)  # => [1, "one", 2, [2, "two"], 3, "three"]
+p a.flatten(2)  # => [1, "one", 2, 2, "two", 3, "three"]
+p a.flatten(0)  # => [[1, "one"], [2, [2, "two"]], [3, "three"]]
+p a.flatten(-1) # => [1, "one", 2, 2, "two", 3, "three"]
 ```
 
 - **SEE** [Array#flatten](../../../method/Array/i/flatten.md)

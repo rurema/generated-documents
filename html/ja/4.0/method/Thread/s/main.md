@@ -5,5 +5,5 @@
 メインスレッドを返します。
 
 ```ruby
-p Thread.main #=> #<Thread:0x4022e6fc run>
+p Thread.main # => #<Thread:0x4022e6fc run>
 ```

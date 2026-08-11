@@ -29,7 +29,7 @@ pp Abbrev.abbrev(['ru by']).sort
     #     ["ru by", "ru by"]]
 # sort していない例
 p %w[ruby rubyist].abbrev
-  #=> {"ruby"    => "ruby",
+  # => {"ruby"    => "ruby",
   #    "rubyi"   => "rubyist",
   #    "rubyis"  => "rubyist",
   #    "rubyist" => "rubyist"}

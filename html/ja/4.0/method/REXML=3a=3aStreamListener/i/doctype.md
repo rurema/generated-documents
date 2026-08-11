@@ -8,8 +8,7 @@ pub_sys, long_name, uri はDTDが内部サブセットのみを利用してい�
 
 - **param** `name` -- 宣言されているルート要素名が文字列で渡されます。
 - **param** `pub_sys` -- "PUBLIC" もしくは "SYSTEM" が渡されます。nilが渡される場合もあります。
-- **param** `long_name` -- "SYSTEM" の場合はシステム識別子が、"PUBLIC"の場合は公開識別子が
-       文字列で渡されます
+- **param** `long_name` -- "SYSTEM" の場合はシステム識別子が、"PUBLIC"の場合は公開識別子が文字列で渡されます
 - **param** `uri` -- "SYSTEM" の場合は nil が、"PUBLIC" の場合はシステム識別子が渡されます
 
 ### 例

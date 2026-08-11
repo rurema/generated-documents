@@ -10,10 +10,10 @@
 ```ruby title="例"
 h = Hash.new("default value")
 h[:some] = "some"
-p h #=> {:some=>"some"}
+p h # => {:some=>"some"}
 
 h.clear
 
-p h #=> {}
-p h.default #=> "default value"
+p h # => {}
+p h.default # => "default value"
 ```

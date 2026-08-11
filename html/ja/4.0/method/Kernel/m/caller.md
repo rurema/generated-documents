@@ -55,5 +55,5 @@ end
 
 debug "debug information"
 
-#=> ["-:7", "debug information"]
+# => ["-:7", "debug information"]
 ```

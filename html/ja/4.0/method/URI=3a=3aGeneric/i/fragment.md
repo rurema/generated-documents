@@ -7,5 +7,5 @@
 ```ruby title="例"
 require 'uri'
 u = URI.parse('http://example.com/#frgmt')
-p u.fragment                                #=> "frgmt"
+p u.fragment                                # => "frgmt"
 ```

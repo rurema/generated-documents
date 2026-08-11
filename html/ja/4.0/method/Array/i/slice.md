@@ -7,9 +7,9 @@
 - **param** `nth` -- 要素のインデックスを整数で指定します。[Array#\[\]](../../../method/Array/i/=5b=5d.md) と同じです。
 
 ```ruby title="例"
-p [0, 1, 2].slice(1)    #=> 1
-p [0, 1, 2].slice(2)    #=> 2
-p [0, 1, 2].slice(10)   #=> nil
+p [0, 1, 2].slice(1)    # => 1
+p [0, 1, 2].slice(2)    # => 2
+p [0, 1, 2].slice(10)   # => nil
 ```
 
 ### def slice(pos, len)  -> Array | nil
@@ -24,7 +24,7 @@ p [0, 1, 2].slice(10)   #=> nil
 - **param** `range` -- [Array#\[\]](../../../method/Array/i/=5b=5d.md) と同じです。
 
 ```ruby title="例"
-p [0, 1, 2].slice(0, 2)    #=> [0, 1]
-p [0, 1, 2].slice(2..3)    #=> [2]
-p [0, 1, 2].slice(10, 1)   #=> nil
+p [0, 1, 2].slice(0, 2)    # => [0, 1]
+p [0, 1, 2].slice(2..3)    # => [2]
+p [0, 1, 2].slice(10, 1)   # => nil
 ```

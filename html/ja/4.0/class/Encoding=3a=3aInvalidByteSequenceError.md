@@ -6,7 +6,7 @@
 
 ```ruby title="例"
 p "\x82\xa0".force_encoding("cp932").encode("UTF-8")
-#=> "あ"
+# => "あ"
 "\x82\xa0".force_encoding("EUC-JP").encode("UTF-8")
 # ~> Encoding::InvalidByteSequenceError: "\x82" on EUC-JP
 ```

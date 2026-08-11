@@ -4,10 +4,8 @@
 
 WIN32OLE_TYPEオブジェクトを生成します。
 
-- **param** `libname` -- 生成するTypeLibのレジストリ上のドキュメント文字列
-              （[WIN32OLE_TYPELIB#name](../../../method/WIN32OLE_TYPELIB/i/name.md)）または
-               GUID（[WIN32OLE_TYPELIB#guid](../../../method/WIN32OLE_TYPELIB/i/guid.md)）またはTLBファイル名を
-               文字列で指定します。
+- **param** `libname` -- 生成するTypeLibのレジストリ上のドキュメント文字列（[WIN32OLE_TYPELIB#name](../../../method/WIN32OLE_TYPELIB/i/name.md)）または
+               GUID（[WIN32OLE_TYPELIB#guid](../../../method/WIN32OLE_TYPELIB/i/guid.md)）またはTLBファイル名を文字列で指定します。
 - **param** `ole_class` -- 型情報を取り出す型の名前を指定します。
 - **return** -- 指定されたTypeLIbに定義された型の情報を格納したWIN32OLE_TYPEオブジェクトを返します。
 - **raise** `WIN32OLERuntimeError` -- TypeLibが見つかりません。またはole_classで指定した型が未定義です。

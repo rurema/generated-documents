@@ -10,6 +10,5 @@
   - :hybrid
 詳しくは  X9.62 (ECDSA) などを参照してください。
 
-- **raise** `OpenSSL::PKey::EC::Group::Error` -- 得られたエンコーディングが未知の値であった
-       場合に発生します。
+- **raise** `OpenSSL::PKey::EC::Group::Error` -- 得られたエンコーディングが未知の値であった場合に発生します。
 - **SEE** [OpenSSL::PKey::EC::Group#point_conversion_form=](../../../method/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aGroup/i/point_conversion_form=3d.md)

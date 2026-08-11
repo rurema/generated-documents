@@ -20,22 +20,22 @@ require 'socket'
 
 # tcp_server_sockets returns は2つのソケットを返す
 sockets = Socket.tcp_server_sockets(1296)
-p sockets #=> [#<Socket:fd 3>, #<Socket:fd 4>]
+p sockets # => [#<Socket:fd 3>, #<Socket:fd 4>]
   
 # それぞれは IPv4 と IPv6 のソケット
 sockets.each {|s| p s.local_address }
-#=> #<Addrinfo: [::]:1296 TCP>
+# => #<Addrinfo: [::]:1296 TCP>
 #   #<Addrinfo: 0.0.0.0:1296 TCP>
   
 # ポート番号を動的に選んでも IPv6 と IPv4 で同じポート番号を持つ
 sockets = Socket.tcp_server_sockets(0)
 sockets.each {|s| p s.local_address }
-#=> #<Addrinfo: [::]:53114 TCP>
+# => #<Addrinfo: [::]:53114 TCP>
 #   #<Addrinfo: 0.0.0.0:53114 TCP>
   
 # ブロックにソケットの配列が渡される
 Socket.tcp_server_sockets(0) {|sockets|
-  p sockets #=> [#<Socket:fd 3>, #<Socket:fd 4>]
+  p sockets # => [#<Socket:fd 3>, #<Socket:fd 4>]
 }
 ```
 

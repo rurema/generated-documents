@@ -9,7 +9,7 @@
 ```ruby
 require 'socket'
 
-p Addrinfo.tcp("127.0.0.1", 80).ipv4? #=> true
-p Addrinfo.tcp("::1", 80).ipv4?     #=> false
-p Addrinfo.unix("/tmp/sock").ipv4?  #=> false
+p Addrinfo.tcp("127.0.0.1", 80).ipv4? # => true
+p Addrinfo.tcp("::1", 80).ipv4?     # => false
+p Addrinfo.unix("/tmp/sock").ipv4?  # => false
 ```
