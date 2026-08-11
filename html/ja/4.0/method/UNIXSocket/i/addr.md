@@ -11,13 +11,13 @@
 require 'socket'
 
 UNIXServer.open("/tmp/s") {|serv|
-  p serv.addr     #=> ["AF_UNIX", "/tmp/s"]
+  p serv.addr     # => ["AF_UNIX", "/tmp/s"]
 }
 
 UNIXServer.open("/tmp/s") {|serv|
   c = UNIXSocket.open("/tmp/s")
-  p c.peeraddr    #=> ["AF_UNIX", "/tmp/s"]
-  p c.addr #=> ["AF_UNIX", ""]
+  p c.peeraddr    # => ["AF_UNIX", "/tmp/s"]
+  p c.addr # => ["AF_UNIX", ""]
 }
 ```
 

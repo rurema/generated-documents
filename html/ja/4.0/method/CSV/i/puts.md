@@ -9,8 +9,7 @@
 データソースは書き込み用にオープンされていなければなりません。
 
 - **param** `row` -- 配列か [CSV::Row](../../../class/CSV=3a=3aRow.md) のインスタンスを指定します。
-           [CSV::Row](../../../class/CSV=3a=3aRow.md) のインスタンスが指定された場合は、[CSV::Row#fields](../../../method/CSV=3a=3aRow/i/fields.md) の値
-           のみが追加されます。
+           [CSV::Row](../../../class/CSV=3a=3aRow.md) のインスタンスが指定された場合は、[CSV::Row#fields](../../../method/CSV=3a=3aRow/i/fields.md) の値のみが追加されます。
 
 ```ruby title="例 配列を指定"
 require "csv"

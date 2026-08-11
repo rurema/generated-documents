@@ -15,5 +15,5 @@ klass = Class.new do
   end
 end
 
-p klass.allocate.initialized? #=> false
+p klass.allocate.initialized? # => false
 ```

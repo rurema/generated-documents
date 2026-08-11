@@ -14,6 +14,6 @@ OLEオートメーションサーバが引数で指定した名前のメソッ�
 
 ```ruby
 excel = WIN32OLE.new('Excel.Application')
-p excel.ole_respond_to?(:quit) #=> true
-p excel.ole_respond_to?(:exit) #=> false
+p excel.ole_respond_to?(:quit) # => true
+p excel.ole_respond_to?(:exit) # => false
 ```

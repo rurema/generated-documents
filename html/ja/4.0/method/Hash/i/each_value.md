@@ -10,7 +10,7 @@
 
 ```ruby title="例"
 {:a=>1, :b=>2}.each_value {|v| p v}
-#=> 1
+# => 1
 #   2
 
 p({:a=>1, :b=>2}.each_value)  # => #<Enumerator: {:a=>1, :b=>2}:each_value>

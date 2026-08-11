@@ -5,19 +5,14 @@
 WIN32OLE_RECORDオブジェクトを生成します。
 
 - **param** `typename` -- 構造体名を文字列またはシンボルで指定します。
-- **param** `obj` -- [WIN32OLE](../../../class/WIN32OLE.md)オブジェクトまたは[WIN32OLE_TYPELIB](../../../class/WIN32OLE_TYPELIB.md)オブジェ
-           クトを指定します。typenameで指定した構造体の型情報を取得する
-           ために利用します。
+- **param** `obj` -- [WIN32OLE](../../../class/WIN32OLE.md)オブジェクトまたは[WIN32OLE_TYPELIB](../../../class/WIN32OLE_TYPELIB.md)オブジェクトを指定します。typenameで指定した構造体の型情報を取得するために利用します。
 - **return** -- 生成したWIN32OLE_RECORDオブジェクトを返します。
 
 - **raise** `ArgumentError` -- typenameがStringまたはSymbolではありません。あるいは
-                obj がWIN32OLEオブジェクトまたはWIN32OLE_TYPELIBオブジェク
-                トのいずれでもありません。
+                obj がWIN32OLEオブジェクトまたはWIN32OLE_TYPELIBオブジェクトのいずれでもありません。
 
-- **raise** `WIN32OLERuntimeError` -- objからITypeLibインタフェースの取得に失
-                            敗しました。あるいはtypenameに対応する
-                            IRecordInfoインタフェースの取得に失敗し
-                            ました。
+- **raise** `WIN32OLERuntimeError` -- objからITypeLibインタフェースの取得に失敗しました。あるいはtypenameに対応する
+                            IRecordInfoインタフェースの取得に失敗しました。
 
 VB.NETのComServerプロジェクトで、以下のBook構造体を持つCOMサーバがあるとします。
 

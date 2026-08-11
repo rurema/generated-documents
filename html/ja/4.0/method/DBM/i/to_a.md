@@ -11,5 +11,5 @@ db1 = DBM.open('aaa.db', 0666, DBM::NEWDB)
 db1[:a] = 'aaa'
 db1[:b] = 'bbbbbb'
 
-p db1.to_a #=> [["b", "bbbbbb"], ["a", "aaa"]]
+p db1.to_a # => [["b", "bbbbbb"], ["a", "aaa"]]
 ```

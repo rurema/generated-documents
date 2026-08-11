@@ -12,7 +12,7 @@ dog = Struct.new("Dog", :name, :age)
 fred = dog.new("fred", 5)
 fred.age = 6
 printf "name:%s age:%d", fred.name, fred.age
-#=> "name:fred age:6" を出力します
+# => "name:fred age:6" を出力します
 ```
 
 実装の都合により、クラス名の省略は後づけの機能でした。

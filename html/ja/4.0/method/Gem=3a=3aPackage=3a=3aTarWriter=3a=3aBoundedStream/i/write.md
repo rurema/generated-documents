@@ -8,5 +8,4 @@
 
 - **return** -- 書き込んだデータのサイズを返します。
 
-- **raise** `Gem::Package::TarWriter::FileOverflow` -- [Gem::Package::TarWriter::BoundedStream#limit](../../../method/Gem=3a=3aPackage=3a=3aTarWriter=3a=3aBoundedStream/i/limit.md) を越えて
-       書き込もうとした場合に発生します。
+- **raise** `Gem::Package::TarWriter::FileOverflow` -- [Gem::Package::TarWriter::BoundedStream#limit](../../../method/Gem=3a=3aPackage=3a=3aTarWriter=3a=3aBoundedStream/i/limit.md) を越えて書き込もうとした場合に発生します。

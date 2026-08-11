@@ -18,8 +18,8 @@ def get_binding(str)
   binding
 end
 str = "hello"
-p eval("str + ' Fred'")                      #=> "hello Fred"
-p get_binding("bye").eval("str + ' Fred'")   #=> "bye Fred"
+p eval("str + ' Fred'")                      # => "hello Fred"
+p get_binding("bye").eval("str + ' Fred'")   # => "bye Fred"
 ```
 
 - **SEE** [Kernel?.eval](../../../method/Kernel/m/eval.md)

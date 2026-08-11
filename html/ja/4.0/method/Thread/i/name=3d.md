@@ -6,8 +6,7 @@ self の名前を name に設定します。
 
 プラットフォームによっては pthread やカーネルにも設定を行う場合があります。
 
-- **raise** `ArgumentError` -- 引数に ASCII 互換ではないエンコーディングのものを
-                     指定した場合に発生します。
+- **raise** `ArgumentError` -- 引数に ASCII 互換ではないエンコーディングのものを指定した場合に発生します。
 
 ```ruby title="例"
 a = Thread.new{}

@@ -7,7 +7,7 @@
 (self.to_s.upcase.intern と同じです。)
 
 ```ruby
-p :foo.upcase #=> :FOO
+p :foo.upcase # => :FOO
 ```
 
 - **SEE** [String#upcase](../../../method/String/i/upcase.md)

@@ -19,5 +19,5 @@ end
 f.resume()
 f.resume(:foo)
 
-p a  #=> :foo
+p a  # => :foo
 ```

@@ -8,5 +8,4 @@
 
 - **param** `aWIN32OLE` -- 参照カウント値を求めるWIN32OLEオブジェクト。
 
-- **return** -- AddRef呼び出し後のReleaseの戻り値。COMの仕様上は現在のオブジェ
-        クトの参照カウント値を示します。
+- **return** -- AddRef呼び出し後のReleaseの戻り値。COMの仕様上は現在のオブジェクトの参照カウント値を示します。

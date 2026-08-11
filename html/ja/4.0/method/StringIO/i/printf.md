@@ -14,5 +14,5 @@
 require "stringio"
 a = StringIO.new("", 'r+')
 a.printf("%c%c%c", 97, 98, 99)
-p a.string                    #=> "abc"
+p a.string                    # => "abc"
 ```

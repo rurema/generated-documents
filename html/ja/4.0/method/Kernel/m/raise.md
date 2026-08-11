@@ -44,7 +44,7 @@ rescue ArgumentError => err
 rescue NameError => err
 rescue TypeError => err
 ensure
-  p err #=> #<NameError: !!error!!>
+  p err # => #<NameError: !!error!!>
 end
 ```
 
@@ -62,7 +62,7 @@ ensure
   print "in ensure.\n"
 end
 
-p foo(4) #=> in method.in rescue.in method.in else.in ensure.
+p foo(4) # => in method.in rescue.in method.in else.in ensure.
 ```
 
 ```ruby title="例3"
@@ -75,7 +75,7 @@ end
 begin
   raise MyException.new
 rescue SecurityError
-  p $! #=> #<SecurityError: SecurityError>
+  p $! # => #<SecurityError: SecurityError>
 end
 ```
 

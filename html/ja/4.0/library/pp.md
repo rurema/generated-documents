@@ -113,7 +113,7 @@ end
 h = {:a => 'a'*5, :b => 'b'*10, :c => 'c'*20, :d => 'd'*30}
 pp h
 
-#=>
+# =>
 # <hash>
 #   :d => "dddddddddd...",
 #   :a => "aaaaa",

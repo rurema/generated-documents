@@ -7,9 +7,9 @@
 ```ruby title="例"
 require "readline"
   
-p Readline::HISTORY.empty? #=> true
+p Readline::HISTORY.empty? # => true
 Readline::HISTORY.push("foo", "bar", "baz")
-p Readline::HISTORY.empty? #=> false
+p Readline::HISTORY.empty? # => false
 ```
 
 - **SEE** [Readline::HISTORY.length](../../../method/Readline=3a=3aHISTORY/s/length.md)

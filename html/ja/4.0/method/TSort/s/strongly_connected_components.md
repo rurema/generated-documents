@@ -8,11 +8,9 @@
 
 引数 each_node と each_child でグラフを表します。
 
-- **param** `each_node` -- グラフ上の頂点をそれぞれ評価するcallメソッドを持つオブ
-                 ジェクトを指定します。
+- **param** `each_node` -- グラフ上の頂点をそれぞれ評価するcallメソッドを持つオブジェクトを指定します。
 
-- **param** `each_child` -- 引数で与えられた頂点の子をそれぞれ評価するcallメソッ
-                  ドを持つオブジェクトを指定します。
+- **param** `each_child` -- 引数で与えられた頂点の子をそれぞれ評価するcallメソッドを持つオブジェクトを指定します。
 
 ```ruby title="使用例"
 require 'tsort'

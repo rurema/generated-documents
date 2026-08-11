@@ -9,7 +9,7 @@ Pathname.new(Dir.getwd) と同じです。
 ```ruby title="例"
 require "pathname"
 
-p Pathname.getwd #=> #<Pathname:/home/zzak/projects/ruby>
+p Pathname.getwd # => #<Pathname:/home/zzak/projects/ruby>
 ```
 
 - **SEE** [Dir.getwd](../../../method/Dir/s/getwd.md)

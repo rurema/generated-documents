@@ -19,13 +19,12 @@
 Process.groups.uniq.sort
 ```
 
-- **raise** `Errno::EXXX` -- [Process?.maxgroups](../../../method/Process/m/maxgroups.md) が実際に返される補助グループ ID の
-                   数よりも少ない値を設定していると発生します。
+- **raise** `Errno::EXXX` -- [Process?.maxgroups](../../../method/Process/m/maxgroups.md) が実際に返される補助グループ ID の数よりも少ない値を設定していると発生します。
 
 - **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
 
 ```ruby
-p Process.groups #=> [27, 6, 10, 11]
+p Process.groups # => [27, 6, 10, 11]
 ```
 
 - **SEE** [man:getgroups(2)]

@@ -20,15 +20,15 @@ print "Hello, world!"
 print "Regexp is",/ant/
 print nil
 print "\n"
-#=> Hello, world!Regexp is(?-mix:ant)
+# => Hello, world!Regexp is(?-mix:ant)
 
 $_ = "input"
 $, = "<and>"
 $\ = "<end>\n"
 print
 print "AA","BB"
-#=> input<end>
-#=> AA<and>BB<end>
+# => input<end>
+# => AA<and>BB<end>
 ```
 
 - **SEE** [Kernel?.puts](../../../method/Kernel/m/puts.md),[Kernel?.p](../../../method/Kernel/m/p.md),[IO#print](../../../method/IO/i/print.md)

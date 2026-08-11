@@ -7,8 +7,7 @@
 - **param** `key` --     探索するキー。
 - **param** `ifnone` --  対応するキーが見つからなかった場合に返す値。
 
-- **raise** `IndexError` -- ifnone が設定されていないときに、対応するキーが
-                  見つからなかった場合に発生します。
+- **raise** `IndexError` -- ifnone が設定されていないときに、対応するキーが見つからなかった場合に発生します。
 
 ```ruby
 require 'sdbm'
@@ -18,9 +17,9 @@ db1['a'] = 'aaa'
 db1['b'] = 'bbb'
 db1['c'] = 'ccc'
   
-p db1.fetch('a')                             #=> "aaa"
-p db1.fetch('z', 'zzz')                      #=> "zzz"
-p db1.fetch('z'){|key| [:key, key] }         #=> [:key, "z"]
-p db1.fetch('z', 'zzz'){|key| [:key, key] }  #=> "zzz"
-p db1.fetch('z')                             #=> IndexError 発生
+p db1.fetch('a')                             # => "aaa"
+p db1.fetch('z', 'zzz')                      # => "zzz"
+p db1.fetch('z'){|key| [:key, key] }         # => [:key, "z"]
+p db1.fetch('z', 'zzz'){|key| [:key, key] }  # => "zzz"
+p db1.fetch('z')                             # => IndexError 発生
 ```

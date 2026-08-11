@@ -15,6 +15,6 @@ Dir.glob("/usr/bin/*") {|bd|
 }
 #例
 #...
-#=> /usr/bin/emacs-21.4
+# => /usr/bin/emacs-21.4
 #...
 ```

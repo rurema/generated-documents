@@ -8,16 +8,12 @@
 
 [WIN32OLE_EVENT#on_event](../../../method/WIN32OLE_EVENT/i/on_event.md)と異なり、イベントのブロック変数に戻り値を設定できます。
 
-- **param** `event` -- イベント名を文字列かシンボルで指定します。イベント名は大文
-             字小文字を区別します。省略時にはすべてのイベントが対象となります。
+- **param** `event` -- イベント名を文字列かシンボルで指定します。イベント名は大文字小文字を区別します。省略時にはすべてのイベントが対象となります。
 
 - **param** `args` -- サーバがイベント通知時に指定した引数の配列です。
-            eventパラメータを省略した場合、第1要素にはイベントのメソッ
-            ド名が文字列で与えられます。なお、引数に値を設定するには、
-            ブロック変数を分割せずに配列の形式で受けてください。
+            eventパラメータを省略した場合、第1要素にはイベントのメソッド名が文字列で与えられます。なお、引数に値を設定するには、ブロック変数を分割せずに配列の形式で受けてください。
 
-- **raise** `WIN32OLERuntimeError` -- [WIN32OLE_EVENT#unadvise](../../../method/WIN32OLE_EVENT/i/unadvise.md)によってイベン
-                            トソースと切断済みです。
+- **raise** `WIN32OLERuntimeError` -- [WIN32OLE_EVENT#unadvise](../../../method/WIN32OLE_EVENT/i/unadvise.md)によってイベントソースと切断済みです。
 
 ```ruby
 ie = WIN32OLE.new('InternetExplorer.Application')

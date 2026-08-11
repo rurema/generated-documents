@@ -6,7 +6,7 @@
 
 ```ruby title="例"
 p Encoding.name_list
-#=> ["US-ASCII", "ASCII-8BIT", "UTF-8",
+# => ["US-ASCII", "ASCII-8BIT", "UTF-8",
 #    "ISO-8859-1", "Shift_JIS", "EUC-JP",
 #    "Windows-31J",
 #    "BINARY", "CP932", "eucJP", ...]

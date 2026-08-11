@@ -62,8 +62,7 @@ Ruby のエンコーディングのサポート水準はエンコーディング
 - **ASCII互換エンコーディング**:
   フルサポートです。UTF-8, EUC-JP, Shift_JIS などがこれにあたります。
 - **ASCII互換ではないエンコーディング**:
-  スクリプトエンコーディングに使えません。またエンコーディングが固定されていない
-  正規表現がマッチングを行うと例外が発生します。UTF-16LE, UTF-16BE などがこれにあたります。
+  スクリプトエンコーディングに使えません。またエンコーディングが固定されていない正規表現がマッチングを行うと例外が発生します。UTF-16LE, UTF-16BE などがこれにあたります。
 - **ダミーエンコーディング**:
   文字の列としての処理をサポートしません。Ruby はエンコーディングの名前だけ知っている状態です。
   ISO-2022-JP, UTF-7 がこれにあたります。
@@ -98,10 +97,10 @@ ASCII 互換エンコーディングをもつ 7bit クリーンな文字列は�
 a = "abc"
 e = a.encode("EUC-JP")
 u = a.encode("UTF-8")
-p e == u                           #=> true
-p e + u                            #=> "abcabc"
-p "あ" + e                         #=> "あabc"
-p "あ" + u                         #=> "あabc"
+p e == u                           # => true
+p e + u                            # => "abcabc"
+p "あ" + e                         # => "あabc"
+p "あ" + u                         # => "あabc"
 ```
 
 #### バイナリの取扱い {#binary}
@@ -126,7 +125,7 @@ Ruby の String は、文字の列を扱うためだけでなく、バイトの�
    ```ruby
    p Encoding::ISO_2022_JP.dummy? # => true
    s = "漢字".encode("ISO-2022-JP")
-   p s[0]   #=> "\e"
+   p s[0]   # => "\e"
    s + "b"  # ~> Encoding::CompatibilityError: incompatible character encodings: ISO-2022-JP and UTF-8
    ```
 
@@ -143,7 +142,7 @@ ASCII 非互換のエンコーディングや、ダミーエンコーディン�
 
 ```ruby title="例"
 # coding: euc-jp
-p __ENCODING__     #=> #<Encoding:EUC-JP>
+p __ENCODING__     # => #<Encoding:EUC-JP>
 ```
 
 #### magic comment {#magic_comment}

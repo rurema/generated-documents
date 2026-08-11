@@ -15,8 +15,7 @@
   サーバ証明書を設定します。[OpenSSL::X509::Certificate](../../../class/OpenSSL=3a=3aX509=3a=3aCertificate.md) オブジェクトです。
   nil の場合、WEBrick は自己署名証明書を自動的に生成します。
 - **`:SSLPrivateKey`**:
-  サーバの秘密鍵を設定します。[OpenSSL::PKey::PKey](../../../class/OpenSSL=3a=3aPKey=3a=3aPKey.md) の
-  サブクラスのインスタンスです。
+  サーバの秘密鍵を設定します。[OpenSSL::PKey::PKey](../../../class/OpenSSL=3a=3aPKey=3a=3aPKey.md) のサブクラスのインスタンスです。
 - **`:SSLClientCA`**:
   サーバがクライアント証明書を要求する時にクライアントに送る CA のリストです。
   [OpenSSL::SSL::SSLContext#client_ca](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/client_ca.md) を参照してください。
@@ -30,8 +29,7 @@
   信頼している CA 証明書ファイルを含むディレクトリのパスです。
   [OpenSSL::SSL::SSLContext#ca_path](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/ca_path.md) を参照してください。
 - **`:SSLCertificateStore`**:
-  接続相手の証明書の検証のために使う、信頼している CA 証明書を
-  含む証明書ストアです。
+  接続相手の証明書の検証のために使う、信頼している CA 証明書を含む証明書ストアです。
   [OpenSSL::SSL::SSLContext#cert_store](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/cert_store.md) を参照してください。
 - **`:SSLVerifyClient`**:
   検証モードです。

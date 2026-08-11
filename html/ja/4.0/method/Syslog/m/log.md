@@ -20,7 +20,7 @@ format 以降は [Kernel?.sprintf](../../../method/Kernel/m/sprintf.md) と同�
 
 - **param** `arg` -- フォーマットされる引数です。
 
-- **raise** `ArgumentError` -- 引数が２つ以上でない場合に発生します。
+- **raise** `ArgumentError` -- 引数が2つ以上でない場合に発生します。
 
 ```ruby title="例"
 require 'syslog'

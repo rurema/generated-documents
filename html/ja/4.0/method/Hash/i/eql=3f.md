@@ -9,11 +9,11 @@
 - **param** `other` -- 自身と比較したい Hash オブジェクトを指定します。
 
 ```ruby title="例"
-p({ 1 => :a } == { 1 => :a })            #=> true
-p({ 1 => :a } == { 1 => :a, 2 => :b })   #=> false
-p({ 1 => :a } == { 1.0 => :a })          #=> false  ( 1.eql?(1.0) は false なので)
+p({ 1 => :a } == { 1 => :a })            # => true
+p({ 1 => :a } == { 1 => :a, 2 => :b })   # => false
+p({ 1 => :a } == { 1.0 => :a })          # => false  ( 1.eql?(1.0) は false なので)
 
-p({ :x => 1 } == { :x => 1.0 })          #=> true   ( 1 == 1.0 は true なので)
+p({ :x => 1 } == { :x => 1.0 })          # => true   ( 1 == 1.0 は true なので)
 ```
 
 - **SEE** [Hash#equal?](../../../method/Hash/i/equal=3f.md)

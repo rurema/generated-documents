@@ -14,5 +14,5 @@
   Process.fork() { exit n }
 }
 p Process.waitall
-#=> [[2766, #<Process::Status: pid=2766,exited(1)>], [2765, #<Process::Status: pid=2765,exited(1)>]]
+# => [[2766, #<Process::Status: pid=2766,exited(1)>], [2765, #<Process::Status: pid=2765,exited(1)>]]
 ```

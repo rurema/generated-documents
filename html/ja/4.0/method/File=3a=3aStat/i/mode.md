@@ -8,5 +8,5 @@
 fs = File::Stat.new($0)
 printf "%o\n", fs.mode
 #例
-#=> 100644
+# => 100644
 ```

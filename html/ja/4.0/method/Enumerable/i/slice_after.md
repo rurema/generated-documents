@@ -33,9 +33,9 @@ p [0,2,4,1,2,4,5,3,1,4,2].slice_after(&:odd?).to_a
 lines = ["foo\n", "bar\\\n", "baz\n", "\n", "qux\n"]
 e = lines.slice_after(/(?<!\\)\n\z/)
 p e.to_a
-#=> [["foo\n"], ["bar\\\n", "baz\n"], ["\n"], ["qux\n"]]
+# => [["foo\n"], ["bar\\\n", "baz\n"], ["\n"], ["qux\n"]]
 p e.map {|ll| ll[0...-1].map {|l| l.sub(/\\\n\z/, "") }.join + ll.last }
-#=>["foo\n", "barbaz\n", "\n", "qux\n"]
+# =>["foo\n", "barbaz\n", "\n", "qux\n"]
 ```
 
 [Enumerable#map](../../../method/Enumerable/i/map.md) のようなメソッドを使うこともできます。

@@ -19,7 +19,7 @@ puts ""    # 改行のみ出力
 puts       # 改行のみ出力
 puts nil   # 改行のみ出力
 puts ["oui", "non"]
-#=> foo
+# => foo
 #   bar
 #   baz
 #

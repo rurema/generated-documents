@@ -401,11 +401,11 @@ p /(.)(.)\k<-2>\k<-1>/.match("xyzyz") # => #<MatchData "yzyz" 1:"y" 2:"z">
 ```ruby
 # The pattern below matches a vowel followed by 2 word characters:
 # 'aen'
-p /[aeiou]\w{2}/.match("Caenorhabditis elegans") #=> #<MatchData "aen">
+p /[aeiou]\w{2}/.match("Caenorhabditis elegans") # => #<MatchData "aen">
 # Whereas the following pattern matches a vowel followed by a word
 # character, twice, i.e. <tt>[aeiou]\w[aeiou]\w</tt>: 'enor'.
 p /([aeiou]\w){2}/.match("Caenorhabditis elegans")
-    #=> #<MatchData "enor" 1:"or">
+    # => #<MatchData "enor" 1:"or">
 ```
 
 (?:pat) という記法を使うとキャプチャせずにグループ化できます。
@@ -516,7 +516,7 @@ p /\A(?<a>|.|(?:(?<b>.)\g<a>\k<b+0>))\z/.match("rekxker")
 # => #<MatchData "rekxker" a:"rekxker" b:"k">
 ```
 
-以下の例では、開始タグと終了タグを対応付ける正規表現です。
+以下の例は、開始タグと終了タグを対応付ける正規表現です。
 
 ```ruby
 r = Regexp.compile(<<'__REGEXP__'.strip, Regexp::EXTENDED)
@@ -565,7 +565,7 @@ p /\w(and|or)\w/.match("dissemblance") # => nil
   - \z 文字列の末尾にマッチします。
   - \b 単語境界にマッチします。
     単語を成す文字と単語を成さない文字の間にマッチします。
-    文字列の先頭の文字が単語成す文字であれば、文字列の先頭
+    文字列の先頭の文字が単語を成す文字であれば、文字列の先頭
     の位置にマッチします。
   - \B 非単語境界にマッチします。
     \bでマッチしない位置にマッチします。
@@ -623,7 +623,7 @@ Unicode の規格では、単語を成す文字を Word というプロパティ
 (?(cond)pat) は cond が真の場合は部分式 pat が使われます。
 (?(cond)truepat|falsepat) は cond が真の場合は部分式 truepat が使われ、偽の場合には falsepat が使われます。
 
-条件可能な条件として以下があります。
+指定可能な条件として以下があります。
   - (n) (nは整数)指定した番号の後方参照に何かがマッチしていれば真
   - (<name>), ('name') 名前指定の後方参照が何かにマッチしていれば真
 
@@ -715,7 +715,7 @@ p /abc/u.encoding # => #<Encoding:UTF-8>
 
 エンコーディングについては [spec/m17n](../doc/spec=2fm17n.md) も参考にしてください。
 
-[Regexp#fixed_encoding?](../method/Regexp/i/fixed_encoding=3f.md) で正規表現のエンコーディングが「固定」さているかどうかを調べることができます。
+[Regexp#fixed_encoding?](../method/Regexp/i/fixed_encoding=3f.md) で正規表現のエンコーディングが「固定」されているかどうかを調べることができます。
 これが真である場合には文字列とのエンコーディングが一致していないとマッチ時に例外が発生します。
 これが偽である場合にはASCII互換な文字列であればマッチの判定をさせることができます。[Regexp.new](../method/Regexp/s/new.md) に [Regexp::FIXEDENCODING](../method/Regexp/c/FIXEDENCODING.md) を指定することで明示的に指定することが可能です。
 
@@ -738,7 +738,7 @@ p /abc/ =~ "あいう" # => nil
 ### フリーフォーマットモード {#free_format_mode}
 
 上に説明している x オプションを使うと空白を無視するようになります。
-これをフリーフォマットモード(free format mode, free spacing modeとも)
+これをフリーフォーマットモード(free format mode, free spacing modeとも)
 と呼びます。
 
 フリーフォーマットモードでは # から行末まではコメント扱いされます。

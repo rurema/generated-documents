@@ -7,8 +7,7 @@ autoload 定数がまだ定義されてない(ロードされていない) と�
 
 - **param** `const_name` -- [String](../../../class/String.md) または [Symbol](../../../class/Symbol.md) で指定します。
 
-- **param** `inherit` -- false にすると、スーパークラスや include したモジュールで
-       定義された autoload を検索対象にしません。
+- **param** `inherit` -- false にすると、スーパークラスや include したモジュールで定義された autoload を検索対象にしません。
 
 - **SEE** [Kernel?.autoload?](../../../method/Kernel/m/autoload=3f.md)
 

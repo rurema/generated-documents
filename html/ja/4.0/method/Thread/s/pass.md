@@ -19,7 +19,7 @@ loop do
   p :main
 end
 
-#=>
+# =>
 1
 :main
 2

@@ -11,8 +11,8 @@
 
 ```ruby title="例"
 a = %w(albatross dog horse)
-p a.minmax                               #=> ["albatross", "horse"]
-p a.minmax{|a,b| a.length <=> b.length } #=> ["dog", "albatross"]
+p a.minmax                               # => ["albatross", "horse"]
+p a.minmax{|a,b| a.length <=> b.length } # => ["dog", "albatross"]
 p [].minmax # => [nil, nil]
 ```
 

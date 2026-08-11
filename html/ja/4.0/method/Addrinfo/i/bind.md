@@ -15,6 +15,6 @@ require 'socket'
 
 Addrinfo.udp("0.0.0.0", 9981).bind {|s|
   s.local_address.connect {|s| s.send "hello", 0 }
-  p s.recv(10) #=> "hello"
+  p s.recv(10) # => "hello"
 }
 ```

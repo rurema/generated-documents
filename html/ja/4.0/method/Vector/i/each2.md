@@ -11,6 +11,5 @@
 ブロックを省略した場合は [Enumerator](../../../class/Enumerator.md) を返します。
 
 - **param** `v` -- 各要素と組を取るためのオブジェクト
-- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- `self` と引数のベクト
-       ルの要素の数(次元)が異なっていたときに発生します。
+- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- `self` と引数のベクトルの要素の数(次元)が異なっていたときに発生します。
 - **SEE** [Array#zip](../../../method/Array/i/zip.md)

@@ -17,8 +17,8 @@ Zlib::GzipWriter.wrap(f, Zlib::BEST_COMPRESSION){|gz|
     puts gz.pos
   }
 }
-#=> 1
-#=> 2
-#=> 3
+# => 1
+# => 2
+# => 3
 # ...
 ```

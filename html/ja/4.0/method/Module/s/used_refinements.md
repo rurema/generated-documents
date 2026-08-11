@@ -21,7 +21,7 @@ end
 using A
 using B
 p Module.used_refinements
-#=> [#<refinement:Object@B>, #<refinement:Object@A>]
+# => [#<refinement:Object@B>, #<refinement:Object@A>]
 ```
 
 - **SEE** [Module.used_modules](../../../method/Module/s/used_modules.md), [Module#refinements](../../../method/Module/i/refinements.md)

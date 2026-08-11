@@ -25,7 +25,7 @@ result = catch do |tag|
   end
 end
 
-p result #=> 1
+p result # => 1
 ```
 
 - **SEE** [Kernel?.throw](../../../method/Kernel/m/throw.md)

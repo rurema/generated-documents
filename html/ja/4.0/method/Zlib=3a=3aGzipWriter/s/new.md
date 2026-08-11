@@ -19,6 +19,6 @@ f = File.open(filename, "w")
 gz = Zlib::GzipWriter.new(f)
 gz.puts "hogehoge" * 100
 gz.close  
-p gz.closed? #=> true
-p FileTest.size(filename) #=> 32
+p gz.closed? # => true
+p FileTest.size(filename) # => 32
 ```

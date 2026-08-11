@@ -6,14 +6,11 @@
 
 default_event_sourcesメソッドは、selfがCoClass（コンポーネントクラス）の場合、そのクラスがサポートするデフォルトのソースインターフェイス（イベントの通知元となるインターフェイス）を返します。
 
-- **return** -- デフォルトのソースインターフェイスを[WIN32OLE_TYPE](../../../class/WIN32OLE_TYPE.md)の配列と
-        して返します。返すのは配列ですが、デフォルトのソースインターフェ
-        イスは最大でも1インターフェイスです。ソースインターフェイスを持
-        たない場合は空配列を返します。
+- **return** -- デフォルトのソースインターフェイスを[WIN32OLE_TYPE](../../../class/WIN32OLE_TYPE.md)の配列として返します。返すのは配列ですが、デフォルトのソースインターフェイスは最大でも1インターフェイスです。ソースインターフェイスを持たない場合は空配列を返します。
 
 ```ruby
 tobj = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Worksheet')
-p tobj.default_event_sources.map {|intf| intf.name} #=> ["DocEvents"]
+p tobj.default_event_sources.map {|intf| intf.name} # => ["DocEvents"]
 ```
 
 [WIN32OLE_EVENT.new](../../../method/WIN32OLE_EVENT/s/new.md)でインターフェイス名を指定しない場合は、ここで返されたインターフェイスが選択されます。

@@ -17,5 +17,4 @@
                  [GetoptLong::RETURN_IN_ORDER](../../../method/GetoptLong/c/RETURN_IN_ORDER.md) 以外の値を指定した場合に発生します。
 
 - **raise** `RuntimeError` -- [GetoptLong#get](../../../method/GetoptLong/i/get.md), [GetoptLong#get_option](../../../method/GetoptLong/i/get_option.md),
-                    [GetoptLong#each](../../../method/GetoptLong/i/each.md), [GetoptLong#each_option](../../../method/GetoptLong/i/each_option.md) メソッドを
-                    呼び出した後にこのメソッドを呼び出した場合に発生します。
+                    [GetoptLong#each](../../../method/GetoptLong/i/each.md), [GetoptLong#each_option](../../../method/GetoptLong/i/each_option.md) メソッドを呼び出した後にこのメソッドを呼び出した場合に発生します。

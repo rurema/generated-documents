@@ -20,7 +20,7 @@ fr = File.open(filename)
 Zlib::GzipReader.wrap(fr){|gz|
   puts gz.read
 }
-#=> foo
+# => foo
 ```
 
 - **SEE** [IO#write](../../../method/IO/i/write.md)

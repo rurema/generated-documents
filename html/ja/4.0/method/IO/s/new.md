@@ -34,12 +34,9 @@ IO.new, IO.for_fd はブロックを受け付けません。
 
 - **param** `fd` -- ファイルディスクリプタである整数を指定します。
 
-- **param** `mode` -- [Kernel?.open](../../../method/Kernel/m/open.md) と同じ形式で IO のモードを指定します。[File::Constants::RDONLY](../../../method/File=3a=3aConstants/c/RDONLY.md) などの
-            定数(数値)でモードを指定できます。詳細は組み込み関数 [Kernel?.open](../../../method/Kernel/m/open.md) を参照
-            してください。
+- **param** `mode` -- [Kernel?.open](../../../method/Kernel/m/open.md) と同じ形式で IO のモードを指定します。[File::Constants::RDONLY](../../../method/File=3a=3aConstants/c/RDONLY.md) などの定数(数値)でモードを指定できます。詳細は組み込み関数 [Kernel?.open](../../../method/Kernel/m/open.md) を参照してください。
             mode は省略可能で、省略時のデフォルトのモードは、
-            [man:fcntl(2)] で F_GETFL フラグが利用できる環境では第一引数で指定した fd のモードを引き継ぎ、
-            利用できない環境では "r" になります。
+            [man:fcntl(2)] で F_GETFL フラグが利用できる環境では第一引数で指定した fd のモードを引き継ぎ、利用できない環境では "r" になります。
 
 - **param** `opts` -- キーワード引数
 

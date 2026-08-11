@@ -12,8 +12,8 @@ true を返します。そうでない場合に false を返します。
 ```ruby title="例"
 a = String.instance_method(:size)
 b = String.instance_method(:size)
-p a == b                            #=> true
+p a == b                            # => true
 
 c = Array.instance_method(:size)
-p a == c                            #=> false
+p a == c                            # => false
 ```

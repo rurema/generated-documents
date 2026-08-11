@@ -14,19 +14,19 @@ self と引数 key をブロックに渡して評価し、その結果を返し�
 
 ```ruby title="例"
 h = Hash.new("default")
-p h.default        #=> "default"
-p h.default(:some) #=> "default"
-p h #=>{}
+p h.default        # => "default"
+p h.default(:some) # => "default"
+p h # =>{}
 
 h = Hash.new{|hash, key| hash[key] ="default" }
-p h.default        #=> nil
-p h.default(:some) #=> "default"
-p h                #=> {:some=>"default"}
+p h.default        # => nil
+p h.default(:some) # => "default"
+p h                # => {:some=>"default"}
 
 h = Hash.new
-p h.default        #=> nil
-p h.default(:some) #=> nil
-p h                #=> {}
+p h.default        # => nil
+p h.default(:some) # => nil
+p h                # => {}
 ```
 
 - **SEE** [Hash#default=](../../../method/Hash/i/default=3d.md), [Hash#default_proc](../../../method/Hash/i/default_proc.md)

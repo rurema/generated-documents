@@ -8,6 +8,6 @@ Content-Type ヘッダがない場合は、"application/octet-stream" を返し�
 ```ruby title="例"
 require 'open-uri'
 URI.open('http://www.ruby-lang.org/') {|f|
-  p f.content_type  #=> "text/html"
+  p f.content_type  # => "text/html"
 }
 ```

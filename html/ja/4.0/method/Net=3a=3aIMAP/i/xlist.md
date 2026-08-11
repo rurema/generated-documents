@@ -17,7 +17,7 @@ XLISTコマンドを送り、クライアントから利用可能なメールボ
 imap.create("foo/bar")
 imap.create("foo/baz")
 p imap.xlist("", "foo/%")
-#=> [#<Net::IMAP::MailboxList attr=[:Noselect], delim="/", name="foo/">, \\
+# => [#<Net::IMAP::MailboxList attr=[:Noselect], delim="/", name="foo/">, \\
 #    #<Net::IMAP::MailboxList attr=[:Noinferiors, :Marked], delim="/", name="foo/bar">, \\
 #    #<Net::IMAP::MailboxList attr=[:Noinferiors], delim="/", name="foo/baz">]
 ```

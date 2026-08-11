@@ -7,9 +7,7 @@ Ruby のヒープの内容を JSON 形式でダンプします。1行につき1�
 
 - **param** `output` -- ダンプ結果の出力先を指定します。指定できる値は
   [ObjectSpace?.dump](../../../method/ObjectSpace/m/dump.md) の output と同じです(デフォルトは `:file`)。
-- **param** `full` -- 真を指定すると、空きスロット(`T_NONE`)も含めたすべ
-  てのヒープスロットをダンプします。偽の場合(デフォルト)は使用中のスロッ
-  トのみダンプします。
+- **param** `full` -- 真を指定すると、空きスロット(`T_NONE`)も含めたすべてのヒープスロットをダンプします。偽の場合(デフォルト)は使用中のスロットのみダンプします。
 - **param** `since` -- 0 以上の整数または nil を指定します。正の整数を指
   定した場合、その世代以降に割り当てられたオブジェクトのみをダンプしま
   す。現在の世代は [GC.count](../../../method/GC/s/count.md) で取得できます。[ObjectSpace?.trace_object_allocations_start](../../../method/ObjectSpace/m/trace_object_allocations_start.md)

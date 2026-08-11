@@ -16,8 +16,7 @@ initialize_copy は、Ruby インタプリタが知り得ない情報をコピ�
 
 initialize_copy という名前のメソッドは自動的に private に設定されます。
 
-- **raise** `TypeError` -- レシーバが freeze されているか、obj のクラスがレシーバ
-  のクラスと異なる場合に発生します。
+- **raise** `TypeError` -- レシーバが freeze されているか、obj のクラスがレシーバのクラスと異なる場合に発生します。
 - **SEE** [Object#clone](../../../method/Object/i/clone.md),[Object#dup](../../../method/Object/i/dup.md)
 
 dup や clone は以下の手順でオブジェクトを複製します。

@@ -42,11 +42,11 @@ Zlib::GzipReader.open('hoge.gz') { |gz|
     printf "%d -> %c\n", b, b
   }
 }
-#=> 104 -> h
-#=> 111 -> o
-#=> 103 -> g
-#=> 101 -> e
-#=> 10 -> 
+# => 104 -> h
+# => 111 -> o
+# => 103 -> g
+# => 101 -> e
+# => 10 -> 
 ```
 
 - **SEE** [IO#each_byte](../../../method/IO/i/each_byte.md)

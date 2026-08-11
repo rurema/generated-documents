@@ -10,5 +10,5 @@ require "English"
 str = 'hoge,foo,bar,hee,hoo'
 
 /foo/ =~ str
-p $PREMATCH  #=> "hoge,"
+p $PREMATCH  # => "hoge,"
 ```

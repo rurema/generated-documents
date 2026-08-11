@@ -26,8 +26,8 @@ f = Fiber.new do |obj|
 end
   
 b = f.resume(:foo)
-p a  #=> :foo
-p b  #=> :hoge
+p a  # => :foo
+p b  # => :hoge
 ```
 
 

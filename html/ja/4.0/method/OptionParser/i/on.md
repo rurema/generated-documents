@@ -129,24 +129,20 @@ opts.on("-o", "--overwrite VALUE", TrueClass){|boolean| ...}
   2進数、8進数、10進数、16進数の整数のフォーマットを指定できます。
 
 - **`Float`**:
-  Float オブジェクトに変換されます。"1.0" や "0.5e0" のようなフォーマッ
-  トを指定できます。
+  Float オブジェクトに変換されます。"1.0" や "0.5e0" のようなフォーマットを指定できます。
 
 - **`Numeric`**:
-  整数の場合は Integer オブジェクトに、実数の場合は Float オブジェクトに
-  変換されます。
+  整数の場合は Integer オブジェクトに、実数の場合は Float オブジェクトに変換されます。
 
 - **`OptionParser::DecimalInteger`**:
-  Integer オブジェクトに変換されます。10進数の整数の整数のフォーマットの
-  みを指定できます。
+  Integer オブジェクトに変換されます。10進数の整数の整数のフォーマットのみを指定できます。
 
 - **`OptionParser::OctalInteger`**:
   Integer オブジェクトに変換されます。"0b1"、"07"、"0xff" といった 2進数、
   8進数、16進数の整数のフォーマットを指定できます。
 
 - **`OptionParser::DecimalNumeric`**:
-  整数の場合は Integer オブジェクトに、実数の場合は Float オブジェクトに
-  変換されます。10進数のフォーマットを指定できます。
+  整数の場合は Integer オブジェクトに、実数の場合は Float オブジェクトに変換されます。10進数のフォーマットを指定できます。
 
 - **`TrueClass`**:
   true か false に変換されます。"yes" や "no"、"true" や "false"、"+"
@@ -154,8 +150,7 @@ opts.on("-o", "--overwrite VALUE", TrueClass){|boolean| ...}
   また、"no-" をオプションの先頭に付けた場合は値が反転します。
 
 - **`FalseClass`**:
-  true か false に変換されます。TrueClass との違いはオプションの引数を省
-  略した場合に false になります。
+  true か false に変換されます。TrueClass との違いはオプションの引数を省略した場合に false になります。
 
 - **`Array`**:
   文字列の配列に変換されます。"," ごとに 1つの要素になります。
@@ -174,17 +169,16 @@ opts.on("-o", "--overwrite VALUE", TrueClass){|boolean| ...}
 
 - **param** `long` -- ロングオプションを表す文字列を指定します。
 
-- **param** `rest` -- 可能な引数を列挙した配列やハッシュを与えます。文字列を与えた場合は、
-            サマリに表示されるオプションの説明と見なします。
+- **param** `rest` -- 可能な引数を列挙した配列やハッシュを与えます。文字列を与えた場合は、サマリに表示されるオプションの説明と見なします。
 
 ```ruby
 opts.on("--protocol VALUE", [:http, :ftp, :https]){|w|
   p w
 }
-# ruby command --protocol=http #=> :http
+# ruby command --protocol=http # => :http
 
 opts.on("-c", "--charset VALUE", {"jis" => "iso-2022-jp", "sjis" => "shift_jis"}){|w|
   p w
 }
-# ruby command --charset=jis #=> "iso-2022-jp"
+# ruby command --charset=jis # => "iso-2022-jp"
 ```

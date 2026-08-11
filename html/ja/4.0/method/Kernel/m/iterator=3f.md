@@ -17,6 +17,6 @@ def check
     puts "Block isn't given."
   end
 end
-p check{} #=> Block is given.
-p check #=> Block isn't given.
+p check{} # => Block is given.
+p check # => Block isn't given.
 ```

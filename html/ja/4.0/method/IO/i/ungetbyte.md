@@ -12,8 +12,8 @@
 - **param** `c` -- バイト列(文字列)、もしくは0から255までの整数
 
 ```ruby title="例"
-f = File.new("testfile")   #=> #<File:testfile>
-b = f.getbyte              #=> 0x38
-p f.ungetbyte(b)           #=> nil
-p f.getbyte                #=> 0x38
+f = File.new("testfile")   # => #<File:testfile>
+b = f.getbyte              # => 0x38
+p f.ungetbyte(b)           # => nil
+p f.getbyte                # => 0x38
 ```

@@ -171,7 +171,7 @@
     - Rubyで書かれたファイルをいくつか読み込んでから、[Coverage.result](../method/Coverage/s/result.md) を使って結果を取得できます。
       ```ruby
       Coverage.result
-      #=> { "/path/to/file.rb"=>
+      # => { "/path/to/file.rb"=>
       #     { :lines => [1, 2, 0, nil, ...],
       #       :branches =>
       #         { [:if, 0, 2, 1, 6, 4] =>
@@ -214,7 +214,7 @@
       また [Coverage.result](../method/Coverage/s/result.md) も旧フォーマットを返します。
       ```ruby
       Coverage.result
-      #=> { "/path/to/file.rb"=> [1, 2, 0, nil, ...] }
+      # => { "/path/to/file.rb"=> [1, 2, 0, nil, ...] }
       ```
 
   - [drb](../library/drb.md)

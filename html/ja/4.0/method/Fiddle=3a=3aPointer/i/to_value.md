@@ -10,5 +10,5 @@ require 'fiddle'
 s = 'abc'
 i = Fiddle.dlwrap(s)
 cptr = Fiddle::Pointer.new(i)
-p cptr.to_value   #=> "abc"
+p cptr.to_value   # => "abc"
 ```

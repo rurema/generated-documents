@@ -11,9 +11,9 @@
 require 'strscan'
 
 s = StringScanner.new('test string')
-p s.scan(/\w+/)   #=> "test"
-p s.scan(/\w+/)   #=> nil
-p s.scan(/\s+/)   #=> " "
-p s.scan(/\w+/)   #=> "string"
-p s.scan(/./)     #=> nil
+p s.scan(/\w+/)   # => "test"
+p s.scan(/\w+/)   # => nil
+p s.scan(/\s+/)   # => " "
+p s.scan(/\w+/)   # => "string"
+p s.scan(/./)     # => nil
 ```

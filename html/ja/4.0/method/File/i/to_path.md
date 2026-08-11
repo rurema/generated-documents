@@ -11,7 +11,7 @@
 - **raise** `IOError` -- TMPFILE [File::Constants::TMPFILE](../../../method/File=3a=3aConstants/c/TMPFILE.md)オプション付きで作成されている場合に発生します。
 
 ```ruby title="例"
-p File.open("testfile") {|f| f.path }                      #=> "testfile"
-p File.open("/tmp/../tmp/xxx", "w") {|f| f.path }          #=> "/tmp/../tmp/xxx"
+p File.open("testfile") {|f| f.path }                      # => "testfile"
+p File.open("/tmp/../tmp/xxx", "w") {|f| f.path }          # => "/tmp/../tmp/xxx"
 File.open("/tmp", File::RDWR | File::TMPFILE){|f| f.path } # IOError: File is unnamed (TMPFILE?)
 ```

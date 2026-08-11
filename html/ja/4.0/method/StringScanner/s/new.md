@@ -13,9 +13,9 @@
 require 'strscan'
 
 s = StringScanner.new('This is an example string')
-p s.eos?          #=> false
+p s.eos?          # => false
 
-p s.scan(/\w+/)   #=> "This"
-p s.scan(/\w+/)   #=> nil
-p s.scan(/\s+/)   #=> " "
+p s.scan(/\w+/)   # => "This"
+p s.scan(/\w+/)   # => nil
+p s.scan(/\s+/)   # => " "
 ```

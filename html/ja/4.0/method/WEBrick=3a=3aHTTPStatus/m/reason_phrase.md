@@ -9,5 +9,5 @@
 
 ```ruby
 require 'webrick'
-p WEBrick::HTTPStatus.reason_phrase(304)   #=> "Not Modified"
+p WEBrick::HTTPStatus.reason_phrase(304)   # => "Not Modified"
 ```

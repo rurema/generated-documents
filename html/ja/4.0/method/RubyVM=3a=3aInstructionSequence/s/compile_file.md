@@ -9,10 +9,8 @@
 
 - **param** `file` -- ファイル名を文字列で指定します。
 
-- **param** `options` -- コンパイル時のオプションを true、false、[Hash](../../../class/Hash.md) オブ
-               ジェクトのいずれかで指定します。詳細は
-               [RubyVM::InstructionSequence.compile_option=](../../../method/RubyVM=3a=3aInstructionSequence/s/compile_option=3d.md) を参照
-               してください。
+- **param** `options` -- コンパイル時のオプションを true、false、[Hash](../../../class/Hash.md) オブジェクトのいずれかで指定します。詳細は
+               [RubyVM::InstructionSequence.compile_option=](../../../method/RubyVM=3a=3aInstructionSequence/s/compile_option=3d.md) を参照してください。
 
 ```ruby
 # /tmp/hello.rb

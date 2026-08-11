@@ -28,8 +28,8 @@ Thing.class_exec{
 }
 
 t = Thing.new
-p t.hello()            #=> "Hello there!"
-p t.foo()              #=> 1
+p t.hello()            # => "Hello there!"
+p t.foo()              # => 1
 ```
 
 - **SEE** [Module#module_eval](../../../method/Module/i/module_eval.md), [Module#class_eval](../../../method/Module/i/class_eval.md)

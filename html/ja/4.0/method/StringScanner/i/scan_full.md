@@ -32,11 +32,11 @@
 require 'strscan'
 
 s = StringScanner.new('test string')
-p s.scan_full(/\w+/, true, true)     #=> "test"
-p s.scan_full(/\s+/, false, true)    #=> " "
-p s.scan_full(/\s+/, true, false)    #=> 1
-p s.scan_full(/\w+/, false, false)   #=> 6
-p s.scan_full(/\w+/, true, true)     #=> "string"
+p s.scan_full(/\w+/, true, true)     # => "test"
+p s.scan_full(/\s+/, false, true)    # => " "
+p s.scan_full(/\s+/, true, false)    # => 1
+p s.scan_full(/\w+/, false, false)   # => 6
+p s.scan_full(/\w+/, true, true)     # => "string"
 ```
 
 - **SEE** [StringScanner#scan](../../../method/StringScanner/i/scan.md) [StringScanner#skip](../../../method/StringScanner/i/skip.md) [StringScanner#check](../../../method/StringScanner/i/check.md)  [StringScanner#match?](../../../method/StringScanner/i/match=3f.md)

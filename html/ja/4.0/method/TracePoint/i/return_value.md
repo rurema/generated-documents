@@ -4,8 +4,7 @@
 
 メソッドやブロックの戻り値を返します。
 
-- **raise** `RuntimeError` -- :return、:c_return、:b_return イベントのためのイベ
-                    ントフックの外側で実行した場合に発生します。
+- **raise** `RuntimeError` -- :return、:c_return、:b_return イベントのためのイベントフックの外側で実行した場合に発生します。
 
 ```ruby title="例"
 def foo(ret)

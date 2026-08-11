@@ -13,9 +13,9 @@ a = Date.new(1993, 2, 24)
 b = Date.parse('1993-02-24')
 b += 10
 
-p b - a          #=> 10
-p b.year         #=> 1993
-p b.strftime('%a') #=> "Sat"
+p b - a          # => 10
+p b.year         # => 1993
+p b.strftime('%a') # => "Sat"
 
 yesterday = Date.today - 1
 ```

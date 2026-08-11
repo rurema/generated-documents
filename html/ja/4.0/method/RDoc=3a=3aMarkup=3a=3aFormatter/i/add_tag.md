@@ -4,8 +4,7 @@
 
 name で登録された規則で取得された文字列を start と stop で囲むように指定します。
 
-- **param** `name` -- [RDoc::Markup::ToHtml](../../../class/RDoc=3a=3aMarkup=3a=3aToHtml.md) などのフォーマッタに識別させる時
-            の名前を [Symbol](../../../class/Symbol.md) で指定します。
+- **param** `name` -- [RDoc::Markup::ToHtml](../../../class/RDoc=3a=3aMarkup=3a=3aToHtml.md) などのフォーマッタに識別させる時の名前を [Symbol](../../../class/Symbol.md) で指定します。
 
 - **param** `start` -- 開始の記号を文字列で指定します。
 

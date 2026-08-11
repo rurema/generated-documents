@@ -10,7 +10,7 @@ require 'optparse/shellwords'
 opts = OptionParser.new
 
 opts.on("-s VAL", Shellwords){|a|
-  p a #=> ["hoge", "foo", "bar"]
+  p a # => ["hoge", "foo", "bar"]
 }
 opts.parse!
 

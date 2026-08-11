@@ -6,7 +6,7 @@ self の最初の文字だけを含む文字列を返します。
 
 ```ruby title="例"
 a = "abcde"
-p a.chr  #=> "a"
+p a.chr  # => "a"
 ```
 
 Ruby 1.9 で IO#getc の戻り値が Integer から String を返すように変更になりました。

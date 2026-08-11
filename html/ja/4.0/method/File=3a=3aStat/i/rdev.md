@@ -7,5 +7,5 @@
 ```ruby
 fs = File::Stat.new($0)
 #例
-p fs.rdev     #=> 2
+p fs.rdev     # => 2
 ```

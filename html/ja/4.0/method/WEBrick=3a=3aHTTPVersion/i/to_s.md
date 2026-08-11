@@ -7,5 +7,5 @@
 ```ruby
 require 'webrick'
 v = WEBrick::HTTPVersion.new('1.1')
-p v.to_s                            #=> "1.1"
+p v.to_s                            # => "1.1"
 ```

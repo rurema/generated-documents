@@ -10,8 +10,7 @@
 - **param** `opts` -- 引数を文字列で指定します。
 
 - **raise** `OptionParser::ParseError` -- パースに失敗した場合、発生します。
-                                実際は OptionParser::ParseError のサブク
-                                ラスになります。
+                                実際は OptionParser::ParseError のサブクラスになります。
 
 
 - **SEE** [OptionParser#getopts](../../../method/OptionParser/i/getopts.md)

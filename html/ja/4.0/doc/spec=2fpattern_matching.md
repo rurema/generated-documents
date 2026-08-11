@@ -63,15 +63,15 @@ config = {db: {user: 'admin', password: 'abc123'}}
 config => {db: {user:}} # もし config の構造が期待したものでなかった場合には、例外が発生する
 
 puts "Connect with user '#{user}'"
-# Connect with user 'admin'" と出力
+# "Connect with user 'admin'" と出力
 ```
 
-『<expression> in <pattern>』 は 『<expression>; in <pattern>; true; else false; end』 と等価です。
+『<expression> in <pattern>』 は 『case <expression>; in <pattern>; true; else false; end』 と等価です。
 パターンにマッチするかどうかだけを知りたいときに使えます。
 
 ```ruby
 users = [{name: "Alice", age: 12}, {name: "Bob", age: 23}]
-p users.any? {|user| user in {name: /B/, age: 20..} } #=> true
+p users.any? {|user| user in {name: /B/, age: 20..} } # => true
 ```
 
 構文の詳細な例と説明は以下を参照してください。
@@ -102,7 +102,7 @@ in [Integer, Integer]
 else
   "not matched"
 end
-#=> "not matched"
+# => "not matched"
 ```
 
 一方 Hash パターン は一部のキーだけ指定している場合(指定しているキー以外にもキーが存在する場合)でもマッチします。
@@ -114,7 +114,7 @@ in {a: Integer}
 else
   "not matched"
 end
-#=> "matched"
+# => "matched"
 ```
 
 『{}』 だけはこのルールの例外です。『{}』 は空のハッシュのみマッチします。
@@ -126,7 +126,7 @@ in {}
 else
   "not matched"
 end
-#=> "not matched"
+# => "not matched"
 ```
 
 ```ruby
@@ -136,7 +136,7 @@ in {}
 else
   "not matched"
 end
-#=> "matched"
+# => "matched"
 ```
 
 また、パターンで明示的に指定したキー以外のキーが存在しないハッシュにのみ、マッチさせたい場合には、『**nil』 を使います。
@@ -162,7 +162,7 @@ in [Integer, *]
 else
   "not matched"
 end
-#=> "matched"
+# => "matched"
 ```
 
 ```ruby
@@ -172,7 +172,7 @@ in {a: Integer, **}
 else
   "not matched"
 end
-#=> "matched"
+# => "matched"
 ```
 
 Array パターン や Hash パターン は両端の 『[]』 や 『{}』 といった括弧を省略できます。
@@ -184,7 +184,7 @@ in Integer, Integer
 else
   "not matched"
 end
-#=> "matched"
+# => "matched"
 ```
 
 ```ruby
@@ -194,7 +194,7 @@ in a: Integer
 else
   "not matched"
 end
-#=> "matched"
+# => "matched"
 ```
 
 
@@ -240,7 +240,7 @@ in Integer => a, Integer
 else
   "not matched"
 end
-#=> "matched: 1"
+# => "matched: 1"
 ```
 
 ```ruby
@@ -250,7 +250,7 @@ in a: Integer => m
 else
   "not matched"
 end
-#=> "matched: 1"
+# => "matched: 1"
 ```
 
 追加のチェックが不要で変数への束縛だけがしたい場合は、より簡潔な記法が利用できます。
@@ -262,7 +262,7 @@ in a, Integer
 else
   "not matched"
 end
-#=> "matched: 1"
+# => "matched: 1"
 ```
 
 ```ruby
@@ -272,7 +272,7 @@ in a: m
 else
   "not matched"
 end
-#=> "matched: 1"
+# => "matched: 1"
 ```
 
 Hash パターンでは、もっと単純に書くこともできます。キーのみを指定することで、キーと同じ名前のローカル変数に値を束縛できます。
@@ -284,7 +284,7 @@ in a:
 else
   "not matched"
 end
-#=> "matched: 1"
+# => "matched: 1"
 ```
 
 ネストしたパターンの場合も同様に値の束縛を利用できます。
@@ -296,7 +296,7 @@ in name:, friends: [{name: first_friend}, *]
 else
   "not matched"
 end
-#=> "matched: Jane"
+# => "matched: Jane"
 ```
 
 パターンの残りの部分も同様に変数に束縛できます。
@@ -308,7 +308,7 @@ in a, *rest
 else
   "not matched"
 end
-#=> "matched: 1, [2, 3]"
+# => "matched: 1, [2, 3]"
 ```
 
 ```ruby
@@ -318,7 +318,7 @@ in a:, **rest
 else
   "not matched"
 end
-#=> "matched: 1, {:b=>2, :c=>3}"
+# => "matched: 1, {:b=>2, :c=>3}"
 ```
 
 変数への束縛は現状、『|』 で結合される Alternative パターン と同時には利用できません。
@@ -374,7 +374,7 @@ in ^expectation, *rest
 else
   "not matched. expectation was: #{expectation}"
 end
-#=> "not matched. expectation was: 18"
+# => "not matched. expectation was: 18"
 ```
 
 ピン演算子の重要な用途の1つはパターンに複数回出てくる値を明記することです。
@@ -413,11 +413,11 @@ class A
   else
     "not matched"
   end
-  #=> "matched"
+  # => "matched"
 end
 ```
 
-また、括弧を使って任意の式に対してピン演算子を利用できます
+また、括弧を使って任意の式に対してピン演算子を利用できます。
 
 ```ruby
 a = 1
@@ -428,7 +428,7 @@ in ^(a + b)
 else
   "not matched"
 end
-#=> "matched"
+# => "matched"
 ```
 
 
@@ -529,7 +529,7 @@ in a, b if b == a*2
 else
   "not matched"
 end
-#=> "matched"
+# => "matched"
 ```
 
 ```ruby
@@ -539,7 +539,7 @@ in a, b if b == a*2
 else
   "not matched"
 end
-#=> "not matched"
+# => "not matched"
 ```
 
 unless も利用できます。
@@ -551,7 +551,7 @@ in a, b unless b == a*2
 else
   "not matched"
 end
-#=> "matched"
+# => "matched"
 ```
 
 ### 機能の現状 {#current_feature_status}

@@ -28,9 +28,7 @@ Logger オブジェクトを生成します。
                省略した場合は false です。
                Logger v1.4.0 以降で利用可能です。
 
-- **param** `shift_period_suffix` -- daily、weekly、monthlyでログファイルの切り替
-                           えを行う時のログファイルの名の末尾に追加する
-                           文字列のフォーマットを指定します。
+- **param** `shift_period_suffix` -- daily、weekly、monthlyでログファイルの切り替えを行う時のログファイルの名の末尾に追加する文字列のフォーマットを指定します。
                            省略した場合は '%Y%m%d' です。
 
 - **param** `reraise_write_errors` -- ログ書き込み時にエラーが発生した場合に raise される例外クラスの配列。

@@ -26,8 +26,7 @@ posix_fadvise をサポートしていないプラットフォーム上では何
 - **raise** `IOError` -- ストリームが既に閉じられているときに発生する例外
 - **raise** `Errno::EBADF` -- ファイルデスクリプタが不正であるときに発生する例外
 - **raise** `Errno::EINVAL` -- advice が不正
-- **raise** `Errno::ESPIPE` -- ファイルデスクリプタが FIFO か pipe を指している
-       場合に発生する例外(Linux はこの場合には Errno::EINVAL を発生する)
+- **raise** `Errno::ESPIPE` -- ファイルデスクリプタが FIFO か pipe を指している場合に発生する例外(Linux はこの場合には Errno::EINVAL を発生する)
 - **raise** `RangeError` -- offset,lenが有効範囲から出ている場合に発生する例外
 
 ```ruby title="例"

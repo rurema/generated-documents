@@ -7,9 +7,9 @@
 (self.to_s.capitalize.intern と同じです。)
 
 ```ruby
-p :foobar.capitalize   #=> :Foobar
-p :fooBar.capitalize   #=> :Foobar
-p :FOOBAR.capitalize   #=> :Foobar
+p :foobar.capitalize   # => :Foobar
+p :fooBar.capitalize   # => :Foobar
+p :FOOBAR.capitalize   # => :Foobar
 p :"foobar--".capitalize # => "Foobar--"
 ```
 

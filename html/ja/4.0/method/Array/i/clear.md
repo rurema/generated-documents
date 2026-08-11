@@ -7,5 +7,5 @@
 ```ruby title="例"
 ary = [1, 2]
 ary.clear
-p ary     #=> []
+p ary     # => []
 ```

@@ -7,7 +7,7 @@
 ```ruby
 require 'socket'
 
-p Addrinfo.tcp("localhost", 80).inspect_sockaddr   #=> "127.0.0.1:80"
-p Addrinfo.tcp("ip6-localhost", 80).inspect_sockaddr #=> "[::1]:80"
-p Addrinfo.unix("/tmp/sock").inspect_sockaddr      #=> "/tmp/sock"
+p Addrinfo.tcp("localhost", 80).inspect_sockaddr   # => "127.0.0.1:80"
+p Addrinfo.tcp("ip6-localhost", 80).inspect_sockaddr # => "[::1]:80"
+p Addrinfo.unix("/tmp/sock").inspect_sockaddr      # => "/tmp/sock"
 ```

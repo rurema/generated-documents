@@ -17,11 +17,11 @@ foo = {1 => 'a', 2 => 'b'}
 bar = {2 => 'B', 3 => 'C'}
 
 foo.replace(bar)
-p foo  #=> {2=>"B", 3=>"C"}
+p foo  # => {2=>"B", 3=>"C"}
 
 zoo = {}
 zoo = bar.dup
-p zoo  #=> {2=>"B", 3=>"C"}
+p zoo  # => {2=>"B", 3=>"C"}
 
 class Foo
   def to_hash
@@ -31,7 +31,7 @@ end
 
 h = Hash.new
 h.replace(Foo.new) #暗黙の変換
-p h #=> {:japan=>"kyoto"}
+p h # => {:japan=>"kyoto"}
 ```
 
 - **SEE** [Hash#dup](../../../method/Hash/i/dup.md),[Hash#merge](../../../method/Hash/i/merge.md),[Object#to_hash](../../../method/Object/i/to_hash.md)

@@ -8,7 +8,7 @@
 ブロックを省略した場合は [Enumerator](../../../class/Enumerator.md) を返します。
 
 ```ruby title="例"
-p (1..10).filter_map { |i| i * 2 if i.even? } #=> [4, 8, 12, 16, 20]
+p (1..10).filter_map { |i| i * 2 if i.even? } # => [4, 8, 12, 16, 20]
 ```
 
 - **SEE** [Enumerable#filter](../../../method/Enumerable/i/filter.md), [Enumerable#map](../../../method/Enumerable/i/map.md)

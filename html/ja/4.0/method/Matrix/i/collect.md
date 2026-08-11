@@ -9,8 +9,7 @@
 
 ブロックがない場合、 [Enumerator](../../../class/Enumerator.md) を返します。
 
-- **param** `which` --  which に以下の [Symbol](../../../class/Symbol.md) を指定することで、
-              引数として使われる要素を限定できます。
+- **param** `which` --  which に以下の [Symbol](../../../class/Symbol.md) を指定することで、引数として使われる要素を限定できます。
               デフォルトは、:all (全ての要素)です。
               指定できる [Symbol](../../../class/Symbol.md) の詳細は、 [Matrix#each](../../../method/Matrix/i/each.md) の項目を参照して下さい。
 

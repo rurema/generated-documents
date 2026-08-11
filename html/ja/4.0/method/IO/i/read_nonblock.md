@@ -18,9 +18,7 @@ EAGAIN, EINTR などは [Errno::EXXX](../../../class/Errno=3a=3aEXXX.md) 例外�
 
 - **param** `maxlen` -- 読み込む長さの上限を整数で指定します。
 
-- **param** `outbuf` -- 文字列で指定します。IO#read_nonblock は読み込んだデータを outbuf に破壊的に格納し、
-              返り値は outbuf となります。outbuf は一旦 maxlen 長に拡張(あるいは縮小)されたあと、
-              実際に読み込んだデータのサイズになります。read(2) システムコールが 0 を返した場合は、空文字列になります。
+- **param** `outbuf` -- 文字列で指定します。IO#read_nonblock は読み込んだデータを outbuf に破壊的に格納し、返り値は outbuf となります。outbuf は一旦 maxlen 長に拡張(あるいは縮小)されたあと、実際に読み込んだデータのサイズになります。read(2) システムコールが 0 を返した場合は、空文字列になります。
 
 - **param** `exception` -- 読み込み時に [Errno::EAGAIN](../../../class/Errno=3a=3aEAGAIN.md)、
                  [Errno::EWOULDBLOCK](../../../class/Errno=3a=3aEWOULDBLOCK.md) が発生する代わりに

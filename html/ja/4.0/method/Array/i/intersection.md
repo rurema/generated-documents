@@ -10,8 +10,7 @@
                     配列以外のオブジェクトを指定した場合は to_ary
                     メソッドによる暗黙の型変換を試みます。
 
-- **raise** `TypeError` -- 引数に配列以外の(暗黙の型変換が行えない)オブジェクトを
-                 指定した場合に発生します。
+- **raise** `TypeError` -- 引数に配列以外の(暗黙の型変換が行えない)オブジェクトを指定した場合に発生します。
 
 intersectionは[Object#hash](../../../method/Object/i/hash.md)と[Object#eql?](../../../method/Object/i/eql=3f.md)を使って比較を行います。
 

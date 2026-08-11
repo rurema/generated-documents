@@ -7,5 +7,5 @@
 
 ```ruby
 system("mkfifo /tmp/pipetest")
-p File::Stat.new("/tmp/pipetest").pipe? #=> true
+p File::Stat.new("/tmp/pipetest").pipe? # => true
 ```

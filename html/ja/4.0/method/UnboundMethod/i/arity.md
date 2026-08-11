@@ -22,16 +22,16 @@ class C
   def six(a, b, *c, &d); end
 end
 
-p C.instance_method(:one).arity     #=> 0
-p C.instance_method(:two).arity     #=> 1
-p C.instance_method(:three).arity   #=> -1
-p C.instance_method(:four).arity    #=> 2
-p C.instance_method(:five).arity    #=> -3
-p C.instance_method(:six).arity     #=> -3
+p C.instance_method(:one).arity     # => 0
+p C.instance_method(:two).arity     # => 1
+p C.instance_method(:three).arity   # => -1
+p C.instance_method(:four).arity    # => 2
+p C.instance_method(:five).arity    # => -3
+p C.instance_method(:six).arity     # => -3
 
 
-p String.instance_method(:size).arity    #=> 0
-p String.instance_method(:replace).arity #=> 1
-p String.instance_method(:squeeze).arity #=> -1
-p String.instance_method(:count).arity   #=> -1
+p String.instance_method(:size).arity    # => 0
+p String.instance_method(:replace).arity # => 1
+p String.instance_method(:squeeze).arity # => -1
+p String.instance_method(:count).arity   # => -1
 ```

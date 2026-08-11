@@ -5,7 +5,7 @@
 POSIX の clock_gettime() 関数の時間を返します。
 
 ```ruby title="例"
-p Process.clock_gettime(Process::CLOCK_MONOTONIC) #=> 896053.968060096
+p Process.clock_gettime(Process::CLOCK_MONOTONIC) # => 896053.968060096
 ```
 
 - **param** `clock_id` -- クロックの種類を以下の定数のいずれかで指定します。

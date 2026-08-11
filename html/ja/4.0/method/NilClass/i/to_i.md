@@ -5,5 +5,5 @@
 0 を返します。
 
 ```ruby title="例"
-p nil.to_i #=> 0
+p nil.to_i # => 0
 ```

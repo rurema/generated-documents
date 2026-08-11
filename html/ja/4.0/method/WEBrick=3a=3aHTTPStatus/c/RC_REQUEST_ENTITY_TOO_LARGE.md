@@ -45,5 +45,5 @@ HTTP のステータスコードを表す整数です。
 
 ```ruby
 require 'webrick'
-p WEBrick::HTTPStatus::RC_INTERNAL_SERVER_ERROR   #=> 500
+p WEBrick::HTTPStatus::RC_INTERNAL_SERVER_ERROR   # => 500
 ```

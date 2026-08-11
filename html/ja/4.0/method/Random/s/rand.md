@@ -19,8 +19,8 @@
 
 ```ruby title="例"
 srand 1234 # 乱数の種を設定する。
-p Random.rand(10.0)  #=> 1.9151945037889229  (0.0 以上 10.0 未満の実数)
-p rand(10.0)       #=> 6                   (rand(10) と同じ)
+p Random.rand(10.0)  # => 1.9151945037889229  (0.0 以上 10.0 未満の実数)
+p rand(10.0)       # => 6                   (rand(10) と同じ)
 ```
 
 - **SEE** [Random.srand](../../../method/Random/s/srand.md), [Random#rand](../../../method/Random/i/rand.md)

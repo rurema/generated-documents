@@ -24,7 +24,7 @@ end
 sleep 0.1
 th1.kill
 
-#=> "this will be displayed"
+# => "this will be displayed"
 ```
 
 - **SEE** [Kernel?.exit](../../../method/Kernel/m/exit.md), [Kernel?.exit!](../../../method/Kernel/m/exit=21.md)

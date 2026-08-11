@@ -41,11 +41,11 @@ Zlib::GzipReader.open('hoge.gz') { |gz|
     puts c
   end
 }
-#=> 104
-#=> 111
-#=> 103
-#=> 101
-#=> 10
+# => 104
+# => 111
+# => 103
+# => 101
+# => 10
 ```
 
 - **SEE** [IO#getc](../../../method/IO/i/getc.md)

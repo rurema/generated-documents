@@ -11,7 +11,7 @@ require "readline"
   
 Readline::HISTORY.push("foo", "bar", "baz")
 Readline::HISTORY.each do |s|
-  p s #=> "foo", "bar", "baz"
+  p s # => "foo", "bar", "baz"
 end
 ```
 
@@ -23,6 +23,6 @@ require "readline"
 Readline::HISTORY.push("foo", "bar", "baz")
 e = Readline::HISTORY.each
 e.each do |s|
-  p s #=> "foo", "bar", "baz"
+  p s # => "foo", "bar", "baz"
 end
 ```

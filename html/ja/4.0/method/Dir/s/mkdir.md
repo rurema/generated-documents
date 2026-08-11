@@ -14,9 +14,9 @@ mode で指定された値に umask をかけた値 (mode & ~umask) になりま
 - **raise** `Errno::EXXX` -- ディレクトリの作成に失敗した場合に発生します。
 
 ```ruby title="例"
-p File.umask                                  #=> 2
+p File.umask                                  # => 2
 Dir.mkdir('t', 0666)
-p "%#o" % (07777 & File.stat('t').mode)  #=> "0664"
+p "%#o" % (07777 & File.stat('t').mode)  # => "0664"
 ```
 
 - **SEE** [FileUtils?.makedirs](../../../method/FileUtils/m/makedirs.md)

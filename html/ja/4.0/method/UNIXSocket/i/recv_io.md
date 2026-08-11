@@ -15,7 +15,7 @@ require 'socket'
 s1, s2 = UNIXSocket.pair
 s1.send_io STDOUT
 io = s2.recv_io
-p File.identical?(io, STDOUT)     #=> true
+p File.identical?(io, STDOUT)     # => true
 ```
 
 - **param** `klass` -- 受け取ったファイルディスクリプタを変換するためのクラス

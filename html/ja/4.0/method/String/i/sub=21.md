@@ -65,11 +65,11 @@ replace に「\」自身を入れたいときは「\」を二重にエスケー�
 ```ruby title="例"
 str = 'abcabc'
 str.sub!(/b/) {|s| s.upcase }
-p str    #=> "aBcabc"
+p str    # => "aBcabc"
 
 str = 'abcabc'
 str.sub!(/b/) { $&.upcase }
-p str    #=> "aBcabc"
+p str    # => "aBcabc"
 ```
 
 - **SEE** [String#gsub](../../../method/String/i/gsub.md)

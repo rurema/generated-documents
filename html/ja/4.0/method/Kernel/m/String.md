@@ -18,7 +18,7 @@ class Foo
 end
 
 arg = Foo.new
-p String(arg) #=> "hogehoge"
+p String(arg) # => "hogehoge"
 ```
 
 - **SEE** [Object#to_s](../../../method/Object/i/to_s.md),[String](../../../class/String.md)

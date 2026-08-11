@@ -14,10 +14,8 @@
 
 - **param** `line` -- 引数 source の 1 行目の行番号を指定します。
 
-- **param** `options` -- コンパイル時のオプションを true、false、[Hash](../../../class/Hash.md) オブ
-               ジェクトのいずれかで指定します。詳細は
-               [RubyVM::InstructionSequence.compile_option=](../../../method/RubyVM=3a=3aInstructionSequence/s/compile_option=3d.md) を参照
-               してください。
+- **param** `options` -- コンパイル時のオプションを true、false、[Hash](../../../class/Hash.md) オブジェクトのいずれかで指定します。詳細は
+               [RubyVM::InstructionSequence.compile_option=](../../../method/RubyVM=3a=3aInstructionSequence/s/compile_option=3d.md) を参照してください。
 
 ```ruby
 p RubyVM::InstructionSequence.compile("a = 1 + 2")

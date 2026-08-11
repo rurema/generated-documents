@@ -11,5 +11,5 @@ th[:foo] = 'FOO'
 th['bar'] = 'BAR'
 p th.keys
 
-#=> [:bar, :foo]
+# => [:bar, :foo]
 ```

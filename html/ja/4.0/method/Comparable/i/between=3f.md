@@ -15,8 +15,7 @@ self >= min and self <= max
 
 - **param** `max` -- 範囲の上端を表すオブジェクトを指定します。
 
-- **raise** `ArgumentError` -- self <=> min か、self <=> max が nil を返
-                     したときに発生します。
+- **raise** `ArgumentError` -- self <=> min か、self <=> max が nil を返したときに発生します。
 
 ```ruby title="例"
 p 3.between?(1, 5)             # => true

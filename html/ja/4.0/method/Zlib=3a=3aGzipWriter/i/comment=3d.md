@@ -16,10 +16,10 @@ filename='hoge1.gz'
 fw = File.open(filename, "w")
 Zlib::GzipWriter.wrap(fw, Zlib::BEST_COMPRESSION){|gz|
   gz.comment = "hogehoge"
-  p gz.comment #=> "hogehoge"
+  p gz.comment # => "hogehoge"
 }
 fr = File.open(filename)
 Zlib::GzipReader.wrap(fr){|gz|
-  puts gz.comment #=> hogehoge
+  puts gz.comment # => hogehoge
 }
 ```

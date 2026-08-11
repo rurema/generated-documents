@@ -12,7 +12,7 @@
 ```ruby title="例"
 Lots = Struct.new(:a, :b, :c, :d, :e, :f)
 l = Lots.new(11, 22, 33, 44, 55, 66)
-p l.select {|v| (v % 2).zero? } #=> [22, 44, 66]
+p l.select {|v| (v % 2).zero? } # => [22, 44, 66]
 ```
 
 [注意] 本メソッドの記述は Struct の下位クラスのインスタンスに対して呼び出す事を想定しています。Struct.new は Struct の下位クラスを作成する点に注意してください。

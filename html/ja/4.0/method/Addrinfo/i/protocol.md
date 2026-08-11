@@ -7,5 +7,5 @@
 ```ruby
 require 'socket'
 
-p Addrinfo.tcp("localhost", 80).protocol == Socket::IPPROTO_TCP #=> true
+p Addrinfo.tcp("localhost", 80).protocol == Socket::IPPROTO_TCP # => true
 ```

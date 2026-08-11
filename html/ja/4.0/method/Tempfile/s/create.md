@@ -15,8 +15,7 @@ Fileオブジェクトを引数としてブロックを呼び出します。
 createではファイルのunlinkも自動で行います。
 
 - **param** `basename` -- ファイル名のプレフィクスを文字列で指定します。
-               文字列の配列を指定した場合、先頭の要素がファイル名のプレフィックス、次の要素が
-               サフィックスとして使われます。
+               文字列の配列を指定した場合、先頭の要素がファイル名のプレフィックス、次の要素がサフィックスとして使われます。
 - **param** `tmpdir` -- ファイルが作られるディレクトリです。
               このデフォルト値は、[Dir.tmpdir](../../../method/Dir/s/tmpdir.md) の値となります。
 - **param** `mode` -- ファイルのモードを定数の論理和で指定します。[IO.open](../../../method/IO/s/open.md)
@@ -25,9 +24,7 @@ createではファイルのunlinkも自動で行います。
 - **param** `anonymous` -- テンポラリファイルを即時unlinkするかを指定します。
                  デフォルトは false です。
 
-- **param** `options` -- ファイルのオプション引数を指定します。[IO.open](../../../method/IO/s/open.md) と同
-               じものが指定できます。ただし、:permオプションは無視され
-               ます。
+- **param** `options` -- ファイルのオプション引数を指定します。[IO.open](../../../method/IO/s/open.md) と同じものが指定できます。ただし、:permオプションは無視されます。
 - **SEE** [Tempfile.open](../../../method/Tempfile/s/open.md)
 
 ```ruby title="例"
@@ -36,7 +33,7 @@ GC.disable
 path = ""
 Tempfile.create("foo") do |f|
   path = f.path
-  p File.exist?(path) #=> true
+  p File.exist?(path) # => true
 end
-p File.exist?(path) #=> false
+p File.exist?(path) # => false
 ```

@@ -17,15 +17,12 @@ p WIN32OLE.connect('Excel.Application') # => WIN32OLE object which represents ru
 ```
 
 - **`PROGID`**:
-  OLEオートメーションサーバを識別するための文字列。通常「ベンダー名.ア
-  プリケーション名.インターフェイス名」の形式を取ります。レジストリの
+  OLEオートメーションサーバを識別するための文字列。通常「ベンダー名.アプリケーション名.インターフェイス名」の形式を取ります。レジストリの
   HKEY_CLASSES_ROOTの「.」で始まらないキーとして登録されます。
 - **`CLSID`**:
   OLEオートメーションサーバを含むCOMのクラスを識別するための128ビット
-  GUID。文字列表現は、レジストリのHKEY_CLASSES_ROOT\CLSID下のキーとして登
-  録されます。
+  GUID。文字列表現は、レジストリのHKEY_CLASSES_ROOT\CLSID下のキーとして登録されます。
 - **モニカ**:
-  モニカは、URIのようにWindows上のリソースを一意に識別するためのオブジェ
-  クトのインターフェイスで、文字表現を持ちます。詳細については
+  モニカは、URIのようにWindows上のリソースを一意に識別するためのオブジェクトのインターフェイスで、文字表現を持ちます。詳細については
   <http://msdn.microsoft.com/en-us/library/ms691261(v=VS.85).aspx>
   を参照してください。

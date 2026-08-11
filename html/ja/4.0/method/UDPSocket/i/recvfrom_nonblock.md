@@ -29,7 +29,7 @@ s1.connect(*s2.addr.values_at(3,1))
 s1.send "aaa", 0
 begin # emulate blocking recvfrom
   p s2.recvfrom_nonblock(10)  
-  #=> ["aaa", ["AF_INET", 33302, "localhost.localdomain", "127.0.0.1"]]
+  # => ["aaa", ["AF_INET", 33302, "localhost.localdomain", "127.0.0.1"]]
 rescue IO::WaitReadable
   IO.select([s2])
   retry

@@ -8,8 +8,7 @@
 
 - **param** `name` -- [String](../../../class/String.md), [Symbol](../../../class/Symbol.md) で指定される定数名。
 
-- **param** `inherit` -- false を指定するとスーパークラスや include したモジュールで
-       定義された定数は対象にはなりません。
+- **param** `inherit` -- false を指定するとスーパークラスや include したモジュールで定義された定数は対象にはなりません。
 
 ```ruby title="例"
 module Kernel

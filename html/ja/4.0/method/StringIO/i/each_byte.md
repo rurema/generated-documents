@@ -11,7 +11,7 @@
 require "stringio"
 a = StringIO.new("hoge")
 a.each_byte{|ch| p ch }
-#=> 104
+# => 104
 #   111
 #   103
 #   101

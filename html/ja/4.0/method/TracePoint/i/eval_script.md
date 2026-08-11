@@ -13,5 +13,4 @@ end.enable do
 end
 ```
 
-- **raise** `RuntimeError` -- :script_compiled イベントのための
-                    イベントフックの外側で実行した場合に発生します。
+- **raise** `RuntimeError` -- :script_compiled イベントのためのイベントフックの外側で実行した場合に発生します。

@@ -25,7 +25,7 @@ socktype なしでは曖昧な指定となるためです。
 require 'socket'
 
 p Addrinfo.getaddrinfo("www.kame.net", 80, nil, :STREAM)
-#=> [#<Addrinfo: 203.178.141.194:80 TCP (www.kame.net:80)>,
+# => [#<Addrinfo: 203.178.141.194:80 TCP (www.kame.net:80)>,
 #    #<Addrinfo: [2001:200:0:8002:203:47ff:fea5:3085]:80 TCP (www.kame.net:80)>]
 ```
 

@@ -13,8 +13,8 @@ multipart/form-data なフォームデータであってもサイズの制限な
 
 ```ruby title="例"
 h = req.query
-p h['q']                       #=>  "ruby rails session"  
-p h['upfile']['content-type']  #=>  "plain/text"
-p h['upfile'].filename         #=>  "my_file.txt"
-p h['upfile']                  #=>  "hoge hoge hoge"
+p h['q']                       # =>  "ruby rails session"  
+p h['upfile']['content-type']  # =>  "plain/text"
+p h['upfile'].filename         # =>  "my_file.txt"
+p h['upfile']                  # =>  "hoge hoge hoge"
 ```

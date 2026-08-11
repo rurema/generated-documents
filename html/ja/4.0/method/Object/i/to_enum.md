@@ -16,11 +16,11 @@
 str = "xyz"
 
 enum = str.enum_for(:each_byte)
-p(a = enum.map{|b| '%02x' % b }) #=> ["78", "79", "7a"]
+p(a = enum.map{|b| '%02x' % b }) # => ["78", "79", "7a"]
 
 # protects an array from being modified
 a = [1, 2, 3]
-p(a.to_enum) #=> #<Enumerator: [1, 2, 3]:each>
+p(a.to_enum) # => #<Enumerator: [1, 2, 3]:each>
 ```
 
 ```ruby title="例(ブロックを指定する場合)"

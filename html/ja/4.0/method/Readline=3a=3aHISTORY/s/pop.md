@@ -11,9 +11,9 @@
 require "readline"
   
 Readline::HISTORY.push("foo", "bar", "baz")
-p Readline::HISTORY.pop #=> "baz"
-p Readline::HISTORY.pop #=> "bar"
-p Readline::HISTORY.pop #=> "foo"
+p Readline::HISTORY.pop # => "baz"
+p Readline::HISTORY.pop # => "bar"
+p Readline::HISTORY.pop # => "foo"
 ```
 
 - **SEE** [Readline::HISTORY.push](../../../method/Readline=3a=3aHISTORY/s/push.md)、[Readline::HISTORY.shift](../../../method/Readline=3a=3aHISTORY/s/shift.md)、

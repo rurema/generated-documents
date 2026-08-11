@@ -6,7 +6,7 @@
 
 ```ruby title="例"
 e = (1..3).chain([4, 5])
-p e.to_a #=> [1, 2, 3, 4, 5]
+p e.to_a # => [1, 2, 3, 4, 5]
 ```
 
 - **SEE** [Enumerator#+](../../../method/Enumerator/i/=2b.md)

@@ -13,10 +13,10 @@ self の先頭が prefixes のいずれかであるとき true を返します�
 - **SEE** [String#start_with?](../../../method/String/i/start_with=3f.md)
 
 ```ruby
-p :hello.start_with?("hell")             #=> true
-p :hello.start_with?(/H/i)               #=> true
+p :hello.start_with?("hell")             # => true
+p :hello.start_with?(/H/i)               # => true
 
 # returns true if one of the prefixes matches.
-p :hello.start_with?("heaven", "hell")   #=> true
-p :hello.start_with?("heaven", "paradise") #=> false
+p :hello.start_with?("heaven", "hell")   # => true
+p :hello.start_with?("heaven", "paradise") # => false
 ```

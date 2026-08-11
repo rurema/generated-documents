@@ -26,10 +26,10 @@ self の次の要素を引数に順次ブロックを実行します。
 
 ```ruby title="例"
 # 合計を計算する。
-p [2, 3, 4, 5].inject {|result, item| result + item }        #=> 14
+p [2, 3, 4, 5].inject {|result, item| result + item }        # => 14
 
 # 自乗和を計算する。初期値をセットする必要がある。
-p [2, 3, 4, 5].inject(0) {|result, item| result + item**2 }  #=> 54
+p [2, 3, 4, 5].inject(0) {|result, item| result + item**2 }  # => 54
 ```
 
 この式は以下のように書いても同じ結果が得られます。
@@ -39,6 +39,6 @@ result = 0
 [1, 2, 3, 4, 5].each {|v| result += v }
 p result   # => 15
 
-p [1, 2, 3, 4, 5].inject(:+)                    #=> 15
-p ["b", "c", "d"].inject("abbccddde", :squeeze) #=> "abcde"
+p [1, 2, 3, 4, 5].inject(:+)                    # => 15
+p ["b", "c", "d"].inject("abbccddde", :squeeze) # => "abcde"
 ```

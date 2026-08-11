@@ -6,7 +6,7 @@
 
 ```ruby title="例"
 h1 = { "a" => 100, 2 => ["some"], :c => "c" }
-p h1.to_a           #=> [["a", 100], [2, ["some"]], [:c, "c"]]
+p h1.to_a           # => [["a", 100], [2, ["some"]], [:c, "c"]]
 ```
 
 - **SEE** [Hash#keys](../../../method/Hash/i/keys.md),[Hash#values](../../../method/Hash/i/values.md)

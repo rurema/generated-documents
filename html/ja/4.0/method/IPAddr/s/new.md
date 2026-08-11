@@ -6,8 +6,7 @@
 
 - **param** `addr` -- 0 から [IPAddr::IN6MASK](../../../method/IPAddr/c/IN6MASK.md) までの数値を受け取ります。 
             また、'address', 'address/prefixlen', 'address/mask' の形式も受け付けます。
-            プリフィックス長やマスクが指定されると、
-            マスクされた IPAddr オブジェクトを返します。
+            プリフィックス長やマスクが指定されると、マスクされた IPAddr オブジェクトを返します。
             IPv6 アドレスの場合は、[ ] で囲まれていてもかまいません。
 
 - **param** `family` -- family は自動的に判定されますが、明示的に指定することもできます。

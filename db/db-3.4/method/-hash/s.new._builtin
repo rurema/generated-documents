@@ -18,7 +18,7 @@ ifnoneを省略した Hash.new は {} と同じです。
 h = Hash.new([])
 h[0] << 0
 h[1] << 1
-p h.default #=> [0, 1]
+p h.default # => [0, 1]
 ```
 
 これを避けるには、破壊的でないメソッドで再代入する必要が有ります。
@@ -34,15 +34,15 @@ capacity を指定すると、指定した要素数を格納するのに充分�
 ```ruby title="例"
 h = Hash.new([])
 
-p h[1]                  #=> []
-p h[1].object_id        #=> 6127150
-p h[1] << "bar"         #=> ["bar"]
-p h[1]                  #=> ["bar"]
+p h[1]                  # => []
+p h[1].object_id        # => 6127150
+p h[1] << "bar"         # => ["bar"]
+p h[1]                  # => ["bar"]
 
-p h[2]                  #=> ["bar"]
-p h[2].object_id        #=> 6127150
+p h[2]                  # => ["bar"]
+p h[2].object_id        # => 6127150
 
-p h                     #=> {}
+p h                     # => {}
 
 
 h = Hash.new([].freeze)
@@ -65,29 +65,29 @@ h[1] << 1     # ~> FrozenError: can't modify frozen Array: []
 # 破壊的変更によって他のキーに対応する値も変更されます。
 h = Hash.new("foo")
 
-p h[1]                  #=> "foo"
-p h[1].object_id        #=> 6127170
-p h[1] << "bar"         #=> "foobar"
-p h[1]                  #=> "foobar"
+p h[1]                  # => "foo"
+p h[1].object_id        # => 6127170
+p h[1] << "bar"         # => "foobar"
+p h[1]                  # => "foobar"
 
-p h[2]                  #=> "foobar"
-p h[2].object_id        #=> 6127170
+p h[2]                  # => "foobar"
+p h[2].object_id        # => 6127170
 
-p h                     #=> {}
+p h                     # => {}
 
 # ブロックを与えると、対応する値がまだ無いキーが呼び出される度に
 # ブロックを評価するので、全て別のオブジェクトになります。
 h = Hash.new {|hash, key| hash[key] = "foo"}
 
-p h[1]                  #=> "foo"
-p h[1].object_id        #=> 6126900
-p h[1] << "bar"         #=> "foobar"
-p h[1]                  #=> "foobar"
+p h[1]                  # => "foo"
+p h[1].object_id        # => 6126900
+p h[1] << "bar"         # => "foobar"
+p h[1]                  # => "foobar"
 
-p h[2]                  #=> "foo"
-p h[2].object_id        #=> 6126840
+p h[2]                  # => "foo"
+p h[2].object_id        # => 6126840
 
-p h                     #=> {1=>"foobar", 2=>"foo"}
+p h                     # => {1=>"foobar", 2=>"foo"}
 
 # 値が設定されていないときに(fetchのように)例外をあげるようにもできる
 h = Hash.new {|hash, key|

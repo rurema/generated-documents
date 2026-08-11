@@ -24,14 +24,12 @@ context で「コンテキスト」を指定します。テキストノードの
   :all を指定します。
   [REXML::Element#whitespace](../../../method/REXML=3a=3aElement/i/whitespace.md) も参照してください。
 - **`:ignore_whitespace_nodes`**:
-  空白のみからなるノードを無視して欲しい要素の名前の集合を
-  文字列の配列で指定します。
+  空白のみからなるノードを無視して欲しい要素の名前の集合を文字列の配列で指定します。
   すべての要素で無視して欲しい場合は :all を指定します。
   これが設定された場合、空白のみからなる text node は追加されません。
   `REXML::Element#ignore_whitespace_nodes` も参照してください。
 - **`:raw`**:
-  raw mode で取り扱いをして欲しい要素の名前の集合を
-  文字列の配列で指定します。
+  raw mode で取り扱いをして欲しい要素の名前の集合を文字列の配列で指定します。
   すべてのノードを raw mode で取り扱って欲しい場合は :all を指定します。
   raw mode においては、text 中の特殊文字は一切変換されません。
   [REXML::Element#raw](../../../method/REXML=3a=3aElement/i/raw.md) も参照してください。
@@ -39,5 +37,4 @@ context で「コンテキスト」を指定します。テキストノードの
 - **param** `source` -- XML文書(文字列, IO)もしくは REXML::Document オブジェクト
 - **param** `context` -- コンテキスト
 - **raise** `REXML::ParseException` -- XML文書のパースに失敗した場合に発生します
-- **raise** `REXML::UndefinedNamespaceException` -- XML文書のパース中に、定義されていない名前空間
-       が現れた場合に発生します
+- **raise** `REXML::UndefinedNamespaceException` -- XML文書のパース中に、定義されていない名前空間が現れた場合に発生します

@@ -14,9 +14,9 @@
 
 ```ruby title="例"
 ary = Array.new(3, "foo")
-p ary                     #=> ["foo", "foo", "foo"]
+p ary                     # => ["foo", "foo", "foo"]
 ary[0].capitalize!
-p ary                     #=> ["Foo", "Foo", "Foo"]  (各要素は同一のオブジェクトである)
+p ary                     # => ["Foo", "Foo", "Foo"]  (各要素は同一のオブジェクトである)
 ```
 
 ### def Array.new(ary)    -> Array
@@ -32,8 +32,8 @@ p Array.new([1,2,3]) # => [1,2,3]
 a = ["a", "b", "c"]
 b = Array.new(a)
 a.each{|s| s.capitalize! }
-p a                        #=> ["A", "B", "C"]
-p b                        #=> ["A", "B", "C"]   (b は a と要素を共有する)
+p a                        # => ["A", "B", "C"]
+p b                        # => ["A", "B", "C"]   (b は a と要素を共有する)
 ```
 
 ### def Array.new(size) {|index| ... }    -> Array
@@ -46,12 +46,12 @@ p b                        #=> ["A", "B", "C"]   (b は a と要素を共有す�
 
 ```ruby title="例"
 ary = Array.new(3){|index| "hoge#{index}"}
-p ary                      #=> ["hoge0", "hoge1", "hoge2"]
+p ary                      # => ["hoge0", "hoge1", "hoge2"]
 ```
 
 ```ruby title="例"
 ary = Array.new(3){ "foo" }
-p ary                      #=> ["foo", "foo", "foo"]
+p ary                      # => ["foo", "foo", "foo"]
 ary[0].capitalize!
-p ary                      #=> ["Foo", "foo", "foo"]  (各要素は違うオブジェクトである)
+p ary                      # => ["Foo", "foo", "foo"]  (各要素は違うオブジェクトである)
 ```

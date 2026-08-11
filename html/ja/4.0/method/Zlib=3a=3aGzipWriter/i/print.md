@@ -18,7 +18,7 @@ fr = File.open(filename)
 Zlib::GzipReader.wrap(fr){|gz|
   puts gz.read
 }
-#=> ugo
+# => ugo
 ```
 
 - **SEE** [IO#print](../../../method/IO/i/print.md), [Kernel?.print](../../../method/Kernel/m/print.md)

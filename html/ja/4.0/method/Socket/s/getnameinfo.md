@@ -56,8 +56,8 @@ Socket::NI_DGRAM
 require 'socket'
 
 p Socket.getnameinfo(Socket.sockaddr_in('21','127.0.0.1'))
-#=> ["localhost", "ftp"]
+# => ["localhost", "ftp"]
   
 p Socket.getnameinfo([nil, 21,'127.0.0.1'])
-#=> ["localhost", "ftp"]
+# => ["localhost", "ftp"]
 ```

@@ -7,6 +7,6 @@
 ```ruby title="例"
 require 'open-uri'
 URI.open('http://example.com/') {|f|
-  p f.status  #=> ["200", "OK"]
+  p f.status  # => ["200", "OK"]
 }
 ```

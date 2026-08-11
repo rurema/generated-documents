@@ -7,5 +7,5 @@
 ```ruby
 fs = File::Stat.new($0)
 #例
-p fs.blocks  #=> nil
+p fs.blocks  # => nil
 ```

@@ -26,10 +26,8 @@ p Dir.glob("*", File::FNM_DOTMATCH)  #=> [".", "..", "bar", "foo"]
 ```
 
 - **param** `base` -- カレントディレクトリの代わりに相対パスの基準にするベースディレクトリを指定します。
-            指定した場合、結果の頭にはベースディレクトリはつかないので、
-            絶対パスが必要な場合はベースディレクトリを追加する必要があるでしょう。
-- **param** `sort` -- true ならワイルドカードや文字セット(鈎括弧)にマッチした結果を
-            バイナリとして昇順にソートします。
+            指定した場合、結果の頭にはベースディレクトリはつかないので、絶対パスが必要な場合はベースディレクトリを追加する必要があるでしょう。
+- **param** `sort` -- true ならワイルドカードや文字セット(鈎括弧)にマッチした結果をバイナリとして昇順にソートします。
             false を指定するとソートせず2.7以前と同じ挙動になります。
             true の場合でも、配列で指定した複数のパターンや波括弧での順番は保存されます。
 
@@ -42,11 +40,9 @@ p Dir.glob("*", File::FNM_DOTMATCH)  #=> [".", "..", "bar", "foo"]
 - **`?`**:
     任意の一文字と一致します。
 - **`[ ]`**:
-    鈎括弧内のいずれかの文字と一致します。- でつな
-    がれた文字は範囲を表します。鈎括弧の中の最初の文字が
+    鈎括弧内のいずれかの文字と一致します。- でつながれた文字は範囲を表します。鈎括弧の中の最初の文字が
     ^ である時には含まれない文字と一致します。
-    ^ の代わりに ksh や POSIX shell のように ! も同じ意
-    味で使えます。
+    ^ の代わりに ksh や POSIX shell のように ! も同じ意味で使えます。
 - **`{ }`**:
     コンマで区切られた文字列の組合せに展開します。例えば、
     foo{a,b,c} は fooa, foob, fooc
@@ -56,23 +52,21 @@ p Dir.glob("*", File::FNM_DOTMATCH)  #=> [".", "..", "bar", "foo"]
     {foo,bar{foo,bar}} は foo, barfoo, barbar
     のそれぞれにマッチします。
 - **`**/`**:
-    ワイルドカード */ の0回以上の繰り返しを意味し、
-    ディレクトリを再帰的にたどってマッチを行います。
+    ワイルドカード */ の0回以上の繰り返しを意味し、ディレクトリを再帰的にたどってマッチを行います。
     例えば,
     foo/**/bar は foo/bar, foo/*/bar,
-    foo/*/*/bar ... (以下無限に続く)に対してそれぞれ
-    マッチ判定を行います。
+    foo/*/*/bar ... (以下無限に続く)に対してそれぞれマッチ判定を行います。
 
   ```ruby
   # 一般的な例
-  p Dir.glob("*")          #=> ["foo", "bar", "baz"]
-  p Dir.glob("./b*")       #=> ["./bar", "./baz"]      先頭に "./" が付いている。
-  p Dir.glob("*/")         #=> ["foo/"]                ディレクトリのみにマッチする。
-  p Dir.glob("wrong_name") #=> []                      マッチしないと空の配列を返す。
+  p Dir.glob("*")          # => ["foo", "bar", "baz"]
+  p Dir.glob("./b*")       # => ["./bar", "./baz"]      先頭に "./" が付いている。
+  p Dir.glob("*/")         # => ["foo/"]                ディレクトリのみにマッチする。
+  p Dir.glob("wrong_name") # => []                      マッチしないと空の配列を返す。
 
   Dir.glob("b*") {|f| p f }
 
-  #=> "bar"
+  # => "bar"
   #   "baz"
 
   # 複数のパターンを指定する例
@@ -80,17 +74,17 @@ p Dir.glob("*", File::FNM_DOTMATCH)  #=> [".", "..", "bar", "foo"]
   p Dir["f*", "b*"]        # => ["foo", "bar"]
 
   # ワイルドカードの例
-  p Dir.glob("*")          #=> ["foo", "bar"]
-  p Dir.glob("fo?")        #=> ["foo"]
-  p Dir.glob("[^f]*")      #=> ["bar"]
-  p Dir.glob("{b,f}*")     #=> ["bar", "foo"]
+  p Dir.glob("*")          # => ["foo", "bar"]
+  p Dir.glob("fo?")        # => ["foo"]
+  p Dir.glob("[^f]*")      # => ["bar"]
+  p Dir.glob("{b,f}*")     # => ["bar", "foo"]
 
   # ベースディレクトリの例
   rbfiles = File.join("**", "*.rb")
-  p Dir.glob(rbfiles)                 #=> ["main.rb",
+  p Dir.glob(rbfiles)                 # => ["main.rb",
                                       #    "lib/song.rb",
                                       #    "lib/song/karaoke.rb"]
-  p Dir.glob(rbfiles, base: "lib")    #=> ["song.rb",
+  p Dir.glob(rbfiles, base: "lib")    # => ["song.rb",
                                       #    "song/karaoke.rb"]
   ```
 

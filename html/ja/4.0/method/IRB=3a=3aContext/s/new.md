@@ -6,13 +6,9 @@
 
 - **param** `irb` -- [IRB::Irb](../../../class/IRB=3a=3aIrb.md) オブジェクトを指定します。
 
-- **param** `workspace` -- [IRB::WorkSpace](../../../class/IRB=3a=3aWorkSpace.md) オブジェクトを指定します。省略し
-                 た場合は新しく作成されます。
+- **param** `workspace` -- [IRB::WorkSpace](../../../class/IRB=3a=3aWorkSpace.md) オブジェクトを指定します。省略した場合は新しく作成されます。
 
-- **param** `input_method` -- [String](../../../class/String.md)、[IRB::InputMethod](../../../class/IRB=3a=3aInputMethod.md) のサブクラスの
-                    オブジェクト、nil のいずれかを指定します。
+- **param** `input_method` -- [String](../../../class/String.md)、[IRB::InputMethod](../../../class/IRB=3a=3aInputMethod.md) のサブクラスのオブジェクト、nil のいずれかを指定します。
 
-- **param** `output_method` -- [IRB::OutputMethod](../../../class/IRB=3a=3aOutputMethod.md) のサブクラスのオブジェクト
-                     を指定します。省略した場合は
-                     [IRB::StdioOutputMethod](../../../class/IRB=3a=3aStdioOutputMethod.md) オブジェクトが新しく
-                     作成されます。
+- **param** `output_method` -- [IRB::OutputMethod](../../../class/IRB=3a=3aOutputMethod.md) のサブクラスのオブジェクトを指定します。省略した場合は
+                     [IRB::StdioOutputMethod](../../../class/IRB=3a=3aStdioOutputMethod.md) オブジェクトが新しく作成されます。

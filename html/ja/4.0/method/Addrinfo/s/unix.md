@@ -9,8 +9,8 @@ socktype でソケットタイプを指定します。
 ```ruby
 require 'socket'
 
-p Addrinfo.unix("/tmp/sock")       #=> #<Addrinfo: /tmp/sock SOCK_STREAM>
-p Addrinfo.unix("/tmp/sock", :DGRAM) #=> #<Addrinfo: /tmp/sock SOCK_DGRAM>
+p Addrinfo.unix("/tmp/sock")       # => #<Addrinfo: /tmp/sock SOCK_STREAM>
+p Addrinfo.unix("/tmp/sock", :DGRAM) # => #<Addrinfo: /tmp/sock SOCK_DGRAM>
 ```
 
 - **param** `path` -- Unix ソケットのアドレス文字列

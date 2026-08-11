@@ -9,10 +9,10 @@ reverse! は self を返します。
 
 ```ruby title="例"
 a = ["a", 2, true]
-p a.reverse         #=> [true, 2, "a"]
-p a                 #=> ["a", 2, true] (変化なし)
+p a.reverse         # => [true, 2, "a"]
+p a                 # => ["a", 2, true] (変化なし)
 
 a = ["a", 2, true]
-p a.reverse!        #=> [true, 2, "a"]
-p a                 #=> [true, 2, "a"]
+p a.reverse!        # => [true, 2, "a"]
+p a                 # => [true, 2, "a"]
 ```

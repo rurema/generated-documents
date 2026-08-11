@@ -21,9 +21,9 @@ c = serv.local_address.connect
 s = serv.accept
 opt = c.getsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY)
 # c.getsockopt("TCP", "NODELAY"),  なども可能
-p opt #=> #<Socket::Option: INET TCP NODELAY 0>
-p opt.bool #=> false (Nagle アルゴリズム有効)
-p opt.unpack("i")[0] #=> 0 (Socket::Option#unpack が互換性のために存在する)
+p opt # => #<Socket::Option: INET TCP NODELAY 0>
+p opt.bool # => false (Nagle アルゴリズム有効)
+p opt.unpack("i")[0] # => 0 (Socket::Option#unpack が互換性のために存在する)
 # 整数値の場合は Socket::Option#int を用いる
-p c.getsockopt(:IP, :TTL).int #=> 64
+p c.getsockopt(:IP, :TTL).int # => 64
 ```

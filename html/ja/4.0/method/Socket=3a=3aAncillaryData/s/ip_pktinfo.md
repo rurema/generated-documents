@@ -13,7 +13,7 @@ addr = Addrinfo.ip("127.0.0.1")
 ifindex = 0
 spec_dst = Addrinfo.ip("127.0.0.1")
 p Socket::AncillaryData.ip_pktinfo(addr, ifindex, spec_dst)
-#=> #<Socket::AncillaryData: INET IP PKTINFO 127.0.0.1 ifindex:0 spec_dst:127.0.0.1>
+# => #<Socket::AncillaryData: INET IP PKTINFO 127.0.0.1 ifindex:0 spec_dst:127.0.0.1>
 ```
 
 - **param** `addr` -- アドレス(文字列もしくは [Addrinfo](../../../class/Addrinfo.md))

@@ -7,8 +7,7 @@
 引数 enum には each メソッドが定義されている必要があります。
 
 - **param** `enum` -- 追加対象の要素を格納したオブジェクトを指定します。
-- **raise** `ArgumentError` -- 引数 enum に each メソッドが定義されていない場合に
-       発生します。
+- **raise** `ArgumentError` -- 引数 enum に each メソッドが定義されていない場合に発生します。
 
 ```ruby
 set = Set[10, 20]

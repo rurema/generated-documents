@@ -7,25 +7,25 @@ StringScanner は文字列スキャナクラスです。
 require 'strscan'
 
 s = StringScanner.new('This is an example string')
-p s.eos?          #=> false
+p s.eos?          # => false
 
-p s.scan(/\w+/)   #=> "This"
-p s.scan(/\w+/)   #=> nil
-p s.scan(/\s+/)   #=> " "
-p s.scan(/\s+/)   #=> nil
-p s.scan(/\w+/)   #=> "is"
-p s.eos?          #=> false
+p s.scan(/\w+/)   # => "This"
+p s.scan(/\w+/)   # => nil
+p s.scan(/\s+/)   # => " "
+p s.scan(/\s+/)   # => nil
+p s.scan(/\w+/)   # => "is"
+p s.eos?          # => false
 
-p s.scan(/\s+/)   #=> " "
-p s.scan(/\w+/)   #=> "an"
-p s.scan(/\s+/)   #=> " "
-p s.scan(/\w+/)   #=> "example"
-p s.scan(/\s+/)   #=> " "
-p s.scan(/\w+/)   #=> "string"
-p s.eos?          #=> true
+p s.scan(/\s+/)   # => " "
+p s.scan(/\w+/)   # => "an"
+p s.scan(/\s+/)   # => " "
+p s.scan(/\w+/)   # => "example"
+p s.scan(/\s+/)   # => " "
+p s.scan(/\w+/)   # => "string"
+p s.eos?          # => true
 
-p s.scan(/\s+/)   #=> nil
-p s.scan(/\w+/)   #=> nil
+p s.scan(/\s+/)   # => nil
+p s.scan(/\w+/)   # => nil
 ```
 
 StringScanner オブジェクトはスキャンする文字列と「スキャンポインタ」のセットです。
@@ -66,20 +66,20 @@ require 'strscan'
 
 def case1
   s = StringScanner.new('test string')
-  p s.scan(/t/)       #=> "t"
-  p s.scan(/\w+/)     #=> "est"
-  p s.scan(/string/)  #=> nil
-  p s.scan(/\s+/)     #=> " "
-  p s.scan(/string/)  #=> "string"
+  p s.scan(/t/)       # => "t"
+  p s.scan(/\w+/)     # => "est"
+  p s.scan(/string/)  # => nil
+  p s.scan(/\s+/)     # => " "
+  p s.scan(/string/)  # => "string"
 end
 
 def case2
   s = StringScanner.new('test string')
-  p s.scan_until(/t/)       #=> "t"
-  p s.scan_until(/\w+/)     #=> "est"
-  p s.scan_until(/string/)  #=> " string"
-  p s.scan_until(/\s+/)     #=> nil
-  p s.scan_until(/string/)  #=> nil
+  p s.scan_until(/t/)       # => "t"
+  p s.scan_until(/\w+/)     # => "est"
+  p s.scan_until(/string/)  # => " string"
+  p s.scan_until(/\s+/)     # => nil
+  p s.scan_until(/string/)  # => nil
 end
 
 p "case1"
@@ -95,7 +95,7 @@ case2
 # vim:set fileencoding=euc-jp:
 require 'strscan'
 s = StringScanner.new("るびい") # 文字コードはEUC-JPとします
-p s.exist?(/び/) #=> 4
+p s.exist?(/び/) # => 4
 ```
 
 StringScanner は $~ $& $1 $2 …… などの正規表現関連変数をセットしません。代わりに [StringScanner#\[\]](../method/StringScanner/i/=5b=5d.md), [StringScanner#matched?](../method/StringScanner/i/matched=3f.md) などのマッチデータ関連メソッドを使ってください。

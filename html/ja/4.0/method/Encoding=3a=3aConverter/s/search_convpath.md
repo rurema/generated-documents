@@ -4,16 +4,13 @@
 
 引数で指定した文字エンコーディングの変換の経路を配列にして返します。
 
-- **param** `source_encoding` -- 変換元の文字エンコーディングを [Encoding](../../../class/Encoding.md) オ
-                       ブジェクトか文字列で指定します。
+- **param** `source_encoding` -- 変換元の文字エンコーディングを [Encoding](../../../class/Encoding.md) オブジェクトか文字列で指定します。
 
 - **param** `destination_encoding` -- 変換先の文字エンコーディングを
-                            [Encoding](../../../class/Encoding.md) オブジェクトか文字列で指定し
-                            ます。
+                            [Encoding](../../../class/Encoding.md) オブジェクトか文字列で指定します。
 
 - **param** `options` -- 変換の詳細を指定する定数やハッシュを指定します。
-               [Encoding::Converter.new](../../../method/Encoding=3a=3aConverter/s/new.md) と同じオプションが指定でき
-               ます。
+               [Encoding::Converter.new](../../../method/Encoding=3a=3aConverter/s/new.md) と同じオプションが指定できます。
 
 ```ruby
 p Encoding::Converter.search_convpath("ISO-8859-1", "EUC-JP")

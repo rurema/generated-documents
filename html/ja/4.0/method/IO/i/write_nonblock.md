@@ -14,8 +14,7 @@ EAGAIN, EINTR などは例外 [Errno::EXXX](../../../class/Errno=3a=3aEXXX.md) �
 
 - **param** `string` -- 自身に書き込みたい文字列を指定します。
 
-- **param** `exception` -- false を指定すると、書き込み時に [Errno::EAGAIN](../../../class/Errno=3a=3aEAGAIN.md)、[Errno::EWOULDBLOCK](../../../class/Errno=3a=3aEWOULDBLOCK.md) が発生
-                 する代わりに :wait_writable を返します。
+- **param** `exception` -- false を指定すると、書き込み時に [Errno::EAGAIN](../../../class/Errno=3a=3aEAGAIN.md)、[Errno::EWOULDBLOCK](../../../class/Errno=3a=3aEWOULDBLOCK.md) が発生する代わりに :wait_writable を返します。
 
 - **raise** `IOError` -- 自身が書き込み用にオープンされていなければ発生します。
 

@@ -16,7 +16,7 @@ len を返します。
 require "stringio"
 a = StringIO.new("hoge", 'r+')
 a.truncate(2)
-p a.string                     #=> "ho"
+p a.string                     # => "ho"
 a.truncate(5)
-p a.string                     #=> "ho\000\000\000"
+p a.string                     # => "ho\000\000\000"
 ```

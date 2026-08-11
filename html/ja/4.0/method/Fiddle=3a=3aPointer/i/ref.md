@@ -14,7 +14,7 @@ require 'fiddle'
 s = 'abc'
 cptr = Fiddle::Pointer[s]
 cref = cptr.ref
-p cref.to_s(4).unpack('l*')[0]  #=> 136121648
-p cptr.to_i                     #=> 136121648
-p cref.ptr.to_s                 #=> "abc"
+p cref.to_s(4).unpack('l*')[0]  # => 136121648
+p cptr.to_i                     # => 136121648
+p cref.ptr.to_s                 # => "abc"
 ```

@@ -12,7 +12,7 @@
 
 ```ruby
 require 'securerandom'
-p SecureRandom.base64(3)    #=> "4pYO"  (文字列のサイズは 3 でない)
+p SecureRandom.base64(3)    # => "4pYO"  (文字列のサイズは 3 でない)
 ```
 
 - **SEE** [rfc:3548]

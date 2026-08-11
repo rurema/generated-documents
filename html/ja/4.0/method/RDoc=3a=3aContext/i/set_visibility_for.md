@@ -6,11 +6,8 @@ methods で指定した [RDoc::AnyMethod](../../../class/RDoc=3a=3aAnyMethod.md)
 singleton で指定した条件と一致するメソッドすべての可視性を visibility
 に設定します。
 
-- **param** `methods` -- [RDoc::AnyMethod](../../../class/RDoc=3a=3aAnyMethod.md)、[RDoc::Attr](../../../class/RDoc=3a=3aAttr.md) オブジェクトの配
-               列を指定します。
+- **param** `methods` -- [RDoc::AnyMethod](../../../class/RDoc=3a=3aAnyMethod.md)、[RDoc::Attr](../../../class/RDoc=3a=3aAttr.md) オブジェクトの配列を指定します。
 
-- **param** `visibility` -- 可視性を :public, :protected, :private の内のいずれか
-                  で指定します。
+- **param** `visibility` -- 可視性を :public, :protected, :private の内のいずれかで指定します。
 
-- **param** `singleton` -- 特異メソッドの可視性を変更する場合は true、そうでない
-                 場合は false を指定します。
+- **param** `singleton` -- 特異メソッドの可視性を変更する場合は true、そうでない場合は false を指定します。

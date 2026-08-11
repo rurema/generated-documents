@@ -10,5 +10,5 @@ require 'zlib'
 dez = Zlib::Deflate.new
 dez << "123" * 5 << "ugougo" << "123" * 5 << "hogehoge"
 dezstr = dez.finish
-p dezstr #=> "x\2343426DB\245\351\371@d\210*\230\221\237\236\n\302\000\356\275\v\271"
+p dezstr # => "x\2343426DB\245\351\371@d\210*\230\221\237\236\n\302\000\356\275\v\271"
 ```

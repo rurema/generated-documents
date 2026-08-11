@@ -6,10 +6,8 @@
 
 - **param** `options` -- [JSON::State](../../../class/JSON=3a=3aState.md) のインスタンスか、ハッシュを指定します。
 
-- **return** -- options がハッシュである場合は、それによって初期化した [JSON::State](../../../class/JSON=3a=3aState.md) を
-        返します。options が [JSON::State](../../../class/JSON=3a=3aState.md) のインスタンスである場合は単に
-        options を返します。いずれでも無い場合は、何も設定されていない [JSON::State](../../../class/JSON=3a=3aState.md) の
-        インスタンスを返します。
+- **return** -- options がハッシュである場合は、それによって初期化した [JSON::State](../../../class/JSON=3a=3aState.md) を返します。options が [JSON::State](../../../class/JSON=3a=3aState.md) のインスタンスである場合は単に
+        options を返します。いずれでも無い場合は、何も設定されていない [JSON::State](../../../class/JSON=3a=3aState.md) のインスタンスを返します。
 
 ```ruby title="例 Hash を指定"
 require "json"

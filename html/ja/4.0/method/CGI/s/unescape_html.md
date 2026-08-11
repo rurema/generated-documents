@@ -11,5 +11,5 @@
 ```ruby
 require "cgi"
 
-p CGI.unescapeHTML("3 &gt; 1")   #=> "3 > 1"
+p CGI.unescapeHTML("3 &gt; 1")   # => "3 > 1"
 ```

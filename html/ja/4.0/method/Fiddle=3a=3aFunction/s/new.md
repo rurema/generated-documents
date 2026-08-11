@@ -39,8 +39,7 @@ p func.call("abc") # => 3
 p func.name # => "strlen"
 ```
 
-- **param** `ptr` -- C の関数を指す [Fiddle::Pointer](../../../class/Fiddle=3a=3aPointer.md) オブジェクトもしくは
-       アドレスを表す整数
+- **param** `ptr` -- C の関数を指す [Fiddle::Pointer](../../../class/Fiddle=3a=3aPointer.md) オブジェクトもしくはアドレスを表す整数
 - **param** `args` -- 引数の型を表す配列
 - **param** `ret_type` -- 返り値の型
 - **param** `abi` -- 呼出規約

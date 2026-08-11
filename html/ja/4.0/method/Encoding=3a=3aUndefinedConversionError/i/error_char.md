@@ -9,6 +9,6 @@ ec = Encoding::Converter.new("UTF-8", "EUC-JP")
 begin
   ec.convert("\u{a0}")
 rescue Encoding::UndefinedConversionError
-  puts $!.error_char.dump   #=> "\u{a0}"
+  puts $!.error_char.dump   # => "\u{a0}"
 end
 ```

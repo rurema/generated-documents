@@ -88,8 +88,8 @@ prng = Random.new(1234)
 srand(1234)
 # Kernel.#rand は Array#sample などの影響を受けて値がずれることがある
 [0, 1].sample
-prng.rand            #=> 0.1915194503788923
-p rand               #=> 0.6221087710398319
+prng.rand            # => 0.1915194503788923
+p rand               # => 0.6221087710398319
 ```
 
 - **SEE** [Kernel?.rand](../../../method/Kernel/m/rand.md)

@@ -10,8 +10,7 @@ ActiveXコントロール（OCX）は、主にUI用に利用されるOLEオー�
 
 幾つかのActiveXコントロールは、上記の動作を前提に組まれているため、実行に先だって永続化データの転送をデータの有無と関係なく要求します。この場合、もし永続化データを初期化しないと、実行時モード状態へ遷移せず、後続のメソッド呼び出しがすべてエラーとなります。
 
-- **raise** `WIN32OLERuntimeError` -- オブジェクトがActiveXコントロールの永続化イ
-                            ンターフェイスを持たない場合に通知します。
+- **raise** `WIN32OLERuntimeError` -- オブジェクトがActiveXコントロールの永続化インターフェイスを持たない場合に通知します。
 
 ```text
 obj = WIN32OLE.new("ProgID_or_GUID_of_ActiveX_Control")

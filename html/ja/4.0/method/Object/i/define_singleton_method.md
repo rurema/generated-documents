@@ -7,8 +7,7 @@ self に特異メソッド name を定義します。
 
 - **param** `symbol` -- メソッド名を [String](../../../class/String.md) または [Symbol](../../../class/Symbol.md) で指定します。
 
-- **param** `method` -- [Proc](../../../class/Proc.md)、[Method](../../../class/Method.md) あるいは [UnboundMethod](../../../class/UnboundMethod.md) の
-              いずれかのインスタンスを指定します。
+- **param** `method` -- [Proc](../../../class/Proc.md)、[Method](../../../class/Method.md) あるいは [UnboundMethod](../../../class/UnboundMethod.md) のいずれかのインスタンスを指定します。
 
 - **return** -- メソッド名を表す [Symbol](../../../class/Symbol.md) を返します。
 
@@ -27,5 +26,5 @@ A.who_am_i   # ==> "I am: A"
 
 guy = "Bob"
 guy.define_singleton_method(:hello) { "#{self}: Hello there!" }
-p guy.hello  #=>  "Bob: Hello there!"
+p guy.hello  # =>  "Bob: Hello there!"
 ```

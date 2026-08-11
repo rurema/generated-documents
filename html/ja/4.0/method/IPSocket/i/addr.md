@@ -11,7 +11,7 @@ decimal や hexadecimal) です。
 require 'socket'
 
 serv = TCPServer.new("localhost", 0)
-p serv.addr         #=> ["AF_INET", 46102, "localhost.localdomain", "127.0.0.1"]
+p serv.addr         # => ["AF_INET", 46102, "localhost.localdomain", "127.0.0.1"]
 c = TCPSocket.new(*serv.addr.values_at(3,1))
 s = serv.accept
 ```

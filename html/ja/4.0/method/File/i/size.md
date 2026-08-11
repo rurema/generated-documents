@@ -6,7 +6,7 @@
 
 ```ruby title="例"
 File.open("/dev/null") do |f|
-  p f.size #=> 0
+  p f.size # => 0
 end
 ```
 

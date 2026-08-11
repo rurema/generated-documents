@@ -8,7 +8,7 @@ IP アドレス address のホスト名をルックアップし、ルックア�
 
 ```ruby
 require "resolv"
-p Resolv.getname("221.186.184.68") #=> "carbon.ruby-lang.org"
+p Resolv.getname("221.186.184.68") # => "carbon.ruby-lang.org"
 ```
 
 - **param** `address` -- IPアドレスを文字列で与えます。

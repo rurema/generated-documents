@@ -31,7 +31,7 @@ module M
 end
 # Note that we should not include the module M from some reason.
   
-p M.strlen('abc') #=> 3
+p M.strlen('abc') # => 3
 ```
 
 M.strlen を使用することで、ライブラリ関数 strlen() を使用できます。
@@ -55,7 +55,7 @@ timeval = M::Timeval.malloc
 e = M.gettimeofday(timeval, nil)
 
 if e == 0
- p timeval.tv_sec #=> 1173519547
+ p timeval.tv_sec # => 1173519547
 end
 ```
 
@@ -80,7 +80,7 @@ end
 
 buff = "3465721"
 M.qsort(buff, buff.size, 1, M::QsortCallback)
-p buff #=>   "1234567"
+p buff # =>   "1234567"
 ```
 
 ここで M::QsortCallback はブロックを呼ぶ [Fiddle::Function](../class/Fiddle=3a=3aFunction.md) オブジェクトです。
@@ -101,7 +101,7 @@ end
  
 s = 'xxxyyyzzz'
 M.memmove(s, 'abc', 3)
-p s                    #=> "abcyyyzzz"
+p s                    # => "abcyyyzzz"
 ```
 
 char * 以外の型のポインタを受け取る関数に対しても文字列を渡します。
@@ -115,8 +115,8 @@ module M
 end 
  
 s = ' ' * 8
-p M2.modf(1.25, s)  #=> 0.25
-p s.unpack('d')[0]  #=> 1.0
+p M2.modf(1.25, s)  # => 0.25
+p s.unpack('d')[0]  # => 1.0
 ```
 
 #### 関数の引数と返り値
@@ -132,10 +132,8 @@ Ruby のオブジェクトの種類によって変換されます。
   文字列であればその先頭ポインタになります。
   [IO](../class/IO.md) オブジェクトであれば FILE* が渡されます。
   整数であればそれがアドレスとみなされます。
-  to_ptr を持っているならば、それを呼びだし Fiddle::Pointer に
-  変換したものを用います。
-  to_i を持っているならば、それを呼びだし結果の整数を
-  アドレスと見なします
+  to_ptr を持っているならば、それを呼びだし Fiddle::Pointer に変換したものを用います。
+  to_i を持っているならば、それを呼びだし結果の整数をアドレスと見なします
     
 - **(unsigned) char/short/int/long/long long**:
   Ruby の整数を C の整数に変換します。

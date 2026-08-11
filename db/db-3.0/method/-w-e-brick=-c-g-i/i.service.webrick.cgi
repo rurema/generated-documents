@@ -16,6 +16,5 @@ until_by_name=
 - **param** `res` -- クライアントへのレスポンスを表す [c:WEBrick::HTTPResponse] オブジェクトです。
 
 - **raise** `WEBrick::HTTPStatus::MethodNotAllowed` -- 指定された
-       [c:WEBrick::HTTPRequest] オブジェクト req が自身に定義されてい
-       ないHTTP のメソッドであった場合発生します。
+       [c:WEBrick::HTTPRequest] オブジェクト req が自身に定義されていないHTTP のメソッドであった場合発生します。
 

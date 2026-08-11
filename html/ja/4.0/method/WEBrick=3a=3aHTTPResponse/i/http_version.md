@@ -7,6 +7,6 @@
 ```ruby
 require 'webrick'
 res = WEBrick::HTTPResponse.new( { :HTTPVersion => "1.1" } )
-p res.http_version.class                                        #=> WEBrick::HTTPVersion
-p res.http_version.to_s                                         #=> "1.1"
+p res.http_version.class                                        # => WEBrick::HTTPVersion
+p res.http_version.to_s                                         # => "1.1"
 ```

@@ -5,11 +5,11 @@
 filename の一番後ろのスラッシュに続く要素を返します。もし、引数 suffix が与えられて、かつそれが filename の末尾に一致するなら、それを取り除いたものを返します。
 
 ```ruby title="例"
-p File.basename("ruby/ruby.c")          #=> "ruby.c"
-p File.basename("ruby/ruby.c", ".c")    #=> "ruby"
-p File.basename("ruby/ruby.c", ".*")    #=> "ruby"
-p File.basename("ruby/ruby.exe", ".*")  #=> "ruby"
-p File.basename("ruby/y.tab.c", ".*")   #=> "y.tab"
+p File.basename("ruby/ruby.c")          # => "ruby.c"
+p File.basename("ruby/ruby.c", ".c")    # => "ruby"
+p File.basename("ruby/ruby.c", ".*")    # => "ruby"
+p File.basename("ruby/ruby.exe", ".*")  # => "ruby"
+p File.basename("ruby/y.tab.c", ".*")   # => "y.tab"
 ```
 
 File.basename の動作は [man:basename(3)] 

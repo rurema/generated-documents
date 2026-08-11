@@ -11,5 +11,5 @@
 
 ```ruby
 require 'securerandom'
-p SecureRandom.random_bytes(3)    #=> "\321\020\203"
+p SecureRandom.random_bytes(3)    # => "\321\020\203"
 ```

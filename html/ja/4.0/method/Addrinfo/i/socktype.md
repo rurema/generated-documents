@@ -7,5 +7,5 @@
 ```ruby
 require 'socket'
 
-p Addrinfo.tcp("localhost", 80).socktype == Socket::SOCK_STREAM #=> true
+p Addrinfo.tcp("localhost", 80).socktype == Socket::SOCK_STREAM # => true
 ```

@@ -6,5 +6,5 @@
 
 ```ruby title="例"
 require 'readline'
-p Readline::HISTORY.to_s #=> "HISTORY"
+p Readline::HISTORY.to_s # => "HISTORY"
 ```

@@ -11,5 +11,5 @@
 特殊なエンコーディング名として、ロケールエンコーディングを表す locale、default_external を表す external、default_internal を表す internal、ファイルシステムエンコーディングを表す filesystem があります。
 
 ```ruby title="例"
-p Encoding.find("utf-8")       #=> #<Encoding:UTF-8>
+p Encoding.find("utf-8")       # => #<Encoding:UTF-8>
 ```

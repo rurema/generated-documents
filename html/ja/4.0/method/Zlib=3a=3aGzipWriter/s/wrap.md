@@ -23,8 +23,8 @@ def case1
   Zlib::GzipWriter.wrap(f, Zlib::NO_COMPRESSION){|gz|
     gz.puts "hogehoge" * 100
   }
-  p f.closed? #=> true
-  p FileTest.size(filename) #=> 824
+  p f.closed? # => true
+  p FileTest.size(filename) # => 824
 end
   
 def case2
@@ -34,9 +34,9 @@ def case2
     gz.puts "hogehoge" * 100
     gz.finish
   }
-  p f.closed? #=> false
+  p f.closed? # => false
   f.close
-  p FileTest.size(filename) #=> 32
+  p FileTest.size(filename) # => 32
 end
   
 case1

@@ -37,5 +37,5 @@ pp Coverage.result
 Coverage.start(methods: true)
 load "bool.rb"
 bool(0)
-pp Coverage.result  #=> {"bool.rb"=>{:methods=>{[Object, :bool, 1, 0, 7, 3]=>1}}}
+pp Coverage.result  # => {"bool.rb"=>{:methods=>{[Object, :bool, 1, 0, 7, 3]=>1}}}
 ```

@@ -40,7 +40,7 @@ open("ChangeLog") {|f|
 IO.popen([{"LC_ALL"=>"C"}, "svn", "proplist", "-R"]) {|f|
   f.lines.slice_before(/\AProp/).each {|lines| p lines }
 }
-#=> ["Properties on '.':\n", "  svn:ignore\n", "  svk:merge\n"]
+# => ["Properties on '.':\n", "  svn:ignore\n", "  svk:merge\n"]
 #   ["Properties on 'goruby.c':\n", "  svn:eol-style\n"]
 #   ["Properties on 'complex.c':\n", "  svn:mime-type\n", "  svn:eol-style\n"]
 #   ["Properties on 'regparse.c':\n", "  svn:eol-style\n"]
@@ -59,7 +59,7 @@ p a.slice_before {|e|
 }.map {|es|
   es.length <= 2 ? es.join(",") : "#{es.first}-#{es.last}"
 }.join(",")
-#=> "0,2-4,6,7,9"
+# => "0,2-4,6,7,9"
 ```
 
 - **SEE** [Enumerable#chunk](../../../method/Enumerable/i/chunk.md), [Enumerable#slice_after](../../../method/Enumerable/i/slice_after.md)

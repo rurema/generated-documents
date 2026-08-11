@@ -13,13 +13,13 @@
 a = [ "a", "b" ]
 h = { a => 100 }
 
-p h[a]       #=> 100
+p h[a]       # => 100
 
 a[0] = "z"
-p h[a]       #=> nil
+p h[a]       # => nil
 
 h.rehash
-p h[a]       #=> 100
+p h[a]       # => 100
 ```
 
 - **SEE** [Object#hash](../../../method/Object/i/hash.md)

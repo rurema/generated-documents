@@ -16,8 +16,8 @@
 ```ruby title="例"
 require "stringio"
 a = StringIO.new("hoge\nfoo\nbar\n")
-p a.readline                         #=> "hoge\n"
-p a.readline(nil)                    #=> "foo\nbar\n"
+p a.readline                         # => "hoge\n"
+p a.readline(nil)                    # => "foo\nbar\n"
 a.readline                           # ~> EOFError
 ```
 

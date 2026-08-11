@@ -23,7 +23,7 @@ end
 
 ```ruby
 require "coverage"
-p Coverage.line_stub("foo.rb")  #=> [0, 0, 0, nil, nil, 0, 0, nil, 0, nil]
+p Coverage.line_stub("foo.rb")  # => [0, 0, 0, nil, nil, 0, 0, nil, 0, nil]
 ```
 
 この例において、空行, else, end の行は測定対象外であるため、nil となっています。

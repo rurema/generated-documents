@@ -11,10 +11,8 @@ filename はパース中に発生した例外のメッセージに用います�
 - **param** `yaml` -- YAML ドキュメント(文字列 or IO オブジェクト)
 - **param** `filename` -- [Psych::SyntaxError](../../../class/Psych=3a=3aSyntaxError.md) 発生時にファイル名として表示する文字列。
 - **param** `fallback` -- 引数 yaml に空のYAMLを指定した場合の戻り値を指定します。デフォルトは false です。
-- **param** `symbolize_names` -- ハッシュ(YAMLの仕様では正確にはマッピング)のキー
-                       を [Symbol](../../../class/Symbol.md) に変換するかどうかを指定します。
-                       true を指定した場合は変換します。デフォルトでは
-                       文字列に変換されます。
+- **param** `symbolize_names` -- ハッシュ(YAMLの仕様では正確にはマッピング)のキーを [Symbol](../../../class/Symbol.md) に変換するかどうかを指定します。
+                       true を指定した場合は変換します。デフォルトでは文字列に変換されます。
 - **raise** `Psych::SyntaxError` -- YAMLドキュメントに文法エラーが発見されたときに発生します
 - **SEE** [Psych.parse](../../../method/Psych/s/parse.md)
 

@@ -21,6 +21,6 @@ s1.bind("0.0.0.0", 0) # 適当に空いている port を割り当てる
 s2 = UDPSocket.new
 s2.send("foo", 0, s1.getsockname)
 mesg, inet_addr = s1.recvfrom(100)
-p mesg            #=> "foo"
-p inet_addr       #=> ["AF_INET", 32876, "localhost.localdomain", "127.0.0.1"]
+p mesg            # => "foo"
+p inet_addr       # => ["AF_INET", 32876, "localhost.localdomain", "127.0.0.1"]
 ```

@@ -9,10 +9,10 @@
 
 ```ruby title="例： 種が同じなら同じ乱数列を発生できる。"
 prng = Random.new(1234)
-p [ prng.rand, prng.rand ] #=> [0.1915194503788923, 0.6221087710398319]
-p [ prng.rand(10), prng.rand(1000) ]  #=> [4, 664]
+p [ prng.rand, prng.rand ] # => [0.1915194503788923, 0.6221087710398319]
+p [ prng.rand(10), prng.rand(1000) ]  # => [4, 664]
 # 同じ乱数列を発生する。
 prng = Random.new(1234)
-p [ prng.rand, prng.rand ] #=> [0.1915194503788923, 0.6221087710398319]
-p [ prng.rand(10), prng.rand(1000) ]  #=> [4, 664]
+p [ prng.rand, prng.rand ] # => [0.1915194503788923, 0.6221087710398319]
+p [ prng.rand(10), prng.rand(1000) ]  # => [4, 664]
 ```

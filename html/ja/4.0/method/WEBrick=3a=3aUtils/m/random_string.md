@@ -8,5 +8,5 @@ A-Z, a-z, 0-9 からなる長さ len のランダムな文字列を返します�
 
 ```ruby
 require 'webrick'
-p WEBrick::Utils.random_string(10)   #=> "xF0jwU4RJd"
+p WEBrick::Utils.random_string(10)   # => "xF0jwU4RJd"
 ```

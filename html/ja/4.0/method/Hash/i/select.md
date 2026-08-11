@@ -12,8 +12,8 @@ key, value のペアについてブロックを評価し、真となるペアだ
 
 ```ruby
 h = { "a" => 100, "b" => 200, "c" => 300 }
-p h.select {|k,v| k > "a"}  #=> {"b" => 200, "c" => 300}
-p h.select {|k,v| v < 200}  #=> {"a" => 100}
+p h.select {|k,v| k > "a"}  # => {"b" => 200, "c" => 300}
+p h.select {|k,v| v < 200}  # => {"a" => 100}
 ```
 
 - **SEE** [Hash#select!](../../../method/Hash/i/select=21.md), [Hash#reject](../../../method/Hash/i/reject.md)

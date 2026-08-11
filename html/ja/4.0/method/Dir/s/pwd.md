@@ -8,6 +8,6 @@
 - **raise** `Errno::EXXX` -- カレントディレクトリの取得に失敗した場合に発生します(が、普通は失敗することはありません)。
 
 ```ruby title="例"
-p Dir.chdir("/tmp") #=> 0
-p Dir.getwd         #=> "/tmp"
+p Dir.chdir("/tmp") # => 0
+p Dir.getwd         # => "/tmp"
 ```

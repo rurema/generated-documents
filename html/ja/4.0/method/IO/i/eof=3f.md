@@ -8,7 +8,7 @@
 ```ruby
 f = File.new("testfile")
 dummy = f.readlines
-p f.eof #=> true
+p f.eof # => true
 ```
 
 自身がパイプやソケットなどのストリームであった場合、相手がデータを送るか close するまでブロックします。
@@ -16,11 +16,11 @@ p f.eof #=> true
 ```ruby
 r, w = IO.pipe
 Thread.new { sleep 10; w.close }
-p r.eof?  #=> 10秒ブロックしてから true を返す。
+p r.eof?  # => 10秒ブロックしてから true を返す。
 
 r, w = IO.pipe
 Thread.new { sleep 10; w.puts "a" }
-p r.eof?  #=> 10秒ブロックしてから false を返す。
+p r.eof?  # => 10秒ブロックしてから false を返す。
 
 r, w = IO.pipe
 r.eof?  # 永久にブロックします。

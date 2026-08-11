@@ -13,7 +13,7 @@ UNIXServer.open("/tmp/s") {|serv|
   s = serv.accept
   s.write "from server"
   c.write "from client"
-  p c.recv(20)    #=> "from server"
-  p s.recv(20)    #=> "from client"
+  p c.recv(20)    # => "from server"
+  p s.recv(20)    # => "from client"
 }
 ```

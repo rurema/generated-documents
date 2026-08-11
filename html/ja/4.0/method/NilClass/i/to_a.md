@@ -5,5 +5,5 @@
 空配列 [] を返します。
 
 ```ruby title="例"
-p nil.to_a #=> []
+p nil.to_a # => []
 ```

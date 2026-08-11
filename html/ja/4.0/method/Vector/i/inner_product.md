@@ -7,5 +7,4 @@
 
 - **param** `v` -- 内積を求めるベクトル
 
-- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- `self` と引数のベクト
-       ルの要素の数(次元)が異なっていたときに発生します。
+- **raise** `ExceptionForMatrix::ErrDimensionMismatch` -- `self` と引数のベクトルの要素の数(次元)が異なっていたときに発生します。

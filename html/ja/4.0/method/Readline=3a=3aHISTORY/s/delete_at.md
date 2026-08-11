@@ -18,5 +18,5 @@ require "readline"
   
 Readline::HISTORY.push("foo", "bar", "baz")
 Readline::HISTORY.delete_at(1)
-p Readline::HISTORY.to_a #=> ["foo", "baz"]
+p Readline::HISTORY.to_a # => ["foo", "baz"]
 ```

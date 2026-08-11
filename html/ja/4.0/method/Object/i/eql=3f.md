@@ -14,11 +14,11 @@
 - **param** `other` -- 比較するオブジェクトです。
 
 ```ruby
-p("foo".eql?("bar")) #=> false
-p("foo".eql?("foo")) #=> true
+p("foo".eql?("bar")) # => false
+p("foo".eql?("foo")) # => true
 
-p(4.eql?(4)) #=> true
-p(4.eql?(4.0)) #=> false
+p(4.eql?(4)) # => true
+p(4.eql?(4.0)) # => false
 ```
 
 - **SEE** [Object#hash](../../../method/Object/i/hash.md),[Object#equal?](../../../method/Object/i/equal=3f.md),[Object#==](../../../method/Object/i/=3d=3d.md),[Array#uniq](../../../method/Array/i/uniq.md),[Set](../../../class/Set.md)

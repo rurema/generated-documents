@@ -21,11 +21,11 @@ divmod が返す商は [Numeric#div](../../../method/Numeric/i/div.md) と同じ
 - **param** `other` -- 自身を割る数を指定します。
 
 ```ruby title="例"
-p 11.divmod(3)       #=> [3, 2]
-p (11.5).divmod(3.5) #=> [3, 1.0]
-p 11.divmod(-3)      #=> [-4, -1]
-p 11.divmod(3.5)     #=> [3, 0.5]
-p (-11).divmod(3.5)  #=> [-4, 3.0]
+p 11.divmod(3)       # => [3, 2]
+p (11.5).divmod(3.5) # => [3, 1.0]
+p 11.divmod(-3)      # => [-4, -1]
+p 11.divmod(3.5)     # => [3, 0.5]
+p (-11).divmod(3.5)  # => [-4, 3.0]
 ```
 
 - **SEE** [Numeric#div](../../../method/Numeric/i/div.md), [Numeric#modulo](../../../method/Numeric/i/modulo.md)

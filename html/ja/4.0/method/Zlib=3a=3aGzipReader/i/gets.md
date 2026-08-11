@@ -44,6 +44,6 @@ Zlib::GzipReader.open('hoge.gz') { |gz|
     puts l
   end
 }
-#=> hoge
-#=> fuga
+# => hoge
+# => fuga
 ```

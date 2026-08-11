@@ -119,7 +119,7 @@
       end
 
       conf = DatabaseConfig.new("localhost", "root", "hunter2")
-      conf.inspect #=> #<DatabaseConfig:0x0000000104def350 @host="localhost", @user="root">
+      conf.inspect # => #<DatabaseConfig:0x0000000104def350 @host="localhost", @user="root">
       ```
 
       [feature:21219]
@@ -148,8 +148,8 @@
       port1 << 2
       port2 << 12
     end
-    2.times{ p port1.receive } #=> 1, 2
-    2.times{ p port2.receive } #=> 11, 12
+    2.times{ p port1.receive } # => 1, 2
+    2.times{ p port2.receive } # => 11, 12
     ```
 
     [Ractor::Port](../class/Ractor=3a=3aPort.md) は以下のメソッドを提供します。

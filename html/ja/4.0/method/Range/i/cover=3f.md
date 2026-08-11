@@ -32,10 +32,10 @@ p ('b'..'d').cover?('ba')   # => true
 
 ```ruby title="Date, DateTime の例"
 require 'date'
-p (Date.today - 365 .. Date.today + 365).include?(Date.today)  #=> true
-p (Date.today - 365 .. Date.today + 365).include?(DateTime.now)  #=> false
-p (Date.today - 365 .. Date.today + 365).cover?(Date.today)    #=> true
-p (Date.today - 365 .. Date.today + 365).cover?(DateTime.now)  #=> true
+p (Date.today - 365 .. Date.today + 365).include?(Date.today)  # => true
+p (Date.today - 365 .. Date.today + 365).include?(DateTime.now)  # => false
+p (Date.today - 365 .. Date.today + 365).cover?(Date.today)    # => true
+p (Date.today - 365 .. Date.today + 365).cover?(DateTime.now)  # => true
 ```
 
 ### def cover?(range) -> bool
@@ -47,9 +47,9 @@ p (Date.today - 365 .. Date.today + 365).cover?(DateTime.now)  #=> true
 - **param** `range` -- 比較対象の Range クラスのインスタンスを指定します。
 
 ```ruby title="引数が Range の例"
-p (1..5).cover?(2..3)   #=> true
-p (1..5).cover?(0..6)   #=> false
-p (1..5).cover?(1...6)  #=> true
+p (1..5).cover?(2..3)   # => true
+p (1..5).cover?(0..6)   # => false
+p (1..5).cover?(1...6)  # => true
 ```
 
 「(a..b).cover?(c...d)」のように終端を含まない Range オブジェクトが引数に渡されており、「a <= c && b < d」を満たし、cが数値ではない(つまり引数の Range の終端を求めるために succ メソッドの呼び出しが必要な)場合、パフォーマンスの問題が起きる可能性があります。

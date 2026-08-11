@@ -19,7 +19,7 @@ end
 - **return** -- nil を返します。
 
 ```ruby
-p Object.new.display #=> #<Object:0xbb0210>
+p Object.new.display # => #<Object:0xbb0210>
 ```
 
 - **SEE** [m:$stdout]

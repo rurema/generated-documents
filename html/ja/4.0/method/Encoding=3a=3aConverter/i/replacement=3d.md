@@ -9,5 +9,5 @@
 ```ruby
 ec = Encoding::Converter.new("utf-8", "us-ascii", :undef => :replace)
 ec.replacement = "<undef>"
-p ec.convert("a \u3042 b")      #=> "a <undef> b"
+p ec.convert("a \u3042 b")      # => "a <undef> b"
 ```

@@ -8,8 +8,8 @@
 
 ```ruby
 require "resolv"
-p Resolv.getaddress("localhost") #=> "127.0.0.1"
-p Resolv.getaddress("www.ruby-lang.org") #=> "221.186.184.68"
+p Resolv.getaddress("localhost") # => "127.0.0.1"
+p Resolv.getaddress("www.ruby-lang.org") # => "221.186.184.68"
 ```
 
 - **param** `name` -- ホスト名を文字列で与えます。

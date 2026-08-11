@@ -19,7 +19,7 @@ port が 0 の場合は、実際のポート番号は動的に選ばれます。
 require 'socket'
 
 Socket.udp_server_sockets(0) {|sockets|
-  p sockets.first.local_address.ip_port     #=> 32963
+  p sockets.first.local_address.ip_port     # => 32963
   Socket.udp_server_loop_on(sockets) {|msg, msg_src|
     msg_src.reply msg
   }

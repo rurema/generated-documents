@@ -15,7 +15,7 @@
 ```ruby
 a1 = "foo".freeze
 a1 = "bar"
-p a1 #=> "bar"
+p a1 # => "bar"
 
 a2 = "foo".freeze
 a2.replace("bar") # can't modify frozen String (FrozenError)
@@ -25,17 +25,17 @@ a2.replace("bar") # can't modify frozen String (FrozenError)
 
 ```ruby
 a = [1].freeze
-p a.frozen?     #=> true
+p a.frozen?     # => true
 
 a[0] = "foo"
 p a             # can't modify frozen Array (FrozenError)
 
 b = a.dup
-p b             #=> [1]
-p b.frozen?     #=> false
+p b             # => [1]
+p b.frozen?     # => false
 
 b[0] = "foo"
-p b             #=> ["foo"]
+p b             # => ["foo"]
 ```
 
 - **SEE** [Object#frozen?](../../../method/Object/i/frozen=3f.md),[Object#dup](../../../method/Object/i/dup.md),[Kernel?.trace_var](../../../method/Kernel/m/trace_var.md)

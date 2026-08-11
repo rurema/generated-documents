@@ -8,7 +8,7 @@ UDP アドレスに対する Addrinfo オブジェクトを返します。
 require 'socket'
 
 p Addrinfo.udp("localhost", "daytime")
-#=> #<Addrinfo: 127.0.0.1:13 UDP (localhost:daytime)>
+# => #<Addrinfo: 127.0.0.1:13 UDP (localhost:daytime)>
 ```
 
 - **param** `host` -- ホスト(IP アドレスもしくはホスト名)

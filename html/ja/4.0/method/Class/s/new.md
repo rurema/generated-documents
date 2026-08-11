@@ -40,6 +40,6 @@ k = Class.new{|c|
     p "hoge hoge hoge"
   end
 }
-o = k.new              #=> "in initialize"
-p o.hoge               #=> "hoge hoge hoge"
+o = k.new              # => "in initialize"
+p o.hoge               # => "hoge hoge hoge"
 ```

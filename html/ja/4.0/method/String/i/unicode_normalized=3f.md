@@ -4,11 +4,9 @@
 
 self が引数 form で指定された正規化形式で Unicode 正規化された文字列かどうかを返します。
 
-- **param** `form` -- 正規化形式を :nfc、:nfd、:nfkc、:nfkd のいずれかで指定しま
-            す。省略した場合は :nfc になります。
+- **param** `form` -- 正規化形式を :nfc、:nfd、:nfkc、:nfkd のいずれかで指定します。省略した場合は :nfc になります。
 
-- **raise** `Encoding::CompatibilityError` -- self が Unicode 文字列ではない場合
-                                    に発生します。
+- **raise** `Encoding::CompatibilityError` -- self が Unicode 文字列ではない場合に発生します。
 
 ```ruby title="例"
 p "a\u0300".unicode_normalized?      # => false

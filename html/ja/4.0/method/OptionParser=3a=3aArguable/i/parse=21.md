@@ -6,8 +6,7 @@
 [OptionParser#parse!](../../../method/OptionParser/i/parse=21.md) を参照して下さい。
 
 - **raise** `OptionParser::ParseError` -- 自身のパースに失敗した場合、発生します。
-                                実際は OptionParser::ParseError のサブク
-                                ラスの例外になります。
+                                実際は OptionParser::ParseError のサブクラスの例外になります。
 
 ```ruby
 require 'optparse'
@@ -15,5 +14,5 @@ require 'optparse'
 o = nil
 ARGV.options.on('-a'){ o = true }
 ARGV.parse!
-p o                                #=> true
+p o                                # => true
 ```

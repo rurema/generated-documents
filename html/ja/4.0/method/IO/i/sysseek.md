@@ -25,8 +25,7 @@ File.open("/dev/null", "w") {|f|
 - **param** `offset` -- ファイルポインタを移動させるオフセットを整数で指定します。
 
 - **param** `whence` -- 値は以下のいずれかです。
-              それぞれ代わりに :SET、:CUR、:END、:DATA、:HOLE を指定す
-              る事も可能です。
+              それぞれ代わりに :SET、:CUR、:END、:DATA、:HOLE を指定する事も可能です。
 
   - IO::SEEK_SET: ファイルの先頭から (デフォルト)
   - IO::SEEK_CUR: 現在のファイルポインタから

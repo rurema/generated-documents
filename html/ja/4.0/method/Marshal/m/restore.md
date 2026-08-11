@@ -23,8 +23,7 @@ p Marshal.load(str, proc {|obj| p obj})
 #    ["a", 1, 10000000000, 1.0, :foo]
 ```
 
-- **param** `port` -- [String](../../../class/String.md) か [IO](../../../class/IO.md) (またはそのサブクラス)の
-            インスタンスを指定します。
+- **param** `port` -- [String](../../../class/String.md) か [IO](../../../class/IO.md) (またはそのサブクラス)のインスタンスを指定します。
 
 - **param** `proc` -- 手続きオブジェクト。[Proc](../../../class/Proc.md)
 
@@ -34,5 +33,4 @@ p Marshal.load(str, proc {|obj| p obj})
   真偽値を指定します。真を指定すると読み込んだオブジェクトを freeze して返します。
   デフォルトは偽です。
 
-- **raise** `TypeError` -- メジャーバージョンが異なるか、バージョンの大きな
-                 マーシャルデータを読み込んだ場合に発生します。
+- **raise** `TypeError` -- メジャーバージョンが異なるか、バージョンの大きなマーシャルデータを読み込んだ場合に発生します。

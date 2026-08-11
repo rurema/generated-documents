@@ -22,7 +22,7 @@ class Foo
 end
 
 it = Foo.new
-p('Second' + it) #=> "SecondEdition"
+p('Second' + it) # => "SecondEdition"
 ```
 
 - **SEE** [Object#to_s](../../../method/Object/i/to_s.md),[Kernel?.String](../../../method/Kernel/m/String.md)

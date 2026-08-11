@@ -4,7 +4,6 @@
 
 DefaultFileHandler サーブレットを生成します。ユーザが直接使うことはあまりありません。
 
-- **param** `server` -- [WEBrick::GenericServer](../../../class/WEBrick=3a=3aGenericServer.md) のサブクラスのインスタンスを
-              指定します。
+- **param** `server` -- [WEBrick::GenericServer](../../../class/WEBrick=3a=3aGenericServer.md) のサブクラスのインスタンスを指定します。
 
 - **param** `local_path` -- 処理するファイルのパスを指定します。

@@ -11,6 +11,6 @@ class SomethingError < StandardError; end
 begin
   raise SomethingError
 rescue
-  p $ERROR_POSITION #=> ["sample.rb:5"]
+  p $ERROR_POSITION # => ["sample.rb:5"]
 end
 ```

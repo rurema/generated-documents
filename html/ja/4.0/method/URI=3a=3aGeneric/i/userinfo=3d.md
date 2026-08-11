@@ -15,11 +15,11 @@
 require 'uri'
 u = URI.parse('http://example.com/')
 u.userinfo = 'hoge-san:jfae82kj'
-p u.to_s                             #=> "http://hoge-san:jfae82kj@example.com/"
+p u.to_s                             # => "http://hoge-san:jfae82kj@example.com/"
   
 u.userinfo = 'oreore'
-p u.to_s                             #=> "http://oreore:jfae82kj@example.com/"
+p u.to_s                             # => "http://oreore:jfae82kj@example.com/"
 
 u.userinfo = ['you', 'akakfd']
-p u.to_s                             #=> "http://you:akakfd@example.com/"
+p u.to_s                             # => "http://you:akakfd@example.com/"
 ```

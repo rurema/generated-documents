@@ -11,13 +11,11 @@
 
 - **param** `name` -- [String](../../../class/String.md) または [Symbol](../../../class/Symbol.md) を指定します。
 
-- **param** `method` -- [Proc](../../../class/Proc.md)、[Method](../../../class/Method.md) あるいは [UnboundMethod](../../../class/UnboundMethod.md) の
-              いずれかのインスタンスを指定します。
+- **param** `method` -- [Proc](../../../class/Proc.md)、[Method](../../../class/Method.md) あるいは [UnboundMethod](../../../class/UnboundMethod.md) のいずれかのインスタンスを指定します。
 
 - **return** -- メソッド名を表す [Symbol](../../../class/Symbol.md) を返します。
 
-- **raise** `TypeError` -- method に同じクラス、サブクラス以外のメソッドを指定し
-                 た場合に発生します。
+- **raise** `TypeError` -- method に同じクラス、サブクラス以外のメソッドを指定した場合に発生します。
 
 
 - **SEE** [Module#define_method](../../../method/Module/i/define_method.md)

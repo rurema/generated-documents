@@ -11,6 +11,6 @@ Last-Modified ヘッダがない場合は nil を返します。
 require 'open-uri'
 URI.open('http://www.rubyist.net/') {|f|
   p f.last_modified
-  #=> Thu Feb 26 16:54:58 +0900 2004
+  # => Thu Feb 26 16:54:58 +0900 2004
 }
 ```

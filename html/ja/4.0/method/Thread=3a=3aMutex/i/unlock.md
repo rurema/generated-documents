@@ -28,7 +28,5 @@ Thread.new do
 end.join
 ```
 
-- **raise** `ThreadError` -- self がロックされていない場合や self をロックしたス
-                   レッド以外から呼ばれた場合に発生します。
-                   また、[Signal?.trap](../../../method/Signal/m/trap.md) に指定したハンドラ内で実行
-                   した場合に発生します。
+- **raise** `ThreadError` -- self がロックされていない場合や self をロックしたスレッド以外から呼ばれた場合に発生します。
+                   また、[Signal?.trap](../../../method/Signal/m/trap.md) に指定したハンドラ内で実行した場合に発生します。

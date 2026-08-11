@@ -16,10 +16,10 @@
 - **param** `val` -- オブジェクトを指定します。
 
 ```ruby title="例"
-p [1, 0, 0, 1, 0].rindex(1)   #=> 3
-p [1, 0, 0, 0, 0].rindex(1)   #=> 0
-p [0, 0, 0, 0, 0].rindex(1)   #=> nil
-p [0, 1, 0, 1, 0].rindex {|v| v > 0}   #=> 3
+p [1, 0, 0, 1, 0].rindex(1)   # => 3
+p [1, 0, 0, 0, 0].rindex(1)   # => 0
+p [0, 0, 0, 0, 0].rindex(1)   # => nil
+p [0, 1, 0, 1, 0].rindex {|v| v > 0}   # => 3
 ```
 
 - **SEE** [Array#index](../../../method/Array/i/index.md)

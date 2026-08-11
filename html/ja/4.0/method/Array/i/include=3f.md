@@ -8,6 +8,6 @@
 
 ```ruby title="例"
 a = [ "a", "b", "c" ]
-p a.include?("b")     #=> true
-p a.include?("z")     #=> false
+p a.include?("b")     # => true
+p a.include?("z")     # => false
 ```

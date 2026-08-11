@@ -11,6 +11,6 @@
 Ruby はサポートしていないが拡張ライブラリがサポートしているエンコーディングを扱う場合にも用います。
 
 ```ruby title="例"
-p Encoding::ISO_2022_JP.dummy?     #=> true
-p Encoding::UTF_8.dummy?           #=> false
+p Encoding::ISO_2022_JP.dummy?     # => true
+p Encoding::UTF_8.dummy?           # => false
 ```

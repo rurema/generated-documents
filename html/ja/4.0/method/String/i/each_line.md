@@ -27,8 +27,8 @@ p "aa\n".lines.to_a           # => ["aa\n"]
 p "".lines.to_a               # => []
 
 s = "aa\nbb\ncc\n"
-p s.lines("\n").to_a #=> ["aa\n", "bb\n", "cc\n"]
-p s.lines("bb").to_a #=> ["aa\nbb", "\ncc\n"]
+p s.lines("\n").to_a # => ["aa\n", "bb\n", "cc\n"]
+p s.lines("bb").to_a # => ["aa\nbb", "\ncc\n"]
 ```
 
 - **SEE** [String#lines](../../../method/String/i/lines.md)

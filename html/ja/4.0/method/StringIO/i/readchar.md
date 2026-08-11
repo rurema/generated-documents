@@ -9,7 +9,7 @@
 ```ruby title="例"
 require "stringio"
 a = StringIO.new("hoge")
-p a.readchar             #=> "h"
+p a.readchar             # => "h"
 ```
 
 - **raise** `EOFError` -- EOFに達した時発生する

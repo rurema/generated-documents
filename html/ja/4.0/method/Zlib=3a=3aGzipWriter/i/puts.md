@@ -18,7 +18,7 @@ fr = File.open(filename)
 Zlib::GzipReader.wrap(fr){|gz|
   puts gz.read
 }
-#=> fuga
+# => fuga
 ```
 
 - **SEE** [IO#puts](../../../method/IO/i/puts.md), [Kernel?.puts](../../../method/Kernel/m/puts.md)

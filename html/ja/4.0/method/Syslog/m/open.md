@@ -9,16 +9,13 @@
 
 syslog の詳細については [man:syslog(3)] を参照してください。
 
-- **param** `ident` -- すべてのログにつく識別子で、どのプログラムから送られ
-             たログなのかを識別するために使われる文字列を指定します。
+- **param** `ident` -- すべてのログにつく識別子で、どのプログラムから送られたログなのかを識別するために使われる文字列を指定します。
              指定しない場合はプログラム名が使われます。
 
 - **param** `options` -- Syslog.open や Syslog.log の動作を制御するフラグを指定します。
-               指定しない場合は、Syslog::LOG_PID|Syslog::LOG_CONSの値が使われ
-               ます。使用できる値は[Syslog::Constants](../../../class/Syslog=3a=3aConstants.md) を参照してください。
+               指定しない場合は、Syslog::LOG_PID|Syslog::LOG_CONSの値が使われます。使用できる値は[Syslog::Constants](../../../class/Syslog=3a=3aConstants.md) を参照してください。
 
-- **param** `facility` -- ログ出力を行うプログラムの種別を指定します。syslog はこの値
-                にしたがって出力先となるログファイルを決定します。 詳しくは、
+- **param** `facility` -- ログ出力を行うプログラムの種別を指定します。syslog はこの値にしたがって出力先となるログファイルを決定します。 詳しくは、
                 [man:syslog.conf(5)],
                 [Syslog::Constants](../../../class/Syslog=3a=3aConstants.md) を参照してください。
 
@@ -36,7 +33,7 @@ Syslog.log(Syslog::LOG_WARNING, "the sky is falling in %d seconds!", 100)
 begin
   Syslog.open("syslogtest2")
 rescue RuntimeError => err
-  puts err #=> "syslog already open"
+  puts err # => "syslog already open"
 end
 ```
 

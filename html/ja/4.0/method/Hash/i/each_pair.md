@@ -14,11 +14,11 @@ each_pair は each のエイリアスです。
 
 ```ruby title="例"
 {:a=>1, :b=>2}.each {|a| p a}
-#=> [:a, 1]
+# => [:a, 1]
 #   [:b, 2]
 
 {:a=>1, :b=>2}.each {|k, v| p [k, v]}
-#=> [:a, 1]
+# => [:a, 1]
 #   [:b, 2]
 
 p({:a=>1, :b=>2}.each_pair)  # => #<Enumerator: {:a=>1, :b=>2}:each_pair>
@@ -38,11 +38,11 @@ Ruby 2.7 までは動作していましたが、Ruby 3.0 以降は [ArgumentErro
 
 # 1引数で配列として受け取る
 {foo: 100}.each(&->(pair) { p pair })
-#=> [:foo, 100]
+# => [:foo, 100]
 
 # 仮引数を括弧で囲んで分解する
 {foo: 100}.each(&->((k, v)) { p [k, v] })
-#=> [:foo, 100]
+# => [:foo, 100]
 ```
 
 - **SEE** [Hash#each_key](../../../method/Hash/i/each_key.md),[Hash#each_value](../../../method/Hash/i/each_value.md)

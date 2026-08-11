@@ -10,8 +10,7 @@ path で指定されるファイルをオープンし、ファイル記述子を
 
 - **param** `mode` -- モードを文字列か定数の論理和で指定します。[Kernel?.open](../../../method/Kernel/m/open.md) と同じです。
 
-- **param** `perm` -- [man:open(2)] の第 3 引数のように、ファイルを生成する場合の
-            ファイルのパーミッションを整数で指定します。[Kernel?.open](../../../method/Kernel/m/open.md) と同じです。
+- **param** `perm` -- [man:open(2)] の第 3 引数のように、ファイルを生成する場合のファイルのパーミッションを整数で指定します。[Kernel?.open](../../../method/Kernel/m/open.md) と同じです。
 
 - **raise** `Errno::EXXX` -- ファイルのオープンに失敗した場合に発生します。
 

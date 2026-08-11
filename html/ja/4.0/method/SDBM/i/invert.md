@@ -13,5 +13,5 @@ db1['a'] = 'aaa'
 db1['b'] = 'bbb'
 db1['c'] = 'ccc'
   
-p db1.invert #=> {"aaa"=>"a", "bbb"=>"b", "ccc"=>"c"}
+p db1.invert # => {"aaa"=>"a", "bbb"=>"b", "ccc"=>"c"}
 ```

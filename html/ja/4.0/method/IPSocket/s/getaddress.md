@@ -9,7 +9,7 @@
 ```ruby title="例"
 require 'socket'
 
-p IPSocket.getaddress("www.ruby-lang.org")        #=> "210.163.138.100"
+p IPSocket.getaddress("www.ruby-lang.org")        # => "210.163.138.100"
 ```
 
 ### def IPSocket.getaddress(host) -> String

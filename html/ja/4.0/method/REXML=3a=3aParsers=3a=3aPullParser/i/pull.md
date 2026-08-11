@@ -5,5 +5,4 @@
 イベントキューの先頭のイベントを取り出し、キューからそれを取り除きます。
 
 - **raise** `REXML::ParseException` -- XML文書のパースに失敗した場合に発生します
-- **raise** `REXML::UndefinedNamespaceException` -- XML文書のパース中に、定義されていない名前空間
-       が現れた場合に発生します
+- **raise** `REXML::UndefinedNamespaceException` -- XML文書のパース中に、定義されていない名前空間が現れた場合に発生します

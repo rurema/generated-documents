@@ -10,6 +10,6 @@ require 'socket'
 
 TCPServer.open("", 0) {|serv|
   c = TCPSocket.new(*serv.addr.values_at(3,1))
-  p serv.sysaccept        #=> 6
+  p serv.sysaccept        # => 6
 }
 ```

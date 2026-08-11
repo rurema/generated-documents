@@ -14,5 +14,5 @@
 require "stringio"
 a = StringIO.new("", 'r+')
 a.print("hoge", "bar", "foo")
-p a.string                   #=> "hogebarfoo"
+p a.string                   # => "hogebarfoo"
 ```

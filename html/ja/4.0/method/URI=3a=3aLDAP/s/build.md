@@ -21,5 +21,5 @@
 ```ruby title="例"
 require 'uri'
 p URI::LDAP.build(["example.com", "1", "/a", "b", "c", "d", "e=f"]).to_s   
-#=> "ldap://example.com:1/a?b?c?d?e=f"
+# => "ldap://example.com:1/a?b?c?d?e=f"
 ```

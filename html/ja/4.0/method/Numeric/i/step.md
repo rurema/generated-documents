@@ -12,13 +12,11 @@
 
 self からはじめ step を足しながら limit を越える前までブロックを繰り返します。step は負の数も指定できます。また、limit や step には [Float](../../../class/Float.md) なども指定できます。
 
-- **param** `limit` -- ループの上限あるいは下限を数値で指定します。step に負の数が指定された場合は、
-       下限として解釈されます。
+- **param** `limit` -- ループの上限あるいは下限を数値で指定します。step に負の数が指定された場合は、下限として解釈されます。
 
 - **param** `step` -- 各ステップの大きさを数値で指定します。負の数を指定することもできます。
 
-- **param** `to` -- 引数limitと同じですが、省略した場合はキーワード引数byが正の
-          数であれば [Float::INFINITY](../../../method/Float/c/INFINITY.md)、負の数であれば
+- **param** `to` -- 引数limitと同じですが、省略した場合はキーワード引数byが正の数であれば [Float::INFINITY](../../../method/Float/c/INFINITY.md)、負の数であれば
           -[Float::INFINITY](../../../method/Float/c/INFINITY.md)を指定したとみなされます。
 
 - **param** `by` -- 引数 step と同じです。

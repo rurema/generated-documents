@@ -7,5 +7,5 @@
 ```ruby
 fs = File::Stat.new($0)
 #例
-p fs.size    #=> 1548
+p fs.size    # => 1548
 ```

@@ -19,5 +19,5 @@ db2[:bb] = 'bbb'
 db2[:cc] = 'ccc'
   
 db1.update(db2)
-p db1.keys #=> ["bb", "cc", "b", "a"]
+p db1.keys # => ["bb", "cc", "b", "a"]
 ```

@@ -4,10 +4,8 @@
 
 TypeLibで定義されているすべての型情報を取得します。
 
-- **param** `libname` -- 生成するTypeLibのレジストリ上のドキュメント文字列
-              （[WIN32OLE_TYPELIB#name](../../../method/WIN32OLE_TYPELIB/i/name.md)）または
-               GUID（[WIN32OLE_TYPELIB#guid](../../../method/WIN32OLE_TYPELIB/i/guid.md)）またはTLBファイル名を
-               文字列で指定します。
+- **param** `libname` -- 生成するTypeLibのレジストリ上のドキュメント文字列（[WIN32OLE_TYPELIB#name](../../../method/WIN32OLE_TYPELIB/i/name.md)）または
+               GUID（[WIN32OLE_TYPELIB#guid](../../../method/WIN32OLE_TYPELIB/i/guid.md)）またはTLBファイル名を文字列で指定します。
 - **return** -- TypeLibに格納されているすべての型を[WIN32OLE_TYPE](../../../class/WIN32OLE_TYPE.md)オブジェクトの配列として返します。
 - **raise** `WIN32OLERuntimeError` -- 引数で指定したTypeLibが見つかりません。
 

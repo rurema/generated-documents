@@ -51,7 +51,7 @@ p Marshal.dump(2).unpack1("x2 a*")  # => "i\a"   ("i\x07")
 byte            bytes
 ```
 
-len の値は -4 〜 -1, 1 〜 4 で。符号と後続のデータが n1 〜 n_len
+len の値は -4 〜 -1, 1 〜 4 で、符号と後続のデータが n_1 〜 n_len
 まであることを示します。
 
 ```ruby
@@ -225,7 +225,7 @@ p Marshal.dump(Math::PI).unpack("x2 a c a*")
 p Marshal.dump(0.0/0).unpack("x2 a c a*")  # => ["f", 8, "nan"]
 p Marshal.dump(1.0/0).unpack("x2 a c a*")  # => ["f", 8, "inf"]
 p Marshal.dump(-1.0/0).unpack("x2 a c a*") # => ["f", 9, "-inf"]
-p Marshal.dump(-0.0).unpack("x2 a c a*")   # => ["f", 9, "-0"]
+p Marshal.dump(-0.0).unpack("x2 a c a*")   # => ["f", 7, "-0"]
 ```
 
 #### ruby 1.7 feature

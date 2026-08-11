@@ -21,8 +21,7 @@
 - **return** -- 書き込んだバイト数を返します。書き込みに失敗した場合は
              errno を負にした整数を返します。例外は発生しません。
 
-- **raise** `ArgumentError` -- offset と length の合計がバッファの大きさを
-             超える場合に発生します。
+- **raise** `ArgumentError` -- offset と length の合計がバッファの大きさを超える場合に発生します。
 
 ```ruby
 buf = IO::Buffer.for("Ruby!")

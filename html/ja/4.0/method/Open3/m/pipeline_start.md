@@ -5,8 +5,7 @@
 
 指定したコマンドのリストをパイプで繋いで順番に実行します。
 
-- **param** `cmds` -- 実行するコマンドのリストを指定します。それぞれのコマンドは
-            以下のように [String](../../../class/String.md) か [Array](../../../class/Array.md) で指定します。
+- **param** `cmds` -- 実行するコマンドのリストを指定します。それぞれのコマンドは以下のように [String](../../../class/String.md) か [Array](../../../class/Array.md) で指定します。
             commandline にはコマンド全体(例. "nroff -man")を表す
             [String](../../../class/String.md) を指定します。
             options には [Hash](../../../class/Hash.md) で指定します。
@@ -21,8 +20,7 @@
 5. [env, [cmdname, argv0], arg1, ..., options]
 
 - **return** -- ブロックを指定した場合はブロックの最後に評価された値を返します。
-        ブロックを指定しなかった場合は実行したプロセスを待つためのスレッ
-        ドの配列を返します。
+        ブロックを指定しなかった場合は実行したプロセスを待つためのスレッドの配列を返します。
 
 ```ruby title="例"
 require "open3"
@@ -32,7 +30,7 @@ Open3.pipeline_start("xeyes") {|ts|
   sleep 10
   t = ts[0]
   Process.kill("TERM", t.pid)
-  p t.value #=> #<Process::Status: pid 911 SIGTERM (signal 15)>
+  p t.value # => #<Process::Status: pid 911 SIGTERM (signal 15)>
 }
 ```
 

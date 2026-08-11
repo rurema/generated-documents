@@ -13,5 +13,5 @@ print "foo"
 $DEFAULT_OUTPUT.close
 $DEFAULT_OUTPUT = dout
 p "bar" # => bar
-p File.read("out.txt") #=> foo
+p File.read("out.txt") # => foo
 ```

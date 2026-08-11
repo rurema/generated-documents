@@ -19,15 +19,15 @@ selectors の形式は [man:tr(1)] と同じです。
 - **param** `selectors` --    取り除く文字。
 
 ```ruby title="例"
-p "  abc  \r\n".strip    #=> "abc"
-p "abc\n".strip          #=> "abc"
-p "  abc".strip          #=> "abc"
-p "abc".strip            #=> "abc"
-p "  \0  abc  \0".strip  #=> "abc"
+p "  abc  \r\n".strip    # => "abc"
+p "abc\n".strip          # => "abc"
+p "  abc".strip          # => "abc"
+p "abc".strip            # => "abc"
+p "  \0  abc  \0".strip  # => "abc"
 
 str = "\tabc\n"
-p str.strip              #=> "abc"
-p str                    #=> "\tabc\n" (元の文字列は変化しない)
+p str.strip              # => "abc"
+p str                    # => "\tabc\n" (元の文字列は変化しない)
 ```
 
 

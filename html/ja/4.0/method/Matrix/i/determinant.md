@@ -13,6 +13,6 @@
 ```ruby title="例"
 require 'matrix'
 
-p Matrix[[2, 1], [-1, 2]].det         #=> 5
-p Matrix[[2.0, 1.0], [-1.0, 2.0]].det #=> 5.0
+p Matrix[[2, 1], [-1, 2]].det         # => 5
+p Matrix[[2.0, 1.0], [-1.0, 2.0]].det # => 5.0
 ```

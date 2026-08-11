@@ -9,5 +9,4 @@
 
 - **return** -- 戻った位置を返します。
 
-- **raise** `Gem::Package::NonSeekableIO` -- 自身に関連付けられた IO がシーク可能
-                                   でない場合に発生します。
+- **raise** `Gem::Package::NonSeekableIO` -- 自身に関連付けられた IO がシーク可能でない場合に発生します。

@@ -7,8 +7,8 @@
 ```ruby
 require 'openssl'
 
-pp 5.to_bn     #=> #<OpenSSL::BN 5>
-pp (-5).to_bn  #=> #<OpenSSL::BN -5>
+pp 5.to_bn     # => #<OpenSSL::BN 5>
+pp (-5).to_bn  # => #<OpenSSL::BN -5>
 ```
 
 - **param** `pp` -- [PP](../../../class/PP.md) クラスのインスタンスオブジェクト

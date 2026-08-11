@@ -40,8 +40,8 @@
 
 ```ruby title="例"
 include Process
-p lim = getrlimit(RLIMIT_STACK)                                        #=> [8388608, 18446744073709551615]
-p lim.map{|i| i == RLIM_INFINITY ? "unlimited" : "#{i/(1024**2)}MB" }  #=> ["8MB", "unlimited"]
+p lim = getrlimit(RLIMIT_STACK)                                        # => [8388608, 18446744073709551615]
+p lim.map{|i| i == RLIM_INFINITY ? "unlimited" : "#{i/(1024**2)}MB" }  # => ["8MB", "unlimited"]
 ```
 
 - **SEE** [Process?.setrlimit](../../../method/Process/m/setrlimit.md), [man:getrlimit(2)]

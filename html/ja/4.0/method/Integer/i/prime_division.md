@@ -14,6 +14,6 @@
 
 ```ruby title="例"
 require 'prime'
-p 12.prime_division #=> [[2,2], [3,1]]
-p 10.prime_division #=> [[2,1], [5,1]]
+p 12.prime_division # => [[2,2], [3,1]]
+p 10.prime_division # => [[2,1], [5,1]]
 ```

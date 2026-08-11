@@ -9,8 +9,8 @@
 - **param** `other_arrays` -- 0個以上の配列を指定します。
 
 ```ruby title="例"
-p ["a", "b", "c"].union([ "c", "d", "a" ])  #=> ["a", "b", "c", "d"]
-p ["a"].union(["e", "b"], ["a", "c", "b"])  #=> ["a", "e", "b", "c"]
+p ["a", "b", "c"].union([ "c", "d", "a" ])  # => ["a", "b", "c", "d"]
+p ["a"].union(["e", "b"], ["a", "c", "b"])  # => ["a", "e", "b", "c"]
 p ["a"].union # => ["a"]
 ```
 

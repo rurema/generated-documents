@@ -16,7 +16,7 @@ class KlassWithSecret
 end
 k = KlassWithSecret.new
 # 以下で x には 5 が渡される
-p k.instance_exec(5) {|x| @secret + x } #=> 104
+p k.instance_exec(5) {|x| @secret + x } # => 104
 ```
 
 - **SEE** [Module#class_exec](../../../method/Module/i/class_exec.md), [Module#module_exec](../../../method/Module/i/module_exec.md), [BasicObject#instance_eval](../../../method/BasicObject/i/instance_eval.md)

@@ -14,7 +14,7 @@ module A
 end
 
 p A.refinements
-#=> [#<refinement:Integer@A>, #<refinement:String@A>]
+# => [#<refinement:Integer@A>, #<refinement:String@A>]
 ```
 
 - **SEE** [Module#refine](../../../method/Module/i/refine.md), [Module.used_refinements](../../../method/Module/s/used_refinements.md)

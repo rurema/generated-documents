@@ -6,9 +6,9 @@
 
 ```ruby
 obj = "someone"
-p obj.frozen? #=> false
+p obj.frozen? # => false
 obj.freeze
-p obj.frozen? #=> true
+p obj.frozen? # => true
 ```
 
 - **SEE** [Object#freeze](../../../method/Object/i/freeze.md)

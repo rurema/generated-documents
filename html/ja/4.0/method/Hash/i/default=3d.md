@@ -11,10 +11,10 @@
 
 ```ruby title="例"
 h = {}
-p h.default #=>nil
+p h.default # =>nil
 
 h.default = "default"
-p h.default #=>"default"
+p h.default # =>"default"
 ```
 
 - **SEE** [Hash#default](../../../method/Hash/i/default.md)

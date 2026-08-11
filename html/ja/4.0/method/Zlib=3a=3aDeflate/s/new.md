@@ -15,9 +15,9 @@ require 'zlib'
 dez = Zlib::Deflate.new(9, nil, 9)
 dez << "123" * 20
 dezstr = dez.finish
-p dezstr #=> "x\3323426$\027\001\000e\217\v\271"
+p dezstr # => "x\3323426$\027\001\000e\217\v\271"
 
 inz = Zlib::Inflate.new
 inzstr = inz.inflate(dezstr)
-p inzstr  #=> "123123123123123123123123123123123123123123123123123123123123"
+p inzstr  # => "123123123123123123123123123123123123123123123123123123123123"
 ```

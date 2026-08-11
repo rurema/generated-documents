@@ -36,7 +36,7 @@ class Proxy < BasicObject
 end
 
 proxy = Proxy.new("1")
-proxy.to_i #=> 1
+proxy.to_i # => 1
 ```
 
 ## Instance Methods

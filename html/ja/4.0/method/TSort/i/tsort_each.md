@@ -31,9 +31,9 @@ non_sort.tsort_each {|node|
 }
 
 # 出力
-#=> 2 -> 3
-#=> 1 -> 2
-#=> 1 -> 3
+# => 2 -> 3
+# => 1 -> 2
+# => 1 -> 3
 ```
 
 - **SEE** [TSort.tsort_each](../../../method/TSort/s/tsort_each.md)

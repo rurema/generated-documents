@@ -22,5 +22,5 @@ class Foo
 end
 
 it = Foo.new
-p Regexp.union(/^at/, it) #=> /(?-mix:^at)|(?-mix:[\d]+)/
+p Regexp.union(/^at/, it) # => /(?-mix:^at)|(?-mix:[\d]+)/
 ```

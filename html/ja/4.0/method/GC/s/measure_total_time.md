@@ -10,8 +10,7 @@ GC にかかった時間を計測するかどうかを取得、設定します�
 
 - **param** `flag` -- nil または false を指定すると計測を無効にします。
            それ以外の値を指定すると有効にします。
-- **return** -- measure_total_time は計測が有効なら true を、
-        無効なら false を返します。
+- **return** -- measure_total_time は計測が有効なら true を、無効なら false を返します。
 
 ```ruby
 p GC.measure_total_time # => true

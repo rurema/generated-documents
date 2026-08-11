@@ -6,11 +6,11 @@
 
 ```ruby
 require 'coverage'
-p Coverage.running?    #=> false
+p Coverage.running?    # => false
 Coverage.start
-p Coverage.running?    #=> true
-p Coverage.peek_result #=> {}
-p Coverage.running?    #=> true
-p Coverage.result      #=> {}
-p Coverage.running?    #=> false
+p Coverage.running?    # => true
+p Coverage.peek_result # => {}
+p Coverage.running?    # => true
+p Coverage.result      # => {}
+p Coverage.running?    # => false
 ```

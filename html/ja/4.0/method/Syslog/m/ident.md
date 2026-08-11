@@ -10,7 +10,7 @@
 require 'syslog'
 
 Syslog.open("syslogtest")
-p Syslog.ident    #=> "syslogtest"
-p Syslog.options  #=> 3
-p Syslog.facility #=> 8
+p Syslog.ident    # => "syslogtest"
+p Syslog.options  # => 3
+p Syslog.facility # => 8
 ```

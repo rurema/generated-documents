@@ -13,6 +13,6 @@ db1['a'] = 'aaa'
 db1['b'] = 'bbb'
 db1['c'] = 'ccc'
   
-p db1                                    #=> #<SDBM:0xb7cc96f8>
-p db1.reject!{ |key, value| key == 'a' } #=> #<SDBM:0xb7cc96f8>
+p db1                                    # => #<SDBM:0xb7cc96f8>
+p db1.reject!{ |key, value| key == 'a' } # => #<SDBM:0xb7cc96f8>
 ```

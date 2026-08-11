@@ -13,9 +13,9 @@
 - **raise** `Errno::EXXX` -- 失敗した場合に発生します。
 
 ```ruby title="例"
-p Dir.glob("*")   #=> ["file1", "file2]
+p Dir.glob("*")   # => ["file1", "file2]
 Dir.chroot("./")
-p Dir.glob("/*")  #=> ["/file1", "/file2]
+p Dir.glob("/*")  # => ["/file1", "/file2]
 ```
 
 - **SEE** <http://opengroup.org/onlinepubs/007908799/xsh/chroot.html>

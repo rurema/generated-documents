@@ -4,15 +4,13 @@
 
 GenericServer オブジェクトを生成して返します。
 
-- **param** `config` -- サーバの設定を保存したハッシュを指定します。有効なキーと
-              値は以下のとおりです。
+- **param** `config` -- サーバの設定を保存したハッシュを指定します。有効なキーと値は以下のとおりです。
 
 - **`:ServerName`**:
   サーバのホスト名を表す文字列を指定します。デフォルトの Utils.getservername は /etc/hostname
   に書かれている文字列です。
 - **`:BindAddress`**:
-  サーバのアドレスを指定します。デフォルトの nil や "0.0.0.0", "::" などを指定した
-  場合は使用可能なすべてのネットワークインターフェースに対して listen を開始します。
+  サーバのアドレスを指定します。デフォルトの nil や "0.0.0.0", "::" などを指定した場合は使用可能なすべてのネットワークインターフェースに対して listen を開始します。
   [socket#host_format](../../../library/socket.md#host_format) を参照して下さい。
 - **`:Port`**:
   サーバのポートを指定します。[socket#service_format](../../../library/socket.md#service_format)を参照を参照して下さい。
@@ -29,11 +27,9 @@ GenericServer オブジェクトを生成して返します。
 - **`:DoNotListen`**:
   true の場合、GenericServer オブジェクトを生成しただけでは listen を開始しません。
 - **`:StartCallback`**:
-  start 開始時に呼ばれる [Proc](../../../class/Proc.md) オブジェクト。呼ばれる時に引数は
-  特に与えられません。
+  start 開始時に呼ばれる [Proc](../../../class/Proc.md) オブジェクト。呼ばれる時に引数は特に与えられません。
 - **`:StopCallback`**:
-  サーバを stop した時に呼ばれる [Proc](../../../class/Proc.md) オブジェクトを指定します。呼ばれる時に引数は
-  特に与えられません。
+  サーバを stop した時に呼ばれる [Proc](../../../class/Proc.md) オブジェクトを指定します。呼ばれる時に引数は特に与えられません。
 - **`:AcceptCallback`**:
   クライアントからの接続を accept したときに呼ばれる [Proc](../../../class/Proc.md) オブジェクトを指定します。
   クライアントと接続された [TCPSocket](../../../class/TCPSocket.md) オブジェクトを引数として呼ばれます。
@@ -42,8 +38,7 @@ GenericServer オブジェクトを生成して返します。
   [BasicSocket#do_not_reverse_lookup](../../../method/BasicSocket/i/do_not_reverse_lookup.md)
   も参照して下さい。
 
-- **param** `default` -- サーバのデフォルトの設定を保存したハッシュを指定します。指定された config で
-               設定がなかった項目に関してはこの default の値が使われます。
+- **param** `default` -- サーバのデフォルトの設定を保存したハッシュを指定します。指定された config で設定がなかった項目に関してはこの default の値が使われます。
 
 - **SEE** [WEBrick::Config::General](../../../method/WEBrick=3a=3aConfig/c/General.md)
 
@@ -76,7 +71,6 @@ config で有効な項目が増えます。以下は増える項目とそのデ�
 
 - **param** `config` -- サーバの設定を保存したハッシュを指定します。
 
-- **param** `default` -- サーバのデフォルトの設定を保存したハッシュを指定します。指定された config で
-               設定がなかった項目に関してはこの default の値が使われます。
+- **param** `default` -- サーバのデフォルトの設定を保存したハッシュを指定します。指定された config で設定がなかった項目に関してはこの default の値が使われます。
 
 - **SEE** [WEBrick::Config::General](../../../method/WEBrick=3a=3aConfig/c/General.md)

@@ -12,7 +12,7 @@ require 'socket'
 addr = Addrinfo.ip("::1")
 ifindex = 0
 p Socket::AncillaryData.ipv6_pktinfo(addr, ifindex)
-#=> #<Socket::AncillaryData: INET6 IPV6 PKTINFO ::1 ifindex:0>
+# => #<Socket::AncillaryData: INET6 IPV6 PKTINFO ::1 ifindex:0>
 ```
 
 - **param** `addr` -- アドレス(文字列もしくは [Addrinfo](../../../class/Addrinfo.md))

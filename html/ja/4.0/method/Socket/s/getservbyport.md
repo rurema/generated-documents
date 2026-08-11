@@ -11,7 +11,7 @@
 ```ruby
 require 'socket'
 
-p Socket.getservbyport(80)       #=> "www"
-p Socket.getservbyport(514, "tcp") #=> "shell"
-p Socket.getservbyport(514, "udp") #=> "syslog"
+p Socket.getservbyport(80)       # => "www"
+p Socket.getservbyport(514, "tcp") # => "shell"
+p Socket.getservbyport(514, "udp") # => "syslog"
 ```

@@ -74,8 +74,7 @@ path が pattern にマッチすれば真を返します。そうでない場合
 
 - **`FNM_EXTGLOB`**:
   {} 内のコンマで区切られた文字列の組合せにマッチするようになります。
-  例えば、foo{a,b,c} は fooa, foob, fooc に展開されそれぞれに対してマッ
-  チ判定を行います。
+  例えば、foo{a,b,c} は fooa, foob, fooc に展開されそれぞれに対してマッチ判定を行います。
 
   括弧は入れ子にできます。例えば、 {foo,bar{foo,bar}} は foo,
   barfoo, barbar のそれぞれにマッチします。

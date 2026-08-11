@@ -7,6 +7,6 @@
 
 ```ruby title="例"
 require 'uri'
-p URI.parse('http://example.com/').absolute?    #=> true
-p URI.parse('./').absolute?                     #=> false
+p URI.parse('http://example.com/').absolute?    # => true
+p URI.parse('./').absolute?                     # => false
 ```

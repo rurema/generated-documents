@@ -12,11 +12,11 @@
 ```ruby
 require "cgi"
 
-p CGI.escapeURIComponent("'Stop!' said Fred") #=> "%27Stop%21%27%20said%20Fred"
+p CGI.escapeURIComponent("'Stop!' said Fred") # => "%27Stop%21%27%20said%20Fred"
 
 # CGI.escape は空白を + にするが、escapeURIComponent は %20 にする
-p CGI.escape("a b")             #=> "a+b"
-p CGI.escapeURIComponent("a b") #=> "a%20b"
+p CGI.escape("a b")             # => "a+b"
+p CGI.escapeURIComponent("a b") # => "a%20b"
 ```
 
 - **SEE** [CGI.escape](../../../method/CGI/s/escape.md), [CGI.unescapeURIComponent](../../../method/CGI/s/unescapeURIComponent.md)

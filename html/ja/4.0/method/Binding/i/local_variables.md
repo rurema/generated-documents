@@ -8,7 +8,7 @@
 def foo
   a = 1
   2.times do |n|
-    p binding.local_variables #=> [:a, :n]
+    p binding.local_variables # => [:a, :n]
   end
 end
 ```

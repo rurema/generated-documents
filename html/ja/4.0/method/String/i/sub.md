@@ -66,8 +66,8 @@ puts '\n'.sub(/\\/) { '\\\\' }      # => \\n        # OK
                   文字列を指定した場合は全く同じ文字列にだけマッチする
 
 ```ruby title="例"
-p 'abcabc'.sub(/b/) {|s| s.upcase }  #=> "aBcabc"
-p 'abcabc'.sub(/b/) { $&.upcase }    #=> "aBcabc"
+p 'abcabc'.sub(/b/) {|s| s.upcase }  # => "aBcabc"
+p 'abcabc'.sub(/b/) { $&.upcase }    # => "aBcabc"
 ```
 
 - **SEE** [String#gsub](../../../method/String/i/gsub.md)
@@ -81,6 +81,6 @@ p 'abcabc'.sub(/b/) { $&.upcase }    #=> "aBcabc"
 
 ```ruby title="例"
 hash = {'b'=>'B', 'c'=>'C'}
-p "abcabc".sub(/[bc]/){hash[$&]} #=> "aBCabc"
-p "abcabc".sub(/[bc]/, hash)     #=> "aBCabc"
+p "abcabc".sub(/[bc]/){hash[$&]} # => "aBCabc"
+p "abcabc".sub(/[bc]/, hash)     # => "aBCabc"
 ```

@@ -16,9 +16,9 @@ class Foo
 end
 
 obj = Foo.new
-p obj.instance_variable_get("@foo")     #=> 1
-p obj.instance_variable_get(:@foo)      #=> 1
-p obj.instance_variable_get(:@bar)      #=> nil
+p obj.instance_variable_get("@foo")     # => 1
+p obj.instance_variable_get(:@foo)      # => 1
+p obj.instance_variable_get(:@bar)      # => nil
 ```
 
 - **SEE** [Object#instance_variable_set](../../../method/Object/i/instance_variable_set.md),[Object#instance_variables](../../../method/Object/i/instance_variables.md),[Object#instance_variable_defined?](../../../method/Object/i/instance_variable_defined=3f.md)

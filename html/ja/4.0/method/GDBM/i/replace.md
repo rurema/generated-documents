@@ -17,7 +17,7 @@ db2['c'] = 'ccc'
 db2['d'] = 'ddd'
 hash = { 'x' => 'xxx', 'y' => 'yyy'}
   
-p db1               #=> #<GDBM:0xb7d1c8a8>
-p db1.replace(db2)  #=> #<GDBM:0xb7d1c8a8>
-p db1.replace(hash) #=> #<GDBM:0xb7d1c8a8>
+p db1               # => #<GDBM:0xb7d1c8a8>
+p db1.replace(db2)  # => #<GDBM:0xb7d1c8a8>
+p db1.replace(hash) # => #<GDBM:0xb7d1c8a8>
 ```

@@ -5,7 +5,7 @@
 定義済みの全てのシンボルオブジェクトの配列を返します。
 
 ```ruby
-p Symbol.all_symbols #=> [:RUBY_PLATFORM, :RUBY_VERSION, ...]
+p Symbol.all_symbols # => [:RUBY_PLATFORM, :RUBY_VERSION, ...]
 ```
 
 リテラルで表記したシンボルのうち、コンパイル時に値が決まるものはその時に生成されます。
@@ -18,7 +18,7 @@ def number
 end
 
 p Symbol.all_symbols.select{|sym|sym.to_s.include? 'make'}
-#=> [:make_1, :make_2]
+# => [:make_1, :make_2]
 
 re  = #確実に生成されるように代入操作を行う
 :make_1,
@@ -27,5 +27,5 @@ re  = #確実に生成されるように代入操作を行う
 'make_4'.intern
 
 p Symbol.all_symbols.select{|sym|sym.to_s.include? 'make'}
-#=> [:make_1, :make_2, :make_3, :make_4]
+# => [:make_1, :make_2, :make_3, :make_4]
 ```

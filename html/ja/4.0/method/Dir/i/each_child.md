@@ -15,7 +15,7 @@
 Dir.open('.').each_child{|f|
   p f
 }
-#=> "bar"
+# => "bar"
 #   "foo"
 ```
 

@@ -21,5 +21,5 @@ ARGV.options{|opt|
   opt.on('-a'){ o = true }
   opt.parse!
 }
-p o                         #=> true
+p o                         # => true
 ```

@@ -26,7 +26,7 @@ fr = File.open(filename)
 Zlib::GzipReader.wrap(fr){|gz|
   puts gz.read
 }
-#=> ugo
+# => ugo
 ```
 
 - **SEE** [IO#putc](../../../method/IO/i/putc.md), [Kernel?.putc](../../../method/Kernel/m/putc.md)

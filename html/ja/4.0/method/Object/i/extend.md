@@ -26,16 +26,16 @@ end
 
 obj = Object.new
 obj.extend Foo, Bar
-p obj.a #=> "ok Foo"
-p obj.b #=> "ok Bar"
+p obj.a # => "ok Foo"
+p obj.b # => "ok Bar"
 
 class Klass
   include Foo
   extend Bar
 end
 
-p Klass.new.a #=> "ok Foo"
-p Klass.b     #=> "ok Bar"
+p Klass.new.a # => "ok Foo"
+p Klass.b     # => "ok Bar"
 ```
 
 extend の機能は、「特異クラスに対する [Module#include](../../../method/Module/i/include.md)」と言い替えることもできます。

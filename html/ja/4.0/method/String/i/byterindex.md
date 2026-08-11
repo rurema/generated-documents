@@ -45,15 +45,15 @@ p 'foo'.byterindex(/ooo/) # => nil
 
 # 右でのマッチが優先
 p 'foo'.byterindex(/o+/) # => 2
-p $~ #=> #<MatchData "o">
+p $~ # => #<MatchData "o">
 
 # 最長にするには否定戻り読み(negative look-behind)と組み合わせる
 p 'foo'.byterindex(/(?<!o)o+/) # => 1
-p $~ #=> #<MatchData "oo">
+p $~ # => #<MatchData "oo">
 
 # またはbyteindexを否定先読み(negative look-ahead)
 p 'foo'.byteindex(/o+(?!.*o)/) # => 1
-p $~ #=> #<MatchData "oo">
+p $~ # => #<MatchData "oo">
 
 p 'foo'.byterindex('o', 0) # => nil
 p 'foo'.byterindex('o', 1) # => 1

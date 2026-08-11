@@ -7,5 +7,5 @@ rdev の minor 番号部を返します。
 ```ruby
 fs = File::Stat.new($0)
 #例
-p fs.rdev_minor #=> nil
+p fs.rdev_minor # => nil
 ```

@@ -14,5 +14,5 @@ x の正弦関数を prec で指定した精度で計算します。単位はラ
 ```ruby
 require "bigdecimal/math"
 
-puts BigMath::sin(BigDecimal('0.5'), 10) #=> 0.479425538604203000273287935689073955184741e0
+puts BigMath::sin(BigDecimal('0.5'), 10) # => 0.479425538604203000273287935689073955184741e0
 ```

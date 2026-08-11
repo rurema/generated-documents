@@ -12,7 +12,7 @@ include WEBrick
 c = Cookie.parse_set_cookie('Shipping="FedEx"; Version="1"; Path="/acme"')
 p c.name, c.value
   
-#=>
+# =>
 "Shipping"
 "FedEx"
 ```

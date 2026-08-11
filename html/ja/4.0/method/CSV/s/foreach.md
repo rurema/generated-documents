@@ -18,7 +18,6 @@ CSV.foreach("a.csv", encoding: "UTF-32BE:UTF-8"){|row| p row }
 
 - **param** `options` -- [CSV.new](../../../method/CSV/s/new.md) のオプションと同じオプションを指定できます。
                :encoding というキーを使用すると入出力のエンコーディングを指定できます。
-               [Encoding.default_external](../../../method/Encoding/s/default_external.md) と異なるエンコーディングを持つ入力を使用する場合は、
-               必ずエンコーディングを指定してください。
+               [Encoding.default_external](../../../method/Encoding/s/default_external.md) と異なるエンコーディングを持つ入力を使用する場合は、必ずエンコーディングを指定してください。
 
 - **SEE** [CSV.new](../../../method/CSV/s/new.md), [File.open](../../../method/File/s/open.md)

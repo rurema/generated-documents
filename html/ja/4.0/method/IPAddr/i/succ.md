@@ -7,5 +7,5 @@
 ```ruby
 require 'ipaddr'
 ipaddr = IPAddr.new('192.168.1.1')
-p ipaddr.succ.to_s #=> "192.168.1.2"
+p ipaddr.succ.to_s # => "192.168.1.2"
 ```

@@ -28,21 +28,21 @@ readpartial の結果は以下のようになります。
 ```ruby
 r, w = IO.pipe           #               buffer          pipe content
 w << "abc"               #               ""              "abc".
-p r.readpartial(4096)    #=> "abc"       ""              ""
+p r.readpartial(4096)    # => "abc"       ""              ""
 r.readpartial(4096)      # バッファにもパイプにもデータがないのでブロックする
   
 r, w = IO.pipe           #               buffer          pipe content
 w << "abc"               #               ""              "abc"
 w.close                  #               ""              "abc" EOF
-p r.readpartial(4096)    #=> "abc"       ""              EOF
+p r.readpartial(4096)    # => "abc"       ""              EOF
 r.readpartial(4096)      # ~> EOFError
   
 r, w = IO.pipe           #               buffer          pipe content
 w << "abc\ndef\n"        #               ""              "abc\ndef\n"
-p r.gets                 #=> "abc\n"     "def\n"         ""
+p r.gets                 # => "abc\n"     "def\n"         ""
 w << "ghi\n"             #               "def\n"         "ghi\n"
-p r.readpartial(4096)    #=> "def\n"     ""              "ghi\n"
-p r.readpartial(4096)    #=> "ghi\n"     ""              ""
+p r.readpartial(4096)    # => "def\n"     ""              "ghi\n"
+p r.readpartial(4096)    # => "ghi\n"     ""              ""
 ```
 
 なお、readpartial は nonblock フラグに影響されません。
@@ -54,9 +54,7 @@ p r.readpartial(4096)    #=> "ghi\n"     ""              ""
 
 - **param** `maxlen` -- 読み込む長さの上限を整数で指定します。
 
-- **param** `outbuf` -- 文字列で指定します。IO#readpartial は読み込んだデータを outbuf に破壊的に格納し、
-              返り値は outbuf となります。outbuf は一旦 maxlen 長に拡張(あるいは縮小)されたあと、
-              実際に読み込んだデータのサイズになります。IO が既に EOF に達していれば、空文字列になります。
+- **param** `outbuf` -- 文字列で指定します。IO#readpartial は読み込んだデータを outbuf に破壊的に格納し、返り値は outbuf となります。outbuf は一旦 maxlen 長に拡張(あるいは縮小)されたあと、実際に読み込んだデータのサイズになります。IO が既に EOF に達していれば、空文字列になります。
 
 - **raise** `IOError` -- 自身が読み込み用にオープンされていなければ発生します。
 

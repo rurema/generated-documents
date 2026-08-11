@@ -9,5 +9,5 @@
 - **raise** `NotImplementedError` -- メソッドが現在のプラットフォームで実装されていない場合に発生します。
 
 ```ruby
-p Process.egid #=> 500
+p Process.egid # => 500
 ```

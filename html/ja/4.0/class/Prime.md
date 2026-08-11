@@ -10,8 +10,8 @@ Prime クラスはシングルトンであると考えてください。Prime �
 
 ```ruby title="例"
 require 'prime'
-p Prime.instance.prime?(2)  #=> true
-p Prime.prime?(2)         #=> true
+p Prime.instance.prime?(2)  # => true
+p Prime.prime?(2)         # => true
 ```
 
 ## Class Methods

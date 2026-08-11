@@ -21,8 +21,8 @@
 
 ```ruby title="例"
 fs = File::Stat.new($0)
-p fs.ftype #=> "file"
-p File::Stat.new($:[0]).ftype #=> "directory"
+p fs.ftype # => "file"
+p File::Stat.new($:[0]).ftype # => "directory"
 ```
 
 1.8 以降では、属性メソッドがシステムでサポートされていない場合 nil が返ります。

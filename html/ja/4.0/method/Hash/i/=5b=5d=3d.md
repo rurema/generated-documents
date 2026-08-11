@@ -12,7 +12,7 @@ key に対して value を関連づけます。value を返します。
 h = {}
 
 h[:key] = "value"
-p h #=>{:key => "value"}
+p h # =>{:key => "value"}
 ```
 
 - **SEE** [Hash#\[\]](../../../method/Hash/i/=5b=5d.md)

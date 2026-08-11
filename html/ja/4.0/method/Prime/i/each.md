@@ -24,7 +24,7 @@ p Prime.each(11){|prime| prime } # => 11
 ```ruby title="例: 30以下の双子素数"
 require 'prime'
 Prime.each(30).each_cons(2).select{|p,r| r-p == 2}
-#=> [[3, 5], [5, 7], [11, 13], [17, 19]]
+# => [[3, 5], [5, 7], [11, 13], [17, 19]]
 ```
 
 ### 注
@@ -36,7 +36,7 @@ Prime.each(30).each_cons(2).select{|p,r| r-p == 2}
 ```ruby title="例"
 require 'prime'
 Prime.each(50, Prime::Generator23.new) do |n|
-  p n #=> [2, 3, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 35, 37, 41, 43, 47, 49]
+  p n # => [2, 3, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 35, 37, 41, 43, 47, 49]
 end
 ```
 

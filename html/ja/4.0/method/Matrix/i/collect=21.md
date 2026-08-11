@@ -9,8 +9,7 @@
 
 ブロックのない場合は、自身と map! から生成した [Enumerator](../../../class/Enumerator.md) オブジェクトを返します。
 
-- **param** `which` --  which に以下の [Symbol](../../../class/Symbol.md) を指定することで、
-              引数として使われる要素を限定できます。
+- **param** `which` --  which に以下の [Symbol](../../../class/Symbol.md) を指定することで、引数として使われる要素を限定できます。
               デフォルトは、:all (全ての要素)です。
               指定できる [Symbol](../../../class/Symbol.md) の詳細は、 [Matrix#each](../../../method/Matrix/i/each.md) の項目を参照して下さい。
 
@@ -19,8 +18,8 @@ require 'matrix'
 
 m = Matrix[[1, 2], [3, 4]]
 
-p m.map! { |element| element * 10 } #=> Matrix[[10, 20], [30, 40]]
-p m                                 #=> Matrix[[10, 20], [30, 40]]
+p m.map! { |element| element * 10 } # => Matrix[[10, 20], [30, 40]]
+p m                                 # => Matrix[[10, 20], [30, 40]]
 ```
 
 - **SEE** [Matrix#each](../../../method/Matrix/i/each.md), [Matrix#map](../../../method/Matrix/i/map.md)

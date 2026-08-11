@@ -4,8 +4,7 @@
 
 指定したコマンドのリストをパイプで繋いで順番に実行します。
 
-- **param** `cmds` -- 実行するコマンドのリストを指定します。それぞれのコマンドは
-            以下のように [String](../../../class/String.md) か [Array](../../../class/Array.md) で指定します。
+- **param** `cmds` -- 実行するコマンドのリストを指定します。それぞれのコマンドは以下のように [String](../../../class/String.md) か [Array](../../../class/Array.md) で指定します。
             commandline にはコマンド全体(例. "nroff -man")を表す
             [String](../../../class/String.md) を指定します。
             options には [Hash](../../../class/Hash.md) で指定します。
@@ -26,7 +25,7 @@ require "open3"
 
 fname = "/usr/share/man/man1/ruby.1.gz"
 p Open3.pipeline(["zcat", fname], "nroff -man", "less")
-#=> [#<Process::Status: pid 11817 exit 0>,
+# => [#<Process::Status: pid 11817 exit 0>,
 #    #<Process::Status: pid 11820 exit 0>,
 #    #<Process::Status: pid 11828 exit 0>]
 ```

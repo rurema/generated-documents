@@ -21,14 +21,14 @@ Ruby における format 文字列の拡張については
 
 ```ruby title="例"
 printf("calculate%3s%-6s%.15f", 'PI', '...', Math::PI)
-#=> calculate PI...   3.141592653589793
+# => calculate PI...   3.141592653589793
 
-printf("%d %04x", 123, 123)               #=> "123 007b"
-printf("%08b '%4s'", 123, 123)            #=> "01111011 ' 123'"
-printf("%1$*2$s %2$d %1$s", "hello", 8)   #=> "   hello 8 hello"
-printf("%1$*2$s %2$d", "hello", -8)       #=> "hello    -8"
-printf("%+g:% g:%-g", 1.23, 1.23, 1.23)   #=> "+1.23: 1.23:1.23"
-printf("%u", -123)                        #=> "..4294967173"
+printf("%d %04x", 123, 123)               # => "123 007b"
+printf("%08b '%4s'", 123, 123)            # => "01111011 ' 123'"
+printf("%1$*2$s %2$d %1$s", "hello", 8)   # => "   hello 8 hello"
+printf("%1$*2$s %2$d", "hello", -8)       # => "hello    -8"
+printf("%+g:% g:%-g", 1.23, 1.23, 1.23)   # => "+1.23: 1.23:1.23"
+printf("%u", -123)                        # => "..4294967173"
 ```
 
 - **SEE** [Kernel?.sprintf](../../../method/Kernel/m/sprintf.md),[IO#printf](../../../method/IO/i/printf.md)
