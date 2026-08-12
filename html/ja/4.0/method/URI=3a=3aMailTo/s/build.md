@@ -1,7 +1,7 @@
 # URI::MailTo.build
 
-### def URI::MailTo.build(ary)     -> URI::MailTo 
-### def URI::MailTo.build(hash)    -> URI::MailTo 
+### def URI::MailTo.build(ary)     -> URI::MailTo
+### def URI::MailTo.build(hash)    -> URI::MailTo
 
 引数で与えられた URI 構成要素から URI::MailTo オブジェクトを生成します。
 引数の正当性をチェックします。

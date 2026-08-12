@@ -1,6 +1,6 @@
 # OpenSSL::Cipher#key=
 
-### def key=(key) 
+### def key=(key)
 
 暗号鍵を設定します。
 

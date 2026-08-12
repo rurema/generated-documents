@@ -171,6 +171,7 @@ oldmalloc_increase_bytes と呼ばれる。この2つの性質は以下のよう
 - [count](../method/GC/s/count.md)
 - [disable](../method/GC/s/disable.md)
 - [enable](../method/GC/s/enable.md)
+- [latest_compact_info](../method/GC/s/latest_compact_info.md)
 - [latest_gc_info](../method/GC/s/latest_gc_info.md)
 - [measure_total_time](../method/GC/s/measure_total_time.md)
 - [measure_total_time=](../method/GC/s/measure_total_time=3d.md)

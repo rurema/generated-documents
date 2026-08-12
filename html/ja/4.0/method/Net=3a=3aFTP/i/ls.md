@@ -2,7 +2,7 @@
 
 ### def list(*args) -> [String]
 ### def list(*args) {|line| ... } -> nil
-### def ls(*args) -> [String] 
+### def ls(*args) -> [String]
 ### def ls(*args) {|line| ... } -> nil
 ### def dir(*args) -> [String]
 ### def dir(*args) {|line| ...} -> nil

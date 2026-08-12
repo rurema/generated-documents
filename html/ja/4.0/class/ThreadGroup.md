@@ -29,7 +29,7 @@ end
 ### ThreadGroup#freeze と ThreadGroup#enclose の違い
 
 どちらのメソッドでも [ThreadGroup#add](../method/ThreadGroup/i/add.md) によるスレッドの追加ができなくなる点は同じですが、
-[Thread.new](../method/Thread/s/new.md) に関して違いがあります。現在のスレッドが属する ThreadGroup が freeze 
+[Thread.new](../method/Thread/s/new.md) に関して違いがあります。現在のスレッドが属する ThreadGroup が freeze
 されている場合、Thread.new{ ... } はエラーになります。ThreadGroup が enclose されているだけでは、
 Thread.new{ ... } はエラーになりません。生成されたスレッドは従来通り 親スレッドの ThreadGroup に属します。
 

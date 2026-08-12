@@ -1,6 +1,6 @@
 # Psych::Nodes::Document#version=
 
-### def version=(ver) 
+### def version=(ver)
 
 YAML ドキュメントのバージョンを設定します。
 

@@ -1,6 +1,6 @@
 # DRb::DRbServer#verbose=
 
-### def verbose=(on) 
+### def verbose=(on)
 
 サーバの verbose mode を真偽値で設定します。
 

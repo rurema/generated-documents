@@ -1,6 +1,6 @@
 # Thread#value
 
-### def value    -> object 
+### def value    -> object
 
 スレッド self が終了するまで待ち([Thread#join](../../../method/Thread/i/join.md) と同じ)、そのスレッドのブロックが返した値を返します。スレッド実行中に例外が発生した場合には、その例外を再発生させます。
 

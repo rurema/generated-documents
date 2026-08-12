@@ -1,4 +1,4 @@
 # RSS::NotWellFormedError#line
 
-### def line 
+### def line
 @todo

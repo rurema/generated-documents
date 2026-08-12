@@ -5,8 +5,8 @@
 
 [Net::HTTPRequest](../../../class/Net=3a=3aHTTPRequest.md) オブジェクト request をサーバに送信します。
 
-POST/PUT の時は data も与えられます 
-(GET/HEAD などで  data を与えると 
+POST/PUT の時は data も与えられます
+(GET/HEAD などで  data を与えると
 [ArgumentError](../../../class/ArgumentError.md) を発生します)。
 
 ブロックとともに呼びだされたときはソケットからボディを読みこまずに [Net::HTTPResponse](../../../class/Net=3a=3aHTTPResponse.md)

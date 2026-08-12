@@ -2,7 +2,7 @@
 
 [fiddle](../library/fiddle.md) の名前空間をなすモジュールです。
 
-UNIX の [man:dlopen(3)] や Windows の LoadLibrary() 
+UNIX の [man:dlopen(3)] や Windows の LoadLibrary()
 などのダイナミックリンカへの低レベルなインターフェースを提供するモジュールです。
 
 ## Class Methods

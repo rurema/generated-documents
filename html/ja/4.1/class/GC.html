@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-11-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-12-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -295,6 +295,8 @@ x86_64上でのlinuxでは16kバイトがページのサイズと決められて
 
 <li><a href="#S_ENABLE">enable</a></li>
 
+<li><a href="#S_LATEST_COMPACT_INFO">latest_compact_info</a></li>
+
 <li><a href="#S_LATEST_GC_INFO">latest_gc_info</a></li>
 
 <li><a href="#S_MEASURE_TOTAL_TIME">measure_total_time</a></li>
@@ -407,7 +409,7 @@ true を設定するとフルGCのタイミングでヒープをコンパクシ�
 詳細は<a class="external" href="https://bugs.ruby-lang.org/issues/15626">[feature#15626]</a>を参照してください。
 </p>
 <p>
-[SEE_ALSO] <a href="../method/GC/s/verify_compaction_references.html">GC.verify_compaction_references</a>
+[SEE_ALSO] <a href="../method/GC/s/verify_compaction_references.html">GC.verify_compaction_references</a>, <a href="../method/GC/s/latest_compact_info.html">GC.latest_compact_info</a>
 </p>
 </dd>
 
@@ -509,6 +511,26 @@ false)。
 </span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">enable</span>  <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">enable</span>  <span class="c1"># =&gt; false
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_LATEST_COMPACT_INFO"><code>latest_compact_info -&gt; Hash</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/GC/s/latest_compact_info.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-latest_compact_info">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+最後に実行されたヒープコンパクション(<a href="../method/GC/s/compact.html">GC.compact</a> など)の統計情報を返します。
+</p>
+<p>
+返り値の <a href="../class/Hash.html">Hash</a> のキーは以下のとおりで、値はいずれもオブジェクトの型ごとの件数を表す <a href="../class/Hash.html">Hash</a> です(コンパクションがまだ実行されていない場合は空の <a href="../class/Hash.html">Hash</a>)。
+</p>
+<ul>
+<li><code>:considered</code> -- 移動の対象として検討されたオブジェクト数</li>
+<li><code>:moved</code> -- 実際に移動されたオブジェクト数</li>
+<li><code>:moved_up</code> -- 移動先のアドレスが元より高かったオブジェクト数</li>
+<li><code>:moved_down</code> -- 移動先のアドレスが元より低かったオブジェクト数</li>
+</ul>
+<p>
+[SEE_ALSO] <a href="../method/GC/s/compact.html">GC.compact</a>, <a href="../method/GC/s/auto_compact.html">GC.auto_compact</a>
+</p>
 </dd>
 
 

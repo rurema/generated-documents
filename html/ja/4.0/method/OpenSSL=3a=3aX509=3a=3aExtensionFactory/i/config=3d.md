@@ -1,6 +1,6 @@
 # OpenSSL::X509::ExtensionFactory#config=
 
-### def config=(config) 
+### def config=(config)
 
 自身にコンフィグファイルオブジェクトを設定します。
 

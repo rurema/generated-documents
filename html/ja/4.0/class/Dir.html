@@ -181,6 +181,8 @@
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_CHDIR">chdir</a></li>
+
 <li><a href="#I_CHILDREN">children</a></li>
 
 <li><a href="#I_CLOSE">close</a></li>
@@ -583,7 +585,7 @@ path を省略した場合、環境変数 HOME または LOGDIR
 </span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="s2">"</span><span class="s2">~/.ssh</span><span class="s2">"</span><span class="p">)</span>        <span class="c1"># =&gt; Errno::ENOENT
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/Dir/s/fchdir.html">Dir.fchdir</a>
+[SEE_ALSO] <a href="../method/Dir/s/fchdir.html">Dir.fchdir</a>, <a href="../method/Dir/i/chdir.html">Dir#chdir</a>
 </p>
 </dd>
 
@@ -1058,6 +1060,42 @@ path に対するディレクトリストリームをオープンして返しま
 
 <h2>インスタンスメソッド</h2>
 <dl>
+
+<dt class="method-heading" id="I_CHDIR"><code>chdir -&gt; 0</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Dir/i/chdir.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-i-chdir">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>chdir { ... } -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+カレントディレクトリを self が指すディレクトリに変更します。
+</p>
+<p>
+ブロックを指定しない場合、カレントディレクトリの変更に成功すれば 0 を返します。
+</p>
+<p>
+ブロックを指定した場合、カレントディレクトリの変更はブロックの実行中に限られます。ブロックの実行結果を返します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>IOError</code>:</dt>
+<dd>
+既に自身が close している場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>Errno::EXXX</code>:</dt>
+<dd>
+失敗した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="s2">"</span><span class="s2">/var/spool/mail</span><span class="s2">"</span><span class="p">)</span>
+d <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">/usr</span><span class="s2">"</span><span class="p">)</span>
+d<span class="p">.</span><span class="nf">chdir</span> <span class="k">do</span>
+  <span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">pwd</span> <span class="c1"># =&gt; &quot;/usr&quot;
+</span><span class="k">end</span>
+<span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">pwd</span>   <span class="c1"># =&gt; &quot;/var/spool/mail&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Dir/s/chdir.html">Dir.chdir</a>, <a href="../method/Dir/s/fchdir.html">Dir.fchdir</a>
+</p>
+</dd>
+
 
 <dt class="method-heading" id="I_CHILDREN"><code>children -&gt; [String]</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Dir/i/children.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-i-children">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
 <dd class="method-description">

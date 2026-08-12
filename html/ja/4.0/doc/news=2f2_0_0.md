@@ -76,7 +76,7 @@
 
   - [Module](../class/Module.md)
     - 追加: [Module#prepend](../method/Module/i/prepend.md) 指定したモジュールを self の継承チェインの先頭に
-      「追加する」ことで self の定数、メソッド、モジュール変数を「上書き」します。 
+      「追加する」ことで self の定数、メソッド、モジュール変数を「上書き」します。
     - 追加: [Module#prepended](../method/Module/i/prepended.md), [Module#prepend_features](../method/Module/i/prepend_features.md) は [Module#included](../method/Module/i/included.md) と [Module#append_features](../method/Module/i/append_features.md) に似ています
     - 追加(実験的): [Module#refine](../method/Module/i/refine.md), スコープを限定してクラスやモジュールを拡張します。
     - 拡張: [Module#define_method](../method/Module/i/define_method.md) は [UnboundMethod](../class/UnboundMethod.md) を受け付けるようになりました
@@ -87,7 +87,7 @@
 
   - [Mutex](../class/Mutex.md)
     - 追加(実験的): [`Mutex#owned?`](../method/Thread=3a=3aMutex/i/owned=3f.md) mutex が現在のスレッドに所持されているかどうかを返します
-    - 非互換: 
+    - 非互換:
       - [`Mutex#lock`](../method/Thread=3a=3aMutex/i/lock.md), [`Mutex#unlock`](../method/Thread=3a=3aMutex/i/unlock.md), [`Mutex#try_lock`](../method/Thread=3a=3aMutex/i/try_lock.md), [`Mutex#synchronize`](../method/Thread=3a=3aMutex/i/synchronize.md), [`Mutex#sleep`](../method/Thread=3a=3aMutex/i/sleep.md)
         はトラップハンドラの中では使えなくなりました。そのようなときは ThreadError が発生します
       - [`Mutex#sleep`](../method/Thread=3a=3aMutex/i/sleep.md) may spurious wakeup. Check after wakeup.

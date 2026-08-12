@@ -51,6 +51,7 @@
 - [concat](../method/Array/i/concat.md)
 - [count](../method/Array/i/count.md)
 - [cycle](../method/Array/i/cycle.md)
+- [deconstruct](../method/Array/i/deconstruct.md)
 - [delete](../method/Array/i/delete.md)
 - [delete_at](../method/Array/i/delete_at.md)
 - [delete_if](../method/Array/i/delete_if.md)

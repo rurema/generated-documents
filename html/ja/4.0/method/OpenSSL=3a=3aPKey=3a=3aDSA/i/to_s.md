@@ -9,7 +9,7 @@
 
 鍵を PEM 形式で出力します。
 
-cipher と pass が指定された場合、秘密鍵を暗号 cipher [OpenSSL::Cipher::Cipher](../../../class/OpenSSL=3a=3aCipher=3a=3aCipher.md) 
+cipher と pass が指定された場合、秘密鍵を暗号 cipher [OpenSSL::Cipher::Cipher](../../../class/OpenSSL=3a=3aCipher=3a=3aCipher.md)
 とパスワード pass を使って暗号化します。
 
 cipher を指定して pass を省略した場合は渡されたブロックを呼びだしてパスフレーズを要求します。ブロックの返り値をパスフレーズとみなして暗号化します。

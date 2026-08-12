@@ -1,7 +1,7 @@
 # Zlib::GzipFile#sync=
 
 ### def sync -> bool
-### def sync=(flag) 
+### def sync=(flag)
 
 IO クラスと同じ。flag が真の時、関連付けられている
 IO オブジェクトが flush メソッドを持っていなければなりません。

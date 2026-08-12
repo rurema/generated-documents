@@ -36,4 +36,5 @@ p public_methods(false) - basic_public_methods
 - [to_s](../method/main/s/to_s.md)
 - [private](../method/main/s/private.md)
 - [public](../method/main/s/public.md)
+- [ruby2_keywords](../method/main/s/ruby2_keywords.md)
 - [using](../method/main/s/using.md)

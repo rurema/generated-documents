@@ -3,7 +3,7 @@
 ### def retrbinary(cmd, blocksize, rest_offset = nil) -> nil
 ### def retrbinary(cmd, blocksize, rest_offset = nil){|data| ...} -> nil
 
-サーバーに cmd で指定されたコマンドを送り、バイナリデータを 
+サーバーに cmd で指定されたコマンドを送り、バイナリデータを
 取り寄せます。
 
 blocksize で指定されたバイト単位でデータを読み込み、ブロックに渡します。

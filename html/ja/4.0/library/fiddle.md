@@ -7,7 +7,7 @@ dl は 2.0 以降deprecated となり、2.2.0 で削除されました。この�
 
 ### 使い方
 
-通常は [fiddle/import](../library/fiddle=2fimport.md) ライブラリを require して 
+通常は [fiddle/import](../library/fiddle=2fimport.md) ライブラリを require して
 [Fiddle::Importer](../class/Fiddle=3a=3aImporter.md) モジュールを使用します。
 [Fiddle](../class/Fiddle.md) モジュール自体はプリミティブな機能しか提供していません。
 [Fiddle::Importer](../class/Fiddle=3a=3aImporter.md) モジュールは以下のようにユーザが定義したモジュールを拡張する形で使います。

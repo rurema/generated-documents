@@ -1,6 +1,6 @@
 # OpenSSL::SSL::SSLContext#cert_store=
 
-### def cert_store=(store) 
+### def cert_store=(store)
 
 接続相手の証明書の検証のために使う、信頼している CA 証明書を含む証明書ストアを設定します。
 

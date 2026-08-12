@@ -30,6 +30,7 @@
 
 ## Instance Methods
 
+- [chdir](../method/Dir/i/chdir.md)
 - [children](../method/Dir/i/children.md)
 - [close](../method/Dir/i/close.md)
 - [each](../method/Dir/i/each.md)

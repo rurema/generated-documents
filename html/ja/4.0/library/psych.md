@@ -64,7 +64,7 @@ Psych は YAML ドキュメントを出力する機能があります。
 
 詳しくは [Psych::Emitter](../class/Psych=3a=3aEmitter.md) を見てください。
 
-#####  中水準出力 API 
+#####  中水準出力 API
 
 中水準 API では、利用者が AST を構築し YAML ドキュメントに変換します。
 この AST は YAML ドキュメントをパースして得られるものと同じものです。

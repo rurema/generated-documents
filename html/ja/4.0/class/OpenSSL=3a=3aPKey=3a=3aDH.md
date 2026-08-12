@@ -3,7 +3,7 @@
 Diffie-Hellman 鍵共有クラス
 
 Diffie-Hellman 鍵共有プロトコルは署名ができないため、
-[OpenSSL::PKey::PKey#sign](../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign.md) や [OpenSSL::PKey::PKey#verify](../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/verify.md) 
+[OpenSSL::PKey::PKey#sign](../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign.md) や [OpenSSL::PKey::PKey#verify](../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/verify.md)
 を呼び署名や署名の検証を行おうとすると例外
 [OpenSSL::PKey::PKeyError](../class/OpenSSL=3a=3aPKey=3a=3aPKeyError.md) が発生します。
 

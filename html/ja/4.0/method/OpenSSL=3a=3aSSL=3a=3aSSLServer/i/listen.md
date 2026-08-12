@@ -2,7 +2,7 @@
 
 ### def listen(backlog=5) -> 0
 
-ラップしている [TCPServer](../../../class/TCPServer.md) の [TCPServer#listen](../../../method/TCPServer/i/listen.md) 
+ラップしている [TCPServer](../../../class/TCPServer.md) の [TCPServer#listen](../../../method/TCPServer/i/listen.md)
 を呼びだします。
 
 通常は TCPServer の初期化時に listen が呼びだされるため呼ぶ必要はないはずです。

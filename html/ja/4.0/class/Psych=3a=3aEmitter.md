@@ -1,6 +1,6 @@
 # class Psych::Emitter < Psych::Handler
 
-[Psych::Parser](../class/Psych=3a=3aParser.md) でパースし、生じたイベントから 
+[Psych::Parser](../class/Psych=3a=3aParser.md) でパースし、生じたイベントから
 YAML ドキュメントを再構築するようなハンドラです。
 
 以下の例では STDIN から YAML ドキュメントを入力し、再構築した YAML ドキュメントを STDERR に出力します。

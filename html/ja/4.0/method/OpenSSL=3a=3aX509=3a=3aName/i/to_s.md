@@ -11,7 +11,7 @@ flags には通常は以下のいずれかを渡します。
   - [OpenSSL::X509::Name::ONELINE](../../../method/OpenSSL=3a=3aX509=3a=3aName/c/ONELINE.md)
   - [OpenSSL::X509::Name::MULTILINE](../../../method/OpenSSL=3a=3aX509=3a=3aName/c/MULTILINE.md)
 
-* 
+*
 例:
 
 ```ruby

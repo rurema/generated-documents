@@ -1,6 +1,6 @@
 # WEBrick::CGI#logger
 
-### def logger     -> WEBrick::BasicLog 
+### def logger     -> WEBrick::BasicLog
 
 設定されているログオブジェクトを返します。
 

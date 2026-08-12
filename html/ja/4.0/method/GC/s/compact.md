@@ -6,4 +6,4 @@
 
 詳細は[feature:15626]を参照してください。
 
-- **SEE** [GC.verify_compaction_references](../../../method/GC/s/verify_compaction_references.md)
+- **SEE** [GC.verify_compaction_references](../../../method/GC/s/verify_compaction_references.md), [GC.latest_compact_info](../../../method/GC/s/latest_compact_info.md)

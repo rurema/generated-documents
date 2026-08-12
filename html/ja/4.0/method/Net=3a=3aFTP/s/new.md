@@ -5,8 +5,8 @@
 
 新しい Net::FTP のインスタンスを生成します。
 
-host が指定された場合、生成されたインスタンスに対して 
-[Net::FTP#connect](../../../method/Net=3a=3aFTP/i/connect.md) を呼び出し、さらにログインユーザ名が指定された場合は [Net::FTP#login](../../../method/Net=3a=3aFTP/i/login.md) 
+host が指定された場合、生成されたインスタンスに対して
+[Net::FTP#connect](../../../method/Net=3a=3aFTP/i/connect.md) を呼び出し、さらにログインユーザ名が指定された場合は [Net::FTP#login](../../../method/Net=3a=3aFTP/i/login.md)
 を呼び出します。
 
 2 番目の引数には、後方互換のためログインに使うユーザ名を表す文字列をそのまま渡すこともできますが、各キーがシンボルであるオプションのハッシュを渡すこともできます。オプションのハッシュを渡した場合、3 番目・4 番目の引数(passwd、acct)は無視され、ユーザ名やパスワードはオプションの

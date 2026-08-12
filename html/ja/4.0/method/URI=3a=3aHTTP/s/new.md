@@ -1,6 +1,6 @@
 # URI::HTTP.new
 
-### def URI::HTTP.new(scheme, userinfo, host, port, registry, path, opaque, query, fragment, arg_check = false)     -> URI::HTTP   
+### def URI::HTTP.new(scheme, userinfo, host, port, registry, path, opaque, query, fragment, arg_check = false)     -> URI::HTTP
 
 汎用的な構成要素から URI::HTTP オブジェクトを生成します。build
 と異なり、デフォルトでは引数の正当性を検査しません。

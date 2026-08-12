@@ -2,10 +2,10 @@
 
 ### def service(name) -> DRb::ExtServ
 
-name で指定したサービスに関連付けられた [DRb::ExtServ](../../../class/DRb=3a=3aExtServ.md) 
+name で指定したサービスに関連付けられた [DRb::ExtServ](../../../class/DRb=3a=3aExtServ.md)
 オブジェクトを返します。
 
-サービスを提供するプロセスが起動していない場合は、[DRb::ExtServManager.command](../../../method/DRb=3a=3aExtServManager/s/command.md) 
+サービスを提供するプロセスが起動していない場合は、[DRb::ExtServManager.command](../../../method/DRb=3a=3aExtServManager/s/command.md)
 で指定したプロセスを起動し、そのプロセスが [DRb::ExtServ](../../../class/DRb=3a=3aExtServ.md) オブジェクトが
 [DRb::ExtServ.new](../../../method/DRb=3a=3aExtServ/s/new.md) によって ExtServManager に登録されるのを待ちます。
 その後、登録されたオブジェクトを返します。

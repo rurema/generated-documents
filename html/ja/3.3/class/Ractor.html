@@ -158,6 +158,14 @@
 
 <li><a href="#I_--3C--3C">&lt;&lt;</a></li>
 
+<li><a href="#I_--5B--5D">[]</a></li>
+
+<li><a href="#I_--5B--5D--3D">[]=</a></li>
+
+<li><a href="#I_CLOSE_INCOMING">close_incoming</a></li>
+
+<li><a href="#I_CLOSE_OUTGOING">close_outgoing</a></li>
+
 <li><a href="#I_NAME">name</a></li>
 
 <li><a href="#I_--3C--3C">send</a></li>
@@ -327,6 +335,93 @@ self にメッセージを送信します。送られたメッセージは self 
 msg を「移動」する場合は true を指定します。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="I_--5B--5D"><code>self[sym] -&gt; object | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Ractor/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Ractor.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+カレント Ractor(このメソッドを呼び出した Ractor)の Ractor-local storage の sym に対応するデータを取り出します。
+sym に対応するデータがなければ nil を返します。
+</p>
+<p>
+self がカレント Ractor でなくても例外にはならず、常にカレント Ractor の Ractor-local storage を参照します(self は使われません)。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>sym</code>:</dt>
+<dd>
+Ractor-local storage のキーを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="no">Ractor</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="ss">:user</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">me</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="ss">:user</span><span class="p">]</span> <span class="c1"># =&gt; &quot;me&quot;
+</span><span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">current</span><span class="p">[</span><span class="ss">:none</span><span class="p">]</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_--5B--5D--3D"><code>self[sym] = val</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Ractor/i/=5b=5d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Ractor.html#method-i-5B-5D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+カレント Ractor(このメソッドを呼び出した Ractor)の Ractor-local storage の sym に val を格納します。
+</p>
+<p>
+self がカレント Ractor でなくても例外にはならず、常にカレント Ractor の Ractor-local storage に格納します(self は使われません)。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>sym</code>:</dt>
+<dd>
+Ractor-local storage のキーを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>val</code>:</dt>
+<dd>
+格納するデータを指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_CLOSE_INCOMING"><code>close_incoming -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/Ractor/i/close_incoming.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Ractor.html#method-i-close_incoming">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self の incoming port を閉じます。すでに閉じられていた場合は true を、そうでなければ false を返します。
+</p>
+<p>
+閉じると、self への <a href="../method/Ractor/i/send.html">Ractor#send</a> と self 内での <a href="../method/Ractor/s/receive.html">Ractor.receive</a> は
+<a href="../class/Ractor=3a=3aClosedError.html">Ractor::ClosedError</a> を発生させるようになります(受信待ちでブロックしていた場合も同様です)。
+</p>
+<p>
+Ractor の実行が終了すると、incoming port と outgoing port は自動的に閉じられます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>r <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">receive</span> <span class="p">}</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">close_incoming</span> <span class="c1"># =&gt; false
+</span>r<span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>          <span class="c1"># ~&gt; Ractor::ClosedError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ractor/i/close_outgoing.html">Ractor#close_outgoing</a>, <a href="../method/Ractor/i/send.html">Ractor#send</a>, <a href="../method/Ractor/s/receive.html">Ractor.receive</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CLOSE_OUTGOING"><code>close_outgoing -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/Ractor/i/close_outgoing.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Ractor.html#method-i-close_outgoing">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self の outgoing port を閉じます。すでに閉じられていた場合は true を、そうでなければ false を返します。
+</p>
+<p>
+閉じると、self への <a href="../method/Ractor/i/take.html">Ractor#take</a> と self 内での <a href="../method/Ractor/s/yield.html">Ractor.yield</a> は
+<a href="../class/Ractor=3a=3aClosedError.html">Ractor::ClosedError</a> を発生させるようになります(送信待ち・受信待ちでブロックしていた場合も同様です)。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>r <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">receive</span> <span class="p">}</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">close_outgoing</span> <span class="c1"># =&gt; false
+</span>r<span class="p">.</span><span class="nf">take</span>             <span class="c1"># ~&gt; Ractor::ClosedError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ractor/i/close_incoming.html">Ractor#close_incoming</a>, <a href="../method/Ractor/i/take.html">Ractor#take</a>, <a href="../method/Ractor/s/yield.html">Ractor.yield</a>
+</p>
 </dd>
 
 

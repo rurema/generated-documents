@@ -6,7 +6,7 @@
 UDP のサーバを起動して、メッセージが来るごとにブロックを呼び出します。
 
 ブロックに渡される引数は msg と msg_src の 2 つで、
-msg は受け取ったメッセージ文字列で、 msg_src は 
+msg は受け取ったメッセージ文字列で、 msg_src は
 通信相手の [Socket::UDPSource](../../../class/Socket=3a=3aUDPSource.md) オブジェクトです。
 
 - **param** `host` -- 割り当てるホスト名

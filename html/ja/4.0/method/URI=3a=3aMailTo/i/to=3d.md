@@ -1,6 +1,6 @@
 # URI::MailTo#to=
 
-### def to=(s) 
+### def to=(s)
 
 自身の e-mail アドレスを文字列で設定します。
 

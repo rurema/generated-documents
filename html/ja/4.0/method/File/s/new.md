@@ -1,7 +1,7 @@
 # File.new
 
-### def File.new(path, mode = "r", perm = 0666, **opts)                -> File 
-### def File.open(path, mode = "r", perm = 0666, **opts)               -> File 
+### def File.new(path, mode = "r", perm = 0666, **opts)                -> File
+### def File.open(path, mode = "r", perm = 0666, **opts)               -> File
 ### def File.open(path, mode = "r", perm = 0666, **opts) {|file| ... } -> object
 
 path で指定されるファイルをオープンし、[File](../../../class/File.md) オブジェクトを生成して返します。

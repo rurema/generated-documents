@@ -10,7 +10,7 @@
   - TCP のサーバソケット [Socket.tcp_server_loop](../method/Socket/s/tcp_server_loop.md),
     [Socket.tcp_server_sockets](../method/Socket/s/tcp_server_sockets.md), [TCPServer.open](../method/TCPServer/s/open.md)
   - UNIX socket のクライアントソケット [Socket.unix](../method/Socket/s/unix.md) [UNIXSocket.open](../method/UNIXSocket/s/open.md)
-  - UNIX socket のサーバソケット [Socket.unix_server_loop](../method/Socket/s/unix_server_loop.md), 
+  - UNIX socket のサーバソケット [Socket.unix_server_loop](../method/Socket/s/unix_server_loop.md),
     [Socket.unix_server_socket](../method/Socket/s/unix_server_socket.md), [UNIXServer.open](../method/UNIXServer/s/open.md)
 また、クライアントソケットは [Addrinfo#connect](../method/Addrinfo/i/connect.md) で、サーバソケットを [Addrinfo#bind](../method/Addrinfo/i/bind.md) や [Addrinfo#listen](../method/Addrinfo/i/listen.md) で作ることもできます。
 

@@ -6,7 +6,7 @@
 を参照してください。
 取得したオプションのデータを [Socket::Option](../../../class/Socket=3a=3aOption.md) で返します。
 
-level, optname には Socket::SOL_SOCKET や Socket::SO_REUSEADDR 
+level, optname には Socket::SOL_SOCKET や Socket::SO_REUSEADDR
 といった整数値の他、文字列("SOL_SOCKET", prefixなしの "SOCKET")やシンボル(:SO_REUSEADDR, :REUSEADDR)を用いることができます。
 
 - **param** `level` --    [man:getsockopt(2)] の 第二引数のlevel 

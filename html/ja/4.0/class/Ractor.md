@@ -24,6 +24,8 @@
 
 - [<<](../method/Ractor/i/=3c=3c.md)
 - [send](../method/Ractor/i/send.md)
+- [\[\]](../method/Ractor/i/=5b=5d.md)
+- [\[\]=](../method/Ractor/i/=5b=5d=3d.md)
 - [close](../method/Ractor/i/close.md)
 - [default_port](../method/Ractor/i/default_port.md)
 - [join](../method/Ractor/i/join.md)

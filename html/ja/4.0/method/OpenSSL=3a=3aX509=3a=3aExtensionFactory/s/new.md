@@ -15,7 +15,7 @@ ExtensionFactory オブジェクトを生成します。
   - [OpenSSL::X509::ExtensionFactory#issuer_certificate=](../../../method/OpenSSL=3a=3aX509=3a=3aExtensionFactory/i/issuer_certificate=3d.md)
   - [OpenSSL::X509::ExtensionFactory#subject_certificate=](../../../method/OpenSSL=3a=3aX509=3a=3aExtensionFactory/i/subject_certificate=3d.md)
   - [OpenSSL::X509::ExtensionFactory#subject_request=](../../../method/OpenSSL=3a=3aX509=3a=3aExtensionFactory/i/subject_request=3d.md)
-  - [OpenSSL::X509::ExtensionFactory#crl=](../../../method/OpenSSL=3a=3aX509=3a=3aExtensionFactory/i/crl=3d.md) 
+  - [OpenSSL::X509::ExtensionFactory#crl=](../../../method/OpenSSL=3a=3aX509=3a=3aExtensionFactory/i/crl=3d.md)
 
 - **param** `issuer_cert` -- 証明書発行者、すなわち CA の 
        [OpenSSL::X509::Certificate](../../../class/OpenSSL=3a=3aX509=3a=3aCertificate.md) オブジェクト

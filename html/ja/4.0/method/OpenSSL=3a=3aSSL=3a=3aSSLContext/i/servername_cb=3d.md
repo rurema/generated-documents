@@ -15,7 +15,7 @@ proc{|sslsocket, hostname| ... }
 2つで、1つ目は認証および暗号化通信に使われる [OpenSSL::SSL::SSLSocket](../../../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.md)
 オブジェクトで、2つ目がクライアント側から伝えられてきたホスト名です。
 
-コールバックの返り値には認証と暗号化の設定を含んだ 
+コールバックの返り値には認証と暗号化の設定を含んだ
 [OpenSSL::SSL::SSLContext](../../../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.md) オブジェクト、もしくは
 nil を返さなければなりません。
 これで得られたコンテキストオブジェクトが sslsocket に設定され、コンテキストが持っている証明書などの各情報を用いてハンドシェイクを継続します。

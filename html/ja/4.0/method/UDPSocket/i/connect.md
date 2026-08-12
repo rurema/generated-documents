@@ -22,7 +22,7 @@ p u1.recvfrom(10) # => ["uuuu", ["AF_INET", 33230, "localhost", "127.0.0.1"]]
 
 ### def connect(host, port) -> Integer
 
-[UDPSocket#connect](../../../method/UDPSocket/i/connect.md) のパラメータ host の名前解決に 
+[UDPSocket#connect](../../../method/UDPSocket/i/connect.md) のパラメータ host の名前解決に
 [resolv](../../../library/resolv.md) ライブラリを使います。
 
 - **param** `host` -- connect するホスト名を文字列で指定します。

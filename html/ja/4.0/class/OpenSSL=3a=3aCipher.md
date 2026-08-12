@@ -2,18 +2,18 @@
 
 共通鍵暗号のために抽象化されたインターフェースを提供するクラスです。
 
-基本的にこのクラスを直接使ってデータを暗号化することは避けてください。通常はより高水準なインターフェースが利用可能なはずです。必要なのは暗号アルゴリズムを指定するため 
+基本的にこのクラスを直接使ってデータを暗号化することは避けてください。通常はより高水準なインターフェースが利用可能なはずです。必要なのは暗号アルゴリズムを指定するため
 [OpenSSL::Cipher.new](../method/OpenSSL=3a=3aCipher/s/new.md) で暗号オブジェクトを生成することだけでしょう。
 
 もし、このクラスを直接利用して暗号化する場合は、暗号の鍵や
 IV(Initialization Vector)の取り扱いについて正しく理解してからにしてください。
 
 以下の手順で利用します。
-  - [OpenSSL::Cipher.new](../method/OpenSSL=3a=3aCipher/s/new.md) や [OpenSSL::Cipher::AES256.new](../method/OpenSSL=3a=3aCipher=3a=3aAES256/s/new.md) 
+  - [OpenSSL::Cipher.new](../method/OpenSSL=3a=3aCipher/s/new.md) や [OpenSSL::Cipher::AES256.new](../method/OpenSSL=3a=3aCipher=3a=3aAES256/s/new.md)
     などで暗号オブジェクトを生成する
   - [OpenSSL::Cipher#encrypt](../method/OpenSSL=3a=3aCipher/i/encrypt.md), [OpenSSL::Cipher#decrypt](../method/OpenSSL=3a=3aCipher/i/decrypt.md) で
     暗号、復号のいずれをするかを設定する
-  - [OpenSSL::Cipher#key=](../method/OpenSSL=3a=3aCipher/i/key=3d.md), [OpenSSL::Cipher#iv=](../method/OpenSSL=3a=3aCipher/i/iv=3d.md), 
+  - [OpenSSL::Cipher#key=](../method/OpenSSL=3a=3aCipher/i/key=3d.md), [OpenSSL::Cipher#iv=](../method/OpenSSL=3a=3aCipher/i/iv=3d.md),
     [OpenSSL::Cipher#random_key](../method/OpenSSL=3a=3aCipher/i/random_key.md), [OpenSSL::Cipher#random_iv](../method/OpenSSL=3a=3aCipher/i/random_iv.md) などで
     鍵と IV(initialization vector) を設定する
   - [OpenSSL::Cipher#update](../method/OpenSSL=3a=3aCipher/i/update.md), [OpenSSL::Cipher#final](../method/OpenSSL=3a=3aCipher/i/final.md) で

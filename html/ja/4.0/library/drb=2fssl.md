@@ -10,7 +10,7 @@ DRb::DRbServer.new( 'drbssl://localhost:10000',
                     {:SSLCertName => [["CN","fqdn.example.com"]]})
 ```
 
-[DRb::DRbServer.new](../method/DRb=3a=3aDRbServer/s/new.md) や [DRb?.start_service](../method/DRb/m/start_service.md) が 
+[DRb::DRbServer.new](../method/DRb=3a=3aDRbServer/s/new.md) や [DRb?.start_service](../method/DRb/m/start_service.md) が
 "drbssl" スキームを受け入れるようになります。
 また、[DRb::DRbObject.new_with_uri](../method/DRb=3a=3aDRbObject/s/new_with_uri.md) でも drbunix スキームが使えるようになります。
 

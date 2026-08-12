@@ -12,7 +12,7 @@
 
 ブロックを与えなかった場合には生成したインスタンスを返します。
 
-user が指定された場合は [Net::FTP#login](../../../method/Net=3a=3aFTP/i/login.md) 
+user が指定された場合は [Net::FTP#login](../../../method/Net=3a=3aFTP/i/login.md)
 を呼び出します。
 
 - **param** `host` -- 接続するホストを指定します。

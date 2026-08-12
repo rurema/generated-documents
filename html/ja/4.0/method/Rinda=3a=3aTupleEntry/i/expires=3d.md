@@ -1,6 +1,6 @@
 # Rinda::TupleEntry#expires=
 
-### def expires=(expires) 
+### def expires=(expires)
 
 タプルの期限切れの時刻を指定します。
 

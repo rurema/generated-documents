@@ -10,7 +10,7 @@ set で対象とするメッセージを指定します。
 これには sequence number、sequence number の配列、もしくは
 [Range](../../../class/Range.md) オブジェクトを渡します。
 attr には取得するアトリビュートを文字列の配列で渡してください。
-指定可能なアトリビュートについては [Net::IMAP::FetchData#attr](../../../method/Net=3a=3aIMAP=3a=3aFetchData/i/attr.md) 
+指定可能なアトリビュートについては [Net::IMAP::FetchData#attr](../../../method/Net=3a=3aIMAP=3a=3aFetchData/i/attr.md)
 を見てください。
 
 ```ruby title="例"

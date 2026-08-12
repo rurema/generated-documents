@@ -2,7 +2,7 @@
 
 ユーザ ID・グループ ID を操作するシステムコールを直接呼ぶためのモジュールです。
 
-ポータブルにユーザ ID・グループ ID を操作するためのモジュール [Process::UID](../class/Process=3a=3aUID.md), [Process::GID](../class/Process=3a=3aGID.md) 
+ポータブルにユーザ ID・グループ ID を操作するためのモジュール [Process::UID](../class/Process=3a=3aUID.md), [Process::GID](../class/Process=3a=3aGID.md)
 も提供されています。Process::Sys と [Process::UID](../class/Process=3a=3aUID.md) や [Process::GID](../class/Process=3a=3aGID.md) を同時に使うことは非推奨です。
 
 ## Module Functions

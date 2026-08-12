@@ -2,7 +2,7 @@
 
 ### def getacl(mailbox) -> [Net::IMAP::MailboxACLItem]
 
-GETACL コマンドを送り、メールボックスの 
+GETACL コマンドを送り、メールボックスの
 ACL(Access Control List) を取得します。
 
 [Net::IMAP#getacl](../../../method/Net=3a=3aIMAP/i/getacl.md) で指定したメールボックスに対し何らかの権限を持つ各ユーザに対して
