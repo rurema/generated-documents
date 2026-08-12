@@ -2,7 +2,7 @@
 
 ### def DRb::ExtServ.new(there, name, server=nil) -> DRb::ExtServ
 
-DRb::ExtServ オブジェクトを生成し、サービスを 
+DRb::ExtServ オブジェクトを生成し、サービスを
 [DRb::ExtServManager](../../../class/DRb=3a=3aExtServManager.md) オブジェクトに登録します。
 
 there で指定した

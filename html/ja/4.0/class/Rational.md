@@ -1,23 +1,56 @@
 # class Rational < Numeric
 
-有理数を扱うクラスです。
+有理数を表すクラスです。
 
-「1/3」のような有理数を扱う事ができます。[Integer](../class/Integer.md) や [Float](../class/Float.md)
-と同様に Rational.new ではなく、 [Kernel?.Rational](../method/Kernel/m/Rational.md) を使用して
-[Rational](../class/Rational.md) オブジェクトを作成します。
+分子・分母を [Integer](../class/Integer.md) オブジェクトとして保持します。
 
-```ruby title="例"
-p Rational(1, 3)     # => (1/3)
-p Rational('1/3')    # => (1/3)
-p Rational('0.33')   # => (33/100)
-Rational.new(1, 3)   # ~> NoMethodError
+`Rational` オブジェクトはリテラルや [Kernel?.Rational](../method/Kernel/m/Rational.md) メソッドによって生成できます。
+
+```ruby title="リテラルによる生成"
+# 10 進整数に `r` を付けた形式
+p -3r # => (-3/1)
+
+# 10 進小数に `r` を付けた形式
+p 0.1r # => (1/10)
+# Float のリテラル `0.1` と違い、
+# 誤差無しで 0.1 を表す Rational オブジェクトが得られる
+
+p 3/4r # => (3/4)
+# `3/4r` という形式の Rational のリテラルがあるわけではなく、
+# Integer のリテラル `3` と Rational のリテラル `4r` と
+# 除算演算子 `/` からなる演算子式
+# `3r/4` と書くこともできる
 ```
 
-[Rational](../class/Rational.md) オブジェクトは常に既約(それ以上約分できない状態)である事に注意してください。
+```ruby title="Rational メソッドによる生成"
+# 分子・分母を引数として与える
+p Rational(3, 4)     # => (3/4)
 
-```ruby title="例"
-p Rational(2, 6)     # => (1/3)
-p Rational(1, 3) * 3 # => (1/1)
+# 整数の場合、分母 `1` は略せる
+p Rational(3) # => (3/1)
+
+# 分数形式の文字列を与える
+p Rational("3/4")    # => (3/4)
+
+# 10 進整数、10 進小数の形式の文字列を与える
+p Rational("3") # => (3/1)
+p Rational("-0.1") # => (-1/10)
+```
+
+`Rational.new` で生成することはできません（[Integer](../class/Integer.md) や [Float](../class/Float.md)
+と同様）。
+
+```ruby
+Rational.new(1, 3) # ~> NoMethodError
+```
+
+[Rational](../class/Rational.md) オブジェクトは常に既約（それ以上約分できないこと）かつ分母が正であるような分子・分母を保持しています。
+
+```ruby
+p Rational(2, -6) # => (-1/3)
+
+# 計算結果として生じる Rational オブジェクトもそうなっている
+p Rational(2, 3) / (-4) # => (-1/6)
 ```
 
 ## Class Methods

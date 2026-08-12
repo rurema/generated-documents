@@ -7,7 +7,7 @@
 スレッドの実行を終了させます。終了時に ensure 節が実行されます。
 
 ただし、スレッドは終了処理中(aborting)にはなりますが、直ちに終了するとは限りません。すでに終了している場合は何もしません。このメソッドにより終了したスレッドの [Thread#value](../../../method/Thread/i/value.md) の返り値は不定です。
-自身がメインスレッドであるか最後のスレッドである場合は、プロセスを [Kernel?.exit](../../../method/Kernel/m/exit.md)(0) 
+自身がメインスレッドであるか最後のスレッドである場合は、プロセスを [Kernel?.exit](../../../method/Kernel/m/exit.md)(0)
 により終了します。
 
 [Kernel?.exit](../../../method/Kernel/m/exit.md) と違い例外  [SystemExit](../../../class/SystemExit.md) を発生しません。

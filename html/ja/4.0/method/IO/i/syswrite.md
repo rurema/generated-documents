@@ -1,6 +1,6 @@
 # IO#syswrite
 
-### def syswrite(string)    -> Integer    
+### def syswrite(string)    -> Integer
 
 [man:write(2)] を用いて string を出力します。
 string が文字列でなければ to_s による文字列化を試みます。

@@ -10,7 +10,7 @@ Ruby 3.0 で標準添付から削除されました。sync gem をインスト�
 ただし [MonitorMixin](../class/MonitorMixin.md) は単純な再入可能ロックであり、`Sync_m` が持っていた
 reader/writer(共有・排他)ロックの区別はありません。
 
-「mu_」の付かないメソッド([Mutex_m#lock](../method/Mutex_m/i/lock.md), [Mutex_m#synchronize](../method/Mutex_m/i/synchronize.md), 
+「mu_」の付かないメソッド([Mutex_m#lock](../method/Mutex_m/i/lock.md), [Mutex_m#synchronize](../method/Mutex_m/i/synchronize.md),
 [Mutex_m#locked?](../method/Mutex_m/i/locked=3f.md), [Mutex_m#try_lock](../method/Mutex_m/i/try_lock.md), [Mutex_m#unlock](../method/Mutex_m/i/unlock.md))
 はモジュールにincludeした場合には定義されません。
 

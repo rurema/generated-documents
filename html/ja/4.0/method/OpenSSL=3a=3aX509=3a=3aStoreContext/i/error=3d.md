@@ -5,7 +5,7 @@
 エラーコードを設定します。
 
 [OpenSSL::X509::StoreContext#verify](../../../method/OpenSSL=3a=3aX509=3a=3aStoreContext/i/verify.md) を呼びだし、証明書チェインの各証明書を検証したコールバック([OpenSSL::X509::Store#verify_callback=](../../../method/OpenSSL=3a=3aX509=3a=3aStore/i/verify_callback=3d.md))が呼び出され、
-StoreContext オブジェクトが渡されますが、このメソッドでエラーコードを設定し、コールバックの返り値を false にすると、最終的なエラーコードがここで設定したものになります。[OpenSSL::X509::StoreContext#error_string](../../../method/OpenSSL=3a=3aX509=3a=3aStoreContext/i/error_string.md) 
+StoreContext オブジェクトが渡されますが、このメソッドでエラーコードを設定し、コールバックの返り値を false にすると、最終的なエラーコードがここで設定したものになります。[OpenSSL::X509::StoreContext#error_string](../../../method/OpenSSL=3a=3aX509=3a=3aStoreContext/i/error_string.md)
 もその値に応じた文字列が返るようになります。
 
 例:

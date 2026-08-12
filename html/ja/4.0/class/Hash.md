@@ -57,6 +57,7 @@
 - [compact!](../method/Hash/i/compact=21.md)
 - [compare_by_identity](../method/Hash/i/compare_by_identity.md)
 - [compare_by_identity?](../method/Hash/i/compare_by_identity=3f.md)
+- [deconstruct_keys](../method/Hash/i/deconstruct_keys.md)
 - [default](../method/Hash/i/default.md)
 - [default=](../method/Hash/i/default=3d.md)
 - [default_proc](../method/Hash/i/default_proc.md)

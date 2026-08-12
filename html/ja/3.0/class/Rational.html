@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Rational.html">
 
 <title>class Rational (Ruby 3.0 リファレンスマニュアル)</title>
-<meta name="description" content="有理数を扱うクラスです。">
+<meta name="description" content="有理数を表すクラスです。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -126,25 +126,56 @@
 
 <h2>要約</h2>
 <p>
-有理数を扱うクラスです。
+有理数を表すクラスです。
 </p>
 <p>
-「1/3」のような有理数を扱う事ができます。<a href="../class/Integer.html">Integer</a> や <a href="../class/Float.html">Float</a>
-と同様に Rational.new ではなく、 <a href="../method/Kernel/m/Rational.html">Kernel.#Rational</a> を使用して
-<a href="../class/Rational.html">Rational</a> オブジェクトを作成します。
+分子・分母を <a href="../class/Integer.html">Integer</a> オブジェクトとして保持します。
 </p>
-<span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">3</span><span class="p">)</span>     <span class="c1"># =&gt; (1/3)
-</span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="s1">'1/3'</span><span class="p">)</span>    <span class="c1"># =&gt; (1/3)
-</span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="s1">'0.33'</span><span class="p">)</span>   <span class="c1"># =&gt; (33/100)
-</span><span class="no">Rational</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">3</span><span class="p">)</span>   <span class="c1"># ~&gt; NoMethodError
+<p>
+<code>Rational</code> オブジェクトはリテラルや <a href="../method/Kernel/m/Rational.html">Kernel.#Rational</a> メソッドによって生成できます。
+</p>
+<span class="caption">リテラルによる生成</span>
+<pre class="highlight ruby"><code><span class="c1"># 10 進整数に `r` を付けた形式
+</span><span class="nb">p</span> <span class="o">-</span>3r <span class="c1"># =&gt; (-3/1)
+</span>
+<span class="c1"># 10 進小数に `r` を付けた形式
+</span><span class="nb">p</span> 0.1r <span class="c1"># =&gt; (1/10)
+</span><span class="c1"># Float のリテラル `0.1` と違い、
+</span><span class="c1"># 誤差無しで 0.1 を表す Rational オブジェクトが得られる
+</span>
+<span class="nb">p</span> <span class="mi">3</span><span class="o">/</span>4r <span class="c1"># =&gt; (3/4)
+</span><span class="c1"># `3/4r` という形式の Rational のリテラルがあるわけではなく、
+</span><span class="c1"># Integer のリテラル `3` と Rational のリテラル `4r` と
+</span><span class="c1"># 除算演算子 `/` からなる演算子式
+</span><span class="c1"># `3r/4` と書くこともできる
+</span></code></pre>
+<span class="caption">Rational メソッドによる生成</span>
+<pre class="highlight ruby"><code><span class="c1"># 分子・分母を引数として与える
+</span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">4</span><span class="p">)</span>     <span class="c1"># =&gt; (3/4)
+</span>
+<span class="c1"># 整数の場合、分母 `1` は略せる
+</span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; (3/1)
+</span>
+<span class="c1"># 分数形式の文字列を与える
+</span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="s2">"</span><span class="s2">3/4</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; (3/4)
+</span>
+<span class="c1"># 10 進整数、10 進小数の形式の文字列を与える
+</span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="s2">"</span><span class="s2">3</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; (3/1)
+</span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="s2">"</span><span class="s2">-0.1</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; (-1/10)
 </span></code></pre>
 <p>
-<a href="../class/Rational.html">Rational</a> オブジェクトは常に既約(それ以上約分できない状態)である事に注意してください。
+<code>Rational.new</code> で生成することはできません（<a href="../class/Integer.html">Integer</a> や <a href="../class/Float.html">Float</a>
+と同様）。
 </p>
-<span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">6</span><span class="p">)</span>     <span class="c1"># =&gt; (1/3)
-</span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span> <span class="c1"># =&gt; (1/1)
+<pre class="highlight ruby"><code><span class="no">Rational</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">3</span><span class="p">)</span> <span class="c1"># ~&gt; NoMethodError
+</span></code></pre>
+<p>
+<a href="../class/Rational.html">Rational</a> オブジェクトは常に既約（それ以上約分できないこと）かつ分母が正であるような分子・分母を保持しています。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">2</span>, <span class="o">-</span><span class="mi">6</span><span class="p">)</span> <span class="c1"># =&gt; (-1/3)
+</span>
+<span class="c1"># 計算結果として生じる Rational オブジェクトもそうなっている
+</span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># =&gt; (-1/6)
 </span></code></pre>
 
 
@@ -387,12 +418,15 @@
 <dt class="method-heading" id="I_--2A"><code>self * other -&gt; Rational | Float</code><span class="permalink">[<a href="../method/Rational/i/=2a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-2A">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-積を計算します。
+<code>self</code> に <code>other</code> を掛けた値（＝積）を返します。
+</p>
+<p>
+<code>Rational</code> オブジェクトを左項とする算術演算子 <code>*</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> に掛ける数
+<code>self</code> に対する乗数
 </dd>
 </dl>
 <p>
@@ -411,12 +445,15 @@
 <dt class="method-heading" id="I_--2A--2A"><code>self ** other -&gt; Rational | Float</code><span class="permalink">[<a href="../method/Rational/i/=2a=2a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-2A-2A">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-冪(べき)乗を計算します。
+<code>self</code> の <code>other</code> 乗を返します。
+</p>
+<p>
+<code>Rational</code> オブジェクトを左項とする算術演算子 <code>**</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> を <code>other</code> 乗する数
+<code>self</code> に対する冪指数（べきしすう）
 </dd>
 </dl>
 <p>
@@ -447,12 +484,15 @@
 <dt class="method-heading" id="I_--2B"><code>self + other -&gt; Rational | Float</code><span class="permalink">[<a href="../method/Rational/i/=2b.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-2B">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-和を計算します。
+<code>self</code> に <code>other</code> を足した値（＝和）を返します。
+</p>
+<p>
+<code>Rational</code> オブジェクトを左項とする算術演算子 <code>+</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> に足す数
+<code>self</code> に加算する数値
 </dd>
 </dl>
 <p>
@@ -470,12 +510,15 @@
 <dt class="method-heading" id="I_--2D"><code>self - other -&gt; Rational | Float</code><span class="permalink">[<a href="../method/Rational/i/=2d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-2D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-差を計算します。
+<code>self</code> から <code>other</code> を引いた値（＝差）を返します。
+</p>
+<p>
+<code>Rational</code> オブジェクトを左項とする算術演算子 <code>-</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> から引く数
+<code>self</code> から減算する数値
 </dd>
 </dl>
 <p>
@@ -492,8 +535,10 @@
 <dt class="method-heading" id="I_--2D--40"><code>- self -&gt; Rational</code><span class="method-since-badge">Ruby 1.9.1 から</span><span class="permalink">[<a href="../method/Rational/i/=2d=40.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-2D-40">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-単項演算子の - です。
 <code>self</code> の符号を反転させたものを返します。
+</p>
+<p>
+<code>Rational</code> オブジェクトに対する単項演算子 <code>-</code> はこのメソッドの呼び出しになります。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>r <span class="o">=</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">4</span><span class="p">)</span>
@@ -506,7 +551,7 @@
 <dt class="method-heading"><code>quo(other) -&gt; Rational | Float</code><span class="method-since-badge">Ruby 1.9.3 から</span></dt>
 <dd class="method-description">
 <p>
-商を計算します。
+<code>self</code> を <code>other</code> で割った値（＝商）を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -528,7 +573,7 @@
 <dl>
 <dt>[EXCEPTION] <code>ZeroDivisionError</code>:</dt>
 <dd>
-<code>other</code> が <code>0</code> の時に発生します。
+<code>other</code> が <code>0</code> のときに発生します。
 </dd>
 </dl>
 <p>
@@ -540,17 +585,12 @@
 <dt class="method-heading" id="I_--3C--3D--3E"><code>self &lt;=&gt; other -&gt; -1 | 0 | 1 | nil</code><span class="permalink">[<a href="../method/Rational/i/=3c=3d=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-3C-3D-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> と <code>other</code> を比較して、<code>self</code> が大きい時に <code>1</code>、等しい時に <code>0</code>、小さい時に
-<code>-1</code> を返します。比較できない場合は <code>nil</code> を返します。
+<code>self</code> を <code>other</code> と比較し、<code>self</code> が <code>other</code> より大きければ <code>1</code> を、等しければ <code>0</code> を、小さければ <code>-1</code> を返します。比較できないときは <code>nil</code> を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> と比較する数値
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-<code>-1</code> か <code>0</code> か <code>1</code> か <code>nil</code> を返します。
+比較対象
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -567,16 +607,18 @@
 <dt class="method-heading" id="I_--3D--3D"><code>self == other -&gt; bool</code><span class="permalink">[<a href="../method/Rational/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-数値として等しいか判定します。
+<code>self</code> が数値として <code>other</code> と等しければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないときは <code>false</code> を返します。
+</p>
+<p>
+<code>Rational</code> オブジェクトを左項とする比較演算子 <code>==</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> と比較する数値
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-<code>self</code> と <code>other</code> が等しい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
+比較対象
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -593,7 +635,7 @@
 <dt class="method-heading"><code>magnitude -&gt; Rational</code></dt>
 <dd class="method-description">
 <p>
-<code>self</code> の絶対値を返します。
+<code>self</code> の絶対値（absolute value）を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">abs</span>   <span class="c1"># =&gt; (1/2)
@@ -658,14 +700,8 @@
 <dt class="method-heading" id="I_DENOMINATOR"><code>denominator -&gt; Integer</code><span class="permalink">[<a href="../method/Rational/i/denominator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-denominator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-分母を返します。常に正の整数を返します。
+<code>self</code> の分母（denominator）を返します。分母は常に正の整数です。
 </p>
-<dl>
-<dt>[RETURN]</dt>
-<dd>
-分母を返します。
-</dd>
-</dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="p">.</span><span class="nf">denominator</span>     <span class="c1"># =&gt; 1
 </span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">7</span>, <span class="mi">1</span><span class="p">)</span><span class="p">.</span><span class="nf">denominator</span>  <span class="c1"># =&gt; 1
@@ -682,7 +718,7 @@
 <dd class="method-description">
 <p>
 <code>self</code> を <code>other</code> で割った商を <a href="../class/Float.html">Float</a> で返します。
-<code>other</code> に虚数を指定することは出来ません。
+<code>other</code> に虚数を指定することはできません。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
@@ -750,12 +786,6 @@
 <p>
 <code>self</code> のハッシュ値を返します。
 </p>
-<dl>
-<dt>[RETURN]</dt>
-<dd>
-ハッシュ値を返します。
-</dd>
-</dl>
 <p>
 [SEE_ALSO] <a href="../method/Object/i/hash.html">Object#hash</a>
 </p>
@@ -768,7 +798,7 @@
 <code>self</code> を人間が読みやすい形の文字列表現にして返します。
 </p>
 <p>
-&quot;(3/5)&quot;, &quot;(-17/7)&quot; のように10進数の表記を返します。
+<code>&quot;(3/5)&quot;</code>, <code>&quot;(-17/7)&quot;</code> のように10進数の表記を返します。
 </p>
 <dl>
 <dt>[RETURN]</dt>
@@ -791,7 +821,7 @@
 <dt class="method-heading" id="I_NEGATIVE--3F"><code>negative? -&gt; bool</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/Rational/i/negative=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-negative-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> が <code>0</code> 未満の場合に <code>true</code> を返します。そうでない場合に <code>false</code> を返します。
+<code>self</code> が負の数なら <code>true</code> を、そうでないなら <code>false</code> を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">negative?</span>  <span class="c1"># =&gt; false
@@ -806,14 +836,8 @@
 <dt class="method-heading" id="I_NUMERATOR"><code>numerator -&gt; Integer</code><span class="permalink">[<a href="../method/Rational/i/numerator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-numerator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-分子を返します。
+<code>self</code> の分子（numerator）を返します。
 </p>
-<dl>
-<dt>[RETURN]</dt>
-<dd>
-分子を返します。
-</dd>
-</dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="p">.</span><span class="nf">numerator</span>     <span class="c1"># =&gt; 7
 </span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">7</span>, <span class="mi">1</span><span class="p">)</span><span class="p">.</span><span class="nf">numerator</span>  <span class="c1"># =&gt; 7
@@ -829,7 +853,7 @@
 <dt class="method-heading" id="I_POSITIVE--3F"><code>positive? -&gt; bool</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/Rational/i/positive=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Rational.html#method-i-positive-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Rational.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> が <code>0</code> より大きい場合に <code>true</code> を返します。そうでない場合に <code>false</code> を返します。
+<code>self</code> が正の数なら <code>true</code> を、そうでないなら <code>false</code> を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">positive?</span>  <span class="c1"># =&gt; true
@@ -909,7 +933,7 @@
 <code>self</code> の値を最も良く表現する <a href="../class/Float.html">Float</a> に変換します。
 </p>
 <p>
-絶対値が極端に小さい、または大きい場合にはゼロや無限大が返ることがあります。
+絶対値が極端に小さい、または大きい場合にはゼロや正負の無限大が返ることがあります。
 </p>
 <dl>
 <dt>[RETURN]</dt>
@@ -934,7 +958,7 @@
 <dt class="method-heading"><code>truncate(precision = 0) -&gt; Rational | Integer</code></dt>
 <dd class="method-description">
 <p>
-小数点以下を切り捨てて値を整数に変換します。
+小数点以下を切り捨てて値を整数に変換して返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>precision</code>:</dt>
@@ -974,12 +998,6 @@
 <p>
 <code>self</code> を返します。
 </p>
-<dl>
-<dt>[RETURN]</dt>
-<dd>
-<code>self</code> を返します。
-</dd>
-</dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">to_r</span>  <span class="c1"># =&gt; (3/4)
 </span><span class="nb">p</span> <span class="no">Rational</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="p">.</span><span class="nf">to_r</span>   <span class="c1"># =&gt; (8/1)
@@ -993,7 +1011,7 @@
 <code>self</code> を人間が読みやすい形の文字列表現にして返します。
 </p>
 <p>
-&quot;3/5&quot;, &quot;-17/7&quot; のように10進数の表記を返します。
+<code>&quot;3/5&quot;</code>, <code>&quot;-17/7&quot;</code> のように10進数の表記を返します。
 </p>
 <dl>
 <dt>[RETURN]</dt>
@@ -1050,7 +1068,7 @@
 <code>Rational::compatible#marshal_load</code> で復元可能な配列を返します。
 </p>
 <p>
-[注意] <code>Rational::compatible</code> は通常の方法では参照する事ができません。
+[注意] <code>Rational::compatible</code> は通常の方法では参照できません。
 </p>
 </dd>
 

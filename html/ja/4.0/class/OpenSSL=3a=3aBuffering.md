@@ -4,7 +4,7 @@
 
 [IO](../class/IO.md) クラスと同様のメソッドを提供しています。
 
-内部的には sysread, syswrite, sysread_nonblock, syswrite_nonblock, 
+内部的には sysread, syswrite, sysread_nonblock, syswrite_nonblock,
 sysclose といった [OpenSSL::SSL::SSLSocket](../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.md) が提供するメソッドを利用し、 [OpenSSL::SSL::SSLSocket](../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.md) がラップしているソケットをバッファ経由でデータを暗号化してやりとりを行います。
 
 ### IO との違い

@@ -4,7 +4,7 @@
 
 ハッシュから [OpenSSL::X509::Extension](../../../class/OpenSSL=3a=3aX509=3a=3aExtension.md) オブジェクトを生成します。
 
-渡すハッシュテーブルは 
+渡すハッシュテーブルは
 
 ```text
 {"oid" => OID文字列, "value" => value文字列, "critical" => 真偽値 }

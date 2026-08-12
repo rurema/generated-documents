@@ -2,7 +2,7 @@
 
 ### def Net::IMAP.add_authenticator(auth_type, authenticator) -> ()
 
-[Net::IMAP#authenticate](../../../method/Net=3a=3aIMAP/i/authenticate.md) で使う 
+[Net::IMAP#authenticate](../../../method/Net=3a=3aIMAP/i/authenticate.md) で使う
 認証用クラスを設定します。
 
 imap ライブラリに新たな認証方式を追加するために用います。

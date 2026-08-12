@@ -1,6 +1,6 @@
 # Net::IMAP::TaggedResponse#data
 
-### def data -> Net::IMAP::ResponseText 
+### def data -> Net::IMAP::ResponseText
 
 レスポンスを解析したオブジェクトを返します。
 

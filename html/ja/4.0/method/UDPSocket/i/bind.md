@@ -11,7 +11,7 @@ bind したポートから [BasicSocket#recv](../../../method/BasicSocket/i/recv
 
 ### def bind(host, port) -> Integer
 
-[UDPSocket#bind](../../../method/UDPSocket/i/bind.md)のパラメータ host の名前解決に [resolv](../../../library/resolv.md) 
+[UDPSocket#bind](../../../method/UDPSocket/i/bind.md)のパラメータ host の名前解決に [resolv](../../../library/resolv.md)
 ライブラリを使います。
 
 - **param** `host` -- bindするホスト名を文字列で指定します。

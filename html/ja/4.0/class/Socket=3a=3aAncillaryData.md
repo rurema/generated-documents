@@ -4,7 +4,7 @@
 で用いる ancillary data (補助データ、制御情報)
 を表すクラスです。
 
-[Socket::AncillaryData#family](../method/Socket=3a=3aAncillaryData/i/family.md)(socket family), 
+[Socket::AncillaryData#family](../method/Socket=3a=3aAncillaryData/i/family.md)(socket family),
 [Socket::AncillaryData#level](../method/Socket=3a=3aAncillaryData/i/level.md)(cmsg level),
 [Socket::AncillaryData#type](../method/Socket=3a=3aAncillaryData/i/type.md)(cmsg type),
 [Socket::AncillaryData#data](../method/Socket=3a=3aAncillaryData/i/data.md)(cmsg data),

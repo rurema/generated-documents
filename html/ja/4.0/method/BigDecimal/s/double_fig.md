@@ -6,7 +6,7 @@ Ruby の [Float](../../../class/Float.md) クラスが保持できる有効数�
 
 ```ruby
 require 'bigdecimal'
-p BigDecimal::double_fig  # ==> 16 (depends on the CPU etc.)
+p BigDecimal::double_fig  # => 16 (depends on the CPU etc.)
 ```
 
 double_figは以下の C プログラムの結果と同じです。

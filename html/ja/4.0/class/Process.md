@@ -5,7 +5,7 @@ UNIX のプロセスを管理するモジュールです。
 Process がプロセスを表現するクラスではなく、プロセスに対する操作をまとめたモジュールであることに注意してください。
 
 ユーザ ID・グループ ID を操作するシステムコールを直接呼ぶために [Process::Sys](../class/Process=3a=3aSys.md) が提供されています。
-ポータブルにユーザ ID・グループ ID を操作するためのモジュール [Process::UID](../class/Process=3a=3aUID.md), [Process::GID](../class/Process=3a=3aGID.md) 
+ポータブルにユーザ ID・グループ ID を操作するためのモジュール [Process::UID](../class/Process=3a=3aUID.md), [Process::GID](../class/Process=3a=3aGID.md)
 も提供されています。
 
 ## Class Methods

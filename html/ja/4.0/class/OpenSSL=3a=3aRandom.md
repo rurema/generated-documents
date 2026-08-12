@@ -24,7 +24,7 @@ OpenSSL にはそのような擬似乱数生成器が実装されています。
 などでも利用されます。
 
 擬似乱数生成器は適切なシードを与えられなければ正しく動作しません。
-OpenSSL にはそのための API 
+OpenSSL にはそのための API
   - [OpenSSL::Random?.random_add](../method/OpenSSL=3a=3aRandom/m/random_add.md)
   - [OpenSSL::Random?.seed](../method/OpenSSL=3a=3aRandom/m/seed.md)
   - [OpenSSL::Random?.load_random_file](../method/OpenSSL=3a=3aRandom/m/load_random_file.md)

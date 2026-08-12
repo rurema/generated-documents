@@ -26,5 +26,5 @@
   - :session_new_cb ([OpenSSL::SSL::SSLContext#session_new_cb=](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/session_new_cb=3d.md))
   - :session_remove_cb ([OpenSSL::SSL::SSLContext#session_remove_cb=](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/session_remove_cb=3d.md))
   - :servername_cb ([OpenSSL::SSL::SSLContext#servername_cb=](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/servername_cb=3d.md))
-指定されなかったパラメータは [OpenSSL::SSL::SSLContext::DEFAULT_PARAMS](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/c/DEFAULT_PARAMS.md) 
+指定されなかったパラメータは [OpenSSL::SSL::SSLContext::DEFAULT_PARAMS](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/c/DEFAULT_PARAMS.md)
 の値で初期化されます。

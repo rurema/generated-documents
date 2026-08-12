@@ -10,7 +10,7 @@
 
 [man:accept(2)] がエラーになった場合、[Socket#accept](../../../method/Socket/i/accept.md) と同じ例外が発生します。
 
-[Errno::EWOULDBLOCK](../../../class/Errno=3a=3aEWOULDBLOCK.md), [Errno::EAGAIN](../../../class/Errno=3a=3aEAGAIN.md), 
+[Errno::EWOULDBLOCK](../../../class/Errno=3a=3aEWOULDBLOCK.md), [Errno::EAGAIN](../../../class/Errno=3a=3aEAGAIN.md),
 [Errno::ECONNABORTED](../../../class/Errno=3a=3aECONNABORTED.md), [Errno::EPROTO](../../../class/Errno=3a=3aEPROTO.md) のいずれかの例外が発生した場合は、その例外には [IO::WaitReadable](../../../class/IO=3a=3aWaitReadable.md) が extend
 されます。それを利用してリトライ可能な例外を掴まえることができます。
 

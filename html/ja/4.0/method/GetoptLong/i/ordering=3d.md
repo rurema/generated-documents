@@ -4,7 +4,7 @@
 
 順序形式を設定します。
 
-環境変数 POSIXLY_CORRECT が定義されていると、引数に 
+環境変数 POSIXLY_CORRECT が定義されていると、引数に
 [GetoptLong::PERMUTE](../../../method/GetoptLong/c/PERMUTE.md) を与えてこのメソッドを呼び出しても、実際のところの順序形式は [GetoptLong::REQUIRE_ORDER](../../../method/GetoptLong/c/REQUIRE_ORDER.md) に設定されます。
 
 環境変数 POSIXLY_CORRECT が定義されていない限り、[GetoptLong::PERMUTE](../../../method/GetoptLong/c/PERMUTE.md)

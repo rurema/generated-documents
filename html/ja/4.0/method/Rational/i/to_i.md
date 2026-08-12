@@ -3,7 +3,7 @@
 ### def to_i -> Integer
 ### def truncate(precision = 0) -> Rational | Integer
 
-小数点以下を切り捨てて値を整数に変換します。
+小数点以下を切り捨てて値を整数に変換して返します。
 
 - **param** `precision` -- 計算結果の精度
 

@@ -7,7 +7,7 @@
 利用できるアルゴリズムはシステムにインストールされている openssl に依存します。
 [OpenSSL::Cipher.ciphers](../../../method/OpenSSL=3a=3aCipher/s/ciphers.md) で利用可能な暗号のアルゴリズム名が得られます。
 
-さまざまな方式がありますが、2006年現在 aes256 (aes-256-cbc) 
+さまざまな方式がありますが、2006年現在 aes256 (aes-256-cbc)
 を用いるのが安心でしょう。
 
 

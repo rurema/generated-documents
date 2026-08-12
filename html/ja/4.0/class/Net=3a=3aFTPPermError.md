@@ -1,6 +1,6 @@
 # class Net::FTPPermError < Net::FTPError
 
-FTP の応答コード 5yz 
+FTP の応答コード 5yz
 (Permanent Negative Completion reply)
 を表す例外クラスです。
 

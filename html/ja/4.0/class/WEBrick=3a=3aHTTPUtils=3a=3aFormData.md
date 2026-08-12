@@ -7,7 +7,7 @@
 [WEBrick::HTTPUtils::FormData#each_data](../method/WEBrick=3a=3aHTTPUtils=3a=3aFormData/i/each_data.md) によりそれぞれの値を取り出すことができます。
 
 通常のフォームデータ(application/x-www-form-urlencoded)は unescape されています。
-ただし multipart/form-data なフォームデータはユーザが content-transfer-encoding 
+ただし multipart/form-data なフォームデータはユーザが content-transfer-encoding
 ヘッダを見て適切に処理する必要があります。
 
 ### リンク

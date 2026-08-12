@@ -2,7 +2,7 @@
 
 ### const PURPOSE_NS_SSL_SERVER -> Integer
 
-証明書が 
+証明書が
 Netscape SSL server の証明書として使えるかチェックすることを意味します。
 
 [OpenSSL::X509::Store#purpose=](../../../method/OpenSSL=3a=3aX509=3a=3aStore/i/purpose=3d.md) や

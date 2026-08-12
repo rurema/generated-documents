@@ -5,7 +5,7 @@
 
 証明書を証明書ストアに存在する CA 証明書で検証します。
 
-chain には検証したい証明書の証明書チェイン全体を 
+chain には検証したい証明書の証明書チェイン全体を
 [OpenSSL::X509::Certificate](../../../class/OpenSSL=3a=3aX509=3a=3aCertificate.md) の配列で渡します。
 
 検証に成功した場合は true を、失敗した場合は false を返します。

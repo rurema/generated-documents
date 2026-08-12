@@ -2,9 +2,7 @@
 
 ### def numerator -> Integer
 
-分子を返します。
-
-- **return** -- 分子を返します。
+`self` の分子（numerator）を返します。
 
 ```ruby title="例"
 p Rational(7).numerator     # => 7

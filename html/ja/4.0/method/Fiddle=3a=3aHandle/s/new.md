@@ -9,7 +9,7 @@
 Handle はブロックの終りで自動的にクローズされます。
 
 flags で [man:dlopen(3)] の第2引数として渡すフラグを指定できます。
-[Fiddle::Handle::RTLD_LAZY](../../../method/Fiddle=3a=3aHandle/c/RTLD_LAZY.md)、[Fiddle::Handle::RTLD_NOW](../../../method/Fiddle=3a=3aHandle/c/RTLD_NOW.md) 
+[Fiddle::Handle::RTLD_LAZY](../../../method/Fiddle=3a=3aHandle/c/RTLD_LAZY.md)、[Fiddle::Handle::RTLD_NOW](../../../method/Fiddle=3a=3aHandle/c/RTLD_NOW.md)
 のどちらか一方を指定する必要があり、またそれに [Fiddle::Handle::RTLD_GLOBAL](../../../method/Fiddle=3a=3aHandle/c/RTLD_GLOBAL.md) と OR を取ることができます。
 詳しい意味は manpage([man:dlopen(3)]) を参照してください。
 

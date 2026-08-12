@@ -6,7 +6,7 @@ C の構造体を表すクラスです。
 
 [Fiddle::Importer#struct](../method/Fiddle=3a=3aImporter/i/struct.md) が生成するクラスには構造体の各メンバへのアクセサが定義されています。
 このアクセサはシグネチャの型とメンバ名に従って定義されます。
-例えば 
+例えば
 
 ```ruby
 require 'fiddle/import'

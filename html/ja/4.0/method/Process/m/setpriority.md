@@ -8,7 +8,7 @@
 
 - [Process::PRIO_PROCESS](../../../method/Process/c/PRIO_PROCESS.md)
 - [Process::PRIO_PGRP](../../../method/Process/c/PRIO_PGRP.md)
-- [Process::PRIO_USER](../../../method/Process/c/PRIO_USER.md) 
+- [Process::PRIO_USER](../../../method/Process/c/PRIO_USER.md)
 
 - **param** `who` -- which の値にしたがってプロセス ID、プロセスグループ ID、ユーザ ID のいずれかを整数で指定します。
 

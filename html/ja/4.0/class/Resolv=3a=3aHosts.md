@@ -1,6 +1,6 @@
 # class Resolv::Hosts < Object
 
-/etc/hosts (Windows であれば 
+/etc/hosts (Windows であれば
 %SystemRoot%\System32\drivers\etc\hosts など)
 を使用するホスト名リゾルバです。
 

@@ -12,6 +12,7 @@ MT19937に基づく擬似乱数生成器を提供するクラスです。
 - [new](../method/Random/s/new.md)
 - [new_seed](../method/Random/s/new_seed.md)
 - [rand](../method/Random/s/rand.md)
+- [seed](../method/Random/s/seed.md)
 - [srand](../method/Random/s/srand.md)
 - [urandom](../method/Random/s/urandom.md)
 

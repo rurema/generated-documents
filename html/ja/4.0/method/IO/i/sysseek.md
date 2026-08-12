@@ -34,7 +34,7 @@ File.open("/dev/null", "w") {|f|
   - IO::SEEK_HOLE: offset 以降の次にホールがある位置へ(同上)
 
 - **raise** `IOError` -- 読み込み用にバッファリングされた IO に対して実行すると発生します。
-               既に close されていた場合にも発生します。 
+               既に close されていた場合にも発生します。
 
 - **raise** `Errno::EXXX` -- 移動に失敗した場合に発生します。
 

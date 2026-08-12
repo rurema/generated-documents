@@ -37,7 +37,7 @@ IO の読み込みメソッドは2種類存在します。
 返す文字列のエンコーディングは常に ASCII-8BIT になります。
 以下がバイナリ読み込みメソッドです。
 
-- [IO#read](../method/IO/i/read.md)(size) 
+- [IO#read](../method/IO/i/read.md)(size)
 - [IO#read_nonblock](../method/IO/i/read_nonblock.md)
 - [IO#readpartial](../method/IO/i/readpartial.md)
 - [IO#sysread](../method/IO/i/sysread.md)
@@ -83,7 +83,7 @@ IO オブジェクトは外部エンコーディングと内部エンコーデ�
   IO へ書き込まれる文字列は外部エンコーディングへと変換されます。
   外部エンコーディングへの変換方法が分からない場合は例外が発生します。
 
-IO に対してエンコーディングを指定する方法には、生成時に [IO.open](../method/IO/s/open.md) や [File.open](../method/File/s/open.md) 
+IO に対してエンコーディングを指定する方法には、生成時に [IO.open](../method/IO/s/open.md) や [File.open](../method/File/s/open.md)
 に渡すモードとともに指定するものと生成後に [IO#set_encoding](../method/IO/i/set_encoding.md) を使って指定するものの二通りがあります。詳しくはそれぞれのメソッドの項を参照して下さい。通常は前者の方法を使います。
 
 ```ruby title="例1"

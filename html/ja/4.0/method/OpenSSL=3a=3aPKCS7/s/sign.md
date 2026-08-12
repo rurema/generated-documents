@@ -7,7 +7,7 @@ data に証明書と秘密鍵で署名します。
 cert に署名に使う証明書を、key にその証明書に対応する秘密鍵を渡します。certs に [OpenSSL::X509::Certificate](../../../class/OpenSSL=3a=3aX509=3a=3aCertificate.md) オブジェクトの配列 を渡すと [OpenSSL::PKCS7](../../../class/OpenSSL=3a=3aPKCS7.md) オブジェクトにそれらの証明書が追加で保持されます。
 例えば中間 CA 証明書などを渡します。
 flags は以下の値の OR を渡します。
-  - [OpenSSL::PKCS7::TEXT](../../../method/OpenSSL=3a=3aPKCS7/c/TEXT.md) 
+  - [OpenSSL::PKCS7::TEXT](../../../method/OpenSSL=3a=3aPKCS7/c/TEXT.md)
       text/plain 用の MIME ヘッダをデータに付け加える。
   - [OpenSSL::PKCS7::NOCERTS](../../../method/OpenSSL=3a=3aPKCS7/c/NOCERTS.md)
       署名者の証明書を署名に含めません。送り先がすでに証明書をもっている場合

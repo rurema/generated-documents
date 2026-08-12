@@ -19,7 +19,7 @@ host で指定したホストの service で指定したポートと接続した
 ### def TCPSocket.open(host, serv, local_host=nil, local_service=nil) -> TCPSocket
 ### def TCPSocket.new(host, serv, local_host=nil, local_service=nil) -> TCPSocket
 
-[TCPSocket.new](../../../method/TCPSocket/s/new.md) のパラメータ host と local_host 
+[TCPSocket.new](../../../method/TCPSocket/s/new.md) のパラメータ host と local_host
 の名前解決に [resolv](../../../library/resolv.md) ライブラリを使います。
 
 - **param** `host` --           ホスト名、またはインターネットアドレスを示す文字列を指定します。

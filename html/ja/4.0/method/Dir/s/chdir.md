@@ -29,4 +29,4 @@ p Dir.pwd                    # => "/var/spool/mail"
 p Dir.chdir("~/.ssh")        # => Errno::ENOENT
 ```
 
-- **SEE** [Dir.fchdir](../../../method/Dir/s/fchdir.md)
+- **SEE** [Dir.fchdir](../../../method/Dir/s/fchdir.md), [Dir#chdir](../../../method/Dir/i/chdir.md)

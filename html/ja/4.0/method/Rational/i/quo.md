@@ -3,7 +3,7 @@
 ### def /(other)   -> Rational | Float
 ### def quo(other) -> Rational | Float
 
-商を計算します。
+`self` を `other` で割った値（＝商）を返します。
 
 - **param** `other` -- `self` を割る数
 
@@ -18,6 +18,6 @@ p r / Rational(1, 2) # => (3/2)
 r / 0                # ~> ZeroDivisionError
 ```
 
-- **raise** `ZeroDivisionError` -- `other` が `0` の時に発生します。
+- **raise** `ZeroDivisionError` -- `other` が `0` のときに発生します。
 
 - **SEE** [Numeric#quo](../../../method/Numeric/i/quo.md)

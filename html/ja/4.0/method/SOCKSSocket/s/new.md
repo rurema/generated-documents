@@ -10,7 +10,7 @@ host で指定したホストの service で指定したポートと接続した
 
 ### def SOCKSSocket.new(host, serv) -> SOCKSSocket
 
-[SOCKSSocket.new](../../../method/SOCKSSocket/s/new.md)のパラメータ host の名前解決に [resolv](../../../library/resolv.md) 
+[SOCKSSocket.new](../../../method/SOCKSSocket/s/new.md)のパラメータ host の名前解決に [resolv](../../../library/resolv.md)
 ライブラリを使います。
 
 - **param** `host` -- ホスト名を文字列で指定します。

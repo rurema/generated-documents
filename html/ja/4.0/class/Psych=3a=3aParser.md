@@ -6,7 +6,7 @@ YAML のパーサ。
 このイベントを使って YAML の AST を構築したり YAML ドキュメントを別のフォーマット変換したりします。
 [Psych::Emitter](../class/Psych=3a=3aEmitter.md) を使うとパースしたドキュメントを元通りに出力することもできます。
 
-[Psych::Parser](../class/Psych=3a=3aParser.md) が生成するイベントは [Psych::Handler](../class/Psych=3a=3aHandler.md) 
+[Psych::Parser](../class/Psych=3a=3aParser.md) が生成するイベントは [Psych::Handler](../class/Psych=3a=3aHandler.md)
 を見てください。
 
 以下の例では YAML ドキュメント に含まれているスカラー値を表示します。

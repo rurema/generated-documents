@@ -16,7 +16,7 @@ proc{|sslsocket, is_export, keylen| ... }
   - sslsocket 通信に使われる [OpenSSL::SSL::SSLSocket](../../../class/OpenSSL=3a=3aSSL=3a=3aSSLSocket.md) オブジェクト
   - is_export 輸出規制のある暗号を利用するかどうかを0か0以外かで指定
   - keylen 鍵長
-となります。ブロックの返り値には適切な鍵パラメータを含む 
+となります。ブロックの返り値には適切な鍵パラメータを含む
 [OpenSSL::PKey::DH](../../../class/OpenSSL=3a=3aPKey=3a=3aDH.md) オブジェクトを返します。鍵パラメータは
 keylen で指定された鍵長に対応したものでなければなりません。
 

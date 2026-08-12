@@ -3,7 +3,7 @@
 ### def fdiv(other) -> Float
 
 `self` を `other` で割った商を [Float](../../../class/Float.md) で返します。
-`other` に虚数を指定することは出来ません。
+`other` に虚数を指定することはできません。
 
 - **param** `other` -- `self` を割る数
 
