@@ -1,0 +1,17 @@
+# RubyVM::AbstractSyntaxTree::Node#locations
+
+### def locations -> Array
+
+self に関連づけられた位置情報([RubyVM::AbstractSyntaxTree::Location](../../../class/RubyVM=3a=3aAbstractSyntaxTree=3a=3aLocation.md))の配列を返します。
+
+最初の要素は self 全体の位置です。ノードの種類によっては、キーワードなど部分ごとの位置情報が続きます(対応する位置が無い要素は nil になります)。
+
+```ruby
+node = RubyVM::AbstractSyntaxTree.parse("return 1 unless x").children[2]
+p node.type # => :UNLESS
+p node.locations
+# => [#<RubyVM::AbstractSyntaxTree::Location:@1:0-1:17>,
+#     #<RubyVM::AbstractSyntaxTree::Location:@1:9-1:15>, nil, nil]
+```
+
+- **SEE** [RubyVM::AbstractSyntaxTree::Location](../../../class/RubyVM=3a=3aAbstractSyntaxTree=3a=3aLocation.md)

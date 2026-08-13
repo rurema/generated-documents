@@ -8,10 +8,13 @@
 このメソッドはProcやメソッドが定義されたファイルを読み込む必要があるため、
 irbのようなファイルを介さない対話的環境では動作しません。
 
+また、Ruby 3.4 以降でデフォルトになったパーサ(Prism)でコンパイルされたコードに対しては使えません。使う場合は `--parser=parse.y` を付けて Ruby を起動してください。
+
 - **param** `proc` -- Procもしくはメソッドオブジェクトを指定します。
-- **param** `keep_script_lines` -- true を指定すると、 Node#script_lines でノードと関連づけられたソースコードのテキストを取得できます。
-- **param** `keep_tokens` -- true を指定すると、 Node#token が利用できます。
+- **param** `keep_script_lines` -- true を指定すると、[RubyVM::AbstractSyntaxTree::Node#script_lines](../../../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/script_lines.md) でノードと関連づけられたソースコードのテキストを取得できます。
+- **param** `keep_tokens` -- true を指定すると、[RubyVM::AbstractSyntaxTree::Node#tokens](../../../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/tokens.md) が利用できます。
 - **param** `error_tolerant` -- true を指定すると、構文エラーが発生した際にエラー箇所を type が :ERROR であるようなノードに置き換えてツリーを生成します。
+- **raise** `RuntimeError` -- Prism でコンパイルされたコードを指定した場合に発生します。
 
 ```ruby
 pp RubyVM::AbstractSyntaxTree.of(proc {1 + 2})

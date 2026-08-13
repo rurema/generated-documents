@@ -30,7 +30,7 @@
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-13-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -89,6 +89,9 @@
 このメソッドはProcやメソッドが定義されたファイルを読み込む必要があるため、
 irbのようなファイルを介さない対話的環境では動作しません。
 </p>
+<p>
+また、Ruby 3.4 以降でデフォルトになったパーサ(Prism)でコンパイルされたコードに対しては使えません。使う場合は <code>--parser=parse.y</code> を付けて Ruby を起動してください。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>proc</code>:</dt>
 <dd>
@@ -96,15 +99,19 @@ Procもしくはメソッドオブジェクトを指定します。
 </dd>
 <dt class='method-param'>[PARAM] <code>keep_script_lines</code>:</dt>
 <dd>
-true を指定すると、 Node#script_lines でノードと関連づけられたソースコードのテキストを取得できます。
+true を指定すると、<a href="../../../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/script_lines.html">RubyVM::AbstractSyntaxTree::Node#script_lines</a> でノードと関連づけられたソースコードのテキストを取得できます。
 </dd>
 <dt class='method-param'>[PARAM] <code>keep_tokens</code>:</dt>
 <dd>
-true を指定すると、 Node#token が利用できます。
+true を指定すると、<a href="../../../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/tokens.html">RubyVM::AbstractSyntaxTree::Node#tokens</a> が利用できます。
 </dd>
 <dt class='method-param'>[PARAM] <code>error_tolerant</code>:</dt>
 <dd>
 true を指定すると、構文エラーが発生した際にエラー箇所を type が :ERROR であるようなノードに置き換えてツリーを生成します。
+</dd>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+Prism でコンパイルされたコードを指定した場合に発生します。
 </dd>
 </dl>
 <pre class="highlight ruby"><code>pp <span class="no">RubyVM</span><span class="o">::</span><span class="no">AbstractSyntaxTree</span><span class="p">.</span><span class="nf">of</span><span class="p">(</span><span class="nb">proc</span> <span class="p">{</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="p">}</span><span class="p">)</span>

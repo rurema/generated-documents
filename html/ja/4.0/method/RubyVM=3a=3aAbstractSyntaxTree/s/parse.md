@@ -6,8 +6,8 @@
 文字列を抽象構文木にパースし、その木の根ノードを返します。
 
 - **param** `string` -- パースする対象の Ruby のコードを文字列で指定します。
-- **param** `keep_script_lines` -- true を指定すると、 Node#script_lines でノードと関連づけられたソースコードのテキストを取得できます。
-- **param** `keep_tokens` -- true を指定すると、 Node#token が利用できます。
+- **param** `keep_script_lines` -- true を指定すると、[RubyVM::AbstractSyntaxTree::Node#script_lines](../../../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/script_lines.md) でノードと関連づけられたソースコードのテキストを取得できます。
+- **param** `keep_tokens` -- true を指定すると、[RubyVM::AbstractSyntaxTree::Node#tokens](../../../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/tokens.md) が利用できます。
 - **param** `error_tolerant` -- true を指定すると、構文エラーが発生した際にエラー箇所を type が :ERROR であるようなノードに置き換えてツリーを生成します。
 - **raise** `SyntaxError` -- string が Ruby のコードとして正しくない場合に発生します。
 
