@@ -5,6 +5,8 @@
 
 `self` を `other` で割った値（＝商）を返します。
 
+`Rational` オブジェクトを左項とする算術演算子 `/` はこのメソッドの呼び出しになります。
+
 - **param** `other` -- `self` を割る数
 
 `other` に [Float](../../../class/Float.md) を指定した場合は、計算結果を [Float](../../../class/Float.md) で返します。

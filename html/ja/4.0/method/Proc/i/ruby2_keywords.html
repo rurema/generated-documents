@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Proc/i/ruby2_keywords.html">
 
 <title>Proc#ruby2_keywords (Ruby 4.0 リファレンスマニュアル)</title>
-<meta name="description" content="Marks the proc as passing keywords through a normal argument splat. This should only be called on procs that accept an argument splat (`*args`) but not explicit keywords or a keyword splat.  It marks the proc such that if the proc is called with keyword arguments, the final hash argument is marked with a special flag such that if it is the final element of a normal argument splat to another method call, and that method call does not include explicit keywords or a keyword splat, the final element is interpreted as keywords.  In other words, keywords will be passed through the proc to other methods.">
+<meta name="description" content="self に、通常の引数スプラット(`*args')を通してキーワード引数を透過させるためのフラグを設定し、self を返します。引数スプラットは受け取るものの、明示的なキーワード引数やキーワードスプラット(`**kwargs')は受け取らない Proc に対してだけ使ってください。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -82,27 +82,16 @@
 <dt class="method-heading" id="I_RUBY2_KEYWORDS"><code>ruby2_keywords -&gt; proc</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../../../method/Proc/i/ruby2_keywords.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Proc.html#method-i-ruby2_keywords">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-Marks the proc as passing keywords through a normal argument splat. This
-should only be called on procs that accept an argument splat (`*args`)
-but not explicit keywords or a keyword splat.  It marks the proc such
-that if the proc is called with keyword arguments, the final hash
-argument is marked with a special flag such that if it is the final
-element of a normal argument splat to another method call, and that
-method call does not include explicit keywords or a keyword splat, the
-final element is interpreted as keywords.  In other words, keywords will
-be passed through the proc to other methods.
+self に、通常の引数スプラット(<code>*args</code>)を通してキーワード引数を透過させるためのフラグを設定し、self を返します。引数スプラットは受け取るものの、明示的なキーワード引数やキーワードスプラット(<code>**kwargs</code>)は受け取らない Proc に対してだけ使ってください。
 </p>
 <p>
-This should only be used for procs that delegate keywords to another
-method, and only for backwards compatibility with Ruby versions before
-2.7.
+フラグを設定した Proc がキーワード引数付きで呼び出されると、末尾の Hash 引数に特別なフラグが設定されます。その Hash が別のメソッド呼び出しの引数スプラットの末尾要素として渡され、かつその呼び出しが明示的なキーワード引数やキーワードスプラットを含まない場合、末尾要素はキーワード引数として解釈されます。つまり、キーワード引数がこの Proc を経由してほかのメソッドへ渡されるようになります。
 </p>
 <p>
-This method will probably be removed at some point, as it exists only
-for backwards compatibility. As it does not exist in Ruby versions
-before 2.7, check that the proc responds to this method before calling
-it. Also, be aware that if this method is removed, the behavior of the
-proc will change so that it does not pass through keywords.
+キーワード引数をほかのメソッドに委譲する Proc に対して、Ruby 2.7 より前のバージョンとの後方互換性のためだけに使ってください。
+</p>
+<p>
+このメソッドは後方互換性のためだけに存在するので、いずれ削除される可能性があります。Ruby 2.7 より前のバージョンには存在しないため、例のように呼び出す前に <a href="../../../method/Object/i/respond_to=3f.html">Object#respond_to?</a> で確認してください。また、このメソッドが削除されたときには、フラグを設定していた Proc はキーワード引数を透過しない挙動に変わることに注意してください。
 </p>
 <pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">Mod</span>
   foo <span class="o">=</span> <span class="o">-&gt;</span><span class="p">(</span>meth, <span class="o">*</span>args, <span class="o">&amp;</span>block<span class="p">)</span> <span class="k">do</span>
@@ -111,6 +100,9 @@ proc will change so that it does not pass through keywords.
   foo<span class="p">.</span><span class="nf">ruby2_keywords</span> <span class="k">if</span> foo<span class="p">.</span><span class="nf">respond_to?</span><span class="p">(</span><span class="ss">:ruby2_keywords</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/Module/i/ruby2_keywords.html">Module#ruby2_keywords</a>, <a href="../../../method/Hash/s/ruby2_keywords_hash.html">Hash.ruby2_keywords_hash</a>
+</p>
 </dd>
 
 

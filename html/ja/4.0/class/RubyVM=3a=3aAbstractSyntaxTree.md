@@ -17,6 +17,7 @@ parser gem (<https://github.com/whitequark/parser>)や
 
 ## Class Methods
 
+- [node_id_for_backtrace_location](../method/RubyVM=3a=3aAbstractSyntaxTree/s/node_id_for_backtrace_location.md)
 - [of](../method/RubyVM=3a=3aAbstractSyntaxTree/s/of.md)
 - [parse](../method/RubyVM=3a=3aAbstractSyntaxTree/s/parse.md)
 - [parse_file](../method/RubyVM=3a=3aAbstractSyntaxTree/s/parse_file.md)

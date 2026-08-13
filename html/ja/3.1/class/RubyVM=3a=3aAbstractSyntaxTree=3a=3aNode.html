@@ -143,6 +143,12 @@
 
 <li><a href="#I_LAST_LINENO">last_lineno</a></li>
 
+<li><a href="#I_NODE_ID">node_id</a></li>
+
+<li><a href="#I_SCRIPT_LINES">script_lines</a></li>
+
+<li><a href="#I_SOURCE">source</a></li>
+
 <li><a href="#I_TYPE">type</a></li>
 
 </ul>
@@ -245,6 +251,55 @@ self のデバッグ用の情報を含んだ文字列を返します。
 <pre class="highlight ruby"><code>node <span class="o">=</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">AbstractSyntaxTree</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'1 + 1'</span><span class="p">)</span>
 <span class="nb">p</span> node<span class="p">.</span><span class="nf">last_lineno</span> <span class="c1"># =&gt; 1
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_NODE_ID"><code>node_id -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/node_id.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/RubyVM/AbstractSyntaxTree/Node.html#method-i-node_id">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__AbstractSyntaxTree__Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self に割り当てられた ID を返します。
+</p>
+<p>
+ID は抽象構文木の中でノードを識別するための整数です。具体的な値は Ruby のバージョンやパーサによって異なります。
+</p>
+<pre class="highlight ruby"><code>node <span class="o">=</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">AbstractSyntaxTree</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = 1 + 2\ny = 3\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> node<span class="p">.</span><span class="nf">node_id</span> <span class="c1"># =&gt; 9
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_SCRIPT_LINES"><code>script_lines -&gt; Array | nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/script_lines.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/RubyVM/AbstractSyntaxTree/Node.html#method-i-script_lines">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__AbstractSyntaxTree__Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+スクリプト全体の各行を要素とする文字列の配列を返します。
+</p>
+<p>
+keep_script_lines を有効にしてパースした場合にだけ利用でき、そうでない場合は nil を返します。
+</p>
+<pre class="highlight ruby"><code>root <span class="o">=</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">AbstractSyntaxTree</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = 1 + 2\ny = 3\n</span><span class="s2">"</span>, <span class="ss">keep_script_lines:</span> <span class="k">true</span><span class="p">)</span>
+<span class="nb">p</span> root<span class="p">.</span><span class="nf">script_lines</span> <span class="c1"># =&gt; [&quot;x = 1 + 2\n&quot;, &quot;y = 3\n&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/source.html">RubyVM::AbstractSyntaxTree::Node#source</a>, <a href="../method/RubyVM=3a=3aAbstractSyntaxTree/s/parse.html">RubyVM::AbstractSyntaxTree.parse</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SOURCE"><code>source -&gt; String | nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/source.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/RubyVM/AbstractSyntaxTree/Node.html#method-i-source">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__AbstractSyntaxTree__Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self に対応する部分のソースコードを文字列で返します。
+</p>
+<p>
+keep_script_lines を有効にしてパースした場合にだけ利用でき、そうでない場合は nil を返します。
+</p>
+<pre class="highlight ruby"><code>root <span class="o">=</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">AbstractSyntaxTree</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = 1 + 2\ny = 3\n</span><span class="s2">"</span>, <span class="ss">keep_script_lines:</span> <span class="k">true</span><span class="p">)</span>
+<span class="nb">p</span> root<span class="p">.</span><span class="nf">source</span>                         <span class="c1"># =&gt; &quot;x = 1 + 2\ny = 3&quot;
+</span><span class="nb">p</span> root<span class="p">.</span><span class="nf">children</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">source</span> <span class="c1"># =&gt; &quot;x = 1 + 2&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/script_lines.html">RubyVM::AbstractSyntaxTree::Node#script_lines</a>
+</p>
 </dd>
 
 
