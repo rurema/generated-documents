@@ -5,7 +5,7 @@
 `self` が NaN(Not a number)のとき `true` を返し、そうでないとき `false` を返します。
 
 ```ruby title="例"
-nan = 0.0/0.0
-p nan       # => NaN
-p nan.nan?  # => true
+p Float::NAN.nan?      # => true
+p Float::INFINITY.nan? # => false
+p 0.0.nan?             # => false
 ```

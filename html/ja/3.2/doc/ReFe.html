@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/ReFe.html">
 
 <title>ReFe (Ruby 3.2 リファレンスマニュアル)</title>
-<meta name="description" content="ReFeについては &lt;http://i.loveruby.net/ja/prog/refe.html&gt; をご覧ください。">
+<meta name="description" content="ReFe は Ruby リファレンスマニュアルをコマンドラインから検索するツールです。 gem 名は refe2、コマンド名は `refe' で、現在は BitClust の一部として [rurema/bitclust](https://github.com/rurema/bitclust) で開発されています。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -78,77 +78,76 @@
 <main>
 
 <p>
-ReFeについては
-<a class="external" href="http://i.loveruby.net/ja/prog/refe.html">http://i.loveruby.net/ja/prog/refe.html</a>
-をご覧ください。
+ReFe は Ruby リファレンスマニュアルをコマンドラインから検索するツールです。
+gem 名は refe2、コマンド名は <code>refe</code> で、現在は BitClust の一部として
+<a class="external" href="https://github.com/rurema/bitclust">rurema/bitclust</a> で開発されています。
 </p>
-<h2 >Gems版</h2>
+<h2 >インストール</h2>
 <p>
-Gemsをお使いの方は、以下のコマンドを実行する事でインストールできます。
-(<a class="external" href="https://blade.ruby-lang.org/ruby-list/41478">[ruby-list:41478]</a>)
+gem でインストールします。
 </p>
 <pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>gem <span class="nb">install </span>refe2
 </code></pre>
 <p>
-以下のコマンドでデータベースを構築します。
+次に、検索用データベースを構築します。
 </p>
 <pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>bitclust setup
 </code></pre>
-<h2 >Ruby リファレンスマニュアルの検索ツール ReFe のデータ構築について</h2>
 <p>
-最新 Ruby リファレンスマニュアル用に ReFe のデータを構築するには以下の手順で行います。(詳細は ReFe の README を参照してください)
+<code>bitclust setup</code> はリファレンスマニュアルのソース
+(<a class="external" href="https://github.com/rurema/doctree">rurema/doctree</a>) を
+<code>~/.bitclust/rubydoc</code> に取得し、<code>~/.bitclust</code> 配下にバージョンごとのデータベースを構築します。対象バージョンは <code>--versions</code> オプションで変更できます。バージョンはリファレンスマニュアルの版と同じく <code>3.4</code> のように
+teeny を省いた形式で指定します。
 </p>
-<p>
-(1) <a class="external" href="http://i.loveruby.net/ja/prog/refe.html">http://i.loveruby.net/ja/prog/refe.html</a> から ReFe の基本セットを取って来てインストールします。
-</p>
-<pre class="highlight console"><code><span class="go">tar xvzf refe-x.x.x.tar.gz
-cd refe-x.x.x
-ruby setup.rb config
-ruby setup.rb setup
-(必要に応じて root になってください)
-ruby setup.rb install
-</span></code></pre>
-<p>
-(2) <a class="external" href="https://web.archive.org/web/20110706181204/http://www.ruby-lang.org/ja/man/man-rd-ja.tar.gz">https://web.archive.org/web/20110706181204/http://www.ruby-lang.org/ja/man/man-rd-ja.tar.gz</a> にあるのが最新のリファレンスマニュアルの tarball です。これを取得します。
-</p>
-<p>
-(3) 取得した man-rd-ja.tar.gz を展開し、ReFeデータベースを構築します。/usr/local/share/refe は適宜環境に応じて変更してください(変更した場合は refe を実行するのに環境変数 REFE_DATA_DIR を設定する必要があります)
-</p>
-<pre class="highlight console"><code><span class="go">gzip -dc man-rd-ja.tar.gz | tar xvf -
-cd man-rd-ja
-(必要に応じて root になってください)
-mkrefe_rubyrefm -d /usr/local/share/refe *.rd
-</span></code></pre>
-<p>
-/usr/local/share/refe 下に以下のディレクトリとファイルができます。
-</p>
-<pre class="highlight text"><code>class_document/        method_document/
-class_document_comp    method_document_comp
+<pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>bitclust setup <span class="nt">--versions</span><span class="o">=</span>3.4,4.0
 </code></pre>
 <p>
-(4) 後は使うだけです。
+マニュアルの更新を取り込むときは、もう一度 <code>bitclust setup</code> を実行します。
 </p>
-<pre class="highlight console"><code><span class="go">refe IO puts
-</span><span class="gp">IO#</span>puts
-<span class="go">--- puts([obj[, ...]])
-
-    各 obj を self に出力した後、改行します。
-    引数の扱いは puts と同じです(詳細はこちらを参照し
-    てください)。
-
-    nil を返します。
+<h2 >使い方</h2>
+<p>
+メソッド名やクラス名を指定すると、マッチしたエントリを表示します。
+</p>
+<pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>refe Array#clear
+<span class="gp">Array#</span>clear
+<span class="gp">#</span><span class="c">## def clear    -&gt; self</span>
+<span class="go">
+配列の要素をすべて削除して空にします。
+(以下略)
 </span></code></pre>
-<h2 >ReFe の Emacs インタフェースのインストール方法</h2>
 <p>
-(1) refe.el を取って来て /usr/local/share/emacs/site-lisp などの Emacs Lisp ライブラリの置き場所に置きます。
+クラス名とメソッド名を空白で区切って <code>refe Array clear</code> のように指定することもできます。名前は前方一致で検索され、大文字小文字の違いは無視されるので、うろ覚えでも引けます。
 </p>
 <p>
-(2) .emacs に以下を書いておきます。
+マッチしたエントリが複数あるときは名前の一覧が表示されます。
 </p>
-<pre class="highlight common_lisp"><code><span class="p">(</span><span class="nb">require</span> <span class="ss">'refe</span><span class="p">)</span>
+<pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>refe map
+<span class="gp">Array#</span>map Enumerable#map Enumerator::Lazy#map IO::Buffer.map
+<span class="gp">Matrix#</span>map Vector#map
 </code></pre>
 <p>
-(3) 引きたいメソッド名の位置に合わせて M-x refe を実行します。
+主なオプション:
+</p>
+<ul>
+<li><code>-a</code>, <code>--all</code> -- マッチした全エントリの説明を表示します</li>
+<li><code>-l</code>, <code>--line</code> -- 1 エントリを 1 行で表示します</li>
+<li><code>--class</code> -- クラス名・モジュール名だけを検索します</li>
+<li><code>-d PATH</code>, <code>--database=PATH</code> -- データベースの場所を指定します</li>
+</ul>
+<p>
+既定以外の場所のデータベースを常用する場合は、環境変数 <code>REFE2_DATADIR</code>
+でも指定できます。
+</p>
+<p>
+詳細は BitClust の
+<a class="external" href="https://github.com/rurema/bitclust/blob/master/doc/usage.md">doc/usage.md</a>
+を参照してください。
+</p>
+<h2 >初代 ReFe について</h2>
+<p>
+初代の ReFe(1.x 系)は青木峰郎さん作の別実装のツールで、Ruby 1.8 時代のリファレンスマニュアルを検索するものでした。現在の refe2 はこれを置き換えた
+BitClust ベースの別実装です。初代 ReFe については
+<a class="external" href="http://i.loveruby.net/ja/prog/refe.html">http://i.loveruby.net/ja/prog/refe.html</a> を参照してください。
 </p>
 
 </main>
