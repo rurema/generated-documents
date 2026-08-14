@@ -7,8 +7,8 @@
 
 ```ruby title="例"
 p 3.14.finite? # => true
-inf = 1.0/0
-p inf.finite? # => false
+p Float::INFINITY.finite? # => false
+p Float::NAN.finite? # => false
 ```
 
 - **SEE** [Float#infinite?](../../../method/Float/i/infinite=3f.md)

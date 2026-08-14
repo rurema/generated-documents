@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Float.html">
 
 <title>class Float (Ruby 3.1 リファレンスマニュアル)</title>
-<meta name="description" content="浮動小数点数のクラス。`Float' の実装は C 言語の double で、その精度は環境に依存します。">
+<meta name="description" content="浮動小数点数を表すクラスです。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -131,7 +131,10 @@
 
 <h2>要約</h2>
 <p>
-浮動小数点数のクラス。<code>Float</code> の実装は C 言語の double で、その精度は環境に依存します。
+浮動小数点数を表すクラスです。
+</p>
+<p>
+<code>Float</code> の実装は C 言語の double で、その精度は環境に依存します。
 </p>
 <p>
 一般にはせいぜい15桁です。詳しくは多くのシステムで採用されている浮動小数点標準規格、IEEE 754 を参照してください。
@@ -144,7 +147,37 @@
   <span class="c1"># =&gt; 0.33333333333333331482961625624739099293947219848633
 </span></code></pre>
 <p>
-<a href="../method/Math/c/PI.html">Math::PI</a> などの数学定数については <a href="../class/Math.html">Math</a> を参照してください。
+特別な値として正の無限大（+∞）、負の無限大（−∞）、非数（NaN: Not a Number）があります。それぞれ以下のようにして得られます。負の無限大は定数として定義されていません。
+</p>
+<span class="caption">正負の無限大と非数</span>
+<pre class="highlight ruby"><code><span class="c1"># 正の無限大（+∞）
+</span><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span>  <span class="c1"># =&gt; Infinity
+</span><span class="nb">p</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mi">0</span>          <span class="c1"># =&gt; Infinity
+</span>
+<span class="c1"># 負の無限大（−∞）
+</span><span class="nb">p</span> <span class="o">-</span><span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span> <span class="c1"># =&gt; -Infinity
+</span><span class="nb">p</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mi">0</span>         <span class="c1"># =&gt; -Infinity
+</span>
+<span class="c1"># 非数（NaN）
+</span><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span>       <span class="c1"># =&gt; NaN
+</span><span class="nb">p</span> <span class="mf">0.0</span> <span class="o">/</span> <span class="mi">0</span>          <span class="c1"># =&gt; NaN
+</span></code></pre>
+<p>
+浮動小数点数リテラル <code>0.0</code> と <code>-0.0</code> は若干違った性質を持つ <code>Float</code> オブジェクトを生成します。どちらもゼロを表しますが、以下のような違いがあります。
+</p>
+<span class="caption">0.0 と -0.0 の性質が異なる例</span>
+<pre class="highlight ruby"><code><span class="c1"># 逆数をとると符号の異なる無限大になる
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">0.0</span>  <span class="c1"># =&gt; Infinity
+</span><span class="nb">p</span> <span class="mi">1</span> <span class="o">/</span> <span class="o">-</span><span class="mf">0.0</span> <span class="c1"># =&gt; -Infinity
+</span>
+<span class="nb">p</span> <span class="no">Math</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="mf">0.0</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># =&gt; 3.141592653589793
+</span><span class="nb">p</span> <span class="no">Math</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="o">-</span><span class="mf">0.0</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; -3.141592653589793
+</span>
+<span class="nb">p</span> <span class="no">Math</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="mi">1</span>, <span class="mf">0.0</span><span class="p">)</span>  <span class="c1"># =&gt; 3.141592653589793
+</span><span class="nb">p</span> <span class="no">Math</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="mi">1</span>, <span class="o">-</span><span class="mf">0.0</span><span class="p">)</span> <span class="c1"># =&gt; -3.141592653589793
+</span></code></pre>
+<p>
+円周率（<a href="../method/Math/c/PI.html">Math::PI</a>）などの数学定数や平方根（<a href="../method/Math/m/sqrt.html">Math.#sqrt</a>）などの数学関数については <a href="../class/Math.html">Math</a> を参照してください。
 </p>
 
 
@@ -406,12 +439,15 @@
 <dt class="method-heading"><code>modulo(other) -&gt; Float</code></dt>
 <dd class="method-description">
 <p>
-算術演算子。剰余を計算します。
+<code>self</code> を <code>other</code> で割った余り（剰余）を返します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする算術演算子 <code>%</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
+<code>self</code> に対する除数
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -425,37 +461,46 @@
 <dt class="method-heading" id="I_--2A"><code>self * other -&gt; Float</code><span class="permalink">[<a href="../method/Float/i/=2a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-2A">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-算術演算子。積を計算します。
+<code>self</code> に <code>other</code> を掛けた値（＝積）を返します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする算術演算子 <code>*</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
+<code>self</code> に対する乗数
 </dd>
 </dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="c1"># 積
-</span><span class="nb">p</span> <span class="mf">2.4</span> <span class="o">*</span> <span class="mi">3</span> <span class="c1"># =&gt; 7.2
+</span><span class="nb">p</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="mi">3</span> <span class="c1"># =&gt; 7.5
 </span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_--2A--2A"><code>self ** other -&gt; Float</code><span class="permalink">[<a href="../method/Float/i/=2a=2a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-2A-2A">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_--2A--2A"><code>self ** other -&gt; Float | Complex</code><span class="permalink">[<a href="../method/Float/i/=2a=2a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-2A-2A">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-算術演算子。冪を計算します。
+<code>self</code> の <code>other</code> 乗を返します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする算術演算子 <code>**</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
+<code>self</code> に対する冪指数（べきしすう）
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="c1"># 冪
+<pre class="highlight ruby"><code><span class="c1"># Float を返す例
 </span><span class="nb">p</span> <span class="mf">1.2</span> <span class="o">**</span> <span class="mf">3.0</span>  <span class="c1"># =&gt; 1.7279999999999998
 </span><span class="nb">p</span> <span class="mf">3.0</span> <span class="o">+</span> <span class="mf">4.5</span> <span class="o">-</span> <span class="mf">1.3</span> <span class="o">/</span> <span class="mf">2.4</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">%</span> <span class="mf">1.2</span> <span class="o">**</span> <span class="mf">3.0</span> <span class="c1"># =&gt; 5.875
 </span><span class="nb">p</span> <span class="mf">0.0</span> <span class="o">**</span> <span class="mi">0</span> <span class="c1"># =&gt; 1.0
+</span>
+<span class="c1"># Complex を返す例
+</span><span class="nb">p</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span> <span class="c1"># =&gt; (0.0+1.0i)
 </span></code></pre>
 </dd>
 
@@ -463,12 +508,15 @@
 <dt class="method-heading" id="I_--2B"><code>self + other -&gt; Float</code><span class="permalink">[<a href="../method/Float/i/=2b.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-2B">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-算術演算子。和を計算します。
+<code>self</code> に <code>other</code> を足した値（＝和）を返します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする算術演算子 <code>+</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
+<code>self</code> に加算する数値
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -481,12 +529,15 @@
 <dt class="method-heading" id="I_--2D"><code>self - other -&gt; Float</code><span class="permalink">[<a href="../method/Float/i/=2d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-2D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-算術演算子。差を計算します。
+<code>self</code> から <code>other</code> を引いた値（＝差）を返します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする算術演算子 <code>-</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
+<code>self</code> から減算する数値
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -499,8 +550,10 @@
 <dt class="method-heading" id="I_--2D--40"><code>- self -&gt; Float</code><span class="permalink">[<a href="../method/Float/i/=2d=40.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-2D-40">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-単項演算子の <code>-</code> です。
 <code>self</code> の符号を反転させたものを返します。
+</p>
+<p>
+<code>Float</code> オブジェクトに対する単項演算子 <code>-</code> はこのメソッドの呼び出しになります。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span><span class="p">(</span><span class="o">-</span> <span class="mf">1.2</span><span class="p">)</span> <span class="c1"># =&gt; -1.2
@@ -512,12 +565,15 @@
 <dt class="method-heading" id="I_--2F"><code>self / other -&gt; Float</code><span class="permalink">[<a href="../method/Float/i/=2f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-2F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-算術演算子。商を計算します。
+<code>self</code> を <code>other</code> で割った値（＝商）を返します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする算術演算子 <code>/</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-二項演算の右側の引数(対象)
+<code>self</code> に対する除数
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -531,16 +587,24 @@
 <dt class="method-heading" id="I_--3C"><code>self &lt; other -&gt; bool</code><span class="permalink">[<a href="../method/Float/i/=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-比較演算子。数値として小さいか判定します。
+<code>self</code> を数値として <code>other</code> と比較し、<code>self</code> が <code>other</code> より小さければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が <a href="../class/Complex.html">Complex</a> オブジェクトのとき、たとえ虚部がゼロでも <code>NoMethodError</code> が発生します。
+</p>
+<p>
+<code>other</code> が NaN のとき、<code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないとき、<code>ArgumentError</code> が発生します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする比較演算子 <code>&lt;</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
 比較対象の数値
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-<code>self</code> よりも <code>other</code> が大きい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -553,16 +617,24 @@
 <dt class="method-heading" id="I_--3C--3D"><code>self &lt;= other -&gt; bool</code><span class="permalink">[<a href="../method/Float/i/=3c=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-3C-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-比較演算子。数値として等しいまたは小さいか判定します。
+<code>self</code> を数値として <code>other</code> と比較し、<code>self</code> が <code>other</code> より小さいか等しければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が <a href="../class/Complex.html">Complex</a> オブジェクトのとき、たとえ虚部がゼロでも <code>NoMethodError</code> が発生します。
+</p>
+<p>
+<code>other</code> が NaN のとき、<code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないとき、<code>ArgumentError</code> が発生します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする比較演算子 <code>&lt;=</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
 比較対象の数値
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-<code>self</code> よりも <code>other</code> の方が大きい場合か、両者が等しい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -575,8 +647,17 @@
 <dt class="method-heading" id="I_--3C--3D--3E"><code>self &lt;=&gt; other -&gt; -1 | 0 | 1 | nil</code><span class="permalink">[<a href="../method/Float/i/=3c=3d=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-3C-3D-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を <code>other</code> と比較し、<code>self</code> のほうが大きい場合に <code>1</code>、等しい場合に <code>0</code>、小さい場合に <code>-1</code> を返します。比較できない場合は <code>nil</code> を返します
+<code>self</code> を <code>other</code> と比較し、<code>self</code> が <code>other</code> より大きければ <code>1</code> を、等しければ <code>0</code> を、小さければ <code>-1</code> を返します。比較できないときは <code>nil</code> を返します。
 </p>
+<p>
+<code>Float</code> オブジェクトを左項とする比較演算子 <code>&lt;=&gt;</code> はこのメソッドの呼び出しになります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>other</code>:</dt>
+<dd>
+比較対象
+</dd>
+</dl>
 <p>
 返り値を覚えるには、<code>&lt;=&gt;</code> を <code>-</code> に置き換えてみるとよいでしょう。<code>x &lt;=&gt; y</code> と <code>x - y</code> は符号が一致します。
 </p>
@@ -609,24 +690,27 @@
 <dt class="method-heading" id="I_--3D--3D"><code>self == other -&gt; bool</code><span class="permalink">[<a href="../method/Float/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-比較演算子。数値として等しいか判定します。
+<code>self</code> が数値として <code>other</code> と等しければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないときは <code>false</code> を返します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする比較演算子 <code>==</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-比較対象の数値
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-<code>self</code> と <code>other</code> が等しい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
+比較対象
 </dd>
 </dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">3.14</span> <span class="o">==</span> <span class="mf">3.14000</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="mf">3.14</span> <span class="o">==</span> <span class="mf">3.1415</span>  <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="mf">1.0</span> <span class="o">==</span> <span class="s2">"</span><span class="s2">1</span><span class="s2">"</span> <span class="c1"># =&gt; false
 </span></code></pre>
 <p>
-NaNどうしの比較は、未定義です。
+NaN 同士の比較は未定義です。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span> <span class="o">==</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span>    <span class="c1"># =&gt; false
@@ -639,16 +723,24 @@ NaNどうしの比較は、未定義です。
 <dt class="method-heading" id="I_--3E"><code>self &gt; other -&gt; bool</code><span class="permalink">[<a href="../method/Float/i/=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-比較演算子。数値として大きいか判定します。
+<code>self</code> を数値として <code>other</code> と比較し、<code>self</code> が <code>other</code> より大きければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が <a href="../class/Complex.html">Complex</a> オブジェクトのとき、たとえ虚部がゼロでも <code>NoMethodError</code> が発生します。
+</p>
+<p>
+<code>other</code> が NaN のとき、<code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないとき、<code>ArgumentError</code> が発生します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする比較演算子 <code>&gt;</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
 比較対象の数値
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-<code>self</code> よりも <code>other</code> の方が小さい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -661,16 +753,24 @@ NaNどうしの比較は、未定義です。
 <dt class="method-heading" id="I_--3E--3D"><code>self &gt;= other -&gt; bool</code><span class="permalink">[<a href="../method/Float/i/=3e=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-3E-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-比較演算子。数値として等しいまたは大きいか判定します。
+<code>self</code> を数値として <code>other</code> と比較し、<code>self</code> が <code>other</code> より大きいか等しければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が <a href="../class/Complex.html">Complex</a> オブジェクトのとき、たとえ虚部がゼロでも <code>NoMethodError</code> が発生します。
+</p>
+<p>
+<code>other</code> が NaN のとき、<code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないとき、<code>ArgumentError</code> が発生します。
+</p>
+<p>
+<code>Float</code> オブジェクトを左項とする比較演算子 <code>&gt;=</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
 比較対象の数値
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-<code>self</code> よりも <code>other</code> の方が小さい場合か、両者が等しい場合 <code>true</code> を返します。そうでなければ <code>false</code> を返します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -684,7 +784,7 @@ NaNどうしの比較は、未定義です。
 <dt class="method-heading"><code>magnitude -&gt; Float</code><span class="method-since-badge">Ruby 1.9.3 から</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> の絶対値を返します。
+<code>self</code> の絶対値（absolute value）を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">34.56</span><span class="p">.</span><span class="nf">abs</span>    <span class="c1"># =&gt; 34.56
@@ -698,15 +798,21 @@ NaNどうしの比較は、未定義です。
 <dt class="method-heading"><code>phase -&gt; 0 | Float</code></dt>
 <dd class="method-description">
 <p>
-<code>self</code> の偏角(正の数なら <code>0</code>、負の数なら <a href="../method/Math/c/PI.html">Math::PI</a>)を返します。
+<code>self</code> の偏角を返します。
+</p>
+<p>
+<code>self</code> が正の数か <code>0.0</code> なら <code>0</code>、負の数か <code>-0.0</code> なら <a href="../method/Math/c/PI.html">Math::PI</a> となります。（<code>-0.0</code> は <a href="../method/Float/i/negative=3f.html">Float#negative?</a> では負とはみなされませんが、<code>arg</code> は符号ビットに従います）。
+</p>
+<p>
+<code>self</code> が NaN の場合は NaN を返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">1</span><span class="p">.</span><span class="nf">arg</span>  <span class="c1"># =&gt; 0
-</span><span class="nb">p</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="nf">arg</span> <span class="c1"># =&gt; 3.141592653589793
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">1.0</span><span class="p">.</span><span class="nf">arg</span>  <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="mf">0.0</span><span class="p">.</span><span class="nf">arg</span>  <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">.</span><span class="nf">arg</span> <span class="c1"># =&gt; 3.141592653589793
+</span><span class="nb">p</span> <span class="o">-</span><span class="mf">0.0</span><span class="p">.</span><span class="nf">arg</span> <span class="c1"># =&gt; 3.141592653589793
+</span><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span><span class="p">.</span><span class="nf">arg</span> <span class="c1"># =&gt; NaN
 </span></code></pre>
-<p>
-ただし、<code>self</code> が NaN(Not a number) であった場合は、NaN を返します。
-</p>
 </dd>
 
 
@@ -718,7 +824,7 @@ NaNどうしの比較は、未定義です。
 <dl>
 <dt class='method-param'>[PARAM] <code>ndigits</code>:</dt>
 <dd>
-10進数での小数点以下の有効桁数を整数で指定します。正の整数を指定した場合、<a href="../class/Float.html">Float</a> を返します。小数点以下を、最大 n 桁にします。負の整数を指定した場合、<a href="../class/Integer.html">Integer</a> を返します。小数点位置から左に少なくとも n 個の 0 が並びます。
+10進数での小数点以下の有効桁数を整数で指定します。正の整数を指定した場合、<a href="../class/Float.html">Float</a> を返します。小数点以下を、最大 <code>n</code> 桁にします。負の整数を指定した場合、<a href="../class/Integer.html">Integer</a> を返します。小数点位置から左に少なくとも <code>n</code> 個の <code>0</code> が並びます。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -751,17 +857,15 @@ NaNどうしの比較は、未定義です。
 <dt class="method-heading" id="I_DENOMINATOR"><code>denominator -&gt; Integer</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Float/i/denominator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-denominator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を <a href="../class/Rational.html">Rational</a> に変換した時の分母を返します。
+<code>self</code> を <a href="../method/Float/i/to_r.html">Float#to_r</a> で <a href="../class/Rational.html">Rational</a> に変換したときの分母（denominator）を返します。
 </p>
-<dl>
-<dt>[RETURN]</dt>
-<dd>
-分母を返します。
-</dd>
-</dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">2.0</span><span class="p">.</span><span class="nf">denominator</span>       <span class="c1"># =&gt; 1
-</span><span class="nb">p</span> <span class="mf">0.5</span><span class="p">.</span><span class="nf">denominator</span>       <span class="c1"># =&gt; 2
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">2.0</span><span class="p">.</span><span class="nf">denominator</span> <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="mf">0.5</span><span class="p">.</span><span class="nf">denominator</span> <span class="c1"># =&gt; 2
+</span>
+<span class="nb">p</span> <span class="mf">0.1</span><span class="p">.</span><span class="nf">denominator</span> <span class="c1"># =&gt; 36028797018963968
+</span><span class="c1"># リテラル `0.1` で生成される Float オブジェクトは
+</span><span class="c1"># 1/10 からわずかにずれた値であるため
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Float/i/numerator.html">Float#numerator</a>
@@ -772,8 +876,7 @@ NaNどうしの比較は、未定義です。
 <dt class="method-heading" id="I_DIVMOD"><code>divmod(other) -&gt; [Numeric]</code><span class="permalink">[<a href="../method/Float/i/divmod.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-divmod">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を <code>other</code> で割った商 <code>q</code> と余り <code>r</code> を、
-<code>[q, r]</code> という 2 要素の配列にして返します。商 <code>q</code> は常に整数ですが、余り <code>r</code> は整数であるとは限りません。
+<code>self</code> を <code>other</code> で割った商 <code>q</code> と余り <code>r</code> を、<code>[q, r]</code> という 2 要素の配列にして返します。商 <code>q</code> は常に整数ですが、余り <code>r</code> は整数であるとは限りません。
 </p>
 <p>
 ここで、商 <code>q</code> と余り <code>r</code> は、
@@ -785,8 +888,8 @@ NaNどうしの比較は、未定義です。
 と
 </p>
 <ul>
-<li><code>other &gt; 0</code> のとき:  <code>0     &lt;= r &lt; other</code></li>
-<li><code>other &lt; 0</code> のとき:  <code>other &lt;  r &lt;= 0</code></li>
+<li><code>other &gt; 0</code> のとき: <code>0     &lt;= r &lt; other</code></li>
+<li><code>other &lt; 0</code> のとき: <code>other &lt;  r &lt;= 0</code></li>
 <li><code>q</code> は整数</li>
 </ul>
 <p>
@@ -795,7 +898,7 @@ NaNどうしの比較は、未定義です。
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-<code>self</code> を割る数を指定します。
+<code>self</code> に対する除数
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -836,8 +939,8 @@ NaNどうしの比較は、未定義です。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">3.14</span><span class="p">.</span><span class="nf">finite?</span> <span class="c1"># =&gt; true
-</span>inf <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="mi">0</span>
-<span class="nb">p</span> inf<span class="p">.</span><span class="nf">finite?</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span><span class="p">.</span><span class="nf">finite?</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span><span class="p">.</span><span class="nf">finite?</span> <span class="c1"># =&gt; false
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Float/i/infinite=3f.html">Float#infinite?</a>
@@ -853,7 +956,7 @@ NaNどうしの比較は、未定義です。
 <dl>
 <dt class='method-param'>[PARAM] <code>ndigits</code>:</dt>
 <dd>
-10進数での小数点以下の有効桁数を整数で指定します。正の整数を指定した場合、<a href="../class/Float.html">Float</a> を返します。小数点以下を、最大 n 桁にします。負の整数を指定した場合、<a href="../class/Integer.html">Integer</a> を返します。小数点位置から左に少なくとも n 個の 0 が並びます。
+10進数での小数点以下の有効桁数を整数で指定します。正の整数を指定した場合、<a href="../class/Float.html">Float</a> を返します。小数点以下を、最大 <code>n</code> 桁にします。負の整数を指定した場合、<a href="../class/Integer.html">Integer</a> を返します。小数点位置から左に少なくとも <code>n</code> 個の <code>0</code> が並びます。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -886,7 +989,7 @@ NaNどうしの比較は、未定義です。
 <dt class="method-heading" id="I_HASH"><code>hash -&gt; Integer</code><span class="permalink">[<a href="../method/Float/i/hash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-hash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-ハッシュ値を返します。
+<code>self</code> のハッシュ値を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>pi1 <span class="o">=</span> <span class="mf">3.14</span>
@@ -955,9 +1058,9 @@ inf <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
 <code>self</code> が NaN(Not a number)のとき <code>true</code> を返し、そうでないとき <code>false</code> を返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code>nan <span class="o">=</span> <span class="mf">0.0</span><span class="o">/</span><span class="mf">0.0</span>
-<span class="nb">p</span> nan       <span class="c1"># =&gt; NaN
-</span><span class="nb">p</span> nan<span class="p">.</span><span class="nf">nan?</span>  <span class="c1"># =&gt; true
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span><span class="p">.</span><span class="nf">nan?</span>      <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span><span class="p">.</span><span class="nf">nan?</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="mf">0.0</span><span class="p">.</span><span class="nf">nan?</span>             <span class="c1"># =&gt; false
 </span></code></pre>
 </dd>
 
@@ -965,12 +1068,18 @@ inf <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
 <dt class="method-heading" id="I_NEGATIVE--3F"><code>negative? -&gt; bool</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/Float/i/negative=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-negative-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> が 0 未満の場合に <code>true</code> を返します。そうでない場合に <code>false</code> を返します。
+<code>self</code> が負の数なら <code>true</code> を、そうでないなら <code>false</code> を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">.</span><span class="nf">negative?</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="mf">0.0</span><span class="p">.</span><span class="nf">negative?</span>  <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="mf">0.1</span><span class="p">.</span><span class="nf">negative?</span>  <span class="c1"># =&gt; false
+</span>
+<span class="c1"># 負の無限大も負
+</span><span class="nb">p</span> <span class="p">(</span><span class="o">-</span><span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span><span class="p">)</span><span class="p">.</span><span class="nf">negative?</span> <span class="c1"># =&gt; true
+</span>
+<span class="nb">p</span> <span class="o">-</span><span class="mf">0.0</span><span class="p">.</span><span class="nf">negative?</span> <span class="c1"># =&gt; false
+</span><span class="c1"># 負とはみなされないことに注意
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Float/i/positive=3f.html">Float#positive?</a>
@@ -1028,17 +1137,15 @@ f <span class="o">=</span> <span class="mf">0.01</span>; <span class="mi">20</sp
 <dt class="method-heading" id="I_NUMERATOR"><code>numerator -&gt; Integer</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Float/i/numerator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-numerator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> を <a href="../class/Rational.html">Rational</a> に変換した時の分子を返します。
+<code>self</code> を <a href="../method/Float/i/to_r.html">Float#to_r</a> で <a href="../class/Rational.html">Rational</a> に変換したときの分子（numerator）を返します。
 </p>
-<dl>
-<dt>[RETURN]</dt>
-<dd>
-分子を返します。
-</dd>
-</dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">2.0</span><span class="p">.</span><span class="nf">numerator</span>         <span class="c1"># =&gt; 2
-</span><span class="nb">p</span> <span class="mf">0.5</span><span class="p">.</span><span class="nf">numerator</span>         <span class="c1"># =&gt; 1
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">2.0</span><span class="p">.</span><span class="nf">numerator</span> <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> <span class="mf">0.5</span><span class="p">.</span><span class="nf">numerator</span> <span class="c1"># =&gt; 1
+</span>
+<span class="nb">p</span> <span class="mf">0.1</span><span class="p">.</span><span class="nf">numerator</span> <span class="c1"># =&gt; 3602879701896397
+</span><span class="c1"># リテラル `0.1` で生成される Float オブジェクトは
+</span><span class="c1"># 1/10 からわずかにずれた値であるため
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Float/i/denominator.html">Float#denominator</a>
@@ -1049,12 +1156,18 @@ f <span class="o">=</span> <span class="mf">0.01</span>; <span class="mi">20</sp
 <dt class="method-heading" id="I_POSITIVE--3F"><code>positive? -&gt; bool</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/Float/i/positive=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-positive-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> が 0 より大きい場合に <code>true</code> を返します。そうでない場合に <code>false</code> を返します。
+<code>self</code> が正の数なら <code>true</code> を、そうでないなら <code>false</code> を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">0.1</span><span class="p">.</span><span class="nf">positive?</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="mf">0.0</span><span class="p">.</span><span class="nf">positive?</span> <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">.</span><span class="nf">positive?</span>  <span class="c1"># =&gt; false
+</span>
+<span class="c1"># 無限大も正
+</span><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span><span class="p">.</span><span class="nf">positive?</span> <span class="c1"># =&gt; true
+</span>
+<span class="c1"># NaN は正ではない
+</span><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">NAN</span><span class="p">.</span><span class="nf">positive?</span> <span class="c1"># =&gt; false
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Float/i/negative=3f.html">Float#negative?</a>
@@ -1140,7 +1253,10 @@ f <span class="o">=</span> <span class="mf">0.01</span>; <span class="mi">20</sp
 <dt class="method-heading"><code>round(ndigits = 0, half: :up) -&gt; Integer | Float</code></dt>
 <dd class="method-description">
 <p>
-<code>self</code> ともっとも近い整数もしくは実数を返します。
+<code>self</code> を <code>ndigits</code> で指定された位に丸めた数値を返します。
+</p>
+<p>
+ある位に丸めるとは、それより下の位を端数として処理することを意味します。
 </p>
 <p>
 中央値 0.5, -0.5 はそれぞれ 1,-1 に切り上げされます。いわゆる四捨五入ですが、偶数丸めではありません。
@@ -1222,12 +1338,12 @@ t <span class="o">=</span> t<span class="o">**</span><span class="mi">10</span> 
 <dt class="method-heading"><code>truncate(ndigits = 0) -&gt; Integer | Float</code></dt>
 <dd class="method-description">
 <p>
-小数点以下を切り捨てて値を整数に変換します。
+小数点以下を切り捨てて値を整数に変換して返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>ndigits</code>:</dt>
 <dd>
-10進数での小数点以下の有効桁数を整数で指定します。正の整数を指定した場合、<a href="../class/Float.html">Float</a> を返します。小数点以下を、最大 n 桁にします。負の整数を指定した場合、<a href="../class/Integer.html">Integer</a> を返します。小数点位置から左に少なくとも n 個の 0 が並びます。
+10進数での小数点以下の有効桁数を整数で指定します。正の整数を指定した場合、<a href="../class/Float.html">Float</a> を返します。小数点以下を、最大 <code>n</code> 桁にします。負の整数を指定した場合、<a href="../class/Integer.html">Integer</a> を返します。小数点位置から左に少なくとも <code>n</code> 個の <code>0</code> が並びます。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -1277,12 +1393,12 @@ t <span class="o">=</span> t<span class="o">**</span><span class="mi">10</span> 
 <dt class="method-heading" id="I_ZERO--3F"><code>zero? -&gt; bool</code><span class="permalink">[<a href="../method/Float/i/zero=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Float.html#method-i-zero-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Float.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<code>self</code> がゼロの時、<code>true</code> を返します。そうでない場合は <code>false</code> を返します。
+<code>self</code> がゼロなら <code>true</code> を、そうでなければ <code>false</code> を返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">10.0</span><span class="p">.</span><span class="nf">zero?</span>          <span class="c1"># =&gt; false
-</span><span class="nb">p</span> <span class="mi">0</span><span class="p">.</span><span class="nf">zero?</span>             <span class="c1"># =&gt; true
-</span><span class="nb">p</span> <span class="mf">0.0</span><span class="p">.</span><span class="nf">zero?</span>           <span class="c1"># =&gt; true
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mf">0.0</span><span class="p">.</span><span class="nf">zero?</span>            <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="o">-</span><span class="mf">0.0</span><span class="p">.</span><span class="nf">zero?</span>           <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">Float</span><span class="o">::</span><span class="no">EPSILON</span><span class="p">.</span><span class="nf">zero?</span> <span class="c1"># =&gt; false
 </span></code></pre>
 </dd>
 
@@ -1361,7 +1477,7 @@ prec に負の数を指定した場合に発生します。
 浮動小数点数における正の無限大です。
 </p>
 <p>
-負の無限大は <code>-Float::INFINITY</code> です。
+負の無限大は <code>-Float::INFINITY</code> で得られます。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Float/i/finite=3f.html">Float#finite?</a>, <a href="../method/Float/i/infinite=3f.html">Float#infinite?</a>
@@ -1414,7 +1530,7 @@ prec に負の数を指定した場合に発生します。
 最大の <code>Float::RADIX</code> 進の指数です。
 </p>
 <p>
-通常はデフォルトで 1024 です。
+通常はデフォルトで <code>1024</code> です。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Float/c/MIN_EXP.html">Float::MIN_EXP</a>
@@ -1445,7 +1561,7 @@ prec に負の数を指定した場合に発生します。
 最小の 10 進の指数です。
 </p>
 <p>
-通常はデフォルトで -307 です。
+通常はデフォルトで <code>-307</code> です。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Float/c/MAX_10_EXP.html">Float::MAX_10_EXP</a>
@@ -1459,7 +1575,7 @@ prec に負の数を指定した場合に発生します。
 最小の <code>Float::RADIX</code> 進の指数です。
 </p>
 <p>
-通常はデフォルトで -1021 です。
+通常はデフォルトで <code>-1021</code> です。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Float/c/MAX_EXP.html">Float::MAX_EXP</a>

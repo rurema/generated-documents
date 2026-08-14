@@ -2,7 +2,7 @@
 
 ### def hash -> Integer
 
-ハッシュ値を返します。
+`self` のハッシュ値を返します。
 
 ```ruby title="例"
 pi1 = 3.14

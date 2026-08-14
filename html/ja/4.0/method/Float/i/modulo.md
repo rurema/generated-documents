@@ -3,9 +3,11 @@
 ### def %(other) -> Float
 ### def modulo(other) -> Float
 
-算術演算子。剰余を計算します。
+`self` を `other` で割った余り（剰余）を返します。
 
-- **param** `other` -- 二項演算の右側の引数(対象)
+`Float` オブジェクトを左項とする算術演算子 `%` はこのメソッドの呼び出しになります。
+
+- **param** `other` -- `self` に対する除数
 
 ```ruby title="例"
 # 剰余
