@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rubygems/ext/builder.md
 since_by_name=run=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def Gem::Ext::Builder.run(command, results)
 @todo

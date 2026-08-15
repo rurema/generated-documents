@@ -11,6 +11,8 @@ T_DATA の種類ごとにオブジェクトの数を格納したハッシュを�
 本メソッドは普通の Ruby プログラマ向けのメソッドではありません。パフォーマンスに興味のある C Ruby の開発者向けのものです。
 
 ```ruby title="例"
+require 'objspace'
+
 p ObjectSpace.count_tdata_objects
 # => {RubyVM::InstructionSequence=>504, :parser=>5, :barrier=>6,
 #     :mutex=>6, Proc=>60, RubyVM::Env=>57, Mutex=>1, Encoding=>99,

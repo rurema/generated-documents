@@ -12,6 +12,8 @@ YAML のパーサ。
 以下の例では YAML ドキュメント に含まれているスカラー値を表示します。
 
 ```ruby
+require 'psych'
+
 # Handler for detecting scalar values
 class ScalarHandler < Psych::Handler
   def scalar value, anchor, tag, plain, quoted, style
@@ -27,6 +29,8 @@ parser.parse(yaml_document)
 STDIN からの入力をパース→YAMLフォーマットで STDERR に出力という流れになっています。
 
 ```ruby
+require 'psych'
+
 parser = Psych::Parser.new(Psych::Emitter.new($stderr))
 parser.parse($stdin)
 ```

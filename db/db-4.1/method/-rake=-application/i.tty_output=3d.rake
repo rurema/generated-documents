@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rake/Rake__Application.md
 since_by_name=tty_output=3d=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def tty_output=(tty_output_state)
 

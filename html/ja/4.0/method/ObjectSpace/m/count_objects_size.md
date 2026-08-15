@@ -9,6 +9,8 @@
 戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒントとして扱う必要があります。特に T_DATA の合計値は正しくないでしょう。
 
 ```ruby title="例"
+require 'objspace'
+
 p ObjectSpace.count_objects_size
 # => {:TOTAL=>1461154, :T_CLASS=>158280, :T_MODULE=>20672, :T_STRING=>527249, ...}
 ```

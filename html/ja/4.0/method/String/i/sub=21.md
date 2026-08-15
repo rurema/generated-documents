@@ -25,7 +25,7 @@ p buf   # => "Str!!-String"
 
 buf = "String.String"
 buf.sub!(/in./, '<<\&>>')
-p buf   # => "Str<<ing>>-String"
+p buf   # => "Str<<ing>>.String"
 
 buf = "foo"
 buf.sub!(/(?<name>fo)/, 'match: \k<name>')

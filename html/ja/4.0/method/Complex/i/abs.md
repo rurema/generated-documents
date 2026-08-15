@@ -3,7 +3,7 @@
 ### def abs       -> Numeric
 ### def magnitude -> Numeric
 
-自身の絶対値を返します。
+`self` の絶対値（absolute value）を返します。
 
 以下の計算の結果を [Float](../../../class/Float.md) オブジェクトで返します。
 

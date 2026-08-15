@@ -25,7 +25,7 @@ p buf   # => "Str!!-Str!!"
 
 buf = "String.String"
 buf.gsub!(/in./, '<<\&>>')
-p buf   # => "Str<<ing>>-Str<<ing>>"
+p buf   # => "Str<<ing>>.Str<<ing>>"
 
 buf = "foo"
 buf.gsub!(/(?<name>fo)/, 'match: \k<name>')

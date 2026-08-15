@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Complex/i/to_f.html">
 
 <title>Complex#to_f (Ruby 3.2 リファレンスマニュアル)</title>
-<meta name="description" content="自身を Float に変換します。">
+<meta name="description" content="`self' の虚部が Integer か Rational のゼロであれば実部を Float に変換して返します。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -87,18 +87,24 @@
 <dt class="method-heading" id="I_TO_F"><code>to_f -&gt; Float</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/Complex/i/to_f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Complex.html#method-i-to_f">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身を <a href="../../../class/Float.html">Float</a> に変換します。
+<code>self</code> の虚部が <a href="../../../class/Integer.html">Integer</a> か <a href="../../../class/Rational.html">Rational</a> のゼロであれば実部を <a href="../../../class/Float.html">Float</a> に変換して返します。
 </p>
 <dl>
 <dt>[EXCEPTION] <code>RangeError</code>:</dt>
 <dd>
-虚部が実数か、0 ではない場合に発生します。
+虚部がゼロでなかったり <a href="../../../class/Float.html">Float</a> のゼロである場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">.</span><span class="nf">to_f</span>  <span class="c1"># =&gt; 3.0
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mf">3.5</span><span class="p">)</span><span class="p">.</span><span class="nf">to_f</span>  <span class="c1"># =&gt; 3.5
-</span><span class="no">Complex</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">to_f</span> <span class="c1"># ~&gt; RangeError
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 0i<span class="p">)</span><span class="p">.</span><span class="nf">to_f</span>  <span class="c1"># =&gt; 1.0
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 0ri<span class="p">)</span><span class="p">.</span><span class="nf">to_f</span> <span class="c1"># =&gt; 1.0
+</span></code></pre>
+<span class="caption">変換できない例</span>
+<pre class="highlight ruby"><code><span class="c1"># 虚部がゼロでない
+</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 2i<span class="p">)</span><span class="p">.</span><span class="nf">to_f</span> <span class="c1"># ~&gt; RangeError
+</span>
+<span class="c1"># 虚部がゼロだが Float の 0.0 である
+</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 0.0i<span class="p">)</span><span class="p">.</span><span class="nf">to_f</span> <span class="c1"># ~&gt; RangeError
 </span></code></pre>
 </dd>
 

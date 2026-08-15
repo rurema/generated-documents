@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rake/RakeFileUtils.md
 since_by_name=when_writing=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def when_writing(msg = nil){ ... }
 

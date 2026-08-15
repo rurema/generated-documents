@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rake/Rake__TaskManager.md
 since_by_name=synthesize_file_task=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def synthesize_file_task(task_name) -> Rake::FileTask | nil
 

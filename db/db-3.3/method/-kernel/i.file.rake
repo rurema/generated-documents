@@ -4,6 +4,7 @@ kind=added
 source_location=manual/api/rake/Kernel.md
 since_by_name=file=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def file(*args){ ... } -> Rake::FileTask
 

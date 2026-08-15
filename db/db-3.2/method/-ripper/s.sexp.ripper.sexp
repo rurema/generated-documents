@@ -4,6 +4,7 @@ kind=added
 source_location=manual/api/ripper/sexp.md
 since_by_name=sexp=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def Ripper.sexp(src, filename = '-', lineno = 1) -> object
 

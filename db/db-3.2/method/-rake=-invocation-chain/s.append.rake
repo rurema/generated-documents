@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rake/Rake__InvocationChain.md
 since_by_name=append=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def Rake::InvocationChain.append(task_name, chain) -> Rake::InvocationChain
 

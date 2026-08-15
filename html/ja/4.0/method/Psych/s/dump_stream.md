@@ -7,5 +7,7 @@
 - **param** `objects` -- 変換対象のオブジェクト列
 
 ```ruby title="例"
+require 'psych'
+
 p Psych.dump_stream("foo\n  ", {}) # => "--- ! \"foo\\n  \"\n--- {}\n"
 ```

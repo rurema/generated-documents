@@ -2,7 +2,7 @@
 
 ### def inspect -> String
 
-自身を人間が読みやすい形の文字列表現にして返します。
+`self` を人間が読みやすい形の文字列表現にして返します。
 
 ```ruby title="例"
 p Complex(2).inspect                     # => "(2+0i)"

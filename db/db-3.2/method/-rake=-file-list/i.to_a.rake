@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rake/Rake__FileList.md
 since_by_name=to_a=1.9.3,to_ary=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def to_a -> Array
 ### def to_ary -> Array

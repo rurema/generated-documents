@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/pp.md
 since_by_name=
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def seplist(list, sep = lambda { comma_breakable }, iter_method = :each){|e| ...}    -> ()
 

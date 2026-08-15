@@ -5,6 +5,8 @@
 obj から到達可能なすべてのオブジェクトを返します。マーク不能なオブジェクトを指定した場合は nil を返します。本メソッドを使う事でメモリリークの調査が行えます。
 
 ```ruby title="例"
+require 'objspace'
+
 # 配列クラス(Array)と 'a'、'b'、'c' に到達可能。
 p ObjectSpace.reachable_objects_from(['a', 'b', 'c'])
 # => [Array, 'a', 'b', 'c']
@@ -13,6 +15,8 @@ p ObjectSpace.reachable_objects_from(['a', 'b', 'c'])
 obj が 2 つ以上の同じオブジェクト x への参照を持つ場合、戻り値に含まれるオブジェクト x は 1 つだけです。
 
 ```ruby title="例"
+require 'objspace'
+
 # 配列クラス(Array)と v に到達可能。
 p ObjectSpace.reachable_objects_from([v = 'a', v, v])
 # => [Array, 'a']
@@ -26,6 +30,8 @@ obj にマーク不能なオブジェクト(true、false、nil、[Symbol](../../
 nil を返します。
 
 ```ruby title="例"
+require 'objspace'
+
 # 1 はマーク不能
 p ObjectSpace.reachable_objects_from(1)
 # => nil

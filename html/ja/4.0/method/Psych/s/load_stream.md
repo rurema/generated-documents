@@ -9,12 +9,16 @@ Ruby のオブジェクトに変換します。
 ブロックなしの場合はオブジェクトの配列を返します。
 
 ```ruby title="例"
+require 'psych'
+
 p Psych.load_stream("--- foo\n...\n--- bar\n...") # => ['foo', 'bar']
 ```
 
 ブロックありの場合は各オブジェクト引数としてそのブロックを呼び出します。
 
 ```ruby title="例"
+require 'psych'
+
 list = []
 Psych.load_stream("--- foo\n...\n--- bar\n...") do |ruby|
   list << ruby

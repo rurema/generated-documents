@@ -17,6 +17,8 @@ filename はパース中に発生した例外のメッセージに用います�
 - **SEE** [Psych.parse](../../../method/Psych/s/parse.md)
 
 ```ruby title="例"
+require 'psych'
+
 p Psych.load("--- a")         # => 'a'
 p Psych.load("---\n - a\n - b") # => ['a', 'b']
 
@@ -31,6 +33,8 @@ end
 キーワード引数 symbolize_names に true を指定した場合はハッシュのキーを [Symbol](../../../class/Symbol.md) に変換して返します。
 
 ```ruby title="例"
+require 'psych'
+
 p Psych.load("---\n foo: bar")                       # => {"foo"=>"bar"}
 p Psych.load("---\n foo: bar", symbolize_names: true)  # => {:foo=>"bar"}
 ```

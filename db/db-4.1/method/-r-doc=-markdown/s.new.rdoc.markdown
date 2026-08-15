@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rdoc/markdown.md
 since_by_name=new=2.0.0
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def RDoc::Markdown.new(extensions = DEFAULT_EXTENSIONS, debug = false)
 

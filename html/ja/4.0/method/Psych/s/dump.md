@@ -26,6 +26,9 @@ options で出力に関するオプションを以下の指定できます。
 - **param** `options` -- 出力オプション
 
 ```ruby title="例"
+require 'psych'
+require 'stringio'
+
 # Dump an array, get back a YAML string
 p Psych.dump(['a', 'b'])  # => "---\n- a\n- b\n"
 

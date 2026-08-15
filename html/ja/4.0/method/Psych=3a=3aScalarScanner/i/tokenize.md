@@ -5,6 +5,8 @@
 YAML の scalar である文字列を Ruby のオブジェクトに変換したものを返します。
 
 ```ruby
+require 'psych'
+
 scanner = Psych::ScalarScanner.new
 p scanner.tokenize("yes") # => true
 p scanner.tokenize("year") # => "year"

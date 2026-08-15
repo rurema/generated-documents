@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rdoc/parser/../parsers/parse_c.md
 since_by_name=new=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def RDoc::Parser::C.new(top_level, file_name, body, options, stats) -> RDoc::Parser::C
 

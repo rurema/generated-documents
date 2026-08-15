@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rake/Rake__FileList.md
 since_by_name=is_a=3f=1.9.3,kind_of=3f=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def is_a?(klass) -> bool
 ### def kind_of?(klass) -> bool

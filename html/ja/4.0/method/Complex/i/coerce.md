@@ -2,7 +2,7 @@
 
 ### def coerce(other) -> [Complex, Complex]
 
-other を [Complex](../../../class/Complex.md) に変換して [変換後の other, self] の配列を返します。
+`other` を [Complex](../../../class/Complex.md) に変換して `[変換後の other, self]` の配列を返します。
 
 - **raise** `TypeError` -- 変換できないオブジェクトを指定した場合に発生します。
 

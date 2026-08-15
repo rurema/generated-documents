@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rdoc/parser/../parsers/parse_rb.md
 since_by_name=new=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def RDoc::Parser::Ruby.new(top_level, file_name, body, options, stats) -> RDoc::Parser::Ruby
 
