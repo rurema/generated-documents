@@ -224,7 +224,10 @@ YAML document に付加するバージョンを [major, minor] という配列�
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="c1"># Dump an array, get back a YAML string
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+<span class="nb">require</span> <span class="s1">'stringio'</span>
+
+<span class="c1"># Dump an array, get back a YAML string
 </span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="p">[</span><span class="s1">'a'</span>, <span class="s1">'b'</span><span class="p">]</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;---\n- a\n- b\n&quot;
 </span>
 <span class="c1"># Dump an array to an IO object
@@ -251,7 +254,9 @@ YAML document に付加するバージョンを [major, minor] という配列�
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">dump_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo\n  </span><span class="s2">"</span>, <span class="p">{</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; &quot;--- ! \&quot;foo\\n  \&quot;\n--- {}\n&quot;
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+
+<span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">dump_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo\n  </span><span class="s2">"</span>, <span class="p">{</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; &quot;--- ! \&quot;foo\\n  \&quot;\n--- {}\n&quot;
 </span></code></pre>
 </dd>
 
@@ -308,7 +313,9 @@ YAMLドキュメントに文法エラーが発見されたときに発生しま�
 [SEE_ALSO] <a href="../method/Psych/s/parse.html">Psych.parse</a>
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="s2">"</span><span class="s2">--- a</span><span class="s2">"</span><span class="p">)</span>         <span class="c1"># =&gt; 'a'
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+
+<span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="s2">"</span><span class="s2">--- a</span><span class="s2">"</span><span class="p">)</span>         <span class="c1"># =&gt; 'a'
 </span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n - a\n - b</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; ['a', 'b']
 </span>
 <span class="k">begin</span>
@@ -322,7 +329,9 @@ YAMLドキュメントに文法エラーが発見されたときに発生しま�
 キーワード引数 symbolize_names に true を指定した場合はハッシュのキーを <a href="../class/Symbol.html">Symbol</a> に変換して返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n foo: bar</span><span class="s2">"</span><span class="p">)</span>                       <span class="c1"># =&gt; {&quot;foo&quot;=&gt;&quot;bar&quot;}
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+
+<span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n foo: bar</span><span class="s2">"</span><span class="p">)</span>                       <span class="c1"># =&gt; {&quot;foo&quot;=&gt;&quot;bar&quot;}
 </span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n foo: bar</span><span class="s2">"</span>, <span class="ss">symbolize_names:</span> <span class="k">true</span><span class="p">)</span>  <span class="c1"># =&gt; {:foo=&gt;&quot;bar&quot;}
 </span></code></pre>
 </dd>
@@ -358,13 +367,17 @@ Ruby のオブジェクトに変換します。
 ブロックなしの場合はオブジェクトの配列を返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">--- foo\n...\n--- bar\n...</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; ['foo', 'bar']
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+
+<span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">--- foo\n...\n--- bar\n...</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; ['foo', 'bar']
 </span></code></pre>
 <p>
 ブロックありの場合は各オブジェクト引数としてそのブロックを呼び出します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code>list <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+
+list <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
 <span class="no">Psych</span><span class="p">.</span><span class="nf">load_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">--- foo\n...\n--- bar\n...</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>ruby<span class="o">|</span>
   list <span class="o">&lt;&lt;</span> ruby
 <span class="k">end</span>
@@ -422,7 +435,9 @@ YAMLドキュメントに文法エラーが発見されたときに発生しま�
 [SEE_ALSO] <a href="../method/Psych/s/load.html">Psych.load</a>
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n - a\n - b</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; #&lt;Psych::Nodes::Document:...&gt;
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+
+<span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n - a\n - b</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; #&lt;Psych::Nodes::Document:...&gt;
 </span>
 <span class="k">begin</span>
   <span class="no">Psych</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">--- `</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">file.txt</span><span class="s2">"</span><span class="p">)</span>
@@ -469,7 +484,9 @@ yaml が 複数の YAML ドキュメントを含む場合を取り扱うこと�
 [SEE_ALSO] <a href="../class/Psych=3a=3aNodes.html">Psych::Nodes</a>
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">parse_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n - a\n - b</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; #&lt;Psych::Nodes::Stream:0x00&gt;
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+
+<span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">parse_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n - a\n - b</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; #&lt;Psych::Nodes::Stream:0x00&gt;
 </span></code></pre>
 </dd>
 
@@ -507,7 +524,10 @@ yaml が 複数の YAML ドキュメントを含む場合を取り扱うこと�
 任意のクラスを許可するにはキーワード引数 permitted_classes を指定すると、そのクラスが追加されます。例えば Date クラスを許可するには以下のように書いてください:
 </p>
 <span class="caption">permitted_classes: に Date を渡した例</span>
-<pre class="highlight ruby"><code><span class="no">Psych</span><span class="p">.</span><span class="nf">safe_load</span><span class="p">(</span>yaml, <span class="ss">permitted_classes:</span> <span class="p">[</span><span class="no">Date</span><span class="p">]</span><span class="p">)</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+<span class="nb">require</span> <span class="s1">'date'</span>
+
+<span class="no">Psych</span><span class="p">.</span><span class="nf">safe_load</span><span class="p">(</span>yaml, <span class="ss">permitted_classes:</span> <span class="p">[</span><span class="no">Date</span><span class="p">]</span><span class="p">)</span>
 </code></pre>
 <p>
 すると上のクラス一覧に加えて Date クラスが読み込まれます。
@@ -516,7 +536,9 @@ yaml が 複数の YAML ドキュメントを含む場合を取り扱うこと�
 エイリアスはキーワード引数 aliases を指定することで明示的に許可できます。
 </p>
 <span class="caption">aliases: true の例</span>
-<pre class="highlight ruby"><code>x <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+
+x <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
 x <span class="o">&lt;&lt;</span> x
 yaml <span class="o">=</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">dump</span> x
 <span class="no">Psych</span><span class="p">.</span><span class="nf">safe_load</span> yaml                <span class="c1"># ~&gt; Psych::AliasesNotEnabled
@@ -537,7 +559,9 @@ filename はパース中に発生した例外のメッセージに用います�
 キーワード引数 symbolize_names に true を指定した場合はハッシュのキーを <a href="../class/Symbol.html">Symbol</a> に変換して返します。
 </p>
 <span class="caption">symbolize_names: true の例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">safe_load</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n foo: bar</span><span class="s2">"</span><span class="p">)</span>                       <span class="c1"># =&gt; {&quot;foo&quot;=&gt;&quot;bar&quot;}
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+
+<span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">safe_load</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n foo: bar</span><span class="s2">"</span><span class="p">)</span>                       <span class="c1"># =&gt; {&quot;foo&quot;=&gt;&quot;bar&quot;}
 </span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">safe_load</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n foo: bar</span><span class="s2">"</span>, <span class="ss">symbolize_names:</span> <span class="k">true</span><span class="p">)</span>  <span class="c1"># =&gt; {:foo=&gt;&quot;bar&quot;}
 </span></code></pre>
 <p>
@@ -565,7 +589,10 @@ yaml <span class="o">=</span> <span class="no">Psych</span><span class="p">.</sp
 <a href="../method/Kernel/v/=2dw.html">$-w</a> が true の時にオプション引数を渡すと警告が出力されます。
 </p>
 <span class="caption">オプション引数を使用した例</span>
-<pre class="highlight ruby"><code><span class="c1"># warning: Passing permitted_classes with the 2nd argument of Psych.safe_load is deprecated. Use keyword argument like Psych.safe_load(yaml, permitted_classes: ...) instead.
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+<span class="nb">require</span> <span class="s1">'date'</span>
+
+<span class="c1"># warning: Passing permitted_classes with the 2nd argument of Psych.safe_load is deprecated. Use keyword argument like Psych.safe_load(yaml, permitted_classes: ...) instead.
 </span><span class="no">Psych</span><span class="p">.</span><span class="nf">safe_load</span><span class="p">(</span><span class="s2">"</span><span class="s2">"</span>, <span class="p">[</span><span class="no">Date</span><span class="p">]</span><span class="p">)</span>
 </code></pre>
 <dl>

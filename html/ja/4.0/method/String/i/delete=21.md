@@ -28,7 +28,7 @@ p str.delete!("2-8", "^4-6")  # => "14569"
 p str                         # => "14569"
 
 str = "abc"
-p str.delete!("2378")         # => "nil"
+p str.delete!("2378")         # => nil
 p str                         # => "abc"
 ```
 

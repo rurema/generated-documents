@@ -16,6 +16,8 @@ AST については [Psych::Nodes](../../../class/Psych=3a=3aNodes.md) を参照
 - **SEE** [Psych.load](../../../method/Psych/s/load.md)
 
 ```ruby title="例"
+require 'psych'
+
 p Psych.parse("---\n - a\n - b") # => #<Psych::Nodes::Document:...>
 
 begin

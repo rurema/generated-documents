@@ -13,7 +13,7 @@ rs に空文字列 ("") を指定した場合は「パラグラフモード」�
 
 ```ruby title="例"
 buf = "string\n"
-p buf.chomp!  # => nil
+p buf.chomp!  # => "string"
 p buf       # => "string"
 
 $/ = "\n"   # デフォルトと同じ

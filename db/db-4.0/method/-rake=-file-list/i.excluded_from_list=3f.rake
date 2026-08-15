@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rake/Rake__FileList.md
 since_by_name=excluded_from_list=3f=2.4.0
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def excluded_from_list?(file_name) -> bool
 

@@ -2,7 +2,7 @@
 
 ### def real? -> false
 
-常に false を返します。
+常に `false` を返します。
 
 ```ruby title="例"
 p (2+3i).real? # => false

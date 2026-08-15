@@ -2,7 +2,7 @@
 
 ### def numerator -> Complex
 
-分子を返します。
+`self` の分子（numerator）を返します。
 
 ```ruby title="例"
 p Complex('1/2+2/3i').numerator # => (3+4i)

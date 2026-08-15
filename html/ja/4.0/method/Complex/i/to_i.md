@@ -2,12 +2,19 @@
 
 ### def to_i -> Integer
 
-自身を整数に変換します。
+`self` の虚部が [Integer](../../../class/Integer.md) か [Rational](../../../class/Rational.md) のゼロであれば実部を [Integer](../../../class/Integer.md) に変換して返します。
 
-- **raise** `RangeError` -- 虚部が実数か、0 ではない場合に発生します。
+- **raise** `RangeError` -- 虚部がゼロでなかったり [Float](../../../class/Float.md) のゼロである場合に発生します。
 
 ```ruby title="例"
-p Complex(3).to_i  # => 3
-p Complex(3.5).to_i  # => 3
-Complex(3, 2).to_i # ~> RangeError
+p (1.9 + 0i).to_i  # => 1
+p (1.9 + 0ri).to_i # => 1
+```
+
+```ruby title="変換できない例"
+# 虚部がゼロでない
+(1 + 2i).to_i # ~> RangeError
+
+# 虚部がゼロだが Float の 0.0 である
+(1 + 0.0i).to_i # ~> RangeError
 ```

@@ -2,7 +2,7 @@
 
 ### def denominator -> Integer
 
-分母を返します。
+`self` の分母（denominator）を返します。
 
 以下のように、実部と虚部の分母の最小公倍数を整数で返します。
 

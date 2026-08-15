@@ -14,5 +14,7 @@ yaml が 複数の YAML ドキュメントを含む場合を取り扱うこと�
 - **SEE** [Psych::Nodes](../../../class/Psych=3a=3aNodes.md)
 
 ```ruby title="例"
+require 'psych'
+
 p Psych.parse_stream("---\n - a\n - b") # => #<Psych::Nodes::Stream:0x00>
 ```

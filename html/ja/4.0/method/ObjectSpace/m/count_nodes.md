@@ -11,6 +11,8 @@
 本メソッドは普通の Ruby プログラマ向けのメソッドではありません。パフォーマンスやメモリ管理に興味のある C Ruby の開発者向けのものです。
 
 ```ruby title="例"
+require 'objspace'
+
 p ObjectSpace.count_nodes
 # => {:NODE_METHOD=>2027, :NODE_FBODY=>1927, :NODE_CFUNC=>1798, ...}
 ```

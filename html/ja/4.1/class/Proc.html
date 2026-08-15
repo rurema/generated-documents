@@ -30,7 +30,7 @@
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-14-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-15-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -241,12 +241,17 @@ Proc.new では手続きオブジェクトを囲むメソッドを抜けます�
 <p>
 以下の表は、手続きオブジェクトの実行を上の例と同じように、手続きオブジェクトが定義されたのと同じメソッド内で行った場合の結果です。
 </p>
-<pre class="highlight text"><code>               return                          next                        break
-Proc.new   メソッドを抜ける            手続きオブジェクトを抜ける   例外が発生する
-proc       メソッドを抜ける            手続きオブジェクトを抜ける   例外が発生する
-lambda     手続きオブジェクトを抜ける  手続きオブジェクトを抜ける   手続きオブジェクトを抜ける
-イテレータ メソッドを抜ける            手続きオブジェクトを抜ける   手続きオブジェクトを抜ける
-</code></pre>
+<table>
+<thead>
+<tr><th style="text-align:left"></th><th style="text-align:left">return</th><th style="text-align:left">next</th><th style="text-align:left">break</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><code>Proc.new</code></td><td style="text-align:left">メソッドを抜ける</td><td style="text-align:left">手続きオブジェクトを抜ける</td><td style="text-align:left">例外が発生する</td></tr>
+<tr><td style="text-align:left"><code>proc</code></td><td style="text-align:left">メソッドを抜ける</td><td style="text-align:left">手続きオブジェクトを抜ける</td><td style="text-align:left">例外が発生する</td></tr>
+<tr><td style="text-align:left"><code>lambda</code></td><td style="text-align:left">手続きオブジェクトを抜ける</td><td style="text-align:left">手続きオブジェクトを抜ける</td><td style="text-align:left">手続きオブジェクトを抜ける</td></tr>
+<tr><td style="text-align:left">イテレータ</td><td style="text-align:left">メソッドを抜ける</td><td style="text-align:left">手続きオブジェクトを抜ける</td><td style="text-align:left">手続きオブジェクトを抜ける</td></tr>
+</tbody>
+</table>
 <h2 id='orphan'>orphan な手続きオブジェクトの挙動</h2>
 <p>
 Proc(lambda を除く)を生成したメソッド呼び出しが終了した後で、その手続きオブジェクトに対して return を実行すると、戻る先のメソッド呼び出しがすでに存在しないため、例外 <a href="../class/LocalJumpError.html">LocalJumpError</a> が発生します。
@@ -272,11 +277,16 @@ foo<span class="p">.</span><span class="nf">call</span>
 <p>
 以下の表は、手続きオブジェクトの実行を上の例と同じように、手続きオブジェクトが定義されたメソッドを脱出してから行った場合の結果です。
 </p>
-<pre class="highlight text"><code>               return                          next                        break
-Proc.new   例外が発生する              手続きオブジェクトを抜ける   例外が発生する
-proc       例外が発生する              手続きオブジェクトを抜ける   例外が発生する
-lambda     手続きオブジェクトを抜ける  手続きオブジェクトを抜ける   手続きオブジェクトを抜ける
-</code></pre>
+<table>
+<thead>
+<tr><th style="text-align:left"></th><th style="text-align:left">return</th><th style="text-align:left">next</th><th style="text-align:left">break</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><code>Proc.new</code></td><td style="text-align:left">例外が発生する</td><td style="text-align:left">手続きオブジェクトを抜ける</td><td style="text-align:left">例外が発生する</td></tr>
+<tr><td style="text-align:left"><code>proc</code></td><td style="text-align:left">例外が発生する</td><td style="text-align:left">手続きオブジェクトを抜ける</td><td style="text-align:left">例外が発生する</td></tr>
+<tr><td style="text-align:left"><code>lambda</code></td><td style="text-align:left">手続きオブジェクトを抜ける</td><td style="text-align:left">手続きオブジェクトを抜ける</td><td style="text-align:left">手続きオブジェクトを抜ける</td></tr>
+</tbody>
+</table>
 
 
 
@@ -348,6 +358,7 @@ lambda     手続きオブジェクトを抜ける  手続きオブジェクト�
 <dl>
 
 <dt class="method-heading" id="S_NEW"><code>new { ... } -&gt; Proc</code><span class="permalink">[<a href="../method/Proc/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>() { (?) &rarr; untyped } &rarr; instance</code></pre></dd>
 <dd class="method-description">
 <p>
 ブロックをコンテキストとともにオブジェクト化して返します。
@@ -375,6 +386,7 @@ Proc.new は、Proc#initialize が定義されていればオブジェクトの�
 <dl>
 
 <dt class="method-heading" id="I_--3C--3C"><code>self &lt;&lt; callable -&gt; Proc</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Proc/i/=3c=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-3C-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>(_Callable callable) &rarr; <a href="../class/Proc.html">Proc</a></code></pre></dd>
 <dd class="method-description">
 <p>
 self と引数を合成した Proc を返します。
@@ -423,6 +435,7 @@ pipeline<span class="p">.</span><span class="nf">call</span><span class="p">(</s
 <dt class="method-heading"><code>call(*arg) -&gt; ()</code></dt>
 <dt class="method-heading"><code>self === *arg -&gt; ()</code></dt>
 <dt class="method-heading"><code>yield(*arg) -&gt; ()</code><span class="method-since-badge">Ruby 1.9.3 から</span></dt>
+<dd class="rbs-signatures"><pre><code>(?) &rarr; untyped</code></pre></dd>
 <dd class="method-description">
 <p>
 手続きオブジェクトを実行してその結果を返します。
@@ -474,6 +487,7 @@ Procを生成したメソッドからリターンしてしまった場合に発�
 
 
 <dt class="method-heading" id="I_--3E--3E"><code>self &gt;&gt; callable -&gt; Proc</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Proc/i/=3e=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-3E-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>(_Callable callable) &rarr; <a href="../class/Proc.html">Proc</a></code></pre></dd>
 <dd class="method-description">
 <p>
 self と引数を合成した Proc を返します。
@@ -519,6 +533,7 @@ pipeline<span class="p">.</span><span class="nf">call</span><span class="p">(</s
 
 
 <dt class="method-heading" id="I_ARITY"><code>arity -&gt; Integer</code><span class="permalink">[<a href="../method/Proc/i/arity.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-arity">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>() &rarr; <a href="../class/Integer.html">Integer</a></code></pre></dd>
 <dd class="method-description">
 <p>
 Proc オブジェクトが受け付ける引数の数を返します。
@@ -548,6 +563,7 @@ Proc オブジェクトが受け付ける引数の数を返します。
 
 
 <dt class="method-heading" id="I_BINDING"><code>binding -&gt; Binding</code><span class="permalink">[<a href="../method/Proc/i/binding.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-binding">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>() &rarr; <a href="../class/Binding.html">Binding</a></code></pre></dd>
 <dd class="method-description">
 <p>
 Proc オブジェクトが保持するコンテキストを
@@ -566,6 +582,7 @@ sample_proc <span class="o">=</span> fred<span class="p">(</span><span class="mi
 
 <dt class="method-heading" id="I_CURRY"><code>curry -&gt; Proc</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Proc/i/curry.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-curry">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>curry(arity) -&gt; Proc</code></dt>
+<dd class="rbs-signatures"><pre><code>(?int? arity) &rarr; <a href="../class/Proc.html">Proc</a></code></pre></dd>
 <dd class="method-description">
 <p>
 Procをカリー化します
@@ -618,6 +635,7 @@ b <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span>
 
 
 <dt class="method-heading" id="I_HASH"><code>hash -&gt; Integer</code><span class="permalink">[<a href="../method/Proc/i/hash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-hash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>() &rarr; <a href="../class/Integer.html">Integer</a></code></pre></dd>
 <dd class="method-description">
 <p>
 self のハッシュ値を返します。
@@ -627,6 +645,7 @@ self のハッシュ値を返します。
 
 <dt class="method-heading" id="I_INSPECT"><code>to_s -&gt; String</code><span class="permalink">[<a href="../method/Proc/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>inspect -&gt; String</code></dt>
+<dd class="rbs-signatures"><pre><code>() &rarr; <a href="../class/String.html">String</a></code></pre></dd>
 <dd class="method-description">
 <p>
 self の文字列表現を返します。
@@ -645,6 +664,7 @@ self の文字列表現を返します。
 
 
 <dt class="method-heading" id="I_LAMBDA--3F"><code>lambda? -&gt; bool</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Proc/i/lambda=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-lambda-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>() &rarr; bool</code></pre></dd>
 <dd class="method-description">
 <p>
 手続きオブジェクトの引数の取扱が厳密であるならば true を返します。
@@ -709,6 +729,7 @@ self の文字列表現を返します。
 
 
 <dt class="method-heading" id="I_PARAMETERS"><code>parameters(lambda: nil) -&gt; [object]</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Proc/i/parameters.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-parameters">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>(?lambda: boolish) &rarr; Method::param_types</code></pre></dd>
 <dd class="method-description">
 <p>
 Proc オブジェクトの引数の情報を返します。
@@ -796,6 +817,7 @@ prc<span class="p">.</span><span class="nf">parameters</span> <span class="c1">#
 
 
 <dt class="method-heading" id="I_RUBY2_KEYWORDS"><code>ruby2_keywords -&gt; proc</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Proc/i/ruby2_keywords.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-ruby2_keywords">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>() &rarr; self</code></pre></dd>
 <dd class="method-description">
 <p>
 self に、通常の引数スプラット(<code>*args</code>)を通してキーワード引数を透過させるためのフラグを設定し、self を返します。引数スプラットは受け取るものの、明示的なキーワード引数やキーワードスプラット(<code>**kwargs</code>)は受け取らない Proc に対してだけ使ってください。
@@ -823,6 +845,7 @@ self に、通常の引数スプラット(<code>*args</code>)を通してキー�
 
 
 <dt class="method-heading" id="I_SOURCE_LOCATION"><code>source_location -&gt; [String, Integer] | nil</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Proc/i/source_location.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-source_location">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>() &rarr; [ <a href="../class/String.html">String</a>, <a href="../class/Integer.html">Integer</a> ]?</code></pre></dd>
 <dd class="method-description">
 <p>
 ソースコードのファイル名と行番号を配列で返します。
@@ -844,6 +867,7 @@ self に、通常の引数スプラット(<code>*args</code>)を通してキー�
 
 
 <dt class="method-heading" id="I_TO_PROC"><code>to_proc -&gt; self</code><span class="permalink">[<a href="../method/Proc/i/to_proc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-to_proc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="rbs-signatures"><pre><code>() &rarr; self</code></pre></dd>
 <dd class="method-description">
 <p>
 self を返します。

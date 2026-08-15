@@ -81,6 +81,6 @@ p 'abcabc'.sub(/b/) { $&.upcase }    # => "aBcabc"
 
 ```ruby title="例"
 hash = {'b'=>'B', 'c'=>'C'}
-p "abcabc".sub(/[bc]/){hash[$&]} # => "aBCabc"
-p "abcabc".sub(/[bc]/, hash)     # => "aBCabc"
+p "abcabc".sub(/[bc]/){hash[$&]} # => "aBcabc"
+p "abcabc".sub(/[bc]/, hash)     # => "aBcabc"
 ```

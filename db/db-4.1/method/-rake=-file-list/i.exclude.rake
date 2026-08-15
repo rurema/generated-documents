@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rake/Rake__FileList.md
 since_by_name=exclude=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def exclude(*patterns){|entry| ... } -> self
 

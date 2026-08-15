@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Complex.html">
 
 <title>class Complex (Ruby 3.3 リファレンスマニュアル)</title>
-<meta name="description" content="複素数を扱うクラスです。">
+<meta name="description" content="複素数を表すクラスです。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -125,33 +125,95 @@
 
 <h2>要約</h2>
 <p>
-複素数を扱うクラスです。
+複素数を表すクラスです。
 </p>
 <p>
-<a href="../class/Complex.html">Complex</a> オブジェクトを作成するには、<a href="../method/Kernel/m/Complex.html">Kernel.#Complex</a>、
-<a href="../method/Complex/s/rect.html">Complex.rect</a>、<a href="../method/Complex/s/polar.html">Complex.polar</a>、<a href="../method/Numeric/i/to_c.html">Numeric#to_c</a>、
-<a href="../method/String/i/to_c.html">String#to_c</a> のいずれかを使用します。
+実部・虚部を、実数を表す数値オブジェクトとして保持します。
 </p>
-<span class="caption">Complex オブジェクトの作り方</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>         <span class="c1"># =&gt; (1+0i)
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span>      <span class="c1"># =&gt; (2+3i)
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">.</span><span class="nf">polar</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; (-1.9799849932008908+0.2822400161197344i)
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>       <span class="c1"># =&gt; (0.3+0i)
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="s1">'0.3-0.5i'</span><span class="p">)</span>  <span class="c1"># =&gt; (0.3-0.5i)
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="s1">'2/3+3/4i'</span><span class="p">)</span>  <span class="c1"># =&gt; ((2/3)+(3/4)*i)
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="s1">'1@2'</span><span class="p">)</span>     <span class="c1"># =&gt; (-0.4161468365471424+0.9092974268256817i)
-</span><span class="nb">p</span> <span class="mi">3</span><span class="p">.</span><span class="nf">to_c</span>             <span class="c1"># =&gt; (3+0i)
-</span><span class="nb">p</span> <span class="mf">0.3</span><span class="p">.</span><span class="nf">to_c</span>           <span class="c1"># =&gt; (0.3+0i)
-</span><span class="nb">p</span> <span class="s1">'0.3-0.5i'</span><span class="p">.</span><span class="nf">to_c</span>    <span class="c1"># =&gt; (0.3-0.5i)
-</span><span class="nb">p</span> <span class="s1">'2/3+3/4i'</span><span class="p">.</span><span class="nf">to_c</span>    <span class="c1"># =&gt; ((2/3)+(3/4)*i)
-</span><span class="nb">p</span> <span class="s1">'1@2'</span><span class="p">.</span><span class="nf">to_c</span>         <span class="c1"># =&gt; (-0.4161468365471424+0.9092974268256817i)
+<p>
+<a href="../class/Complex.html">Complex</a> オブジェクトは以下の方法で生成できます。
+</p>
+<ul>
+<li>虚数リテラルで記述する</li>
+<li><a href="../method/Kernel/m/Complex.html">Kernel.#Complex</a>、<a href="../method/Complex/s/rect.html">Complex.rect</a>、<a href="../method/Complex/s/polar.html">Complex.polar</a> を使う</li>
+<li>他の数値クラスのオブジェクトから <a href="../method/Numeric/i/to_c.html">Numeric#to_c</a> で変換する</li>
+<li>文字列表現から <a href="../method/String/i/to_c.html">String#to_c</a> で変換する</li>
+</ul>
+<span class="caption">リテラルによる生成</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> 1i <span class="c1"># =&gt; (0+1i)
+</span><span class="c1"># 虚部は Integer オブジェクトで保持される
+</span>
+<span class="nb">p</span> 1.0i <span class="c1"># =&gt; (0+1.0i)
+</span><span class="c1"># 虚部は Float オブジェクトで保持される
+</span>
+<span class="nb">p</span> 1ri   <span class="c1"># =&gt; (0+(1/1)*i)
+</span><span class="nb">p</span> 0.5ri <span class="c1"># =&gt; (0+(1/2)*i)
+</span><span class="c1"># 虚部は Rational オブジェクトで保持される
+</span>
+<span class="nb">p</span> <span class="mi">1</span><span class="o">+</span>2i <span class="c1"># =&gt; (1+2i)
+</span><span class="c1"># `1+2i` という形式のリテラルがあるわけではなく、
+</span><span class="c1"># Integer のリテラル `1` と虚数リテラル `2i` と
+</span><span class="c1"># 減算演算子 `-` からなる演算子式
+</span></code></pre>
+<span class="caption">Complex メソッドによる生成</span>
+<pre class="highlight ruby"><code><span class="c1"># 実部のみ与える
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>          <span class="c1"># =&gt; (1+0i)
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>        <span class="c1"># =&gt; (0.3+0i)
+</span>
+<span class="c1"># 実部と虚部を与える
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span>       <span class="c1"># =&gt; (2+3i)
+</span>
+<span class="c1"># 文字列表現を与える（実部・虚部に浮動小数点リテラル形式を使う）
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.3-0.5i</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; (0.3-0.5i)
+</span>
+<span class="c1"># 文字列表現を与える（実部・虚部に有理数リテラル形式を使う）
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="s2">"</span><span class="s2">2/3+3/4i</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; ((2/3)+(3/4)*i)
+</span>
+<span class="c1"># 文字列表現を与える（絶対値と偏角による極形式）
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="s2">"</span><span class="s2">2@3.141592653589793</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; (-2+0.0i)
+</span></code></pre>
+<span class="caption">Complex.rect メソッドによる生成</span>
+<pre class="highlight ruby"><code><span class="c1"># 実部と虚部を与える
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">.</span><span class="nf">rect</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; (2+3i)
+</span><span class="c1"># `Complex(2, 3)` と変わらない
+</span></code></pre>
+<span class="caption">Complex.polar メソッドによる生成</span>
+<pre class="highlight ruby"><code><span class="c1"># 絶対値と偏角を与える
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">.</span><span class="nf">polar</span><span class="p">(</span><span class="mf">0.5</span>, <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># =&gt; (0.0+0.5i)
+</span></code></pre>
+<span class="caption">他の数値クラスオブジェクトからの変換による生成</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="mi">3</span><span class="p">.</span><span class="nf">to_c</span>    <span class="c1"># =&gt; (3+0i)
+</span><span class="nb">p</span> <span class="mf">0.3</span><span class="p">.</span><span class="nf">to_c</span>  <span class="c1"># =&gt; (0.3+0i)
+</span><span class="nb">p</span> 0.5r<span class="p">.</span><span class="nf">to_c</span> <span class="c1"># =&gt; ((1/2)+0i)
+</span></code></pre>
+<span class="caption">文字列表現からの変換による生成</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">0.3-0.5i</span><span class="s2">"</span><span class="p">.</span><span class="nf">to_c</span>    <span class="c1"># =&gt; (0.3-0.5i)
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">2/3+3/4i</span><span class="s2">"</span><span class="p">.</span><span class="nf">to_c</span>    <span class="c1"># =&gt; ((2/3)+(3/4)*i)
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">2@3.141592653589793</span><span class="s2">"</span><span class="p">.</span><span class="nf">to_c</span> <span class="c1"># =&gt; (-2+0.0i)
 </span></code></pre>
 <p>
-<a href="../class/Complex.html">Complex</a> オブジェクトは有理数の形式も実数の形式も扱う事ができます。
+複素数演算において、オペランドの実部・虚部のクラスは演算結果の実部・虚部のクラスに影響します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># =&gt; ((1/2)+(1/2)*i)
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>  <span class="c1"># =&gt; (0.5+0.5i)
+<pre class="highlight ruby"><code>a <span class="o">=</span> <span class="mf">3.0</span> <span class="o">+</span> 3i
+<span class="c1"># 実部が Float、虚部が Integer
+</span>
+<span class="nb">p</span> a <span class="o">/</span> <span class="mi">2</span> <span class="c1"># =&gt; (1.5+(3/2)*i)
+</span><span class="c1"># 実部は Float、虚部は Rational になる
+</span></code></pre>
+<p>
+実部・虚部ともに <code>Integer</code> もしくは <code>Rational</code> であるような <code>Complex</code> オブジェクト、および <code>Integer</code> オブジェクト、<code>Rational</code> オブジェクトの間の加減乗除算は丸め誤差なく行われます。
+</p>
+<span class="caption">虚部が Rational と Float の場合の誤差の比較</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="p">[</span>1ri <span class="o">/</span> <span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">sum</span>
+<span class="c1"># =&gt; (0+(1/1)*i)
+</span><span class="c1"># 演算誤差無し
+</span>
+<span class="c1"># 参考：
+</span><span class="nb">p</span> <span class="p">(</span><span class="p">[</span>1.0i <span class="o">/</span> <span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">sum</span>
+<span class="c1"># =&gt; (0+0.9999999999999999i)
+</span><span class="c1"># `1.0i / 10` の時点で誤差が生じている
+</span><span class="c1"># それを 10 個足し合わせることで、`to_s` でも分かる誤差になっている
 </span></code></pre>
 
 
@@ -246,7 +308,7 @@
 
 <li><a href="#I_TO_I">to_i</a></li>
 
-<li><a href="#I_RATIONALIZE">to_r</a></li>
+<li><a href="#I_TO_R">to_r</a></li>
 
 <li><a href="#I_TO_S">to_s</a></li>
 
@@ -368,7 +430,10 @@
 <dt class="method-heading" id="S_POLAR"><code>polar(r, theta = 0) -&gt; Complex</code><span class="permalink">[<a href="../method/Complex/s/polar.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-c-polar">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-絶対値が r、偏角が theta である <a href="../class/Complex.html">Complex</a> クラスのオブジェクトを生成します。
+絶対値が <code>r</code>、偏角が <code>theta</code> である <a href="../class/Complex.html">Complex</a> クラスのオブジェクトを生成します。
+</p>
+<p>
+複素数の極形式（polar form）に基づくためこの名があります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>r</code>:</dt>
@@ -383,25 +448,28 @@
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">.</span><span class="nf">polar</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>          <span class="c1"># =&gt; (2.0+0.0i)
 </span><span class="nb">p</span> <span class="no">Complex</span><span class="p">.</span><span class="nf">polar</span><span class="p">(</span><span class="mf">2.0</span>, <span class="mi">0</span><span class="p">)</span>       <span class="c1"># =&gt; (2.0+0.0i)
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">.</span><span class="nf">polar</span><span class="p">(</span><span class="mf">2.0</span>, <span class="no">Math</span><span class="o">::</span><span class="no">PI</span><span class="p">)</span>  <span class="c1"># =&gt; (-2.0+2.4492127076447545e-16i)
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">.</span><span class="nf">polar</span><span class="p">(</span><span class="mf">2.0</span>, <span class="no">Math</span><span class="o">::</span><span class="no">PI</span><span class="p">)</span>  <span class="c1"># =&gt; (-2.0+0.0i)
 </span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="S_RECT"><code>rect(r, i = 0) -&gt; Complex</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Complex/s/rect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-c-rect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>rectangular(r, i = 0) -&gt; Complex</code></dt>
+<dt class="method-heading" id="S_RECT"><code>rect(real, imag = 0) -&gt; Complex</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Complex/s/rect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-c-rect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>rectangular(real, imag = 0) -&gt; Complex</code></dt>
 <dd class="method-description">
 <p>
-実部が r、虚部が i である <a href="../class/Complex.html">Complex</a> クラスのオブジェクトを生成します。
+実部が <code>real</code>、虚部が <code>imag</code> である <a href="../class/Complex.html">Complex</a> クラスのオブジェクトを生成します。
+</p>
+<p>
+複素数の直交形式（rectangular form）に基づくためこの名があります。
 </p>
 <dl>
-<dt class='method-param'>[PARAM] <code>r</code>:</dt>
+<dt class='method-param'>[PARAM] <code>real</code>:</dt>
 <dd>
 生成する複素数の実部。
 </dd>
-<dt class='method-param'>[PARAM] <code>i</code>:</dt>
+<dt class='method-param'>[PARAM] <code>imag</code>:</dt>
 <dd>
-生成する複素数の虚部。省略した場合は 0 です。
+生成する複素数の虚部。省略した場合は <code>0</code> です。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -423,12 +491,15 @@
 <dt class="method-heading" id="I_--2A"><code>self * other -&gt; Complex</code><span class="permalink">[<a href="../method/Complex/i/=2a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-2A">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-積を計算します。
+<code>self</code> に <code>other</code> を掛けた値（＝積）を返します。
+</p>
+<p>
+<code>Complex</code> オブジェクトを左項とする算術演算子 <code>*</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-自身に掛ける数
+<code>self</code> に対する乗数
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -442,16 +513,19 @@
 <dt class="method-heading" id="I_--2A--2A"><code>self ** other -&gt; Complex</code><span class="permalink">[<a href="../method/Complex/i/=2a=2a.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-2A-2A">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-冪(べき)乗を計算します。
+<code>self</code> の <code>other</code> 乗を返します。
+</p>
+<p>
+<code>Complex</code> オブジェクトを左項とする算術演算子 <code>**</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-自身を other 乗する数
+<code>self</code> に対する冪指数（べきしすう）
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="s1">'i'</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>           <span class="c1"># =&gt; (-1+0i)
+<pre class="highlight ruby"><code><span class="nb">p</span> 1i <span class="o">**</span> <span class="mi">2</span> <span class="c1"># =&gt; (-1+0i)
 </span></code></pre>
 </dd>
 
@@ -459,12 +533,15 @@
 <dt class="method-heading" id="I_--2B"><code>self + other -&gt; Complex</code><span class="permalink">[<a href="../method/Complex/i/=2b.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-2B">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-和を計算します。
+<code>self</code> に <code>other</code> を足した値（＝和）を返します。
+</p>
+<p>
+<code>Complex</code> オブジェクトを左項とする算術演算子 <code>+</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-自身に足す数
+<code>self</code> に加算する数値
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -476,12 +553,15 @@
 <dt class="method-heading" id="I_--2D"><code>self - other -&gt; Complex</code><span class="permalink">[<a href="../method/Complex/i/=2d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-2D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-差を計算します。
+<code>self</code> から <code>other</code> を引いた値（＝差）を返します。
+</p>
+<p>
+<code>Complex</code> オブジェクトを左項とする算術演算子 <code>-</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-自身から引く数
+<code>self</code> から減算する数値
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -493,10 +573,13 @@
 <dt class="method-heading" id="I_--2D--40"><code>- self -&gt; Complex</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Complex/i/=2d=40.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-2D-40">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身の符号を反転させたものを返します。
+<code>0</code> から <code>self</code> を引いた値を返します。
+</p>
+<p>
+<code>Complex</code> オブジェクトに対する単項演算子 <code>-</code> はこのメソッドの呼び出しになります。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="o">-</span><span class="no">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># =&gt; (-1+0i)
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="o">-</span><span class="no">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="c1"># =&gt; (-1+0i)
 </span><span class="nb">p</span> <span class="o">-</span><span class="no">Complex</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span>, <span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; (1-1i)
 </span></code></pre>
 </dd>
@@ -506,17 +589,26 @@
 <dt class="method-heading"><code>quo(other) -&gt; Complex</code></dt>
 <dd class="method-description">
 <p>
-商を計算します。
+<code>self</code> を <code>other</code> で割った値（＝商）を返します。
+</p>
+<p>
+<code>Complex</code> オブジェクトを左項とする算術演算子 <code>/</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-自身を割る数
+<code>self</code> に対する除数
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>  <span class="c1"># =&gt; (3.3333333333333335+(0/1)*i)
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>   <span class="o">/</span> <span class="mi">3</span>  <span class="c1"># =&gt; ((10/3)+(0/1)*i)
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c1"># =&gt; (0.5+0i)
+</span><span class="c1"># 実部が Float、虚部が Integer
+</span>
+<span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="c1"># =&gt; (0.5+0.0i)
+</span><span class="c1"># 実部・虚部ともに Float
+</span>
+<span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c1"># =&gt; ((3/2)+2i)
+</span><span class="c1"># 実部が Rational、虚部が Integer
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Numeric/i/quo.html">Numeric#quo</a>
@@ -527,17 +619,18 @@
 <dt class="method-heading" id="I_--3C--3D--3E"><code>self &lt;=&gt; other -&gt; -1 | 0 | 1 | nil</code><span class="permalink">[<a href="../method/Complex/i/=3c=3d=3e.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-3C-3D-3E">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-self の虚部がゼロで other が実数の場合、
-self の実部の &lt;=&gt; メソッドで other と比較した結果を返します。
-other が Complex で虚部がゼロの場合も同様です。
+<code>self</code> と <code>other</code> が共に実数（＝虚部がゼロの数）のとき <code>self.real &lt;=&gt; other.real</code> の結果を返します。
 </p>
 <p>
-その他の場合は nil を返します。
+そうでないときは <code>nil</code> を返します。
+</p>
+<p>
+<code>Complex</code> オブジェクトを左項とする二項演算子 <code>&lt;=&gt;</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-自身と比較する数値
+比較対象
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -553,18 +646,25 @@ other が Complex で虚部がゼロの場合も同様です。
 <dt class="method-heading" id="I_--3D--3D"><code>self == other -&gt; bool</code><span class="permalink">[<a href="../method/Complex/i/=3d=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-3D-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-数値として等しいか判定します。
+<code>self</code> が数値として <code>other</code> と等しければ <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+<code>other</code> が数値でないときは <code>false</code> を返します。
+</p>
+<p>
+<code>Complex</code> オブジェクトを左項とする比較演算子 <code>==</code> はこのメソッドの呼び出しになります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-自身と比較する数値
+比較対象
 </dd>
 </dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; true
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>        <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>          <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mf">1.0</span>        <span class="c1"># =&gt; true
 </span></code></pre>
 </dd>
 
@@ -573,7 +673,7 @@ other が Complex で虚部がゼロの場合も同様です。
 <dt class="method-heading"><code>magnitude -&gt; Numeric</code><span class="method-since-badge">Ruby 1.9.3 から</span></dt>
 <dd class="method-description">
 <p>
-自身の絶対値を返します。
+<code>self</code> の絶対値（absolute value）を返します。
 </p>
 <p>
 以下の計算の結果を <a href="../class/Float.html">Float</a> オブジェクトで返します。
@@ -594,7 +694,7 @@ other が Complex で虚部がゼロの場合も同様です。
 <dt class="method-heading" id="I_ABS2"><code>abs2 -&gt; Numeric</code><span class="permalink">[<a href="../method/Complex/i/abs2.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-abs2">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身の絶対値の 2 乗を返します。
+<code>self</code> の絶対値の 2 乗を返します。
 </p>
 <p>
 以下の計算の結果を返します。
@@ -617,7 +717,7 @@ other が Complex で虚部がゼロの場合も同様です。
 <dt class="method-heading"><code>phase -&gt; Float</code><span class="method-since-badge">Ruby 1.9.3 から</span></dt>
 <dd class="method-description">
 <p>
-自身の偏角を[-π,π]の範囲で返します。
+<code>self</code> の偏角を [-π,π] の範囲で返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">.</span><span class="nf">polar</span><span class="p">(</span><span class="mi">3</span>, <span class="no">Math</span><span class="o">::</span><span class="no">PI</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">arg</span> <span class="c1"># =&gt; 1.5707963267948966
@@ -637,6 +737,9 @@ other が Complex で虚部がゼロの場合も同様です。
 </span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="o">-</span><span class="mf">0.0</span>, <span class="o">-</span><span class="mf">0.0</span><span class="p">)</span><span class="p">.</span><span class="nf">arg</span>       <span class="c1"># =&gt; -3.141592653589793
 </span></code></pre>
 <p>
+メソッド名の <code>arg</code> は argument（偏角）に由来しますが、「引数」の argument と紛らわしいためか、<code>argument</code> というエイリアスは用意されていません。
+</p>
+<p>
 [SEE_ALSO] <a href="../method/Numeric/i/arg.html">Numeric#arg</a>
 </p>
 </dd>
@@ -645,7 +748,7 @@ other が Complex で虚部がゼロの場合も同様です。
 <dt class="method-heading" id="I_COERCE"><code>coerce(other) -&gt; [Complex, Complex]</code><span class="permalink">[<a href="../method/Complex/i/coerce.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-coerce">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-other を <a href="../class/Complex.html">Complex</a> に変換して [変換後の other, self] の配列を返します。
+<code>other</code> を <a href="../class/Complex.html">Complex</a> に変換して <code>[変換後の other, self]</code> の配列を返します。
 </p>
 <dl>
 <dt>[EXCEPTION] <code>TypeError</code>:</dt>
@@ -663,7 +766,7 @@ other を <a href="../class/Complex.html">Complex</a> に変換して [変換後
 <dt class="method-heading"><code>conj -&gt; Complex</code></dt>
 <dd class="method-description">
 <p>
-自身の共役複素数を返します。
+<code>self</code> の共役複素数を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">conj</span> <span class="c1"># =&gt; (1-2i)
@@ -674,7 +777,7 @@ other を <a href="../class/Complex.html">Complex</a> に変換して [変換後
 <dt class="method-heading" id="I_DENOMINATOR"><code>denominator -&gt; Integer</code><span class="permalink">[<a href="../method/Complex/i/denominator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-denominator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-分母を返します。
+<code>self</code> の分母（denominator）を返します。
 </p>
 <p>
 以下のように、実部と虚部の分母の最小公倍数を整数で返します。
@@ -696,12 +799,12 @@ other を <a href="../class/Complex.html">Complex</a> に変換して [変換後
 <dt class="method-heading" id="I_FDIV"><code>fdiv(other) -&gt; Complex</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Complex/i/fdiv.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-fdiv">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-self を other で割った商を返します。実部と虚部が共に <a href="../class/Float.html">Float</a> の値になります。
+<code>self</code> を <code>other</code> で割った商を返します。実部と虚部が共に <a href="../class/Float.html">Float</a> の値になります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>other</code>:</dt>
 <dd>
-自身を割る数
+<code>self</code> に対する除数
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -717,7 +820,7 @@ self を other で割った商を返します。実部と虚部が共に <a href
 <dt class="method-heading" id="I_FINITE--3F"><code>finite? -&gt; bool</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Complex/i/finite=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-finite-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-実部と虚部の両方が有限値の場合に true を、そうでない場合に false を返します。
+実部と虚部の両方が有限値の場合に <code>true</code> を、そうでない場合に <code>false</code> を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 1i<span class="p">)</span><span class="p">.</span><span class="nf">finite?</span>               <span class="c1"># =&gt; true
@@ -733,7 +836,7 @@ self を other で割った商を返します。実部と虚部が共に <a href
 <dt class="method-heading"><code>imaginary -&gt; Numeric</code><span class="method-since-badge">Ruby 1.9.3 から</span></dt>
 <dd class="method-description">
 <p>
-自身の虚部を返します。
+<code>self</code> の虚部を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">imag</span> <span class="c1"># =&gt; 2
@@ -747,7 +850,7 @@ self を other で割った商を返します。実部と虚部が共に <a href
 <dt class="method-heading" id="I_INFINITE--3F"><code>infinite? -&gt; nil | 1</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/Complex/i/infinite=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-infinite-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-実部と虚部のどちらも無限大ではない場合に nil を、そうでない場合に 1 を返します。
+実部と虚部のどちらも正または負の無限大ではない場合に <code>nil</code> を、そうでない場合に <code>1</code> を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span>1i<span class="p">)</span><span class="p">.</span><span class="nf">infinite?</span>                 <span class="c1"># =&gt; nil
@@ -762,7 +865,7 @@ self を other で割った商を返します。実部と虚部が共に <a href
 <dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="permalink">[<a href="../method/Complex/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身を人間が読みやすい形の文字列表現にして返します。
+<code>self</code> を人間が読みやすい形の文字列表現にして返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">inspect</span>                     <span class="c1"># =&gt; &quot;(2+0i)&quot;
@@ -777,7 +880,7 @@ self を other で割った商を返します。実部と虚部が共に <a href
 <dt class="method-heading" id="I_NUMERATOR"><code>numerator -&gt; Complex</code><span class="permalink">[<a href="../method/Complex/i/numerator.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-numerator">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-分子を返します。
+<code>self</code> の分子（numerator）を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="s1">'1/2+2/3i'</span><span class="p">)</span><span class="p">.</span><span class="nf">numerator</span> <span class="c1"># =&gt; (3+4i)
@@ -792,10 +895,10 @@ self を other で割った商を返します。実部と虚部が共に <a href
 <dt class="method-heading" id="I_POLAR"><code>polar -&gt; [Numeric, Numeric]</code><span class="permalink">[<a href="../method/Complex/i/polar.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-polar">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身の絶対値と偏角を配列にして返します。
+<code>self</code> の絶対値と偏角を配列にして返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">.</span><span class="nf">polar</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">polar</span> <span class="c1"># =&gt; [1, 2]
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">.</span><span class="nf">polar</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">polar</span> <span class="c1"># =&gt; [1.0, 2.0]
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Numeric/i/polar.html">Numeric#polar</a>
@@ -803,34 +906,43 @@ self を other で割った商を返します。実部と虚部が共に <a href
 </dd>
 
 
-<dt class="method-heading" id="I_RATIONALIZE"><code>to_r -&gt; Rational</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Complex/i/rationalize.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-rationalize">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>rationalize -&gt; Rational</code></dt>
+<dt class="method-heading" id="I_RATIONALIZE"><code>rationalize -&gt; Rational</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Complex/i/rationalize.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-rationalize">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>rationalize(eps) -&gt; Rational</code></dt>
 <dd class="method-description">
 <p>
-自身を <a href="../class/Rational.html">Rational</a> に変換します。
+<code>self</code> の虚部が <a href="../class/Integer.html">Integer</a> か <a href="../class/Rational.html">Rational</a> のゼロであれば実部を <a href="../class/Rational.html">Rational</a> に変換して返します。許容誤差 <code>eps</code> を与えることもできます。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>eps</code>:</dt>
 <dd>
-許容する誤差。常に無視されます。
+許容する誤差。
 </dd>
 <dt>[EXCEPTION] <code>RangeError</code>:</dt>
 <dd>
-虚部が実数か、0 ではない場合に発生します。
+虚部がゼロでなかったり <a href="../class/Float.html">Float</a> のゼロである場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">.</span><span class="nf">to_r</span>  <span class="c1"># =&gt; (3/1)
-</span><span class="no">Complex</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">to_r</span> <span class="c1"># ~&gt; RangeError
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span><span class="p">.</span><span class="nf">rationalize</span>            <span class="c1"># =&gt; (1/10)
+</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="no">Math</span><span class="o">::</span><span class="no">PI</span><span class="p">)</span><span class="p">.</span><span class="nf">rationalize</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span> <span class="c1"># =&gt; (22/7)
 </span></code></pre>
+<span class="caption">変換できない例</span>
+<pre class="highlight ruby"><code><span class="c1"># 虚部がゼロでない
+</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 2i<span class="p">)</span><span class="p">.</span><span class="nf">rationalize</span> <span class="c1"># ~&gt; RangeError
+</span>
+<span class="c1"># 虚部がゼロだが Float の 0.0 である
+</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 0.0i<span class="p">)</span><span class="p">.</span><span class="nf">rationalize</span> <span class="c1"># ~&gt; RangeError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Float/i/rationalize.html">Float#rationalize</a>, <a href="../method/Integer/i/rationalize.html">Integer#rationalize</a>, <a href="../method/Rational/i/rationalize.html">Rational#rationalize</a>
+</p>
 </dd>
 
 
 <dt class="method-heading" id="I_REAL"><code>real -&gt; Numeric</code><span class="permalink">[<a href="../method/Complex/i/real.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-real">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身の実部を返します。
+<code>self</code> の実部を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">real</span> <span class="c1"># =&gt; 3
@@ -841,7 +953,7 @@ self を other で割った商を返します。実部と虚部が共に <a href
 <dt class="method-heading" id="I_REAL--3F"><code>real? -&gt; false</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Complex/i/real=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-real-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-常に false を返します。
+常に <code>false</code> を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">2</span><span class="o">+</span>3i<span class="p">)</span><span class="p">.</span><span class="nf">real?</span> <span class="c1"># =&gt; false
@@ -857,7 +969,10 @@ self を other で割った商を返します。実部と虚部が共に <a href
 <dt class="method-heading"><code>rectangular -&gt; [Numeric, Numeric]</code></dt>
 <dd class="method-description">
 <p>
-実部と虚部を配列にして返します。
+<code>self</code> の実部と虚部を配列にして返します。
+</p>
+<p>
+メソッド名は、これが複素数の直交形式（rectangular form）の成分を得るものであることから。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">.</span><span class="nf">rect</span>  <span class="c1"># =&gt; [3, 0]
@@ -873,7 +988,7 @@ self を other で割った商を返します。実部と虚部が共に <a href
 <dt class="method-heading" id="I_TO_C"><code>to_c -&gt; self</code><span class="method-since-badge">Ruby 1.9.1 から</span><span class="permalink">[<a href="../method/Complex/i/to_c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-to_c">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-self を返します。
+<code>self</code> を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">to_c</span>    <span class="c1"># =&gt; (2+0i)
@@ -885,18 +1000,24 @@ self を返します。
 <dt class="method-heading" id="I_TO_F"><code>to_f -&gt; Float</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Complex/i/to_f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-to_f">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身を <a href="../class/Float.html">Float</a> に変換します。
+<code>self</code> の虚部が <a href="../class/Integer.html">Integer</a> か <a href="../class/Rational.html">Rational</a> のゼロであれば実部を <a href="../class/Float.html">Float</a> に変換して返します。
 </p>
 <dl>
 <dt>[EXCEPTION] <code>RangeError</code>:</dt>
 <dd>
-虚部が実数か、0 ではない場合に発生します。
+虚部がゼロでなかったり <a href="../class/Float.html">Float</a> のゼロである場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">.</span><span class="nf">to_f</span>  <span class="c1"># =&gt; 3.0
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mf">3.5</span><span class="p">)</span><span class="p">.</span><span class="nf">to_f</span>  <span class="c1"># =&gt; 3.5
-</span><span class="no">Complex</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">to_f</span> <span class="c1"># ~&gt; RangeError
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 0i<span class="p">)</span><span class="p">.</span><span class="nf">to_f</span>  <span class="c1"># =&gt; 1.0
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 0ri<span class="p">)</span><span class="p">.</span><span class="nf">to_f</span> <span class="c1"># =&gt; 1.0
+</span></code></pre>
+<span class="caption">変換できない例</span>
+<pre class="highlight ruby"><code><span class="c1"># 虚部がゼロでない
+</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 2i<span class="p">)</span><span class="p">.</span><span class="nf">to_f</span> <span class="c1"># ~&gt; RangeError
+</span>
+<span class="c1"># 虚部がゼロだが Float の 0.0 である
+</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 0.0i<span class="p">)</span><span class="p">.</span><span class="nf">to_f</span> <span class="c1"># ~&gt; RangeError
 </span></code></pre>
 </dd>
 
@@ -904,18 +1025,49 @@ self を返します。
 <dt class="method-heading" id="I_TO_I"><code>to_i -&gt; Integer</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Complex/i/to_i.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-to_i">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身を整数に変換します。
+<code>self</code> の虚部が <a href="../class/Integer.html">Integer</a> か <a href="../class/Rational.html">Rational</a> のゼロであれば実部を <a href="../class/Integer.html">Integer</a> に変換して返します。
 </p>
 <dl>
 <dt>[EXCEPTION] <code>RangeError</code>:</dt>
 <dd>
-虚部が実数か、0 ではない場合に発生します。
+虚部がゼロでなかったり <a href="../class/Float.html">Float</a> のゼロである場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">.</span><span class="nf">to_i</span>  <span class="c1"># =&gt; 3
-</span><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mf">3.5</span><span class="p">)</span><span class="p">.</span><span class="nf">to_i</span>  <span class="c1"># =&gt; 3
-</span><span class="no">Complex</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">to_i</span> <span class="c1"># ~&gt; RangeError
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mf">1.9</span> <span class="o">+</span> 0i<span class="p">)</span><span class="p">.</span><span class="nf">to_i</span>  <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="p">(</span><span class="mf">1.9</span> <span class="o">+</span> 0ri<span class="p">)</span><span class="p">.</span><span class="nf">to_i</span> <span class="c1"># =&gt; 1
+</span></code></pre>
+<span class="caption">変換できない例</span>
+<pre class="highlight ruby"><code><span class="c1"># 虚部がゼロでない
+</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 2i<span class="p">)</span><span class="p">.</span><span class="nf">to_i</span> <span class="c1"># ~&gt; RangeError
+</span>
+<span class="c1"># 虚部がゼロだが Float の 0.0 である
+</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 0.0i<span class="p">)</span><span class="p">.</span><span class="nf">to_i</span> <span class="c1"># ~&gt; RangeError
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_R"><code>to_r -&gt; Rational</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Complex/i/to_r.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-to_r">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の虚部が <a href="../class/Integer.html">Integer</a> か <a href="../class/Rational.html">Rational</a> のゼロであれば実部を <a href="../class/Rational.html">Rational</a> に変換して返します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>RangeError</code>:</dt>
+<dd>
+虚部がゼロでなかったり <a href="../class/Float.html">Float</a> のゼロである場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mf">0.75</span> <span class="o">+</span> 0i<span class="p">)</span><span class="p">.</span><span class="nf">to_r</span>   <span class="c1"># =&gt; (3/4)
+</span><span class="nb">p</span> <span class="p">(</span><span class="mf">0.75</span> <span class="o">+</span> 0ri<span class="p">)</span><span class="p">.</span><span class="nf">to_r</span>  <span class="c1"># =&gt; (3/4)
+</span></code></pre>
+<span class="caption">変換できない例</span>
+<pre class="highlight ruby"><code><span class="c1"># 虚部がゼロでない
+</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 2i<span class="p">)</span><span class="p">.</span><span class="nf">to_r</span> <span class="c1"># ~&gt; RangeError
+</span>
+<span class="c1"># 虚部がゼロだが Float の 0.0 である
+</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 0.0i<span class="p">)</span><span class="p">.</span><span class="nf">to_r</span> <span class="c1"># ~&gt; RangeError
 </span></code></pre>
 </dd>
 
@@ -923,7 +1075,7 @@ self を返します。
 <dt class="method-heading" id="I_TO_S"><code>to_s -&gt; String</code><span class="permalink">[<a href="../method/Complex/i/to_s.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-i-to_s">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身を &quot;実部 + 虚部i&quot; 形式の文字列にして返します。
+<code>self</code> を &quot;実部 + 虚部i&quot; 形式の文字列にして返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Complex</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">to_s</span>                     <span class="c1"># =&gt; &quot;2+0i&quot;
@@ -944,13 +1096,13 @@ self を返します。
 <dd class="method-description">
 <p>
 <a href="../method/Marshal/m/load.html">Marshal.#load</a> のためのメソッドです。
-Complex::compatible#marshal_load で復元可能な配列を返します。
+<code>Complex::compatible#marshal_load</code> で復元可能な配列を返します。
 </p>
 <p>
 2.0 以降では <a href="../method/Marshal/m/load.html">Marshal.#load</a> で 1.8 系の <a href="../class/Complex.html">Complex</a> オブジェクトを保存した文字列も復元できます。
 </p>
 <p>
-[注意] Complex::compatible は通常の方法では参照する事ができません。
+[注意] <code>Complex::compatible</code> は通常の方法では参照できません。
 </p>
 </dd>
 
@@ -1009,7 +1161,7 @@ JSON のオブジェクトから <a href="../class/Complex.html">Complex</a> の
 <dt class="method-heading" id="C_-I"><code>I -&gt; Complex</code><span class="permalink">[<a href="../method/Complex/c/I.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Complex.html#method-c-I">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Complex.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-虚数単位です。(0+1i) を返します。
+虚数単位です。<code>(0+1i)</code> を返します。
 </p>
 </dd>
 

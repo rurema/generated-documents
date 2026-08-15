@@ -20,6 +20,9 @@
 任意のクラスを許可するにはキーワード引数 permitted_classes を指定すると、そのクラスが追加されます。例えば Date クラスを許可するには以下のように書いてください:
 
 ```ruby title="permitted_classes: に Date を渡した例"
+require 'psych'
+require 'date'
+
 Psych.safe_load(yaml, permitted_classes: [Date])
 ```
 
@@ -28,6 +31,8 @@ Psych.safe_load(yaml, permitted_classes: [Date])
 エイリアスはキーワード引数 aliases を指定することで明示的に許可できます。
 
 ```ruby title="aliases: true の例"
+require 'psych'
+
 x = []
 x << x
 yaml = Psych.dump x
@@ -46,6 +51,8 @@ filename はパース中に発生した例外のメッセージに用います�
 キーワード引数 symbolize_names に true を指定した場合はハッシュのキーを [Symbol](../../../class/Symbol.md) に変換して返します。
 
 ```ruby title="symbolize_names: true の例"
+require 'psych'
+
 p Psych.safe_load("---\n foo: bar")                       # => {"foo"=>"bar"}
 p Psych.safe_load("---\n foo: bar", symbolize_names: true)  # => {:foo=>"bar"}
 ```
@@ -74,6 +81,9 @@ p yaml["aaa"]["bbb"].first.frozen?    # = true
 [m:$-w] が true の時にオプション引数を渡すと警告が出力されます。
 
 ```ruby title="オプション引数を使用した例"
+require 'psych'
+require 'date'
+
 # warning: Passing permitted_classes with the 2nd argument of Psych.safe_load is deprecated. Use keyword argument like Psych.safe_load(yaml, permitted_classes: ...) instead.
 Psych.safe_load("", [Date])
 ```

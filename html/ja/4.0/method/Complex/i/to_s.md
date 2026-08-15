@@ -2,7 +2,7 @@
 
 ### def to_s -> String
 
-自身を "実部 + 虚部i" 形式の文字列にして返します。
+`self` を "実部 + 虚部i" 形式の文字列にして返します。
 
 ```ruby title="例"
 p Complex(2).to_s                     # => "2+0i"

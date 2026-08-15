@@ -4,6 +4,7 @@ kind=defined
 source_location=manual/api/rubygems/command.md
 since_by_name=get_one_optional_argument=1.9.3
 until_by_name=
+rbs_sig=(uninitialized)
 
 ### def get_one_optional_argument -> String
 
