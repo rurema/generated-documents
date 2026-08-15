@@ -33,6 +33,16 @@ VERSIONS = %w[
 
 ALL_VERSIONS = FROZEN_VERSIONS + VERSIONS
 
+# RBS 型シグネチャ（rurema/bitclust#321・tool/bc-rbs-sig.rb）を取り込む
+# 対象バージョン → ruby/rbs のタグ（その版に同梱される rbs の系列）。
+# 表に無いバージョンには取り込まない（シグネチャ表示は 4.0 以降のみ）。
+# 4.1 は rbs 4.0 系を追随中なので、4.1 リリース時に同梱される rbs の
+# 確定タグへ更新する
+RBS_TAGS = {
+  "4.0" => "v3.10.0",
+  "4.1" => "v4.0.3",
+}
+
 # メンテナンスが継続している最古のバージョン。これより古い版の静的 HTML には
 # EOL 警告バナーを表示する（bitclust statichtml --eol-warning）。
 # EOL 状況は https://www.ruby-lang.org/ja/downloads/branches/
