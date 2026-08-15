@@ -44,6 +44,7 @@ time docker compose run --rm rurema ls -al
 
 time docker compose run --rm rurema tool/bc-setup-all.rb
 time docker compose run --rm rurema tool/bc-method-since.rb
+time docker compose run --rm rurema tool/bc-rbs-sig.rb
 time docker compose run --rm rurema tool/bc-static-all.rb
 if [ "$BITCLUST_CHANGED" = 1 ]; then
     time docker compose run --rm rurema tool/bc-static-frozen.rb
