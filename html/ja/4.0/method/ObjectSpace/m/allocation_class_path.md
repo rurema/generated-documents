@@ -20,7 +20,7 @@ class A
 end
 
 A.new.foo
-# => "Class"
+# => "A"
 ```
 
 - **SEE** [ObjectSpace?.trace_object_allocations_start](../../../method/ObjectSpace/m/trace_object_allocations_start.md),
