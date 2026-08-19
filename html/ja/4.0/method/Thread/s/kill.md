@@ -9,6 +9,6 @@
 ```ruby
 th = Thread.new do
 end
-    
+
 p Thread.kill(th)     # => #<Thread:0x40221bc8 dead>
 ```

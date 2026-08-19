@@ -1,12 +1,14 @@
 # class Regexp < Object
 
-正規表現のクラス。正規表現のリテラルはスラッシュで囲んだ形式で記述します。
+正規表現（regular expression）を表すクラスです。
+
+正規表現のリテラルはスラッシュで囲んだ形式で記述します。
 
 ```ruby
 /^this is regexp/
 ```
 
-Regexp.new(string) を使って正規表現オブジェクトを動的に生成することもできます。
+`Regexp.new(string)` を使って正規表現オブジェクトを動的に生成することもできます。
 
 ```ruby
 str = "this is regexp"

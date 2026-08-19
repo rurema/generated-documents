@@ -2,7 +2,7 @@
 
 ### def casefold? -> bool
 
-正規表現が大文字小文字の判定をしないようにコンパイルされている時、真を返します。
+`self` が大文字小文字の判定をしないようにコンパイルされていれば `true` を、そうでなければ `false` を返します。
 
 ```ruby title="例"
 reg = Regexp.new("foobar", Regexp::IGNORECASE)

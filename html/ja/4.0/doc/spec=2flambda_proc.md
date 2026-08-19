@@ -30,10 +30,10 @@ p foo       # => 2
 
 Proc オブジェクトを生成する手段には、主に以下の四つがあります。
 
-* [Proc.new](../method/Proc/s/new.md)
-* [Kernel?.proc](../method/Kernel/m/proc.md)
-* [Kernel?.lambda](../method/Kernel/m/lambda.md)
-* `->(){ }` (`->` を使った lambda の短縮記法)
+- [Proc.new](../method/Proc/s/new.md)
+- [Kernel?.proc](../method/Kernel/m/proc.md)
+- [Kernel?.lambda](../method/Kernel/m/lambda.md)
+- `->(){ }` (`->` を使った lambda の短縮記法)
 
 このうち [Proc.new](../method/Proc/s/new.md) と [Kernel?.proc](../method/Kernel/m/proc.md) は同じ性質の Proc オブジェクトを生成し、
 [Kernel?.lambda](../method/Kernel/m/lambda.md) と `->(){ }` も互いに同じ性質の Proc オブジェクトを生成しますが、前二者と後二者では、生成される Proc オブジェクトの引数の扱いや return・break の挙動などが異なります(詳細は後述)。生成された Proc オブジェクトが後二者

@@ -6,9 +6,9 @@
 
 ```ruby
 Thread.new do
-  sleep 
+  sleep
 end
 sleep 0.1
-  
+
 p Thread.list   # => [#<Thread:0x40377a54 sleep>, #<Thread:0x4022e6fc run>]
 ```

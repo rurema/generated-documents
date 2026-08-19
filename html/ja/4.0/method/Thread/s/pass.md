@@ -13,7 +13,7 @@ Thread.new do
   }
   exit
 end
- 
+
 loop do
   Thread.pass
   p :main

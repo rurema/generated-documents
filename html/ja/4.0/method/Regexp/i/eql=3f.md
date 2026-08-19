@@ -3,9 +3,9 @@
 ### def ==(other) -> bool
 ### def eql?(other) -> bool
 
-otherが同じパターン、オプション、文字コードの正規表現であったらtrueを返します。
+`self` が `other` と同じパターン、オプション、文字コードの正規表現オブジェクトであったら `true` を、そうでなければ `false` を返します。
 
-- **param** `other` -- 正規表現を指定します。
+- **param** `other` -- 比較対象の正規表現オブジェクト
 
 ```ruby title="例"
 p /^eee$/   == /~eee$/x   # => false

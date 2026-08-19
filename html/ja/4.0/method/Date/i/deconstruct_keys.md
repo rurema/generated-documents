@@ -15,6 +15,7 @@
 - **param** `array_of_names_or_nil` -- パターンマッチに使用する名前の配列を指定します。nil の場合は全てをパターンマッチに使用します。
 
 ```ruby title="例"
+require 'date'
 d = Date.new(2022, 10, 5)
 
 if d in wday: 3, day: ..7 # deconstruct_keys が使われます
