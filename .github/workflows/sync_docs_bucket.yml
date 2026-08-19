@@ -1,0 +1,63 @@
+# html/ja の更新を docs.ruby-lang.org の S3 バケットへ同期する
+# (ruby/ruby-infra-recipe#73 の S3 切替のデプロイ経路。従来のサーバー側
+# bc-static-all の rsync を置き換える)。
+#
+# 認証は OIDC(ruby/ruby-infra-recipe cdn/iam.tf の docs-sync ロール。
+# ja/* prefix 限定)。リポジトリ変数 DOCS_SYNC_ROLE_ARN が未設定の間は
+# 何もしない(ロールの apply 前にマージしても安全)。
+#
+# 反映(キャッシュ purge)について: Fastly のシールド TTL は最長 48 時間
+# なので、sync 後に Surrogate-Key `ja` を soft purge する。変数
+# FASTLY_SERVICE_ID とシークレット FASTLY_PURGE_TOKEN(purge 権限の
+# API トークン)が揃うまでこのステップはスキップされ、その間は
+# サーバー側 bc-cron の日次 purge(キー体系は同一)が反映を担う。
+name: sync docs bucket
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'html/ja/**'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: sync-docs-bucket
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: ${{ vars.DOCS_SYNC_ROLE_ARN != '' }}
+    steps:
+      # html/ja だけの sparse checkout(db/ と html/en 系を落とさない)。
+      # filter で必要な blob だけ取得する
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: html/ja
+          filter: 'blob:none'
+
+      - uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ vars.DOCS_SYNC_ROLE_ARN }}
+          aws-region: us-east-1
+
+      # --no-follow-symlinks: html/ja の latest/master は symlink で、
+      # 実体の二重アップロードになるため辿らない(本番はエイリアスを
+      # Fastly の VCL が dictionary で解決する)。--delete で削除ページも
+      # バケットから消す(凍結版もチェックアウトに含まれるので安全)
+      - name: Sync html/ja to s3://docs.r-l.o/ja
+        run: aws s3 sync html/ja s3://docs.r-l.o/ja --delete --no-follow-symlinks --no-progress
+
+      - name: Soft-purge the ja surrogate key
+        if: ${{ vars.FASTLY_SERVICE_ID != '' && secrets.FASTLY_PURGE_TOKEN != '' }}
+        run: |
+          curl -fsS -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge/ja" \
+            -H "Fastly-Key: ${FASTLY_PURGE_TOKEN}" -H "fastly-soft-purge: 1"
+        env:
+          FASTLY_SERVICE_ID: ${{ vars.FASTLY_SERVICE_ID }}
+          FASTLY_PURGE_TOKEN: ${{ secrets.FASTLY_PURGE_TOKEN }}
