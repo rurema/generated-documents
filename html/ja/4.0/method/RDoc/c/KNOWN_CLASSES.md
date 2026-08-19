@@ -5,6 +5,8 @@
 Ruby の組み込みクラスの内部的な変数名がキー、クラス名が値のハッシュです。
 
 ```ruby
+require 'rdoc/known_classes'
+
 p RDoc::KNOWN_CLASSES["rb_cObject"] # => "Object"
 ```
 

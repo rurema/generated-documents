@@ -1,6 +1,6 @@
 # Regexp.last_match
 
-### def Regexp.last_match -> MatchData
+### def Regexp.last_match -> MatchData | nil
 
 カレントスコープで最後に行った正規表現マッチの [MatchData](../../../class/MatchData.md) オブジェクトを返します。このメソッドの呼び出しは [m:$~]
 の参照と同じです。
@@ -16,9 +16,8 @@ p Regexp.last_match[3]   # => nil
 
 ### def Regexp.last_match(nth) -> String | nil
 
-整数 nth が 0 の場合、マッチした文字列を返します
-([m:$&])。それ以外では、nth 番目の括弧にマッチした部分文字列を返します([m:$1],[m:$2],...)。
-対応する括弧がない場合やマッチしなかった場合には nil を返します。
+整数 `nth` が `0` の場合、マッチした文字列を返します（[m:$&]）。それ以外では、`nth` 番目の括弧にマッチした部分文字列を返します（[m:$1], [m:$2], ...）。
+対応する括弧がない場合やマッチしなかった場合には `nil` を返します。
 
 ```ruby title="例"
 /(.)(.)/ =~ "ab"
@@ -29,9 +28,9 @@ p Regexp.last_match(3)   # => nil
 ```
 
 正規表現全体がマッチしなかった場合、引数なしの
-Regexp.last_match はnil を返すため、
-last_match[1] の形式では例外 [NoMethodError](../../../class/NoMethodError.md) が発生します。
-対して、last_match(1) は nil を返します。
+`Regexp.last_match` は `nil` を返すため、
+`last_match[1]` の形式では例外 [NoMethodError](../../../class/NoMethodError.md) が発生します。
+対して、`last_match(1)` は `nil` を返します。
 
 ```ruby title="例"
 str = "This is Regexp"
@@ -46,4 +45,4 @@ p Regexp.last_match(1) # => nil
 ```
 
 - **param** `nth` -- 整数を指定します。
-	整数 nth が 0 の場合、マッチした文字列を返します。それ以外では、nth 番目の括弧にマッチした部分文字列を返します。
+  整数 `nth` が `0` の場合、マッチした文字列を返します。それ以外では、`nth` 番目の括弧にマッチした部分文字列を返します。

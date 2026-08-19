@@ -2,7 +2,7 @@
 
 ### def options -> Integer
 
-正規表現の生成時に指定されたオプションを返します。戻り値は、
+`self` の生成時に指定されたオプションを返します。戻り値は、
 [Regexp::EXTENDED](../../../method/Regexp/c/EXTENDED.md), [Regexp::IGNORECASE](../../../method/Regexp/c/IGNORECASE.md),
 [Regexp::MULTILINE](../../../method/Regexp/c/MULTILINE.md),
 [Regexp::FIXEDENCODING](../../../method/Regexp/c/FIXEDENCODING.md),

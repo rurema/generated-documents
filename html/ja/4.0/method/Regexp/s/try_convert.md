@@ -2,9 +2,11 @@
 
 ### def Regexp.try_convert(obj) -> Regexp | nil
 
-obj を to_regexp メソッドで Regexp オブジェクトに変換しようと試みます。
+`obj` を正規表現オブジェクトに変換するためのメソッドです。
 
-変換に成功した場合はそれを返し、失敗時には nil を返します。
+`obj` が正規表現オブジェクトならそのまま `obj` を返します。
+
+`obj` が正規表現オブジェクトでないとき、`to_regexp` メソッドに応答するなら `obj.to_regexp` の結果を返し、応答しないなら `nil` を返します。
 
 ```ruby title="例"
 p Regexp.try_convert(/re/)    # => /re/

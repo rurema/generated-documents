@@ -158,21 +158,24 @@ OpenStruct は Ruby のメソッド探索を利用して、プロパティに必
 <p>
 これは、Ruby バージョン間の非互換性の原因にもなります：
 </p>
-<pre class="highlight ruby"><code>o <span class="o">=</span> <span class="no">OpenStruct</span><span class="p">.</span><span class="nf">new</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'ostruct'</span>
+o <span class="o">=</span> <span class="no">OpenStruct</span><span class="p">.</span><span class="nf">new</span>
 <span class="nb">p</span> o<span class="p">.</span><span class="nf">then</span>          <span class="c1"># =&gt; Ruby &lt; 2.6 では nil、Ruby &gt;= 2.6 では Enumerator
 </span></code></pre>
 <p>
 以下の方法では、組み込みライブラリのメソッドが上書きされる可能性があり、バグやセキュリティ上の問題が発生する可能性があります：
 </p>
-<pre class="highlight ruby"><code>o <span class="o">=</span> <span class="no">OpenStruct</span><span class="p">.</span><span class="nf">new</span>
-<span class="nb">p</span> o<span class="p">.</span><span class="nf">methods</span>       <span class="c1"># =&gt; [:to_h, :marshal_load, :marshal_dump, :each_pair, ...]
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'ostruct'</span>
+o <span class="o">=</span> <span class="no">OpenStruct</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> o<span class="p">.</span><span class="nf">methods</span>       <span class="c1"># =&gt; [:to_h, :marshal_dump, :each_pair, ...] (内容と順序は Ruby のバージョンによって異なります)
 </span>o<span class="p">.</span><span class="nf">methods</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:foo</span>, <span class="ss">:bar</span><span class="p">]</span>
 <span class="nb">p</span> o<span class="p">.</span><span class="nf">methods</span>       <span class="c1"># =&gt; [:foo, :bar]
 </span></code></pre>
 <p>
 衝突を避けるために <a href="../class/OpenStruct.html">OpenStruct</a> は ! で終わるメソッドは protected と private でのみ使用し、public な組み込みライブラリの ! で終わるメソッドはエイリアスを定義しています：
 </p>
-<pre class="highlight ruby"><code>o <span class="o">=</span> <span class="no">OpenStruct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">make:</span> <span class="s1">'Bentley'</span>, <span class="ss">class:</span> <span class="ss">:luxury</span><span class="p">)</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'ostruct'</span>
+o <span class="o">=</span> <span class="no">OpenStruct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">make:</span> <span class="s1">'Bentley'</span>, <span class="ss">class:</span> <span class="ss">:luxury</span><span class="p">)</span>
 <span class="nb">p</span> o<span class="p">.</span><span class="nf">class</span>         <span class="c1"># =&gt; :luxury
 </span><span class="nb">p</span> o<span class="p">.</span><span class="nf">class!</span>        <span class="c1"># =&gt; OpenStruct
 </span></code></pre>
