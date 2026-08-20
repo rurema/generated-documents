@@ -53,9 +53,14 @@ jobs:
       - name: Sync html/ja to s3://docs.r-l.o/ja
         run: aws s3 sync html/ja s3://docs.r-l.o/ja --delete --no-follow-symlinks --no-progress
 
+      # secrets コンテキストは if: 式では参照できない(workflow の
+      # パースエラーになる)ため、未設定時のスキップはシェル側で判定する
       - name: Soft-purge the ja surrogate key
-        if: ${{ vars.FASTLY_SERVICE_ID != '' && secrets.FASTLY_PURGE_TOKEN != '' }}
         run: |
+          if [ -z "${FASTLY_SERVICE_ID}" ] || [ -z "${FASTLY_PURGE_TOKEN}" ]; then
+            echo "FASTLY_SERVICE_ID / FASTLY_PURGE_TOKEN が未設定のため purge をスキップ(サーバー側 bc-cron の日次 purge が反映を担う)"
+            exit 0
+          fi
           curl -fsS -X POST "https://api.fastly.com/service/${FASTLY_SERVICE_ID}/purge/ja" \
             -H "Fastly-Key: ${FASTLY_PURGE_TOKEN}" -H "fastly-soft-purge: 1"
         env:
