@@ -71,11 +71,15 @@ jobs:
       # Fastly の VCL が dictionary で解決する)。--delete で削除ページも
       # バケットから消す(凍結版もチェックアウトに含まれるので安全)。
       # 並列度は既定の 10 だと全ページ再生成の日(テンプレート変更など)に
-      # OIDC セッションの 1 時間を超えるため引き上げる
+      # OIDC セッションの 1 時間を超えるため引き上げる。
+      # トップの ja/index.html(バージョン索引)は ruby/docs.ruby-lang.org
+      # の public/ja/index.html がソースで html/ja には存在しないため、
+      # --delete に消させないよう除外する(パターンはソース直下のみに
+      # 一致し、各バージョン配下の index.html には影響しない)
       - name: Sync html/ja to s3://docs.r-l.o/ja
         run: |
           aws configure set default.s3.max_concurrent_requests 32
-          aws s3 sync html/ja s3://docs.r-l.o/ja --delete --no-follow-symlinks --no-progress
+          aws s3 sync html/ja s3://docs.r-l.o/ja --delete --exclude "index.html" --no-follow-symlinks --no-progress
 
       # secrets コンテキストは if: 式では参照できない(workflow の
       # パースエラーになる)ため、未設定時のスキップはシェル側で判定する
