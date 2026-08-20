@@ -50,13 +50,15 @@ RBS_TAGS = {
 MINIMUM_SUPPORTED_RUBY_VERSION = Gem::Version.new("3.3")
 
 # サンプルコードの RUN ボタン（bitclust statichtml --run-ruby-wasm）を有効に
-# するバージョン → 実行に使う ruby.wasm の URL。ruby.wasm 側に
-# @ruby/X.Y-wasm-wasi パッケージが存在するバージョンのみ列挙する
-# （https://github.com/ruby/ruby.wasm 参照）。凍結版・未リリース版は含めない
-# npm 上の安定版は「<パッケージ版>-<ruby.wasm版>」形式（latest dist-tag の値）
-RUBY_WASM_NPM_VERSION = "2.9.3-2.9.4"
+# するバージョン → 実行に使う ruby.wasm の URL。rurema/run-ruby-wasm の
+# リリース（npm の @ruby/X.Y-wasm-wasi に各バージョンの bundled gems を
+# 焼き込んだビルド）を使う。アセットはサイトの wasm/<リリース名>/ 配下に
+# 同期されている（同一オリジンなので CORS 設定も不要）。凍結版・
+# 未リリース版は含めない。
+# リリース名は「<npm パッケージ版>-<ruby.wasm 版>-<通し番号>」形式
+RUBY_WASM_RELEASE = "2.9.3-2.9.4-1"
 RUBY_WASM_URLS = %w[3.2 3.3 3.4 4.0].to_h { |v|
-  [v, "https://cdn.jsdelivr.net/npm/@ruby/#{v}-wasm-wasi@#{RUBY_WASM_NPM_VERSION}/dist/ruby+stdlib.wasm"]
+  [v, "https://docs.ruby-lang.org/wasm/#{RUBY_WASM_RELEASE}/ruby-#{v}.wasm"]
 }
 
 DB_BASE = File.expand_path("../db", __dir__)
