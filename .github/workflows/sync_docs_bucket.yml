@@ -64,9 +64,13 @@ jobs:
       # --no-follow-symlinks: html/ja の latest/master は symlink で、
       # 実体の二重アップロードになるため辿らない(本番はエイリアスを
       # Fastly の VCL が dictionary で解決する)。--delete で削除ページも
-      # バケットから消す(凍結版もチェックアウトに含まれるので安全)
+      # バケットから消す(凍結版もチェックアウトに含まれるので安全)。
+      # 並列度は既定の 10 だと全ページ再生成の日(テンプレート変更など)に
+      # OIDC セッションの 1 時間を超えるため引き上げる
       - name: Sync html/ja to s3://docs.r-l.o/ja
-        run: aws s3 sync html/ja s3://docs.r-l.o/ja --delete --no-follow-symlinks --no-progress
+        run: |
+          aws configure set default.s3.max_concurrent_requests 32
+          aws s3 sync html/ja s3://docs.r-l.o/ja --delete --no-follow-symlinks --no-progress
 
       # secrets コンテキストは if: 式では参照できない(workflow の
       # パースエラーになる)ため、未設定時のスキップはシェル側で判定する
