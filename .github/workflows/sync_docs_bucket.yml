@@ -48,12 +48,17 @@ jobs:
       # 既定比較(サイズが違う or ローカルの方が新しい)で毎回全件
       # アップロードになってしまう。mtime を各ファイルの最終コミット
       # 時刻に戻し、実際に変わったページだけの差分アップロードにする。
-      # 履歴窓より古いファイルは shallow 境界コミットの時刻(常に
-      # バケット側より過去)が付くので同様にスキップされる
+      #
+      # shallow 境界(fetch-depth)より古いファイルは git log に現れず
+      # restore-mtime がスタンプできない(WARNING: not found in the log)。
+      # そのまま「今」の mtime が残ると全件アップロードに化けるので、
+      # 先に全ファイルを固定の過去時刻へ倒しておく。バケットに無い
+      # ファイルは mtime に関係なくアップロードされるので取りこぼしはない
       - name: Restore file mtimes from git history
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq git-restore-mtime
+          find html/ja -type f -print0 | xargs -0 touch -t 200001010000
           git restore-mtime html/ja
 
       - uses: aws-actions/configure-aws-credentials@v5
