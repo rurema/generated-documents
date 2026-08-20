@@ -180,7 +180,7 @@ logger.level = Logger::INFO
 # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
 ```
 
-**3.** [Symbol](../class/Symbol.md) か [String](../class/String.md)(大文字小文字の区別を行わない)
+**3.** [Symbol](../class/Symbol.md) か [String](../class/String.md) (大文字小文字の区別を行わない)
 
 ```ruby
 logger.level = :info

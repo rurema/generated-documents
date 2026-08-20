@@ -7,11 +7,11 @@ Ruby オブジェクトから YAML の AST を構築するためのクラスで�
 ```ruby
 require 'psych'
 
-builder = Psych::Visitors::YAMLTree.new
+builder = Psych::Visitors::YAMLTree.create
 builder << { :foo => 'bar' }
 builder << ["baz", "bazbaz"]
 p builder.tree # => #<Psych::Nodes::Stream ... > A stream containing two documents
-puts tree.to_yaml
+puts builder.tree.to_yaml
 # =>
 # ---
 # :foo: bar
@@ -22,6 +22,7 @@ puts tree.to_yaml
 
 ## Class Methods
 
+- [create](../method/Psych=3a=3aVisitors=3a=3aYAMLTree/s/create.md)
 - [new](../method/Psych=3a=3aVisitors=3a=3aYAMLTree/s/new.md)
 
 ## Instance Methods

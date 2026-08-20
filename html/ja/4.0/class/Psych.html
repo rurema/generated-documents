@@ -29,8 +29,9 @@
 <script src="../js/search_ranker.js"></script>
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/4.0-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-4.0.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -39,6 +40,7 @@
 
 <div id="rurema-topbar">
   <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
   <div id="search-section" role="search">
     <input id="search-field" type="text" autocomplete="off" spellcheck="false"
            placeholder="クラス・メソッドを検索 (/)"
@@ -402,7 +404,7 @@ YAMLドキュメントに文法エラーが発見されたときに発生しま�
 </dd>
 
 
-<dt class="method-heading" id="S_PARSE"><code>parse(yaml, filename = nil) -&gt; Psych::Nodes::Document</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Psych/s/parse.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Psych.html#method-c-parse">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_PARSE"><code>parse(yaml, filename: nil) -&gt; Psych::Nodes::Document</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Psych/s/parse.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Psych.html#method-c-parse">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 YAML ドキュメントをパースし、YAML の AST を返します。
@@ -439,7 +441,7 @@ YAMLドキュメントに文法エラーが発見されたときに発生しま�
 <span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">---\n - a\n - b</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; #&lt;Psych::Nodes::Document:...&gt;
 </span>
 <span class="k">begin</span>
-  <span class="no">Psych</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">--- `</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">file.txt</span><span class="s2">"</span><span class="p">)</span>
+  <span class="no">Psych</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">--- `</span><span class="s2">"</span>, <span class="ss">filename:</span> <span class="s2">"</span><span class="s2">file.txt</span><span class="s2">"</span><span class="p">)</span>
 <span class="k">rescue</span> <span class="no">Psych</span><span class="o">::</span><span class="no">SyntaxError</span> <span class="o">=&gt;</span> ex
   <span class="nb">p</span> ex<span class="p">.</span><span class="nf">file</span>    <span class="c1"># =&gt; 'file.txt'
 </span>  <span class="nb">p</span> ex<span class="p">.</span><span class="nf">message</span> <span class="c1"># =&gt; &quot;(file.txt): found character that cannot start any token while scanning for the next token at line 1 column 5&quot;
@@ -499,7 +501,6 @@ yaml が 複数の YAML ドキュメントを含む場合を取り扱うこと�
 
 
 <dt class="method-heading" id="S_SAFE_LOAD"><code>safe_load(yaml, permitted_classes: [], permitted_symbols: [], aliases: false, filename: nil, fallback: nil, symbolize_names: false, freeze: false) -&gt; object</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/Psych/s/safe_load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Psych.html#method-c-safe_load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>safe_load(yaml, legacy_permitted_classes=[], legacy_permitted_symbols=[], legacy_aliases=false, legacy_filename=nil) -&gt; object</code></dt>
 <dd class="method-description">
 <p>
 安全に YAML フォーマットの文書を読み込み Ruby のオブジェクトを生成して返します。
@@ -583,17 +584,6 @@ yaml <span class="o">=</span> <span class="no">Psych</span><span class="p">.</sp
 </span><span class="nb">p</span> yaml<span class="p">[</span><span class="s2">"</span><span class="s2">aaa</span><span class="s2">"</span><span class="p">]</span><span class="p">[</span><span class="s2">"</span><span class="s2">bbb</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">frozen?</span>          <span class="c1"># = true
 </span><span class="nb">p</span> yaml<span class="p">[</span><span class="s2">"</span><span class="s2">aaa</span><span class="s2">"</span><span class="p">]</span><span class="p">[</span><span class="s2">"</span><span class="s2">bbb</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">frozen?</span>    <span class="c1"># = true
 </span></code></pre>
-<p>
-また legacy_permitted_classes などのオプション引数は非推奨な引数となっています。
-<a href="../method/Kernel/v/=2dw.html">$-w</a> が true の時にオプション引数を渡すと警告が出力されます。
-</p>
-<span class="caption">オプション引数を使用した例</span>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
-<span class="nb">require</span> <span class="s1">'date'</span>
-
-<span class="c1"># warning: Passing permitted_classes with the 2nd argument of Psych.safe_load is deprecated. Use keyword argument like Psych.safe_load(yaml, permitted_classes: ...) instead.
-</span><span class="no">Psych</span><span class="p">.</span><span class="nf">safe_load</span><span class="p">(</span><span class="s2">"</span><span class="s2">"</span>, <span class="p">[</span><span class="no">Date</span><span class="p">]</span><span class="p">)</span>
-</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>io</code>:</dt>
 <dd>

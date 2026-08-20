@@ -16,7 +16,7 @@ excel_app_type = WIN32OLE_TYPE.new('Microsoft Excel 14.0 Object Library', 'Appli
 puts excel_app_type.progid # => "Excel.Application.14"
 ```
 
-Ruby-1.9.1以降、[WIN32OLE_TYPELIB](../class/WIN32OLE_TYPELIB.md)オブジェクトの
+Ruby 1.9.1 以降、[WIN32OLE_TYPELIB](../class/WIN32OLE_TYPELIB.md)オブジェクトの
 [WIN32OLE_TYPELIB#ole_types](../method/WIN32OLE_TYPELIB/i/ole_types.md)メソッドを利用して、型情報ライブラリ内に定義されているすべての型情報をWIN32OLE_TYPEオブジェクトの配列として取得できます。
 
 - **SEE** [WIN32OLE_TYPELIB](../class/WIN32OLE_TYPELIB.md)

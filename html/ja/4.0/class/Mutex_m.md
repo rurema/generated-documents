@@ -6,7 +6,7 @@
 
 このモジュールによるロックは再入不可能です。再入可能な同等品が必要な場合は
 [MonitorMixin](../class/MonitorMixin.md) の利用を検討してください(`sync` ライブラリの `Sync_m` は
-Ruby 3.0 で標準添付から削除されました。sync gem をインストールすれば利用できます)。
+Ruby 2.7 で標準添付から削除されました。sync gem をインストールすれば利用できます)。
 ただし [MonitorMixin](../class/MonitorMixin.md) は単純な再入可能ロックであり、`Sync_m` が持っていた
 reader/writer(共有・排他)ロックの区別はありません。
 

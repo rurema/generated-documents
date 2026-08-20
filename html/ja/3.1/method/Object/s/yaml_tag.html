@@ -29,6 +29,7 @@
 <script src="../../../js/search_ranker.js"></script>
 <script src="../../../js/search_controller.js"></script>
 <script src="../../../js/search_init.js"></script>
+<script defer src="../../../js/version_switcher.js"></script>
 
 </head>
 <body>
@@ -40,6 +41,7 @@
 
 <div id="rurema-topbar">
   <div id="rurema-brand"><a href="../../../doc/index.html">Ruby 3.1 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
   <div id="search-section" role="search">
     <input id="search-field" type="text" autocomplete="off" spellcheck="false"
            placeholder="クラス・メソッドを検索 (/)"
@@ -107,13 +109,13 @@
 <span class="k">end</span>
   
 <span class="c1"># Dumps Ruby object normally  
-</span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">)</span> 
+</span><span class="nb">puts</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">)</span>
 <span class="c1"># =&gt;
 </span><span class="c1"># --- !ruby/object:Foo
 </span><span class="c1"># x: 3
 </span>  
 <span class="c1"># Registers tag with class Foo
-</span><span class="no">Foo</span><span class="p">.</span><span class="nf">yaml_as</span><span class="p">(</span><span class="s2">"</span><span class="s2">tag:example.com,2013:foo</span><span class="s2">"</span><span class="p">)</span>
+</span><span class="no">Foo</span><span class="p">.</span><span class="nf">yaml_tag</span><span class="p">(</span><span class="s2">"</span><span class="s2">tag:example.com,2013:foo</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># ... and dumps the object of Foo class
 </span><span class="no">Psych</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>, <span class="no">STDOUT</span><span class="p">)</span>
 <span class="c1"># =&gt;
@@ -121,8 +123,8 @@
 </span><span class="c1"># x: 3 
 </span>  
 <span class="c1"># Loads the object from the tagged YAML node
-</span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="no">&lt;&lt;EOS</span><span class="p">)</span>
-<span class="sh">--- !&lt;tag:example.com,2012:foo&gt;
+</span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="no">&lt;&lt;EOS</span>, <span class="ss">permitted_classes:</span> <span class="p">[</span><span class="no">Foo</span><span class="p">]</span><span class="p">)</span>
+<span class="sh">--- !&lt;tag:example.com,2013:foo&gt;
 x: 8
 </span><span class="no">EOS
 </span><span class="c1"># =&gt; #&lt;Foo:0x0000000130f48 @x=8&gt;

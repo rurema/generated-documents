@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Fiddle=3a=3aMemoryView.html">
+
+<title>class Fiddle::MemoryView (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="spec/memory_view のラッパークラスです。これを使うと、メモリビューのプロデューサの内部データに Ruby レイヤからアクセスできます。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-3.4.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/fiddle.html","name":"fiddleライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Fiddle=3a=3aMemoryView.html","name":"Fiddle::MemoryViewクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/fiddle.html">fiddleライブラリ</a>
+      </li>
+      <li>
+        Fiddle::MemoryViewクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Fiddle::MemoryView</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Fiddle::MemoryView
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+<a href="../doc/spec=2fmemory_view.html">メモリビュー</a> のラッパークラスです。これを使うと、メモリビューのプロデューサの内部データに Ruby レイヤからアクセスできます。
+</p>
+<p>
+例えば <a href="../class/Fiddle=3a=3aPointer.html">Fiddle::Pointer</a> はメモリビュープロデューサなので、 <a href="../class/Fiddle=3a=3aMemoryView.html">Fiddle::MemoryView</a> でメモリビューをエクスポートさせることができます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>ptr <span class="o">=</span> <span class="no">Fiddle</span><span class="o">::</span><span class="no">Pointer</span><span class="p">[</span><span class="s2">"</span><span class="s2">Hello, MemoryView</span><span class="s2">"</span><span class="p">]</span>
+<span class="no">Fiddle</span><span class="o">::</span><span class="no">MemoryView</span><span class="p">.</span><span class="nf">export</span><span class="p">(</span>ptr<span class="p">)</span> <span class="k">do</span> <span class="o">|</span>view<span class="o">|</span>
+  view<span class="p">.</span><span class="nf">obj</span>          <span class="c1"># =&gt; ptr
+</span>  view<span class="p">.</span><span class="nf">byte_size</span>    <span class="c1"># =&gt; 17
+</span>  view<span class="p">.</span><span class="nf">readonly?</span>    <span class="c1"># =&gt; true
+</span>  view<span class="p">.</span><span class="nf">format</span>       <span class="c1"># =&gt; nil
+</span>  view<span class="p">.</span><span class="nf">item_size</span>    <span class="c1"># =&gt; 1
+</span>  view<span class="p">.</span><span class="nf">ndim</span>         <span class="c1"># =&gt; 1
+</span>  view<span class="p">.</span><span class="nf">shape</span>        <span class="c1"># =&gt; nil
+</span>  view<span class="p">.</span><span class="nf">strides</span>      <span class="c1"># =&gt; nil
+</span>  view<span class="p">.</span><span class="nf">sub_offsets</span>  <span class="c1"># =&gt; nil
+</span>  view<span class="p">.</span><span class="nf">to_s</span>         <span class="c1"># =&gt; &quot;Hello, MemoryView&quot;
+</span>  view<span class="p">[</span><span class="mi">0</span><span class="p">]</span>           <span class="c1"># =&gt; 72 (&quot;H&quot;)
+</span>  view<span class="p">[</span><span class="mi">1</span><span class="p">]</span>           <span class="c1"># =&gt; 101 (&quot;e&quot;)
+</span>  view<span class="p">[</span><span class="mi">16</span><span class="p">]</span>          <span class="c1"># =&gt; 119 (&quot;w&quot;)
+</span><span class="k">end</span>
+</code></pre>
+<p>
+ポインタには <code>shape</code> などがないため、 1 次元のバイト列としてエクスポートされています。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_EXPORT">export</a></li>
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_--5B--5D">[]</a></li>
+
+<li><a href="#I_BYTE_SIZE">byte_size</a></li>
+
+<li><a href="#I_FORMAT">format</a></li>
+
+<li><a href="#I_ITEM_SIZE">item_size</a></li>
+
+<li><a href="#I_NDIM">ndim</a></li>
+
+<li><a href="#I_OBJ">obj</a></li>
+
+<li><a href="#I_READONLY--3F">readonly?</a></li>
+
+<li><a href="#I_RELEASE">release</a></li>
+
+<li><a href="#I_SHAPE">shape</a></li>
+
+<li><a href="#I_STRIDES">strides</a></li>
+
+<li><a href="#I_SUB_OFFSETS">sub_offsets</a></li>
+
+<li><a href="#I_TO_S">to_s</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_EXPORT"><code>export(target) {|view| ... } -&gt; object</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/s/export.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-c-export">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>target</code> がエクスポートしたメモリビューを示す <a href="../class/Fiddle=3a=3aMemoryView.html">Fiddle::MemoryView</a> を作り、ブロック引数として渡します。ブロックが終了すると <a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼び、メモリビューを解放します。
+</p>
+<p>
+ブロックの結果を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>target</code>:</dt>
+<dd>
+メモリビューをエクスポートするオブジェクトを指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+メモリビューを取得できない場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>LocalJumpError</code>:</dt>
+<dd>
+ブロックを渡さなかった場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_NEW"><code>new(target) -&gt; Fiddle::MemoryView</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>target</code> がエクスポートしたメモリビューを保持し、 Ruby レイヤから各メンバにアクセスできるようにします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>target</code>:</dt>
+<dd>
+メモリビューをエクスポートするオブジェクトを指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+メモリビューを取得できない場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_--5B--5D"><code>self[i, j, k, ...] -&gt; Integer | Float | [Integer] | [Float] | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+多次元配列の 1 次元目のインデックスが <code>i</code> 、 2次元目のインデックスが <code>j</code> 、 3次元目のインデックスが <code>k</code> 、……の場所にある要素を返します。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/format.html">format</a> が複数の <a href="../doc/pack_template.html">テンプレート文字</a> からなる場合は、文字数の長さの配列になります。 1 文字の場合は要素そのものが返ります。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は <code>nil</code> になります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>i, j, k, ...</code>:</dt>
+<dd>
+各次元のインデックスを指定します。
+</dd>
+<dt>[EXCEPTION] <code>IndexError</code>:</dt>
+<dd>
+引数の数が <a href="../method/Fiddle=3a=3aMemoryView/i/ndim.html">ndim</a> と異なる場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+メモリビューの <a href="../method/Fiddle=3a=3aMemoryView/i/format.html">format</a> が不正の場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_BYTE_SIZE"><code>byte_size -&gt; Integer | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/byte_size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-byte_size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+データのバイト数を返します。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は <code>nil</code> になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_FORMAT"><code>format -&gt; String | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/format.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-format">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+要素のフォーマットを表す文字列を返します。詳細は <a href="../doc/spec=2fmemory_view.html">メモリビュー</a> を参照してください。
+</p>
+<p>
+設定されていない場合は <code>nil</code> を返し、バイト列を表す <code>&quot;C&quot;</code> と同じ意味になります。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は <code>nil</code> になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_ITEM_SIZE"><code>item_size -&gt; Integer | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/item_size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-item_size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+各要素のバイト数を返します。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は <code>nil</code> になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_NDIM"><code>ndim -&gt; Integer | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/ndim.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-ndim">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+次元数を返します。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は <code>nil</code> になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_OBJ"><code>obj -&gt; object | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/obj.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-obj">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+メモリビュー経由でメモリをエクスポートしている元のオブジェクトを返します。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は <code>nil</code> になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_READONLY--3F"><code>readonly? -&gt; bool | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/readonly=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-readonly-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+データが読み取り専用であれば <code>true</code> 、書き込み可能であれば <code>false</code> を返します。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は <code>nil</code> になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_RELEASE"><code>release -&gt; nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-release">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+メモリビューを解放します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SHAPE"><code>shape -&gt; [Integer] | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/shape.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-shape">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+各次元の要素数を示す、長さ <a href="../method/Fiddle=3a=3aMemoryView/i/ndim.html">ndim</a> の配列を返します。 <code>ndim</code> が 1 の時は <code>nil</code> になることがあります。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は <code>nil</code> になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_STRIDES"><code>strides -&gt; [Integer] | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/strides.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-strides">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+それぞれの次元で次の要素まで進むのに何バイトスキップすればよいかを示す、長さ <a href="../method/Fiddle=3a=3aMemoryView/i/ndim.html">ndim</a> の配列を返します。各要素は負数になることもあります。メモリビューが行指向の contiguous （連続配置）な配列の場合は <code>nil</code> になることもあります。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は <code>nil</code> になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SUB_OFFSETS"><code>sub_offsets -&gt; [Integer] | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/sub_offsets.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-sub_offsets">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+メモリビューがネストされた配列をエクスポートする場合に、それぞれの次元におけるオフセットからなる、長さ <a href="../method/Fiddle=3a=3aMemoryView/i/ndim.html">ndim</a> の配列を返します。メモリビューが平坦な配列の場合は <code>nil</code> になることがあります。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は <code>nil</code> になります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_S"><code>to_s -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Fiddle=3a=3aMemoryView/i/to_s.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Fiddle/MemoryView.html#method-i-to_s">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+データを、エンコーディングが ASCII-8BIT の <code>String</code> として返します。
+</p>
+<p>
+この文字列はメモリ領域をメモリビューと共有し、データをコピーしません。
+</p>
+<p>
+<a href="../method/Fiddle=3a=3aMemoryView/i/release.html">#release</a> を呼んだ後は空文字列になります。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/fiddle/2.0/Fiddle__MemoryView.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

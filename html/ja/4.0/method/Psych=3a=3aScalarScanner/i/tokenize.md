@@ -7,7 +7,7 @@ YAML の scalar である文字列を Ruby のオブジェクトに変換した�
 ```ruby
 require 'psych'
 
-scanner = Psych::ScalarScanner.new
+scanner = Psych::ScalarScanner.new(Psych::ClassLoader.new)
 p scanner.tokenize("yes") # => true
 p scanner.tokenize("year") # => "year"
 p scanner.tokenize("12") # =>  12

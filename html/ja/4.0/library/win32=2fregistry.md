@@ -1,7 +1,7 @@
 # library win32/registry
 
 win32/registry は Win32 プラットフォームでレジストリをアクセスするためのライブラリです。Win32 API の呼び出しに [Fiddle::Importer](../class/Fiddle=3a=3aImporter.md) を使います
-(`Win32API` は 1.9.1 で非推奨となり、現在は標準添付から外れています)。
+(`Win32API` は Ruby 1.9.1 で非推奨となり、現在は標準添付から外れています)。
 
 ```text
 require 'win32/registry'

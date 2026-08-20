@@ -22,13 +22,13 @@ class Foo
 end
   
 # Dumps Ruby object normally  
-p Psych.dump(Foo.new(3)) 
+puts Psych.dump(Foo.new(3))
 # =>
 # --- !ruby/object:Foo
 # x: 3
   
 # Registers tag with class Foo
-Foo.yaml_as("tag:example.com,2013:foo")
+Foo.yaml_tag("tag:example.com,2013:foo")
 # ... and dumps the object of Foo class
 Psych.dump(Foo.new(3), STDOUT)
 # =>
@@ -36,8 +36,8 @@ Psych.dump(Foo.new(3), STDOUT)
 # x: 3 
   
 # Loads the object from the tagged YAML node
-p Psych.load(<<EOS)
---- !<tag:example.com,2012:foo>
+p Psych.load(<<EOS, permitted_classes: [Foo])
+--- !<tag:example.com,2013:foo>
 x: 8
 EOS
 # => #<Foo:0x0000000130f48 @x=8>

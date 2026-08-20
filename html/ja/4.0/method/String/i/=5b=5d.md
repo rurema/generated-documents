@@ -20,7 +20,7 @@ p 'bar'[3]       # => nil
 p 'bar'[-4]      # => nil
 ```
 
-このメソッドの仕様は 1.8.x 以前から大きく変更されていますので注意が必要です。
+このメソッドの仕様は Ruby 1.8 までのものから大きく変更されていますので注意が必要です。
 
 ### def [](nth, len) -> String | nil
 ### def slice(nth, len) -> String | nil

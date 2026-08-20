@@ -5,7 +5,7 @@
 
 要素 element を追加します。
 
-element には文字列もしくは [REXML::Element](../../../class/REXML=3a=3aElement.md) オブジェクトを指定します。文字列を指定した場合には [REXML::Element.new](../../../method/REXML=3a=3aElement/s/new.md)(element)
+element には文字列もしくは [REXML::Element](../../../class/REXML=3a=3aElement.md) オブジェクトを指定します。文字列を指定した場合には [`REXML::Element.new(element)`](../../../method/REXML=3a=3aElement/s/new.md)
 で生成される要素を追加します。
 
 element を省略した場合は、空の要素が追加されます。

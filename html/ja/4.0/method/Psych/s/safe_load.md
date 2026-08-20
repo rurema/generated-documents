@@ -1,7 +1,6 @@
 # Psych.safe_load
 
 ### def Psych.safe_load(yaml, permitted_classes: [], permitted_symbols: [], aliases: false, filename: nil, fallback: nil, symbolize_names: false, freeze: false) -> object
-### def Psych.safe_load(yaml, legacy_permitted_classes=[], legacy_permitted_symbols=[], legacy_aliases=false, legacy_filename=nil) -> object
 
 安全に YAML フォーマットの文書を読み込み Ruby のオブジェクトを生成して返します。
 
@@ -75,17 +74,6 @@ p yaml.frozen?                        # = true
 p yaml["aaa"].frozen?                 # = true
 p yaml["aaa"]["bbb"].frozen?          # = true
 p yaml["aaa"]["bbb"].first.frozen?    # = true
-```
-
-また legacy_permitted_classes などのオプション引数は非推奨な引数となっています。
-[m:$-w] が true の時にオプション引数を渡すと警告が出力されます。
-
-```ruby title="オプション引数を使用した例"
-require 'psych'
-require 'date'
-
-# warning: Passing permitted_classes with the 2nd argument of Psych.safe_load is deprecated. Use keyword argument like Psych.safe_load(yaml, permitted_classes: ...) instead.
-Psych.safe_load("", [Date])
 ```
 
 - **param** `io` -- YAMLフォーマットの文書の読み込み先のIOオブジェクト。

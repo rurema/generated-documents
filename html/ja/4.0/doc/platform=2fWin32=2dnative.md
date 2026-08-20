@@ -15,12 +15,12 @@ Win32 版 Ruby を Cygwin 版と比較すると以下の利点があります。
 現在 Win32 ネイティブな Ruby で広く配布されているものには、
 Visual C++ で構築した [platform/mswin32](../doc/platform=2fmswin32.md) 版と
 gcc でコンパイルした [platform/MinGW](../doc/platform=2fMinGW.md) 版の 2 種類があります。
-また ruby 1.7 からは Borland C++ (bcc) もサポートされました。
+また Ruby 1.7 からは Borland C++ (bcc) もサポートされました。
 これを bccwin32 版と言います。
 
 これらのバージョン間に大きな違いはなく、
 Ruby レベルで違いがわかることはまずありません。
-ただし Ruby 1.6 以前ではそれぞれで DLL 名が違うので、拡張ライブラリは流用できません。
+ただし Ruby 1.6 まではそれぞれで DLL 名が違うので、拡張ライブラリは流用できません。
 つまり VC++ でコンパイルした拡張ライブラリは
 mswin32 版の ruby でしか使えないということです。
 この点は Ruby 1.8 以降では改善されました。

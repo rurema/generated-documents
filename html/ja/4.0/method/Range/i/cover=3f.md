@@ -40,7 +40,7 @@ p (Date.today - 365 .. Date.today + 365).cover?(DateTime.now)  # => true
 
 ### def cover?(range) -> bool
 
-2.6 以降の cover? は、[Range#include?](../../../method/Range/i/include=3f.md) や [Range#===](../../../method/Range/i/=3d=3d=3d.md) と異なり、引数に Range オブジェクトを指定して比較できます。
+Ruby 2.6 以降の cover? は、[Range#include?](../../../method/Range/i/include=3f.md) や [Range#===](../../../method/Range/i/=3d=3d=3d.md) と異なり、引数に Range オブジェクトを指定して比較できます。
 
 引数が Range オブジェクトの場合、引数の範囲が self の範囲に含まれる時に true を返します。
 

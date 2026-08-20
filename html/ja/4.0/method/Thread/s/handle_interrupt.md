@@ -5,7 +5,7 @@
 スレッドの割り込みのタイミングを引数で指定した内容に変更してブロックを実行します。
 
 「割り込み」とは、非同期イベントや [Thread#raise](../../../method/Thread/i/raise.md) や
-[Thread#kill](../../../method/Thread/i/kill.md)、[Signal?.trap](../../../method/Signal/m/trap.md)(未サポート)、メインスレッドの終了
+[Thread#kill](../../../method/Thread/i/kill.md)、[Signal?.trap](../../../method/Signal/m/trap.md) (未サポート)、メインスレッドの終了
 (メインスレッドが終了すると、他のスレッドも終了されます)を意味します。
 
 - **param** `hash` -- 例外クラスがキー、割り込みのタイミングを指定する

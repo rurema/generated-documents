@@ -5,9 +5,9 @@
 そのオブジェクトに対して呼び出せるメソッド名の一覧を返します。
 このメソッドは public メソッドおよび protected メソッドの名前を返します。
 
-ただし特別に、引数が偽の時は [Object#singleton_methods](../../../method/Object/i/singleton_methods.md)(false) と同じになっています。
+ただし特別に、引数が偽の時は [`Object#singleton_methods(false)`](../../../method/Object/i/singleton_methods.md) と同じになっています。
 
-- **param** `include_inherited` -- 引数が偽の時は [Object#singleton_methods](../../../method/Object/i/singleton_methods.md)(false) と同じになります。
+- **param** `include_inherited` -- 引数が偽の時は [`Object#singleton_methods(false)`](../../../method/Object/i/singleton_methods.md) と同じになります。
 
 ```ruby title="例1"
 class Parent

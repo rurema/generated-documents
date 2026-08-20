@@ -29,8 +29,9 @@
 <script src="../js/search_ranker.js"></script>
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.3-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-3.3.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -39,6 +40,7 @@
 
 <div id="rurema-topbar">
   <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
   <div id="search-section" role="search">
     <input id="search-field" type="text" autocomplete="off" spellcheck="false"
            placeholder="クラス・メソッドを検索 (/)"
@@ -747,7 +749,7 @@ Complex(a, b) を a+bi として計算した <a href="../class/Complex.html">Com
 [SEE_ALSO] <a href="../method/Complex/s/rect.html">Complex.rect</a>、<a href="../method/Complex/s/rectangular.html">Complex.rectangular</a>
 </p>
 <p>
-[注意] Complex.new、Complex.new! は 1.9 系では廃止されました。
+[注意] Complex.new、Complex.new! は Ruby 1.9 系では廃止されました。
 </p>
 </dd>
 
@@ -2311,7 +2313,7 @@ C 言語と同様引数が 0 の場合にはプレフィックスが付加され
 <span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%10x</span><span class="s2">"</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;       ..f&quot;
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%-10x</span><span class="s2">"</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;..f       &quot;
 </span>
-<span class="c1"># ruby 1.9.1 以降では「精度」を指定した場合も、&quot;..&quot; は付加されます 
+<span class="c1"># Ruby 1.9.1 以降では「精度」を指定した場合も、&quot;..&quot; は付加されます 
 </span><span class="nb">p</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"</span><span class="s2">%.10x</span><span class="s2">"</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; &quot;..ffffffff&quot; 
 </span></code></pre>
 </dd>
@@ -3371,7 +3373,7 @@ common
 <dt class="method-heading" id="M_READLINES"><code>readlines(rs = $/) -&gt; [String]</code><span class="permalink">[<a href="../method/Kernel/m/readlines.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Kernel.html#method-i-readlines">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/functions.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-<a href="../class/ARGF.html">ARGF</a>を <a href="../method/Kernel/m/gets.html">Kernel.#gets</a>(rs) でEOFまで読み込んで、その各行を要素としてもつ配列を返します。行の区切りは引数 rs で指定した文字列になります。
+<a href="../class/ARGF.html">ARGF</a>を <a href="../method/Kernel/m/gets.html"><code>gets(rs)</code></a> でEOFまで読み込んで、その各行を要素としてもつ配列を返します。行の区切りは引数 rs で指定した文字列になります。
 </p>
 <p>
 rs に nil を指定すると行区切りなしとみなします。空文字列 &quot;&quot; を指定すると連続する改行を行の区切りとみなします
@@ -7884,7 +7886,7 @@ require を呼んだときに読み込まれるファイルを特定できます
 通常のグローバル変数です。
 </p>
 <p>
-Ruby 2.7 以前は特殊変数でしたが、Ruby 3.0 から通常のグローバル変数になりました。任意のオブジェクトを代入して nil 以外の値に設定できます。
+Ruby 2.7 までは特殊変数でしたが、Ruby 3.0 から通常のグローバル変数になりました。任意のオブジェクトを代入して nil 以外の値に設定できます。
 </p>
 <p>
 [SEE_ALSO] <a href="../doc/spec=2frubycmd.html">Rubyの起動</a>
@@ -8135,8 +8137,8 @@ OS と Ruby のバージョンによっては、この変数に代入すると <
 番号 n は任意の正整数にできますが、巨大な数に対しては常に nil を返し、警告を表示します。
 </p>
 <p>
-<a href="../method/Regexp/s/last_match.html">Regexp.last_match</a>(1),
-<a href="../method/Regexp/s/last_match.html">Regexp.last_match</a>(2), ... と同じ。
+<a href="../method/Regexp/s/last_match.html"><code>Regexp.last_match(1)</code></a>,
+<a href="../method/Regexp/s/last_match.html"><code>Regexp.last_match(2)</code></a>, ... と同じ。
 </p>
 <p>
 これらの変数はローカルスコープかつスレッドローカル、読み取り専用です。
@@ -8301,7 +8303,7 @@ $@ の値は、<a href="../method/Kernel/v/=21.html">$!</a>.backtrace の値と�
 通常のグローバル変数です。
 </p>
 <p>
-Ruby 2.7 以前は特殊変数でしたが、Ruby 3.0 から通常のグローバル変数になりました。
+Ruby 2.7 までは特殊変数でしたが、Ruby 3.0 から通常のグローバル変数になりました。
 </p>
 </dd>
 

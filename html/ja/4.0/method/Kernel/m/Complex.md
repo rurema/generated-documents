@@ -35,4 +35,4 @@ p Complex('1+1i') + Complex('2+3i') * Complex('i') # => (-2+3i)
 
 - **SEE** [Complex.rect](../../../method/Complex/s/rect.md)、[Complex.rectangular](../../../method/Complex/s/rectangular.md)
 
-[注意] Complex.new、Complex.new! は 1.9 系では廃止されました。
+[注意] Complex.new、Complex.new! は Ruby 1.9 系では廃止されました。

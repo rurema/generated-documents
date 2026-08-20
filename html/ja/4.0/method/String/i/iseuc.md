@@ -4,7 +4,7 @@
 
 self が EUC-JP なバイト列として正当であるかどうかを判定します。
 
-[Kconv?.iseuc](../../../method/Kconv/m/iseuc.md)(self) と同じです。
+[`Kconv.iseuc(self)`](../../../method/Kconv/m/iseuc.md) と同じです。
 
 ```ruby title="例"
 require 'kconv'

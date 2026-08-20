@@ -29,8 +29,9 @@
 <script src="../js/search_ranker.js"></script>
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-19-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-08-20-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -39,6 +40,7 @@
 
 <div id="rurema-topbar">
   <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
   <div id="search-section" role="search">
     <input id="search-field" type="text" autocomplete="off" spellcheck="false"
            placeholder="クラス・メソッドを検索 (/)"
@@ -125,11 +127,11 @@ Ruby オブジェクトから YAML の AST を構築するためのクラスで�
 <h2 >例</h2>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
 
-builder <span class="o">=</span> <span class="no">Psych</span><span class="o">::</span><span class="no">Visitors</span><span class="o">::</span><span class="no">YAMLTree</span><span class="p">.</span><span class="nf">new</span>
+builder <span class="o">=</span> <span class="no">Psych</span><span class="o">::</span><span class="no">Visitors</span><span class="o">::</span><span class="no">YAMLTree</span><span class="p">.</span><span class="nf">create</span>
 builder <span class="o">&lt;&lt;</span> <span class="p">{</span> <span class="ss">:foo</span> <span class="o">=&gt;</span> <span class="s1">'bar'</span> <span class="p">}</span>
 builder <span class="o">&lt;&lt;</span> <span class="p">[</span><span class="s2">"</span><span class="s2">baz</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">bazbaz</span><span class="s2">"</span><span class="p">]</span>
 <span class="nb">p</span> builder<span class="p">.</span><span class="nf">tree</span> <span class="c1"># =&gt; #&lt;Psych::Nodes::Stream ... &gt; A stream containing two documents
-</span><span class="nb">puts</span> tree<span class="p">.</span><span class="nf">to_yaml</span>
+</span><span class="nb">puts</span> builder<span class="p">.</span><span class="nf">tree</span><span class="p">.</span><span class="nf">to_yaml</span>
 <span class="c1"># =&gt;
 </span><span class="c1"># ---
 </span><span class="c1"># :foo: bar
@@ -147,7 +149,9 @@ builder <span class="o">&lt;&lt;</span> <span class="p">[</span><span class="s2"
 <dd>
 <ul class="class-toc">
 
-<li><a href="#S_NEW">new</a></li>
+<li><a href="#S_CREATE">create</a></li>
+
+<li><a href="#S_CREATE">new</a></li>
 
 </ul>
 </dd>
@@ -196,7 +200,8 @@ builder <span class="o">&lt;&lt;</span> <span class="p">[</span><span class="s2"
 <h2>特異メソッド</h2>
 <dl>
 
-<dt class="method-heading" id="S_NEW"><code>new(options = {}, emitter = Psych::TreeBuilder.new, ss = Psych::ScalarScanner.new) -&gt; Psych::Visitors::YAMLTree</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Psych=3a=3aVisitors=3a=3aYAMLTree/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Psych/Visitors/YAMLTree.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych/Psych__Visitors.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_CREATE"><code>create(options = {}, emitter = nil) -&gt; Psych::Visitors::YAMLTree</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Psych=3a=3aVisitors=3a=3aYAMLTree/s/create.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Psych/Visitors/YAMLTree.html#method-c-create">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych/Psych__Visitors.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>new(emitter, ss, options) -&gt; Psych::Visitors::YAMLTree</code><span class="method-since-badge">Ruby 1.9.3 から</span></dt>
 <dd class="method-description">
 <p>
 YAMLTree オブジェクトを生成します。
@@ -213,6 +218,8 @@ ss は Ruby の <a href="../class/String.html">String</a> が YAML document 上�
 </p>
 <p>
 emitter, ss は通常デフォルトのものから変える必要はないでしょう。
+create では emitter を省略すると <a href="../class/Psych=3a=3aTreeBuilder.html">Psych::TreeBuilder</a> が、ss には <a href="../class/Psych=3a=3aScalarScanner.html">Psych::ScalarScanner</a> が用意されます。
+new は 3 つの引数がすべて必須です。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>options</code>:</dt>
@@ -225,7 +232,7 @@ AST の構築に使う <a href="../class/Psych=3a=3aTreeBuilder.html">Psych::Tre
 </dd>
 <dt class='method-param'>[PARAM] <code>ss</code>:</dt>
 <dd>
-文字列に quite が必要かどうかを判定するための <a href="../class/Psych=3a=3aScalarScanner.html">Psych::ScalarScanner</a> オブジェクト
+文字列に quote が必要かどうかを判定するための <a href="../class/Psych=3a=3aScalarScanner.html">Psych::ScalarScanner</a> オブジェクト
 </dd>
 </dl>
 </dd>
