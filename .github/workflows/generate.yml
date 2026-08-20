@@ -8,6 +8,8 @@ on:
 permissions:
   pull-requests: write
   contents: write
+  # sync docs bucket の workflow_dispatch 起動用
+  actions: write
 
 jobs:
   generate:
@@ -38,6 +40,26 @@ jobs:
           # 即時マージにフォールバックする
           gh pr merge --auto --delete-branch --merge "$PR_URL" ||
             gh pr merge --delete-branch --merge "$PR_URL"
+        env:
+          PR_URL: "${{ steps.cpr.outputs.pull-request-url }}"
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      # マージで生まれる main への push は GITHUB_TOKEN 起点のため、再帰防止の
+      # 制限で他 workflow のトリガーにならない(workflow_dispatch と
+      # repository_dispatch だけが例外)。sync docs bucket の push トリガーが
+      # 発火しないので、マージの完了を待ってから明示的に dispatch する
+      - name: Trigger sync docs bucket
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          for i in $(seq 12); do
+            state="$(gh pr view "$PR_URL" --json state --jq .state)"
+            if [ "$state" = "MERGED" ]; then
+              gh workflow run sync_docs_bucket.yml --ref main
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "PR がマージされないため sync docs bucket を起動しませんでした (state=$state)"
+          exit 1
         env:
           PR_URL: "${{ steps.cpr.outputs.pull-request-url }}"
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
