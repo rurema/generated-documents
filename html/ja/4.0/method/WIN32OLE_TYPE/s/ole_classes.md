@@ -14,5 +14,5 @@ types = WIN32OLE_TYPE.ole_classes('Microsoft Excel 14.0 Object Library')
 classes = types.map{|k| k.name} # => ["Adjustments", "CalloutFormat", ...]
 ```
 
-Ruby-1.9.1からは、TypeLibに定義されているすべての型を取得するには、
+Ruby 1.9.1 からは、TypeLibに定義されているすべての型を取得するには、
 [WIN32OLE_TYPELIB](../../../class/WIN32OLE_TYPELIB.md)オブジェクトの[WIN32OLE_TYPELIB#ole_types](../../../method/WIN32OLE_TYPELIB/i/ole_types.md)メソッドを利用してください。

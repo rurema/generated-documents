@@ -2,7 +2,7 @@
 
 ### module_function def readlines(rs = $/) -> [String]
 
-[ARGF](../../../class/ARGF.md)を [Kernel?.gets](../../../method/Kernel/m/gets.md)(rs) でEOFまで読み込んで、その各行を要素としてもつ配列を返します。
+[ARGF](../../../class/ARGF.md)を [`gets(rs)`](../../../method/Kernel/m/gets.md) でEOFまで読み込んで、その各行を要素としてもつ配列を返します。
 行の区切りは引数 rs で指定した文字列になります。
 
 rs に nil を指定すると行区切りなしとみなします。

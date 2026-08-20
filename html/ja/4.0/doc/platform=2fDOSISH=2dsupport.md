@@ -3,7 +3,7 @@
 このページは Ruby 1.6〜1.8 時代の DOSISH 対応(Windows 系プラットフォームでのパス処理対応)の変更記録で、歴史的資料として残しています。
 現在の Ruby では内容が古くなっている部分があります。
 
-ruby version 1.7 では、DOSISH対応(DOS/Windows のパス名の扱いに対する変更)が含まれています。(現在の)変更点を以下に示します。
+Ruby 1.7 では、DOSISH対応(DOS/Windows のパス名の扱いに対する変更)が含まれています。(現在の)変更点を以下に示します。
 
 なお、これらの変更は [platform/mswin32](../doc/platform=2fmswin32.md) 版、[platform/mingw32](../doc/platform=2fmingw32.md)
 版の Ruby にのみあてはまります。

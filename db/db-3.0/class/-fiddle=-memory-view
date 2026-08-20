@@ -1,0 +1,35 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=fiddle
+aliases=
+aliasof=
+source_location=manual/api/fiddle/2.0/Fiddle__MemoryView.md
+
+[d:spec/memory_view] のラッパークラスです。これを使うと、メモリビューのプロデューサの内部データに Ruby レイヤからアクセスできます。
+
+例えば [c:Fiddle::Pointer] はメモリビュープロデューサなので、 [c:Fiddle::MemoryView] でメモリビューをエクスポートさせることができます。
+
+```ruby title="例"
+ptr = Fiddle::Pointer["Hello, MemoryView"]
+Fiddle::MemoryView.export(ptr) do |view|
+  view.obj          # => ptr
+  view.byte_size    # => 17
+  view.readonly?    # => true
+  view.format       # => nil
+  view.item_size    # => 1
+  view.ndim         # => 1
+  view.shape        # => nil
+  view.strides      # => nil
+  view.sub_offsets  # => nil
+  view.to_s         # => "Hello, MemoryView"
+  view[0]           # => 72 ("H")
+  view[1]           # => 101 ("e")
+  view[16]          # => 119 ("w")
+end
+```
+
+ポインタには `shape` などがないため、 1 次元のバイト列としてエクスポートされています。

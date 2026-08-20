@@ -4,7 +4,7 @@
 (Ruby Reference Manual、通称「るりま」/ rurema)です。
 
 - Ruby オフィシャルサイト <https://www.ruby-lang.org/ja/>
-- version 4.0 対応リファレンス
+- Ruby 4.0 対応リファレンス
 - 原著：まつもとゆきひろ
 - 最新版URL: <https://www.ruby-lang.org/ja/documentation/>
 

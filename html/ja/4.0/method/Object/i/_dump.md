@@ -5,7 +5,7 @@
 [Marshal?.dump](../../../method/Marshal/m/dump.md) において出力するオブジェクトがメソッド _dump
 を定義している場合には、そのメソッドの結果が書き出されます。
 
-バージョン1.8.0以降では[Object#marshal_dump](../../../method/Object/i/marshal_dump.md), [Object#marshal_load](../../../method/Object/i/marshal_load.md)の使用が推奨されます。 Marshal.dump するオブジェクトが _dump と marshal_dump の両方のメソッドを持つ場合は marshal_dump が優先されます。
+Ruby 1.8 以降では[Object#marshal_dump](../../../method/Object/i/marshal_dump.md), [Object#marshal_load](../../../method/Object/i/marshal_load.md)の使用が推奨されます。 Marshal.dump するオブジェクトが _dump と marshal_dump の両方のメソッドを持つ場合は marshal_dump が優先されます。
 
 メソッド _dump は引数として再帰を制限するレベル limit を受け取り、オブジェクトを文字列化したものを返します。
 

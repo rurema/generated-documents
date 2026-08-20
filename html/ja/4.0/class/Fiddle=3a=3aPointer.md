@@ -2,8 +2,14 @@
 
 メモリ領域を表すクラスです。C 言語のポインタに相当します。
 
-2.2.0 で削除された dl の DL::CPtr に対応します。
+Ruby 2.2 で削除された dl の DL::CPtr に対応します。
 DL::CPtrとほぼ同じインターフェースを持ちます。
+
+### メモリビュー
+
+[Fiddle::Pointer](../class/Fiddle=3a=3aPointer.md) は [spec/memory_view](../doc/spec=2fmemory_view.md) をエクスポートします。
+
+1 次元の読み込み専用バイト列としてエクスポートされます。
 
 ## Class Methods
 

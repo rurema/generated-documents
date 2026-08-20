@@ -1,6 +1,6 @@
 # Psych.parse
 
-### def Psych.parse(yaml, filename = nil) -> Psych::Nodes::Document
+### def Psych.parse(yaml, filename: nil) -> Psych::Nodes::Document
 
 YAML ドキュメントをパースし、YAML の AST を返します。
 
@@ -21,7 +21,7 @@ require 'psych'
 p Psych.parse("---\n - a\n - b") # => #<Psych::Nodes::Document:...>
 
 begin
-  Psych.parse("--- `", "file.txt")
+  Psych.parse("--- `", filename: "file.txt")
 rescue Psych::SyntaxError => ex
   p ex.file    # => 'file.txt'
   p ex.message # => "(file.txt): found character that cannot start any token while scanning for the next token at line 1 column 5"

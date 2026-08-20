@@ -8,4 +8,4 @@
 
 注意:
 
-このメソッドは非推奨です。[BigDecimal#to_s](../../../method/BigDecimal/i/to_s.md)("F") を使用してください。
+このメソッドは非推奨です。[`BigDecimal#to_s("F")`](../../../method/BigDecimal/i/to_s.md) を使用してください。

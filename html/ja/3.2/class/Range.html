@@ -29,8 +29,9 @@
 <script src="../js/search_ranker.js"></script>
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.2-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-3.2.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -44,6 +45,7 @@
 
 <div id="rurema-topbar">
   <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.2 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
   <div id="search-section" role="search">
     <input id="search-field" type="text" autocomplete="off" spellcheck="false"
            placeholder="クラス・メソッドを検索 (/)"
@@ -140,7 +142,7 @@
 この例で分かるように、範囲オブジェクトは終端を含む範囲も含まない範囲も表せます。
 </p>
 <p>
-Ruby 2.6.0 からは、終端に nil を与えることで「終端を持たない範囲オブジェクト」を作ることができるようになりました。
+Ruby 2.6 からは、終端に nil を与えることで「終端を持たない範囲オブジェクト」を作ることができるようになりました。
 </p>
 <span class="caption">終端を持たない範囲オブジェクト</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Range</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="k">nil</span><span class="p">)</span> <span class="c1"># 1 以上（上限無し）を表す
@@ -148,7 +150,7 @@ Ruby 2.6.0 からは、終端に nil を与えることで「終端を持たな�
 </span><span class="nb">p</span><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="p">)</span>              <span class="c1"># 同上（略した書き方）
 </span></code></pre>
 <p>
-また、Ruby 2.7.0 では始端に nil を与えることで「始端を持たない範囲オブジェクト」を作ることもできるようになりました。
+また、Ruby 2.7 では始端に nil を与えることで「始端を持たない範囲オブジェクト」を作ることもできるようになりました。
 </p>
 <span class="caption">始端を持たない範囲オブジェクト</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Range</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="k">nil</span>, <span class="mi">5</span><span class="p">)</span> <span class="c1"># 5 以下（下限無し）を表す
@@ -214,7 +216,7 @@ Ruby の Range クラスは immutable です。つまり、オブジェクト自
 </span>range<span class="p">.</span><span class="nf">first</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># ~&gt; NoMethodError
 </span></code></pre>
 <p>
-また、Ruby 3.0.0 からすべての Range オブジェクトは freeze されるようになりました。
+また、Ruby 3.0 からすべての Range オブジェクトは freeze されるようになりました。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">frozen?</span>
 <span class="c1"># =&gt; true
@@ -646,10 +648,10 @@ true を返します。そうでない場合に false を返します。
 <span class="k">end</span>
 </code></pre>
 <p>
-2.5 以前は、単純に <a href="../method/Range/i/include=3f.html">Range#include?</a> メソッドを内部で呼んでいました。
+Ruby 2.5 までは、単純に <a href="../method/Range/i/include=3f.html">Range#include?</a> メソッドを内部で呼んでいました。
 </p>
 <p>
-しかし、2.6 以降では、(文字列を除いて) <a href="../method/Range/i/cover=3f.html">Range#cover?</a> と同様の処理をするように切り替わりました。
+しかし、Ruby 2.6 以降では、(文字列を除いて) <a href="../method/Range/i/cover=3f.html">Range#cover?</a> と同様の処理をするように切り替わりました。
 </p>
 <p>
 ただし、=== は、<a href="../method/Range/i/cover=3f.html">Range#cover?</a> のように Range オブジェクトを引数にとる設計はありません。
@@ -659,16 +661,16 @@ true を返します。そうでない場合に false を返します。
 <span class="nb">p</span> <span class="p">(</span><span class="no">Date</span><span class="p">.</span><span class="nf">today</span> <span class="o">-</span> <span class="mi">100</span><span class="o">...</span><span class="no">Date</span><span class="p">.</span><span class="nf">today</span> <span class="o">+</span> <span class="mi">100</span><span class="p">)</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="no">DateTime</span><span class="p">.</span><span class="nf">now</span><span class="p">)</span>  <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="p">(</span><span class="no">Date</span><span class="p">.</span><span class="nf">today</span> <span class="o">-</span> <span class="mi">100</span><span class="o">...</span><span class="no">Date</span><span class="p">.</span><span class="nf">today</span> <span class="o">+</span> <span class="mi">100</span><span class="p">)</span><span class="p">.</span><span class="nf">cover?</span><span class="p">(</span><span class="no">DateTime</span><span class="p">.</span><span class="nf">now</span><span class="p">)</span>    <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="p">(</span><span class="no">Date</span><span class="p">.</span><span class="nf">today</span> <span class="o">-</span> <span class="mi">100</span><span class="o">...</span><span class="no">Date</span><span class="p">.</span><span class="nf">today</span> <span class="o">+</span> <span class="mi">100</span><span class="p">)</span> <span class="o">===</span>  <span class="no">DateTime</span><span class="p">.</span><span class="nf">now</span>       <span class="c1"># =&gt; true
-</span><span class="c1"># 2.5 以前は、=== は、include? と同じく比較できず false を返していました。
+</span><span class="c1"># Ruby 2.5 までは、=== は、include? と同じく比較できず false を返していました。
 </span></code></pre>
 <p>
-2.7 以降の === は、文字列も <a href="../method/Range/i/cover=3f.html">Range#cover?</a> と同様の処理をするようになりました。
+Ruby 2.7 以降の === は、文字列も <a href="../method/Range/i/cover=3f.html">Range#cover?</a> と同様の処理をするようになりました。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="s1">'a'</span><span class="o">..</span><span class="s1">'z'</span><span class="p">)</span><span class="p">.</span><span class="nf">include?</span> <span class="s1">'at'</span>  <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="p">(</span><span class="s1">'a'</span><span class="o">..</span><span class="s1">'z'</span><span class="p">)</span><span class="p">.</span><span class="nf">cover?</span> <span class="s1">'at'</span>    <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="p">(</span><span class="s1">'a'</span><span class="o">..</span><span class="s1">'z'</span><span class="p">)</span> <span class="o">===</span> <span class="s1">'at'</span>       <span class="c1"># =&gt; true
-</span><span class="c1"># 2.6 以前は、=== は、include? と同じく比較できず false を返していました。
+</span><span class="c1"># Ruby 2.6 までは、=== は、include? と同じく比較できず false を返していました。
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../doc/spec=2fcontrol.html#case">制御構造/case</a>
@@ -841,7 +843,7 @@ trueなら「begin &lt;= obj &lt; end」を意味します。
 <dt class="method-heading" id="I_COVER--3F"><code>cover?(range) -&gt; bool</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Range/i/cover=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Range.html#method-i-cover-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-2.6 以降の cover? は、<a href="../method/Range/i/include=3f.html">Range#include?</a> や <a href="../method/Range/i/=3d=3d=3d.html">Range#===</a> と異なり、引数に Range オブジェクトを指定して比較できます。
+Ruby 2.6 以降の cover? は、<a href="../method/Range/i/include=3f.html">Range#include?</a> や <a href="../method/Range/i/=3d=3d=3d.html">Range#===</a> と異なり、引数に Range オブジェクトを指定して比較できます。
 </p>
 <p>
 引数が Range オブジェクトの場合、引数の範囲が self の範囲に含まれる時に true を返します。

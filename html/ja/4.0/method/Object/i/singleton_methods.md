@@ -9,7 +9,7 @@ inherited_too が真のときは継承した特異メソッドを含みます。
 継承した特異メソッドとは [Object#extend](../../../method/Object/i/extend.md) によって追加された特異メソッドや、
 self がクラスの場合はスーパークラスのクラスメソッド([Class](../../../class/Class.md)のインスタンスの特異メソッド)などです。
 
-singleton_methods(false) は、[Object#methods](../../../method/Object/i/methods.md)(false) と同じです。
+singleton_methods(false) は、[`Object#methods(false)`](../../../method/Object/i/methods.md) と同じです。
 
 - **param** `inherited_too` -- 継承した特異メソッドを含める場合は真を、そうでない場合は偽を指定します。
 

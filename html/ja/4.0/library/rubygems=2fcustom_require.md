@@ -2,4 +2,4 @@
 
 [Kernel#require](../method/Kernel/i/require.md) を再定義するためのライブラリです。
 
-Ruby1.9 以前で使用しています。
+Ruby 1.9 まで使用していました。

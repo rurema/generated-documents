@@ -4,4 +4,4 @@
 
 self を複製します。
 
-[REXML::Document.new](../../../method/REXML=3a=3aDocument/s/new.md)(self) と同じです。
+[`REXML::Document.new(self)`](../../../method/REXML=3a=3aDocument/s/new.md) と同じです。

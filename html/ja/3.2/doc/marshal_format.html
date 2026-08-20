@@ -29,8 +29,9 @@
 <script src="../js/search_ranker.js"></script>
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/3.2-wasm-wasi@2.9.3-2.9.4/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-3.2.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -44,6 +45,7 @@
 
 <div id="rurema-topbar">
   <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.2 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
   <div id="search-section" role="search">
     <input id="search-field" type="text" autocomplete="off" spellcheck="false"
            placeholder="クラス・メソッドを検索 (/)"
@@ -89,7 +91,7 @@
 </span><span class="nb">p</span> <span class="no">Marshal</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="k">false</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack1</span><span class="p">(</span><span class="s2">"</span><span class="s2">x2 a*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;F&quot;
 </span></code></pre>
 <p>
-Ruby 2.1 以前では、インスタンス変数を設定しても dump されません。
+Ruby 2.1 までは、インスタンス変数を設定しても dump されません。
 Ruby 2.2 以降は freeze されているので、インスタンス変数は設定できません。
 </p>
 <h2 >Fixnum</h2>
@@ -159,7 +161,7 @@ len の値は -4 〜 -1, 1 〜 4 で、符号と後続のデータが n_1 〜 n_
 </span><span class="nb">p</span> foo<span class="p">(</span><span class="mi">2</span>, <span class="mi">0</span>, <span class="mi">1</span><span class="p">)</span>                         <span class="c1"># =&gt; 256
 </span></code></pre>
 <p>
-Ruby 1.9.3 以前では、インスタンス変数を設定しても dump されません。
+Ruby 1.9.3 までは、インスタンス変数を設定しても dump されません。
 Ruby 2.0 以降は freeze されているので、インスタンス変数は設定できません。
 </p>
 <h2 >instance of the user class</h2>
@@ -278,7 +280,7 @@ marshal_dump、marshal_load を定義していれば 'U' になります。イ�
 </span><span class="nb">p</span> <span class="no">Marshal</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">x2 a c a*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;f&quot;, 9, &quot;-inf&quot;]
 </span><span class="nb">p</span> <span class="no">Marshal</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="o">-</span><span class="mf">0.0</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">x2 a c a*</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># =&gt; [&quot;f&quot;, 7, &quot;-0&quot;]
 </span></code></pre>
-<h3 >ruby 1.7 feature</h3>
+<h3 >Ruby 1.7 feature</h3>
 <p>
 Ruby 1.6 では、nan などの出力は <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/sprintf.html">sprintf(3)</a> に依存していて、読み込みは
 &quot;nan&quot;, &quot;inf&quot;, &quot;-inf&quot; 以外は <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/strtod.html">strtod(3)</a> に依存していました。
@@ -298,7 +300,7 @@ Ruby 1.7 から、sprintf(3)/strtod(3) への依存はなくなりました。
 <span class="c1"># =&gt; [&quot;l&quot;, &quot;+&quot;, 8, &quot;\x00\x00\x00\x00\x01\x00&quot;]
 </span></code></pre>
 <p>
-ruby 1.6.3 では [&quot;l&quot;, &quot;+&quot;, 8, &quot;\000\000\001\000&quot;] になるバグがありました。
+Ruby 1.6.3 では [&quot;l&quot;, &quot;+&quot;, 8, &quot;\000\000\001\000&quot;] になるバグがありました。
 </p>
 <h2 >String</h2>
 <p>
@@ -306,20 +308,20 @@ ruby 1.6.3 では [&quot;l&quot;, &quot;+&quot;, 8, &quot;\000\000\001\000&quot;
 </p>
 <pre class="highlight text"><code>| '"' | 長さ(Fixnum形式) | 文字列 |
 </code></pre>
-<span class="caption">例: ascii-8bit の時 (1.8 以前と同じ)</span>
+<span class="caption">例: ascii-8bit の時 (Ruby 1.8 までと同じ)</span>
 <pre class="highlight ruby"><code><span class="c1"># coding: ascii-8bit
 </span><span class="nb">p</span> <span class="no">Marshal</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="s2">"</span><span class="s2">hogehoge</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">x2 a c a*</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># =&gt; [&quot;\&quot;&quot;, 13, &quot;hogehoge&quot;]
 </span></code></pre>
 <p>
-ruby 1.9.0 以降では encoding が 'encoding' という「@」のつかない内部的なインスタンス変数としてダンプされます。
+Ruby 1.9 以降では encoding が 'encoding' という「@」のつかない内部的なインスタンス変数としてダンプされます。
 </p>
 <span class="caption">例: euc-jp の時</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Marshal</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="s2">"</span><span class="s2">hogehoge</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">euc-jp</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">x2 a a c a8 c a ca8 aca*</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># =&gt; [&quot;I&quot;, &quot;\&quot;&quot;, 13, &quot;hogehoge&quot;, 6, &quot;:&quot;, 13, &quot;encoding&quot;, &quot;\&quot;&quot;, 11, &quot;EUC-JP&quot;]
 </span></code></pre>
 <p>
-ruby 1.9.2 以降では US-ASCII と UTF-8 が 'E' という内部的なインスタンス変数として、それぞれ false と true という値でダンプされます。
+Ruby 1.9.2 以降では US-ASCII と UTF-8 が 'E' という内部的なインスタンス変数として、それぞれ false と true という値でダンプされます。
 </p>
 <span class="caption">例: us-ascii の時</span>
 <pre class="highlight ruby"><code><span class="c1"># coding: us-ascii
@@ -343,10 +345,10 @@ ruby 1.9.2 以降では US-ASCII と UTF-8 が 'E' という内部的なイン�
 オプションは、<a href="../method/Regexp/i/options.html">Regexp#options</a>の結果 + 漢字コードのフラグ値です。
 </p>
 <p>
-ruby 1.9 以降では隠しインスタンス変数として String と同様に
+Ruby 1.9 以降では隠しインスタンス変数として String と同様に
 encoding が付いています。
 </p>
-<span class="caption">1.9.2 以降での例</span>
+<span class="caption">Ruby 1.9.2 以降での例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Marshal</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="sr">/(hoge)*/</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">x2 a a c a7 c cacaa</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># =&gt; [&quot;I&quot;, &quot;/&quot;, 12, &quot;(hoge)*&quot;, 0, 6, &quot;:&quot;, 6, &quot;E&quot;, &quot;F&quot;]
 </span>

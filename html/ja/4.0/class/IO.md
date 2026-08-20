@@ -37,7 +37,7 @@ IO の読み込みメソッドは2種類存在します。
 返す文字列のエンコーディングは常に ASCII-8BIT になります。
 以下がバイナリ読み込みメソッドです。
 
-- [IO#read](../method/IO/i/read.md)(size)
+- [`IO#read(size)`](../method/IO/i/read.md)
 - [IO#read_nonblock](../method/IO/i/read_nonblock.md)
 - [IO#readpartial](../method/IO/i/readpartial.md)
 - [IO#sysread](../method/IO/i/sysread.md)

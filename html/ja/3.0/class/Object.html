@@ -29,6 +29,7 @@
 <script src="../js/search_ranker.js"></script>
 <script src="../js/search_controller.js"></script>
 <script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
 
 </head>
 <body>
@@ -40,6 +41,7 @@
 
 <div id="rurema-topbar">
   <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.0 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
   <div id="search-section" role="search">
     <input id="search-field" type="text" autocomplete="off" spellcheck="false"
            placeholder="クラス・メソッドを検索 (/)"
@@ -589,7 +591,7 @@ obj <span class="o">=</span> <span class="k">nil</span>
 を定義している場合には、そのメソッドの結果が書き出されます。
 </p>
 <p>
-バージョン1.8.0以降では<a href="../method/Object/i/marshal_dump.html">Object#marshal_dump</a>, <a href="../method/Object/i/marshal_load.html">Object#marshal_load</a>の使用が推奨されます。 Marshal.dump するオブジェクトが _dump と marshal_dump の両方のメソッドを持つ場合は marshal_dump が優先されます。
+Ruby 1.8 以降では<a href="../method/Object/i/marshal_dump.html">Object#marshal_dump</a>, <a href="../method/Object/i/marshal_load.html">Object#marshal_load</a>の使用が推奨されます。 Marshal.dump するオブジェクトが _dump と marshal_dump の両方のメソッドを持つ場合は marshal_dump が優先されます。
 </p>
 <p>
 メソッド _dump は引数として再帰を制限するレベル limit を受け取り、オブジェクトを文字列化したものを返します。
@@ -1356,7 +1358,7 @@ self を返します。
 Marshal.dump(some) において、出力するオブジェクト some がメソッド marshal_dump を持つ場合には、その返り値がダンプされたものが Marshal.dump(some) の返り値となります。
 </p>
 <p>
-marshal_dump/marshal_load の仕組みは Ruby 1.8.0 から導入されました。これから書くプログラムでは _dump/_load ではなく
+marshal_dump/marshal_load の仕組みは Ruby 1.8 から導入されました。これから書くプログラムでは _dump/_load ではなく
 marshal_dump/marshal_load を使うべきです。
 </p>
 <dl>
@@ -1410,7 +1412,7 @@ some のダンプ結果（Marshal.dump(some)） をロードする（Marshal.loa
 marshal_load 時の self は、生成されたばかり（<a href="../method/Class/i/allocate.html">Class#allocate</a> されたばかり） の状態です。
 </p>
 <p>
-marshal_dump/marshal_load の仕組みは Ruby 1.8.0 から導入されました。これから書くプログラムでは _dump/_load ではなく
+marshal_dump/marshal_load の仕組みは Ruby 1.8 から導入されました。これから書くプログラムでは _dump/_load ではなく
 marshal_dump/marshal_load を使うべきです。
 </p>
 <dl>
@@ -1479,12 +1481,12 @@ marshal_dump の返り値のコピーです。
 そのオブジェクトに対して呼び出せるメソッド名の一覧を返します。このメソッドは public メソッドおよび protected メソッドの名前を返します。
 </p>
 <p>
-ただし特別に、引数が偽の時は <a href="../method/Object/i/singleton_methods.html">Object#singleton_methods</a>(false) と同じになっています。
+ただし特別に、引数が偽の時は <a href="../method/Object/i/singleton_methods.html"><code>Object#singleton_methods(false)</code></a> と同じになっています。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>include_inherited</code>:</dt>
 <dd>
-引数が偽の時は <a href="../method/Object/i/singleton_methods.html">Object#singleton_methods</a>(false) と同じになります。
+引数が偽の時は <a href="../method/Object/i/singleton_methods.html"><code>Object#singleton_methods(false)</code></a> と同じになります。
 </dd>
 </dl>
 <span class="caption">例1</span>
@@ -1983,7 +1985,7 @@ inherited_too が真のときは継承した特異メソッドを含みます。
 self がクラスの場合はスーパークラスのクラスメソッド(<a href="../class/Class.html">Class</a>のインスタンスの特異メソッド)などです。
 </p>
 <p>
-singleton_methods(false) は、<a href="../method/Object/i/methods.html">Object#methods</a>(false) と同じです。
+singleton_methods(false) は、<a href="../method/Object/i/methods.html"><code>Object#methods(false)</code></a> と同じです。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>inherited_too</code>:</dt>
@@ -2633,13 +2635,13 @@ options でオプションを指定できます。
 <span class="k">end</span>
   
 <span class="c1"># Dumps Ruby object normally  
-</span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">)</span> 
+</span><span class="nb">puts</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">)</span>
 <span class="c1"># =&gt;
 </span><span class="c1"># --- !ruby/object:Foo
 </span><span class="c1"># x: 3
 </span>  
 <span class="c1"># Registers tag with class Foo
-</span><span class="no">Foo</span><span class="p">.</span><span class="nf">yaml_as</span><span class="p">(</span><span class="s2">"</span><span class="s2">tag:example.com,2013:foo</span><span class="s2">"</span><span class="p">)</span>
+</span><span class="no">Foo</span><span class="p">.</span><span class="nf">yaml_tag</span><span class="p">(</span><span class="s2">"</span><span class="s2">tag:example.com,2013:foo</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># ... and dumps the object of Foo class
 </span><span class="no">Psych</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>, <span class="no">STDOUT</span><span class="p">)</span>
 <span class="c1"># =&gt;
@@ -2648,7 +2650,7 @@ options でオプションを指定できます。
 </span>  
 <span class="c1"># Loads the object from the tagged YAML node
 </span><span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="no">&lt;&lt;EOS</span><span class="p">)</span>
-<span class="sh">--- !&lt;tag:example.com,2012:foo&gt;
+<span class="sh">--- !&lt;tag:example.com,2013:foo&gt;
 x: 8
 </span><span class="no">EOS
 </span><span class="c1"># =&gt; #&lt;Foo:0x0000000130f48 @x=8&gt;
@@ -3113,8 +3115,8 @@ Ruby のパッチレベルを表す <a href="../class/Integer.html">Integer</a> 
 teeny リリースのそれぞれについてパッチレベルは 0 から始まり、その teeny リリースに対してバグ修正パッチが適用される度に増えていきます。
 </p>
 <p>
-パッチレベルという概念および RUBY_PATCHLEVEL 定数は、 Ruby 1.8.5-p1 以降、 1.8.6 以降で導入されました。
-1.8.5やそれ以前のバージョンでは定義されていません。
+パッチレベルという概念および RUBY_PATCHLEVEL 定数は、 Ruby 1.8.5-p1 以降、 Ruby 1.8.6 以降で導入されました。
+Ruby 1.8.5 までのバージョンでは定義されていません。
 </p>
 </dd>
 
