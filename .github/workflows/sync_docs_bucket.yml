@@ -56,10 +56,15 @@ jobs:
           sudo apt-get install -y -qq git-restore-mtime
           git restore-mtime html/ja
 
+      # 6 時間(GitHub ホストランナーのジョブ上限)。フルアップロードに
+      # なる日でもセッション切れ(ExpiredToken)にしないための保険。
+      # ロール側の max_session_duration 引き上げ(ruby/ruby-infra-recipe)
+      # が apply 済みであることが前提
       - uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ vars.DOCS_SYNC_ROLE_ARN }}
           aws-region: us-east-1
+          role-duration-seconds: 21600
 
       # --no-follow-symlinks: html/ja の latest/master は symlink で、
       # 実体の二重アップロードになるため辿らない(本番はエイリアスを
