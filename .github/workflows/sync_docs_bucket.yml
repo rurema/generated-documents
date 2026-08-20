@@ -35,11 +35,26 @@ jobs:
     if: ${{ vars.DOCS_SYNC_ROLE_ARN != '' }}
     steps:
       # html/ja だけの sparse checkout(db/ と html/en 系を落とさない)。
-      # filter で必要な blob だけ取得する
+      # filter で必要な blob だけ取得する。fetch-depth は下の
+      # restore-mtime が「最近変わったファイル」を見分けるための履歴窓
+      # (gd は日次 2 コミットペースなので 60 ≒ 約 1 か月)
       - uses: actions/checkout@v7
         with:
           sparse-checkout: html/ja
           filter: 'blob:none'
+          fetch-depth: 60
+
+      # checkout 直後は全ファイルの mtime が「今」になり、aws s3 sync の
+      # 既定比較(サイズが違う or ローカルの方が新しい)で毎回全件
+      # アップロードになってしまう。mtime を各ファイルの最終コミット
+      # 時刻に戻し、実際に変わったページだけの差分アップロードにする。
+      # 履歴窓より古いファイルは shallow 境界コミットの時刻(常に
+      # バケット側より過去)が付くので同様にスキップされる
+      - name: Restore file mtimes from git history
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git-restore-mtime
+          git restore-mtime html/ja
 
       - uses: aws-actions/configure-aws-credentials@v5
         with:
