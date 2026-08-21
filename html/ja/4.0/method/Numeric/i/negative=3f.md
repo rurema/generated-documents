@@ -2,7 +2,9 @@
 
 ### def negative? -> bool
 
-self が 0 未満の場合に true を返します。そうでない場合に false を返します。
+`self` が負の数なら `true` を、そうでないなら `false` を返します。
+
+一般の複素数には正・負の概念が無いので [Complex](../../../class/Complex.md) では未定義化されています。
 
 ```ruby title="例"
 p -1.negative? # => true

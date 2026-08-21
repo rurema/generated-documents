@@ -2,7 +2,7 @@
 
 ### def zero?    -> bool
 
-自身がゼロの時、trueを返します。そうでない場合は false を返します。
+`self` がゼロなら `true` を、そうでないなら `false` を返します。
 
 ```ruby title="例"
 p 10.zero?              # => false

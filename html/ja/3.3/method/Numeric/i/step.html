@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Numeric/i/step.html">
 
 <title>Numeric#step (Ruby 3.3 リファレンスマニュアル)</title>
-<meta name="description" content="self からはじめ step を足しながら limit を越える前までブロックを繰り返します。step は負の数も指定できます。また、limit や step には Float なども指定できます。">
+<meta name="description" content="`self' から始め、`step' を足しながら `limit' を越える前までブロックを繰り返します。`step' は負の数も指定できます。また、`limit' や `step' には Float なども指定できます。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -92,12 +92,15 @@
 <dt class="method-heading"><code>step(by:, to: -Float::INFINITY) -&gt; Enumerator::ArithmeticSequence</code></dt>
 <dd class="method-description">
 <p>
-self からはじめ step を足しながら limit を越える前までブロックを繰り返します。step は負の数も指定できます。また、limit や step には <a href="../../../class/Float.html">Float</a> なども指定できます。
+<code>self</code> から始め、<code>step</code> を足しながら <code>limit</code> を越える前までブロックを繰り返します。<code>step</code> は負の数も指定できます。また、<code>limit</code> や <code>step</code> には <a href="../../../class/Float.html">Float</a> なども指定できます。
+</p>
+<p>
+<a href="../../../class/Complex.html">Complex</a> では未定義化されています。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>limit</code>:</dt>
 <dd>
-ループの上限あるいは下限を数値で指定します。step に負の数が指定された場合は、下限として解釈されます。
+ループの上限あるいは下限を数値で指定します。<code>step</code> に負の数が指定された場合は、下限として解釈されます。
 </dd>
 <dt class='method-param'>[PARAM] <code>step</code>:</dt>
 <dd>
@@ -105,61 +108,58 @@ self からはじめ step を足しながら limit を越える前までブロ�
 </dd>
 <dt class='method-param'>[PARAM] <code>to</code>:</dt>
 <dd>
-引数limitと同じですが、省略した場合はキーワード引数byが正の数であれば <a href="../../../method/Float/c/INFINITY.html">Float::INFINITY</a>、負の数であれば
--<a href="../../../method/Float/c/INFINITY.html">Float::INFINITY</a>を指定したとみなされます。
+引数 <code>limit</code> と同じですが、省略した場合はキーワード引数 <code>by</code> が正の数なら <code>Float::INFINITY</code> を、負の数なら <code>-Float::INFINITY</code> を指定したとみなされます。
 </dd>
 <dt class='method-param'>[PARAM] <code>by</code>:</dt>
 <dd>
-引数 step と同じです。
+引数 <code>step</code> と同じです。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-ブロックが指定された時は self を返します。
+ブロックが与えられたときは <code>self</code> を返します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-ブロックが指定されなかった時は <a href="../../../class/Enumerator.html">Enumerator</a> を返します。
+ブロックが与えられなかったときは <a href="../../../class/Enumerator.html">Enumerator</a> を返します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-特に limit (または to) と step の両方が Numeric または nil の時は
-<a href="../../../class/Enumerator=3a=3aArithmeticSequence.html">Enumerator::ArithmeticSequence</a> を返します。
+特に <code>limit</code>（または <code>to</code>）と <code>step</code> の両方が <code>Numeric</code> または <code>nil</code> のときは <a href="../../../class/Enumerator=3a=3aArithmeticSequence.html">Enumerator::ArithmeticSequence</a> を返します。
 </dd>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
-step に 0 を指定した場合に発生します。
+<code>step</code> に <code>0</code> を指定した場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="mi">2</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>n<span class="o">|</span> <span class="nb">p</span> n<span class="p">}</span>
-<span class="mi">2</span>
-<span class="mi">3</span>
-<span class="mi">4</span>
-<span class="mi">5</span>
-
-<span class="mf">1.1</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mf">1.5</span>, <span class="mf">0.1</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>n<span class="o">|</span> <span class="nb">p</span> n<span class="p">}</span>
-<span class="mf">1.1</span>
-<span class="mf">1.2</span>
-<span class="mf">1.3</span>
-<span class="mf">1.4</span>
-<span class="mf">1.5</span>
-
-<span class="mi">10</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">6</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>n<span class="o">|</span> <span class="nb">p</span> n<span class="p">}</span>
-<span class="mi">10</span>
-<span class="mi">9</span>
-<span class="mi">8</span>
-<span class="mi">7</span>
-<span class="mi">6</span>
-
-<span class="mi">3</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="ss">by:</span><span class="mi">2</span>, <span class="ss">to:</span><span class="mi">10</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>n<span class="o">|</span> <span class="nb">p</span> n<span class="p">}</span>
-<span class="mi">3</span>
-<span class="mi">5</span>
-<span class="mi">7</span>
-<span class="mi">9</span>
-</code></pre>
+<pre class="highlight ruby"><code><span class="mi">2</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>n<span class="o">|</span> <span class="nb">p</span> n <span class="p">}</span>
+<span class="c1"># =&gt; 2
+</span><span class="c1">#    3
+</span><span class="c1">#    4
+</span><span class="c1">#    5
+</span>
+<span class="mf">1.1</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mf">1.5</span>, <span class="mf">0.1</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>n<span class="o">|</span> <span class="nb">p</span> n <span class="p">}</span>
+<span class="c1"># =&gt; 1.1
+</span><span class="c1">#    1.2000000000000002
+</span><span class="c1">#    1.3
+</span><span class="c1">#    1.4000000000000001
+</span><span class="c1">#    1.5
+</span>
+<span class="mi">10</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">6</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>n<span class="o">|</span> <span class="nb">p</span> n <span class="p">}</span>
+<span class="c1"># =&gt; 10
+</span><span class="c1">#    9
+</span><span class="c1">#    8
+</span><span class="c1">#    7
+</span><span class="c1">#    6
+</span>
+<span class="mi">3</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="ss">by:</span><span class="mi">2</span>, <span class="ss">to:</span><span class="mi">10</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>n<span class="o">|</span> <span class="nb">p</span> n <span class="p">}</span>
+<span class="c1"># =&gt; 3
+</span><span class="c1">#    5
+</span><span class="c1">#    7
+</span><span class="c1">#    9
+</span></code></pre>
 <p>
-注：浮動小数点数の 0.1 は 2進数では正確な表現ができない(2進数で
-0.1は 0.00011001100....となる)ので、以下のようなループでは誤差が生じて意図した回数ループしないことがある。step はこの誤差を考慮して実装されている。
+注：0.1 は 2 進法の浮動小数点数では正確な表現ができない（2 進法で 0.1 は 0.00011001100.... となる）ので、以下のようなループでは誤差が生じて意図した回数ループしないことがある。<code>step</code> はこの誤差を考慮して実装されている。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>i <span class="o">=</span> <span class="mf">1.1</span>
@@ -168,9 +168,10 @@ step に 0 を指定した場合に発生します。
   i <span class="o">+=</span> <span class="mf">0.1</span>
 <span class="k">end</span>
 <span class="c1"># =&gt; 1.1
-</span><span class="c1">#    1.2
-</span><span class="c1">#    1.3
-</span><span class="c1">#    1.4   &lt;- 1.5 が表示されない
+</span><span class="c1">#    1.2000000000000002
+</span><span class="c1">#    1.3000000000000003
+</span><span class="c1">#    1.4000000000000004
+</span><span class="c1"># 1.5 が表示されない
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/Integer/i/downto.html">Integer#downto</a>

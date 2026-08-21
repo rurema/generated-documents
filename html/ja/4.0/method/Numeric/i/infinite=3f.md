@@ -2,8 +2,9 @@
 
 ### def infinite? -> nil
 
-常に nil を返します。
-自身が [Float](../../../class/Float.md) か[Complex](../../../class/Complex.md)、もしくはそのサブクラスのインスタンスの場合は、self の絶対値が負の無限大の場合に-1を、正の無限大の場合に1を、有限値の場合に nil を返します。
+`nil` を返します。
+
+[Float](../../../class/Float.md) と [Complex](../../../class/Complex.md) では、`self` の絶対値が負の無限大の場合に `-1` を、正の無限大の場合に `1` を、有限値の場合に `nil` を返すよう再定義されています。
 
 ```ruby title="例"
 p 10.infinite?   # => nil
