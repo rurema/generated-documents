@@ -2,7 +2,9 @@
 
 ### def ceil   -> Integer
 
-自身と等しいかより大きな整数のうち最小のものを返します。
+`self` と等しいかより大きな整数のうち最小のものを返します。
+
+[Complex](../../../class/Complex.md) では未定義化されています。
 
 ```ruby title="例"
 p 1.ceil      # => 1

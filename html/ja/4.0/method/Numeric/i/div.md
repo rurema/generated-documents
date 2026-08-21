@@ -2,22 +2,27 @@
 
 ### def div(other)    -> Integer
 
-self を other で割った整数の商 q を返します。
+`self` を `other` で割った整数の商 `q` を返します。
 
-ここで、商 q と余り r は、それぞれ
+ここで、商 `q` と余り `r` は、それぞれ
 
-  - self == other * q + r
+- `self == other * q + r`
+
 と
-  - other > 0 のとき:  0     <= r < other
-  - other < 0 のとき:  other <  r <= 0
-  - q は整数
+
+- `other > 0` のとき:  `0     <= r <  other`
+- `other < 0` のとき:  `other <  r <= 0`
+- `q` は整数
+
 をみたす数です。
 商に対応する余りは [Numeric#modulo](../../../method/Numeric/i/modulo.md) で求められます。
-div はメソッド / を呼びだし、floorを取ることで計算されます。
+`div` はメソッド `/` を呼びだし、`floor` を取ることで計算されます。
 
-メソッド / の定義はサブクラスごとの定義を用います。
+メソッド `/` の定義はサブクラスごとの定義を用います。
 
-- **param** `other` -- 自身を割る数を指定します。
+[Complex](../../../class/Complex.md) では未定義化されています。
+
+- **param** `other` -- `self` に対する除数
 
 ```ruby title="例"
 p 3.div(2) # => 1

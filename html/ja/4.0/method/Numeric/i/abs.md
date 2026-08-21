@@ -3,7 +3,7 @@
 ### def abs        -> Numeric
 ### def magnitude  -> Numeric
 
-自身の絶対値を返します。
+`self` の絶対値（absolute value）を返します。
 
 ```ruby title="例"
 p 12.abs       # => 12

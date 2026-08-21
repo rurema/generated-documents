@@ -2,21 +2,26 @@
 
 ### def remainder(other)    -> Numeric
 
-self を other で割った余り r を返します。
+`self` を `other` で割った余り `r` を返します。
 
-ここで、商 q と余り r は、
+ここで、商 `q` と余り `r` は、
 
-  - self == other * q + r
+- `self == other * q + r`
+
 と
 
-  - self > 0 のとき  0 <= r < |other|
-  - self < 0 のとき -|other| < r <= 0
-  - q は整数
+- `self > 0` のとき `0        <= r <  |other|`
+- `self < 0` のとき `-|other| <  r <= 0`
+- `q` は整数
 
-をみたす数です。r の符号は self と同じになります。
-商 q を直接返すメソッドはありません。self.quo(other).truncate がそれに相当します。
+をみたす数です。
 
-- **param** `other` -- 自身を割る数を指定します。
+`r` の符号は `self` と同じになります。
+商 `q` を直接返すメソッドはありません。`self.quo(other).truncate` がそれに相当します。
+
+[Complex](../../../class/Complex.md) では未定義化されています。
+
+- **param** `other` -- `self` に対する除数
 
 ```ruby title="例"
 p 13.remainder(4)       # =>  1

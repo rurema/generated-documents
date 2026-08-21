@@ -2,12 +2,13 @@
 
 ### def coerce(other)    -> [Numeric]
 
-自身と other が同じクラスになるよう、自身か other を変換し [other, self] という配列にして返します。
+`self` と `other` が同じクラスになるよう、`self` か `other` を変換し `[other, self]` という配列にして返します。
 
-デフォルトでは self と other を [Float](../../../class/Float.md) に変換して [other, self] という配列にして返します。
-Numeric のサブクラスは、このメソッドを適切に再定義しなければなりません。
-以下は [Rational](../../../class/Rational.md) の coerce のソースです。other が自身の知らない数値クラスであった場合、
-super を呼んでいることに注意して下さい。
+デフォルトでは `self` と `other` を [Float](../../../class/Float.md) に変換して `[other, self]` という配列にして返します。
+
+`Numeric` のサブクラスは必要に応じてこのメソッドを適切に再定義しなければなりません。
+
+以下は [Rational](../../../class/Rational.md) の `coerce` のソースです。`other` が自身の知らない数値クラスであった場合、`super` を呼んでいることに注意して下さい。
 
 ```ruby title="例"
 # lib/rational.rb より
@@ -23,10 +24,9 @@ def coerce(other)
 end
 ```
 
-数値クラスの算術演算子は通常自分と演算できないクラスをオペランドとして受け取ると coerce を使って自分とオペランドを変換した上で演算を行います。
-以下は [Rational](../../../class/Rational.md) の + メソッドを一部省略したものです。
-引数が自身の知らない数値クラスである場合、引数の coerce により自身を変換してから
-+ 演算子を呼んでいます。
+数値クラスの算術演算子は通常自分と演算できないクラスをオペランドとして受け取ると `coerce` を使って自分とオペランドを変換した上で演算を行います。
+以下は [Rational](../../../class/Rational.md) の `+` メソッドを一部省略したものです。
+引数が自身の知らない数値クラスである場合、引数の coerce により `self` を変換してから `+` 演算子を呼んでいます。
 
 ```ruby title="例"
 # lib/rational.rb より

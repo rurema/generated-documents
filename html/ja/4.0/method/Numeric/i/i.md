@@ -2,9 +2,9 @@
 
 ### def i    -> Complex
 
-Complex(0, self) を返します。
+`Complex(0, self)` を返します。
 
-ただし、[Complex](../../../class/Complex.md) オブジェクトでは利用できません。
+[Complex](../../../class/Complex.md) では未定義化されています。
 
 ```ruby title="例"
 p 10.i           # => (0+10i)

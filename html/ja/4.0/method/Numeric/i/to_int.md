@@ -2,7 +2,7 @@
 
 ### def to_int    -> Integer
 
-self.to_i と同じです。
+`self.to_i` と同じです。
 
 ```ruby title="例"
 p (2+0i).to_int      # => 2

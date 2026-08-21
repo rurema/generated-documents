@@ -2,7 +2,9 @@
 
 ### def truncate   -> Integer
 
-0 から 自身までの整数で、自身にもっとも近い整数を返します。
+`0` から `self` までの整数で、`self` にもっとも近い整数を返します。
+
+[Complex](../../../class/Complex.md) では未定義化されています。
 
 ```ruby title="例"
 p 1.truncate      # => 1
