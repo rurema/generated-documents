@@ -323,7 +323,7 @@
   - [uri](../library/uri.md)
     - Relative path operations no longer collapse consecutive slashes to a single slash. [bug:8352]
 
-  - [webrick](../library/webrick.md)
+  - `webrick`
     - Server Name Indication (SNI) サポートを追加 [feature:13729]
     - `WEBrick::HTTPResponse#send_body_proc` を追加 [feature:855]
     - RubyGem としてリリース [feature:13173]

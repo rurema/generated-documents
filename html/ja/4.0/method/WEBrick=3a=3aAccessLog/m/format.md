@@ -1,9 +1,0 @@
-# WEBrick::AccessLog?.format
-
-### module_function def format(format_string, params) -> String
-
-与えられたフォーマット文字列とパラメータを使用してログを整形します。
-
-- **param** `format_string` -- フォーマット文字列を指定します。
-
-- **param** `params` -- パラメータを指定します。

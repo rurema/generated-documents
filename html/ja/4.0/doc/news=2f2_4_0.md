@@ -195,7 +195,7 @@
     - [Set#compare_by_identity](../method/Set/i/compare_by_identity.md), [Set#compare_by_identity?](../method/Set/i/compare_by_identity=3f.md) を追加
       [feature:12210]
 
-  - [webrick](../library/webrick.md)
+  - `webrick`
     - "," をクッキーの区切り文字として許可しなくなりました [bug:12791]
 
 ### 互換性 (機能追加とバグ修正を除く)

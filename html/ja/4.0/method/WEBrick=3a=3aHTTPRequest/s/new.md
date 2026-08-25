@@ -1,7 +1,0 @@
-# WEBrick::HTTPRequest.new
-
-### def WEBrick::HTTPRequest.new(config) -> WEBrick::HTTPRequest
-
-WEBrick::HTTPRequest を生成して返します。
-
-- **param** `config` -- 設定を保持したハッシュを指定します。

@@ -281,7 +281,7 @@
     - `Vector#round`を追加。
       <https://github.com/ruby/ruby/pull/802>
 
-  - [webrick/utils](../library/webrick=2futils.md)
+  - `webrick/utils`
     - 使用していない引数を削除しました。
       <https://github.com/ruby/ruby/pull/356>
 

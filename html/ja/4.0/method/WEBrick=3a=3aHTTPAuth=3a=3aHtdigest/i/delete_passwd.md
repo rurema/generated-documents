@@ -1,8 +1,0 @@
-# WEBrick::HTTPAuth::Htdigest#delete_passwd
-
-### def delete_passwd(realm, user)
-realm に属するユーザ user のパスワードを削除します。
-
-- **param** `realm` -- レルムを指定します。
-
-- **param** `user` -- ユーザ名を指定します。

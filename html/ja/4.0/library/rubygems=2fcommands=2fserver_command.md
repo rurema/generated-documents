@@ -2,6 +2,8 @@
 
 ローカルにインストールされている Gem パッケージとそのドキュメントを HTTP サーバに載せて公開するためのライブラリです。
 
+Ruby 3.1 以降、`gem server` コマンドの実体は rubygems-server gem に移動しました。標準添付として残っているクラスは、rubygems-server gem のインストールを案内するメッセージを表示するだけのスタブです。
+
 ```text
 Usage: gem server [options]
   Options:

@@ -270,7 +270,7 @@
     - 追加: [TSort#each_strongly_connected_component](../method/TSort/i/each_strongly_connected_component.md)
     - 追加: [TSort#each_strongly_connected_component_from](../method/TSort/i/each_strongly_connected_component_from.md)
 
-  - [webrick](../library/webrick.md)
+  - `webrick`
     - レスポンスボディは readpartial や read をサポートする StringIO か他の IO のようなオブジェクトになりました。
 
   - [xmlrpc](../library/xmlrpc.md)

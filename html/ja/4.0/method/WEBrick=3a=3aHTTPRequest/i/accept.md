@@ -1,6 +1,0 @@
-# WEBrick::HTTPRequest#accept
-
-### def accept    -> [String]
-
-Accept ヘッダの内容をメディアタイプを表す文字列の配列で返します。
-配列は品質係数(qvalue)でソートされています。

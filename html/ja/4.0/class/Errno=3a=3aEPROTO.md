@@ -1,3 +1,3 @@
 # class Errno::EPROTO < SystemCallError
 
-プロトコル・エラー (POSIX.1)
+システムコールのエラーコードを表す例外クラスです。詳細は [Errno::EXXX](../class/Errno=3a=3aEXXX.md) を参照してください。
