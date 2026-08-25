@@ -1,6 +1,8 @@
-# class YAML::DBM < DBM
+# class YAML::DBM < Object
 
-[DBM](../class/DBM.md) の値に文字列以外も格納できるように拡張したクラスです。
+`DBM` の値に文字列以外も格納できるように拡張したクラスです。
+
+Ruby 3.1 で dbm が標準添付ライブラリから削除されたため、このページでは親クラスが Object と表示されていますが、実際の親クラスは dbm gem が提供する `::DBM` です。
 
 ## Instance Methods
 

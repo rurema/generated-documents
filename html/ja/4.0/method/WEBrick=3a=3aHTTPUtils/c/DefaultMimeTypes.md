@@ -1,5 +1,0 @@
-# WEBrick::HTTPUtils::DefaultMimeTypes
-
-### const DefaultMimeTypes -> Hash
-
-ファイルの拡張子をキー、 MIME Type を値とする要素を持つハッシュです。

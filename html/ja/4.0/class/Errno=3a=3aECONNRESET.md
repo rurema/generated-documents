@@ -1,3 +1,3 @@
 # class Errno::ECONNRESET < SystemCallError
 
-接続がリセットされた (POSIX.1)
+システムコールのエラーコードを表す例外クラスです。詳細は [Errno::EXXX](../class/Errno=3a=3aEXXX.md) を参照してください。

@@ -6,6 +6,6 @@
 
 重複するキーに対応する値は other の内容で上書きされます。
 
-- **param** `other` -- [Hash](../../../class/Hash.md)、[DBM](../../../class/DBM.md) オブジェクトを指定します。
+- **param** `other` -- [Hash](../../../class/Hash.md)、`DBM` オブジェクトを指定します。
 
 - **raise** `DBMError` -- 更新に失敗した場合に発生します。
