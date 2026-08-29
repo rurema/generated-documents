@@ -15,9 +15,6 @@ SMTP のセッションを表現したクラスです。
 ## Instance Methods
 
 - [address](../method/Net=3a=3aSMTP/i/address.md)
-- [auth_cram_md5](../method/Net=3a=3aSMTP/i/auth_cram_md5.md)
-- [auth_login](../method/Net=3a=3aSMTP/i/auth_login.md)
-- [auth_plain](../method/Net=3a=3aSMTP/i/auth_plain.md)
 - [authenticate](../method/Net=3a=3aSMTP/i/authenticate.md)
 - [capable_auth_types](../method/Net=3a=3aSMTP/i/capable_auth_types.md)
 - [capable_cram_md5_auth?](../method/Net=3a=3aSMTP/i/capable_cram_md5_auth=3f.md)
@@ -68,4 +65,3 @@ SMTP のセッションを表現したクラスです。
 ## Constants
 
 - [DEFAULT_AUTH_TYPE](../method/Net=3a=3aSMTP/c/DEFAULT_AUTH_TYPE.md)
-- [Revision](../method/Net=3a=3aSMTP/c/Revision.md)

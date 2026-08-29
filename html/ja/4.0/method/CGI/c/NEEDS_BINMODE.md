@@ -1,6 +1,0 @@
-# CGI::NEEDS_BINMODE
-
-### const NEEDS_BINMODE -> bool
-
-ファイルを開くときにバイナリモードが必要かどうかを表す定数です。
-プラットフォーム依存の定数です。

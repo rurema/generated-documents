@@ -1,7 +1,6 @@
 # StringScanner#peek
 
 ### def peek(bytes) -> String
-### def peep(bytes) -> String
 
 スキャンポインタから長さ bytes バイト分だけ文字列を返します。
 
@@ -13,8 +12,6 @@ p s.peek(4) # => "test"
 
 また、このメソッドを実行してもスキャンポインタは移動しません。
 
-[StringScanner#peep](../../../method/StringScanner/i/peep.md) は将来のバージョンでは削除される予定です。
-代わりに [StringScanner#peek](../../../method/StringScanner/i/peek.md) を使ってください。
 
 - **param** `bytes` -- 0 以上の整数を指定します。
              ただし、スキャン対象の文字列の長さを超える分は無視されます。

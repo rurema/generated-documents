@@ -16,8 +16,6 @@ IMAP 接続を表現するクラスです。
 - [encode_utf7](../method/Net=3a=3aIMAP/s/encode_utf7.md)
 - [format_date](../method/Net=3a=3aIMAP/s/format_date.md)
 - [format_datetime](../method/Net=3a=3aIMAP/s/format_datetime.md)
-- [max_flag_count](../method/Net=3a=3aIMAP/s/max_flag_count.md)
-- [max_flag_count=](../method/Net=3a=3aIMAP/s/max_flag_count=3d.md)
 - [new](../method/Net=3a=3aIMAP/s/new.md)
 
 ## Instance Methods
@@ -27,8 +25,6 @@ IMAP 接続を表現するクラスです。
 - [authenticate](../method/Net=3a=3aIMAP/i/authenticate.md)
 - [capability](../method/Net=3a=3aIMAP/i/capability.md)
 - [check](../method/Net=3a=3aIMAP/i/check.md)
-- [client_thread](../method/Net=3a=3aIMAP/i/client_thread.md)
-- [client_thread=](../method/Net=3a=3aIMAP/i/client_thread=3d.md)
 - [close](../method/Net=3a=3aIMAP/i/close.md)
 - [copy](../method/Net=3a=3aIMAP/i/copy.md)
 - [create](../method/Net=3a=3aIMAP/i/create.md)

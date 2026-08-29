@@ -223,8 +223,8 @@
 
   - [cgi](../library/cgi.md)
     - HTML5 用のタグメーカーを追加しました
-    - [CGI#header](../method/CGI/i/header.md) は `CGI#http_header` に名前を変更しました。[CGI#header](../method/CGI/i/header.md) は別名として残っています。
-    - HTML5 用のタグメーカーを呼び出すと [CGI#header](../method/CGI/i/header.md) を header 要素を生成するために上書きします。
+    - `CGI#header` は `CGI#http_header` に名前を変更しました。`CGI#header` は別名として残っています。
+    - HTML5 用のタグメーカーを呼び出すと `CGI#header` を header 要素を生成するために上書きします。
 
   - [csv](../library/csv.md)
     - CSV.dump と CSV.load を削除しました。ユーザーを危険なシリアライゼーションに関する脆弱性から保護するためです。
