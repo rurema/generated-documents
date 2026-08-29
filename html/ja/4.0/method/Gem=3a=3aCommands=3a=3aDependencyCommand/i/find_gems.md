@@ -6,6 +6,6 @@
 
 - **param** `name` -- Gem の名前を指定します。
 
-- **param** `source_index` -- [Gem::SourceIndex](../../../class/Gem=3a=3aSourceIndex.md) のインスタンスを指定します。
+- **param** `source_index` -- `Gem::SourceIndex` のインスタンスを指定します。
 
-- **SEE** [Gem::SourceIndex#search](../../../method/Gem=3a=3aSourceIndex/i/search.md)
+- **SEE** `Gem::SourceIndex#search`

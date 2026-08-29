@@ -273,7 +273,7 @@
   - `webrick`
     - レスポンスボディは readpartial や read をサポートする StringIO か他の IO のようなオブジェクトになりました。
 
-  - [xmlrpc](../library/xmlrpc.md)
+  - `xmlrpc`
     - XMLRPC::Client
       - 追加: XMLRPC::Client#http クライアントのために [Net::HTTP](../class/Net=3a=3aHTTP.md) のインスタンスを返します。
         通常、それは必要ありません。HTTP クライアントのオプションを少し変更したいときに便利です。

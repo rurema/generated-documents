@@ -159,7 +159,7 @@
     - [TSort.tsort_each](../method/TSort/s/tsort_each.md), [TSort.each_strongly_connected_component](../method/TSort/s/each_strongly_connected_component.md),
       [TSort.each_strongly_connected_component_from](../method/TSort/s/each_strongly_connected_component_from.md) はブロックを省略すると [Enumerator](../class/Enumerator.md) を返すようになりました。
 
-  - [xmlrpc](../library/xmlrpc.md)
+  - `xmlrpc`
     - LibXMLStreamParser という新しいパーサーを追加しました
 
 ### 標準添付ライブラリの互換性 (機能追加とバグ修正を除く)

@@ -11,10 +11,10 @@
 デフォルトで有効になっており、無効にするにはコマンドラインオプションで
 --disable=did_you_mean を指定します。
 
-このライブラリはbundled gem(gemファイルのみを同梱)です。詳しい内容は下記のページを参照してください。
+このライブラリはdefault gemです。詳しい内容は下記のページを参照してください。
 
 - rubygems.org: <https://rubygems.org/gems/did_you_mean>
 - プロジェクトページ: <https://github.com/ruby/did_you_mean>
 - リファレンス: <https://www.rubydoc.info/gems/did_you_mean/>
 
-- **SEE** [glossary#bundled-gem](../doc/glossary.md#bundled-gem)
+- **SEE** [glossary#default-gem](../doc/glossary.md#default-gem)

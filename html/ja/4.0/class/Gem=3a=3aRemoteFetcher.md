@@ -5,7 +5,6 @@
 ## Class Methods
 
 - [fetcher](../method/Gem=3a=3aRemoteFetcher/s/fetcher.md)
-- [fetcher=](../method/Gem=3a=3aRemoteFetcher/s/fetcher=3d.md)
 
 ## Instance Methods
 
