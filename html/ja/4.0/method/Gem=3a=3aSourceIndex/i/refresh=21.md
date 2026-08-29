@@ -1,7 +1,0 @@
-# Gem::SourceIndex#refresh!
-
-### def refresh! -> self
-
-自身を再作成します。
-
-- **raise** `StandardError` -- 自身がディスクから読み込んで作成されていない場合に発生します。

@@ -9,9 +9,7 @@
 - [default_sources](../method/Gem/s/default_sources.md)
 - [default_system_source_cache_dir](../method/Gem/s/default_system_source_cache_dir.md)
 - [default_user_source_cache_dir](../method/Gem/s/default_user_source_cache_dir.md)
-- [ensure_ssl_available](../method/Gem/s/ensure_ssl_available.md)
 - [ruby_engine](../method/Gem/s/ruby_engine.md)
-- [ssl_available?](../method/Gem/s/ssl_available=3f.md)
 - [user_dir](../method/Gem/s/user_dir.md)
 
 ## Module Functions
@@ -32,9 +30,6 @@
 
 - [ConfigMap](../method/Gem/c/ConfigMap.md)
 - [DIRECTORIES](../method/Gem/c/DIRECTORIES.md)
-- [MD5](../method/Gem/c/MD5.md)
 - [RubyGemsPackageVersion](../method/Gem/c/RubyGemsPackageVersion.md)
 - [RubyGemsVersion](../method/Gem/c/RubyGemsVersion.md)
-- [SHA1](../method/Gem/c/SHA1.md)
-- [SHA256](../method/Gem/c/SHA256.md)
 - [WIN_PATTERNS](../method/Gem/c/WIN_PATTERNS.md)

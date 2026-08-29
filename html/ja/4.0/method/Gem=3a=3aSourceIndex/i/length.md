@@ -1,6 +1,0 @@
-# Gem::SourceIndex#length
-
-### def size   -> Integer
-### def length -> Integer
-
-自身に含まれる Gem の個数を返します。

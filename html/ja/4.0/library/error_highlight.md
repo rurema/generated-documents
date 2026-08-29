@@ -1,0 +1,27 @@
+# library error_highlight
+
+[NameError](../class/NameError.md) などの実行時エラーが起きたときに、エラーメッセージにエラーの該当箇所のコード抜粋と下線を追加して表示するライブラリです。
+
+```ruby
+json = {}
+json[:article][:title]
+# ~> undefined method '[]' for nil (NoMethodError)
+#
+#    json[:article][:title]
+#                  ^^^^^^^^
+```
+
+デフォルトで有効になっており、無効にするにはコマンドラインオプションで
+--disable-error_highlight を指定します。
+
+プログラムからは、エラーの該当箇所の位置情報を取得する `ErrorHighlight.spot` や、
+表示のカスタマイズのための `ErrorHighlight.formatter` / `ErrorHighlight.formatter=`
+が利用できます。
+
+このライブラリはdefault gemです。詳しい内容は下記のページを参照してください。
+
+- rubygems.org: <https://rubygems.org/gems/error_highlight>
+- プロジェクトページ: <https://github.com/ruby/error_highlight>
+- リファレンス: <https://www.rubydoc.info/gems/error_highlight>
+
+- **SEE** [did_you_mean](../library/did_you_mean.md), [glossary#default-gem](../doc/glossary.md#default-gem)

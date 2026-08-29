@@ -2,4 +2,4 @@
 
 ### const DEFAULT_UPDATE_SOURCES -> true
 
-毎回 [Gem::SourceInfoCache](../../../class/Gem=3a=3aSourceInfoCache.md) を更新するかどうかのデフォルト値です。
+毎回 `Gem::SourceInfoCache` を更新するかどうかのデフォルト値です。
