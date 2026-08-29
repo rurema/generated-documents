@@ -9,6 +9,9 @@
 - [json_create](../method/BigDecimal/s/json_create.md)
 - [limit](../method/BigDecimal/s/limit.md)
 - [mode](../method/BigDecimal/s/mode.md)
+- [save_exception_mode](../method/BigDecimal/s/save_exception_mode.md)
+- [save_limit](../method/BigDecimal/s/save_limit.md)
+- [save_rounding_mode](../method/BigDecimal/s/save_rounding_mode.md)
 
 ## Instance Methods
 
@@ -55,9 +58,6 @@
 - [precs](../method/BigDecimal/i/precs.md)
 - [remainder](../method/BigDecimal/i/remainder.md)
 - [round](../method/BigDecimal/i/round.md)
-- [save_exception_mode](../method/BigDecimal/i/save_exception_mode.md)
-- [save_limit](../method/BigDecimal/i/save_limit.md)
-- [save_rounding_mode](../method/BigDecimal/i/save_rounding_mode.md)
 - [sign](../method/BigDecimal/i/sign.md)
 - [split](../method/BigDecimal/i/split.md)
 - [sqrt](../method/BigDecimal/i/sqrt.md)

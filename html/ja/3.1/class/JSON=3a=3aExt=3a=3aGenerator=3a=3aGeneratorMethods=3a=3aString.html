@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString.html">
 
 <title>module JSON::Ext::Generator::GeneratorMethods::String (Ruby 3.1 リファレンスマニュアル)</title>
-<meta name="description" content="Alias of JSON::Generator::GeneratorMethods::String">
+<meta name="description" content="String に JSON で使用するインスタンスメソッドを追加するためのモジュールです。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -73,12 +73,23 @@
     </ol>
   </nav>
 
-<h1>module JSON::Ext::Generator::GeneratorMethods::String</h1>
+<h1>module JSON::Ext::Generator::GeneratorMethods::String</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Ext__Generator__GeneratorMethods__String.md">edit</a>]</span>
+
 </header>
 
 <main>
 
 
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+      <li>
+        JSON::Ext::Generator::GeneratorMethods::String
+      </li>
+    </ol>
+  </nav>
 
 
 
@@ -92,7 +103,7 @@
 
 <h2>要約</h2>
 <p>
-Alias of <a href="../class/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString.html">JSON::Generator::GeneratorMethods::String</a>
+<a href="../class/String.html">String</a> に JSON で使用するインスタンスメソッドを追加するためのモジュールです。
 </p>
 
 
@@ -100,6 +111,19 @@ Alias of <a href="../class/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString
 <h2>目次</h2>
 <dl>
 
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_TO_JSON">to_json</a></li>
+
+<li><a href="#I_TO_JSON_RAW">to_json_raw</a></li>
+
+<li><a href="#I_TO_JSON_RAW_OBJECT">to_json_raw_object</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
@@ -110,6 +134,68 @@ Alias of <a href="../class/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString
 
 
 
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_TO_JSON"><code>to_json(state_or_hash = nil) -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString/i/to_json.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/JSON/Ext/Generator/GeneratorMethods/String.html#method-i-to_json">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Ext__Generator__GeneratorMethods__String.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身から生成した JSON 形式の文字列を返します。
+</p>
+<p>
+自身のエンコードは UTF-8 であるべきです。
+</p>
+<p>
+state_or_hash で <a href="../method/JSON=3a=3aState/i/ascii_only=3f.html">JSON::State#ascii_only?</a> を真に指定するなどして
+ASCII 以外の文字がエスケープされる場合、そのコードポイントを 16 進数 4 桁で表した &quot;\uXXXX&quot; という形式になります。基本多言語面(BMP)外の文字は、UTF-16 のサロゲートペアとして &quot;\uXXXX\uXXXX&quot; のように \u エスケープを 2 つ連ねて表されます。返り値の <a href="../class/String.html">String</a> のエンコーディングは常に UTF-8 です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>state_or_hash</code>:</dt>
+<dd>
+生成する JSON 形式の文字列をカスタマイズするために <a href="../class/JSON=3a=3aState.html">JSON::State</a> のインスタンスか、
+<a href="../method/JSON=3a=3aState/s/new.html">JSON::State.new</a> の引数と同じ <a href="../class/Hash.html">Hash</a> を指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="nb">puts</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">.</span><span class="nf">to_json</span>                    <span class="c1"># =&gt; &quot;test&quot;
+</span><span class="nb">puts</span> <span class="s1">'&quot;'</span><span class="p">.</span><span class="nf">to_json</span>                       <span class="c1"># =&gt; &quot;\&quot;&quot;
+</span><span class="nb">puts</span> <span class="s2">"</span><span class="s2">\\</span><span class="s2">"</span><span class="p">.</span><span class="nf">to_json</span>                      <span class="c1"># =&gt; &quot;\\&quot;
+</span><span class="nb">puts</span> <span class="s2">"</span><span class="s2">𤘩宮城</span><span class="s2">"</span><span class="p">.</span><span class="nf">to_json</span><span class="p">(</span><span class="ss">ascii_only:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; &quot;\ud851\ude29\u5bae\u57ce&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_JSON_RAW"><code>to_json_raw -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString/i/to_json_raw.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/JSON/Ext/Generator/GeneratorMethods/String.html#method-i-to_json_raw">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Ext__Generator__GeneratorMethods__String.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身に対して <a href="../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString/i/to_json_raw_object.html">JSON::Ext::Generator::GeneratorMethods::String#to_json_raw_object</a> を呼び出して <a href="../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aHash/i/to_json.html">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a> した結果を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString/i/to_json_raw_object.html">JSON::Ext::Generator::GeneratorMethods::String#to_json_raw_object</a>, <a href="../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aHash/i/to_json.html">JSON::Ext::Generator::GeneratorMethods::Hash#to_json</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_JSON_RAW_OBJECT"><code>to_json_raw_object -&gt; Hash</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString/i/to_json_raw_object.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/JSON/Ext/Generator/GeneratorMethods/String.html#method-i-to_json_raw_object">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Ext__Generator__GeneratorMethods__String.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+生の文字列を格納したハッシュを生成します。
+</p>
+<p>
+このメソッドは UTF-8 の文字列ではなく生の文字列を JSON に変換する場合に使用してください。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'json'</span>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">にほんご</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">euc-jp</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_json_raw_object</span>
+<span class="c1"># =&gt; {&quot;json_class&quot;=&gt;&quot;String&quot;, &quot;raw&quot;=&gt;[164, 203, 164, 219, 164, 243, 164, 180]}
+</span><span class="s2">"</span><span class="s2">にほんご</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">euc-jp</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_json</span> <span class="c1"># source sequence is illegal/malformed (JSON::GeneratorError)
+</span></code></pre>
+</dd>
+
+
+</dl>
 
 </main>
 
@@ -117,6 +203,8 @@ Alias of <a href="../class/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString
   <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Ext__Generator__GeneratorMethods__String.md">このマニュアルを編集する</a>
   
   <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
 </footer>

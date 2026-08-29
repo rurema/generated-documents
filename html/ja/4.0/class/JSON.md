@@ -33,5 +33,4 @@ JSON (JavaScript Object Notation) を扱うためのモジュールです。
 - [JSON_LOADED](../method/JSON/c/JSON_LOADED.md)
 - [MinusInfinity](../method/JSON/c/MinusInfinity.md)
 - [NaN](../method/JSON/c/NaN.md)
-- [VARIANT_BINARY](../method/JSON/c/VARIANT_BINARY.md)
 - [VERSION](../method/JSON/c/VERSION.md)

@@ -12,4 +12,4 @@
 - **param** `secret` -- 認証で使うパスワード
 - **param** `authtype` -- 認証の種類(:plain, :login, :cram_md5 のいずれか)
 
-- **SEE** [Net::SMTP.start](../../../method/Net=3a=3aSMTP/s/start.md), [Net::SMTP#start](../../../method/Net=3a=3aSMTP/i/start.md), [Net::SMTP#auth_plain](../../../method/Net=3a=3aSMTP/i/auth_plain.md), [Net::SMTP#auth_login](../../../method/Net=3a=3aSMTP/i/auth_login.md), [Net::SMTP#auth_cram_md5](../../../method/Net=3a=3aSMTP/i/auth_cram_md5.md)
+- **SEE** [Net::SMTP.start](../../../method/Net=3a=3aSMTP/s/start.md), [Net::SMTP#start](../../../method/Net=3a=3aSMTP/i/start.md)

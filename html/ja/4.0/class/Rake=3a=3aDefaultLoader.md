@@ -1,6 +1,6 @@
 # class Rake::DefaultLoader < Object
 
-[Kernel#import](../method/Kernel/i/import.md) で使用するデフォルトのローダーです。
+[Rake::DSL#import](../method/Rake=3a=3aDSL/i/import.md) で使用するデフォルトのローダーです。
 
 ## Instance Methods
 

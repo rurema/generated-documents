@@ -1,3 +1,7 @@
 # module JSON::Ext::Generator::GeneratorMethods::Hash
 
-Alias of [[JSON::Generator::GeneratorMethods::Hash](../class/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aHash.md)]
+[Hash](../class/Hash.md) に JSON で使用するインスタンスメソッドを追加するためのモジュールです。
+
+## Instance Methods
+
+- [to_json](../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aHash/i/to_json.md)

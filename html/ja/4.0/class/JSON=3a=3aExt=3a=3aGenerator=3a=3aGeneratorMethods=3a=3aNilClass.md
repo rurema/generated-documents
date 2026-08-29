@@ -1,3 +1,7 @@
 # module JSON::Ext::Generator::GeneratorMethods::NilClass
 
-Alias of [[JSON::Generator::GeneratorMethods::NilClass](../class/JSON=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aNilClass.md)]
+[NilClass](../class/NilClass.md) に JSON で使用するインスタンスメソッドを追加するためのモジュールです。
+
+## Instance Methods
+
+- [to_json](../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aNilClass/i/to_json.md)

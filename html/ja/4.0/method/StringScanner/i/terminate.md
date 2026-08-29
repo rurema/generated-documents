@@ -1,7 +1,6 @@
 # StringScanner#terminate
 
 ### def terminate -> self
-### def clear -> self
 
 スキャンポインタを文字列末尾後まで進め、マッチ記録を捨てます。
 
@@ -22,6 +21,3 @@ p s.matched   # => nil
 p s[0]        # => nil
 p s.pos       # => 11
 ```
-
-[StringScanner#clear](../../../method/StringScanner/i/clear.md) は将来のバージョンで削除される予定です。
-代わりに [StringScanner#terminate](../../../method/StringScanner/i/terminate.md) を使ってください。

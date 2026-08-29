@@ -22,15 +22,8 @@ p conf.get_value("CA_default", "default_days") # => "365"
 
 ## Instance Methods
 
-- [\[\]](../method/OpenSSL=3a=3aConfig/i/=5b=5d.md)
-- [section](../method/OpenSSL=3a=3aConfig/i/section.md)
-- [\[\]=](../method/OpenSSL=3a=3aConfig/i/=5b=5d=3d.md)
-- [add_value](../method/OpenSSL=3a=3aConfig/i/add_value.md)
 - [each](../method/OpenSSL=3a=3aConfig/i/each.md)
 - [get_value](../method/OpenSSL=3a=3aConfig/i/get_value.md)
-- [sections](../method/OpenSSL=3a=3aConfig/i/sections.md)
-- [to_s](../method/OpenSSL=3a=3aConfig/i/to_s.md)
-- [value](../method/OpenSSL=3a=3aConfig/i/value.md)
 
 ## Constants
 
