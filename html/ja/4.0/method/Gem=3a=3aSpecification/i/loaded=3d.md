@@ -1,9 +1,0 @@
-# Gem::Specification#loaded=
-
-### def loaded=(flag)
-
-この Gem パッケージの gemspec が既にロードされているかどうかをセットします。
-
-この属性は永続化しません。
-
-- **param** `flag` -- 既にロードされている場合は真を指定します。

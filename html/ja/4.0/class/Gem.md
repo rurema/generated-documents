@@ -21,15 +21,8 @@
 - [path](../method/Gem/m/path.md)
 - [prefix](../method/Gem/m/prefix.md)
 - [ruby](../method/Gem/m/ruby.md)
-- [set_home](../method/Gem/m/set_home.md)
-- [set_paths](../method/Gem/m/set_paths.md)
-- [source_index](../method/Gem/m/source_index.md)
 - [win_platform?](../method/Gem/m/win_platform=3f.md)
 
 ## Constants
 
-- [ConfigMap](../method/Gem/c/ConfigMap.md)
-- [DIRECTORIES](../method/Gem/c/DIRECTORIES.md)
-- [RubyGemsPackageVersion](../method/Gem/c/RubyGemsPackageVersion.md)
-- [RubyGemsVersion](../method/Gem/c/RubyGemsVersion.md)
 - [WIN_PATTERNS](../method/Gem/c/WIN_PATTERNS.md)
