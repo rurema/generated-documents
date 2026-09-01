@@ -154,9 +154,15 @@ ne_width=6&gt;], @singleline_width=6&gt;, @sharing_detection=false&gt;
 PP のメソッドでもあります。
 </p>
 <p>
+pp ライブラリは読み込み時に組み込みクラスの pretty_print メソッドを定義するため、
+<a href="../method/Kernel/m/pp.html">Kernel.#pp</a> の初回呼び出しによる自動 require に頼ると、先に書いた再定義が上書きされてしまいます。カスタマイズする場合はあらかじめ pp を require してください。
+</p>
+<p>
 以下は Hash の pretty printing のカスタマイズの例です。
 </p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Hash</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'pp'</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Hash</span>
   <span class="k">def</span> <span class="nf">pretty_print</span><span class="p">(</span>q<span class="p">)</span>
     q<span class="p">.</span><span class="nf">group</span><span class="p">(</span><span class="mi">2</span>, <span class="s2">"</span><span class="s2">&lt;hash&gt;</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span>
       q<span class="p">.</span><span class="nf">breakable</span>
@@ -193,10 +199,10 @@ pp h
 
 <span class="c1"># =&gt;
 </span><span class="c1"># &lt;hash&gt;
-</span><span class="c1">#   :d =&gt; &quot;dddddddddd...&quot;,
 </span><span class="c1">#   :a =&gt; &quot;aaaaa&quot;,
 </span><span class="c1">#   :b =&gt; &quot;bbbbbbbbbb&quot;,
-</span><span class="c1">#   :c =&gt; &quot;cccccccccc...&quot;
+</span><span class="c1">#   :c =&gt; &quot;cccccccccc...&quot;,
+</span><span class="c1">#   :d =&gt; &quot;dddddddddd...&quot;
 </span><span class="c1"># &lt;/hash&gt;
 </span></code></pre>
 
