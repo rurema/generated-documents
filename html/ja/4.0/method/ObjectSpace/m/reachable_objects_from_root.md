@@ -20,6 +20,6 @@ p reachable.keys
 
 本メソッドはメモリリークの原因を調査するなど、オブジェクトグラフのデバッグに役立ちます。
 
-本メソッドは C Ruby 以外では動作しません。
+本メソッドは CRuby 以外では動作しません。
 
 - **SEE** [ObjectSpace?.reachable_objects_from](../../../method/ObjectSpace/m/reachable_objects_from.md)

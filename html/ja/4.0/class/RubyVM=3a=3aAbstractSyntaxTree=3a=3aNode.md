@@ -2,7 +2,7 @@
 
 [RubyVM::AbstractSyntaxTree.parse](../method/RubyVM=3a=3aAbstractSyntaxTree/s/parse.md) によって作られる抽象構文木を表すクラスです。
 
-このクラスは MRI の実装の詳細を表します。
+このクラスは CRuby の実装の詳細を表します。
 
 ## Instance Methods
 

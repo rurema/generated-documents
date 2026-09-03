@@ -54,6 +54,6 @@ p str.lines.grep(/"type":"SHAPE"/).size
 
 戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒントとして扱う必要があります。
 
-本メソッドは C Ruby 以外では動作しない、実験的なメソッドです。出力のフォーマットは将来のバージョンで変更される可能性があります。
+本メソッドは CRuby 以外では動作しない、実験的なメソッドです。出力のフォーマットは将来のバージョンで変更される可能性があります。
 
 - **SEE** [ObjectSpace?.dump](../../../method/ObjectSpace/m/dump.md), [ObjectSpace?.trace_object_allocations_start](../../../method/ObjectSpace/m/trace_object_allocations_start.md)

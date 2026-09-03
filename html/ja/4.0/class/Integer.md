@@ -69,6 +69,7 @@
 - [floor](../method/Integer/i/floor.md)
 - [gcd](../method/Integer/i/gcd.md)
 - [gcdlcm](../method/Integer/i/gcdlcm.md)
+- [hash](../method/Integer/i/hash.md)
 - [inspect](../method/Integer/i/inspect.md)
 - [to_s](../method/Integer/i/to_s.md)
 - [integer?](../method/Integer/i/integer=3f.md)

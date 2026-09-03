@@ -4,7 +4,7 @@
 
 [RubyVM::AbstractSyntaxTree::Node#locations](../method/RubyVM=3a=3aAbstractSyntaxTree=3a=3aNode/i/locations.md) で取得できます。
 
-[RubyVM::AbstractSyntaxTree](../class/RubyVM=3a=3aAbstractSyntaxTree.md) と同様に MRI の実装の詳細を表す実験的な API であり、予告なしに変更される可能性があります。
+[RubyVM::AbstractSyntaxTree](../class/RubyVM=3a=3aAbstractSyntaxTree.md) と同様に CRuby の実装の詳細を表す実験的な API であり、予告なしに変更される可能性があります。
 
 ## Instance Methods
 

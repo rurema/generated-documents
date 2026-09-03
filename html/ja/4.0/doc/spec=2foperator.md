@@ -33,9 +33,12 @@
        ||
        ..  ...
        ?:(条件演算子)
+       rescue(修飾子)
        =(+=, -= ... )
+       defined?
        not
-低い   and or
+       and or
+低い   if unless while until(修飾子)
 ```
 
 左の「高い」「低い」は演算子の優先順位です。
@@ -44,6 +47,19 @@
 ```ruby
 p a && b || c # => (a && b) || c
 p a || b && c # =>  a || (b && c)
+```
+
+表中の rescue(修飾子)、defined?、if unless while until(修飾子)は言語に組み込みのキーワードで、再定義できません。
+それぞれについては [spec/control#rescue_modifier](../doc/spec=2fcontrol.md#rescue_modifier)、[spec/def#defined](../doc/spec=2fdef.md#defined)、
+[spec/control#if_modifier](../doc/spec=2fcontrol.md#if_modifier)、[spec/control#unless_modifier](../doc/spec=2fcontrol.md#unless_modifier)、
+[spec/control#while_modifier](../doc/spec=2fcontrol.md#while_modifier)、[spec/control#until_modifier](../doc/spec=2fcontrol.md#until_modifier) を参照してください。
+
+ブロックの「{ }」と「do ... end」の間では、「{ }」の方が強く結び付きます。
+以下の例では「{ }」は近い方の map に、「do ... end」は遠い方の p に結び付いています。
+
+```ruby
+p [1, 2].map { |x| x * 2 }      # => [2, 4]
+p [1, 2].map do |x| x * 2 end   # => #<Enumerator: [1, 2]:map>
 ```
 
 ほとんどの演算子は特別な形式のメソッド呼び出しですが、一部のものは言語に組み込みで、再定義できません。
