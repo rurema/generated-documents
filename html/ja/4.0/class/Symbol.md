@@ -89,6 +89,7 @@ Ruby 2.1 系まではこの機能がなかったため、ユーザからの入�
 - [empty?](../method/Symbol/i/empty=3f.md)
 - [encoding](../method/Symbol/i/encoding.md)
 - [end_with?](../method/Symbol/i/end_with=3f.md)
+- [hash](../method/Symbol/i/hash.md)
 - [id2name](../method/Symbol/i/id2name.md)
 - [to_s](../method/Symbol/i/to_s.md)
 - [inspect](../method/Symbol/i/inspect.md)
