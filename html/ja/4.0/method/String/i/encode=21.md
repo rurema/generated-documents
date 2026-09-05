@@ -13,7 +13,6 @@ self のエンコーディングが使われます。変換後の self を返し
 - **return** --               変換後のself
 
 ```ruby title="例"
-#coding:UTF-8
 s = "いろは"
 s.encode!("EUC-JP")
 s.encode!(Encoding::UTF_8)

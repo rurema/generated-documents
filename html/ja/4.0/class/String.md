@@ -130,8 +130,7 @@ s + "\u{4f53}"                      # ~> Encoding::CompatibilityError
 
 [String#eql?](../method/String/i/eql=3f.md) はハッシュのキーの比較に使われますので、ハッシュのキーに非 ASCII 文字列を使う場合には注意が必要です。
 
-```ruby title="動作例:  (注)一行目にmagic commentが必要です。"
-# encoding: UTF-8
+```ruby title="動作例"
 h = {}
 s = "いろは"
 s.force_encoding("EUC-JP")
