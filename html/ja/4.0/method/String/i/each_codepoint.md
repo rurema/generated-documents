@@ -8,7 +8,6 @@
 UTF-8/UTF-16(BE|LE)/UTF-32(BE|LE) 以外のエンコーディングに対しては各文字のバイナリ表現由来の値になります。
 
 ```ruby title="例"
-#coding:UTF-8
 p "hello わーるど".each_codepoint.to_a
 # => [104, 101, 108, 108, 111, 32, 12431, 12540, 12427, 12393]
 p "hello わーるど".encode('euc-jp').each_codepoint.to_a

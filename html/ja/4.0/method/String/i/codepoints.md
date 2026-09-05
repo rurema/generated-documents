@@ -6,7 +6,6 @@
 文字列の各コードポイントの配列を返します。(self.each_codepoint.to_a と同じです)
 
 ```ruby title="例"
-#coding:UTF-8
 p "hello わーるど".codepoints
 # => [104, 101, 108, 108, 111, 32, 12431, 12540, 12427, 12393]
 ```

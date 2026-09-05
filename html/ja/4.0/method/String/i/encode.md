@@ -41,7 +41,6 @@ self を指定したエンコーディングに変換した文字列を作成し
 これ以上細かい指定を行いたい場合は、[Encoding::Converter#convert](../../../method/Encoding=3a=3aConverter/i/convert.md) を用いましょう。
 
 ```ruby title="例"
-#coding:UTF-8
 s = "いろは"
 s.encode("EUC-JP")
 s.encode(Encoding::UTF_8)
