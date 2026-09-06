@@ -220,7 +220,7 @@ locale がスクリプトエンコーディングになります。
 # encoding: US-ASCII
 p __ENCODING__        #=> #<Encoding:US-ASCII>
 p "abc".encoding      #=> #<Encoding:US-ASCII>
-p "\x80".encoding     #=> #<Encoding:ASCII-8BIT>
+p "\x80".encoding     #=> #<Encoding:BINARY (ASCII-8BIT)>
  
 
 # encoding: EUC-JP
@@ -228,5 +228,5 @@ p __ENCODING__        #=> #<Encoding:EUC-JP>
 p "abc".encoding      #=> #<Encoding:EUC-JP>
 p "\x80".encoding     #=> #<Encoding:EUC-JP>
 p "\u3042".encoding   #=> #<Encoding:UTF-8>  (Unicode エスケープがあるので UTF-8 になる)
-p "\x80\u3042".encoding #=> エラー: UTF-8 mixed within US-ASCII source
+p "\x80\u3042".encoding #=> エラー: UTF-8 mixed within EUC-JP source
 ```
