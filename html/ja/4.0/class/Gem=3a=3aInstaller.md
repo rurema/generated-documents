@@ -11,8 +11,6 @@
 - [home_install_warning](../method/Gem=3a=3aInstaller/s/home_install_warning.md)
 - [home_install_warning=](../method/Gem=3a=3aInstaller/s/home_install_warning=3d.md)
 - [new](../method/Gem=3a=3aInstaller/s/new.md)
-- [path_warning](../method/Gem=3a=3aInstaller/s/path_warning.md)
-- [path_warning=](../method/Gem=3a=3aInstaller/s/path_warning=3d.md)
 
 ## Instance Methods
 
@@ -31,6 +29,5 @@
 - [installation_satisfies_dependency?](../method/Gem=3a=3aInstaller/i/installation_satisfies_dependency=3f.md)
 - [shebang](../method/Gem=3a=3aInstaller/i/shebang.md)
 - [spec](../method/Gem=3a=3aInstaller/i/spec.md)
-- [unpack](../method/Gem=3a=3aInstaller/i/unpack.md)
 - [windows_stub_script](../method/Gem=3a=3aInstaller/i/windows_stub_script.md)
 - [write_spec](../method/Gem=3a=3aInstaller/i/write_spec.md)

@@ -28,7 +28,6 @@
 - [_load](../method/Class/i/_load.md)
 - [allocate](../method/Class/i/allocate.md)
 - [attached_object](../method/Class/i/attached_object.md)
-- [json_creatable?](../method/Class/i/json_creatable=3f.md)
 - [new](../method/Class/i/new.md)
 - [subclasses](../method/Class/i/subclasses.md)
 - [superclass](../method/Class/i/superclass.md)

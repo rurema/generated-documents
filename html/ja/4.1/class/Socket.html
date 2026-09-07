@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-06-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-07-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -170,10 +170,6 @@
 <li><a href="#S_ACCEPT_LOOP">accept_loop</a></li>
 
 <li><a href="#S_GETADDRINFO">getaddrinfo</a></li>
-
-<li><a href="#S_GETHOSTBYADDR">gethostbyaddr</a></li>
-
-<li><a href="#S_GETHOSTBYNAME">gethostbyname</a></li>
 
 <li><a href="#S_GETHOSTNAME">gethostname</a></li>
 
@@ -1750,80 +1746,6 @@ pp <span class="no">Socket</span><span class="p">.</span><span class="nf">getadd
 <span class="c1"># =&gt; [[&quot;AF_INET&quot;, 0, &quot;helium.ruby-lang.org&quot;, &quot;210.251.121.214&quot;, 2, 1, 6],
 </span><span class="c1">#    [&quot;AF_INET&quot;, 0, &quot;helium.ruby-lang.org&quot;, &quot;210.251.121.214&quot;, 2, 2, 17],
 </span><span class="c1">#    [&quot;AF_INET&quot;, 0, &quot;helium.ruby-lang.org&quot;, &quot;210.251.121.214&quot;, 2, 3, 0]]
-</span></code></pre>
-</dd>
-
-
-<dt class="method-heading" id="S_GETHOSTBYADDR"><code>gethostbyaddr(host, type = Socket::AF_INET) -&gt; Array</code><span class="permalink">[<a href="../method/Socket/s/gethostbyaddr.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Socket.html#method-c-gethostbyaddr">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Socket.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-このメソッドは deprecated です。<a href="../method/Addrinfo/i/getnameinfo.html">Addrinfo#getnameinfo</a> を使用してください。
-</p>
-<p>
-sockaddr 構造体をパックした文字列からホスト情報を返します。ホスト情報の構造は <a href="../method/Socket/s/gethostbyname.html">Socket.gethostbyname</a> と同じです。
-type には、アドレスタイプ(デフォルトは
-Socket::AF_INET)を指定します。
-</p>
-<dl>
-<dt class='method-param'>[PARAM] <code>host</code>:</dt>
-<dd>
-ホストを文字列で指定します。
-</dd>
-<dt class='method-param'>[PARAM] <code>type</code>:</dt>
-<dd>
-アドレスタイプ(デフォルトはSocket::AF_INET)を指定します。
-</dd>
-<dt>[EXCEPTION] <code>SocketError</code>:</dt>
-<dd>
-<a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/gethostbyaddr.html">gethostbyaddr(3)</a> の呼び出しにエラーがあった場合に発生します。
-</dd>
-</dl>
-</dd>
-
-
-<dt class="method-heading" id="S_GETHOSTBYNAME"><code>gethostbyname(host) -&gt; Array</code><span class="permalink">[<a href="../method/Socket/s/gethostbyname.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Socket.html#method-c-gethostbyname">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Socket.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-このメソッドは deprecated です。<a href="../method/Addrinfo/s/getaddrinfo.html">Addrinfo.getaddrinfo</a> を使用してください。
-</p>
-<p>
-ホスト名または IP アドレス(指定方法に関しては
-<a href="../library/socket.html#host_format">socket/ホスト指定形式</a>を参照)
-からホストの情報を返します。
-</p>
-<dl>
-<dt class='method-param'>[PARAM] <code>host</code>:</dt>
-<dd>
-文字列でホストを指定します。
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-ホスト情報を含んだ4要素の配列を返します。
-</dd>
-</dl>
-<h3 >返り値のホスト情報について</h3>
-<p>
-ホスト情報は以下の 4 要素の配列で表現されています。
-</p>
-<ul>
-<li>ホスト名</li>
-<li>ホストの別名の配列</li>
-<li>ホストのアドレスタイプ (整数定数)</li>
-<li>ホストのアドレス</li>
-</ul>
-<p>
-第四要素のホストのアドレスは、各アドレスタイプに対応する
-C のアドレス構造体を pack した文字列として表現されています。例えばアドレスタイプが AF_INET (定数 2) ならば
-Socket.unpack_sockaddr_in で unpack できます。
-</p>
-<h3 >使用例</h3>
-<pre class="highlight irb"><code><span class="gp">irb(main):009:0&gt;</span><span class="w"> </span><span class="nb">require</span> <span class="s1">'socket'</span>
-<span class="err">
-</span><span class="gp">irb(main):009:0&gt;</span><span class="w"> </span><span class="no">Socket</span><span class="p">.</span><span class="nf">gethostbyname</span><span class="p">(</span><span class="s2">"210.251.121.214"</span><span class="p">)</span>
-<span class="go">["helium.ruby-lang.org", ["helium"], 2, "\322\373y\326"]
-  
-</span><span class="gp">irb(main):009:0&gt;</span><span class="w"> </span><span class="no">Socket</span><span class="p">.</span><span class="nf">unpack_sockaddr_in</span><span class="p">(</span><span class="no">Socket</span><span class="p">.</span><span class="nf">gethostbyname</span><span class="p">(</span><span class="s2">"210.251.121.214"</span><span class="p">)[</span><span class="mi">3</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">"210.251.121.214"
 </span></code></pre>
 </dd>
 

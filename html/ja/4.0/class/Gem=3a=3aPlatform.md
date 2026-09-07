@@ -5,7 +5,6 @@
 ## Class Methods
 
 - [local](../method/Gem=3a=3aPlatform/s/local.md)
-- [match](../method/Gem=3a=3aPlatform/s/match.md)
 - [new](../method/Gem=3a=3aPlatform/s/new.md)
 
 ## Instance Methods
