@@ -8,7 +8,6 @@
 
 ## Instance Methods
 
-- [find_gems_with_sources](../method/Gem=3a=3aDependencyInstaller/i/find_gems_with_sources.md)
 - [find_spec_by_name_and_version](../method/Gem=3a=3aDependencyInstaller/i/find_spec_by_name_and_version.md)
 - [gather_dependencies](../method/Gem=3a=3aDependencyInstaller/i/gather_dependencies.md)
 - [gems_to_install](../method/Gem=3a=3aDependencyInstaller/i/gems_to_install.md)

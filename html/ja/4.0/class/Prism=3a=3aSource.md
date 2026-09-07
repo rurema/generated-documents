@@ -18,7 +18,6 @@ p source.offsets      # => [0, 8, 16, 32]
 
 ## Instance Methods
 
-- [byte_offset](../method/Prism=3a=3aSource/i/byte_offset.md)
 - [character_column](../method/Prism=3a=3aSource/i/character_column.md)
 - [character_offset](../method/Prism=3a=3aSource/i/character_offset.md)
 - [code_units_column](../method/Prism=3a=3aSource/i/code_units_column.md)
