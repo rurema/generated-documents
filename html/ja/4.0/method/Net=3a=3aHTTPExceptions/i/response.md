@@ -1,6 +1,7 @@
 # Net::HTTPExceptions#response
 
 ### def response -> Net::HTTPResponse
+### def data -> Net::HTTPResponse
 
 例外の原因となったレスポンスオブジェクトを返します。
 

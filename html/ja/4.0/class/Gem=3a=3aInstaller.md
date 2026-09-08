@@ -8,8 +8,6 @@
 
 - [exec_format](../method/Gem=3a=3aInstaller/s/exec_format.md)
 - [exec_format=](../method/Gem=3a=3aInstaller/s/exec_format=3d.md)
-- [home_install_warning](../method/Gem=3a=3aInstaller/s/home_install_warning.md)
-- [home_install_warning=](../method/Gem=3a=3aInstaller/s/home_install_warning=3d.md)
 - [new](../method/Gem=3a=3aInstaller/s/new.md)
 
 ## Instance Methods

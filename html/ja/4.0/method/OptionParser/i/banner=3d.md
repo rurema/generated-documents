@@ -1,6 +1,7 @@
 # OptionParser#banner=
 
 ### def banner=(heading)
+### def set_banner(heading)
 
 サマリの最初に表示される文字列を指定します。
 

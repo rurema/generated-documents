@@ -1,5 +1,0 @@
-# RDoc::TopLevel#file_relative_name
-
-### def file_relative_name -> String
-
-自身が管理するファイルに関する相対パスを文字列で返します。

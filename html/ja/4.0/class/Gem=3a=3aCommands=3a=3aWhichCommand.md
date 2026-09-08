@@ -31,7 +31,6 @@ Defaults:
 ## Instance Methods
 
 - [find_paths](../method/Gem=3a=3aCommands=3a=3aWhichCommand/i/find_paths.md)
-- [gem_paths](../method/Gem=3a=3aCommands=3a=3aWhichCommand/i/gem_paths.md)
 
 ## Constants
 

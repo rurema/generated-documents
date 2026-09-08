@@ -1,7 +1,0 @@
-# Gem::ConfigFile#benchmark=
-
-### def benchmark=(benchmark)
-
-ベンチマークを実行するかどうか設定します。
-
-- **param** `benchmark` -- 真を指定するとベンチマークを実行するようになります。

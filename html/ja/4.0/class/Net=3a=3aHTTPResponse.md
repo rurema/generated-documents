@@ -13,7 +13,6 @@ Net::HTTP クラスは実際には HTTPResponse のサブクラスを返しま�
 - [entity](../method/Net=3a=3aHTTPResponse/i/entity.md)
 - [code](../method/Net=3a=3aHTTPResponse/i/code.md)
 - [header](../method/Net=3a=3aHTTPResponse/i/header.md)
-- [reader_header](../method/Net=3a=3aHTTPResponse/i/reader_header.md)
 - [response](../method/Net=3a=3aHTTPResponse/i/response.md)
 - [http_version](../method/Net=3a=3aHTTPResponse/i/http_version.md)
 - [message](../method/Net=3a=3aHTTPResponse/i/message.md)

@@ -1,6 +1,7 @@
 # OptionParser#summary_indent=
 
 ### def summary_indent=(indent)
+### def set_summary_indent(indent)
 
 サマリを表示する時のインデントを文字列で指定します。
 

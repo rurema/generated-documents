@@ -35,7 +35,6 @@ HTTP ヘッダのためのモジュールです。
 - [length](../method/Net=3a=3aHTTPHeader/i/length.md)
 - [size](../method/Net=3a=3aHTTPHeader/i/size.md)
 - [main_type](../method/Net=3a=3aHTTPHeader/i/main_type.md)
-- [method](../method/Net=3a=3aHTTPHeader/i/method.md)
 - [proxy_basic_auth](../method/Net=3a=3aHTTPHeader/i/proxy_basic_auth.md)
 - [range](../method/Net=3a=3aHTTPHeader/i/range.md)
 - [range=](../method/Net=3a=3aHTTPHeader/i/range=3d.md)

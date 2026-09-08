@@ -2,10 +2,6 @@
 
 Gem の依存関係を扱うためのクラスです。
 
-## Class Methods
-
-- [from_source_index](../method/Gem=3a=3aDependencyList/s/from_source_index.md)
-
 ## Instance Methods
 
 - [add](../method/Gem=3a=3aDependencyList/i/add.md)
