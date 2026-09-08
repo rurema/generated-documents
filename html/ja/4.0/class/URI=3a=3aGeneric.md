@@ -55,6 +55,7 @@ hash と eql? が再定義されているため、[Hash](../class/Hash.md) の�
 - [scheme=](../method/URI=3a=3aGeneric/i/scheme=3d.md)
 - [select](../method/URI=3a=3aGeneric/i/select.md)
 - [to_s](../method/URI=3a=3aGeneric/i/to_s.md)
+- [to_str](../method/URI=3a=3aGeneric/i/to_str.md)
 - [user](../method/URI=3a=3aGeneric/i/user.md)
 - [user=](../method/URI=3a=3aGeneric/i/user=3d.md)
 - [userinfo](../method/URI=3a=3aGeneric/i/userinfo.md)

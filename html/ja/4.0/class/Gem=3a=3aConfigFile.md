@@ -11,8 +11,6 @@
 - [args](../method/Gem=3a=3aConfigFile/i/args.md)
 - [backtrace](../method/Gem=3a=3aConfigFile/i/backtrace.md)
 - [backtrace=](../method/Gem=3a=3aConfigFile/i/backtrace=3d.md)
-- [benchmark](../method/Gem=3a=3aConfigFile/i/benchmark.md)
-- [benchmark=](../method/Gem=3a=3aConfigFile/i/benchmark=3d.md)
 - [bulk_threshold](../method/Gem=3a=3aConfigFile/i/bulk_threshold.md)
 - [bulk_threshold=](../method/Gem=3a=3aConfigFile/i/bulk_threshold=3d.md)
 - [config_file_name](../method/Gem=3a=3aConfigFile/i/config_file_name.md)

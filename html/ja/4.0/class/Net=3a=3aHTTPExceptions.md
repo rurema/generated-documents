@@ -13,4 +13,5 @@ HTTP 例外クラスです。
 
 ## Instance Methods
 
+- [data](../method/Net=3a=3aHTTPExceptions/i/data.md)
 - [response](../method/Net=3a=3aHTTPExceptions/i/response.md)

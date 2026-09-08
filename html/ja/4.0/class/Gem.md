@@ -7,8 +7,6 @@
 - [default_exec_format](../method/Gem/s/default_exec_format.md)
 - [default_path](../method/Gem/s/default_path.md)
 - [default_sources](../method/Gem/s/default_sources.md)
-- [default_system_source_cache_dir](../method/Gem/s/default_system_source_cache_dir.md)
-- [default_user_source_cache_dir](../method/Gem/s/default_user_source_cache_dir.md)
 - [ruby_engine](../method/Gem/s/ruby_engine.md)
 - [user_dir](../method/Gem/s/user_dir.md)
 

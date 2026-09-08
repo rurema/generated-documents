@@ -10,13 +10,15 @@
 ## Instance Methods
 
 - [==](../method/Gem=3a=3aPlatform/i/=3d=3d.md)
+- [eql?](../method/Gem=3a=3aPlatform/i/eql=3f.md)
 - [===](../method/Gem=3a=3aPlatform/i/=3d=3d=3d.md)
 - [=~](../method/Gem=3a=3aPlatform/i/=3d=7e.md)
 - [cpu](../method/Gem=3a=3aPlatform/i/cpu.md)
 - [cpu=](../method/Gem=3a=3aPlatform/i/cpu=3d.md)
+- [deconstruct](../method/Gem=3a=3aPlatform/i/deconstruct.md)
+- [to_a](../method/Gem=3a=3aPlatform/i/to_a.md)
 - [os](../method/Gem=3a=3aPlatform/i/os.md)
 - [os=](../method/Gem=3a=3aPlatform/i/os=3d.md)
-- [to_a](../method/Gem=3a=3aPlatform/i/to_a.md)
 - [to_s](../method/Gem=3a=3aPlatform/i/to_s.md)
 - [version](../method/Gem=3a=3aPlatform/i/version.md)
 - [version=](../method/Gem=3a=3aPlatform/i/version=3d.md)

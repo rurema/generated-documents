@@ -7,7 +7,6 @@
 ## Class Methods
 
 - [new](../method/Gem=3a=3aSecurity=3a=3aPolicy/s/new.md)
-- [trusted_cert_path](../method/Gem=3a=3aSecurity=3a=3aPolicy/s/trusted_cert_path.md)
 
 ## Instance Methods
 
@@ -19,7 +18,6 @@
 - [verify_chain=](../method/Gem=3a=3aSecurity=3a=3aPolicy/i/verify_chain=3d.md)
 - [verify_data](../method/Gem=3a=3aSecurity=3a=3aPolicy/i/verify_data.md)
 - [verify_data=](../method/Gem=3a=3aSecurity=3a=3aPolicy/i/verify_data=3d.md)
-- [verify_gem](../method/Gem=3a=3aSecurity=3a=3aPolicy/i/verify_gem.md)
 - [verify_root](../method/Gem=3a=3aSecurity=3a=3aPolicy/i/verify_root.md)
 - [verify_root=](../method/Gem=3a=3aSecurity=3a=3aPolicy/i/verify_root=3d.md)
 - [verify_signer](../method/Gem=3a=3aSecurity=3a=3aPolicy/i/verify_signer.md)

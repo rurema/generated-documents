@@ -1,6 +1,7 @@
 # OptionParser#summary_width=
 
 ### def summary_width=(width)
+### def set_summary_width(width)
 
 サマリを表示するときの幅を整数で指定します。
 
