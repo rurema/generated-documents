@@ -204,13 +204,21 @@ ipaddr3 <span class="o">=</span> <span class="no">IPAddr</span><span class="p">.
 
 <li><a href="#I_IPV6--3F">ipv6?</a></li>
 
+<li><a href="#I_LINK_LOCAL--3F">link_local?</a></li>
+
+<li><a href="#I_LOOPBACK--3F">loopback?</a></li>
+
 <li><a href="#I_MASK">mask</a></li>
 
 <li><a href="#I_NATIVE">native</a></li>
 
+<li><a href="#I_NETMASK">netmask</a></li>
+
 <li><a href="#I_PREFIX">prefix</a></li>
 
 <li><a href="#I_PREFIX--3D">prefix=</a></li>
+
+<li><a href="#I_PRIVATE--3F">private?</a></li>
 
 <li><a href="#I_REVERSE">reverse</a></li>
 
@@ -223,6 +231,10 @@ ipaddr3 <span class="o">=</span> <span class="no">IPAddr</span><span class="p">.
 <li><a href="#I_TO_S">to_s</a></li>
 
 <li><a href="#I_TO_STRING">to_string</a></li>
+
+<li><a href="#I_ZONE_ID">zone_id</a></li>
+
+<li><a href="#I_ZONE_ID">zone_id=</a></li>
 
 </ul>
 </dd>
@@ -541,6 +553,34 @@ IPv6 なら真を返します。
 </dd>
 
 
+<dt class="method-heading" id="I_LINK_LOCAL--3F"><code>link_local? -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/IPAddr/i/link_local=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IPAddr.html#method-i-link_local-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ipaddr.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> がリンクローカルアドレスなら真を返します。<a class="external" href="https://tools.ietf.org/html/rfc3927">[RFC3927]</a> で予約された IPv4 の 169.254.0.0/16 と、<a class="external" href="https://tools.ietf.org/html/rfc4291">[RFC4291]</a> で予約された IPv6 のリンクローカルユニキャストアドレス fe80::/10 がリンクローカルとみなされます。IPv4 射影 IPv6 アドレス範囲内のリンクローカルな IPv4 アドレスもリンクローカルとみなされます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">ipaddr</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">169.254.1.1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">link_local?</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">fe80::1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">link_local?</span>      <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">192.168.1.1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">link_local?</span>  <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_LOOPBACK--3F"><code>loopback? -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/IPAddr/i/loopback=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IPAddr.html#method-i-loopback-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ipaddr.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> がループバックアドレスなら真を返します。IPv4 の 127.0.0.0/8 と IPv6 の ::1 がループバックアドレスとみなされます。IPv4 射影 IPv6 アドレス範囲内のループバックな IPv4 アドレスもループバックとみなされます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">ipaddr</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">127.0.0.1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">loopback?</span>    <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">::1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">loopback?</span>          <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">192.168.1.1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">loopback?</span>  <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_MASK"><code>mask(prefixlen) -&gt; IPAddr</code><span class="permalink">[<a href="../method/IPAddr/i/mask.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IPAddr.html#method-i-mask">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ipaddr.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -571,6 +611,19 @@ IPv4 互換でも IPv4 組み込みでもないなら self を返します。
 </dd>
 
 
+<dt class="method-heading" id="I_NETMASK"><code>netmask -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IPAddr/i/netmask.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IPAddr.html#method-i-netmask">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ipaddr.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+サブネットマスクを文字列表現で返します(例: 255.255.0.0)。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">ipaddr</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">192.168.0.0/16</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">netmask</span>       <span class="c1"># =&gt; &quot;255.255.0.0&quot;
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">2001:db8::/32</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">netmask</span>        <span class="c1"># =&gt; &quot;ffff:ffff:0000:0000:0000:0000:0000:0000&quot;
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_PREFIX"><code>prefix -&gt; Integer</code><span class="method-since-badge">Ruby 2.5.0 から</span><span class="permalink">[<a href="../method/IPAddr/i/prefix.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IPAddr.html#method-i-prefix">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ipaddr.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -594,6 +647,21 @@ IPv4 互換でも IPv4 組み込みでもないなら self を返します。
 引数 prefixlen に整数以外のオブジェクトを指定した場合に発生します。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="I_PRIVATE--3F"><code>private? -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/IPAddr/i/private=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IPAddr.html#method-i-private-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ipaddr.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> がプライベートアドレスなら真を返します。<a class="external" href="https://tools.ietf.org/html/rfc1918">[RFC1918]</a> で定義された IPv4 の 10.0.0.0/8、172.16.0.0/12、192.168.0.0/16 と、<a class="external" href="https://tools.ietf.org/html/rfc4193">[RFC4193]</a> で定義された IPv6 のユニークローカルアドレス fc00::/7 がプライベートアドレスとみなされます。IPv4 射影 IPv6 アドレス範囲内のプライベートな IPv4 アドレスもプライベートとみなされます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">ipaddr</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">192.168.1.1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">private?</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">10.1.2.3</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">private?</span>     <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">8.8.8.8</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">private?</span>      <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">fc00::1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">private?</span>      <span class="c1"># =&gt; true
+</span></code></pre>
 </dd>
 
 
@@ -676,6 +744,46 @@ addr6 <span class="o">=</span> <span class="no">IPAddr</span><span class="p">.</
 addr6 <span class="o">=</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'::1'</span><span class="p">)</span>
 <span class="nb">p</span> addr6<span class="p">.</span><span class="nf">to_s</span>     <span class="c1"># =&gt; &quot;::1&quot;
 </span><span class="nb">p</span> addr6<span class="p">.</span><span class="nf">to_string</span>  <span class="c1"># =&gt; &quot;0000:0000:0000:0000:0000:0000:0000:0001&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IPAddr/i/to_s.html">IPAddr#to_s</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_ZONE_ID"><code>zone_id -&gt; String | nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/IPAddr/i/zone_id.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/IPAddr.html#method-i-zone_id">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ipaddr.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>zone_id=(zid)</code></dt>
+<dd class="method-description">
+<p>
+IPv6 アドレスのゾーン ID を取得・設定します。ゾーン ID は <code>&quot;%eth0&quot;</code> のように <code>%</code> から始まる文字列で、リンクローカルアドレスなどで通信に使うネットワークインターフェースを指定するために使われます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>zid</code>:</dt>
+<dd>
+設定するゾーン ID です。<code>%</code> で始まる文字列か、ゾーン ID を削除する場合は nil を指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+ゾーン ID が設定されていない場合は nil を返します。
+</dd>
+<dt>[EXCEPTION] <code>IPAddr::InvalidAddressError</code>:</dt>
+<dd>
+<code>self</code> が IPv6 アドレスでない場合に発生します(取得・設定のどちらでも発生します)。
+</dd>
+<dt>[EXCEPTION] <code>IPAddr::InvalidAddressError</code>:</dt>
+<dd>
+<code>zone_id=</code> において、<code>zid</code> が nil でも <code>%</code> から始まる文字列でもない場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">ipaddr</span><span class="s2">"</span>
+a <span class="o">=</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">fe80::1%eth0</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> a<span class="p">.</span><span class="nf">zone_id</span>            <span class="c1"># =&gt; &quot;%eth0&quot;
+</span>
+b <span class="o">=</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">fe80::1</span><span class="s2">"</span><span class="p">)</span>
+b<span class="p">.</span><span class="nf">zone_id</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">%eth1</span><span class="s2">"</span>
+<span class="nb">p</span> b<span class="p">.</span><span class="nf">zone_id</span>            <span class="c1"># =&gt; &quot;%eth1&quot;
+</span><span class="nb">p</span> b<span class="p">.</span><span class="nf">to_s</span>               <span class="c1"># =&gt; &quot;fe80::1%eth1&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IPAddr/i/to_s.html">IPAddr#to_s</a>

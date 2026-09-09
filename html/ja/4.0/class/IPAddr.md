@@ -25,6 +25,8 @@ p ipaddr3   # => #<IPAddr: IPv4:192.168.2.0/255.255.255.0>
 ## Instance Methods
 
 - [&](../method/IPAddr/i/=26.md)
+- [+](../method/IPAddr/i/=2b.md)
+- [-](../method/IPAddr/i/=2d.md)
 - [<<](../method/IPAddr/i/=3c=3c.md)
 - [<=>](../method/IPAddr/i/=3c=3d=3e.md)
 - [==](../method/IPAddr/i/=3d=3d.md)
@@ -33,6 +35,8 @@ p ipaddr3   # => #<IPAddr: IPv4:192.168.2.0/255.255.255.0>
 - [>>](../method/IPAddr/i/=3e=3e.md)
 - [|](../method/IPAddr/i/=7c.md)
 - [~](../method/IPAddr/i/=7e.md)
+- [as_json](../method/IPAddr/i/as_json.md)
+- [cidr](../method/IPAddr/i/cidr.md)
 - [eql?](../method/IPAddr/i/eql=3f.md)
 - [family](../method/IPAddr/i/family.md)
 - [hash](../method/IPAddr/i/hash.md)
@@ -46,16 +50,24 @@ p ipaddr3   # => #<IPAddr: IPv4:192.168.2.0/255.255.255.0>
 - [ipv4_mapped](../method/IPAddr/i/ipv4_mapped.md)
 - [ipv4_mapped?](../method/IPAddr/i/ipv4_mapped=3f.md)
 - [ipv6?](../method/IPAddr/i/ipv6=3f.md)
+- [link_local?](../method/IPAddr/i/link_local=3f.md)
+- [loopback?](../method/IPAddr/i/loopback=3f.md)
 - [mask](../method/IPAddr/i/mask.md)
 - [native](../method/IPAddr/i/native.md)
+- [netmask](../method/IPAddr/i/netmask.md)
 - [prefix](../method/IPAddr/i/prefix.md)
 - [prefix=](../method/IPAddr/i/prefix=3d.md)
+- [private?](../method/IPAddr/i/private=3f.md)
 - [reverse](../method/IPAddr/i/reverse.md)
 - [succ](../method/IPAddr/i/succ.md)
 - [to_i](../method/IPAddr/i/to_i.md)
+- [to_json](../method/IPAddr/i/to_json.md)
 - [to_range](../method/IPAddr/i/to_range.md)
 - [to_s](../method/IPAddr/i/to_s.md)
 - [to_string](../method/IPAddr/i/to_string.md)
+- [wildcard_mask](../method/IPAddr/i/wildcard_mask.md)
+- [zone_id](../method/IPAddr/i/zone_id.md)
+- [zone_id=](../method/IPAddr/i/zone_id=3d.md)
 
 ## Protected Instance Methods
 
