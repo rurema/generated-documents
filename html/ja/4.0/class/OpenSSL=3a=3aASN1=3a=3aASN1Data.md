@@ -14,6 +14,10 @@ UNIVERSAL なタグを持つ ASN.1 値はこのクラスの2つのサブクラ�
 
 ## Instance Methods
 
+- [indefinite_length](../method/OpenSSL=3a=3aASN1=3a=3aASN1Data/i/indefinite_length.md)
+- [indefinite_length=](../method/OpenSSL=3a=3aASN1=3a=3aASN1Data/i/indefinite_length=3d.md)
+- [infinite_length](../method/OpenSSL=3a=3aASN1=3a=3aASN1Data/i/infinite_length.md)
+- [infinite_length=](../method/OpenSSL=3a=3aASN1=3a=3aASN1Data/i/infinite_length=3d.md)
 - [tag](../method/OpenSSL=3a=3aASN1=3a=3aASN1Data/i/tag.md)
 - [tag=](../method/OpenSSL=3a=3aASN1=3a=3aASN1Data/i/tag=3d.md)
 - [tag_class](../method/OpenSSL=3a=3aASN1=3a=3aASN1Data/i/tag_class.md)

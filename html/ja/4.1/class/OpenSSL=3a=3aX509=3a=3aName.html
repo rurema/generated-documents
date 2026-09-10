@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-09-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-10-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -160,6 +160,8 @@ eql? と hash が定義されているため、<a href="../class/Hash.html">Hash
 <li><a href="#I_TO_DER">to_der</a></li>
 
 <li><a href="#I_TO_S">to_s</a></li>
+
+<li><a href="#I_TO_UTF8">to_utf8</a></li>
 
 </ul>
 </dd>
@@ -399,6 +401,27 @@ n <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</sp
 <span class="c1"># =&gt; &quot;C = JP, ST = Kanagawa, L = Yokohama, O = Example Company, OU = Lab3, CN = foobar, emailAddress = foobar@lab3.example.co.jp&quot;
 </span><span class="nb">p</span> n<span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Name</span><span class="o">::</span><span class="no">MULTILINE</span><span class="p">)</span>
 <span class="c1"># =&gt; &quot;countryName               = JP\nstateOrProvinceName       = Kanagawa\nlocalityName              = Yokohama\norganizationName          = Example Company\norganizationalUnitName    = Lab3\ncommonName                = foobar\nemailAddress              = foobar@lab3.example.co.jp&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_UTF8"><code>to_utf8 -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aX509=3a=3aName/i/to_utf8.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/X509/Name.html#method-i-to_utf8">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/X509__Name.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+識別名(Distinguished Name)を UTF-8 の文字列で返します。
+</p>
+<p>
+<a class="external" href="https://tools.ietf.org/html/rfc2253">[RFC2253]</a> で定められた形式で、<a href="../method/OpenSSL=3a=3aX509=3a=3aName/i/to_s.html">OpenSSL::X509::Name#to_s</a> に <a href="../method/OpenSSL=3a=3aX509=3a=3aName/c/RFC2253.html">OpenSSL::X509::Name::RFC2253</a> を渡した場合と同様の書式になりますが、返される文字列のエンコーディングは常に UTF-8 になります。
+</p>
+<p>
+<a href="../method/OpenSSL=3a=3aX509=3a=3aName/i/to_s.html">OpenSSL::X509::Name#to_s</a> の利用は推奨されていないため、代わりにこのメソッドを使ってください。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">openssl</span><span class="s2">"</span>
+
+n <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Name</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'/C=JP/ST=Kanagawa/L=Yokohama/O=Example Company/OU=Lab3/CN=foobar/emailAddress=foobar@lab3.example.co.jp'</span><span class="p">)</span>
+<span class="nb">p</span> n<span class="p">.</span><span class="nf">to_utf8</span>
+<span class="c1"># =&gt; &quot;emailAddress=foobar@lab3.example.co.jp,CN=foobar,OU=Lab3,O=Example Company,L=Yokohama,ST=Kanagawa,C=JP&quot;
 </span></code></pre>
 </dd>
 

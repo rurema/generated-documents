@@ -223,7 +223,19 @@ decrypted_data <span class="o">&lt;&lt;</span> dec<span class="p">.</span><span 
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_AUTH_DATA--3D">auth_data=</a></li>
+
+<li><a href="#I_AUTH_TAG">auth_tag</a></li>
+
+<li><a href="#I_AUTH_TAG">auth_tag=</a></li>
+
+<li><a href="#I_AUTH_TAG_LEN--3D">auth_tag_len=</a></li>
+
+<li><a href="#I_AUTHENTICATED--3F">authenticated?</a></li>
+
 <li><a href="#I_BLOCK_SIZE">block_size</a></li>
+
+<li><a href="#I_CCM_DATA_LEN--3D">ccm_data_len=</a></li>
 
 <li><a href="#I_DECRYPT">decrypt</a></li>
 
@@ -234,6 +246,8 @@ decrypted_data <span class="o">&lt;&lt;</span> dec<span class="p">.</span><span 
 <li><a href="#I_IV--3D">iv=</a></li>
 
 <li><a href="#I_IV_LEN">iv_len</a></li>
+
+<li><a href="#I_IV_LEN--3D">iv_len=</a></li>
 
 <li><a href="#I_KEY--3D">key=</a></li>
 
@@ -320,11 +334,120 @@ decrypted_data <span class="o">&lt;&lt;</span> dec<span class="p">.</span><span 
 <h2>インスタンスメソッド</h2>
 <dl>
 
+<dt class="method-heading" id="I_AUTH_DATA--3D"><code>auth_data=(data)</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aCipher/i/auth_data=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/Cipher.html#method-i-auth_data-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/Cipher.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+認証付き暗号(AEAD)の追加認証データ(AAD、associated data とも呼ばれます)を設定します。
+</p>
+<p>
+このデータ自体は暗号化されませんが、認証タグの計算に含まれ、暗号文の完全性の検証に使われます。
+</p>
+<p>
+このメソッドは <a href="../method/OpenSSL=3a=3aCipher/i/key=3d.html">OpenSSL::Cipher#key=</a> と <a href="../method/OpenSSL=3a=3aCipher/i/iv=3d.html">OpenSSL::Cipher#iv=</a> を呼んだ後、<a href="../method/OpenSSL=3a=3aCipher/i/update.html">OpenSSL::Cipher#update</a> で暗号化・復号を始める前に呼ぶ必要があります。暗号モードによっては、その前に <code>auth_tag_len=</code> や <code>ccm_data_len=</code> の呼び出しが必要になることもあります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>data</code>:</dt>
+<dd>
+追加認証データ
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::Cipher::CipherError</code>:</dt>
+<dd>
+AEAD に対応していない暗号で呼び出した場合に発生します
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_AUTH_TAG"><code>auth_tag(tag_len = 16) -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aCipher/i/auth_tag.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/Cipher.html#method-i-auth_tag">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/Cipher.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>auth_tag=(string)</code></dt>
+<dd class="method-description">
+<p>
+認証付き暗号(AEAD)の認証タグを取得・設定します。
+</p>
+<p>
+<code>auth_tag</code> は <a href="../method/OpenSSL=3a=3aCipher/i/final.html">OpenSSL::Cipher#final</a> で暗号化を確定させた後に呼び出し、生成された認証タグを取得します。返り値は tag_len バイトの文字列です。暗号モードによっては、暗号化を始める前に <code>auth_tag_len=</code> で長さをあらかじめ指定しておく必要があります。
+</p>
+<p>
+<code>auth_tag=</code> は、復号時に暗号文の完全性を検証するための認証タグを設定します。<a href="../method/OpenSSL=3a=3aCipher/i/final.html">OpenSSL::Cipher#final</a> を呼ぶ前に設定しておく必要があります。CCM モードや OCB モードでは、復号を始める前に <code>auth_tag_len=</code> でタグの長さを設定しておく必要があります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>tag_len</code>:</dt>
+<dd>
+取得する認証タグの長さ(バイト数)
+</dd>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+設定する認証タグ
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::Cipher::CipherError</code>:</dt>
+<dd>
+この暗号方式が認証タグに対応していない場合に発生します
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_AUTH_TAG_LEN--3D"><code>auth_tag_len=(integer)</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aCipher/i/auth_tag_len=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/Cipher.html#method-i-auth_tag_len-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/Cipher.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+認証付き暗号(AEAD)で生成される認証タグの長さを設定します。
+</p>
+<p>
+CCM モードや OCB モードなど、暗号化・復号を始める前にタグの長さを指定しておく必要がある一部の AEAD 暗号で使います。CCM モードと OCB モードでは、<a href="../method/OpenSSL=3a=3aCipher/i/iv=3d.html">OpenSSL::Cipher#iv=</a> を設定するより前にこのメソッドを呼び出す必要があります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>integer</code>:</dt>
+<dd>
+認証タグの長さ(バイト数)
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::Cipher::CipherError</code>:</dt>
+<dd>
+AEAD に対応していない暗号で呼び出した場合に発生します
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aCipher/i/auth_tag.html">OpenSSL::Cipher#auth_tag</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_AUTHENTICATED--3F"><code>authenticated? -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aCipher/i/authenticated=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/Cipher.html#method-i-authenticated-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/Cipher.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が認証付き暗号(AEAD)のモードであれば true を返します。
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_BLOCK_SIZE"><code>block_size -&gt; Integer</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aCipher/i/block_size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/Cipher.html#method-i-block_size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/Cipher.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 暗号化のブロックのサイズをバイト数で返します。
 </p>
+</dd>
+
+
+<dt class="method-heading" id="I_CCM_DATA_LEN--3D"><code>ccm_data_len=(integer)</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aCipher/i/ccm_data_len=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/Cipher.html#method-i-ccm_data_len-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/Cipher.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+CCM モードで、<a href="../method/OpenSSL=3a=3aCipher/i/update.html">OpenSSL::Cipher#update</a> が処理する平文・暗号文全体の長さを設定します。
+</p>
+<p>
+<a href="../method/OpenSSL=3a=3aCipher/i/key=3d.html">OpenSSL::Cipher#key=</a> と <a href="../method/OpenSSL=3a=3aCipher/i/iv=3d.html">OpenSSL::Cipher#iv=</a> を設定した後、<code>auth_data=</code> や <a href="../method/OpenSSL=3a=3aCipher/i/update.html">OpenSSL::Cipher#update</a> を呼ぶより前に呼び出してください。
+</p>
+<p>
+CCM モードの暗号でのみ使用できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>integer</code>:</dt>
+<dd>
+処理するデータ全体の長さ(バイト数)
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::Cipher::CipherError</code>:</dt>
+<dd>
+設定に失敗した場合に発生します
+</dd>
+</dl>
 </dd>
 
 
@@ -415,6 +538,30 @@ IV文字列
 <dd class="method-description">
 <p>
 必要な IV(Initialization Vector) の長さをバイト数で返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_IV_LEN--3D"><code>iv_len=(integer)</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aCipher/i/iv_len=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/Cipher.html#method-i-iv_len-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/Cipher.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+認証付き暗号(AEAD)で、IV(nonce)の長さを変更します。
+</p>
+<p>
+可変長の IV に対応した AEAD 暗号において、OpenSSL のデフォルトと異なる長さの IV を使いたい場合に、<a href="../method/OpenSSL=3a=3aCipher/i/iv=3d.html">OpenSSL::Cipher#iv=</a> を呼ぶ前に使用します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>integer</code>:</dt>
+<dd>
+IV の長さ(バイト数)
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::Cipher::CipherError</code>:</dt>
+<dd>
+AEAD に対応していない暗号で呼び出した場合に発生します
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aCipher/i/iv_len.html">OpenSSL::Cipher#iv_len</a>
 </p>
 </dd>
 

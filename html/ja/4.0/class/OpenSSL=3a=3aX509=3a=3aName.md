@@ -20,6 +20,7 @@ eql? と hash が定義されているため、[Hash](../class/Hash.md) のキ�
 - [to_a](../method/OpenSSL=3a=3aX509=3a=3aName/i/to_a.md)
 - [to_der](../method/OpenSSL=3a=3aX509=3a=3aName/i/to_der.md)
 - [to_s](../method/OpenSSL=3a=3aX509=3a=3aName/i/to_s.md)
+- [to_utf8](../method/OpenSSL=3a=3aX509=3a=3aName/i/to_utf8.md)
 
 ## Constants
 

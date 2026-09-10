@@ -1,0 +1,34 @@
+names=console_input_events
+visibility=public
+kind=added
+source_location=manual/api/io/console.md
+since_by_name=console_input_events=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def console_input_events(max_events = 1, timeout: nil) -> [{Symbol => object}]
+
+コンソールの入力イベントを、発生順を保ったまま最大 max_events 件読み込んで返します。
+
+少なくとも 1 件のイベントを読み込めるまでブロックします。 timeout を指定した場合、
+その秒数が経過してもイベントを読み込めなかったときは空の配列を返します。
+
+戻り値の配列の各要素は、1 件のイベントの情報を持つハッシュです。 `:type` キーの値に
+よって、残りのキーの構成が変わります。
+
+- `:key` -- `:key_down`、`:repeat_count`、`:virtual_key_code`、`:virtual_scan_code`、
+  `:unicode_char`、`:control_key_state` を持ちます。
+- `:mouse` -- `:position` ([行, 列])、`:button_state`、`:control_key_state`、
+  `:event_flags` を持ちます。
+- `:window_buffer_size` -- `:size` ([行, 列]) を持ちます。
+- `:menu` -- `:command_id` を持ちます。
+- `:focus` -- `:set_focus` を持ちます。
+
+このメソッドは Windows でのみ使用できます。
+
+- **param** `max_events` -- 読み込むイベントの最大件数です。省略した場合は 1 です。
+- **param** `timeout` -- タイムアウトするまでの秒数です。省略した場合はタイムアウトしません。
+- **raise** `ArgumentError` -- max_events に 0 を指定した場合に発生します。
+- **raise** `NotImplementedError` -- Windows 以外の環境で発生します。
+
+

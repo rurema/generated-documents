@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/IO=3a=3aConsoleMode.html">
+
+<title>class IO::ConsoleMode (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="端末の入出力モードを表すクラスです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-3.3.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/io=2fconsole.html","name":"io/consoleライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/IO=3a=3aConsoleMode.html","name":"IO::ConsoleModeクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/io=2fconsole.html">io/consoleライブラリ</a>
+      </li>
+      <li>
+        IO::ConsoleModeクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class IO::ConsoleMode</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/console.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        IO::ConsoleMode
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+端末の入出力モードを表すクラスです。
+</p>
+<p>
+現在のモードは <a href="../method/IO/i/console_mode.html">IO#console_mode</a> で取得します。<code>new</code> でインスタンスを作ることはできません。取得したモードは <code>dup</code> でコピーできます。
+</p>
+<p>
+このクラスのメソッドは <code>self</code> が保持するモードの値を変更するだけで、端末には反映されません。変更したモードを端末に反映するには <a href="../method/IO/i/console_mode=3d.html">IO#console_mode=</a> に渡してください。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">io/console</span><span class="s2">"</span>
+mode <span class="o">=</span> <span class="no">STDIN</span><span class="p">.</span><span class="nf">console_mode</span>
+noecho <span class="o">=</span> mode<span class="p">.</span><span class="nf">dup</span>
+noecho<span class="p">.</span><span class="nf">echo</span> <span class="o">=</span> <span class="k">false</span>
+<span class="no">STDIN</span><span class="p">.</span><span class="nf">console_mode</span> <span class="o">=</span> noecho  <span class="c1"># エコーバックを無効にする
+</span><span class="k">begin</span>
+  password <span class="o">=</span> <span class="no">STDIN</span><span class="p">.</span><span class="nf">gets</span>
+<span class="k">ensure</span>
+  <span class="no">STDIN</span><span class="p">.</span><span class="nf">console_mode</span> <span class="o">=</span> mode  <span class="c1"># 元に戻す
+</span><span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/console_mode.html">IO#console_mode</a>, <a href="../method/IO/i/console_mode=3d.html">IO#console_mode=</a>
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_ECHO--3D">echo=</a></li>
+
+<li><a href="#I_RAW">raw</a></li>
+
+<li><a href="#I_RAW--21">raw!</a></li>
+
+</ul>
+</dd>
+
+<dt>定数</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#C_-V-E-R-S-I-O-N">VERSION</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ECHO--3D"><code>echo=(flag)</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.1 で削除</span><span class="permalink">[<a href="../method/IO=3a=3aConsoleMode/i/echo=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/ConsoleMode.html#method-i-echo-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/console.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+文字入力時のエコーバックを有効にするかどうかを <code>self</code> に設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>flag</code>:</dt>
+<dd>
+真を指定した場合はエコーバックを有効に、偽を指定した場合は無効にします。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/echo=3d.html">IO#echo=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_RAW"><code>raw(min: 1, time: 0, intr: false) -&gt; IO::ConsoleMode</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.1 で削除</span><span class="permalink">[<a href="../method/IO=3a=3aConsoleMode/i/raw.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/ConsoleMode.html#method-i-raw">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/console.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> を raw モードに変更したコピーを返します。<code>self</code> は変更しません。
+</p>
+<p>
+キーワード引数の意味は <a href="../method/IO/i/raw.html">IO#raw</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>min</code>:</dt>
+<dd>
+入力操作 (read) 時に受信したい最小のバイト数を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>time</code>:</dt>
+<dd>
+タイムアウトするまでの秒数を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>intr</code>:</dt>
+<dd>
+true を指定した場合は、割り込み (interrupt) 、中止 (quit) 、停止 (suspend) の各シグナルを生成する制御文字が有効になります。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+intr に true または false 以外の値を指定した場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/raw.html">IO#raw</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_RAW--21"><code>raw!(min: 1, time: 0, intr: false) -&gt; self</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.1 で削除</span><span class="permalink">[<a href="../method/IO=3a=3aConsoleMode/i/raw=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/ConsoleMode.html#method-i-raw-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/console.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> を raw モードに変更します。
+</p>
+<p>
+キーワード引数の意味は <a href="../method/IO/i/raw.html">IO#raw</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>min</code>:</dt>
+<dd>
+入力操作 (read) 時に受信したい最小のバイト数を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>time</code>:</dt>
+<dd>
+タイムアウトするまでの秒数を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>intr</code>:</dt>
+<dd>
+true を指定した場合は、割り込み (interrupt) 、中止 (quit) 、停止 (suspend) の各シグナルを生成する制御文字が有効になります。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+intr に true または false 以外の値を指定した場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/raw=21.html">IO#raw!</a>
+</p>
+</dd>
+
+
+</dl>
+
+<h2>定数</h2>
+<dl>
+
+<dt class="method-heading" id="C_-V-E-R-S-I-O-N"><code>VERSION -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.1 で削除</span><span class="permalink">[<a href="../method/IO=3a=3aConsoleMode/c/VERSION.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/IO/ConsoleMode.html#method-c-VERSION">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/console.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+io/console ライブラリのバージョンを表す文字列です。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/io/console.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

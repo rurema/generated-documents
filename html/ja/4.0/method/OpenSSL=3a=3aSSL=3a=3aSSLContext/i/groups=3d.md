@@ -1,0 +1,23 @@
+# OpenSSL::SSL::SSLContext#groups=
+
+### def ecdh_curves=(groups_list)
+### def groups=(groups_list)
+
+鍵共有(キー交換)に用いるグループの一覧をコロン区切りの文字列で設定します。
+
+TLS クライアントの場合、この一覧はそのまま "supported_groups" 拡張に使われます。TLS サーバの場合、OpenSSL が共有可能なグループの集合を決定するために使われ、その中から最も適切なものを選択します。
+
+`ecdh_curves=` は `groups=` の非推奨の別名です。
+
+
+```ruby title="例"
+require 'openssl'
+ctx1 = OpenSSL::SSL::SSLContext.new
+ctx1.ecdh_curves = "X25519:P-256:P-224"
+
+ctx2 = OpenSSL::SSL::SSLContext.new
+ctx2.ecdh_curves = "P-256"
+```
+
+- **param** `groups_list` -- コロン区切りのグループ名の文字列(例 `"X25519:P-256:P-224"`)
+- **raise** `OpenSSL::SSL::SSLError` -- 設定に失敗した場合に発生します

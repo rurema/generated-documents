@@ -1,0 +1,19 @@
+# OpenSSL::PKey::PKey#compare?
+
+### def compare?(other) -> bool
+
+`self` と other が同じ鍵かどうかを比較します。
+
+主に [OpenSSL::X509::Certificate#public_key](../../../method/OpenSSL=3a=3aX509=3a=3aCertificate/i/public_key.md) が返す公開鍵と、対応する秘密鍵を比較する際に使います。
+
+- **param** `other` -- 比較対象の [OpenSSL::PKey::PKey](../../../class/OpenSSL=3a=3aPKey=3a=3aPKey.md) オブジェクト
+- **return** -- `self` と other のアルゴリズムの種類、パラメータ、公開鍵が一致すれば true、一致しなければ false
+- **raise** `TypeError` -- `self` と other のアルゴリズムの種類が異なる場合に発生します
+- **raise** `OpenSSL::PKey::PKeyError` -- 比較の実行に失敗した場合に発生します
+
+```ruby
+require "openssl"
+rsa_key = OpenSSL::PKey::RSA.generate(2048)
+copy = OpenSSL::PKey.read(rsa_key.public_to_der)
+p rsa_key.compare?(copy) # => true
+```

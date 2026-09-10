@@ -1,0 +1,28 @@
+names=tmp_dh=
+visibility=public
+kind=defined
+source_location=manual/api/openssl/SSL__SSLContext.md
+since_by_name=tmp_dh=3d=3.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def tmp_dh=(pkey)
+
+一時的 DH 鍵交換で使う DH パラメータを設定します。サーバ側でのみ意味を持ちます。
+
+`pkey` には [c:OpenSSL::PKey::DH] のインスタンスを指定します。このオブジェクトが保持している鍵の成分があっても無視され、サーバはハンドシェイクのたびに新しい鍵ペアを生成します。
+
+[m:OpenSSL::SSL::SSLContext#tmp_dh_callback=] よりもこちらの利用が推奨されます。
+
+```ruby invalid
+ctx = OpenSSL::SSL::SSLContext.new
+ctx.tmp_dh = OpenSSL::PKey::DH.generate(2048)
+svr = OpenSSL::SSL::SSLServer.new(tcp_svr, ctx)
+Thread.new { svr.accept }
+```
+
+- **param** `pkey` -- 一時的 DH 鍵交換で使う DH パラメータ([c:OpenSSL::PKey::DH] のインスタンス)
+- **raise** `OpenSSL::SSL::SSLError` -- `pkey` が DH 鍵でない場合や、設定に失敗した場合に発生します
+- **SEE** [m:OpenSSL::SSL::SSLContext#tmp_dh_callback=]
+
+

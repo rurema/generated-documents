@@ -51,6 +51,7 @@ S/MIME には以下の種類のメッセージがあります
 - [to_der](../method/OpenSSL=3a=3aPKCS7/i/to_der.md)
 - [to_pem](../method/OpenSSL=3a=3aPKCS7/i/to_pem.md)
 - [to_s](../method/OpenSSL=3a=3aPKCS7/i/to_s.md)
+- [to_text](../method/OpenSSL=3a=3aPKCS7/i/to_text.md)
 - [type](../method/OpenSSL=3a=3aPKCS7/i/type.md)
 - [type=](../method/OpenSSL=3a=3aPKCS7/i/type=3d.md)
 - [verify](../method/OpenSSL=3a=3aPKCS7/i/verify.md)

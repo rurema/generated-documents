@@ -86,12 +86,19 @@ p decrypted_data
 
 ## Instance Methods
 
+- [auth_data=](../method/OpenSSL=3a=3aCipher/i/auth_data=3d.md)
+- [auth_tag](../method/OpenSSL=3a=3aCipher/i/auth_tag.md)
+- [auth_tag=](../method/OpenSSL=3a=3aCipher/i/auth_tag=3d.md)
+- [auth_tag_len=](../method/OpenSSL=3a=3aCipher/i/auth_tag_len=3d.md)
+- [authenticated?](../method/OpenSSL=3a=3aCipher/i/authenticated=3f.md)
 - [block_size](../method/OpenSSL=3a=3aCipher/i/block_size.md)
+- [ccm_data_len=](../method/OpenSSL=3a=3aCipher/i/ccm_data_len=3d.md)
 - [decrypt](../method/OpenSSL=3a=3aCipher/i/decrypt.md)
 - [encrypt](../method/OpenSSL=3a=3aCipher/i/encrypt.md)
 - [final](../method/OpenSSL=3a=3aCipher/i/final.md)
 - [iv=](../method/OpenSSL=3a=3aCipher/i/iv=3d.md)
 - [iv_len](../method/OpenSSL=3a=3aCipher/i/iv_len.md)
+- [iv_len=](../method/OpenSSL=3a=3aCipher/i/iv_len=3d.md)
 - [key=](../method/OpenSSL=3a=3aCipher/i/key=3d.md)
 - [key_len](../method/OpenSSL=3a=3aCipher/i/key_len.md)
 - [key_len=](../method/OpenSSL=3a=3aCipher/i/key_len=3d.md)

@@ -15,5 +15,6 @@ OCSP リクエストを表すクラスです。
 - [certid](../method/OpenSSL=3a=3aOCSP=3a=3aRequest/i/certid.md)
 - [check_nonce](../method/OpenSSL=3a=3aOCSP=3a=3aRequest/i/check_nonce.md)
 - [sign](../method/OpenSSL=3a=3aOCSP=3a=3aRequest/i/sign.md)
+- [signed?](../method/OpenSSL=3a=3aOCSP=3a=3aRequest/i/signed=3f.md)
 - [to_der](../method/OpenSSL=3a=3aOCSP=3a=3aRequest/i/to_der.md)
 - [verify](../method/OpenSSL=3a=3aOCSP=3a=3aRequest/i/verify.md)

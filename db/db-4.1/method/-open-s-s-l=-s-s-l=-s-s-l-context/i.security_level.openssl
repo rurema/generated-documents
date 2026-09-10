@@ -1,0 +1,22 @@
+names=security_level,security_level=
+visibility=public
+kind=defined
+source_location=manual/api/openssl/SSL__SSLContext.md
+since_by_name=security_level=3.0,security_level=3d=3.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def security_level -> Integer
+### def security_level=(level)
+
+コンテキストのセキュリティレベルを取得・設定します。
+
+OpenSSL はこのレベルに応じて暗号スイート、楕円曲線・グループ、鍵長、証明書の署名アルゴリズム、プロトコルバージョンなどのパラメータを制限します。例えばレベル 1 では、MAC に MD5 を使う暗号スイートや 1024 ビット未満の RSA 鍵など、80 ビット未満のセキュリティ強度しか持たないパラメータが拒否されます。
+
+すでに設定されているパラメータがそのレベルの基準を満たさない場合、レベルの引き上げも拒否されることに注意してください。その場合は先にレベルを下げる必要があります。
+
+OpenSSL 1.1.0 未満ではこの機能はサポートされておらず、0 以外の値を設定しようとすると `NotImplementedError` が発生します。レベル 0 はすべてのパラメータを許可することを意味し、これは以前のバージョンの OpenSSL と同じ動作です。
+
+- **param** `level` -- 設定するセキュリティレベル(整数)
+- **raise** `NotImplementedError` -- OpenSSL 1.1.0 未満で 0 以外の値を設定しようとした場合に発生します
+

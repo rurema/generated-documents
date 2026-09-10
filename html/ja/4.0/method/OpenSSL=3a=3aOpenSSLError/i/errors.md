@@ -1,0 +1,9 @@
+# OpenSSL::OpenSSLError#errors
+
+### def errors -> [String]
+
+例外が発生した時点で OpenSSL のエラーキューに残っていたエラー文字列の配列を返します。
+
+配列の要素は文字列で、古いものから新しいものの順に並んでいます。書式は OpenSSL 本体やこのライブラリのバージョンによって変わることがあります。
+
+[OpenSSL?.debug](../../../method/OpenSSL/m/debug.md) を true にしておくと、同じ内容が標準エラー出力にも出力されます。
