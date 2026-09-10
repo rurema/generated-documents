@@ -1,0 +1,26 @@
+names=alpn_protocols,alpn_protocols=
+visibility=public
+kind=defined
+source_location=manual/api/openssl/SSL__SSLContext.md
+since_by_name=alpn_protocols=3.0,alpn_protocols=3d=3.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def alpn_protocols -> [String] | nil
+### def alpn_protocols=(protocols)
+
+Application-Layer Protocol Negotiation(ALPN)で通知するプロトコル名の一覧を取得・設定します。
+
+`alpn_protocols=` で設定した文字列の配列がハンドシェイク時に ALPN 拡張として送信されます。クライアント側で設定するものであり、サーバ側で設定しても効果はありません。設定しなかった場合、ハンドシェイクに ALPN 拡張は含まれません。
+
+サーバ側でクライアントが提示したプロトコルから選択するには [m:OpenSSL::SSL::SSLContext#alpn_select_cb=] を使います。
+
+```ruby title="例"
+require 'openssl'
+ctx = OpenSSL::SSL::SSLContext.new
+ctx.alpn_protocols = ["http/1.1", "spdy/2", "h2"]
+```
+
+- **param** `protocols` -- 通知するプロトコル名の文字列の配列
+- **SEE** [m:OpenSSL::SSL::SSLContext#alpn_select_cb=], [m:OpenSSL::SSL::SSLSocket#alpn_protocol]
+

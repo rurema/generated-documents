@@ -26,6 +26,7 @@ puts digest.hexdigest
 ## Class Methods
 
 - [digest](../method/OpenSSL=3a=3aDigest/s/digest.md)
+- [digests](../method/OpenSSL=3a=3aDigest/s/digests.md)
 - [new](../method/OpenSSL=3a=3aDigest/s/new.md)
 
 ## Instance Methods

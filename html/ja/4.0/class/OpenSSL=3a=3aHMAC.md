@@ -13,6 +13,7 @@ HMAC は[RFC:2104] で定義されています。
 
 ## Class Methods
 
+- [base64digest](../method/OpenSSL=3a=3aHMAC/s/base64digest.md)
 - [digest](../method/OpenSSL=3a=3aHMAC/s/digest.md)
 - [hexdigest](../method/OpenSSL=3a=3aHMAC/s/hexdigest.md)
 - [new](../method/OpenSSL=3a=3aHMAC/s/new.md)
@@ -21,6 +22,7 @@ HMAC は[RFC:2104] で定義されています。
 
 - [<<](../method/OpenSSL=3a=3aHMAC/i/=3c=3c.md)
 - [update](../method/OpenSSL=3a=3aHMAC/i/update.md)
+- [base64digest](../method/OpenSSL=3a=3aHMAC/i/base64digest.md)
 - [digest](../method/OpenSSL=3a=3aHMAC/i/digest.md)
 - [hexdigest](../method/OpenSSL=3a=3aHMAC/i/hexdigest.md)
 - [inspect](../method/OpenSSL=3a=3aHMAC/i/inspect.md)

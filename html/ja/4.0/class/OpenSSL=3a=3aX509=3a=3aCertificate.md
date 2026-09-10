@@ -6,6 +6,7 @@ X509 証明書クラス
 
 ## Class Methods
 
+- [load_file](../method/OpenSSL=3a=3aX509=3a=3aCertificate/s/load_file.md)
 - [new](../method/OpenSSL=3a=3aX509=3a=3aCertificate/s/new.md)
 
 ## Instance Methods
@@ -28,6 +29,7 @@ X509 証明書クラス
 - [signature_algorithm](../method/OpenSSL=3a=3aX509=3a=3aCertificate/i/signature_algorithm.md)
 - [subject](../method/OpenSSL=3a=3aX509=3a=3aCertificate/i/subject.md)
 - [subject=](../method/OpenSSL=3a=3aX509=3a=3aCertificate/i/subject=3d.md)
+- [tbs_bytes](../method/OpenSSL=3a=3aX509=3a=3aCertificate/i/tbs_bytes.md)
 - [to_der](../method/OpenSSL=3a=3aX509=3a=3aCertificate/i/to_der.md)
 - [to_pem](../method/OpenSSL=3a=3aX509=3a=3aCertificate/i/to_pem.md)
 - [to_s](../method/OpenSSL=3a=3aX509=3a=3aCertificate/i/to_s.md)

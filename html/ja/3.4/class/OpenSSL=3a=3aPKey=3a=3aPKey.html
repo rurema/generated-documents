@@ -148,9 +148,37 @@ data <span class="o">=</span> <span class="s1">'hoge'</span>
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_COMPARE--3F">compare?</a></li>
+
+<li><a href="#I_DECRYPT">decrypt</a></li>
+
+<li><a href="#I_DERIVE">derive</a></li>
+
+<li><a href="#I_ENCRYPT">encrypt</a></li>
+
+<li><a href="#I_OID">oid</a></li>
+
+<li><a href="#I_PRIVATE_TO_DER">private_to_der</a></li>
+
+<li><a href="#I_PRIVATE_TO_PEM">private_to_pem</a></li>
+
+<li><a href="#I_PUBLIC_TO_DER">public_to_der</a></li>
+
+<li><a href="#I_PUBLIC_TO_PEM">public_to_pem</a></li>
+
+<li><a href="#I_RAW_PRIVATE_KEY">raw_private_key</a></li>
+
+<li><a href="#I_RAW_PUBLIC_KEY">raw_public_key</a></li>
+
 <li><a href="#I_SIGN">sign</a></li>
 
+<li><a href="#I_SIGN_RAW">sign_raw</a></li>
+
 <li><a href="#I_VERIFY">verify</a></li>
+
+<li><a href="#I_VERIFY_RAW">verify_raw</a></li>
+
+<li><a href="#I_VERIFY_RECOVER">verify_recover</a></li>
 
 </ul>
 </dd>
@@ -168,6 +196,274 @@ data <span class="o">=</span> <span class="s1">'hoge'</span>
 
 <h2>インスタンスメソッド</h2>
 <dl>
+
+<dt class="method-heading" id="I_COMPARE--3F"><code>compare?(other) -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/compare=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-compare-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> と other が同じ鍵かどうかを比較します。
+</p>
+<p>
+主に <a href="../method/OpenSSL=3a=3aX509=3a=3aCertificate/i/public_key.html">OpenSSL::X509::Certificate#public_key</a> が返す公開鍵と、対応する秘密鍵を比較する際に使います。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>other</code>:</dt>
+<dd>
+比較対象の <a href="../class/OpenSSL=3a=3aPKey=3a=3aPKey.html">OpenSSL::PKey::PKey</a> オブジェクト
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+<code>self</code> と other のアルゴリズムの種類、パラメータ、公開鍵が一致すれば true、一致しなければ false
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+<code>self</code> と other のアルゴリズムの種類が異なる場合に発生します
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::PKeyError</code>:</dt>
+<dd>
+比較の実行に失敗した場合に発生します
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">openssl</span><span class="s2">"</span>
+rsa_key <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKey</span><span class="o">::</span><span class="no">RSA</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="mi">2048</span><span class="p">)</span>
+copy <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKey</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>rsa_key<span class="p">.</span><span class="nf">public_to_der</span><span class="p">)</span>
+<span class="nb">p</span> rsa_key<span class="p">.</span><span class="nf">compare?</span><span class="p">(</span>copy<span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_DECRYPT"><code>decrypt(data) -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/decrypt.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-decrypt">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>decrypt(data, options) -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の秘密鍵の部分を使って data を復号します。
+</p>
+<p>
+暗号化のパラメータの詳細と使用例は <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/encrypt.html">OpenSSL::PKey::PKey#encrypt</a> を参照してください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>data</code>:</dt>
+<dd>
+復号する文字列
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/encrypt.html">OpenSSL::PKey::PKey#encrypt</a> を参照してください
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+復号されたデータの文字列
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::PKeyError</code>:</dt>
+<dd>
+復号に失敗した場合に発生します
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/encrypt.html">OpenSSL::PKey::PKey#encrypt</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DERIVE"><code>derive(peer_pkey) -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/derive.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-derive">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> と peer_pkey から共有の秘密鍵を導出します。
+</p>
+<p>
+<code>self</code> は秘密鍵の部分を、peer_pkey は公開鍵の部分を含んでいる必要があります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>peer_pkey</code>:</dt>
+<dd>
+相手の公開鍵を含む <a href="../class/OpenSSL=3a=3aPKey=3a=3aPKey.html">OpenSSL::PKey::PKey</a> オブジェクト
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+導出された共有の秘密鍵の文字列
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::PKeyError</code>:</dt>
+<dd>
+導出に失敗した場合に発生します
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_ENCRYPT"><code>encrypt(data) -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/encrypt.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-encrypt">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>encrypt(data, options) -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の公開鍵の部分を使って data を暗号化します。
+</p>
+<p>
+復号には <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/decrypt.html">OpenSSL::PKey::PKey#decrypt</a> を使います。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>data</code>:</dt>
+<dd>
+暗号化する文字列
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+OpenSSL に渡すアルゴリズム固有の制御用オプションを指定するハッシュです(省略可)。指定できる内容は OpenSSL のマニュアル <code>EVP_PKEY_CTX_ctrl_str(3)</code> を参照してください
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+暗号化されたデータの文字列
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::PKeyError</code>:</dt>
+<dd>
+暗号化に失敗した場合に発生します
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/decrypt.html">OpenSSL::PKey::PKey#decrypt</a>
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">openssl</span><span class="s2">"</span>
+pkey <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKey</span><span class="p">.</span><span class="nf">generate_key</span><span class="p">(</span><span class="s2">"</span><span class="s2">RSA</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">rsa_keygen_bits</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">2048</span><span class="p">)</span>
+data <span class="o">=</span> <span class="s2">"</span><span class="s2">secret data</span><span class="s2">"</span>
+encrypted <span class="o">=</span> pkey<span class="p">.</span><span class="nf">encrypt</span><span class="p">(</span>data, <span class="ss">rsa_padding_mode:</span> <span class="s2">"</span><span class="s2">oaep</span><span class="s2">"</span><span class="p">)</span>
+decrypted <span class="o">=</span> pkey<span class="p">.</span><span class="nf">decrypt</span><span class="p">(</span>encrypted, <span class="ss">rsa_padding_mode:</span> <span class="s2">"</span><span class="s2">oaep</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> decrypted <span class="c1"># =&gt; &quot;secret data&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_OID"><code>oid -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/oid.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-oid">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> に関連付けられた OID のショートネームを返します。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">openssl</span><span class="s2">"</span>
+rsa_key <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKey</span><span class="o">::</span><span class="no">RSA</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="mi">2048</span><span class="p">)</span>
+<span class="nb">p</span> rsa_key<span class="p">.</span><span class="nf">oid</span> <span class="c1"># =&gt; &quot;rsaEncryption&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_PRIVATE_TO_DER"><code>private_to_der -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/private_to_der.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-private_to_der">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>private_to_der(cipher, password) -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+秘密鍵を DER 形式の PKCS #8 形式にシリアライズします。
+</p>
+<p>
+引数なしで呼び出した場合は、暗号化されていない PKCS #8 PrivateKeyInfo 形式を使います。cipher と password を指定して呼び出した場合は、PBES2 暗号化方式を使った PKCS #8 EncryptedPrivateKeyInfo 形式を使います。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>cipher</code>:</dt>
+<dd>
+秘密鍵を暗号化する暗号アルゴリズムの名前、または <a href="../class/OpenSSL=3a=3aCipher.html">OpenSSL::Cipher</a> オブジェクト
+</dd>
+<dt class='method-param'>[PARAM] <code>password</code>:</dt>
+<dd>
+暗号化に使うパスワード
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/private_to_pem.html">OpenSSL::PKey::PKey#private_to_pem</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRIVATE_TO_PEM"><code>private_to_pem -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/private_to_pem.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-private_to_pem">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>private_to_pem(cipher, password) -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+秘密鍵を PEM 形式の PKCS #8 形式にシリアライズします。
+</p>
+<p>
+暗号化されていない場合は &quot;-----BEGIN PRIVATE KEY-----&quot; で、暗号化されている場合は &quot;-----BEGIN ENCRYPTED PRIVATE KEY-----&quot; で始まる PEM データになります。
+</p>
+<p>
+詳細は <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/private_to_der.html">OpenSSL::PKey::PKey#private_to_der</a> を参照してください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>cipher</code>:</dt>
+<dd>
+<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/private_to_der.html">OpenSSL::PKey::PKey#private_to_der</a> を参照してください
+</dd>
+<dt class='method-param'>[PARAM] <code>password</code>:</dt>
+<dd>
+<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/private_to_der.html">OpenSSL::PKey::PKey#private_to_der</a> を参照してください
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/private_to_der.html">OpenSSL::PKey::PKey#private_to_der</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PUBLIC_TO_DER"><code>public_to_der -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/public_to_der.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-public_to_der">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+公開鍵を DER 形式の X.509 SubjectPublicKeyInfo 形式にシリアライズします。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::PKeyError</code>:</dt>
+<dd>
+公開鍵やパラメータの情報が無い場合などに発生します
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_PUBLIC_TO_PEM"><code>public_to_pem -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/public_to_pem.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-public_to_pem">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+公開鍵を PEM 形式の X.509 SubjectPublicKeyInfo 形式にシリアライズします。
+</p>
+<p>
+PEM データは &quot;-----BEGIN PUBLIC KEY-----&quot; で始まります。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::PKeyError</code>:</dt>
+<dd>
+公開鍵やパラメータの情報が無い場合などに発生します
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_RAW_PRIVATE_KEY"><code>raw_private_key -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/raw_private_key.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-raw_private_key">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の生の秘密鍵をバイト列で返します。
+</p>
+<p>
+X25519 や Ed25519 のように、raw private/public key 形式を使う公開鍵アルゴリズム向けのメソッドです。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::PKeyError</code>:</dt>
+<dd>
+取得に失敗した場合に発生します
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/raw_public_key.html">OpenSSL::PKey::PKey#raw_public_key</a>, <a href="../method/OpenSSL=3a=3aPKey/m/new_raw_private_key.html">OpenSSL::PKey.#new_raw_private_key</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_RAW_PUBLIC_KEY"><code>raw_public_key -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/raw_public_key.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-raw_public_key">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の生の公開鍵をバイト列で返します。
+</p>
+<p>
+X25519 や Ed25519 のように、raw private/public key 形式を使う公開鍵アルゴリズム向けのメソッドです。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::PKeyError</code>:</dt>
+<dd>
+取得に失敗した場合に発生します
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/raw_private_key.html">OpenSSL::PKey::PKey#raw_private_key</a>, <a href="../method/OpenSSL=3a=3aPKey/m/new_raw_public_key.html">OpenSSL::PKey.#new_raw_public_key</a>
+</p>
+</dd>
+
 
 <dt class="method-heading" id="I_SIGN"><code>sign(digest, data) -&gt; String</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-sign">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
 <dd class="method-description">
@@ -195,6 +491,44 @@ DSA で署名をする場合はハッシュ関数には &quot;dss1&quot; を指�
 署名時にエラーが起きた場合に発生します
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="I_SIGN_RAW"><code>sign_raw(digest, data) -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign_raw.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-sign_raw">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>sign_raw(digest, data, options) -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+秘密鍵の部分を使って data に署名します。<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign.html">OpenSSL::PKey::PKey#sign</a> と異なり、data はこのメソッドの中ではハッシュ化されません。
+</p>
+<p>
+検証には <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/verify_raw.html">OpenSSL::PKey::PKey#verify_raw</a> を使います。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>digest</code>:</dt>
+<dd>
+利用するメッセージダイジェストアルゴリズムの名前を表す文字列です。鍵の種類によってダイジェストアルゴリズムを必要としない場合は nil を指定します。このメソッドは data をハッシュ化しませんが、署名アルゴリズムによってはこの引数が必要になることがあります
+</dd>
+<dt class='method-param'>[PARAM] <code>data</code>:</dt>
+<dd>
+署名するデータの文字列
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+OpenSSL に渡すアルゴリズム固有の制御用オプションを指定するハッシュです(省略可)。指定できる内容は OpenSSL のマニュアル <code>EVP_PKEY_CTX_ctrl_str(3)</code> を参照してください
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/verify_raw.html">OpenSSL::PKey::PKey#verify_raw</a>
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">openssl</span><span class="s2">"</span>
+data <span class="o">=</span> <span class="s2">"</span><span class="s2">Sign me!</span><span class="s2">"</span>
+<span class="nb">hash</span> <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">Digest</span><span class="p">.</span><span class="nf">digest</span><span class="p">(</span><span class="s2">"</span><span class="s2">SHA256</span><span class="s2">"</span>, data<span class="p">)</span>
+pkey <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKey</span><span class="p">.</span><span class="nf">generate_key</span><span class="p">(</span><span class="s2">"</span><span class="s2">RSA</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">rsa_keygen_bits</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">2048</span><span class="p">)</span>
+signopts <span class="o">=</span> <span class="p">{</span> <span class="s2">"</span><span class="s2">rsa_padding_mode</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">pss</span><span class="s2">"</span> <span class="p">}</span>
+signature <span class="o">=</span> pkey<span class="p">.</span><span class="nf">sign_raw</span><span class="p">(</span><span class="s2">"</span><span class="s2">SHA256</span><span class="s2">"</span>, <span class="nb">hash</span>, signopts<span class="p">)</span>
+pub_key <span class="o">=</span> pkey<span class="p">.</span><span class="nf">public_key</span>
+<span class="nb">p</span> pub_key<span class="p">.</span><span class="nf">verify_raw</span><span class="p">(</span><span class="s2">"</span><span class="s2">SHA256</span><span class="s2">"</span>, signature, <span class="nb">hash</span>, signopts<span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
 </dd>
 
 
@@ -232,6 +566,77 @@ sign が正しい署名でなかった場合などは false を返します。
 <dt>[EXCEPTION] <code>OpenSSL::PKey::PKeyError</code>:</dt>
 <dd>
 検証時にエラーが起きた場合に発生します。正しい署名でなかった場合など、検証に失敗した場合はこの例外は発生しないことに注意してください
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_VERIFY_RAW"><code>verify_raw(digest, signature, data) -&gt; bool</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/verify_raw.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-verify_raw">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>verify_raw(digest, signature, data, options) -&gt; bool</code></dt>
+<dd class="method-description">
+<p>
+公開鍵の部分を使って、signature が data の署名として正しいかどうかを検証します。<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/verify.html">OpenSSL::PKey::PKey#verify</a> と異なり、data はこのメソッドの中ではハッシュ化されません。
+</p>
+<p>
+署名の生成には <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign_raw.html">OpenSSL::PKey::PKey#sign_raw</a> を使います。
+</p>
+<p>
+検証に成功した場合は true を、失敗した場合は false を返します。呼び出し側で返り値を確認する必要があります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>digest</code>:</dt>
+<dd>
+<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign_raw.html">OpenSSL::PKey::PKey#sign_raw</a> を参照してください
+</dd>
+<dt class='method-param'>[PARAM] <code>signature</code>:</dt>
+<dd>
+検証する署名の文字列
+</dd>
+<dt class='method-param'>[PARAM] <code>data</code>:</dt>
+<dd>
+検証対象のデータの文字列
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign_raw.html">OpenSSL::PKey::PKey#sign_raw</a> を参照してください
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+検証に成功すれば true、失敗すれば false
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign_raw.html">OpenSSL::PKey::PKey#sign_raw</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_VERIFY_RECOVER"><code>verify_recover(digest, signature) -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/verify_recover.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/OpenSSL/PKey/PKey.html#method-i-verify_recover">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__PKey.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>verify_recover(digest, signature, options) -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+公開鍵の部分を使って、signature から署名対象のデータを復元します。すべての署名アルゴリズムがこの操作に対応しているわけではありません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>digest</code>:</dt>
+<dd>
+<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign_raw.html">OpenSSL::PKey::PKey#sign_raw</a> を参照してください
+</dd>
+<dt class='method-param'>[PARAM] <code>signature</code>:</dt>
+<dd>
+検証する署名の文字列
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/OpenSSL=3a=3aPKey=3a=3aPKey/i/sign_raw.html">OpenSSL::PKey::PKey#sign_raw</a> を参照してください
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+signature から復元されたデータの文字列
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::PKeyError</code>:</dt>
+<dd>
+復元に失敗した場合に発生します
 </dd>
 </dl>
 </dd>

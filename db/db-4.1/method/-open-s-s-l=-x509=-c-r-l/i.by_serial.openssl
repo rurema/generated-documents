@@ -1,0 +1,24 @@
+names=by_serial
+visibility=public
+kind=defined
+source_location=manual/api/openssl/X509__CRL.md
+since_by_name=by_serial=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def by_serial(serial) -> OpenSSL::X509::Revoked | nil
+
+serial に一致するシリアル番号を持つ失効証明書を CRL から探し、一致する [c:OpenSSL::X509::Revoked] を返します。
+
+一致するものが無い場合は nil を返します。
+
+[m:OpenSSL::X509::CRL#revoked] で全体を配列として取得してから探す場合と異なり、ソート済みのデータに対する検索を行うため、大きな CRL に対しても高速かつ省メモリに動作します。
+
+- **param** `serial` -- 検索する証明書のシリアル番号(整数または [c:OpenSSL::BN] オブジェクト)
+
+```text
+crl.by_serial(cert.serial)        # => #<OpenSSL::X509::Revoked ...> または nil
+crl.by_serial(cert.serial)&.time  # => 失効時刻(失効している場合)
+```
+
+

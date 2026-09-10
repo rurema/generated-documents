@@ -13,4 +13,5 @@ PKCS#12 (秘密鍵、証明書、関連するCA証明書を1つのファイル�
 - [ca_certs](../method/OpenSSL=3a=3aPKCS12/i/ca_certs.md)
 - [certificate](../method/OpenSSL=3a=3aPKCS12/i/certificate.md)
 - [key](../method/OpenSSL=3a=3aPKCS12/i/key.md)
+- [set_mac](../method/OpenSSL=3a=3aPKCS12/i/set_mac.md)
 - [to_der](../method/OpenSSL=3a=3aPKCS12/i/to_der.md)

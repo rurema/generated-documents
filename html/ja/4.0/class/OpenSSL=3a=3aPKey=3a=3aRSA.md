@@ -63,8 +63,13 @@ p public_key.verify("sha256", sign, "foobarbaz")
 - [public_encrypt](../method/OpenSSL=3a=3aPKey=3a=3aRSA/i/public_encrypt.md)
 - [public_key](../method/OpenSSL=3a=3aPKey=3a=3aRSA/i/public_key.md)
 - [q](../method/OpenSSL=3a=3aPKey=3a=3aRSA/i/q.md)
+- [set_crt_params](../method/OpenSSL=3a=3aPKey=3a=3aRSA/i/set_crt_params.md)
+- [set_factors](../method/OpenSSL=3a=3aPKey=3a=3aRSA/i/set_factors.md)
+- [set_key](../method/OpenSSL=3a=3aPKey=3a=3aRSA/i/set_key.md)
+- [sign_pss](../method/OpenSSL=3a=3aPKey=3a=3aRSA/i/sign_pss.md)
 - [to_der](../method/OpenSSL=3a=3aPKey=3a=3aRSA/i/to_der.md)
 - [to_text](../method/OpenSSL=3a=3aPKey=3a=3aRSA/i/to_text.md)
+- [verify_pss](../method/OpenSSL=3a=3aPKey=3a=3aRSA/i/verify_pss.md)
 
 ## Constants
 

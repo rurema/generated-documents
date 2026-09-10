@@ -28,3 +28,4 @@ X.509 v3 証明書の拡張領域のためのクラスです。
 - [to_s](../method/OpenSSL=3a=3aX509=3a=3aExtension/i/to_s.md)
 - [value](../method/OpenSSL=3a=3aX509=3a=3aExtension/i/value.md)
 - [value=](../method/OpenSSL=3a=3aX509=3a=3aExtension/i/value=3d.md)
+- [value_der](../method/OpenSSL=3a=3aX509=3a=3aExtension/i/value_der.md)

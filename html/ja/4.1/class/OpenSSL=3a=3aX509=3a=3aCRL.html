@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-09-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-10-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -151,6 +151,8 @@ CRL とは、危殆化した等なんらかの理由で失効した証明書の�
 <li><a href="#I_ADD_EXTENSION">add_extension</a></li>
 
 <li><a href="#I_ADD_REVOKED">add_revoked</a></li>
+
+<li><a href="#I_BY_SERIAL">by_serial</a></li>
 
 <li><a href="#I_EXTENSIONS">extensions</a></li>
 
@@ -295,6 +297,29 @@ rev は失効した証明書を表す <a href="../class/OpenSSL=3a=3aX509=3a=3aR
 追加に失敗した場合に発生します
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="I_BY_SERIAL"><code>by_serial(serial) -&gt; OpenSSL::X509::Revoked | nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aX509=3a=3aCRL/i/by_serial.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/X509/CRL.html#method-i-by_serial">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/X509__CRL.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+serial に一致するシリアル番号を持つ失効証明書を CRL から探し、一致する <a href="../class/OpenSSL=3a=3aX509=3a=3aRevoked.html">OpenSSL::X509::Revoked</a> を返します。
+</p>
+<p>
+一致するものが無い場合は nil を返します。
+</p>
+<p>
+<a href="../method/OpenSSL=3a=3aX509=3a=3aCRL/i/revoked.html">OpenSSL::X509::CRL#revoked</a> で全体を配列として取得してから探す場合と異なり、ソート済みのデータに対する検索を行うため、大きな CRL に対しても高速かつ省メモリに動作します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>serial</code>:</dt>
+<dd>
+検索する証明書のシリアル番号(整数または <a href="../class/OpenSSL=3a=3aBN.html">OpenSSL::BN</a> オブジェクト)
+</dd>
+</dl>
+<pre class="highlight text"><code>crl.by_serial(cert.serial)        # =&gt; #&lt;OpenSSL::X509::Revoked ...&gt; または nil
+crl.by_serial(cert.serial)&amp;.time  # =&gt; 失効時刻(失効している場合)
+</code></pre>
 </dd>
 
 

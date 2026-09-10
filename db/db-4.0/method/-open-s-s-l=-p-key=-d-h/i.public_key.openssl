@@ -1,0 +1,25 @@
+names=public_key
+visibility=public
+kind=defined
+source_location=manual/api/openssl/PKey__DH.md
+since_by_name=public_key=3.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def public_key -> OpenSSL::PKey::DH
+
+`self` の鍵パラメータ(p, g)だけを持つ新しい DH インスタンスを返します。
+
+メソッド名に反して、返り値のオブジェクトは鍵パラメータのみを持ち、公開鍵(pub_key)は含まれません。
+
+このメソッドは後方互換性のために提供されています。多くの場合、このメソッドを呼ぶ必要はありません。公開鍵をシリアライズしたい場合は [m:OpenSSL::PKey::PKey#public_to_pem] や [m:OpenSSL::PKey::PKey#public_to_der] を使ってください。
+パラメータを保持したまま鍵対を再生成したい場合は [m:OpenSSL::PKey?.generate_key] の利用を検討してください。
+
+```ruby
+require "openssl"
+dh1 = OpenSSL::PKey::DH.generate(2048)
+p dh1.priv_key.class # => OpenSSL::BN
+dhcopy = dh1.public_key
+p dhcopy.priv_key # => nil
+```
+

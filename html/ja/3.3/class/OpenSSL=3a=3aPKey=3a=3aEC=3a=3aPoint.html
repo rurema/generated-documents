@@ -140,6 +140,8 @@
 
 <li><a href="#I_--3D--3D">==</a></li>
 
+<li><a href="#I_ADD">add</a></li>
+
 <li><a href="#I_--3D--3D">eql?</a></li>
 
 <li><a href="#I_GROUP">group</a></li>
@@ -150,11 +152,15 @@
 
 <li><a href="#I_MAKE_AFFINE--21">make_affine!</a></li>
 
+<li><a href="#I_MUL">mul</a></li>
+
 <li><a href="#I_ON_CURVE--3F">on_curve?</a></li>
 
 <li><a href="#I_SET_TO_INFINITY--21">set_to_infinity!</a></li>
 
 <li><a href="#I_TO_BN">to_bn</a></li>
+
+<li><a href="#I_TO_OCTET_STRING">to_octet_string</a></li>
 
 </ul>
 </dd>
@@ -230,6 +236,31 @@ Point オブジェクトを生成します。
 </dd>
 
 
+<dt class="method-heading" id="I_ADD"><code>add(point) -&gt; OpenSSL::PKey::EC::Point</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint/i/add.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/OpenSSL/PKey/EC/Point.html#method-i-add">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__EC.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+楕円曲線上の点の加算を行います。
+</p>
+<p>
+<code>self</code> と point の和を表す新しい <a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint.html">OpenSSL::PKey::EC::Point</a> オブジェクトを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>point</code>:</dt>
+<dd>
+加算するもう一方の <a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint.html">OpenSSL::PKey::EC::Point</a> オブジェクト
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+演算結果を表す新しい <a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint.html">OpenSSL::PKey::EC::Point</a> オブジェクト
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::EC::Point::Error</code>:</dt>
+<dd>
+演算に失敗した場合に発生します
+</dd>
+</dl>
+</dd>
+
+
 <dt class="method-heading" id="I_GROUP"><code>group -&gt; OpenSSL::PKey::EC::Group</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint/i/group.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/OpenSSL/PKey/EC/Point.html#method-i-group">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__EC.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -283,6 +314,38 @@ Point オブジェクトを生成します。
 </dd>
 
 
+<dt class="method-heading" id="I_MUL"><code>mul(bn1, bn2 = nil) -&gt; OpenSSL::PKey::EC::Point</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint/i/mul.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/OpenSSL/PKey/EC/Point.html#method-i-mul">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__EC.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+楕円曲線上の点のスカラー倍算を行います。
+</p>
+<p>
+<code>bn1 * self + bn2 * G</code> を計算した結果を表す新しい <a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint.html">OpenSSL::PKey::EC::Point</a> オブジェクトを返します。ここで G は <code>self</code> が属する群の生成元です。bn2 を省略した場合は、単に <code>bn1 * self</code> を計算します。
+</p>
+<p>
+Ruby 3.4 までは、複数の点と係数の配列を渡す <code>point.mul(bns, points [, bn2])</code> という形式もサポートされていましたが、Ruby 4.0 で廃止されました。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>bn1</code>:</dt>
+<dd>
+掛ける整数を表す <a href="../class/OpenSSL=3a=3aBN.html">OpenSSL::BN</a> オブジェクト
+</dd>
+<dt class='method-param'>[PARAM] <code>bn2</code>:</dt>
+<dd>
+生成元 G に掛ける整数を表す <a href="../class/OpenSSL=3a=3aBN.html">OpenSSL::BN</a> オブジェクトです(省略可)
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+演算結果を表す新しい <a href="../class/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint.html">OpenSSL::PKey::EC::Point</a> オブジェクト
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::PKey::EC::Point::Error</code>:</dt>
+<dd>
+演算に失敗した場合に発生します
+</dd>
+</dl>
+</dd>
+
+
 <dt class="method-heading" id="I_ON_CURVE--3F"><code>on_curve? -&gt; bool</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint/i/on_curve=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/OpenSSL/PKey/EC/Point.html#method-i-on_curve-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__EC.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -326,6 +389,20 @@ Point オブジェクトを生成します。
 <dt>[EXCEPTION] <code>OpenSSL::PKey::EC::Point::Error</code>:</dt>
 <dd>
 変換に失敗した場合に発生します
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_OCTET_STRING"><code>to_octet_string(conversion_form) -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aPKey=3a=3aEC=3a=3aPoint/i/to_octet_string.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/OpenSSL/PKey/EC/Point.html#method-i-to_octet_string">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/PKey__EC.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+楕円曲線上の点をオクテット文字列(バイト列)として返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>conversion_form</code>:</dt>
+<dd>
+点の変換方式を :compressed、:uncompressed、:hybrid のいずれかのシンボルで指定します
 </dd>
 </dl>
 </dd>

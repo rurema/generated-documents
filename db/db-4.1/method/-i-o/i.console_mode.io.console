@@ -1,0 +1,33 @@
+names=console_mode,console_mode=
+visibility=public
+kind=added
+source_location=manual/api/io/console.md
+since_by_name=console_mode=3.0,console_mode=3d=3.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def console_mode -> IO::Console::Mode
+### def console_mode=(mode)
+
+現在の端末の入出力モードを取得し、または設定します。
+
+`console_mode` は現在のモードを表す [c:IO::Console::Mode] のインスタンスを返します。
+`console_mode=` は mode に指定したモードを端末に設定します。[m:IO#raw] などでモードを
+変更する前に `console_mode` で現在の状態を取得しておき、後で `console_mode=` に渡して
+元に戻す、という使い方ができます。
+
+```ruby
+require "io/console"
+mode = STDIN.console_mode
+begin
+  STDIN.console_mode = mode.raw
+  # raw モードでの処理
+ensure
+  STDIN.console_mode = mode
+end
+```
+
+- **param** `mode` -- 設定するモードを表す、`console_mode` が返すのと同じクラスのオブジェクトです。
+- **raise** `TypeError` -- mode がモードを表すオブジェクトでない場合に発生します。
+- **SEE** [c:IO::Console::Mode]
+

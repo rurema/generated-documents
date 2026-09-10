@@ -1,6 +1,7 @@
 # OpenSSL::PKey::EC#public_key?
 
 ### def public_key? -> bool
+### def public? -> bool
 
 EC オブジェクトが公開鍵を保持していれば真を返します。
 

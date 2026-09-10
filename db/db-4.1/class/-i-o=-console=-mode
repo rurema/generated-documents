@@ -1,0 +1,36 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=io.console
+aliases=IO=ConsoleMode
+aliasof=
+source_location=manual/api/io/console.md
+
+端末の入出力モードを表すクラスです。
+
+現在のモードは [m:IO#console_mode] で取得します。`new` でインスタンスを作ることは
+できません。取得したモードは `dup` でコピーできます。
+
+このクラスのメソッドは `self` が保持するモードの値を変更するだけで、端末には
+反映されません。変更したモードを端末に反映するには [m:IO#console_mode=] に渡してください。
+
+Ruby 4.1 で `IO::ConsoleMode` から `IO::Console::Mode` に改名されました。
+旧名の `IO::ConsoleMode` は非推奨の別名として残っていますが、参照すると非推奨の警告が出ます。
+
+```ruby
+require "io/console"
+mode = STDIN.console_mode
+noecho = mode.dup
+noecho.echo = false
+STDIN.console_mode = noecho  # エコーバックを無効にする
+begin
+  password = STDIN.gets
+ensure
+  STDIN.console_mode = mode  # 元に戻す
+end
+```
+
+- **SEE** [m:IO#console_mode], [m:IO#console_mode=]

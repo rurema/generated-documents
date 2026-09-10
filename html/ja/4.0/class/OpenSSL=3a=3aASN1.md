@@ -108,6 +108,7 @@ OpenSSL::ASN1::ASN1Data
 - [BMPString](../method/OpenSSL=3a=3aASN1/m/BMPString.md)
 - [BitString](../method/OpenSSL=3a=3aASN1/m/BitString.md)
 - [Boolean](../method/OpenSSL=3a=3aASN1/m/Boolean.md)
+- [EndOfContent](../method/OpenSSL=3a=3aASN1/m/EndOfContent.md)
 - [Enumerated](../method/OpenSSL=3a=3aASN1/m/Enumerated.md)
 - [GeneralString](../method/OpenSSL=3a=3aASN1/m/GeneralString.md)
 - [GeneralizedTime](../method/OpenSSL=3a=3aASN1/m/GeneralizedTime.md)

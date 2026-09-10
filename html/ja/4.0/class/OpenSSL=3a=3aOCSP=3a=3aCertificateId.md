@@ -14,4 +14,8 @@ CertificateId オブジェクトを複数 [OpenSSL::OCSP::Request](../class/Open
 
 - [cmp](../method/OpenSSL=3a=3aOCSP=3a=3aCertificateId/i/cmp.md)
 - [cmp_issuer](../method/OpenSSL=3a=3aOCSP=3a=3aCertificateId/i/cmp_issuer.md)
+- [hash_algorithm](../method/OpenSSL=3a=3aOCSP=3a=3aCertificateId/i/hash_algorithm.md)
+- [issuer_key_hash](../method/OpenSSL=3a=3aOCSP=3a=3aCertificateId/i/issuer_key_hash.md)
+- [issuer_name_hash](../method/OpenSSL=3a=3aOCSP=3a=3aCertificateId/i/issuer_name_hash.md)
 - [serial](../method/OpenSSL=3a=3aOCSP=3a=3aCertificateId/i/serial.md)
+- [to_der](../method/OpenSSL=3a=3aOCSP=3a=3aCertificateId/i/to_der.md)

@@ -17,3 +17,4 @@
 - [serial=](../method/OpenSSL=3a=3aX509=3a=3aRevoked/i/serial=3d.md)
 - [time](../method/OpenSSL=3a=3aX509=3a=3aRevoked/i/time.md)
 - [time=](../method/OpenSSL=3a=3aX509=3a=3aRevoked/i/time=3d.md)
+- [to_der](../method/OpenSSL=3a=3aX509=3a=3aRevoked/i/to_der.md)

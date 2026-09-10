@@ -191,9 +191,13 @@ soc<span class="p">.</span><span class="nf">close</span>
 
 <li><a href="#I_ACCEPT_NONBLOCK">accept_nonblock</a></li>
 
+<li><a href="#I_ALPN_PROTOCOL">alpn_protocol</a></li>
+
 <li><a href="#I_CERT">cert</a></li>
 
 <li><a href="#I_CIPHER">cipher</a></li>
+
+<li><a href="#I_CLIENT_CA">client_ca</a></li>
 
 <li><a href="#I_CONNECT">connect</a></li>
 
@@ -201,15 +205,23 @@ soc<span class="p">.</span><span class="nf">close</span>
 
 <li><a href="#I_CONTEXT">context</a></li>
 
+<li><a href="#I_EXPORT_KEYING_MATERIAL">export_keying_material</a></li>
+
+<li><a href="#I_FINISHED_MESSAGE">finished_message</a></li>
+
 <li><a href="#I_HOSTNAME">hostname</a></li>
 
 <li><a href="#I_HOSTNAME--3D">hostname=</a></li>
 
 <li><a href="#I_IO">io</a></li>
 
+<li><a href="#I_NPN_PROTOCOL">npn_protocol</a></li>
+
 <li><a href="#I_PEER_CERT">peer_cert</a></li>
 
 <li><a href="#I_PEER_CERT_CHAIN">peer_cert_chain</a></li>
+
+<li><a href="#I_PEER_FINISHED_MESSAGE">peer_finished_message</a></li>
 
 <li><a href="#I_PENDING">pending</a></li>
 
@@ -220,6 +232,8 @@ soc<span class="p">.</span><span class="nf">close</span>
 <li><a href="#I_SESSION--3D">session=</a></li>
 
 <li><a href="#I_SESSION_REUSED--3F">session_reused?</a></li>
+
+<li><a href="#I_SSL_VERSION">ssl_version</a></li>
 
 <li><a href="#I_STATE">state</a></li>
 
@@ -232,6 +246,8 @@ soc<span class="p">.</span><span class="nf">close</span>
 <li><a href="#I_SYSREAD">sysread</a></li>
 
 <li><a href="#I_SYSWRITE">syswrite</a></li>
+
+<li><a href="#I_TMP_KEY">tmp_key</a></li>
 
 <li><a href="#I_IO">to_io</a></li>
 
@@ -456,6 +472,9 @@ soc<span class="p">.</span><span class="nf">close</span>
       <li><a href="../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/fcntl.html">fcntl</a></li>
       
     
+      <li><a href="../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/fileno.html">fileno</a></li>
+      
+    
       <li><a href="../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/getsockopt.html">getsockopt</a></li>
       
     
@@ -494,6 +513,9 @@ soc<span class="p">.</span><span class="nf">close</span>
       
     
       <li><a href="../method/OpenSSL=3a=3aBuffering/i/flush.html">flush</a></li>
+      
+    
+      <li><a href="../method/OpenSSL=3a=3aBuffering/i/getbyte.html">getbyte</a></li>
       
     
       <li><a href="../method/OpenSSL=3a=3aBuffering/i/getc.html">getc</a></li>
@@ -639,6 +661,20 @@ IO が読み込み待ち、もしくは書き込み待ちになった場合は�
 </dd>
 
 
+<dt class="method-heading" id="I_ALPN_PROTOCOL"><code>alpn_protocol -&gt; String | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/alpn_protocol.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/SSL/SSLSocket.html#method-i-alpn_protocol">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ハンドシェイクの結果、Application-Layer Protocol Negotiation(ALPN)で最終的に選択されたプロトコルを表す文字列を返します。
+</p>
+<p>
+ALPN が使われなかった場合や、まだハンドシェイクが行われていない場合は nil を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/alpn_protocols=3d.html">OpenSSL::SSL::SSLContext#alpn_protocols=</a>, <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/alpn_select_cb=3d.html">OpenSSL::SSL::SSLContext#alpn_select_cb=</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_CERT"><code>cert -&gt; OpenSSL::X509::Certificate | nil</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/cert.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/SSL/SSLSocket.html#method-i-cert">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -668,6 +704,23 @@ IO が読み込み待ち、もしくは書き込み待ちになった場合は�
 <p>
 <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/connect.html">OpenSSL::SSL::SSLSocket#connect</a> や <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/accept.html">OpenSSL::SSL::SSLSocket#accept</a>
 で SSL/TLS ハンドシェイクを行う前にこのメソッドを呼ぶと nil を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CLIENT_CA"><code>client_ca -&gt; [OpenSSL::X509::Name] | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/client_ca.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/SSL/SSLSocket.html#method-i-client_ca">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+クライアント証明書を要求する際に提示される CA のリストを、<a href="../class/OpenSSL=3a=3aX509=3a=3aName.html">OpenSSL::X509::Name</a> の配列で返します。
+</p>
+<p>
+<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/client_ca=3d.html">OpenSSL::SSL::SSLContext#client_ca=</a> とは異なり、<a href="../class/OpenSSL=3a=3aX509=3a=3aCertificate.html">OpenSSL::X509::Certificate</a> の配列ではなく、各 CA のサブジェクトの識別名(<a href="../class/OpenSSL=3a=3aX509=3a=3aName.html">OpenSSL::X509::Name</a>)の配列を返すことに注意してください。
+</p>
+<p>
+サーバモードでは <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/client_ca=3d.html">OpenSSL::SSL::SSLContext#client_ca=</a> で設定したリストを返します。クライアントモードでは、サーバから送られてきたクライアント CA のリストを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/client_ca=3d.html">OpenSSL::SSL::SSLContext#client_ca=</a>
 </p>
 </dd>
 
@@ -725,6 +778,46 @@ SSLSocket オブジェクトを生成する時に渡されたコンテクスト�
 </p>
 <p>
 [SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/s/new.html">OpenSSL::SSL::SSLSocket.new</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_EXPORT_KEYING_MATERIAL"><code>export_keying_material(label, length, context = nil) -&gt; String</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/export_keying_material.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/SSL/SSLSocket.html#method-i-export_keying_material">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a class="external" href="https://tools.ietf.org/html/rfc5705">[RFC5705]</a> に従って、共有されているセッション鍵の材料をエクスポートします。
+</p>
+<p>
+TLS のマスターシークレットから <code>label</code>(と、指定した場合は <code>context</code>)を使って <code>length</code> バイトのデータを導出します。これは、TLS 接続の上位で追加の暗号鍵を安全に生成する場合などに使えます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>label</code>:</dt>
+<dd>
+鍵導出に使うラベルを表す文字列
+</dd>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+生成するデータのバイト数
+</dd>
+<dt class='method-param'>[PARAM] <code>context</code>:</dt>
+<dd>
+鍵導出に使う追加のコンテキスト文字列
+</dd>
+<dt>[EXCEPTION] <code>OpenSSL::SSL::SSLError</code>:</dt>
+<dd>
+鍵材料のエクスポートに失敗した場合に発生します
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_FINISHED_MESSAGE"><code>finished_message -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/finished_message.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/SSL/SSLSocket.html#method-i-finished_message">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+直近に送信した Finished メッセージを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/peer_finished_message.html">OpenSSL::SSL::SSLSocket#peer_finished_message</a>
 </p>
 </dd>
 
@@ -789,6 +882,20 @@ SSLSocket オブジェクトを生成する時に渡されたソケットを返�
 </dd>
 
 
+<dt class="method-heading" id="I_NPN_PROTOCOL"><code>npn_protocol -&gt; String | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/npn_protocol.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/SSL/SSLSocket.html#method-i-npn_protocol">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ハンドシェイクの結果、Next Protocol Negotiation(NPN)でクライアントが最終的に選択したプロトコルを表す文字列を返します。
+</p>
+<p>
+NPN が使われなかった場合や、まだハンドシェイクが行われていない場合は nil を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/npn_protocols=3d.html">OpenSSL::SSL::SSLContext#npn_protocols=</a>, <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/npn_select_cb=3d.html">OpenSSL::SSL::SSLContext#npn_select_cb=</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_PEER_CERT"><code>peer_cert -&gt; OpenSSL::X509::Certificate | nil</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/peer_cert.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/SSL/SSLSocket.html#method-i-peer_cert">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -823,6 +930,17 @@ SSLSocket オブジェクトを生成する時に渡されたソケットを返�
 </p>
 <p>
 [SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/peer_cert.html">OpenSSL::SSL::SSLSocket#peer_cert</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PEER_FINISHED_MESSAGE"><code>peer_finished_message -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/peer_finished_message.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/SSL/SSLSocket.html#method-i-peer_finished_message">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+直近に受信した Finished メッセージを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/finished_message.html">OpenSSL::SSL::SSLSocket#finished_message</a>
 </p>
 </dd>
 
@@ -915,6 +1033,17 @@ CA が証明書に署名してそれが失効していないことしか確認�
 [SEE_ALSO] <a href="../class/OpenSSL=3a=3aSSL=3a=3aSession.html">OpenSSL::SSL::Session</a>,
 <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/session.html">OpenSSL::SSL::SSLSocket#session</a>,
 <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/session=3d.html">OpenSSL::SSL::SSLSocket#session=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SSL_VERSION"><code>ssl_version -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/ssl_version.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/SSL/SSLSocket.html#method-i-ssl_version">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+コネクションで使われている SSL/TLS のバージョンを表す文字列を返します。
+</p>
+<p>
+例えば &quot;TLSv1.2&quot; のような文字列を返します。
 </p>
 </dd>
 
@@ -1031,6 +1160,20 @@ bufに文字列を指定するとその文字列のメモリ領域にデータ�
 書き込みに失敗した場合に発生します
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TMP_KEY"><code>tmp_key -&gt; OpenSSL::PKey::PKey | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/tmp_key.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/OpenSSL/SSL/SSLSocket.html#method-i-tmp_key">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Forward Secrecy(前方秘匿性)を持つ暗号スイートが使われた場合の、一時的な鍵を返します。
+</p>
+<p>
+Forward Secrecy を持つ暗号スイートが使われなかった場合は nil を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/ecdh_curves=3d.html">OpenSSL::SSL::SSLContext#ecdh_curves=</a>
+</p>
 </dd>
 
 
