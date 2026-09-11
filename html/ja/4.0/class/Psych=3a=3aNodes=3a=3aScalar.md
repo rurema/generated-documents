@@ -16,6 +16,7 @@ YAML の scalar <https://yaml.org/spec/1.1/#id858081> を表すクラスです�
 - [plain=](../method/Psych=3a=3aNodes=3a=3aScalar/i/plain=3d.md)
 - [quoted](../method/Psych=3a=3aNodes=3a=3aScalar/i/quoted.md)
 - [quoted=](../method/Psych=3a=3aNodes=3a=3aScalar/i/quoted=3d.md)
+- [scalar?](../method/Psych=3a=3aNodes=3a=3aScalar/i/scalar=3f.md)
 - [style](../method/Psych=3a=3aNodes=3a=3aScalar/i/style.md)
 - [style=](../method/Psych=3a=3aNodes=3a=3aScalar/i/style=3d.md)
 - [tag](../method/Psych=3a=3aNodes=3a=3aScalar/i/tag.md)

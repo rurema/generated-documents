@@ -14,8 +14,13 @@
 - [parse_file](../method/Psych/s/parse_file.md)
 - [parse_stream](../method/Psych/s/parse_stream.md)
 - [parser](../method/Psych/s/parser.md)
+- [safe_dump](../method/Psych/s/safe_dump.md)
 - [safe_load](../method/Psych/s/safe_load.md)
+- [safe_load_file](../method/Psych/s/safe_load_file.md)
+- [safe_load_stream](../method/Psych/s/safe_load_stream.md)
 - [to_json](../method/Psych/s/to_json.md)
+- [unsafe_load](../method/Psych/s/unsafe_load.md)
+- [unsafe_load_file](../method/Psych/s/unsafe_load_file.md)
 
 ## Constants
 
