@@ -12,5 +12,6 @@ alias は YAML の AST の葉のノードであり、子ノードを持ちませ
 
 ## Instance Methods
 
+- [alias?](../method/Psych=3a=3aNodes=3a=3aAlias/i/alias=3f.md)
 - [anchor](../method/Psych=3a=3aNodes=3a=3aAlias/i/anchor.md)
 - [anchor=](../method/Psych=3a=3aNodes=3a=3aAlias/i/anchor=3d.md)

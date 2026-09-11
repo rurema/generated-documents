@@ -35,6 +35,7 @@ p ast.root.children.map{|v| v.value } # => ["x", "y", "u", "v"]
 - [anchor=](../method/Psych=3a=3aNodes=3a=3aMapping/i/anchor=3d.md)
 - [implicit](../method/Psych=3a=3aNodes=3a=3aMapping/i/implicit.md)
 - [implicit=](../method/Psych=3a=3aNodes=3a=3aMapping/i/implicit=3d.md)
+- [mapping?](../method/Psych=3a=3aNodes=3a=3aMapping/i/mapping=3f.md)
 - [style](../method/Psych=3a=3aNodes=3a=3aMapping/i/style.md)
 - [style=](../method/Psych=3a=3aNodes=3a=3aMapping/i/style=3d.md)
 - [tag](../method/Psych=3a=3aNodes=3a=3aMapping/i/tag.md)

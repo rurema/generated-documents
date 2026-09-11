@@ -53,6 +53,7 @@ Psych::Nodes::Sequence は 0 個以上の子ノードを持つことができま
 - [anchor=](../method/Psych=3a=3aNodes=3a=3aSequence/i/anchor=3d.md)
 - [implicit](../method/Psych=3a=3aNodes=3a=3aSequence/i/implicit.md)
 - [implicit=](../method/Psych=3a=3aNodes=3a=3aSequence/i/implicit=3d.md)
+- [sequence?](../method/Psych=3a=3aNodes=3a=3aSequence/i/sequence=3f.md)
 - [style](../method/Psych=3a=3aNodes=3a=3aSequence/i/style.md)
 - [style=](../method/Psych=3a=3aNodes=3a=3aSequence/i/style=3d.md)
 - [tag](../method/Psych=3a=3aNodes=3a=3aSequence/i/tag.md)

@@ -15,6 +15,7 @@ YAML ドキュメントを表すクラスです。
 
 ## Instance Methods
 
+- [document?](../method/Psych=3a=3aNodes=3a=3aDocument/i/document=3f.md)
 - [implicit](../method/Psych=3a=3aNodes=3a=3aDocument/i/implicit.md)
 - [implicit=](../method/Psych=3a=3aNodes=3a=3aDocument/i/implicit=3d.md)
 - [implicit_end](../method/Psych=3a=3aNodes=3a=3aDocument/i/implicit_end.md)

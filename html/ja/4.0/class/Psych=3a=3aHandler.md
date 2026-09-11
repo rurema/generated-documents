@@ -12,6 +12,7 @@
 - [end_mapping](../method/Psych=3a=3aHandler/i/end_mapping.md)
 - [end_sequence](../method/Psych=3a=3aHandler/i/end_sequence.md)
 - [end_stream](../method/Psych=3a=3aHandler/i/end_stream.md)
+- [event_location](../method/Psych=3a=3aHandler/i/event_location.md)
 - [scalar](../method/Psych=3a=3aHandler/i/scalar.md)
 - [start_document](../method/Psych=3a=3aHandler/i/start_document.md)
 - [start_mapping](../method/Psych=3a=3aHandler/i/start_mapping.md)
