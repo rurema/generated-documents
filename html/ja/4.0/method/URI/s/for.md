@@ -1,0 +1,23 @@
+# URI.for
+
+### def URI.for(scheme, *arguments, default: URI::Generic) -> URI::Generic
+
+scheme と arguments から新しい URI オブジェクトを生成して返します。
+
+scheme を大文字にしたものが [URI.scheme_list](../../../method/URI/s/scheme_list.md) に登録されていれば、そのクラスのインスタンスを生成します。登録されていない場合は default で指定したクラスを使います。arguments はそのクラスの `new` にそのまま渡されます。
+
+- **param** `scheme` -- 生成する URI の scheme を文字列で指定します。
+- **param** `arguments` -- 構成要素を、生成に使うクラスの `new` に渡す引数と同じ形式で指定します。
+- **param** `default` -- scheme に対応するクラスが登録されていない場合に使うクラスを指定します。省略した場合は `URI::Generic` です。
+
+```ruby title="例"
+require 'uri'
+values = ["john.doe", "www.example.com", "123", nil, "/forum/questions/", nil, "tag=networking&order=newest", "top"]
+p URI.for('https', *values)
+# => #<URI::HTTPS https://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top>
+p URI.for('foo', *values, default: URI::HTTP)
+# => #<URI::HTTP foo://john.doe@www.example.com:123/forum/questions/?tag=networking&order=newest#top>
+```
+
+- **SEE** [URI.scheme_list](../../../method/URI/s/scheme_list.md), [URI::Generic](../../../class/URI=3a=3aGeneric.md)
+- **SEE** [URI.register_scheme](../../../method/URI/s/register_scheme.md)

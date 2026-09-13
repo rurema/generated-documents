@@ -163,6 +163,8 @@ Net::HTTP は、リクエストに Accept-Encoding ヘッダも Range ヘッダ�
 
 <li><a href="#S_NEW">new</a></li>
 
+<li><a href="#S_POST">post</a></li>
+
 <li><a href="#S_POST_FORM">post_form</a></li>
 
 <li><a href="#S_PROXY_ADDRESS">proxy_address</a></li>
@@ -226,6 +228,10 @@ Net::HTTP は、リクエストに Accept-Encoding ヘッダも Range ヘッダ�
 
 <li><a href="#I_DELETE">delete</a></li>
 
+<li><a href="#I_EXTRA_CHAIN_CERT">extra_chain_cert</a></li>
+
+<li><a href="#I_EXTRA_CHAIN_CERT">extra_chain_cert=</a></li>
+
 <li><a href="#I_FINISH">finish</a></li>
 
 <li><a href="#I_GET">get</a></li>
@@ -235,6 +241,10 @@ Net::HTTP は、リクエストに Accept-Encoding ヘッダも Range ヘッダ�
 <li><a href="#I_HEAD">head</a></li>
 
 <li><a href="#I_HEAD2">head2</a></li>
+
+<li><a href="#I_IPADDR">ipaddr</a></li>
+
+<li><a href="#I_IPADDR">ipaddr=</a></li>
 
 <li><a href="#I_KEEP_ALIVE_TIMEOUT">keep_alive_timeout</a></li>
 
@@ -257,6 +267,14 @@ Net::HTTP は、リクエストに Accept-Encoding ヘッダも Range ヘッダ�
 <li><a href="#I_MAX_RETRIES">max_retries</a></li>
 
 <li><a href="#I_MAX_RETRIES--3D">max_retries=</a></li>
+
+<li><a href="#I_MAX_VERSION">max_version</a></li>
+
+<li><a href="#I_MAX_VERSION">max_version=</a></li>
+
+<li><a href="#I_MIN_VERSION">min_version</a></li>
+
+<li><a href="#I_MIN_VERSION">min_version=</a></li>
 
 <li><a href="#I_MKCOL">mkcol</a></li>
 
@@ -359,6 +377,10 @@ Net::HTTP は、リクエストに Accept-Encoding ヘッダも Range ヘッダ�
 <li><a href="#I_VERIFY_DEPTH">verify_depth</a></li>
 
 <li><a href="#I_VERIFY_DEPTH--3D">verify_depth=</a></li>
+
+<li><a href="#I_VERIFY_HOSTNAME">verify_hostname</a></li>
+
+<li><a href="#I_VERIFY_HOSTNAME">verify_hostname=</a></li>
 
 <li><a href="#I_VERIFY_MODE">verify_mode</a></li>
 
@@ -625,6 +647,46 @@ no_proxy の文字列に address のホスト名やIPアドレスが含まれて
 プロクシを経由せずに接続するホストの名前/IPアドレスを文字列で指定します。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="S_POST"><code>post(url, data, header = nil) -&gt; Net::HTTPResponse</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aHTTP/s/post.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Net/HTTP.html#method-c-post">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/http/Net__HTTP.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../class/URI.html">URI</a> で指定した対象にデータを POST し、そのレスポンスを <a href="../class/Net=3a=3aHTTPResponse.html">Net::HTTPResponse</a> として返します。
+</p>
+<p>
+このメソッドは以下とほぼ同じです。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/http'</span>
+<span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span>url<span class="p">.</span><span class="nf">hostname</span>, url<span class="p">.</span><span class="nf">port</span>, <span class="ss">use_ssl:</span> url<span class="p">.</span><span class="nf">scheme</span> <span class="o">==</span> <span class="s1">'https'</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>http<span class="o">|</span>
+  http<span class="p">.</span><span class="nf">post</span><span class="p">(</span>url, data, header<span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<dl>
+<dt class='method-param'>[PARAM] <code>url</code>:</dt>
+<dd>
+POST する対象を <a href="../class/URI.html">URI</a> で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>data</code>:</dt>
+<dd>
+POST するデータを文字列で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>header</code>:</dt>
+<dd>
+リクエストの HTTP ヘッダをハッシュで指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/http'</span>
+
+uri <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s1">'http://www.example.com/index.html'</span><span class="p">)</span>
+<span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span>uri, <span class="s1">'query=subject&amp;target=ruby'</span>, <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/x-www-form-urlencoded'</span><span class="p">)</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aHTTP/i/post.html">Net::HTTP#post</a>, <a href="../class/Net=3a=3aHTTP=3a=3aPost.html">Net::HTTP::Post</a>
+</p>
 </dd>
 
 
@@ -1099,6 +1161,30 @@ active? は時代遅れのメソッドです。
 </dd>
 
 
+<dt class="method-heading" id="I_EXTRA_CHAIN_CERT"><code>extra_chain_cert -&gt; [OpenSSL::X509::Certificate] | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aHTTP/i/extra_chain_cert.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Net/HTTP.html#method-i-extra_chain_cert">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/http/Net__HTTP.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>extra_chain_cert=(certificates)</code></dt>
+<dd class="method-description">
+<p>
+証明書チェインに追加する、自分自身を証明する証明書からルート CA までの証明書 (クライアント証明書自体は除く) を取得・設定します。
+</p>
+<p>
+デフォルトは nil です。
+</p>
+<p>
+詳しくは <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/extra_chain_cert.html">OpenSSL::SSL::SSLContext#extra_chain_cert</a>, <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/extra_chain_cert=3d.html">OpenSSL::SSL::SSLContext#extra_chain_cert=</a> を見てください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>certificates</code>:</dt>
+<dd>
+証明書チェインに追加する <a href="../class/OpenSSL=3a=3aX509=3a=3aCertificate.html">OpenSSL::X509::Certificate</a> の配列
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/extra_chain_cert.html">OpenSSL::SSL::SSLContext#extra_chain_cert</a>, <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/extra_chain_cert=3d.html">OpenSSL::SSL::SSLContext#extra_chain_cert=</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_FINISH"><code>finish -&gt; ()</code><span class="permalink">[<a href="../method/Net=3a=3aHTTP/i/finish.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Net/HTTP.html#method-i-finish">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/http/Net__HTTP.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -1298,6 +1384,42 @@ head2 は時代遅れなので使わないでください。
 </code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Net=3a=3aHTTP/i/head.html">Net::HTTP#head</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_IPADDR"><code>ipaddr -&gt; String | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aHTTP/i/ipaddr.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Net/HTTP.html#method-i-ipaddr">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/http/Net__HTTP.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>ipaddr=(addr)</code></dt>
+<dd class="method-description">
+<p>
+接続先の IP アドレスを取得・設定します。
+</p>
+<p>
+セッションが開始されていない場合は、<code>ipaddr=</code> で設定した値 (未設定なら nil) を返します。セッションが開始されている場合は、実際に接続したソケットの IP アドレスを返します。
+</p>
+<p>
+<code>ipaddr=</code> はセッションが開始された後には設定できません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>addr</code>:</dt>
+<dd>
+接続先の IP アドレスを文字列で指定します。
+</dd>
+<dt>[EXCEPTION] <code>IOError</code>:</dt>
+<dd>
+セッション開始後に <code>ipaddr=</code> で値を変更しようとすると発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/http'</span>
+
+http <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'www.example.com'</span><span class="p">)</span>
+http<span class="p">.</span><span class="nf">ipaddr</span>         <span class="c1"># =&gt; nil
+</span>http<span class="p">.</span><span class="nf">ipaddr</span> <span class="o">=</span> <span class="s1">'172.67.155.76'</span>
+http<span class="p">.</span><span class="nf">ipaddr</span>         <span class="c1"># =&gt; &quot;172.67.155.76&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aHTTP/s/new.html">Net::HTTP.new</a>
 </p>
 </dd>
 
@@ -1539,6 +1661,48 @@ http<span class="p">.</span><span class="nf">max_retries</span> <span class="o">
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Net=3a=3aHTTP/i/max_retries.html">Net::HTTP#max_retries</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MAX_VERSION"><code>max_version -&gt; Integer | Symbol | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aHTTP/i/max_version.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Net/HTTP.html#method-i-max_version">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/http/Net__HTTP.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>max_version=(version)</code></dt>
+<dd class="method-description">
+<p>
+利用する SSL/TLS のバージョンの上限を取得・設定します。
+</p>
+<p>
+デフォルトは nil です。指定できる値は <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/max_version=3d.html">OpenSSL::SSL::SSLContext#max_version=</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>version</code>:</dt>
+<dd>
+利用する SSL/TLS のバージョンの上限
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aHTTP/i/min_version.html">Net::HTTP#min_version</a>, <a href="../method/Net=3a=3aHTTP/i/ssl_version=3d.html">Net::HTTP#ssl_version=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MIN_VERSION"><code>min_version -&gt; Integer | Symbol | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aHTTP/i/min_version.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Net/HTTP.html#method-i-min_version">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/http/Net__HTTP.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>min_version=(version)</code></dt>
+<dd class="method-description">
+<p>
+利用する SSL/TLS のバージョンの下限を取得・設定します。
+</p>
+<p>
+デフォルトは nil です。指定できる値は <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/min_version=3d.html">OpenSSL::SSL::SSLContext#min_version=</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>version</code>:</dt>
+<dd>
+利用する SSL/TLS のバージョンの下限
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aHTTP/i/max_version.html">Net::HTTP#max_version</a>, <a href="../method/Net=3a=3aHTTP/i/ssl_version=3d.html">Net::HTTP#ssl_version=</a>
 </p>
 </dd>
 
@@ -2558,6 +2722,30 @@ SSLを利用して接続する場合に真を返します。
 </dl>
 <p>
 [SEE_ALSO] <a href="../method/Net=3a=3aHTTP/i/verify_depth.html">Net::HTTP#verify_depth</a>, <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/verify_depth=3d.html">OpenSSL::SSL::SSLContext#verify_depth=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_VERIFY_HOSTNAME"><code>verify_hostname -&gt; bool | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aHTTP/i/verify_hostname.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Net/HTTP.html#method-i-verify_hostname">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/http/Net__HTTP.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>verify_hostname=(bool)</code></dt>
+<dd class="method-description">
+<p>
+証明書がホスト名に対して有効かどうかを検証するかどうかを取得・設定します。
+</p>
+<p>
+詳しくは <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/verify_hostname.html">OpenSSL::SSL::SSLContext#verify_hostname</a> を見てください。
+</p>
+<p>
+デフォルトは nil です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>bool</code>:</dt>
+<dd>
+ホスト名の検証を行うかどうかを真偽値で指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aHTTP/i/verify_mode.html">Net::HTTP#verify_mode</a>, <a href="../method/Net=3a=3aHTTP/i/verify_mode=3d.html">Net::HTTP#verify_mode=</a>
 </p>
 </dd>
 

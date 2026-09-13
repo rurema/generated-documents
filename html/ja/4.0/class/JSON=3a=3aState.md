@@ -10,15 +10,20 @@ JSON 形式の文字列を生成するための設定を保持しておくため
 ## Class Methods
 
 - [from_state](../method/JSON=3a=3aState/s/from_state.md)
+- [generate](../method/JSON=3a=3aState/s/generate.md)
 - [new](../method/JSON=3a=3aState/s/new.md)
 
 ## Instance Methods
 
 - [\[\]](../method/JSON=3a=3aState/i/=5b=5d.md)
 - [\[\]=](../method/JSON=3a=3aState/i/=5b=5d=3d.md)
+- [allow_nan=](../method/JSON=3a=3aState/i/allow_nan=3d.md)
 - [allow_nan?](../method/JSON=3a=3aState/i/allow_nan=3f.md)
 - [array_nl](../method/JSON=3a=3aState/i/array_nl.md)
 - [array_nl=](../method/JSON=3a=3aState/i/array_nl=3d.md)
+- [as_json](../method/JSON=3a=3aState/i/as_json.md)
+- [as_json=](../method/JSON=3a=3aState/i/as_json=3d.md)
+- [ascii_only=](../method/JSON=3a=3aState/i/ascii_only=3d.md)
 - [ascii_only?](../method/JSON=3a=3aState/i/ascii_only=3f.md)
 - [buffer_initial_length](../method/JSON=3a=3aState/i/buffer_initial_length.md)
 - [buffer_initial_length=](../method/JSON=3a=3aState/i/buffer_initial_length=3d.md)
@@ -27,6 +32,12 @@ JSON 形式の文字列を生成するための設定を保持しておくため
 - [merge](../method/JSON=3a=3aState/i/merge.md)
 - [depth](../method/JSON=3a=3aState/i/depth.md)
 - [depth=](../method/JSON=3a=3aState/i/depth=3d.md)
+- [escape_slash](../method/JSON=3a=3aState/i/escape_slash.md)
+- [escape_slash=](../method/JSON=3a=3aState/i/escape_slash=3d.md)
+- [escape_slash?](../method/JSON=3a=3aState/i/escape_slash=3f.md)
+- [script_safe](../method/JSON=3a=3aState/i/script_safe.md)
+- [script_safe=](../method/JSON=3a=3aState/i/script_safe=3d.md)
+- [script_safe?](../method/JSON=3a=3aState/i/script_safe=3f.md)
 - [generate](../method/JSON=3a=3aState/i/generate.md)
 - [indent](../method/JSON=3a=3aState/i/indent.md)
 - [indent=](../method/JSON=3a=3aState/i/indent=3d.md)
@@ -38,5 +49,8 @@ JSON 形式の文字列を生成するための設定を保持しておくため
 - [space=](../method/JSON=3a=3aState/i/space=3d.md)
 - [space_before](../method/JSON=3a=3aState/i/space_before.md)
 - [space_before=](../method/JSON=3a=3aState/i/space_before=3d.md)
+- [strict](../method/JSON=3a=3aState/i/strict.md)
+- [strict=](../method/JSON=3a=3aState/i/strict=3d.md)
+- [strict?](../method/JSON=3a=3aState/i/strict=3f.md)
 - [to_h](../method/JSON=3a=3aState/i/to_h.md)
 - [to_hash](../method/JSON=3a=3aState/i/to_hash.md)

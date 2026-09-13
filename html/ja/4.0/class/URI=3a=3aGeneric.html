@@ -166,9 +166,15 @@ hash と eql? が再定義されているため、<a href="../class/Hash.html">H
 
 <li><a href="#I_ABSOLUTE">absolute?</a></li>
 
+<li><a href="#I_AUTHORITY">authority</a></li>
+
 <li><a href="#I_COERCE">coerce</a></li>
 
 <li><a href="#I_COMPONENT">component</a></li>
+
+<li><a href="#I_DECODED_PASSWORD">decoded_password</a></li>
+
+<li><a href="#I_DECODED_USER">decoded_user</a></li>
 
 <li><a href="#I_DEFAULT_PORT">default_port</a></li>
 
@@ -513,6 +519,27 @@ u2 <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><
 </dd>
 
 
+<dt class="method-heading" id="I_AUTHORITY"><code>authority -&gt; [String, String, String, Integer] | nil</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/URI=3a=3aGeneric/i/authority.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/URI/Generic.html#method-i-authority">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/uri/Generic.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の authority 情報を [user, password, host, port] という 4 要素の配列で返します。
+</p>
+<p>
+user・password・host・port のいずれか一つでも設定されていれば配列を返します。設定されていない要素は nil になります。user・password・host・port のいずれも設定されていない場合は nil を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+u <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'foo://myuser:mypass@www.example.com:8080/bar'</span><span class="p">)</span>
+<span class="nb">p</span> u<span class="p">.</span><span class="nf">authority</span> <span class="c1"># =&gt; [&quot;myuser&quot;, &quot;mypass&quot;, &quot;www.example.com&quot;, 8080]
+</span>
+<span class="nb">p</span> <span class="no">URI</span><span class="o">::</span><span class="no">Generic</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="ss">scheme:</span> <span class="s1">'foo'</span><span class="p">)</span><span class="p">.</span><span class="nf">authority</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/URI=3a=3aGeneric/i/userinfo.html">URI::Generic#userinfo</a>, <a href="../method/URI=3a=3aGeneric/i/host.html">URI::Generic#host</a>, <a href="../method/URI=3a=3aGeneric/i/port.html">URI::Generic#port</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_COERCE"><code>coerce(oth) -&gt; [URI, URI]</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/URI=3a=3aGeneric/i/coerce.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/URI/Generic.html#method-i-coerce">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/uri/Generic.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -541,6 +568,40 @@ self.class.component を返します。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/URI=3a=3aGeneric/s/component.html">URI::Generic.component</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECODED_PASSWORD"><code>decoded_password -&gt; String | nil</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/URI=3a=3aGeneric/i/decoded_password.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/URI/Generic.html#method-i-decoded_password">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/uri/Generic.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の password を URI デコードした文字列で返します。設定されていない場合は nil を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+u <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://my%20user:my%20pass@www.example.com/'</span><span class="p">)</span>
+<span class="nb">p</span> u<span class="p">.</span><span class="nf">password</span>         <span class="c1"># =&gt; &quot;my%20pass&quot;
+</span><span class="nb">p</span> u<span class="p">.</span><span class="nf">decoded_password</span> <span class="c1"># =&gt; &quot;my pass&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/URI=3a=3aGeneric/i/password.html">URI::Generic#password</a>, <a href="../method/URI/s/decode_uri_component.html">URI.decode_uri_component</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECODED_USER"><code>decoded_user -&gt; String | nil</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/URI=3a=3aGeneric/i/decoded_user.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/URI/Generic.html#method-i-decoded_user">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/uri/Generic.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の user を URI デコードした文字列で返します。設定されていない場合は nil を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+u <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://my%20user:my%20pass@www.example.com/'</span><span class="p">)</span>
+<span class="nb">p</span> u<span class="p">.</span><span class="nf">user</span>         <span class="c1"># =&gt; &quot;my%20user&quot;
+</span><span class="nb">p</span> u<span class="p">.</span><span class="nf">decoded_user</span> <span class="c1"># =&gt; &quot;my user&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/URI=3a=3aGeneric/i/user.html">URI::Generic#user</a>, <a href="../method/URI/s/decode_uri_component.html">URI.decode_uri_component</a>
 </p>
 </dd>
 

@@ -8,6 +8,8 @@ OptionParser の例外クラスの基底クラスです。
 
 ## Instance Methods
 
+- [additional](../method/OptionParser=3a=3aParseError/i/additional.md)
+- [additional=](../method/OptionParser=3a=3aParseError/i/additional=3d.md)
 - [args](../method/OptionParser=3a=3aParseError/i/args.md)
 - [inspect](../method/OptionParser=3a=3aParseError/i/inspect.md)
 - [message](../method/OptionParser=3a=3aParseError/i/message.md)

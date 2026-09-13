@@ -44,6 +44,7 @@ yesterday = DateTime.now - 1
 
 ## Instance Methods
 
+- [as_json](../method/DateTime/i/as_json.md)
 - [deconstruct_keys](../method/DateTime/i/deconstruct_keys.md)
 - [hour](../method/DateTime/i/hour.md)
 - [iso8601](../method/DateTime/i/iso8601.md)

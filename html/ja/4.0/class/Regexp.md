@@ -51,6 +51,7 @@ p Regexp.new('abc').frozen?
 - [===](../method/Regexp/i/=3d=3d=3d.md)
 - [=~](../method/Regexp/i/=3d=7e.md)
 - [~](../method/Regexp/i/=7e.md)
+- [as_json](../method/Regexp/i/as_json.md)
 - [casefold?](../method/Regexp/i/casefold=3f.md)
 - [encoding](../method/Regexp/i/encoding.md)
 - [fixed_encoding?](../method/Regexp/i/fixed_encoding=3f.md)

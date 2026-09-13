@@ -117,6 +117,7 @@ p ([1.0i / 10] * 10).sum
 - [angle](../method/Complex/i/angle.md)
 - [arg](../method/Complex/i/arg.md)
 - [phase](../method/Complex/i/phase.md)
+- [as_json](../method/Complex/i/as_json.md)
 - [coerce](../method/Complex/i/coerce.md)
 - [conj](../method/Complex/i/conj.md)
 - [conjugate](../method/Complex/i/conjugate.md)

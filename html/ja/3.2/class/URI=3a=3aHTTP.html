@@ -160,6 +160,10 @@ HTTP URI を表すクラスです。
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_AUTHORITY">authority</a></li>
+
+<li><a href="#I_ORIGIN">origin</a></li>
+
 <li><a href="#I_REQUEST_URI">request_uri</a></li>
 
 </ul>
@@ -217,6 +221,12 @@ HTTP URI を表すクラスです。
       
     
       <li><a href="../method/URI=3a=3aGeneric/i/component.html">component</a></li>
+      
+    
+      <li><a href="../method/URI=3a=3aGeneric/i/decoded_password.html">decoded_password</a></li>
+      
+    
+      <li><a href="../method/URI=3a=3aGeneric/i/decoded_user.html">decoded_user</a></li>
       
     
       <li><a href="../method/URI=3a=3aGeneric/i/default_port.html">default_port</a></li>
@@ -451,6 +461,52 @@ registry に nil 以外を与えた時に発生します。デフォルトでは
 
 <h2>インスタンスメソッド</h2>
 <dl>
+
+<dt class="method-heading" id="I_AUTHORITY"><code>authority -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/URI=3a=3aHTTP/i/authority.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/URI/HTTP.html#method-i-authority">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/uri/HTTP.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a class="external" href="https://tools.ietf.org/html/rfc3986">[RFC3986]</a> の Section 3.2 で定義されている authority を文字列で返します。
+</p>
+<p>
+port が <a href="../method/URI=3a=3aGeneric/s/default_port.html">URI::Generic.default_port</a> と同じ場合は host だけを返します。そうでない場合は &quot;host:port&quot; という形式の文字列を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">p</span> <span class="no">URI</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="ss">host:</span> <span class="s1">'www.example.com'</span>, <span class="ss">path:</span> <span class="s1">'/foo/bar'</span><span class="p">)</span><span class="p">.</span><span class="nf">authority</span>
+<span class="c1"># =&gt; &quot;www.example.com&quot;
+</span><span class="nb">p</span> <span class="no">URI</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="ss">host:</span> <span class="s1">'www.example.com'</span>, <span class="ss">port:</span> <span class="mi">8000</span>, <span class="ss">path:</span> <span class="s1">'/foo/bar'</span><span class="p">)</span><span class="p">.</span><span class="nf">authority</span>
+<span class="c1"># =&gt; &quot;www.example.com:8000&quot;
+</span><span class="nb">p</span> <span class="no">URI</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="ss">host:</span> <span class="s1">'www.example.com'</span>, <span class="ss">port:</span> <span class="mi">80</span>, <span class="ss">path:</span> <span class="s1">'/foo/bar'</span><span class="p">)</span><span class="p">.</span><span class="nf">authority</span>
+<span class="c1"># =&gt; &quot;www.example.com&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/URI=3a=3aHTTP/i/origin.html">URI::HTTP#origin</a>, <a href="../method/URI=3a=3aGeneric/s/default_port.html">URI::Generic.default_port</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_ORIGIN"><code>origin -&gt; String</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/URI=3a=3aHTTP/i/origin.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/URI/HTTP.html#method-i-origin">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/uri/HTTP.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a class="external" href="https://tools.ietf.org/html/rfc6454">[RFC6454]</a> で定義されている origin を文字列で返します。
+</p>
+<p>
+&quot;scheme://authority&quot; という形式の文字列になります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">p</span> <span class="no">URI</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="ss">host:</span> <span class="s1">'www.example.com'</span>, <span class="ss">path:</span> <span class="s1">'/foo/bar'</span><span class="p">)</span><span class="p">.</span><span class="nf">origin</span>
+<span class="c1"># =&gt; &quot;http://www.example.com&quot;
+</span><span class="nb">p</span> <span class="no">URI</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="ss">host:</span> <span class="s1">'www.example.com'</span>, <span class="ss">port:</span> <span class="mi">8000</span>, <span class="ss">path:</span> <span class="s1">'/foo/bar'</span><span class="p">)</span><span class="p">.</span><span class="nf">origin</span>
+<span class="c1"># =&gt; &quot;http://www.example.com:8000&quot;
+</span><span class="nb">p</span> <span class="no">URI</span><span class="o">::</span><span class="no">HTTPS</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="ss">host:</span> <span class="s1">'www.example.com'</span>, <span class="ss">path:</span> <span class="s1">'/foo/bar'</span><span class="p">)</span><span class="p">.</span><span class="nf">origin</span>
+<span class="c1"># =&gt; &quot;https://www.example.com&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/URI=3a=3aHTTP/i/authority.html">URI::HTTP#authority</a>
+</p>
+</dd>
+
 
 <dt class="method-heading" id="I_REQUEST_URI"><code>request_uri -&gt; String</code><span class="permalink">[<a href="../method/URI=3a=3aHTTP/i/request_uri.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/URI/HTTP.html#method-i-request_uri">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/uri/HTTP.md">edit</a>]</span></dt>
 <dd class="method-description">

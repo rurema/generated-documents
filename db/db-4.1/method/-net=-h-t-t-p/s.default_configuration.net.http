@@ -1,0 +1,49 @@
+names=default_configuration,default_configuration=
+visibility=public
+kind=defined
+source_location=manual/api/net/http/Net__HTTP.md
+since_by_name=default_configuration=3.4,default_configuration=3d=3.4
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def Net::HTTP.default_configuration -> {Symbol => object} | nil
+### def Net::HTTP.default_configuration=(configuration)
+
+[m:Net::HTTP.new] でインスタンスを生成する際に使われるデフォルトの設定を取得・設定します。
+
+デフォルトは nil で、この場合 [m:Net::HTTP.new] は組み込みのデフォルト値 (keep_alive_timeout は 2、open_timeout・read_timeout・write_timeout は 60 など) を使います。configuration に指定したハッシュのキーに対応する設定は、以後生成されるすべてのインスタンスのデフォルト値として使われます。
+
+指定できるキーと値は以下のとおりです。それぞれ対応するメソッドで設定するのと同じ値を指定します。
+
+- `keep_alive_timeout` -- コネクションの再利用 (keep-alive) を許可する秒数 ([m:Net::HTTP#keep_alive_timeout=])
+- `close_on_empty_response` -- レスポンスがボディを持っていない場合にコネクションを閉じるかどうかの真偽値 ([m:Net::HTTP#close_on_empty_response=])
+- `open_timeout` -- 接続時に待つ最大秒数 ([m:Net::HTTP#open_timeout=])
+- `read_timeout` -- 読み込み一回でブロックしてよい最大秒数、または nil ([m:Net::HTTP#read_timeout=])
+- `write_timeout` -- 書き込み一回でブロックしてよい最大秒数、または nil ([m:Net::HTTP#write_timeout=])
+- `continue_timeout` -- 「100 Continue」レスポンスを待つ秒数、または nil ([m:Net::HTTP#continue_timeout=])
+- `max_retries` -- 冪等なリクエストが失敗した場合に再試行する最大回数 ([m:Net::HTTP#max_retries=])
+- `debug_output` -- デバッグ出力の出力先となる IO オブジェクト、または nil ([m:Net::HTTP#set_debug_output])
+- `response_body_encoding` -- レスポンスボディに使うエンコーディング ([c:Encoding] オブジェクトかその名前の文字列)、または false ([m:Net::HTTP#response_body_encoding=])
+- `ignore_eof` -- レスポンスボディの読み込み時に EOF を無視するかどうかの真偽値 ([m:Net::HTTP#ignore_eof=])
+
+上記以外のキーは無視されます。[m:Net::HTTP#verify_mode=] や [m:Net::HTTP#verify_hostname=] などの SSL/TLS に関する設定はここでは指定できません。
+
+- **param** `configuration` -- デフォルトの設定を `{Symbol => object}` の形のハッシュで指定します。
+- **return** -- 現在設定されているデフォルトの設定を返します。設定されていなければ nil を返します。
+
+```ruby title="例"
+require 'net/http'
+
+Net::HTTP.default_configuration = {
+  read_timeout: 1,
+  write_timeout: 1
+}
+http = Net::HTTP.new('www.example.com')
+http.open_timeout   # => 60
+http.read_timeout   # => 1
+http.write_timeout  # => 1
+```
+
+- **SEE** [m:Net::HTTP.new], [m:Net::HTTP#open_timeout], [m:Net::HTTP#read_timeout], [m:Net::HTTP#write_timeout]
+
+

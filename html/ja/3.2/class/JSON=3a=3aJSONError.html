@@ -140,6 +140,15 @@ JSON のエラーのための基底クラスです。
 <h2>目次</h2>
 <dl>
 
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_WRAP">wrap</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
@@ -211,6 +220,40 @@ JSON のエラーのための基底クラスです。
 
 
 
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_WRAP"><code>wrap(exception) -&gt; JSON::JSONError</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/JSON=3a=3aJSONError/s/wrap.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/JSON/JSONError.html#method-c-wrap">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__JSONError.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+任意の例外 <code>exception</code> を <a href="../class/JSON=3a=3aJSONError.html">JSON::JSONError</a> でラップして返します。
+</p>
+<p>
+<code>exception</code> のクラス名とメッセージを元にしたメッセージを持つ新しい <code>JSON::JSONError</code> のインスタンスを作成し、<code>exception</code> のバックトレースをそのまま引き継いで返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>exception</code>:</dt>
+<dd>
+ラップする例外を指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="k">begin</span>
+  <span class="nb">raise</span> <span class="s2">"</span><span class="s2">boom</span><span class="s2">"</span>
+<span class="k">rescue</span> <span class="o">=&gt;</span> e
+  wrapped <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">JSONError</span><span class="p">.</span><span class="nf">wrap</span><span class="p">(</span>e<span class="p">)</span>
+  <span class="nb">p</span> wrapped<span class="p">.</span><span class="nf">class</span>                    <span class="c1"># =&gt; JSON::JSONError
+</span>  <span class="nb">p</span> wrapped<span class="p">.</span><span class="nf">message</span>                  <span class="c1"># =&gt; &quot;Wrapped(RuntimeError): \&quot;boom\&quot;&quot;
+</span>  <span class="nb">p</span> wrapped<span class="p">.</span><span class="nf">backtrace</span> <span class="o">==</span> e<span class="p">.</span><span class="nf">backtrace</span> <span class="c1"># =&gt; true
+</span><span class="k">end</span>
+</code></pre>
+</dd>
+
+
+</dl>
 
 </main>
 

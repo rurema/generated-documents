@@ -112,6 +112,7 @@ p Range.new(1, 10).frozen?
 - [step](../method/Range/i/step.md)
 - [==](../method/Range/i/=3d=3d.md)
 - [===](../method/Range/i/=3d=3d=3d.md)
+- [as_json](../method/Range/i/as_json.md)
 - [begin](../method/Range/i/begin.md)
 - [first](../method/Range/i/first.md)
 - [bsearch](../method/Range/i/bsearch.md)

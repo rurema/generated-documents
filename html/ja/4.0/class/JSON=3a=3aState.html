@@ -140,6 +140,8 @@ JSON 形式の文字列を生成するための設定を保持しておくため
 
 <li><a href="#S_FROM_STATE">from_state</a></li>
 
+<li><a href="#S_GENERATE">generate</a></li>
+
 <li><a href="#S_NEW">new</a></li>
 
 </ul>
@@ -153,13 +155,21 @@ JSON 形式の文字列を生成するための設定を保持しておくため
 
 <li><a href="#I_--5B--5D--3D">[]=</a></li>
 
-<li><a href="#I_ALLOW_NAN--3F">allow_nan?</a></li>
+<li><a href="#I_ALLOW_NAN--3D">allow_nan=</a></li>
+
+<li><a href="#I_ALLOW_NAN--3D">allow_nan?</a></li>
 
 <li><a href="#I_ARRAY_NL">array_nl</a></li>
 
 <li><a href="#I_ARRAY_NL--3D">array_nl=</a></li>
 
-<li><a href="#I_ASCII_ONLY--3F">ascii_only?</a></li>
+<li><a href="#I_AS_JSON">as_json</a></li>
+
+<li><a href="#I_AS_JSON">as_json=</a></li>
+
+<li><a href="#I_ASCII_ONLY--3D">ascii_only=</a></li>
+
+<li><a href="#I_ASCII_ONLY--3D">ascii_only?</a></li>
 
 <li><a href="#I_BUFFER_INITIAL_LENGTH">buffer_initial_length</a></li>
 
@@ -172,6 +182,12 @@ JSON 形式の文字列を生成するための設定を保持しておくため
 <li><a href="#I_DEPTH">depth</a></li>
 
 <li><a href="#I_DEPTH--3D">depth=</a></li>
+
+<li><a href="#I_ESCAPE_SLASH">escape_slash</a></li>
+
+<li><a href="#I_ESCAPE_SLASH">escape_slash=</a></li>
+
+<li><a href="#I_ESCAPE_SLASH">escape_slash?</a></li>
 
 <li><a href="#I_GENERATE">generate</a></li>
 
@@ -189,6 +205,12 @@ JSON 形式の文字列を生成するための設定を保持しておくため
 
 <li><a href="#I_OBJECT_NL--3D">object_nl=</a></li>
 
+<li><a href="#I_ESCAPE_SLASH">script_safe</a></li>
+
+<li><a href="#I_ESCAPE_SLASH">script_safe=</a></li>
+
+<li><a href="#I_ESCAPE_SLASH">script_safe?</a></li>
+
 <li><a href="#I_SPACE">space</a></li>
 
 <li><a href="#I_SPACE--3D">space=</a></li>
@@ -196,6 +218,12 @@ JSON 形式の文字列を生成するための設定を保持しておくため
 <li><a href="#I_SPACE_BEFORE">space_before</a></li>
 
 <li><a href="#I_SPACE_BEFORE--3D">space_before=</a></li>
+
+<li><a href="#I_STRICT">strict</a></li>
+
+<li><a href="#I_STRICT">strict=</a></li>
+
+<li><a href="#I_STRICT">strict?</a></li>
 
 <li><a href="#I_TO_H">to_h</a></li>
 
@@ -251,6 +279,46 @@ same<span class="p">.</span><span class="nf">equal?</span><span class="p">(</spa
 </span>same<span class="p">.</span><span class="nf">class</span>               <span class="c1"># =&gt; JSON::Ext::Generator::State
 </span>same<span class="p">.</span><span class="nf">indent</span>              <span class="c1"># =&gt; &quot;\t&quot;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_GENERATE"><code>generate(obj, options, io) -&gt; String | IO</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/s/generate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/State.html#method-c-generate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>obj</code> と <code>options</code> から一時的な <a href="../class/JSON=3a=3aState.html">JSON::State</a> を作成し、それを使って
+<code>obj</code> から JSON 形式の文字列を生成します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>obj</code>:</dt>
+<dd>
+JSON 形式の文字列に変換するオブジェクトを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/JSON=3a=3aState/s/new.html">JSON::State.new</a> に指定するのと同様のオプションをハッシュで指定します。
+nil を指定した場合、オプション無しで初期化した <a href="../class/JSON=3a=3aState.html">JSON::State</a> を使用します。
+</dd>
+<dt class='method-param'>[PARAM] <code>io</code>:</dt>
+<dd>
+生成した文字列の書き込み先を、<code>write</code> メソッドを持つオブジェクトで指定します。
+nil を指定した場合は、生成した文字列をそのまま返します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+<code>io</code> を指定しなかった場合は生成した JSON 形式の文字列を返します。
+<code>io</code> を指定した場合は、そこに書き込んだ上で <code>io</code> を返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="nb">p</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">{</span><span class="ss">b:</span> <span class="mi">1</span>, <span class="ss">a:</span> <span class="mi">2</span><span class="p">}</span>, <span class="k">nil</span>, <span class="k">nil</span><span class="p">)</span> <span class="c1"># =&gt; &quot;{\&quot;b\&quot;:1,\&quot;a\&quot;:2}&quot;
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">{</span><span class="ss">b:</span> <span class="mi">1</span>, <span class="ss">a:</span> <span class="mi">2</span><span class="p">}</span>, <span class="p">{</span><span class="ss">indent:</span> <span class="s2">"</span><span class="s2">  </span><span class="s2">"</span>, <span class="ss">object_nl:</span> <span class="s2">"</span><span class="s2">\n</span><span class="s2">"</span><span class="p">}</span>, <span class="k">nil</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;{\n  \&quot;b\&quot;:1,\n  \&quot;a\&quot;:2\n}&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/JSON=3a=3aState/s/new.html">JSON::State.new</a>, <a href="../method/JSON=3a=3aState/i/generate.html">JSON::State#generate</a>
+</p>
 </dd>
 
 
@@ -367,11 +435,21 @@ name という名前のメソッドを呼び出し、その戻り値を返しま
 </dd>
 
 
-<dt class="method-heading" id="I_ALLOW_NAN--3F"><code>allow_nan? -&gt; bool</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/allow_nan=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/State.html#method-i-allow_nan-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ALLOW_NAN--3D"><code>allow_nan? -&gt; bool</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/allow_nan=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/State.html#method-i-allow_nan-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>allow_nan=(enable)</code><span class="method-since-badge">Ruby 3.4 から</span></dt>
 <dd class="method-description">
 <p>
-NaN, Infinity, -Infinity を生成できる場合、真を返します。そうでない場合は偽を返します。
+NaN, Infinity, -Infinity を生成できる場合、<code>allow_nan?</code> は真を返します。そうでない場合は偽を返します。
 </p>
+<p>
+<code>allow_nan=</code> は、NaN, Infinity, -Infinity を生成できるかどうかを設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>enable</code>:</dt>
+<dd>
+真を指定すると NaN, Infinity, -Infinity を生成できるようにします。偽を指定すると生成できないようにします。
+</dd>
+</dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
 
@@ -379,6 +457,14 @@ json_state <span class="o">=</span> <span class="no">JSON</span><span class="o">
 json_state<span class="p">.</span><span class="nf">allow_nan?</span> <span class="c1"># =&gt; false
 </span>json_state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">allow_nan:</span> <span class="k">true</span><span class="p">)</span>
 json_state<span class="p">.</span><span class="nf">allow_nan?</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<span class="caption">例 allow_nan= を使う</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+json_state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">allow_nan:</span> <span class="k">true</span><span class="p">)</span>
+<span class="nb">p</span> json_state<span class="p">.</span><span class="nf">allow_nan?</span> <span class="c1"># =&gt; true
+</span>json_state<span class="p">.</span><span class="nf">allow_nan</span> <span class="o">=</span> <span class="k">false</span>
+<span class="nb">p</span> json_state<span class="p">.</span><span class="nf">allow_nan?</span> <span class="c1"># =&gt; false
 </span></code></pre>
 <p>
 [SEE_ALSO] <a class="external" href="https://tools.ietf.org/html/rfc4627">[RFC4627]</a>
@@ -418,11 +504,58 @@ json_state<span class="p">.</span><span class="nf">array_nl</span>        <span 
 </dd>
 
 
-<dt class="method-heading" id="I_ASCII_ONLY--3F"><code>ascii_only? -&gt; bool</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/ascii_only=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/State.html#method-i-ascii_only-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_AS_JSON"><code>as_json -&gt; Proc | nil</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/as_json.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/State.html#method-i-as_json">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>as_json=(prc)</code></dt>
 <dd class="method-description">
 <p>
-ASCII 文字列のみを用いて JSON 形式の文字列を生成する場合に真を返します。そうでない場合に偽を返します。
+<code>strict?</code> が真のとき、そのままでは JSON 形式の文字列に変換できないオブジェクトを変換するために使用する <code>Proc</code> を取得・設定します。
 </p>
+<p>
+設定した <code>Proc</code> は、変換できないオブジェクトが現れるたびに、そのオブジェクトと、それがハッシュのキーとして使われているかどうかを表す真偽値の 2 引数で呼び出されます。
+<code>Proc</code> の返り値が、代わりに JSON 形式の文字列への変換に使われます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>prc</code>:</dt>
+<dd>
+変換できないオブジェクトを変換するための <code>Proc</code> を指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">strict:</span> <span class="k">true</span>, <span class="ss">as_json:</span> <span class="o">-&gt;</span><span class="p">(</span>obj, is_key<span class="p">)</span> <span class="p">{</span> obj<span class="p">.</span><span class="nf">to_s</span> <span class="p">}</span><span class="p">)</span>
+<span class="nb">p</span> state<span class="p">.</span><span class="nf">as_json</span><span class="p">.</span><span class="nf">class</span>             <span class="c1"># =&gt; Proc
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="o">..</span><span class="mi">3</span><span class="p">]</span>, state<span class="p">)</span> <span class="c1"># =&gt; &quot;[1,\&quot;2..3\&quot;]&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/JSON=3a=3aState/i/strict.html">JSON::State#strict</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_ASCII_ONLY--3D"><code>ascii_only? -&gt; bool</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/ascii_only=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/State.html#method-i-ascii_only-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>ascii_only=(enable)</code><span class="method-since-badge">Ruby 3.4 から</span></dt>
+<dd class="method-description">
+<p>
+ASCII 文字列のみを用いて JSON 形式の文字列を生成する場合に <code>ascii_only?</code> は真を返します。そうでない場合に偽を返します。
+</p>
+<p>
+<code>ascii_only=</code> は、ASCII 文字列のみを用いて JSON 形式の文字列を生成するかどうかを設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>enable</code>:</dt>
+<dd>
+真を指定すると ASCII 文字列のみを生成するようになります。偽を指定すると、ASCII 以外の文字列もそのまま生成するようになります。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+json_state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">ascii_only:</span> <span class="k">true</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">日本語</span><span class="s2">"</span><span class="p">]</span>, json_state<span class="p">)</span> <span class="c1"># =&gt; &quot;[\&quot;\\u65e5\\u672c\\u8a9e\&quot;]&quot;
+</span>json_state<span class="p">.</span><span class="nf">ascii_only</span> <span class="o">=</span> <span class="k">false</span>
+<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">日本語</span><span class="s2">"</span><span class="p">]</span>, json_state<span class="p">)</span> <span class="c1"># =&gt; &quot;[\&quot;日本語\&quot;]&quot;
+</span></code></pre>
 </dd>
 
 
@@ -516,6 +649,36 @@ json_state<span class="p">.</span><span class="nf">indent</span> <span class="c1
 <p>
 データ構造のネストの深さの現在値を整数 depth にセットします。インデントを伴う生成では、この深さを起点として出力されます。ネストの深さの上限(<a href="../method/JSON=3a=3aState/i/max_nesting.html">JSON::State#max_nesting</a>)とは別の値です。
 </p>
+</dd>
+
+
+<dt class="method-heading" id="I_ESCAPE_SLASH"><code>script_safe -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/escape_slash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/State.html#method-i-escape_slash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>script_safe? -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span></dt>
+<dt class="method-heading"><code>script_safe=(enable)</code><span class="method-since-badge">Ruby 3.3 から</span></dt>
+<dt class="method-heading"><code>escape_slash -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.1 で削除</span></dt>
+<dt class="method-heading"><code>escape_slash? -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.1 で削除</span></dt>
+<dt class="method-heading"><code>escape_slash=(enable)</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.1 で削除</span></dt>
+<dd class="method-description">
+<p>
+生成する JSON 形式の文字列中のスラッシュ(<code>/</code>)をエスケープするかどうかを取得・設定します。真を指定すると、スラッシュを <code>\/</code> としてエスケープします。
+</p>
+<p>
+Ruby 3.3 以降は、スラッシュに加えて U+2028, U+2029 もエスケープするようになりました。
+<code>escape_slash</code>, <code>escape_slash?</code>, <code>escape_slash=</code> は、この設定が <code>script_safe</code> という名前になる前から使われている別名です。Ruby 4.1 で削除されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>enable</code>:</dt>
+<dd>
+真を指定するとエスケープを有効にします。偽を指定すると無効にします。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">script_safe:</span> <span class="k">true</span><span class="p">)</span>
+<span class="nb">p</span> state<span class="p">.</span><span class="nf">script_safe?</span>            <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">a/b</span><span class="s2">"</span><span class="p">]</span>, state<span class="p">)</span> <span class="c1"># =&gt; &quot;[\&quot;a\\/b\&quot;]&quot;
+</span></code></pre>
 </dd>
 
 
@@ -763,6 +926,43 @@ json_state<span class="p">.</span><span class="nf">space_before</span>          
 </span><span class="nb">puts</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="p">{</span> <span class="ss">name:</span> <span class="s2">"</span><span class="s2">tanaka</span><span class="s2">"</span>, <span class="ss">age:</span> <span class="mi">19</span> <span class="p">}</span><span class="p">]</span>, json_state<span class="p">)</span>
 <span class="c1"># =&gt; [1,2,{&quot;name&quot; :&quot;tanaka&quot;,&quot;age&quot; :19}]
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_STRICT"><code>strict -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/strict.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/State.html#method-i-strict">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>strict? -&gt; bool</code></dt>
+<dt class="method-heading"><code>strict=(enable)</code></dt>
+<dd class="method-description">
+<p>
+JSON 形式で表現できない型のオブジェクトが現れたときの挙動を取得・設定します。
+</p>
+<p>
+偽の場合(デフォルト)、JSON 形式で表現できない型のオブジェクトは文字列に変換されて出力されます。真の場合、そのようなオブジェクトが現れると <a href="../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>enable</code>:</dt>
+<dd>
+真を指定すると、JSON 形式で表現できない型のオブジェクトが現れたときに例外を発生させるようになります。
+</dd>
+<dt>[EXCEPTION] <code>JSON::GeneratorError</code>:</dt>
+<dd>
+<code>strict?</code> が真の状態で、JSON 形式で表現できない型のオブジェクトを変換しようとした場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">strict:</span> <span class="k">true</span><span class="p">)</span>
+<span class="nb">p</span> state<span class="p">.</span><span class="nf">strict?</span>                            <span class="c1"># =&gt; true
+</span><span class="k">begin</span>
+  <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="no">Object</span><span class="p">.</span><span class="nf">new</span><span class="p">]</span>, state<span class="p">)</span>
+<span class="k">rescue</span> <span class="no">JSON</span><span class="o">::</span><span class="no">GeneratorError</span> <span class="o">=&gt;</span> e
+  <span class="nb">p</span> e<span class="p">.</span><span class="nf">message</span> <span class="c1"># =&gt; &quot;Object not allowed in JSON&quot;
+</span><span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <code>JSON::State#as_json=</code>
+</p>
 </dd>
 
 

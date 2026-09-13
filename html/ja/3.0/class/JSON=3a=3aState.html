@@ -174,6 +174,12 @@ JSON 形式の文字列を生成するための設定を保持しておくため
 
 <li><a href="#I_DEPTH--3D">depth=</a></li>
 
+<li><a href="#I_ESCAPE_SLASH">escape_slash</a></li>
+
+<li><a href="#I_ESCAPE_SLASH">escape_slash=</a></li>
+
+<li><a href="#I_ESCAPE_SLASH">escape_slash?</a></li>
+
 <li><a href="#I_GENERATE">generate</a></li>
 
 <li><a href="#I_INDENT">indent</a></li>
@@ -365,7 +371,7 @@ name という名前のメソッドを呼び出し、その戻り値を返しま
 <dt class="method-heading" id="I_ALLOW_NAN--3F"><code>allow_nan? -&gt; bool</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/allow_nan=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/JSON/State.html#method-i-allow_nan-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-NaN, Infinity, -Infinity を生成できる場合、真を返します。そうでない場合は偽を返します。
+NaN, Infinity, -Infinity を生成できる場合、<code>allow_nan?</code> は真を返します。そうでない場合は偽を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
@@ -416,7 +422,7 @@ json_state<span class="p">.</span><span class="nf">array_nl</span>        <span 
 <dt class="method-heading" id="I_ASCII_ONLY--3F"><code>ascii_only? -&gt; bool</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/ascii_only=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/JSON/State.html#method-i-ascii_only-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-ASCII 文字列のみを用いて JSON 形式の文字列を生成する場合に真を返します。そうでない場合に偽を返します。
+ASCII 文字列のみを用いて JSON 形式の文字列を生成する場合に <code>ascii_only?</code> は真を返します。そうでない場合に偽を返します。
 </p>
 </dd>
 
@@ -511,6 +517,29 @@ json_state<span class="p">.</span><span class="nf">indent</span> <span class="c1
 <p>
 データ構造のネストの深さの現在値を整数 depth にセットします。インデントを伴う生成では、この深さを起点として出力されます。ネストの深さの上限(<a href="../method/JSON=3a=3aState/i/max_nesting.html">JSON::State#max_nesting</a>)とは別の値です。
 </p>
+</dd>
+
+
+<dt class="method-heading" id="I_ESCAPE_SLASH"><code>escape_slash -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.1 で削除</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/escape_slash.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/JSON/State.html#method-i-escape_slash">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>escape_slash? -&gt; bool</code></dt>
+<dt class="method-heading"><code>escape_slash=(enable)</code></dt>
+<dd class="method-description">
+<p>
+生成する JSON 形式の文字列中のスラッシュ(<code>/</code>)をエスケープするかどうかを取得・設定します。真を指定すると、スラッシュを <code>\/</code> としてエスケープします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>enable</code>:</dt>
+<dd>
+真を指定するとエスケープを有効にします。偽を指定すると無効にします。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">script_safe:</span> <span class="k">true</span><span class="p">)</span>
+<span class="nb">p</span> state<span class="p">.</span><span class="nf">script_safe?</span>            <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">a/b</span><span class="s2">"</span><span class="p">]</span>, state<span class="p">)</span> <span class="c1"># =&gt; &quot;[\&quot;a\\/b\&quot;]&quot;
+</span></code></pre>
 </dd>
 
 

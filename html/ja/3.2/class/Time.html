@@ -312,6 +312,8 @@ yday は 1 から数えます。
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_AS_JSON">as_json</a></li>
+
 <li><a href="#I_HTTPDATE">httpdate</a></li>
 
 <li><a href="#S_HTTPDATE">httpdate</a></li>
@@ -1740,6 +1742,37 @@ self の表す時刻が水曜日である場合に true を返します。そう
 
 <h2>追加されるメソッド</h2>
 <dl>
+
+<dt class="method-heading" id="I_AS_JSON"><code>as_json(*args) -&gt; Hash</code><span class="method-since-badge">Ruby 3.0 から</span> <span class="method-until-badge">Ruby 4.1 で削除</span><span class="permalink">[<a href="../method/Time/i/as_json.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Time.html#method-i-as_json">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/add/time.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/json=2fadd=2ftime.html">json/add/time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<code>self</code> を JSON 形式の文字列に変換する際に使う、中間表現となるハッシュに変換して返します。
+<a href="../method/Time/i/to_json.html">Time#to_json</a> が内部で使用しています。
+</p>
+<p>
+ハッシュには、<a href="../method/JSON/s/create_id.html">JSON.create_id</a> をキーとしてクラス名が、<code>'s'</code> に 1970-01-01 からの経過秒数(<a href="../method/Time/i/tv_sec.html">Time#tv_sec</a> の返り値)が、<code>'n'</code> にナノ秒未満の端数(<a href="../method/Time/i/tv_nsec.html">Time#tv_nsec</a> の返り値)が入ります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>args</code>:</dt>
+<dd>
+無視されます。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'json/add/time'</span>
+
+t <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="mi">1700000000</span>, <span class="mi">123456</span>, <span class="ss">:usec</span><span class="p">)</span>
+<span class="nb">hash</span> <span class="o">=</span> t<span class="p">.</span><span class="nf">as_json</span>
+<span class="nb">p</span> <span class="nb">hash</span><span class="p">[</span><span class="s1">'json_class'</span><span class="p">]</span> <span class="c1"># =&gt; &quot;Time&quot;
+</span><span class="nb">p</span> <span class="nb">hash</span><span class="p">[</span><span class="s1">'s'</span><span class="p">]</span>           <span class="c1"># =&gt; 1700000000
+</span><span class="nb">p</span> <span class="nb">hash</span><span class="p">[</span><span class="s1">'n'</span><span class="p">]</span>           <span class="c1"># =&gt; 123456000
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Time/i/to_json.html">Time#to_json</a>, <a href="../method/Time/s/json_create.html">Time.json_create</a>
+</p>
+</dd>
+
 
 <dt class="method-heading" id="I_HTTPDATE"><code>httpdate -&gt; String</code><span class="permalink">[<a href="../method/Time/i/httpdate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Time.html#method-i-httpdate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/time.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
 </dt>
