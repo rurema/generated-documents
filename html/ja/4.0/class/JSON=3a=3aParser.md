@@ -3,6 +3,7 @@
 ## Class Methods
 
 - [new](../method/JSON=3a=3aParser/s/new.md)
+- [parse](../method/JSON=3a=3aParser/s/parse.md)
 
 ## Instance Methods
 

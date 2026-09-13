@@ -181,6 +181,8 @@ opts<span class="p">.</span><span class="nf">on</span><span class="p">(</span><s
 
 <li><a href="#S_REJECT">reject</a></li>
 
+<li><a href="#S_TERMINATE">terminate</a></li>
+
 </ul>
 </dd>
 
@@ -194,9 +196,23 @@ opts<span class="p">.</span><span class="nf">on</span><span class="p">(</span><s
 
 <li><a href="#I_BANNER--3D">banner=</a></li>
 
+<li><a href="#I_CANDIDATE">candidate</a></li>
+
+<li><a href="#I_DEF_HEAD_OPTION">def_head_option</a></li>
+
+<li><a href="#I_DEF_OPTION">def_option</a></li>
+
+<li><a href="#I_DEF_TAIL_OPTION">def_tail_option</a></li>
+
 <li><a href="#I_DEFAULT_ARGV">default_argv</a></li>
 
 <li><a href="#I_DEFAULT_ARGV--3D">default_argv=</a></li>
+
+<li><a href="#I_DEF_OPTION">define</a></li>
+
+<li><a href="#I_DEF_HEAD_OPTION">define_head</a></li>
+
+<li><a href="#I_DEF_TAIL_OPTION">define_tail</a></li>
 
 <li><a href="#I_ENVIRONMENT">environment</a></li>
 
@@ -255,6 +271,8 @@ opts<span class="p">.</span><span class="nf">on</span><span class="p">(</span><s
 <li><a href="#I_SUMMARY_WIDTH">summary_width</a></li>
 
 <li><a href="#I_SET_SUMMARY_WIDTH">summary_width=</a></li>
+
+<li><a href="#I_TERMINATE">terminate</a></li>
 
 <li><a href="#I_TO_A">to_a</a></li>
 
@@ -430,6 +448,23 @@ parse<span class="p">(</span>opts2<span class="p">)</span> <span class="c1"># =&
 </dd>
 
 
+<dt class="method-heading" id="S_TERMINATE"><code>terminate(arg = nil) -&gt; ()</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OptionParser/s/terminate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OptionParser.html#method-c-terminate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/OptionParser.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/OptionParser/i/terminate.html">OptionParser#terminate</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>arg</code>:</dt>
+<dd>
+パース結果の先頭に戻す文字列を指定します。省略した場合は何も戻しません。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OptionParser/i/terminate.html">OptionParser#terminate</a>
+</p>
+</dd>
+
+
 </dl>
 
 <h2>インスタンスメソッド</h2>
@@ -526,6 +561,99 @@ opts <span class="o">=</span> <span class="no">OptionParser</span><span class="p
 
 <span class="nb">p</span> opts<span class="p">.</span><span class="nf">banner</span> <span class="c1"># =&gt; &quot;Usage: example.rb [options]&quot;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_CANDIDATE"><code>candidate(word) -&gt; [String]</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OptionParser/i/candidate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OptionParser.html#method-i-candidate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/OptionParser.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>word</code> で始まるオプション名の補完候補を配列で返します。
+</p>
+<p>
+デフォルトで利用可能な <code>--*-completion-bash</code> オプションの処理で、コマンドラインの補完候補を求めるために使われます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>word</code>:</dt>
+<dd>
+補完したいオプション名の断片を文字列で指定します。
+<code>--</code> で始まる場合はロングオプション、<code>-</code> 1 文字だけの場合はショートオプションとロングオプションの両方、それ以外の <code>-</code> で始まる文字列の場合はショートオプションが候補の対象になります。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">optparse</span><span class="s2">"</span>
+
+opts <span class="o">=</span> <span class="no">OptionParser</span><span class="p">.</span><span class="nf">new</span>
+opts<span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="s2">"</span><span class="s2">-f</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">--foo VALUE</span><span class="s2">"</span><span class="p">)</span>
+opts<span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="s2">"</span><span class="s2">-b</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">--bar</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> opts<span class="p">.</span><span class="nf">candidate</span><span class="p">(</span><span class="s2">"</span><span class="s2">--f</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># =&gt; [&quot;--foo&quot;]
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">candidate</span><span class="p">(</span><span class="s2">"</span><span class="s2">-f</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; [&quot;-f&quot;]
+</span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">candidate</span><span class="p">(</span><span class="s2">"</span><span class="s2">-</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># =&gt; [&quot;--foo&quot;, &quot;-f&quot;, &quot;--bar&quot;, &quot;-b&quot;]
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_DEF_HEAD_OPTION"><code>define_head(*params) {|v| ... } -&gt; OptionParser::Switch</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OptionParser/i/def_head_option.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OptionParser.html#method-i-def_head_option">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/OptionParser.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>def_head_option(*params) {|v| ... } -&gt; OptionParser::Switch</code></dt>
+<dd class="method-description">
+<p>
+オプションを、サマリの先頭に表示される位置に登録します。<a href="../method/OptionParser/i/on_head.html">OptionParser#on_head</a> と同じ引数を受け付けますが、<code>self</code> ではなく登録した <a href="../class/OptionParser=3a=3aSwitch.html">OptionParser::Switch</a> オブジェクトを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>params</code>:</dt>
+<dd>
+<a href="../method/OptionParser/i/on_head.html">OptionParser#on_head</a> と同じです。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+登録した <a href="../class/OptionParser=3a=3aSwitch.html">OptionParser::Switch</a> オブジェクトを返します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OptionParser/i/on_head.html">OptionParser#on_head</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DEF_OPTION"><code>define(*params) {|v| ... } -&gt; OptionParser::Switch</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OptionParser/i/def_option.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OptionParser.html#method-i-def_option">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/OptionParser.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>def_option(*params) {|v| ... } -&gt; OptionParser::Switch</code></dt>
+<dd class="method-description">
+<p>
+オプションを登録します。<a href="../method/OptionParser/i/on.html">OptionParser#on</a> と同じ引数を受け付けますが、<code>self</code> ではなく登録した <a href="../class/OptionParser=3a=3aSwitch.html">OptionParser::Switch</a> オブジェクトを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>params</code>:</dt>
+<dd>
+<a href="../method/OptionParser/i/on.html">OptionParser#on</a> と同じです。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+登録した <a href="../class/OptionParser=3a=3aSwitch.html">OptionParser::Switch</a> オブジェクトを返します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OptionParser/i/on.html">OptionParser#on</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DEF_TAIL_OPTION"><code>define_tail(*params) {|v| ... } -&gt; OptionParser::Switch</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OptionParser/i/def_tail_option.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OptionParser.html#method-i-def_tail_option">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/OptionParser.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>def_tail_option(*params) {|v| ... } -&gt; OptionParser::Switch</code></dt>
+<dd class="method-description">
+<p>
+オプションを、サマリの末尾に表示される位置に登録します。<a href="../method/OptionParser/i/on_tail.html">OptionParser#on_tail</a> と同じ引数を受け付けますが、<code>self</code> ではなく登録した <a href="../class/OptionParser=3a=3aSwitch.html">OptionParser::Switch</a> オブジェクトを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>params</code>:</dt>
+<dd>
+<a href="../method/OptionParser/i/on_tail.html">OptionParser#on_tail</a> と同じです。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+登録した <a href="../class/OptionParser=3a=3aSwitch.html">OptionParser::Switch</a> オブジェクトを返します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/OptionParser/i/on_tail.html">OptionParser#on_tail</a>
+</p>
 </dd>
 
 
@@ -1695,6 +1823,36 @@ opts <span class="o">=</span> <span class="no">OptionParser</span><span class="p
 </span><span class="nb">p</span> opts<span class="p">.</span><span class="nf">summarize</span>
 <span class="c1"># =&gt; [&quot;    -i\n&quot;, &quot;        --init\n&quot;, &quot;    -u\n&quot;, &quot;        --update\n&quot;, &quot;    -h\n&quot;, &quot;        --help\n&quot;]
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TERMINATE"><code>terminate(arg = nil) -&gt; ()</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/OptionParser/i/terminate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/OptionParser.html#method-i-terminate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/OptionParser.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+オプションのパースを打ち切ります。
+</p>
+<p>
+<code>arg</code> を指定すると、パースされずに残った引数の先頭に <code>arg</code> を戻します。オプションを処理するブロックの中から呼び出し、その時点でパースを終了させたい場合に使います。
+</p>
+<p>
+内部では <a href="../method/OptionParser/s/terminate.html">OptionParser.terminate</a> を呼び出しています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>arg</code>:</dt>
+<dd>
+パース結果の先頭に戻す文字列を指定します。省略した場合は何も戻しません。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">optparse</span><span class="s2">"</span>
+
+opts <span class="o">=</span> <span class="no">OptionParser</span><span class="p">.</span><span class="nf">new</span>
+opts<span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="s2">"</span><span class="s2">-a</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span> <span class="o">|</span>v<span class="o">|</span> <span class="p">}</span>
+opts<span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="s2">"</span><span class="s2">-b</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span> <span class="o">|</span>v<span class="o">|</span> opts<span class="p">.</span><span class="nf">terminate</span><span class="p">(</span><span class="s2">"</span><span class="s2">leftover</span><span class="s2">"</span><span class="p">)</span> <span class="p">}</span>
+<span class="nb">p</span> opts<span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">-b</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">-a</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>   <span class="c1"># =&gt; [&quot;leftover&quot;, &quot;-a&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/OptionParser/s/terminate.html">OptionParser.terminate</a>
+</p>
 </dd>
 
 

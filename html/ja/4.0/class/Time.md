@@ -57,6 +57,7 @@ yday は 1 から数えます。
 - [+](../method/Time/i/=2b.md)
 - [-](../method/Time/i/=2d.md)
 - [<=>](../method/Time/i/=3c=3d=3e.md)
+- [as_json](../method/Time/i/as_json.md)
 - [asctime](../method/Time/i/asctime.md)
 - [ctime](../method/Time/i/ctime.md)
 - [ceil](../method/Time/i/ceil.md)

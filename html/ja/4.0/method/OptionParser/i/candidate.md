@@ -1,0 +1,24 @@
+# OptionParser#candidate
+
+### def candidate(word) -> [String]
+
+`word` で始まるオプション名の補完候補を配列で返します。
+
+デフォルトで利用可能な `--*-completion-bash` オプションの処理で、
+コマンドラインの補完候補を求めるために使われます。
+
+- **param** `word` -- 補完したいオプション名の断片を文字列で指定します。
+             `--` で始まる場合はロングオプション、`-` 1 文字だけの場合は
+             ショートオプションとロングオプションの両方、それ以外の `-` で始まる
+             文字列の場合はショートオプションが候補の対象になります。
+
+```ruby
+require "optparse"
+
+opts = OptionParser.new
+opts.on("-f", "--foo VALUE")
+opts.on("-b", "--bar")
+p opts.candidate("--f")   # => ["--foo"]
+p opts.candidate("-f")    # => ["-f"]
+p opts.candidate("-")     # => ["--foo", "-f", "--bar", "-b"]
+```

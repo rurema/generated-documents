@@ -17,6 +17,7 @@
 - [==](../method/Struct/i/=3d=3d.md)
 - [\[\]](../method/Struct/i/=5b=5d.md)
 - [\[\]=](../method/Struct/i/=5b=5d=3d.md)
+- [as_json](../method/Struct/i/as_json.md)
 - [deconstruct](../method/Struct/i/deconstruct.md)
 - [to_a](../method/Struct/i/to_a.md)
 - [values](../method/Struct/i/values.md)

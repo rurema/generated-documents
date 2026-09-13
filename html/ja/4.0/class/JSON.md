@@ -7,9 +7,15 @@ JSON (JavaScript Object Notation) を扱うためのモジュールです。
 - [\[\]](../method/JSON/s/=5b=5d.md)
 - [create_id](../method/JSON/s/create_id.md)
 - [create_id=](../method/JSON/s/create_id=3d.md)
+- [dump_default_options](../method/JSON/s/dump_default_options.md)
+- [dump_default_options=](../method/JSON/s/dump_default_options=3d.md)
 - [generator](../method/JSON/s/generator.md)
+- [load_default_options](../method/JSON/s/load_default_options.md)
+- [load_default_options=](../method/JSON/s/load_default_options=3d.md)
 - [parser](../method/JSON/s/parser.md)
 - [state](../method/JSON/s/state.md)
+- [unsafe_load_default_options](../method/JSON/s/unsafe_load_default_options.md)
+- [unsafe_load_default_options=](../method/JSON/s/unsafe_load_default_options=3d.md)
 
 ## Module Functions
 
@@ -26,6 +32,7 @@ JSON (JavaScript Object Notation) を扱うためのモジュールです。
 - [parse!](../method/JSON/m/parse=21.md)
 - [pretty_generate](../method/JSON/m/pretty_generate.md)
 - [pretty_unparse](../method/JSON/m/pretty_unparse.md)
+- [unsafe_load](../method/JSON/m/unsafe_load.md)
 
 ## Constants
 

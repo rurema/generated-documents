@@ -104,6 +104,7 @@ yesterday = Date.today - 1
 - [>>](../method/Date/i/=3e=3e.md)
 - [ajd](../method/Date/i/ajd.md)
 - [amjd](../method/Date/i/amjd.md)
+- [as_json](../method/Date/i/as_json.md)
 - [asctime](../method/Date/i/asctime.md)
 - [ctime](../method/Date/i/ctime.md)
 - [cwday](../method/Date/i/cwday.md)

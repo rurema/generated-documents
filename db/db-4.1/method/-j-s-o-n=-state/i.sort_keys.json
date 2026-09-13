@@ -1,0 +1,34 @@
+names=sort_keys,sort_keys=
+visibility=public
+kind=defined
+source_location=manual/api/json/JSON__State.md
+since_by_name=sort_keys=4.1,sort_keys=3d=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def sort_keys -> bool | Proc
+### def sort_keys=(value)
+
+生成する JSON 形式の文字列で、オブジェクト(ハッシュ)のキーを並べ替えるかどうかを取得・設定します。
+
+`value` に真を指定すると、キーを昇順に並べ替えます。`Proc` を指定すると、
+ハッシュ全体を引数としてその `Proc` を呼び出し、返り値のハッシュをそのままの順序で使用します。
+これにより任意の並べ替えができます。偽を指定すると並べ替えを行いません(デフォルト)。
+
+- **param** `value` -- 真偽値または `Proc` を指定します。
+
+- **raise** `TypeError` -- `value` が真偽値でも `Proc` でもない場合に発生します。
+
+```ruby title="例"
+require "json"
+
+state = JSON::State.new(sort_keys: true)
+p JSON.generate({b: 1, a: 2}, state) # => "{\"a\":2,\"b\":1}"
+
+state2 = JSON::State.new(sort_keys: ->(hash) { hash.sort_by { |k, v| -v }.to_h })
+p JSON.generate({a: 1, b: 2}, state2) # => "{\"b\":2,\"a\":1}"
+```
+
+- **SEE** [m:JSON::State.default_sort_keys_proc=]
+
+

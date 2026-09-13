@@ -12,6 +12,7 @@
 ## Instance Methods
 
 - [==](../method/Exception/i/=3d=3d.md)
+- [as_json](../method/Exception/i/as_json.md)
 - [backtrace](../method/Exception/i/backtrace.md)
 - [backtrace_locations](../method/Exception/i/backtrace_locations.md)
 - [cause](../method/Exception/i/cause.md)

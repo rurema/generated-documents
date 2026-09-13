@@ -1,0 +1,26 @@
+# JSON::State#script_safe?
+
+### def script_safe -> bool
+### def script_safe? -> bool
+### def script_safe=(enable)
+### def escape_slash -> bool
+### def escape_slash? -> bool
+### def escape_slash=(enable)
+
+生成する JSON 形式の文字列中のスラッシュ(`/`)をエスケープするかどうかを取得・設定します。
+真を指定すると、スラッシュを `\/` としてエスケープします。
+
+Ruby 3.3 以降は、スラッシュに加えて U+2028, U+2029 もエスケープするようになりました。
+`escape_slash`, `escape_slash?`, `escape_slash=` は、この設定が `script_safe` という
+名前になる前から使われている別名です。Ruby 4.1 で削除されます。
+
+
+- **param** `enable` -- 真を指定するとエスケープを有効にします。偽を指定すると無効にします。
+
+```ruby title="例"
+require "json"
+
+state = JSON::State.new(script_safe: true)
+p state.script_safe?            # => true
+p JSON.generate(["a/b"], state) # => "[\"a\\/b\"]"
+```

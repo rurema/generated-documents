@@ -82,6 +82,7 @@ Ruby 2.1 系まではこの機能がなかったため、ユーザからの入�
 - [=~](../method/Symbol/i/=3d=7e.md)
 - [\[\]](../method/Symbol/i/=5b=5d.md)
 - [slice](../method/Symbol/i/slice.md)
+- [as_json](../method/Symbol/i/as_json.md)
 - [capitalize](../method/Symbol/i/capitalize.md)
 - [casecmp](../method/Symbol/i/casecmp.md)
 - [casecmp?](../method/Symbol/i/casecmp=3f.md)

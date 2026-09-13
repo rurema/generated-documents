@@ -1,0 +1,30 @@
+names=query
+visibility=public
+kind=defined
+source_location=manual/api/net/http/Net__HTTP.md
+since_by_name=query=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def query(path, data, initheader = nil, dest = nil) -> Net::HTTPResponse
+### def query(path, data, initheader = nil, dest = nil) {|body_segment| .... } -> Net::HTTPResponse
+
+サーバ上の path にあるエンティティに対し文字列 data を QUERY メソッドで送ります。
+
+返り値は [c:Net::HTTPResponse] のインスタンスです。
+
+ブロックと一緒に呼びだされたときはエンティティボディを少しずつ文字列としてブロックに与えます。このとき戻り値の [c:Net::HTTPResponse] オブジェクトは有効な body を持ちません。
+
+QUERY メソッドは安全 (safe) かつ冪等 (idempotent) で、キャッシュ可能な HTTP メソッドとして [rfc:10008] で定義されています。リクエストの生成には `Net::HTTP::Query` オブジェクトが使われます。
+
+dest は時代遅れの引数です。利用しないでください。
+dest を指定した場合にはボディを少しずつ取得して順次「dest << ボディの断片」を実行します。
+
+- **param** `path` -- リクエストを送るパスを文字列で指定します。
+- **param** `data` -- 送るデータを文字列で指定します。
+- **param** `initheader` -- リクエストの HTTP ヘッダをハッシュで指定します。
+- **param** `dest` -- 利用しないでください。
+
+- **SEE** [m:Net::HTTP#request_query]
+
+

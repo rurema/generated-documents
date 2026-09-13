@@ -1,0 +1,38 @@
+names=strict,strict=,strict?
+visibility=public
+kind=defined
+source_location=manual/api/json/JSON__State.md
+since_by_name=strict=3.3,strict=3d=3.3,strict=3f=3.3
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def strict -> bool
+### def strict? -> bool
+### def strict=(enable)
+
+JSON 形式で表現できない型のオブジェクトが現れたときの挙動を取得・設定します。
+
+偽の場合(デフォルト)、JSON 形式で表現できない型のオブジェクトは文字列に変換されて出力されます。
+真の場合、そのようなオブジェクトが現れると [c:JSON::GeneratorError] が発生します。
+
+- **param** `enable` -- 真を指定すると、JSON 形式で表現できない型のオブジェクトが現れたときに
+           例外を発生させるようになります。
+
+- **raise** `JSON::GeneratorError` -- `strict?` が真の状態で、JSON 形式で表現できない
+           型のオブジェクトを変換しようとした場合に発生します。
+
+```ruby title="例"
+require "json"
+
+state = JSON::State.new(strict: true)
+p state.strict?                            # => true
+begin
+  JSON.generate([Object.new], state)
+rescue JSON::GeneratorError => e
+  p e.message # => "Object not allowed in JSON"
+end
+```
+
+- **SEE** `JSON::State#as_json=`
+
+
