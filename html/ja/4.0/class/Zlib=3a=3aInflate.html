@@ -147,6 +147,8 @@
 
 <li><a href="#I_--3C--3C">&lt;&lt;</a></li>
 
+<li><a href="#I_ADD_DICTIONARY">add_dictionary</a></li>
+
 <li><a href="#I_FINISH">finish</a></li>
 
 <li><a href="#I_INFLATE">inflate</a></li>
@@ -312,6 +314,40 @@ inz <span class="o">&lt;&lt;</span> cstr<span class="p">[</span><span class="mi"
 inz <span class="o">&lt;&lt;</span> cstr<span class="p">[</span><span class="mi">10</span><span class="o">..</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="nb">p</span> inz<span class="p">.</span><span class="nf">flush_next_out</span> <span class="c1"># =&gt; &quot;ga end&quot;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_ADD_DICTIONARY"><code>add_dictionary(string) -&gt; self</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Zlib=3a=3aInflate/i/add_dictionary.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Zlib/Inflate.html#method-i-add_dictionary">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/Inflate.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+今後必要になるかもしれない辞書 string を、あらかじめ展開ストリームに登録します。
+</p>
+<p>
+複数の辞書を登録することができます。展開ストリームは、実際に要求される辞書に応じて、登録済みの辞書の中から適切なものを自動的に選択します。<a href="../method/Zlib=3a=3aInflate/i/set_dictionary.html">Zlib::Inflate#set_dictionary</a> と違い、<a href="../class/Zlib=3a=3aNeedDict.html">Zlib::NeedDict</a> 例外を捕捉してから辞書をセットし直す必要がありません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+展開ストリームにあらかじめ登録しておく辞書を文字列で指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'zlib'</span>
+
+dict <span class="o">=</span> <span class="s1">'hoge_fuga_ugougo'</span>
+str <span class="o">=</span> <span class="s1">'hogehogefugafuga'</span> <span class="o">*</span> <span class="mi">3</span>
+
+dez <span class="o">=</span> <span class="no">Zlib</span><span class="o">::</span><span class="no">Deflate</span><span class="p">.</span><span class="nf">new</span>
+dez<span class="p">.</span><span class="nf">set_dictionary</span><span class="p">(</span>dict<span class="p">)</span>
+compressed <span class="o">=</span> dez<span class="p">.</span><span class="nf">deflate</span><span class="p">(</span>str<span class="p">)</span>
+compressed <span class="o">&lt;&lt;</span> dez<span class="p">.</span><span class="nf">finish</span>
+
+inz <span class="o">=</span> <span class="no">Zlib</span><span class="o">::</span><span class="no">Inflate</span><span class="p">.</span><span class="nf">new</span>
+inz<span class="p">.</span><span class="nf">add_dictionary</span><span class="p">(</span>dict<span class="p">)</span>
+<span class="nb">p</span> inz<span class="p">.</span><span class="nf">inflate</span><span class="p">(</span>compressed<span class="p">)</span> <span class="o">==</span> str <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Zlib=3a=3aInflate/i/set_dictionary.html">Zlib::Inflate#set_dictionary</a>
+</p>
 </dd>
 
 

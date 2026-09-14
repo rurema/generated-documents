@@ -1,0 +1,13 @@
+# Date#day_fraction
+
+### def day_fraction -> Integer | Rational
+
+1 日のうちで経過した時刻を分数で返します。真夜中を `0`、正午を `Rational(1, 2)` として計算します。
+
+`self` が時刻の情報を持たない場合(`Date` のインスタンスなど)は、整数の `0` を返します。
+
+```ruby title="例"
+require 'date'
+p Date.new(2001, 2, 3).day_fraction         # => 0
+p DateTime.new(2001, 2, 3, 12).day_fraction # => (1/2)
+```

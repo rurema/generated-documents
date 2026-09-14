@@ -205,6 +205,10 @@
 
 <li><a href="#S_TCP">tcp</a></li>
 
+<li><a href="#S_TCP_FAST_FALLBACK">tcp_fast_fallback</a></li>
+
+<li><a href="#S_TCP_FAST_FALLBACK">tcp_fast_fallback=</a></li>
+
 <li><a href="#S_TCP_SERVER_LOOP">tcp_server_loop</a></li>
 
 <li><a href="#S_TCP_SERVER_SOCKETS">tcp_server_sockets</a></li>
@@ -2203,6 +2207,46 @@ Happy Eyeballs Version 2 (<a class="external" href="https://datatracker.ietf.org
   <span class="nb">puts</span> sock<span class="p">.</span><span class="nf">read</span>
 <span class="p">}</span>
 </code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_TCP_FAST_FALLBACK"><code>tcp_fast_fallback -&gt; bool</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Socket/s/tcp_fast_fallback.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Socket.html#method-c-tcp_fast_fallback">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/socket/Socket.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>tcp_fast_fallback=(enable)</code></dt>
+<dd class="method-description">
+<p>
+Happy Eyeballs Version 2(<a class="external" href="https://tools.ietf.org/html/rfc8305">[RFC8305]</a>)を <a href="../method/TCPSocket/s/new.html">TCPSocket.new</a> と <a href="../method/Socket/s/tcp.html">Socket.tcp</a> で既定で有効にするかどうかを取得・設定します。
+</p>
+<p>
+<code>true</code> にすると、<a href="../method/TCPSocket/s/new.html">TCPSocket.new</a> と <a href="../method/Socket/s/tcp.html">Socket.tcp</a> の両方で Happy Eyeballs Version 2 が有効になります(Windows では <a href="../method/TCPSocket/s/new.html">TCPSocket.new</a> はこのアルゴリズムに対応していません)。<code>false</code> にすると Ruby 3.3 以前の動作に戻ります。
+</p>
+<p>
+明示的に設定しなければ既定値は <code>true</code> です。
+</p>
+<p>
+ただし、環境変数 <code>RUBY_TCP_NO_FAST_FALLBACK=1</code> が設定されている場合、既定値は <code>false</code> になります。
+</p>
+<p>
+メソッド呼び出しごとに制御したい場合は、各メソッドのキーワード引数 <code>fast_fallback</code> を使ってください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>enable</code>:</dt>
+<dd>
+<code>true</code> なら Happy Eyeballs Version 2 を有効に、<code>false</code> なら無効にします。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'socket'</span>
+
+<span class="nb">p</span> <span class="no">Socket</span><span class="p">.</span><span class="nf">tcp_fast_fallback</span>   <span class="c1"># =&gt; true
+</span>
+<span class="no">Socket</span><span class="p">.</span><span class="nf">tcp_fast_fallback</span> <span class="o">=</span> <span class="k">false</span>
+<span class="nb">p</span> <span class="no">Socket</span><span class="p">.</span><span class="nf">tcp_fast_fallback</span>   <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Socket/s/tcp.html">Socket.tcp</a>
+</p>
+<p>
+[SEE_ALSO] <a href="../method/TCPSocket/s/new.html">TCPSocket.new</a>
+</p>
 </dd>
 
 

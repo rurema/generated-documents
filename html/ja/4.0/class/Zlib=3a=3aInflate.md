@@ -10,6 +10,7 @@
 ## Instance Methods
 
 - [<<](../method/Zlib=3a=3aInflate/i/=3c=3c.md)
+- [add_dictionary](../method/Zlib=3a=3aInflate/i/add_dictionary.md)
 - [finish](../method/Zlib=3a=3aInflate/i/finish.md)
 - [inflate](../method/Zlib=3a=3aInflate/i/inflate.md)
 - [set_dictionary](../method/Zlib=3a=3aInflate/i/set_dictionary.md)

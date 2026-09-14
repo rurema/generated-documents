@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-13-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-14-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -128,6 +128,10 @@ zlib ライブラリに含まれている雑多な機能を提供するモジュ
 <li><a href="#M_CRC32_COMBINE">crc32_combine</a></li>
 
 <li><a href="#M_DEFLATE">deflate</a></li>
+
+<li><a href="#M_GUNZIP">gunzip</a></li>
+
+<li><a href="#M_GZIP">gzip</a></li>
 
 <li><a href="#M_INFLATE">inflate</a></li>
 
@@ -346,6 +350,60 @@ CRC チェックサムの計算に用いるテーブルを配列で返します�
 </dl>
 <p>
 [SEE_ALSO] <a href="../method/Zlib=3a=3aDeflate/s/deflate.html">Zlib::Deflate.deflate</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_GUNZIP"><code>gunzip(string) -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Zlib/m/gunzip.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Zlib.html#method-c-gunzip">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/Zlib.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+gzip 形式で圧縮された文字列 string を展開した文字列を返します。
+</p>
+<p>
+<a href="../method/Zlib/m/gzip.html">Zlib?.gzip</a> で圧縮したデータを元に戻すために使います。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+展開する、gzip 形式で圧縮された文字列を指定します。
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::Error</code>:</dt>
+<dd>
+gzip 形式でないデータを渡した場合などに発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Zlib/m/gzip.html">Zlib?.gzip</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_GZIP"><code>gzip(string, level: nil, strategy: nil) -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Zlib/m/gzip.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Zlib.html#method-c-gzip">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/Zlib.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+string を gzip 形式に圧縮した文字列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+圧縮する文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>level</code>:</dt>
+<dd>
+圧縮の水準を整数で指定します。有効な値は <a href="../method/Zlib/c/NO_COMPRESSION.html">Zlib::NO_COMPRESSION</a>, <a href="../method/Zlib/c/BEST_SPEED.html">Zlib::BEST_SPEED</a>, <a href="../method/Zlib/c/BEST_COMPRESSION.html">Zlib::BEST_COMPRESSION</a>, <a href="../method/Zlib/c/DEFAULT_COMPRESSION.html">Zlib::DEFAULT_COMPRESSION</a> (デフォルト) 及び 0 から 9 の整数です。
+</dd>
+<dt class='method-param'>[PARAM] <code>strategy</code>:</dt>
+<dd>
+圧縮方法を整数で指定します。有効な値は <a href="../method/Zlib/c/FILTERED.html">Zlib::FILTERED</a>, <a href="../method/Zlib/c/HUFFMAN_ONLY.html">Zlib::HUFFMAN_ONLY</a>, <a href="../method/Zlib/c/DEFAULT_STRATEGY.html">Zlib::DEFAULT_STRATEGY</a> (デフォルト) 等です。<a href="../method/Zlib=3a=3aDeflate/s/new.html">Zlib::Deflate.new</a> を参照してください。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'zlib'</span>
+
+compressed <span class="o">=</span> <span class="no">Zlib</span><span class="p">.</span><span class="nf">gzip</span><span class="p">(</span><span class="s1">'hoge fuga'</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Zlib</span><span class="p">.</span><span class="nf">gunzip</span><span class="p">(</span>compressed<span class="p">)</span> <span class="c1"># =&gt; &quot;hoge fuga&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Zlib/m/gunzip.html">Zlib?.gunzip</a>
 </p>
 </dd>
 
