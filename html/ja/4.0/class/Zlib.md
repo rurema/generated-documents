@@ -13,6 +13,8 @@ zlib ライブラリに含まれている雑多な機能を提供するモジュ
 - [crc32_combine](../method/Zlib/m/crc32_combine.md)
 - [crc_table](../method/Zlib/m/crc_table.md)
 - [deflate](../method/Zlib/m/deflate.md)
+- [gunzip](../method/Zlib/m/gunzip.md)
+- [gzip](../method/Zlib/m/gzip.md)
 - [inflate](../method/Zlib/m/inflate.md)
 - [zlib_version](../method/Zlib/m/zlib_version.md)
 

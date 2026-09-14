@@ -168,6 +168,8 @@ gz<span class="p">.</span><span class="nf">close</span>
 
 <li><a href="#S_WRAP">wrap</a></li>
 
+<li><a href="#S_ZCAT">zcat</a></li>
+
 </ul>
 </dd>
 
@@ -179,11 +181,17 @@ gz<span class="p">.</span><span class="nf">close</span>
 
 <li><a href="#I_EACH_BYTE">each_byte</a></li>
 
+<li><a href="#I_EACH_CHAR">each_char</a></li>
+
 <li><a href="#I_EACH">each_line</a></li>
 
 <li><a href="#I_EOF">eof</a></li>
 
 <li><a href="#I_EOF">eof?</a></li>
+
+<li><a href="#I_EXTERNAL_ENCODING">external_encoding</a></li>
+
+<li><a href="#I_GETBYTE">getbyte</a></li>
 
 <li><a href="#I_GETC">getc</a></li>
 
@@ -197,6 +205,8 @@ gz<span class="p">.</span><span class="nf">close</span>
 
 <li><a href="#I_READ">read</a></li>
 
+<li><a href="#I_READBYTE">readbyte</a></li>
+
 <li><a href="#I_READCHAR">readchar</a></li>
 
 <li><a href="#I_READLINE">readline</a></li>
@@ -208,6 +218,8 @@ gz<span class="p">.</span><span class="nf">close</span>
 <li><a href="#I_REWIND">rewind</a></li>
 
 <li><a href="#I_POS">tell</a></li>
+
+<li><a href="#I_UNGETBYTE">ungetbyte</a></li>
 
 <li><a href="#I_UNGETC">ungetc</a></li>
 
@@ -575,6 +587,51 @@ f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><
 </dd>
 
 
+<dt class="method-heading" id="S_ZCAT"><code>zcat(io, options = {}) -&gt; String</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Zlib=3a=3aGzipReader/s/zcat.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Zlib/GzipReader.html#method-c-zcat">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/GzipReader.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>zcat(io, options = {}) {|string| ... } -&gt; nil</code></dt>
+<dd class="method-description">
+<p>
+io に含まれているすべての gzip ストリームを展開します。
+</p>
+<p>
+io の末尾まで、複数の gzip ストリームが連続して格納されている場合も扱います。gzip ストリームの後ろに gzip 形式以外のデータがあってはいけません。
+</p>
+<p>
+ブロックが与えられた場合は、展開したストリームごとにブロックを呼び出し、<code>nil</code> を返します。ブロックが与えられなかった場合は、すべてのストリームを展開した結果を連結した文字列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>io</code>:</dt>
+<dd>
+読み込み元の IO オブジェクトを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/Zlib=3a=3aGzipReader/s/new.html">Zlib::GzipReader.new</a> に渡すオプションをハッシュで指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'zlib'</span>
+
+<span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'multi.gz'</span>, <span class="s1">'wb'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span>
+  f<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="no">Zlib</span><span class="p">.</span><span class="nf">gzip</span><span class="p">(</span><span class="s1">'hoge'</span><span class="p">)</span><span class="p">)</span>
+  f<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="no">Zlib</span><span class="p">.</span><span class="nf">gzip</span><span class="p">(</span><span class="s1">'fuga'</span><span class="p">)</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'multi.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span>
+  <span class="nb">p</span> <span class="no">Zlib</span><span class="o">::</span><span class="no">GzipReader</span><span class="p">.</span><span class="nf">zcat</span><span class="p">(</span>f<span class="p">)</span> <span class="c1"># =&gt; &quot;hogefuga&quot;
+</span><span class="p">}</span>
+
+<span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'multi.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span>
+  <span class="no">Zlib</span><span class="o">::</span><span class="no">GzipReader</span><span class="p">.</span><span class="nf">zcat</span><span class="p">(</span>f<span class="p">)</span> <span class="p">{</span> <span class="o">|</span>chunk<span class="o">|</span> <span class="nb">p</span> chunk <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1"># =&gt; &quot;hoge&quot;
+</span><span class="c1"># =&gt; &quot;fuga&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Zlib=3a=3aGzipReader/s/new.html">Zlib::GzipReader.new</a>
+</p>
+</dd>
+
+
 </dl>
 
 <h2>インスタンスメソッド</h2>
@@ -728,6 +785,68 @@ Zlib::GzipWriter.open('hoge.gz') { |gz|
 </dd>
 
 
+<dt class="method-heading" id="I_EACH_CHAR"><code>each_char {|c| ... } -&gt; nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Zlib=3a=3aGzipReader/i/each_char.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Zlib/GzipReader.html#method-i-each_char">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/GzipReader.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>each_char -&gt; Enumerator</code></dt>
+<dd class="method-description">
+<p>
+IO クラスの同名メソッド<a href="../method/IO/i/each_char.html">IO#each_char</a>と同じです。
+</p>
+<p>
+但し、gzip ファイル中にエラーがあった場合 <a href="../class/Zlib=3a=3aError.html">Zlib::Error</a> 例外や
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aError.html">Zlib::GzipFile::Error</a> 例外が発生します。
+</p>
+<p>
+gzip ファイルのフッターの処理に注意して下さい。
+gzip ファイルのフッターには圧縮前データのチェックサムが記録されています。GzipReader オブジェクトは、次の時に展開したデータとフッターの照合を行い、エラーがあった場合は
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aNoFooter.html">Zlib::GzipFile::NoFooter</a>, <a href="../class/Zlib=3a=3aGzipFile=3a=3aCRCError.html">Zlib::GzipFile::CRCError</a>,
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aLengthError.html">Zlib::GzipFile::LengthError</a> 例外を発生させます。
+</p>
+<ul>
+<li>EOF (圧縮データの最後) を越えて読み込み要求を受けた時。
+すなわち <a href="../method/Zlib=3a=3aGzipReader/i/read.html">Zlib::GzipReader#read</a>,
+<a href="../method/Zlib=3a=3aGzipReader/i/gets.html">Zlib::GzipReader#gets</a> メソッド等が nil を返す時。</li>
+<li>EOF まで読み込んだ後、<a href="../method/Zlib=3a=3aGzipFile/i/close.html">Zlib::GzipFile#close</a> メソッドが
+呼び出された時。</li>
+<li>EOF まで読み込んだ後、<a href="../method/Zlib=3a=3aGzipReader/i/unused.html">Zlib::GzipReader#unused</a> メソッドが
+呼び出された時。</li>
+</ul>
+<dl>
+<dt>[EXCEPTION] <code>Zlib::Error</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aError.html">Zlib::Error</a> を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::Error</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aError.html">Zlib::GzipFile::Error</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::NoFooter</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aNoFooter.html">Zlib::GzipFile::NoFooter</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::CRCError</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aCRCError.html">Zlib::GzipFile::CRCError</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::LengthError</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aLengthError.html">Zlib::GzipFile::LengthError</a>を参照
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'zlib'</span>
+
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span> gz<span class="p">.</span><span class="nf">print</span> <span class="s1">'hoge'</span> <span class="p">}</span>
+
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipReader</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span>
+  gz<span class="p">.</span><span class="nf">each_char</span> <span class="p">{</span> <span class="o">|</span>c<span class="o">|</span> <span class="nb">print</span> c, <span class="s1">' '</span> <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1"># =&gt; h o g e 
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/each_char.html">IO#each_char</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_EOF"><code>eof -&gt; bool</code><span class="permalink">[<a href="../method/Zlib=3a=3aGzipReader/i/eof.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Zlib/GzipReader.html#method-i-eof">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/GzipReader.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>eof? -&gt; bool</code></dt>
 <dd class="method-description">
@@ -752,6 +871,94 @@ Zlib::GzipWriter.open('hoge.gz') { |gz|
   <span class="nb">p</span> gz<span class="p">.</span><span class="nf">eof?</span> <span class="c1"># =&gt; true
 </span><span class="p">}</span>
 </code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_EXTERNAL_ENCODING"><code>external_encoding -&gt; Encoding</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Zlib=3a=3aGzipReader/i/external_encoding.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Zlib/GzipReader.html#method-i-external_encoding">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/GzipReader.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が読み込むデータの外部エンコーディングを返します。
+</p>
+<p>
+<a href="../method/Zlib=3a=3aGzipReader/s/new.html">Zlib::GzipReader.new</a> や <a href="../method/Zlib=3a=3aGzipReader/s/open.html">Zlib::GzipReader.open</a> の <code>:external_encoding</code> オプションや <code>:encoding</code> オプションで指定した値を返します。省略した場合はデフォルトの外部エンコーディング(<a href="../method/Encoding/s/default_external.html">Encoding.default_external</a>)を返します。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'zlib'</span>
+
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span> gz<span class="p">.</span><span class="nf">print</span> <span class="s1">'hoge'</span> <span class="p">}</span>
+
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipReader</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span>, <span class="ss">external_encoding:</span> <span class="s1">'EUC-JP'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span>
+  <span class="nb">p</span> gz<span class="p">.</span><span class="nf">external_encoding</span> <span class="c1"># =&gt; #&lt;Encoding:EUC-JP&gt;
+</span><span class="p">}</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/external_encoding.html">IO#external_encoding</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_GETBYTE"><code>getbyte -&gt; Integer | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Zlib=3a=3aGzipReader/i/getbyte.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Zlib/GzipReader.html#method-i-getbyte">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/GzipReader.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+IO クラスの同名メソッド<a href="../method/IO/i/getbyte.html">IO#getbyte</a>と同じです。
+</p>
+<p>
+但し、gzip ファイル中にエラーがあった場合 <a href="../class/Zlib=3a=3aError.html">Zlib::Error</a> 例外や
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aError.html">Zlib::GzipFile::Error</a> 例外が発生します。
+</p>
+<p>
+gzip ファイルのフッターの処理に注意して下さい。
+gzip ファイルのフッターには圧縮前データのチェックサムが記録されています。GzipReader オブジェクトは、次の時に展開したデータとフッターの照合を行い、エラーがあった場合は
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aNoFooter.html">Zlib::GzipFile::NoFooter</a>, <a href="../class/Zlib=3a=3aGzipFile=3a=3aCRCError.html">Zlib::GzipFile::CRCError</a>,
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aLengthError.html">Zlib::GzipFile::LengthError</a> 例外を発生させます。
+</p>
+<ul>
+<li>EOF (圧縮データの最後) を越えて読み込み要求を受けた時。
+すなわち <a href="../method/Zlib=3a=3aGzipReader/i/read.html">Zlib::GzipReader#read</a>,
+<a href="../method/Zlib=3a=3aGzipReader/i/gets.html">Zlib::GzipReader#gets</a> メソッド等が nil を返す時。</li>
+<li>EOF まで読み込んだ後、<a href="../method/Zlib=3a=3aGzipFile/i/close.html">Zlib::GzipFile#close</a> メソッドが
+呼び出された時。</li>
+<li>EOF まで読み込んだ後、<a href="../method/Zlib=3a=3aGzipReader/i/unused.html">Zlib::GzipReader#unused</a> メソッドが
+呼び出された時。</li>
+</ul>
+<dl>
+<dt>[EXCEPTION] <code>Zlib::Error</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aError.html">Zlib::Error</a> を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::Error</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aError.html">Zlib::GzipFile::Error</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::NoFooter</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aNoFooter.html">Zlib::GzipFile::NoFooter</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::CRCError</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aCRCError.html">Zlib::GzipFile::CRCError</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::LengthError</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aLengthError.html">Zlib::GzipFile::LengthError</a>を参照
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'zlib'</span>
+
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span> gz<span class="p">.</span><span class="nf">print</span> <span class="s1">'hoge'</span> <span class="p">}</span>
+
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipReader</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span>
+  <span class="k">while</span> b <span class="o">=</span> gz<span class="p">.</span><span class="nf">getbyte</span>
+    <span class="nb">puts</span> b
+  <span class="k">end</span>
+<span class="p">}</span>
+<span class="c1"># =&gt; 104
+</span><span class="c1"># =&gt; 111
+</span><span class="c1"># =&gt; 103
+</span><span class="c1"># =&gt; 101
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/getbyte.html">IO#getbyte</a>
+</p>
 </dd>
 
 
@@ -1152,6 +1359,80 @@ Zlib::GzipWriter.open('hoge.gz') { |gz|
 </dd>
 
 
+<dt class="method-heading" id="I_READBYTE"><code>readbyte -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Zlib=3a=3aGzipReader/i/readbyte.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Zlib/GzipReader.html#method-i-readbyte">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/GzipReader.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+IO クラスの同名メソッド<a href="../method/IO/i/readbyte.html">IO#readbyte</a>と同じです。
+</p>
+<p>
+但し、gzip ファイル中にエラーがあった場合 <a href="../class/Zlib=3a=3aError.html">Zlib::Error</a> 例外や
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aError.html">Zlib::GzipFile::Error</a> 例外が発生します。
+</p>
+<p>
+gzip ファイルのフッターの処理に注意して下さい。
+gzip ファイルのフッターには圧縮前データのチェックサムが記録されています。GzipReader オブジェクトは、次の時に展開したデータとフッターの照合を行い、エラーがあった場合は
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aNoFooter.html">Zlib::GzipFile::NoFooter</a>, <a href="../class/Zlib=3a=3aGzipFile=3a=3aCRCError.html">Zlib::GzipFile::CRCError</a>,
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aLengthError.html">Zlib::GzipFile::LengthError</a> 例外を発生させます。
+</p>
+<ul>
+<li>EOF (圧縮データの最後) を越えて読み込み要求を受けた時。
+すなわち <a href="../method/Zlib=3a=3aGzipReader/i/read.html">Zlib::GzipReader#read</a>,
+<a href="../method/Zlib=3a=3aGzipReader/i/gets.html">Zlib::GzipReader#gets</a> メソッド等が nil を返す時。</li>
+<li>EOF まで読み込んだ後、<a href="../method/Zlib=3a=3aGzipFile/i/close.html">Zlib::GzipFile#close</a> メソッドが
+呼び出された時。</li>
+<li>EOF まで読み込んだ後、<a href="../method/Zlib=3a=3aGzipReader/i/unused.html">Zlib::GzipReader#unused</a> メソッドが
+呼び出された時。</li>
+</ul>
+<dl>
+<dt>[EXCEPTION] <code>EOFError</code>:</dt>
+<dd>
+EOF に到達したとき発生します。
+</dd>
+<dt>[EXCEPTION] <code>Zlib::Error</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aError.html">Zlib::Error</a> を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::Error</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aError.html">Zlib::GzipFile::Error</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::NoFooter</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aNoFooter.html">Zlib::GzipFile::NoFooter</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::CRCError</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aCRCError.html">Zlib::GzipFile::CRCError</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::LengthError</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aLengthError.html">Zlib::GzipFile::LengthError</a>を参照
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'zlib'</span>
+
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span> gz<span class="p">.</span><span class="nf">print</span> <span class="s1">'hoge'</span> <span class="p">}</span>
+
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipReader</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span>
+  <span class="k">begin</span>
+    <span class="nb">puts</span> gz<span class="p">.</span><span class="nf">readbyte</span>
+  <span class="k">rescue</span> <span class="no">EOFError</span> <span class="o">=&gt;</span> err
+    <span class="nb">puts</span> err
+    <span class="k">break</span>
+  <span class="k">end</span> <span class="k">while</span> <span class="k">true</span>
+<span class="p">}</span>
+<span class="c1"># =&gt; 104
+</span><span class="c1"># =&gt; 111
+</span><span class="c1"># =&gt; 103
+</span><span class="c1"># =&gt; 101
+</span><span class="c1"># =&gt; end of file reached
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/readbyte.html">IO#readbyte</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_READCHAR"><code>readchar -&gt; Integer</code><span class="permalink">[<a href="../method/Zlib=3a=3aGzipReader/i/readchar.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Zlib/GzipReader.html#method-i-readchar">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/GzipReader.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -1429,6 +1710,76 @@ gz <span class="o">=</span> <span class="no">Zlib</span><span class="o">::</span
 </span><span class="nb">puts</span> gz<span class="p">.</span><span class="nf">gets</span> <span class="c1"># =&gt; hoge
 </span>gz<span class="p">.</span><span class="nf">close</span>
 </code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_UNGETBYTE"><code>ungetbyte(char) -&gt; nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Zlib=3a=3aGzipReader/i/ungetbyte.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Zlib/GzipReader.html#method-i-ungetbyte">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/zlib/GzipReader.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+IO クラスの同名メソッド<a href="../method/IO/i/ungetbyte.html">IO#ungetbyte</a>と同じです。
+</p>
+<p>
+但し、gzip ファイル中にエラーがあった場合 <a href="../class/Zlib=3a=3aError.html">Zlib::Error</a> 例外や
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aError.html">Zlib::GzipFile::Error</a> 例外が発生します。
+</p>
+<p>
+gzip ファイルのフッターの処理に注意して下さい。
+gzip ファイルのフッターには圧縮前データのチェックサムが記録されています。GzipReader オブジェクトは、次の時に展開したデータとフッターの照合を行い、エラーがあった場合は
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aNoFooter.html">Zlib::GzipFile::NoFooter</a>, <a href="../class/Zlib=3a=3aGzipFile=3a=3aCRCError.html">Zlib::GzipFile::CRCError</a>,
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aLengthError.html">Zlib::GzipFile::LengthError</a> 例外を発生させます。
+</p>
+<ul>
+<li>EOF (圧縮データの最後) を越えて読み込み要求を受けた時。
+すなわち <a href="../method/Zlib=3a=3aGzipReader/i/read.html">Zlib::GzipReader#read</a>,
+<a href="../method/Zlib=3a=3aGzipReader/i/gets.html">Zlib::GzipReader#gets</a> メソッド等が nil を返す時。</li>
+<li>EOF まで読み込んだ後、<a href="../method/Zlib=3a=3aGzipFile/i/close.html">Zlib::GzipFile#close</a> メソッドが
+呼び出された時。</li>
+<li>EOF まで読み込んだ後、<a href="../method/Zlib=3a=3aGzipReader/i/unused.html">Zlib::GzipReader#unused</a> メソッドが
+呼び出された時。</li>
+</ul>
+<dl>
+<dt class='method-param'>[PARAM] <code>char</code>:</dt>
+<dd>
+読み戻したい 1 バイトを、バイト値(整数)または 1 文字の文字列で指定します。
+</dd>
+<dt>[EXCEPTION] <code>Zlib::Error</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aError.html">Zlib::Error</a> を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::Error</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aError.html">Zlib::GzipFile::Error</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::NoFooter</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aNoFooter.html">Zlib::GzipFile::NoFooter</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::CRCError</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aCRCError.html">Zlib::GzipFile::CRCError</a>を参照
+</dd>
+<dt>[EXCEPTION] <code>Zlib::GzipFile::LengthError</code>:</dt>
+<dd>
+<a href="../class/Zlib=3a=3aGzipFile=3a=3aLengthError.html">Zlib::GzipFile::LengthError</a>を参照
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'zlib'</span>
+
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipWriter</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span> gz<span class="p">.</span><span class="nf">print</span> <span class="s1">'hoge'</span> <span class="p">}</span>
+
+<span class="no">Zlib</span><span class="o">::</span><span class="no">GzipReader</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s1">'hoge.gz'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>gz<span class="o">|</span>
+  b1 <span class="o">=</span> gz<span class="p">.</span><span class="nf">getbyte</span>
+  b2 <span class="o">=</span> gz<span class="p">.</span><span class="nf">getbyte</span>
+  <span class="nb">printf</span> <span class="s2">"</span><span class="s2">%d -&gt; %d\n</span><span class="s2">"</span>, b1, b2
+  gz<span class="p">.</span><span class="nf">ungetbyte</span><span class="p">(</span>b2<span class="p">)</span>
+  <span class="nb">p</span> gz<span class="p">.</span><span class="nf">getbyte</span>
+<span class="p">}</span>
+<span class="c1"># =&gt; 104 -&gt; 111
+</span><span class="c1"># =&gt; 111
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/ungetbyte.html">IO#ungetbyte</a>
+</p>
 </dd>
 
 

@@ -35,6 +35,8 @@
 - [pair](../method/Socket/s/pair.md)
 - [socketpair](../method/Socket/s/socketpair.md)
 - [tcp](../method/Socket/s/tcp.md)
+- [tcp_fast_fallback](../method/Socket/s/tcp_fast_fallback.md)
+- [tcp_fast_fallback=](../method/Socket/s/tcp_fast_fallback=3d.md)
 - [tcp_server_loop](../method/Socket/s/tcp_server_loop.md)
 - [tcp_server_sockets](../method/Socket/s/tcp_server_sockets.md)
 - [udp_server_loop](../method/Socket/s/udp_server_loop.md)

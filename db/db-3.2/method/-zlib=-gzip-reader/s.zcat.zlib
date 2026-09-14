@@ -1,0 +1,41 @@
+names=zcat
+visibility=public
+kind=defined
+source_location=manual/api/zlib/GzipReader.md
+since_by_name=zcat=3.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def Zlib::GzipReader.zcat(io, options = {}) -> String
+### def Zlib::GzipReader.zcat(io, options = {}) {|string| ... } -> nil
+
+io に含まれているすべての gzip ストリームを展開します。
+
+io の末尾まで、複数の gzip ストリームが連続して格納されている場合も扱います。gzip ストリームの後ろに gzip 形式以外のデータがあってはいけません。
+
+ブロックが与えられた場合は、展開したストリームごとにブロックを呼び出し、`nil` を返します。ブロックが与えられなかった場合は、すべてのストリームを展開した結果を連結した文字列を返します。
+
+- **param** `io` -- 読み込み元の IO オブジェクトを指定します。
+- **param** `options` -- [m:Zlib::GzipReader.new] に渡すオプションをハッシュで指定します。
+
+```ruby
+require 'zlib'
+
+File.open('multi.gz', 'wb') { |f|
+  f.write(Zlib.gzip('hoge'))
+  f.write(Zlib.gzip('fuga'))
+}
+
+File.open('multi.gz') { |f|
+  p Zlib::GzipReader.zcat(f) # => "hogefuga"
+}
+
+File.open('multi.gz') { |f|
+  Zlib::GzipReader.zcat(f) { |chunk| p chunk }
+}
+# => "hoge"
+# => "fuga"
+```
+
+- **SEE** [m:Zlib::GzipReader.new]
+
