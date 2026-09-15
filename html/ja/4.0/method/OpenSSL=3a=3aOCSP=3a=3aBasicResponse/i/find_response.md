@@ -1,6 +1,7 @@
 # OpenSSL::OCSP::BasicResponse#find_response
 
 ### def find_response(certificate_id) -> OpenSSL::OCSP::SingleResponse | nil
+{: since="2.4.0"}
 
 certificate_id に CertId が一致する `OpenSSL::OCSP::SingleResponse` を返します。
 

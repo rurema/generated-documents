@@ -7,7 +7,8 @@
 
 [JSON?.parse](../../../method/JSON/m/parse.md) との違いは、load は信頼できる入力源を読み込むための簡易メソッドである点です。
 source には JSON 形式の文字列だけでなく、to_str, to_io, read のいずれかに応答するオブジェクト
-(File などの IO や、パスを表すオブジェクトなど) も指定でき、その内容を読み込んだ上で内部的に [JSON?.parse](../../../method/JSON/m/parse.md) を呼び出します。また、[JSON?.parse](../../../method/JSON/m/parse.md) とはデフォルトのオプション
+(File などの IO や、パスを表すオブジェクトなど) も指定でき、その内容を読み込んだ上で内部的に [JSON?.parse](../../../method/JSON/m/parse.md) を呼び出します。
+また、[JSON?.parse](../../../method/JSON/m/parse.md) とはデフォルトのオプション
 (特に create_additions) が異なります。
 
 proc として手続きオブジェクトが与えられた場合は、読み込んだオブジェクトを引数にその手続きを呼び出します。

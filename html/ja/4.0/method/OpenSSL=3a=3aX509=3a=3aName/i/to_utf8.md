@@ -1,6 +1,7 @@
 # OpenSSL::X509::Name#to_utf8
 
 ### def to_utf8 -> String
+{: since="2.5.0"}
 
 識別名(Distinguished Name)を UTF-8 の文字列で返します。
 

@@ -1,6 +1,7 @@
 # IO#cursor_up
 
 ### def cursor_up(n) -> self
+{: since="2.7.0"}
 
 カーソルを n 行上に移動します。
 

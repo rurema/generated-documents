@@ -1,7 +1,9 @@
 # OpenSSL::SSL::SSLContext#npn_select_cb
 
 ### def npn_select_cb -> Proc | nil
+{: since="2.0.0"}
 ### def npn_select_cb=(cb)
+{: since="2.0.0"}
 
 NPN 拡張でサーバが提示したプロトコルの中から、クライアントが利用するプロトコルを選択するためのコールバックを取得・設定します。
 

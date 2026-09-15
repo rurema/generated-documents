@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-14-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -115,10 +115,6 @@ JSON (JavaScript Object Notation) を扱うためのモジュールです。
 <ul class="class-toc">
 
 <li><a href="#S_--5B--5D">[]</a></li>
-
-<li><a href="#S_CREATE_ID">create_id</a></li>
-
-<li><a href="#S_CREATE_ID--3D">create_id=</a></li>
 
 <li><a href="#S_GENERATOR">generator</a></li>
 
@@ -226,72 +222,6 @@ string<span class="o">=</span><span class="no">&lt;&lt;JSON</span>
 <p>
 [SEE_ALSO] <a href="../method/JSON/m/parse.html">JSON?.parse</a>, <a href="../method/JSON/m/generate.html">JSON?.generate</a>
 </p>
-</dd>
-
-
-<dt class="method-heading" id="S_CREATE_ID"><code>create_id -&gt; String</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON/s/create_id.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-create_id">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-json_create メソッドで使用するクラスを決定するために使用する値を返します。
-</p>
-<p>
-デフォルトは &quot;json_class&quot; です。
-</p>
-<span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
-
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">User</span>
-  attr <span class="ss">:id</span>, <span class="ss">:name</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">id</span>, <span class="nb">name</span><span class="p">)</span>
-    <span class="vi">@id</span>, <span class="vi">@name</span> <span class="o">=</span> <span class="nb">id</span>, <span class="nb">name</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nc">self</span><span class="p">.</span><span class="nf">json_create</span><span class="p">(</span><span class="nf">object</span><span class="p">)</span>
-    new<span class="p">(</span>object<span class="p">[</span><span class="s1">'id'</span><span class="p">]</span>, object<span class="p">[</span><span class="s2">"</span><span class="s2">name</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="no">JSON</span><span class="p">.</span><span class="nf">create_id</span> <span class="o">=&gt;</span> <span class="nc">self</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">name</span>,
-      <span class="s2">"</span><span class="s2">id</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="nb">id</span>,
-      <span class="s2">"</span><span class="s2">name</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="nb">name</span>,
-    <span class="p">}</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-    as_json<span class="p">.</span><span class="nf">to_json</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-json <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="no">User</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">1</span>, <span class="s2">"</span><span class="s2">tanaka</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
-<span class="nb">p</span> json <span class="c1"># =&gt; &quot;{\&quot;json_class\&quot;:\&quot;User\&quot;,\&quot;id\&quot;:1,\&quot;name\&quot;:\&quot;tanaka\&quot;}&quot;
-</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>json, <span class="ss">create_additions:</span> <span class="k">true</span><span class="p">)</span>
-<span class="c1"># =&gt; #&lt;User:0x0000557709b269e0 @id=1, @name=&quot;tanaka&quot;&gt;
-</span></code></pre>
-</dd>
-
-
-<dt class="method-heading" id="S_CREATE_ID--3D"><code>create_id=(identifier)</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON/s/create_id=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-create_id-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-json_create メソッドで使用するクラスを決定するために使用する値をセットします。
-</p>
-<dl>
-<dt class='method-param'>[PARAM] <code>identifier</code>:</dt>
-<dd>
-識別子を指定します。
-</dd>
-</dl>
-<span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">json/add/core</span><span class="s2">"</span>
-
-<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">create_id</span>                 <span class="c1"># =&gt; &quot;json_class&quot;
-</span><span class="nb">puts</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">to_json</span>              <span class="c1"># =&gt; {&quot;json_class&quot;:&quot;Range&quot;,&quot;a&quot;:[1,5,false]}
-</span><span class="no">JSON</span><span class="p">.</span><span class="nf">create_id</span> <span class="o">=</span> <span class="s2">"</span><span class="s2">my_json_class</span><span class="s2">"</span> <span class="c1"># =&gt; &quot;my_json_class&quot;
-</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">create_id</span>                 <span class="c1"># =&gt; &quot;my_json_class&quot;
-</span><span class="nb">puts</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">to_json</span>              <span class="c1"># =&gt; {&quot;my_json_class&quot;:&quot;Range&quot;,&quot;a&quot;:[1,5,false]}
-</span></code></pre>
 </dd>
 
 
@@ -515,8 +445,7 @@ a string that is put at the end of a JSON array (default: '')
 <p>
 <a href="../method/JSON/m/parse.html">JSON?.parse</a> との違いは、load は信頼できる入力源を読み込むための簡易メソッドである点です。
 source には JSON 形式の文字列だけでなく、to_str, to_io, read のいずれかに応答するオブジェクト
-(File などの IO や、パスを表すオブジェクトなど) も指定でき、その内容を読み込んだ上で内部的に <a href="../method/JSON/m/parse.html">JSON?.parse</a> を呼び出します。また、<a href="../method/JSON/m/parse.html">JSON?.parse</a> とはデフォルトのオプション
-(特に create_additions) が異なります。
+(File などの IO や、パスを表すオブジェクトなど) も指定でき、その内容を読み込んだ上で内部的に <a href="../method/JSON/m/parse.html">JSON?.parse</a> を呼び出します。
 </p>
 <p>
 proc として手続きオブジェクトが与えられた場合は、読み込んだオブジェクトを引数にその手続きを呼び出します。
@@ -582,12 +511,6 @@ JSON 形式の文字列を指定します。他には、to_str, to_io, read メ�
 <dd>
 <p>
 真を指定すると、sourceがnilの場合にnilを返します。デフォルトは真です。
-</p>
-</dd>
-<dt><code>:create_additions</code></dt>
-<dd>
-<p>
-偽を指定するとマッチするクラスや <a href="../method/JSON/s/create_id.html">JSON.create_id</a> が見つかっても付加情報を生成しません。デフォルトは真です。
 </p>
 </dd>
 <dt><code>:symbolize_names</code></dt>
@@ -671,12 +594,6 @@ JSON 形式の文字列を指定します。
 <a href="../method/JSON/c/MinusInfinity.html">JSON::MinusInfinity</a> を許可するようになります。デフォルトは偽です。
 </p>
 </dd>
-<dt><code>:create_additions</code></dt>
-<dd>
-<p>
-偽を指定するとマッチするクラスや <a href="../method/JSON/s/create_id.html">JSON.create_id</a> が見つかっても付加情報を生成しません。デフォルトは偽です。
-</p>
-</dd>
 <dt><code>:symbolize_names</code></dt>
 <dd>
 <p>
@@ -729,12 +646,6 @@ JSON 形式の文字列を指定します。
 <p>
 真を指定すると <a class="external" href="https://tools.ietf.org/html/rfc4627">[RFC4627]</a> を無視してパース時に <a href="../method/JSON/c/NaN.html">JSON::NaN</a>, <a href="../method/JSON/c/Infinity.html">JSON::Infinity</a>,
 <a href="../method/JSON/c/MinusInfinity.html">JSON::MinusInfinity</a> を許可するようになります。デフォルトは真です。
-</p>
-</dd>
-<dt><code>:create_additions</code></dt>
-<dd>
-<p>
-偽を指定するとマッチするクラスや <a href="../method/JSON/s/create_id.html">JSON.create_id</a> が見つかっても付加情報を生成しません。デフォルトは偽です。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
@@ -809,8 +720,7 @@ JSON 形式の文字列に変換するオブジェクトを指定します。
 与えられた JSON 形式の文字列を Ruby オブジェクトとしてロードして返します。
 </p>
 <p>
-<a href="../method/JSON/m/load.html">JSON?.load</a> と同様のメソッドですが、こちらは信頼できる入力を読み込むためのメソッドであることを名前で明示しています。デフォルトのオプション(<code>create_additions: true</code> を含みます)は
-<code>JSON.unsafe_load_default_options</code> で変更できます。
+<a href="../method/JSON/m/load.html">JSON?.load</a> と同様のメソッドですが、こちらは信頼できる入力を読み込むためのメソッドであることを名前で明示しています。
 </p>
 <p>
 <code>source</code> には JSON 形式の文字列だけでなく、<code>to_str</code>, <code>to_io</code>, <code>read</code> のいずれかに応答するオブジェクト
@@ -835,11 +745,8 @@ JSON 形式の文字列を指定します。他には、<code>to_str</code>, <co
 </dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
-<span class="nb">require</span> <span class="s2">"</span><span class="s2">json/add/core</span><span class="s2">"</span>
 
-json <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">to_json</span>
-<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>json<span class="p">)</span><span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; Hash
-</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">unsafe_load</span><span class="p">(</span>json<span class="p">)</span> <span class="c1"># =&gt; 1..5
+<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">unsafe_load</span><span class="p">(</span><span class="s1">'[1, [2, [3]]]'</span><span class="p">)</span> <span class="c1"># =&gt; [1, [2, [3]]]
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/JSON/m/load.html">JSON?.load</a>, <a href="../method/JSON/m/parse.html">JSON?.parse</a>

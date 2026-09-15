@@ -1,6 +1,7 @@
 # Zlib::GzipReader#readbyte
 
 ### def readbyte -> Integer
+{: since="1.9.1"}
 
 IO クラスの同名メソッド[IO#readbyte](../../../method/IO/i/readbyte.md)と同じです。
 

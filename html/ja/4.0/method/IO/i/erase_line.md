@@ -1,6 +1,7 @@
 # IO#erase_line
 
 ### def erase_line(mode) -> self
+{: since="2.7.0"}
 
 カーソル位置を基準にして、行の一部または全体を消去します。
 

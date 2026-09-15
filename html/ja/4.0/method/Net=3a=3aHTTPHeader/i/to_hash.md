@@ -1,6 +1,7 @@
 # Net::HTTPHeader#to_hash
 
 ### def to_hash -> {String => [String]}
+{: since=""}
 
 保持しているヘッダフィールドの名前と値の組をハッシュで返します。
 

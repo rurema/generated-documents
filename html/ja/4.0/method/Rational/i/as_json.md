@@ -1,6 +1,7 @@
 # Rational#as_json
 
 ### def as_json(*args) -> Hash
+{: since="1.9.3"}
 
 `self` を JSON 形式の文字列に変換する際に使う、中間表現となるハッシュに変換して返します。
 [Rational#to_json](../../../method/Rational/i/to_json.md) が内部で使用しています。

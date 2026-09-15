@@ -1,6 +1,7 @@
 # OpenSSL::Cipher#auth_tag_len=
 
 ### def auth_tag_len=(integer)
+{: since="2.4.0"}
 
 認証付き暗号(AEAD)で生成される認証タグの長さを設定します。
 

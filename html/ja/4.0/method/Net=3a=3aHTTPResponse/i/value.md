@@ -13,7 +13,7 @@
 require 'net/http'
 
 uri = "http://www.example.com/index.html"
-response = Net::HTTP.get_response(URI.parse(uri))
+response = Net::HTTP.get_response(URI(uri))
 p response.value # => nil
 ```
 
@@ -21,7 +21,7 @@ p response.value # => nil
 require 'net/http'
 
 uri = "http://www.example.com/invalid.html"
-response = Net::HTTP.get_response(URI.parse(uri))
+response = Net::HTTP.get_response(URI(uri))
 begin
   response.value
 rescue => e

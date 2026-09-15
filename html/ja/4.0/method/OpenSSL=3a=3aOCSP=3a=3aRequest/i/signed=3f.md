@@ -1,6 +1,7 @@
 # OpenSSL::OCSP::Request#signed?
 
 ### def signed? -> bool
+{: since="2.5.0"}
 
 Request オブジェクトが署名されていれば true を返します。
 

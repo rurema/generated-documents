@@ -1,6 +1,7 @@
 # Net::HTTPHeader#set_form
 
 ### def set_form(params, enctype = 'application/x-www-form-urlencoded', formopt = {}) -> ()
+{: since="1.9.3"}
 
 `POST` や `PUT` リクエストで使うフォームのデータを設定します。
 

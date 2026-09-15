@@ -1,6 +1,7 @@
 # Net::HTTPHeader#connection_close?
 
 ### def connection_close? -> bool
+{: since="1.9.1"}
 
 `Connection:` ヘッダフィールド (プロクシ経由の場合は `Proxy-Connection:` ヘッダフィールド) が `close` を指定しているかどうかを返します。
 

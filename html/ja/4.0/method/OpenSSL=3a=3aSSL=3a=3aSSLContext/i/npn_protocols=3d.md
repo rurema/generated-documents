@@ -1,7 +1,9 @@
 # OpenSSL::SSL::SSLContext#npn_protocols=
 
 ### def npn_protocols -> [String] | nil
+{: since="2.0.0"}
 ### def npn_protocols=(protocols)
+{: since="2.0.0"}
 
 Next Protocol Negotiation(NPN)で通知するプロトコル名の一覧を取得・設定します。
 

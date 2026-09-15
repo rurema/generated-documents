@@ -1,6 +1,7 @@
 # Psych::Nodes::Mapping#mapping?
 
 ### def mapping? -> bool
+{: since="2.6.0"}
 
 常に true を返します。
 

@@ -1,7 +1,9 @@
 # Psych::Nodes::Node#end_line=
 
 ### def end_line -> Integer | nil
+{: since="2.5.0"}
 ### def end_line=(line)
+{: since="2.5.0"}
 
 `self` が表す YAML ドキュメント上の要素が終了する行番号を返します。
 

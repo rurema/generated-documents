@@ -1,6 +1,7 @@
 # IO#getpass
 
 ### def getpass(prompt = nil) -> String
+{: since="2.3.0"}
 
 エコーバックなしで 1 行読み込んで返します。
 

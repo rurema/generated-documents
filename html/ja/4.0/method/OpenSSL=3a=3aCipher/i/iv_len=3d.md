@@ -1,6 +1,7 @@
 # OpenSSL::Cipher#iv_len=
 
 ### def iv_len=(integer)
+{: since="2.4.0"}
 
 認証付き暗号(AEAD)で、IV(nonce)の長さを変更します。
 

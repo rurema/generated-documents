@@ -1,6 +1,7 @@
 # Socket::Option#ipv4_multicast_loop
 
 ### def ipv4_multicast_loop -> Integer
+{: since="2.1.0"}
 
 オプションが IPPROTO_IP/IP_MULTICAST_LOOP である場合に、オプションのデータ(内容)を整数に変換して返します。
 

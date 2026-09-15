@@ -14,7 +14,7 @@ HTMLのフォームのデータ params からヘッダフィールドとボデ�
 ```ruby title="例 form_data"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 req = Net::HTTP::Get.new(uri.request_uri)
 req.form_data = {"q" => ["ruby", "perl"], "lang" => "en"} # => {"q"=>["ruby", "perl"], "lang"=>"en"}
 ```
@@ -22,7 +22,7 @@ req.form_data = {"q" => ["ruby", "perl"], "lang" => "en"} # => {"q"=>["ruby", "p
 ```ruby title="例 set_form_data"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 req = Net::HTTP::Get.new(uri.request_uri)
 p req.set_form_data({"q" => "ruby", "lang" => "en"}, ';') # => "application/x-www-form-urlencoded"
 ```

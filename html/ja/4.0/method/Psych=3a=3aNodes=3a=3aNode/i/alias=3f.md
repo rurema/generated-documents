@@ -1,6 +1,7 @@
 # Psych::Nodes::Node#alias?
 
 ### def alias? -> bool
+{: since="2.6.0"}
 
 `self` が [Psych::Nodes::Alias](../../../class/Psych=3a=3aNodes=3a=3aAlias.md) を表すノードかどうかを返します。
 

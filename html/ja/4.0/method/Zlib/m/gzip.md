@@ -1,6 +1,7 @@
 # Zlib?.gzip
 
 ### module_function def gzip(string, level: nil, strategy: nil) -> String
+{: since="2.4.0"}
 
 string を gzip 形式に圧縮した文字列を返します。
 

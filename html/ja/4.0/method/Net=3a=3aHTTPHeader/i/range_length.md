@@ -11,7 +11,7 @@ Content-Range: ヘッダフィールドの表している長さを整数で返�
 ```ruby title="例"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 req = Net::HTTP::Get.new(uri.request_uri)
 req['Content-Range'] = "bytes 1-500/1000"
 p req.range_length # => 500
@@ -22,7 +22,7 @@ p req.range_length # => 500
 ```ruby title="例"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 req = Net::HTTP::Get.new(uri.request_uri)
 req['Content-Range'] = "bytes 200-699/1000"
 p req.range_length # => 500

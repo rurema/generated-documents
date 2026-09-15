@@ -2,6 +2,7 @@
 
 ### def summary_width=(width)
 ### def set_summary_width(width)
+{: since=""}
 
 サマリを表示するときの幅を整数で指定します。
 

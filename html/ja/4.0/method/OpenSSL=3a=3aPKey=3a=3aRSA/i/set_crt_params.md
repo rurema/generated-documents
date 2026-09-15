@@ -1,6 +1,7 @@
 # OpenSSL::PKey::RSA#set_crt_params
 
 ### def set_crt_params(dmp1, dmq1, iqmp) -> self
+{: since="2.4.0"}
 
 dmp1, dmq1, iqmp を `self` に設定します。それぞれ `d mod (p - 1)`、`d mod (q - 1)`、`q^(-1) mod p` として計算される値です。
 

@@ -1,6 +1,7 @@
 # OpenSSL::OCSP::BasicResponse#responses
 
 ### def responses -> [OpenSSL::OCSP::SingleResponse]
+{: since="2.4.0"}
 
 `self` が保持している `OpenSSL::OCSP::SingleResponse` の配列を返します。
 

@@ -1,6 +1,7 @@
 # OpenSSL::PKey::DH#public_key
 
 ### def public_key -> OpenSSL::PKey::DH
+{: since=""}
 
 `self` の鍵パラメータ(p, g)だけを持つ新しい DH インスタンスを返します。
 

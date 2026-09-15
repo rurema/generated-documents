@@ -1,6 +1,7 @@
 # Socket::Option.byte
 
 ### def Socket::Option.byte(family, level, optname, integer) -> Socket::Option
+{: since="2.1.0"}
 
 1 バイトの整数をデータとして持つ `Socket::Option` オブジェクトを新たに生成し返します。
 

@@ -1,6 +1,7 @@
 # Net::HTTPResponse#uri
 
 ### def uri -> URI | nil
+{: since="2.0.0"}
 
 このレスポンスの取得に使われた [URI](../../../class/URI.md) オブジェクトを返します。
 

@@ -11,7 +11,7 @@ len に nil を与えると Content-Length: ヘッダフィールドを削除し
 ```ruby title="例"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 req = Net::HTTP::Get.new(uri.request_uri)
 p req.content_length    # => nil
 req.content_length = 10 # => 10

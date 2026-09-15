@@ -5,7 +5,8 @@
 与えられた JSON 形式の文字列を Ruby オブジェクトとしてロードして返します。
 
 [JSON?.load](../../../method/JSON/m/load.md) と同様のメソッドですが、こちらは信頼できる入力を読み込むためのメソッドであることを
-名前で明示しています。デフォルトのオプション(`create_additions: true` を含みます)は
+名前で明示しています。
+デフォルトのオプション(`create_additions: true` を含みます)は
 `JSON.unsafe_load_default_options` で変更できます。
 
 `source` には JSON 形式の文字列だけでなく、`to_str`, `to_io`, `read` のいずれかに応答するオブジェクト
@@ -19,6 +20,7 @@
 - **param** `proc` -- [Proc](../../../class/Proc.md) オブジェクトを指定します。
 - **param** `options` -- オプションをハッシュで指定します。指定可能なオプションは [JSON?.parse](../../../method/JSON/m/parse.md) と同様です。
 
+
 ```ruby title="例"
 require "json"
 require "json/add/core"
@@ -27,5 +29,6 @@ json = (1..5).to_json
 p JSON.parse(json).class # => Hash
 p JSON.unsafe_load(json) # => 1..5
 ```
+
 
 - **SEE** [JSON?.load](../../../method/JSON/m/load.md), [JSON?.parse](../../../method/JSON/m/parse.md)

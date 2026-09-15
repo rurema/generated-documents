@@ -1,7 +1,9 @@
 # OpenSSL::PKey?.read
 
 ### module_function def read(string, pass = nil) -> OpenSSL::PKey::PKey
+{: since="1.9.3"}
 ### module_function def read(io, pass = nil) -> OpenSSL::PKey::PKey
+{: since="1.9.3"}
 
 DER 形式または PEM 形式でエンコードされた鍵データを読み込み、適切な [OpenSSL::PKey::PKey](../../../class/OpenSSL=3a=3aPKey=3a=3aPKey.md) のサブクラスのインスタンスを返します。
 

@@ -2,6 +2,7 @@
 
 ### def public_key? -> bool
 ### def public? -> bool
+{: since="2.4.0"}
 
 EC オブジェクトが公開鍵を保持していれば真を返します。
 

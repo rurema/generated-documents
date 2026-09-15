@@ -1,6 +1,7 @@
 # Psych::ScalarScanner#parse_int
 
 ### def parse_int(string) -> Integer
+{: since="2.0.0"}
 
 文字列 string を整数に変換して返します。
 

@@ -1,7 +1,9 @@
 # Net::HTTPResponse#decode_content
 
 ### def decode_content -> bool
+{: since="2.0.0"}
 ### def decode_content=(bool)
+{: since="2.0.0"}
 
 エンティティボディの `Content-Encoding:` を自動的に展開するかどうかを取得・設定します。
 

@@ -1,6 +1,7 @@
 # IO::ConsoleMode#raw!
 
 ### def raw!(min: 1, time: 0, intr: false) -> self
+{: since="2.7.0"}
 
 `self` を raw モードに変更します。
 

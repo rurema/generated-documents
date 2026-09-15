@@ -1,7 +1,9 @@
 # Net::HTTP#max_version
 
 ### def max_version -> Integer | Symbol | nil
+{: since="2.5.0"}
 ### def max_version=(version)
+{: since="2.5.0"}
 
 利用する SSL/TLS のバージョンの上限を取得・設定します。
 

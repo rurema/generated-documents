@@ -1,6 +1,7 @@
 # IO#goto_column
 
 ### def goto_column(column) -> self
+{: since="2.7.0"}
 
 カーソルを同じ行のまま column 列目に移動します。
 

@@ -1,6 +1,7 @@
 # IO::ConsoleMode#echo=
 
 ### def echo=(flag)
+{: since="2.7.0"}
 
 文字入力時のエコーバックを有効にするかどうかを `self` に設定します。
 

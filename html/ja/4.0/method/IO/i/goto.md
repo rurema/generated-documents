@@ -1,6 +1,7 @@
 # IO#goto
 
 ### def goto(line, column) -> self
+{: since="2.3.0"}
 
 カーソル位置を line 行目、column 列目に移動します。
 

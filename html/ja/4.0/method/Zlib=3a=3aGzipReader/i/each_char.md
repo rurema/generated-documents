@@ -1,7 +1,9 @@
 # Zlib::GzipReader#each_char
 
 ### def each_char{|c| ... } -> nil
+{: since="1.9.1"}
 ### def each_char -> Enumerator
+{: since="1.9.1"}
 
 IO クラスの同名メソッド[IO#each_char](../../../method/IO/i/each_char.md)と同じです。
 

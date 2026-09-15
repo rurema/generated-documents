@@ -1,6 +1,7 @@
 # Psych::Handler#event_location
 
 ### def event_location(start_line, start_column, end_line, end_column) -> ()
+{: since="2.5.0"}
 
 各イベントが呼び出される直前に、そのイベントの位置情報とともに呼び出されます。
 

@@ -1,6 +1,7 @@
 # Psych::Nodes::Node#scalar?
 
 ### def scalar? -> bool
+{: since="2.6.0"}
 
 `self` が [Psych::Nodes::Scalar](../../../class/Psych=3a=3aNodes=3a=3aScalar.md) を表すノードかどうかを返します。
 

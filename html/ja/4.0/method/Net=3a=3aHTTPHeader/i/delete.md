@@ -12,7 +12,7 @@ key ヘッダフィールドを削除します。
 ```ruby title="例"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 req = Net::HTTP::Get.new(uri.request_uri)
 req.content_length = 10
 p req.content_length  # => 10

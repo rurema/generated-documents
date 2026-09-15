@@ -1,6 +1,7 @@
 # Net::HTTPHeader#connection_keep_alive?
 
 ### def connection_keep_alive? -> bool
+{: since="1.9.1"}
 
 `Connection:` ヘッダフィールド (プロクシ経由の場合は `Proxy-Connection:` ヘッダフィールド) が `keep-alive` を指定しているかどうかを返します。
 

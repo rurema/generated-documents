@@ -1,6 +1,7 @@
 # Psych::Nodes::Node#sequence?
 
 ### def sequence? -> bool
+{: since="2.6.0"}
 
 `self` が [Psych::Nodes::Sequence](../../../class/Psych=3a=3aNodes=3a=3aSequence.md) を表すノードかどうかを返します。
 

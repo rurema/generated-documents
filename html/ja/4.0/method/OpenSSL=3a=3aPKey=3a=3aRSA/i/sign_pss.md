@@ -1,6 +1,7 @@
 # OpenSSL::PKey::RSA#sign_pss
 
 ### def sign_pss(digest, data, salt_length:, mgf1_hash:) -> String
+{: since="2.5.0"}
 
 RSA-PSS (Probabilistic Signature Scheme) を使って data に署名し、計算した署名を返します。
 

@@ -2,9 +2,9 @@
 
 ### def CGI.unescapeURIComponent(string) -> String
 
-与えられた文字列を [CGI.escapeURIComponent](../../../method/CGI/s/escapeURIComponent.md) でエンコードされたものとして URL デコードした文字列を新しく作成し返します。
+与えられた文字列を [CGI.escapeURIComponent](../../../method/CGI/s/escapeURIComponent.md) でエンコードされたものとしてデコードした文字列を新しく作成し返します。
 
-- **param** `string` -- URL エンコードされている文字列を指定します。
+- **param** `string` -- パーセントエンコードされている文字列を指定します。
 
 ```ruby
 require "cgi"

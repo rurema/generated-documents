@@ -6,6 +6,6 @@
 
 ```ruby title="例"
 require 'uri'
-p URI.parse('http://example.com/').relative?    # => false
-p URI.parse('./').relative?                     # => true
+p URI('http://example.com/').relative?    # => false
+p URI('./').relative?                     # => true
 ```

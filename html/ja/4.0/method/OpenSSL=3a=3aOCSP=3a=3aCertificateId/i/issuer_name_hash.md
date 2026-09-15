@@ -1,6 +1,7 @@
 # OpenSSL::OCSP::CertificateId#issuer_name_hash
 
 ### def issuer_name_hash -> String
+{: since="2.4.0"}
 
 この CertificateId の issuerNameHash(発行者の識別名のハッシュ値)を16進文字列で返します。
 

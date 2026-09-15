@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLSocket#alpn_protocol
 
 ### def alpn_protocol -> String | nil
+{: since="2.3.0"}
 
 ハンドシェイクの結果、Application-Layer Protocol Negotiation(ALPN)で最終的に選択されたプロトコルを表す文字列を返します。
 

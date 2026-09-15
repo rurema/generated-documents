@@ -1,6 +1,7 @@
 # Socket::Option#byte
 
 ### def byte -> Integer
+{: since="2.1.0"}
 
 オプションのデータ(内容)を 1 バイトの整数に変換して返します。
 

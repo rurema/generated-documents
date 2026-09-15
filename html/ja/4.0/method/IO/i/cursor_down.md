@@ -1,6 +1,7 @@
 # IO#cursor_down
 
 ### def cursor_down(n) -> self
+{: since="2.7.0"}
 
 カーソルを n 行下に移動します。
 

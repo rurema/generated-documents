@@ -1,6 +1,7 @@
 # Zlib::GzipReader#external_encoding
 
 ### def external_encoding -> Encoding
+{: since="2.3.0"}
 
 `self` が読み込むデータの外部エンコーディングを返します。
 

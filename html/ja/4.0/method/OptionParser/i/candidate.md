@@ -1,6 +1,7 @@
 # OptionParser#candidate
 
 ### def candidate(word) -> [String]
+{: since="1.9.3"}
 
 `word` で始まるオプション名の補完候補を配列で返します。
 

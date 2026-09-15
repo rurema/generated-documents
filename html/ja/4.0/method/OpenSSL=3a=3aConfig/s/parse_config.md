@@ -1,6 +1,7 @@
 # OpenSSL::Config.parse_config
 
 ### def OpenSSL::Config.parse_config(io) -> {String => {String => String}}
+{: since="1.9.3"}
 
 io から設定データを読み込んでパースし、その内容全体を Hash として返します。
 

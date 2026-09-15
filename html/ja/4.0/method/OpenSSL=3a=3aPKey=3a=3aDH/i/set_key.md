@@ -1,6 +1,7 @@
 # OpenSSL::PKey::DH#set_key
 
 ### def set_key(pub_key, priv_key) -> self
+{: since="2.4.0"}
 
 pub_key と priv_key を `self` に設定します。
 

@@ -1,7 +1,9 @@
 # OpenSSL::SSL::SSLContext#alpn_select_cb=
 
 ### def alpn_select_cb -> Proc | nil
+{: since="2.3.0"}
 ### def alpn_select_cb=(cb)
+{: since="2.3.0"}
 
 ALPN 拡張でクライアントが提示したプロトコルの中から、サーバが利用するプロトコルを選択するためのコールバックを取得・設定します。
 

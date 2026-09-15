@@ -1,7 +1,9 @@
 # OpenSSL::SSL::SSLContext#alpn_protocols
 
 ### def alpn_protocols -> [String] | nil
+{: since="2.3.0"}
 ### def alpn_protocols=(protocols)
+{: since="2.3.0"}
 
 Application-Layer Protocol Negotiation(ALPN)で通知するプロトコル名の一覧を取得・設定します。
 

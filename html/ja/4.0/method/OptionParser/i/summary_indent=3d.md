@@ -2,6 +2,7 @@
 
 ### def summary_indent=(indent)
 ### def set_summary_indent(indent)
+{: since=""}
 
 サマリを表示する時のインデントを文字列で指定します。
 

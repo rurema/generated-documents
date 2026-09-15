@@ -1,7 +1,9 @@
 # JSON.load_default_options=
 
 ### def JSON.load_default_options -> {Symbol => object}
+{: since="2.0.0"}
 ### def JSON.load_default_options=(val)
+{: since="2.0.0"}
 
 [JSON?.load](../../../method/JSON/m/load.md) が使用するデフォルトのオプションを取得・設定します。
 

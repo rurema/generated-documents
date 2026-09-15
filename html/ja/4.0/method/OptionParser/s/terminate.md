@@ -1,6 +1,7 @@
 # OptionParser.terminate
 
 ### def OptionParser.terminate(arg = nil) -> ()
+{: since=""}
 
 [OptionParser#terminate](../../../method/OptionParser/i/terminate.md) と同じです。
 

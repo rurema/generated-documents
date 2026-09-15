@@ -1,6 +1,7 @@
 # OpenSSL::PKey::RSA#set_factors
 
 ### def set_factors(p, q) -> self
+{: since="2.4.0"}
 
 p, q を `self` に設定します。
 

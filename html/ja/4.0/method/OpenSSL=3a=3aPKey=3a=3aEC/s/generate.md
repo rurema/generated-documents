@@ -1,7 +1,9 @@
 # OpenSSL::PKey::EC.generate
 
 ### def OpenSSL::PKey::EC.generate(ec_group) -> OpenSSL::PKey::EC
+{: since="2.4.0"}
 ### def OpenSSL::PKey::EC.generate(string) -> OpenSSL::PKey::EC
+{: since="2.4.0"}
 
 新しいランダムな秘密鍵と公開鍵を持つ EC オブジェクトを生成します。
 

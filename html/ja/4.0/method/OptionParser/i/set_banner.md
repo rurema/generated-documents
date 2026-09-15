@@ -2,6 +2,7 @@
 
 ### def banner=(heading)
 ### def set_banner(heading)
+{: since=""}
 
 サマリの最初に表示される文字列を指定します。
 

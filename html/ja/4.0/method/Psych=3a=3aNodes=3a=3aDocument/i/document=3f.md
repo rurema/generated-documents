@@ -1,6 +1,7 @@
 # Psych::Nodes::Document#document?
 
 ### def document? -> bool
+{: since="2.6.0"}
 
 常に true を返します。
 

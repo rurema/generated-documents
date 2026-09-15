@@ -1,6 +1,7 @@
 # OpenSSL::PKey::RSA#set_key
 
 ### def set_key(n, e, d) -> self
+{: since="2.4.0"}
 
 n, e, d を `self` に設定します。
 

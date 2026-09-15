@@ -1,7 +1,9 @@
 # JSON.dump_default_options
 
 ### def JSON.dump_default_options -> {Symbol => object}
+{: since="2.0.0"}
 ### def JSON.dump_default_options=(val)
+{: since="2.0.0"}
 
 [JSON?.dump](../../../method/JSON/m/dump.md) が使用するデフォルトのオプションを取得・設定します。
 

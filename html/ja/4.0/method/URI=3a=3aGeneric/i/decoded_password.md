@@ -6,7 +6,7 @@
 
 ```ruby title="例"
 require 'uri'
-u = URI.parse('http://my%20user:my%20pass@www.example.com/')
+u = URI('http://my%20user:my%20pass@www.example.com/')
 p u.password         # => "my%20pass"
 p u.decoded_password # => "my pass"
 ```

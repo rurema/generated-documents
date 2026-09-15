@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLContext#enable_fallback_scsv
 
 ### def enable_fallback_scsv -> nil
+{: since="2.5.0"}
 
 この `self` に対して TLS_FALLBACK_SCSV を有効にします。
 

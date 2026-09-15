@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLContext#ecdh_curves=
 
 ### def ecdh_curves=(groups_list)
+{: since="2.4.0"}
 ### def groups=(groups_list)
 
 鍵共有(キー交換)に用いるグループの一覧をコロン区切りの文字列で設定します。

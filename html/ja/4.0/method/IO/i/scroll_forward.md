@@ -1,6 +1,7 @@
 # IO#scroll_forward
 
 ### def scroll_forward(n) -> self
+{: since="2.7.0"}
 
 画面全体を n 行分、上方向にスクロールします。新しく現れた行は空白になります。
 

@@ -10,6 +10,6 @@
 
 ```ruby title="例"
 require 'uri'
-m = URI.parse("mailto:nospam@example.com")
+m = URI("mailto:nospam@example.com")
 m.headers =  URI.escape("subject=hello hello")
 ```
