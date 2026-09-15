@@ -1,7 +1,9 @@
 # Psych::Nodes::Node#start_line
 
 ### def start_line -> Integer | nil
+{: since="2.5.0"}
 ### def start_line=(line)
+{: since="2.5.0"}
 
 `self` が表す YAML ドキュメント上の要素が開始する行番号を返します。
 

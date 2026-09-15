@@ -1,6 +1,7 @@
 # Net::HTTPGenericRequest#uri
 
 ### def uri -> URI | nil
+{: since="2.0.0"}
 
 リクエストの生成に使われた [URI](../../../class/URI.md) オブジェクトを返します。
 

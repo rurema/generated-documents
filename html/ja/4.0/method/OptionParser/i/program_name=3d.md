@@ -2,6 +2,7 @@
 
 ### def program_name=(name)
 ### def set_program_name(name)
+{: since=""}
 
 プログラムの名前を文字列で指定します。
 

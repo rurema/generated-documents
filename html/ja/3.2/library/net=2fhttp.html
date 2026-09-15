@@ -95,13 +95,13 @@
 <span class="caption">例2: URI を使う</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/http'</span>
 <span class="nb">require</span> <span class="s1">'uri'</span>
-<span class="nb">print</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://www.example.com/index.html'</span><span class="p">)</span><span class="p">)</span>
+<span class="nb">print</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="no">URI</span><span class="p">(</span><span class="s1">'http://www.example.com/index.html'</span><span class="p">)</span><span class="p">)</span>
 </code></pre>
 <span class="caption">例3: より汎用的な例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/http'</span>
 <span class="nb">require</span> <span class="s1">'uri'</span>
 
-url <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://www.example.com/index.html'</span><span class="p">)</span>
+url <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s1">'http://www.example.com/index.html'</span><span class="p">)</span>
 res <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span>url<span class="p">.</span><span class="nf">host</span>, url<span class="p">.</span><span class="nf">port</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>http<span class="o">|</span>
   http<span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/index.html'</span><span class="p">)</span>
 <span class="p">}</span>
@@ -110,7 +110,7 @@ res <span class="o">=</span> <span class="no">Net</span><span class="o">::</span
 <span class="caption">例4: 上の例よりさらに汎用的な例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/http'</span>
 
-url <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://www.example.com/index.html'</span><span class="p">)</span>
+url <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s1">'http://www.example.com/index.html'</span><span class="p">)</span>
 req <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>url<span class="p">.</span><span class="nf">path</span><span class="p">)</span>
 res <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span>url<span class="p">.</span><span class="nf">host</span>, url<span class="p">.</span><span class="nf">port</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>http<span class="o">|</span>
   http<span class="p">.</span><span class="nf">request</span><span class="p">(</span>req<span class="p">)</span>
@@ -121,7 +121,7 @@ res <span class="o">=</span> <span class="no">Net</span><span class="o">::</span
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/http'</span>
 <span class="nb">require</span> <span class="s1">'uri'</span>
 
-url <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://www.example.com/search'</span><span class="p">)</span>
+url <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s1">'http://www.example.com/search'</span><span class="p">)</span>
 url<span class="p">.</span><span class="nf">query</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span><span class="s1">'q'</span><span class="o">=&gt;</span><span class="s1">'ruby'</span>, <span class="s1">'max'</span><span class="o">=&gt;</span><span class="s1">'50'</span><span class="p">)</span>
 res <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span>url<span class="p">)</span>
 <span class="nb">puts</span> res<span class="p">.</span><span class="nf">body</span>
@@ -132,17 +132,17 @@ res <span class="o">=</span> <span class="no">Net</span><span class="o">::</span
 <span class="nb">require</span> <span class="s1">'uri'</span>
 
 <span class="c1">#例1: POSTするだけ
-</span>res <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">post_form</span><span class="p">(</span><span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://www.example.com/search'</span><span class="p">)</span>,
+</span>res <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">post_form</span><span class="p">(</span><span class="no">URI</span><span class="p">(</span><span class="s1">'http://www.example.com/search'</span><span class="p">)</span>,
                           <span class="p">{</span><span class="s1">'q'</span><span class="o">=&gt;</span><span class="s1">'ruby'</span>, <span class="s1">'max'</span><span class="o">=&gt;</span><span class="s1">'50'</span><span class="p">}</span><span class="p">)</span>
 <span class="nb">puts</span> res<span class="p">.</span><span class="nf">body</span>
 
 <span class="c1">#例2: 認証付きで POST する
-</span>res <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">post_form</span><span class="p">(</span><span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://jack:pass@www.example.com/todo.cgi'</span><span class="p">)</span>,
+</span>res <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">post_form</span><span class="p">(</span><span class="no">URI</span><span class="p">(</span><span class="s1">'http://jack:pass@www.example.com/todo.cgi'</span><span class="p">)</span>,
                           <span class="p">{</span><span class="s1">'from'</span><span class="o">=&gt;</span><span class="s1">'2005-01-01'</span>, <span class="s1">'to'</span><span class="o">=&gt;</span><span class="s1">'2005-03-31'</span><span class="p">}</span><span class="p">)</span>
 <span class="nb">puts</span> res<span class="p">.</span><span class="nf">body</span>
 
 <span class="c1">#例3: より細かく制御する
-</span>url <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://www.example.com/todo.cgi'</span><span class="p">)</span>
+</span>url <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s1">'http://www.example.com/todo.cgi'</span><span class="p">)</span>
 req <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>url<span class="p">.</span><span class="nf">path</span><span class="p">)</span>
 req<span class="p">.</span><span class="nf">basic_auth</span> <span class="s1">'jack'</span>, <span class="s1">'pass'</span>
 req<span class="p">.</span><span class="nf">set_form_data</span><span class="p">(</span><span class="p">{</span><span class="s1">'from'</span><span class="o">=&gt;</span><span class="s1">'2005-01-01'</span>, <span class="s1">'to'</span><span class="o">=&gt;</span><span class="s1">'2005-03-31'</span><span class="p">}</span><span class="p">)</span>
@@ -190,7 +190,7 @@ limit 回数以上リダイレクトしたらエラーにします。
   <span class="c1"># You should choose better exception. 
 </span>  <span class="nb">raise</span> <span class="no">ArgumentError</span>, <span class="s1">'HTTP redirect too deep'</span> <span class="k">if</span> limit <span class="o">==</span> <span class="mi">0</span>
 
-  response <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span><span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>uri_str<span class="p">)</span><span class="p">)</span>
+  response <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span><span class="no">URI</span><span class="p">(</span>uri_str<span class="p">)</span><span class="p">)</span>
   <span class="k">case</span> response
   <span class="k">when</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTPSuccess</span>
     response

@@ -1,6 +1,7 @@
 # IO#pressed?
 
 ### def pressed?(key) -> bool
+{: since="2.3.0"}
 
 key で指定したキーが押されているかどうかを返します。
 

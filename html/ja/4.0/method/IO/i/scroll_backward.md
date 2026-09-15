@@ -1,6 +1,7 @@
 # IO#scroll_backward
 
 ### def scroll_backward(n) -> self
+{: since="2.7.0"}
 
 画面全体を n 行分、下方向にスクロールします。新しく現れた行は空白になります。
 

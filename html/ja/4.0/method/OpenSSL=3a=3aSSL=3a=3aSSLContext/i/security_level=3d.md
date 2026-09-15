@@ -1,7 +1,9 @@
 # OpenSSL::SSL::SSLContext#security_level=
 
 ### def security_level -> Integer
+{: since="2.4.0"}
 ### def security_level=(level)
+{: since="2.4.0"}
 
 コンテキストのセキュリティレベルを取得・設定します。
 

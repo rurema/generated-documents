@@ -1,6 +1,7 @@
 # OpenSSL::PKey::EC#generate_key
 
 ### def generate_key! -> self
+{: since="2.4.0"}
 ### def generate_key -> self
 
 鍵ペアを乱数で生成します。

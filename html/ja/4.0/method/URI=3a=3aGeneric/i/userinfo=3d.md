@@ -13,7 +13,7 @@
 
 ```ruby title="例"
 require 'uri'
-u = URI.parse('http://example.com/')
+u = URI('http://example.com/')
 u.userinfo = 'hoge-san:jfae82kj'
 p u.to_s                             # => "http://hoge-san:jfae82kj@example.com/"
   

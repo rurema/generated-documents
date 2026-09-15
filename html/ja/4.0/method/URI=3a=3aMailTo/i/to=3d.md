@@ -10,7 +10,7 @@
 
 ```ruby title="例"
 require 'uri'
-m = URI.parse("mailto:nospam@example.com")
+m = URI("mailto:nospam@example.com")
 m.to = "nospaaaam@example.com"
 p m                                        # => #<URI::MailTo:0xb7bf0614 URL:mailto:nospaaaam@example.com>
 ```

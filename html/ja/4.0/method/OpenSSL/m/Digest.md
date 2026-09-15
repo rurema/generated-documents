@@ -1,6 +1,7 @@
 # OpenSSL?.Digest
 
 ### module_function def Digest(name) -> Class
+{: since="2.0.0"}
 
 name に対応する [OpenSSL::Digest](../../../class/OpenSSL=3a=3aDigest.md) のサブクラスを返します。
 

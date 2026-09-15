@@ -1,6 +1,7 @@
 # Psych::Nodes::Node#document?
 
 ### def document? -> bool
+{: since="2.6.0"}
 
 `self` が [Psych::Nodes::Document](../../../class/Psych=3a=3aNodes=3a=3aDocument.md) を表すノードかどうかを返します。
 

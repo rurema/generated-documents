@@ -9,7 +9,7 @@ Content-Type: ヘッダフィールドが存在しない場合には nil を返�
 ```ruby title="例"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 res = Net::HTTP.get_response(uri)
 p res.main_type # => "text"
 ```

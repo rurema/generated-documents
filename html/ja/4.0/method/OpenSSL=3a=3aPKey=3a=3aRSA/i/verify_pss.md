@@ -1,6 +1,7 @@
 # OpenSSL::PKey::RSA#verify_pss
 
 ### def verify_pss(digest, signature, data, salt_length:, mgf1_hash:) -> bool
+{: since="2.5.0"}
 
 RSA-PSS を使って data の署名を検証します。
 

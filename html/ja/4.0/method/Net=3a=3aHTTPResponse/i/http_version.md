@@ -8,6 +8,6 @@
 require 'net/http'
 
 uri = "http://www.example.com/index.html"
-response = Net::HTTP.get_response(URI.parse(uri))
+response = Net::HTTP.get_response(URI(uri))
 p response.http_version # => "1.1"
 ```

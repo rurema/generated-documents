@@ -6,6 +6,6 @@
 
 ```ruby title="例"
 require 'uri'
-m = URI.parse("mailto:ruby-list@ruby-lang.org?subject=subscribe&cc=myaddr")
+m = URI("mailto:ruby-list@ruby-lang.org?subject=subscribe&cc=myaddr")
 p m.headers # => [["subject", "subscribe"], ["cc", "myaddr"]]
 ```

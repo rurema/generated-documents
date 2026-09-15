@@ -1,6 +1,7 @@
 # OpenSSL::Cipher#auth_data=
 
 ### def auth_data=(data)
+{: since="2.0.0"}
 
 認証付き暗号(AEAD)の追加認証データ(AAD、associated data とも呼ばれます)を設定します。
 

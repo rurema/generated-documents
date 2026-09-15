@@ -1,6 +1,7 @@
 # Net::HTTPGenericRequest#decode_content
 
 ### def decode_content -> bool
+{: since="2.0.0"}
 
 リクエストヘッダフィールド `Accept-Encoding:` をユーザが明示的に設定・削除していないかどうかを表します。
 

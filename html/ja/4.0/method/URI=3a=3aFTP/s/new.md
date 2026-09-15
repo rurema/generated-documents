@@ -7,7 +7,7 @@
 
 ```ruby title="例"
 require 'uri'
-p ftp = URI.parse("ftp://ftp.ruby-lang.org/pub/ruby/;type=d")
+p ftp = URI("ftp://ftp.ruby-lang.org/pub/ruby/;type=d")
 p ftp.typecode
 # => #<URI::FTP:0x2010029c URL:ftp://ftp.ruby-lang.org/pub/ruby/;type=d>
 # => "d"

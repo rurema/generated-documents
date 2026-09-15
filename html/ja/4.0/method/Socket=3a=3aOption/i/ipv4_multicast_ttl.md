@@ -1,6 +1,7 @@
 # Socket::Option#ipv4_multicast_ttl
 
 ### def ipv4_multicast_ttl -> Integer
+{: since="2.1.0"}
 
 オプションが IPPROTO_IP/IP_MULTICAST_TTL である場合に、オプションのデータ(内容)を整数に変換して返します。
 

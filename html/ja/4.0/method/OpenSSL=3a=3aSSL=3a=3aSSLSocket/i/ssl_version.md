@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLSocket#ssl_version
 
 ### def ssl_version -> String
+{: since="2.0.0"}
 
 コネクションで使われている SSL/TLS のバージョンを表す文字列を返します。
 

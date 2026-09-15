@@ -9,7 +9,7 @@
 ```ruby title="例"
 require 'uri'
   
-uri = URI.parse('http://myuser:mypass@my.example.com/test.rbx')
+uri = URI('http://myuser:mypass@my.example.com/test.rbx')
 p uri.select(:userinfo, :host, :path)
 # => ["myuser:mypass", "my.example.com", "/test.rbx"]
 ```

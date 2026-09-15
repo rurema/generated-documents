@@ -1,6 +1,7 @@
 # Zlib::Inflate#add_dictionary
 
 ### def add_dictionary(string) -> self
+{: since="2.0.0"}
 
 今後必要になるかもしれない辞書 string を、あらかじめ展開ストリームに登録します。
 

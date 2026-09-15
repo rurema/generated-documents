@@ -1,6 +1,7 @@
 # Zlib::GzipReader#getbyte
 
 ### def getbyte -> Integer | nil
+{: since="1.9.1"}
 
 IO クラスの同名メソッド[IO#getbyte](../../../method/IO/i/getbyte.md)と同じです。
 

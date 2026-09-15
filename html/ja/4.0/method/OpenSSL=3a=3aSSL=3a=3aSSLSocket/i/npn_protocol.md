@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLSocket#npn_protocol
 
 ### def npn_protocol -> String | nil
+{: since="2.0.0"}
 
 ハンドシェイクの結果、Next Protocol Negotiation(NPN)でクライアントが最終的に選択したプロトコルを表す文字列を返します。
 

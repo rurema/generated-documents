@@ -1,6 +1,7 @@
 # Net::HTTP.post
 
 ### def Net::HTTP.post(url, data, header = nil) -> Net::HTTPResponse
+{: since="2.4.0"}
 
 [URI](../../../class/URI.md) で指定した対象にデータを POST し、そのレスポンスを [Net::HTTPResponse](../../../class/Net=3a=3aHTTPResponse.md) として返します。
 

@@ -2,6 +2,7 @@
 
 ### def ==(other) -> bool
 ### def eql?(other) -> bool
+{: since=""}
 
 自身と other のシーケンス番号を比較した結果を返します。
 

@@ -1,6 +1,7 @@
 # Zlib?.gunzip
 
 ### module_function def gunzip(string) -> String
+{: since="2.4.0"}
 
 gzip 形式で圧縮された文字列 string を展開した文字列を返します。
 

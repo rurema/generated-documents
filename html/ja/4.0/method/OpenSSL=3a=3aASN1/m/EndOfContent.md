@@ -1,6 +1,7 @@
 # OpenSSL::ASN1?.EndOfContent
 
 ### module_function def EndOfContent -> OpenSSL::ASN1::EndOfContent
+{: since="2.4.0"}
 
 End-of-Contents octets (EOC) を表現する `OpenSSL::ASN1::EndOfContent` オブジェクトを生成します。
 

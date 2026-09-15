@@ -1,6 +1,7 @@
 # IO#cursor_left
 
 ### def cursor_left(n) -> self
+{: since="2.7.0"}
 
 カーソルを n 列左に移動します。
 

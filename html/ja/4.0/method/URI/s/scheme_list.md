@@ -1,6 +1,7 @@
 # URI.scheme_list
 
 ### def URI.scheme_list -> {String => Class}
+{: since="1.9.1"}
 
 定義されているスキームとクラスの対応をハッシュで返します。
 

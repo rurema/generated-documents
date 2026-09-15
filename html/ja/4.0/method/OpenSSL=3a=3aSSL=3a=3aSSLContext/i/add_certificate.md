@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLContext#add_certificate
 
 ### def add_certificate(certificate, pkey, extra_certs = nil) -> self
+{: since="2.5.0"}
 
 証明書とその秘密鍵を `self` に追加します。
 

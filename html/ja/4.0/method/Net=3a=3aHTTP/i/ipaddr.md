@@ -1,7 +1,9 @@
 # Net::HTTP#ipaddr
 
 ### def ipaddr -> String | nil
+{: since="2.7.0"}
 ### def ipaddr=(addr)
+{: since="2.7.0"}
 
 接続先の IP アドレスを取得・設定します。
 

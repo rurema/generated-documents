@@ -21,7 +21,7 @@ key は大文字小文字を区別しません。
 ```ruby title="例 key のみ指定。key が存在する"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 req = Net::HTTP::Get.new(uri.request_uri)
 p req.fetch("user-agent") # => "Ruby"
 ```
@@ -39,7 +39,7 @@ end
 ```ruby title="例 key , default を指定"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 req = Net::HTTP::Get.new(uri.request_uri)
 p req.fetch("content-length", "default") # => "default"
 ```
@@ -47,7 +47,7 @@ p req.fetch("content-length", "default") # => "default"
 ```ruby title="例 key とブロックを指定"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 req = Net::HTTP::Get.new(uri.request_uri)
 p req.fetch("content-length") { |e| 99 } # => 99
 ```

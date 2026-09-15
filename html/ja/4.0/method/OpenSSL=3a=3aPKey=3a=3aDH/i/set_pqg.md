@@ -1,6 +1,7 @@
 # OpenSSL::PKey::DH#set_pqg
 
 ### def set_pqg(p, q, g) -> self
+{: since="2.4.0"}
 
 p, q, g を `self` に設定します。
 

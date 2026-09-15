@@ -1,9 +1,13 @@
 # OpenSSL::ASN1::ASN1Data#infinite_length
 
 ### def indefinite_length -> bool
+{: since="2.5.0"}
 ### def indefinite_length=(bool)
+{: since="2.5.0"}
 ### def infinite_length -> bool
+{: since="1.9.3"}
 ### def infinite_length=(bool)
+{: since="1.9.3"}
 
 エンコードやデコードで indefinite length 形式(不定長形式)を使うかどうかを取得・設定します。
 

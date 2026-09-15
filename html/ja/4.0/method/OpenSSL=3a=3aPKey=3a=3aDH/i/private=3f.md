@@ -1,6 +1,7 @@
 # OpenSSL::PKey::DH#private?
 
 ### def private? -> bool
+{: since=""}
 
 `self` が秘密鍵を保持しているかどうかを判定します。
 

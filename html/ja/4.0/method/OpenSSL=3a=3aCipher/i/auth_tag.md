@@ -1,7 +1,9 @@
 # OpenSSL::Cipher#auth_tag
 
 ### def auth_tag(tag_len = 16) -> String
+{: since="2.0.0"}
 ### def auth_tag=(string)
+{: since="2.0.0"}
 
 認証付き暗号(AEAD)の認証タグを取得・設定します。
 

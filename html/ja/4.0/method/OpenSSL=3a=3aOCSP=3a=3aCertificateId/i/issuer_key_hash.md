@@ -1,6 +1,7 @@
 # OpenSSL::OCSP::CertificateId#issuer_key_hash
 
 ### def issuer_key_hash -> String
+{: since="2.4.0"}
 
 この CertificateId の issuerKeyHash(発行者の公開鍵のハッシュ値)を16進文字列で返します。
 

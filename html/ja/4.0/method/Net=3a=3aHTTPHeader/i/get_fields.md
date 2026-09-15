@@ -12,7 +12,7 @@ key は大文字小文字を区別しません。
 ```ruby title="例"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 res = Net::HTTP.get_response(uri)
 p res.get_fields('accept-ranges') # => ["none"]
 ```

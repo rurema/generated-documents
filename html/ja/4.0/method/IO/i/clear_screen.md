@@ -1,6 +1,7 @@
 # IO#clear_screen
 
 ### def clear_screen -> self
+{: since="2.7.0"}
 
 画面全体を消去し、カーソルを左上に移動します。
 

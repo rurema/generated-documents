@@ -1,6 +1,7 @@
 # OptionParser#terminate
 
 ### def terminate(arg = nil) -> ()
+{: since=""}
 
 オプションのパースを打ち切ります。
 

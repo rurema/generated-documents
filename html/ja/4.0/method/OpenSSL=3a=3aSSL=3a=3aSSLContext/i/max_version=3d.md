@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLContext#max_version=
 
 ### def max_version=(version)
+{: since="2.5.0"}
 
 サポートする SSL/TLS プロトコルバージョンの上限を設定します。指定できる値は [OpenSSL::SSL::SSLContext#min_version=](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/min_version=3d.md) と同様です。
 

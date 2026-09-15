@@ -11,7 +11,7 @@ rel が文字列の場合は URI.parse(rel) によって、URI に変換して�
 
 ```ruby title="例"
 require 'uri'
-u = URI.parse('http://example.com/')
+u = URI('http://example.com/')
 u.merge!('/foo/bar.html')
 p u.to_s                                   # => http://example.com/foo/bar.html
 ```

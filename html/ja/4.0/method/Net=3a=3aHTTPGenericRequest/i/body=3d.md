@@ -9,7 +9,7 @@
 ```ruby title="例"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 req = Net::HTTP::Post.new(uri.request_uri)
 req.body = "Test Post Data" # => "Test Post Data"
 ```

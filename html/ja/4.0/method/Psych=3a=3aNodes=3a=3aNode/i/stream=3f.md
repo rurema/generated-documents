@@ -1,6 +1,7 @@
 # Psych::Nodes::Node#stream?
 
 ### def stream? -> bool
+{: since="2.6.0"}
 
 `self` が [Psych::Nodes::Stream](../../../class/Psych=3a=3aNodes=3a=3aStream.md) を表すノードかどうかを返します。
 

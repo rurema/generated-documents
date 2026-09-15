@@ -1,7 +1,9 @@
 # Net::HTTP#min_version
 
 ### def min_version -> Integer | Symbol | nil
+{: since="2.5.0"}
 ### def min_version=(version)
+{: since="2.5.0"}
 
 利用する SSL/TLS のバージョンの下限を取得・設定します。
 

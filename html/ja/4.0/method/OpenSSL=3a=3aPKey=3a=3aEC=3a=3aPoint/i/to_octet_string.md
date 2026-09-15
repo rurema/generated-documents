@@ -1,6 +1,7 @@
 # OpenSSL::PKey::EC::Point#to_octet_string
 
 ### def to_octet_string(conversion_form) -> String
+{: since="2.5.0"}
 
 楕円曲線上の点をオクテット文字列(バイト列)として返します。
 

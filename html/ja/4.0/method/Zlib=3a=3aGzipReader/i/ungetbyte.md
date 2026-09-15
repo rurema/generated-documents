@@ -1,6 +1,7 @@
 # Zlib::GzipReader#ungetbyte
 
 ### def ungetbyte(char) -> nil
+{: since="1.9.1"}
 
 IO クラスの同名メソッド[IO#ungetbyte](../../../method/IO/i/ungetbyte.md)と同じです。
 

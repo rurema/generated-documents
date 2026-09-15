@@ -1,6 +1,7 @@
 # IO::ConsoleMode#raw
 
 ### def raw(min: 1, time: 0, intr: false) -> IO::ConsoleMode
+{: since="2.7.0"}
 
 `self` を raw モードに変更したコピーを返します。`self` は変更しません。
 

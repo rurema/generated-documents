@@ -1,6 +1,7 @@
 # OpenSSL::PKey::EC::Point#mul
 
 ### def mul(bn1, bn2 = nil) -> OpenSSL::PKey::EC::Point
+{: since="2.0.0"}
 
 楕円曲線上の点のスカラー倍算を行います。
 

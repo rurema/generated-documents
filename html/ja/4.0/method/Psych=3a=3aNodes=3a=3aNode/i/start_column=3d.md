@@ -1,7 +1,9 @@
 # Psych::Nodes::Node#start_column=
 
 ### def start_column -> Integer | nil
+{: since="2.5.0"}
 ### def start_column=(column)
+{: since="2.5.0"}
 
 `self` が表す YAML ドキュメント上の要素が開始する行内の位置(列番号)を返します。
 

@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLSocket#tmp_key
 
 ### def tmp_key -> OpenSSL::PKey::PKey | nil
+{: since="2.4.0"}
 
 Forward Secrecy(前方秘匿性)を持つ暗号スイートが使われた場合の、一時的な鍵を返します。
 

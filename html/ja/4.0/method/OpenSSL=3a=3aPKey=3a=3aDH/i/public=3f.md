@@ -1,6 +1,7 @@
 # OpenSSL::PKey::DH#public?
 
 ### def public? -> bool
+{: since=""}
 
 `self` が公開鍵を保持しているかどうかを判定します。
 

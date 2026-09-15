@@ -1,7 +1,9 @@
 # IO#console_mode=
 
 ### def console_mode -> IO::ConsoleMode
+{: since="2.7.0"}
 ### def console_mode=(mode)
+{: since="2.7.0"}
 
 現在の端末の入出力モードを取得し、または設定します。
 

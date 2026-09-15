@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLSocket#client_ca
 
 ### def client_ca -> [OpenSSL::X509::Name] | nil
+{: since="1.9.3"}
 
 クライアント証明書を要求する際に提示される CA のリストを、[OpenSSL::X509::Name](../../../class/OpenSSL=3a=3aX509=3a=3aName.md) の配列で返します。
 

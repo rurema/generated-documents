@@ -8,7 +8,7 @@ HTTP メソッド (GET, POST など)の場合真を返します。
 ```ruby title="例"
 require 'net/http'
 
-uri = URI.parse('http://www.example.com/index.html')
+uri = URI('http://www.example.com/index.html')
 post = Net::HTTP::Post.new(uri.request_uri)
 post.response_body_permitted?   # => true
 

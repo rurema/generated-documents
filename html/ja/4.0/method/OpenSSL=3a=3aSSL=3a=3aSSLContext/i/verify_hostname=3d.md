@@ -1,7 +1,9 @@
 # OpenSSL::SSL::SSLContext#verify_hostname=
 
 ### def verify_hostname -> bool
+{: since="2.4.0"}
 ### def verify_hostname=(bool)
+{: since="2.4.0"}
 
 サーバ証明書がホスト名に対して有効かどうかを検証するかどうかを取得・設定します。
 

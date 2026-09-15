@@ -1,7 +1,9 @@
 # OptionParser::ParseError#additional=
 
 ### def additional -> object | nil
+{: since="2.7.0"}
 ### def additional=(additional)
+{: since="2.7.0"}
 
 `self` のエラーメッセージに追加する情報を作る、呼び出し可能オブジェクトです。
 

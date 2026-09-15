@@ -1,6 +1,7 @@
 # Net::HTTPResponse#body=
 
 ### def body=(value)
+{: since="1.9.1"}
 
 エンティティボディを value に設定します。
 

@@ -1,7 +1,9 @@
 # IO#cursor
 
 ### def cursor -> [Integer, Integer] | nil
+{: since="2.3.0"}
 ### def cursor=(pos)
+{: since="2.3.0"}
 
 現在のカーソル位置を取得し、または移動します。
 

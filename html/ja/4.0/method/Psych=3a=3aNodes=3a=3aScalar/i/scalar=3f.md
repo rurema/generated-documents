@@ -1,6 +1,7 @@
 # Psych::Nodes::Scalar#scalar?
 
 ### def scalar? -> bool
+{: since="2.6.0"}
 
 常に true を返します。
 

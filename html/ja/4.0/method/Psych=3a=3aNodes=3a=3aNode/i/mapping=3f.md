@@ -1,6 +1,7 @@
 # Psych::Nodes::Node#mapping?
 
 ### def mapping? -> bool
+{: since="2.6.0"}
 
 `self` が [Psych::Nodes::Mapping](../../../class/Psych=3a=3aNodes=3a=3aMapping.md) を表すノードかどうかを返します。
 

@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLContext#min_version=
 
 ### def min_version=(version)
+{: since="2.5.0"}
 
 サポートする SSL/TLS プロトコルバージョンの下限を設定します。
 

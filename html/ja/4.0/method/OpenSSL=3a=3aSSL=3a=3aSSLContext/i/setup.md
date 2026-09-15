@@ -1,6 +1,7 @@
 # OpenSSL::SSL::SSLContext#setup
 
 ### def setup -> true | nil
+{: since=""}
 
 `self` の設定を確定させ、内部状態を準備します。
 

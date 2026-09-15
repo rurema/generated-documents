@@ -1,7 +1,9 @@
 # OpenSSL::PKey::EC#export
 
 ### def export(cipher = nil, pass = nil) -> String
+{: since="2.0.0"}
 ### def to_pem(cipher = nil, pass = nil) -> String
+{: since=""}
 
 鍵を PEM 形式の文字列に変換します。
 

@@ -1,6 +1,7 @@
 # IO#raw!
 
 ### def raw!(min: 1, time: 0, intr: false) -> self
+{: since="1.9.3"}
 
 raw モードを有効にします。端末のモードを後で元に戻す必要がある場合は
 [IO#raw](../../../method/IO/i/raw.md) を使用してください。
