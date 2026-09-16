@@ -1,0 +1,43 @@
+names=count_symbols
+visibility=public
+kind=added
+source_location=manual/api/objspace.md
+since_by_name=count_symbols=2.3.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### module_function def count_symbols(result_hash = nil) -> Hash
+{: since="2.3.0"}
+
+Symbol の種類ごとにオブジェクトの数を格納したハッシュを返します。
+
+- **param** `result_hash` -- 戻り値のためのハッシュを指定します。省略した場合は新しくハッシュを作成します。result_hash の内容は上書きされます。プローブ効果を避けるために使用します。
+- **raise** `TypeError` -- result_hash にハッシュ以外を指定した時に発生します。
+
+戻り値のキーの意味は以下の通りです。
+
+- **`mortal_dynamic_symbol`**:
+  ガベージコレクションの対象になる Symbol の数です。
+- **`immortal_dynamic_symbol`**:
+  動的に確保されましたが、ガベージコレクションの対象にはならない Symbol の数です。
+- **`immortal_static_symbol`**:
+  動的な確保を経ずに存在し、ガベージコレクションの対象にもならない Symbol の数です。
+- **`immortal_symbol`**:
+  ガベージコレクションの対象にはならない Symbol の数 (`immortal_dynamic_symbol` と `immortal_static_symbol` の合計) です。
+
+本メソッドは普通の Ruby プログラマ向けのメソッドではありません。パフォーマンスやメモリ使用量に興味のある CRuby の開発者向けのものです。
+
+```ruby title="例"
+require 'objspace'
+
+p ObjectSpace.count_symbols
+# => {mortal_dynamic_symbol: 0, immortal_dynamic_symbol: 3,
+#     immortal_static_symbol: 4482, immortal_symbol: 4485}
+# (内容は処理系やバージョン、実行時の状態に依存します)
+```
+
+戻り値のハッシュは処理系に依存します。これは将来変更になるかもしれません。
+
+本メソッドは CRuby 以外では動作しません。
+
+

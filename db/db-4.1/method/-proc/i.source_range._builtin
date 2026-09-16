@@ -1,0 +1,29 @@
+names=source_range
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Proc.md
+since_by_name=source_range=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def source_range -> Ruby::SourceRange | nil
+
+`self` に対応する [c:Ruby::SourceRange] を返します。
+
+`self` が Ruby で定義されていない(C で実装されている)場合や、ソースパスを持たない場合は nil を返します。
+
+返される `Ruby::SourceRange` には、ソースパス、(可能なら)絶対パス、開始・終了の行番号とバイト単位の桁番号が含まれます。ブロックから作られた `Proc` の範囲は `{` または `do` から始まります。
+
+```ruby title="例"
+# /path/to/target.rb を実行
+pr = proc { 42 }
+range = pr.source_range
+p range.path         # => "/path/to/target.rb"
+p range.start_line   # => 2
+p range.start_column # => 10
+
+p method(:p).to_proc.source_range # => nil
+```
+
+- **SEE** [m:Proc#source_location], [m:Proc#syntax_tree]
+

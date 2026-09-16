@@ -342,6 +342,8 @@ yday は 1 から数えます。
 
 <li><a href="#S_ISO8601">xmlschema</a></li>
 
+<li><a href="#S_ZONE_OFFSET">zone_offset</a></li>
+
 </ul>
 </dd>
 
@@ -2073,6 +2075,43 @@ t <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><
 <p>
 self を返します。
 </p>
+</dd>
+
+
+<dt class="method-heading" id="S_ZONE_OFFSET"><code>zone_offset(zone, year = self.now.year) -&gt; Integer | nil</code><span class="permalink">[<a href="../method/Time/s/zone_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Time.html#method-c-zone_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/time.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+タイムゾーンを表す文字列 zone を、協定世界時 (UTC) との差(秒)に変換します。
+</p>
+<p>
+<code>-10:00</code> や <code>+1330</code> のような分を含む数値表記、<code>-10</code> や <code>+13</code> のような時のみの数値表記に対応しています。
+</p>
+<p>
+数値表記でない場合は、<code>&quot;UTC&quot;</code>、<code>&quot;JST&quot;</code> のような、<a href="../library/time.html">time</a> ライブラリが認識するタイムゾーンの略称も使用できます。
+</p>
+<p>
+上記のいずれにも一致しなかった場合は、ローカルタイムゾーン(サマータイムを考慮したものと考慮しないものの両方)が zone と一致するかどうかを調べます。
+year を指定すると、ローカルタイムゾーンを調べる際に使う年を変更できます。
+</p>
+<p>
+zone のオフセットを判別できなかった場合は nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>zone</code>:</dt>
+<dd>
+タイムゾーンを表す文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>year</code>:</dt>
+<dd>
+ローカルタイムゾーンの判別に使う年を整数で指定します。省略した場合、現在の年が使われます。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'time'</span>
+<span class="nb">p</span> <span class="no">Time</span><span class="p">.</span><span class="nf">zone_offset</span><span class="p">(</span><span class="s2">"</span><span class="s2">EST</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; -18000
+</span><span class="nb">p</span> <span class="no">Time</span><span class="p">.</span><span class="nf">zone_offset</span><span class="p">(</span><span class="s2">"</span><span class="s2">+09:00</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 32400
+</span></code></pre>
 </dd>
 
 

@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -138,9 +138,19 @@
 
 <li><a href="#S_RESULT">result</a></li>
 
+<li><a href="#S_RESUME">resume</a></li>
+
 <li><a href="#S_RUNNING--3F">running?</a></li>
 
+<li><a href="#S_SETUP">setup</a></li>
+
 <li><a href="#S_START">start</a></li>
+
+<li><a href="#S_STATE">state</a></li>
+
+<li><a href="#S_SUPPORTED--3F">supported?</a></li>
+
+<li><a href="#S_SUSPEND">suspend</a></li>
 
 </ul>
 </dd>
@@ -304,6 +314,34 @@ Coverage.result(clear: true, stop: false) と指定することで、続けて�
 </dd>
 
 
+<dt class="method-heading" id="S_RESUME"><code>resume -&gt; nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/Coverage/s/resume.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Coverage.html#method-c-resume">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/coverage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+カバレッジの測定を開始、または再開します。
+</p>
+<p>
+事前に <a href="../method/Coverage/s/setup.html">Coverage.setup</a> で測定の準備をしておく必要があります。
+</p>
+<p>
+現在のところプロセス全体のカバレッジしか測定できません。スレッドごとのカバレッジは測定できないため、複数のスレッドを持つプロセスで <a href="../method/Coverage/s/resume.html">Coverage.resume</a> と <a href="../method/Coverage/s/suspend.html">Coverage.suspend</a> を使って特定のコードブロックの実行だけをカバレッジ測定の対象にしようとすると、意図しない結果になることがあります。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+<a href="../method/Coverage/s/setup.html">Coverage.setup</a> を実行する前に実行した場合、または既に測定中の場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">coverage</span><span class="s2">"</span>
+<span class="no">Coverage</span><span class="p">.</span><span class="nf">setup</span>
+<span class="no">Coverage</span><span class="p">.</span><span class="nf">resume</span>
+<span class="nb">p</span> <span class="no">Coverage</span><span class="p">.</span><span class="nf">state</span>  <span class="c1"># =&gt; :running
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Coverage/s/setup.html">Coverage.setup</a>, <a href="../method/Coverage/s/suspend.html">Coverage.suspend</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_RUNNING--3F"><code>running? -&gt; bool</code><span class="method-since-badge">Ruby 2.5.0 から</span><span class="permalink">[<a href="../method/Coverage/s/running=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Coverage.html#method-c-running-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/coverage.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -318,6 +356,56 @@ Coverage.result(clear: true, stop: false) と指定することで、続けて�
 </span><span class="nb">p</span> <span class="no">Coverage</span><span class="p">.</span><span class="nf">result</span>      <span class="c1"># =&gt; {}
 </span><span class="nb">p</span> <span class="no">Coverage</span><span class="p">.</span><span class="nf">running?</span>    <span class="c1"># =&gt; false
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_SETUP"><code>setup(mode = nil) -&gt; nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/Coverage/s/setup.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Coverage.html#method-c-setup">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/coverage.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>setup(lines: nil, branches: nil, methods: nil, eval: nil, oneshot_lines: nil) -&gt; nil</code></dt>
+<dd class="method-description">
+<p>
+カバレッジの測定の準備をします。
+</p>
+<p>
+このメソッド自体は測定を開始しません。測定を開始するには <a href="../method/Coverage/s/resume.html">Coverage.resume</a> を使います。準備と開始を同時に行いたい場合は <a href="../method/Coverage/s/start.html">Coverage.start</a> を使ってください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dd>
+<code>:all</code> を指定すると、<code>lines</code>、<code>branches</code>、<code>methods</code>、<code>eval</code> の全てを計測対象にします。省略した場合は行カバレッジのみが対象になります。
+</dd>
+<dt class='method-param'>[PARAM] <code>lines</code>:</dt>
+<dd>
+真を指定すると行カバレッジを計測対象にします。
+</dd>
+<dt class='method-param'>[PARAM] <code>branches</code>:</dt>
+<dd>
+真を指定すると分岐カバレッジを計測対象にします。
+</dd>
+<dt class='method-param'>[PARAM] <code>methods</code>:</dt>
+<dd>
+真を指定するとメソッドカバレッジを計測対象にします。
+</dd>
+<dt class='method-param'>[PARAM] <code>eval</code>:</dt>
+<dd>
+真を指定すると eval カバレッジを計測対象にします。(Ruby 3.2 で追加されたキーワード引数です)
+</dd>
+<dt class='method-param'>[PARAM] <code>oneshot_lines</code>:</dt>
+<dd>
+真を指定すると、行カバレッジを 1 度でも実行されたかどうかだけを記録するモード(<a href="../library/coverage.html">coverage</a> ライブラリ参照)で計測対象にします。<code>lines</code> と同時には指定できません。
+</dd>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+既に <a href="../method/Coverage/s/setup.html">Coverage.setup</a> 済みの状態で、対象とするモードが異なる引数で呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">coverage</span><span class="s2">"</span>
+<span class="no">Coverage</span><span class="p">.</span><span class="nf">setup</span><span class="p">(</span><span class="ss">lines:</span> <span class="k">true</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Coverage</span><span class="p">.</span><span class="nf">state</span>  <span class="c1"># =&gt; :suspended
+</span><span class="no">Coverage</span><span class="p">.</span><span class="nf">resume</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Coverage/s/resume.html">Coverage.resume</a>, <a href="../method/Coverage/s/start.html">Coverage.start</a>
+</p>
 </dd>
 
 
@@ -360,6 +448,67 @@ pp <span class="no">Coverage</span><span class="p">.</span><span class="nf">resu
 bool<span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 pp <span class="no">Coverage</span><span class="p">.</span><span class="nf">result</span>  <span class="c1"># =&gt; {&quot;bool.rb&quot;=&gt;{:methods=&gt;{[Object, :bool, 1, 0, 7, 3]=&gt;1}}}
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_STATE"><code>state -&gt; Symbol</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/Coverage/s/state.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Coverage.html#method-c-state">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/coverage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+カバレッジの測定の状態を返します。
+</p>
+<p>
+<code>:idle</code>(<a href="../method/Coverage/s/setup.html">Coverage.setup</a> も <a href="../method/Coverage/s/start.html">Coverage.start</a> も行われていない状態)、<code>:suspended</code>(測定の準備はできているが一時停止中の状態)、<code>:running</code>(測定中の状態)のいずれかを返します。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">coverage</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">Coverage</span><span class="p">.</span><span class="nf">state</span>  <span class="c1"># =&gt; :idle
+</span><span class="no">Coverage</span><span class="p">.</span><span class="nf">setup</span>
+<span class="nb">p</span> <span class="no">Coverage</span><span class="p">.</span><span class="nf">state</span>  <span class="c1"># =&gt; :suspended
+</span><span class="no">Coverage</span><span class="p">.</span><span class="nf">resume</span>
+<span class="nb">p</span> <span class="no">Coverage</span><span class="p">.</span><span class="nf">state</span>  <span class="c1"># =&gt; :running
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_SUPPORTED--3F"><code>supported?(mode) -&gt; bool</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Coverage/s/supported=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Coverage.html#method-c-supported-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/coverage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+指定したモードのカバレッジ測定がサポートされているかどうかを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dd>
+<code>:lines</code>、<code>:oneshot_lines</code>、<code>:branches</code>、<code>:methods</code>、<code>:eval</code> のいずれかをシンボルで指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">coverage</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">Coverage</span><span class="p">.</span><span class="nf">supported?</span><span class="p">(</span><span class="ss">:lines</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">Coverage</span><span class="p">.</span><span class="nf">supported?</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span>    <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_SUSPEND"><code>suspend -&gt; nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/Coverage/s/suspend.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Coverage.html#method-c-suspend">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/coverage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+カバレッジの測定を一時停止します。
+</p>
+<p>
+再開するには <a href="../method/Coverage/s/resume.html">Coverage.resume</a> を使います。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+測定中でない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">coverage</span><span class="s2">"</span>
+<span class="no">Coverage</span><span class="p">.</span><span class="nf">start</span>
+<span class="no">Coverage</span><span class="p">.</span><span class="nf">suspend</span>
+<span class="nb">p</span> <span class="no">Coverage</span><span class="p">.</span><span class="nf">state</span>  <span class="c1"># =&gt; :suspended
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Coverage/s/resume.html">Coverage.resume</a>
+</p>
 </dd>
 
 

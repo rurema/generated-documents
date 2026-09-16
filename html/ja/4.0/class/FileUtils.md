@@ -74,6 +74,7 @@
 - [install](../method/FileUtils/m/install.md)
 - [link](../method/FileUtils/m/link.md)
 - [ln](../method/FileUtils/m/ln.md)
+- [link_entry](../method/FileUtils/m/link_entry.md)
 - [ln_s](../method/FileUtils/m/ln_s.md)
 - [symlink](../method/FileUtils/m/symlink.md)
 - [ln_sf](../method/FileUtils/m/ln_sf.md)

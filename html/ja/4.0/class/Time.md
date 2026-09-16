@@ -51,6 +51,7 @@ yday は 1 から数えます。
 - [rfc2822](../method/Time/s/rfc2822.md)
 - [rfc822](../method/Time/s/rfc822.md)
 - [strptime](../method/Time/s/strptime.md)
+- [zone_offset](../method/Time/s/zone_offset.md)
 
 ## Instance Methods
 

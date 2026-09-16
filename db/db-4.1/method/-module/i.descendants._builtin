@@ -1,0 +1,33 @@
+names=descendants
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Module.md
+since_by_name=descendants=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def descendants -> [Class, Module]
+
+`self` を [m:Module#ancestors] に持つクラスやモジュールの配列を返します。
+
+`self` の子孫を返す点で [m:Module#ancestors] の逆演算にあたり、`x.descendants.include?(y)` が成り立つのは `y.ancestors.include?(x)` が成り立つときに限られます。ただし `self` 自身、特異クラス、refinement は結果に含まれません。返される配列の順序は不定です。
+
+`self` は返された子孫への参照を保持しないため、参照を持つオブジェクトが
+無くなった子孫をガベージコレクションから守ることはありません。そのため、
+ガベージコレクタが実行されたかどうかによって、一度 descendants に
+含まれていたクラスやモジュールが結果から消えることがあります。
+
+```ruby title="例"
+module A; end
+module B; include A; end
+class C; include B; end
+class D < C; end
+
+p A.descendants # => [B, C, D]
+p B.descendants # => [C, D]
+p C.descendants # => [D]
+```
+
+- **SEE** [m:Module#ancestors]
+
+

@@ -1,0 +1,64 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=_builtin
+aliases=Monitor
+aliasof=
+source_location=manual/api/_builtin/Thread__Monitor.md
+
+スレッドの同期機構としてのモニター機能を提供するクラスです。
+また同じスレッドから何度も lock できる Mutex としての機能も提供します。
+
+Ruby 4.0 までは [lib:monitor] ライブラリの `Monitor` クラスとして提供されていましたが、Ruby 4.1 で組み込みクラスになりました。`Monitor` は `Thread::Monitor` の別名として引き続き使えます。
+
+[c:MonitorMixin] と、`mon_enter` のような `mon_` の付いた別名メソッドは、引き続き [lib:monitor] ライブラリで定義されています(RubyGems が読み込むため、通常は `require` しなくても使えます)。
+
+### 例
+
+```ruby title="消費者、生産者問題の例"
+buf = []
+mon = Thread::Monitor.new
+empty_cond = mon.new_cond
+
+# consumer
+Thread.start do
+  loop do
+    mon.synchronize do
+      empty_cond.wait_while { buf.empty? }
+      print buf.shift
+    end
+  end
+end
+
+# producer
+while line = ARGF.gets
+  mon.synchronize do
+    buf.push(line)
+    empty_cond.signal
+  end
+end
+```
+
+2回ロックしてもデッドロックにならない例です。
+
+```ruby title="デッドロックにならない例"
+mon = Thread::Monitor.new
+mon.synchronize {
+  mon.synchronize {
+  }
+}
+```
+
+[c:Thread::Mutex] ではデッドロックになります。
+
+```ruby title="Mutex でデッドロックになる例"
+mx = Mutex.new
+mx.synchronize {
+  mx.synchronize {
+  }
+}
+# => deadlock; recursive locking (ThreadError)
+```

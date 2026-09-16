@@ -14,7 +14,6 @@ path = Pathname.new("//.././../")
 path                  # => #<Pathname://.././../>
 path.cleanpath        # => #<Pathname:/>
 
-
 require 'pathname'
 Dir.rmdir("/tmp/foo")      rescue nil
 File.unlink("/tmp/bar/foo") rescue nil

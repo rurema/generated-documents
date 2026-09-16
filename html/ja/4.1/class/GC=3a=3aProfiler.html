@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -119,6 +119,8 @@ GC の起動回数や起動したタイミング、処理時間などの GC に�
 
 <li><a href="#S_CLEAR">clear</a></li>
 
+<li><a href="#S_CONFIGURE">configure</a></li>
+
 <li><a href="#S_DISABLE">disable</a></li>
 
 <li><a href="#S_ENABLE">enable</a></li>
@@ -165,6 +167,44 @@ GC の起動回数や起動したタイミング、処理時間などの GC に�
 <span class="no">GC</span><span class="p">.</span><span class="nf">start</span>
 <span class="nb">p</span> <span class="no">GC</span><span class="o">::</span><span class="no">Profiler</span><span class="p">.</span><span class="nf">report</span> <span class="c1"># =&gt; 1 回分の GC のプロファイル情報出力する。
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="S_CONFIGURE"><code>configure(max_records: 4096) -&gt; nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/GC=3a=3aProfiler/s/configure.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC/Profiler.html#method-c-configure">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC__Profiler.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/GC=3a=3aProfiler/s/raw_data.html">GC::Profiler.raw_data</a> が保持する生のプロファイルレコードの最大件数を設定します。
+</p>
+<p>
+プロファイラは <code>max_records</code> で指定した件数までのレコードをリング状のバッファに保持します。バッファが満杯になると、新しい GC のレコードが最も古いレコードを上書きします。デフォルトの上限は 4096 件です。
+</p>
+<p>
+<code>nil</code> を指定すると、件数を無制限に保持していた従来の挙動に戻ります。
+</p>
+<p>
+<code>max_records</code> を変更すると、既存のプロファイルデータは削除されます。このメソッドはプロファイラの有効・無効を切り替えません。切り替えには <a href="../method/GC=3a=3aProfiler/s/enable.html">GC::Profiler.enable</a> と
+<a href="../method/GC=3a=3aProfiler/s/disable.html">GC::Profiler.disable</a> を使ってください。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>max_records</code>:</dt>
+<dd>
+保持するレコード数の上限を整数または <code>nil</code> で指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>max_records</code> に 0 以下の整数を指定した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="c1"># 保持件数を無制限に戻す(従来の挙動)
+</span><span class="no">GC</span><span class="o">::</span><span class="no">Profiler</span><span class="p">.</span><span class="nf">configure</span><span class="p">(</span><span class="ss">max_records:</span> <span class="k">nil</span><span class="p">)</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/GC=3a=3aProfiler/s/raw_data.html">GC::Profiler.raw_data</a>
+</p>
+<p>
+[SEE_ALSO] <a href="../method/GC=3a=3aProfiler/s/clear.html">GC::Profiler.clear</a>
+</p>
 </dd>
 
 

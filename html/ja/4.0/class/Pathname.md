@@ -25,6 +25,7 @@ p Pathname("foo/bar")   # => #<Pathname:foo/bar>
 - [getwd](../method/Pathname/s/getwd.md)
 - [pwd](../method/Pathname/s/pwd.md)
 - [glob](../method/Pathname/s/glob.md)
+- [mktmpdir](../method/Pathname/s/mktmpdir.md)
 - [new](../method/Pathname/s/new.md)
 
 ## Instance Methods

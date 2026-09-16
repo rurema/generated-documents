@@ -172,7 +172,13 @@ Emacs のようなキー操作などができます。
 
 <li><a href="#S_COMPLETION_PROC--3D">completion_proc=</a></li>
 
+<li><a href="#S_COMPLETION_QUOTE_CHARACTER">completion_quote_character</a></li>
+
+<li><a href="#S_DELETE_TEXT">delete_text</a></li>
+
 <li><a href="#S_EMACS_EDITING_MODE">emacs_editing_mode</a></li>
+
+<li><a href="#S_EMACS_EDITING_MODE--3F">emacs_editing_mode?</a></li>
 
 <li><a href="#S_FILENAME_QUOTE_CHARACTERS">filename_quote_characters</a></li>
 
@@ -182,11 +188,37 @@ Emacs のようなキー操作などができます。
 
 <li><a href="#S_INPUT--3D">input=</a></li>
 
+<li><a href="#S_INSERT_TEXT">insert_text</a></li>
+
+<li><a href="#S_LINE_BUFFER">line_buffer</a></li>
+
 <li><a href="#S_OUTPUT--3D">output=</a></li>
+
+<li><a href="#S_POINT">point</a></li>
+
+<li><a href="#S_POINT">point=</a></li>
+
+<li><a href="#S_PRE_INPUT_HOOK">pre_input_hook</a></li>
+
+<li><a href="#S_PRE_INPUT_HOOK">pre_input_hook=</a></li>
+
+<li><a href="#S_QUOTING_DETECTION_PROC">quoting_detection_proc</a></li>
+
+<li><a href="#S_QUOTING_DETECTION_PROC">quoting_detection_proc=</a></li>
+
+<li><a href="#S_REDISPLAY">redisplay</a></li>
+
+<li><a href="#S_REFRESH_LINE">refresh_line</a></li>
 
 <li><a href="#S_SET_SCREEN_SIZE">set_screen_size</a></li>
 
+<li><a href="#S_SPECIAL_PREFIXES">special_prefixes</a></li>
+
+<li><a href="#S_SPECIAL_PREFIXES">special_prefixes=</a></li>
+
 <li><a href="#S_VI_EDITING_MODE">vi_editing_mode</a></li>
+
+<li><a href="#S_VI_EDITING_MODE--3F">vi_editing_mode?</a></li>
 
 </ul>
 </dd>
@@ -235,7 +267,7 @@ Emacs のようなキー操作などができます。
 <dl>
 <dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
 <dd>
-サポートしていない環境で発生します。
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドでは、libedit の版によってはこのメソッドを利用できないため発生します。
 </dd>
 </dl>
 <p>
@@ -259,7 +291,7 @@ GNU Readline のデフォルト値は、「&quot;'」です。
 </dd>
 <dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
 <dd>
-サポートしていない環境で発生します。
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドでは、libedit の版によってはこのメソッドを利用できないため発生します。
 </dd>
 </dl>
 <p>
@@ -545,6 +577,60 @@ nil を指定した場合はデフォルトの動作になります。
 </dd>
 
 
+<dt class="method-heading" id="S_COMPLETION_QUOTE_CHARACTER"><code>completion_quote_character -&gt; String | nil</code><span class="method-since-badge">Ruby 2.5.0 から</span><span class="permalink">[<a href="../method/Readline/s/completion_quote_character.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-completion_quote_character">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+補完処理中(completion_proc の中など)に呼び出すと、補完対象の引数をクオートするために使われた文字を返します。引数がクオートされていない場合は <code>nil</code> を返します。
+</p>
+<p>
+補完処理中以外に呼び出した場合は、常に <code>nil</code> を返します。
+</p>
+<p>
+なお、<a href="../method/Readline/s/completer_quote_characters=3d.html">Readline.completer_quote_characters=</a> が設定されていない場合、このメソッドは常に <code>nil</code> を返します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Readline/s/completer_quote_characters=3d.html">Readline.completer_quote_characters=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_DELETE_TEXT"><code>delete_text(start, length) -&gt; self</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/Readline/s/delete_text.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-delete_text">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>delete_text(range) -&gt; self</code></dt>
+<dt class="method-heading"><code>delete_text -&gt; self</code></dt>
+<dd class="method-description">
+<p>
+現在の入力行のうち、指定した範囲のテキストを削除します。引数を省略した場合は、入力行全体を削除します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>start</code>:</dt>
+<dd>
+削除する範囲の開始位置を整数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+削除する文字数を整数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>range</code>:</dt>
+<dd>
+削除する範囲を <a href="../class/Range.html">Range</a> オブジェクトで指定します。
+</dd>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドでは、libedit の版によってはこのメソッドを利用できないため発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] GNU Readline ライブラリの rl_delete_text 関数
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_EMACS_EDITING_MODE"><code>emacs_editing_mode -&gt; nil</code><span class="permalink">[<a href="../method/Readline/s/emacs_editing_mode.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-emacs_editing_mode">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -559,9 +645,26 @@ Emacs モードの詳細は、 GNU Readline のマニュアルを参照してく
 <dl>
 <dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
 <dd>
-サポートしていない環境で発生します。
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="S_EMACS_EDITING_MODE--3F"><code>emacs_editing_mode? -&gt; bool</code><span class="method-since-badge">Ruby 1.9.1 から</span><span class="permalink">[<a href="../method/Readline/s/emacs_editing_mode=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-emacs_editing_mode-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+Emacs モードが有効であれば <code>true</code> を返します。そうでなければ <code>false</code> を返します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Readline/s/emacs_editing_mode.html">Readline.emacs_editing_mode</a>
+</p>
 </dd>
 
 
@@ -573,7 +676,7 @@ Emacs モードの詳細は、 GNU Readline のマニュアルを参照してく
 <dl>
 <dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
 <dd>
-サポートしていない環境で発生します。
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
 </dd>
 </dl>
 <p>
@@ -597,7 +700,7 @@ GNU Readline のデフォルト値は nil(NULL) です。
 </dd>
 <dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
 <dd>
-サポートしていない環境で発生します。
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
 </dd>
 </dl>
 <p>
@@ -637,6 +740,50 @@ readline メソッドで使用する入力用の <a href="../class/File.html">Fi
 </dd>
 
 
+<dt class="method-heading" id="S_INSERT_TEXT"><code>insert_text(string) -&gt; self</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Readline/s/insert_text.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-insert_text">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のカーソル位置に文字列 string を挿入します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+挿入する文字列を指定します。
+</dd>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] GNU Readline ライブラリの rl_insert_text 関数
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_LINE_BUFFER"><code>line_buffer -&gt; String</code><span class="method-since-badge">Ruby 1.9.2 から</span><span class="permalink">[<a href="../method/Readline/s/line_buffer.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-line_buffer">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+編集中の行全体を返します。
+</p>
+<p>
+completion_proc の中で、補完要求の文脈を判断するのに便利です。
+</p>
+<p>
+<code>Readline.line_buffer</code> の長さは、GNU Readline の rl_end と同じです。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Readline/s/point.html">Readline.point</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_OUTPUT--3D"><code>output=(output)</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Readline/s/output=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-output-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -648,6 +795,129 @@ readline メソッドで使用する出力用の <a href="../class/File.html">Fi
 <a href="../class/File.html">File</a> オブジェクトを指定します。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="S_POINT"><code>point=(pos)</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/Readline/s/point.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-point">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>point -&gt; Integer</code><span class="method-since-badge">Ruby 1.9.2 から</span></dt>
+<dd class="method-description">
+<p>
+編集中の行における現在のカーソル位置のインデックスを設定・取得します。
+</p>
+<p>
+<code>Readline.point=</code> は、カーソル位置のインデックスを pos に設定します。
+</p>
+<p>
+<code>Readline.point</code> は、<a href="../method/Readline/s/line_buffer.html">Readline.line_buffer</a> における現在のカーソル位置のインデックスを返します。 completion_proc に渡される入力文字列の開始位置に対応する <a href="../method/Readline/s/line_buffer.html">Readline.line_buffer</a> 中のインデックスは、入力文字列の長さから <code>Readline.point</code> を引くことで求められます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>pos</code>:</dt>
+<dd>
+カーソル位置のインデックスを整数で指定します。
+</dd>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_PRE_INPUT_HOOK"><code>pre_input_hook=(proc)</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Readline/s/pre_input_hook.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-pre_input_hook">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>pre_input_hook -&gt; Proc | nil</code></dt>
+<dd class="method-description">
+<p>
+最初のプロンプトが表示された後、readline が入力文字の読み取りを開始する直前に呼び出す <a href="../class/Proc.html">Proc</a> オブジェクト proc を指定・取得します。
+</p>
+<p>
+<code>Readline.pre_input_hook=</code> は、呼び出す <a href="../class/Proc.html">Proc</a> オブジェクト proc を指定します。詳細は GNU Readline の rl_pre_input_hook 変数を参照してください。
+</p>
+<p>
+<code>Readline.pre_input_hook</code> は、指定されている <a href="../class/Proc.html">Proc</a> オブジェクトを返します。デフォルトは <code>nil</code> です。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>proc</code>:</dt>
+<dd>
+呼び出す <a href="../class/Proc.html">Proc</a> オブジェクトを指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+proc が call メソッドを持たない場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_QUOTING_DETECTION_PROC"><code>quoting_detection_proc=(proc)</code><span class="method-since-badge">Ruby 2.5.0 から</span> <span class="method-until-badge">Ruby 3.3 で削除</span><span class="permalink">[<a href="../method/Readline/s/quoting_detection_proc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-quoting_detection_proc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>quoting_detection_proc -&gt; Proc</code></dt>
+<dd class="method-description">
+<p>
+ユーザの入力中の文字がエスケープされているかどうかを判定する <a href="../class/Proc.html">Proc</a> オブジェクト proc を指定・取得します。
+</p>
+<p>
+<code>Readline.quoting_detection_proc=</code> は、判定用の <a href="../class/Proc.html">Proc</a> オブジェクト proc を指定します。 proc は、ユーザの入力文字列と、判定対象の文字のインデックスを引数として受け取り、その文字がエスケープされていれば真を返すことを想定しています。
+</p>
+<p>
+Readline は、<a href="../method/Readline/s/completer_quote_characters=3d.html">Readline.completer_quote_characters=</a> で指定した文字(クオートされた引数の終わりを判定するため)や、<a href="../method/Readline/s/completer_word_break_characters=3d.html">Readline.completer_word_break_characters=</a> で指定した文字(引数の区切りを判定するため)に対してのみ、この proc を呼び出します。
+</p>
+<p>
+<a href="../method/Readline/s/completer_quote_characters=3d.html">Readline.completer_quote_characters=</a> が設定されていない場合、またはユーザの入力に completer_quote_characters に含まれる文字や <code>\</code> 文字が含まれない場合、Readline はこの proc を一切使用しません。
+</p>
+<p>
+<code>Readline.quoting_detection_proc</code> は、指定されている <a href="../class/Proc.html">Proc</a> オブジェクトを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>proc</code>:</dt>
+<dd>
+判定を行う <a href="../class/Proc.html">Proc</a> オブジェクトを指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+proc が call メソッドを持たない場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="S_REDISPLAY"><code>redisplay -&gt; self</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Readline/s/redisplay.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-redisplay">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+画面の表示を、現在の入力内容を反映した状態に更新します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] GNU Readline ライブラリの rl_redisplay 関数
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_REFRESH_LINE"><code>refresh_line -&gt; nil</code><span class="method-since-badge">Ruby 1.9.2 から</span> <span class="method-until-badge">Ruby 3.3 で削除</span><span class="permalink">[<a href="../method/Readline/s/refresh_line.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-refresh_line">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在の入力行をクリアします。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] GNU Readline ライブラリの rl_refresh_line 関数
+</p>
 </dd>
 
 
@@ -676,6 +946,28 @@ readline メソッドで使用する出力用の <a href="../class/File.html">Fi
 </dd>
 
 
+<dt class="method-heading" id="S_SPECIAL_PREFIXES"><code>special_prefixes=(string)</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Readline/s/special_prefixes.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-special_prefixes">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>special_prefixes -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+単語の区切り文字ではあるものの、補完関数に渡すテキストにはそのまま残しておく文字を指定・取得します。プログラムはこれを使って、どのような補完を行うかを判断できます。例えば、 Bash はシェル変数やホスト名を補完できるように、この値を <code>&quot;$@&quot;</code> に設定しています。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+文字列を指定します。
+</dd>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] GNU Readline ライブラリの rl_special_prefixes 変数
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_VI_EDITING_MODE"><code>vi_editing_mode -&gt; nil</code><span class="permalink">[<a href="../method/Readline/s/vi_editing_mode.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-vi_editing_mode">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -688,9 +980,26 @@ vi モードの詳細は、GNU Readline のマニュアルを参照してくだ�
 <dl>
 <dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
 <dd>
-サポートしていない環境で発生します。
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="S_VI_EDITING_MODE--3F"><code>vi_editing_mode? -&gt; bool</code><span class="method-since-badge">Ruby 1.9.1 から</span><span class="permalink">[<a href="../method/Readline/s/vi_editing_mode=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Readline.html#method-c-vi_editing_mode-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/readline/Readline.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+vi モードが有効であれば <code>true</code> を返します。そうでなければ <code>false</code> を返します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Readline/s/vi_editing_mode.html">Readline.vi_editing_mode</a>
+</p>
 </dd>
 
 

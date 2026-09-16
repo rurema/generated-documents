@@ -1,0 +1,34 @@
+names=internal_super_of
+visibility=public
+kind=added
+source_location=manual/api/objspace.md
+since_by_name=internal_super_of=2.3.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### module_function def internal_super_of(cls) -> Class | Module
+{: since="2.3.0"}
+
+cls の直接のスーパークラスを返します。include したモジュールの iclass のような隠されたクラスも読み飛ばさずに返します。
+
+- **param** `cls` -- `Class` または `Module` を指定します。それらをラップした [c:ObjectSpace::InternalObjectWrapper] オブジェクトを指定することもできます。
+
+[m:Class#superclass] は include したモジュールの iclass を読み飛ばして返しますが、本メソッドは読み飛ばしません。
+
+```ruby title="例"
+require 'objspace'
+
+module M; end
+class A
+  include M
+end
+p A.superclass                       # => Object
+p ObjectSpace.internal_super_of(A)   # => #<InternalObject:0x... T_ICLASS>
+```
+
+本メソッドをアプリケーションで使用すべきではありません。
+
+本メソッドは CRuby 以外では動作しません。
+
+- **SEE** [m:ObjectSpace?.internal_class_of]
+

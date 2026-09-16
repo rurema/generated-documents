@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -153,6 +153,8 @@ Pathname オブジェクトの生成には、<a href="../method/Pathname/s/new.h
 <li><a href="#S_GETWD">getwd</a></li>
 
 <li><a href="#S_GLOB">glob</a></li>
+
+<li><a href="#S_MKTMPDIR">mktmpdir</a></li>
 
 <li><a href="#S_NEW">new</a></li>
 
@@ -435,6 +437,30 @@ Pathname オブジェクトの配列として返します。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Pathname/i/glob.html">Pathname#glob</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_MKTMPDIR"><code>mktmpdir -&gt; Pathname</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Pathname/s/mktmpdir.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Pathname.html#method-c-mktmpdir">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/pathname.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>mktmpdir {|dir| ... } -&gt; object</code></dt>
+<dd class="method-description">
+<p>
+一時ディレクトリを作成し、そのパスを <a href="../class/Pathname.html">Pathname</a> オブジェクトでラップして返します。
+</p>
+<p>
+ブロックを指定した場合は、ブロックの終了時にディレクトリを削除します。ブロックの評価値を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'pathname'</span>
+
+<span class="no">Pathname</span><span class="p">.</span><span class="nf">mktmpdir</span> <span class="p">{</span><span class="o">|</span>dir<span class="o">|</span>
+  <span class="nb">p</span> dir<span class="p">.</span><span class="nf">class</span>   <span class="c1"># =&gt; Pathname
+</span>  <span class="c1"># 出力例: 動作環境により出力は異なります。
+</span>  <span class="nb">p</span> dir         <span class="c1"># =&gt; #&lt;Pathname:/tmp/d20260909-5-7sp1c2&gt;
+</span><span class="p">}</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Dir/s/mktmpdir.html">Dir.mktmpdir</a>
 </p>
 </dd>
 
@@ -819,7 +845,6 @@ path <span class="o">=</span> <span class="no">Pathname</span><span class="p">.<
 path                  <span class="c1"># =&gt; #&lt;Pathname://.././../&gt;
 </span>path<span class="p">.</span><span class="nf">cleanpath</span>        <span class="c1"># =&gt; #&lt;Pathname:/&gt;
 </span>
-
 <span class="nb">require</span> <span class="s1">'pathname'</span>
 <span class="no">Dir</span><span class="p">.</span><span class="nf">rmdir</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/foo</span><span class="s2">"</span><span class="p">)</span>      <span class="k">rescue</span> <span class="k">nil</span>
 <span class="no">File</span><span class="p">.</span><span class="nf">unlink</span><span class="p">(</span><span class="s2">"</span><span class="s2">/tmp/bar/foo</span><span class="s2">"</span><span class="p">)</span> <span class="k">rescue</span> <span class="k">nil</span>

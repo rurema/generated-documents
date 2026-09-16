@@ -1,0 +1,27 @@
+names=syntax_tree
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Method.md
+since_by_name=syntax_tree=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def syntax_tree -> Prism::Node | RubyVM::AbstractSyntaxTree::Node | nil
+
+このメソッドのコンパイル元になった抽象構文木(AST)のノードを、コンパイルに使ったのと同じパーサでソースを再度パースし直すことで返します。
+
+Ruby で定義されていないメソッドに対しては nil を返します。ソースが変更されているなど、ノードを確実に取得できない場合に nil を返す他の条件については [m:RubyVM::InstructionSequence#syntax_tree] を参照してください。
+
+このメソッドは実験的なもので、予告なく変更される可能性があります。
+
+```ruby title="例"
+def proc_ast_test_method = :ok
+
+node = method(:proc_ast_test_method).syntax_tree
+p node.type  # => :def_node
+p node.slice # => "def proc_ast_test_method = :ok"
+```
+
+- **SEE** [m:Method#source_range], [m:RubyVM::InstructionSequence#syntax_tree]
+
+

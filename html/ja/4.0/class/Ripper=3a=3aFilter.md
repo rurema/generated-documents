@@ -45,6 +45,7 @@ Ruby プログラムを解析して、[Ripper::SCANNER_EVENTS](../method/Ripper/
 - [filename](../method/Ripper=3a=3aFilter/i/filename.md)
 - [lineno](../method/Ripper=3a=3aFilter/i/lineno.md)
 - [parse](../method/Ripper=3a=3aFilter/i/parse.md)
+- [state](../method/Ripper=3a=3aFilter/i/state.md)
 
 ## Private Instance Methods
 

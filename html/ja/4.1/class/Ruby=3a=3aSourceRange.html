@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Ruby=3a=3aSourceRange.html">
+
+<title>class Ruby::SourceRange (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="Ruby のソースコード上のある範囲を表すクラスです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Ruby=3a=3aSourceRange.html","name":"Ruby::SourceRangeクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        Ruby::SourceRangeクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Ruby::SourceRange</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__SourceRange.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Ruby::SourceRange
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+Ruby のソースコード上のある範囲を表すクラスです。
+</p>
+<p>
+インスタンスは <a href="../method/Proc/i/source_range.html">Proc#source_range</a>・<a href="../method/Method/i/source_range.html">Method#source_range</a>・<a href="../method/UnboundMethod/i/source_range.html">UnboundMethod#source_range</a>・<a href="../method/Thread=3a=3aBacktrace=3a=3aLocation/i/source_range.html">Thread::Backtrace::Location#source_range</a> から得られます。<code>Ruby::SourceRange.new</code> は未定義で、これらのメソッド以外から生成することはできません。ソースパス、(可能なら)絶対パス、開始行、開始のバイト単位の桁、終了行、終了のバイト単位の桁を保持します。
+</p>
+<p>
+このクラスの主な目的は、<code>node_id</code> のような実装の詳細に依存しない形で、<code>Prism.find</code> をすべての Ruby 実装で正確に実装できるようにすることです。そのために必要な開始・終了の行と桁、および絶対パスをこのクラスが提供します。
+</p>
+<p>
+<code>Prism.find</code> の利用者は、必要に応じて結果を調整できます。例えば <a href="../method/Ruby=3a=3aSourceRange/i/end_line.html">Ruby::SourceRange#end_line</a> で触れているようにヒアドキュメントの分だけ範囲を広げたり、<a href="../method/Proc/i/source_range.html">Proc#source_range</a> の結果に対してブロックが渡されたメソッド呼び出しまで範囲を広げたりといった調整です。
+</p>
+<p>
+なお、返されるソース範囲は、それだけで評価可能なコード片であるとは限りません。ヒアドキュメントがメソッドの <code>end</code> を越えて続くことがあるほか、ブロックの場合は範囲が <code>{</code> や <code>do</code> から始まるためです。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_ABSOLUTE_PATH">absolute_path</a></li>
+
+<li><a href="#I_END_COLUMN">end_column</a></li>
+
+<li><a href="#I_END_LINE">end_line</a></li>
+
+<li><a href="#I_INSPECT">inspect</a></li>
+
+<li><a href="#I_PATH">path</a></li>
+
+<li><a href="#I_START_COLUMN">start_column</a></li>
+
+<li><a href="#I_START_LINE">start_line</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_ABSOLUTE_PATH"><code>absolute_path -&gt; String | nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aSourceRange/i/absolute_path.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/SourceRange.html#method-i-absolute_path">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__SourceRange.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> に対応する呼び出し可能オブジェクトの絶対パスを返します。
+</p>
+<p>
+eval したコードなど、ソースが絶対パスを持たない場合は nil を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>range <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">"</span><span class="s2">proc {}</span><span class="s2">"</span>, <span class="nb">binding</span>, <span class="s2">"</span><span class="s2">/tmp/sample.rb</span><span class="s2">"</span>, <span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">source_range</span>
+<span class="nb">p</span> range<span class="p">.</span><span class="nf">absolute_path</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ruby=3a=3aSourceRange/i/path.html">Ruby::SourceRange#path</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_END_COLUMN"><code>end_column -&gt; Integer</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aSourceRange/i/end_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/SourceRange.html#method-i-end_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__SourceRange.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+この範囲が終了するバイト単位の桁を返します。
+</p>
+<p>
+0 から数えます。
+</p>
+<p>
+呼び出し可能オブジェクトの <code>end</code> を越えて続くヒアドキュメントは範囲に含まれないことに注意してください。最後のヒアドキュメントまでの範囲を得たい場合は、<code>Prism.find</code> に <code>Proc</code>・<code>Method</code>・<code>UnboundMethod</code> を渡した結果から、子ノードの終了行・終了桁の最大値を計算してください。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>pr <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="no">&lt;&lt;~HEREDOC</span> <span class="p">}</span>
+  <span class="sh">heredoc
+</span>  <span class="sh">contents
+</span><span class="no">HEREDOC
+</span><span class="nb">p</span> pr<span class="p">.</span><span class="nf">source_range</span><span class="p">.</span><span class="nf">end_column</span> <span class="c1"># =&gt; 24
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ruby=3a=3aSourceRange/i/end_line.html">Ruby::SourceRange#end_line</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_END_LINE"><code>end_line -&gt; Integer</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aSourceRange/i/end_line.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/SourceRange.html#method-i-end_line">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__SourceRange.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+この範囲が終了する行番号を返します。
+</p>
+<p>
+1 から数えます。
+</p>
+<p>
+呼び出し可能オブジェクトの <code>end</code> を越えて続くヒアドキュメントは範囲に含まれないことに注意してください。最後のヒアドキュメントまでの範囲を得たい場合は、<code>Prism.find</code> に <code>Proc</code>・<code>Method</code>・<code>UnboundMethod</code> を渡した結果から、子ノードの終了行・終了桁の最大値を計算してください。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>pr <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="no">&lt;&lt;~HEREDOC</span> <span class="p">}</span>
+  <span class="sh">heredoc
+</span>  <span class="sh">contents
+</span><span class="no">HEREDOC
+</span><span class="nb">p</span> pr<span class="p">.</span><span class="nf">source_range</span><span class="p">.</span><span class="nf">end_line</span> <span class="c1"># =&gt; 1
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ruby=3a=3aSourceRange/i/end_column.html">Ruby::SourceRange#end_column</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INSPECT"><code>inspect -&gt; String</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aSourceRange/i/inspect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/SourceRange.html#method-i-inspect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__SourceRange.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Ruby=3a=3aSourceRange/i/absolute_path.html">Ruby::SourceRange#absolute_path</a> が利用できればそれを、そうでなければ <a href="../method/Ruby=3a=3aSourceRange/i/path.html">Ruby::SourceRange#path</a> を使い、開始・終了の座標とあわせて人間が読みやすい形式の文字列にして返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>range <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">"</span><span class="s2">proc {}</span><span class="s2">"</span>, <span class="nb">binding</span>, <span class="s2">"</span><span class="s2">/tmp/sample.rb</span><span class="s2">"</span>, <span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">source_range</span>
+<span class="nb">p</span> range<span class="p">.</span><span class="nf">inspect</span> <span class="c1"># =&gt; &quot;#&lt;Ruby::SourceRange /tmp/sample.rb:(10,5)-(10,7)&gt;&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_PATH"><code>path -&gt; String</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aSourceRange/i/path.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/SourceRange.html#method-i-path">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__SourceRange.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> に対応する呼び出し可能オブジェクトのソースパスを返します。
+</p>
+<p>
+<a href="../method/Proc/i/source_location.html">Proc#source_location</a> や <a href="../method/Method/i/source_location.html">Method#source_location</a> が返す配列の最初の要素と同じものです。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>range <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">"</span><span class="s2">proc {}</span><span class="s2">"</span>, <span class="nb">binding</span>, <span class="s2">"</span><span class="s2">/tmp/sample.rb</span><span class="s2">"</span>, <span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">source_range</span>
+<span class="nb">p</span> range<span class="p">.</span><span class="nf">path</span> <span class="c1"># =&gt; &quot;/tmp/sample.rb&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ruby=3a=3aSourceRange/i/absolute_path.html">Ruby::SourceRange#absolute_path</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_START_COLUMN"><code>start_column -&gt; Integer</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aSourceRange/i/start_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/SourceRange.html#method-i-start_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__SourceRange.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+この範囲が開始するバイト単位の桁を返します。
+</p>
+<p>
+0 から数えます。
+</p>
+<p>
+lambda の範囲は <code>-&gt;</code> から、ブロックの範囲は <code>{</code> または <code>do</code> から、メソッドの範囲は <code>def</code> から始まります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>l <span class="o">=</span> <span class="o">-&gt;</span> <span class="p">{</span><span class="p">}</span>
+<span class="nb">p</span> l<span class="p">.</span><span class="nf">source_range</span><span class="p">.</span><span class="nf">start_column</span> <span class="c1"># =&gt; 4
+</span>
+pr <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span><span class="p">}</span>
+<span class="nb">p</span> pr<span class="p">.</span><span class="nf">source_range</span><span class="p">.</span><span class="nf">start_column</span> <span class="c1"># =&gt; 10
+</span>
+meth <span class="o">=</span> <span class="nb">method</span><span class="p">(</span><span class="k">def</span> <span class="nf">m</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+<span class="nb">p</span> meth<span class="p">.</span><span class="nf">source_range</span><span class="p">.</span><span class="nf">start_column</span> <span class="c1"># =&gt; 14
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ruby=3a=3aSourceRange/i/end_column.html">Ruby::SourceRange#end_column</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_START_LINE"><code>start_line -&gt; Integer</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Ruby=3a=3aSourceRange/i/start_line.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ruby/SourceRange.html#method-i-start_line">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__SourceRange.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+この範囲が開始する行番号を返します。
+</p>
+<p>
+1 から数えます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>range <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">"</span><span class="s2">proc {}</span><span class="s2">"</span>, <span class="nb">binding</span>, <span class="s2">"</span><span class="s2">/tmp/sample.rb</span><span class="s2">"</span>, <span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">source_range</span>
+<span class="nb">p</span> range<span class="p">.</span><span class="nf">start_line</span> <span class="c1"># =&gt; 10
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ruby=3a=3aSourceRange/i/end_line.html">Ruby::SourceRange#end_line</a>
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ruby__SourceRange.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

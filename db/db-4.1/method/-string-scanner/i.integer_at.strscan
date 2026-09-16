@@ -1,0 +1,38 @@
+names=integer_at
+visibility=public
+kind=defined
+source_location=manual/api/strscan.md
+since_by_name=integer_at=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def integer_at(specifier, base = 10) -> Integer | nil
+
+`specifier` に対応するキャプチャの部分文字列を、[m:String#to_i] と同様の変換で整数にして返します。
+
+`specifier` には 0 以上の整数、負の整数、シンボル、名前付きキャプチャの名前を表す文字列を指定できます。`specifier` の意味は [m:StringScanner#\[\]] と同じです。
+
+以下のいずれかに該当する場合は `nil` を返します。
+
+- 直前にマッチを行っていない、または直前のマッチが失敗している場合。
+- `specifier` が整数で、範囲外の場合。
+- `specifier` が指すグループがマッチに参加していない場合。
+
+`self[specifier]&.to_i(base)` とほぼ同じですが、一時的な文字列オブジェクトの生成を避けます。
+
+- **param** `specifier` -- 取得するキャプチャを指定します。整数、シンボル、または文字列で指定します。
+- **param** `base` -- 整数へ変換する際の基数を指定します。
+- **raise** `IndexError` -- `specifier` が名前付きキャプチャに対応しないシンボルまたは文字列のときに発生します。
+
+```ruby title="例"
+require 'strscan'
+
+scanner = StringScanner.new("2024-06-15")
+scanner.scan(/(\d{4})-(\d{2})-(\d{2})/)
+p scanner.integer_at(1)       # => 2024
+p scanner.integer_at(1, 16)   # => 8228
+```
+
+- **SEE** [m:StringScanner#\[\]], [m:String#to_i]
+
+

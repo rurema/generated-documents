@@ -228,6 +228,8 @@ sio<span class="p">.</span><span class="nf">write</span><span class="p">(</span>
 
 <li><a href="#I_POS--3D">pos=</a></li>
 
+<li><a href="#I_PREAD">pread</a></li>
+
 <li><a href="#I_PRINT">print</a></li>
 
 <li><a href="#I_PRINTF">printf</a></li>
@@ -257,6 +259,8 @@ sio<span class="p">.</span><span class="nf">write</span><span class="p">(</span>
 <li><a href="#I_SEEK">seek</a></li>
 
 <li><a href="#I_SET_ENCODING">set_encoding</a></li>
+
+<li><a href="#I_SET_ENCODING_BY_BOM">set_encoding_by_bom</a></li>
 
 <li><a href="#I_LENGTH">size</a></li>
 
@@ -951,6 +955,52 @@ a <span class="o">&lt;&lt;</span> <span class="s1">'Z'</span>
 </dd>
 
 
+<dt class="method-heading" id="I_PREAD"><code>pread(maxlen, offset) -&gt; String</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/StringIO/i/pread.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/StringIO.html#method-i-pread">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/stringio.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>pread(maxlen, offset, outbuf) -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+自身の現在の読み込み位置を変更せずに、offset から maxlen バイト読み込んで返します。
+</p>
+<p>
+<a href="../method/IO/i/pread.html">IO#pread</a> と違いシステムコールを使わないので、常にアトミックです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>maxlen</code>:</dt>
+<dd>
+読み込むバイト数を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+読み込み開始位置を先頭からのオフセットで指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>outbuf</code>:</dt>
+<dd>
+読み込んだデータを格納する String を指定します。
+</dd>
+<dt>[EXCEPTION] <code>EOFError</code>:</dt>
+<dd>
+offset が末尾以降を指している場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>IOError</code>:</dt>
+<dd>
+自身が読み込み用にオープンされていない場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'stringio'</span>
+
+s <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">hello world</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">pread</span><span class="p">(</span><span class="mi">5</span>, <span class="mi">6</span><span class="p">)</span>          <span class="c1"># =&gt; &quot;world&quot;
+</span>buf <span class="o">=</span> <span class="no">String</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">pread</span><span class="p">(</span><span class="mi">5</span>, <span class="mi">0</span>, buf<span class="p">)</span>      <span class="c1"># =&gt; &quot;hello&quot;
+</span><span class="nb">p</span> buf                     <span class="c1"># =&gt; &quot;hello&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/pread.html">IO#pread</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_PRINT"><code>print() -&gt; nil</code><span class="permalink">[<a href="../method/StringIO/i/print.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/StringIO.html#method-i-print">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/stringio.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>print(*obj) -&gt; nil</code></dt>
 <dd class="method-description">
@@ -1347,6 +1397,31 @@ nil を指定した場合は <a href="../method/Encoding/s/default_external.html
 無視されます。<a href="../class/IO.html">IO</a> クラスの API との互換性のために用意されています。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="I_SET_ENCODING_BY_BOM"><code>set_encoding_by_bom -&gt; Encoding | nil</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/StringIO/i/set_encoding_by_bom.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/StringIO.html#method-i-set_encoding_by_bom">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/stringio.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身の BOM からエンコーディングを設定します。
+</p>
+<p>
+自身が BOM から始まる場合、BOM を読み進めて外部エンコーディングをセットし、セットしたエンコーディングを返します。
+BOM が見付からなかった場合は nil を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'stringio'</span>
+
+s <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">\u{FEFF}abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">b</span><span class="p">)</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">set_encoding_by_bom</span>  <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">read</span>                 <span class="c1"># =&gt; &quot;abc&quot;
+</span>
+s2 <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">b</span><span class="p">)</span>
+<span class="nb">p</span> s2<span class="p">.</span><span class="nf">set_encoding_by_bom</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/set_encoding_by_bom.html">IO#set_encoding_by_bom</a>
+</p>
 </dd>
 
 

@@ -38,6 +38,7 @@ p SecureRandom.random_bytes(10) # => "\323U\030TO\234\357\020\a\337"
 
 - [alphanumeric](../method/SecureRandom/s/alphanumeric.md)
 - [base64](../method/SecureRandom/s/base64.md)
+- [bytes](../method/SecureRandom/s/bytes.md)
 - [hex](../method/SecureRandom/s/hex.md)
 - [random_bytes](../method/SecureRandom/s/random_bytes.md)
 - [random_number](../method/SecureRandom/s/random_number.md)

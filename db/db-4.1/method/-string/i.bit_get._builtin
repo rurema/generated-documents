@@ -1,0 +1,34 @@
+names=bit_get
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/String.md
+since_by_name=bit_get=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def bit_get(offset, lsb_first: true) -> Integer | nil
+
+0 から数えたビット位置 `offset` のビットを `0` か `1` の整数で返します。
+
+`offset` が `self` の範囲を超える場合は `nil` を返します。
+
+既定では、各バイト内のビットは最下位ビット(LSB)から最上位ビット(MSB)の順に番号が付きます。`lsb_first` に `false` を指定すると、バイトの並び順はそのままに、各バイト内のビット番号だけが最上位ビット(MSB)から最下位ビット(LSB)の順になります。
+
+- **param** `offset` -- 取得するビットの位置を 0 から数えた整数で指定します。
+- **param** `lsb_first` -- バイト内のビットの番号の付け方を指定します。既定は `true`(最下位ビットが 0 番目)です。`false` を指定すると最上位ビットが 0 番目になります。
+- **return** -- `offset` のビットが立っていれば `1`、立っていなければ `0` を返します。`offset` が `self` の範囲を超える場合は `nil` を返します。
+- **raise** `IndexError` -- `offset` が負の場合に発生します。
+- **raise** `ArgumentError` -- `offset` がビット位置として表現できないほど大きい場合に発生します。
+- **raise** `ArgumentError` -- `lsb_first` に `true`、`false` 以外を指定した場合に発生します。
+
+```ruby title="例"
+s = "\xAA".b # 0b10101010
+p s.bit_get(0) # => 0
+p s.bit_get(1) # => 1
+p s.bit_get(8) # => nil
+p s.bit_get(0, lsb_first: false) # => 1
+p s.bit_get(1, lsb_first: false) # => 0
+```
+
+- **SEE** [m:String#bit_set?], [m:String#getbyte]
+

@@ -6,6 +6,8 @@ Ruby の 内部情報へのアクセス手段を提供するクラスです。
 
 ## Class Methods
 
+- [keep_script_lines](../method/RubyVM/s/keep_script_lines.md)
+- [keep_script_lines=](../method/RubyVM/s/keep_script_lines=3d.md)
 - [stat](../method/RubyVM/s/stat.md)
 
 ## Constants

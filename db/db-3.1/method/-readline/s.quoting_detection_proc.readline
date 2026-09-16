@@ -1,0 +1,29 @@
+names=quoting_detection_proc,quoting_detection_proc=
+visibility=public
+kind=defined
+source_location=manual/api/readline/Readline.md
+since_by_name=quoting_detection_proc=3d=2.5.0,quoting_detection_proc=2.5.0
+until_by_name=quoting_detection_proc=3.3,quoting_detection_proc=3d=3.3
+rbs_sig=(uninitialized)
+
+### def Readline.quoting_detection_proc=(proc)
+{: since="2.5.0"}
+### def Readline.quoting_detection_proc -> Proc
+{: since="2.5.0"}
+
+ユーザの入力中の文字がエスケープされているかどうかを判定する [c:Proc] オブジェクト proc を指定・取得します。
+
+`Readline.quoting_detection_proc=` は、判定用の [c:Proc] オブジェクト proc を指定します。 proc は、ユーザの入力文字列と、判定対象の文字のインデックスを引数として受け取り、その文字がエスケープされていれば真を返すことを想定しています。
+
+Readline は、[m:Readline.completer_quote_characters=] で指定した文字(クオートされた引数の終わりを判定するため)や、[m:Readline.completer_word_break_characters=] で指定した文字(引数の区切りを判定するため)に対してのみ、この proc を呼び出します。
+
+[m:Readline.completer_quote_characters=] が設定されていない場合、またはユーザの入力に completer_quote_characters に含まれる文字や `\` 文字が含まれない場合、Readline はこの proc を一切使用しません。
+
+`Readline.quoting_detection_proc` は、指定されている [c:Proc] オブジェクトを返します。
+
+- **param** `proc` -- 判定を行う [c:Proc] オブジェクトを指定します。
+
+- **raise** `ArgumentError` -- proc が call メソッドを持たない場合に発生します。
+- **raise** `NotImplementedError` -- サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
+
+

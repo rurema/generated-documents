@@ -182,6 +182,7 @@ oldmalloc_increase_bytes と呼ばれる。この2つの性質は以下のよう
 - [stress=](../method/GC/s/stress=3d.md)
 - [total_time](../method/GC/s/total_time.md)
 - [verify_compaction_references](../method/GC/s/verify_compaction_references.md)
+- [verify_internal_consistency](../method/GC/s/verify_internal_consistency.md)
 
 ## Instance Methods
 

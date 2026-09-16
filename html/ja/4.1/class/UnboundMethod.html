@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -196,7 +196,11 @@
 
 <li><a href="#I_SOURCE_LOCATION">source_location</a></li>
 
+<li><a href="#I_SOURCE_RANGE">source_range</a></li>
+
 <li><a href="#I_SUPER_METHOD">super_method</a></li>
+
+<li><a href="#I_SYNTAX_TREE">syntax_tree</a></li>
 
 <li><a href="#I_INSPECT">to_s</a></li>
 
@@ -491,6 +495,39 @@ UnboundMethod オブジェクトの引数の情報を返します。
 </dd>
 
 
+<dt class="method-heading" id="I_SOURCE_RANGE"><code>source_range -&gt; Ruby::SourceRange | nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/UnboundMethod/i/source_range.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/UnboundMethod.html#method-i-source_range">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/UnboundMethod.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このメソッドに対応する <a href="../class/Ruby=3a=3aSourceRange.html">Ruby::SourceRange</a> を返します。
+</p>
+<p>
+メソッドが Ruby で定義されていない(C で実装されている)場合や、ソースパスを持たない場合は nil を返します。
+</p>
+<p>
+<a href="../method/Method/i/unbind.html">Method#unbind</a> で得られた <code>UnboundMethod</code> は、元の <code>Method</code> と同じ範囲を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="c1"># ------- /tmp/foo.rb ---------
+</span><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">foo</span>; <span class="k">end</span>
+<span class="k">end</span>
+<span class="c1"># ----- end of /tmp/foo.rb ----
+</span>
+<span class="nb">require</span> <span class="s1">'/tmp/foo'</span>
+
+range <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">instance_method</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span><span class="p">.</span><span class="nf">source_range</span>
+<span class="nb">p</span> range<span class="p">.</span><span class="nf">path</span>          <span class="c1"># =&gt; &quot;/tmp/foo.rb&quot;
+</span><span class="nb">p</span> range<span class="p">.</span><span class="nf">absolute_path</span> <span class="c1"># =&gt; &quot;/tmp/foo.rb&quot;
+</span><span class="nb">p</span> range<span class="p">.</span><span class="nf">start_line</span>    <span class="c1"># =&gt; 2
+</span>
+<span class="nb">p</span> <span class="no">Time</span><span class="p">.</span><span class="nf">instance_method</span><span class="p">(</span><span class="ss">:zone</span><span class="p">)</span><span class="p">.</span><span class="nf">source_range</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/UnboundMethod/i/source_location.html">UnboundMethod#source_location</a>, <a href="../method/Method/i/source_range.html">Method#source_range</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_SUPER_METHOD"><code>super_method -&gt; UnboundMethod | nil</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/UnboundMethod/i/super_method.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/UnboundMethod.html#method-i-super_method">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/UnboundMethod.md">edit</a>]</span></dt>
 <dt class="rbs-signature"><code>() &rarr; <a href="../class/UnboundMethod.html">UnboundMethod</a>?</code></dt>
 <dd class="method-description">
@@ -499,6 +536,30 @@ self 内で super を実行した際に実行されるメソッドを <a href=".
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Method/i/super_method.html">Method#super_method</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SYNTAX_TREE"><code>syntax_tree -&gt; Prism::Node | RubyVM::AbstractSyntaxTree::Node | nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/UnboundMethod/i/syntax_tree.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/UnboundMethod.html#method-i-syntax_tree">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/UnboundMethod.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このメソッドのコンパイル元になった抽象構文木(AST)のノードを、コンパイルに使ったのと同じパーサでソースを再度パースし直すことで返します。
+</p>
+<p>
+Ruby で定義されていないメソッドに対しては nil を返します。ソースが変更されているなど、ノードを確実に取得できない場合に nil を返す他の条件については <a href="../method/RubyVM=3a=3aInstructionSequence/i/syntax_tree.html">RubyVM::InstructionSequence#syntax_tree</a> を参照してください。
+</p>
+<p>
+このメソッドは実験的なもので、予告なく変更される可能性があります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">proc_ast_test_method</span> <span class="o">=</span> <span class="ss">:ok</span>
+
+node <span class="o">=</span> <span class="nb">method</span><span class="p">(</span><span class="ss">:proc_ast_test_method</span><span class="p">)</span><span class="p">.</span><span class="nf">unbind</span><span class="p">.</span><span class="nf">syntax_tree</span>
+<span class="nb">p</span> node<span class="p">.</span><span class="nf">type</span>  <span class="c1"># =&gt; :def_node
+</span><span class="nb">p</span> node<span class="p">.</span><span class="nf">slice</span> <span class="c1"># =&gt; &quot;def proc_ast_test_method = :ok&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/UnboundMethod/i/source_range.html">UnboundMethod#source_range</a>, <a href="../method/RubyVM=3a=3aInstructionSequence/i/syntax_tree.html">RubyVM::InstructionSequence#syntax_tree</a>
 </p>
 </dd>
 

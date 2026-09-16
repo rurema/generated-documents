@@ -142,6 +142,8 @@
 
 <li><a href="#S_SINGLELINE_PP">singleline_pp</a></li>
 
+<li><a href="#S_WIDTH_FOR">width_for</a></li>
+
 </ul>
 </dd>
 
@@ -190,7 +192,16 @@
 <dd>
   <ul class="class-toc">
     
+      <li><a href="../method/PrettyPrint/i/break_outmost_groups.html">break_outmost_groups</a></li>
+      
+    
       <li><a href="../method/PrettyPrint/i/breakable.html">breakable</a></li>
+      
+    
+      <li><a href="../method/PrettyPrint/i/current_group.html">current_group</a></li>
+      
+    
+      <li><a href="../method/PrettyPrint/i/fill_breakable.html">fill_breakable</a></li>
       
     
       <li><a href="../method/PrettyPrint/i/flush.html">flush</a></li>
@@ -200,6 +211,12 @@
       
     
       <li><a href="../method/PrettyPrint/i/group.html">group</a></li>
+      
+    
+      <li><a href="../method/PrettyPrint/i/group_queue.html">group_queue</a></li>
+      
+    
+      <li><a href="../method/PrettyPrint/i/group_sub.html">group_sub</a></li>
       
     
       <li><a href="../method/PrettyPrint/i/indent.html">indent</a></li>
@@ -308,6 +325,41 @@ pp a                        <span class="c1"># =&gt; [[1, 2, 3], [...]]
 出力先を指定します。&lt;&lt; メソッドが定義されている必要があります。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="S_WIDTH_FOR"><code>width_for(out) -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/PP/s/width_for.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/PP.html#method-c-width_for">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/pp.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+out の使用可能な幅を返します。以下の優先順で out の幅を決定します。
+</p>
+<ol>
+<li>out が tty デバイスに割り当てられている場合、その幅を使用します。</li>
+<li>そうでない場合、または幅を取得できなかった場合は、環境変数 <code>COLUMNS</code> に幅が設定されているとみなします。</li>
+<li><code>COLUMNS</code> が 0 でない数値に設定されていない場合は、80 を仮定します。</li>
+</ol>
+<p>
+最後に、上記で求めた幅から 1 を引いた値を返します。この -1 は、Windows のコマンドプロンプトが最後の桁に到達すると自動的にカーソルを次の行へ移動してしまうことに対応するためのものです。
+</p>
+<p>
+<a href="../method/PP/s/pp.html">PP.pp</a> は out に width を指定しなかった場合、この width_for の結果を使用します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>out</code>:</dt>
+<dd>
+幅を調べたい出力先を指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'pp'</span>
+<span class="nb">require</span> <span class="s1">'stringio'</span>
+
+out <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</span><span class="nf">new</span>
+<span class="no">ENV</span><span class="p">[</span><span class="s1">'COLUMNS'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'100'</span>
+<span class="no">PP</span><span class="p">.</span><span class="nf">width_for</span><span class="p">(</span>out<span class="p">)</span> <span class="c1"># =&gt; 99
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/PP/s/pp.html">PP.pp</a>
+</p>
 </dd>
 
 

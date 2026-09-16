@@ -1,0 +1,28 @@
+names=stats
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/RubyVM__ZJIT.md
+since_by_name=stats=4.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def RubyVM::ZJIT.stats(target_key = nil) -> Hash | object | nil
+
+ZJIT の統計情報を返します。
+
+`--zjit-stats` で統計収集を有効にしている場合、統計情報のカウンタ名をキーとするハッシュを返します。
+`target_key` を指定した場合は、そのキーに対応する値だけを返します(該当するキーが無ければ `nil`)。
+統計収集が有効でない場合は `nil` を返します。
+
+- **param** `target_key` -- 取得したい統計情報のキーをシンボルで指定します。
+
+```ruby
+# ruby --zjit-stats で実行した場合
+RubyVM::ZJIT.stats.keys.first(3)  # => [:compiled_iseq_count, :failed_iseq_count, :compile_time_ns]
+RubyVM::ZJIT.stats(:compiled_iseq_count) # => 12
+```
+
+統計情報のキーの構成は処理系のバージョンによって変わります。
+
+- **SEE** [m:RubyVM::ZJIT.stats_string], [m:RubyVM::ZJIT.reset_stats!]
+

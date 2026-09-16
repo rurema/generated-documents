@@ -1,0 +1,21 @@
+# StringScanner#captures
+
+### def captures -> [String | nil] | nil
+{: since="2.5.0"}
+
+直前のマッチが成功していれば、キャプチャした部分文字列(インデックス 1 以降)を格納した配列を返します。マッチが失敗していれば `nil` を返します。
+
+マッチに参加しなかったグループに対応する要素は `nil` になります。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('Fri Dec 12 1975 14:39')
+p s.captures                       # => nil
+p s.scan(/(\w+) (\w+) (\d+) /)     # => "Fri Dec 12 "
+p s.captures                       # => ["Fri", "Dec", "12"]
+p s.scan(/(\d+)/)                  # => "1975"
+p s.captures                       # => ["1975"]
+```
+
+- **SEE** [StringScanner#\[\]](../../../method/StringScanner/i/=5b=5d.md)

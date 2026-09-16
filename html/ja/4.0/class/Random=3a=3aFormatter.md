@@ -20,3 +20,4 @@ extend されています。ただし、以下の整形用メソッドが定義�
 ## Instance Methods
 
 - [alphanumeric](../method/Random=3a=3aFormatter/i/alphanumeric.md)
+- [random_number](../method/Random=3a=3aFormatter/i/random_number.md)

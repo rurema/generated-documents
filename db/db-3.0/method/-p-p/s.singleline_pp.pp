@@ -16,3 +16,4 @@ rbs_sig=(uninitialized)
 
 - **param** `out` -- 出力先を指定します。<< メソッドが定義されている必要があります。
 
+

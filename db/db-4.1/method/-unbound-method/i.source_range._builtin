@@ -1,0 +1,35 @@
+names=source_range
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/UnboundMethod.md
+since_by_name=source_range=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def source_range -> Ruby::SourceRange | nil
+
+このメソッドに対応する [c:Ruby::SourceRange] を返します。
+
+メソッドが Ruby で定義されていない(C で実装されている)場合や、ソースパスを持たない場合は nil を返します。
+
+[m:Method#unbind] で得られた `UnboundMethod` は、元の `Method` と同じ範囲を返します。
+
+```ruby title="例"
+# ------- /tmp/foo.rb ---------
+class Foo
+  def foo; end
+end
+# ----- end of /tmp/foo.rb ----
+
+require '/tmp/foo'
+
+range = Foo.instance_method(:foo).source_range
+p range.path          # => "/tmp/foo.rb"
+p range.absolute_path # => "/tmp/foo.rb"
+p range.start_line    # => 2
+
+p Time.instance_method(:zone).source_range # => nil
+```
+
+- **SEE** [m:UnboundMethod#source_location], [m:Method#source_range]
+

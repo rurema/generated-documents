@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -190,6 +190,8 @@ buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</
 <li><a href="#I_--7E">~</a></li>
 
 <li><a href="#I_AND--21">and!</a></li>
+
+<li><a href="#I_BIT_COUNT">bit_count</a></li>
 
 <li><a href="#I_CLEAR">clear</a></li>
 
@@ -655,6 +657,45 @@ buf<span class="p">.</span><span class="nf">and!</span><span class="p">(</span><
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/=26.html">IO::Buffer#&amp;</a>, <a href="../method/IO=3a=3aBuffer/i/=7c.html">IO::Buffer#|</a>, <a href="../method/IO=3a=3aBuffer/i/=5e.html">IO::Buffer#^</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_BIT_COUNT"><code>bit_count(offset = 0, length = nil) -&gt; Integer</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer/i/bit_count.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-bit_count">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファに含まれる、立っているビット(値が <code>1</code> のビット)の数を返します。
+</p>
+<p>
+ポピュレーションカウント、あるいはハミング重みとも呼ばれます。
+</p>
+<p>
+<code>offset</code> と <code>length</code> を指定すると、バッファの一部の範囲だけを対象に数えます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+数える範囲の開始位置をバッファの先頭からのバイト数で指定します。省略した場合は <code>0</code> です。
+</dd>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+数える範囲の長さをバイト数で指定します。省略した場合は <code>offset</code> からバッファの終端までです。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+対象の範囲に含まれる、立っているビットの数を返します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>offset</code> と <code>length</code> の合計がバッファのバイト数を超える場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">\xFF\x00\x0F</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">bit_count</span>       <span class="c1"># =&gt; 12
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">\xFF\x00\x0F</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">bit_count</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span> <span class="c1"># =&gt; 4
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/=7e.html">IO::Buffer#~</a>, <a href="../method/String/i/bit_count.html">String#bit_count</a>
 </p>
 </dd>
 

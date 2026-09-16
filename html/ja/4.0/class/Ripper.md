@@ -8,6 +8,7 @@ Ruby プログラムをテキストとして扱いたい場合、例えばソー
 ## Class Methods
 
 - [lex](../method/Ripper/s/lex.md)
+- [lex_state_name](../method/Ripper/s/lex_state_name.md)
 - [new](../method/Ripper/s/new.md)
 - [parse](../method/Ripper/s/parse.md)
 - [sexp](../method/Ripper/s/sexp.md)
@@ -19,11 +20,16 @@ Ruby プログラムをテキストとして扱いたい場合、例えばソー
 ## Instance Methods
 
 - [column](../method/Ripper/i/column.md)
+- [debug_output](../method/Ripper/i/debug_output.md)
+- [debug_output=](../method/Ripper/i/debug_output=3d.md)
 - [encoding](../method/Ripper/i/encoding.md)
 - [end_seen?](../method/Ripper/i/end_seen=3f.md)
+- [error?](../method/Ripper/i/error=3f.md)
 - [filename](../method/Ripper/i/filename.md)
 - [lineno](../method/Ripper/i/lineno.md)
 - [parse](../method/Ripper/i/parse.md)
+- [state](../method/Ripper/i/state.md)
+- [token](../method/Ripper/i/token.md)
 - [yydebug](../method/Ripper/i/yydebug.md)
 - [yydebug=](../method/Ripper/i/yydebug=3d.md)
 

@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -187,6 +187,10 @@ init.rb:8:in '&lt;main&gt;'
 
 <li><a href="#I_PATH">path</a></li>
 
+<li><a href="#I_SOURCE_RANGE">source_range</a></li>
+
+<li><a href="#I_SYNTAX_TREE">syntax_tree</a></li>
+
 <li><a href="#I_TO_S">to_s</a></li>
 
 </ul>
@@ -337,6 +341,61 @@ self が表すフレームのファイル名を返します。
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread=3a=3aBacktrace=3a=3aLocation/i/absolute_path.html">Thread::Backtrace::Location#absolute_path</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SOURCE_RANGE"><code>source_range -&gt; Ruby::SourceRange</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Thread=3a=3aBacktrace=3a=3aLocation/i/source_range.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread/Backtrace/Location.html#method-i-source_range">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread__Backtrace__Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が表すフレームに対応する Ruby の式の <a href="../class/Ruby=3a=3aSourceRange.html">Ruby::SourceRange</a> を返します。
+</p>
+<p>
+CRuby では、このメソッドは呼び出されるたびにソースファイルを再度読み込んでパースし直すことで範囲を求めます。読み込みで発生したファイルのエラー(存在しないファイルに対する <code>Errno::ENOENT</code> など)はそのまま発生します。
+</p>
+<p>
+<code>RubyVM.keep_script_lines = true</code> を指定すると、ソースファイルをメモリ上に保持し、ファイルシステムからの再読み込みを避けられます。eval したコードのフレームでは、<code>RubyVM.keep_script_lines = true</code> を指定していないと範囲を取得できません。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
+<dd>
+ソースが変更されているなど、範囲を求めるために必要な情報が得られない場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+eval したコードのフレームで、<code>RubyVM.keep_script_lines = true</code> を指定していない場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>loc <span class="o">=</span> caller_locations<span class="p">(</span><span class="mi">0</span>, <span class="mi">1</span><span class="p">)</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+range <span class="o">=</span> loc<span class="p">.</span><span class="nf">source_range</span>
+<span class="nb">p</span> range<span class="p">.</span><span class="nf">path</span> <span class="o">==</span> loc<span class="p">.</span><span class="nf">path</span>         <span class="c1"># =&gt; true
+</span><span class="nb">p</span> range<span class="p">.</span><span class="nf">start_line</span> <span class="o">==</span> loc<span class="p">.</span><span class="nf">lineno</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread=3a=3aBacktrace=3a=3aLocation/i/syntax_tree.html">Thread::Backtrace::Location#syntax_tree</a>, <a href="../method/Proc/i/source_range.html">Proc#source_range</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SYNTAX_TREE"><code>syntax_tree -&gt; Prism::Node | RubyVM::AbstractSyntaxTree::Node | nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Thread=3a=3aBacktrace=3a=3aLocation/i/syntax_tree.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread/Backtrace/Location.html#method-i-syntax_tree">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread__Backtrace__Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が表すフレームに対応する抽象構文木(AST)のノードを、ソースファイルを再度パースし直すことで返します。
+</p>
+<p>
+ノードを確実に取得できない場合に nil を返す条件については <a href="../method/RubyVM=3a=3aInstructionSequence/i/syntax_tree.html">RubyVM::InstructionSequence#syntax_tree</a> を参照してください。
+</p>
+<p>
+このメソッドは実験的なもので、予告なく変更される可能性があります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>node <span class="o">=</span> <span class="o">-&gt;</span> <span class="p">{</span> caller_locations<span class="p">(</span><span class="mi">0</span>, <span class="mi">1</span><span class="p">)</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">}</span><span class="p">.</span><span class="nf">call</span><span class="p">.</span><span class="nf">syntax_tree</span>
+<span class="nb">p</span> node<span class="p">.</span><span class="nf">is_a?</span><span class="p">(</span><span class="no">Prism</span><span class="o">::</span><span class="no">CallNode</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> node<span class="p">.</span><span class="nf">name</span>                   <span class="c1"># =&gt; :caller_locations
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Thread=3a=3aBacktrace=3a=3aLocation/i/source_range.html">Thread::Backtrace::Location#source_range</a>, <a href="../method/RubyVM=3a=3aInstructionSequence/i/syntax_tree.html">RubyVM::InstructionSequence#syntax_tree</a>
 </p>
 </dd>
 

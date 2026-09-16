@@ -1,0 +1,34 @@
+names=setup
+visibility=public
+kind=defined
+source_location=manual/api/coverage.md
+since_by_name=setup=3.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def Coverage.setup(mode = nil) -> nil
+### def Coverage.setup(lines: nil, branches: nil, methods: nil, oneshot_lines: nil) -> nil
+
+カバレッジの測定の準備をします。
+
+このメソッド自体は測定を開始しません。測定を開始するには [m:Coverage.resume] を使います。
+準備と開始を同時に行いたい場合は [m:Coverage.start] を使ってください。
+
+- **param** `mode` -- `:all` を指定すると、`lines`、`branches`、`methods` の全てを計測対象にします。
+              省略した場合は行カバレッジのみが対象になります。
+- **param** `lines` -- 真を指定すると行カバレッジを計測対象にします。
+- **param** `branches` -- 真を指定すると分岐カバレッジを計測対象にします。
+- **param** `methods` -- 真を指定するとメソッドカバレッジを計測対象にします。
+- **param** `oneshot_lines` -- 真を指定すると、行カバレッジを 1 度でも実行されたかどうかだけを記録するモード([lib:coverage] ライブラリ参照)で計測対象にします。`lines` と同時には指定できません。
+
+- **raise** `RuntimeError` -- 既に [m:Coverage.setup] 済みの状態で、対象とするモードが異なる引数で呼び出した場合に発生します。
+
+```ruby
+require "coverage"
+Coverage.setup(lines: true)
+p Coverage.state  # => :suspended
+Coverage.resume
+```
+
+- **SEE** [m:Coverage.resume], [m:Coverage.start]
+

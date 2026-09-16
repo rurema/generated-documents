@@ -135,9 +135,13 @@ Ruby プログラムの字句解析器です。
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_ERRORS">errors</a></li>
+
 <li><a href="#I_LEX">lex</a></li>
 
 <li><a href="#I_PARSE">parse</a></li>
+
+<li><a href="#I_SCAN">scan</a></li>
 
 <li><a href="#I_TOKENIZE">tokenize</a></li>
 
@@ -157,6 +161,9 @@ Ruby プログラムの字句解析器です。
 <dd>
   <ul class="class-toc">
     
+      <li><a href="../method/Ripper/s/lex_state_name.html">lex_state_name</a></li>
+      
+    
       <li><a href="../method/Ripper/s/new.html">new</a></li>
       
     
@@ -174,16 +181,31 @@ Ruby プログラムの字句解析器です。
       <li><a href="../method/Ripper/i/column.html">column</a></li>
       
     
+      <li><a href="../method/Ripper/i/debug_output.html">debug_output</a></li>
+      
+    
+      <li><a href="../method/Ripper/i/debug_output.html">debug_output=</a></li>
+      
+    
       <li><a href="../method/Ripper/i/encoding.html">encoding</a></li>
       
     
       <li><a href="../method/Ripper/i/end_seen=3f.html">end_seen?</a></li>
       
     
+      <li><a href="../method/Ripper/i/error=3f.html">error?</a></li>
+      
+    
       <li><a href="../method/Ripper/i/filename.html">filename</a></li>
       
     
       <li><a href="../method/Ripper/i/lineno.html">lineno</a></li>
+      
+    
+      <li><a href="../method/Ripper/i/state.html">state</a></li>
+      
+    
+      <li><a href="../method/Ripper/i/token.html">token</a></li>
       
     
       <li><a href="../method/Ripper/i/yydebug.html">yydebug</a></li>
@@ -204,6 +226,20 @@ Ruby プログラムの字句解析器です。
 <h2>インスタンスメソッド</h2>
 <dl>
 
+<dt class="method-heading" id="I_ERRORS"><code>errors -&gt; [Ripper::Lexer::Elem] | nil</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Ripper=3a=3aLexer/i/errors.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Ripper/Lexer.html#method-i-errors">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ripper/lexer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+直前に実行した解析(<a href="../method/Ripper=3a=3aLexer/i/scan.html">Ripper::Lexer#scan</a>・<a href="../method/Ripper=3a=3aLexer/i/lex.html">Ripper::Lexer#lex</a>・<a href="../method/Ripper=3a=3aLexer/i/tokenize.html">Ripper::Lexer#tokenize</a> など)で見つかった構文エラーの一覧を返します。エラーが見つからなかった場合は空の配列を返します。解析を一度も実行していない場合は <code>nil</code> を返します。
+</p>
+<p>
+配列の要素は <a href="../method/Ripper=3a=3aLexer/i/scan.html">Ripper::Lexer#scan</a> の要素と同じく、位置・イベント名・トークン文字列・状態に加えてエラーメッセージを保持するオブジェクトです。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Ripper=3a=3aLexer/i/scan.html">Ripper::Lexer#scan</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_LEX"><code>lex -&gt; [[Integer, Integer], Symbol, String, Ripper::Lexer::State]</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Ripper=3a=3aLexer/i/lex.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Ripper/Lexer.html#method-i-lex">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ripper/lexer.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -222,6 +258,20 @@ Ruby プログラムの字句解析器です。
 </p>
 <p>
 ライブラリ内部で使用します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SCAN"><code>scan -&gt; [Ripper::Lexer::Elem]</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Ripper=3a=3aLexer/i/scan.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/Ripper/Lexer.html#method-i-scan">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ripper/lexer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身の持つ Ruby プログラムを解析し、トークンの一覧を返します。<a href="../method/Ripper=3a=3aLexer/i/lex.html">Ripper::Lexer#lex</a> や <a href="../method/Ripper=3a=3aLexer/i/tokenize.html">Ripper::Lexer#tokenize</a> と異なり、<a href="../method/Ripper=3a=3aLexer/i/errors.html">Ripper::Lexer#errors</a> で得られる構文エラーの要素も結果に含め、出現位置順に並べて返します。
+</p>
+<p>
+配列の要素は位置・イベント名・トークン文字列・状態を保持するオブジェクトで、構文エラーの要素はさらにエラーメッセージを保持します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Ripper=3a=3aLexer/i/errors.html">Ripper::Lexer#errors</a>, <a href="../method/Ripper=3a=3aLexer/i/lex.html">Ripper::Lexer#lex</a>
 </p>
 </dd>
 

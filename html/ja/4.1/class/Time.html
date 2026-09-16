@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -321,6 +321,8 @@ yday は 1 から数えます。
 
 <li><a href="#S_RFC2822">rfc2822</a></li>
 
+<li><a href="#S_RFC3339">rfc3339</a></li>
+
 <li><a href="#I_RFC2822">rfc822</a></li>
 
 <li><a href="#S_RFC2822">rfc822</a></li>
@@ -336,6 +338,8 @@ yday は 1 から数えます。
 <li><a href="#I_ISO8601">xmlschema</a></li>
 
 <li><a href="#S_ISO8601">xmlschema</a></li>
+
+<li><a href="#S_ZONE_OFFSET">zone_offset</a></li>
 
 </ul>
 </dd>
@@ -2072,6 +2076,35 @@ t <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><
 </dd>
 
 
+<dt class="method-heading" id="S_RFC3339"><code>rfc3339(date) -&gt; Time</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Time/s/rfc3339.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Time.html#method-c-rfc3339">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/time.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+<a class="external" href="https://tools.ietf.org/html/rfc3339">[RFC3339]</a> で定義されている dateTime として date をパースして <a href="../class/Time.html">Time</a> オブジェクトに変換します。
+</p>
+<p>
+<a href="../method/Time/s/xmlschema.html">Time.xmlschema</a> とほぼ同様ですが、日付と時刻の区切りが <code>T</code> または空白に限られる点、タイムゾーンの指定を省略できない点、年が 4 桁固定である点が異なります。
+</p>
+<p>
+date が RFC 3339 で定義されている形式に準拠していない、または <a href="../class/Time.html">Time</a> クラスが指定された日時を表現できないときに
+<a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>date</code>:</dt>
+<dd>
+RFC 3339 で定義されている dateTime としてパースされる文字列を指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+date が RFC 3339 で定義されている形式に準拠していない、または <a href="../class/Time.html">Time</a> クラスが指定された日時を表現できないときに発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Time/s/xmlschema.html">Time.xmlschema</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_STRPTIME"><code>strptime(date, format, now=self.now) -&gt; Time</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Time/s/strptime.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Time.html#method-c-strptime">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/time.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
 </dt>
 <dt class="method-heading"><code>strptime(date, format, now=self.now) {|y| ... } -&gt; Time</code> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
@@ -2144,6 +2177,43 @@ t <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><
 <p>
 self を返します。
 </p>
+</dd>
+
+
+<dt class="method-heading" id="S_ZONE_OFFSET"><code>zone_offset(zone, year = self.now.year) -&gt; Integer | nil</code><span class="permalink">[<a href="../method/Time/s/zone_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Time.html#method-c-zone_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/time.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+タイムゾーンを表す文字列 zone を、協定世界時 (UTC) との差(秒)に変換します。
+</p>
+<p>
+<code>-10:00</code> や <code>+1330</code> のような分を含む数値表記、<code>-10</code> や <code>+13</code> のような時のみの数値表記に対応しています。
+</p>
+<p>
+数値表記でない場合は、<code>&quot;UTC&quot;</code>、<code>&quot;JST&quot;</code> のような、<a href="../library/time.html">time</a> ライブラリが認識するタイムゾーンの略称も使用できます。
+</p>
+<p>
+上記のいずれにも一致しなかった場合は、ローカルタイムゾーン(サマータイムを考慮したものと考慮しないものの両方)が zone と一致するかどうかを調べます。
+year を指定すると、ローカルタイムゾーンを調べる際に使う年を変更できます。
+</p>
+<p>
+zone のオフセットを判別できなかった場合は nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>zone</code>:</dt>
+<dd>
+タイムゾーンを表す文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>year</code>:</dt>
+<dd>
+ローカルタイムゾーンの判別に使う年を整数で指定します。省略した場合、現在の年が使われます。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'time'</span>
+<span class="nb">p</span> <span class="no">Time</span><span class="p">.</span><span class="nf">zone_offset</span><span class="p">(</span><span class="s2">"</span><span class="s2">EST</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; -18000
+</span><span class="nb">p</span> <span class="no">Time</span><span class="p">.</span><span class="nf">zone_offset</span><span class="p">(</span><span class="s2">"</span><span class="s2">+09:00</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 32400
+</span></code></pre>
 </dd>
 
 

@@ -134,6 +134,8 @@ Ruby プログラムをテキストとして扱いたい場合、例えばソー
 <dd>
 <ul class="class-toc">
 
+<li><a href="#S_LEX_STATE_NAME">lex_state_name</a></li>
+
 <li><a href="#S_NEW">new</a></li>
 
 <li><a href="#S_PARSE">parse</a></li>
@@ -147,15 +149,25 @@ Ruby プログラムをテキストとして扱いたい場合、例えばソー
 
 <li><a href="#I_COLUMN">column</a></li>
 
+<li><a href="#I_DEBUG_OUTPUT">debug_output</a></li>
+
+<li><a href="#I_DEBUG_OUTPUT">debug_output=</a></li>
+
 <li><a href="#I_ENCODING">encoding</a></li>
 
 <li><a href="#I_END_SEEN--3F">end_seen?</a></li>
+
+<li><a href="#I_ERROR--3F">error?</a></li>
 
 <li><a href="#I_FILENAME">filename</a></li>
 
 <li><a href="#I_LINENO">lineno</a></li>
 
 <li><a href="#I_PARSE">parse</a></li>
+
+<li><a href="#I_STATE">state</a></li>
+
+<li><a href="#I_TOKEN">token</a></li>
 
 <li><a href="#I_YYDEBUG">yydebug</a></li>
 
@@ -229,6 +241,23 @@ Ruby プログラムをテキストとして扱いたい場合、例えばソー
 <h2>特異メソッド</h2>
 <dl>
 
+<dt class="method-heading" id="S_LEX_STATE_NAME"><code>lex_state_name(state) -&gt; String</code><span class="method-since-badge">Ruby 2.5.0 から</span><span class="permalink">[<a href="../method/Ripper/s/lex_state_name.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Ripper.html#method-c-lex_state_name">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ripper.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+state で指定したスキャナ状態を表す文字列表現を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>state</code>:</dt>
+<dd>
+スキャナ状態を表す整数を指定します。<a href="../method/Ripper/i/state.html">Ripper#state</a> などで得られる値です。
+</dd>
+</dl>
+<p>
+state が複数の状態のビット OR である場合は、それぞれの状態名を <code>&quot;|&quot;</code> でつないだ文字列を返します。
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_NEW"><code>new(src, filename = &quot;(ripper)&quot;, lineno = 1) -&gt; Ripper</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Ripper/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Ripper.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ripper.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -298,6 +327,30 @@ src の開始行番号を指定します。省略すると 1 になります。
 </dd>
 
 
+<dt class="method-heading" id="I_DEBUG_OUTPUT"><code>debug_output -&gt; object</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Ripper/i/debug_output.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Ripper.html#method-i-debug_output">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ripper.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>debug_output=(obj)</code></dt>
+<dd class="method-description">
+<p>
+構文解析のデバッグ出力先を取得・設定します。
+</p>
+<p>
+<code>debug_output</code> は現在のデバッグ出力先を返します。初期値は標準出力です。
+</p>
+<p>
+<code>debug_output=</code> はデバッグ出力先を obj に設定します。<a href="../method/Ripper/i/yydebug.html">Ripper#yydebug</a> を true にした場合、構文解析器のトレース情報がここで指定したオブジェクトに書き込まれます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>obj</code>:</dt>
+<dd>
+デバッグ出力の書き込み先を指定します。<code>&lt;&lt;</code> を実行できるオブジェクト(IO オブジェクトなど)を指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Ripper/i/yydebug.html">Ripper#yydebug</a>, <a href="../method/Ripper/i/yydebug=3d.html">Ripper#yydebug=</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_ENCODING"><code>encoding -&gt; Encoding</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Ripper/i/encoding.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Ripper.html#method-i-encoding">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ripper.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -313,6 +366,17 @@ Ruby プログラムの解析前は <a href="../method/Encoding/c/US_ASCII.html"
 <dd class="method-description">
 <p>
 これまでに解析した Ruby プログラムの中に <code>__END__</code> が含まれていたかどうかを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_ERROR--3F"><code>error? -&gt; bool</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/Ripper/i/error=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Ripper.html#method-i-error-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ripper.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+これまでに解析した Ruby プログラムにエラーがあったかどうかを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Ripper/i/parse.html">Ripper#parse</a>
 </p>
 </dd>
 
@@ -346,6 +410,28 @@ Ruby プログラムの解析前は <a href="../method/Encoding/c/US_ASCII.html"
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Ripper/s/parse.html">Ripper.parse</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_STATE"><code>state -&gt; Integer | nil</code><span class="method-since-badge">Ruby 2.5.0 から</span><span class="permalink">[<a href="../method/Ripper/i/state.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Ripper.html#method-i-state">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ripper.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のトークンのスキャナ状態を、<code>Ripper::EXPR_*</code> 定数のビット OR を表す整数で返します。
+</p>
+<p>
+このメソッドはイベントハンドラの中でのみ意味のある値を返します。イベントハンドラの中で self.state を実行してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TOKEN"><code>token -&gt; String | nil</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Ripper/i/token.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Ripper.html#method-i-token">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ripper.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+現在のトークン文字列を返します。
+</p>
+<p>
+このメソッドはイベントハンドラの中でのみ意味のある値を返します。イベントハンドラの中で self.token を実行してください。
 </p>
 </dd>
 
