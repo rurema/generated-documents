@@ -4,6 +4,6 @@
 
 ユーザの入力時にファイル名の補完を行う際、スペースなどの単語の区切りをクオートするための複数の文字で構成される文字列を取得します。
 
-- **raise** `NotImplementedError` -- サポートしていない環境で発生します。
+- **raise** `NotImplementedError` -- サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
 
 - **SEE** [Readline.filename_quote_characters=](../../../method/Readline/s/filename_quote_characters=3d.md)

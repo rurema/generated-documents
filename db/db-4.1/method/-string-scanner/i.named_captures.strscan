@@ -1,0 +1,38 @@
+names=named_captures
+visibility=public
+kind=defined
+source_location=manual/api/strscan.md
+since_by_name=named_captures=3.2
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def named_captures -> {String => String | nil}
+
+直前に使用した正規表現に含まれる名前付きキャプチャグループの名前をキー、対応する部分文字列を値とするハッシュを返します。
+
+値は、そのグループがマッチに参加していれば対応する部分文字列に、参加していなければ `nil` になります。直前のマッチ全体が失敗した場合も、同様にすべての値が `nil` になります。直前の正規表現に名前付きキャプチャグループが無い場合は空のハッシュ `{}` を返します。
+
+```ruby title="例"
+require 'strscan'
+
+s = StringScanner.new('Fri Dec 12 1975 14:39')
+pattern = /(?<wday>\w+) (?<month>\w+) (?<day>\d+) /
+s.match?(pattern)
+p s.named_captures     # => {"wday" => "Fri", "month" => "Dec", "day" => "12"}
+
+s.match?(/(\d+)/)
+p s.named_captures     # => {}
+```
+
+```ruby title="例: マッチが失敗した場合"
+require 'strscan'
+
+s = StringScanner.new('nope')
+pattern = /(?<wday>\w+) (?<month>\w+) (?<day>\d+) /
+p s.match?(pattern)     # => nil
+p s.named_captures      # => {"wday" => nil, "month" => nil, "day" => nil}
+```
+
+- **SEE** [m:StringScanner#\[\]]
+
+

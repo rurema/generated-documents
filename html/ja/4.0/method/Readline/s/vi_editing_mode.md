@@ -7,4 +7,4 @@ vi モードの詳細は、GNU Readline のマニュアルを参照してくだ�
 
   - <http://www.gnu.org/directory/readline.html>
 
-- **raise** `NotImplementedError` -- サポートしていない環境で発生します。
+- **raise** `NotImplementedError` -- サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。

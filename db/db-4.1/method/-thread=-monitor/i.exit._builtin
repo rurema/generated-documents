@@ -1,0 +1,30 @@
+names=exit,mon_exit
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Thread__Monitor.md
+since_by_name=exit=,mon_exit=
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def exit -> ()
+{: since=""}
+### def mon_exit -> ()
+{: since=""}
+
+モニターのロックを解放します。
+
+enter でロックした回数だけ exit を呼ばなければモニターは解放されません。
+
+モニターが解放されればモニターのロック待ちになっていたスレッドが一つ実行を再開します。
+
+- **raise** `ThreadError` -- ロックを持っていないスレッドが呼びだした場合に発生します
+
+```ruby title="例"
+mon = Thread::Monitor.new
+mon.enter
+mon.enter
+mon.exit
+mon.exit
+mon.exit # => current thread not owner (ThreadError)
+```
+

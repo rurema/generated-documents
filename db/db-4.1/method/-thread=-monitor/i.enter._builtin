@@ -1,0 +1,35 @@
+names=enter,mon_enter
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Thread__Monitor.md
+since_by_name=enter=,mon_enter=
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def enter -> ()
+{: since=""}
+### def mon_enter -> ()
+{: since=""}
+
+モニターをロックします。
+
+一度に一つのスレッドだけがモニターをロックできます。
+既にモニターがロックされている場合は、ロックが開放されるまでそのスレッドは待ちます。
+
+[m:Thread::Mutex#lock] に相当します。
+Thread::Mutex#lock と違うのは現在のモニターの所有者が現在実行されているスレッドである場合、何度でもロックできる点です。ロックした回数だけ [m:Thread::Monitor#exit] を呼ばなければモニターは解放されません。
+
+```ruby title="例"
+mon = Thread::Monitor.new
+mon.enter
+mon.enter
+```
+
+Thread::Mutex#lock ではデッドロックが起きます。
+
+```ruby title="Mutex でデッドロックする例"
+m = Mutex.new
+m.lock
+m.lock # => deadlock; recursive locking (ThreadError)
+```
+

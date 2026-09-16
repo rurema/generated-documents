@@ -158,13 +158,23 @@ pretty printing アルゴリズムのためのクラスです。改行の位置�
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_BREAK_OUTMOST_GROUPS">break_outmost_groups</a></li>
+
 <li><a href="#I_BREAKABLE">breakable</a></li>
+
+<li><a href="#I_CURRENT_GROUP">current_group</a></li>
+
+<li><a href="#I_FILL_BREAKABLE">fill_breakable</a></li>
 
 <li><a href="#I_FLUSH">flush</a></li>
 
 <li><a href="#I_GENSPACE">genspace</a></li>
 
 <li><a href="#I_GROUP">group</a></li>
+
+<li><a href="#I_GROUP_QUEUE">group_queue</a></li>
+
+<li><a href="#I_GROUP_SUB">group_sub</a></li>
 
 <li><a href="#I_INDENT">indent</a></li>
 
@@ -305,6 +315,33 @@ PrettyPrint オブジェクトを生成し、それを引数としてブロッ�
 <h2>インスタンスメソッド</h2>
 <dl>
 
+<dt class="method-heading" id="I_BREAK_OUTMOST_GROUPS"><code>break_outmost_groups -&gt; ()</code><span class="permalink">[<a href="../method/PrettyPrint/i/break_outmost_groups.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/PrettyPrint.html#method-i-break_outmost_groups">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prettyprint.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身のバッファの中で、出力幅(<a href="../method/PrettyPrint/i/maxwidth.html">PrettyPrint#maxwidth</a>)を超えている外側のグループを、バッファの幅が maxwidth 以下になるまで改行して出力します。
+</p>
+<p>
+<a href="../method/PrettyPrint/i/text.html">PrettyPrint#text</a> や <a href="../method/PrettyPrint/i/breakable.html">PrettyPrint#breakable</a> の内部で、バッファに追加を行うたびに呼ばれています。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'prettyprint'</span>
+
+out <span class="o">=</span> <span class="no">PrettyPrint</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="s1">''</span><span class="p">.</span><span class="nf">dup</span>, <span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>q<span class="o">|</span>
+  q<span class="p">.</span><span class="nf">text</span> <span class="s1">'aaaaa'</span>
+  q<span class="p">.</span><span class="nf">group</span> <span class="p">{</span>
+    q<span class="p">.</span><span class="nf">text</span> <span class="s1">'b'</span> <span class="o">*</span> <span class="mi">20</span>
+    q<span class="p">.</span><span class="nf">breakable</span>
+    q<span class="p">.</span><span class="nf">text</span> <span class="s1">'c'</span>
+  <span class="p">}</span>
+  q<span class="p">.</span><span class="nf">break_outmost_groups</span>
+  q<span class="p">.</span><span class="nf">text</span> <span class="s1">'d'</span>
+<span class="k">end</span>
+<span class="nb">puts</span> out
+<span class="c1"># =&gt; aaaaabbbbbbbbbbbbbbbbbbbb
+</span><span class="c1">#    cd
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_BREAKABLE"><code>breakable(sep = ' ') -&gt; ()</code><span class="permalink">[<a href="../method/PrettyPrint/i/breakable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/PrettyPrint.html#method-i-breakable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prettyprint.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>breakable(sep, width = sep.length) -&gt; ()</code></dt>
 <dd class="method-description">
@@ -322,6 +359,75 @@ PrettyPrint オブジェクトを生成し、それを引数としてブロッ�
 sep.length が利用されます。例えば sep が多バイト文字の際に指定する必要があるかも知れません。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="I_CURRENT_GROUP"><code>current_group -&gt; PrettyPrint::Group</code><span class="permalink">[<a href="../method/PrettyPrint/i/current_group.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/PrettyPrint.html#method-i-current_group">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prettyprint.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+スタックに最後に積まれたグループ、つまり現在ブロックを実行中の最も内側の <a href="../method/PrettyPrint/i/group.html">PrettyPrint#group</a> に対応するグループを返します。
+</p>
+<p>
+カスタムフォーマッタの実装で、現在のネストの深さなどを調べるために使用します。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'prettyprint'</span>
+
+out <span class="o">=</span> <span class="no">PrettyPrint</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="s1">''</span><span class="p">.</span><span class="nf">dup</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>q<span class="o">|</span>
+  q<span class="p">.</span><span class="nf">group</span> <span class="p">{</span>
+    q<span class="p">.</span><span class="nf">text</span> q<span class="p">.</span><span class="nf">current_group</span><span class="p">.</span><span class="nf">depth</span><span class="p">.</span><span class="nf">to_s</span>
+    q<span class="p">.</span><span class="nf">group</span> <span class="p">{</span>
+      q<span class="p">.</span><span class="nf">text</span> q<span class="p">.</span><span class="nf">current_group</span><span class="p">.</span><span class="nf">depth</span><span class="p">.</span><span class="nf">to_s</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+<span class="nb">puts</span> out
+<span class="c1"># =&gt; 12
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/PrettyPrint/i/group.html">PrettyPrint#group</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_FILL_BREAKABLE"><code>fill_breakable(sep = ' ') -&gt; ()</code><span class="permalink">[<a href="../method/PrettyPrint/i/fill_breakable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/PrettyPrint.html#method-i-fill_breakable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prettyprint.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>fill_breakable(sep, width = sep.length) -&gt; ()</code></dt>
+<dd class="method-description">
+<p>
+<a href="../method/PrettyPrint/i/breakable.html">PrettyPrint#breakable</a> と似ていますが、改行するかどうかがそれぞれ個別に決定される点が異なります。
+</p>
+<p>
+同じグループの中で fill_breakable を2回呼んだ場合、(改行,改行)・(改行,非改行)・(非改行,改行)・(非改行,非改行) の4通りの結果になり得ます。これは <a href="../method/PrettyPrint/i/breakable.html">PrettyPrint#breakable</a> とは異なる点です。同じグループの中で breakable を2回呼んだ場合、改行するなら全て同時に改行するため、(改行,改行)・(非改行,非改行) の2通りにしかなりません。
+</p>
+<p>
+もしその位置で改行されなければ、width カラムのテキスト sep が出力の際にそこに挿入されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>sep</code>:</dt>
+<dd>
+改行が起きなかった場合に挿入されるテキストを文字列で指定します。指定されなかった場合、' ' が利用されます。
+</dd>
+<dt class='method-param'>[PARAM] <code>width</code>:</dt>
+<dd>
+テキスト sep は width カラムであると仮定されます。指定されなければ、sep.length が利用されます。例えば sep が多バイト文字の際に指定する必要があるかも知れません。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'prettyprint'</span>
+
+out <span class="o">=</span> <span class="no">PrettyPrint</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="s1">''</span><span class="p">.</span><span class="nf">dup</span>, <span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>q<span class="o">|</span>
+  q<span class="p">.</span><span class="nf">group</span> <span class="p">{</span>
+    <span class="sx">%w[aaaa bbbb cccc dddd]</span><span class="p">.</span><span class="nf">each_with_index</span> <span class="k">do</span> <span class="o">|</span>w, i<span class="o">|</span>
+      q<span class="p">.</span><span class="nf">fill_breakable</span> <span class="k">if</span> i <span class="o">&gt;</span> <span class="mi">0</span>
+      q<span class="p">.</span><span class="nf">text</span> w
+    <span class="k">end</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+<span class="nb">puts</span> out
+<span class="c1"># =&gt; aaaa bbbb
+</span><span class="c1">#    cccc dddd
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/PrettyPrint/i/breakable.html">PrettyPrint#breakable</a>
+</p>
 </dd>
 
 
@@ -374,6 +480,41 @@ open_obj のカラムを指定します。
 close_obj のカラムを指定します。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="I_GROUP_QUEUE"><code>group_queue -&gt; PrettyPrint::GroupQueue</code><span class="permalink">[<a href="../method/PrettyPrint/i/group_queue.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/PrettyPrint.html#method-i-group_queue">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prettyprint.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身が持つ、プリティプリント待ちのグループのキュー(PrettyPrint::GroupQueue オブジェクト)を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_GROUP_SUB"><code>group_sub { ... } -&gt; object</code><span class="permalink">[<a href="../method/PrettyPrint/i/group_sub.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/PrettyPrint.html#method-i-group_sub">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prettyprint.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ブロックを実行しながら、現在のグループより1段階深いグループをキューに追加します。
+</p>
+<p>
+<a href="../method/PrettyPrint/i/group.html">PrettyPrint#group</a> と異なり、開き括弧・閉じ括弧の出力(<a href="../method/PrettyPrint/i/text.html">PrettyPrint#text</a>)やインデントの増加(<a href="../method/PrettyPrint/i/nest.html">PrettyPrint#nest</a>)は行いません。<a href="../method/PrettyPrint/i/group.html">PrettyPrint#group</a> は内部でこのメソッドを使って実装されています。
+</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'prettyprint'</span>
+
+out <span class="o">=</span> <span class="no">PrettyPrint</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="s1">''</span><span class="p">.</span><span class="nf">dup</span>, <span class="mi">5</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>q<span class="o">|</span>
+  q<span class="p">.</span><span class="nf">group_sub</span> <span class="p">{</span>
+    q<span class="p">.</span><span class="nf">text</span> <span class="s1">'hello'</span>
+    q<span class="p">.</span><span class="nf">breakable</span>
+    q<span class="p">.</span><span class="nf">text</span> <span class="s1">'world'</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+<span class="nb">puts</span> out
+<span class="c1"># =&gt; hello
+</span><span class="c1">#    world
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/PrettyPrint/i/group.html">PrettyPrint#group</a>
+</p>
 </dd>
 
 

@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -141,13 +141,23 @@
 
 <li><a href="#M_ALLOCATION_SOURCELINE">allocation_sourceline</a></li>
 
+<li><a href="#M_COUNT_IMEMO_OBJECTS">count_imemo_objects</a></li>
+
 <li><a href="#M_COUNT_OBJECTS_SIZE">count_objects_size</a></li>
+
+<li><a href="#M_COUNT_SYMBOLS">count_symbols</a></li>
 
 <li><a href="#M_COUNT_TDATA_OBJECTS">count_tdata_objects</a></li>
 
 <li><a href="#M_DUMP">dump</a></li>
 
 <li><a href="#M_DUMP_ALL">dump_all</a></li>
+
+<li><a href="#M_DUMP_SHAPES">dump_shapes</a></li>
+
+<li><a href="#M_INTERNAL_CLASS_OF">internal_class_of</a></li>
+
+<li><a href="#M_INTERNAL_SUPER_OF">internal_super_of</a></li>
 
 <li><a href="#M_MEMSIZE_OF">memsize_of</a></li>
 
@@ -160,6 +170,8 @@
 <li><a href="#M_TRACE_OBJECT_ALLOCATIONS">trace_object_allocations</a></li>
 
 <li><a href="#M_TRACE_OBJECT_ALLOCATIONS_CLEAR">trace_object_allocations_clear</a></li>
+
+<li><a href="#M_TRACE_OBJECT_ALLOCATIONS_DEBUG_START">trace_object_allocations_debug_start</a></li>
 
 <li><a href="#M_TRACE_OBJECT_ALLOCATIONS_START">trace_object_allocations_start</a></li>
 
@@ -612,6 +624,45 @@ obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</sp
 </dd>
 
 
+<dt class="method-heading" id="M_COUNT_IMEMO_OBJECTS"><code>count_imemo_objects(result_hash = nil) -&gt; Hash</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/count_imemo_objects.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace.html#method-c-count_imemo_objects">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+T_IMEMO の種類ごとにオブジェクトの数を格納したハッシュを返します。
+</p>
+<p>
+T_IMEMO は Ruby のプログラムからは見えない Ruby 内部専用のオブジェクトです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>result_hash</code>:</dt>
+<dd>
+戻り値のためのハッシュを指定します。省略した場合は新しくハッシュを作成します。result_hash の内容は上書きされます。プローブ効果を避けるために使用します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+result_hash にハッシュ以外を指定した時に発生します。
+</dd>
+</dl>
+<p>
+本メソッドは普通の Ruby プログラマ向けのメソッドではありません。パフォーマンスやメモリ使用量に興味のある CRuby の開発者向けのものです。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="nb">p</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">count_imemo_objects</span>
+<span class="c1"># =&gt; {imemo_ment: 3599, imemo_callcache: 764, imemo_constcache: 245, imemo_env: 29,
+</span><span class="c1">#     imemo_cref: 195, imemo_iseq: 1163, imemo_callinfo: 15}
+</span><span class="c1"># (内容やキーの構成は処理系やバージョン、実行時の状態に依存します)
+</span></code></pre>
+<p>
+戻り値のハッシュは処理系に依存します。これは将来変更になるかもしれません。
+</p>
+<p>
+本メソッドは CRuby 以外では動作しません。
+</p>
+</dd>
+
+
 <dt class="method-heading" id="M_COUNT_OBJECTS_SIZE"><code>count_objects_size(result_hash = nil) -&gt; Hash</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/count_objects_size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace.html#method-c-count_objects_size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
 </dt>
 <dd class="method-description">
@@ -639,6 +690,71 @@ obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</sp
 result_hash にハッシュ以外を指定した時に発生します。
 </dd>
 </dl>
+<p>
+戻り値のハッシュは処理系に依存します。これは将来変更になるかもしれません。
+</p>
+<p>
+本メソッドは CRuby 以外では動作しません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_COUNT_SYMBOLS"><code>count_symbols(result_hash = nil) -&gt; Hash</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/count_symbols.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace.html#method-c-count_symbols">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+Symbol の種類ごとにオブジェクトの数を格納したハッシュを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>result_hash</code>:</dt>
+<dd>
+戻り値のためのハッシュを指定します。省略した場合は新しくハッシュを作成します。result_hash の内容は上書きされます。プローブ効果を避けるために使用します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+result_hash にハッシュ以外を指定した時に発生します。
+</dd>
+</dl>
+<p>
+戻り値のキーの意味は以下の通りです。
+</p>
+<dl>
+<dt><code>mortal_dynamic_symbol</code></dt>
+<dd>
+<p>
+ガベージコレクションの対象になる Symbol の数です。
+</p>
+</dd>
+<dt><code>immortal_dynamic_symbol</code></dt>
+<dd>
+<p>
+動的に確保されましたが、ガベージコレクションの対象にはならない Symbol の数です。
+</p>
+</dd>
+<dt><code>immortal_static_symbol</code></dt>
+<dd>
+<p>
+動的な確保を経ずに存在し、ガベージコレクションの対象にもならない Symbol の数です。
+</p>
+</dd>
+<dt><code>immortal_symbol</code></dt>
+<dd>
+<p>
+ガベージコレクションの対象にはならない Symbol の数 (<code>immortal_dynamic_symbol</code> と <code>immortal_static_symbol</code> の合計) です。
+</p>
+</dd>
+</dl>
+<p>
+本メソッドは普通の Ruby プログラマ向けのメソッドではありません。パフォーマンスやメモリ使用量に興味のある CRuby の開発者向けのものです。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="nb">p</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">count_symbols</span>
+<span class="c1"># =&gt; {mortal_dynamic_symbol: 0, immortal_dynamic_symbol: 3,
+</span><span class="c1">#     immortal_static_symbol: 4482, immortal_symbol: 4485}
+</span><span class="c1"># (内容は処理系やバージョン、実行時の状態に依存します)
+</span></code></pre>
 <p>
 戻り値のハッシュは処理系に依存します。これは将来変更になるかもしれません。
 </p>
@@ -838,6 +954,124 @@ output に <a href="../method/ObjectSpace/m/dump.html">ObjectSpace?.dump</a> で
 </dd>
 
 
+<dt class="method-heading" id="M_DUMP_SHAPES"><code>dump_shapes(output: :file, since: 0) -&gt; String | File | IO | nil</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/dump_shapes.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace.html#method-c-dump_shapes">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+Ruby の shape 木(オブジェクトの内部レイアウトを表す情報)の内容を JSON 形式でダンプします。1 行につき 1 shape 分の JSON が出力されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>output</code>:</dt>
+<dd>
+ダンプ結果の出力先を指定します。指定できる値は <a href="../method/ObjectSpace/m/dump.html">ObjectSpace?.dump</a> の output と同じです(デフォルトは <code>:file</code>)。
+</dd>
+<dt class='method-param'>[PARAM] <code>since</code>:</dt>
+<dd>
+0 以上の整数を指定します。正の整数を指定した場合、指定した shape_id 以降のシェイプのみをダンプします。現在の shape_id は <a href="../method/RubyVM/s/stat.html">RubyVM.stat</a> の <code>:next_shape_id</code> で取得できます。デフォルトは 0 です。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+str <span class="o">=</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">dump_shapes</span><span class="p">(</span><span class="ss">output:</span> <span class="ss">:string</span><span class="p">)</span>
+<span class="nb">puts</span> str<span class="p">.</span><span class="nf">lines</span><span class="p">.</span><span class="nf">size</span>
+<span class="c1"># =&gt; 225 (シェイプの状態に依存するため実行するたびに変わります)
+</span>
+<span class="nb">puts</span> str<span class="p">.</span><span class="nf">lines</span><span class="p">.</span><span class="nf">first</span>
+<span class="c1"># =&gt; {&quot;address&quot;:&quot;0x...&quot;, &quot;type&quot;:&quot;SHAPE&quot;, &quot;id&quot;:0, &quot;depth&quot;:1, &quot;shape_type&quot;:&quot;ROOT&quot;,
+</span><span class="c1">#     &quot;edges&quot;:10, &quot;memsize&quot;:320}
+</span><span class="c1"># (address の値は実行するたびに変わります)
+</span></code></pre>
+<dl>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+output に <a href="../method/ObjectSpace/m/dump.html">ObjectSpace?.dump</a> で指定できる値以外を指定した場合に発生します。
+</dd>
+</dl>
+<p>
+戻り値の内容は完全ではない事に注意してください。この内容はあくまでもヒントとして扱う必要があります。
+</p>
+<p>
+本メソッドは CRuby 以外では動作しない、実験的なメソッドです。出力のフォーマットは将来のバージョンで変更される可能性があります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/dump.html">ObjectSpace?.dump</a>, <a href="../method/ObjectSpace/m/dump_all.html">ObjectSpace?.dump_all</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_INTERNAL_CLASS_OF"><code>internal_class_of(obj) -&gt; Class | Module</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/internal_class_of.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace.html#method-c-internal_class_of">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+obj の実際のクラスを返します。これは <a href="../method/Object/i/class.html">Object#class</a> が返すクラスとは異なる場合があります。
+</p>
+<p>
+Ruby は特異クラスや、include したモジュールの iclass のような隠されたクラスをオブジェクトの継承関係に挿入します。<a href="../method/Object/i/class.html">Object#class</a> はこれらを読み飛ばして返しますが、本メソッドは特異クラスなどの隠されたクラスも含めて、最初に見つかったクラスをそのまま返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>obj</code>:</dt>
+<dd>
+実際のクラスを取得したいオブジェクトを指定します。<a href="../class/ObjectSpace=3a=3aInternalObjectWrapper.html">ObjectSpace::InternalObjectWrapper</a> オブジェクトを指定することもでき、その場合はラップされている内部オブジェクトのクラスを返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+s <span class="o">=</span> <span class="s2">"</span><span class="s2">x</span><span class="s2">"</span>
+<span class="k">def</span> <span class="nf">s</span><span class="p">.</span><span class="nf">foo</span>; <span class="k">end</span>                      <span class="c1"># s に特異クラスを与える
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">class</span>                           <span class="c1"># =&gt; String
+</span><span class="nb">p</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">internal_class_of</span><span class="p">(</span>s<span class="p">)</span>  <span class="c1"># =&gt; #&lt;Class:#&lt;String:0x...&gt;&gt;
+</span></code></pre>
+<p>
+本メソッドをアプリケーションで使用すべきではありません。
+</p>
+<p>
+本メソッドは CRuby 以外では動作しません。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/internal_super_of.html">ObjectSpace?.internal_super_of</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_INTERNAL_SUPER_OF"><code>internal_super_of(cls) -&gt; Class | Module</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/internal_super_of.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace.html#method-c-internal_super_of">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+cls の直接のスーパークラスを返します。include したモジュールの iclass のような隠されたクラスも読み飛ばさずに返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>cls</code>:</dt>
+<dd>
+<code>Class</code> または <code>Module</code> を指定します。それらをラップした <a href="../class/ObjectSpace=3a=3aInternalObjectWrapper.html">ObjectSpace::InternalObjectWrapper</a> オブジェクトを指定することもできます。
+</dd>
+</dl>
+<p>
+<a href="../method/Class/i/superclass.html">Class#superclass</a> は include したモジュールの iclass を読み飛ばして返しますが、本メソッドは読み飛ばしません。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="k">module</span> <span class="nn">M</span>; <span class="k">end</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">A</span>
+  include <span class="no">M</span>
+<span class="k">end</span>
+<span class="nb">p</span> <span class="no">A</span><span class="p">.</span><span class="nf">superclass</span>                       <span class="c1"># =&gt; Object
+</span><span class="nb">p</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">internal_super_of</span><span class="p">(</span><span class="no">A</span><span class="p">)</span>   <span class="c1"># =&gt; #&lt;InternalObject:0x... T_ICLASS&gt;
+</span></code></pre>
+<p>
+本メソッドをアプリケーションで使用すべきではありません。
+</p>
+<p>
+本メソッドは CRuby 以外では動作しません。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/internal_class_of.html">ObjectSpace?.internal_class_of</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="M_MEMSIZE_OF"><code>memsize_of(obj) -&gt; Integer</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/memsize_of.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace.html#method-c-memsize_of">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
 </dt>
 <dd class="method-description">
@@ -942,7 +1176,7 @@ nil を返します。
 </span></code></pre>
 <p>
 obj が内部でオブジェクトへの参照を持つ場合、
-ObjectSpace::InternalObjectWrapper オブジェクトが戻り値に含まれます。このオブジェクトは obj が内部で持っているオブジェクトを持ちます。内部のオブジェクトの型を確認する場合は ObjectSpace::InternalObjectWrapper#type
+<a href="../class/ObjectSpace=3a=3aInternalObjectWrapper.html">ObjectSpace::InternalObjectWrapper</a> オブジェクトが戻り値に含まれます。このオブジェクトは obj が内部で持っているオブジェクトを持ちます。内部のオブジェクトの型を確認する場合は <a href="../method/ObjectSpace=3a=3aInternalObjectWrapper/i/type.html">ObjectSpace::InternalObjectWrapper#type</a>
 を参照してください。:T_CLASS のような <a href="../class/Symbol.html">Symbol</a> を返します。
 </p>
 <p>
@@ -976,7 +1210,7 @@ reachable <span class="o">=</span> <span class="no">ObjectSpace</span><span clas
 戻り値のハッシュはキーを同一性で比較するため、文字列リテラルを使ってキーを指定して参照することはできません。<a href="../method/Hash/i/keys.html">Hash#keys</a> や <a href="../method/Hash/i/values.html">Hash#values</a> などで取得してください。
 </p>
 <p>
-内部オブジェクトへの参照は <code>ObjectSpace::InternalObjectWrapper</code> オブジェクトでラップされます。詳しくは <a href="../method/ObjectSpace/m/reachable_objects_from.html">ObjectSpace?.reachable_objects_from</a>
+内部オブジェクトへの参照は <a href="../class/ObjectSpace=3a=3aInternalObjectWrapper.html">ObjectSpace::InternalObjectWrapper</a> オブジェクトでラップされます。詳しくは <a href="../method/ObjectSpace/m/reachable_objects_from.html">ObjectSpace?.reachable_objects_from</a>
 を参照してください。
 </p>
 <p>
@@ -1039,6 +1273,18 @@ obj <span class="o">=</span> <span class="no">Object</span><span class="p">.</sp
 <p>
 [SEE_ALSO] <a href="../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace?.trace_object_allocations_start</a>,
 <a href="../method/ObjectSpace/m/trace_object_allocations_stop.html">ObjectSpace?.trace_object_allocations_stop</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_TRACE_OBJECT_ALLOCATIONS_DEBUG_START"><code>trace_object_allocations_debug_start -&gt; nil</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/ObjectSpace/m/trace_object_allocations_debug_start.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/ObjectSpace.html#method-c-trace_object_allocations_debug_start">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/objspace.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/objspace.html">objspace</a>]</span>
+</dt>
+<dd class="method-description">
+<p>
+GC のデバッグ用に、オブジェクト割り当てのトレースを開始します。挙動は <a href="../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace?.trace_object_allocations_start</a> を呼び出すのと同じですが、あわせて内部的なレポーターを登録します。アプリケーションで &quot;... is T_NONE&quot; のような BUG に遭遇した場合、アプリケーションの先頭で本メソッドを呼んでおくと調査の助けになります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/ObjectSpace/m/trace_object_allocations_start.html">ObjectSpace?.trace_object_allocations_start</a>, <a href="../method/ObjectSpace/m/trace_object_allocations_stop.html">ObjectSpace?.trace_object_allocations_stop</a>
 </p>
 </dd>
 

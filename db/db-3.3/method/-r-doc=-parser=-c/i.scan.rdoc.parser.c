@@ -11,3 +11,5 @@ rbs_sig=(uninitialized)
 C 言語で記述されたソースコードから組み込みクラス/モジュールのドキュメントを解析します。
 
 - **return** -- [c:RDoc::TopLevel] オブジェクトを返します。
+
+

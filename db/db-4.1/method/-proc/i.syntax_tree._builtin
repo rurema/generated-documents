@@ -1,0 +1,28 @@
+names=syntax_tree
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Proc.md
+since_by_name=syntax_tree=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def syntax_tree -> Prism::Node | RubyVM::AbstractSyntaxTree::Node | nil
+
+`self` のコンパイル元になった抽象構文木(AST)のノードを、コンパイルに使ったのと同じパーサでソースを再度パースし直すことで返します。
+
+ブロックから作られた `Proc` では、ブロック自身のノードではなく、そのブロックを持つ外側のノード(ブロック付きのメソッド呼び出しなど)を返します。
+
+ノードを確実に取得できない場合に nil を返す条件については [m:RubyVM::InstructionSequence#syntax_tree] を参照してください。
+
+このメソッドは実験的なもので、予告なく変更される可能性があります。
+
+```ruby title="例"
+node = -> { 42 }.syntax_tree
+p node.is_a?(Prism::LambdaNode) # => true
+
+node = proc { 42 }.syntax_tree
+p node.is_a?(Prism::CallNode) # => true
+```
+
+- **SEE** [m:Proc#source_range], [m:RubyVM::InstructionSequence#syntax_tree]
+

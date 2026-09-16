@@ -1,0 +1,44 @@
+names=refined
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Proc.md
+since_by_name=refined=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def refined(*modules) -> Proc
+
+`self` と同じように振る舞いつつ、本体の中で `modules` の各モジュールによって有効化される refinement が効く新しい `Proc` を返します。
+
+`self` は変更されません。
+
+`modules` を 1 つも指定しなかった場合は `self` を返します。
+
+このメソッドの呼び出しを連鎖させた場合、指定したすべてのモジュールが指定した順序で有効になります。そのため、後の呼び出しで有効にした refinement が優先されます。
+
+refinement は本体全体で有効で、本体の中でネストしたブロックや、本体の中で `def` で定義したメソッドにも及びます。`using` の効く範囲の中で `def` したメソッドと同様に、そのようなメソッドは後で呼び出されたときも refinement を保持し続けます。
+
+返された `Proc` の refinement の集合は生成時に固定されます。その本体の中で `using` を呼び出すと [c:RuntimeError] が発生します。
+
+返された `Proc` を実行するには、`self` に影響を与えずに refinement を通してメソッドを解決できるように、そのブロックとネストしたすべてのブロックの命令シーケンスのコピーが必要です。コピーは返された `Proc` が初めて呼び出されたときに作られ、同じブロックと同じモジュールの組み合わせ(1 回の呼び出しでも連鎖した呼び出しでも)に対してキャッシュされて再利用されます。一度も呼び出されない `Proc` はコピーされません。そのため refinement を適用すると、`Proc` を実行した時点でブロックの大きさにおおむね比例してメモリ使用量が増えます。
+
+- **param** `modules` -- 有効にする refinement を定義した [c:Module] を任意個指定します。
+- **raise** `TypeError` -- `modules` に [c:Module] 以外を指定した場合に発生します。
+- **raise** `ArgumentError` -- `self` が Ruby のブロックから作られた `Proc` でない場合(C 関数・[c:Symbol]・[c:Method] から変換された `Proc` など)に発生します。
+
+```ruby title="例"
+module StringRefinement
+  refine String do
+    def shout = upcase + "!"
+  end
+end
+
+original = ->(s) { s.shout }
+refined_proc = original.refined(StringRefinement)
+p refined_proc.call("hi") # => "HI!"
+original.call("hi")       # ~> NoMethodError
+```
+
+- **SEE** [m:Module#refine], [m:main.using]
+
+

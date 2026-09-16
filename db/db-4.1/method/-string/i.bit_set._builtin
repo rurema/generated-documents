@@ -1,0 +1,45 @@
+names=bit_set
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/String.md
+since_by_name=bit_set=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def bit_set(offset, lsb_first: true) -> self
+### def bit_set(offset, length, lsb_first: true) -> self
+### def bit_set(range, lsb_first: true) -> self
+
+0 から数えたビット位置 `offset` のビットを `1` にして `self` を返します。
+
+`length` を指定すると、`offset` から `length` ビット分を連続して `1` にします。`range` を指定すると、`range` が示すビットの範囲を `1` にします。
+
+指定した範囲は全体が `self` の範囲内に収まっていなければなりません。範囲が `self` の末尾を超える場合は、切り詰められるのではなく `IndexError` が発生します。ビット数が 0 の範囲を指定した場合は何もしません(no-op)が、その開始位置が `self` の末尾を超えている場合は、ビット数が 0 であっても `IndexError` が発生します。
+
+既定では、各バイト内のビットは最下位ビット(LSB)から最上位ビット(MSB)の順に番号が付きます。`lsb_first` に `false` を指定すると、バイトの並び順はそのままに、各バイト内のビット番号だけが最上位ビット(MSB)から最下位ビット(LSB)の順になります。
+
+- **param** `offset` -- 変更を開始するビットの位置を 0 から数えた整数で指定します。
+- **param** `length` -- 変更するビット数を指定します。
+- **param** `range` -- 変更するビットの範囲を [c:Range] オブジェクトで指定します。
+- **param** `lsb_first` -- バイト内のビットの番号の付け方を指定します。既定は `true`(最下位ビットが 0 番目)です。`false` を指定すると最上位ビットが 0 番目になります。
+- **return** -- `self` を返します。
+- **raise** `IndexError` -- `offset` が範囲外の場合、または範囲の一部が `self` の外に及ぶ場合に発生します。
+- **raise** `ArgumentError` -- `length` に負の数を指定した場合に発生します。
+- **raise** `ArgumentError` -- ビット位置として表現できないほど大きい値を指定した場合に発生します。
+- **raise** `ArgumentError` -- `lsb_first` に `true`、`false` 以外を指定した場合に発生します。
+- **raise** `FrozenError` -- `self` が凍結されている場合に発生します。変更するビット数が 0 の場合でも発生します。
+
+```ruby title="例"
+s = "\x00".b
+p s.bit_set(1) # => "\x02"
+p s            # => "\x02"
+
+s = "\x00\x00".b
+p s.bit_set(4, 8) # => "\xF0\x0F"
+
+s = "\x00\x00".b
+p s.bit_set(4..11) # => "\xF0\x0F"
+```
+
+- **SEE** [m:String#bit_clear], [m:String#bit_flip], [m:String#bit_set?]
+

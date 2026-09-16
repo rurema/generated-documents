@@ -8,6 +8,7 @@
 - [sharing_detection](../method/PP/s/sharing_detection.md)
 - [sharing_detection=](../method/PP/s/sharing_detection=3d.md)
 - [singleline_pp](../method/PP/s/singleline_pp.md)
+- [width_for](../method/PP/s/width_for.md)
 
 ## Instance Methods
 

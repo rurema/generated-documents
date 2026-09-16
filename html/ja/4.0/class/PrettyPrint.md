@@ -22,10 +22,15 @@ pretty printing アルゴリズムのためのクラスです。
 
 ## Instance Methods
 
+- [break_outmost_groups](../method/PrettyPrint/i/break_outmost_groups.md)
 - [breakable](../method/PrettyPrint/i/breakable.md)
+- [current_group](../method/PrettyPrint/i/current_group.md)
+- [fill_breakable](../method/PrettyPrint/i/fill_breakable.md)
 - [flush](../method/PrettyPrint/i/flush.md)
 - [genspace](../method/PrettyPrint/i/genspace.md)
 - [group](../method/PrettyPrint/i/group.md)
+- [group_queue](../method/PrettyPrint/i/group_queue.md)
+- [group_sub](../method/PrettyPrint/i/group_sub.md)
 - [indent](../method/PrettyPrint/i/indent.md)
 - [maxwidth](../method/PrettyPrint/i/maxwidth.md)
 - [nest](../method/PrettyPrint/i/nest.md)

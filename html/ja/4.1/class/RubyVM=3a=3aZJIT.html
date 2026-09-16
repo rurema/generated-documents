@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/RubyVM=3a=3aZJIT.html">
+
+<title>module RubyVM::ZJIT (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="ZJIT の制御・情報取得のためのモジュールです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/RubyVM=3a=3aZJIT.html","name":"RubyVM::ZJITモジュール","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        RubyVM::ZJITモジュール
+      </li>
+    </ol>
+  </nav>
+
+<h1>module RubyVM::ZJIT</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+      <li>
+        RubyVM::ZJIT
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+ZJIT の制御・情報取得のためのモジュールです。
+</p>
+<p>
+ZJIT は CRuby に組み込まれたメソッド単位の JIT (Just-in-time compiler) コンパイラで、
+Ruby 4.0 で実験的機能として導入されました。Ruby 4.0 の時点ではインタプリタより速いものの
+<a href="../class/RubyVM=3a=3aYJIT.html">RubyVM::YJIT</a> ほど速くはなく、本番環境での利用は推奨されていません。
+</p>
+<p>
+有効化するには以下のいずれかの方法を使います。
+</p>
+<ul>
+<li>コマンドラインオプション <code>--zjit</code></li>
+<li><a href="../method/RubyVM=3a=3aZJIT/s/enable.html">RubyVM::ZJIT.enable</a> による実行時の有効化</li>
+</ul>
+<p>
+YJIT と ZJIT を同時に有効にすることはできません。
+</p>
+<p>
+このモジュールは、ZJIT が対応していないプラットフォームや、ZJIT を含めずにビルドされた Ruby
+(ビルドには Rust 1.85.0 以降が必要です)では定義されません。このモジュールの内容は処理系の実装に強く依存し、標準ライブラリと比べて API が安定していない可能性があります。
+</p>
+<p>
+[SEE_ALSO] <a href="../class/RubyVM=3a=3aYJIT.html">RubyVM::YJIT</a>
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_ENABLE">enable</a></li>
+
+<li><a href="#S_ENABLED--3F">enabled?</a></li>
+
+<li><a href="#S_INDUCE_BREAKPOINT--21">induce_breakpoint!</a></li>
+
+<li><a href="#S_INDUCE_COMPILE_FAILURE--21">induce_compile_failure!</a></li>
+
+<li><a href="#S_INDUCE_SIDE_EXIT--21">induce_side_exit!</a></li>
+
+<li><a href="#S_RESET_STATS--21">reset_stats!</a></li>
+
+<li><a href="#S_STATS">stats</a></li>
+
+<li><a href="#S_STATS_ENABLED--3F">stats_enabled?</a></li>
+
+<li><a href="#S_STATS_STRING">stats_string</a></li>
+
+<li><a href="#S_TRACE_EXIT_LOCATIONS_ENABLED--3F">trace_exit_locations_enabled?</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_ENABLE"><code>enable -&gt; bool</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aZJIT/s/enable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/ZJIT.html#method-c-enable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+実行時に ZJIT を有効化します。
+</p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+有効化したときは <code>true</code> を返します。すでに ZJIT が有効な場合は <code>false</code> を返します。
+YJIT が有効になっている場合は &quot;Only one JIT can be enabled at the same time.&quot; という警告を出力して <code>false</code> を返します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="no">RubyVM</span><span class="o">::</span><span class="no">ZJIT</span><span class="p">.</span><span class="nf">enable</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+JIT の有効・無効はビルドオプションや実行環境に依存するため、実行結果は環境によって異なります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aZJIT/s/enabled=3f.html">RubyVM::ZJIT.enabled?</a>, <a href="../method/RubyVM=3a=3aYJIT/s/enable.html">RubyVM::YJIT.enable</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_ENABLED--3F"><code>enabled? -&gt; bool</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aZJIT/s/enabled=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/ZJIT.html#method-c-enabled-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ZJIT が有効かどうかを返します。
+</p>
+<pre class="highlight ruby"><code><span class="no">RubyVM</span><span class="o">::</span><span class="no">ZJIT</span><span class="p">.</span><span class="nf">enabled?</span> <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+JIT の有効・無効はコマンドラインオプションなど実行環境に依存するため、実行結果は環境によって異なります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aZJIT/s/enable.html">RubyVM::ZJIT.enable</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_INDUCE_BREAKPOINT--21"><code>induce_breakpoint! -&gt; nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aZJIT/s/induce_breakpoint=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/ZJIT.html#method-c-induce_breakpoint-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+呼び出し箇所にブレークポイント命令を出力するよう ZJIT に指示します。
+</p>
+<p>
+ZJIT に認識させるには、呼び出しを <code>::RubyVM::ZJIT.induce_breakpoint!</code> とそのまま書く必要があります。他の書き方はコンパイル時に検出できません。
+</p>
+<p>
+ZJIT の開発・テスト用のメソッドです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_INDUCE_COMPILE_FAILURE--21"><code>induce_compile_failure! -&gt; nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aZJIT/s/induce_compile_failure=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/ZJIT.html#method-c-induce_compile_failure-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+呼び出し箇所を含むコードのコンパイルを失敗させるよう ZJIT に指示します。
+</p>
+<p>
+ZJIT に認識させるには、呼び出しを <code>::RubyVM::ZJIT.induce_compile_failure!</code> とそのまま書く必要があります。他の書き方はコンパイル時に検出できません。
+</p>
+<p>
+このメソッド自体は、ZJIT が呼び出しを認識したかどうかに関わらず、実行しても何もしません。
+ZJIT の開発・テスト用のメソッドです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_INDUCE_SIDE_EXIT--21"><code>induce_side_exit! -&gt; nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aZJIT/s/induce_side_exit=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/ZJIT.html#method-c-induce_side_exit-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+呼び出し箇所でコンパイル済みコードからサイドイグジットするよう ZJIT に指示します。
+</p>
+<p>
+ZJIT に認識させるには、呼び出しを <code>::RubyVM::ZJIT.induce_side_exit!</code> とそのまま書く必要があります。他の書き方はコンパイル時に検出できません。
+</p>
+<p>
+このメソッド自体は、ZJIT が呼び出しを認識したかどうかに関わらず、実行しても何もしません。
+ZJIT の開発・テスト用のメソッドです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_RESET_STATS--21"><code>reset_stats! -&gt; nil</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aZJIT/s/reset_stats=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/ZJIT.html#method-c-reset_stats-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>--zjit-stats</code> で収集した統計情報を破棄します。
+</p>
+<p>
+ZJIT が有効なときにだけ呼び出してください。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aZJIT/s/stats.html">RubyVM::ZJIT.stats</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_STATS"><code>stats(target_key = nil) -&gt; Hash | object | nil</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aZJIT/s/stats.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/ZJIT.html#method-c-stats">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ZJIT の統計情報を返します。
+</p>
+<p>
+<code>--zjit-stats</code> で統計収集を有効にしている場合、統計情報のカウンタ名をキーとするハッシュを返します。
+<code>target_key</code> を指定した場合は、そのキーに対応する値だけを返します(該当するキーが無ければ <code>nil</code>)。統計収集が有効でない場合は <code>nil</code> を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>target_key</code>:</dt>
+<dd>
+取得したい統計情報のキーをシンボルで指定します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="c1"># ruby --zjit-stats で実行した場合
+</span><span class="no">RubyVM</span><span class="o">::</span><span class="no">ZJIT</span><span class="p">.</span><span class="nf">stats</span><span class="p">.</span><span class="nf">keys</span><span class="p">.</span><span class="nf">first</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; [:compiled_iseq_count, :failed_iseq_count, :compile_time_ns]
+</span><span class="no">RubyVM</span><span class="o">::</span><span class="no">ZJIT</span><span class="p">.</span><span class="nf">stats</span><span class="p">(</span><span class="ss">:compiled_iseq_count</span><span class="p">)</span> <span class="c1"># =&gt; 12
+</span></code></pre>
+<p>
+統計情報のキーの構成は処理系のバージョンによって変わります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aZJIT/s/stats_string.html">RubyVM::ZJIT.stats_string</a>, <a href="../method/RubyVM=3a=3aZJIT/s/reset_stats=21.html">RubyVM::ZJIT.reset_stats!</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_STATS_ENABLED--3F"><code>stats_enabled? -&gt; bool</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aZJIT/s/stats_enabled=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/ZJIT.html#method-c-stats_enabled-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+統計収集(<code>--zjit-stats</code>)が有効かどうかを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aZJIT/s/stats.html">RubyVM::ZJIT.stats</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_STATS_STRING"><code>stats_string -&gt; String | nil</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aZJIT/s/stats_string.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/ZJIT.html#method-c-stats_string">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ZJIT の統計情報の要約を、<code>--zjit-stats</code> で終了時に表示されるのと同じ形式の文字列で返します。
+</p>
+<p>
+統計収集が有効でない場合は <code>nil</code> を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aZJIT/s/stats.html">RubyVM::ZJIT.stats</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_TRACE_EXIT_LOCATIONS_ENABLED--3F"><code>trace_exit_locations_enabled? -&gt; bool</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aZJIT/s/trace_exit_locations_enabled=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/ZJIT.html#method-c-trace_exit_locations_enabled-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+サイドイグジット(exit)の発生位置の収集(<code>--zjit-trace-exits</code>)が有効かどうかを返します。
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__ZJIT.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

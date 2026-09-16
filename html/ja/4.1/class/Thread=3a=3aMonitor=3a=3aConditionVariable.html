@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Thread=3a=3aMonitor=3a=3aConditionVariable.html">
+
+<title>class Thread::Monitor::ConditionVariable (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="Thread::Monitor と MonitorMixin のための条件変数クラスです。 Thread::Monitor#new_cond や MonitorMixin#new_cond が返します。ユーザが Thread::Monitor::ConditionVariable.new を直接呼ぶことはありません。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Thread=3a=3aMonitor=3a=3aConditionVariable.html","name":"Thread::Monitor::ConditionVariableクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        Thread::Monitor::ConditionVariableクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class Thread::Monitor::ConditionVariable</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread__Monitor__ConditionVariable.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+      <li>
+        Thread::Monitor::ConditionVariable
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+<p>
+  aliases: MonitorMixin::ConditionVariable
+</p>
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+<a href="../class/Thread=3a=3aMonitor.html">Thread::Monitor</a> と <a href="../class/MonitorMixin.html">MonitorMixin</a> のための条件変数クラスです。
+<a href="../method/Thread=3a=3aMonitor/i/new_cond.html">Thread::Monitor#new_cond</a> や <a href="../method/MonitorMixin/i/new_cond.html">MonitorMixin#new_cond</a> が返します。ユーザが
+Thread::Monitor::ConditionVariable.new を直接呼ぶことはありません。
+</p>
+<p>
+Ruby 4.0 までは <a href="../library/monitor.html">monitor</a> ライブラリの <code>MonitorMixin::ConditionVariable</code> クラスとして提供されていましたが、Ruby 4.1 で組み込みクラスになりました。<code>MonitorMixin::ConditionVariable</code> は、<a href="../library/monitor.html">monitor</a> ライブラリを読み込むと <code>Thread::Monitor::ConditionVariable</code> の別名として引き続き使えます。
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_BROADCAST">broadcast</a></li>
+
+<li><a href="#I_SIGNAL">signal</a></li>
+
+<li><a href="#I_WAIT">wait</a></li>
+
+<li><a href="#I_WAIT_UNTIL">wait_until</a></li>
+
+<li><a href="#I_WAIT_WHILE">wait_while</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+</dl>
+
+
+
+
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_BROADCAST"><code>broadcast -&gt; ()</code><span class="permalink">[<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/broadcast.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread/Monitor/ConditionVariable.html#method-i-broadcast">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread__Monitor__ConditionVariable.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+その条件変数で待っている全てのスレッドの実行を再開します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/signal.html">Thread::Monitor::ConditionVariable#signal</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SIGNAL"><code>signal -&gt; ()</code><span class="permalink">[<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/signal.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread/Monitor/ConditionVariable.html#method-i-signal">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread__Monitor__ConditionVariable.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+その条件変数で待っているスレッドがあれば実行を再開させます。
+</p>
+<p>
+複数のスレッドが待っている場合には1つのスレッドのみ実行を再開します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/broadcast.html">Thread::Monitor::ConditionVariable#broadcast</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_WAIT"><code>wait(timeout = nil) -&gt; bool</code><span class="permalink">[<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/wait.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread/Monitor/ConditionVariable.html#method-i-wait">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread__Monitor__ConditionVariable.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+モニタのロックを開放し、現在のスレッドを停止します。
+</p>
+<p>
+これを呼ぶスレッドはモニタのロックを保持している必要があります。
+</p>
+<p>
+<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/signal.html">Thread::Monitor::ConditionVariable#signal</a> や
+<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/broadcast.html">Thread::Monitor::ConditionVariable#broadcast</a>
+で起こされるまでスレッドは停止し続けます。
+</p>
+<p>
+timeout を与えた場合は最大 timeout 秒まで停止した後にスレッドを再開します。
+</p>
+<p>
+実行を再開したスレッドはモニタのロックを保持した状態になります。これによって危険領域(critical section)上で動作しているスレッドはただ一つになり、排他を実現します。
+</p>
+<p>
+true を返します。timeout が与えられていて待ち時間が timeout を越えた場合は false を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+タイムアウトまでの秒数。指定しなかった場合はタイムアウトしません。
+</dd>
+<dt>[EXCEPTION] <code>ThreadError</code>:</dt>
+<dd>
+ロックを持っていないスレッドがこのメソッドを呼びだした場合に発生します
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/wait_while.html">Thread::Monitor::ConditionVariable#wait_while</a>, <a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/wait_until.html">Thread::Monitor::ConditionVariable#wait_until</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_WAIT_UNTIL"><code>wait_until { ... } -&gt; ()</code><span class="permalink">[<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/wait_until.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread/Monitor/ConditionVariable.html#method-i-wait_until">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread__Monitor__ConditionVariable.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+モニタのロックを開放し、現在のスレッドをブロックで指定した条件を満たすまで停止します。
+</p>
+<p>
+<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/signal.html">Thread::Monitor::ConditionVariable#signal</a> や
+<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/broadcast.html">Thread::Monitor::ConditionVariable#broadcast</a> でスレッドが起こされると、ロックを取得し、ブロックを評価しその結果によってこのメソッドから抜け処理を継続するか再びロックを開放しスレッドを停止するかを決めます。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/wait.html">Thread::Monitor::ConditionVariable#wait</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_WAIT_WHILE"><code>wait_while { ... } -&gt; ()</code><span class="permalink">[<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/wait_while.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Thread/Monitor/ConditionVariable.html#method-i-wait_while">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread__Monitor__ConditionVariable.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+モニタのロックを開放し、現在のスレッドをブロックで指定した条件を満たしている間停止します。
+</p>
+<p>
+<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/signal.html">Thread::Monitor::ConditionVariable#signal</a> や
+<a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/broadcast.html">Thread::Monitor::ConditionVariable#broadcast</a> でスレッドが起こされると、ロックを取得し、ブロックを評価しその結果によってこのメソッドから抜け処理を継続するか再びロックを開放しスレッドを停止するかを決めます。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>ThreadError</code>:</dt>
+<dd>
+ロックを持っていないスレッドがこのメソッドを呼びだした場合に発生します
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Thread=3a=3aMonitor=3a=3aConditionVariable/i/wait.html">Thread::Monitor::ConditionVariable#wait</a>
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread__Monitor__ConditionVariable.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

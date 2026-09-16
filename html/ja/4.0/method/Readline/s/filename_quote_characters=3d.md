@@ -8,6 +8,6 @@ GNU Readline のデフォルト値は nil(NULL) です。
 
 - **param** `string` -- 文字列を指定します。
 
-- **raise** `NotImplementedError` -- サポートしていない環境で発生します。
+- **raise** `NotImplementedError` -- サポートしていない環境で発生します。libedit(Edit Line)を使ったビルドではこのメソッドを利用できないため発生します。
 
 - **SEE** [Readline.filename_quote_characters](../../../method/Readline/s/filename_quote_characters.md)

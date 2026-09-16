@@ -1,0 +1,33 @@
+names=break_outmost_groups
+visibility=public
+kind=defined
+source_location=manual/api/prettyprint.md
+since_by_name=break_outmost_groups=
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def break_outmost_groups -> ()
+{: since=""}
+
+自身のバッファの中で、出力幅([m:PrettyPrint#maxwidth])を超えている外側のグループを、バッファの幅が maxwidth 以下になるまで改行して出力します。
+
+[m:PrettyPrint#text] や [m:PrettyPrint#breakable] の内部で、バッファに追加を行うたびに呼ばれています。
+
+```ruby
+require 'prettyprint'
+
+out = PrettyPrint.format(''.dup, 10) do |q|
+  q.text 'aaaaa'
+  q.group {
+    q.text 'b' * 20
+    q.breakable
+    q.text 'c'
+  }
+  q.break_outmost_groups
+  q.text 'd'
+end
+puts out
+# => aaaaabbbbbbbbbbbbbbbbbbbb
+#    cd
+```
+

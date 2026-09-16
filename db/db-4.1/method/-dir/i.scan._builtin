@@ -1,0 +1,38 @@
+names=scan
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Dir.md
+since_by_name=scan=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def scan                                 -> [[String, Symbol]]
+### def scan {|entry_name, entry_type| ... } -> nil
+
+`self` のファイルエントリ名と、その種別の組を取得します。
+
+"." と ".." は含みません。エントリの並び順はファイルシステムに依存します。
+
+ブロックを与えなかった場合は、エントリ名とその種別からなる 2 要素の配列を
+要素とする配列を返します。
+
+ブロックを与えた場合は、各エントリのエントリ名とその種別を引数としてブロックを
+評価し、`nil` を返します。
+
+エントリの種別については [m:Dir.scan] を参照してください。
+
+- **raise** `IOError` -- 既に `self` が close している場合に発生します。
+
+```ruby title="例"
+dir = Dir.new('/example')
+p dir.scan # => [["config.h", :file], ["lib", :directory], ["main.rb", :file]]
+
+entries = []
+dir.scan {|entry_name, entry_type| entries << [entry_name, entry_type] } # => nil
+p entries # => [["config.h", :file], ["lib", :directory], ["main.rb", :file]]
+```
+
+- **SEE** [m:Dir.scan]
+- **SEE** [m:Dir#children]
+
+

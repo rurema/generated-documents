@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -174,6 +174,8 @@
 
 <li><a href="#I_AUTOLOAD--3F">autoload?</a></li>
 
+<li><a href="#I_AUTOLOAD_RELATIVE">autoload_relative</a></li>
+
 <li><a href="#I_CLASS_EVAL">class_eval</a></li>
 
 <li><a href="#I_CLASS_EXEC">class_exec</a></li>
@@ -201,6 +203,8 @@
 <li><a href="#I_DEFINE_METHOD">define_method</a></li>
 
 <li><a href="#I_DEPRECATE_CONSTANT">deprecate_constant</a></li>
+
+<li><a href="#I_DESCENDANTS">descendants</a></li>
 
 <li><a href="#I_FREEZE">freeze</a></li>
 
@@ -1073,6 +1077,54 @@ false にすると、スーパークラスや include したモジュールで�
 </dd>
 
 
+<dt class="method-heading" id="I_AUTOLOAD_RELATIVE"><code>autoload_relative(const_name, feature) -&gt; nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Module/i/autoload_relative.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Module.html#method-i-autoload_relative">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+定数 const_name を最初に参照した時に、feature を呼び出し元のファイルからの相対パスとして <a href="../method/Kernel/m/require.html">Kernel?.require</a> するように設定します。
+</p>
+<p>
+<a href="../method/Module/i/autoload.html">Module#autoload</a> と似ていますが、feature の解決方法が
+<a href="../method/Kernel/m/require_relative.html">Kernel?.require_relative</a> と同様に autoload_relative を呼び出したファイルのディレクトリからの相対パスになる点が異なります。
+</p>
+<p>
+const_name が autoload 設定されていて、まだ定義されてない(ロードされていない)
+ときは、autoload する対象を置き換えます。const_name が(autoload ではなく)
+既に定義されているときは何もしません。
+</p>
+<p>
+相対パスは絶対パスに変換されます。この絶対パスが <a href="../method/Module/i/autoload=3f.html">Module#autoload?</a> の返り値になります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>const_name</code>:</dt>
+<dd>
+<a href="../class/String.html">String</a> または <a href="../class/Symbol.html">Symbol</a> で指定します。なお、const_name には、&quot;::&quot; 演算子を含めることはできません。つまり、<code>self</code> の直下に定義された定数しか指定できません。
+</dd>
+<dt class='method-param'>[PARAM] <code>feature</code>:</dt>
+<dd>
+呼び出し元のファイルからの相対パスで、autoload する対象を指定します。
+</dd>
+<dt>[EXCEPTION] <code>LoadError</code>:</dt>
+<dd>
+ファイルのコンテキストなしに呼び出された場合(eval の中など)に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">A</span>
+<span class="k">end</span>
+<span class="no">A</span><span class="p">.</span><span class="nf">autoload_relative</span><span class="p">(</span><span class="ss">:B</span>, <span class="s2">"</span><span class="s2">b.rb</span><span class="s2">"</span><span class="p">)</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/autoload.html">Module#autoload</a>
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Kernel/m/autoload_relative.html">Kernel?.autoload_relative</a>
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Kernel/m/require_relative.html">Kernel?.require_relative</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_CLASS_EVAL"><code>module_eval(expr, fname = &quot;(eval)&quot;, lineno = 1) -&gt; object</code><span class="permalink">[<a href="../method/Module/i/class_eval.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Module.html#method-i-class_eval">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>module_eval {|mod| ... } -&gt; object</code></dt>
 <dt class="method-heading"><code>class_eval(expr, fname = &quot;(eval)&quot;, lineno = 1) -&gt; object</code></dt>
@@ -1663,6 +1715,33 @@ self を返します。
 <span class="no">Object</span><span class="p">.</span><span class="nf">deprecate_constant</span><span class="p">(</span><span class="ss">:BAR</span><span class="p">)</span>
 <span class="c1"># NameError: constant Object::BAR not defined
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_DESCENDANTS"><code>descendants -&gt; [Class, Module]</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Module/i/descendants.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Module.html#method-i-descendants">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> を <a href="../method/Module/i/ancestors.html">Module#ancestors</a> に持つクラスやモジュールの配列を返します。
+</p>
+<p>
+<code>self</code> の子孫を返す点で <a href="../method/Module/i/ancestors.html">Module#ancestors</a> の逆演算にあたり、<code>x.descendants.include?(y)</code> が成り立つのは <code>y.ancestors.include?(x)</code> が成り立つときに限られます。ただし <code>self</code> 自身、特異クラス、refinement は結果に含まれません。返される配列の順序は不定です。
+</p>
+<p>
+<code>self</code> は返された子孫への参照を保持しないため、参照を持つオブジェクトが無くなった子孫をガベージコレクションから守ることはありません。そのため、ガベージコレクタが実行されたかどうかによって、一度 descendants に含まれていたクラスやモジュールが結果から消えることがあります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">A</span>; <span class="k">end</span>
+<span class="k">module</span> <span class="nn">B</span>; include <span class="no">A</span>; <span class="k">end</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C</span>; include <span class="no">B</span>; <span class="k">end</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">D</span> <span class="o">&lt;</span> <span class="no">C</span>; <span class="k">end</span>
+
+<span class="nb">p</span> <span class="no">A</span><span class="p">.</span><span class="nf">descendants</span> <span class="c1"># =&gt; [B, C, D]
+</span><span class="nb">p</span> <span class="no">B</span><span class="p">.</span><span class="nf">descendants</span> <span class="c1"># =&gt; [C, D]
+</span><span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">descendants</span> <span class="c1"># =&gt; [D]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/ancestors.html">Module#ancestors</a>
+</p>
 </dd>
 
 

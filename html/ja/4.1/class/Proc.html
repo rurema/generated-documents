@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -332,9 +332,15 @@ foo<span class="p">.</span><span class="nf">call</span>
 
 <li><a href="#I_PARAMETERS">parameters</a></li>
 
+<li><a href="#I_REFINED">refined</a></li>
+
 <li><a href="#I_RUBY2_KEYWORDS">ruby2_keywords</a></li>
 
 <li><a href="#I_SOURCE_LOCATION">source_location</a></li>
+
+<li><a href="#I_SOURCE_RANGE">source_range</a></li>
+
+<li><a href="#I_SYNTAX_TREE">syntax_tree</a></li>
 
 <li><a href="#I_TO_PROC">to_proc</a></li>
 
@@ -818,6 +824,61 @@ prc<span class="p">.</span><span class="nf">parameters</span> <span class="c1">#
 </dd>
 
 
+<dt class="method-heading" id="I_REFINED"><code>refined(*modules) -&gt; Proc</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Proc/i/refined.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-refined">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> と同じように振る舞いつつ、本体の中で <code>modules</code> の各モジュールによって有効化される refinement が効く新しい <code>Proc</code> を返します。
+</p>
+<p>
+<code>self</code> は変更されません。
+</p>
+<p>
+<code>modules</code> を 1 つも指定しなかった場合は <code>self</code> を返します。
+</p>
+<p>
+このメソッドの呼び出しを連鎖させた場合、指定したすべてのモジュールが指定した順序で有効になります。そのため、後の呼び出しで有効にした refinement が優先されます。
+</p>
+<p>
+refinement は本体全体で有効で、本体の中でネストしたブロックや、本体の中で <code>def</code> で定義したメソッドにも及びます。<code>using</code> の効く範囲の中で <code>def</code> したメソッドと同様に、そのようなメソッドは後で呼び出されたときも refinement を保持し続けます。
+</p>
+<p>
+返された <code>Proc</code> の refinement の集合は生成時に固定されます。その本体の中で <code>using</code> を呼び出すと <a href="../class/RuntimeError.html">RuntimeError</a> が発生します。
+</p>
+<p>
+返された <code>Proc</code> を実行するには、<code>self</code> に影響を与えずに refinement を通してメソッドを解決できるように、そのブロックとネストしたすべてのブロックの命令シーケンスのコピーが必要です。コピーは返された <code>Proc</code> が初めて呼び出されたときに作られ、同じブロックと同じモジュールの組み合わせ(1 回の呼び出しでも連鎖した呼び出しでも)に対してキャッシュされて再利用されます。一度も呼び出されない <code>Proc</code> はコピーされません。そのため refinement を適用すると、<code>Proc</code> を実行した時点でブロックの大きさにおおむね比例してメモリ使用量が増えます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>modules</code>:</dt>
+<dd>
+有効にする refinement を定義した <a href="../class/Module.html">Module</a> を任意個指定します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+<code>modules</code> に <a href="../class/Module.html">Module</a> 以外を指定した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>self</code> が Ruby のブロックから作られた <code>Proc</code> でない場合(C 関数・<a href="../class/Symbol.html">Symbol</a>・<a href="../class/Method.html">Method</a> から変換された <code>Proc</code> など)に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">StringRefinement</span>
+  refine <span class="no">String</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">shout</span> <span class="o">=</span> upcase <span class="o">+</span> <span class="s2">"</span><span class="s2">!</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+original <span class="o">=</span> <span class="o">-&gt;</span><span class="p">(</span>s<span class="p">)</span> <span class="p">{</span> s<span class="p">.</span><span class="nf">shout</span> <span class="p">}</span>
+refined_proc <span class="o">=</span> original<span class="p">.</span><span class="nf">refined</span><span class="p">(</span><span class="no">StringRefinement</span><span class="p">)</span>
+<span class="nb">p</span> refined_proc<span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="s2">"</span><span class="s2">hi</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;HI!&quot;
+</span>original<span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="s2">"</span><span class="s2">hi</span><span class="s2">"</span><span class="p">)</span>       <span class="c1"># ~&gt; NoMethodError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Module/i/refine.html">Module#refine</a>, <a href="../method/main/s/using.html">main.using</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_RUBY2_KEYWORDS"><code>ruby2_keywords -&gt; proc</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Proc/i/ruby2_keywords.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-ruby2_keywords">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
 <dt class="rbs-signature"><code>() &rarr; self</code></dt>
 <dd class="method-description">
@@ -864,6 +925,60 @@ self に、通常の引数スプラット(<code>*args</code>)を通してキー�
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Method/i/source_location.html">Method#source_location</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SOURCE_RANGE"><code>source_range -&gt; Ruby::SourceRange | nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Proc/i/source_range.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-source_range">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> に対応する <a href="../class/Ruby=3a=3aSourceRange.html">Ruby::SourceRange</a> を返します。
+</p>
+<p>
+<code>self</code> が Ruby で定義されていない(C で実装されている)場合や、ソースパスを持たない場合は nil を返します。
+</p>
+<p>
+返される <code>Ruby::SourceRange</code> には、ソースパス、(可能なら)絶対パス、開始・終了の行番号とバイト単位の桁番号が含まれます。ブロックから作られた <code>Proc</code> の範囲は <code>{</code> または <code>do</code> から始まります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="c1"># /path/to/target.rb を実行
+</span>pr <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="mi">42</span> <span class="p">}</span>
+range <span class="o">=</span> pr<span class="p">.</span><span class="nf">source_range</span>
+<span class="nb">p</span> range<span class="p">.</span><span class="nf">path</span>         <span class="c1"># =&gt; &quot;/path/to/target.rb&quot;
+</span><span class="nb">p</span> range<span class="p">.</span><span class="nf">start_line</span>   <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> range<span class="p">.</span><span class="nf">start_column</span> <span class="c1"># =&gt; 10
+</span>
+<span class="nb">p</span> <span class="nb">method</span><span class="p">(</span><span class="ss">:p</span><span class="p">)</span><span class="p">.</span><span class="nf">to_proc</span><span class="p">.</span><span class="nf">source_range</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Proc/i/source_location.html">Proc#source_location</a>, <a href="../method/Proc/i/syntax_tree.html">Proc#syntax_tree</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SYNTAX_TREE"><code>syntax_tree -&gt; Prism::Node | RubyVM::AbstractSyntaxTree::Node | nil</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Proc/i/syntax_tree.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Proc.html#method-i-syntax_tree">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Proc.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> のコンパイル元になった抽象構文木(AST)のノードを、コンパイルに使ったのと同じパーサでソースを再度パースし直すことで返します。
+</p>
+<p>
+ブロックから作られた <code>Proc</code> では、ブロック自身のノードではなく、そのブロックを持つ外側のノード(ブロック付きのメソッド呼び出しなど)を返します。
+</p>
+<p>
+ノードを確実に取得できない場合に nil を返す条件については <a href="../method/RubyVM=3a=3aInstructionSequence/i/syntax_tree.html">RubyVM::InstructionSequence#syntax_tree</a> を参照してください。
+</p>
+<p>
+このメソッドは実験的なもので、予告なく変更される可能性があります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>node <span class="o">=</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="mi">42</span> <span class="p">}</span><span class="p">.</span><span class="nf">syntax_tree</span>
+<span class="nb">p</span> node<span class="p">.</span><span class="nf">is_a?</span><span class="p">(</span><span class="no">Prism</span><span class="o">::</span><span class="no">LambdaNode</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span>
+node <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="mi">42</span> <span class="p">}</span><span class="p">.</span><span class="nf">syntax_tree</span>
+<span class="nb">p</span> node<span class="p">.</span><span class="nf">is_a?</span><span class="p">(</span><span class="no">Prism</span><span class="o">::</span><span class="no">CallNode</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Proc/i/source_range.html">Proc#source_range</a>, <a href="../method/RubyVM=3a=3aInstructionSequence/i/syntax_tree.html">RubyVM::InstructionSequence#syntax_tree</a>
 </p>
 </dd>
 

@@ -1,0 +1,14 @@
+# ObjectSpace::InternalObjectWrapper#inspect
+
+### def inspect -> String
+
+ラップしている内部オブジェクトの型とアドレスを含む、人間が読みやすい形式の文字列を返します。
+
+```ruby title="例"
+require 'objspace'
+
+module M; end
+class A; include M; end
+
+p ObjectSpace.internal_super_of(A) # => #<InternalObject:0x... T_ICLASS>
+```

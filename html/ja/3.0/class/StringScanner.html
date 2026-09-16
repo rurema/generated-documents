@@ -244,6 +244,8 @@ StringScanner は $~ $&amp; $1 $2 …… などの正規表現関連変数をセ
 
 <li><a href="#I_BEGINNING_OF_LINE--3F">bol?</a></li>
 
+<li><a href="#I_CAPTURES">captures</a></li>
+
 <li><a href="#I_CHARPOS">charpos</a></li>
 
 <li><a href="#I_CHECK">check</a></li>
@@ -259,6 +261,8 @@ StringScanner は $~ $&amp; $1 $2 …… などの正規表現関連変数をセ
 <li><a href="#I_EMPTY--3F">eos?</a></li>
 
 <li><a href="#I_EXIST--3F">exist?</a></li>
+
+<li><a href="#I_FIXED_ANCHOR--3F">fixed_anchor?</a></li>
 
 <li><a href="#I_GET_BYTE">get_byte</a></li>
 
@@ -310,6 +314,8 @@ StringScanner は $~ $&amp; $1 $2 …… などの正規表現関連変数をセ
 
 <li><a href="#I_SEARCH_FULL">search_full</a></li>
 
+<li><a href="#I_SIZE">size</a></li>
+
 <li><a href="#I_SKIP">skip</a></li>
 
 <li><a href="#I_SKIP_UNTIL">skip_until</a></li>
@@ -321,6 +327,8 @@ StringScanner は $~ $&amp; $1 $2 …… などの正規表現関連変数をセ
 <li><a href="#I_CLEAR">terminate</a></li>
 
 <li><a href="#I_UNSCAN">unscan</a></li>
+
+<li><a href="#I_VALUES_AT">values_at</a></li>
 
 </ul>
 </dd>
@@ -492,6 +500,30 @@ s <span class="o">=</span> <span class="no">StringScanner</span><span class="p">
 </dd>
 
 
+<dt class="method-heading" id="I_CAPTURES"><code>captures -&gt; [String | nil] | nil</code><span class="method-since-badge">Ruby 2.5.0 から</span><span class="permalink">[<a href="../method/StringScanner/i/captures.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/StringScanner.html#method-i-captures">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/strscan.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+直前のマッチが成功していれば、キャプチャした部分文字列(インデックス 1 以降)を格納した配列を返します。マッチが失敗していれば <code>nil</code> を返します。
+</p>
+<p>
+マッチに参加しなかったグループに対応する要素は空文字列になります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'strscan'</span>
+
+s <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Fri Dec 12 1975 14:39'</span><span class="p">)</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">captures</span>                       <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/(\w+) (\w+) (\d+) /</span><span class="p">)</span>     <span class="c1"># =&gt; &quot;Fri Dec 12 &quot;
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">captures</span>                       <span class="c1"># =&gt; [&quot;Fri&quot;, &quot;Dec&quot;, &quot;12&quot;]
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/(\d+)/</span><span class="p">)</span>                  <span class="c1"># =&gt; &quot;1975&quot;
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">captures</span>                       <span class="c1"># =&gt; [&quot;1975&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/StringScanner/i/=5b=5d.html">StringScanner#[]</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_CHARPOS"><code>charpos -&gt; Integer</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/StringScanner/i/charpos.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/StringScanner.html#method-i-charpos">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/strscan.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -648,6 +680,55 @@ s <span class="o">=</span> <span class="no">StringScanner</span><span class="p">
 </span><span class="nb">p</span> s<span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="sr">/s/</span><span class="p">)</span> <span class="c1"># =&gt; 2
 </span><span class="nb">p</span> s<span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="sr">/e/</span><span class="p">)</span> <span class="c1"># =&gt; nil
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_FIXED_ANCHOR--3F"><code>fixed_anchor? -&gt; bool</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/StringScanner/i/fixed_anchor=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/StringScanner.html#method-i-fixed_anchor-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/strscan.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が fixed anchor モードで生成されていれば <code>true</code> を、そうでなければ <code>false</code> を返します。
+</p>
+<p>
+fixed anchor モードは <a href="../method/StringScanner/s/new.html">StringScanner.new</a> に <code>fixed_anchor: true</code> を指定すると有効になります。このモードでは、正規表現中の <code>\A</code> は現在のスキャンポインタの位置ではなく元の文字列の先頭にマッチするようになり、<code>^</code> はスキャンポインタの位置に関係なく通常の行頭にマッチするようになります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'strscan'</span>
+
+s1 <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'test'</span><span class="p">)</span>
+<span class="nb">p</span> s1<span class="p">.</span><span class="nf">fixed_anchor?</span>                        <span class="c1"># =&gt; false
+</span>
+s2 <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'test'</span>, <span class="ss">fixed_anchor:</span> <span class="k">true</span><span class="p">)</span>
+<span class="nb">p</span> s2<span class="p">.</span><span class="nf">fixed_anchor?</span>                        <span class="c1"># =&gt; true
+</span></code></pre>
+<span class="caption">例: \A の挙動の違い</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'strscan'</span>
+
+s1 <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">ab\ncd</span><span class="s2">"</span><span class="p">)</span>
+s1<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/a/</span><span class="p">)</span>
+<span class="nb">p</span> s1<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\Ab/</span><span class="p">)</span>                          <span class="c1"># =&gt; &quot;b&quot;
+</span>
+s2 <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">ab\ncd</span><span class="s2">"</span>, <span class="ss">fixed_anchor:</span> <span class="k">true</span><span class="p">)</span>
+s2<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/a/</span><span class="p">)</span>
+<span class="nb">p</span> s2<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\Ab/</span><span class="p">)</span>                          <span class="c1"># =&gt; nil
+</span></code></pre>
+<span class="caption">例: ^ の挙動の違い</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'strscan'</span>
+
+s1 <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">ab\ncd</span><span class="s2">"</span><span class="p">)</span>
+s1<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/a/</span><span class="p">)</span>
+<span class="nb">p</span> s1<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/^b/</span><span class="p">)</span>                           <span class="c1"># =&gt; &quot;b&quot;
+</span>s1<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\n/</span><span class="p">)</span>
+<span class="nb">p</span> s1<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/^c/</span><span class="p">)</span>                           <span class="c1"># =&gt; &quot;c&quot;
+</span>
+s2 <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">ab\ncd</span><span class="s2">"</span>, <span class="ss">fixed_anchor:</span> <span class="k">true</span><span class="p">)</span>
+s2<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/a/</span><span class="p">)</span>
+<span class="nb">p</span> s2<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/^b/</span><span class="p">)</span>                           <span class="c1"># =&gt; nil
+</span>s2<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/b\n/</span><span class="p">)</span>
+<span class="nb">p</span> s2<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/^c/</span><span class="p">)</span>                           <span class="c1"># =&gt; &quot;c&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/StringScanner/s/new.html">StringScanner.new</a>
+</p>
 </dd>
 
 
@@ -1264,6 +1345,25 @@ s <span class="o">=</span> <span class="no">StringScanner</span><span class="p">
 </dd>
 
 
+<dt class="method-heading" id="I_SIZE"><code>size -&gt; Integer | nil</code><span class="method-since-badge">Ruby 2.5.0 から</span><span class="permalink">[<a href="../method/StringScanner/i/size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/StringScanner.html#method-i-size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/strscan.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+直前のマッチが成功していれば、そのキャプチャの数(マッチ全体を含む)を返します。マッチが失敗していれば <code>nil</code> を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'strscan'</span>
+
+s <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Fri Dec 12 1975 14:39'</span><span class="p">)</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">size</span>                          <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/(\w+) (\w+) (\d+) /</span><span class="p">)</span>    <span class="c1"># =&gt; &quot;Fri Dec 12 &quot;
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">size</span>                          <span class="c1"># =&gt; 4
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/StringScanner/i/captures.html">StringScanner#captures</a>, <a href="../method/StringScanner/i/values_at.html">StringScanner#values_at</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_SKIP"><code>skip(regexp) -&gt; Integer | nil</code><span class="permalink">[<a href="../method/StringScanner/i/skip.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/StringScanner.html#method-i-skip">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/strscan.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -1445,6 +1545,34 @@ s <span class="o">=</span> <span class="no">StringScanner</span><span class="p">
 </span>  <span class="c1"># =&gt; unscan failed: previous match had failed
 </span><span class="k">end</span>
 </code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_VALUES_AT"><code>values_at(*specifiers) -&gt; [String | nil] | nil</code><span class="method-since-badge">Ruby 2.5.0 から</span><span class="permalink">[<a href="../method/StringScanner/i/values_at.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.0/StringScanner.html#method-i-values_at">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/strscan.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+直前のマッチが成功していれば、各 <code>specifier</code> に対応する部分文字列を集めた配列を返します。マッチが失敗していれば <code>nil</code> を返します。
+</p>
+<p>
+各 <code>specifier</code> に対応する値は <a href="../method/StringScanner/i/=5b=5d.html">StringScanner#[]</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>specifiers</code>:</dt>
+<dd>
+取得したいキャプチャを指定します。整数、シンボル、文字列を指定できます。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'strscan'</span>
+
+s <span class="o">=</span> <span class="no">StringScanner</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'Fri Dec 12 1975 14:39'</span><span class="p">)</span>
+s<span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/(\w+) (\w+) (\d+) /</span><span class="p">)</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">values_at</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span><span class="p">)</span>    <span class="c1"># =&gt; [&quot;Fri Dec 12 &quot;, &quot;Fri&quot;, &quot;Dec&quot;, &quot;12&quot;]
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">values_at</span><span class="p">(</span><span class="mi">0</span>, <span class="o">-</span><span class="mi">1</span><span class="p">)</span>         <span class="c1"># =&gt; [&quot;Fri Dec 12 &quot;, &quot;12&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/StringScanner/i/=5b=5d.html">StringScanner#[]</a>
+</p>
 </dd>
 
 

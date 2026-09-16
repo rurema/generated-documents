@@ -9,6 +9,7 @@
 ## Instance Methods
 
 - [add_class_or_module](../method/RDoc=3a=3aTopLevel/i/add_class_or_module.md)
+- [display?](../method/RDoc=3a=3aTopLevel/i/display=3f.md)
 - [file_stat](../method/RDoc=3a=3aTopLevel/i/file_stat.md)
 - [file_stat=](../method/RDoc=3a=3aTopLevel/i/file_stat=3d.md)
 - [find_local_symbol](../method/RDoc=3a=3aTopLevel/i/find_local_symbol.md)

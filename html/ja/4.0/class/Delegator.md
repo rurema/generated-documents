@@ -13,6 +13,7 @@
 - [==](../method/Delegator/i/=3d=3d.md)
 - [__getobj__](../method/Delegator/i/__getobj__.md)
 - [__setobj__](../method/Delegator/i/__setobj__.md)
+- [eql?](../method/Delegator/i/eql=3f.md)
 - [freeze](../method/Delegator/i/freeze.md)
 - [marshal_dump](../method/Delegator/i/marshal_dump.md)
 - [marshal_load](../method/Delegator/i/marshal_load.md)

@@ -15,7 +15,7 @@ p reachable.keys
 
 戻り値のハッシュはキーを同一性で比較するため、文字列リテラルを使ってキーを指定して参照することはできません。[Hash#keys](../../../method/Hash/i/keys.md) や [Hash#values](../../../method/Hash/i/values.md) などで取得してください。
 
-内部オブジェクトへの参照は `ObjectSpace::InternalObjectWrapper` オブジェクトでラップされます。詳しくは [ObjectSpace?.reachable_objects_from](../../../method/ObjectSpace/m/reachable_objects_from.md)
+内部オブジェクトへの参照は [ObjectSpace::InternalObjectWrapper](../../../class/ObjectSpace=3a=3aInternalObjectWrapper.md) オブジェクトでラップされます。詳しくは [ObjectSpace?.reachable_objects_from](../../../method/ObjectSpace/m/reachable_objects_from.md)
 を参照してください。
 
 本メソッドはメモリリークの原因を調査するなど、オブジェクトグラフのデバッグに役立ちます。

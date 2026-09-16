@@ -286,9 +286,19 @@ template <span class="o">=</span> <span class="no">ERB</span><span class="p">.</
 
 <li><a href="#I_DEF_MODULE">def_module</a></li>
 
+<li><a href="#I_ENCODING">encoding</a></li>
+
 <li><a href="#I_FILENAME">filename</a></li>
 
 <li><a href="#I_FILENAME--3D">filename=</a></li>
+
+<li><a href="#I_LINENO">lineno</a></li>
+
+<li><a href="#I_LINENO">lineno=</a></li>
+
+<li><a href="#I_LOCATION--3D">location=</a></li>
+
+<li><a href="#I_MAKE_COMPILER">make_compiler</a></li>
 
 <li><a href="#I_RESULT">result</a></li>
 
@@ -517,6 +527,19 @@ erb <span class="o">=</span> <span class="no">ERB</span><span class="p">.</span>
 </dd>
 
 
+<dt class="method-heading" id="I_ENCODING"><code>encoding -&gt; Encoding</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/ERB/i/encoding.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/ERB.html#method-i-encoding">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/erb.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+コンパイルされた eRuby スクリプトを <code>eval</code> するときに使われるエンコーディングを返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'erb'</span>
+erb <span class="o">=</span> <span class="no">ERB</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'&lt;%= 1 + 1 %&gt;'</span><span class="p">)</span>
+<span class="nb">p</span> erb<span class="p">.</span><span class="nf">encoding</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_FILENAME"><code>filename -&gt; String</code><span class="permalink">[<a href="../method/ERB/i/filename.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/ERB.html#method-i-filename">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/erb.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -548,6 +571,84 @@ erb <span class="o">=</span> <span class="no">ERB</span><span class="p">.</span>
 <span class="nb">p</span> erb<span class="p">.</span><span class="nf">filename</span> <span class="c1"># =&gt; nil
 </span>erb<span class="p">.</span><span class="nf">filename</span> <span class="o">=</span> filename
 <span class="nb">p</span> erb<span class="p">.</span><span class="nf">filename</span> <span class="c1"># =&gt;&quot;example.rhtml&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_LINENO"><code>lineno -&gt; Integer</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/ERB/i/lineno.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/ERB.html#method-i-lineno">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/erb.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>lineno=(n)</code></dt>
+<dd class="method-description">
+<p>
+eRuby スクリプトを <code>eval</code> するときに <a href="../method/Kernel/m/eval.html">Kernel.#eval</a> に渡す行番号を取得・設定します。
+</p>
+<p>
+エラーが発生した際の報告に使われます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>n</code>:</dt>
+<dd>
+設定する行番号を整数で指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'erb'</span>
+erb <span class="o">=</span> <span class="no">ERB</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'&lt;%= 1 + 1 %&gt;'</span><span class="p">)</span>
+<span class="nb">p</span> erb<span class="p">.</span><span class="nf">lineno</span>    <span class="c1"># =&gt; 0
+</span>erb<span class="p">.</span><span class="nf">lineno</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="nb">p</span> erb<span class="p">.</span><span class="nf">lineno</span>    <span class="c1"># =&gt; 3
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ERB/i/filename.html">ERB#filename</a>, <a href="../method/ERB/i/filename=3d.html">ERB#filename=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LOCATION--3D"><code>location=((filename, lineno))</code><span class="method-since-badge">Ruby 2.2.0 から</span><span class="permalink">[<a href="../method/ERB/i/location=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/ERB.html#method-i-location-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/erb.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+エラーメッセージや <code>eval</code> に使われるファイル名と行番号をまとめて設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>filename</code>:</dt>
+<dd>
+ファイル名を文字列で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>lineno</code>:</dt>
+<dd>
+行番号を整数で指定します。nil を渡した場合、行番号は変更されません。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'erb'</span>
+erb <span class="o">=</span> <span class="no">ERB</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'&lt;%= 1 + 1 %&gt;'</span><span class="p">)</span>
+erb<span class="p">.</span><span class="nf">location</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'file.erb'</span>, <span class="mi">10</span><span class="p">]</span>
+<span class="nb">p</span> erb<span class="p">.</span><span class="nf">filename</span> <span class="c1"># =&gt; &quot;file.erb&quot;
+</span><span class="nb">p</span> erb<span class="p">.</span><span class="nf">lineno</span>   <span class="c1"># =&gt; 10
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/ERB/i/filename=3d.html">ERB#filename=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MAKE_COMPILER"><code>make_compiler(trim_mode) -&gt; ERB::Compiler</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/ERB/i/make_compiler.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/ERB.html#method-i-make_compiler">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/erb.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身のための <code>ERB::Compiler</code> オブジェクトを新しく作成して返します。
+</p>
+<p>
+このメソッドは <a href="../method/ERB/s/new.html">ERB.new</a> から呼び出されます。<code>ERB</code> のサブクラスでこのメソッドを再定義すると、コンパイラの生成方法をカスタマイズできます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>trim_mode</code>:</dt>
+<dd>
+<a href="../method/ERB/s/new.html">ERB.new</a> に指定した trim_mode を渡します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'erb'</span>
+erb <span class="o">=</span> <span class="no">ERB</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'&lt;%= 1 + 1 %&gt;'</span><span class="p">)</span>
+<span class="nb">p</span> erb<span class="p">.</span><span class="nf">make_compiler</span><span class="p">(</span><span class="k">nil</span><span class="p">)</span><span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; ERB::Compiler
 </span></code></pre>
 </dd>
 

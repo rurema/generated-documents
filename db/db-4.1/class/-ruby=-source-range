@@ -1,0 +1,20 @@
+type=class
+superclass=Object
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=_builtin
+aliases=
+aliasof=
+source_location=manual/api/_builtin/Ruby__SourceRange.md
+
+Ruby のソースコード上のある範囲を表すクラスです。
+
+インスタンスは [m:Proc#source_range]・[m:Method#source_range]・[m:UnboundMethod#source_range]・[m:Thread::Backtrace::Location#source_range] から得られます。`Ruby::SourceRange.new` は未定義で、これらのメソッド以外から生成することはできません。ソースパス、(可能なら)絶対パス、開始行、開始のバイト単位の桁、終了行、終了のバイト単位の桁を保持します。
+
+このクラスの主な目的は、`node_id` のような実装の詳細に依存しない形で、`Prism.find` をすべての Ruby 実装で正確に実装できるようにすることです。そのために必要な開始・終了の行と桁、および絶対パスをこのクラスが提供します。
+
+`Prism.find` の利用者は、必要に応じて結果を調整できます。例えば [m:Ruby::SourceRange#end_line] で触れているようにヒアドキュメントの分だけ範囲を広げたり、[m:Proc#source_range] の結果に対してブロックが渡されたメソッド呼び出しまで範囲を広げたりといった調整です。
+
+なお、返されるソース範囲は、それだけで評価可能なコード片であるとは限りません。ヒアドキュメントがメソッドの `end` を越えて続くことがあるほか、ブロックの場合は範囲が `{` や `do` から始まるためです。

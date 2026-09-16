@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-15-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -246,6 +246,8 @@ Ruby の Range クラスは immutable です。つまり、オブジェクト自
 <li><a href="#I_BEGIN">begin</a></li>
 
 <li><a href="#I_BSEARCH">bsearch</a></li>
+
+<li><a href="#I_CLAMP">clamp</a></li>
 
 <li><a href="#I_COVER--3F">cover?</a></li>
 
@@ -805,6 +807,83 @@ find-any モードは <a class="external" href="http://www.opengroup.org/onlinep
 </dl>
 <p>
 [SEE_ALSO] <a href="../method/Array/i/bsearch.html">Array#bsearch</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CLAMP"><code>clamp(min, max) -&gt; Range</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Range/i/clamp.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-clamp">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>clamp(range) -&gt; Range</code></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の始端・終端を <code>min</code> と <code>max</code> の範囲に、または <code>range</code> の始端・終端の範囲に収まるように丸めた、新しい Range オブジェクトを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>min</code>:</dt>
+<dd>
+丸める範囲の下限を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>max</code>:</dt>
+<dd>
+丸める範囲の上限を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>range</code>:</dt>
+<dd>
+丸める範囲を Range オブジェクトで指定します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+<code>range</code> に Range でないオブジェクトを指定した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>min</code> が <code>max</code> より大きい場合に発生します。
+</dd>
+</dl>
+<p>
+返される Range オブジェクトは、次のいずれかを満たす場合に終端を含みません。
+</p>
+<ul>
+<li>返される終端の値が、<code>self</code> または <code>range</code> の終端を含まない値である場合。</li>
+<li><code>self</code> の始端・終端の両方が下限に丸められた場合、または両方が上限に丸められた
+場合。この場合 <code>self</code> は丸める範囲の外側に完全に外れているため、終端を除くことで
+空の範囲として表現されます。</li>
+</ul>
+<p>
+それ以外の場合、返される Range オブジェクトは終端を含みます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">7</span><span class="p">)</span>   <span class="c1"># =&gt; 3..7
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">7</span><span class="p">)</span>  <span class="c1"># =&gt; 3..7
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">10</span><span class="p">)</span> <span class="c1"># =&gt; 3...10
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">0</span><span class="o">...</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">10</span><span class="p">)</span>   <span class="c1"># =&gt; 0..10
+</span>
+<span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span><span class="o">..</span><span class="mi">7</span><span class="p">)</span>  <span class="c1"># =&gt; 3..7
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span><span class="o">...</span><span class="mi">7</span><span class="p">)</span> <span class="c1"># =&gt; 3...7
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span><span class="o">...</span><span class="mi">7</span><span class="p">)</span>  <span class="c1"># =&gt; 3..5
+</span>
+<span class="nb">p</span> <span class="p">(</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">7</span><span class="p">)</span>   <span class="c1"># =&gt; 3..7
+</span><span class="nb">p</span> <span class="p">(</span><span class="o">...</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span>, <span class="mi">7</span><span class="p">)</span>  <span class="c1"># =&gt; 3..7
+</span><span class="nb">p</span> <span class="p">(</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span><span class="o">...</span><span class="mi">7</span><span class="p">)</span>  <span class="c1"># =&gt; 3...7
+</span><span class="nb">p</span> <span class="p">(</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span><span class="o">...</span><span class="mi">7</span><span class="p">)</span>   <span class="c1"># =&gt; 3..5
+</span>
+<span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">20</span><span class="o">..</span><span class="mi">30</span><span class="p">)</span> <span class="c1"># =&gt; 20...20
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="o">..</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># =&gt; 0...0
+</span><span class="nb">p</span> <span class="p">(</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">20</span><span class="o">..</span><span class="mi">30</span><span class="p">)</span>  <span class="c1"># =&gt; 20...20
+</span>
+<span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="o">..</span><span class="mi">7</span><span class="p">)</span>  <span class="c1"># =&gt; 1..7
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="o">...</span><span class="mi">7</span><span class="p">)</span> <span class="c1"># =&gt; 1...7
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="o">...</span><span class="mi">7</span><span class="p">)</span>  <span class="c1"># =&gt; 1..5
+</span>
+<span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span><span class="o">..</span><span class="p">)</span>  <span class="c1"># =&gt; 3..10
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span><span class="o">...</span><span class="p">)</span> <span class="c1"># =&gt; 3..10
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span><span class="o">..</span><span class="p">)</span>    <span class="c1"># =&gt; 3..
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="p">)</span><span class="p">.</span><span class="nf">clamp</span><span class="p">(</span><span class="mi">3</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># =&gt; 3...
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Comparable/i/clamp.html">Comparable#clamp</a>
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Range/i/cover=3f.html">Range#cover?</a>
 </p>
 </dd>
 

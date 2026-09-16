@@ -1,0 +1,29 @@
+names=script_lines
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/RubyVM__InstructionSequence.md
+since_by_name=script_lines=3.1
+until_by_name=
+rbs_sig={"overloads":[{"segments":[["t","() -> "],["c","Array"],["t","["],["c","String"],["t","]?"]],"params":[],"arity":[0,0]}]}
+
+### def script_lines -> [String] | nil
+
+`self` が表す命令シーケンスに対応するソースコードの行を配列で返します。記録されていない場合は nil を返します。
+
+配列に含まれる行は `self` の命令シーケンスの範囲に限られず、ソースファイル全体の行です。
+
+記録するには、コンパイルする前に [m:RubyVM.keep_script_lines] を true に設定しておく必要があります。
+
+このメソッドは Ruby 内部での利用、デバッグ、研究のための API です。それ以外の目的で使うべきではありません。将来のバージョンとの互換性も保証されません。
+
+```ruby title="例"
+RubyVM.keep_script_lines = true
+iseq = RubyVM::InstructionSequence.compile("num = 1 + 2\nputs num")
+p iseq.script_lines # => ["num = 1 + 2\n", "puts num"]
+RubyVM.keep_script_lines = false
+```
+
+- **SEE** [m:RubyVM.keep_script_lines]
+
+
+
