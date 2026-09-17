@@ -306,8 +306,8 @@ EOF であっても常に空文字列 "" を返します。
 - [ungetbyte](../method/IO/i/ungetbyte.md)
 - [ungetc](../method/IO/i/ungetc.md)
 - [wait](../method/IO/i/wait.md)
-- [wait_readable](../method/IO/i/wait_readable.md)
 - [wait_priority](../method/IO/i/wait_priority.md)
+- [wait_readable](../method/IO/i/wait_readable.md)
 - [wait_writable](../method/IO/i/wait_writable.md)
 - [winsize](../method/IO/i/winsize.md)
 - [winsize=](../method/IO/i/winsize=3d.md)
@@ -316,8 +316,11 @@ EOF であっても常に空文字列 "" を返します。
 
 ## Constants
 
+- [PRIORITY](../method/IO/c/PRIORITY.md)
+- [READABLE](../method/IO/c/READABLE.md)
 - [SEEK_CUR](../method/IO/c/SEEK_CUR.md)
 - [SEEK_DATA](../method/IO/c/SEEK_DATA.md)
 - [SEEK_END](../method/IO/c/SEEK_END.md)
 - [SEEK_HOLE](../method/IO/c/SEEK_HOLE.md)
 - [SEEK_SET](../method/IO/c/SEEK_SET.md)
+- [WRITABLE](../method/IO/c/WRITABLE.md)

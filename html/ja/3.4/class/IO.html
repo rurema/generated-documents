@@ -508,6 +508,14 @@ EOF であっても常に空文字列 &quot;&quot; を返します。
 
 <li><a href="#I_UNGETC">ungetc</a></li>
 
+<li><a href="#I_WAIT">wait</a></li>
+
+<li><a href="#I_WAIT_PRIORITY">wait_priority</a></li>
+
+<li><a href="#I_WAIT_READABLE">wait_readable</a></li>
+
+<li><a href="#I_WAIT_WRITABLE">wait_writable</a></li>
+
 <li><a href="#I_WRITE">write</a></li>
 
 <li><a href="#I_WRITE_NONBLOCK">write_nonblock</a></li>
@@ -601,14 +609,6 @@ EOF であっても常に空文字列 &quot;&quot; を返します。
 
 <li><a href="#I_TTYNAME">ttyname</a></li>
 
-<li><a href="#I_WAIT">wait</a></li>
-
-<li><a href="#I_WAIT_PRIORITY">wait_priority</a></li>
-
-<li><a href="#I_WAIT">wait_readable</a></li>
-
-<li><a href="#I_WAIT_WRITABLE">wait_writable</a></li>
-
 <li><a href="#I_WINSIZE">winsize</a></li>
 
 <li><a href="#I_WINSIZE--3D">winsize=</a></li>
@@ -620,6 +620,10 @@ EOF であっても常に空文字列 &quot;&quot; を返します。
 <dd>
 <ul class="class-toc">
 
+<li><a href="#C_-P-R-I-O-R-I-T-Y">PRIORITY</a></li>
+
+<li><a href="#C_-R-E-A-D-A-B-L-E">READABLE</a></li>
+
 <li><a href="#C_-S-E-E-K_-C-U-R">SEEK_CUR</a></li>
 
 <li><a href="#C_-S-E-E-K_-D-A-T-A">SEEK_DATA</a></li>
@@ -629,6 +633,8 @@ EOF であっても常に空文字列 &quot;&quot; を返します。
 <li><a href="#C_-S-E-E-K_-H-O-L-E">SEEK_HOLE</a></li>
 
 <li><a href="#C_-S-E-E-K_-S-E-T">SEEK_SET</a></li>
+
+<li><a href="#C_-W-R-I-T-A-B-L-E">WRITABLE</a></li>
 
 </ul>
 </dd>
@@ -3756,6 +3762,137 @@ self を返します。
 </dd>
 
 
+<dt class="method-heading" id="I_WAIT"><code>wait(events, timeout) -&gt; Integer | nil</code><span class="permalink">[<a href="../method/IO/i/wait.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-i-wait">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>wait(*mode, timeout = nil) -&gt; self | true | nil</code></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が指定したイベント(読み込み可能・書き込み可能・優先データの受信)の準備ができるまでブロックします。
+</p>
+<p>
+第 1 の形式では、待つイベントを <code>IO::READABLE</code>・<code>IO::WRITABLE</code>・<code>IO::PRIORITY</code> のビット OR で指定します。準備ができたイベントのビットマスクを <a href="../class/Integer.html">Integer</a> で返し、<code>timeout</code> 秒待っても準備できなかった場合は nil を返します。
+<code>IO::READABLE</code> を含む場合、内部のバッファにデータがあればブロックせずに <code>IO::READABLE</code> を返します。
+</p>
+<p>
+第 2 の形式では、待つイベントをシンボルで指定します。<code>:read</code>(<code>:r</code>・<code>:readable</code>)・<code>:write</code>(<code>:w</code>・<code>:writable</code>)・
+<code>:read_write</code>(<code>:rw</code>・<code>:readable_writable</code>)を 1 つ以上指定でき、省略した場合は <code>:read</code> です。
+<code>timeout</code> とシンボルは任意の順序で指定できます。準備ができたら <code>self</code> を返し、内部のバッファにデータがあればブロックせずに true を返します。
+<code>timeout</code> 秒待っても準備できなかった場合は nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>events</code>:</dt>
+<dd>
+待つイベントを <code>IO::READABLE</code>・<code>IO::WRITABLE</code>・<code>IO::PRIORITY</code> のビット OR で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dd>
+待つイベントを <code>:read</code>・<code>:write</code>・<code>:read_write</code> などのシンボルで指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+タイムアウトまでの秒数を指定します。nil を指定すると準備ができるまで待ち続けます。第 1 の形式では省略できません。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>events</code> が正の整数でない場合や、<code>mode</code> に未対応のシンボルを指定した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="no">IO</span><span class="o">::</span><span class="no">READABLE</span>, <span class="mi">0</span><span class="p">)</span>                 <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> w<span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="no">IO</span><span class="o">::</span><span class="no">WRITABLE</span>, <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="no">IO</span><span class="o">::</span><span class="no">WRITABLE</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> r<span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="ss">:read</span>, <span class="mi">0</span><span class="p">)</span>                        <span class="c1"># =&gt; nil
+</span>
+w<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">x</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="no">IO</span><span class="o">::</span><span class="no">READABLE</span>, <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="no">IO</span><span class="o">::</span><span class="no">READABLE</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> r<span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="ss">:read</span>, <span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>r<span class="p">)</span>              <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/wait_readable.html">IO#wait_readable</a>, <a href="../method/IO/i/wait_writable.html">IO#wait_writable</a>, <a href="../method/IO/i/wait_priority.html">IO#wait_priority</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_WAIT_PRIORITY"><code>wait_priority(timeout = nil) -&gt; self | true | false | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/IO/i/wait_priority.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-i-wait_priority">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が優先データを受信して読み込み可能になるまでブロックし、読み込み可能になったら真値を返します。
+</p>
+<p>
+優先データ(緊急データ)は <a href="../method/Socket=3a=3aConstants/c/MSG_OOB.html">Socket::Constants::MSG_OOB</a> フラグを用いて送受信され、通常はストリーム型のソケットに限られます。
+</p>
+<p>
+一度ブロックしてから読み込み可能になった場合には <code>self</code> を返します。内部のバッファにデータがある場合にはブロックせずに true を返します。
+<code>timeout</code> 秒待っても優先データを受信しなかった場合は偽の値(false または nil)を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+タイムアウトまでの秒数を指定します。nil を指定すると読み込み可能になるまで待ち続けます。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/wait.html">IO#wait</a>, <a href="../method/IO/i/wait_readable.html">IO#wait_readable</a>, <a href="../method/IO/i/wait_writable.html">IO#wait_writable</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_WAIT_READABLE"><code>wait_readable(timeout = nil) -&gt; self | true | nil</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/IO/i/wait_readable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-i-wait_readable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が読み込み可能になるまでブロックし、読み込み可能になったら真値を返します。
+</p>
+<p>
+一度ブロックしてから読み込み可能になった場合には <code>self</code> を返します。内部のバッファにデータがある場合にはブロックせずに true を返します。内部のバッファとは Ruby の処理系が保持管理しているバッファのことです。つまり、読み込み可能である場合には true を返す場合と <code>self</code> を返す場合があることに注意してください。
+<code>self</code> が EOF に達している場合も読み込み可能として扱われます。
+</p>
+<p>
+<code>timeout</code> を指定した場合は、指定秒数経過するまでブロックし、タイムアウトした場合は nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+タイムアウトまでの秒数を指定します。nil を指定すると読み込み可能になるまで待ち続けます。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">wait_readable</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>           <span class="c1"># =&gt; nil
+</span>w<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">x</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">wait_readable</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>r<span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/wait.html">IO#wait</a>, <a href="../method/IO/i/wait_writable.html">IO#wait_writable</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_WAIT_WRITABLE"><code>wait_writable(timeout = nil) -&gt; self | nil</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/IO/i/wait_writable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-i-wait_writable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が書き込み可能になるまでブロックし、書き込み可能になったら <code>self</code> を返します。
+</p>
+<p>
+<code>timeout</code> を指定した場合は、指定秒数経過するまでブロックし、タイムアウトした場合は nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+タイムアウトまでの秒数を指定します。nil を指定すると書き込み可能になるまで待ち続けます。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+
+<span class="nb">p</span> w<span class="p">.</span><span class="nf">wait_writable</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>w<span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO/i/wait.html">IO#wait</a>, <a href="../method/IO/i/wait_readable.html">IO#wait_readable</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_WRITE"><code>write(*str) -&gt; Integer</code><span class="permalink">[<a href="../method/IO/i/write.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-i-write">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -4584,92 +4721,6 @@ raw モードを有効にします。端末のモードを後で元に戻す必�
 </dd>
 
 
-<dt class="method-heading" id="I_WAIT"><code>wait(timeout = nil) -&gt; bool | self | nil</code><span class="permalink">[<a href="../method/IO/i/wait.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-i-wait">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/wait.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/io=2fwait.html">io/wait</a>]</span>
-</dt>
-<dt class="method-heading"><code>wait_readable(timeout = nil) -&gt; bool | self | nil</code><span class="method-since-badge">Ruby 2.0.0 から</span> <span class="kindinfo">[added by <a href="../library/io=2fwait.html">io/wait</a>]</span>
-</dt>
-<dd class="method-description">
-<p>
-self が読み込み可能になるまでブロックし、読み込み可能になったら真値を返します。タイムアウト、もしくはEOFでそれ以上読みこめない場合は偽の値を返します。
-</p>
-<p>
-より詳しくは、一度ブロックしてから読み込み可能になった場合には
-selfを返します。内部のバッファにデータがある場合にはブロックせずに true を返します。内部のバッファとはRubyの処理系が保持管理しているバッファのことです。
-</p>
-<p>
-つまり、読み込み可能である場合にはtrueを返す場合と
-selfを返す場合があることに注意してください。
-</p>
-<p>
-timeout を指定した場合は、指定秒数経過するまでブロックし、タイムアウトした場合は nil を返します。
-</p>
-<p>
-self が EOF に達していれば false を返します。
-</p>
-<dl>
-<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
-<dd>
-タイムアウトまでの秒数を指定します。
-</dd>
-</dl>
-<p>
-[SEE_ALSO] <a href="../method/IO/i/wait_writable.html">IO#wait_writable</a>
-</p>
-</dd>
-
-
-<dt class="method-heading" id="I_WAIT_PRIORITY"><code>wait_priority(timeout = nil) -&gt; bool | self | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/IO/i/wait_priority.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-i-wait_priority">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/wait.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/io=2fwait.html">io/wait</a>]</span>
-</dt>
-<dd class="method-description">
-<p>
-self が優先データを受信して読み込み可能になるまでブロックし、読み込み可能になったら真値を返します。
-</p>
-<p>
-優先データ(緊急データ)は <a href="../method/Socket=3a=3aConstants/c/MSG_OOB.html">Socket::Constants::MSG_OOB</a> フラグを用いて送受信され、通常はストリーム型のソケットに限られます。
-</p>
-<p>
-より詳しくは、一度ブロックしてから読み込み可能になった場合には
-self を返します。内部のバッファにデータがある場合にはブロックせずに true を返します。
-</p>
-<p>
-timeout を指定した場合は、指定秒数経過するまでブロックし、タイムアウトした場合は nil を返します。
-</p>
-<dl>
-<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
-<dd>
-タイムアウトまでの秒数を指定します。
-nil を指定すると読み込み可能になるまで待ち続けます。
-</dd>
-</dl>
-<p>
-[SEE_ALSO] <a href="../method/IO/i/wait_readable.html">IO#wait_readable</a>, <a href="../method/IO/i/wait_writable.html">IO#wait_writable</a>
-</p>
-</dd>
-
-
-<dt class="method-heading" id="I_WAIT_WRITABLE"><code>wait_writable -&gt; self</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/IO/i/wait_writable.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-i-wait_writable">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/wait.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/io=2fwait.html">io/wait</a>]</span>
-</dt>
-<dt class="method-heading"><code>wait_writable(timeout) -&gt; self | nil</code> <span class="kindinfo">[added by <a href="../library/io=2fwait.html">io/wait</a>]</span>
-</dt>
-<dd class="method-description">
-<p>
-self が書き込み可能になるまでブロックし、書き込み可能になったら self を返します。
-</p>
-<p>
-timeout を指定した場合は、指定秒数経過するまでブロックし、タイムアウトした場合は nil を返します。
-</p>
-<dl>
-<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
-<dd>
-タイムアウトまでの秒数を指定します。
-</dd>
-</dl>
-<p>
-[SEE_ALSO] <a href="../method/IO/i/wait_readable.html">IO#wait_readable</a>
-</p>
-</dd>
-
-
 <dt class="method-heading" id="I_WINSIZE"><code>winsize -&gt; [Integer, Integer]</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/IO/i/winsize.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-i-winsize">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/console.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/io=2fconsole.html">io/console</a>]</span>
 </dt>
 <dd class="method-description">
@@ -4701,6 +4752,22 @@ timeout を指定した場合は、指定秒数経過するまでブロックし
 
 <h2>定数</h2>
 <dl>
+
+<dt class="method-heading" id="C_-P-R-I-O-R-I-T-Y"><code>PRIORITY -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/IO/c/PRIORITY.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-c-PRIORITY">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/IO/i/wait.html">IO#wait</a> で「優先データを受信して読み込み可能」のイベントを表すビットです。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-R-E-A-D-A-B-L-E"><code>READABLE -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/IO/c/READABLE.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-c-READABLE">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/IO/i/wait.html">IO#wait</a> で「読み込み可能」のイベントを表すビットです。
+</p>
+</dd>
+
 
 <dt class="method-heading" id="C_-S-E-E-K_-C-U-R"><code>SEEK_CUR -&gt; Integer</code><span class="permalink">[<a href="../method/IO/c/SEEK_CUR.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-c-SEEK_CUR">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
 <dd class="method-description">
@@ -4744,6 +4811,14 @@ Linux 3.1 以降で利用可能です。
 <dd class="method-description">
 <p>
 <a href="../method/IO/i/seek.html">IO#seek</a> を参照してください。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="C_-W-R-I-T-A-B-L-E"><code>WRITABLE -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/IO/c/WRITABLE.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/IO.html#method-c-WRITABLE">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/IO/i/wait.html">IO#wait</a> で「書き込み可能」のイベントを表すビットです。
 </p>
 </dd>
 

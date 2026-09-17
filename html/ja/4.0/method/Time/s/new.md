@@ -1,13 +1,13 @@
 # Time.new
 
 ### def Time.new    -> Time
-### def Time.now    -> Time
 
 現在時刻の Time オブジェクトを生成して返します。
 タイムゾーンは地方時となります。
+[Time.now](../../../method/Time/s/now.md) と同じです。
 
 ```ruby
-p Time.now # => 2009-06-24 12:39:54 +0900
+p Time.new # => 2009-06-24 12:39:54 +0900
 ```
 
 ### def Time.new(year, mon = nil, day = nil, hour = nil, min = nil, sec = nil, zone = nil)    -> Time

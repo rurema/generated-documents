@@ -1,22 +1,35 @@
 # IO#wait
 
-### def wait(timeout = nil)          -> bool | self | nil
-### def wait_readable(timeout = nil) -> bool | self | nil
+### def wait(events, timeout)              -> Integer | nil
+### def wait(*mode, timeout = nil)          -> self | true | nil
 
-self が読み込み可能になるまでブロックし、読み込み可能になったら真値を返します。タイムアウト、もしくはEOFでそれ以上読みこめない場合は偽の値を返します。
+`self` が指定したイベント(読み込み可能・書き込み可能・優先データの受信)の準備ができるまでブロックします。
 
-より詳しくは、一度ブロックしてから読み込み可能になった場合には
-selfを返します。
-内部のバッファにデータがある場合にはブロックせずに true を返します。
-内部のバッファとはRubyの処理系が保持管理しているバッファのことです。
+第 1 の形式では、待つイベントを `IO::READABLE`・`IO::WRITABLE`・`IO::PRIORITY` のビット OR で指定します。
+準備ができたイベントのビットマスクを [Integer](../../../class/Integer.md) で返し、`timeout` 秒待っても準備できなかった場合は nil を返します。
+`IO::READABLE` を含む場合、内部のバッファにデータがあればブロックせずに `IO::READABLE` を返します。
 
-つまり、読み込み可能である場合にはtrueを返す場合と
-selfを返す場合があることに注意してください。
+第 2 の形式では、待つイベントをシンボルで指定します。`:read`(`:r`・`:readable`)・`:write`(`:w`・`:writable`)・
+`:read_write`(`:rw`・`:readable_writable`)を 1 つ以上指定でき、省略した場合は `:read` です。
+`timeout` とシンボルは任意の順序で指定できます。
+準備ができたら `self` を返し、内部のバッファにデータがあればブロックせずに true を返します。
+`timeout` 秒待っても準備できなかった場合は nil を返します。
 
-timeout を指定した場合は、指定秒数経過するまでブロックし、タイムアウトした場合は nil を返します。
+- **param** `events` -- 待つイベントを `IO::READABLE`・`IO::WRITABLE`・`IO::PRIORITY` のビット OR で指定します。
+- **param** `mode` -- 待つイベントを `:read`・`:write`・`:read_write` などのシンボルで指定します。
+- **param** `timeout` -- タイムアウトまでの秒数を指定します。nil を指定すると準備ができるまで待ち続けます。第 1 の形式では省略できません。
+- **raise** `ArgumentError` -- `events` が正の整数でない場合や、`mode` に未対応のシンボルを指定した場合に発生します。
 
-self が EOF に達していれば false を返します。
+```ruby title="例"
+r, w = IO.pipe
 
-- **param** `timeout` -- タイムアウトまでの秒数を指定します。
+p r.wait(IO::READABLE, 0)                 # => nil
+p w.wait(IO::WRITABLE, 0) == IO::WRITABLE # => true
+p r.wait(:read, 0)                        # => nil
 
-- **SEE** [IO#wait_writable](../../../method/IO/i/wait_writable.md)
+w.write("x")
+p r.wait(IO::READABLE, 0) == IO::READABLE # => true
+p r.wait(:read, 0).equal?(r)              # => true
+```
+
+- **SEE** [IO#wait_readable](../../../method/IO/i/wait_readable.md), [IO#wait_writable](../../../method/IO/i/wait_writable.md), [IO#wait_priority](../../../method/IO/i/wait_priority.md)

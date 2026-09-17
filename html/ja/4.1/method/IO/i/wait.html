@@ -20,8 +20,8 @@
 
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/IO/i/wait.html">
 
-<title>IO#wait, IO#wait_readable (Ruby 4.1 リファレンスマニュアル)</title>
-<meta name="description" content="self が読み込み可能になるまでブロックし、読み込み可能になったら真値を返します。タイムアウト、もしくはEOFでそれ以上読みこめない場合は偽の値を返します。">
+<title>IO#wait (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="`self' が指定したイベント(読み込み可能・書き込み可能・優先データの受信)の準備ができるまでブロックします。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-16-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-17-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -51,7 +51,7 @@
 
 
 <script type="application/ld+json">
-{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/io=2fwait.html","name":"io/waitライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/IO.html","name":"IOクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/IO/i/wait.html","name":"wait","position":5}]}
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/IO.html","name":"IOクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/IO/i/wait.html","name":"wait","position":5}]}
 </script>
 
 <header>
@@ -64,7 +64,7 @@
         <a href="../../../library/index.html">ライブラリ一覧</a>
       </li>
       <li>
-        <a href="../../../library/io=2fwait.html">io/waitライブラリ</a>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
       </li>
       <li>
         <a href="../../../class/IO.html">IOクラス</a>
@@ -81,38 +81,55 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_WAIT"><code>wait(timeout = nil) -&gt; bool | self | nil</code><span class="permalink">[<a href="../../../method/IO/i/wait.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO.html#method-i-wait">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/io/wait.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../../../library/io=2fwait.html">io/wait</a>]</span>
-</dt>
-<dt class="method-heading"><code>wait_readable(timeout = nil) -&gt; bool | self | nil</code><span class="method-since-badge">Ruby 2.0.0 から</span> <span class="kindinfo">[added by <a href="../../../library/io=2fwait.html">io/wait</a>]</span>
-</dt>
+<dt class="method-heading" id="I_WAIT"><code>wait(events, timeout) -&gt; Integer | nil</code><span class="permalink">[<a href="../../../method/IO/i/wait.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO.html#method-i-wait">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>wait(*mode, timeout = nil) -&gt; self | true | nil</code></dt>
 <dt class="rbs-signature"><code>(<a href="../../../class/Integer.html">Integer</a> events, ?Time::_Timeout timeout) &rarr; (<a href="../../../class/Integer.html">Integer</a> | false | nil)</code></dt>
 <dt class="rbs-signature"><code>(?Time::_Timeout? timeout, *wait_mode mode) &rarr; (self | true | false)</code></dt>
 <dd class="method-description">
 <p>
-self が読み込み可能になるまでブロックし、読み込み可能になったら真値を返します。タイムアウト、もしくはEOFでそれ以上読みこめない場合は偽の値を返します。
+<code>self</code> が指定したイベント(読み込み可能・書き込み可能・優先データの受信)の準備ができるまでブロックします。
 </p>
 <p>
-より詳しくは、一度ブロックしてから読み込み可能になった場合には
-selfを返します。内部のバッファにデータがある場合にはブロックせずに true を返します。内部のバッファとはRubyの処理系が保持管理しているバッファのことです。
+第 1 の形式では、待つイベントを <code>IO::READABLE</code>・<code>IO::WRITABLE</code>・<code>IO::PRIORITY</code> のビット OR で指定します。準備ができたイベントのビットマスクを <a href="../../../class/Integer.html">Integer</a> で返し、<code>timeout</code> 秒待っても準備できなかった場合は nil を返します。
+<code>IO::READABLE</code> を含む場合、内部のバッファにデータがあればブロックせずに <code>IO::READABLE</code> を返します。
 </p>
 <p>
-つまり、読み込み可能である場合にはtrueを返す場合と
-selfを返す場合があることに注意してください。
-</p>
-<p>
-timeout を指定した場合は、指定秒数経過するまでブロックし、タイムアウトした場合は nil を返します。
-</p>
-<p>
-self が EOF に達していれば false を返します。
+第 2 の形式では、待つイベントをシンボルで指定します。<code>:read</code>(<code>:r</code>・<code>:readable</code>)・<code>:write</code>(<code>:w</code>・<code>:writable</code>)・
+<code>:read_write</code>(<code>:rw</code>・<code>:readable_writable</code>)を 1 つ以上指定でき、省略した場合は <code>:read</code> です。
+<code>timeout</code> とシンボルは任意の順序で指定できます。準備ができたら <code>self</code> を返し、内部のバッファにデータがあればブロックせずに true を返します。
+<code>timeout</code> 秒待っても準備できなかった場合は nil を返します。
 </p>
 <dl>
+<dt class='method-param'>[PARAM] <code>events</code>:</dt>
+<dd>
+待つイベントを <code>IO::READABLE</code>・<code>IO::WRITABLE</code>・<code>IO::PRIORITY</code> のビット OR で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dd>
+待つイベントを <code>:read</code>・<code>:write</code>・<code>:read_write</code> などのシンボルで指定します。
+</dd>
 <dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
 <dd>
-タイムアウトまでの秒数を指定します。
+タイムアウトまでの秒数を指定します。nil を指定すると準備ができるまで待ち続けます。第 1 の形式では省略できません。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>events</code> が正の整数でない場合や、<code>mode</code> に未対応のシンボルを指定した場合に発生します。
 </dd>
 </dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>r, w <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="no">IO</span><span class="o">::</span><span class="no">READABLE</span>, <span class="mi">0</span><span class="p">)</span>                 <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> w<span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="no">IO</span><span class="o">::</span><span class="no">WRITABLE</span>, <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="no">IO</span><span class="o">::</span><span class="no">WRITABLE</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> r<span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="ss">:read</span>, <span class="mi">0</span><span class="p">)</span>                        <span class="c1"># =&gt; nil
+</span>
+w<span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">x</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="no">IO</span><span class="o">::</span><span class="no">READABLE</span>, <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="no">IO</span><span class="o">::</span><span class="no">READABLE</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> r<span class="p">.</span><span class="nf">wait</span><span class="p">(</span><span class="ss">:read</span>, <span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>r<span class="p">)</span>              <span class="c1"># =&gt; true
+</span></code></pre>
 <p>
-[SEE_ALSO] <a href="../../../method/IO/i/wait_writable.html">IO#wait_writable</a>
+[SEE_ALSO] <a href="../../../method/IO/i/wait_readable.html">IO#wait_readable</a>, <a href="../../../method/IO/i/wait_writable.html">IO#wait_writable</a>, <a href="../../../method/IO/i/wait_priority.html">IO#wait_priority</a>
 </p>
 </dd>
 
@@ -125,7 +142,7 @@ self が EOF に達していれば false を返します。
 
   <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
   
-    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/io/wait.md">このマニュアルを編集する</a>
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO.md">このマニュアルを編集する</a>
   
   <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
 </footer>
