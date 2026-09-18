@@ -1,6 +1,5 @@
 # Range#last
 
-### def end -> object
 ### def last -> object
 
 終端の要素を返します。範囲オブジェクトが終端を含むかどうかは関係ありません。
@@ -10,7 +9,7 @@ p (10..20).last    # => 20
 p (10...20).last   # => 20
 ```
 
-- **SEE** [Range#begin](../../../method/Range/i/begin.md)
+- **SEE** [Range#end](../../../method/Range/i/end.md), [Range#first](../../../method/Range/i/first.md)
 
 ### def last(n) -> [object]
 

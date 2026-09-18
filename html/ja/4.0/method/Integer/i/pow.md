@@ -1,12 +1,10 @@
 # Integer#pow
 
-### def **(other) -> Numeric
 ### def pow(other) -> Numeric
 ### def pow(other, modulo) -> Integer
 
 `self` の `other` 乗を返します。
-
-`Integer` オブジェクトを左項とする算術演算子 `**` はこのメソッドの呼び出しになります。
+`modulo` を指定しない場合は [Integer#**](../../../method/Integer/i/=2a=2a.md) と同じです。
 
 - **param** `other` -- `self` に対する冪指数（べきしすう）
 - **param** `modulo` -- 指定すると、計算途中に巨大な値を生成せずに `(self**other) % modulo` と同じ結果を返します。
@@ -15,9 +13,7 @@
 - **raise** `ArgumentError` -- 計算結果が巨大になりすぎる場合に発生します。
 
 ```ruby
-p 2 ** 3 # => 8
-p 2 ** 0 # => 1
-p 0 ** 0 # => 1
+p 2.pow(3) # => 8
 p 3.pow(3,  8)  # =>  3
 p 3.pow(3, -8)  # => -5
 p 3.pow(2, -2)  # => -1
@@ -26,14 +22,4 @@ p -3.pow(3, -8) # => -3
 p 5.pow(2, -8)  # => -7
 ```
 
-
-計算結果が巨大すぎるときは [ArgumentError](../../../class/ArgumentError.md) が発生します。
-
-```ruby title="計算結果が巨大すぎる例"
-p 100**9999999999999999999
-# => exponent is too large (ArgumentError)
-```
-
-判定の閾値は変わりえます。
-
-- **SEE** [BigDecimal#power](../../../method/BigDecimal/i/power.md)
+- **SEE** [Integer#**](../../../method/Integer/i/=2a=2a.md)

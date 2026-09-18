@@ -1,24 +1,20 @@
 # Range#first
 
-### def begin -> object
 ### def first -> object
 
 始端の要素を返します。
-始端を持たない範囲オブジェクトの場合、begin はnilを返しますが, first は例外 [RangeError](../../../class/RangeError.md) が発生します。
+始端を持たない範囲オブジェクトの場合、例外 [RangeError](../../../class/RangeError.md) が発生します。
 
 ```ruby title="例"
 # 始端を持つ場合
-p (1..5).begin # => 1
-p (1..0).begin # => 1
 p (1..5).first # => 1
 p (1..0).first # => 1
 
 # 始端を持たない場合
-p (..5).begin # => nil
 (..5).first   # ~> RangeError
 ```
 
-- **SEE** [Range#end](../../../method/Range/i/end.md)
+- **SEE** [Range#begin](../../../method/Range/i/begin.md), [Range#last](../../../method/Range/i/last.md)
 
 ### def first(n) -> [object]
 

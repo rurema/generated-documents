@@ -1,6 +1,5 @@
 # Thread.report_on_exception=
 
-### def Thread.report_on_exception             -> bool
 ### def Thread.report_on_exception=(newstate)
 
 真の時は、いずれかのスレッドが例外によって終了した時に、その内容を $stderr に報告します。
@@ -35,3 +34,5 @@ Traceback (most recent call last):
 スレッドごとに設定する方法は [Thread#report_on_exception=](../../../method/Thread/i/report_on_exception=3d.md) を参照してください。
 
 - **param** `newstate` -- スレッド実行中に例外発生した場合、その内容を報告するかどうかを true か false で指定します。
+
+- **SEE** [Thread.report_on_exception](../../../method/Thread/s/report_on_exception.md)

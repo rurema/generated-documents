@@ -261,7 +261,7 @@ Ruby の Range クラスは immutable です。つまり、オブジェクト自
 
 <li><a href="#I_EXCLUDE_END--3F">exclude_end?</a></li>
 
-<li><a href="#I_BEGIN">first</a></li>
+<li><a href="#I_FIRST">first</a></li>
 
 <li><a href="#I_HASH">hash</a></li>
 
@@ -269,7 +269,7 @@ Ruby の Range クラスは immutable です。つまり、オブジェクト自
 
 <li><a href="#I_INSPECT">inspect</a></li>
 
-<li><a href="#I_END">last</a></li>
+<li><a href="#I_LAST">last</a></li>
 
 <li><a href="#I_MAX">max</a></li>
 
@@ -285,7 +285,7 @@ Ruby の Range クラスは immutable です。つまり、オブジェクト自
 
 <li><a href="#I_SIZE">size</a></li>
 
-<li><a href="#I_--25">step</a></li>
+<li><a href="#I_STEP">step</a></li>
 
 <li><a href="#I_ENTRIES">to_a</a></li>
 
@@ -549,70 +549,35 @@ first &lt;=&gt; last が nil の場合に発生します
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_--25"><code>step(s = 1) {|item| ... } -&gt; self</code><span class="permalink">[<a href="../method/Range/i/=25.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-25">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>step(s = 1) -&gt; Enumerator</code></dt>
-<dt class="method-heading"><code>step(s = 1) -&gt; Enumerator::ArithmeticSequence</code></dt>
-<dt class="method-heading"><code>self % s -&gt; Enumerator</code><span class="method-since-badge">Ruby 2.6.0 から</span></dt>
-<dt class="method-heading"><code>self % s -&gt; Enumerator::ArithmeticSequence</code><span class="method-since-badge">Ruby 2.6.0 から</span></dt>
+<dt class="method-heading" id="I_--25"><code>self % s -&gt; Enumerator</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Range/i/=25.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-25">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>self % s -&gt; Enumerator::ArithmeticSequence</code></dt>
 <dt class="rbs-signature"><code>(<a href="../class/Numeric.html">Numeric</a> | int n) &rarr; <a href="../class/Enumerator.html">Enumerator</a>[Elem, self]</code></dt>
 <dt class="rbs-signature"><code>(<a href="../class/Numeric.html">Numeric</a> | int n) { (Elem element) &rarr; void } &rarr; self</code></dt>
 <dd class="method-description">
 <p>
-範囲内の要素を s おきに繰り返します。
+範囲内の要素を s おきに繰り返す <a href="../class/Enumerator.html">Enumerator</a> を返します。ブロックを指定しない <a href="../method/Range/i/step.html">Range#step</a> と同じです。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>s</code>:</dt>
 <dd>
-次のステップへ遷移するたびに加算されるものを指定します。
+<a href="../method/Range/i/step.html">Range#step</a> の s と同じです。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-ブロックを指定した時は self を返します。
+数値の Range の時は <a href="../class/Enumerator=3a=3aArithmeticSequence.html">Enumerator::ArithmeticSequence</a> を返します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
-ブロックを指定しなかった時かつ数値の Range の時は <a href="../class/Enumerator=3a=3aArithmeticSequence.html">Enumerator::ArithmeticSequence</a> を返します。
-</dd>
-<dt>[RETURN]</dt>
-<dd>
-ブロックを指定しなかったその他の Range の時は <a href="../class/Enumerator.html">Enumerator</a> を返します。(例: String の Range)
+その他の Range の時は <a href="../class/Enumerator.html">Enumerator</a> を返します。(例: String の Range)
 </dd>
 </dl>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>
-<span class="c1"># =&gt; 1
-</span><span class="c1">#    4
-</span><span class="c1">#    7
-</span><span class="c1">#    10
-</span>
-<span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">..</span><span class="s2">"</span><span class="s2">f</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>
-<span class="c1"># =&gt; &quot;a&quot;
-</span><span class="c1">#    &quot;c&quot;
-</span><span class="c1">#    &quot;e&quot;
-</span>
-<span class="p">(</span><span class="mi">10</span><span class="o">..</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>
-<span class="c1"># =&gt; 10
-</span><span class="c1">#     7
-</span><span class="c1">#     4
-</span><span class="c1">#     1
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span><span class="p">)</span><span class="p">.</span><span class="nf">to_a</span>     <span class="c1"># =&gt; [1, 4, 7, 10]
+</span><span class="nb">p</span> <span class="p">(</span><span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">..</span><span class="s2">"</span><span class="s2">f</span><span class="s2">"</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">to_a</span>  <span class="c1"># =&gt; [&quot;a&quot;, &quot;c&quot;, &quot;e&quot;]
 </span></code></pre>
 <p>
-非数値の Range では、イテレーションに「要素 + s」を使用します。（文字列またはシンボルの Range で s に数値を指定した場合を除きます）
+[SEE_ALSO] <a href="../method/Range/i/step.html">Range#step</a>
 </p>
-<span class="caption">数値以外の Range に対する例</span>
-<pre class="highlight ruby"><code><span class="c1"># Time の Range は each でイテレートできない
-</span><span class="p">(</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">25</span><span class="p">)</span><span class="o">...</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">26</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span>t<span class="o">|</span> <span class="nb">p</span> t <span class="p">}</span>
-<span class="c1"># =&gt; 'Range#each': can't iterate from Time (TypeError)
-</span>
-<span class="c1"># step は使用可能
-</span><span class="p">(</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">25</span><span class="p">)</span><span class="o">...</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">26</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>t<span class="o">|</span> <span class="nb">p</span> t <span class="p">}</span>
-<span class="c1"># =&gt; 2024-12-25 00:00:00 UTC
-</span><span class="c1">#    2024-12-25 06:00:00 UTC
-</span><span class="c1">#    2024-12-25 12:00:00 UTC
-</span><span class="c1">#    2024-12-25 18:00:00 UTC
-</span>
-<span class="nb">p</span> <span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">..</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;a*&quot;, &quot;a**&quot;]
-</span></code></pre>
 </dd>
 
 
@@ -691,51 +656,21 @@ Ruby 2.7 以降の === は、文字列も <a href="../method/Range/i/cover=3f.ht
 
 
 <dt class="method-heading" id="I_BEGIN"><code>begin -&gt; object</code><span class="permalink">[<a href="../method/Range/i/begin.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-begin">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>first -&gt; object</code></dt>
 <dt class="rbs-signature"><code>() &rarr; Elem</code></dt>
 <dd class="method-description">
 <p>
-始端の要素を返します。始端を持たない範囲オブジェクトの場合、begin はnilを返しますが, first は例外 <a href="../class/RangeError.html">RangeError</a> が発生します。
+始端の要素を返します。始端を持たない範囲オブジェクトの場合、nil を返します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="c1"># 始端を持つ場合
 </span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">begin</span> <span class="c1"># =&gt; 1
 </span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">begin</span> <span class="c1"># =&gt; 1
-</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># =&gt; 1
-</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># =&gt; 1
 </span>
 <span class="c1"># 始端を持たない場合
 </span><span class="nb">p</span> <span class="p">(</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">begin</span> <span class="c1"># =&gt; nil
-</span><span class="p">(</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">first</span>   <span class="c1"># ~&gt; RangeError
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/Range/i/end.html">Range#end</a>
-</p>
-</dd>
-<dt class="method-heading" id="I_BEGIN"><code>first(n) -&gt; [object]</code><span class="permalink">[<a href="../method/Range/i/begin.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-begin">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-最初の n 要素を返します。範囲内に要素が含まれない場合は空の配列を返します。
-</p>
-<dl>
-<dt class='method-param'>[PARAM] <code>n</code>:</dt>
-<dd>
-取得する要素数を整数で指定します。整数以外のオブジェクトを指定した場合は to_int メソッドによる暗黙の型変換を試みます。
-</dd>
-<dt>[EXCEPTION] <code>TypeError</code>:</dt>
-<dd>
-引数に整数以外の(暗黙の型変換が行えない)オブジェクトを指定した場合に発生します。
-</dd>
-<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
-<dd>
-n に負の数を指定した場合に発生します。
-</dd>
-</dl>
-<span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">..</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">first</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; [10, 11, 12]
-</span></code></pre>
-<p>
-[SEE_ALSO] <a href="../method/Range/i/last.html">Range#last</a>, <a class="external" href="https://blade.ruby-lang.org/ruby-core/12697">[ruby-core:12697]</a>
+[SEE_ALSO] <a href="../method/Range/i/end.html">Range#end</a>, <a href="../method/Range/i/first.html">Range#first</a>
 </p>
 </dd>
 
@@ -990,49 +925,17 @@ succ メソッドを持たないクラスの範囲オブジェクトに対して
 
 
 <dt class="method-heading" id="I_END"><code>end -&gt; object</code><span class="permalink">[<a href="../method/Range/i/end.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-end">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>last -&gt; object</code></dt>
 <dt class="rbs-signature"><code>() &rarr; Elem</code></dt>
 <dd class="method-description">
 <p>
 終端の要素を返します。範囲オブジェクトが終端を含むかどうかは関係ありません。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">..</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span>    <span class="c1"># =&gt; 20
-</span><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">...</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span>   <span class="c1"># =&gt; 20
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">..</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">end</span>    <span class="c1"># =&gt; 20
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">...</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">end</span>   <span class="c1"># =&gt; 20
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/Range/i/begin.html">Range#begin</a>
-</p>
-</dd>
-<dt class="method-heading" id="I_END"><code>last(n) -&gt; [object]</code><span class="permalink">[<a href="../method/Range/i/end.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-end">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-最後の n 要素を返します。範囲内に要素が含まれない場合は空の配列を返します。
-</p>
-<dl>
-<dt class='method-param'>[PARAM] <code>n</code>:</dt>
-<dd>
-取得する要素数を整数で指定します。整数以外のオブジェクトを指定した場合は to_int メソッドによる暗黙の型変換を試みます。
-</dd>
-<dt>[EXCEPTION] <code>TypeError</code>:</dt>
-<dd>
-引数に整数以外の(暗黙の型変換が行えない)オブジェクトを指定した場合に発生します。
-</dd>
-<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
-<dd>
-n に負の数を指定した場合に発生します。
-</dd>
-</dl>
-<p>
-[注意] 引数を省略して実行した場合は、終端を含むかどうか
-(<a href="../method/Range/i/exclude_end=3f.html">Range#exclude_end?</a> の戻り値)に関わらず終端の要素を返す事に注意してください。
-</p>
-<span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">..</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; [18, 19, 20]
-</span><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">...</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; [17, 18, 19]
-</span></code></pre>
-<p>
-[SEE_ALSO] <a href="../method/Range/i/first.html">Range#first</a>
+[SEE_ALSO] <a href="../method/Range/i/begin.html">Range#begin</a>, <a href="../method/Range/i/last.html">Range#last</a>
 </p>
 </dd>
 
@@ -1094,6 +997,53 @@ true を返します。そうでない場合に false を返します。
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">exclude_end?</span>   <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">exclude_end?</span>  <span class="c1"># =&gt; true
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_FIRST"><code>first -&gt; object</code><span class="permalink">[<a href="../method/Range/i/first.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-first">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
+<dt class="rbs-signature"><code>() &rarr; Elem</code></dt>
+<dd class="method-description">
+<p>
+始端の要素を返します。始端を持たない範囲オブジェクトの場合、例外 <a href="../class/RangeError.html">RangeError</a> が発生します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="c1"># 始端を持つ場合
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">first</span> <span class="c1"># =&gt; 1
+</span>
+<span class="c1"># 始端を持たない場合
+</span><span class="p">(</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">first</span>   <span class="c1"># ~&gt; RangeError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Range/i/begin.html">Range#begin</a>, <a href="../method/Range/i/last.html">Range#last</a>
+</p>
+</dd>
+<dt class="method-heading" id="I_FIRST"><code>first(n) -&gt; [object]</code><span class="permalink">[<a href="../method/Range/i/first.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-first">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
+<dt class="rbs-signature"><code>(<a href="../class/Integer.html">Integer</a> n) &rarr; ::<a href="../class/Array.html">Array</a>[Elem]</code></dt>
+<dd class="method-description">
+<p>
+最初の n 要素を返します。範囲内に要素が含まれない場合は空の配列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>n</code>:</dt>
+<dd>
+取得する要素数を整数で指定します。整数以外のオブジェクトを指定した場合は to_int メソッドによる暗黙の型変換を試みます。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+引数に整数以外の(暗黙の型変換が行えない)オブジェクトを指定した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+n に負の数を指定した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">..</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">first</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; [10, 11, 12]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Range/i/last.html">Range#last</a>, <a class="external" href="https://blade.ruby-lang.org/ruby-core/12697">[ruby-core:12697]</a>
+</p>
 </dd>
 
 
@@ -1159,6 +1109,54 @@ self を文字列に変換します(始端と終端のオブジェクトは #ins
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">)</span><span class="p">.</span><span class="nf">inspect</span>    <span class="c1"># =&gt; &quot;1..5&quot;
 </span><span class="nb">p</span> <span class="p">(</span><span class="s2">"</span><span class="s2">1</span><span class="s2">"</span><span class="o">..</span><span class="s2">"</span><span class="s2">5</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">inspect</span>  <span class="c1"># =&gt; &quot;\&quot;1\&quot;..\&quot;5\&quot;&quot;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_LAST"><code>last -&gt; object</code><span class="permalink">[<a href="../method/Range/i/last.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-last">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
+<dt class="rbs-signature"><code>() &rarr; Elem</code></dt>
+<dd class="method-description">
+<p>
+終端の要素を返します。範囲オブジェクトが終端を含むかどうかは関係ありません。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">..</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span>    <span class="c1"># =&gt; 20
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">...</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span>   <span class="c1"># =&gt; 20
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Range/i/end.html">Range#end</a>, <a href="../method/Range/i/first.html">Range#first</a>
+</p>
+</dd>
+<dt class="method-heading" id="I_LAST"><code>last(n) -&gt; [object]</code><span class="permalink">[<a href="../method/Range/i/last.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-last">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
+<dt class="rbs-signature"><code>(<a href="../class/Integer.html">Integer</a> n) &rarr; ::<a href="../class/Array.html">Array</a>[Elem]</code></dt>
+<dd class="method-description">
+<p>
+最後の n 要素を返します。範囲内に要素が含まれない場合は空の配列を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>n</code>:</dt>
+<dd>
+取得する要素数を整数で指定します。整数以外のオブジェクトを指定した場合は to_int メソッドによる暗黙の型変換を試みます。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+引数に整数以外の(暗黙の型変換が行えない)オブジェクトを指定した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+n に負の数を指定した場合に発生します。
+</dd>
+</dl>
+<p>
+[注意] 引数を省略して実行した場合は、終端を含むかどうか
+(<a href="../method/Range/i/exclude_end=3f.html">Range#exclude_end?</a> の戻り値)に関わらず終端の要素を返す事に注意してください。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">..</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; [18, 19, 20]
+</span><span class="nb">p</span> <span class="p">(</span><span class="mi">10</span><span class="o">...</span><span class="mi">20</span><span class="p">)</span><span class="p">.</span><span class="nf">last</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># =&gt; [17, 18, 19]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Range/i/first.html">Range#first</a>
+</p>
 </dd>
 
 
@@ -1431,6 +1429,73 @@ self がイテレート可能でない場合に発生します。
 </span><span class="nb">p</span> <span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">..</span><span class="s2">"</span><span class="s2">z</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">size</span>  <span class="c1"># =&gt; nil
 </span><span class="nb">p</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="p">)</span><span class="p">.</span><span class="nf">size</span>     <span class="c1"># =&gt; Infinity
 </span><span class="p">(</span><span class="o">-</span><span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span><span class="o">..</span><span class="no">Float</span><span class="o">::</span><span class="no">INFINITY</span><span class="p">)</span><span class="p">.</span><span class="nf">size</span> <span class="c1"># =&gt; can't iterate from Float (TypeError)
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_STEP"><code>step(s = 1) {|item| ... } -&gt; self</code><span class="permalink">[<a href="../method/Range/i/step.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Range.html#method-i-step">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Range.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>step(s = 1) -&gt; Enumerator</code></dt>
+<dt class="method-heading"><code>step(s = 1) -&gt; Enumerator::ArithmeticSequence</code></dt>
+<dt class="rbs-signature"><code>(?<a href="../class/Numeric.html">Numeric</a> | int) &rarr; <a href="../class/Enumerator.html">Enumerator</a>[Elem, self]</code></dt>
+<dt class="rbs-signature"><code>(?<a href="../class/Numeric.html">Numeric</a> | int) { (Elem element) &rarr; void } &rarr; self</code></dt>
+<dt class="rbs-signature"><code>(untyped) &rarr; <a href="../class/Enumerator.html">Enumerator</a>[Elem, self]</code></dt>
+<dt class="rbs-signature"><code>(untyped) { (Elem element) &rarr; void } &rarr; self</code></dt>
+<dd class="method-description">
+<p>
+範囲内の要素を s おきに繰り返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>s</code>:</dt>
+<dd>
+次のステップへ遷移するたびに加算されるものを指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+ブロックを指定した時は self を返します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+ブロックを指定しなかった時かつ数値の Range の時は <a href="../class/Enumerator=3a=3aArithmeticSequence.html">Enumerator::ArithmeticSequence</a> を返します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+ブロックを指定しなかったその他の Range の時は <a href="../class/Enumerator.html">Enumerator</a> を返します。(例: String の Range)
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>
+<span class="c1"># =&gt; 1
+</span><span class="c1">#    4
+</span><span class="c1">#    7
+</span><span class="c1">#    10
+</span>
+<span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">..</span><span class="s2">"</span><span class="s2">f</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>
+<span class="c1"># =&gt; &quot;a&quot;
+</span><span class="c1">#    &quot;c&quot;
+</span><span class="c1">#    &quot;e&quot;
+</span>
+<span class="p">(</span><span class="mi">10</span><span class="o">..</span><span class="mi">0</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>v<span class="o">|</span> <span class="nb">p</span> v<span class="p">}</span>
+<span class="c1"># =&gt; 10
+</span><span class="c1">#     7
+</span><span class="c1">#     4
+</span><span class="c1">#     1
+</span></code></pre>
+<p>
+非数値の Range では、イテレーションに「要素 + s」を使用します。（文字列またはシンボルの Range で s に数値を指定した場合を除きます）
+</p>
+<span class="caption">数値以外の Range に対する例</span>
+<pre class="highlight ruby"><code><span class="c1"># Time の Range は each でイテレートできない
+</span><span class="p">(</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">25</span><span class="p">)</span><span class="o">...</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">26</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span>t<span class="o">|</span> <span class="nb">p</span> t <span class="p">}</span>
+<span class="c1"># =&gt; 'Range#each': can't iterate from Time (TypeError)
+</span>
+<span class="c1"># step は使用可能
+</span><span class="p">(</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">25</span><span class="p">)</span><span class="o">...</span><span class="no">Time</span><span class="p">.</span><span class="nf">utc</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">12</span>, <span class="mi">26</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>t<span class="o">|</span> <span class="nb">p</span> t <span class="p">}</span>
+<span class="c1"># =&gt; 2024-12-25 00:00:00 UTC
+</span><span class="c1">#    2024-12-25 06:00:00 UTC
+</span><span class="c1">#    2024-12-25 12:00:00 UTC
+</span><span class="c1">#    2024-12-25 18:00:00 UTC
+</span>
+<span class="nb">p</span> <span class="p">(</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span><span class="o">..</span><span class="p">)</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;a*&quot;, &quot;a**&quot;]
 </span></code></pre>
 </dd>
 

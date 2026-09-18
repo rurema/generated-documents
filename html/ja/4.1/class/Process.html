@@ -186,7 +186,7 @@ Process がプロセスを表現するクラスではなく、プロセスに対
 
 <li><a href="#M_MAXGROUPS">maxgroups</a></li>
 
-<li><a href="#M_MAXGROUPS">maxgroups=</a></li>
+<li><a href="#M_MAXGROUPS--3D">maxgroups=</a></li>
 
 <li><a href="#M_PID">pid</a></li>
 
@@ -212,13 +212,13 @@ Process がプロセスを表現するクラスではなく、プロセスに対
 
 <li><a href="#M_WAIT">wait</a></li>
 
-<li><a href="#M_WAIT">wait2</a></li>
+<li><a href="#M_WAIT2">wait2</a></li>
 
 <li><a href="#M_WAITALL">waitall</a></li>
 
 <li><a href="#M_WAIT">waitpid</a></li>
 
-<li><a href="#M_WAIT">waitpid2</a></li>
+<li><a href="#M_WAIT2">waitpid2</a></li>
 
 <li><a href="#M_WARMUP">warmup</a></li>
 
@@ -1457,8 +1457,25 @@ pid で指定されたプロセスにシグナルを送ります。signal
 
 
 <dt class="method-heading" id="M_MAXGROUPS"><code>maxgroups -&gt; Integer</code><span class="permalink">[<a href="../method/Process/m/maxgroups.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Process.html#method-c-maxgroups">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Process.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>maxgroups=(num)</code></dt>
 <dt class="rbs-signature"><code>() &rarr; <a href="../class/Integer.html">Integer</a></code></dt>
+<dd class="method-description">
+<p>
+設定できる補助グループ ID の数を返します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+メソッドが現在のプラットフォームで実装されていない場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Process/m/maxgroups=3d.html">Process?.maxgroups=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_MAXGROUPS--3D"><code>maxgroups=(num)</code><span class="permalink">[<a href="../method/Process/m/maxgroups=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Process.html#method-c-maxgroups-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Process.md">edit</a>]</span></dt>
+<dt class="rbs-signature"><code>(<a href="../class/Integer.html">Integer</a> arg0) &rarr; <a href="../class/Integer.html">Integer</a></code></dt>
 <dd class="method-description">
 <p>
 設定できる補助グループ ID の数を指定します。
@@ -1477,6 +1494,9 @@ pid で指定されたプロセスにシグナルを送ります。signal
 メソッドが現在のプラットフォームで実装されていない場合に発生します。
 </dd>
 </dl>
+<p>
+[SEE_ALSO] <a href="../method/Process/m/maxgroups.html">Process?.maxgroups</a>
+</p>
 </dd>
 
 
@@ -1848,15 +1868,11 @@ core ファイルのサイズ (バイト) (SUSv3)
 
 
 <dt class="method-heading" id="M_WAIT"><code>wait(pid = -1, flags = 0) -&gt; Integer | nil</code><span class="permalink">[<a href="../method/Process/m/wait.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Process.html#method-c-wait">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Process.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>wait2(pid = -1, flags = 0) -&gt; [Integer, Process::Status] | nil</code></dt>
 <dt class="method-heading"><code>waitpid(pid = -1, flags = 0) -&gt; Integer | nil</code></dt>
-<dt class="method-heading"><code>waitpid2(pid = -1, flags = 0) -&gt; [Integer, Process::Status] | nil</code></dt>
 <dt class="rbs-signature"><code>(?<a href="../class/Integer.html">Integer</a> pid, ?<a href="../class/Integer.html">Integer</a> flags) &rarr; <a href="../class/Integer.html">Integer</a></code></dt>
 <dd class="method-description">
 <p>
-pid で指定される特定の子プロセスの終了を待ち、そのプロセスが終了した時に pid を返します。
-wait2, waitpid2 は子プロセスの pid と終了ステータスを表す
-<a href="../class/Process=3a=3aStatus.html">Process::Status</a> オブジェクトの配列を返します。ノンブロッキングモードで子プロセスがまだ終了していない時には
+pid で指定される特定の子プロセスの終了を待ち、そのプロセスが終了した時に pid を返します。ノンブロッキングモードで子プロセスがまだ終了していない時には
 nil を返します。
 </p>
 <p>
@@ -1884,10 +1900,45 @@ flags はいつも nil または 0 を指定する必要があります。
 </dd>
 </dl>
 <pre class="highlight ruby"><code>pid <span class="o">=</span> <span class="nb">fork</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">wait</span> <span class="c1"># =&gt; 70024
+</span><span class="nb">p</span> <span class="vg">$?</span>           <span class="c1"># =&gt; #&lt;Process::Status: pid 70024 exit 0&gt;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Process/m/wait2.html">Process?.wait2</a>, <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/wait.html">wait(2)</a>, <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/waitpid.html">waitpid(2)</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_WAIT2"><code>wait2(pid = -1, flags = 0) -&gt; [Integer, Process::Status] | nil</code><span class="permalink">[<a href="../method/Process/m/wait2.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Process.html#method-c-wait2">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Process.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>waitpid2(pid = -1, flags = 0) -&gt; [Integer, Process::Status] | nil</code></dt>
+<dt class="rbs-signature"><code>(?<a href="../class/Integer.html">Integer</a> pid, ?<a href="../class/Integer.html">Integer</a> flags) &rarr; [ <a href="../class/Integer.html">Integer</a>, <a href="../class/Process=3a=3aStatus.html">Process::Status</a> ]</code></dt>
+<dd class="method-description">
+<p>
+pid で指定される特定の子プロセスの終了を待ち、そのプロセスが終了した時に子プロセスの pid と終了ステータスを表す <a href="../class/Process=3a=3aStatus.html">Process::Status</a> オブジェクトの配列を返します。ノンブロッキングモードで子プロセスがまだ終了していない時には
+nil を返します。
+</p>
+<p>
+<a href="../method/Kernel/v/=3f.html">$?</a> に終了した子プロセスの <a href="../class/Process=3a=3aStatus.html">Process::Status</a> オブジェクトがセットされます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>pid</code>:</dt>
+<dd>
+<a href="../method/Process/m/wait.html">Process?.wait</a> の pid と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>flags</code>:</dt>
+<dd>
+<a href="../method/Process/m/wait.html">Process?.wait</a> の flags と同じです。
+</dd>
+<dt>[EXCEPTION] <code>Errno::ECHILD</code>:</dt>
+<dd>
+子プロセスが存在しない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>pid <span class="o">=</span> <span class="nb">fork</span> <span class="p">{</span> <span class="nb">sleep</span> <span class="mi">1</span> <span class="p">}</span>
 <span class="nb">p</span> <span class="no">Process</span><span class="p">.</span><span class="nf">wait2</span> <span class="c1"># =&gt; [70024, #&lt;Process::Status: pid 70024 exit 0&gt;]
 </span></code></pre>
 <p>
-[SEE_ALSO] <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/wait.html">wait(2)</a>, <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/waitpid.html">waitpid(2)</a>
+[SEE_ALSO] <a href="../method/Process/m/wait.html">Process?.wait</a>, <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/wait.html">wait(2)</a>, <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/waitpid.html">waitpid(2)</a>
 </p>
 </dd>
 

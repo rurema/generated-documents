@@ -3,8 +3,6 @@
 ### def step(s = 1) {|item| ... } -> self
 ### def step(s = 1) -> Enumerator
 ### def step(s = 1) -> Enumerator::ArithmeticSequence
-### def %(s)        -> Enumerator
-### def %(s)        -> Enumerator::ArithmeticSequence
 
 範囲内の要素を s おきに繰り返します。
 

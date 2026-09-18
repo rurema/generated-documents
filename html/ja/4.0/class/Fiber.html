@@ -280,7 +280,7 @@ Ruby 3.0 から、ファイバーはブロッキングとノンブロッキン�
 
 <li><a href="#I_STORAGE">storage</a></li>
 
-<li><a href="#I_STORAGE">storage=</a></li>
+<li><a href="#I_STORAGE--3D">storage=</a></li>
 
 <li><a href="#I_TRANSFER">transfer</a></li>
 
@@ -895,11 +895,10 @@ f <span class="o">=</span> <span class="no">Fiber</span><span class="p">.</span>
 
 
 <dt class="method-heading" id="I_STORAGE"><code>storage -&gt; Hash | nil</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Fiber/i/storage.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Fiber.html#method-i-storage">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>storage=(hash)</code></dt>
 <dt class="rbs-signature"><code>() &rarr; <a href="../class/Hash.html">Hash</a>[interned, untyped]</code></dt>
 <dd class="method-description">
 <p>
-<code>self</code> が表すファイバーの fiber storage を取得、設定します。
+<code>self</code> が表すファイバーの fiber storage を取得します。
 </p>
 <p>
 fiber storage はファイバーごとに持てる記憶領域です。
@@ -910,6 +909,37 @@ fiber storage はファイバーを起点とする実行単位の中だけで共
 個々の値の読み書きには <a href="../method/Fiber/s/=5b=5d.html">Fiber.[]</a> と <a href="../method/Fiber/s/=5b=5d=3d.html">Fiber.[]=</a> を使います。
 storage が返すのは複製なので、返り値を変更しても fiber storage には反映されません。まだ fiber storage を持たない場合は nil を返します。
 </p>
+<dl>
+<dt>[RETURN]</dt>
+<dd>
+fiber storage の複製を返します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<a href="../method/Fiber/s/current.html">Fiber.current</a> 以外のファイバーに対して呼んだ場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">storage</span> <span class="c1"># =&gt; {key: 1}
+</span>
+<span class="c1"># 返り値は複製なので、変更しても fiber storage には影響しない
+</span><span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">storage</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span>           <span class="c1"># =&gt; 1
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Fiber/s/new.html">Fiber.new</a>, <a href="../method/Fiber/i/storage=3d.html">Fiber#storage=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_STORAGE--3D"><code>storage=(hash)</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/Fiber/i/storage=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Fiber.html#method-i-storage-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Fiber.md">edit</a>]</span></dt>
+<dt class="rbs-signature"><code>(<a href="../class/Hash.html">Hash</a>[interned, untyped]) &rarr; <a href="../class/Hash.html">Hash</a>[interned, untyped]</code></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が表すファイバーの fiber storage を設定します。
+fiber storage については <a href="../method/Fiber/i/storage.html">Fiber#storage</a> を参照してください。
+</p>
 <p>
 storage= は実験的な機能です。呼び出すと実験的な機能である旨の警告が出ます。警告は <code>-W:no-experimental</code> オプションで抑制できます。
 </p>
@@ -919,24 +949,12 @@ storage= は実験的な機能です。呼び出すと実験的な機能であ�
 設定する <a href="../class/Hash.html">Hash</a> を指定します。キーは <a href="../class/Symbol.html">Symbol</a> で指定します。
 nil を指定すると fiber storage を空にします。
 </dd>
-<dt>[RETURN]</dt>
-<dd>
-storage は fiber storage の複製を返します。
-</dd>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
 <a href="../method/Fiber/s/current.html">Fiber.current</a> 以外のファイバーに対して呼んだ場合に発生します。
 </dd>
 </dl>
-<span class="caption">例: 取得</span>
-<pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="nb">p</span> <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">storage</span> <span class="c1"># =&gt; {key: 1}
-</span>
-<span class="c1"># 返り値は複製なので、変更しても fiber storage には影響しない
-</span><span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">storage</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span>           <span class="c1"># =&gt; 1
-</span></code></pre>
-<span class="caption">例: 設定</span>
+<span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="no">Fiber</span><span class="p">[</span><span class="ss">:key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 
 <span class="no">Fiber</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">storage</span> <span class="o">=</span> <span class="p">{</span><span class="ss">other:</span> <span class="mi">2</span><span class="p">}</span> <span class="c1"># 実験的な機能である旨の警告が出る
@@ -944,7 +962,7 @@ storage は fiber storage の複製を返します。
 </span><span class="nb">p</span> <span class="no">Fiber</span><span class="p">[</span><span class="ss">:other</span><span class="p">]</span> <span class="c1"># =&gt; 2
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../method/Fiber/s/new.html">Fiber.new</a>
+[SEE_ALSO] <a href="../method/Fiber/s/new.html">Fiber.new</a>, <a href="../method/Fiber/i/storage.html">Fiber#storage</a>
 </p>
 </dd>
 

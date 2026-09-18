@@ -1,6 +1,5 @@
 # Thread#report_on_exception=
 
-### def report_on_exception               -> bool
 ### def report_on_exception=(newstate)
 
 真の場合、そのスレッドが例外によって終了した時に、その内容を $stderr に報告します。
@@ -23,4 +22,4 @@ b.report_on_exception = false
 p b.run # => #<Thread:0x00007fc3f48aefc0 (irb):4 dead>
 ```
 
-- **SEE** [Thread.report_on_exception](../../../method/Thread/s/report_on_exception.md)
+- **SEE** [Thread#report_on_exception](../../../method/Thread/i/report_on_exception.md), [Thread.report_on_exception](../../../method/Thread/s/report_on_exception.md)

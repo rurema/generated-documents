@@ -1,6 +1,5 @@
 # Dir.glob
 
-### def Dir.[](*pattern, base: nil, sort: true)                            -> [String]
 ### def Dir.glob(pattern, flags = 0, base: nil, sort: true)                -> [String]
 ### def Dir.glob(pattern, flags = 0, base: nil, sort: true) {|file| ...}   -> nil
 

@@ -5,7 +5,6 @@
 ## Class Methods
 
 - [\[\]](../method/Dir/s/=5b=5d.md)
-- [glob](../method/Dir/s/glob.md)
 - [chdir](../method/Dir/s/chdir.md)
 - [children](../method/Dir/s/children.md)
 - [chroot](../method/Dir/s/chroot.md)
@@ -21,6 +20,7 @@
 - [foreach](../method/Dir/s/foreach.md)
 - [getwd](../method/Dir/s/getwd.md)
 - [pwd](../method/Dir/s/pwd.md)
+- [glob](../method/Dir/s/glob.md)
 - [home](../method/Dir/s/home.md)
 - [mkdir](../method/Dir/s/mkdir.md)
 - [mktmpdir](../method/Dir/s/mktmpdir.md)
@@ -42,6 +42,6 @@
 - [pos](../method/Dir/i/pos.md)
 - [tell](../method/Dir/i/tell.md)
 - [pos=](../method/Dir/i/pos=3d.md)
-- [seek](../method/Dir/i/seek.md)
 - [read](../method/Dir/i/read.md)
 - [rewind](../method/Dir/i/rewind.md)
+- [seek](../method/Dir/i/seek.md)

@@ -1,0 +1,31 @@
+names=wait2,waitpid2
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/Process.md
+since_by_name=
+until_by_name=
+rbs_sig={"overloads":[{"segments":[["t","(?"],["c","Integer"],["t"," pid, ?"],["c","Integer"],["t"," flags) -> [ "],["c","Integer"],["t",", "],["c","Process::Status"],["t"," ]"]],"params":["pid","flags"],"arity":[0,2]}]}
+
+### module_function def wait2(pid = -1, flags = 0)      -> [Integer, Process::Status] | nil
+### module_function def waitpid2(pid = -1, flags = 0)   -> [Integer, Process::Status] | nil
+
+pid で指定される特定の子プロセスの終了を待ち、そのプロセスが終了した時に
+子プロセスの pid と終了ステータスを表す [c:Process::Status] オブジェクトの配列を返します。
+ノンブロッキングモードで子プロセスがまだ終了していない時には
+nil を返します。
+
+[m:$?] に終了した子プロセスの [c:Process::Status] オブジェクトがセットされます。
+
+- **param** `pid` -- [m:Process?.wait] の pid と同じです。
+
+- **param** `flags` -- [m:Process?.wait] の flags と同じです。
+
+- **raise** `Errno::ECHILD` -- 子プロセスが存在しない場合に発生します。
+
+```ruby
+pid = fork { sleep 1 }
+p Process.wait2 # => [70024, #<Process::Status: pid 70024 exit 0>]
+```
+
+- **SEE** [m:Process?.wait], [man:wait(2)], [man:waitpid(2)]
+

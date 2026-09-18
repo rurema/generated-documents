@@ -1,27 +1,6 @@
 # String#concat
 
-### def <<(other) -> self
 ### def concat(other) -> self
-
-self に文字列 other を破壊的に連結します。
-other が 整数である場合は other.chr(self.encoding) 相当の文字を末尾に追加します。
-
-self を返します。
-
-- **param** `other` --    文字列もしくは 0 以上の整数
-
-```ruby title="例"
-str = "string"
-str.concat "XXX"
-p str    # => "stringXXX"
-
-str << "YYY"
-p str    # => "stringXXXYYY"
-
-str << 65  # 文字AのASCIIコード
-p str    # => "stringXXXYYYA"
-```
-
 ### def concat(*arguments) -> self
 
 self に複数の文字列を破壊的に連結します。
