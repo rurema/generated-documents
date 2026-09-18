@@ -1,6 +1,5 @@
 # Thread.abort_on_exception=
 
-### def Thread.abort_on_exception             -> bool
 ### def Thread.abort_on_exception=(newstate)
 
 真の時は、いずれかのスレッドが例外によって終了した時に、その例外をメインスレッドで再度発生させます。メインスレッドがその例外を捕捉しない限り、結果としてインタプリタ全体が終了します。false の場合、あるスレッドで起こった例外は、[Thread#join](../../../method/Thread/i/join.md)
@@ -17,3 +16,5 @@ p Thread.abort_on_exception # => false
 Thread.abort_on_exception = true
 p Thread.abort_on_exception # => true
 ```
+
+- **SEE** [Thread.abort_on_exception](../../../method/Thread/s/abort_on_exception.md)

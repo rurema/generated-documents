@@ -1,6 +1,5 @@
 # Dir#seek
 
-### def pos=(pos)
 ### def seek(pos)    -> self
 
 ディレクトリストリームの読み込み位置を pos に移動させます。
@@ -19,3 +18,5 @@ Dir.open("testdir") do |d|
   p d.read                 # => ".."
 end
 ```
+
+- **SEE** [Dir#pos=](../../../method/Dir/i/pos=3d.md)

@@ -86,10 +86,10 @@ p Rational(2, 3) / (-4) # => (-1/6)
 - [to_d](../method/Rational/i/to_d.md)
 - [to_f](../method/Rational/i/to_f.md)
 - [to_i](../method/Rational/i/to_i.md)
-- [truncate](../method/Rational/i/truncate.md)
 - [to_json](../method/Rational/i/to_json.md)
 - [to_r](../method/Rational/i/to_r.md)
 - [to_s](../method/Rational/i/to_s.md)
+- [truncate](../method/Rational/i/truncate.md)
 
 ## Private Class Methods
 

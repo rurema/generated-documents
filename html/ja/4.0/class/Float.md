@@ -87,8 +87,8 @@ p Math.atan2(1, -0.0) # => -3.141592653589793
 - [to_d](../method/Float/i/to_d.md)
 - [to_f](../method/Float/i/to_f.md)
 - [to_i](../method/Float/i/to_i.md)
-- [truncate](../method/Float/i/truncate.md)
 - [to_r](../method/Float/i/to_r.md)
+- [truncate](../method/Float/i/truncate.md)
 - [zero?](../method/Float/i/zero=3f.md)
 
 ## Constants

@@ -1,13 +1,9 @@
 # Process?.wait
 
 ### module_function def wait(pid = -1, flags = 0)       -> Integer | nil
-### module_function def wait2(pid = -1, flags = 0)      -> [Integer, Process::Status] | nil
 ### module_function def waitpid(pid = -1, flags = 0)    -> Integer | nil
-### module_function def waitpid2(pid = -1, flags = 0)   -> [Integer, Process::Status] | nil
 
 pid で指定される特定の子プロセスの終了を待ち、そのプロセスが終了した時に pid を返します。
-wait2, waitpid2 は子プロセスの pid と終了ステータスを表す
-[Process::Status](../../../class/Process=3a=3aStatus.md) オブジェクトの配列を返します。
 ノンブロッキングモードで子プロセスがまだ終了していない時には
 nil を返します。
 
@@ -29,7 +25,8 @@ nil を返します。
 
 ```ruby
 pid = fork { sleep 1 }
-p Process.wait2 # => [70024, #<Process::Status: pid 70024 exit 0>]
+p Process.wait # => 70024
+p $?           # => #<Process::Status: pid 70024 exit 0>
 ```
 
-- **SEE** [man:wait(2)], [man:waitpid(2)]
+- **SEE** [Process?.wait2](../../../method/Process/m/wait2.md), [man:wait(2)], [man:waitpid(2)]

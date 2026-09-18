@@ -160,7 +160,7 @@
 
 <li><a href="#S_GETWD">getwd</a></li>
 
-<li><a href="#S_--5B--5D">glob</a></li>
+<li><a href="#S_GLOB">glob</a></li>
 
 <li><a href="#S_HOME">home</a></li>
 
@@ -207,7 +207,7 @@
 
 <li><a href="#I_REWIND">rewind</a></li>
 
-<li><a href="#I_POS--3D">seek</a></li>
+<li><a href="#I_SEEK">seek</a></li>
 
 <li><a href="#I_POS">tell</a></li>
 
@@ -437,117 +437,32 @@
 <dl>
 
 <dt class="method-heading" id="S_--5B--5D"><code>self[*pattern, base: nil, sort: true] -&gt; [String]</code><span class="permalink">[<a href="../method/Dir/s/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-c-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>glob(pattern, flags = 0, base: nil, sort: true) -&gt; [String]</code></dt>
-<dt class="method-heading"><code>glob(pattern, flags = 0, base: nil, sort: true) {|file| ...} -&gt; nil</code></dt>
 <dt class="rbs-signature"><code>(*path patterns, ?base: path?, ?sort: bool) &rarr; <a href="../class/Array.html">Array</a>[<a href="../class/String.html">String</a>]</code></dt>
 <dd class="method-description">
 <p>
-ワイルドカードの展開を行い、パターンにマッチするファイル名を文字列の配列として返します。パターンにマッチするファイルがない場合は空の配列を返します。
-</p>
-<p>
-ブロックが与えられたときはワイルドカードにマッチしたファイルを引数にそのブロックを 1 つずつ評価して nil を返します
+ワイルドカードの展開を行い、パターンにマッチするファイル名を文字列の配列として返します。
+flags を指定しない <a href="../method/Dir/s/glob.html">Dir.glob</a> と同じです。パターンやワイルドカードの詳細は <a href="../method/Dir/s/glob.html">Dir.glob</a> を参照してください。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>pattern</code>:</dt>
 <dd>
-パターンを文字列か配列で指定します。配列を指定すると複数のパターンを指定できます。
+パターンを文字列で指定します。複数指定できます。
 </dd>
-<dt class='method-param'>[PARAM] <code>flags</code>:</dt>
-<dd>
-<a href="../method/File/s/fnmatch.html">File.fnmatch</a> に指定できるフラグと同様のフラグを指定できます。このフラグを指定することでマッチの挙動を変更できます。
-</dd>
-</dl>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span>                    <span class="c1">#=&gt; [&quot;bar&quot;, &quot;foo&quot;]
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span>, <span class="no">File</span><span class="o">::</span><span class="no">FNM_DOTMATCH</span><span class="p">)</span>  <span class="c1">#=&gt; [&quot;.&quot;, &quot;bar&quot;, &quot;foo&quot;]
-</span></code></pre>
-<dl>
 <dt class='method-param'>[PARAM] <code>base</code>:</dt>
 <dd>
-カレントディレクトリの代わりに相対パスの基準にするベースディレクトリを指定します。指定した場合、結果の頭にはベースディレクトリはつかないので、絶対パスが必要な場合はベースディレクトリを追加する必要があるでしょう。
+<a href="../method/Dir/s/glob.html">Dir.glob</a> の base と同じです。
 </dd>
 <dt class='method-param'>[PARAM] <code>sort</code>:</dt>
 <dd>
-true ならワイルドカードや文字セット(鈎括弧)にマッチした結果をバイナリとして昇順にソートします。
-false を指定するとソートせず Ruby 2.7 までと同じ挙動になります。
-true の場合でも、配列で指定した複数のパターンや波括弧での順番は保存されます。
+<a href="../method/Dir/s/glob.html">Dir.glob</a> の sort と同じです。
 </dd>
 </dl>
-<p>
-ワイルドカードには以下のものがあります。これらはバックスラッシュによりエスケープできます。ダブルクォートの文字列中では 2
-重にエスケープする必要があることに注意してください。ワイルドカードはデフォルトではファイル名の先頭の &quot;.&quot; にマッチしません。
-</p>
-<dl>
-<dt><code>*</code></dt>
-<dd>
-<p>
-空文字列を含む任意の文字列と一致します。
-</p>
-</dd>
-<dt><code>?</code></dt>
-<dd>
-<p>
-任意の一文字と一致します。
-</p>
-</dd>
-<dt><code>[ ]</code></dt>
-<dd>
-<p>
-鈎括弧内のいずれかの文字と一致します。- でつながれた文字は範囲を表します。鈎括弧の中の最初の文字が
-^ である時には含まれない文字と一致します。
-^ の代わりに ksh や POSIX shell のように ! も同じ意味で使えます。
-</p>
-</dd>
-<dt><code>{ }</code></dt>
-<dd>
-<p>
-コンマで区切られた文字列の組合せに展開します。例えば、
-foo{a,b,c} は fooa, foob, fooc
-に展開されそれぞれに対してマッチ判定を行います。
-</p>
-<p>
-括弧は入れ子にできます。例えば、
-{foo,bar{foo,bar}} は foo, barfoo, barbar
-のそれぞれにマッチします。
-</p>
-</dd>
-<dt><code>**/</code></dt>
-<dd>
-<p>
-ワイルドカード */ の0回以上の繰り返しを意味し、ディレクトリを再帰的にたどってマッチを行います。例えば,
-foo/**/bar は foo/bar, foo/*/bar,
-foo/*/*/bar ... (以下無限に続く)に対してそれぞれマッチ判定を行います。
-</p>
-<pre class="highlight ruby"><code><span class="c1"># 一般的な例
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span>          <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">./b*</span><span class="s2">"</span><span class="p">)</span>       <span class="c1"># =&gt; [&quot;./bar&quot;, &quot;./baz&quot;]      先頭に &quot;./&quot; が付いている。
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">*/</span><span class="s2">"</span><span class="p">)</span>         <span class="c1"># =&gt; [&quot;foo/&quot;]                ディレクトリのみにマッチする。
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">wrong_name</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; []                      マッチしないと空の配列を返す。
-</span>
-<span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">b*</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f <span class="p">}</span>
-
-<span class="c1"># =&gt; &quot;bar&quot;
-</span><span class="c1">#   &quot;baz&quot;
-</span>
-<span class="c1"># 複数のパターンを指定する例
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">f*</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b*</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;]
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">[</span><span class="s2">"</span><span class="s2">f*</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b*</span><span class="s2">"</span><span class="p">]</span>        <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;]
-</span>
-<span class="c1"># ワイルドカードの例
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span>          <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;]
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">fo?</span><span class="s2">"</span><span class="p">)</span>        <span class="c1"># =&gt; [&quot;foo&quot;]
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">[^f]*</span><span class="s2">"</span><span class="p">)</span>      <span class="c1"># =&gt; [&quot;bar&quot;]
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">{b,f}*</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># =&gt; [&quot;bar&quot;, &quot;foo&quot;]
-</span>
-<span class="c1"># ベースディレクトリの例
-</span>rbfiles <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="s2">**</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">*.rb</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span>rbfiles<span class="p">)</span>                 <span class="c1"># =&gt; [&quot;main.rb&quot;,
-</span>                                    <span class="c1">#    &quot;lib/song.rb&quot;,
-</span>                                    <span class="c1">#    &quot;lib/song/karaoke.rb&quot;]
-</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span>rbfiles, <span class="ss">base:</span> <span class="s2">"</span><span class="s2">lib</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; [&quot;song.rb&quot;,
-</span>                                    <span class="c1">#    &quot;song/karaoke.rb&quot;]
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Dir</span><span class="p">[</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">]</span>           <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;]
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">[</span><span class="s2">"</span><span class="s2">f*</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b*</span><span class="s2">"</span><span class="p">]</span>    <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;]
 </span></code></pre>
-</dd>
-</dl>
+<p>
+[SEE_ALSO] <a href="../method/Dir/s/glob.html">Dir.glob</a>
+</p>
 </dd>
 
 
@@ -962,6 +877,121 @@ POSIX 非対応のプラットフォームでは実装されておらず、
 </dd>
 
 
+<dt class="method-heading" id="S_GLOB"><code>glob(pattern, flags = 0, base: nil, sort: true) -&gt; [String]</code><span class="permalink">[<a href="../method/Dir/s/glob.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-c-glob">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>glob(pattern, flags = 0, base: nil, sort: true) {|file| ...} -&gt; nil</code></dt>
+<dt class="rbs-signature"><code>(array[path] | path pattern, ?int flags, ?base: path?, ?sort: bool) &rarr; <a href="../class/Array.html">Array</a>[<a href="../class/String.html">String</a>]</code></dt>
+<dt class="rbs-signature"><code>(array[path] | path pattern, ?int flags, ?base: path?, ?sort: bool) { (<a href="../class/String.html">String</a> pathname) &rarr; void } &rarr; nil</code></dt>
+<dd class="method-description">
+<p>
+ワイルドカードの展開を行い、パターンにマッチするファイル名を文字列の配列として返します。パターンにマッチするファイルがない場合は空の配列を返します。
+</p>
+<p>
+ブロックが与えられたときはワイルドカードにマッチしたファイルを引数にそのブロックを 1 つずつ評価して nil を返します
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>pattern</code>:</dt>
+<dd>
+パターンを文字列か配列で指定します。配列を指定すると複数のパターンを指定できます。
+</dd>
+<dt class='method-param'>[PARAM] <code>flags</code>:</dt>
+<dd>
+<a href="../method/File/s/fnmatch.html">File.fnmatch</a> に指定できるフラグと同様のフラグを指定できます。このフラグを指定することでマッチの挙動を変更できます。
+</dd>
+</dl>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span>                    <span class="c1">#=&gt; [&quot;bar&quot;, &quot;foo&quot;]
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span>, <span class="no">File</span><span class="o">::</span><span class="no">FNM_DOTMATCH</span><span class="p">)</span>  <span class="c1">#=&gt; [&quot;.&quot;, &quot;bar&quot;, &quot;foo&quot;]
+</span></code></pre>
+<dl>
+<dt class='method-param'>[PARAM] <code>base</code>:</dt>
+<dd>
+カレントディレクトリの代わりに相対パスの基準にするベースディレクトリを指定します。指定した場合、結果の頭にはベースディレクトリはつかないので、絶対パスが必要な場合はベースディレクトリを追加する必要があるでしょう。
+</dd>
+<dt class='method-param'>[PARAM] <code>sort</code>:</dt>
+<dd>
+true ならワイルドカードや文字セット(鈎括弧)にマッチした結果をバイナリとして昇順にソートします。
+false を指定するとソートせず Ruby 2.7 までと同じ挙動になります。
+true の場合でも、配列で指定した複数のパターンや波括弧での順番は保存されます。
+</dd>
+</dl>
+<p>
+ワイルドカードには以下のものがあります。これらはバックスラッシュによりエスケープできます。ダブルクォートの文字列中では 2
+重にエスケープする必要があることに注意してください。ワイルドカードはデフォルトではファイル名の先頭の &quot;.&quot; にマッチしません。
+</p>
+<dl>
+<dt><code>*</code></dt>
+<dd>
+<p>
+空文字列を含む任意の文字列と一致します。
+</p>
+</dd>
+<dt><code>?</code></dt>
+<dd>
+<p>
+任意の一文字と一致します。
+</p>
+</dd>
+<dt><code>[ ]</code></dt>
+<dd>
+<p>
+鈎括弧内のいずれかの文字と一致します。- でつながれた文字は範囲を表します。鈎括弧の中の最初の文字が
+^ である時には含まれない文字と一致します。
+^ の代わりに ksh や POSIX shell のように ! も同じ意味で使えます。
+</p>
+</dd>
+<dt><code>{ }</code></dt>
+<dd>
+<p>
+コンマで区切られた文字列の組合せに展開します。例えば、
+foo{a,b,c} は fooa, foob, fooc
+に展開されそれぞれに対してマッチ判定を行います。
+</p>
+<p>
+括弧は入れ子にできます。例えば、
+{foo,bar{foo,bar}} は foo, barfoo, barbar
+のそれぞれにマッチします。
+</p>
+</dd>
+<dt><code>**/</code></dt>
+<dd>
+<p>
+ワイルドカード */ の0回以上の繰り返しを意味し、ディレクトリを再帰的にたどってマッチを行います。例えば,
+foo/**/bar は foo/bar, foo/*/bar,
+foo/*/*/bar ... (以下無限に続く)に対してそれぞれマッチ判定を行います。
+</p>
+<pre class="highlight ruby"><code><span class="c1"># 一般的な例
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span>          <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">./b*</span><span class="s2">"</span><span class="p">)</span>       <span class="c1"># =&gt; [&quot;./bar&quot;, &quot;./baz&quot;]      先頭に &quot;./&quot; が付いている。
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">*/</span><span class="s2">"</span><span class="p">)</span>         <span class="c1"># =&gt; [&quot;foo/&quot;]                ディレクトリのみにマッチする。
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">wrong_name</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; []                      マッチしないと空の配列を返す。
+</span>
+<span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">b*</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span>f<span class="o">|</span> <span class="nb">p</span> f <span class="p">}</span>
+
+<span class="c1"># =&gt; &quot;bar&quot;
+</span><span class="c1">#   &quot;baz&quot;
+</span>
+<span class="c1"># 複数のパターンを指定する例
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">f*</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b*</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;]
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">[</span><span class="s2">"</span><span class="s2">f*</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">b*</span><span class="s2">"</span><span class="p">]</span>        <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;]
+</span>
+<span class="c1"># ワイルドカードの例
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">*</span><span class="s2">"</span><span class="p">)</span>          <span class="c1"># =&gt; [&quot;foo&quot;, &quot;bar&quot;]
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">fo?</span><span class="s2">"</span><span class="p">)</span>        <span class="c1"># =&gt; [&quot;foo&quot;]
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">[^f]*</span><span class="s2">"</span><span class="p">)</span>      <span class="c1"># =&gt; [&quot;bar&quot;]
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"</span><span class="s2">{b,f}*</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># =&gt; [&quot;bar&quot;, &quot;foo&quot;]
+</span>
+<span class="c1"># ベースディレクトリの例
+</span>rbfiles <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="s2">**</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">*.rb</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span>rbfiles<span class="p">)</span>                 <span class="c1"># =&gt; [&quot;main.rb&quot;,
+</span>                                    <span class="c1">#    &quot;lib/song.rb&quot;,
+</span>                                    <span class="c1">#    &quot;lib/song/karaoke.rb&quot;]
+</span><span class="nb">p</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span>rbfiles, <span class="ss">base:</span> <span class="s2">"</span><span class="s2">lib</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; [&quot;song.rb&quot;,
+</span>                                    <span class="c1">#    &quot;song/karaoke.rb&quot;]
+</span></code></pre>
+</dd>
+</dl>
+</dd>
+
+
 <dt class="method-heading" id="S_HOME"><code>home -&gt; String | nil</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Dir/s/home.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-c-home">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>home(user) -&gt; String | nil</code></dt>
 <dt class="rbs-signature"><code>(?string? user) &rarr; <a href="../class/String.html">String</a></code></dt>
@@ -1307,7 +1337,6 @@ self の情報を人間に読みやすい文字列にして返します。
 
 
 <dt class="method-heading" id="I_POS--3D"><code>pos=(pos)</code><span class="permalink">[<a href="../method/Dir/i/pos=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-i-pos-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>seek(pos) -&gt; self</code></dt>
 <dt class="rbs-signature"><code>[U &lt; _ToInt] (U pos) &rarr; U</code></dt>
 <dd class="method-description">
 <p>
@@ -1329,10 +1358,13 @@ pos は <a href="../method/Dir/i/tell.html">Dir#tell</a> で与えられた値�
   <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span>                 <span class="c1"># =&gt; &quot;.&quot;
 </span>  i <span class="o">=</span> d<span class="p">.</span><span class="nf">tell</span>               <span class="c1"># =&gt; 12
 </span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span>                 <span class="c1"># =&gt; &quot;..&quot;
-</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">seek</span><span class="p">(</span>i<span class="p">)</span>              <span class="c1"># =&gt; #&lt;Dir:0x401b3c40&gt;
-</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span>                 <span class="c1"># =&gt; &quot;..&quot;
+</span>  d<span class="p">.</span><span class="nf">pos</span> <span class="o">=</span> i
+  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span>                 <span class="c1"># =&gt; &quot;..&quot;
 </span><span class="k">end</span>
 </code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Dir/i/seek.html">Dir#seek</a>
+</p>
 </dd>
 
 
@@ -1389,6 +1421,38 @@ pos は <a href="../method/Dir/i/tell.html">Dir#tell</a> で与えられた値�
 </span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span>   <span class="c1"># =&gt; &quot;.&quot;
 </span><span class="k">end</span>
 </code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_SEEK"><code>seek(pos) -&gt; self</code><span class="permalink">[<a href="../method/Dir/i/seek.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-i-seek">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
+<dt class="rbs-signature"><code>(int pos) &rarr; self</code></dt>
+<dd class="method-description">
+<p>
+ディレクトリストリームの読み込み位置を pos に移動させます。
+pos は <a href="../method/Dir/i/tell.html">Dir#tell</a> で与えられた値でなければなりません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>pos</code>:</dt>
+<dd>
+変更したい位置を整数で与えます。
+</dd>
+<dt>[EXCEPTION] <code>IOError</code>:</dt>
+<dd>
+既に自身が close している場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="no">Dir</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testdir</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>d<span class="o">|</span>
+  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span>                 <span class="c1"># =&gt; &quot;.&quot;
+</span>  i <span class="o">=</span> d<span class="p">.</span><span class="nf">tell</span>               <span class="c1"># =&gt; 12
+</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span>                 <span class="c1"># =&gt; &quot;..&quot;
+</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">seek</span><span class="p">(</span>i<span class="p">)</span>              <span class="c1"># =&gt; #&lt;Dir:0x401b3c40&gt;
+</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span>                 <span class="c1"># =&gt; &quot;..&quot;
+</span><span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Dir/i/pos=3d.html">Dir#pos=</a>
+</p>
 </dd>
 
 

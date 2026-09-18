@@ -1,11 +1,8 @@
 # Thread#priority=
 
-### def priority    -> Integer
 ### def priority=(val)
 
-スレッドの優先度を返します。この値が大きいほど優先度が高くなります。
-メインスレッドのデフォルト値は 0 です。新しく生成されたスレッドは親スレッドの
-priority を引き継ぎます。
+スレッドの優先度を設定します。この値が大きいほど優先度が高くなります。
 
 - **param** `val` -- スレッドの優先度を指定します。プラットフォームに依存します。
 
@@ -27,3 +24,5 @@ p sleep 1 # => 1
 p count1  # => 13809431
 p count2  # => 11571921
 ```
+
+- **SEE** [Thread#priority](../../../method/Thread/i/priority.md)

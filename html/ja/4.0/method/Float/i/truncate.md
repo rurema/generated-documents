@@ -1,6 +1,5 @@
 # Float#truncate
 
-### def to_i -> Integer
 ### def truncate(ndigits = 0) -> Integer | Float
 
 小数点以下を切り捨てて値を整数に変換して返します。
