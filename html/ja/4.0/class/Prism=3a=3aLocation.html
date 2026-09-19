@@ -152,11 +152,21 @@ loc <span class="o">=</span> node<span class="p">.</span><span class="nf">value<
 
 <li><a href="#I_ADJOIN">adjoin</a></li>
 
+<li><a href="#I_CACHED_END_CODE_UNITS_COLUMN">cached_end_code_units_column</a></li>
+
+<li><a href="#I_CACHED_END_CODE_UNITS_OFFSET">cached_end_code_units_offset</a></li>
+
+<li><a href="#I_CACHED_START_CODE_UNITS_COLUMN">cached_start_code_units_column</a></li>
+
+<li><a href="#I_CACHED_START_CODE_UNITS_OFFSET">cached_start_code_units_offset</a></li>
+
 <li><a href="#I_CHOP">chop</a></li>
 
 <li><a href="#I_COMMENTS">comments</a></li>
 
 <li><a href="#I_COPY">copy</a></li>
+
+<li><a href="#I_DECONSTRUCT_KEYS">deconstruct_keys</a></li>
 
 <li><a href="#I_END_CHARACTER_COLUMN">end_character_column</a></li>
 
@@ -173,6 +183,8 @@ loc <span class="o">=</span> node<span class="p">.</span><span class="nf">value<
 <li><a href="#I_END_OFFSET">end_offset</a></li>
 
 <li><a href="#I_JOIN">join</a></li>
+
+<li><a href="#I_LEADING_COMMENT">leading_comment</a></li>
 
 <li><a href="#I_LEADING_COMMENTS">leading_comments</a></li>
 
@@ -199,6 +211,8 @@ loc <span class="o">=</span> node<span class="p">.</span><span class="nf">value<
 <li><a href="#I_START_LINE_SLICE">start_line_slice</a></li>
 
 <li><a href="#I_START_OFFSET">start_offset</a></li>
+
+<li><a href="#I_TRAILING_COMMENT">trailing_comment</a></li>
 
 <li><a href="#I_TRAILING_COMMENTS">trailing_comments</a></li>
 
@@ -251,6 +265,110 @@ other が同じ範囲を表す <code>Prism::Location</code> であれば true �
 </dd>
 
 
+<dt class="method-heading" id="I_CACHED_END_CODE_UNITS_COLUMN"><code>cached_end_code_units_column(cache) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/cached_end_code_units_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Location.html#method-i-cached_end_code_units_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+キャッシュを使って、終了位置の、行頭からのコード単位での桁位置を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>cache</code>:</dt>
+<dd>
+<a href="../method/Prism=3a=3aResult/i/code_units_cache.html">Prism::Result#code_units_cache</a> で得たキャッシュを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = \&quot;あい\&quot; + 1\n</span><span class="s2">"</span><span class="p">)</span>
+loc <span class="o">=</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span>
+cache <span class="o">=</span> result<span class="p">.</span><span class="nf">code_units_cache</span><span class="p">(</span><span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_16LE</span><span class="p">)</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">cached_end_code_units_column</span><span class="p">(</span>cache<span class="p">)</span>
+<span class="c1"># =&gt; 12
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aResult/i/code_units_cache.html">Prism::Result#code_units_cache</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CACHED_END_CODE_UNITS_OFFSET"><code>cached_end_code_units_offset(cache) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/cached_end_code_units_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Location.html#method-i-cached_end_code_units_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+キャッシュを使って、終了位置の、指定エンコーディングのコード単位でのオフセットを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>cache</code>:</dt>
+<dd>
+<a href="../method/Prism=3a=3aResult/i/code_units_cache.html">Prism::Result#code_units_cache</a> で得たキャッシュを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = \&quot;あい\&quot; + 1\n</span><span class="s2">"</span><span class="p">)</span>
+loc <span class="o">=</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span>
+cache <span class="o">=</span> result<span class="p">.</span><span class="nf">code_units_cache</span><span class="p">(</span><span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_16LE</span><span class="p">)</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">cached_end_code_units_offset</span><span class="p">(</span>cache<span class="p">)</span>
+<span class="c1"># =&gt; 12
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aResult/i/code_units_cache.html">Prism::Result#code_units_cache</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CACHED_START_CODE_UNITS_COLUMN"><code>cached_start_code_units_column(cache) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/cached_start_code_units_column.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Location.html#method-i-cached_start_code_units_column">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+キャッシュを使って、開始位置の、行頭からのコード単位での桁位置を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>cache</code>:</dt>
+<dd>
+<a href="../method/Prism=3a=3aResult/i/code_units_cache.html">Prism::Result#code_units_cache</a> で得たキャッシュを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = \&quot;あい\&quot; + 1\n</span><span class="s2">"</span><span class="p">)</span>
+loc <span class="o">=</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span>
+cache <span class="o">=</span> result<span class="p">.</span><span class="nf">code_units_cache</span><span class="p">(</span><span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_16LE</span><span class="p">)</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">cached_start_code_units_column</span><span class="p">(</span>cache<span class="p">)</span>
+<span class="c1"># =&gt; 0
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aResult/i/code_units_cache.html">Prism::Result#code_units_cache</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CACHED_START_CODE_UNITS_OFFSET"><code>cached_start_code_units_offset(cache) -&gt; Integer</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/cached_start_code_units_offset.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Location.html#method-i-cached_start_code_units_offset">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+キャッシュを使って、開始位置の、指定エンコーディングのコード単位でのオフセットを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>cache</code>:</dt>
+<dd>
+<a href="../method/Prism=3a=3aResult/i/code_units_cache.html">Prism::Result#code_units_cache</a> で得たキャッシュを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = \&quot;あい\&quot; + 1\n</span><span class="s2">"</span><span class="p">)</span>
+loc <span class="o">=</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span>
+cache <span class="o">=</span> result<span class="p">.</span><span class="nf">code_units_cache</span><span class="p">(</span><span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_16LE</span><span class="p">)</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">cached_start_code_units_offset</span><span class="p">(</span>cache<span class="p">)</span>
+<span class="c1"># =&gt; 0
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aResult/i/code_units_cache.html">Prism::Result#code_units_cache</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_CHOP"><code>chop -&gt; Prism::Location</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/chop.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Location.html#method-i-chop">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -275,6 +393,30 @@ other が同じ範囲を表す <code>Prism::Location</code> であれば true �
 <p>
 指定した属性だけを差し替えた新しい <code>Prism::Location</code> を返します。
 </p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(keys) -&gt; Hash</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Location.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+パターンマッチのハッシュパターン(<code>case loc; in {start_offset:, end_offset:}</code>)で使われます。<code>start_offset</code>・<code>end_offset</code> をキーに持つハッシュを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>keys</code>:</dt>
+<dd>
+取り出したいキーの配列を指定します。すべて取り出す場合は nil を指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+loc <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">location</span>
+<span class="k">case</span> loc
+<span class="k">in</span> <span class="p">{</span><span class="ss">start_offset:</span>, <span class="ss">end_offset:</span><span class="p">}</span>
+  <span class="nb">p</span> <span class="p">[</span>start_offset, end_offset<span class="p">]</span>
+<span class="k">end</span>
+<span class="c1"># =&gt; [0, 5]
+</span></code></pre>
 </dd>
 
 
@@ -360,6 +502,37 @@ body <span class="o">=</span> <span class="no">Prism</span><span class="p">.</sp
 <span class="nb">p</span> body<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span>body<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span><span class="p">)</span><span class="p">.</span><span class="nf">slice</span>
 <span class="c1"># =&gt; &quot;foo = 1\nbar = 2&quot;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_LEADING_COMMENT"><code>leading_comment(comment) -&gt; ()</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/leading_comment.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Location.html#method-i-leading_comment">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+この位置の前に付くコメントとして <code>comment</code> を追加します。
+</p>
+<p>
+<a href="../method/Prism=3a=3aParseResult/i/attach_comments=21.html">Prism::ParseResult#attach_comments!</a> が内部で使用します。追加したコメントは <a href="../method/Prism=3a=3aLocation/i/leading_comments.html">Prism::Location#leading_comments</a> で参照できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>comment</code>:</dt>
+<dd>
+追加する <a href="../class/Prism=3a=3aComment.html">Prism::Comment</a> のサブクラスのインスタンスを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2"># leading\na = 1\n</span><span class="s2">"</span><span class="p">)</span>
+loc <span class="o">=</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span>
+comment <span class="o">=</span> result<span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">first</span>
+
+loc<span class="p">.</span><span class="nf">leading_comment</span><span class="p">(</span>comment<span class="p">)</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">leading_comments</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:slice</span><span class="p">)</span>
+<span class="c1"># =&gt; [&quot;# leading&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aLocation/i/leading_comments.html">Prism::Location#leading_comments</a>, <a href="../method/Prism=3a=3aLocation/i/trailing_comment.html">Prism::Location#trailing_comment</a>
+</p>
 </dd>
 
 
@@ -487,6 +660,37 @@ loc <span class="o">=</span> <span class="no">Prism</span><span class="p">.</spa
 <dd class="method-description">
 <p>
 範囲の開始位置のバイトオフセットを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TRAILING_COMMENT"><code>trailing_comment(comment) -&gt; ()</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/trailing_comment.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism/Location.html#method-i-trailing_comment">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+この位置の後ろに付くコメントとして <code>comment</code> を追加します。
+</p>
+<p>
+<a href="../method/Prism=3a=3aParseResult/i/attach_comments=21.html">Prism::ParseResult#attach_comments!</a> が内部で使用します。追加したコメントは <a href="../method/Prism=3a=3aLocation/i/trailing_comments.html">Prism::Location#trailing_comments</a> で参照できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>comment</code>:</dt>
+<dd>
+追加する <a href="../class/Prism=3a=3aComment.html">Prism::Comment</a> のサブクラスのインスタンスを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">a = 1 # trailing\n</span><span class="s2">"</span><span class="p">)</span>
+loc <span class="o">=</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">location</span>
+comment <span class="o">=</span> result<span class="p">.</span><span class="nf">comments</span><span class="p">.</span><span class="nf">first</span>
+
+loc<span class="p">.</span><span class="nf">trailing_comment</span><span class="p">(</span>comment<span class="p">)</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">trailing_comments</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:slice</span><span class="p">)</span>
+<span class="c1"># =&gt; [&quot;# trailing&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aLocation/i/trailing_comments.html">Prism::Location#trailing_comments</a>, <a href="../method/Prism=3a=3aLocation/i/leading_comment.html">Prism::Location#leading_comment</a>
 </p>
 </dd>
 

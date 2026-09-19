@@ -135,11 +135,37 @@ Gem の依存関係を管理するクラスです。
 
 <li><a href="#I_--3D--3D--3D">=~</a></li>
 
+<li><a href="#I_IDENTITY">identity</a></li>
+
+<li><a href="#I_LATEST_VERSION--3F">latest_version?</a></li>
+
+<li><a href="#I_MATCH--3F">match?</a></li>
+
+<li><a href="#I_MATCHES_SPEC--3F">matches_spec?</a></li>
+
+<li><a href="#I_MATCHING_SPECS">matching_specs</a></li>
+
+<li><a href="#I_MERGE">merge</a></li>
+
 <li><a href="#I_NAME">name</a></li>
 
 <li><a href="#I_NAME--3D">name=</a></li>
 
+<li><a href="#I_PRERELEASE--3D">prerelease=</a></li>
+
+<li><a href="#I_PRERELEASE--3F">prerelease?</a></li>
+
+<li><a href="#I_REQUIREMENT">requirement</a></li>
+
 <li><a href="#I_REQUIREMENTS_LIST">requirements_list</a></li>
+
+<li><a href="#I_RUNTIME--3F">runtime?</a></li>
+
+<li><a href="#I_SPECIFIC--3F">specific?</a></li>
+
+<li><a href="#I_TO_SPEC">to_spec</a></li>
+
+<li><a href="#I_TO_SPECS">to_specs</a></li>
 
 <li><a href="#I_TYPE">type</a></li>
 
@@ -191,6 +217,151 @@ self が other との依存関係を満たしていれば真を返します。�
 </dd>
 
 
+<dt class="method-heading" id="I_IDENTITY"><code>identity -&gt; Symbol</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/identity.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-identity">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の依存関係の種類を表すシンボルを返します。
+</p>
+<p>
+<code>self</code> がプレリリース版を要求しており、かつ <a href="../method/Gem=3a=3aDependency/i/specific=3f.html">Gem::Dependency#specific?</a> が真であれば <code>:complete</code> を、プレリリース版を要求しているが <code>specific?</code> が偽であれば <code>:abs_latest</code> を返します。プレリリース版を要求しておらず、<a href="../method/Gem=3a=3aDependency/i/latest_version=3f.html">Gem::Dependency#latest_version?</a> が真であれば <code>:latest</code> を、それ以外の場合は <code>:released</code> を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">identity</span>           <span class="c1"># =&gt; :latest
+</span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&gt;= 1.0</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">identity</span> <span class="c1"># =&gt; :released
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aDependency/i/prerelease=3f.html">Gem::Dependency#prerelease?</a>, <a href="../method/Gem=3a=3aDependency/i/specific=3f.html">Gem::Dependency#specific?</a>, <a href="../method/Gem=3a=3aDependency/i/latest_version=3f.html">Gem::Dependency#latest_version?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_LATEST_VERSION--3F"><code>latest_version? -&gt; bool</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/latest_version=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-latest_version-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が単に最新のバージョンを要求しているだけかどうかを返します。
+</p>
+<p>
+<a href="../method/Gem=3a=3aDependency/i/requirement.html">Gem::Dependency#requirement</a> が条件を持たない(<a href="../method/Gem=3a=3aRequirement/i/none=3f.html">Gem::Requirement#none?</a> が真である)場合に true を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MATCH--3F"><code>match?(obj, version = nil, allow_prerelease = false) -&gt; bool</code><span class="method-since-badge">Ruby 1.9.2 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/match=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-match-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が指定した Gem やスペックにマッチするかどうかを返します。
+</p>
+<p>
+<code>version</code> を省略した場合、<code>obj</code> には <code>name</code> と <code>version</code> に応答するオブジェクト
+(<a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> など)を指定します。<code>version</code> を指定した場合は、
+<code>obj</code> には Gem の名前を文字列で指定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>obj</code>:</dt>
+<dd>
+<code>version</code> を省略する場合は <code>name</code>・<code>version</code> に応答するオブジェクトを、指定する場合は Gem の名前を表す文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>version</code>:</dt>
+<dd>
+<code>obj</code> のバージョンを表す文字列を指定します。省略できます。
+</dd>
+<dt class='method-param'>[PARAM] <code>allow_prerelease</code>:</dt>
+<dd>
+<code>obj</code> のバージョンがプレリリース版であってもマッチを許可するかどうかを true か false で指定します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+<code>self</code> の <a href="../method/Gem=3a=3aDependency/i/name.html">Gem::Dependency#name</a> が一致せず、またはバージョンが <code>self</code> の条件を満たさない場合は false を返します。マッチする場合は true を返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>dep <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">~&gt; 1.0</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> dep<span class="p">.</span><span class="nf">match?</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1.0.1</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> dep<span class="p">.</span><span class="nf">match?</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">2.0.0</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; false
+</span>
+spec <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1.0.1</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> dep<span class="p">.</span><span class="nf">match?</span><span class="p">(</span>spec<span class="p">)</span>            <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aDependency/i/matches_spec=3f.html">Gem::Dependency#matches_spec?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MATCHES_SPEC--3F"><code>matches_spec?(spec) -&gt; bool</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/matches_spec=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-matches_spec-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が spec にマッチするかどうかを返します。
+</p>
+<p>
+<a href="../method/Gem=3a=3aDependency/i/name.html">Gem::Dependency#name</a> が spec の名前と一致せず、または spec のバージョンが <code>self</code> の条件を満たさない場合は false を返します。<a href="../method/Gem=3a=3aDependency/i/match=3f.html">Gem::Dependency#match?</a> と異なり、<code>self</code> がプレリリース版を要求していなくても、spec 自体がプレリリース版であれば true を返すことがあります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>spec</code>:</dt>
+<dd>
+マッチさせたい <a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> のインスタンスを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>dep <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">~&gt; 1.0</span><span class="s2">"</span><span class="p">)</span>
+
+spec1 <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1.0.1</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> dep<span class="p">.</span><span class="nf">matches_spec?</span><span class="p">(</span>spec1<span class="p">)</span> <span class="c1"># =&gt; true
+</span>
+spec2 <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">2.0.0</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> dep<span class="p">.</span><span class="nf">matches_spec?</span><span class="p">(</span>spec2<span class="p">)</span> <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aDependency/i/match=3f.html">Gem::Dependency#match?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MATCHING_SPECS"><code>matching_specs(platform_only = false) -&gt; [Gem::Specification]</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/matching_specs.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-matching_specs">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の <a href="../method/Gem=3a=3aDependency/i/name.html">Gem::Dependency#name</a> と <a href="../method/Gem=3a=3aDependency/i/requirement.html">Gem::Dependency#requirement</a> を満たす、インストール済みの <a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> を配列で返します。
+</p>
+<p>
+<code>platform_only</code> に true を指定すると、さらに現在のプラットフォームにインストール可能なものだけに絞り込みます。無効化された(<code>ignored?</code> な)スペックは結果に含まれません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>platform_only</code>:</dt>
+<dd>
+true を指定すると、現在のプラットフォームにインストール可能なスペックだけに絞り込みます。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_MERGE"><code>merge(other) -&gt; Gem::Dependency</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/merge.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-merge">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> と other の条件をマージした、新しい <a href="../class/Gem=3a=3aDependency.html">Gem::Dependency</a> を返します。
+</p>
+<p>
+other の <a href="../method/Gem=3a=3aDependency/i/requirement.html">Gem::Dependency#requirement</a> が <a href="../method/Gem=3a=3aRequirement/s/default.html">Gem::Requirement.default</a> と等しい場合は
+<code>self</code> の条件を、<code>self</code> の条件が <code>Gem::Requirement.default</code> と等しい場合は other の条件を、それ以外の場合は両方の条件を連結したものを持つ、新しい <code>Gem::Dependency</code> を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>other</code>:</dt>
+<dd>
+マージする <a href="../class/Gem=3a=3aDependency.html">Gem::Dependency</a> を指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>self</code> と other の <a href="../method/Gem=3a=3aDependency/i/name.html">Gem::Dependency#name</a> が異なる場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>dep1 <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&lt; 5.0</span><span class="s2">"</span><span class="p">)</span>
+dep2 <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&gt;= 1.9</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> dep1<span class="p">.</span><span class="nf">merge</span><span class="p">(</span>dep2<span class="p">)</span>
+<span class="c1"># =&gt; &lt;Gem::Dependency type=:runtime name=&quot;rake&quot; requirements=&quot;&lt; 5.0, &gt;= 1.9&quot;&gt;
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_NAME"><code>name -&gt; String</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/name.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-name">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -207,10 +378,125 @@ self が other との依存関係を満たしていれば真を返します。�
 </dd>
 
 
+<dt class="method-heading" id="I_PRERELEASE--3D"><code>prerelease=(prerelease)</code><span class="method-since-badge">Ruby 1.9.2 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/prerelease=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-prerelease-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> を強制的にプレリリース版の依存関係として扱うかどうかを設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>prerelease</code>:</dt>
+<dd>
+プレリリース版として扱うかどうかを true か false で指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aDependency/i/prerelease=3f.html">Gem::Dependency#prerelease?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRERELEASE--3F"><code>prerelease? -&gt; bool</code><span class="method-since-badge">Ruby 1.9.2 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/prerelease=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-prerelease-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> がプレリリース版を要求するかどうかを返します。
+</p>
+<p>
+<a href="../method/Gem=3a=3aDependency/i/prerelease=3d.html">Gem::Dependency#prerelease=</a> で明示的に true が設定されているか、
+<a href="../method/Gem=3a=3aDependency/i/requirement.html">Gem::Dependency#requirement</a> が <a href="../method/Gem=3a=3aRequirement/i/prerelease=3f.html">Gem::Requirement#prerelease?</a> を満たす場合に true を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>dep <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&gt;= 1.0</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> dep<span class="p">.</span><span class="nf">prerelease?</span>    <span class="c1"># =&gt; false
+</span>
+dep<span class="p">.</span><span class="nf">prerelease</span> <span class="o">=</span> <span class="k">true</span>
+<span class="nb">p</span> dep<span class="p">.</span><span class="nf">prerelease?</span>    <span class="c1"># =&gt; true
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_REQUIREMENT"><code>requirement -&gt; Gem::Requirement</code><span class="method-since-badge">Ruby 1.9.2 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/requirement.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-requirement">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> が要求するバージョンの条件を、<a href="../class/Gem=3a=3aRequirement.html">Gem::Requirement</a> のインスタンスで返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>dep <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">= 1.0</span><span class="s2">"</span><span class="p">)</span>
+pp dep<span class="p">.</span><span class="nf">requirement</span>
+<span class="c1"># =&gt; Gem::Requirement.new([&quot;= 1.0&quot;])
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_REQUIREMENTS_LIST"><code>requirements_list -&gt; [String]</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/requirements_list.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-requirements_list">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 バージョンの必要条件を文字列の配列として返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_RUNTIME--3F"><code>runtime? -&gt; bool</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/runtime=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-runtime-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の <a href="../method/Gem=3a=3aDependency/i/type.html">Gem::Dependency#type</a> が <code>:runtime</code> かどうかを返します。
+</p>
+<p>
+<code>type</code> が明示的に設定されていない場合も true を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&gt;= 1.0</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">runtime?</span>               <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&gt;= 1.0</span><span class="s2">"</span>, <span class="ss">:development</span><span class="p">)</span><span class="p">.</span><span class="nf">runtime?</span> <span class="c1"># =&gt; false
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_SPECIFIC--3F"><code>specific? -&gt; bool</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/specific=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-specific-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の条件が、常に最新バージョンにマッチするとは限らない場合に true を返します。
+</p>
+<p>
+<a href="../method/Gem=3a=3aDependency/i/requirement.html">Gem::Dependency#requirement</a> の <a href="../method/Gem=3a=3aRequirement/i/specific=3f.html">Gem::Requirement#specific?</a> の結果をそのまま返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&gt;= 1.0</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">specific?</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Dependency</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">= 1.0</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">specific?</span>  <span class="c1"># =&gt; true
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_SPEC"><code>to_spec -&gt; Gem::Specification</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/to_spec.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-to_spec">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の条件を満たす、インストール済みの <a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> を 1 つ返します。
+</p>
+<p>
+<a href="../method/Gem=3a=3aDependency/i/to_specs.html">Gem::Dependency#to_specs</a> が返す候補の中から、既にロードされている(<code>activated?</code> な)
+ものを優先して返します。<code>self</code> が <a href="../method/Gem=3a=3aDependency/i/prerelease=3f.html">Gem::Dependency#prerelease?</a> でなければ、プレリリース版は他に候補が無いときだけ選ばれます。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aDependency/i/to_specs.html">Gem::Dependency#to_specs</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_SPECS"><code>to_specs -&gt; [Gem::Specification]</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aDependency/i/to_specs.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Gem/Dependency.html#method-i-to_specs">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/dependency.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の条件を満たす、インストール済みの <a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> を配列で返します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>Gem::MissingSpecError</code>:</dt>
+<dd>
+条件を満たすスペックが見つからず、同名のスペックも全く無い場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>Gem::MissingSpecVersionError</code>:</dt>
+<dd>
+同名のスペックは存在するものの、条件を満たすバージョンのものが無い場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aDependency/i/to_spec.html">Gem::Dependency#to_spec</a>, <a href="../method/Gem=3a=3aDependency/i/matching_specs.html">Gem::Dependency#matching_specs</a>
 </p>
 </dd>
 

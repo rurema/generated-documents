@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-17-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-19-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -141,7 +141,11 @@ Ruby 3.3 の prism にはこのクラスはなく、<a href="../class/Prism=3a=3
 
 <li><a href="#I_COMMENTS">comments</a></li>
 
+<li><a href="#I_CONTINUABLE--3F">continuable?</a></li>
+
 <li><a href="#I_DATA_LOC">data_loc</a></li>
+
+<li><a href="#I_DECONSTRUCT_KEYS">deconstruct_keys</a></li>
 
 <li><a href="#I_ENCODING">encoding</a></li>
 
@@ -200,6 +204,20 @@ Ruby 3.3 の prism にはこのクラスはなく、<a href="../class/Prism=3a=3
 </dd>
 
 
+<dt class="method-heading" id="I_CONTINUABLE--3F"><code>continuable? -&gt; bool</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Prism=3a=3aResult/i/continuable=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism/Result.html#method-i-continuable-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Result.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+解析したソースコードが、追加の入力によって正しい構文になりうる不完全な式であった場合に true を返します。
+</p>
+<p>
+IRB のような REPL で、ユーザーが複数行にわたる式を 1 行ずつ入力している途中に、追加の入力を待つべきか、それまでに入力された内容を評価すべきかを判断するために使うことを想定しています。具体的には、発生したすべてのエラーが文字列・配列・ブロックなどが閉じられないまま入力が終了したことによるものであれば true を、<code>end</code> や <code>]</code>、<code>)</code> が対応する開始位置なしに単独で現れるなど、後続の入力によらず構文として不正であることが確定しているエラーが 1 つでもあれば false を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aResult/i/success=3f.html">Prism::Result#success?</a>, <a href="../method/Prism=3a=3aResult/i/failure=3f.html">Prism::Result#failure?</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_DATA_LOC"><code>data_loc -&gt; Prism::Location | nil</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aResult/i/data_loc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism/Result.html#method-i-data_loc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Result.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -208,6 +226,23 @@ nil を返します。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Prism=3a=3aParseResult/i/data_loc.html">Prism::ParseResult#data_loc</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(keys) -&gt; Hash</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aResult/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism/Result.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Result.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+パターンマッチのハッシュパターンで使われます。<code>comments</code>・<code>magic_comments</code>・<code>data_loc</code>・<code>errors</code>・<code>warnings</code> をキーに持つハッシュを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>keys</code>:</dt>
+<dd>
+取り出したいキーの配列を指定します。すべて取り出す場合は nil を指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aParseResult/i/deconstruct_keys.html">Prism::ParseResult#deconstruct_keys</a>
 </p>
 </dd>
 

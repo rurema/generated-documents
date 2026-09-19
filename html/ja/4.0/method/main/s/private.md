@@ -1,6 +1,6 @@
 # main.private
 
-### def main.private() -> nil
+### def main.private -> nil
 ### def main.private(name) -> String | Symbol
 ### def main.private(*name) -> Array
 ### def main.private(names) -> Array

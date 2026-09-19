@@ -1,0 +1,27 @@
+names=merge
+visibility=public
+kind=defined
+source_location=manual/api/rubygems/dependency.md
+since_by_name=merge=1.9.3
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def merge(other) -> Gem::Dependency
+{: since="1.9.3"}
+
+`self` と other の条件をマージした、新しい [c:Gem::Dependency] を返します。
+
+other の [m:Gem::Dependency#requirement] が [m:Gem::Requirement.default] と等しい場合は
+`self` の条件を、`self` の条件が `Gem::Requirement.default` と等しい場合は other の条件を、
+それ以外の場合は両方の条件を連結したものを持つ、新しい `Gem::Dependency` を返します。
+
+- **param** `other` -- マージする [c:Gem::Dependency] を指定します。
+- **raise** `ArgumentError` -- `self` と other の [m:Gem::Dependency#name] が異なる場合に発生します。
+
+```ruby title="例"
+dep1 = Gem::Dependency.new("rake", "< 5.0")
+dep2 = Gem::Dependency.new("rake", ">= 1.9")
+p dep1.merge(dep2)
+# => <Gem::Dependency type=:runtime name="rake" requirements="< 5.0, >= 1.9">
+```
+

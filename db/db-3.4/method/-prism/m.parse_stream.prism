@@ -1,0 +1,28 @@
+names=parse_stream
+visibility=public
+kind=defined
+source_location=manual/api/prism.md
+since_by_name=parse_stream=3.4
+until_by_name=
+rbs_sig=(uninitialized)
+
+### module_function def parse_stream(stream, **options) -> Prism::ParseResult
+
+`gets` に応答するオブジェクト `stream` から少しずつ読み込みながら構文解析し、結果を [c:Prism::ParseResult] として返します。
+
+ソースコード全体を事前に文字列としてメモリに読み込むことなく構文解析したい場合に使います。オプションは [m:Prism?.parse] と同じです。
+
+- **param** `stream` -- `gets(limit)` に応答するオブジェクトを指定します。[c:IO] や [c:StringIO] などが使えます。
+- **param** `options` -- [m:Prism?.parse] を参照してください。
+
+```ruby title="例"
+require "prism"
+require "stringio"
+
+result = Prism.parse_stream(StringIO.new("1 + 2\n"))
+p result.class        # => Prism::ParseResult
+p result.value.slice   # => "1 + 2"
+```
+
+- **SEE** [m:Prism?.parse]
+

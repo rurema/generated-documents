@@ -1,6 +1,5 @@
 # File.open
 
-### def File.new(path, mode = "r", perm = 0666, **opts)                -> File
 ### def File.open(path, mode = "r", perm = 0666, **opts)               -> File
 ### def File.open(path, mode = "r", perm = 0666, **opts) {|file| ... } -> object
 
@@ -20,19 +19,15 @@ path が整数の場合はファイルディスクリプタとして扱い、そ
 
 - **raise** `Errno::EXXX` -- ファイルのオープンに失敗した場合に発生します。
 
-```ruby title="例: File.new による読み込みモードでのファイルオープン"
-f = File.new("testfile", "r")
-p f.class # => File
-f.close
-```
-
-```ruby title="例: File.open による読み込みモードでのファイルオープン"
+```ruby title="例: 読み込みモードでのファイルオープン"
 f = File.open("testfile", "r")
 p f.class # => File
 f.close
 ```
 
-```ruby title="例: File.open による書き込みモードでのファイルオープン"
+```ruby title="例: 書き込みモードでのファイルオープン"
 File.open("testfile", "w", 0755) { |f| f.print "test" }
 p File.read("testfile")  # => "test"
 ```
+
+- **SEE** [File.new](../../../method/File/s/new.md)

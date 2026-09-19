@@ -216,7 +216,7 @@
 
 <li><a href="#S_NEW">new</a></li>
 
-<li><a href="#S_NEW">open</a></li>
+<li><a href="#S_OPEN">open</a></li>
 
 <li><a href="#S_OWNED--3F">owned?</a></li>
 
@@ -1698,7 +1698,48 @@ FIFO の許可モードを数値で指定します。指定したモードは通
 
 
 <dt class="method-heading" id="S_NEW"><code>new(path, mode = &quot;r&quot;, perm = 0666, **opts) -&gt; File</code><span class="permalink">[<a href="../method/File/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/File.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/File.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>open(path, mode = &quot;r&quot;, perm = 0666, **opts) -&gt; File</code></dt>
+<dd class="method-description">
+<p>
+path で指定されるファイルをオープンし、<a href="../class/File.html">File</a> オブジェクトを生成して返します。
+</p>
+<p>
+path が整数の場合はファイルディスクリプタとして扱い、それに対応する
+<a href="../class/File.html">File</a> オブジェクトを生成して返します。<a href="../method/IO/s/new.html">IO.new</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>path</code>:</dt>
+<dd>
+ファイルを文字列で指定します。整数を指定した場合はファイルディスクリプタとして扱います。
+</dd>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dd>
+モードを文字列か定数の論理和で指定します。<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>perm</code>:</dt>
+<dd>
+ファイルを生成する場合のファイルのパーミッションを整数で指定します。<a href="../method/Kernel/m/open.html">Kernel.#open</a> と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>opts</code>:</dt>
+<dd>
+キーワード引数でオープン時のオプションを指定します。指定できるオプションは <a href="../method/IO/s/new.html">IO.new</a> を参照してください。
+</dd>
+<dt>[EXCEPTION] <code>Errno::EXXX</code>:</dt>
+<dd>
+ファイルのオープンに失敗した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例: 読み込みモードでのファイルオープン</span>
+<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> f<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; File
+</span>f<span class="p">.</span><span class="nf">close</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/File/s/open.html">File.open</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_OPEN"><code>open(path, mode = &quot;r&quot;, perm = 0666, **opts) -&gt; File</code><span class="permalink">[<a href="../method/File/s/open.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/File.html#method-c-open">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/File.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>open(path, mode = &quot;r&quot;, perm = 0666, **opts) {|file| ... } -&gt; object</code></dt>
 <dd class="method-description">
 <p>
@@ -1730,20 +1771,18 @@ path が整数の場合はファイルディスクリプタとして扱い、そ
 ファイルのオープンに失敗した場合に発生します。
 </dd>
 </dl>
-<span class="caption">例: File.new による読み込みモードでのファイルオープン</span>
-<pre class="highlight ruby"><code>f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">p</span> f<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; File
-</span>f<span class="p">.</span><span class="nf">close</span>
-</code></pre>
-<span class="caption">例: File.open による読み込みモードでのファイルオープン</span>
+<span class="caption">例: 読み込みモードでのファイルオープン</span>
 <pre class="highlight ruby"><code>f <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">p</span> f<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; File
 </span>f<span class="p">.</span><span class="nf">close</span>
 </code></pre>
-<span class="caption">例: File.open による書き込みモードでのファイルオープン</span>
+<span class="caption">例: 書き込みモードでのファイルオープン</span>
 <pre class="highlight ruby"><code><span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span>, <span class="mi">0755</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span>f<span class="o">|</span> f<span class="p">.</span><span class="nf">print</span> <span class="s2">"</span><span class="s2">test</span><span class="s2">"</span> <span class="p">}</span>
 <span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">testfile</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;test&quot;
 </span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/File/s/new.html">File.new</a>
+</p>
 </dd>
 
 

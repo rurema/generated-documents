@@ -122,7 +122,7 @@
 (150 種類以上)のインスタンスで構成されます。<code>Prism::Node</code> 自身のインスタンスが生成されることはありません。
 </p>
 <p>
-個々のノードクラス(<code>Prism::ProgramNode</code>・<code>Prism::CallNode</code> など)に固有のフィールド(子ノードや値を取得するアクセサ)はこのリファレンスでは扱いません。このページで扱うのは、すべてのノードクラスに共通する
+個々のノードクラス(<code>Prism::ProgramNode</code>・<code>Prism::CallNode</code> など)に固有のフィールド(子ノードや値を取得するアクセサ)は、このページ末尾の <a href="#node_classes">ノードクラスの一覧</a> に名前だけを載せ、個別のエントリは作りません。このページで扱うのは、すべてのノードクラスに共通する
 API です。個々のノードクラスの詳細は公式ドキュメントを参照してください。
 </p>
 <ul>
@@ -167,6 +167,8 @@ call <span class="o">=</span> node<span class="p">.</span><span class="nf">state
 <li><a href="#I_NEWLINE--3F">newline?</a></li>
 
 <li><a href="#I_PRETTY_PRINT">pretty_print</a></li>
+
+<li><a href="#I_SET_NEWLINE_FLAG">set_newline_flag</a></li>
 
 <li><a href="#I_SLICE">slice</a></li>
 
@@ -249,6 +251,166 @@ nil を指定します。
 <p>
 このノードが、<a href="../class/TracePoint.html">TracePoint</a> の <code>:line</code> イベントを発生させる行の位置としてマークされているかどうかを返します。
 </p>
+<h3 id='node_classes'>ノードクラスの一覧</h3>
+<p>
+prism の各ノードクラス(<code>Prism::Node</code> のサブクラス)と、そのフィールド(子ノードや値を取得するアクセサ)の名前の一覧です。
+prism の <code>config.yml</code>(3.3= prism 0.19.0・3.4= 1.2.0・4.0= 1.7.0・4.1= 1.9.0)から機械的に生成しています。フィールドの構成が版によって異なるノードは、版ごとに行を分けています。各フィールドの意味は公式ドキュメントを参照してください。
+</p>
+<table>
+<thead>
+<tr><th>ノードクラス</th><th>フィールド</th></tr>
+</thead>
+<tbody>
+<tr><td><code>AliasGlobalVariableNode</code></td><td><code>new_name</code>, <code>old_name</code>, <code>keyword_loc</code></td></tr>
+<tr><td><code>AliasMethodNode</code></td><td><code>new_name</code>, <code>old_name</code>, <code>keyword_loc</code></td></tr>
+<tr><td><code>AlternationPatternNode</code></td><td><code>left</code>, <code>right</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>AndNode</code></td><td><code>left</code>, <code>right</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>ArgumentsNode</code></td><td><code>flags</code>, <code>arguments</code></td></tr>
+<tr><td><code>ArrayNode</code></td><td><code>flags</code>, <code>elements</code>, <code>opening_loc</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>ArrayPatternNode</code></td><td><code>constant</code>, <code>requireds</code>, <code>rest</code>, <code>posts</code>, <code>opening_loc</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>AssocNode</code></td><td><code>key</code>, <code>value</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>AssocSplatNode</code></td><td><code>value</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>BackReferenceReadNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>BeginNode</code></td><td><code>begin_keyword_loc</code>, <code>statements</code>, <code>rescue_clause</code>, <code>else_clause</code>, <code>ensure_clause</code>, <code>end_keyword_loc</code></td></tr>
+<tr><td><code>BlockArgumentNode</code></td><td><code>expression</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>BlockLocalVariableNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>BlockNode</code></td><td><code>locals</code>, <code>locals_body_index</code>, <code>parameters</code>, <code>body</code>, <code>opening_loc</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>BlockParameterNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>BlockParametersNode</code></td><td><code>parameters</code>, <code>locals</code>, <code>opening_loc</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>BreakNode</code></td><td><code>arguments</code>, <code>keyword_loc</code></td></tr>
+<tr><td><code>CallAndWriteNode</code></td><td><code>flags</code>, <code>receiver</code>, <code>call_operator_loc</code>, <code>message_loc</code>, <code>read_name</code>, <code>write_name</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>CallNode</code></td><td><code>flags</code>, <code>receiver</code>, <code>call_operator_loc</code>, <code>name</code>, <code>message_loc</code>, <code>opening_loc</code>, <code>arguments</code>, <code>closing_loc</code>, <code>block</code></td></tr>
+<tr><td><code>CallOperatorWriteNode</code></td><td><code>flags</code>, <code>receiver</code>, <code>call_operator_loc</code>, <code>message_loc</code>, <code>read_name</code>, <code>write_name</code>, <code>operator</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>CallOrWriteNode</code></td><td><code>flags</code>, <code>receiver</code>, <code>call_operator_loc</code>, <code>message_loc</code>, <code>read_name</code>, <code>write_name</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>CallTargetNode</code></td><td><code>flags</code>, <code>receiver</code>, <code>call_operator_loc</code>, <code>name</code>, <code>message_loc</code></td></tr>
+<tr><td><code>CapturePatternNode</code></td><td><code>value</code>, <code>target</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>CaseMatchNode</code></td><td><code>predicate</code>, <code>conditions</code>, <code>consequent</code>, <code>case_keyword_loc</code>, <code>end_keyword_loc</code></td></tr>
+<tr><td><code>CaseNode</code></td><td><code>predicate</code>, <code>conditions</code>, <code>consequent</code>, <code>case_keyword_loc</code>, <code>end_keyword_loc</code></td></tr>
+<tr><td><code>ClassNode</code></td><td><code>locals</code>, <code>class_keyword_loc</code>, <code>constant_path</code>, <code>inheritance_operator_loc</code>, <code>superclass</code>, <code>body</code>, <code>end_keyword_loc</code>, <code>name</code></td></tr>
+<tr><td><code>ClassVariableAndWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>ClassVariableOperatorWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code>, <code>operator</code></td></tr>
+<tr><td><code>ClassVariableOrWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>ClassVariableReadNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>ClassVariableTargetNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>ClassVariableWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>value</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>ConstantAndWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>ConstantOperatorWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code>, <code>operator</code></td></tr>
+<tr><td><code>ConstantOrWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>ConstantPathAndWriteNode</code></td><td><code>target</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>ConstantPathNode</code></td><td><code>parent</code>, <code>child</code>, <code>delimiter_loc</code></td></tr>
+<tr><td><code>ConstantPathOperatorWriteNode</code></td><td><code>target</code>, <code>operator_loc</code>, <code>value</code>, <code>operator</code></td></tr>
+<tr><td><code>ConstantPathOrWriteNode</code></td><td><code>target</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>ConstantPathTargetNode</code></td><td><code>parent</code>, <code>child</code>, <code>delimiter_loc</code></td></tr>
+<tr><td><code>ConstantPathWriteNode</code></td><td><code>target</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>ConstantReadNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>ConstantTargetNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>ConstantWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>value</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>DefNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>receiver</code>, <code>parameters</code>, <code>body</code>, <code>locals</code>, <code>locals_body_index</code>, <code>def_keyword_loc</code>, <code>operator_loc</code>, <code>lparen_loc</code>, <code>rparen_loc</code>, <code>equal_loc</code>, <code>end_keyword_loc</code></td></tr>
+<tr><td><code>DefinedNode</code></td><td><code>lparen_loc</code>, <code>value</code>, <code>rparen_loc</code>, <code>keyword_loc</code></td></tr>
+<tr><td><code>ElseNode</code></td><td><code>else_keyword_loc</code>, <code>statements</code>, <code>end_keyword_loc</code></td></tr>
+<tr><td><code>EmbeddedStatementsNode</code></td><td><code>opening_loc</code>, <code>statements</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>EmbeddedVariableNode</code></td><td><code>operator_loc</code>, <code>variable</code></td></tr>
+<tr><td><code>EnsureNode</code></td><td><code>ensure_keyword_loc</code>, <code>statements</code>, <code>end_keyword_loc</code></td></tr>
+<tr><td><code>FalseNode</code></td><td>(なし)</td></tr>
+<tr><td><code>FindPatternNode</code></td><td><code>constant</code>, <code>left</code>, <code>requireds</code>, <code>right</code>, <code>opening_loc</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>FlipFlopNode</code></td><td><code>flags</code>, <code>left</code>, <code>right</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>FloatNode</code></td><td>(なし)</td></tr>
+<tr><td><code>ForNode</code></td><td><code>index</code>, <code>collection</code>, <code>statements</code>, <code>for_keyword_loc</code>, <code>in_keyword_loc</code>, <code>do_keyword_loc</code>, <code>end_keyword_loc</code></td></tr>
+<tr><td><code>ForwardingArgumentsNode</code></td><td>(なし)</td></tr>
+<tr><td><code>ForwardingParameterNode</code></td><td>(なし)</td></tr>
+<tr><td><code>ForwardingSuperNode</code></td><td><code>block</code></td></tr>
+<tr><td><code>GlobalVariableAndWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>GlobalVariableOperatorWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code>, <code>operator</code></td></tr>
+<tr><td><code>GlobalVariableOrWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>GlobalVariableReadNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>GlobalVariableTargetNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>GlobalVariableWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>value</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>HashNode</code></td><td><code>opening_loc</code>, <code>elements</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>HashPatternNode</code></td><td><code>constant</code>, <code>elements</code>, <code>rest</code>, <code>opening_loc</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>IfNode</code></td><td><code>if_keyword_loc</code>, <code>predicate</code>, <code>then_keyword_loc</code>, <code>statements</code>, <code>consequent</code>, <code>end_keyword_loc</code></td></tr>
+<tr><td><code>ImaginaryNode</code></td><td><code>numeric</code></td></tr>
+<tr><td><code>ImplicitNode</code></td><td><code>value</code></td></tr>
+<tr><td><code>ImplicitRestNode</code></td><td>(なし)</td></tr>
+<tr><td><code>InNode</code></td><td><code>pattern</code>, <code>statements</code>, <code>in_loc</code>, <code>then_loc</code></td></tr>
+<tr><td><code>IndexAndWriteNode</code></td><td><code>flags</code>, <code>receiver</code>, <code>call_operator_loc</code>, <code>opening_loc</code>, <code>arguments</code>, <code>closing_loc</code>, <code>block</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>IndexOperatorWriteNode</code></td><td><code>flags</code>, <code>receiver</code>, <code>call_operator_loc</code>, <code>opening_loc</code>, <code>arguments</code>, <code>closing_loc</code>, <code>block</code>, <code>operator</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>IndexOrWriteNode</code></td><td><code>flags</code>, <code>receiver</code>, <code>call_operator_loc</code>, <code>opening_loc</code>, <code>arguments</code>, <code>closing_loc</code>, <code>block</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>IndexTargetNode</code></td><td><code>flags</code>, <code>receiver</code>, <code>opening_loc</code>, <code>arguments</code>, <code>closing_loc</code>, <code>block</code></td></tr>
+<tr><td><code>InstanceVariableAndWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>InstanceVariableOperatorWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code>, <code>operator</code></td></tr>
+<tr><td><code>InstanceVariableOrWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>InstanceVariableReadNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>InstanceVariableTargetNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>InstanceVariableWriteNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>value</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>IntegerNode</code></td><td><code>flags</code></td></tr>
+<tr><td><code>InterpolatedMatchLastLineNode</code></td><td><code>flags</code>, <code>opening_loc</code>, <code>parts</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>InterpolatedRegularExpressionNode</code></td><td><code>flags</code>, <code>opening_loc</code>, <code>parts</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>InterpolatedStringNode</code></td><td><code>opening_loc</code>, <code>parts</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>InterpolatedSymbolNode</code></td><td><code>opening_loc</code>, <code>parts</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>InterpolatedXStringNode</code></td><td><code>opening_loc</code>, <code>parts</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>KeywordHashNode</code></td><td><code>flags</code>, <code>elements</code></td></tr>
+<tr><td><code>KeywordRestParameterNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>LambdaNode</code></td><td><code>locals</code>, <code>locals_body_index</code>, <code>operator_loc</code>, <code>opening_loc</code>, <code>closing_loc</code>, <code>parameters</code>, <code>body</code></td></tr>
+<tr><td><code>LocalVariableAndWriteNode</code></td><td><code>name_loc</code>, <code>operator_loc</code>, <code>value</code>, <code>name</code>, <code>depth</code></td></tr>
+<tr><td><code>LocalVariableOperatorWriteNode</code></td><td><code>name_loc</code>, <code>operator_loc</code>, <code>value</code>, <code>name</code>, <code>operator</code>, <code>depth</code></td></tr>
+<tr><td><code>LocalVariableOrWriteNode</code></td><td><code>name_loc</code>, <code>operator_loc</code>, <code>value</code>, <code>name</code>, <code>depth</code></td></tr>
+<tr><td><code>LocalVariableReadNode</code></td><td><code>name</code>, <code>depth</code></td></tr>
+<tr><td><code>LocalVariableTargetNode</code></td><td><code>name</code>, <code>depth</code></td></tr>
+<tr><td><code>LocalVariableWriteNode</code></td><td><code>name</code>, <code>depth</code>, <code>name_loc</code>, <code>value</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>MatchLastLineNode</code></td><td><code>flags</code>, <code>opening_loc</code>, <code>content_loc</code>, <code>closing_loc</code>, <code>unescaped</code></td></tr>
+<tr><td><code>MatchPredicateNode</code></td><td><code>value</code>, <code>pattern</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>MatchRequiredNode</code></td><td><code>value</code>, <code>pattern</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>MatchWriteNode</code></td><td><code>call</code>, <code>targets</code></td></tr>
+<tr><td><code>MissingNode</code></td><td>(なし)</td></tr>
+<tr><td><code>ModuleNode</code></td><td><code>locals</code>, <code>module_keyword_loc</code>, <code>constant_path</code>, <code>body</code>, <code>end_keyword_loc</code>, <code>name</code></td></tr>
+<tr><td><code>MultiTargetNode</code></td><td><code>lefts</code>, <code>rest</code>, <code>rights</code>, <code>lparen_loc</code>, <code>rparen_loc</code></td></tr>
+<tr><td><code>MultiWriteNode</code></td><td><code>lefts</code>, <code>rest</code>, <code>rights</code>, <code>lparen_loc</code>, <code>rparen_loc</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>NextNode</code></td><td><code>arguments</code>, <code>keyword_loc</code></td></tr>
+<tr><td><code>NilNode</code></td><td>(なし)</td></tr>
+<tr><td><code>NoKeywordsParameterNode</code></td><td><code>operator_loc</code>, <code>keyword_loc</code></td></tr>
+<tr><td><code>NumberedParametersNode</code></td><td><code>maximum</code></td></tr>
+<tr><td><code>NumberedReferenceReadNode</code></td><td><code>number</code></td></tr>
+<tr><td><code>OptionalKeywordParameterNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>value</code></td></tr>
+<tr><td><code>OptionalParameterNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code>, <code>value</code></td></tr>
+<tr><td><code>OrNode</code></td><td><code>left</code>, <code>right</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>ParametersNode</code></td><td><code>requireds</code>, <code>optionals</code>, <code>rest</code>, <code>posts</code>, <code>keywords</code>, <code>keyword_rest</code>, <code>block</code></td></tr>
+<tr><td><code>ParenthesesNode</code></td><td><code>body</code>, <code>opening_loc</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>PinnedExpressionNode</code></td><td><code>expression</code>, <code>operator_loc</code>, <code>lparen_loc</code>, <code>rparen_loc</code></td></tr>
+<tr><td><code>PinnedVariableNode</code></td><td><code>variable</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>PostExecutionNode</code></td><td><code>statements</code>, <code>keyword_loc</code>, <code>opening_loc</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>PreExecutionNode</code></td><td><code>statements</code>, <code>keyword_loc</code>, <code>opening_loc</code>, <code>closing_loc</code></td></tr>
+<tr><td><code>ProgramNode</code></td><td><code>locals</code>, <code>statements</code></td></tr>
+<tr><td><code>RangeNode</code></td><td><code>flags</code>, <code>left</code>, <code>right</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>RationalNode</code></td><td><code>numeric</code></td></tr>
+<tr><td><code>RedoNode</code></td><td>(なし)</td></tr>
+<tr><td><code>RegularExpressionNode</code></td><td><code>flags</code>, <code>opening_loc</code>, <code>content_loc</code>, <code>closing_loc</code>, <code>unescaped</code></td></tr>
+<tr><td><code>RequiredKeywordParameterNode</code></td><td><code>name</code>, <code>name_loc</code></td></tr>
+<tr><td><code>RequiredParameterNode</code></td><td><code>name</code></td></tr>
+<tr><td><code>RescueModifierNode</code></td><td><code>expression</code>, <code>keyword_loc</code>, <code>rescue_expression</code></td></tr>
+<tr><td><code>RescueNode</code></td><td><code>keyword_loc</code>, <code>exceptions</code>, <code>operator_loc</code>, <code>reference</code>, <code>statements</code>, <code>consequent</code></td></tr>
+<tr><td><code>RestParameterNode</code></td><td><code>name</code>, <code>name_loc</code>, <code>operator_loc</code></td></tr>
+<tr><td><code>RetryNode</code></td><td>(なし)</td></tr>
+<tr><td><code>ReturnNode</code></td><td><code>keyword_loc</code>, <code>arguments</code></td></tr>
+<tr><td><code>SelfNode</code></td><td>(なし)</td></tr>
+<tr><td><code>SingletonClassNode</code></td><td><code>locals</code>, <code>class_keyword_loc</code>, <code>operator_loc</code>, <code>expression</code>, <code>body</code>, <code>end_keyword_loc</code></td></tr>
+<tr><td><code>SourceEncodingNode</code></td><td>(なし)</td></tr>
+<tr><td><code>SourceFileNode</code></td><td><code>filepath</code></td></tr>
+<tr><td><code>SourceLineNode</code></td><td>(なし)</td></tr>
+<tr><td><code>SplatNode</code></td><td><code>operator_loc</code>, <code>expression</code></td></tr>
+<tr><td><code>StatementsNode</code></td><td><code>body</code></td></tr>
+<tr><td><code>StringNode</code></td><td><code>flags</code>, <code>opening_loc</code>, <code>content_loc</code>, <code>closing_loc</code>, <code>unescaped</code></td></tr>
+<tr><td><code>SuperNode</code></td><td><code>keyword_loc</code>, <code>lparen_loc</code>, <code>arguments</code>, <code>rparen_loc</code>, <code>block</code></td></tr>
+<tr><td><code>SymbolNode</code></td><td><code>flags</code>, <code>opening_loc</code>, <code>value_loc</code>, <code>closing_loc</code>, <code>unescaped</code></td></tr>
+<tr><td><code>TrueNode</code></td><td>(なし)</td></tr>
+<tr><td><code>UndefNode</code></td><td><code>names</code>, <code>keyword_loc</code></td></tr>
+<tr><td><code>UnlessNode</code></td><td><code>keyword_loc</code>, <code>predicate</code>, <code>then_keyword_loc</code>, <code>statements</code>, <code>consequent</code>, <code>end_keyword_loc</code></td></tr>
+<tr><td><code>UntilNode</code></td><td><code>flags</code>, <code>keyword_loc</code>, <code>closing_loc</code>, <code>predicate</code>, <code>statements</code></td></tr>
+<tr><td><code>WhenNode</code></td><td><code>keyword_loc</code>, <code>conditions</code>, <code>statements</code></td></tr>
+<tr><td><code>WhileNode</code></td><td><code>flags</code>, <code>keyword_loc</code>, <code>closing_loc</code>, <code>predicate</code>, <code>statements</code></td></tr>
+<tr><td><code>XStringNode</code></td><td><code>flags</code>, <code>opening_loc</code>, <code>content_loc</code>, <code>closing_loc</code>, <code>unescaped</code></td></tr>
+<tr><td><code>YieldNode</code></td><td><code>keyword_loc</code>, <code>lparen_loc</code>, <code>arguments</code>, <code>rparen_loc</code></td></tr>
+</tbody>
+</table>
 </dd>
 
 
@@ -257,6 +419,26 @@ nil を指定します。
 <p>
 <code>pp</code> ライブラリからの呼び出しに対応します。<a href="../method/Prism=3a=3aNode/i/inspect.html">Prism::Node#inspect</a>
 の出力を、現在のインデントレベルを保ったまま表示します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SET_NEWLINE_FLAG"><code>set_newline_flag(newline_marked) -&gt; ()</code><span class="method-since-badge">Ruby 3.3 から</span> <span class="method-until-badge">Ruby 3.4 で削除</span><span class="permalink">[<a href="../method/Prism=3a=3aNode/i/set_newline_flag.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Node.html#method-i-set_newline_flag">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Node.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+このノードの開始行にまだ印が付けられていなければ、<a href="../method/Prism=3a=3aNode/i/newline=3f.html">Prism::Node#newline?</a> が true を返すように印を付けます。
+</p>
+<p>
+<code>newline_marked</code> は行番号をインデックスとする真偽値の配列です。<a href="../method/Prism=3a=3aParseResult/i/mark_newlines=21.html">Prism::ParseResult#mark_newlines!</a> が構文木を巡回する際に、行ごとに最初に見つかったノードだけに印を付けるために内部で使用します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>newline_marked</code>:</dt>
+<dd>
+行番号をインデックスとする真偽値の配列を指定します。すでに印が付いている行には true が入っています。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aNode/i/newline=3f.html">Prism::Node#newline?</a>
 </p>
 </dd>
 

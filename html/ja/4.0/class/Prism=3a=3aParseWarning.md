@@ -17,6 +17,7 @@ p warning.message # => "ambiguous `*` has been interpreted as an argument prefix
 
 ## Instance Methods
 
+- [deconstruct_keys](../method/Prism=3a=3aParseWarning/i/deconstruct_keys.md)
 - [level](../method/Prism=3a=3aParseWarning/i/level.md)
 - [location](../method/Prism=3a=3aParseWarning/i/location.md)
 - [message](../method/Prism=3a=3aParseWarning/i/message.md)

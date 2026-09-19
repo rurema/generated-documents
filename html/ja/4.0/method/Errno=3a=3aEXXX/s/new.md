@@ -1,6 +1,6 @@
 # Errno::EXXX.new
 
-### def Errno::EXXX.new() -> Errno::EXXX
+### def Errno::EXXX.new -> Errno::EXXX
 ### def Errno::EXXX.new(error_message) -> Errno::EXXX
 
 Errno::EXXX オブジェクトを生成して返します。

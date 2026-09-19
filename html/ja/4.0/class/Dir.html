@@ -168,7 +168,7 @@
 
 <li><a href="#S_NEW">new</a></li>
 
-<li><a href="#S_NEW">open</a></li>
+<li><a href="#S_OPEN">open</a></li>
 
 <li><a href="#S_GETWD">pwd</a></li>
 
@@ -1048,11 +1048,53 @@ mode で指定された値に umask をかけた値 (mode &amp; ~umask) にな�
 
 <dt class="method-heading" id="S_NEW"><code>new(path) -&gt; Dir</code><span class="permalink">[<a href="../method/Dir/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>new(path, encoding: Encoding.find(&quot;filesystem&quot;)) -&gt; Dir</code></dt>
-<dt class="method-heading"><code>open(path) -&gt; Dir</code></dt>
+<dt class="rbs-signature"><code>(path dir, ?encoding: encoding?) &rarr; void</code></dt>
+<dd class="method-description">
+<p>
+path に対するディレクトリストリームをオープンして返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>path</code>:</dt>
+<dd>
+ディレクトリのパスを文字列で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>encoding</code>:</dt>
+<dd>
+ディレクトリのエンコーディングを文字列か
+<a href="../class/Encoding.html">Encoding</a> オブジェクトで指定します。省略した場合はファイルシステムのエンコーディングと同じになります。
+</dd>
+<dt>[EXCEPTION] <code>Errno::EXXX</code>:</dt>
+<dd>
+オープンに失敗した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'tmpdir'</span>
+
+<span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span> <span class="k">do</span> <span class="o">|</span>tmpdir<span class="o">|</span>
+  d <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>tmpdir<span class="p">)</span>
+  <span class="nb">p</span> d<span class="p">.</span><span class="nf">class</span>         <span class="c1"># =&gt; Dir
+</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">encoding</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span>  d<span class="p">.</span><span class="nf">close</span>
+
+  d <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>tmpdir, <span class="ss">encoding:</span> <span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_8</span><span class="p">)</span>
+  <span class="nb">p</span> d<span class="p">.</span><span class="nf">class</span>         <span class="c1"># =&gt; Dir
+</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">encoding</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
+</span>  d<span class="p">.</span><span class="nf">close</span>
+<span class="k">end</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Dir/s/open.html">Dir.open</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_OPEN"><code>open(path) -&gt; Dir</code><span class="permalink">[<a href="../method/Dir/s/open.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-c-open">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>open(path, encoding: Encoding.find(&quot;filesystem&quot;)) -&gt; Dir</code></dt>
 <dt class="method-heading"><code>open(path) {|dir| ...} -&gt; object</code></dt>
 <dt class="method-heading"><code>open(path, encoding: Encoding.find(&quot;filesystem&quot;)) {|dir| ...} -&gt; object</code></dt>
-<dt class="rbs-signature"><code>(path dir, ?encoding: encoding?) &rarr; void</code></dt>
+<dt class="rbs-signature"><code>(path dirname, ?encoding: encoding?) &rarr; instance</code></dt>
+<dt class="rbs-signature"><code>[U] (path dirname, ?encoding: encoding?) { (instance) &rarr; U } &rarr; U</code></dt>
 <dd class="method-description">
 <p>
 path に対するディレクトリストリームをオープンして返します。
@@ -1075,22 +1117,7 @@ path に対するディレクトリストリームをオープンして返しま
 オープンに失敗した場合に発生します。
 </dd>
 </dl>
-<span class="caption">例: Dir.new</span>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'tmpdir'</span>
-
-<span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span> <span class="k">do</span> <span class="o">|</span>tmpdir<span class="o">|</span>
-  d <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>tmpdir<span class="p">)</span>
-  <span class="nb">p</span> d<span class="p">.</span><span class="nf">class</span>         <span class="c1"># =&gt; Dir
-</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">encoding</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
-</span>  d<span class="p">.</span><span class="nf">close</span>
-
-  d <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>tmpdir, <span class="ss">encoding:</span> <span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_8</span><span class="p">)</span>
-  <span class="nb">p</span> d<span class="p">.</span><span class="nf">class</span>         <span class="c1"># =&gt; Dir
-</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">encoding</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
-</span>  d<span class="p">.</span><span class="nf">close</span>
-<span class="k">end</span>
-</code></pre>
-<span class="caption">例: Dir.open</span>
+<span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'tmpdir'</span>
 
 <span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span> <span class="k">do</span> <span class="o">|</span>tmpdir<span class="o">|</span>
@@ -1105,6 +1132,9 @@ path に対するディレクトリストリームをオープンして返しま
 </span>  <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Dir/s/new.html">Dir.new</a>
+</p>
 </dd>
 
 

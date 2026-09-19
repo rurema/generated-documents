@@ -36,12 +36,15 @@ p versions.sort_by{ |v| Gem::Version.new(v) }
 ## Instance Methods
 
 - [<=>](../method/Gem=3a=3aVersion/i/=3c=3d=3e.md)
+- [approximate_recommendation](../method/Gem=3a=3aVersion/i/approximate_recommendation.md)
 - [bump](../method/Gem=3a=3aVersion/i/bump.md)
+- [canonical_segments](../method/Gem=3a=3aVersion/i/canonical_segments.md)
 - [eql?](../method/Gem=3a=3aVersion/i/eql=3f.md)
 - [marshal_dump](../method/Gem=3a=3aVersion/i/marshal_dump.md)
 - [marshal_load](../method/Gem=3a=3aVersion/i/marshal_load.md)
 - [prerelease?](../method/Gem=3a=3aVersion/i/prerelease=3f.md)
 - [release](../method/Gem=3a=3aVersion/i/release.md)
+- [segments](../method/Gem=3a=3aVersion/i/segments.md)
 - [to_s](../method/Gem=3a=3aVersion/i/to_s.md)
 - [version](../method/Gem=3a=3aVersion/i/version.md)
 

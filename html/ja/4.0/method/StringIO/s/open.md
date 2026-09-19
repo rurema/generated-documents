@@ -1,6 +1,5 @@
 # StringIO.open
 
-### def StringIO.new(string = '', mode = 'r+')                 -> StringIO
 ### def StringIO.open(string = '', mode = 'r+')                -> StringIO
 ### def StringIO.open(string = '', mode = 'r+') {|io| ... }    -> object
 
@@ -20,18 +19,9 @@ StringIO オブジェクトを生成して返します。
 ```ruby title="例"
 require 'stringio'
 
-s = "foo"
-io = StringIO.new(s)
-p io.getc       # => 102
-p io.pos        # => 1
-p io.size       # => 3
-io << "bar"   
-p io.size       # => 4
-p s             # => "fbar"
-io.rewind
-p io.gets       # => "fbar"
-
 StringIO.open("hoge"){|io|
   p io.string   # => "hoge"
 }
 ```
+
+- **SEE** [StringIO.new](../../../method/StringIO/s/new.md)

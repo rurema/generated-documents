@@ -1,0 +1,29 @@
+names=scope
+visibility=public
+kind=defined
+source_location=manual/api/prism.md
+since_by_name=scope=4.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### module_function def scope(locals: [], forwarding: []) -> Prism::Scope
+
+解析対象のソースコードの周囲にあるものとして扱うローカル変数と、そこから転送されるパラメータの情報をまとめた `Prism::Scope` のインスタンスを作成します。
+
+作成したオブジェクトは [m:Prism?.parse] などの `scopes:` オプションの要素として渡します。`eval` のように、周囲のスコープで定義済みのローカル変数を引き継いで解析したい場合に使います。
+
+- **param** `locals` -- そのスコープで定義済みとみなすローカル変数名をシンボルの配列で指定します。省略した場合は空配列です。
+- **param** `forwarding` -- そのスコープから次のスコープへ転送されるパラメータの種類を、`:*`・`:**`・`:&`・`:"..."` のいずれかのシンボルからなる配列で指定します。省略した場合は空配列です。
+
+```ruby title="例"
+require "prism"
+
+scope = Prism.scope(locals: [:x])
+result = Prism.parse("x + 1", scopes: [scope])
+p result.value.statements.body[0].receiver.class
+# => Prism::LocalVariableReadNode
+```
+
+- **SEE** [m:Prism?.parse]
+
+

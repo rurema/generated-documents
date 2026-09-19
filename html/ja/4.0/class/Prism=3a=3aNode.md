@@ -4,7 +4,8 @@
 [Prism?.parse](../method/Prism/m/parse.md) などが返す構文木は、このクラスのサブクラス
 (150 種類以上)のインスタンスで構成されます。`Prism::Node` 自身のインスタンスが生成されることはありません。
 
-個々のノードクラス(`Prism::ProgramNode`・`Prism::CallNode` など)に固有のフィールド(子ノードや値を取得するアクセサ)はこのリファレンスでは扱いません。このページで扱うのは、すべてのノードクラスに共通する
+個々のノードクラス(`Prism::ProgramNode`・`Prism::CallNode` など)に固有のフィールド(子ノードや値を取得するアクセサ)は、
+このページ末尾の [ノードクラスの一覧](#node_classes) に名前だけを載せ、個別のエントリは作りません。このページで扱うのは、すべてのノードクラスに共通する
 API です。個々のノードクラスの詳細は公式ドキュメントを参照してください。
 
 - プロジェクトページ: <https://github.com/ruby/prism>
@@ -48,6 +49,7 @@ p call.compact_child_nodes.size # => 2
 - [copy](../method/Prism=3a=3aNode/i/copy.md)
 - [deconstruct](../method/Prism=3a=3aNode/i/deconstruct.md)
 - [deconstruct_keys](../method/Prism=3a=3aNode/i/deconstruct_keys.md)
+- [deprecated](../method/Prism=3a=3aNode/i/deprecated.md)
 - [each_child_node](../method/Prism=3a=3aNode/i/each_child_node.md)
 - [end_character_column](../method/Prism=3a=3aNode/i/end_character_column.md)
 - [end_character_offset](../method/Prism=3a=3aNode/i/end_character_offset.md)
@@ -60,6 +62,8 @@ p call.compact_child_nodes.size # => 2
 - [newline?](../method/Prism=3a=3aNode/i/newline=3f.md)
 - [node_id](../method/Prism=3a=3aNode/i/node_id.md)
 - [pretty_print](../method/Prism=3a=3aNode/i/pretty_print.md)
+- [save](../method/Prism=3a=3aNode/i/save.md)
+- [save_location](../method/Prism=3a=3aNode/i/save_location.md)
 - [script_lines](../method/Prism=3a=3aNode/i/script_lines.md)
 - [slice](../method/Prism=3a=3aNode/i/slice.md)
 - [slice_lines](../method/Prism=3a=3aNode/i/slice_lines.md)

@@ -1,0 +1,25 @@
+names=identity
+visibility=public
+kind=defined
+source_location=manual/api/rubygems/dependency.md
+since_by_name=identity=2.7.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def identity -> Symbol
+{: since="2.7.0"}
+
+`self` の依存関係の種類を表すシンボルを返します。
+
+`self` がプレリリース版を要求しており、かつ [m:Gem::Dependency#specific?] が真であれば `:complete` を、
+プレリリース版を要求しているが `specific?` が偽であれば `:abs_latest` を返します。
+プレリリース版を要求しておらず、[m:Gem::Dependency#latest_version?] が真であれば `:latest` を、
+それ以外の場合は `:released` を返します。
+
+```ruby title="例"
+p Gem::Dependency.new("rake").identity           # => :latest
+p Gem::Dependency.new("rake", ">= 1.0").identity # => :released
+```
+
+- **SEE** [m:Gem::Dependency#prerelease?], [m:Gem::Dependency#specific?], [m:Gem::Dependency#latest_version?]
+

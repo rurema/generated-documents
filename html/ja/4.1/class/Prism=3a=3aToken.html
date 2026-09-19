@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-17-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-19-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -143,6 +143,14 @@ token, _state <span class="o">=</span> <span class="no">Prism</span><span class=
 
 <li><a href="#I_--3D--3D">==</a></li>
 
+<li><a href="#I_--5B--5D">[]</a></li>
+
+<li><a href="#I_DECONSTRUCT_KEYS">deconstruct_keys</a></li>
+
+<li><a href="#I_DEEP_FREEZE">deep_freeze</a></li>
+
+<li><a href="#I_FIRST">first</a></li>
+
 <li><a href="#I_LOCATION">location</a></li>
 
 <li><a href="#I_TYPE">type</a></li>
@@ -183,6 +191,87 @@ other が同じ <code>type</code> と <code>value</code> を持つ <code>Prism::
 tokens <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">lex</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span>
 <span class="nb">p</span> tokens<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> tokens<span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># =&gt; true (別の位置の &quot;1&quot; どうし)
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_--5B--5D"><code>self[index] -&gt; Prism::Token | Integer</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Prism=3a=3aToken/i/=5b=5d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism/Token.html#method-i-5B-5D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Token.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> を、かつて <a href="../method/Prism/m/lex.html">Prism?.lex</a> などが返していた <code>[トークン, 状態]</code> という 2 要素配列であるかのように振る舞わせるためのメソッドです。
+</p>
+<p>
+<code>index</code> に 0 を指定すると <code>self</code> を、1 を指定すると字句解析器の状態を表す整数を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>index</code>:</dt>
+<dd>
+0 または 1 を指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>index</code> が 0, 1 のいずれでもない場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aToken/i/first.html">Prism::Token#first</a>, <a href="../method/Prism/m/lex.html">Prism?.lex</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(keys) -&gt; Hash</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aToken/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism/Token.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Token.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+パターンマッチのハッシュパターン(<code>case token; in {type:, value:}</code>)で使われます。<code>type</code>・<code>value</code>・<code>location</code> をキーに持つハッシュを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>keys</code>:</dt>
+<dd>
+取り出したいキーの配列を指定します。すべて取り出す場合は nil を指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+token, _state <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">lex</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">first</span>
+<span class="k">case</span> token
+<span class="k">in</span> <span class="p">{</span><span class="ss">type:</span>, <span class="ss">value:</span><span class="p">}</span>
+  <span class="nb">p</span> <span class="p">[</span>type, value<span class="p">]</span>
+<span class="k">end</span>
+<span class="c1"># =&gt; [:INTEGER, &quot;1&quot;]
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_DEEP_FREEZE"><code>deep_freeze -&gt; ()</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Prism=3a=3aToken/i/deep_freeze.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism/Token.html#method-i-deep_freeze">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Token.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> と、保持しているトークンの文字列・位置情報を frozen にします。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+token, _state <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">lex</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">first</span>
+token<span class="p">.</span><span class="nf">deep_freeze</span>
+<span class="nb">p</span> token<span class="p">.</span><span class="nf">frozen?</span>       <span class="c1"># =&gt; true
+</span><span class="nb">p</span> token<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">frozen?</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aSource/i/deep_freeze.html">Prism::Source#deep_freeze</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_FIRST"><code>first -&gt; Prism::Token</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Prism=3a=3aToken/i/first.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism/Token.html#method-i-first">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Token.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> を、かつて <a href="../method/Prism/m/lex.html">Prism?.lex</a> などが返していた <code>[トークン, 状態]</code> という 2 要素配列であるかのように振る舞わせるためのメソッドです。
+</p>
+<p>
+常に <code>self</code> を返します。<a href="../class/Array.html">Array</a> の <code>first</code> に合わせた名前のメソッドです。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aToken/i/=5b=5d.html"><code>[]</code></a>, <a href="../method/Prism/m/lex.html">Prism?.lex</a>
+</p>
 </dd>
 
 

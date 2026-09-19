@@ -138,6 +138,15 @@ source <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 <h2>目次</h2>
 <dl>
 
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_FOR">for</a></li>
+
+</ul>
+</dd>
+
 <dt>インスタンスメソッド</dt>
 <dd>
 <ul class="class-toc">
@@ -145,6 +154,8 @@ source <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 <li><a href="#I_CHARACTER_COLUMN">character_column</a></li>
 
 <li><a href="#I_CHARACTER_OFFSET">character_offset</a></li>
+
+<li><a href="#I_CODE_UNITS_CACHE">code_units_cache</a></li>
 
 <li><a href="#I_CODE_UNITS_COLUMN">code_units_column</a></li>
 
@@ -184,6 +195,46 @@ source <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 
 
 
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_FOR"><code>for(source, start_line, offsets) -&gt; Prism::Source</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/s/for.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Source.html#method-c-for">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+指定したソースコード文字列から <code>Prism::Source</code> のインスタンスを作成します。
+</p>
+<p>
+<code>new</code> の代わりにこのメソッドを使うことが推奨されます。ソースコードにマルチバイト文字が含まれない場合は、より高速に動作する特化版のサブクラス <code>Prism::ASCIISource</code> のインスタンスを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>source</code>:</dt>
+<dd>
+ソースコードの文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>start_line</code>:</dt>
+<dd>
+ソースコードが開始する行番号を指定します。通常は 1 ですが、このソースコードがより大きなソースコードの一部である場合や、<code>eval</code> の場合はそれ以外の値になることがあります。
+</dd>
+<dt class='method-param'>[PARAM] <code>offsets</code>:</dt>
+<dd>
+ソースコード中の各行の開始バイトオフセットの配列を指定します。先頭の要素は必ず 0 です。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+source <span class="o">=</span> <span class="no">Prism</span><span class="o">::</span><span class="no">Source</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">foo = 1\nbar = 2\n</span><span class="s2">"</span>, <span class="mi">1</span>, <span class="p">[</span><span class="mi">0</span>, <span class="mi">8</span>, <span class="mi">16</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> source<span class="p">.</span><span class="nf">class</span>   <span class="c1"># =&gt; Prism::ASCIISource
+</span><span class="nb">p</span> source<span class="p">.</span><span class="nf">line</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="c1"># =&gt; 2
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aParseResult/i/source.html">Prism::ParseResult#source</a>
+</p>
+</dd>
+
+
+</dl>
+
 <h2>インスタンスメソッド</h2>
 <dl>
 
@@ -212,6 +263,34 @@ byte_offset に対応する、ソースコード先頭からの文字単位の�
 バイトオフセット
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="I_CODE_UNITS_CACHE"><code>code_units_cache(encoding) -&gt; Prism::CodeUnitsCache</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism=3a=3aSource/i/code_units_cache.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Prism/Source.html#method-i-code_units_cache">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Source.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+指定したエンコーディングでのコード単位のオフセットを高速に計算するためのキャッシュを生成します。
+</p>
+<p>
+<a href="../class/Prism=3a=3aLocation.html">Prism::Location</a> の <code>cached_start_code_units_offset</code> などのメソッドに、多数の位置に対して繰り返し使うためのキャッシュとして渡します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>encoding</code>:</dt>
+<dd>
+コード単位の基準となるエンコーディングを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x = \&quot;あい\&quot; + 1\n</span><span class="s2">"</span><span class="p">)</span>
+cache <span class="o">=</span> result<span class="p">.</span><span class="nf">source</span><span class="p">.</span><span class="nf">code_units_cache</span><span class="p">(</span><span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_16LE</span><span class="p">)</span>
+<span class="nb">p</span> cache<span class="p">.</span><span class="nf">class</span> <span class="c1"># =&gt; Prism::CodeUnitsCache
+</span><span class="nb">p</span> cache<span class="p">[</span><span class="mi">9</span><span class="p">]</span>    <span class="c1"># =&gt; 7
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aLocation/i/cached_start_code_units_offset.html">Prism::Location#cached_start_code_units_offset</a>, <a href="../method/Prism=3a=3aResult/i/code_units_cache.html">Prism::Result#code_units_cache</a>
+</p>
 </dd>
 
 

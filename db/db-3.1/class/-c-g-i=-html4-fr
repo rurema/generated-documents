@@ -9,4 +9,20 @@ aliases=
 aliasof=
 source_location=manual/api/cgi/html.md
 
+HTML 4.01 Frameset の要素を生成するメソッドを提供するモジュールです。
 
+[c:CGI::TagMaker] を include し、以下の要素名を小文字にした名前のメソッド(`frameset`・`frame`)を定義しています。フレームセット以外の要素は [c:CGI::Html4Tr] と組み合わせて使います(`CGI.new("html4Fr")` で得られるオブジェクトは両方を include しています)。
+要素ごとのメソッドはすべて同じ形で、属性を、属性名をキー・属性値を値とする [c:Hash] または属性名の文字列で受け取り、ブロックを与えるとその返り値を要素の内容として開始タグと終了タグで囲みます。要素ごとの個別のエントリはこのリファレンスでは扱いません。
+
+| 種類 | 要素名(メソッド名) |
+|------|---------------------|
+| 開始タグと終了タグの両方が必要な要素(`nn_element`) | `frameset` |
+| 空要素(終了タグを持たない要素)(`nOE_element`) | `frame` |
+
+```ruby title="例"
+require "cgi"
+
+cgi = CGI.new("html4Fr")
+p cgi.frameset("cols" => "50%,50%") { cgi.frame("src" => "a.html") + cgi.frame("src" => "b.html") }
+# => "<FRAMESET cols=\"50%,50%\"><FRAME src=\"a.html\"><FRAME src=\"b.html\"></FRAMESET>"
+```

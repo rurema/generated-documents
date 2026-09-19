@@ -1,6 +1,6 @@
 # Module#private
 
-### def private() -> nil
+### def private -> nil
 ### def private(name) -> String | Symbol
 ### def private(*name) -> Array
 ### def private(names) -> Array

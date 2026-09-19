@@ -1,0 +1,29 @@
+names=parse_file_success?
+visibility=public
+kind=defined
+source_location=manual/api/prism.md
+since_by_name=parse_file_success=3f=3.3
+until_by_name=
+rbs_sig=(uninitialized)
+
+### module_function def parse_file_success?(filepath, **options) -> bool
+
+`filepath` で指定したファイルを構文解析し、エラーなく解析できた場合に true を返します。
+
+[m:Prism?.parse_file] を呼び出して [`.success?`](m:Prism::ParseResult#success?) を確認するのとほぼ同じ結果になりますが、構文木を Ruby オブジェクトとして構築しないぶん高速です。[m:Prism?.parse_success?] のファイル版です。オプションは [m:Prism?.parse] と同じです。
+
+- **param** `filepath` -- 解析する Ruby プログラムのファイルパスを指定します。
+- **param** `options` -- [m:Prism?.parse] を参照してください。
+
+```ruby title="例"
+require "prism"
+
+File.write("sample.rb", "def foo(a, b) = a + b\n")
+p Prism.parse_file_success?("sample.rb") # => true
+
+File.write("bad.rb", "def foo(\n")
+p Prism.parse_file_success?("bad.rb")    # => false
+```
+
+- **SEE** [m:Prism?.parse_file_failure?], [m:Prism?.parse_success?]
+

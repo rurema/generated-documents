@@ -130,11 +130,19 @@
 <dd>
 <ul class="class-toc">
 
+<li><a href="#S_INSTALLABLE--3F">installable?</a></li>
+
 <li><a href="#S_LOCAL">local</a></li>
 
 <li><a href="#S_MATCH">match</a></li>
 
+<li><a href="#S_MATCH_GEM--3F">match_gem?</a></li>
+
+<li><a href="#S_MATCH_SPEC--3F">match_spec?</a></li>
+
 <li><a href="#S_NEW">new</a></li>
+
+<li><a href="#S_SORT_PRIORITY">sort_priority</a></li>
 
 </ul>
 </dd>
@@ -195,6 +203,32 @@
 <h2>特異メソッド</h2>
 <dl>
 
+<dt class="method-heading" id="S_INSTALLABLE--3F"><code>installable?(spec) -&gt; bool</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPlatform/s/installable=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Gem/Platform.html#method-c-installable-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/platform.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+spec が現在の環境にインストール可能かどうかを返します。
+</p>
+<p>
+spec が <code>installable_platform?</code> に応答する場合はその結果を、応答しない場合は
+<a href="../method/Gem=3a=3aPlatform/s/match_spec=3f.html">Gem::Platform.match_spec?</a> の結果を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>spec</code>:</dt>
+<dd>
+判定したい <a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> のインスタンスを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>spec <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1.0.0</span><span class="s2">"</span><span class="p">)</span>
+spec<span class="p">.</span><span class="nf">platform</span> <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Platform</span><span class="o">::</span><span class="no">RUBY</span>
+<span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Platform</span><span class="p">.</span><span class="nf">installable?</span><span class="p">(</span>spec<span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPlatform/s/match_spec=3f.html">Gem::Platform.match_spec?</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_LOCAL"><code>local -&gt; Gem::Platform</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPlatform/s/local.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Gem/Platform.html#method-c-local">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/platform.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p class="todo">
@@ -211,6 +245,60 @@
 </dd>
 
 
+<dt class="method-heading" id="S_MATCH_GEM--3F"><code>match_gem?(platform, gem_name) -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPlatform/s/match_gem=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Gem/Platform.html#method-c-match_gem-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/platform.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+platform が現在の環境にインストール可能なプラットフォームかどうかを返します。
+</p>
+<p>
+内部で <code>Gem.platforms</code> を参照し、そのいずれかと platform が一致するかどうかを調べます。
+gem_name は TruffleRuby など一部の Ruby 処理系でのみ判定に使われます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>platform</code>:</dt>
+<dd>
+判定したい <a href="../class/Gem=3a=3aPlatform.html">Gem::Platform</a> のインスタンス、または文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>gem_name</code>:</dt>
+<dd>
+対象の Gem の名前を文字列で指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Platform</span><span class="p">.</span><span class="nf">match_gem?</span><span class="p">(</span><span class="no">Gem</span><span class="o">::</span><span class="no">Platform</span><span class="o">::</span><span class="no">RUBY</span>, <span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPlatform/s/match_spec=3f.html">Gem::Platform.match_spec?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_MATCH_SPEC--3F"><code>match_spec?(spec) -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPlatform/s/match_spec=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Gem/Platform.html#method-c-match_spec-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/platform.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+spec のプラットフォームが現在の環境にインストール可能かどうかを返します。
+</p>
+<p>
+<a href="../method/Gem=3a=3aPlatform/s/match_gem=3f.html">Gem::Platform.match_gem?</a> に、spec の <a href="../method/Gem=3a=3aSpecification/i/platform.html">Gem::Specification#platform</a> と
+<a href="../method/Gem=3a=3aSpecification/i/name.html">Gem::Specification#name</a> を渡した結果を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>spec</code>:</dt>
+<dd>
+判定したい <a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> のインスタンスを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>spec <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">rake</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1.0.0</span><span class="s2">"</span><span class="p">)</span>
+spec<span class="p">.</span><span class="nf">platform</span> <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Platform</span><span class="o">::</span><span class="no">RUBY</span>
+<span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Platform</span><span class="p">.</span><span class="nf">match_spec?</span><span class="p">(</span>spec<span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPlatform/s/match_gem=3f.html">Gem::Platform.match_gem?</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_NEW"><code>new(arch) -&gt; Gem::Platform</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPlatform/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Gem/Platform.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/platform.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -222,6 +310,27 @@
 アーキテクチャを指定します。
 </dd>
 </dl>
+</dd>
+
+
+<dt class="method-heading" id="S_SORT_PRIORITY"><code>sort_priority(platform) -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPlatform/s/sort_priority.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Gem/Platform.html#method-c-sort_priority">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/platform.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ソートする際に platform を優先させるための整数を返します。
+</p>
+<p>
+platform が <a href="../method/Gem=3a=3aPlatform/c/RUBY.html">Gem::Platform::RUBY</a> であれば -1 を、そうでなければ 1 を返します。値が小さいほど優先順位が高いことを表します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>platform</code>:</dt>
+<dd>
+優先順位を調べたい <a href="../class/Gem=3a=3aPlatform.html">Gem::Platform</a> のインスタンスを指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Platform</span><span class="p">.</span><span class="nf">sort_priority</span><span class="p">(</span><span class="no">Gem</span><span class="o">::</span><span class="no">Platform</span><span class="o">::</span><span class="no">RUBY</span><span class="p">)</span>               <span class="c1"># =&gt; -1
+</span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Platform</span><span class="p">.</span><span class="nf">sort_priority</span><span class="p">(</span><span class="no">Gem</span><span class="o">::</span><span class="no">Platform</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">x86_64-linux</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span></code></pre>
 </dd>
 
 

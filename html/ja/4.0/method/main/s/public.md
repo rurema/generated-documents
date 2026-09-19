@@ -1,6 +1,6 @@
 # main.public
 
-### def main.public() -> nil
+### def main.public -> nil
 ### def main.public(name) -> String | Symbol
 ### def main.public(*name) -> Array
 ### def main.public(names) -> Array

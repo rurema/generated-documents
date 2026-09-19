@@ -1,6 +1,6 @@
 # Module#protected
 
-### def protected() -> nil
+### def protected -> nil
 ### def protected(name) -> String | Symbol
 ### def protected(*name) -> Array
 ### def protected(names) -> Array

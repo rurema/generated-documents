@@ -1,0 +1,21 @@
+# Prism::ParseError#deconstruct_keys
+
+### def deconstruct_keys(keys) -> Hash
+
+パターンマッチのハッシュパターン(`case error; in {message:}`)で使われます。`message`・`location` をキーに持つハッシュを返します。
+
+Ruby 3.4 以降は `type`・`level` もキーに含まれます。
+
+
+- **param** `keys` -- 取り出したいキーの配列を指定します。すべて取り出す場合は nil を指定します。
+
+```ruby title="例"
+require "prism"
+
+error = Prism.parse("1 +\n").errors.first
+case error
+in {message:}
+  p message
+end
+# => "unexpected end-of-input; expected an expression after the operator"
+```

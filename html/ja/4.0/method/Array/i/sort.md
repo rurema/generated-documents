@@ -1,15 +1,10 @@
 # Array#sort
 
 ### def sort                -> Array
-### def sort!               -> self
 ### def sort {|a, b| ... }  -> Array
-### def sort! {|a, b| ... } -> self
 
-全ての要素を昇順にソートします。
+全ての要素を昇順にソートした配列を生成して返します。self は変更しません。
 要素同士の比較は <=> 演算子を使って行います。
-
-sort は self を変更せず、ソートされた配列を生成して返します。
-sort! は self を破壊的にソートし、self を返します。
 
 ブロックとともに呼び出された時には、要素同士の比較をブロックを用いて行います。
 ブロックに2つの要素を引数として与えて評価し、その結果で比較します。
@@ -33,5 +28,4 @@ p ary2.sort{|a, b| a.to_i <=> b.to_i }  # => ["7", "8", "9", "10", "11"] (ブロ
 p ary2.sort_by{|x| x.to_i }             # => ["7", "8", "9", "10", "11"]
 ```
 
-- **SEE** [Enumerable#sort_by](../../../method/Enumerable/i/sort_by.md)
-     , [Array#sort_by!](../../../method/Array/i/sort_by=21.md)
+- **SEE** [Array#sort!](../../../method/Array/i/sort=21.md), [Enumerable#sort_by](../../../method/Enumerable/i/sort_by.md), [Array#sort_by!](../../../method/Array/i/sort_by=21.md)

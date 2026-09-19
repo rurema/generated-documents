@@ -1,6 +1,6 @@
 # Module#module_function
 
-### def module_function() -> nil
+### def module_function -> nil
 ### def module_function(name) -> String | Symbol
 ### def module_function(*name) -> Array
 

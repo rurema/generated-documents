@@ -2,7 +2,7 @@
 
 ### def OpenSSL::PKey::DH.new(size, generator = 2) -> OpenSSL::PKey::DH
 ### def OpenSSL::PKey::DH.new(obj) -> OpenSSL::PKey::DH
-### def OpenSSL::PKey::DH.new() -> OpenSSL::PKey::DH
+### def OpenSSL::PKey::DH.new -> OpenSSL::PKey::DH
 
 DH オブジェクトを生成します。
 

@@ -1,7 +1,5 @@
 # Dir.open
 
-### def Dir.new(path)                                                      -> Dir
-### def Dir.new(path, encoding: Encoding.find("filesystem"))               -> Dir
 ### def Dir.open(path)                                                     -> Dir
 ### def Dir.open(path, encoding: Encoding.find("filesystem"))              -> Dir
 ### def Dir.open(path) {|dir| ...}                                         -> object
@@ -19,23 +17,7 @@ path に対するディレクトリストリームをオープンして返しま
 
 - **raise** `Errno::EXXX` -- オープンに失敗した場合に発生します。
 
-```ruby title="例: Dir.new"
-require 'tmpdir'
-
-Dir.mktmpdir do |tmpdir|
-  d = Dir.new(tmpdir)
-  p d.class         # => Dir
-  p d.read.encoding # => #<Encoding:UTF-8>
-  d.close
-
-  d = Dir.new(tmpdir, encoding: Encoding::UTF_8)
-  p d.class         # => Dir
-  p d.read.encoding # => #<Encoding:UTF-8>
-  d.close
-end
-```
-
-```ruby title="例: Dir.open"
+```ruby title="例"
 require 'tmpdir'
 
 Dir.mktmpdir do |tmpdir|
@@ -50,3 +32,5 @@ Dir.mktmpdir do |tmpdir|
   end
 end
 ```
+
+- **SEE** [Dir.new](../../../method/Dir/s/new.md)

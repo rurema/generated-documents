@@ -1,13 +1,10 @@
 # StringIO.new
 
 ### def StringIO.new(string = '', mode = 'r+')                 -> StringIO
-### def StringIO.open(string = '', mode = 'r+')                -> StringIO
-### def StringIO.open(string = '', mode = 'r+') {|io| ... }    -> object
 
 StringIO オブジェクトを生成して返します。
 
 与えられた string がフリーズされている場合には、mode はデフォルトでは読み取りのみに設定されます。
-ブロックを与えた場合は生成した StringIO オブジェクトを引数としてブロックを評価してその結果を返します。
 
 - **param** `string` -- 生成される StringIO のデータを文字列で指定します。
               この文字列はバッファとして使われます。[StringIO#write](../../../method/StringIO/i/write.md) などによって、
@@ -30,8 +27,6 @@ p io.size       # => 4
 p s             # => "fbar"
 io.rewind
 p io.gets       # => "fbar"
-
-StringIO.open("hoge"){|io|
-  p io.string   # => "hoge"
-}
 ```
+
+- **SEE** [StringIO.open](../../../method/StringIO/s/open.md)

@@ -1,0 +1,30 @@
+# Gem::Dependency#match?
+
+### def match?(obj, version = nil, allow_prerelease = false) -> bool
+{: since="1.9.2"}
+
+`self` が指定した Gem やスペックにマッチするかどうかを返します。
+
+`version` を省略した場合、`obj` には `name` と `version` に応答するオブジェクト
+([Gem::Specification](../../../class/Gem=3a=3aSpecification.md) など)を指定します。`version` を指定した場合は、
+`obj` には Gem の名前を文字列で指定します。
+
+- **param** `obj` -- `version` を省略する場合は `name`・`version` に応答するオブジェクトを、
+           指定する場合は Gem の名前を表す文字列を指定します。
+- **param** `version` -- `obj` のバージョンを表す文字列を指定します。省略できます。
+- **param** `allow_prerelease` -- `obj` のバージョンがプレリリース版であっても
+           マッチを許可するかどうかを true か false で指定します。
+- **return** -- `self` の [Gem::Dependency#name](../../../method/Gem=3a=3aDependency/i/name.md) が一致せず、
+           またはバージョンが `self` の条件を満たさない場合は false を返します。
+           マッチする場合は true を返します。
+
+```ruby title="例"
+dep = Gem::Dependency.new("rake", "~> 1.0")
+p dep.match?("rake", "1.0.1") # => true
+p dep.match?("rake", "2.0.0") # => false
+
+spec = Gem::Specification.new("rake", "1.0.1")
+p dep.match?(spec)            # => true
+```
+
+- **SEE** [Gem::Dependency#matches_spec?](../../../method/Gem=3a=3aDependency/i/matches_spec=3f.md)

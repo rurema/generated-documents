@@ -1,6 +1,6 @@
 # OpenSSL::Netscape::SPKI.new
 
-### def OpenSSL::Netscape::SPKI.new() -> OpenSSL::Netscape::SPKI
+### def OpenSSL::Netscape::SPKI.new -> OpenSSL::Netscape::SPKI
 ### def OpenSSL::Netscape::SPKI.new(buf) -> OpenSSL::Netscape::SPKI
 
 SPKI オブジェクトを生成します。

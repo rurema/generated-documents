@@ -1,0 +1,27 @@
+names=find_line
+visibility=public
+kind=defined
+source_location=manual/api/prism/Source.md
+since_by_name=find_line=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def find_line(byte_offset) -> Integer
+
+byte_offset の位置がある行の、[m:Prism::Source#offsets] 配列上でのインデックス(0 起点)を二分探索で求めます。
+
+実際の行番号(1 起点)ではなく、内部で保持している配列上のインデックスを返す点に注意してください。実際の行番号を得たい場合は [m:Prism::Source#line] を使ってください。[m:Prism::Source#line]・[m:Prism::Source#line_start]・[m:Prism::Source#line_end] が内部でこのメソッドを使用します。
+
+- **param** `byte_offset` -- バイトオフセットを指定します。
+
+```ruby title="例"
+require "prism"
+
+source = Prism.parse("foo = 1\nbar = 2\n").source
+p source.find_line(9) # => 1
+p source.line(9)      # => 2
+```
+
+- **SEE** [m:Prism::Source#line]
+
+

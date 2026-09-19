@@ -9,4 +9,5 @@ Ruby 3.3 の prism にはこのクラスはなく、[Prism::ParseResult](../clas
 
 ## Instance Methods
 
+- [deconstruct_keys](../method/Prism=3a=3aParseLexResult/i/deconstruct_keys.md)
 - [value](../method/Prism=3a=3aParseLexResult/i/value.md)
