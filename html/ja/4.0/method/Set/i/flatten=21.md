@@ -1,22 +1,16 @@
 # Set#flatten!
 
-### def flatten -> Set
 ### def flatten! -> self | nil
 
-集合を再帰的に平坦化します。
-
-flatten は、平坦化した集合を新しく作成し、それを返します。
-
-flatten! は、元の集合を破壊的に平坦化します。集合の要素に変更が発生した場合には self を、そうでない場合には nil を返します。
+集合を再帰的かつ破壊的に平坦化します。集合の要素に変更が発生した場合には self を、そうでない場合には nil を返します。
 
 - **raise** `ArgumentError` -- 集合の要素として self が再帰的に現れた場合に発生します。
 
 ```ruby
 s = Set[Set[1,2], 3]
-p s.flatten # => Set[1, 2, 3]
-p s         # => Set[Set[1, 2], 3]
 s.flatten!
-p s         # => Set[1, 2, 3]
+p s           # => Set[1, 2, 3]
+p s.flatten!  # => nil
 ```
 
-- **SEE** [Array#flatten](../../../method/Array/i/flatten.md)
+- **SEE** [Set#flatten](../../../method/Set/i/flatten.md), [Array#flatten!](../../../method/Array/i/flatten=21.md)

@@ -9,5 +9,6 @@
 
 ## Instance Methods
 
+- [deconstruct_keys](../method/Prism=3a=3aComment/i/deconstruct_keys.md)
 - [location](../method/Prism=3a=3aComment/i/location.md)
 - [slice](../method/Prism=3a=3aComment/i/slice.md)

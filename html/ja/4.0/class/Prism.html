@@ -125,7 +125,13 @@ Ruby プログラムの構文解析・字句解析を行うためのモジュー
 
 <li><a href="#M_LEX">lex</a></li>
 
+<li><a href="#M_LEX_COMPAT">lex_compat</a></li>
+
 <li><a href="#M_LEX_FILE">lex_file</a></li>
+
+<li><a href="#M_LEX_RIPPER">lex_ripper</a></li>
+
+<li><a href="#M_LOAD">load</a></li>
 
 <li><a href="#M_PARSE">parse</a></li>
 
@@ -137,11 +143,23 @@ Ruby プログラムの構文解析・字句解析を行うためのモジュー
 
 <li><a href="#M_PARSE_FILE_COMMENTS">parse_file_comments</a></li>
 
+<li><a href="#M_PARSE_FILE_FAILURE--3F">parse_file_failure?</a></li>
+
+<li><a href="#M_PARSE_FILE_SUCCESS--3F">parse_file_success?</a></li>
+
 <li><a href="#M_PARSE_LEX">parse_lex</a></li>
 
 <li><a href="#M_PARSE_LEX_FILE">parse_lex_file</a></li>
 
+<li><a href="#M_PARSE_STREAM">parse_stream</a></li>
+
 <li><a href="#M_PARSE_SUCCESS--3F">parse_success?</a></li>
+
+<li><a href="#M_PROFILE">profile</a></li>
+
+<li><a href="#M_PROFILE_FILE">profile_file</a></li>
+
+<li><a href="#M_SCOPE">scope</a></li>
 
 </ul>
 </dd>
@@ -249,6 +267,37 @@ result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 </dd>
 
 
+<dt class="method-heading" id="M_LEX_COMPAT"><code>lex_compat(source, **options) -&gt; Prism::Result</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism/m/lex_compat.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-lex_compat">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>source</code> を字句解析し、<a href="../class/Ripper.html">Ripper</a> の <code>Ripper.lex</code> に近い形式のトークン列を持つ結果オブジェクトを返します。
+</p>
+<p>
+戻り値は内部クラス <code>Prism::LexCompat::Result</code> のインスタンスです。<code>value</code> は各要素が <code>[[行, 桁], 種類を表すシンボル, 文字列, 状態]</code> という形式になっている配列で、<code>Ripper.lex</code> の戻り値に近い形式です。<a href="../method/Prism/m/lex.html">Prism?.lex</a> が返す <a href="../class/Prism=3a=3aToken.html">Prism::Token</a> とは異なり、Ripper 互換の配列形式でトークンを扱いたい場合に使います。オプションは <a href="../method/Prism/m/parse.html">Prism?.parse</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>source</code>:</dt>
+<dd>
+解析する Ruby プログラムの文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/Prism/m/parse.html">Prism?.parse</a> を参照してください。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">lex_compat</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">first</span>
+<span class="c1"># =&gt; [[1, 0], :on_int, &quot;1&quot;, END]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism/m/lex.html">Prism?.lex</a>, <a href="../class/Ripper.html">Ripper</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="M_LEX_FILE"><code>lex_file(filepath, **options) -&gt; Prism::LexResult</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism/m/lex_file.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-lex_file">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -280,6 +329,73 @@ result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Prism/m/lex.html">Prism?.lex</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_LEX_RIPPER"><code>lex_ripper(source) -&gt; Array</code><span class="method-since-badge">Ruby 3.3 から</span> <span class="method-until-badge">Ruby 4.1 で削除</span><span class="permalink">[<a href="../method/Prism/m/lex_ripper.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-lex_ripper">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>source</code> を <a href="../class/Ripper.html">Ripper</a> の <code>Ripper.lex</code> を使って字句解析します。
+</p>
+<p>
+空白のイベントを除いた、<code>Ripper.lex</code> とほぼ同じ形式のトークンの配列を返します。<a href="../method/Prism/m/lex_compat.html">Prism?.lex_compat</a> とは異なり、prism 自身ではなく組み込みの <a href="../class/Ripper.html">Ripper</a> を使って字句解析します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>source</code>:</dt>
+<dd>
+解析する Ruby プログラムの文字列を指定します。
+</dd>
+<dt>[EXCEPTION] <code>SyntaxError</code>:</dt>
+<dd>
+<code>source</code> の構文が不正な場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+<span class="nb">p</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">lex_ripper</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; [[[1, 0], :on_int, &quot;1&quot;, END], [[1, 2], :on_op, &quot;+&quot;, BEG], [[1, 4], :on_int, &quot;2&quot;, END]]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism/m/lex_compat.html">Prism?.lex_compat</a>, <a href="../class/Ripper.html">Ripper</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_LOAD"><code>load(source, serialized, freeze = false) -&gt; Prism::ParseResult</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism/m/load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>source</code> と、それを prism でシリアライズした文字列 <code>serialized</code> から構文木を復元し、<a href="../class/Prism=3a=3aParseResult.html">Prism::ParseResult</a> として返します。
+</p>
+<p>
+<a href="../method/Prism/m/dump.html">Prism?.dump</a> や <a href="../method/Prism/m/dump_file.html">Prism?.dump_file</a> で得たシリアライズ済み文字列を、それを生成したときと同じ <code>source</code> と組み合わせてデシリアライズするために使います。<code>freeze</code> に true を指定すると、復元した構文木の各ノードを frozen にします。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>source</code>:</dt>
+<dd>
+<code>serialized</code> を生成したときに使ったソースコードの文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>serialized</code>:</dt>
+<dd>
+<a href="../method/Prism/m/dump.html">Prism?.dump</a> などで得たシリアライズ済みの文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>freeze</code>:</dt>
+<dd>
+true を指定すると復元した構文木を frozen にします。省略した場合は false です。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+source <span class="o">=</span> <span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span>
+dumped <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span>source<span class="p">)</span>
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>source, dumped<span class="p">)</span>
+<span class="nb">p</span> result<span class="p">.</span><span class="nf">class</span>        <span class="c1"># =&gt; Prism::ParseResult
+</span><span class="nb">p</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">slice</span>   <span class="c1"># =&gt; &quot;1 + 2&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism/m/dump.html">Prism?.dump</a>, <a href="../method/Prism/m/dump_file.html">Prism?.dump_file</a>
 </p>
 </dd>
 
@@ -482,6 +598,72 @@ comments <span class="o">=</span> <span class="no">Prism</span><span class="p">.
 </dd>
 
 
+<dt class="method-heading" id="M_PARSE_FILE_FAILURE--3F"><code>parse_file_failure?(filepath, **options) -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism/m/parse_file_failure=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-parse_file_failure-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>filepath</code> で指定したファイルの構文解析にエラーがあった場合に true を返します。
+</p>
+<p>
+<a href="../method/Prism/m/parse_file_success=3f.html">Prism?.parse_file_success?</a> の否定です。オプションは <a href="../method/Prism/m/parse.html">Prism?.parse</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>filepath</code>:</dt>
+<dd>
+解析する Ruby プログラムのファイルパスを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/Prism/m/parse.html">Prism?.parse</a> を参照してください。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+<span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">sample.rb</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">def foo(a, b) = a + b\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse_file_failure?</span><span class="p">(</span><span class="s2">"</span><span class="s2">sample.rb</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; false
+</span>
+<span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">bad.rb</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">def foo(\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse_file_failure?</span><span class="p">(</span><span class="s2">"</span><span class="s2">bad.rb</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism/m/parse_file_success=3f.html">Prism?.parse_file_success?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_PARSE_FILE_SUCCESS--3F"><code>parse_file_success?(filepath, **options) -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism/m/parse_file_success=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-parse_file_success-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>filepath</code> で指定したファイルを構文解析し、エラーなく解析できた場合に true を返します。
+</p>
+<p>
+<a href="../method/Prism/m/parse_file.html">Prism?.parse_file</a> を呼び出して <a href="../method/Prism=3a=3aParseResult/i/success=3f.html"><code>.success?</code></a> を確認するのとほぼ同じ結果になりますが、構文木を Ruby オブジェクトとして構築しないぶん高速です。<a href="../method/Prism/m/parse_success=3f.html">Prism?.parse_success?</a> のファイル版です。オプションは <a href="../method/Prism/m/parse.html">Prism?.parse</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>filepath</code>:</dt>
+<dd>
+解析する Ruby プログラムのファイルパスを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/Prism/m/parse.html">Prism?.parse</a> を参照してください。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+<span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">sample.rb</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">def foo(a, b) = a + b\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse_file_success?</span><span class="p">(</span><span class="s2">"</span><span class="s2">sample.rb</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span>
+<span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">bad.rb</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">def foo(\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse_file_success?</span><span class="p">(</span><span class="s2">"</span><span class="s2">bad.rb</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism/m/parse_file_failure=3f.html">Prism?.parse_file_failure?</a>, <a href="../method/Prism/m/parse_success=3f.html">Prism?.parse_success?</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="M_PARSE_LEX"><code>parse_lex(source, **options) -&gt; Prism::ParseLexResult</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism/m/parse_lex.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-parse_lex">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -552,6 +734,38 @@ ast, tokens <span class="o">=</span> <span class="no">Prism</span><span class="p
 </dd>
 
 
+<dt class="method-heading" id="M_PARSE_STREAM"><code>parse_stream(stream, **options) -&gt; Prism::ParseResult</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism/m/parse_stream.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-parse_stream">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>gets</code> に応答するオブジェクト <code>stream</code> から少しずつ読み込みながら構文解析し、結果を <a href="../class/Prism=3a=3aParseResult.html">Prism::ParseResult</a> として返します。
+</p>
+<p>
+ソースコード全体を事前に文字列としてメモリに読み込むことなく構文解析したい場合に使います。オプションは <a href="../method/Prism/m/parse.html">Prism?.parse</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>stream</code>:</dt>
+<dd>
+<code>gets(limit)</code> に応答するオブジェクトを指定します。<a href="../class/IO.html">IO</a> や <a href="../class/StringIO.html">StringIO</a> などが使えます。
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/Prism/m/parse.html">Prism?.parse</a> を参照してください。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">stringio</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse_stream</span><span class="p">(</span><span class="no">StringIO</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2\n</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
+<span class="nb">p</span> result<span class="p">.</span><span class="nf">class</span>        <span class="c1"># =&gt; Prism::ParseResult
+</span><span class="nb">p</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">slice</span>   <span class="c1"># =&gt; &quot;1 + 2&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism/m/parse.html">Prism?.parse</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="M_PARSE_SUCCESS--3F"><code>parse_success?(source, **options) -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism/m/parse_success=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-parse_success-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -576,6 +790,97 @@ ast, tokens <span class="o">=</span> <span class="no">Prism</span><span class="p
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Prism/m/parse_failure=3f.html">Prism?.parse_failure?</a>, <a href="../method/Prism=3a=3aParseResult/i/success=3f.html">Prism::ParseResult#success?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_PROFILE"><code>profile(source, **options) -&gt; nil</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism/m/profile.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-profile">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>source</code> を構文解析しますが、結果を Ruby オブジェクトとして構築せずに nil を返します。
+</p>
+<p>
+プロファイラが構文木を Ruby オブジェクト化するオーバーヘッドを避けつつ、構文解析そのものの処理時間を計測できるようにするためのメソッドです。オプションは <a href="../method/Prism/m/parse.html">Prism?.parse</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>source</code>:</dt>
+<dd>
+解析する Ruby プログラムの文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/Prism/m/parse.html">Prism?.parse</a> を参照してください。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+<span class="nb">p</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">profile</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism/m/parse.html">Prism?.parse</a>, <a href="../method/Prism/m/profile_file.html">Prism?.profile_file</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_PROFILE_FILE"><code>profile_file(filepath, **options) -&gt; nil</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Prism/m/profile_file.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-profile_file">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>filepath</code> で指定したファイルを構文解析しますが、結果を Ruby オブジェクトとして構築せずに nil を返します。
+</p>
+<p>
+<a href="../method/Prism/m/profile.html">Prism?.profile</a> のファイル版です。オプションは <a href="../method/Prism/m/parse.html">Prism?.parse</a> と同じです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>filepath</code>:</dt>
+<dd>
+解析する Ruby プログラムのファイルパスを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+<a href="../method/Prism/m/parse.html">Prism?.parse</a> を参照してください。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+<span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"</span><span class="s2">sample.rb</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">1 + 2\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">profile_file</span><span class="p">(</span><span class="s2">"</span><span class="s2">sample.rb</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism/m/profile.html">Prism?.profile</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="M_SCOPE"><code>scope(locals: [], forwarding: []) -&gt; Prism::Scope</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Prism/m/scope.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Prism.html#method-c-scope">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+解析対象のソースコードの周囲にあるものとして扱うローカル変数と、そこから転送されるパラメータの情報をまとめた <code>Prism::Scope</code> のインスタンスを作成します。
+</p>
+<p>
+作成したオブジェクトは <a href="../method/Prism/m/parse.html">Prism?.parse</a> などの <code>scopes:</code> オプションの要素として渡します。<code>eval</code> のように、周囲のスコープで定義済みのローカル変数を引き継いで解析したい場合に使います。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>locals</code>:</dt>
+<dd>
+そのスコープで定義済みとみなすローカル変数名をシンボルの配列で指定します。省略した場合は空配列です。
+</dd>
+<dt class='method-param'>[PARAM] <code>forwarding</code>:</dt>
+<dd>
+そのスコープから次のスコープへ転送されるパラメータの種類を、<code>:*</code>・<code>:**</code>・<code>:&amp;</code>・<code>:&quot;...&quot;</code> のいずれかのシンボルからなる配列で指定します。省略した場合は空配列です。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+scope <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">scope</span><span class="p">(</span><span class="ss">locals:</span> <span class="p">[</span><span class="ss">:x</span><span class="p">]</span><span class="p">)</span>
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">x + 1</span><span class="s2">"</span>, <span class="ss">scopes:</span> <span class="p">[</span>scope<span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">receiver</span><span class="p">.</span><span class="nf">class</span>
+<span class="c1"># =&gt; Prism::LocalVariableReadNode
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism/m/parse.html">Prism?.parse</a>
 </p>
 </dd>
 

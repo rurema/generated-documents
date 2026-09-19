@@ -1,6 +1,6 @@
 # Module#public
 
-### def public() -> nil
+### def public -> nil
 ### def public(name) -> String | Symbol
 ### def public(*name) -> Array
 ### def public(names) -> Array

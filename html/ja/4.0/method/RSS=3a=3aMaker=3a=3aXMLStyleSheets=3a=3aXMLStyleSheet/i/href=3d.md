@@ -1,5 +1,5 @@
 # RSS::Maker::XMLStyleSheets::XMLStyleSheet#href=
 
 ### def href
-### def href=()
+### def href=(href)
 @todo

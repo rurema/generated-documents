@@ -1,0 +1,25 @@
+names=mark_newlines!
+visibility=public
+kind=defined
+source_location=manual/api/prism/ParseResult.md
+since_by_name=mark_newlines=21=3.3
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def mark_newlines! -> ()
+
+構文木を巡回し、CRuby の `:line` [c:TracePoint] イベントが発生する行に対応するノードに印を付けます。
+
+印が付いたノードは [m:Prism::Node#newline?] で判定できます。[m:Prism?.parse] などの通常の解析結果ではこの処理は解析時にすでに行われていますが、構文木を独自に構築した場合など、印が付いていない構文木に対して明示的に呼び出すために使います。
+
+```ruby title="例"
+require "prism"
+
+result = Prism.parse("if true\n  1\nend\n")
+result.mark_newlines!
+p result.value.statements.body[0].newline?
+# => true
+```
+
+- **SEE** [m:Prism::Node#newline?]
+

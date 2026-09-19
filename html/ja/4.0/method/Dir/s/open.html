@@ -18,9 +18,9 @@
 <link rel="stylesheet" href="../../../search.css">
 <link rel="icon" type="image/png" href="../../../rurema.png">
 
-<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Dir/s/new.html">
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Dir/s/open.html">
 
-<title>Dir.new, Dir.open (Ruby 4.0 リファレンスマニュアル)</title>
+<title>Dir.open (Ruby 4.0 リファレンスマニュアル)</title>
 <meta name="description" content="path に対するディレクトリストリームをオープンして返します。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
@@ -51,7 +51,7 @@
 
 
 <script type="application/ld+json">
-{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Dir.html","name":"Dirクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Dir/s/new.html","name":"new","position":5}]}
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Dir.html","name":"Dirクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/Dir/s/open.html","name":"open","position":5}]}
 </script>
 
 <header>
@@ -70,24 +70,23 @@
         <a href="../../../class/Dir.html">Dirクラス</a>
       </li>
       <li>
-        new 
+        open 
       </li>
     </ol>
   </nav>
 
-<h1>singleton method Dir.new</h1>
+<h1>singleton method Dir.open</h1>
 </header>
 
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_NEW"><code>new(path) -&gt; Dir</code><span class="permalink">[<a href="../../../method/Dir/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>new(path, encoding: Encoding.find(&quot;filesystem&quot;)) -&gt; Dir</code></dt>
-<dt class="method-heading"><code>open(path) -&gt; Dir</code></dt>
+<dt class="method-heading" id="S_OPEN"><code>open(path) -&gt; Dir</code><span class="permalink">[<a href="../../../method/Dir/s/open.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Dir.html#method-c-open">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Dir.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>open(path, encoding: Encoding.find(&quot;filesystem&quot;)) -&gt; Dir</code></dt>
 <dt class="method-heading"><code>open(path) {|dir| ...} -&gt; object</code></dt>
 <dt class="method-heading"><code>open(path, encoding: Encoding.find(&quot;filesystem&quot;)) {|dir| ...} -&gt; object</code></dt>
-<dt class="rbs-signature"><code>(path dir, ?encoding: encoding?) &rarr; void</code></dt>
+<dt class="rbs-signature"><code>(path dirname, ?encoding: encoding?) &rarr; instance</code></dt>
+<dt class="rbs-signature"><code>[U] (path dirname, ?encoding: encoding?) { (instance) &rarr; U } &rarr; U</code></dt>
 <dd class="method-description">
 <p>
 path に対するディレクトリストリームをオープンして返します。
@@ -110,22 +109,7 @@ path に対するディレクトリストリームをオープンして返しま
 オープンに失敗した場合に発生します。
 </dd>
 </dl>
-<span class="caption">例: Dir.new</span>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'tmpdir'</span>
-
-<span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span> <span class="k">do</span> <span class="o">|</span>tmpdir<span class="o">|</span>
-  d <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>tmpdir<span class="p">)</span>
-  <span class="nb">p</span> d<span class="p">.</span><span class="nf">class</span>         <span class="c1"># =&gt; Dir
-</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">encoding</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
-</span>  d<span class="p">.</span><span class="nf">close</span>
-
-  d <span class="o">=</span> <span class="no">Dir</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>tmpdir, <span class="ss">encoding:</span> <span class="no">Encoding</span><span class="o">::</span><span class="no">UTF_8</span><span class="p">)</span>
-  <span class="nb">p</span> d<span class="p">.</span><span class="nf">class</span>         <span class="c1"># =&gt; Dir
-</span>  <span class="nb">p</span> d<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">encoding</span> <span class="c1"># =&gt; #&lt;Encoding:UTF-8&gt;
-</span>  d<span class="p">.</span><span class="nf">close</span>
-<span class="k">end</span>
-</code></pre>
-<span class="caption">例: Dir.open</span>
+<span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'tmpdir'</span>
 
 <span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span> <span class="k">do</span> <span class="o">|</span>tmpdir<span class="o">|</span>
@@ -140,6 +124,9 @@ path に対するディレクトリストリームをオープンして返しま
 </span>  <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/Dir/s/new.html">Dir.new</a>
+</p>
 </dd>
 
 

@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/CGI=3a=3aTagMaker.html">
 
 <title>module CGI::TagMaker (Ruby 3.3 リファレンスマニュアル)</title>
-<meta name="description" content="">
+<meta name="description" content="HTML の要素を生成するメソッドの実装を提供するモジュールです。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -101,6 +101,12 @@
 
 
 <h2>要約</h2>
+<p>
+HTML の要素を生成するメソッドの実装を提供するモジュールです。
+</p>
+<p>
+<a href="../class/CGI=3a=3aHtml3.html">CGI::Html3</a>・<a href="../class/CGI=3a=3aHtml4.html">CGI::Html4</a>・<a href="../class/CGI=3a=3aHtml4Tr.html">CGI::Html4Tr</a>・<a href="../class/CGI=3a=3aHtml4Fr.html">CGI::Html4Fr</a>・<a href="../class/CGI=3a=3aHtml5.html">CGI::Html5</a> の各モジュールが include し、要素名と同名のメソッド(<code>html</code>・<code>p</code>・<code>br</code> など)の実体として利用しています。通常はこのモジュールのメソッドを直接呼び出す必要はありません。
+</p>
 
 
 
@@ -111,11 +117,17 @@
 <dd>
 <ul class="class-toc">
 
-<li><a href="#I_N-O_ELEMENT_DEF">nO_element_def</a></li>
+<li><a href="#I_N-O_ELEMENT">nO_element</a></li>
+
+<li><a href="#I_N-O-E_ELEMENT_DEF">nO_element_def</a></li>
+
+<li><a href="#I_N-O-E_ELEMENT">nOE_element</a></li>
 
 <li><a href="#I_N-O-E_ELEMENT_DEF">nOE_element_def</a></li>
 
-<li><a href="#I_NN_ELEMENT_DEF">nn_element_def</a></li>
+<li><a href="#I_NN_ELEMENT">nn_element</a></li>
+
+<li><a href="#I_N-O-E_ELEMENT_DEF">nn_element_def</a></li>
 
 </ul>
 </dd>
@@ -134,27 +146,106 @@
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_N-O-E_ELEMENT_DEF"><code>nOE_element_def(element, append = nil)</code><span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/CGI=3a=3aTagMaker/i/nOE_element_def.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI/TagMaker.html#method-i-nOE_element_def">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/html.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_N-O-E_ELEMENT"><code>nOE_element(element, attributes = {}) -&gt; String</code><span class="method-since-badge">Ruby 2.1.0 から</span> <span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/CGI=3a=3aTagMaker/i/nOE_element.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI/TagMaker.html#method-i-nOE_element">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/html.md">edit</a>]</span></dt>
 <dd class="method-description">
-<p class="todo">
-[TODO]
+<p>
+空要素(終了タグを持たない要素)の開始タグを生成して返します。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>element</code>:</dt>
+<dd>
+要素名を指定します。タグ名は大文字に変換されます。
+</dd>
+<dt class='method-param'>[PARAM] <code>attributes</code>:</dt>
+<dd>
+属性名をキー・属性値を値とする <a href="../class/Hash.html">Hash</a> を指定します。値が <code>true</code> の属性は属性名だけを出力し、値が偽の属性は出力しません。属性名の文字列を指定すると、その属性名だけを出力します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html4</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> cgi<span class="p">.</span><span class="nf">nOE_element</span><span class="p">(</span><span class="s2">"</span><span class="s2">input</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">type</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">checkbox</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">checked</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; &quot;&lt;INPUT type=\&quot;checkbox\&quot; checked&gt;&quot;
+</span><span class="nb">p</span> cgi<span class="p">.</span><span class="nf">nOE_element</span><span class="p">(</span><span class="s2">"</span><span class="s2">br</span><span class="s2">"</span><span class="p">)</span>                                             <span class="c1"># =&gt; &quot;&lt;BR&gt;&quot;
+</span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_N-O_ELEMENT_DEF"><code>nO_element_def(element)</code><span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/CGI=3a=3aTagMaker/i/nO_element_def.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI/TagMaker.html#method-i-nO_element_def">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/html.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_N-O-E_ELEMENT_DEF"><code>nn_element_def(attributes = {}) -&gt; String</code><span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/CGI=3a=3aTagMaker/i/nOE_element_def.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI/TagMaker.html#method-i-nOE_element_def">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/html.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>nn_element_def(attributes = {}) { ... } -&gt; String</code></dt>
+<dt class="method-heading"><code>nOE_element_def(attributes = {}) -&gt; String</code></dt>
+<dt class="method-heading"><code>nO_element_def(attributes = {}) -&gt; String</code></dt>
+<dt class="method-heading"><code>nO_element_def(attributes = {}) { ... } -&gt; String</code></dt>
 <dd class="method-description">
-<p class="todo">
-[TODO]
+<p>
+要素名と同名のメソッド(<code>html</code>・<code>br</code>・<code>p</code> など)の実体です。呼び出されたメソッド名を要素名として、それぞれ <a href="../method/CGI=3a=3aTagMaker/i/nn_element.html">CGI::TagMaker#nn_element</a>・<a href="../method/CGI=3a=3aTagMaker/i/nOE_element.html">CGI::TagMaker#nOE_element</a>・<a href="../method/CGI=3a=3aTagMaker/i/nO_element.html">CGI::TagMaker#nO_element</a> を呼び出します。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>attributes</code>:</dt>
+<dd>
+属性名をキー・属性値を値とする <a href="../class/Hash.html">Hash</a> または属性名の文字列を指定します。
+</dd>
+</dl>
 </dd>
 
 
-<dt class="method-heading" id="I_NN_ELEMENT_DEF"><code>nn_element_def(element)</code><span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/CGI=3a=3aTagMaker/i/nn_element_def.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI/TagMaker.html#method-i-nn_element_def">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/html.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_N-O_ELEMENT"><code>nO_element(element, attributes = {}) -&gt; String</code><span class="method-since-badge">Ruby 2.1.0 から</span> <span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/CGI=3a=3aTagMaker/i/nO_element.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI/TagMaker.html#method-i-nO_element">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/html.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>nO_element(element, attributes = {}) { ... } -&gt; String</code></dt>
 <dd class="method-description">
-<p class="todo">
-[TODO]
+<p>
+終了タグを省略できる要素を生成して返します。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>element</code>:</dt>
+<dd>
+要素名を指定します。タグ名は大文字に変換されます。
+</dd>
+<dt class='method-param'>[PARAM] <code>attributes</code>:</dt>
+<dd>
+属性名をキー・属性値を値とする <a href="../class/Hash.html">Hash</a> を指定します。値が <code>true</code> の属性は属性名だけを出力し、値が偽の属性は出力しません。属性名の文字列を指定すると、その属性名だけを出力します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+ブロックを与えた場合はその返り値を内容として開始タグと終了タグで囲んだ文字列を、与えなかった場合は開始タグだけの文字列を返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html4</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> cgi<span class="p">.</span><span class="nf">nO_element</span><span class="p">(</span><span class="s2">"</span><span class="s2">p</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"</span><span class="s2">text</span><span class="s2">"</span> <span class="p">}</span> <span class="c1"># =&gt; &quot;&lt;P&gt;text&lt;/P&gt;&quot;
+</span><span class="nb">p</span> cgi<span class="p">.</span><span class="nf">nO_element</span><span class="p">(</span><span class="s2">"</span><span class="s2">p</span><span class="s2">"</span><span class="p">)</span>            <span class="c1"># =&gt; &quot;&lt;P&gt;&quot;
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_NN_ELEMENT"><code>nn_element(element, attributes = {}) -&gt; String</code><span class="method-since-badge">Ruby 2.1.0 から</span> <span class="method-until-badge">Ruby 4.0 で削除</span><span class="permalink">[<a href="../method/CGI=3a=3aTagMaker/i/nn_element.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CGI/TagMaker.html#method-i-nn_element">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/cgi/html.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>nn_element(element, attributes = {}) { ... } -&gt; String</code></dt>
+<dd class="method-description">
+<p>
+開始タグと終了タグの両方が必要な要素を生成して返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>element</code>:</dt>
+<dd>
+要素名を指定します。タグ名は大文字に変換されます。
+</dd>
+<dt class='method-param'>[PARAM] <code>attributes</code>:</dt>
+<dd>
+属性名をキー・属性値を値とする <a href="../class/Hash.html">Hash</a> を指定します。値が <code>true</code> の属性は属性名だけを出力し、値が偽の属性は出力しません。属性名の文字列を指定すると、その属性名だけを出力します。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+ブロックを与えた場合はその返り値を内容として開始タグと終了タグで囲んだ文字列を、与えなかった場合は開始タグと終了タグだけの文字列を返します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">cgi</span><span class="s2">"</span>
+
+cgi <span class="o">=</span> <span class="no">CGI</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">html4</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> cgi<span class="p">.</span><span class="nf">nn_element</span><span class="p">(</span><span class="s2">"</span><span class="s2">div</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">class</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">note</span><span class="s2">"</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"</span><span class="s2">text</span><span class="s2">"</span> <span class="p">}</span> <span class="c1"># =&gt; &quot;&lt;DIV class=\&quot;note\&quot;&gt;text&lt;/DIV&gt;&quot;
+</span><span class="nb">p</span> cgi<span class="p">.</span><span class="nf">nn_element</span><span class="p">(</span><span class="s2">"</span><span class="s2">div</span><span class="s2">"</span><span class="p">)</span>                               <span class="c1"># =&gt; &quot;&lt;DIV&gt;&lt;/DIV&gt;&quot;
+</span></code></pre>
 </dd>
 
 

@@ -181,7 +181,11 @@ gem のバージョンを取り扱うためのクラスですが、バージョ�
 
 <li><a href="#I_--3C--3D--3E">&lt;=&gt;</a></li>
 
+<li><a href="#I_APPROXIMATE_RECOMMENDATION">approximate_recommendation</a></li>
+
 <li><a href="#I_BUMP">bump</a></li>
+
+<li><a href="#I_CANONICAL_SEGMENTS">canonical_segments</a></li>
 
 <li><a href="#I_EQL--3F">eql?</a></li>
 
@@ -192,6 +196,8 @@ gem のバージョンを取り扱うためのクラスですが、バージョ�
 <li><a href="#I_PRERELEASE--3F">prerelease?</a></li>
 
 <li><a href="#I_RELEASE">release</a></li>
+
+<li><a href="#I_SEGMENTS">segments</a></li>
 
 <li><a href="#I_TO_S">to_s</a></li>
 
@@ -352,6 +358,31 @@ self と other を比較して、self が小さい時に -1、等しい時に 0�
 </dd>
 
 
+<dt class="method-heading" id="I_APPROXIMATE_RECOMMENDATION"><code>approximate_recommendation -&gt; String</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/approximate_recommendation.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Version.html#method-i-approximate_recommendation">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/version/Gem__Version.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> を元にした、バージョン要求の推奨文字列を返します。
+</p>
+<p>
+<code>self</code> の先頭 2 つの数値要素(メジャー・マイナー)を使った <code>X.Y</code> の形式で、
+<code>~&gt; X.Y</code> という文字列を返します。
+</p>
+<p>
+要素が 1 つしかない場合は <code>0</code> を補います。<code>self</code> が
+<a href="../method/Gem=3a=3aVersion/i/prerelease=3f.html">Gem::Version#prerelease?</a> であれば、末尾に <code>.a</code> を追加します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.2.3</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">approximate_recommendation</span>   <span class="c1"># =&gt; &quot;~&gt; 1.2&quot;
+</span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">approximate_recommendation</span>       <span class="c1"># =&gt; &quot;~&gt; 2.0&quot;
+</span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.2.3.a</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">approximate_recommendation</span> <span class="c1"># =&gt; &quot;~&gt; 1.2.a&quot;
+</span>
+</code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aVersion/i/segments.html">Gem::Version#segments</a>, <a href="../method/Gem=3a=3aVersion/i/prerelease=3f.html">Gem::Version#prerelease?</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_BUMP"><code>bump -&gt; Gem::Version</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/bump.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Version.html#method-i-bump">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/version/Gem__Version.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -364,6 +395,25 @@ self と other を比較して、self が小さい時に -1、等しい時に 0�
 </span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'5.3.1.a.1'</span><span class="p">)</span><span class="p">.</span><span class="nf">bump</span> <span class="c1"># =&gt; #&lt;Gem::Version &quot;5.4&quot;&gt;
 </span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'5.3.1.3.1'</span><span class="p">)</span><span class="p">.</span><span class="nf">bump</span> <span class="c1"># =&gt; #&lt;Gem::Version &quot;5.3.1.4&quot;&gt;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_CANONICAL_SEGMENTS"><code>canonical_segments -&gt; [Integer | String]</code><span class="method-since-badge">Ruby 2.5.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/canonical_segments.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Version.html#method-i-canonical_segments">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/version/Gem__Version.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> の <a href="../method/Gem=3a=3aVersion/i/segments.html">Gem::Version#segments</a> から、末尾に連なる余分な <code>0</code> を取り除いた配列を返します。
+</p>
+<p>
+<code>self</code> が <a href="../method/Gem=3a=3aVersion/i/prerelease=3f.html">Gem::Version#prerelease?</a> であれば、英字が現れる直前までの <code>0</code> も取り除きます。末尾の <code>0</code> の個数だけが異なるバージョン(<code>&quot;1.0&quot;</code> と <code>&quot;1.0.0&quot;</code> など)を同じ配列として扱えるようにするためのメソッドです。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0.0</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">canonical_segments</span>     <span class="c1"># =&gt; [1]
+</span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.2.0</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">canonical_segments</span>     <span class="c1"># =&gt; [1, 2]
+</span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.0.0.a.0</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">canonical_segments</span> <span class="c1"># =&gt; [1, &quot;a&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aVersion/i/segments.html">Gem::Version#segments</a>
+</p>
 </dd>
 
 
@@ -443,6 +493,24 @@ self をリリースバージョンにした <a href="../class/Gem=3a=3aVersion.
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Gem=3a=3aVersion/i/prerelease=3f.html">Gem::Version#prerelease?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SEGMENTS"><code>segments -&gt; [Integer | String]</code><span class="method-since-badge">Ruby 1.9.2 から</span><span class="permalink">[<a href="../method/Gem=3a=3aVersion/i/segments.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Version.html#method-i-segments">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/version/Gem__Version.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>self</code> のバージョン文字列をピリオド区切りの各要素に分解した配列を返します。
+</p>
+<p>
+数字だけの要素は <code>Integer</code> に、それ以外の要素は <code>String</code> に変換されます。呼び出すたびに新しい配列を返すので、返り値を破壊的に変更しても <code>self</code> には影響しません。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.2.3</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">segments</span>   <span class="c1"># =&gt; [1, 2, 3]
+</span><span class="nb">p</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">1.2.3.a</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">segments</span> <span class="c1"># =&gt; [1, 2, 3, &quot;a&quot;]
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aVersion/i/canonical_segments.html">Gem::Version#canonical_segments</a>
 </p>
 </dd>
 

@@ -157,7 +157,7 @@ sio<span class="p">.</span><span class="nf">write</span><span class="p">(</span>
 
 <li><a href="#S_NEW">new</a></li>
 
-<li><a href="#S_NEW">open</a></li>
+<li><a href="#S_OPEN">open</a></li>
 
 </ul>
 </dd>
@@ -503,15 +503,13 @@ sio<span class="p">.</span><span class="nf">write</span><span class="p">(</span>
 <dl>
 
 <dt class="method-heading" id="S_NEW"><code>new(string = '', mode = 'r+') -&gt; StringIO</code><span class="permalink">[<a href="../method/StringIO/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/StringIO.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/stringio.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>open(string = '', mode = 'r+') -&gt; StringIO</code></dt>
-<dt class="method-heading"><code>open(string = '', mode = 'r+') {|io| ... } -&gt; object</code></dt>
 <dt class="rbs-signature"><code>(?<a href="../class/String.html">String</a> string, ?<a href="../class/String.html">String</a>? mode) &rarr; void</code></dt>
 <dd class="method-description">
 <p>
 StringIO オブジェクトを生成して返します。
 </p>
 <p>
-与えられた string がフリーズされている場合には、mode はデフォルトでは読み取りのみに設定されます。ブロックを与えた場合は生成した StringIO オブジェクトを引数としてブロックを評価してその結果を返します。
+与えられた string がフリーズされている場合には、mode はデフォルトでは読み取りのみに設定されます。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>string</code>:</dt>
@@ -541,11 +539,48 @@ io <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</s
 </span><span class="nb">p</span> s             <span class="c1"># =&gt; &quot;fbar&quot;
 </span>io<span class="p">.</span><span class="nf">rewind</span>
 <span class="nb">p</span> io<span class="p">.</span><span class="nf">gets</span>       <span class="c1"># =&gt; &quot;fbar&quot;
-</span>
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/StringIO/s/open.html">StringIO.open</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_OPEN"><code>open(string = '', mode = 'r+') -&gt; StringIO</code><span class="permalink">[<a href="../method/StringIO/s/open.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/StringIO.html#method-c-open">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/stringio.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>open(string = '', mode = 'r+') {|io| ... } -&gt; object</code></dt>
+<dt class="rbs-signature"><code>[U] (?<a href="../class/String.html">String</a> string, ?<a href="../class/String.html">String</a>? mode) { (<a href="../class/StringIO.html">StringIO</a> arg) &rarr; U } &rarr; U</code></dt>
+<dd class="method-description">
+<p>
+StringIO オブジェクトを生成して返します。
+</p>
+<p>
+与えられた string がフリーズされている場合には、mode はデフォルトでは読み取りのみに設定されます。ブロックを与えた場合は生成した StringIO オブジェクトを引数としてブロックを評価してその結果を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+生成される StringIO のデータを文字列で指定します。この文字列はバッファとして使われます。<a href="../method/StringIO/i/write.html">StringIO#write</a> などによって、
+string 自身も書き換えられます。
+</dd>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dd>
+<a href="../method/Kernel/m/open.html">Kernel?.open</a> 同様文字列か整数で指定します。
+</dd>
+<dt>[EXCEPTION] <code>Errno::EACCES</code>:</dt>
+<dd>
+string がフリーズされていて、mode が書き込み可能に設定されている場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'stringio'</span>
+
 <span class="no">StringIO</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">hoge</span><span class="s2">"</span><span class="p">)</span><span class="p">{</span><span class="o">|</span>io<span class="o">|</span>
   <span class="nb">p</span> io<span class="p">.</span><span class="nf">string</span>   <span class="c1"># =&gt; &quot;hoge&quot;
 </span><span class="p">}</span>
 </code></pre>
+<p>
+[SEE_ALSO] <a href="../method/StringIO/s/new.html">StringIO.new</a>
+</p>
 </dd>
 
 
@@ -1035,7 +1070,7 @@ s <span class="o">=</span> <span class="no">StringIO</span><span class="p">.</sp
 </dd>
 
 
-<dt class="method-heading" id="I_PRINT"><code>print() -&gt; nil</code><span class="permalink">[<a href="../method/StringIO/i/print.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/StringIO.html#method-i-print">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/stringio.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PRINT"><code>print -&gt; nil</code><span class="permalink">[<a href="../method/StringIO/i/print.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/StringIO.html#method-i-print">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/stringio.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>print(*obj) -&gt; nil</code></dt>
 <dt class="rbs-signature"><code>(*untyped arg0) &rarr; nil</code></dt>
 <dd class="method-description">

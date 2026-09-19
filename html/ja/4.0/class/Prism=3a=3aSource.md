@@ -16,19 +16,27 @@ p source.column(9)    # => 1
 p source.offsets      # => [0, 8, 16, 32]
 ```
 
+## Class Methods
+
+- [for](../method/Prism=3a=3aSource/s/for.md)
+
 ## Instance Methods
 
 - [character_column](../method/Prism=3a=3aSource/i/character_column.md)
 - [character_offset](../method/Prism=3a=3aSource/i/character_offset.md)
+- [code_units_cache](../method/Prism=3a=3aSource/i/code_units_cache.md)
 - [code_units_column](../method/Prism=3a=3aSource/i/code_units_column.md)
 - [code_units_offset](../method/Prism=3a=3aSource/i/code_units_offset.md)
 - [column](../method/Prism=3a=3aSource/i/column.md)
+- [deep_freeze](../method/Prism=3a=3aSource/i/deep_freeze.md)
 - [encoding](../method/Prism=3a=3aSource/i/encoding.md)
 - [line](../method/Prism=3a=3aSource/i/line.md)
 - [line_end](../method/Prism=3a=3aSource/i/line_end.md)
 - [line_start](../method/Prism=3a=3aSource/i/line_start.md)
 - [lines](../method/Prism=3a=3aSource/i/lines.md)
 - [offsets](../method/Prism=3a=3aSource/i/offsets.md)
+- [replace_offsets](../method/Prism=3a=3aSource/i/replace_offsets.md)
+- [replace_start_line](../method/Prism=3a=3aSource/i/replace_start_line.md)
 - [slice](../method/Prism=3a=3aSource/i/slice.md)
 - [source](../method/Prism=3a=3aSource/i/source.md)
 - [start_line](../method/Prism=3a=3aSource/i/start_line.md)

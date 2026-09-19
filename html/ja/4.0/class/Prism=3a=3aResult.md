@@ -13,6 +13,7 @@ Ruby 3.3 の prism にはこのクラスはなく、[Prism::ParseResult](../clas
 - [code_units_cache](../method/Prism=3a=3aResult/i/code_units_cache.md)
 - [comments](../method/Prism=3a=3aResult/i/comments.md)
 - [data_loc](../method/Prism=3a=3aResult/i/data_loc.md)
+- [deconstruct_keys](../method/Prism=3a=3aResult/i/deconstruct_keys.md)
 - [encoding](../method/Prism=3a=3aResult/i/encoding.md)
 - [errors](../method/Prism=3a=3aResult/i/errors.md)
 - [failure?](../method/Prism=3a=3aResult/i/failure=3f.md)

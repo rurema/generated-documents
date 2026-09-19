@@ -21,6 +21,7 @@ p magic.value # => "true"
 
 ## Instance Methods
 
+- [deconstruct_keys](../method/Prism=3a=3aMagicComment/i/deconstruct_keys.md)
 - [key](../method/Prism=3a=3aMagicComment/i/key.md)
 - [key_loc](../method/Prism=3a=3aMagicComment/i/key_loc.md)
 - [value](../method/Prism=3a=3aMagicComment/i/value.md)

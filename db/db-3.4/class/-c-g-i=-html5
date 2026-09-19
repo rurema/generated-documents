@@ -1,0 +1,29 @@
+type=module
+superclass=
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=cgi.html
+aliases=
+aliasof=
+source_location=manual/api/cgi/html.md
+
+HTML5 の要素を生成するメソッドを提供するモジュールです。
+
+[c:CGI::TagMaker] を include し、以下の要素名を小文字にした名前のメソッド(`html`・`head`・`body`・`p` など)を定義しています。
+要素ごとのメソッドはすべて同じ形で、属性を、属性名をキー・属性値を値とする [c:Hash] または属性名の文字列で受け取り、ブロックを与えるとその返り値を要素の内容として開始タグと終了タグで囲みます。要素ごとの個別のエントリはこのリファレンスでは扱いません。
+
+| 種類 | 要素名(メソッド名) |
+|------|---------------------|
+| 開始タグと終了タグの両方が必要な要素(`nn_element`) | `section`・`nav`・`article`・`aside`・`hgroup`・`header`・`footer`・`figure`・`figcaption`・`s`・`time`・`u`・`mark`・`ruby`・`bdi`・`iframe`・`video`・`audio`・`canvas`・`datalist`・`output`・`progress`・`meter`・`details`・`summary`・`menu`・`dialog`・`i`・`b`・`small`・`em`・`strong`・`dfn`・`code`・`samp`・`kbd`・`var`・`cite`・`abbr`・`sub`・`sup`・`span`・`bdo`・`address`・`div`・`map`・`object`・`h1`・`h2`・`h3`・`h4`・`h5`・`h6`・`pre`・`q`・`ins`・`del`・`dl`・`ol`・`ul`・`label`・`select`・`fieldset`・`legend`・`button`・`table`・`title`・`style`・`script`・`noscript`・`textarea`・`form`・`a`・`blockquote`・`caption` |
+| 空要素(終了タグを持たない要素)(`nOE_element`) | `img`・`base`・`br`・`area`・`link`・`param`・`hr`・`input`・`col`・`meta`・`command`・`embed`・`keygen`・`source`・`track`・`wbr` |
+| 終了タグを省略できる要素(`nO_element`) | `html`・`head`・`body`・`p`・`dt`・`dd`・`li`・`option`・`thead`・`tfoot`・`tbody`・`optgroup`・`colgroup`・`rt`・`rp`・`tr`・`th`・`td` |
+
+```ruby title="例"
+require "cgi"
+
+cgi = CGI.new("html5")
+p cgi.p("class" => "note") { "text" } # => "<P class=\"note\">text</P>"
+p cgi.br                             # => "<BR>"
+```

@@ -1,0 +1,40 @@
+names=open
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/File.md
+since_by_name=
+until_by_name=
+rbs_sig={"overloads":[{"segments":[["t","(string | _ToPath | int file_name, ?string | int mode, ?int perm) -> instance"]],"params":["file_name","mode","perm"],"arity":[1,3]},{"segments":[["t","[T] (string | _ToPath | int file_name, ?string | int mode, ?int perm) { ("],["c","File"],["t",") -> T } -> T"]],"params":["file_name","mode","perm"],"arity":[1,3],"block":"req"}]}
+
+### def File.open(path, mode = "r", perm = 0666, **opts)               -> File
+### def File.open(path, mode = "r", perm = 0666, **opts) {|file| ... } -> object
+
+path で指定されるファイルをオープンし、[c:File] オブジェクトを生成して返します。
+
+path が整数の場合はファイルディスクリプタとして扱い、それに対応する
+[c:File] オブジェクトを生成して返します。[m:IO.open] と同じです。
+ブロックを指定して呼び出した場合は、File オブジェクトを引数としてブロックを実行します。ブロックの実行が終了すると、ファイルは自動的にクローズされます。ブロックの実行結果を返します。
+
+- **param** `path` -- ファイルを文字列で指定します。整数を指定した場合はファイルディスクリプタとして扱います。
+
+- **param** `mode` -- モードを文字列か定数の論理和で指定します。[m:Kernel?.open] と同じです。
+
+- **param** `perm` -- ファイルを生成する場合のファイルのパーミッションを整数で指定します。[m:Kernel?.open] と同じです。
+
+- **param** `opts` -- キーワード引数でオープン時のオプションを指定します。指定できるオプションは [m:IO.new] を参照してください。
+
+- **raise** `Errno::EXXX` -- ファイルのオープンに失敗した場合に発生します。
+
+```ruby title="例: 読み込みモードでのファイルオープン"
+f = File.open("testfile", "r")
+p f.class # => File
+f.close
+```
+
+```ruby title="例: 書き込みモードでのファイルオープン"
+File.open("testfile", "w", 0755) { |f| f.print "test" }
+p File.read("testfile")  # => "test"
+```
+
+- **SEE** [m:File.new]
+

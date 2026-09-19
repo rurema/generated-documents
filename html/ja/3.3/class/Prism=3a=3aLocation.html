@@ -144,6 +144,15 @@ loc <span class="o">=</span> node<span class="p">.</span><span class="nf">value<
 <h2>目次</h2>
 <dl>
 
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NULL">null</a></li>
+
+</ul>
+</dd>
+
 <dt>インスタンスメソッド</dt>
 <dd>
 <ul class="class-toc">
@@ -153,6 +162,8 @@ loc <span class="o">=</span> node<span class="p">.</span><span class="nf">value<
 <li><a href="#I_COMMENTS">comments</a></li>
 
 <li><a href="#I_COPY">copy</a></li>
+
+<li><a href="#I_DECONSTRUCT_KEYS">deconstruct_keys</a></li>
 
 <li><a href="#I_END_CHARACTER_COLUMN">end_character_column</a></li>
 
@@ -196,6 +207,29 @@ loc <span class="o">=</span> node<span class="p">.</span><span class="nf">value<
 
 
 
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NULL"><code>null -&gt; Prism::Location</code><span class="method-since-badge">Ruby 3.3 から</span> <span class="method-until-badge">Ruby 3.4 で削除</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/s/null.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Location.html#method-c-null">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ソースコードのどこにも対応しない、ファイルの先頭を指すダミーの <code>Prism::Location</code> を返します。
+</p>
+<p>
+位置情報のオブジェクトが必要だが、実際の位置を気にしない場合に使います。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+loc <span class="o">=</span> <span class="no">Prism</span><span class="o">::</span><span class="no">Location</span><span class="p">.</span><span class="nf">null</span>
+<span class="nb">p</span> loc<span class="p">.</span><span class="nf">start_offset</span> <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> loc<span class="p">.</span><span class="nf">length</span>       <span class="c1"># =&gt; 0
+</span></code></pre>
+</dd>
+
+
+</dl>
+
 <h2>インスタンスメソッド</h2>
 <dl>
 
@@ -229,6 +263,30 @@ other が同じ範囲を表す <code>Prism::Location</code> であれば true �
 <p>
 指定した属性だけを差し替えた新しい <code>Prism::Location</code> を返します。
 </p>
+</dd>
+
+
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(keys) -&gt; Hash</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aLocation/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Prism/Location.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/Location.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+パターンマッチのハッシュパターン(<code>case loc; in {start_offset:, end_offset:}</code>)で使われます。<code>start_offset</code>・<code>end_offset</code> をキーに持つハッシュを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>keys</code>:</dt>
+<dd>
+取り出したいキーの配列を指定します。すべて取り出す場合は nil を指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+loc <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">location</span>
+<span class="k">case</span> loc
+<span class="k">in</span> <span class="p">{</span><span class="ss">start_offset:</span>, <span class="ss">end_offset:</span><span class="p">}</span>
+  <span class="nb">p</span> <span class="p">[</span>start_offset, end_offset<span class="p">]</span>
+<span class="k">end</span>
+<span class="c1"># =&gt; [0, 5]
+</span></code></pre>
 </dd>
 
 

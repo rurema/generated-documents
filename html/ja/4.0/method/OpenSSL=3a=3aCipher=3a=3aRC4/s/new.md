@@ -1,6 +1,6 @@
 # OpenSSL::Cipher::RC4.new
 
-### def OpenSSL::Cipher::RC4.new() -> OpenSSL::Cipher::RC4
+### def OpenSSL::Cipher::RC4.new -> OpenSSL::Cipher::RC4
 ### def OpenSSL::Cipher::RC4.new(bit) -> OpenSSL::Cipher::RC4
 
 RC4 暗号オブジェクトを生成し、返します。

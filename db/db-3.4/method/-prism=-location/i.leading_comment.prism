@@ -1,0 +1,30 @@
+names=leading_comment
+visibility=public
+kind=defined
+source_location=manual/api/prism/Location.md
+since_by_name=leading_comment=3.4
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def leading_comment(comment) -> ()
+
+この位置の前に付くコメントとして `comment` を追加します。
+
+[m:Prism::ParseResult#attach_comments!] が内部で使用します。追加したコメントは [m:Prism::Location#leading_comments] で参照できます。
+
+- **param** `comment` -- 追加する [c:Prism::Comment] のサブクラスのインスタンスを指定します。
+
+```ruby title="例"
+require "prism"
+
+result = Prism.parse("# leading\na = 1\n")
+loc = result.value.statements.body[0].location
+comment = result.comments.first
+
+loc.leading_comment(comment)
+p loc.leading_comments.map(&:slice)
+# => ["# leading"]
+```
+
+- **SEE** [m:Prism::Location#leading_comments], [m:Prism::Location#trailing_comment]
+

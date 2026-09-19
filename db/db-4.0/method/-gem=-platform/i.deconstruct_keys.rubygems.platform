@@ -1,0 +1,30 @@
+names=deconstruct_keys
+visibility=public
+kind=defined
+source_location=manual/api/rubygems/platform.md
+since_by_name=deconstruct_keys=4.0
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def deconstruct_keys(keys) -> {Symbol => String | nil}
+
+`self` を `cpu`・`os`・`version` をキーとするハッシュに分解して返します。
+
+パターンマッチングのハッシュパターンに対応するためのメソッドです。
+
+- **param** `keys` -- パターンマッチングの実装から渡されるキーの配列です。`self` では無視されます。
+
+```ruby title="例"
+p Gem::Platform.new("x86_64-linux").deconstruct_keys(nil)
+# => {cpu: "x86_64", os: "linux", version: nil}
+
+result = case Gem::Platform.new("x86_64-linux")
+         in cpu: "x86_64", os: "linux"
+           :matched
+         end
+p result # => :matched
+```
+
+- **SEE** [m:Gem::Platform#deconstruct], [m:Gem::Platform#to_a]
+
+

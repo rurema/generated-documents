@@ -10,6 +10,7 @@ Gem の必要条件を扱うクラスです。
 
 - [create](../method/Gem=3a=3aRequirement/s/create.md)
 - [default](../method/Gem=3a=3aRequirement/s/default.md)
+- [default_prerelease](../method/Gem=3a=3aRequirement/s/default_prerelease.md)
 - [new](../method/Gem=3a=3aRequirement/s/new.md)
 - [parse](../method/Gem=3a=3aRequirement/s/parse.md)
 
@@ -24,6 +25,7 @@ Gem の必要条件を扱うクラスです。
 - [none?](../method/Gem=3a=3aRequirement/i/none=3f.md)
 - [prerelease?](../method/Gem=3a=3aRequirement/i/prerelease=3f.md)
 - [pretty_print](../method/Gem=3a=3aRequirement/i/pretty_print.md)
+- [requirements](../method/Gem=3a=3aRequirement/i/requirements.md)
 - [specific?](../method/Gem=3a=3aRequirement/i/specific=3f.md)
 - [to_s](../method/Gem=3a=3aRequirement/i/to_s.md)
 

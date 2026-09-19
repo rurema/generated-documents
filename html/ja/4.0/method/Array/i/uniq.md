@@ -1,12 +1,9 @@
 # Array#uniq
 
 ### def uniq     -> Array
-### def uniq!    -> self | nil
 ### def uniq {|item| ... } -> Array
-### def uniq! {|item| ... } -> self | nil
 
-uniq は配列から重複した要素を取り除いた新しい配列を返します。
-uniq! は削除を破壊的に行い、削除が行われた場合は self を、そうでなければnil を返します。
+配列から重複した要素を取り除いた新しい配列を返します。
 
 取り除かれた要素の部分は前に詰められます。
 要素の重複判定は、[Object#eql?](../../../method/Object/i/eql=3f.md) により行われます。
@@ -25,3 +22,5 @@ p [1, 3, 2, "2", "3"].uniq { |n| n.to_s } # => [1, 3, 2]
 ```
 
 要素を先頭から辿っていき、最初に出現したものが残ります。
+
+- **SEE** [Array#uniq!](../../../method/Array/i/uniq=21.md)

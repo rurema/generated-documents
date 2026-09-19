@@ -1,0 +1,16 @@
+# Gem?.needs
+
+### module_function def needs {|request_set| ... } -> ()
+{: since="2.0.0"}
+
+ブロックに渡した `Gem::RequestSet` で宣言した Gem を解決し、有効化(activate)します。
+
+ブロック引数として新しい `Gem::RequestSet` のインスタンスを受け取ります。ブロックの中で `RequestSet#gem` を呼び出して必要な Gem とバージョンを宣言すると、このメソッドがそれらを解決して有効化します。
+
+- **param** `request_set` -- 必要な Gem を宣言するための `Gem::RequestSet` のインスタンスです。
+
+```ruby title="例"
+Gem.needs do |req|
+  req.gem "rake"
+end
+```

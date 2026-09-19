@@ -1,5 +1,5 @@
 # RSS::Maker::ImageBase#width=
 
 ### def width
-### def width=()
+### def width=(width)
 @todo

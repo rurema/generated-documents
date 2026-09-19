@@ -18,6 +18,7 @@ p error.location.start_line # => 1
 
 ## Instance Methods
 
+- [deconstruct_keys](../method/Prism=3a=3aParseError/i/deconstruct_keys.md)
 - [level](../method/Prism=3a=3aParseError/i/level.md)
 - [location](../method/Prism=3a=3aParseError/i/location.md)
 - [message](../method/Prism=3a=3aParseError/i/message.md)

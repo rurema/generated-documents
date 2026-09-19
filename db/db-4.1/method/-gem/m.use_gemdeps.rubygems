@@ -1,0 +1,20 @@
+names=use_gemdeps
+visibility=public
+kind=defined
+source_location=manual/api/rubygems.md
+since_by_name=use_gemdeps=2.1.0
+until_by_name=
+rbs_sig={"overloads":[{"segments":[["t","(?"],["c","String"],["t"," path) -> void"]],"params":["path"],"arity":[0,1]}]}
+
+### module_function def use_gemdeps(path = nil) -> ()
+{: since="2.1.0"}
+
+`path` で指定した Gem の依存関係ファイルを探し、見つかった場合はそこに書かれている Gem を有効化します。
+
+`path` を省略した場合は環境変数 `RUBYGEMS_GEMDEPS` の値を使います。それも無い場合は何もしません。`path` に `"-"` を指定すると、カレントディレクトリから親ディレクトリの方向に `gem.deps.rb`・`Gemfile`・`Isolate` を探し、最初に見つかったファイルの内容を有効化します。
+
+複数ユーザーが使うシステムでこの自動探索を有効にすると、権限の及ばないディレクトリにある依存関係ファイルの内容が実行されてしまう可能性があるため注意してください。
+
+- **param** `path` -- Gem の依存関係ファイルのパスです。省略した場合は環境変数 `RUBYGEMS_GEMDEPS` を使います。
+- **raise** `ArgumentError` -- `path` を明示的に指定したにもかかわらず、そのファイルが見つからなかった場合に発生します。
+

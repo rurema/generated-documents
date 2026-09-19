@@ -17,6 +17,8 @@ p token.location.start_column # => 0
 ## Instance Methods
 
 - [==](../method/Prism=3a=3aToken/i/=3d=3d.md)
+- [deconstruct_keys](../method/Prism=3a=3aToken/i/deconstruct_keys.md)
+- [deep_freeze](../method/Prism=3a=3aToken/i/deep_freeze.md)
 - [location](../method/Prism=3a=3aToken/i/location.md)
 - [type](../method/Prism=3a=3aToken/i/type.md)
 - [value](../method/Prism=3a=3aToken/i/value.md)

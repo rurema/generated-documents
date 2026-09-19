@@ -1,7 +1,6 @@
 # Exception.new
 
 ### def Exception.new(error_message = nil)       -> Exception
-### def Exception.exception(error_message = nil) -> Exception
 
 例外オブジェクトを生成して返します。
 
@@ -13,8 +12,4 @@ p e         # => #<Exception: some message>
 p e.message # => "some message"
 ```
 
-```ruby title="例"
-e = Exception.exception("some message")
-p e         # => #<Exception: some message>
-p e.message # => "some message"
-```
+- **SEE** [Exception.exception](../../../method/Exception/s/exception.md)

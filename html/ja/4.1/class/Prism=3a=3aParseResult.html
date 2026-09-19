@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-17-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-09-19-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -143,6 +143,8 @@
 
 <li><a href="#I_DATA_LOC">data_loc</a></li>
 
+<li><a href="#I_DECONSTRUCT_KEYS">deconstruct_keys</a></li>
+
 <li><a href="#I_ERRORS">errors</a></li>
 
 <li><a href="#I_ERRORS_FORMAT">errors_format</a></li>
@@ -150,6 +152,8 @@
 <li><a href="#I_FAILURE--3F">failure?</a></li>
 
 <li><a href="#I_MAGIC_COMMENTS">magic_comments</a></li>
+
+<li><a href="#I_MARK_NEWLINES--21">mark_newlines!</a></li>
 
 <li><a href="#I_SOURCE">source</a></li>
 
@@ -177,6 +181,9 @@
   <ul class="class-toc">
     
       <li><a href="../method/Prism=3a=3aResult/i/code_units_cache.html">code_units_cache</a></li>
+      
+    
+      <li><a href="../method/Prism=3a=3aResult/i/continuable=3f.html">continuable?</a></li>
       
     
       <li><a href="../method/Prism=3a=3aResult/i/encoding.html">encoding</a></li>
@@ -256,6 +263,30 @@ result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 </dd>
 
 
+<dt class="method-heading" id="I_DECONSTRUCT_KEYS"><code>deconstruct_keys(keys) -&gt; Hash</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aParseResult/i/deconstruct_keys.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism/ParseResult.html#method-i-deconstruct_keys">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/ParseResult.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+パターンマッチのハッシュパターン(<code>case result; in {value:}</code>)で使われます。<code>comments</code> などの付随情報と、構文木そのものである <code>value</code> をキーに持つハッシュを返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>keys</code>:</dt>
+<dd>
+取り出したいキーの配列を指定します。すべて取り出す場合は nil を指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">1 + 2</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">case</span> result
+<span class="k">in</span> <span class="p">{</span><span class="ss">value:</span><span class="p">}</span>
+  <span class="nb">p</span> value<span class="p">.</span><span class="nf">class</span>
+<span class="k">end</span>
+<span class="c1"># =&gt; Prism::ProgramNode
+</span></code></pre>
+</dd>
+
+
 <dt class="method-heading" id="I_ERRORS"><code>errors -&gt; Array</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aParseResult/i/errors.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism/ParseResult.html#method-i-errors">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/ParseResult.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -317,6 +348,28 @@ result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</
 </span><span class="nb">p</span> result<span class="p">.</span><span class="nf">magic_comments</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">key</span>   <span class="c1"># =&gt; &quot;frozen_string_literal&quot;
 </span><span class="nb">p</span> result<span class="p">.</span><span class="nf">magic_comments</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; &quot;true&quot;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_MARK_NEWLINES--21"><code>mark_newlines! -&gt; ()</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/Prism=3a=3aParseResult/i/mark_newlines=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Prism/ParseResult.html#method-i-mark_newlines-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/prism/ParseResult.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+構文木を巡回し、CRuby の <code>:line</code> <a href="../class/TracePoint.html">TracePoint</a> イベントが発生する行に対応するノードに印を付けます。
+</p>
+<p>
+印が付いたノードは <a href="../method/Prism=3a=3aNode/i/newline=3f.html">Prism::Node#newline?</a> で判定できます。<a href="../method/Prism/m/parse.html">Prism?.parse</a> などの通常の解析結果ではこの処理は解析時にすでに行われていますが、構文木を独自に構築した場合など、印が付いていない構文木に対して明示的に呼び出すために使います。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">prism</span><span class="s2">"</span>
+
+result <span class="o">=</span> <span class="no">Prism</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">if true\n  1\nend\n</span><span class="s2">"</span><span class="p">)</span>
+result<span class="p">.</span><span class="nf">mark_newlines!</span>
+<span class="nb">p</span> result<span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">statements</span><span class="p">.</span><span class="nf">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">newline?</span>
+<span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Prism=3a=3aNode/i/newline=3f.html">Prism::Node#newline?</a>
+</p>
 </dd>
 
 

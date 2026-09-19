@@ -1,0 +1,28 @@
+names=code_units_cache
+visibility=public
+kind=defined
+source_location=manual/api/prism/Source.md
+since_by_name=code_units_cache=3.4
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def code_units_cache(encoding) -> Prism::CodeUnitsCache
+
+指定したエンコーディングでのコード単位のオフセットを高速に計算するためのキャッシュを生成します。
+
+[c:Prism::Location] の `cached_start_code_units_offset` などのメソッドに、多数の位置に対して繰り返し使うためのキャッシュとして渡します。
+
+- **param** `encoding` -- コード単位の基準となるエンコーディングを指定します。
+
+```ruby title="例"
+require "prism"
+
+result = Prism.parse("x = \"あい\" + 1\n")
+cache = result.source.code_units_cache(Encoding::UTF_16LE)
+p cache.class # => Prism::CodeUnitsCache
+p cache[9]    # => 7
+```
+
+- **SEE** [m:Prism::Location#cached_start_code_units_offset], [m:Prism::Result#code_units_cache]
+
+

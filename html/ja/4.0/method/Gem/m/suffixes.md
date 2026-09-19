@@ -1,0 +1,10 @@
+# Gem?.suffixes
+
+### module_function def suffixes -> [String]
+{: since="1.9.2"}
+
+require 可能なパスの末尾に付きうるサフィックスの配列を返します。
+
+空文字列・`".rb"`・実行環境の共有ライブラリの拡張子が含まれます。
+
+- **return** -- require 可能なパスのサフィックスの配列です。

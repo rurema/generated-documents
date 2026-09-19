@@ -5,8 +5,8 @@
 ## Class Methods
 
 - [exception](../method/Exception/s/exception.md)
-- [new](../method/Exception/s/new.md)
 - [json_create](../method/Exception/s/json_create.md)
+- [new](../method/Exception/s/new.md)
 - [to_tty?](../method/Exception/s/to_tty=3f.md)
 
 ## Instance Methods

@@ -1,5 +1,5 @@
 # RSS::Maker::ChannelBase#docs=
 
 ### def docs
-### def docs=()
+### def docs=(docs)
 @todo
