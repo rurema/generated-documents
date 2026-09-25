@@ -513,7 +513,7 @@ bar\
 </p>
 <pre class="highlight ruby"><code><span class="c1"># 式の中に開始ラベルを書く
 </span><span class="c1"># method の第二引数には &quot;    ヒアドキュメント\n&quot; が渡される
-</span><span class="nb">method</span><span class="p">(</span>arg1, <span class="no">&lt;&lt;LABEL</span>, <span class="no">arg2<span class="p">)</span>
+</span><span class="nb">method</span><span class="p">(</span>arg1, <span class="no">&lt;&lt;LABEL</span>, arg2<span class="p">)</span>
 <span class="sh">    ヒアドキュメント
 </span><span class="no">LABEL
 </span>
@@ -717,7 +717,7 @@ bar/x</span>
 <pre class="highlight ruby"><code><span class="p">{</span> <span class="mi">1</span> <span class="o">=&gt;</span> <span class="mi">2</span>, <span class="mi">2</span> <span class="o">=&gt;</span> <span class="mi">4</span>, <span class="mi">3</span> <span class="o">=&gt;</span> <span class="mi">6</span><span class="p">}</span>
 <span class="p">{</span> <span class="ss">:a</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">A</span><span class="s2">"</span>, <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">B</span><span class="s2">"</span>, <span class="ss">:c</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">C</span><span class="s2">"</span> <span class="p">}</span>
 <span class="p">{</span> <span class="ss">a:</span><span class="s2">"</span><span class="s2">A</span><span class="s2">"</span>, <span class="ss">b:</span><span class="s2">"</span><span class="s2">B</span><span class="s2">"</span>, <span class="ss">c:</span><span class="s2">"</span><span class="s2">C</span><span class="s2">"</span> <span class="p">}</span> <span class="c1"># 一つ上の例と同じ。キーがシンボルの場合はこのように書ける。
-</span><span class="p">{</span> <span class="s2">"</span><span class="s2">a</span>&quot;:<span class="s2">"</span><span class="s2">A</span><span class="s2">"</span>, <span class="s1">'b':<span class="s2">"</span><span class="s2">B</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">c</span>&quot;:<span class="s2">"</span><span class="s2">C</span><span class="s2">"</span> <span class="p">}</span> <span class="c1"># 一つ上の例と同じ。
+</span><span class="p">{</span> <span class="s2">"</span><span class="s2">a</span><span class="s2">&quot;:</span><span class="s2">"</span><span class="s2">A</span><span class="s2">"</span>, <span class="s1">'b':</span><span class="s2">"</span><span class="s2">B</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">c</span><span class="s2">&quot;:</span><span class="s2">"</span><span class="s2">C</span><span class="s2">"</span> <span class="p">}</span> <span class="c1"># 一つ上の例と同じ。
 </span>                              <span class="c1"># キーにシンボルを使う文法ではこのように
 </span>                              <span class="c1"># シンボル名をシングルクオートやダブルクオートで
 </span>                              <span class="c1"># 囲うことができる。これによって空白を含むような
@@ -759,10 +759,10 @@ bar/x</span>
 <span class="ss">:lvar</span>
 <span class="ss">:method!</span>
 <span class="ss">:andthisis?</span>
-<span class="ss">:<span class="vg">$gvar</span>
-<span class="ss">:<span class="vi">@ivar</span>
-<span class="ss">:<span class="vc">@@cvar</span>
-<span class="ss">:<span class="o">+</span>
+<span class="ss">:$gvar</span>
+<span class="ss">:@ivar</span>
+<span class="ss">:@@cvar</span>
+<span class="ss">:+</span>
 </code></pre>
 <span class="caption">文法</span>
 <pre class="highlight text"><code>`:' 識別子
@@ -782,17 +782,17 @@ bar/x</span>
 単項演算子 <code>!</code>・<code>~</code> にはメソッド名としての <code>!@</code>・<code>~@</code> は存在せず、実際のメソッド名は <code>!</code>・<code>~</code> 自身であるため、シンボル <code>:!@</code>・<code>:~@</code> はそれぞれ <code>:!</code>・<code>:~</code> に正規化されます。一方、単項演算子 <code>+</code>・<code>-</code> は(二項演算子の <code>+</code>・<code>-</code> とは別に)<code>+@</code>・<code>-@</code>
 というメソッドが実在するため、<code>:+@</code>・<code>:-@</code> は <code>:+</code>・<code>:-</code> とは区別されます。
 </p>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:<span class="o">!@</span> <span class="o">==</span> <span class="ss">:<span class="o">!</span> <span class="c1"># =&gt; true
-</span>p</span> <span class="ss">:<span class="o">~@</span> <span class="o">==</span> <span class="ss">:<span class="o">~</span> <span class="c1"># =&gt; true
-</span>p</span> <span class="ss">:<span class="o">+@</span> <span class="o">==</span> <span class="ss">:<span class="o">+</span> <span class="c1"># =&gt; false
-</span>p</span> <span class="ss">:<span class="o">-@</span> <span class="o">==</span> <span class="ss">:<span class="o">-</span> <span class="c1"># =&gt; false
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:!@</span> <span class="o">==</span> <span class="ss">:!</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:~@</span> <span class="o">==</span> <span class="ss">:~</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:+@</span> <span class="o">==</span> <span class="ss">:+</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="ss">:-@</span> <span class="o">==</span> <span class="ss">:-</span> <span class="c1"># =&gt; false
 </span></code></pre>
 <p>
 以下の記法も使えます。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:'foo-bar'</span> <span class="c1"># =&gt; :&quot;foo-bar&quot;
-</span><span class="nb">p</span> <span class="ss">:"foo-bar<span class="s2">"</span> <span class="c1"># =&gt; :&quot;foo-bar&quot;
-</span><span class="nb">p</span> <span class="ss">%s{foo-bar<span class="s2">}</span> <span class="c1"># =&gt; :&quot;foo-bar&quot;
+</span><span class="nb">p</span> <span class="ss">:&quot;foo-bar&quot;</span> <span class="c1"># =&gt; :&quot;foo-bar&quot;
+</span><span class="nb">p</span> <span class="ss">%s{foo-bar}</span> <span class="c1"># =&gt; :&quot;foo-bar&quot;
 </span></code></pre>
 <p>
 この記法では、任意のシンボルを定義できます。
