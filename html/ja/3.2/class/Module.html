@@ -1180,9 +1180,9 @@ name で与えられた名前のクラス変数がモジュールに存在する
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Fred</span>
   <span class="vc">@@foo</span> <span class="o">=</span> <span class="mi">99</span>
 <span class="k">end</span>
-<span class="nb">p</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">class_variable_defined?</span><span class="p">(</span><span class="ss">:<span class="vc">@@foo</span><span class="p">)</span>  <span class="c1"># =&gt; true
-</span>p</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">class_variable_defined?</span><span class="p">(</span><span class="ss">:<span class="vc">@@bar</span><span class="p">)</span>  <span class="c1"># =&gt; false
-</span>p</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">class_variable_defined?</span><span class="p">(</span><span class="s1">'@@foo'</span><span class="p">)</span>  <span class="c1"># =&gt; true
+<span class="nb">p</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">class_variable_defined?</span><span class="p">(</span><span class="ss">:@@foo</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">class_variable_defined?</span><span class="p">(</span><span class="ss">:@@bar</span><span class="p">)</span>  <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">class_variable_defined?</span><span class="p">(</span><span class="s1">'@@foo'</span><span class="p">)</span>  <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">class_variable_defined?</span><span class="p">(</span><span class="s1">'@@bar'</span><span class="p">)</span>  <span class="c1"># =&gt; false
 </span></code></pre>
 </dd>
@@ -1209,8 +1209,8 @@ name で与えられた名前のクラス変数がモジュールに存在する
 <span class="k">end</span>
 
 <span class="k">def</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">foo</span>
-  <span class="nf">class_variable_get</span><span class="p">(</span><span class="ss">:<span class="vc">@@foo</span><span class="p">)</span>
-end</span>
+  <span class="nf">class_variable_get</span><span class="p">(</span><span class="ss">:@@foo</span><span class="p">)</span>
+<span class="k">end</span>
 
 <span class="nb">p</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">foo</span> <span class="c1"># =&gt; 99
 </span></code></pre>
@@ -1238,7 +1238,7 @@ val をセットします。val を返します。
 <span class="k">end</span>
 
 <span class="k">def</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">foo</span><span class="p">(</span><span class="nf">val</span><span class="p">)</span>
-  class_variable_set<span class="p">(</span><span class="ss">:<span class="vc">@@foo</span>, val</span><span class="p">)</span>
+  class_variable_set<span class="p">(</span><span class="ss">:@@foo</span>, val<span class="p">)</span>
 <span class="k">end</span>
 
 <span class="nb">p</span> <span class="no">Fred</span><span class="p">.</span><span class="nf">foo</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>   <span class="c1"># =&gt; 101
@@ -2471,9 +2471,9 @@ self の中で <a href="../method/Module/i/refine.html">Module#refine</a> によ
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Counter</span>
   <span class="vc">@@count</span> <span class="o">=</span> <span class="mi">1</span>
-  <span class="nb">p</span> remove_class_variable<span class="p">(</span><span class="ss">:<span class="vc">@@count</span><span class="p">)</span> <span class="c1"># =&gt; 1
+  <span class="nb">p</span> remove_class_variable<span class="p">(</span><span class="ss">:@@count</span><span class="p">)</span> <span class="c1"># =&gt; 1
 </span>  <span class="vc">@@count</span>     <span class="c1"># =&gt; uninitialized class variable @@count in Counter (NameError)
-</span>end</span>
+</span><span class="k">end</span>
 </code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Module/i/remove_const.html">Module#remove_const</a>, <a href="../method/Object/i/remove_instance_variable.html">Object#remove_instance_variable</a>
@@ -3259,7 +3259,7 @@ name で指定した定数を取り除き、その定数に設定されていた
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">Mod</span>
   <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span>meth, <span class="o">*</span>args, <span class="o">&amp;</span>block<span class="p">)</span>
-    <span class="nb">send</span><span class="p">(</span><span class="ss">:"do_<span class="si">#{</span><span class="n">meth</span><span class="si">}</span><span class="s2">"</span>, <span class="o">*</span>args, <span class="o">&amp;</span>block<span class="p">)</span>
+    <span class="nb">send</span><span class="p">(</span><span class="ss">:&quot;do_<span class="si">#{</span><span class="n">meth</span><span class="si">}</span>&quot;</span>, <span class="o">*</span>args, <span class="o">&amp;</span>block<span class="p">)</span>
   <span class="k">end</span>
   ruby2_keywords<span class="p">(</span><span class="ss">:foo</span><span class="p">)</span> <span class="k">if</span> respond_to?<span class="p">(</span><span class="ss">:ruby2_keywords</span>, <span class="k">true</span><span class="p">)</span>
 <span class="k">end</span>
