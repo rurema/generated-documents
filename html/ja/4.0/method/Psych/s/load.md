@@ -35,6 +35,6 @@ end
 ```ruby title="例"
 require 'psych'
 
-p Psych.load("---\n foo: bar")                       # => {"foo"=>"bar"}
-p Psych.load("---\n foo: bar", symbolize_names: true)  # => {:foo=>"bar"}
+p Psych.load("---\n foo: bar")                       # => {"foo" => "bar"}
+p Psych.load("---\n foo: bar", symbolize_names: true)  # => {foo: "bar"}
 ```

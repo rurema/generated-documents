@@ -33,5 +33,5 @@ WIN32OLE_RECORD#to_hを呼び出すと、以下のようになります。
 require 'win32ole'
 obj = WIN32OLE.new('ComServer.ComClass')
 book = obj.getBook
-book.to_h # => {"title"=>"The Ruby Book", "cost"=>20}
+book.to_h # => {"title" => "The Ruby Book", "cost" => 20}
 ```

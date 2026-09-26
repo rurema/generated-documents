@@ -52,8 +52,8 @@ filename はパース中に発生した例外のメッセージに用います�
 ```ruby title="symbolize_names: true の例"
 require 'psych'
 
-p Psych.safe_load("---\n foo: bar")                       # => {"foo"=>"bar"}
-p Psych.safe_load("---\n foo: bar", symbolize_names: true)  # => {:foo=>"bar"}
+p Psych.safe_load("---\n foo: bar")                       # => {"foo" => "bar"}
+p Psych.safe_load("---\n foo: bar", symbolize_names: true)  # => {foo: "bar"}
 ```
 
 キーワード引数 freeze に true を指定した場合は再帰的に
@@ -69,7 +69,7 @@ EOS
 
 yaml = Psych.load(data, freeze: true)
 p yaml
-# => {"aaa"=>{"bbb"=>["hoge"]}}
+# => {"aaa" => {"bbb" => ["hoge"]}}
 p yaml.frozen?                        # = true
 p yaml["aaa"].frozen?                 # = true
 p yaml["aaa"]["bbb"].frozen?          # = true

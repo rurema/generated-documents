@@ -15,6 +15,6 @@ parse は load の別名です。
 require "json"
 
 coder = JSON::Coder.new
-p coder.load('{"name":"Ruby"}')  # => {"name"=>"Ruby"}
-p coder.parse('{"name":"Ruby"}') # => {"name"=>"Ruby"}
+p coder.load('{"name":"Ruby"}')  # => {"name" => "Ruby"}
+p coder.parse('{"name":"Ruby"}') # => {"name" => "Ruby"}
 ```

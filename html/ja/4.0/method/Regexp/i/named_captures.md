@@ -8,10 +8,10 @@
 
 ```ruby title="例"
 p /(?<foo>.)(?<bar>.)/.named_captures
-# => {"foo"=>[1], "bar"=>[2]}
+# => {"foo" => [1], "bar" => [2]}
 
 p /(?<foo>.)(?<foo>.)/.named_captures
-# => {"foo"=>[1, 2]}
+# => {"foo" => [1, 2]}
 
 # 名前付きキャプチャを持たないときは空の Hash を返します。
 p /(.)(.)/.named_captures

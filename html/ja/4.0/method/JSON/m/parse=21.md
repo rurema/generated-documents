@@ -27,10 +27,10 @@
 
   json_text = "[1,2,{\"name\":\"tanaka\",\"age\":19}, NaN]"
   JSON.parse!(json_text)
-  # => [1, 2, {"name"=>"tanaka", "age"=>19}, NaN]
+  # => [1, 2, {"name" => "tanaka", "age" => 19}, NaN]
 
   JSON.parse!(json_text, symbolize_names: true)
-  # => [1, 2, {:name=>"tanaka", :age=>19}, NaN]
+  # => [1, 2, {name: "tanaka", age: 19}, NaN]
 
   JSON.parse(json_text) # => unexpected token at 'NaN]' (JSON::ParserError)
   ```

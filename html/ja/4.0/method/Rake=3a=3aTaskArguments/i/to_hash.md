@@ -10,6 +10,6 @@
 task default: :test_rake_app
 task :test_rake_app do
   arguments = Rake::TaskArguments.new(["name1", "name2"], ["value1", "value2"])
-  p arguments.to_hash # => {:name1=>"value1", :name2=>"value2"}
+  p arguments.to_hash # => {name1: "value1", name2: "value2"}
 end
 ```

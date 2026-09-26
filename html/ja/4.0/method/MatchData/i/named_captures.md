@@ -22,7 +22,7 @@ m = /(?<a>x)|(?<a>y)/.match("x")
 p m.named_captures # => {"a" => "x"}
 
 m = /(?<a>.)(?<a>.)/.match("01")
-p m.named_captures(symbolize_names: true) #=> {:a => "1"}
+p m.named_captures(symbolize_names: true) #=> {a: "1"}
 ```
 
 - **SEE** [MatchData#captures](../../../method/MatchData/i/captures.md), [MatchData#deconstruct_keys](../../../method/MatchData/i/deconstruct_keys.md)

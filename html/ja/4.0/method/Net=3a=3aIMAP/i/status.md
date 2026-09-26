@@ -12,7 +12,7 @@ STATUS コマンドを送り、mailbox のステータスを得ます。
 
 ```ruby title="例"
 p imap.status("inbox", ["MESSAGES", "RECENT"])
-# => {"RECENT"=>0, "MESSAGES"=>44}
+# => {"RECENT" => 0, "MESSAGES" => 44}
 ```
 
 - **param** `mailbox` -- 問い合わせ対象のメールボックス(文字列)

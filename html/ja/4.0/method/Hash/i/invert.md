@@ -8,7 +8,7 @@
 
 ```ruby title="例"
 h = { "a" => 0, "b" => 100, "c" => 200, "d" => 300, "e" => 300 }
-p h.invert   # => {0=>"a", 100=>"b", 200=>"c", 300=>"e"}
+p h.invert   # => {0 => "a", 100 => "b", 200 => "c", 300 => "e"}
 ```
 
 ### 参考
@@ -21,7 +21,7 @@ def safe_invert(orig_hash)
     orig_hash[key]
   end
 end
-p safe_invert({"a"=>1, "b"=>1, "c"=>3}) # => {1=>["a", "b"], 3=>["c"]}
+p safe_invert({"a"=>1, "b"=>1, "c"=>3}) # => {1 => ["a", "b"], 3 => ["c"]}
 ```
 
 - **SEE** [Hash#key](../../../method/Hash/i/key.md)

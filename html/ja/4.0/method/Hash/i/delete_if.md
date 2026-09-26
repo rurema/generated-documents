@@ -12,8 +12,8 @@
 ```ruby title="例"
 h = { 2 => "8" ,4 => "6" ,6 => "4" ,8 => "2" }
 
-p h.delete_if{|key, value| key.to_i < value.to_i } # => { 6 => "4", 8 => "2" }
-p h.delete_if{|key, value| key.to_i < value.to_i } # => { 6 => "4", 8 => "2" }
+p h.delete_if{|key, value| key.to_i < value.to_i } # => {6 => "4", 8 => "2"}
+p h.delete_if{|key, value| key.to_i < value.to_i } # => {6 => "4", 8 => "2"}
 ```
 
 - **SEE** [Hash#reject!](../../../method/Hash/i/reject=21.md),[Hash#reject](../../../method/Hash/i/reject.md),[Hash#delete](../../../method/Hash/i/delete.md)

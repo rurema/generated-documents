@@ -25,10 +25,10 @@
   require "json"
 
   JSON.parse('[1,2,{"name":"tanaka","age":19}]')
-  # => [1, 2, {"name"=>"tanaka", "age"=>19}]
+  # => [1, 2, {"name" => "tanaka", "age" => 19}]
 
   JSON.parse('[1,2,{"name":"tanaka","age":19}]', symbolize_names: true)
-  # => [1, 2, {:name=>"tanaka", :age=>19}]
+  # => [1, 2, {name: "tanaka", age: 19}]
   ```
 
 - **SEE** [JSON::Parser#parse](../../../method/JSON=3a=3aParser/i/parse.md)

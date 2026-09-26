@@ -20,7 +20,7 @@ ary = URI.decode_www_form("a=1&a=2&b=3")
 p ary                 # => [['a', '1'], ['a', '2'], ['b', '3']]
 p ary.assoc('a').last # => '1'
 p ary.assoc('b').last # => '3'
-p Hash[ary]           # => {"a"=>"2", "b"=>"3"}
+p Hash[ary]           # => {"a" => "2", "b" => "3"}
 ```
 
 - **param** `str` -- デコード対象の文字列

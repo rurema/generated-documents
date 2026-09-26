@@ -8,6 +8,6 @@ to_hash メソッドを用いて obj をハッシュに変換しようとしま�
 このメソッドは引数がハッシュであるかどうかを調べるために使えます。
 
 ```ruby
-p Hash.try_convert({1=>2}) # => {1=>2}
+p Hash.try_convert({1=>2}) # => {1 => 2}
 p Hash.try_convert("1=>2") # => nil
 ```

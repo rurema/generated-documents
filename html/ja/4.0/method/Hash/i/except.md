@@ -8,7 +8,7 @@
 
 ```ruby
 h = { a: 100, b: 200, c: 300 }
-p h.except(:a) # => {:b=>200, :c=>300}
+p h.except(:a) # => {b: 200, c: 300}
 ```
 
 - **SEE** [Hash#slice](../../../method/Hash/i/slice.md), [ENV.except](../../../method/ENV/s/except.md)

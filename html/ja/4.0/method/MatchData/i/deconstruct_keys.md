@@ -10,8 +10,8 @@
 
 ```ruby title="例"
 m = /(?<hours>\d{2}):(?<minutes>\d{2}):(?<seconds>\d{2})/.match("18:37:22")
-p m.deconstruct_keys([:hours, :minutes]) # => {:hours => "18", :minutes => "37"}
-p m.deconstruct_keys(nil) # => {:hours => "18", :minutes => "37", :seconds => "22"}
+p m.deconstruct_keys([:hours, :minutes]) # => {hours: "18", minutes: "37"}
+p m.deconstruct_keys(nil) # => {hours: "18", minutes: "37", seconds: "22"}
 
 # 名前付きキャプチャが定義されていなかった場合は空のハッシュを返す
 m = /(\d{2}):(\d{2}):(\d{2})/.match("18:37:22")

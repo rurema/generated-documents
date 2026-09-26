@@ -10,7 +10,7 @@
 ```ruby title="例"
 require 'date'
 p DateTime._strptime('2001-02-03T12:13:14Z')
-# => {:year=>2001, :mon=>2, :mday=>3, :hour=>12, :min=>13, :sec=>14, :zone=>"Z", :offset=>0}
+# => {year: 2001, mon: 2, mday: 3, hour: 12, min: 13, sec: 14, zone: "Z", offset: 0}
 ```
 
 [DateTime.strptime](../../../method/DateTime/s/strptime.md) の内部で使用されています。

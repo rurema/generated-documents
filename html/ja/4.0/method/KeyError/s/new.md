@@ -17,6 +17,6 @@
 h = {foo: 1}
 err = KeyError.new("Message", receiver: h, key: :bar)
 p err.message  # => "Message"
-p err.receiver # => {:foo=>1}
+p err.receiver # => {foo: 1}
 p err.key      # => :bar
 ```

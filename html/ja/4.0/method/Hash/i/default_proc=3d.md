@@ -36,7 +36,7 @@ p h[15] # => "FizzBuzz"
 h.default_proc = nil
 p h[16] # => nil
 # default_proc が nil になったので `16=>16 が追加されていない`
-p h     # => {1=>1, 2=>2, 3=>"Fizz", 5=>"Buzz", 15=>"FizzBuzz"}
+p h     # => {1 => 1, 2 => 2, 3 => "Fizz", 5 => "Buzz", 15 => "FizzBuzz"}
 ```
 
 - **SEE** [Hash#default_proc](../../../method/Hash/i/default_proc.md), [Hash#default](../../../method/Hash/i/default.md)

@@ -24,9 +24,9 @@ end
 #     @imported=[],
 #     @last_description=nil,
 #     @loaders=
-#      {".rb"=>#<Rake::DefaultLoader:0x00005624e6c30bc0>,
-#       ".rf"=>#<Rake::DefaultLoader:0x00005624e6c30b48>,
-#       ".rake"=>#<Rake::DefaultLoader:0x00005624e6c30a80>},
+#      {".rb" => #<Rake::DefaultLoader:0x00005624e6c30bc0>,
+#       ".rf" => #<Rake::DefaultLoader:0x00005624e6c30b48>,
+#       ".rake" => #<Rake::DefaultLoader:0x00005624e6c30a80>},
 #     @name="rake",
 #     @options=
 #      #<OpenStruct always_multitask=false, backtrace=false, build_all=false, dryrun=false, ignore_deprecate=false, ignore_system=false, job_stats=false, load_system=false, nosearch=false, rakelib=["rakelib"], show_all_tasks=false, show_prereqs=false, show_task_pattern=nil, show_tasks=nil, silent=false, suppress_backtrace_pattern=nil, thread_pool_size=20, trace=false, trace_output=#<IO:<STDERR>>, trace_rules=false>,

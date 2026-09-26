@@ -17,8 +17,8 @@ VM 内部のキャッシュなどに関する統計情報を返します。
 
 ```ruby title="例"
 p RubyVM.stat
-# => {:constant_cache_invalidations=>2, :constant_cache_misses=>14,
-#     :global_cvar_state=>27, :next_shape_id=>225, :shape_cache_size=>1024}
+# => {constant_cache_invalidations: 2, constant_cache_misses: 14,
+#     global_cvar_state: 27, next_shape_id: 225, shape_cache_size: 1024}
 p RubyVM.stat(:next_shape_id)
 # => 225
 ```

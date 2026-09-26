@@ -10,7 +10,7 @@ self を各要素の名前をキー([Symbol](../../../class/Symbol.md))、要素
 ```ruby title="例"
 require 'ostruct'
 data = OpenStruct.new("country" => "Australia", :capital => "Canberra")
-p data.to_h # => {:country => "Australia", :capital => "Canberra" }
+p data.to_h # => {country: "Australia", capital: "Canberra"}
 p data.to_h {|name, value| [name.to_s, value.upcase] }
-            # => {"country" => "AUSTRALIA", "capital" => "CANBERRA" }
+            # => {"country" => "AUSTRALIA", "capital" => "CANBERRA"}
 ```

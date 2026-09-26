@@ -12,7 +12,7 @@
 
 ```ruby title="例"
 latest = GC.latest_gc_info
-p latest # => {:major_by=>nil, :gc_by=>:newobj, :have_finalizer=>false, :immediate_sweep=>false, :state=>:sweeping}
+p latest # => {major_by: nil, gc_by: :newobj, have_finalizer: false, immediate_sweep: false, state: :sweeping}
 
 stat = GC.stat
 merged = GC.latest_gc_info(stat)

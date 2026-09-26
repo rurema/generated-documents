@@ -391,7 +391,7 @@ f("a", "b", "c", 2, 3, "foo", "bar", "baz", "x", "y", "z", k: 42, u: "unknown") 
   #   y: "y"
   #   z: "z"
   #   k: 42
-  #   kwrest: {:u=>"unknown"}
+  #   kwrest: {u: "unknown"}
   #   blk: #<Proc:0x007f7e7d8dd6c0 -:16>
 ```
 

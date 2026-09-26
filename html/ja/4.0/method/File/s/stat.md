@@ -4,7 +4,7 @@
 
 filename の情報を含む [File::Stat](../../../class/File=3a=3aStat.md) オブジェクトを生成して返します。
 
-- **param** `filename` -- ファイル名を表す文字列を指定します。 
+- **param** `filename` -- ファイル名を表す文字列を指定します。
 
 - **raise** `Errno::EXXX` -- 情報の取得に失敗した場合に発生します。
 

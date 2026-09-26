@@ -23,5 +23,5 @@ p config          # => {}
 opts.default_argv = ["--require", "lib1"] # => ["--require", "lib"]
 p opts.default_argv # => ["--require", "param1"]
 opts.parse!
-p config          # => {:lib=>"lib1"}
+p config          # => {lib: "lib1"}
 ```

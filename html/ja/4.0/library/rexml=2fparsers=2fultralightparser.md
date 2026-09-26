@@ -65,9 +65,9 @@ pp parser.parse
 # >>   "root",
 # >>   {},
 # >>   [:text, "\n  "],
-# >>   [:start_element, [...], "a", {"n"=>"1"}, [:text, "xyz"]],
+# >>   [:start_element, [...], "a", {"n" => "1"}, [:text, "xyz"]],
 # >>   [:text, "\n  "],
-# >>   [:start_element, [...], "b", {"m"=>"2"}],
+# >>   [:start_element, [...], "b", {"m" => "2"}],
 # >>   [:text, "\n"]],
 # >>  [:text, "\n"]]
 ```

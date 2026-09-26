@@ -22,7 +22,7 @@ p my_hash.to_h.class  # => Hash
 
 ```ruby title="ブロック付きの例"
 hash = { "a" => 97, "b" => 98 }
-p hash.to_h {|key, value| [key.upcase, value-32] } # => {"A"=>65, "B"=>66}
+p hash.to_h {|key, value| [key.upcase, value-32] } # => {"A" => 65, "B" => 66}
 ```
 
 - **SEE** [Enumerable#map](../../../method/Enumerable/i/map.md)

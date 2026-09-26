@@ -15,10 +15,10 @@
 require "json"
 
 p JSON('[1,2,{"name":"tanaka","age":19}]')
-# => [1, 2, {"name"=>"tanaka", "age"=>19}]
+# => [1, 2, {"name" => "tanaka", "age" => 19}]
 
 p JSON('[1,2,{"name":"tanaka","age":19}]', symbolize_names: true)
-# => [1, 2, {:name=>"tanaka", :age=>19}]
+# => [1, 2, {name: "tanaka", age: 19}]
 ```
 
 - **SEE** [JSON?.parse](../../../method/JSON/m/parse.md), [JSON?.generate](../../../method/JSON/m/generate.md)
