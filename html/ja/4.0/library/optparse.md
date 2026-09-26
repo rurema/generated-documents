@@ -106,7 +106,7 @@ p params
 ```console
 ruby sample.rb -a foo bar -b baz
 # => ["foo", "bar", "baz"]
-     {:a=>true, :b=>true}
+     {a: true, b: true}
 ```
 
 明示的にコンテナへ格納する以外に、parse（及びparse!）メソッドの引数に
@@ -132,7 +132,7 @@ p params
 ```console
 ruby sample.rb -a foo bar -b baz
 # => ["foo", "bar", "baz"]
-     {:a=>true, :bbb=>true}
+     {a: true, bbb: true}
 ```
 
 #### オプションの引数 {#optionarg}
@@ -377,7 +377,7 @@ p params
 
 ```console
 $ ruby sample.rb -a 1 --foo --bar xxx
-{"a"=>"1", "b"=>nil, "foo"=>true, "bar"=>"xxx"}
+{"a" => "1", "b" => nil, "foo" => true, "bar" => "xxx"}
 ```
 
 のようになります。

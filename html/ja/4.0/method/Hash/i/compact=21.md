@@ -7,7 +7,7 @@
 ```ruby title="例"
 hash = {a: 1, b: nil, c: 3}
 hash.compact!
-p hash          # => {:a=>1, :c=>3}
+p hash          # => {a: 1, c: 3}
 p hash.compact! # =>  nil
 ```
 

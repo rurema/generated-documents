@@ -22,5 +22,5 @@ OptionParser.new do |opt|
   p opt.load("not_exist.txt") # => false
 end
 
-p options # => {:a=>true, :b=>true}
+p options # => {a: true, b: true}
 ```

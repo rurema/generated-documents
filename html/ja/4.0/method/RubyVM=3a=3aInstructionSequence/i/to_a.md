@@ -90,7 +90,7 @@ self の情報を 14 要素の配列にして返します。
   # 2,
   # 0,
   # 1,
-  # {:arg_size=>0, :local_size=>2, :stack_max=>2},
+  # {arg_size: 0, local_size: 2, stack_max: 2},
   # "<compiled>",
   # "<compiled>",
   # nil,
@@ -103,7 +103,7 @@ self の情報を 14 要素の配列にして返します。
   #  [:trace, 1],
   #  [:putobject_OP_INT2FIX_O_1_C_],
   #  [:putobject, 2],
-  #  [:opt_plus, {:mid=>:+, :flag=>256, :orig_argc=>1, :blockptr=>nil}],
+  #  [:opt_plus, {mid: :+, flag: 256, orig_argc: 1, blockptr: nil}],
   #  [:dup],
   #  [:setlocal_OP__WC__0, 2],
   #  [:leave]]]

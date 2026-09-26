@@ -12,9 +12,9 @@ require 'etc'
 require 'pp'
 
 pp Etc.uname
-# => {:sysname=>"Linux",
-#     :nodename=>"boron",
-#     :release=>"2.6.18-6-xen-686",
-#     :version=>"#1 SMP Thu Nov 5 19:54:42 UTC 2009",
-#     :machine=>"i686"}
+# => {sysname: "Linux",
+#     nodename: "boron",
+#     release: "2.6.18-6-xen-686",
+#     version: "#1 SMP Thu Nov 5 19:54:42 UTC 2009",
+#     machine: "i686"}
 ```

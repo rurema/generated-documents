@@ -15,6 +15,6 @@ coder = JSON::Coder.new
 Tempfile.create(["sample", ".json"]) do |f|
   f.write(coder.dump({ "name" => "Ruby" }))
   f.flush
-  p coder.load_file(f.path) # => {"name"=>"Ruby"}
+  p coder.load_file(f.path) # => {"name" => "Ruby"}
 end
 ```

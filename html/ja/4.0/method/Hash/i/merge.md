@@ -17,14 +17,14 @@ othersがハッシュではない場合、othersのメソッドto_hashを使っ�
 h1 = { "a" => 100, "b" => 200 }
 h2 = { "b" => 246, "c" => 300 }
 h3 = { "b" => 357, "d" => 400 }
-p h1.merge        # => {"a"=>100, "b"=>200}
-p h1.merge(h2)    # => {"a"=>100, "b"=>246, "c"=>300}
-p h1.merge(h2, h3)  # => {"a"=>100, "b"=>357, "c"=>300, "d"=>400}
+p h1.merge        # => {"a" => 100, "b" => 200}
+p h1.merge(h2)    # => {"a" => 100, "b" => 246, "c" => 300}
+p h1.merge(h2, h3)  # => {"a" => 100, "b" => 357, "c" => 300, "d" => 400}
 p h1.merge(h2) {|key, oldval, newval| newval - oldval}
-                  # => {"a"=>100, "b"=>46,  "c"=>300}
+                  # => {"a" => 100, "b" => 46, "c" => 300}
 p h1.merge(h2, h3) {|key, oldval, newval| newval - oldval}
-                  # => {"a"=>100, "b"=>311, "c"=>300, "d"=>400}
-p h1              # => {"a"=>100, "b"=>200}
+                  # => {"a" => 100, "b" => 311, "c" => 300, "d" => 400}
+p h1              # => {"a" => 100, "b" => 200}
 ```
 
 ```ruby
@@ -32,12 +32,12 @@ foo = {1 => 'a', 2 => 'b', 3 => 'c'}
 bar = {2 => 'B', 3 => 'C', 4 => 'D'}
 
 p foo.merge(bar)
-       # => {1=>"a", 2=>"B", 3=>"C", 4=>"D"}
-p foo  # => {1=>"a", 2=>"b", 3=>"c"}
+       # => {1 => "a", 2 => "B", 3 => "C", 4 => "D"}
+p foo  # => {1 => "a", 2 => "b", 3 => "c"}
 
 p foo.merge!(bar) {|key, foo_val, bar_val| foo_val + bar_val }
-       # => {1=>"a", 2=>"bB", 3=>"cC", 4=>"D"}
-p foo  # => {1=>"a", 2=>"bB", 3=>"cC", 4=>"D"}
+       # => {1 => "a", 2 => "bB", 3 => "cC", 4 => "D"}
+p foo  # => {1 => "a", 2 => "bB", 3 => "cC", 4 => "D"}
 ```
 
 ```ruby
@@ -55,7 +55,7 @@ h = {:Germany => 'Berlin',
      }
 
 # 暗黙の変換
-p h.merge(Foo.new) # => {:Germany=>"Berlin", :Australia=>"Sydney", :France=>"Paris"}
+p h.merge(Foo.new) # => {Germany: "Berlin", Australia: "Sydney", France: "Paris"}
 ```
 
 - **SEE** [Hash#update](../../../method/Hash/i/update.md),[Hash#replace](../../../method/Hash/i/replace.md)

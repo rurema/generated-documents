@@ -16,7 +16,7 @@
 - "socket"
 - "unknown"
 
-- **param** `filename` -- ファイル名を表す文字列を指定します。 
+- **param** `filename` -- ファイル名を表す文字列を指定します。
 
 - **raise** `Errno::EXXX` -- 情報の取得に失敗した場合に発生します。
 

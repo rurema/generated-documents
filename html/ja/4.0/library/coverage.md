@@ -36,7 +36,7 @@ end
 require "coverage"
 Coverage.start
 load "foo.rb"
-p Coverage.result  # => {"foo.rb"=>[1, 1, 10, nil, nil, 1, 1, nil, 0, nil]}
+p Coverage.result  # => {"foo.rb" => [1, 1, 10, nil, nil, 1, 1, nil, 0, nil]}
 ```
 
 この Coverage.result["foo.rb"] から得られる配列は各行の実行回数になっています。
@@ -53,7 +53,7 @@ linesカバレッジモードでは、各行の実行された回数を計測し
 require "coverage"
 Coverage.start(lines: true)
 load "foo.rb"
-p Coverage.result  # => {"foo.rb"=>{:lines=>[1, 1, 10, nil, nil, 1, 1, nil, 0, nil]}}
+p Coverage.result  # => {"foo.rb" => {lines: [1, 1, 10, nil, nil, 1, 1, nil, 0, nil]}}
 ```
 
 キーの :lines が指す値は、各行が実行された回数を示す配列です。この配列の順序は重要です。たとえば、この配列の最初の要素は、カバレッジ計測中にファイルの 1 行目が実行された回数を示しています(この例では 1 回)。
@@ -68,7 +68,7 @@ oneshot_linesカバレッジモードでは、カバレッジの計測中に実�
 require "coverage"
 Coverage.start(oneshot_lines: true)
 load "foo.rb"
-p Coverage.result  # => {"foo.rb"=>{:oneshot_lines=>[1, 2, 3, 6, 7]}}
+p Coverage.result  # => {"foo.rb" => {oneshot_lines: [1, 2, 3, 6, 7]}}
 ```
 
 oneshot_linesキーの指す値は、実行された行番号を列挙した配列です。
@@ -82,10 +82,10 @@ require "coverage"
 Coverage.start(branches: true)
 load "foo.rb"
 pp Coverage.result
-# {"foo.rb"=>
-#   {:branches=>
-#     {[:if, 0, 6, 0, 10, 3]=>
-#       {[:then, 1, 7, 2, 7, 7]=>1, [:else, 2, 9, 2, 9, 7]=>0}}}}
+# {"foo.rb" =>
+#   {branches:
+#     {[:if, 0, 6, 0, 10, 3] =>
+#       {[:then, 1, 7, 2, 7, 7] => 1, [:else, 2, 9, 2, 9, 7] => 0}}}}
 ```
 
 キーの :branches が指すハッシュの各キーは条件分岐(の識別情報)であり、その条件分岐のキーが指すハッシュはその条件分岐の分岐(の識別情報)とその分岐の実行回数です。
@@ -123,9 +123,9 @@ require "coverage"
 Coverage.start(methods: true)
 load "foo_method.rb"
 pp Coverage.result
-# {"foo_method.rb"=>
-#   {:methods=>
-#     {[Object, :hello, 7, 0, 9, 3]=>1, [Greeter, :greet, 2, 2, 4, 5]=>1}}}
+# {"foo_method.rb" =>
+#   {methods:
+#     {[Object, :hello, 7, 0, 9, 3] => 1, [Greeter, :greet, 2, 2, 4, 5] => 1}}}
 ```
 
 キーの :methods が指すハッシュの各キーはメソッド(の識別情報)を表し、値はメソッドの実行回数です。
@@ -150,10 +150,10 @@ require "coverage"
 Coverage.start(:all)
 load "foo.rb"
 pp Coverage.result
-# {"foo.rb"=>
-#   {:lines=>[1, 1, 10, nil, nil, 1, 1, nil, 0, nil],
-#    :branches=>
-#     {[:if, 0, 6, 0, 10, 3]=>
-#       {[:then, 1, 7, 2, 7, 7]=>1, [:else, 2, 9, 2, 9, 7]=>0}},
-#    :methods=>{}}}
+# {"foo.rb" =>
+#   {lines: [1, 1, 10, nil, nil, 1, 1, nil, 0, nil],
+#    branches:
+#     {[:if, 0, 6, 0, 10, 3] =>
+#       {[:then, 1, 7, 2, 7, 7] => 1, [:else, 2, 9, 2, 9, 7] => 0}},
+#    methods: {}}}
 ```

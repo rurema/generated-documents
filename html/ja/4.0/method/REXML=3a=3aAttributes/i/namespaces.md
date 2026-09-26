@@ -19,7 +19,7 @@ EOS
 a = doc.get_elements("/root/a").first
 
 p doc.root.attributes.namespaces
-# => {"foo"=>"http://example.org/foo", "bar"=>"http://example.org/bar"}
+# => {"foo" => "http://example.org/foo", "bar" => "http://example.org/bar"}
 p a.attributes.namespaces
 # => {}
 ```

@@ -13,7 +13,7 @@
 # => 1
 #   2
 
-p({:a=>1, :b=>2}.each_value)  # => #<Enumerator: {:a=>1, :b=>2}:each_value>
+p({:a=>1, :b=>2}.each_value)  # => #<Enumerator: {a: 1, b: 2}:each_value>
 ```
 
 - **SEE** [Hash#each_pair](../../../method/Hash/i/each_pair.md),[Hash#each_key](../../../method/Hash/i/each_key.md)

@@ -21,7 +21,7 @@ p h # =>{}
 h = Hash.new{|hash, key| hash[key] ="default" }
 p h.default        # => nil
 p h.default(:some) # => "default"
-p h                # => {:some=>"default"}
+p h                # => {some: "default"}
 
 h = Hash.new
 p h.default        # => nil

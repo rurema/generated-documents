@@ -12,5 +12,5 @@ require 'net/http'
 
 uri = URI('http://www.example.com/index.html')
 res = Net::HTTP.get_response(uri)
-p res.type_params # => {"charset"=>"UTF-8"}
+p res.type_params # => {"charset" => "UTF-8"}
 ```

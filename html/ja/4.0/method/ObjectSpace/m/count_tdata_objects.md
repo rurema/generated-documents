@@ -14,10 +14,10 @@ T_DATA の種類ごとにオブジェクトの数を格納したハッシュを�
 require 'objspace'
 
 p ObjectSpace.count_tdata_objects
-# => {RubyVM::InstructionSequence=>504, :parser=>5, :barrier=>6,
-#     :mutex=>6, Proc=>60, RubyVM::Env=>57, Mutex=>1, Encoding=>99,
-#     ThreadGroup=>1, Binding=>1, Thread=>1, RubyVM=>1, :iseq=>1,
-#     Random=>1, ARGF.class=>1, Data=>1, :autoload=>3, Time=>2}
+# => {RubyVM::InstructionSequence => 504, parser: 5, barrier: 6,
+#     mutex: 6, Proc => 60, RubyVM::Env => 57, Mutex => 1, Encoding => 99,
+#     ThreadGroup => 1, Binding => 1, Thread => 1, RubyVM => 1, iseq: 1,
+#     Random => 1, ARGF.class => 1, Data => 1, autoload: 3, Time => 2}
 ```
 
 現在のバージョンでは、戻り値のキーはクラスオブジェクトかシンボルのオブジェクトです。

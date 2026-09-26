@@ -11,7 +11,7 @@
 ```ruby title="例"
 p Hash([])        # => {}
 p Hash(nil)       # => {}
-p Hash(key: :value) # => {:key => :value}
+p Hash(key: :value) # => {key: :value}
 Hash([1, 2, 3])   # ~> TypeError
 ```
 

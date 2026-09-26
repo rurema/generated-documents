@@ -11,7 +11,7 @@ ENV["bar"] = "rab"
 p ENV.slice()           # => {}
 p ENV.slice("")         # => {}
 p ENV.slice("unknown")  # => {}
-p ENV.slice("foo", "baz") # => {"foo"=>"bar", "baz"=>"qux"}
+p ENV.slice("foo", "baz") # => {"foo" => "bar", "baz" => "qux"}
 ```
 
 - **SEE** [Hash#slice](../../../method/Hash/i/slice.md), [ENV.except](../../../method/ENV/s/except.md)

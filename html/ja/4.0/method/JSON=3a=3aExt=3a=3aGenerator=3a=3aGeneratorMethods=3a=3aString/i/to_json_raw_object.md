@@ -9,6 +9,6 @@
 ```ruby
 require 'json'
 p "にほんご".encode("euc-jp").to_json_raw_object
-# => {"json_class"=>"String", "raw"=>[164, 203, 164, 219, 164, 243, 164, 180]}
+# => {"json_class" => "String", "raw" => [164, 203, 164, 219, 164, 243, 164, 180]}
 "にほんご".encode("euc-jp").to_json # source sequence is illegal/malformed (JSON::GeneratorError)
 ```

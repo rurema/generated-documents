@@ -21,7 +21,7 @@ p h.delete(:ab) # => "some"
 p h.delete(:ef) # => nil
 p h.delete(:ef){|key|"#{key} Nothing"} # => "ef Nothing"
 
-p h # => {:cd=>"all"}
+p h # => {cd: "all"}
 ```
 
 - **SEE** [Hash#delete_if](../../../method/Hash/i/delete_if.md)

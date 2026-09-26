@@ -3,7 +3,7 @@
 ### def File.utime(atime, mtime, *filename)    -> Integer
 
 ファイルの最終アクセス時刻と更新時刻を変更します。
-シンボリックリンクに対しては [File.lutime](../../../method/File/s/lutime.md)　と違って、シンボリックのリンク先を変更します。
+シンボリックリンクに対しては [File.lutime](../../../method/File/s/lutime.md) と違って、シンボリックのリンク先を変更します。
 
 - **param** `atime` -- 最終アクセス時刻を [Time](../../../class/Time.md) か、起算時からの経過秒数を数値で指定します。
 

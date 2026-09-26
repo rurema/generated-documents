@@ -12,8 +12,8 @@
 ```ruby title="例"
 h = { 2 => "8" ,4 => "6" ,6 => "4" ,8 => "2" }
 
-p h.reject!{|key, value| key.to_i < value.to_i }   # => { 6 => "4", 8 => "2" }
-p h                                                # => { 6 => "4", 8 => "2" }
+p h.reject!{|key, value| key.to_i < value.to_i }   # => {6 => "4", 8 => "2"}
+p h                                                # => {6 => "4", 8 => "2"}
 p h.reject!{|key, value| key.to_i < value.to_i }   # => nil
 ```
 
