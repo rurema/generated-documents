@@ -1,8 +1,8 @@
 # Encoding.locale_charmap
 
-### def Encoding.locale_charmap -> String | nil
+### def Encoding.locale_charmap -> String
 
-ロケールエンコーディングを決定するために用いる、locale charmap 名を返します。nl_langinfo 等がない環境では nil を、miniruby では ASCII_8BIT を返します。
+ロケールエンコーディングを決定するために用いる、locale charmap 名を返します。nl_langinfo 等が使えず locale charmap 名を取得できない環境では "US-ASCII" を返します。
 
 ```ruby title="Debian GNU/Linux + LANG=C"
 p Encoding.locale_charmap # => "ANSI_X3.4-1968"
