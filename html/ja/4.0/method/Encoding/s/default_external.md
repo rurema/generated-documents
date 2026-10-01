@@ -10,6 +10,6 @@ Rubyはロケールまたは -E オプションに従って default_external を
 
 -E オプションを指定していない場合は、WindowsではUTF-8、その他のOSではロケールに従って default_external を決定します。
 
-default_external は必ず設定されます。[Encoding.locale_charmap](../../../method/Encoding/s/locale_charmap.md) が nil を返す場合には US-ASCII が、ロケールにRubyが扱えないエンコーディングが指定されている場合には ASCII-8BIT が、default_external に設定されます。
+default_external は必ず設定されます。locale charmap 名を取得できない環境では US-ASCII が、[Encoding.locale_charmap](../../../method/Encoding/s/locale_charmap.md) の返す名前が Ruby の扱えないエンコーディングの場合には UTF-8 が、default_external に設定されます。
 
 - **SEE** [spec/rubycmd](../../../doc/spec=2frubycmd.md) [man:locale(1)], [Encoding.locale_charmap](../../../method/Encoding/s/locale_charmap.md) [Encoding.default_internal](../../../method/Encoding/s/default_internal.md)
