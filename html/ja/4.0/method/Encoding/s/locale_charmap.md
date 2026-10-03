@@ -4,6 +4,8 @@
 
 ロケールエンコーディングを決定するために用いる、locale charmap 名を返します。nl_langinfo 等が使えず locale charmap 名を取得できない環境では "US-ASCII" を返します。
 
+返される名前はプラットフォームに強く依存するため、`Encoding.find(Encoding.locale_charmap)` を呼ぶと例外 [ArgumentError](../../../class/ArgumentError.md) が発生することがあります。ロケールが未知の場合でも Encoding オブジェクトが必要なときは `Encoding.find("locale")` を使います。
+
 ```ruby title="Debian GNU/Linux + LANG=C"
 p Encoding.locale_charmap # => "ANSI_X3.4-1968"
 ```
@@ -20,4 +22,4 @@ p Encoding.locale_charmap # => "646"
 p Encoding.locale_charmap # => "eucJP"
 ```
 
-- **SEE** [man:charmap(5)]
+- **SEE** [Encoding.find](../../../method/Encoding/s/find.md), [man:charmap(5)]
