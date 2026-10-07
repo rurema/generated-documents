@@ -138,6 +138,8 @@ SAX2 と同等の API を持つストリーム式の XML パーサクラス。
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_ADD_LISTENER">add_listener</a></li>
+
 <li><a href="#I_DEAFEN">deafen</a></li>
 
 <li><a href="#I_LISTEN">listen</a></li>
@@ -179,6 +181,51 @@ SAX2 パーサオブジェクトを生成します。
 
 <h2>インスタンスメソッド</h2>
 <dl>
+
+<dt class="method-heading" id="I_ADD_LISTENER"><code>add_listener(listener) -&gt; ()</code><span class="permalink">[<a href="../method/REXML=3a=3aParsers=3a=3aSAX2Parser/i/add_listener.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/REXML/Parsers/SAX2Parser.html#method-i-add_listener">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rexml/parsers/sax2parser.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+パーサのイベントを受け取るオブジェクト <code>listener</code> を登録します。
+</p>
+<p>
+<a href="../method/REXML=3a=3aParsers=3a=3aSAX2Parser/i/listen.html">REXML::Parsers::SAX2Parser#listen</a> で登録するコールバックとは別のものです。<a href="../method/REXML=3a=3aParsers=3a=3aSAX2Parser/i/parse.html">REXML::Parsers::SAX2Parser#parse</a> でパースしている間、パーサが XML を読み進めてイベントが発生するたびに <code>listener.receive(event)</code> が呼び出されます。
+</p>
+<p>
+<code>event</code> は、先頭がイベントの種類を表すシンボルで、その後にパラメータが続く配列です。イベントの種類は <a href="../library/rexml=2fparsers=2fpullparser.html#event_type">rexml/parsers/pullparser/イベントの種類とパラメータ</a> に挙げたものと同じですが、text のパラメータは正規化文字列だけです。また、文書の終わりで <code>[:end_document]</code> が通知されます。
+</p>
+<p>
+複数の <code>listener</code> を登録できます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>listener</code>:</dt>
+<dd>
+<code>receive</code> メソッドを持つオブジェクト
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../library/rexml=2fvalidation=2frelaxng.html">rexml/validation/relaxng</a>
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rexml/parsers/sax2parser'</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">EventPrinter</span>
+  <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span>event<span class="p">)</span>
+    <span class="nb">p</span> event
+  <span class="k">end</span>
+<span class="k">end</span>
+
+parser <span class="o">=</span> <span class="no">REXML</span><span class="o">::</span><span class="no">Parsers</span><span class="o">::</span><span class="no">SAX2Parser</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">&lt;a&gt;&lt;b&gt;text&lt;/b&gt;&lt;/a&gt;</span><span class="s2">"</span><span class="p">)</span>
+parser<span class="p">.</span><span class="nf">add_listener</span><span class="p">(</span><span class="no">EventPrinter</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span>
+parser<span class="p">.</span><span class="nf">parse</span>
+<span class="c1"># &gt;&gt; [:start_element, &quot;a&quot;, {}]
+</span><span class="c1"># &gt;&gt; [:start_element, &quot;b&quot;, {}]
+</span><span class="c1"># &gt;&gt; [:text, &quot;text&quot;]
+</span><span class="c1"># &gt;&gt; [:end_element, &quot;b&quot;]
+</span><span class="c1"># &gt;&gt; [:end_element, &quot;a&quot;]
+</span><span class="c1"># &gt;&gt; [:end_document]
+</span></code></pre>
+</dd>
+
 
 <dt class="method-heading" id="I_DEAFEN"><code>deafen(listener) -&gt; ()</code><span class="permalink">[<a href="../method/REXML=3a=3aParsers=3a=3aSAX2Parser/i/deafen.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/REXML/Parsers/SAX2Parser.html#method-i-deafen">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rexml/parsers/sax2parser.md">edit</a>]</span></dt>
 <dd class="method-description">

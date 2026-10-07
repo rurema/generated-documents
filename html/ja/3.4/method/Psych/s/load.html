@@ -81,13 +81,37 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_LOAD"><code>load(yaml, filename: nil, fallback: false, symbolize_names: false) -&gt; object</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/Psych/s/load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Psych.html#method-c-load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_LOAD"><code>load(yaml, permitted_classes: [Symbol], permitted_symbols: [], aliases: false, filename: nil, fallback: nil, symbolize_names: false, freeze: false, strict_integer: false) -&gt; object</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/Psych/s/load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Psych.html#method-c-load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 YAML ドキュメントを Ruby のデータ構造(オブジェクト)に変換します。
 </p>
 <p>
 入力に複数のドキュメントが含まれている場合は、先頭のものを変換して返します。
+</p>
+<p>
+<a href="../../../method/Psych/s/safe_load.html">Psych.safe_load</a> と同様に、デフォルトでは限られたクラスのオブジェクトにしか変換しません。<a href="../../../method/Psych/s/safe_load.html">Psych.safe_load</a> との違いは、デフォルトで <a href="../../../class/Symbol.html">Symbol</a> も許可されていることだけです。
+</p>
+<p>
+<code>yaml</code> に許可されていないクラスが含まれていた場合は、<a href="../../../class/Psych=3a=3aDisallowedClass.html">Psych::DisallowedClass</a> 例外が発生します。変換を許可するクラスは、キーワード引数 <code>permitted_classes</code> で指定します。<code>permitted_classes</code> を指定した場合、<a href="../../../class/Symbol.html">Symbol</a> は <code>permitted_classes</code> に含めない限り許可されません。
+</p>
+<span class="caption">permitted_classes: に Date を渡した例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+<span class="nb">require</span> <span class="s1">'date'</span>
+
+yaml <span class="o">=</span> <span class="s2">"</span><span class="s2">--- 2024-01-01</span><span class="s2">"</span>
+<span class="k">begin</span>
+  <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>yaml<span class="p">)</span>
+<span class="k">rescue</span> <span class="no">Psych</span><span class="o">::</span><span class="no">DisallowedClass</span> <span class="o">=&gt;</span> e
+  <span class="nb">p</span> e<span class="p">.</span><span class="nf">message</span>  <span class="c1"># =&gt; &quot;Tried to load unspecified class: Date&quot;
+</span><span class="k">end</span>
+<span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>yaml, <span class="ss">permitted_classes:</span> <span class="p">[</span><span class="no">Date</span><span class="p">]</span><span class="p">)</span> <span class="o">==</span> <span class="no">Date</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">2024</span>, <span class="mi">1</span>, <span class="mi">1</span><span class="p">)</span>  <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+<code>yaml</code> がエイリアスを含んでいてキーワード引数 <code>aliases</code> が false の時、<a href="../../../class/Psych=3a=3aBadAlias.html">Psych::BadAlias</a> 例外が発生します。
+</p>
+<p>
+クラスを制限せずに変換するには <a href="../../../method/Psych/s/unsafe_load.html">Psych.unsafe_load</a> を使います。
 </p>
 <p>
 filename はパース中に発生した例外のメッセージに用います。
@@ -97,26 +121,58 @@ filename はパース中に発生した例外のメッセージに用います�
 <dd>
 YAML ドキュメント(文字列 or IO オブジェクト)
 </dd>
+<dt class='method-param'>[PARAM] <code>permitted_classes</code>:</dt>
+<dd>
+読み込みを許可するクラスの配列。デフォルトは <a href="../../../class/Symbol.html">Symbol</a> だけを含む配列です。
+</dd>
+<dt class='method-param'>[PARAM] <code>permitted_symbols</code>:</dt>
+<dd>
+引数 <code>permitted_classes</code> に <a href="../../../class/Symbol.html">Symbol</a> を含む場合に読み込みを許可する <a href="../../../class/Symbol.html">Symbol</a> の配列。省略した場合は全ての <a href="../../../class/Symbol.html">Symbol</a> を許可します。
+</dd>
+<dt class='method-param'>[PARAM] <code>aliases</code>:</dt>
+<dd>
+エイリアスの読み込みを許可するかどうか。
+</dd>
 <dt class='method-param'>[PARAM] <code>filename</code>:</dt>
 <dd>
 <a href="../../../class/Psych=3a=3aSyntaxError.html">Psych::SyntaxError</a> 発生時にファイル名として表示する文字列。
 </dd>
 <dt class='method-param'>[PARAM] <code>fallback</code>:</dt>
 <dd>
-引数 yaml に空のYAMLを指定した場合の戻り値を指定します。デフォルトは false です。
+引数 <code>yaml</code> に空のYAMLを指定した場合の戻り値を指定します。デフォルトは nil です。
 </dd>
 <dt class='method-param'>[PARAM] <code>symbolize_names</code>:</dt>
 <dd>
 ハッシュ(YAMLの仕様では正確にはマッピング)のキーを <a href="../../../class/Symbol.html">Symbol</a> に変換するかどうかを指定します。
 true を指定した場合は変換します。デフォルトでは文字列に変換されます。
 </dd>
+<dt class='method-param'>[PARAM] <code>freeze</code>:</dt>
+<dd>
+true を指定すると再帰的に freeze されたオブジェクトを返します。デフォルトは false です。
+</dd>
+<dt class='method-param'>[PARAM] <code>strict_integer</code>:</dt>
+<dd>
+true を指定すると、&quot;1,000&quot; のようなカンマを含む数値を <a href="../../../class/Integer.html">Integer</a> に変換せず、文字列として返します。デフォルトは false です。
+</dd>
 <dt>[EXCEPTION] <code>Psych::SyntaxError</code>:</dt>
 <dd>
 YAMLドキュメントに文法エラーが発見されたときに発生します
 </dd>
+<dt>[EXCEPTION] <code>Psych::DisallowedClass</code>:</dt>
+<dd>
+<code>yaml</code> に <code>permitted_classes</code> で許可されていないクラスが含まれていたときに発生します
+</dd>
+<dt>[EXCEPTION] <code>Psych::BadAlias</code>:</dt>
+<dd>
+<code>yaml</code> がエイリアスを含んでいて <code>aliases</code> が false のときに発生します
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+<code>yaml</code> に nil を指定したときに発生します
+</dd>
 </dl>
 <p>
-[SEE_ALSO] <a href="../../../method/Psych/s/parse.html">Psych.parse</a>
+[SEE_ALSO] <a href="../../../method/Psych/s/parse.html">Psych.parse</a>, <a href="../../../method/Psych/s/safe_load.html">Psych.safe_load</a>, <a href="../../../method/Psych/s/unsafe_load.html">Psych.unsafe_load</a>
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>

@@ -8,6 +8,7 @@ SAX2 と同等の API を持つストリーム式の XML パーサクラス。
 
 ## Instance Methods
 
+- [add_listener](../method/REXML=3a=3aParsers=3a=3aSAX2Parser/i/add_listener.md)
 - [deafen](../method/REXML=3a=3aParsers=3a=3aSAX2Parser/i/deafen.md)
 - [listen](../method/REXML=3a=3aParsers=3a=3aSAX2Parser/i/listen.md)
 - [parse](../method/REXML=3a=3aParsers=3a=3aSAX2Parser/i/parse.md)

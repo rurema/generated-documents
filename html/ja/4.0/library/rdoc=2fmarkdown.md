@@ -27,13 +27,13 @@ Markdown syntax nor MarkdownTest mention this behavior.)
 
 #### Break on Newline
 
-[RDoc::Markdown#break_on_newline](../method/RDoc=3a=3aMarkdown/i/break_on_newline.md) を設定する事で改行を保持した状態で出力が行えます。詳しくは以下を参照してください。この拡張はデフォルトでは無効になっています。
+[RDoc::Markdown#break_on_newline=](../method/RDoc=3a=3aMarkdown/i/break_on_newline=3d.md) を設定する事で改行を保持した状態で出力が行えます。詳しくは以下を参照してください。この拡張はデフォルトでは無効になっています。
 
 - Github Flavored Markdown: <https://github.github.com/gfm/>
 
 #### CSS
 
-[RDoc::Markdown#css](../method/RDoc=3a=3aMarkdown/i/css.md) を設定する事で CSS を記述した場合に出力に含める事ができます。ただし、それを常に [RDoc](../class/RDoc.md) の出力に含める事はできません。この拡張はデフォルトでは無効になっています。
+[RDoc::Markdown#css=](../method/RDoc=3a=3aMarkdown/i/css=3d.md) を設定する事で CSS を記述した場合に出力に含める事ができます。ただし、それを常に [RDoc](../class/RDoc.md) の出力に含める事はできません。この拡張はデフォルトでは無効になっています。
 
 ```html title="例"
 <style type="text/css">
@@ -43,7 +43,7 @@ h1 { font-size: 3em }
 
 #### 定義リスト
 
-[RDoc::Markdown#definition_lists](../method/RDoc=3a=3aMarkdown/i/definition_lists.md) を設定する事で定義リストを出力する事ができます。詳しくは以下を参照してください。この拡張はデフォルトで有効になっています。
+[RDoc::Markdown#definition_lists=](../method/RDoc=3a=3aMarkdown/i/definition_lists=3d.md) を設定する事で定義リストを出力する事ができます。詳しくは以下を参照してください。この拡張はデフォルトで有効になっています。
 
 - PHP Markdown Extra syntax: <https://michelf.ca/projects/php-markdown/extra/#def-list>
 
@@ -65,7 +65,7 @@ ant
 
 #### Github
 
-[RDoc::Markdown#github](../method/RDoc=3a=3aMarkdown/i/github.md) を設定する事で Github Flavored Markdown 拡張の一部を有効にして出力が行えます。詳しくは以下を参照してください。この拡張はデフォルトで有効になっています。
+[RDoc::Markdown#github=](../method/RDoc=3a=3aMarkdown/i/github=3d.md) を設定する事で Github Flavored Markdown 拡張の一部を有効にして出力が行えます。詳しくは以下を参照してください。この拡張はデフォルトで有効になっています。
 
 - Github Flavored Markdown: <https://github.github.com/gfm/>
 
@@ -81,7 +81,7 @@ ant
 
 #### HTML
 
-[RDoc::Markdown#html](../method/RDoc=3a=3aMarkdown/i/html.md) を設定する事で HTML を記述した場合にそのまま出力する事ができます。この拡張はデフォルトで有効になっています。
+[RDoc::Markdown#html=](../method/RDoc=3a=3aMarkdown/i/html=3d.md) を設定する事で HTML を記述した場合にそのまま出力する事ができます。この拡張はデフォルトで有効になっています。
 
 ```html title="例"
 <table>
@@ -91,7 +91,7 @@ ant
 
 #### Notes
 
-[RDoc::Markdown#notes](../method/RDoc=3a=3aMarkdown/i/notes.md) を設定する事で脚注を出力する事ができます。この拡張はデフォルトで有効になっています。
+[RDoc::Markdown#notes=](../method/RDoc=3a=3aMarkdown/i/notes=3d.md) を設定する事で脚注を出力する事ができます。この拡張はデフォルトで有効になっています。
 
 ```text title="例"
 Here is some text[^1] including an inline footnote ^[for short footnotes]

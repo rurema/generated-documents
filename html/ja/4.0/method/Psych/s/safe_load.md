@@ -1,6 +1,6 @@
 # Psych.safe_load
 
-### def Psych.safe_load(yaml, permitted_classes: [], permitted_symbols: [], aliases: false, filename: nil, fallback: nil, symbolize_names: false, freeze: false) -> object
+### def Psych.safe_load(yaml, permitted_classes: [], permitted_symbols: [], aliases: false, filename: nil, fallback: nil, symbolize_names: false, freeze: false, strict_integer: false, parse_symbols: true) -> object
 
 安全に YAML フォーマットの文書を読み込み Ruby のオブジェクトを生成して返します。
 
@@ -87,3 +87,5 @@ p yaml["aaa"]["bbb"].first.frozen?    # = true
                        true を指定した場合は変換します。デフォルトでは文字列に変換されます。
 - **param** `freeze` -- true を指定すると再帰的に freeze されたオブジェクトを返します。
               デフォルトは false です。
+- **param** `strict_integer` -- true を指定すると、"1,000" のようなカンマを含む数値を [Integer](../../../class/Integer.md) に変換せず、文字列として返します。デフォルトは false です。
+- **param** `parse_symbols` -- false を指定すると、":foo" のような文字列を [Symbol](../../../class/Symbol.md) に変換せず、文字列として返します。デフォルトは true です。

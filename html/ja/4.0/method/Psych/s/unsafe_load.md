@@ -1,6 +1,6 @@
 # Psych.unsafe_load
 
-### def Psych.unsafe_load(yaml, filename: nil, fallback: false, symbolize_names: false, freeze: false) -> object
+### def Psych.unsafe_load(yaml, filename: nil, fallback: false, symbolize_names: false, freeze: false, strict_integer: false, parse_symbols: true) -> object
 
 YAML ドキュメント yaml を Ruby のデータ構造(オブジェクト)に変換します。
 
@@ -22,6 +22,8 @@ filename はパース中に発生した例外のメッセージに用います�
 - **param** `fallback` -- 引数 yaml に空の YAML を指定した場合の戻り値。デフォルトは false です
 - **param** `symbolize_names` -- ハッシュのキーを [Symbol](../../../class/Symbol.md) に変換するかどうか
 - **param** `freeze` -- true を指定すると再帰的に freeze されたオブジェクトを返します
+- **param** `strict_integer` -- true を指定すると、"1,000" のようなカンマを含む数値を [Integer](../../../class/Integer.md) に変換せず、文字列として返します。デフォルトは false です。
+- **param** `parse_symbols` -- false を指定すると、":foo" のような文字列を [Symbol](../../../class/Symbol.md) に変換せず、文字列として返します。デフォルトは true です。
 - **raise** `Psych::SyntaxError` -- YAML ドキュメントに文法エラーが発見されたときに発生します
 - **raise** `TypeError` -- yaml に nil を指定したときに発生します
 - **SEE** [Psych.load](../../../method/Psych/s/load.md), [Psych.safe_load](../../../method/Psych/s/safe_load.md)

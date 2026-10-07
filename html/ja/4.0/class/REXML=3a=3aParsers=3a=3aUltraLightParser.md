@@ -8,5 +8,6 @@
 
 ## Instance Methods
 
+- [add_listener](../method/REXML=3a=3aParsers=3a=3aUltraLightParser/i/add_listener.md)
 - [parse](../method/REXML=3a=3aParsers=3a=3aUltraLightParser/i/parse.md)
 - [rewind](../method/REXML=3a=3aParsers=3a=3aUltraLightParser/i/rewind.md)

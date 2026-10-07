@@ -8,5 +8,4 @@
 
 ## Instance Methods
 
-- [remove_private_comment](../method/RDoc=3a=3aParser=3a=3aSimple/i/remove_private_comment.md)
 - [scan](../method/RDoc=3a=3aParser=3a=3aSimple/i/scan.md)

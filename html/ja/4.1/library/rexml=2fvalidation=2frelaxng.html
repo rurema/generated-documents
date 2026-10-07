@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/rexml=2fvalidation=2frelaxng.html">
+
+<title>library rexml/validation/relaxng (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="XML 文書を RELAX NG のスキーマで検証するためのライブラリです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-07-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/rexml=2fvalidation=2frelaxng.html","name":"rexml/validation/relaxngライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        rexml/validation/relaxngライブラリ
+      </li>
+    </ol>
+  </nav>
+
+<h1>library rexml/validation/relaxng</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/rexml/validation/relaxng.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+<h2>要約</h2>
+<p>
+XML 文書を RELAX NG のスキーマで検証するためのライブラリです。
+</p>
+<p>
+<a href="../class/REXML=3a=3aValidation=3a=3aRelaxNG.html">REXML::Validation::RelaxNG</a> のオブジェクト(バリデータ)を、<a href="../method/REXML=3a=3aParsers=3a=3aUltraLightParser/i/add_listener.html">REXML::Parsers::UltraLightParser#add_listener</a> などでパーサに登録して使います。パーサが文書を読み進めるのに合わせて検証が行われ、文書がスキーマに合わないことが分かった時点で <a href="../class/REXML=3a=3aValidation=3a=3aValidationException.html">REXML::Validation::ValidationException</a> が発生します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rexml/parsers/ultralightparser'</span>
+<span class="nb">require</span> <span class="s1">'rexml/validation/relaxng'</span>
+
+schema <span class="o">=</span> <span class="no">&lt;&lt;~RELAXNG</span>
+  <span class="sh">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+</span>  <span class="sh">&lt;element name=&quot;addressBook&quot; xmlns=&quot;http://relaxng.org/ns/structure/1.0&quot;&gt;
+</span>  <span class="sh">  &lt;zeroOrMore&gt;
+</span>  <span class="sh">    &lt;element name=&quot;card&quot;&gt;
+</span>  <span class="sh">      &lt;element name=&quot;name&quot;&gt;&lt;text/&gt;&lt;/element&gt;
+</span>  <span class="sh">      &lt;element name=&quot;email&quot;&gt;&lt;text/&gt;&lt;/element&gt;
+</span>  <span class="sh">    &lt;/element&gt;
+</span>  <span class="sh">  &lt;/zeroOrMore&gt;
+</span>  <span class="sh">&lt;/element&gt;
+</span><span class="no">RELAXNG
+</span>
+validator <span class="o">=</span> <span class="no">REXML</span><span class="o">::</span><span class="no">Validation</span><span class="o">::</span><span class="no">RelaxNG</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>schema<span class="p">)</span>
+
+<span class="c1"># スキーマに合う文書は、例外が発生せずにパースが終わる
+</span>xml <span class="o">=</span> <span class="s2">"</span><span class="s2">&lt;addressBook&gt;&lt;card&gt;&lt;name&gt;John Smith&lt;/name&gt;&lt;email&gt;js@example.com&lt;/email&gt;&lt;/card&gt;&lt;/addressBook&gt;</span><span class="s2">"</span>
+parser <span class="o">=</span> <span class="no">REXML</span><span class="o">::</span><span class="no">Parsers</span><span class="o">::</span><span class="no">UltraLightParser</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>xml<span class="p">)</span>
+parser<span class="p">.</span><span class="nf">add_listener</span><span class="p">(</span>validator<span class="p">)</span>
+parser<span class="p">.</span><span class="nf">parse</span>
+
+<span class="c1"># 同じバリデータで別の文書を検証する前に reset を呼ぶ
+</span>validator<span class="p">.</span><span class="nf">reset</span>
+
+<span class="c1"># スキーマに合わない文書では例外が発生する
+</span>xml <span class="o">=</span> <span class="s2">"</span><span class="s2">&lt;addressBook&gt;&lt;card&gt;&lt;name&gt;John Smith&lt;/name&gt;&lt;/card&gt;&lt;/addressBook&gt;</span><span class="s2">"</span>
+parser <span class="o">=</span> <span class="no">REXML</span><span class="o">::</span><span class="no">Parsers</span><span class="o">::</span><span class="no">UltraLightParser</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>xml<span class="p">)</span>
+parser<span class="p">.</span><span class="nf">add_listener</span><span class="p">(</span>validator<span class="p">)</span>
+<span class="k">begin</span>
+  parser<span class="p">.</span><span class="nf">parse</span>
+<span class="k">rescue</span> <span class="no">REXML</span><span class="o">::</span><span class="no">Validation</span><span class="o">::</span><span class="no">ValidationException</span> <span class="o">=&gt;</span> e
+  <span class="nb">p</span> e<span class="p">.</span><span class="nf">class</span>  <span class="c1"># =&gt; REXML::Validation::ValidationException
+</span><span class="k">end</span>
+</code></pre>
+<p>
+要素と要素の間にある空白(改行やインデント)もテキストとして検証されます。スキーマがテキストを許していない位置に空白があると、検証に失敗します。
+</p>
+
+
+<h2>クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/REXML=3a=3aValidation=3a=3aRelaxNG.html">REXML::Validation::RelaxNG</a>
+</td>
+<td class="description"><p>
+RELAX NG のスキーマ(XML 構文)に基づくバリデータです。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>モジュール</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/REXML=3a=3aValidation=3a=3aValidator.html">REXML::Validation::Validator</a>
+</td>
+<td class="description"><p>
+バリデータに共通の機能を提供するモジュールです。
+</p>
+</td>
+</tr>
+
+</table>
+
+<h2>例外クラス</h2>
+<table class="entries libraries">
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/REXML=3a=3aValidation=3a=3aValidationException.html">REXML::Validation::ValidationException</a>
+</td>
+<td class="description"><p>
+文書がスキーマに合わないときに発生する例外です。
+</p>
+</td>
+</tr>
+
+</table>
+
+
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/rexml/validation/relaxng.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
