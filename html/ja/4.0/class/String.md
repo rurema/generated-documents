@@ -164,6 +164,7 @@ p a + b                            # => "abcabc"
 
 ## Class Methods
 
+- [json_create](../method/String/s/json_create.md)
 - [new](../method/String/s/new.md)
 - [try_convert](../method/String/s/try_convert.md)
 
@@ -295,6 +296,8 @@ p a + b                            # => "abcabc"
 - [to_d](../method/String/i/to_d.md)
 - [to_f](../method/String/i/to_f.md)
 - [to_i](../method/String/i/to_i.md)
+- [to_json_raw](../method/String/i/to_json_raw.md)
+- [to_json_raw_object](../method/String/i/to_json_raw_object.md)
 - [to_r](../method/String/i/to_r.md)
 - [to_s](../method/String/i/to_s.md)
 - [to_str](../method/String/i/to_str.md)

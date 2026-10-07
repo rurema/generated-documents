@@ -8,6 +8,7 @@
 
 ## Instance Methods
 
+- [add_listener](../method/REXML=3a=3aParsers=3a=3aPullParser/i/add_listener.md)
 - [each](../method/REXML=3a=3aParsers=3a=3aPullParser/i/each.md)
 - [empty?](../method/REXML=3a=3aParsers=3a=3aPullParser/i/empty=3f.md)
 - [has_next?](../method/REXML=3a=3aParsers=3a=3aPullParser/i/has_next=3f.md)

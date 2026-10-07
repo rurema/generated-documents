@@ -53,9 +53,7 @@ puts "<body>#{wh.convert ARGF.read}</body>"
 - [add_special](../method/RDoc=3a=3aMarkup/i/add_special.md)
 - [add_word_pair](../method/RDoc=3a=3aMarkup/i/add_word_pair.md)
 - [attribute_manager](../method/RDoc=3a=3aMarkup/i/attribute_manager.md)
-- [content](../method/RDoc=3a=3aMarkup/i/content.md)
 - [convert](../method/RDoc=3a=3aMarkup/i/convert.md)
-- [get_line_types](../method/RDoc=3a=3aMarkup/i/get_line_types.md)
 
 ## Constants
 

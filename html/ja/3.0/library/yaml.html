@@ -168,13 +168,13 @@ strio_r <span class="o">=</span> <span class="no">StringIO</span><span class="p"
 </ul>
 <h2 >タグの指定</h2>
 <p>
-!ruby/sym :foo などのようにタグを指定することで、読み込み時に記述した値の型を指定できます。
+<code>!ruby/sym foo</code> などのようにタグを指定することで、読み込み時に記述した値の型を指定できます。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'yaml'</span>
 <span class="nb">p</span> <span class="no">YAML</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="no">&lt;&lt;~EOS</span><span class="p">)</span>
   <span class="sh">---
-</span>  <span class="sh">!ruby/sym :foo
+</span>  <span class="sh">!ruby/sym foo
 </span><span class="no">EOS
 </span><span class="c1"># =&gt; :foo
 </span></code></pre>
@@ -197,26 +197,16 @@ strio_r <span class="o">=</span> <span class="no">StringIO</span><span class="p"
 </ul>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'yaml'</span>
-<span class="nb">p</span> <span class="no">YAML</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="no">&lt;&lt;~EOS</span><span class="p">)</span>
+
+yaml <span class="o">=</span> <span class="no">&lt;&lt;~EOS</span>
   <span class="sh">---
 </span>  <span class="sh">array: !ruby/array [1, 2, 3]
 </span>  <span class="sh">hash: !ruby/hash {foo: 1, bar: 2}
 </span>  <span class="sh">regexp: !ruby/regexp /foo|bar/
 </span>  <span class="sh">range: !ruby/range 1..10
 </span><span class="no">EOS
-</span><span class="c1"># =&gt; {&quot;regexp&quot;=&gt;/foo|bar/, &quot;hash&quot;=&gt;{&quot;foo&quot;=&gt;1, &quot;bar&quot;=&gt;2}, &quot;array&quot;=&gt;[1, 2, 3], &quot;range&quot;=&gt;1..10}
-</span></code></pre>
-<p>
-これらは tag:ruby.yaml.org,2002:array のように指定する事もできます。
-</p>
-<span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'yaml'</span>
-<span class="nb">p</span> <span class="no">YAML</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="no">&lt;&lt;~EOS</span><span class="p">)</span>
-  <span class="sh">---
-</span>  <span class="sh">array: !tag:ruby.yaml.org,2002:array [1, 2, 3]
-</span>  <span class="sh">hash: !tag:ruby.yaml.org,2002:hash {foo: 1, bar: 2}
-</span><span class="no">EOS
-</span><span class="c1"># =&gt; {&quot;hash&quot;=&gt;{&quot;foo&quot;=&gt;1, &quot;bar&quot;=&gt;2}, &quot;array&quot;=&gt;[1, 2, 3]}
+</span><span class="nb">p</span> <span class="no">YAML</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>yaml<span class="p">)</span>
+<span class="c1"># =&gt; {&quot;array&quot;=&gt;[1, 2, 3], &quot;hash&quot;=&gt;{&quot;foo&quot;=&gt;1, &quot;bar&quot;=&gt;2}, &quot;regexp&quot;=&gt;/foo|bar/, &quot;range&quot;=&gt;1..10}
 </span></code></pre>
 <p>
 自分で定義したクラスなどは !ruby/object:&lt;クラス名&gt; を指定します。なお、読み込む場合には既にそのクラスが定義済みでないと読み込めません。
@@ -233,12 +223,13 @@ strio_r <span class="o">=</span> <span class="no">StringIO</span><span class="p"
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="nb">p</span> <span class="no">YAML</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="no">&lt;&lt;~EOS</span><span class="p">)</span>
+yaml <span class="o">=</span> <span class="no">&lt;&lt;~EOS</span>
   <span class="sh">---
 </span>  <span class="sh">!ruby/object:Foo
 </span>  <span class="sh">bar: &quot;test.modified&quot;
 </span><span class="no">EOS
-</span><span class="c1"># =&gt; #&lt;Foo:0xf743f754 @bar=&quot;test.modified&quot;&gt;
+</span><span class="nb">p</span> <span class="no">YAML</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>yaml<span class="p">)</span>
+<span class="c1"># =&gt; #&lt;Foo:0xf743f754 @bar=&quot;test.modified&quot;&gt;
 </span></code></pre>
 <span class="caption">例2</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'yaml'</span>
@@ -248,11 +239,12 @@ strio_r <span class="o">=</span> <span class="no">StringIO</span><span class="p"
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="nb">p</span> <span class="no">YAML</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="no">&lt;&lt;~EOS</span><span class="p">)</span>
+yaml <span class="o">=</span> <span class="no">&lt;&lt;~EOS</span>
   <span class="sh">---
-</span>  <span class="sh">!ruby/object:Foo
+</span>  <span class="sh">!ruby/object:Foo::Bar {}
 </span><span class="no">EOS
-</span><span class="c1"># =&gt; #&lt;Foo::Bar:0xf73907b8&gt;
+</span><span class="nb">p</span> <span class="no">YAML</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span>yaml<span class="p">)</span>
+<span class="c1"># =&gt; #&lt;Foo::Bar:0xf73907b8&gt;
 </span></code></pre>
 <h2 >注意</h2>
 <p>

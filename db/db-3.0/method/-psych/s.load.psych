@@ -6,8 +6,8 @@ since_by_name=load=1.9.3
 until_by_name=
 rbs_sig=(uninitialized)
 
-### def Psych.load(yaml, filename: nil, fallback: false, symbolize_names: false) -> object
-### def Psych.load(yaml, filename = nil, fallback: false, symbolize_names: false) -> object
+### def Psych.load(yaml, filename: nil, fallback: false, symbolize_names: false, freeze: false) -> object
+### def Psych.load(yaml, filename = nil, fallback: false, symbolize_names: false, freeze: false) -> object
 
 YAML ドキュメントを Ruby のデータ構造(オブジェクト)に変換します。
 
@@ -17,11 +17,14 @@ filename はパース中に発生した例外のメッセージに用います�
 
 - **param** `yaml` -- YAML ドキュメント(文字列 or IO オブジェクト)
 - **param** `filename` -- [c:Psych::SyntaxError] 発生時にファイル名として表示する文字列。
-- **param** `fallback` -- 引数 yaml に空のYAMLを指定した場合の戻り値を指定します。デフォルトは false です。
+- **param** `fallback` -- 引数 `yaml` に空のYAMLを指定した場合の戻り値を指定します。デフォルトは false です。
 - **param** `symbolize_names` -- ハッシュ(YAMLの仕様では正確にはマッピング)のキーを [c:Symbol] に変換するかどうかを指定します。
                        true を指定した場合は変換します。デフォルトでは文字列に変換されます。
+- **param** `freeze` -- true を指定すると再帰的に freeze されたオブジェクトを返します。
+              デフォルトは false です。
 - **raise** `Psych::SyntaxError` -- YAMLドキュメントに文法エラーが発見されたときに発生します
-- **SEE** [m:Psych.parse]
+- **raise** `TypeError` -- `yaml` に nil を指定したときに発生します
+- **SEE** [m:Psych.parse], [m:Psych.safe_load]
 
 ```ruby title="例"
 require 'psych'

@@ -1,4 +1,4 @@
-# class Psych::SyntaxError < SyntaxError
+# class Psych::SyntaxError < Psych::Exception
 
 YAML の文法エラーを表すクラスです。
 

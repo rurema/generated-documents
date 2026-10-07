@@ -8,9 +8,6 @@
 
 - [alias_extension](../method/RDoc=3a=3aParser/s/alias_extension.md)
 - [can_parse](../method/RDoc=3a=3aParser/s/can_parse.md)
+- [parse_files_matching](../method/RDoc=3a=3aParser/s/parse_files_matching.md)
 - [parser_for](../method/RDoc=3a=3aParser/s/parser_for.md)
 - [parsers](../method/RDoc=3a=3aParser/s/parsers.md)
-
-## Instance Methods
-
-- [parse_files_matching](../method/RDoc=3a=3aParser/i/parse_files_matching.md)

@@ -5,5 +5,3 @@
 ## Instance Methods
 
 - [to_json](../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString/i/to_json.md)
-- [to_json_raw](../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString/i/to_json_raw.md)
-- [to_json_raw_object](../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aString/i/to_json_raw_object.md)

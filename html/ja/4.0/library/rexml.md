@@ -15,6 +15,8 @@ SAX スタイルの API には、
   - [rexml/parsers/ultralightparser](../library/rexml=2fparsers=2fultralightparser.md)
 などもあります。
 
+XML 文書を RELAX NG のスキーマで検証するには [rexml/validation/relaxng](../library/rexml=2fvalidation=2frelaxng.md) を使います。
+
 ### リンク
 
   - REXML Home
