@@ -1,3 +1,3 @@
 # class Psych::Exception < RuntimeError
 
-Psych 関連のエラーを表す例外です。
+[Psych](../class/Psych.md) 関連のエラーを表す例外です。

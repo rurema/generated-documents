@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-07-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-10-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -2159,8 +2159,8 @@ each の呼び出し時に引数として渡されます。
 </dd>
 
 
-<dt class="method-heading" id="I_TO_SET"><code>to_set(klass = Set, *args) -&gt; Set</code><span class="permalink">[<a href="../method/Enumerable/i/to_set.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Enumerable.html#method-i-to_set">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Enumerable.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>to_set(klass = Set, *args) {|o| ... } -&gt; Set</code></dt>
+<dt class="method-heading" id="I_TO_SET"><code>to_set -&gt; Set</code><span class="permalink">[<a href="../method/Enumerable/i/to_set.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Enumerable.html#method-i-to_set">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Enumerable.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>to_set {|o| ... } -&gt; Set</code></dt>
 <dt class="rbs-signature"><code>() &rarr; <a href="../class/Set.html">Set</a>[Elem]</code></dt>
 <dt class="rbs-signature"><code>[T] () { (Elem) &rarr; T } &rarr; <a href="../class/Set.html">Set</a>[T]</code></dt>
 <dd class="method-description">
@@ -2168,46 +2168,21 @@ each の呼び出し時に引数として渡されます。
 Enumerable オブジェクトの要素から、新しい集合オブジェクトを作ります。
 </p>
 <p>
-引数 klass を与えた場合、Set クラスの代わりに、指定した集合クラスのインスタンスを作ります。
-</p>
-<p>
-この引数を指定することで、ユーザ定義の集合クラスのインスタンスを作ることができます
-(ここでいう集合クラスとは、Setとメソッド/クラスメソッドで互換性のあるクラスです。
-Ruby 2.7 までは SortedSet が定義されていました)。
-</p>
-<p>
-引数 args およびブロックは、集合オブジェクトを生成するための new
-メソッドに渡されます。
-</p>
-<p>
-Ruby 4.0 から、引数 klass や args を渡す呼び出しは deprecated です。引数を渡すと「passing arguments to Enumerable#to_set is deprecated」という警告を出力します（ブロックのみを渡す呼び出しは deprecated ではありません）。
+Ruby 4.1 から、引数を受け付けなくなりました。引数を渡すと <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。ブロックは、集合オブジェクトを生成するための <a href="../method/Set/s/new.html">Set.new</a> に渡されます。ユーザ定義の集合クラスのインスタンスを作りたいときは、そのクラスの new メソッドを直接呼び出してください。
 </p>
 <dl>
-<dt class='method-param'>[PARAM] <code>klass</code>:</dt>
-<dd>
-生成する集合クラスを指定します。
-</dd>
-<dt class='method-param'>[PARAM] <code>args</code>:</dt>
-<dd>
-集合クラスのオブジェクト初期化メソッドに渡す引数を指定します。
-</dd>
 <dt class='method-param'>[PARAM] <code>block</code>:</dt>
 <dd>
-集合クラスのオブジェクト初期化メソッドに渡すブロックを指定します。
+集合オブジェクトを生成する <a href="../method/Set/s/new.html">Set.new</a> に渡すブロックを指定します。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
 生成された集合オブジェクトを返します。
 </dd>
 </dl>
-<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="mi">30</span>, <span class="mi">10</span>, <span class="mi">20</span><span class="p">]</span><span class="p">.</span><span class="nf">to_set</span>
-<span class="c1">#=&gt; Set[30, 10, 20]
-</span><span class="no">MySet</span> <span class="o">=</span> <span class="no">Class</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Set</span><span class="p">)</span>
-<span class="nb">p</span> <span class="p">[</span><span class="mi">30</span>, <span class="mi">10</span>, <span class="mi">20</span><span class="p">]</span><span class="p">.</span><span class="nf">to_set</span><span class="p">(</span><span class="no">MySet</span><span class="p">)</span>
-<span class="c1"># warning: passing arguments to Enumerable#to_set is deprecated
-</span><span class="c1">#=&gt; #&lt;MySet: {30, 10, 20}&gt;
-</span><span class="nb">p</span> <span class="p">[</span><span class="mi">30</span>, <span class="mi">10</span>, <span class="mi">20</span><span class="p">]</span><span class="p">.</span><span class="nf">to_set</span> <span class="p">{</span><span class="o">|</span>num<span class="o">|</span> num <span class="o">/</span> <span class="mi">10</span><span class="p">}</span>
-<span class="c1">#=&gt; Set[3, 1, 2]
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="mi">30</span>, <span class="mi">10</span>, <span class="mi">20</span><span class="p">]</span><span class="p">.</span><span class="nf">to_set</span> <span class="c1"># =&gt; Set[30, 10, 20]
+</span><span class="nb">p</span> <span class="p">[</span><span class="mi">30</span>, <span class="mi">10</span>, <span class="mi">20</span><span class="p">]</span><span class="p">.</span><span class="nf">to_set</span> <span class="p">{</span><span class="o">|</span>num<span class="o">|</span> num <span class="o">/</span> <span class="mi">10</span><span class="p">}</span> <span class="c1"># =&gt; Set[3, 1, 2]
+</span><span class="p">[</span><span class="mi">30</span>, <span class="mi">10</span>, <span class="mi">20</span><span class="p">]</span><span class="p">.</span><span class="nf">to_set</span><span class="p">(</span><span class="no">Set</span><span class="p">)</span> <span class="c1"># ~&gt; ArgumentError
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Set/s/new.html">Set.new</a>

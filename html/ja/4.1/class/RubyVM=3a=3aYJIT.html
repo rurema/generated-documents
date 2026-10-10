@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-07-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-10-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -148,6 +148,10 @@ Ruby 3.2 で「実験的」の位置づけが外れ、Ruby 3.3 では実行時�
 
 <li><a href="#S_LOG_ENABLED--3F">log_enabled?</a></li>
 
+<li><a href="#S_MAX_COMPILE_TIME_NS">max_compile_time_ns</a></li>
+
+<li><a href="#S_MAX_COMPILE_TIME_NS--3D">max_compile_time_ns=</a></li>
+
 <li><a href="#S_RESET_STATS--21">reset_stats!</a></li>
 
 <li><a href="#S_RUNTIME_STATS">runtime_stats</a></li>
@@ -155,6 +159,8 @@ Ruby 3.2 で「実験的」の位置づけが外れ、Ruby 3.3 では実行時�
 <li><a href="#S_STATS_ENABLED--3F">stats_enabled?</a></li>
 
 <li><a href="#S_STATS_STRING">stats_string</a></li>
+
+<li><a href="#S_TOTAL_COMPILE_TIME_NS">total_compile_time_ns</a></li>
 
 </ul>
 </dd>
@@ -292,6 +298,64 @@ JIT の有効・無効はコマンドラインオプションや環境変数な�
 </dd>
 
 
+<dt class="method-heading" id="S_MAX_COMPILE_TIME_NS"><code>max_compile_time_ns -&gt; Integer</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aYJIT/s/max_compile_time_ns.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/YJIT.html#method-c-max_compile_time_ns">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+YJIT がコンパイルに使ってよい時間の上限をナノ秒単位で返します。
+<a href="../method/RubyVM=3a=3aYJIT/s/total_compile_time_ns.html">RubyVM::YJIT.total_compile_time_ns</a> がこの値を超えると、上限が引き上げられるまで YJIT はコンパイルを止めます。
+0 は無制限を表し、デフォルトは 0 です。
+</p>
+<p>
+上限は best-effort で扱われるため、コンパイルが止まっているはずの間にもコンパイルすることがあります。
+JIT のウォームアップの速さを制御し、コンパイルの負荷をより長い時間に分散させるための機能です(<a class="external" href="https://bugs.ruby-lang.org/issues/22236">[feature#22236]</a>)。たとえば、リクエストや一定の周期ごとにコンパイル時間の予算を割り当てたいときは、
+<code>RubyVM::YJIT.max_compile_time_ns = RubyVM::YJIT.total_compile_time_ns + 20_000_000</code> のように、現在の合計に予算を足した値を設定します。
+</p>
+<p>
+YJIT が有効でなければ 0 を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">YJIT</span><span class="p">.</span><span class="nf">max_compile_time_ns</span> <span class="c1"># =&gt; 0
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aYJIT/s/max_compile_time_ns=3d.html">RubyVM::YJIT.max_compile_time_ns=</a>, <a href="../method/RubyVM=3a=3aYJIT/s/total_compile_time_ns.html">RubyVM::YJIT.total_compile_time_ns</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_MAX_COMPILE_TIME_NS--3D"><code>max_compile_time_ns=(ns)</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aYJIT/s/max_compile_time_ns=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/YJIT.html#method-c-max_compile_time_ns-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+YJIT がコンパイルに使ってよい時間の上限をナノ秒単位で設定します。意味は <a href="../method/RubyVM=3a=3aYJIT/s/max_compile_time_ns.html">RubyVM::YJIT.max_compile_time_ns</a> を参照してください。
+0 を指定すると無制限になります。
+</p>
+<p>
+<a href="../method/RubyVM=3a=3aYJIT/s/enable.html">RubyVM::YJIT.enable</a> やコマンドラインオプション <code>--yjit</code> で YJIT を有効にしてから使います。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>ns</code>:</dt>
+<dd>
+上限(ナノ秒)。Integer 以外は Integer に変換されます(<code>1.5</code> は <code>1</code> になります)。負の値は渡さないでください(符号なし整数として扱われ、非常に大きな値になります)。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+設定した値を返します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+<code>ns</code> に文字列など Integer に変換できないものを指定した場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="no">RubyVM</span><span class="o">::</span><span class="no">YJIT</span><span class="p">.</span><span class="nf">enable</span>
+<span class="no">RubyVM</span><span class="o">::</span><span class="no">YJIT</span><span class="p">.</span><span class="nf">max_compile_time_ns</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="nb">p</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">YJIT</span><span class="p">.</span><span class="nf">max_compile_time_ns</span> <span class="c1"># =&gt; 10
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aYJIT/s/max_compile_time_ns.html">RubyVM::YJIT.max_compile_time_ns</a>, <a href="../method/RubyVM=3a=3aYJIT/s/total_compile_time_ns.html">RubyVM::YJIT.total_compile_time_ns</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_RESET_STATS--21"><code>reset_stats! -&gt; nil</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aYJIT/s/reset_stats=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/YJIT.html#method-c-reset_stats-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span></dt>
 <dt class="rbs-signature"><code>() &rarr; void</code></dt>
 <dd class="method-description">
@@ -355,6 +419,22 @@ Symbol を指定すると、そのキーに対応する値のみを返します�
 </p>
 <p>
 [SEE_ALSO] <a href="../method/RubyVM=3a=3aYJIT/s/runtime_stats.html">RubyVM::YJIT.runtime_stats</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_TOTAL_COMPILE_TIME_NS"><code>total_compile_time_ns -&gt; Integer</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/RubyVM=3a=3aYJIT/s/total_compile_time_ns.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RubyVM/YJIT.html#method-c-total_compile_time_ns">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/RubyVM__YJIT.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+YJIT がコンパイルに使った実時間の合計をナノ秒単位で返します。値は単調に増加します。YJIT が有効でなければ 0 を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="no">RubyVM</span><span class="o">::</span><span class="no">YJIT</span><span class="p">.</span><span class="nf">enable</span>
+<span class="mi">2000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="o">|</span>i<span class="o">|</span> i<span class="p">.</span><span class="nf">to_s</span> <span class="p">}</span>
+<span class="nb">p</span> <span class="no">RubyVM</span><span class="o">::</span><span class="no">YJIT</span><span class="p">.</span><span class="nf">total_compile_time_ns</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/RubyVM=3a=3aYJIT/s/max_compile_time_ns.html">RubyVM::YJIT.max_compile_time_ns</a>, <a href="../method/RubyVM=3a=3aYJIT/s/max_compile_time_ns=3d.html">RubyVM::YJIT.max_compile_time_ns=</a>, <a href="../method/RubyVM=3a=3aYJIT/s/runtime_stats.html">RubyVM::YJIT.runtime_stats</a>
 </p>
 </dd>
 

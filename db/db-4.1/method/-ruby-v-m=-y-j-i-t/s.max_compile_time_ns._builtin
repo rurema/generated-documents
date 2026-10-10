@@ -1,0 +1,27 @@
+names=max_compile_time_ns
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/RubyVM__YJIT.md
+since_by_name=max_compile_time_ns=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def RubyVM::YJIT.max_compile_time_ns -> Integer
+
+YJIT がコンパイルに使ってよい時間の上限をナノ秒単位で返します。
+[m:RubyVM::YJIT.total_compile_time_ns] がこの値を超えると、上限が引き上げられるまで YJIT はコンパイルを止めます。
+0 は無制限を表し、デフォルトは 0 です。
+
+上限は best-effort で扱われるため、コンパイルが止まっているはずの間にもコンパイルすることがあります。
+JIT のウォームアップの速さを制御し、コンパイルの負荷をより長い時間に分散させるための機能です([feature:22236])。
+たとえば、リクエストや一定の周期ごとにコンパイル時間の予算を割り当てたいときは、
+`RubyVM::YJIT.max_compile_time_ns = RubyVM::YJIT.total_compile_time_ns + 20_000_000` のように、現在の合計に予算を足した値を設定します。
+
+YJIT が有効でなければ 0 を返します。
+
+```ruby title="例"
+p RubyVM::YJIT.max_compile_time_ns # => 0
+```
+
+- **SEE** [m:RubyVM::YJIT.max_compile_time_ns=], [m:RubyVM::YJIT.total_compile_time_ns]
+

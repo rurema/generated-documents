@@ -133,13 +133,19 @@ RELAX NG のスキーマ(XML 構文)に基づくバリデータです。
 スキーマのうち、次の要素に対応しています。
 </p>
 <p>
-<code>empty</code>, <code>element</code>, <code>attribute</code>, <code>text</code>, <code>optional</code>, <code>choice</code>, <code>oneOrMore</code>, <code>zeroOrMore</code>, <code>group</code>, <code>value</code>, <code>interleave</code>, <code>mixed</code>, <code>ref</code>, <code>grammar</code>, <code>start</code>, <code>define</code>
+<code>empty</code>, <code>element</code>, <code>attribute</code>, <code>text</code>, <code>optional</code>, <code>oneOrMore</code>, <code>zeroOrMore</code>, <code>group</code>, <code>value</code>, <code>interleave</code>, <code>ref</code>, <code>grammar</code>, <code>start</code>, <code>define</code>
 </p>
 <p>
-次の要素には対応していません。
+<code>choice</code> と <code>mixed</code> は、一部の形だけ検証できます。<code>choice</code> は、選択肢が <code>value</code> や <code>attribute</code>、内容が <code>empty</code> の <code>element</code> のときは動きます。テキストや子要素を持つ <code>element</code> を選択肢にすると、スキーマに合う文書でも <a href="../class/REXML=3a=3aValidation=3a=3aValidationException.html">REXML::Validation::ValidationException</a> が発生します。<code>mixed</code> は、テキストの後に子要素が続く形だけを受け付けます。
 </p>
 <p>
-<code>data</code>, <code>param</code>, <code>include</code>, <code>externalRef</code>, <code>notAllowed</code>, <code>anyName</code>, <code>nsName</code>, <code>except</code>, <code>name</code>
+次の要素には対応していません。スキーマに書いても無視されます。
+</p>
+<p>
+<code>data</code>, <code>param</code>, <code>include</code>, <code>externalRef</code>, <code>notAllowed</code>, <code>nsName</code>, <code>except</code>, <code>name</code>
+</p>
+<p>
+無視されるため、<code>notAllowed</code> を書いても何も禁止されず、<code>include</code> と <code>externalRef</code> は参照先のファイルを読みません。<code>element</code> と <code>attribute</code> の名前は <code>name</code> 属性で指定してください。子要素の <code>name</code> は無視されます。<code>anyName</code> を書くと、スキーマの読み込み時に <a href="../class/NameError.html">NameError</a> が発生します。<code>ref</code> で参照する名前は、<code>define</code> で定義しておいてください。未定義の名前を参照すると <a href="../class/NoMethodError.html">NoMethodError</a> が発生します。
 </p>
 
 

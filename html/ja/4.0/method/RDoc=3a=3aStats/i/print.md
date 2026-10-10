@@ -1,5 +1,0 @@
-# RDoc::Stats#print
-
-### def print -> ()
-
-自身の持つ情報を標準出力に表示します。

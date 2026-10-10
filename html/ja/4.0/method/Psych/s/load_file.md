@@ -2,7 +2,7 @@
 
 ### def Psych.load_file(filename) -> object
 
-filename で指定したファイルを YAML ドキュメントとして
+`filename` で指定したファイルを YAML ドキュメントとして
 Ruby のオブジェクトに変換します。
 
 [Psych.load](../../../method/Psych/s/load.md) と同様に、デフォルトでは限られたクラスのオブジェクトにしか変換しません。`permitted_classes` などのオプションは [Psych.load](../../../method/Psych/s/load.md) と同じものが指定できます。

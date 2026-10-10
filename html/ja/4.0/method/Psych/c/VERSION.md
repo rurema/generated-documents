@@ -2,4 +2,4 @@
 
 ### const VERSION -> String
 
-Psych のバージョン。
+[Psych](../../../class/Psych.md) のバージョン。

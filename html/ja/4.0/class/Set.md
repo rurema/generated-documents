@@ -49,6 +49,7 @@ p MyCoreSet[[1, 2, 3]]  # => MyCoreSet[[1, 2, 3]]
 ## Class Methods
 
 - [\[\]](../method/Set/s/=5b=5d.md)
+- [json_create](../method/Set/s/json_create.md)
 - [new](../method/Set/s/new.md)
 
 ## Instance Methods
@@ -76,6 +77,7 @@ p MyCoreSet[[1, 2, 3]]  # => MyCoreSet[[1, 2, 3]]
 - [superset?](../method/Set/i/superset=3f.md)
 - [^](../method/Set/i/=5e.md)
 - [add?](../method/Set/i/add=3f.md)
+- [as_json](../method/Set/i/as_json.md)
 - [classify](../method/Set/i/classify.md)
 - [clear](../method/Set/i/clear.md)
 - [clone](../method/Set/i/clone.md)
@@ -92,10 +94,12 @@ p MyCoreSet[[1, 2, 3]]  # => MyCoreSet[[1, 2, 3]]
 - [each](../method/Set/i/each.md)
 - [empty?](../method/Set/i/empty=3f.md)
 - [encode_with](../method/Set/i/encode_with.md)
+- [eql?](../method/Set/i/eql=3f.md)
 - [filter!](../method/Set/i/filter=21.md)
 - [select!](../method/Set/i/select=21.md)
 - [flatten](../method/Set/i/flatten.md)
 - [flatten!](../method/Set/i/flatten=21.md)
+- [hash](../method/Set/i/hash.md)
 - [init_with](../method/Set/i/init_with.md)
 - [inspect](../method/Set/i/inspect.md)
 - [to_s](../method/Set/i/to_s.md)
@@ -110,3 +114,4 @@ p MyCoreSet[[1, 2, 3]]  # => MyCoreSet[[1, 2, 3]]
 - [reset](../method/Set/i/reset.md)
 - [subtract](../method/Set/i/subtract.md)
 - [to_a](../method/Set/i/to_a.md)
+- [to_json](../method/Set/i/to_json.md)

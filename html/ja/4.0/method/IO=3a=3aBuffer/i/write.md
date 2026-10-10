@@ -23,6 +23,7 @@
 
 - **raise** `ArgumentError` -- offset と length の合計がバッファの大きさを超える場合に発生します。
 
+
 ```ruby
 buf = IO::Buffer.for("Ruby!")
 File.open("test.txt", "w") do |io|
@@ -30,5 +31,6 @@ File.open("test.txt", "w") do |io|
 end
 p File.read("test.txt") # => "Ruby!"
 ```
+
 
 - **SEE** [IO::Buffer#pwrite](../../../method/IO=3a=3aBuffer/i/pwrite.md), [IO::Buffer#read](../../../method/IO=3a=3aBuffer/i/read.md)

@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-07-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-10-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -81,11 +81,14 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_PWRITE"><code>pwrite(io, from, length = nil, offset = 0) -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../../../method/IO=3a=3aBuffer/i/pwrite.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-pwrite">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PWRITE"><code>pwrite(io, from, offset = 0, length = nil) -&gt; Integer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../../../method/IO=3a=3aBuffer/i/pwrite.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-pwrite">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dt class="rbs-signature"><code>(untyped, untyped, untyped) &rarr; untyped</code></dt>
 <dd class="method-description">
 <p>
 バッファの内容を io の指定した位置に書き込みます。
+</p>
+<p>
+バッファの offset の位置から最大 length バイトを、1 回の操作で書き込みます。短い書き込みも正常な結果で、書き込めたバイト数がそのまま返ります。
 </p>
 <p>
 <a href="../../../method/IO=3a=3aBuffer/i/write.html">IO::Buffer#write</a> と異なり、書き込む位置を io の中で直接指定します。
@@ -100,14 +103,14 @@ io の現在の位置は変わりません。
 <dd>
 書き込みを開始する位置を、io の先頭からのバイト数で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>length</code>:</dt>
-<dd>
-書き込む最小のバイト数を整数で指定します。省略するか nil を指定した場合は、バッファの大きさから offset を引いた値、つまりバッファの残り全体になります。
-0 を指定した場合は <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/pwrite.html">pwrite(2)</a> をちょうど 1 回呼びます。
-</dd>
 <dt class='method-param'>[PARAM] <code>offset</code>:</dt>
 <dd>
-書き込む内容の開始位置を、バッファの先頭からのバイト数で指定します。
+書き込む内容の開始位置を、バッファの先頭からのバイト数で指定します。省略した場合は 0 です。
+</dd>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+書き込む最大のバイト数を整数で指定します。省略するか nil を指定した場合は、バッファの大きさから offset を引いた値、つまりバッファの残り全体になります。
+0 を指定した場合は何もしません。
 </dd>
 <dt>[RETURN]</dt>
 <dd>
@@ -123,9 +126,9 @@ offset と length の合計がバッファの大きさを超える場合に発�
 
 buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">RUBY!</span><span class="s2">"</span><span class="p">)</span>
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">test.txt</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">r+</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>io<span class="o">|</span>
-  <span class="nb">p</span> buf<span class="p">.</span><span class="nf">pwrite</span><span class="p">(</span>io, <span class="mi">6</span>, <span class="mi">5</span><span class="p">)</span> <span class="c1"># =&gt; 5
+  <span class="nb">p</span> buf<span class="p">.</span><span class="nf">pwrite</span><span class="p">(</span>io, <span class="mi">6</span>, <span class="mi">0</span>, <span class="mi">5</span><span class="p">)</span> <span class="c1"># =&gt; 5
 </span><span class="k">end</span>
-<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">test.txt</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;Hello RUBY!&quot;
+<span class="nb">p</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"</span><span class="s2">test.txt</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># =&gt; &quot;Hello RUBY!&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/IO=3a=3aBuffer/i/write.html">IO::Buffer#write</a>, <a href="../../../method/IO=3a=3aBuffer/i/pread.html">IO::Buffer#pread</a>, <a class="external" href="http://www.opengroup.org/onlinepubs/009695399/functions/pwrite.html">pwrite(2)</a>

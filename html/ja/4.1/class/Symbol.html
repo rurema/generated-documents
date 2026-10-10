@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-07-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-10-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -743,12 +743,14 @@ eql? で等しいシンボルは、常にハッシュ値も等しくなります
 </span><span class="nb">p</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">id2name</span><span class="p">.</span><span class="nf">intern</span> <span class="o">==</span> <span class="ss">:foo</span>  <span class="c1"># =&gt; true
 </span></code></pre>
 <p>
-返り値の文字列を破壊的に変更すると、Warning[:deprecated] が真のとき「この文字列は将来のバージョンで freeze される」という趣旨の警告が出るようになりました。将来のバージョンでは返り値が freeze される予定です。
-freeze された文字列が必要なときは <a href="../method/Symbol/i/name.html">Symbol#name</a> を使用してください。
+Ruby 4.1 から、返り値の文字列は freeze されています。毎回同じオブジェクトが返され、<a href="../method/Symbol/i/name.html">Symbol#name</a> の返り値と同一のオブジェクトです。破壊的に変更しようとすると <a href="../class/FrozenError.html">FrozenError</a> が発生します。変更可能な文字列が必要なときは、<code>dup</code> や <code>+</code> で複製してください。
 </p>
 <pre class="highlight ruby"><code>s <span class="o">=</span> <span class="ss">:foo</span><span class="p">.</span><span class="nf">to_s</span>
-s <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>
-<span class="c1"># warning: string returned by :foo.to_s will be frozen in the future
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">frozen?</span>           <span class="c1"># =&gt; true
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">equal?</span><span class="p">(</span><span class="ss">:foo</span><span class="p">.</span><span class="nf">to_s</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">equal?</span><span class="p">(</span><span class="ss">:foo</span><span class="p">.</span><span class="nf">name</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">dup</span><span class="p">.</span><span class="nf">frozen?</span>       <span class="c1"># =&gt; false
+</span>s <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span>            <span class="c1"># ~&gt; FrozenError
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/intern.html">String#intern</a>
@@ -865,12 +867,13 @@ regexp が文字列の場合は、正規表現にコンパイルします。詳�
 シンボルに対応する文字列を返します。
 </p>
 <p>
-<a href="../method/Symbol/i/to_s.html">Symbol#to_s</a>と違って freeze された文字列を返します。
+freeze された文字列を返します。Ruby 4.1 から <a href="../method/Symbol/i/to_s.html">Symbol#to_s</a> の返り値も freeze されており、同じオブジェクトを返します。
 </p>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="ss">:fred</span><span class="p">.</span><span class="nf">name</span>         <span class="c1"># =&gt; &quot;fred&quot;
 </span><span class="nb">p</span> <span class="ss">:fred</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">frozen?</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="ss">:fred</span><span class="p">.</span><span class="nf">to_s</span>         <span class="c1"># =&gt; &quot;fred&quot;
-</span><span class="nb">p</span> <span class="ss">:fred</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">frozen?</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="ss">:fred</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">frozen?</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="ss">:fred</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span><span class="ss">:fred</span><span class="p">.</span><span class="nf">to_s</span><span class="p">)</span> <span class="c1"># =&gt; true
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Symbol/i/to_s.html">Symbol#to_s</a>

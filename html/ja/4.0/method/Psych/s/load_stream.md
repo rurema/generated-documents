@@ -14,7 +14,7 @@ require 'psych'
 p Psych.load_stream("--- foo\n...\n--- bar\n...") # => ['foo', 'bar']
 ```
 
-ブロックありの場合は各オブジェクト引数としてそのブロックを呼び出します。
+ブロックありの場合は各オブジェクトを引数としてそのブロックを呼び出します。
 
 ```ruby title="例"
 require 'psych'
@@ -26,8 +26,8 @@ end
 p list # => ['foo', 'bar']
 ```
 
-filename はパース中に発生した例外のメッセージに用います。
+`filename` はパース中に発生した例外のメッセージに用います。
 
-- **param** `yaml` -- YAML ドキュメント(文字列 or IO オブジェクト)
+- **param** `yaml` -- YAML ドキュメント(文字列 or [IO](../../../class/IO.md) オブジェクト)
 - **param** `filename` -- [Psych::SyntaxError](../../../class/Psych=3a=3aSyntaxError.md) 発生時にファイル名として表示する文字列。
 - **raise** `Psych::SyntaxError` -- YAMLドキュメントに文法エラーが発見されたときに発生します

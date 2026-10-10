@@ -7,6 +7,7 @@ until_by_name=
 rbs_sig={"overloads":[{"segments":[["t","(selector source, string replacement) -> self?"]],"params":["source","replacement"],"arity":[2,2]}]}
 
 ### def tr!(pattern, replace) -> self | nil
+### def tr!(hash) -> self | nil
 
 pattern 文字列に含まれる文字を検索し、それを replace 文字列の対応する文字に破壊的に置き換えます。
 
@@ -23,10 +24,21 @@ replace に対しても `-` による範囲指定が可能です。
 replace の範囲が pattern の範囲よりも小さい場合は、
 replace の最後の文字が無限に続くものと扱われます。
 
+Ruby 4.1 から、[m:String#tr] と同じく Hash を 1 つだけ渡す形式も使えます。
+
 tr! は self を変更して返しますが、置換が起こらなかった場合は nil を返します。
 
 - **param** `pattern` --    置き換える文字のパターン
 - **param** `replace` --    pattern で指定した文字を置き換える文字
+- **param** `hash` --    置き換える文字(キー)と置き換え後の文字列(値)の対応
+
+
+```ruby title="例"
+s = "hello"
+p s.tr!({"e" => "EE"}) # => "hEEllo"
+p s                    # => "hEEllo"
+p s.tr!({"z" => "E"})  # => nil
+```
 
 - **SEE** [m:String#tr], [m:String#tr_s]
 

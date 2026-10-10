@@ -13,4 +13,5 @@ p :fred.to_s         # => "fred"
 p :fred.to_s.frozen? # => false
 ```
 
+
 - **SEE** [Symbol#to_s](../../../method/Symbol/i/to_s.md)

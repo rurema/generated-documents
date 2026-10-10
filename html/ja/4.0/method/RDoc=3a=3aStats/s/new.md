@@ -1,5 +1,11 @@
 # RDoc::Stats.new
 
-### def RDoc::Stats.new -> RDoc::Stats
+### def RDoc::Stats.new(store, num_files, verbosity = 1) -> RDoc::Stats
 
 自身を初期化します。
+
+- **param** `store` -- 解析結果を保持する `RDoc::Store` オブジェクトを指定します。
+
+- **param** `num_files` -- 解析するファイルの数を整数で指定します。
+
+- **param** `verbosity` -- 解析中に表示する進捗の詳しさを整数で指定します。0 は何も表示せず、1 は簡易な表示、2 以上は詳細な表示になります。

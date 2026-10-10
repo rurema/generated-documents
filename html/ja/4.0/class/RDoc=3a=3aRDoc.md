@@ -23,3 +23,4 @@ HTML に変換する部分をライブラリとして使用したい場合、
 ## Instance Methods
 
 - [document](../method/RDoc=3a=3aRDoc/i/document.md)
+- [stats](../method/RDoc=3a=3aRDoc/i/stats.md)

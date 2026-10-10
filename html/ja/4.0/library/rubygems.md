@@ -3,7 +3,8 @@
 RubyGems を扱うためのクラスやモジュールが定義されているライブラリです。
 
 このリファレンスでは、利用者向けの API([Gem](../class/Gem.md) モジュールの設定・検索系のメソッド、[Gem::Specification](../class/Gem=3a=3aSpecification.md) の gemspec 属性と検索系のメソッド、
-[Gem::Version](../class/Gem=3a=3aVersion.md)・[Gem::Requirement](../class/Gem=3a=3aRequirement.md)・[Gem::Dependency](../class/Gem=3a=3aDependency.md)・[Gem::Platform](../class/Gem=3a=3aPlatform.md))と例外クラスを扱います。
+[Gem::Version](../class/Gem=3a=3aVersion.md)・[Gem::Requirement](../class/Gem=3a=3aRequirement.md)・[Gem::Dependency](../class/Gem=3a=3aDependency.md)・[Gem::Platform](../class/Gem=3a=3aPlatform.md)、[Gem::ConfigFile](../class/Gem=3a=3aConfigFile.md) の設定と API キーを扱うメソッド、
+[Gem::Package](../class/Gem=3a=3aPackage.md) の `.gem` ファイルを作る・検証する・展開するメソッド)と例外クラスを扱います。
 `Gem::Installer`・`Gem::Indexer`・`Gem::RemoteFetcher`・`Gem::Security`・`Gem::Commands::*` などの内部クラスや、
 `Gem::Net::HTTP` のように RubyGems が同梱している他のライブラリのコピー(vendored)は、
 ページがあるものも含めて RubyGems の版に追随した記述はしていません。完全な API については公式ドキュメントを参照してください。

@@ -4,6 +4,8 @@
 
 引数 key で指定した名前のスレッドローカル変数が存在する場合に true、そうでない場合に false を返します。
 
+値が `nil` の変数は存在しないものとして扱われ、false を返します。
+
 - **param** `key` -- 変数名を [String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) で指定します。
 
 ```ruby

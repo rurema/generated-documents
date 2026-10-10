@@ -10,3 +10,31 @@ aliasof=
 source_location=manual/api/rdoc/RDoc__Stats.md
 
 RDoc のステータスを管理するクラスです。
+
+```ruby title="例"
+require 'rdoc'
+require 'tmpdir'
+
+Dir.mktmpdir do |dir|
+  path = File.join(dir, "foo.rb")
+  File.write(path, <<~RUBY)
+    class Foo
+      # documented
+      def a(x); end
+      def b(y); end
+    end
+  RUBY
+
+  rdoc = RDoc::RDoc.new
+  rdoc.document(['--quiet', '-o', File.join(dir, 'out'), path])
+  stats = rdoc.stats
+
+  p stats.num_files
+  # => 1
+  p stats.files_so_far
+  # => 1
+  stats.summary
+  p stats.fully_documented?
+  # => false
+end
+```
