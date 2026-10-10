@@ -5,7 +5,7 @@
 
 ### 概要
 
-Psych を用いると YAML のパースと出力ができます。
+[Psych](../class/Psych.md) を用いると YAML のパースと出力ができます。
 これらの機能は libyaml <https://pyyaml.org/wiki/LibYAML> を用いて実装されています。さらに Ruby の大半のオブジェクトと YAML フォーマットのデータの間を相互に変換できます。
 
 ### 基本的な使いかた
@@ -25,7 +25,7 @@ p({ :a => 'b'}.to_yaml) # => "---\n:a: b\n"
 
 #### YAML のパース
 
-Psych は YAML ドキュメントのパースができます。
+[Psych](../class/Psych.md) は YAML ドキュメントのパースができます。
 ユーザの必要に応じ、高水準な API から低水準な API まで用意されています。
 最も低水準なものは、イベントベースな API です。中程度の水準のものとして
 YAML の AST(Abstract Syntax Tree)にアクセスする APIがあります。
@@ -38,7 +38,7 @@ YAML の AST(Abstract Syntax Tree)にアクセスする APIがあります。
 
 ##### 中水準 パース API
 
-Psych には YAML ドキュメントの AST にアクセスする API があります。
+[Psych](../class/Psych.md) には YAML ドキュメントの AST にアクセスする API があります。
 この AST は [Psych::Parser](../class/Psych=3a=3aParser.md) と [Psych::TreeBuilder](../class/Psych=3a=3aTreeBuilder.md) で構築します。
 [Psych.parse_stream](../method/Psych/s/parse_stream.md)、[Psych::Nodes](../class/Psych=3a=3aNodes.md)、[Psych::Nodes::Node](../class/Psych=3a=3aNodes=3a=3aNode.md)
 などを経由して AST を解析したり操作したりできます。
@@ -50,7 +50,7 @@ YAML ドキュメントをパースして Ruby のオブジェクトに変換で
 
 #### YAML ドキュメントの出力
 
-Psych は YAML ドキュメントを出力する機能があります。
+[Psych](../class/Psych.md) は YAML ドキュメントを出力する機能があります。
 高・中・低の三つの水準の API があります。
 低水準 API はイベントベースの API で、中水準のものは AST を構築する API、高水準の API は Ruby のオブジェクトを直接 YAML ドキュメントに変換する API
 です。これはパースの高・中・低水準 API と対応しています。

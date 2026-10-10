@@ -25,6 +25,8 @@ Markdown 形式で記述されたドキュメントを [rdoc](../library/rdoc.md
 - [notes=](../method/RDoc=3a=3aMarkdown/i/notes=3d.md)
 - [notes?](../method/RDoc=3a=3aMarkdown/i/notes=3f.md)
 - [parse](../method/RDoc=3a=3aMarkdown/i/parse.md)
+- [strike=](../method/RDoc=3a=3aMarkdown/i/strike=3d.md)
+- [strike?](../method/RDoc=3a=3aMarkdown/i/strike=3f.md)
 
 ## Constants
 

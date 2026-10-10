@@ -21,5 +21,20 @@ p thr.join             # => #<Thread:0x401b3f10 dead>
 p thr.thread_variables # => [:cat, :dog]
 ```
 
+Ruby 4.1 から、value に `nil` を指定すると、その名前のスレッドローカル変数自体が削除されます。
+削除した変数は [m:Thread#thread_variables] の結果に含まれなくなります。
+返り値は指定した value(`nil`)です。
+
+```ruby title="nil を指定して削除する例"
+th = Thread.current
+th.thread_variable_set(:x, 1)
+p th.thread_variables      # => [:x]
+th.thread_variable_set(:x, nil)
+p th.thread_variable?(:x)  # => false
+p th.thread_variables      # => []
+p th.thread_variable_get(:x) # => nil
+```
+
+
 - **SEE** [m:Thread#thread_variable_get], [m:Thread#thread_variables], [m:Thread#\[\]]
 

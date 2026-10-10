@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-07-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-10-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -6573,6 +6573,7 @@ to_s メソッドを使うと以下のように統一的に処理できます。
 
 
 <dt class="method-heading" id="I_TR"><code>tr(pattern, replace) -&gt; String</code><span class="permalink">[<a href="../method/String/i/tr.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/String.html#method-i-tr">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>tr(hash) -&gt; String</code></dt>
 <dt class="rbs-signature"><code>(selector source, string replacement) &rarr; <a href="../class/String.html">String</a></code></dt>
 <dd class="method-description">
 <p>
@@ -6593,6 +6594,13 @@ replace に対しても <code>-</code> による範囲指定が可能です。
 replace の範囲が pattern の範囲よりも小さい場合は、
 replace の最後の文字が無限に続くものとして扱われます。
 </p>
+<p>
+Ruby 4.1 から、引数に Hash を 1 つだけ渡す形式も使えます。この形式では、<code>hash</code> のキー(1 文字の文字列)に一致する文字を、対応する値の文字列に置き換えます。値は任意の長さの文字列で、空文字列を指定するとその文字が削除されます。文字列に含まれないキーは無視されます。置き換えた結果に対して、さらに置き換えが行われることはありません。
+</p>
+<p>
+<code>hash</code> のキーが 1 文字でない文字列(空文字列を含む)の場合は <a href="../class/ArgumentError.html">ArgumentError</a>、キーや値が文字列でない場合は <a href="../class/TypeError.html">TypeError</a> が発生します。
+<code>tr(&quot;el&quot;, {&quot;e&quot; =&gt; &quot;EE&quot;})</code> のように、2 つの引数のどちらかに Hash を渡した場合も <a href="../class/TypeError.html">TypeError</a> が発生します。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>pattern</code>:</dt>
 <dd>
@@ -6601,6 +6609,10 @@ replace の最後の文字が無限に続くものとして扱われます。
 <dt class='method-param'>[PARAM] <code>replace</code>:</dt>
 <dd>
 pattern で指定した文字を置き換える文字
+</dd>
+<dt class='method-param'>[PARAM] <code>hash</code>:</dt>
+<dd>
+置き換える文字(キー)と置き換え後の文字列(値)の対応
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -6616,6 +6628,14 @@ pattern で指定した文字を置き換える文字
 <span class="nb">p</span> email<span class="p">.</span><span class="nf">tr</span><span class="p">(</span><span class="s2">"</span><span class="s2">０-９ａ-ｚＡ-Ｚ．＠−</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">0-9a-zA-Z.@-</span><span class="s2">"</span><span class="p">)</span>
 <span class="c1"># =&gt; &quot;ruby-lang@example.com&quot;
 </span></code></pre>
+<span class="caption">Hash を渡す例</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span><span class="p">.</span><span class="nf">tr</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">e</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">EE</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">l</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">L</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; &quot;hEELLo&quot;
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span><span class="p">.</span><span class="nf">tr</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">e</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>               <span class="c1"># =&gt; &quot;hllo&quot;
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span><span class="p">.</span><span class="nf">tr</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">e</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">1</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">x</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">2</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;h1llo&quot;
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">héllo</span><span class="s2">"</span><span class="p">.</span><span class="nf">tr</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">é</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">e</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>              <span class="c1"># =&gt; &quot;hello&quot;
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span><span class="p">.</span><span class="nf">tr</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">l</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">L</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">L</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">z</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;heLLo&quot;
+</span><span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span><span class="p">.</span><span class="nf">tr</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">ll</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">L</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>               <span class="c1"># ~&gt; ArgumentError: keys must be of size 1
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/tr=21.html">String#tr!</a>, <a href="../method/String/i/tr_s.html">String#tr_s</a>
 </p>
@@ -6623,6 +6643,7 @@ pattern で指定した文字を置き換える文字
 
 
 <dt class="method-heading" id="I_TR--21"><code>tr!(pattern, replace) -&gt; self | nil</code><span class="permalink">[<a href="../method/String/i/tr=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/String.html#method-i-tr-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>tr!(hash) -&gt; self | nil</code></dt>
 <dt class="rbs-signature"><code>(selector source, string replacement) &rarr; self?</code></dt>
 <dd class="method-description">
 <p>
@@ -6644,6 +6665,9 @@ replace の範囲が pattern の範囲よりも小さい場合は、
 replace の最後の文字が無限に続くものと扱われます。
 </p>
 <p>
+Ruby 4.1 から、<a href="../method/String/i/tr.html">String#tr</a> と同じく Hash を 1 つだけ渡す形式も使えます。
+</p>
+<p>
 tr! は self を変更して返しますが、置換が起こらなかった場合は nil を返します。
 </p>
 <dl>
@@ -6655,7 +6679,17 @@ tr! は self を変更して返しますが、置換が起こらなかった場�
 <dd>
 pattern で指定した文字を置き換える文字
 </dd>
+<dt class='method-param'>[PARAM] <code>hash</code>:</dt>
+<dd>
+置き換える文字(キー)と置き換え後の文字列(値)の対応
+</dd>
 </dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>s <span class="o">=</span> <span class="s2">"</span><span class="s2">hello</span><span class="s2">"</span>
+<span class="nb">p</span> s<span class="p">.</span><span class="nf">tr!</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">e</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">EE</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; &quot;hEEllo&quot;
+</span><span class="nb">p</span> s                    <span class="c1"># =&gt; &quot;hEEllo&quot;
+</span><span class="nb">p</span> s<span class="p">.</span><span class="nf">tr!</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">z</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">E</span><span class="s2">"</span><span class="p">}</span><span class="p">)</span>  <span class="c1"># =&gt; nil
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/tr.html">String#tr</a>, <a href="../method/String/i/tr_s.html">String#tr_s</a>
 </p>
@@ -6941,6 +6975,10 @@ i, I (int)のサイズは常にシステム依存であり、n, N, v, V
 つまり、<a href="../method/IO/i/ioctl.html">IO#ioctl</a> などで C の構造体を渡すときのように、システム依存のサイズとエンディアンに合わせる必要があるときには
 s!, S!, i!, I!, l!, L!, q!, Q!, j!, J! を用います。また、ネットワークプロトコルやファイルフォーマットのように、システムに依存しないデータを扱うときには
 n, N, v, V を用います。
+</p>
+<p>
+Ruby 4.1 から、<code>!</code> は <code>x</code> と <code>@</code> の後ろにも付けられます
+(<code>x!</code>・<code>@!</code>。位置をバイト境界に揃える指定で、整数のサイズやエンディアンとは関係ありません)。
 </p>
 <p>
 強制的にエンディアンを指定したいときは、リトルエンディアンなら &lt; を、ビッグエンディアンなら &gt;
@@ -7689,6 +7727,40 @@ ISO/IEC 8825-1:1995 : Information technology−ASN.1 encoding rules : Specificat
 なお、BER圧縮整数でエンコードした結果は大小関係を保存しない。たとえば、[0x3fff].pack(&quot;w&quot;) &gt; [0x4000].pack(&quot;w&quot;) である。
 </p>
 </dd>
+<dt><code>R</code></dt>
+<dd>
+<p>
+符号なし LEB128(ULEB128)。1バイトあたり7ビットを下位から使用して、
+0以上の任意サイズの整数を表す数値表現。各バイトの最上位ビットはデータの最後を除いて1になります。
+Ruby 4.1 から使えます。
+</p>
+<p>
+<a href="../method/Array/i/pack.html">Array#pack</a> では負の整数を渡すと <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
+<a href="../class/Float.html">Float</a> は整数に切り捨てられます。
+<a href="../method/String/i/unpack.html">String#unpack</a> では、データが途中で終わっていて完結していない場合は <code>nil</code> を返します。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="mi">300</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">R</span><span class="s2">"</span><span class="p">)</span>       <span class="c1"># =&gt; &quot;\xAC\x02&quot;
+</span><span class="nb">p</span> <span class="p">[</span><span class="mi">300</span>, <span class="mi">5</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">R*</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># =&gt; &quot;\xAC\x02\x05&quot;
+</span><span class="nb">p</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">R</span><span class="s2">"</span><span class="p">)</span>         <span class="c1"># =&gt; &quot;\x00&quot;
+</span><span class="nb">p</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">R</span><span class="s2">"</span><span class="p">)</span>       <span class="c1"># =&gt; &quot;\x01&quot;
+</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">R</span><span class="s2">"</span><span class="p">)</span>          <span class="c1"># ~&gt; ArgumentError: can't encode negative numbers in ULEB128
+</span>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">\xAC\x02</span><span class="s2">"</span><span class="p">.</span><span class="nf">b</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">R</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [300]
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\x80</span><span class="s2">"</span><span class="p">.</span><span class="nf">b</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">R</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># =&gt; [nil]
+</span></code></pre>
+</dd>
+<dt><code>r</code></dt>
+<dd>
+<p>
+符号付き LEB128(SLEB128)。<code>R</code> と同じく1バイトあたり7ビットを使用して、負の数も含む任意サイズの整数を表す数値表現。Ruby 4.1 から使えます。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">r</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;~&quot;
+</span><span class="nb">p</span> <span class="p">[</span><span class="mi">63</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">r</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;?&quot;
+</span><span class="nb">p</span> <span class="p">[</span><span class="mi">64</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">r</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;\xC0\x00&quot;
+</span>
+<span class="nb">p</span> <span class="p">[</span><span class="o">-</span><span class="mi">300</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">r</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">unpack1</span><span class="p">(</span><span class="s2">"</span><span class="s2">r</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; -300
+</span></code></pre>
+</dd>
 <dt><code>x</code></dt>
 <dd>
 <p>
@@ -7699,6 +7771,20 @@ ISO/IEC 8825-1:1995 : Information technology−ASN.1 encoding rules : Specificat
 </span>
 <span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">CxC</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; [97, 99]
 </span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">Cx3C</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># ~&gt; ArgumentError: x outside of string
+</span></code></pre>
+<p>
+Ruby 4.1 から、<code>x!</code> の形で現在の位置をバイト境界に揃えられます。
+<code>!</code> の後ろに数 N を書くと、現在の位置を N バイト境界(N の倍数)まで進めます
+(<a href="../method/Array/i/pack.html">Array#pack</a> ではヌルバイトで埋め、<a href="../method/String/i/unpack.html">String#unpack</a> では読み飛ばします)。すでに境界上にあるときは何もしません。N は 2 のべき乗でなくてもかまいません。境界の基準になるのは、その pack/unpack の開始位置です
+(<code>buffer:</code> を指定した <a href="../method/Array/i/pack.html">Array#pack</a> では元の文字列の長さ、<code>offset:</code> を指定した <a href="../method/String/i/unpack.html">String#unpack</a> では指定した位置。どちらも指定していなければ 0 です)。数の代わりに別のテンプレート文字を書くと、そのテンプレート文字の ABI 上のアラインメントに揃えます
+(<code>S</code> なら 2、<code>l</code> や <code>N</code> なら 4、<code>q</code>・<code>d</code>・<code>j</code> なら 8)。数もテンプレート文字も無い場合は <a href="../class/ArgumentError.html">ArgumentError</a>、<code>x!0</code> は <a href="../class/RangeError.html">RangeError</a>、アラインメントを持たないテンプレート文字(<code>x!a</code> など)は <a href="../class/ArgumentError.html">ArgumentError</a> になります。
+<a href="../method/String/i/unpack.html">String#unpack</a> で境界が文字列の末尾を超える場合も <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">Cx!4S</span><span class="s2">"</span><span class="p">)</span>       <span class="c1"># =&gt; &quot;\x01\x00\x00\x00\x02\x00&quot;
+</span><span class="nb">p</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">Cx!SS</span><span class="s2">"</span><span class="p">)</span>       <span class="c1"># =&gt; &quot;\x01\x00\x02\x00&quot;
+</span><span class="nb">p</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">4</span>, <span class="mi">5</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">CCCCx!4C</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;\x01\x02\x03\x04\x05&quot;
+</span>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">\x01\x00\x00\x00\x02\x00</span><span class="s2">"</span><span class="p">.</span><span class="nf">b</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">Cx!4S</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [1, 2]
 </span></code></pre>
 </dd>
 <dt><code>X</code></dt>
@@ -7719,6 +7805,29 @@ ISO/IEC 8825-1:1995 : Information technology−ASN.1 encoding rules : Specificat
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="mi">97</span>, <span class="mi">98</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C @3 C</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;a\x00\x00b&quot;
 </span>
 <span class="nb">p</span> <span class="s2">"</span><span class="s2">abcd</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C @3 C</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [97, 100]
+</span></code></pre>
+<p>
+Ruby 4.1 から、<code>@!</code> の形で現在の位置をバイト境界に揃えられます。書き方は <code>x!</code> と同じで、<code>!</code> の後ろの数 N、または別のテンプレート文字の ABI 上のアラインメントに揃えます。
+<code>x!</code> が pack/unpack の開始位置を基準にするのに対して、<code>@!</code> は常に文字列の先頭(オフセット 0)を基準にします。
+<code>buffer:</code> や <code>offset:</code> を指定していなければ、両者の結果は同じです。
+<a href="../method/String/i/unpack.html">String#unpack</a> で境界が文字列の末尾を超える場合に <a href="../class/ArgumentError.html">ArgumentError</a> が発生するのも <code>x!</code> と同じです。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">.</span><span class="nf">pack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C@6@!4C</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; &quot;\x01\x00\x00\x00\x00\x00\x00\x00\x02&quot;
+</span>
+<span class="nb">p</span> <span class="s2">"</span><span class="s2">\x01\x02\x03\x04\x05\x00\x00\x00\x09</span><span class="s2">"</span><span class="p">.</span><span class="nf">b</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">CCCCC@!4C</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [1, 2, 3, 4, 5, 9]
+</span></code></pre>
+</dd>
+<dt><code>^</code></dt>
+<dd>
+<p>
+現在のオフセットを整数で返します(何も消費しません。<a href="../method/String/i/unpack.html">String#unpack</a> でのみ使えます)。後ろに数を書いても無視されます。<a href="../method/Array/i/pack.html">Array#pack</a> に指定すると <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
+Ruby 4.1 から使えます。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">\xAC\x02xyz</span><span class="s2">"</span><span class="p">.</span><span class="nf">b</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">R^a*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; [300, 2, &quot;xyz&quot;]
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">\xAC\x02xyz</span><span class="s2">"</span><span class="p">.</span><span class="nf">b</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">^R^</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; [0, 300, 2]
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abcdef</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">a2^a2^</span><span class="s2">"</span><span class="p">)</span>      <span class="c1"># =&gt; [&quot;ab&quot;, 2, &quot;cd&quot;, 4]
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abcdef</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">@3^x^X^</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># =&gt; [3, 4, 3]
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abcdef</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">a2^3a2</span><span class="s2">"</span><span class="p">)</span>      <span class="c1"># =&gt; [&quot;ab&quot;, 2, &quot;cd&quot;]
 </span></code></pre>
 </dd>
 <dt><code>j</code></dt>

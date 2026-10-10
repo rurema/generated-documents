@@ -27,9 +27,9 @@ p Psych.load(yaml, permitted_classes: [Date]) == Date.new(2024, 1, 1)  # => true
 
 クラスを制限せずに変換するには [Psych.unsafe_load](../../../method/Psych/s/unsafe_load.md) を使います。
 
-filename はパース中に発生した例外のメッセージに用います。
+`filename` はパース中に発生した例外のメッセージに用います。
 
-- **param** `yaml` -- YAML ドキュメント(文字列 or IO オブジェクト)
+- **param** `yaml` -- YAML ドキュメント(文字列 or [IO](../../../class/IO.md) オブジェクト)
 - **param** `permitted_classes` -- 読み込みを許可するクラスの配列。デフォルトは [Symbol](../../../class/Symbol.md) だけを含む配列です。
 - **param** `permitted_symbols` -- 引数 `permitted_classes` に [Symbol](../../../class/Symbol.md) を含む場合に読み込みを許可する [Symbol](../../../class/Symbol.md) の配列。
                          省略した場合は全ての [Symbol](../../../class/Symbol.md) を許可します。
@@ -38,7 +38,7 @@ filename はパース中に発生した例外のメッセージに用います�
 - **param** `fallback` -- 引数 `yaml` に空のYAMLを指定した場合の戻り値を指定します。デフォルトは nil です。
 - **param** `symbolize_names` -- ハッシュ(YAMLの仕様では正確にはマッピング)のキーを [Symbol](../../../class/Symbol.md) に変換するかどうかを指定します。
                        true を指定した場合は変換します。デフォルトでは文字列に変換されます。
-- **param** `freeze` -- true を指定すると再帰的に freeze されたオブジェクトを返します。
+- **param** `freeze` -- true を指定すると再帰的に [Object#freeze](../../../method/Object/i/freeze.md) されたオブジェクトを返します。
               デフォルトは false です。
 - **param** `strict_integer` -- true を指定すると、"1,000" のようなカンマを含む数値を [Integer](../../../class/Integer.md) に変換せず、文字列として返します。デフォルトは false です。
 - **param** `parse_symbols` -- false を指定すると、":foo" のような文字列を [Symbol](../../../class/Symbol.md) に変換せず、文字列として返します。デフォルトは true です。
@@ -62,7 +62,7 @@ rescue Psych::SyntaxError => ex
 end
 ```
 
-キーワード引数 symbolize_names に true を指定した場合はハッシュのキーを [Symbol](../../../class/Symbol.md) に変換して返します。
+キーワード引数 `symbolize_names` に true を指定した場合はハッシュのキーを [Symbol](../../../class/Symbol.md) に変換して返します。
 
 ```ruby title="例"
 require 'psych'

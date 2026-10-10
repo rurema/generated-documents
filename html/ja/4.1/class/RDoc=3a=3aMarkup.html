@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-07-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-10-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -122,40 +122,36 @@ RDoc 形式のドキュメントを目的の形式に変換するためのクラ
 <p>
 例:
 </p>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rdoc/markup/to_html'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rdoc'</span>
+<span class="nb">require</span> <span class="s1">'rdoc/markup/to_html'</span>
 
 h <span class="o">=</span> <span class="no">RDoc</span><span class="o">::</span><span class="no">Markup</span><span class="o">::</span><span class="no">ToHtml</span><span class="p">.</span><span class="nf">new</span>
-<span class="nb">puts</span> h<span class="p">.</span><span class="nf">convert</span><span class="p">(</span>input_string<span class="p">)</span>
-</code></pre>
+<span class="nb">p</span> h<span class="p">.</span><span class="nf">convert</span><span class="p">(</span><span class="s2">"</span><span class="s2">*bold*</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;\n&lt;p&gt;&lt;strong&gt;bold&lt;/strong&gt;&lt;/p&gt;\n&quot;
+</span></code></pre>
 <p>
 独自のフォーマットを行うようにパーサを拡張する事もできます。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rdoc/markup'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rdoc'</span>
 <span class="nb">require</span> <span class="s1">'rdoc/markup/to_html'</span>
 
 <span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WikiHtml</span> <span class="o">&lt;</span> <span class="no">RDoc</span><span class="o">::</span><span class="no">Markup</span><span class="o">::</span><span class="no">ToHtml</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">super</span>
+    <span class="c1"># WikiWord を追加。
+</span>    <span class="vi">@markup</span><span class="p">.</span><span class="nf">add_regexp_handling</span><span class="p">(</span><span class="sr">/\b([A-Z][a-z]+[A-Z]\w+)/</span>, <span class="ss">:WIKIWORD</span><span class="p">)</span>
+  <span class="k">end</span>
+
   <span class="c1"># WikiWord のフォントを赤く表示。
-</span>  <span class="k">def</span> <span class="nf">handle_special_WIKIWORD</span><span class="p">(</span>special<span class="p">)</span>
-    <span class="s2">"</span><span class="s2">&lt;font color=red&gt;</span><span class="s2">"</span> <span class="o">+</span> special<span class="p">.</span><span class="nf">text</span> <span class="o">+</span> <span class="s2">"</span><span class="s2">&lt;/font&gt;</span><span class="s2">"</span>
+</span>  <span class="k">def</span> <span class="nf">handle_regexp_WIKIWORD</span><span class="p">(</span>text<span class="p">)</span>
+    <span class="s2">"</span><span class="s2">&lt;font color=red&gt;</span><span class="s2">"</span> <span class="o">+</span> text <span class="o">+</span> <span class="s2">"</span><span class="s2">&lt;/font&gt;</span><span class="s2">"</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
-m <span class="o">=</span> <span class="no">RDoc</span><span class="o">::</span><span class="no">Markup</span><span class="p">.</span><span class="nf">new</span>
-<span class="c1"># { 〜 } までを :STRIKE でフォーマットする。
-</span>m<span class="p">.</span><span class="nf">add_word_pair</span><span class="p">(</span><span class="s2">"</span><span class="s2">{</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">}</span><span class="s2">"</span>, <span class="ss">:STRIKE</span><span class="p">)</span>
-<span class="c1"># &lt;no&gt; 〜 &lt;/no&gt; までを :STRIKE でフォーマットする。
-</span>m<span class="p">.</span><span class="nf">add_html</span><span class="p">(</span><span class="s2">"</span><span class="s2">no</span><span class="s2">"</span>, <span class="ss">:STRIKE</span><span class="p">)</span>
-
-<span class="c1"># WikiWord を追加。
-</span>m<span class="p">.</span><span class="nf">add_special</span><span class="p">(</span><span class="sr">/\b([A-Z][a-z]+[A-Z]\w+)/</span>, <span class="ss">:WIKIWORD</span><span class="p">)</span>
-
-wh <span class="o">=</span> <span class="no">WikiHtml</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>m<span class="p">)</span>
-<span class="c1"># :STRIKE のフォーマットを &lt;strike&gt; 〜 &lt;/strike&gt; に指定。
-</span>wh<span class="p">.</span><span class="nf">add_tag</span><span class="p">(</span><span class="ss">:STRIKE</span>, <span class="s2">"</span><span class="s2">&lt;strike&gt;</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&lt;/strike&gt;</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="nb">puts</span> <span class="s2">"</span><span class="s2">&lt;body&gt;</span><span class="si">#{</span><span class="n">wh</span><span class="p">.</span><span class="nf">convert</span> <span class="no">ARGF</span><span class="p">.</span><span class="nf">read</span><span class="si">}</span><span class="s2">&lt;/body&gt;</span><span class="s2">"</span>
-</code></pre>
+<span class="nb">p</span> <span class="no">WikiHtml</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">convert</span><span class="p">(</span><span class="s2">"</span><span class="s2">see WikiWord here</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;\n&lt;p&gt;see &lt;font color=red&gt;WikiWord&lt;/font&gt; here&lt;/p&gt;\n&quot;
+</span></code></pre>
 <p>
 変換する形式を変更する場合、フォーマッタ(例. <a href="../class/RDoc=3a=3aMarkup=3a=3aToHtml.html">RDoc::Markup::ToHtml</a>)
 を変更、拡張する必要があります。
@@ -179,15 +175,11 @@ wh <span class="o">=</span> <span class="no">WikiHtml</span><span class="p">.</s
 <dd>
 <ul class="class-toc">
 
-<li><a href="#I_ADD_HTML">add_html</a></li>
-
-<li><a href="#I_ADD_SPECIAL">add_special</a></li>
-
-<li><a href="#I_ADD_WORD_PAIR">add_word_pair</a></li>
-
-<li><a href="#I_ATTRIBUTE_MANAGER">attribute_manager</a></li>
+<li><a href="#I_ADD_REGEXP_HANDLING">add_regexp_handling</a></li>
 
 <li><a href="#I_CONVERT">convert</a></li>
+
+<li><a href="#I_REGEXP_HANDLINGS">regexp_handlings</a></li>
 
 </ul>
 </dd>
@@ -219,17 +211,11 @@ wh <span class="o">=</span> <span class="no">WikiHtml</span><span class="p">.</s
 <h2>特異メソッド</h2>
 <dl>
 
-<dt class="method-heading" id="S_NEW"><code>new(attribute_manager = nil) -&gt; RDoc::Markup</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aMarkup/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RDoc/Markup.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/markup/simple_markup.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new -&gt; RDoc::Markup</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aMarkup/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RDoc/Markup.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/markup/simple_markup.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を初期化します。
 </p>
-<dl>
-<dt class='method-param'>[PARAM] <code>attribute_manager</code>:</dt>
-<dd>
-<code>RDoc::AttributeManager</code> オブジェクトを指定します。
-</dd>
-</dl>
 </dd>
 
 
@@ -238,46 +224,13 @@ wh <span class="o">=</span> <span class="no">WikiHtml</span><span class="p">.</s
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_ADD_HTML"><code>add_html(tag, name) -&gt; ()</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aMarkup/i/add_html.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RDoc/Markup.html#method-i-add_html">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/markup/simple_markup.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-tag で指定したタグをフォーマットの対象にします。
-</p>
-<dl>
-<dt class='method-param'>[PARAM] <code>tag</code>:</dt>
-<dd>
-追加するタグ名を文字列で指定します。大文字、小文字のどちらを指定しても同一のものとして扱われます。
-</dd>
-<dt class='method-param'>[PARAM] <code>name</code>:</dt>
-<dd>
-<a href="../class/RDoc=3a=3aMarkup=3a=3aToHtml.html">RDoc::Markup::ToHtml</a> などのフォーマッタに識別させる時の名前を
-<a href="../class/Symbol.html">Symbol</a> で指定します。
-</dd>
-</dl>
-<span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup'</span>
-<span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup/to_html'</span>
-m <span class="o">=</span> <span class="no">SM</span><span class="o">::</span><span class="no">SimpleMarkup</span><span class="p">.</span><span class="nf">new</span>
-m<span class="p">.</span><span class="nf">add_html</span><span class="p">(</span><span class="s2">"</span><span class="s2">no</span><span class="s2">"</span>, <span class="ss">:STRIKE</span><span class="p">)</span>
-
-h <span class="o">=</span> <span class="no">SM</span><span class="o">::</span><span class="no">ToHtml</span><span class="p">.</span><span class="nf">new</span>
-h<span class="p">.</span><span class="nf">add_tag</span><span class="p">(</span><span class="ss">:STRIKE</span>, <span class="s2">"</span><span class="s2">&lt;strike&gt;</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&lt;/strike&gt;</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">puts</span> m<span class="p">.</span><span class="nf">convert</span><span class="p">(</span>input_string, h<span class="p">)</span>
-</code></pre>
-<p>
-変換時に実際にフォーマットを行うには <a href="../method/RDoc=3a=3aMarkup=3a=3aFormatter/i/add_tag.html">RDoc::Markup::Formatter#add_tag</a> のように、フォーマッタ側でも操作を行う必要があります。
-</p>
-</dd>
-
-
-<dt class="method-heading" id="I_ADD_SPECIAL"><code>add_special(pattern, name) -&gt; ()</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aMarkup/i/add_special.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RDoc/Markup.html#method-i-add_special">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/markup/simple_markup.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_ADD_REGEXP_HANDLING"><code>add_regexp_handling(pattern, name) -&gt; ()</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aMarkup/i/add_regexp_handling.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RDoc/Markup.html#method-i-add_regexp_handling">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/markup/simple_markup.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 pattern で指定した正規表現にマッチする文字列をフォーマットの対象にします。
 </p>
 <p>
-例えば WikiWord のような、<a href="../method/RDoc=3a=3aMarkup/i/add_word_pair.html">RDoc::Markup#add_word_pair</a>、
-<a href="../method/RDoc=3a=3aMarkup/i/add_html.html">RDoc::Markup#add_html</a> でフォーマットできないものに対して使用します。
+例えば WikiWord のような、単純な開始・終了の記号ではさめない文字列に対して使用します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>pattern</code>:</dt>
@@ -290,73 +243,30 @@ pattern で指定した正規表現にマッチする文字列をフォーマッ
 <a href="../class/Symbol.html">Symbol</a> で指定します。
 </dd>
 </dl>
+<p>
+フォーマッタ(例. <a href="../class/RDoc=3a=3aMarkup=3a=3aToHtml.html">RDoc::Markup::ToHtml</a>)は自身が持つ <a href="../class/RDoc=3a=3aMarkup.html">RDoc::Markup</a> オブジェクトに登録された正規表現を使うため、独自のフォーマットを追加するには、フォーマッタのサブクラスで登録を行います。
+</p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup'</span>
-<span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup/to_html'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rdoc'</span>
+<span class="nb">require</span> <span class="s1">'rdoc/markup/to_html'</span>
 
-<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WikiHtml</span> <span class="o">&lt;</span> <span class="no">SM</span><span class="o">::</span><span class="no">ToHtml</span>
-  <span class="k">def</span> <span class="nf">handle_special_WIKIWORD</span><span class="p">(</span>special<span class="p">)</span>
-    <span class="s2">"</span><span class="s2">&lt;font color=red&gt;</span><span class="s2">"</span> <span class="o">+</span> special<span class="p">.</span><span class="nf">text</span> <span class="o">+</span> <span class="s2">"</span><span class="s2">&lt;/font&gt;</span><span class="s2">"</span>
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">WikiHtml</span> <span class="o">&lt;</span> <span class="no">RDoc</span><span class="o">::</span><span class="no">Markup</span><span class="o">::</span><span class="no">ToHtml</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">super</span>
+    <span class="vi">@markup</span><span class="p">.</span><span class="nf">add_regexp_handling</span><span class="p">(</span><span class="sr">/\b([A-Z][a-z]+[A-Z]\w+)/</span>, <span class="ss">:WIKIWORD</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">handle_regexp_WIKIWORD</span><span class="p">(</span>text<span class="p">)</span>
+    <span class="s2">"</span><span class="s2">&lt;font color=red&gt;</span><span class="s2">"</span> <span class="o">+</span> text <span class="o">+</span> <span class="s2">"</span><span class="s2">&lt;/font&gt;</span><span class="s2">"</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
-m <span class="o">=</span> <span class="no">SM</span><span class="o">::</span><span class="no">SimpleMarkup</span><span class="p">.</span><span class="nf">new</span>
-m<span class="p">.</span><span class="nf">add_special</span><span class="p">(</span><span class="sr">/\b([A-Z][a-z]+[A-Z]\w+)/</span>, <span class="ss">:WIKIWORD</span><span class="p">)</span>
-
-h <span class="o">=</span> <span class="no">WikiHtml</span><span class="p">.</span><span class="nf">new</span>
-<span class="nb">puts</span> m<span class="p">.</span><span class="nf">convert</span><span class="p">(</span>input_string, h<span class="p">)</span>
-</code></pre>
+<span class="nb">p</span> <span class="no">WikiHtml</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">convert</span><span class="p">(</span><span class="s2">"</span><span class="s2">see WikiWord here</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;\n&lt;p&gt;see &lt;font color=red&gt;WikiWord&lt;/font&gt; here&lt;/p&gt;\n&quot;
+</span></code></pre>
 <p>
-変換時に実際にフォーマットを行うには SM::ToHtml#accept_special_&lt;name で指定した名前&gt;
-のように、フォーマッタ側でも操作を行う必要があります。
-</p>
-</dd>
-
-
-<dt class="method-heading" id="I_ADD_WORD_PAIR"><code>add_word_pair(start, stop, name) -&gt; ()</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aMarkup/i/add_word_pair.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RDoc/Markup.html#method-i-add_word_pair">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/markup/simple_markup.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-start と stop ではさまれる文字列(例. *bold*)をフォーマットの対象にします。
-</p>
-<dl>
-<dt class='method-param'>[PARAM] <code>start</code>:</dt>
-<dd>
-開始となる文字列を指定します。
-</dd>
-<dt class='method-param'>[PARAM] <code>stop</code>:</dt>
-<dd>
-終了となる文字列を指定します。start と同じ文字列にする事も可能です。
-</dd>
-<dt class='method-param'>[PARAM] <code>name</code>:</dt>
-<dd>
-<a href="../class/RDoc=3a=3aMarkup=3a=3aToHtml.html">RDoc::Markup::ToHtml</a> などのフォーマッタに識別させる時の名前を
-<a href="../class/Symbol.html">Symbol</a> で指定します。
-</dd>
-<dt>[EXCEPTION] <code>RuntimeError</code>:</dt>
-<dd>
-start に &quot;&lt;&quot; で始まる文字列を指定した場合に発生します。
-</dd>
-</dl>
-<span class="caption">例</span>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup'</span>
-<span class="nb">require</span> <span class="s1">'rdoc/markup/simple_markup/to_html'</span>
-m <span class="o">=</span> <span class="no">SM</span><span class="o">::</span><span class="no">SimpleMarkup</span><span class="p">.</span><span class="nf">new</span>
-m<span class="p">.</span><span class="nf">add_word_pair</span><span class="p">(</span><span class="s2">"</span><span class="s2">{</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">}</span><span class="s2">"</span>, <span class="ss">:STRIKE</span><span class="p">)</span>
-
-h <span class="o">=</span> <span class="no">SM</span><span class="o">::</span><span class="no">ToHtml</span><span class="p">.</span><span class="nf">new</span>
-h<span class="p">.</span><span class="nf">add_tag</span><span class="p">(</span><span class="ss">:STRIKE</span>, <span class="s2">"</span><span class="s2">&lt;strike&gt;</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">&lt;/strike&gt;</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">puts</span> m<span class="p">.</span><span class="nf">convert</span><span class="p">(</span>input_string, h<span class="p">)</span>
-</code></pre>
-<p>
-変換時に実際にフォーマットを行うには <a href="../method/RDoc=3a=3aMarkup=3a=3aFormatter/i/add_tag.html">RDoc::Markup::Formatter#add_tag</a> のように、フォーマッタ側でも操作を行う必要があります。
-</p>
-</dd>
-
-
-<dt class="method-heading" id="I_ATTRIBUTE_MANAGER"><code>attribute_manager -&gt; RDoc::AttributeManager</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aMarkup/i/attribute_manager.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RDoc/Markup.html#method-i-attribute_manager">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/markup/simple_markup.md">edit</a>]</span></dt>
-<dd class="method-description">
-<p>
-自身の <code>RDoc::AttributeManager</code> オブジェクトを返します。
+変換時に実際にフォーマットを行うには、フォーマッタ側で <code>handle_regexp_&lt;name で指定した名前&gt;(text)</code> を定義します。
+<code>text</code> にはマッチした文字列(正規表現にグループがある場合は最初のグループ)が渡されます。
 </p>
 </dd>
 
@@ -373,12 +283,28 @@ str で指定された文字列を formatter に変換させます。
 </dd>
 <dt class='method-param'>[PARAM] <code>formatter</code>:</dt>
 <dd>
-<a href="../class/RDoc=3a=3aMarkup=3a=3aToHtml.html">RDoc::Markup::ToHtml</a>、<code>RDoc::Markup::ToLaTeX</code> などのインスタンスを指定します。
+<a href="../class/RDoc=3a=3aMarkup=3a=3aToHtml.html">RDoc::Markup::ToHtml</a>、<a href="../class/RDoc=3a=3aMarkup=3a=3aToRdoc.html">RDoc::Markup::ToRdoc</a> などのインスタンスを指定します。
 </dd>
 </dl>
 <p>
 変換結果は formatter によって文字列や配列を返します。
 </p>
+</dd>
+
+
+<dt class="method-heading" id="I_REGEXP_HANDLINGS"><code>regexp_handlings -&gt; [[Regexp, Symbol]]</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aMarkup/i/regexp_handlings.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/RDoc/Markup.html#method-i-regexp_handlings">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/markup/simple_markup.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/RDoc=3a=3aMarkup/i/add_regexp_handling.html">RDoc::Markup#add_regexp_handling</a> で登録した正規表現と名前の組の配列を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rdoc'</span>
+
+m <span class="o">=</span> <span class="no">RDoc</span><span class="o">::</span><span class="no">Markup</span><span class="p">.</span><span class="nf">new</span>
+m<span class="p">.</span><span class="nf">add_regexp_handling</span><span class="p">(</span><span class="sr">/\b([A-Z][a-z]+[A-Z]\w+)/</span>, <span class="ss">:WIKIWORD</span><span class="p">)</span>
+<span class="nb">p</span> m<span class="p">.</span><span class="nf">regexp_handlings</span>
+<span class="c1"># =&gt; [[/\b([A-Z][a-z]+[A-Z]\w+)/, :WIKIWORD]]
+</span></code></pre>
 </dd>
 
 

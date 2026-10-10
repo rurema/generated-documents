@@ -10,14 +10,16 @@ tag で指定したタグをフォーマットの対象にします。
             [Symbol](../../../class/Symbol.md) で指定します。
 
 ```ruby title="例"
-require 'rdoc/markup/simple_markup'
-require 'rdoc/markup/simple_markup/to_html'
-m = SM::SimpleMarkup.new
-m.add_html("no", :STRIKE)
+require 'rdoc'
+require 'rdoc/markup/to_html'
 
-h = SM::ToHtml.new
-h.add_tag(:STRIKE, "<strike>", "</strike>")
-puts m.convert(input_string, h)
+m = RDoc::Markup.new
+m.add_html("no", :MARK)
+
+h = RDoc::Markup::ToHtml.new(RDoc::Options.new, m)
+h.add_tag(:MARK, "<mark>", "</mark>")
+p h.convert("a <no>b</no> c")
+# => "\n<p>a <mark>b</mark> c</p>\n"
 ```
 
 変換時に実際にフォーマットを行うには [RDoc::Markup::Formatter#add_tag](../../../method/RDoc=3a=3aMarkup=3a=3aFormatter/i/add_tag.md) のように、フォーマッタ側でも操作を行う必要があります。

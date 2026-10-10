@@ -119,6 +119,33 @@
 <p>
 RDoc のステータスを管理するクラスです。
 </p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rdoc'</span>
+<span class="nb">require</span> <span class="s1">'tmpdir'</span>
+
+<span class="no">Dir</span><span class="p">.</span><span class="nf">mktmpdir</span> <span class="k">do</span> <span class="o">|</span>dir<span class="o">|</span>
+  path <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span>dir, <span class="s2">"</span><span class="s2">foo.rb</span><span class="s2">"</span><span class="p">)</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span>path, <span class="no">&lt;&lt;~RUBY</span><span class="p">)</span>
+    <span class="sh">class Foo
+</span>    <span class="sh">  # documented
+</span>    <span class="sh">  def a(x); end
+</span>    <span class="sh">  def b(y); end
+</span>    <span class="sh">end
+</span><span class="no">  RUBY
+</span>
+  rdoc <span class="o">=</span> <span class="no">RDoc</span><span class="o">::</span><span class="no">RDoc</span><span class="p">.</span><span class="nf">new</span>
+  rdoc<span class="p">.</span><span class="nf">document</span><span class="p">(</span><span class="p">[</span><span class="s1">'--quiet'</span>, <span class="s1">'-o'</span>, <span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span>dir, <span class="s1">'out'</span><span class="p">)</span>, path<span class="p">]</span><span class="p">)</span>
+  stats <span class="o">=</span> rdoc<span class="p">.</span><span class="nf">stats</span>
+
+  <span class="nb">p</span> stats<span class="p">.</span><span class="nf">num_files</span>
+  <span class="c1"># =&gt; 1
+</span>  <span class="nb">p</span> stats<span class="p">.</span><span class="nf">files_so_far</span>
+  <span class="c1"># =&gt; 1
+</span>  stats<span class="p">.</span><span class="nf">summary</span>
+  <span class="nb">p</span> stats<span class="p">.</span><span class="nf">fully_documented?</span>
+  <span class="c1"># =&gt; false
+</span><span class="k">end</span>
+</code></pre>
 
 
 
@@ -138,9 +165,19 @@ RDoc のステータスを管理するクラスです。
 <dd>
 <ul class="class-toc">
 
+<li><a href="#I_COVERAGE_LEVEL">coverage_level</a></li>
+
+<li><a href="#I_COVERAGE_LEVEL--3D">coverage_level=</a></li>
+
+<li><a href="#I_FILES_SO_FAR">files_so_far</a></li>
+
+<li><a href="#I_FULLY_DOCUMENTED--3F">fully_documented?</a></li>
+
 <li><a href="#I_NUM_FILES">num_files</a></li>
 
-<li><a href="#I_PRINT">print</a></li>
+<li><a href="#I_REPORT">report</a></li>
+
+<li><a href="#I_SUMMARY">summary</a></li>
 
 </ul>
 </dd>
@@ -159,11 +196,25 @@ RDoc のステータスを管理するクラスです。
 <h2>特異メソッド</h2>
 <dl>
 
-<dt class="method-heading" id="S_NEW"><code>new -&gt; RDoc::Stats</code><span class="permalink">[<a href="../method/RDoc=3a=3aStats/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new(store, num_files, verbosity = 1) -&gt; RDoc::Stats</code><span class="permalink">[<a href="../method/RDoc=3a=3aStats/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を初期化します。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>store</code>:</dt>
+<dd>
+解析結果を保持する <code>RDoc::Store</code> オブジェクトを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>num_files</code>:</dt>
+<dd>
+解析するファイルの数を整数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>verbosity</code>:</dt>
+<dd>
+解析中に表示する進捗の詳しさを整数で指定します。0 は何も表示せず、1 は簡易な表示、2 以上は詳細な表示になります。
+</dd>
+</dl>
 </dd>
 
 
@@ -172,18 +223,76 @@ RDoc のステータスを管理するクラスです。
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_NUM_FILES"><code>num_files -&gt; Integer</code><span class="permalink">[<a href="../method/RDoc=3a=3aStats/i/num_files.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-i-num_files">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_COVERAGE_LEVEL"><code>coverage_level -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aStats/i/coverage_level.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-i-coverage_level">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-解析したファイルの数を返します。
+カバレッジレポートのレベルを返します。
+</p>
+<p>
+-1 はカバレッジレポートを行わないことを、0 はクラス、モジュール、定数、属性、メソッドを対象にすることを、1 は 0 に加えてメソッドの引数も対象にすることを表します。
 </p>
 </dd>
 
 
-<dt class="method-heading" id="I_PRINT"><code>print -&gt; ()</code><span class="permalink">[<a href="../method/RDoc=3a=3aStats/i/print.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-i-print">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_COVERAGE_LEVEL--3D"><code>coverage_level=(level)</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aStats/i/coverage_level=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-i-coverage_level-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-自身の持つ情報を標準出力に表示します。
+カバレッジレポートのレベルを設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>level</code>:</dt>
+<dd>
+-1 以上の整数を指定します。false か nil を指定すると -1 になります。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_FILES_SO_FAR"><code>files_so_far -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aStats/i/files_so_far.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-i-files_so_far">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+これまでに解析したファイルの数を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_FULLY_DOCUMENTED--3F"><code>fully_documented? -&gt; bool</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aStats/i/fully_documented=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-i-fully_documented-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+全ての項目がドキュメント化されているかどうかを返します。
+</p>
+<p>
+<a href="../method/RDoc=3a=3aStats/i/summary.html">RDoc::Stats#summary</a> で統計を計算した後の値が返されます。計算前は false を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_NUM_FILES"><code>num_files -&gt; Integer</code><span class="permalink">[<a href="../method/RDoc=3a=3aStats/i/num_files.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-i-num_files">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+解析するファイルの数を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_REPORT"><code>report -&gt; RDoc::Markup::Document</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aStats/i/report.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-i-report">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+ドキュメントが無い項目の報告を <code>RDoc::Markup::Document</code> オブジェクトで返します。
+</p>
+<p>
+<a href="../method/RDoc=3a=3aStats/i/coverage_level.html">RDoc::Stats#coverage_level</a> が 0 以上で、全ての項目にドキュメントがある場合は、そのことを伝えるメッセージを返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SUMMARY"><code>summary -&gt; RDoc::Markup::Document</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/RDoc=3a=3aStats/i/summary.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/RDoc/Stats.html#method-i-summary">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rdoc/RDoc__Stats.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+統計の要約を <code>RDoc::Markup::Document</code> オブジェクトで返します。
+</p>
+<p>
+クラス、モジュール、定数、属性、メソッドの数とそのうちドキュメントが無いものの数、ドキュメント化されている割合などを含みます。
 </p>
 </dd>
 

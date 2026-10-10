@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-07-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-10-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -1858,6 +1858,18 @@ me<span class="p">.</span><span class="nf">thread_variable_set</span><span class
 <span class="k">end</span>
 <span class="nb">p</span> thr<span class="p">.</span><span class="nf">join</span>             <span class="c1"># =&gt; #&lt;Thread:0x401b3f10 dead&gt;
 </span><span class="nb">p</span> thr<span class="p">.</span><span class="nf">thread_variables</span> <span class="c1"># =&gt; [:cat, :dog]
+</span></code></pre>
+<p>
+Ruby 4.1 から、value に <code>nil</code> を指定すると、その名前のスレッドローカル変数自体が削除されます。削除した変数は <a href="../method/Thread/i/thread_variables.html">Thread#thread_variables</a> の結果に含まれなくなります。返り値は指定した value(<code>nil</code>)です。
+</p>
+<span class="caption">nil を指定して削除する例</span>
+<pre class="highlight ruby"><code>th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span>
+th<span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="ss">:x</span>, <span class="mi">1</span><span class="p">)</span>
+<span class="nb">p</span> th<span class="p">.</span><span class="nf">thread_variables</span>      <span class="c1"># =&gt; [:x]
+</span>th<span class="p">.</span><span class="nf">thread_variable_set</span><span class="p">(</span><span class="ss">:x</span>, <span class="k">nil</span><span class="p">)</span>
+<span class="nb">p</span> th<span class="p">.</span><span class="nf">thread_variable?</span><span class="p">(</span><span class="ss">:x</span><span class="p">)</span>  <span class="c1"># =&gt; false
+</span><span class="nb">p</span> th<span class="p">.</span><span class="nf">thread_variables</span>      <span class="c1"># =&gt; []
+</span><span class="nb">p</span> th<span class="p">.</span><span class="nf">thread_variable_get</span><span class="p">(</span><span class="ss">:x</span><span class="p">)</span> <span class="c1"># =&gt; nil
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/Thread/i/thread_variable_get.html">Thread#thread_variable_get</a>, <a href="../method/Thread/i/thread_variables.html">Thread#thread_variables</a>, <a href="../method/Thread/i/=5b=5d.html">Thread#[]</a>

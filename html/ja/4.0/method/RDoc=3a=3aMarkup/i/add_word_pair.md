@@ -11,17 +11,19 @@ start と stop ではさまれる文字列(例. *bold*)をフォーマットの�
 - **param** `name` -- [RDoc::Markup::ToHtml](../../../class/RDoc=3a=3aMarkup=3a=3aToHtml.md) などのフォーマッタに識別させる時の名前を
             [Symbol](../../../class/Symbol.md) で指定します。
 
-- **raise** `RuntimeError` -- start に "<" で始まる文字列を指定した場合に発生します。
+- **raise** `ArgumentError` -- start に "<" で始まる文字列を指定した場合に発生します。
 
 ```ruby title="例"
-require 'rdoc/markup/simple_markup'
-require 'rdoc/markup/simple_markup/to_html'
-m = SM::SimpleMarkup.new
-m.add_word_pair("{", "}", :STRIKE)
+require 'rdoc'
+require 'rdoc/markup/to_html'
 
-h = SM::ToHtml.new
-h.add_tag(:STRIKE, "<strike>", "</strike>")
-puts m.convert(input_string, h)
+m = RDoc::Markup.new
+m.add_word_pair("{", "}", :MARK)
+
+h = RDoc::Markup::ToHtml.new(RDoc::Options.new, m)
+h.add_tag(:MARK, "<mark>", "</mark>")
+p h.convert("a {b} c")
+# => "\n<p>a <mark>b</mark> c</p>\n"
 ```
 
 変換時に実際にフォーマットを行うには [RDoc::Markup::Formatter#add_tag](../../../method/RDoc=3a=3aMarkup=3a=3aFormatter/i/add_tag.md) のように、フォーマッタ側でも操作を行う必要があります。

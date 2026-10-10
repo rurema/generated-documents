@@ -20,8 +20,8 @@
 
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/Gem=3a=3aPackage.html">
 
-<title>module Gem::Package (Ruby 3.2 リファレンスマニュアル)</title>
-<meta name="description" content="">
+<title>class Gem::Package (Ruby 3.2 リファレンスマニュアル)</title>
+<meta name="description" content="`.gem' ファイルを読み書きするクラスです。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -56,7 +56,7 @@
 
 
 <script type="application/ld+json">
-{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.2 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/rubygems=2fpackage.html","name":"rubygems/packageライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Gem=3a=3aPackage.html","name":"Gem::Packageモジュール","position":4}]}
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.2 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/rubygems=2fpackage.html","name":"rubygems/packageライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/Gem=3a=3aPackage.html","name":"Gem::Packageクラス","position":4}]}
 </script>
 
 <header>
@@ -72,12 +72,12 @@
         <a href="../library/rubygems=2fpackage.html">rubygems/packageライブラリ</a>
       </li>
       <li>
-        Gem::Packageモジュール
+        Gem::Packageクラス
       </li>
     </ol>
   </nav>
 
-<h1>module Gem::Package</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span>
+<h1>class Gem::Package</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span>
 
 </header>
 
@@ -88,6 +88,21 @@
   <nav>
     クラス・モジュールの継承リスト:
     <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
       
       <li>
         Gem::Package
@@ -106,6 +121,37 @@
 
 
 <h2>要約</h2>
+<p>
+<code>.gem</code> ファイルを読み書きするクラスです。
+</p>
+<p>
+<code>.gem</code> ファイルは、gemspec を gzip 圧縮した <code>metadata.gz</code>、ファイル本体の tar を gzip 圧縮した <code>data.tar.gz</code>、チェックサムの <code>checksums.yaml.gz</code> を含む tar アーカイブです。
+<a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> から <code>.gem</code> ファイルを作ることも、既存の <code>.gem</code> ファイルを検証して展開することもできます。
+</p>
+<p>
+以下の例は、<code>lib/example.rb</code> があるディレクトリで実行することを前提にしています。
+</p>
+<span class="caption">例: gem を作って読む</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'rubygems/package'</span>
+
+spec <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>s<span class="o">|</span>
+  s<span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s1">'example'</span>
+  s<span class="p">.</span><span class="nf">version</span> <span class="o">=</span> <span class="s1">'1.0'</span>
+  s<span class="p">.</span><span class="nf">summary</span> <span class="o">=</span> <span class="s1">'An example gem'</span>
+  s<span class="p">.</span><span class="nf">authors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Example Author'</span><span class="p">]</span>
+  s<span class="p">.</span><span class="nf">license</span> <span class="o">=</span> <span class="s1">'MIT'</span>
+  s<span class="p">.</span><span class="nf">homepage</span> <span class="o">=</span> <span class="s1">'https://example.com/example'</span>
+  s<span class="p">.</span><span class="nf">required_ruby_version</span> <span class="o">=</span> <span class="s1">'&gt;= 3.0'</span>
+  s<span class="p">.</span><span class="nf">files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'lib/example.rb'</span><span class="p">]</span>
+<span class="k">end</span>
+<span class="no">Gem</span><span class="o">::</span><span class="no">Package</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span>spec<span class="p">)</span> <span class="c1"># =&gt; &quot;example-1.0.gem&quot;
+</span>
+package <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Package</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'example-1.0.gem'</span><span class="p">)</span>
+package<span class="p">.</span><span class="nf">spec</span><span class="p">.</span><span class="nf">name</span>  <span class="c1"># =&gt; &quot;example&quot;
+</span>package<span class="p">.</span><span class="nf">contents</span>   <span class="c1"># =&gt; [&quot;lib/example.rb&quot;]
+</span>package<span class="p">.</span><span class="nf">files</span>      <span class="c1"># =&gt; [&quot;metadata.gz&quot;, &quot;data.tar.gz&quot;, &quot;checksums.yaml.gz&quot;]
+</span>package<span class="p">.</span><span class="nf">extract_files</span><span class="p">(</span><span class="s1">'out'</span><span class="p">)</span> <span class="c1"># out/lib/example.rb に展開します
+</span></code></pre>
 
 
 
@@ -116,7 +162,52 @@
 <dd>
 <ul class="class-toc">
 
-<li><a href="#S_OPEN">open</a></li>
+<li><a href="#S_BUILD">build</a></li>
+
+<li><a href="#S_NEW">new</a></li>
+
+<li><a href="#S_RAW_SPEC">raw_spec</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_BUILD">build</a></li>
+
+<li><a href="#I_CHECKSUMS">checksums</a></li>
+
+<li><a href="#I_CONTENTS">contents</a></li>
+
+<li><a href="#I_COPY_TO">copy_to</a></li>
+
+<li><a href="#I_DATA_MODE">data_mode</a></li>
+
+<li><a href="#I_DATA_MODE--3D">data_mode=</a></li>
+
+<li><a href="#I_DIR_MODE">dir_mode</a></li>
+
+<li><a href="#I_DIR_MODE--3D">dir_mode=</a></li>
+
+<li><a href="#I_EXTRACT_FILES">extract_files</a></li>
+
+<li><a href="#I_FILES">files</a></li>
+
+<li><a href="#I_PROG_MODE">prog_mode</a></li>
+
+<li><a href="#I_PROG_MODE--3D">prog_mode=</a></li>
+
+<li><a href="#I_SECURITY_POLICY">security_policy</a></li>
+
+<li><a href="#I_SECURITY_POLICY--3D">security_policy=</a></li>
+
+<li><a href="#I_SPEC">spec</a></li>
+
+<li><a href="#I_SPEC--3D">spec=</a></li>
+
+<li><a href="#I_VERIFY">verify</a></li>
 
 </ul>
 </dd>
@@ -135,28 +226,399 @@
 <h2>特異メソッド</h2>
 <dl>
 
-<dt class="method-heading" id="S_OPEN"><code>open(io, mode = 'r', signer = nil) {|tar_io| ... }</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/s/open.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-c-open">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_BUILD"><code>build(spec, skip_validation = false, strict_validation = false, file_name = nil) -&gt; String</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/s/build.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-c-build">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
 <dd class="method-description">
-<p class="todo">
-[TODO] ???
+<p>
+<code>spec</code> から <code>.gem</code> ファイルを作り、作ったファイルの名前を返します。
 </p>
 <p>
-io を開いて与えられたブロックに渡してブロックを評価します。
+ファイルはカレントディレクトリに作られ、<code>Successfully built RubyGem</code> から始まるメッセージを出力します。ファイル名は <code>file_name</code> を指定した場合はそれに、そうでない場合は <a href="../method/Gem=3a=3aSpecification/i/file_name.html">Gem::Specification#file_name</a> になります。
 </p>
 <dl>
-<dt class='method-param'>[PARAM] <code>io</code>:</dt>
+<dt class='method-param'>[PARAM] <code>spec</code>:</dt>
 <dd>
-IO オブジェクトを指定します。普通は Gem パッケージを開いたファイルオブジェクトを指定します。
+<code>.gem</code> ファイルに書き込む <a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> を指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dt class='method-param'>[PARAM] <code>skip_validation</code>:</dt>
 <dd>
-モードを文字列で指定します。指定できるモードは読み込み (r) と書き込み (w) です。
+真を指定すると <a href="../method/Gem=3a=3aSpecification/i/validate.html">Gem::Specification#validate</a> を実行しません。
 </dd>
-<dt class='method-param'>[PARAM] <code>signer</code>:</dt>
+<dt class='method-param'>[PARAM] <code>strict_validation</code>:</dt>
 <dd>
-???
+真を指定すると、警告も検証エラーとして扱います。
+</dd>
+<dt class='method-param'>[PARAM] <code>file_name</code>:</dt>
+<dd>
+作る <code>.gem</code> ファイルの名前を指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>skip_validation</code> と <code>strict_validation</code> がともに真の場合に発生します。
 </dd>
 </dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/build.html">Gem::Package#build</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_NEW"><code>new(gem, security_policy = nil) -&gt; Gem::Package</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>.gem</code> ファイルを扱う <a href="../class/Gem=3a=3aPackage.html">Gem::Package</a> オブジェクトを返します。
+</p>
+<p>
+古い形式の <code>.gem</code> ファイルの場合は、<code>Gem::Package::Old</code> のインスタンスを返します。仕様や中身は、<a href="../method/Gem=3a=3aPackage/i/spec.html">Gem::Package#spec</a> や <a href="../method/Gem=3a=3aPackage/i/verify.html">Gem::Package#verify</a> などを呼んだときに読み込みます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>gem</code>:</dt>
+<dd>
+<code>.gem</code> ファイルのパスを文字列で指定するか、<code>read</code> を持つ <a href="../class/IO.html">IO</a> オブジェクトを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>security_policy</code>:</dt>
+<dd>
+署名の検証に使う <a href="../class/Gem=3a=3aSecurity=3a=3aPolicy.html">Gem::Security::Policy</a> を指定します。nil の場合は署名を検証しません。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/verify.html">Gem::Package#verify</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="S_RAW_SPEC"><code>raw_spec(path, security_policy = nil) -&gt; [Gem::Specification, String]</code><span class="method-since-badge">Ruby 2.7.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/s/raw_spec.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-c-raw_spec">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>path</code> の <code>.gem</code> ファイルから <a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> と、<code>metadata.gz</code> を展開した YAML 文字列の 2 要素の配列を返します。
+</p>
+<p>
+YAML 文字列は <code>--- !ruby/object:Gem::Specification</code> で始まります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>path</code>:</dt>
+<dd>
+<code>.gem</code> ファイルのパスを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>security_policy</code>:</dt>
+<dd>
+署名の検証に使う <a href="../class/Gem=3a=3aSecurity=3a=3aPolicy.html">Gem::Security::Policy</a> を指定します。nil の場合は署名を検証しません。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_BUILD"><code>build(skip_validation = false, strict_validation = false) -&gt; ()</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/build.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-build">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Gem=3a=3aPackage/i/spec=3d.html">Gem::Package#spec=</a> で設定した仕様から <code>.gem</code> ファイルを書き出します。
+</p>
+<p>
+引数の意味は <a href="../method/Gem=3a=3aPackage/s/build.html">Gem::Package.build</a> と同じです。<code>Successfully built RubyGem</code> から始まるメッセージを出力します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>skip_validation</code>:</dt>
+<dd>
+真を指定すると <a href="../method/Gem=3a=3aSpecification/i/validate.html">Gem::Specification#validate</a> を実行しません。
+</dd>
+<dt class='method-param'>[PARAM] <code>strict_validation</code>:</dt>
+<dd>
+真を指定すると、警告も検証エラーとして扱います。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>skip_validation</code> と <code>strict_validation</code> がともに真の場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/s/build.html">Gem::Package.build</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CHECKSUMS"><code>checksums -&gt; {String =&gt; {String =&gt; String}}</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/checksums.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-checksums">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>checksums.yaml.gz</code> から読み込んだチェックサムを返します。
+</p>
+<p>
+外側のキーはダイジェストのアルゴリズム名(<code>&quot;SHA256&quot;</code>・<code>&quot;SHA512&quot;</code>)、内側のキーはファイル名(<code>&quot;metadata.gz&quot;</code>・<code>&quot;data.tar.gz&quot;</code>)で、値は 16 進表記のダイジェストです。
+<a href="../method/Gem=3a=3aPackage/i/verify.html">Gem::Package#verify</a> を呼ぶまでは空のハッシュを返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/verify.html">Gem::Package#verify</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CONTENTS"><code>contents -&gt; [String]</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/contents.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-contents">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>data.tar.gz</code> に含まれるファイル名(gem に入っているファイル)の配列を返します。
+</p>
+<p>
+未検証の場合は、先に <a href="../method/Gem=3a=3aPackage/i/verify.html">Gem::Package#verify</a> を呼びます。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>Gem::Package::FormatError</code>:</dt>
+<dd>
+<code>.gem</code> ファイルの形式が不正な場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/files.html">Gem::Package#files</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_COPY_TO"><code>copy_to(path) -&gt; ()</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/copy_to.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-copy_to">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>.gem</code> ファイルを <code>path</code> にコピーします。
+</p>
+<p>
+<code>path</code> が既にある場合は何もしません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>path</code>:</dt>
+<dd>
+コピー先のパスを指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_DATA_MODE"><code>data_mode -&gt; Integer | nil</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/data_mode.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-data_mode">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Gem=3a=3aPackage/i/extract_files.html">Gem::Package#extract_files</a> で展開する通常ファイルのパーミッションを返します。
+</p>
+<p>
+8 進表記の整数で表します。nil の場合は、アーカイブに記録された値になります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/data_mode=3d.html">Gem::Package#data_mode=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DATA_MODE--3D"><code>data_mode=(mode)</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/data_mode=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-data_mode-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Gem=3a=3aPackage/i/extract_files.html">Gem::Package#extract_files</a> で展開する通常ファイルのパーミッションを設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dd>
+パーミッションを整数で指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/data_mode.html">Gem::Package#data_mode</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DIR_MODE"><code>dir_mode -&gt; Integer | nil</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/dir_mode.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-dir_mode">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Gem=3a=3aPackage/i/extract_files.html">Gem::Package#extract_files</a> で展開するディレクトリのパーミッションを返します。
+</p>
+<p>
+nil の場合は、アーカイブに記録された値になります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/dir_mode=3d.html">Gem::Package#dir_mode=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_DIR_MODE--3D"><code>dir_mode=(mode)</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/dir_mode=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-dir_mode-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Gem=3a=3aPackage/i/extract_files.html">Gem::Package#extract_files</a> で展開するディレクトリのパーミッションを設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dd>
+パーミッションを整数で指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/dir_mode.html">Gem::Package#dir_mode</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_EXTRACT_FILES"><code>extract_files(destination_dir, pattern = &quot;*&quot;) -&gt; ()</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/extract_files.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-extract_files">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>data.tar.gz</code> の中身を <code>destination_dir</code> に展開します。
+</p>
+<p>
+未検証の場合は、先に <a href="../method/Gem=3a=3aPackage/i/verify.html">Gem::Package#verify</a> を呼びます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>destination_dir</code>:</dt>
+<dd>
+展開先のディレクトリを指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>pattern</code>:</dt>
+<dd>
+展開するファイルを絞り込む glob を指定します。
+</dd>
+<dt>[EXCEPTION] <code>Gem::Package::FormatError</code>:</dt>
+<dd>
+<code>.gem</code> ファイルの形式が不正な場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>Gem::Package::PathError</code>:</dt>
+<dd>
+<code>destination_dir</code> の外に出るパスを含む場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>Gem::Package::SymlinkError</code>:</dt>
+<dd>
+<code>destination_dir</code> の外を指すシンボリックリンクを含む場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/verify.html">Gem::Package#verify</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_FILES"><code>files -&gt; [String] | nil</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/files.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-files">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>.gem</code> アーカイブ直下のエントリ名の配列を返します。
+</p>
+<p>
+<code>[&quot;metadata.gz&quot;, &quot;data.tar.gz&quot;, &quot;checksums.yaml.gz&quot;]</code> のような配列です。gem の中身のファイルの一覧ではありません(それは <a href="../method/Gem=3a=3aPackage/i/contents.html">Gem::Package#contents</a> です)。
+<a href="../method/Gem=3a=3aPackage/i/verify.html">Gem::Package#verify</a> を呼ぶまでは nil を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/contents.html">Gem::Package#contents</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PROG_MODE"><code>prog_mode -&gt; Integer | nil</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/prog_mode.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-prog_mode">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Gem=3a=3aPackage/i/extract_files.html">Gem::Package#extract_files</a> で展開する実行ファイルのパーミッションを返します。
+</p>
+<p>
+nil の場合は、アーカイブに記録された値になります。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/prog_mode=3d.html">Gem::Package#prog_mode=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PROG_MODE--3D"><code>prog_mode=(mode)</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/prog_mode=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-prog_mode-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Gem=3a=3aPackage/i/extract_files.html">Gem::Package#extract_files</a> で展開する実行ファイルのパーミッションを設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>mode</code>:</dt>
+<dd>
+パーミッションを整数で指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/prog_mode.html">Gem::Package#prog_mode</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SECURITY_POLICY"><code>security_policy -&gt; Gem::Security::Policy | nil</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/security_policy.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-security_policy">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+署名の検証に使うセキュリティポリシーを返します。
+</p>
+<p>
+nil の場合は署名を検証しません。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/security_policy=3d.html">Gem::Package#security_policy=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SECURITY_POLICY--3D"><code>security_policy=(policy)</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/security_policy=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-security_policy-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+署名の検証に使うセキュリティポリシーを設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>policy</code>:</dt>
+<dd>
+<a href="../class/Gem=3a=3aSecurity=3a=3aPolicy.html">Gem::Security::Policy</a> を指定します。nil の場合は署名を検証しません。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/security_policy.html">Gem::Package#security_policy</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SPEC"><code>spec -&gt; Gem::Specification</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/spec.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-spec">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+この gem の <a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> を返します。
+</p>
+<p>
+既存の <code>.gem</code> ファイルを読む場合は <code>metadata.gz</code> から読み込んだもの(未検証の場合は先に <a href="../method/Gem=3a=3aPackage/i/verify.html">Gem::Package#verify</a> を呼びます)、<code>.gem</code> ファイルを作る場合は <a href="../method/Gem=3a=3aPackage/i/spec=3d.html">Gem::Package#spec=</a> で設定したものです。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/spec=3d.html">Gem::Package#spec=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SPEC--3D"><code>spec=(spec)</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/spec=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-spec-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<a href="../method/Gem=3a=3aPackage/i/build.html">Gem::Package#build</a> で使う仕様を設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>spec</code>:</dt>
+<dd>
+<a href="../class/Gem=3a=3aSpecification.html">Gem::Specification</a> を指定します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/spec.html">Gem::Package#spec</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_VERIFY"><code>verify -&gt; true</code><span class="method-since-badge">Ruby 2.0.0 から</span><span class="permalink">[<a href="../method/Gem=3a=3aPackage/i/verify.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/Gem/Package.html#method-i-verify">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/rubygems/package.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>.gem</code> ファイルを検証します。
+</p>
+<p>
+正しい仕様書を含むこと、<code>data.tar.gz</code> を含むこと、チェックサムが一致すること、(セキュリティポリシーがある場合は)署名が正しいことを検証します。成功すると true を返し、以降は <a href="../method/Gem=3a=3aPackage/i/spec.html">Gem::Package#spec</a>・<a href="../method/Gem=3a=3aPackage/i/files.html">Gem::Package#files</a>・<a href="../method/Gem=3a=3aPackage/i/checksums.html">Gem::Package#checksums</a> が使えるようになります。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>Gem::Package::FormatError</code>:</dt>
+<dd>
+ファイルが無い場合、gem の形式でない場合、チェックサムが一致しない場合などに発生します。
+</dd>
+<dt>[EXCEPTION] <code>Gem::Security::Exception</code>:</dt>
+<dd>
+署名の検証に失敗した場合に発生します。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Gem=3a=3aPackage/i/spec.html">Gem::Package#spec</a>, <a href="../method/Gem=3a=3aPackage/i/files.html">Gem::Package#files</a>, <a href="../method/Gem=3a=3aPackage/i/checksums.html">Gem::Package#checksums</a>
+</p>
 </dd>
 
 

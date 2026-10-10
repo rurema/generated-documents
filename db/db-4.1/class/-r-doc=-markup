@@ -14,40 +14,38 @@ RDoc 形式のドキュメントを目的の形式に変換するためのクラ
 例:
 
 ```ruby
+require 'rdoc'
 require 'rdoc/markup/to_html'
 
 h = RDoc::Markup::ToHtml.new
-puts h.convert(input_string)
+p h.convert("*bold*")
+# => "\n<p><strong>bold</strong></p>\n"
 ```
 
 独自のフォーマットを行うようにパーサを拡張する事もできます。
 
+
 ```ruby title="例"
-require 'rdoc/markup'
+require 'rdoc'
 require 'rdoc/markup/to_html'
 
 class WikiHtml < RDoc::Markup::ToHtml
+  def initialize(...)
+    super
+    # WikiWord を追加。
+    @markup.add_regexp_handling(/\b([A-Z][a-z]+[A-Z]\w+)/, :WIKIWORD)
+  end
+
   # WikiWord のフォントを赤く表示。
-  def handle_special_WIKIWORD(special)
-    "<font color=red>" + special.text + "</font>"
+  def handle_regexp_WIKIWORD(text)
+    "<font color=red>" + text + "</font>"
   end
 end
 
-m = RDoc::Markup.new
-# { 〜 } までを :STRIKE でフォーマットする。
-m.add_word_pair("{", "}", :STRIKE)
-# <no> 〜 </no> までを :STRIKE でフォーマットする。
-m.add_html("no", :STRIKE)
-
-# WikiWord を追加。
-m.add_special(/\b([A-Z][a-z]+[A-Z]\w+)/, :WIKIWORD)
-
-wh = WikiHtml.new(m)
-# :STRIKE のフォーマットを <strike> 〜 </strike> に指定。
-wh.add_tag(:STRIKE, "<strike>", "</strike>")
-
-puts "<body>#{wh.convert ARGF.read}</body>"
+p WikiHtml.new.convert("see WikiWord here")
+# => "\n<p>see <font color=red>WikiWord</font> here</p>\n"
 ```
+
 
 変換する形式を変更する場合、フォーマッタ(例. [c:RDoc::Markup::ToHtml])
 を変更、拡張する必要があります。

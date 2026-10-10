@@ -1,5 +1,5 @@
-type=module
-superclass=
+type=class
+superclass=Object
 included=
 extended=
 dynamically_included=
@@ -9,4 +9,31 @@ aliases=
 aliasof=
 source_location=manual/api/rubygems/package.md
 
+`.gem` ファイルを読み書きするクラスです。
 
+`.gem` ファイルは、gemspec を gzip 圧縮した `metadata.gz`、ファイル本体の tar を gzip 圧縮した `data.tar.gz`、チェックサムの `checksums.yaml.gz` を含む tar アーカイブです。
+[c:Gem::Specification] から `.gem` ファイルを作ることも、既存の `.gem` ファイルを検証して展開することもできます。
+
+以下の例は、`lib/example.rb` があるディレクトリで実行することを前提にしています。
+
+```ruby title="例: gem を作って読む"
+require 'rubygems/package'
+
+spec = Gem::Specification.new do |s|
+  s.name = 'example'
+  s.version = '1.0'
+  s.summary = 'An example gem'
+  s.authors = ['Example Author']
+  s.license = 'MIT'
+  s.homepage = 'https://example.com/example'
+  s.required_ruby_version = '>= 3.0'
+  s.files = ['lib/example.rb']
+end
+Gem::Package.build(spec) # => "example-1.0.gem"
+
+package = Gem::Package.new('example-1.0.gem')
+package.spec.name  # => "example"
+package.contents   # => ["lib/example.rb"]
+package.files      # => ["metadata.gz", "data.tar.gz", "checksums.yaml.gz"]
+package.extract_files('out') # out/lib/example.rb に展開します
+```

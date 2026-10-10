@@ -6,11 +6,11 @@ YAML ドキュメントをパースし、YAML の AST を返します。
 
 入力に複数のドキュメントが含まれている場合は、先頭のものを AST に変換して返します。
 
-filename はパース中に発生した例外のメッセージに用います。
+`filename` はパース中に発生した例外のメッセージに用います。
 
 AST については [Psych::Nodes](../../../class/Psych=3a=3aNodes.md) を参照してください。
 
-- **param** `yaml` -- YAML ドキュメント(文字列 or IO オブジェクト)
+- **param** `yaml` -- YAML ドキュメント(文字列 or [IO](../../../class/IO.md) オブジェクト)
 - **param** `filename` -- [Psych::SyntaxError](../../../class/Psych=3a=3aSyntaxError.md) 発生時にファイル名として表示する文字列。
 - **raise** `Psych::SyntaxError` -- YAMLドキュメントに文法エラーが発見されたときに発生します
 - **SEE** [Psych.load](../../../method/Psych/s/load.md)

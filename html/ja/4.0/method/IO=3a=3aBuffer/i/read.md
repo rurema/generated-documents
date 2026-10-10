@@ -23,6 +23,7 @@ io から読み込んだ内容をバッファに書き込みます。
 
 - **raise** `ArgumentError` -- offset と length の合計がバッファの大きさを超える場合に発生します。
 
+
 ```ruby
 File.write("test.txt", "Hello World")
 
@@ -43,5 +44,6 @@ File.open("test.txt", "w") do |io|
 end
 p(-Errno::EBADF::Errno)  # => -9
 ```
+
 
 - **SEE** [IO::Buffer#pread](../../../method/IO=3a=3aBuffer/i/pread.md), [IO::Buffer#write](../../../method/IO=3a=3aBuffer/i/write.md)

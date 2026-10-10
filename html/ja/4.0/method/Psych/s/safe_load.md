@@ -6,17 +6,17 @@
 
 デフォルトでは以下のクラスのオブジェクトしか変換しません。
 
-- TrueClass
-- FalseClass
-- NilClass
-- Numeric
-- String
-- Array
-- Hash
+- [TrueClass](../../../class/TrueClass.md)
+- [FalseClass](../../../class/FalseClass.md)
+- [NilClass](../../../class/NilClass.md)
+- [Numeric](../../../class/Numeric.md)
+- [String](../../../class/String.md)
+- [Array](../../../class/Array.md)
+- [Hash](../../../class/Hash.md)
 
 再帰的なデータ構造はデフォルトでは許可されていません。
 
-任意のクラスを許可するにはキーワード引数 permitted_classes を指定すると、そのクラスが追加されます。例えば Date クラスを許可するには以下のように書いてください:
+任意のクラスを許可するにはキーワード引数 `permitted_classes` を指定すると、そのクラスが追加されます。例えば [Date](../../../class/Date.md) クラスを許可するには以下のように書いてください:
 
 ```ruby title="permitted_classes: に Date を渡した例"
 require 'psych'
@@ -25,9 +25,9 @@ require 'date'
 Psych.safe_load(yaml, permitted_classes: [Date])
 ```
 
-すると上のクラス一覧に加えて Date クラスが読み込まれます。
+すると上のクラス一覧に加えて [Date](../../../class/Date.md) クラスが読み込まれます。
 
-エイリアスはキーワード引数 aliases を指定することで明示的に許可できます。
+エイリアスはキーワード引数 `aliases` を指定することで明示的に許可できます。
 
 ```ruby title="aliases: true の例"
 require 'psych'
@@ -39,15 +39,15 @@ Psych.safe_load yaml                # ~> Psych::AliasesNotEnabled
 p Psych.safe_load yaml, aliases: true # => エイリアスが読み込まれる
 ```
 
-yaml に許可されていないクラスが含まれていた場合は、
-Psych::DisallowedClass 例外が発生します。
+`yaml` に許可されていないクラスが含まれていた場合は、
+[Psych::DisallowedClass](../../../class/Psych=3a=3aDisallowedClass.md) 例外が発生します。
 
-yaml がエイリアスを含んでいてキーワード引数 aliases が false の時、
-Psych::BadAlias 例外が発生します。
+`yaml` がエイリアスを含んでいてキーワード引数 `aliases` が false の時、
+[Psych::BadAlias](../../../class/Psych=3a=3aBadAlias.md) 例外が発生します。
 
-filename はパース中に発生した例外のメッセージに用います。
+`filename` はパース中に発生した例外のメッセージに用います。
 
-キーワード引数 symbolize_names に true を指定した場合はハッシュのキーを [Symbol](../../../class/Symbol.md) に変換して返します。
+キーワード引数 `symbolize_names` に true を指定した場合はハッシュのキーを [Symbol](../../../class/Symbol.md) に変換して返します。
 
 ```ruby title="symbolize_names: true の例"
 require 'psych'
@@ -56,7 +56,7 @@ p Psych.safe_load("---\n foo: bar")                       # => {"foo" => "bar"}
 p Psych.safe_load("---\n foo: bar", symbolize_names: true)  # => {foo: "bar"}
 ```
 
-キーワード引数 freeze に true を指定した場合は再帰的に
+キーワード引数 `freeze` に true を指定した場合は再帰的に
 [Object#freeze](../../../method/Object/i/freeze.md) したオブジェクトを返します。
 
 ```ruby title="freeze: true の例"
@@ -76,16 +76,15 @@ p yaml["aaa"]["bbb"].frozen?          # = true
 p yaml["aaa"]["bbb"].first.frozen?    # = true
 ```
 
-- **param** `io` -- YAMLフォーマットの文書の読み込み先のIOオブジェクト。
 - **param** `permitted_classes` -- 追加で読み込みを許可するクラスの配列。
-- **param** `permitted_symbols` -- 引数 permitted_classesに [Symbol](../../../class/Symbol.md) を含む場合に読み込みを許可する [Symbol](../../../class/Symbol.md) の配列。
+- **param** `permitted_symbols` -- 引数 `permitted_classes` に [Symbol](../../../class/Symbol.md) を含む場合に読み込みを許可する [Symbol](../../../class/Symbol.md) の配列。
                          省略した場合は全ての [Symbol](../../../class/Symbol.md) を許可します。
 - **param** `aliases` -- エイリアスの読み込みを許可するかどうか。
 - **param** `filename` -- [Psych::SyntaxError](../../../class/Psych=3a=3aSyntaxError.md) 発生時にファイル名として表示する文字列。
-- **param** `fallback` -- 引数 yaml に空のYAMLを指定した場合の戻り値を指定します。デフォルトは nil です。
+- **param** `fallback` -- 引数 `yaml` に空のYAMLを指定した場合の戻り値を指定します。デフォルトは nil です。
 - **param** `symbolize_names` -- ハッシュ(YAMLの仕様では正確にはマッピング)のキーを [Symbol](../../../class/Symbol.md) に変換するかどうかを指定します。
                        true を指定した場合は変換します。デフォルトでは文字列に変換されます。
-- **param** `freeze` -- true を指定すると再帰的に freeze されたオブジェクトを返します。
+- **param** `freeze` -- true を指定すると再帰的に [Object#freeze](../../../method/Object/i/freeze.md) されたオブジェクトを返します。
               デフォルトは false です。
 - **param** `strict_integer` -- true を指定すると、"1,000" のようなカンマを含む数値を [Integer](../../../class/Integer.md) に変換せず、文字列として返します。デフォルトは false です。
 - **param** `parse_symbols` -- false を指定すると、":foo" のような文字列を [Symbol](../../../class/Symbol.md) に変換せず、文字列として返します。デフォルトは true です。
