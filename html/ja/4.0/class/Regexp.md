@@ -28,6 +28,7 @@ p Regexp.new('abc').frozen?
 # => false
 ```
 
+
 [spec/regexp](../doc/spec=2fregexp.md) や [spec/literal#regexp](../doc/spec=2fliteral.md#regexp) も参照してください。
 
 ## Class Methods
