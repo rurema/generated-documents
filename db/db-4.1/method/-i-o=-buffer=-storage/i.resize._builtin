@@ -1,22 +1,25 @@
 names=resize
 visibility=public
 kind=defined
-source_location=manual/api/_builtin/IO__Buffer.md
-since_by_name=resize=3.1
+source_location=manual/api/_builtin/IO__Buffer__Storage.md
+since_by_name=resize=4.1
 until_by_name=
-rbs_sig={"overloads":[{"segments":[["t","("],["c","Integer"],["t",") -> self"]],"params":[],"arity":[1,1]}]}
+rbs_sig=(uninitialized)
 
 ### def resize(size) -> self
 
-バッファの大きさを size バイトに変更します。
+バッファの大きさを `size` バイトに変更します。
 
 変更前の内容は保持されます。
 変更後の大きさによっては、メモリ領域が別の場所に確保しなおされ、内容がそこへコピーされます。
 
 [m:IO::Buffer.for] で作った外部バッファや、ロックされたバッファは大きさを変更できません。
+[c:IO::Buffer::Slice] の大きさは、[m:IO::Buffer::Slice#resize] で変更します。
 
 - **param** `size` -- 変更後の大きさをバイト数で指定します。
 - **raise** `IO::Buffer::AccessError` -- 大きさを変更できないバッファに対して呼び出した場合に発生します。
+- **raise** `FrozenError` -- 凍結済みのバッファに対して呼び出した場合に発生します。
+- **raise** `IO::Buffer::LockedError` -- ロックされているバッファに対して呼び出した場合に発生します。
 
 ```ruby
 buf = IO::Buffer.new(4)
@@ -28,4 +31,6 @@ p buf.get_string(0, 4) # => "test"
 
 IO::Buffer.for("abc").resize(8) # ~> IO::Buffer::AccessError
 ```
+
+- **SEE** [m:IO::Buffer::Slice#resize]
 

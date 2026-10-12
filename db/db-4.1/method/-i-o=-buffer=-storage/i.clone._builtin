@@ -1,0 +1,28 @@
+names=clone,dup
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer__Storage.md
+since_by_name=clone=4.1,dup=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def dup -> IO::Buffer::Storage
+### def clone -> IO::Buffer::Storage
+
+バッファの内容を、独立した内部バッファにコピーして返します。
+
+複製への変更は元のバッファに影響せず、元のバッファへの変更も複製に影響しません。
+元のバッファが外部バッファや読み取り専用でも、複製は内部バッファで、書き込みできます。
+
+```ruby
+buf = IO::Buffer.for("abc")
+p buf.external?  # => true
+p buf.readonly?  # => true
+
+copy = buf.dup
+p copy.internal? # => true
+p copy.readonly? # => false
+p copy.source    # => nil
+```
+
+- **SEE** [m:IO::Buffer::Slice#dup]

@@ -7,6 +7,7 @@
 前回の禁止状態を返します(禁止されていたなら true, GC が有効であったなら、
 false)。
 
+
 ```ruby title="例"
 p GC.disable # => false
 p GC.disable # => true

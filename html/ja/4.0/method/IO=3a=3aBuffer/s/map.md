@@ -4,6 +4,7 @@
 
 ファイルをメモリにマップしたバッファを作成して返します。
 
+
 既定では書き込み可能かつ共有(shared)のマップになるため、file は書き込み可能な状態で開いておく必要があります。読み込み専用で開いたファイルをマップするには、flags に [IO::Buffer::READONLY](../../../method/IO=3a=3aBuffer/c/READONLY.md) を指定します。
 [IO::Buffer::PRIVATE](../../../method/IO=3a=3aBuffer/c/PRIVATE.md) を指定するとコピーオンライトのマップになり、バッファへの変更はファイルにも他のプロセスにも反映されません。
 

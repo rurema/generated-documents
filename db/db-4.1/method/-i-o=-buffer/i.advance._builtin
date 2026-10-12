@@ -1,0 +1,63 @@
+names=advance
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=advance=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def advance(amount) -> self
+
+自身がメモリ領域を所有していないバッファの先頭を、`amount` バイト進めます。
+
+進めた分だけ、バッファの大きさが減ります。
+メモリ領域の移動や変更は行われません。
+対象になるのは [c:IO::Buffer::Slice] と、[m:IO::Buffer.for] で作った外部バッファです。
+`self` を返します。
+
+参照元とロックの状態は変わりません。
+バッファの見え方を変えるだけなので、読み取り専用のバッファやロック中のバッファに対しても呼べます。
+`amount` が現在の大きさと同じ場合は、大きさ 0 の空のバッファになります。
+
+親のスライスを進めると、そこから作った子のスライスの見える範囲も同じだけずれます。
+
+- **param** `amount` -- 進めるバイト数を指定します。
+
+- **raise** `ArgumentError` -- `amount` が負の場合や、現在の大きさを超える場合に発生します。
+
+- **raise** `IO::Buffer::AccessError` -- 自身がメモリ領域を所有するバッファに対して呼び出した場合に発生します。
+  [m:IO::Buffer.new] で作った内部バッファ、マップバッファ、[m:IO::Buffer.map] で作ったバッファが該当します。
+
+- **raise** `IO::Buffer::InvalidatedError` -- 無効になったスライスに対して呼び出した場合に発生します。
+
+- **raise** `FrozenError` -- 凍結済みのバッファに対して呼び出した場合に発生します。
+
+```ruby
+buf = IO::Buffer.new(8)
+buf.set_string("abcdefgh")
+
+part = buf.slice(2, 4)
+p part.get_string   # => "cdef"
+
+part.advance(1)
+p part.size         # => 3
+p part.get_string   # => "def"
+p buf.get_string    # => "abcdefgh"
+
+p IO::Buffer.for("test").advance(1).get_string # => "est"
+
+buf.advance(1) # ~> IO::Buffer::AccessError
+```
+
+```ruby title="例: 親のスライスを進める"
+buf = IO::Buffer.for("abcdef")
+parent = buf.slice(1, 4)
+child = parent.slice(1, 2)
+p child.get_string  # => "cd"
+
+parent.advance(1)
+p child.get_string  # => "de"
+```
+
+- **SEE** [m:IO::Buffer#slice], [m:IO::Buffer#source], [m:IO::Buffer::Slice#resize]
+

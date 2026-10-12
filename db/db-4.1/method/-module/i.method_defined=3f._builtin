@@ -6,13 +6,16 @@ since_by_name=
 until_by_name=
 rbs_sig={"overloads":[{"segments":[["t","(interned name, ?boolish inherit) -> bool"]],"params":["name","inherit"],"arity":[1,2]}]}
 
-### def method_defined?(name, inherit=true) -> bool
+### def method_defined?(name, inherit=true, include_all=false) -> bool
 
 モジュールにインスタンスメソッド name が定義されており、かつその可視性が public または protected であるときに
 true を返します。
 
+`include_all` に真を指定すると private メソッドも対象になります。
+
 - **param** `name` -- [c:Symbol] か [c:String] を指定します。
 - **param** `inherit` -- 真を指定するとスーパークラスや include したモジュールで定義されたメソッドも対象になります。
+- **param** `include_all` -- 真を指定すると private メソッドも対象になります。
 
 - **SEE** [m:Module#public_method_defined?], [m:Module#private_method_defined?], [m:Module#protected_method_defined?]
 
@@ -41,5 +44,7 @@ p C.method_defined? "method3"           # => true
 p C.method_defined? "protected_method1" # => true
 p C.method_defined? "method4"           # => false
 p C.method_defined? "private_method2"   # => false
+p C.method_defined? "private_method2", true, true  # => true
+p C.method_defined? "private_method2", false, true # => false
 ```
 

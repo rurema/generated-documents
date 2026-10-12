@@ -1,0 +1,62 @@
+type=class
+superclass=IO=Buffer
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=_builtin
+aliases=
+aliasof=
+source_location=manual/api/_builtin/IO__Buffer__Slice.md
+
+別の [c:IO::Buffer] の一部を参照する [c:IO::Buffer] です。
+Ruby 4.1 で導入されました。
+
+[m:IO::Buffer#slice] か [m:IO::Buffer::Slice.new] で作ります。
+バイトのコピーはせず、参照元(`source`)への参照を保持します。
+参照元は [m:IO::Buffer#source] で取得できます。
+スライスからさらにスライスを作った場合の参照元は、平坦化されずに直接の親になります。
+
+スライスは、参照範囲が参照元の範囲に収まっている間だけ有効です。
+参照元が [m:IO::Buffer::Storage#free] や [m:IO::Buffer::Storage#transfer] で手放されたときや、縮小されて参照範囲が外に出たときは、無効になります。
+無効なスライスの内容を読み出そうとすると [c:IO::Buffer::InvalidatedError] が発生します。
+無効かどうかは [m:IO::Buffer#valid?] で調べられます。
+
+参照範囲が再び参照元の範囲内に収まれば、有効に戻ります。
+参照元のメモリ領域が別のアドレスに再確保されても、無効にはなりません。
+無効なスライスでも、[m:IO::Buffer#source] は参照元を返します。
+
+書き込みは参照元のメモリに反映されます。
+読み取り専用かどうかなどの権限は、参照元に従います。
+読み取り専用のバッファのスライスに書き込もうとすると、[c:IO::Buffer::AccessError] が発生します。
+
+参照元がロックされている間は、スライスの [m:IO::Buffer#locked?] も true になります。
+スライスを [m:IO::Buffer#locked] でロックすると、メモリ領域全体がロックされ、参照元の [m:IO::Buffer::Storage#resize] は [c:IO::Buffer::LockedError] になります。
+ロック中でも、スライスの [m:IO::Buffer::Slice#resize] と [m:IO::Buffer#advance] は呼べます。
+
+[m:IO::Buffer::Slice#resize] と [m:IO::Buffer#advance] は、見える範囲を変えるだけです。
+メモリ領域の確保・解放・コピーは行いません。
+
+メモリ領域の確保と解放に関するメソッドは、このクラスにはありません。
+[m:IO::Buffer::Storage#free]・[m:IO::Buffer::Storage#transfer] と、[m:IO::Buffer::Storage#mapped?]・[m:IO::Buffer::Storage#external?]・[m:IO::Buffer::Storage#internal?]・[m:IO::Buffer::Storage#shared?]・[m:IO::Buffer::Storage#private?] を呼ぶと、[c:NoMethodError] が発生します。
+また [m:IO::Buffer.for]・[m:IO::Buffer.map]・[m:IO::Buffer.string] も、このクラスでは未定義です。
+
+[m:IO::Buffer::Slice#dup] と [m:IO::Buffer::Slice#clone] は、ビューをコピーします。
+バイトはコピーされません。
+複製は元と同じ参照元・位置・大きさを持ち、どちらから書き込んでも同じメモリに書かれます。
+
+```ruby
+buf = IO::Buffer.for("abcdef")
+parent = buf.slice(1, 4)
+child = parent.slice(1, 2)
+
+p child.source.equal?(parent) # => true
+p parent.source.equal?(buf)   # => true
+p child.get_string            # => "cd"
+
+# 親のスライスを進めると、子のスライスの見える範囲もずれる
+parent.advance(1)
+p child.get_string            # => "de"
+```
+
+- **SEE** [c:IO::Buffer], [c:IO::Buffer::Storage], [m:IO::Buffer#slice]

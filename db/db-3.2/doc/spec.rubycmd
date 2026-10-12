@@ -90,6 +90,19 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
   デバッグモードでスクリプトを実行します。[m:$DEBUG] と [m:$VERBOSE] を
   true にします。
 
+- **`--dump=items`**:
+
+  指定した項目のデバッグ情報を出力して終了します。items には以下のいずれかを指定できます。
+  ```text
+      * insns                                    命令列
+      * insns_without_opt                        最適化なしでコンパイルした命令列
+      * yydebug(+error-tolerant)                 yacc パーサの yydebug 出力
+      * parsetree(+error-tolerant)               抽象構文木 (AST)
+      * parsetree_with_comment(+error-tolerant)  注釈付きの AST
+  ```
+
+  `+error-tolerant` を付けるとエラー耐性のある構文解析を行います。
+
 - **`-E ex[:in]`**:
 - **`--encoding ex[:in]`**:
 
@@ -167,9 +180,9 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
       * gems            rubygems (無効にするのはデバッグ専用、default: enabled)
       * error_highlight error_highlight (default: enabled)
       * did_you_mean    did_you_mean (default: enabled)
+      * syntax_suggest  syntax_suggest (default: enabled)
       * rubyopt         RUBYOPT 環境変数 (default: enabled)
       * frozen-string-literal 全ての文字列リテラルを freeze (default: disabled)
-      * jit             JIT (default: disabled)
       * mjit            MJIT (default: disabled)
       * yjit            YJIT (default: disabled)
   ```
@@ -311,7 +324,7 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
   [m:$VERBOSE]をtrueにセットします。この変数がtrueである時, いくつかのメソッドは実行時に冗長なメッセージを出力します。`-v`オプションが指定されて, それ以外の引数がない時にはバージョンを表示した後, 実行を終了します(標準入力からのスクリプトを待たない)。
 
 - **`--verbose`**:
-  冗長モード。 組み込み変数 [m:$VERBOSE] をtrueにセットします。この変数がtrueである時, いくつかのメソッドは実行時に冗長なメッセージを出力します。
+  冗長モード。 組み込み変数 [m:$VERBOSE] をtrueにセットします。この変数がtrueである時, いくつかのメソッドは実行時に冗長なメッセージを出力します。標準入力からのスクリプトは読み込みません。
 
 - **`--version`**:
 
@@ -366,10 +379,12 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
 
 - **`--jit`**:
 
-  JITを有効にします。
-  YJITが有効な環境ではYJITを、それ以外の環境ではMJITを有効にします。
+  YJITを組み込んでビルドされたRubyではYJIT(`--yjit` と同じ)を、そうでなければMJIT(`--mjit` と同じ)を有効にします。
+
+  `--enable=jit` も `--jit` と同じ意味になります。
 
 #### MJIT のオプション (実験的)
+
 
 - **`--mjit`**:
 
@@ -402,29 +417,33 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
 
 - **`--mjit-max-cache=num`**:
 
-  キャッシュに残すJITされたメソッドの最大個数を指定します。(デフォルト: 10000)
+  キャッシュに残すJITされたメソッドの最大個数を指定します。(デフォルト: 100)
 
-- **`--mjit-min-calls=num`**:
+- **`--mjit-call-threshold=num`**:
 
   JITが起動する呼び出し回数を指定します。(テスト用、デフォルト: 10000)
 
-#### YJIT のオプション (実験的)
+#### YJIT のオプション
 
 - **`--yjit`**:
 
-  デフォルトの設定でYJITを有効にします。
+  デフォルトの設定でYJITを有効にします。[c:RubyVM::YJIT] も参照してください。
 
 - **`--yjit-[option]`**:
 
   指定した設定でYJITを有効にします。
 
+- **`--yjit-stats`**:
+
+  統計情報を収集します。
+
 - **`--yjit-exec-mem-size=num`**:
 
-  MiB単位で実行可能メモリブロックのサイズを指定します。(デフォルト: 256)
+  MiB単位で実行可能メモリブロックのサイズを指定します。(デフォルト: 64)
 
 - **`--yjit-call-threshold=num`**:
 
-  JITが起動する呼び出し回数を指定します。(テスト用、デフォルト: 10)
+  JITが起動する呼び出し回数を指定します。(デフォルト: 10)
 
 - **`--yjit-max-versions=num`**:
 
@@ -433,6 +452,9 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
 - **`--yjit-greedy-versioning`**:
 
   貪欲なバージョニングモードを指定します。(デフォルト: disabled)
+
+YJITは、環境変数 `RUBY_YJIT_ENABLE` を設定しても有効にできます。
+
 
 ### インタプリタ行の解釈 {#shebang}
 

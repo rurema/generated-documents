@@ -622,6 +622,27 @@ clone は、オブジェクトの内容に加えて freeze の状態や特異メ
 clone や dup は浅い(shallow)コピーであることに注意してください。後述。
 </p>
 <p>
+<a href="../class/Class.html">Class</a> や <a href="../class/Module.html">Module</a> を複製した場合、複製されたメソッドの中の定数とクラス変数の参照は、複製先のクラスやモジュールを通して解決されます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>
+  <span class="no">X</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="vc">@@cv</span> <span class="o">=</span> <span class="ss">:foo</span>
+  <span class="k">def</span> <span class="nf">x</span> <span class="o">=</span> <span class="no">X</span>
+  <span class="k">def</span> <span class="nf">cv</span> <span class="o">=</span> <span class="vc">@@cv</span>
+<span class="k">end</span>
+
+<span class="no">Bar</span> <span class="o">=</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">clone</span>
+<span class="no">Bar</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:remove_const</span>, <span class="ss">:X</span><span class="p">)</span>
+<span class="no">Bar</span><span class="p">.</span><span class="nf">const_set</span><span class="p">(</span><span class="ss">:X</span>, <span class="mi">2</span><span class="p">)</span>
+<span class="no">Bar</span><span class="p">.</span><span class="nf">class_variable_set</span><span class="p">(</span><span class="ss">:@@cv</span>, <span class="ss">:bar</span><span class="p">)</span>
+
+<span class="nb">p</span> <span class="no">Bar</span><span class="o">::</span><span class="no">X</span>     <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> <span class="no">Bar</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">x</span>  <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> <span class="no">Bar</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">cv</span> <span class="c1"># =&gt; :bar
+</span><span class="nb">p</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">x</span>  <span class="c1"># =&gt; 1
+</span></code></pre>
+<p>
 <a href="../class/TrueClass.html">TrueClass</a>, <a href="../class/FalseClass.html">FalseClass</a>, <a href="../class/NilClass.html">NilClass</a>, <a href="../class/Symbol.html">Symbol</a>, そして <a href="../class/Numeric.html">Numeric</a> クラスのインスタンスなど一部のオブジェクトは複製ではなくインスタンス自身を返します。
 </p>
 <dl>
@@ -769,6 +790,9 @@ dup は、オブジェクトの内容をコピーします。
 </p>
 <p>
 浅いコピー・複製の詳細は <a href="../method/Object/i/clone.html">Object#clone</a> を参照してください。
+</p>
+<p>
+<a href="../class/Class.html">Class</a> や <a href="../class/Module.html">Module</a> を複製したときの定数・クラス変数の扱いも <a href="../method/Object/i/clone.html">Object#clone</a> を参照してください。
 </p>
 <pre class="highlight ruby"><code>obj <span class="o">=</span> <span class="s2">"</span><span class="s2">string</span><span class="s2">"</span>
 <span class="k">def</span> <span class="nf">obj</span><span class="p">.</span><span class="nf">fuga</span>

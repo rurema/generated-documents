@@ -10,9 +10,13 @@ rbs_sig={"overloads":[{"segments":[["t","[A] () { ("],["c","IO::Buffer"],["t",")
 
 ブロックを実行する間、バッファをロックします。ブロックの値を返します。
 
-ロックされている間、そのバッファに対して [m:IO::Buffer#resize] や
-[m:IO::Buffer#free]、さらに [m:IO::Buffer#locked] を呼ぶと
+ロックされている間、そのバッファに対して [m:IO::Buffer::Storage#resize] や
+[m:IO::Buffer::Storage#free]、[m:IO::Buffer::Storage#transfer] を呼ぶと
 [c:IO::Buffer::LockedError] が発生します。
+[m:IO::Buffer#locked] は、ロック中のバッファに対しても呼べます。
+ロックは同じメモリ領域を参照する [c:IO::Buffer::Slice] と共有されるため、
+スライスをロックしている間は、参照元の [m:IO::Buffer::Storage#resize] も [c:IO::Buffer::LockedError] になります。
+ロック中でも、スライスの [m:IO::Buffer::Slice#resize] と [m:IO::Buffer#advance] は呼べます。
 バッファへの読み書き自体はロック中も行えます。
 
 システムコールでバッファを使っている間に、そのバッファが移動したり解放されたりしないことを保証するための仕組みです。
@@ -22,7 +26,6 @@ rbs_sig={"overloads":[{"segments":[["t","[A] () { ("],["c","IO::Buffer"],["t",")
 
 - **raise** `LocalJumpError` -- ブロックを渡さなかった場合に発生します。
 
-- **raise** `IO::Buffer::LockedError` -- すでにロックされているバッファに対して呼び出した場合に発生します。
 
 ```ruby
 buf = IO::Buffer.new(4)
@@ -41,4 +44,6 @@ buf.locked { buf.resize(8) } # ~> IO::Buffer::LockedError
 ```
 
 - **SEE** [m:IO::Buffer#locked?], [m:IO::Buffer::LOCKED]
+
+
 

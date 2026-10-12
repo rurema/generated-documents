@@ -1,0 +1,39 @@
+names=new
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer__Slice.md
+since_by_name=new=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def IO::Buffer::Slice.new(source, offset = 0, length = nil) -> IO::Buffer::Slice
+
+`source` の一部を参照するスライスを作って返します。
+
+バイトのコピーはせず、`source` への参照を保持します。
+`offset` と `length` を省略すると、`source` 全体を参照します。
+`length` だけを省略すると、`offset` から末尾までを参照します。
+
+- **param** `source` -- 参照元を [c:IO::Buffer] で指定します。[c:IO::Buffer::Storage] でも [c:IO::Buffer::Slice] でも指定できます。
+- **param** `offset` -- 参照を開始する位置を、`source` の先頭からのバイト数で指定します。
+- **param** `length` -- 参照するバイト数を指定します。省略すると、`offset` から末尾までになります。
+- **raise** `ArgumentError` -- 引数を渡さなかった場合、`offset` や `length` が負の場合、`offset` が `source` の大きさを超える場合、または `offset` と `length` の合計が `source` の大きさを超える場合に発生します。
+- **raise** `TypeError` -- `source` が [c:IO::Buffer] でない場合に発生します。
+
+```ruby
+buf = IO::Buffer.for("abcdefgh")
+
+p IO::Buffer::Slice.new(buf, 2, 4).get_string # => "cdef"
+p IO::Buffer::Slice.new(buf, 2).get_string    # => "cdefgh"
+p IO::Buffer::Slice.new(buf).get_string       # => "abcdefgh"
+
+# offset が source の大きさと同じ場合は、大きさ 0 のスライスになる
+p IO::Buffer::Slice.new(buf, 8).size          # => 0
+
+IO::Buffer::Slice.new(buf, 9)    # ~> ArgumentError
+IO::Buffer::Slice.new(buf, 6, 4) # ~> ArgumentError
+IO::Buffer::Slice.new("abc")     # ~> TypeError
+```
+
+- **SEE** [m:IO::Buffer#slice]
+

@@ -22,6 +22,21 @@ Ruby 3.1 で導入されました。
   - 外部(external) -- [c:String] など、Ruby の他のオブジェクトが持つメモリ領域。
   - マップ(mapped) -- 仮想メモリ機構(Unix の mmap など)で確保されたメモリ領域。
 
+Ruby 4.1 から、このクラスのインスタンスは必ず [c:IO::Buffer::Storage] か [c:IO::Buffer::Slice] のどちらかになります。
+[c:IO::Buffer] 自身のインスタンスは作れません。
+
+[m:IO::Buffer.new]・[m:IO::Buffer.for]・[m:IO::Buffer.map] が返すのは [c:IO::Buffer::Storage] で、メモリ領域を管理します。
+[m:IO::Buffer#slice] が返すのは [c:IO::Buffer::Slice] で、別のバッファの一部を参照します。
+
+メモリ領域の確保と解放に関するメソッド([m:IO::Buffer::Storage#resize]・[m:IO::Buffer::Storage#free]・[m:IO::Buffer::Storage#transfer] と [m:IO::Buffer::Storage#internal?]・[m:IO::Buffer::Storage#external?]・[m:IO::Buffer::Storage#mapped?]・[m:IO::Buffer::Storage#shared?]・[m:IO::Buffer::Storage#private?])を持つのは [c:IO::Buffer::Storage] だけです。
+[c:IO::Buffer::Slice] が持つのは [m:IO::Buffer::Slice#resize] だけです。
+
+```ruby
+buf = IO::Buffer.new(8)
+p buf.class             # => IO::Buffer::Storage
+p buf.slice(2, 4).class # => IO::Buffer::Slice
+```
+
 このクラスは実験的な機能です。
 利用すると「IO::Buffer is experimental and both the Ruby and C interface may
 change in the future!」という警告が出力されます。

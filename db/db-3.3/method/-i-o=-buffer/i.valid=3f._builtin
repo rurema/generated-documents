@@ -12,3 +12,15 @@ rbs_sig=(uninitialized)
 
 別のバッファや文字列の一部を参照している([m:IO::Buffer#slice] で作った)バッファは、参照元が解放されたり別のアドレスに再確保されたりすると、アクセスできなくなります。
 
+```ruby
+buf = IO::Buffer.new(8)
+part = buf.slice(4, 4)
+p part.valid? # => true
+
+buf.resize(4)
+p part.valid? # => false
+
+buf.resize(8)
+p part.valid? # => true
+```
+

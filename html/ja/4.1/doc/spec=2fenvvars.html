@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-11-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -172,6 +172,105 @@ MS-DOS系
 <dd>
 <p>
 <a href="../class/GC.html#tuning_gc">GC/チューニングのための環境変数</a> を参照。
+</p>
+</dd>
+<dt><code>RUBY_MN_THREADS</code></dt>
+<dd>
+<p>
+M:N スレッドスケジューラの動作を、以下の値で指定します。デフォルトは未設定(<code>0</code> と同じ)です。
+</p>
+<p>
+<code>-1</code> を設定すると、すべてのスレッドが 1:1 で動作します(main 以外の <a href="../class/Ractor.html">Ractor</a> のスレッドも M:N になりません)。
+</p>
+<p>
+<code>0</code> または未設定では、main 以外の <a href="../class/Ractor.html">Ractor</a> のスレッドだけが M:N で動作します。メインスレッドと main <a href="../class/Ractor.html">Ractor</a> の他のスレッドは 1:1 です。
+</p>
+<p>
+<code>1</code> を設定すると、メインスレッド以外のすべてのスレッド(main <a href="../class/Ractor.html">Ractor</a> の他のスレッドと、main 以外の <a href="../class/Ractor.html">Ractor</a> のスレッド)が M:N で動作します。
+</p>
+<p>
+<code>2</code> を設定すると、メインスレッドを含むすべてのスレッドが M:N で動作します。
+</p>
+<p>
+<code>-1</code> と <code>2</code> は Ruby 4.1 で追加されました。
+</p>
+<p>
+<code>2</code> を指定すると、メインスレッドも他の M:N スレッドと同様に再開されるため、メインスレッドが処理を駆動するプログラムで効果があります。ただしメインスレッドが 1 つの OS スレッドに固定されなくなるので、OS スレッドごとに状態を持つ C 拡張は <code>rb_thread_lock_native_thread()</code> を呼ぶ必要があります。また、プロセスの最初のスレッドで動かす必要があるもの(macOS の AppKit や CFRunLoop、Ruby を組み込んで自前のメインループに戻るホストなど)は動作しません。
+</p>
+<p>
+Ruby 4.1 から、M:N スレッドでは OS スレッド名を Ruby のスレッドから設定しません。
+</p>
+</dd>
+<dt><code>RUBY_MAX_CPU</code></dt>
+<dd>
+<p>
+M:N スレッドスケジューラが使うネイティブスレッドの最大数を指定します。デフォルトはオンラインの CPU 数です。main 以外の <a href="../class/Ractor.html">Ractor</a> は M:N スレッドスケジューラを使うので、main 以外の <a href="../class/Ractor.html">Ractor</a> が使うネイティブスレッドの最大数にもなります。
+</p>
+</dd>
+<dt><code>RUBY_FREE_AT_EXIT</code></dt>
+<dd>
+<p>
+設定すると、終了時に動的に確保したメモリをすべて解放しようとします。デフォルトは未設定です。
+</p>
+</dd>
+<dt><code>RUBY_THREAD_TIMESLICE</code></dt>
+<dd>
+<p>
+スレッドのタイムスライス(quantum)のデフォルトをミリ秒で指定します。デフォルトは 100 ミリ秒です。
+</p>
+</dd>
+<dt><code>RUBY_PAGER</code></dt>
+<dd>
+<p>
+<code>--help</code> の出力に使うページャコマンドを指定します。デフォルトは環境変数 <code>PAGER</code> の値です。起動オプションの詳細に関しては <a href="../doc/spec=2frubycmd.html">Rubyの起動</a> を参照してください。
+</p>
+</dd>
+<dt><code>RUBY_BOX</code></dt>
+<dd>
+<p>
+<code>1</code> を設定すると <a href="../class/Ruby=3a=3aBox.html">Ruby::Box</a> が有効になり、<a href="../method/Ruby=3a=3aBox/s/new.html">Ruby::Box.new</a> が使えるようになります。実験的な機能です。
+</p>
+</dd>
+<dt><code>RUBY_IO_BUFFER_DEFAULT_SIZE</code></dt>
+<dd>
+<p>
+<a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> のデフォルトのバッファサイズを指定します。
+</p>
+</dd>
+<dt><code>RUBY_CRASH_REPORT</code></dt>
+<dd>
+<p>
+クラッシュレポートを保存するパス名のテンプレートを指定します。デフォルトは指定なしです。起動オプション <code>--crash-report=template</code> と同じ意味です(<a href="../doc/spec=2frubycmd.html">Rubyの起動</a> を参照)。<a class="external" href="https://bugs.ruby-lang.org/issues/19790">[feature#19790]</a>
+</p>
+<p>
+テンプレートには以下の指定子を使えます。
+</p>
+<pre class="highlight text"><code>    %%    % そのもの
+    %e    実行ファイルの basename
+    %E    実行ファイルのパス名(/ は ! に置換されます)
+    %f    プログラム名 $0 の basename
+    %F    プログラム名 $0 のパス名(/ は ! に置換されます)
+    %p    プロセス ID
+    %t    ダンプした時刻(エポックからの秒数)
+    %NNN  8 進数の文字コード
+</code></pre>
+<p>
+末尾の単独の <code>%</code> と、上記以外の文字が続く <code>%</code> は捨てられます。<code>/</code> はディレクトリの区切りとして解釈されます。
+</p>
+<p>
+テンプレートの先頭が <code>|</code> の場合は、その後ろをコマンドラインとして実行し、レポートをパイプで渡します(テンプレートの展開前に空白で引数に分割されます)。
+</p>
+</dd>
+<dt><code>RUBY_YJIT_ENABLE</code></dt>
+<dd>
+<p>
+設定すると、YJIT を有効にして起動します。YJIT を組み込まずにビルドした Ruby では効果がありません。<a href="../class/RubyVM=3a=3aYJIT.html">RubyVM::YJIT</a> も参照してください。
+</p>
+</dd>
+<dt><code>RUBY_ZJIT_ENABLE</code></dt>
+<dd>
+<p>
+設定すると、ZJIT を有効にして起動します。<a href="../class/RubyVM=3a=3aZJIT.html">RubyVM::ZJIT</a> も参照してください。
 </p>
 </dd>
 <dt><code>RUBY_THREAD_VM_STACK_SIZE</code></dt>

@@ -8,6 +8,27 @@ clone は、オブジェクトの内容に加えて freeze の状態や特異メ
 
 clone や dup は浅い(shallow)コピーであることに注意してください。後述。
 
+[Class](../../../class/Class.md) や [Module](../../../class/Module.md) を複製した場合、複製されたメソッドの中の定数とクラス変数の参照は、複製先のクラスやモジュールを通して解決されます。
+
+```ruby title="例"
+class Foo
+  X = 1
+  @@cv = :foo
+  def x = X
+  def cv = @@cv
+end
+
+Bar = Foo.clone
+Bar.send(:remove_const, :X)
+Bar.const_set(:X, 2)
+Bar.class_variable_set(:@@cv, :bar)
+
+p Bar::X     # => 2
+p Bar.new.x  # => 2
+p Bar.new.cv # => :bar
+p Foo.new.x  # => 1
+```
+
 [TrueClass](../../../class/TrueClass.md), [FalseClass](../../../class/FalseClass.md), [NilClass](../../../class/NilClass.md), [Symbol](../../../class/Symbol.md), そして [Numeric](../../../class/Numeric.md) クラスのインスタンスなど一部のオブジェクトは複製ではなくインスタンス自身を返します。
 
 - **param** `freeze` -- true を指定すると freeze されたコピーを返します。
