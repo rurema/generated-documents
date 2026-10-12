@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-11-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -81,7 +81,7 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_SLICE"><code>slice(offset = 0, length = nil) -&gt; IO::Buffer</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../../../method/IO=3a=3aBuffer/i/slice.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-slice">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_SLICE"><code>slice(offset = 0, length = nil) -&gt; IO::Buffer::Slice</code><span class="method-since-badge">Ruby 3.1 から</span><span class="permalink">[<a href="../../../method/IO=3a=3aBuffer/i/slice.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-slice">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
 <dt class="rbs-signature"><code>(<a href="../../../class/Integer.html">Integer</a> offset, <a href="../../../class/Integer.html">Integer</a> length) &rarr; Buffer</code></dt>
 <dd class="method-description">
 <p>
@@ -89,6 +89,12 @@
 </p>
 <p>
 メモリのコピーは行わず、返されるバッファは元のバッファと同じメモリ領域を参照します。そのため、一方への書き込みはもう一方からも見えます。元のバッファが文字列やファイルに由来する場合、その関連も引き継がれます。
+</p>
+<p>
+Ruby 4.1 からは <a href="../../../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> のインスタンスを返します。返されたスライスは <code>self</code> を参照元として保持し、<a href="../../../method/IO=3a=3aBuffer/i/source.html">IO::Buffer#source</a> で取得できます。スライスからさらにスライスを作った場合の参照元は、直接の親です。
+</p>
+<p>
+参照元が <a href="../../../method/IO=3a=3aBuffer=3a=3aStorage/i/free.html">IO::Buffer::Storage#free</a> や <a href="../../../method/IO=3a=3aBuffer=3a=3aStorage/i/transfer.html">IO::Buffer::Storage#transfer</a> で手放されたときや、縮小されて参照範囲が外に出たときは、スライスは無効になります。参照範囲が再び参照元の範囲内に収まれば、有効に戻ります。参照元のメモリ領域が別のアドレスに再確保されても、無効にはなりません。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>offset</code>:</dt>
@@ -115,7 +121,7 @@ part <span class="o">=</span> buf<span class="p">.</span><span class="nf">slice<
 <span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span>  <span class="c1"># =&gt; &quot;Xyby\x00\x00\x00\x00&quot;
 </span></code></pre>
 <p>
-[SEE_ALSO] <a href="../../../method/IO=3a=3aBuffer/i/copy.html">IO::Buffer#copy</a>
+[SEE_ALSO] <a href="../../../method/IO=3a=3aBuffer/i/copy.html">IO::Buffer#copy</a>, <a href="../../../method/IO=3a=3aBuffer=3a=3aSlice/s/new.html">IO::Buffer::Slice.new</a>, <a href="../../../method/IO=3a=3aBuffer/i/source.html">IO::Buffer#source</a>, <a href="../../../method/IO=3a=3aBuffer/i/advance.html">IO::Buffer#advance</a>
 </p>
 </dd>
 

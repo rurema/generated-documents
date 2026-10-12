@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-11-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -88,8 +88,18 @@
 バッファがアクセス可能な場合に true を返します。
 </p>
 <p>
-別のバッファや文字列の一部を参照している(<a href="../../../method/IO=3a=3aBuffer/i/slice.html">IO::Buffer#slice</a> で作った)バッファは、参照元が解放されたり別のアドレスに再確保されたりすると、アクセスできなくなります。
+別のバッファの一部を参照している(<a href="../../../method/IO=3a=3aBuffer/i/slice.html">IO::Buffer#slice</a> で作った)<a href="../../../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> は、参照元が <a href="../../../method/IO=3a=3aBuffer=3a=3aStorage/i/free.html">IO::Buffer::Storage#free</a> や <a href="../../../method/IO=3a=3aBuffer=3a=3aStorage/i/transfer.html">IO::Buffer::Storage#transfer</a> で手放されたときや、縮小されて参照範囲が外に出たときに、アクセスできなくなります。参照範囲が再び参照元の範囲内に収まれば、有効に戻ります。参照元のメモリ領域が別のアドレスに再確保されても、無効にはなりません。
 </p>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+part <span class="o">=</span> buf<span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">4</span>, <span class="mi">4</span><span class="p">)</span>
+<span class="nb">p</span> part<span class="p">.</span><span class="nf">valid?</span> <span class="c1"># =&gt; true
+</span>
+buf<span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">p</span> part<span class="p">.</span><span class="nf">valid?</span> <span class="c1"># =&gt; false
+</span>
+buf<span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="nb">p</span> part<span class="p">.</span><span class="nf">valid?</span> <span class="c1"># =&gt; true
+</span></code></pre>
 </dd>
 
 

@@ -6,13 +6,21 @@ since_by_name=slice=3.1
 until_by_name=
 rbs_sig={"overloads":[{"segments":[["t","("],["c","Integer"],["t"," offset, "],["c","Integer"],["t"," length) -> "],["c","Buffer"]],"params":["offset","length"],"arity":[2,2]}]}
 
-### def slice(offset = 0, length = nil) -> IO::Buffer
+### def slice(offset = 0, length = nil) -> IO::Buffer::Slice
 
 バッファの一部を指す新しい [c:IO::Buffer] を返します。
 
 メモリのコピーは行わず、返されるバッファは元のバッファと同じメモリ領域を参照します。
 そのため、一方への書き込みはもう一方からも見えます。
 元のバッファが文字列やファイルに由来する場合、その関連も引き継がれます。
+
+Ruby 4.1 からは [c:IO::Buffer::Slice] のインスタンスを返します。
+返されたスライスは `self` を参照元として保持し、[m:IO::Buffer#source] で取得できます。
+スライスからさらにスライスを作った場合の参照元は、直接の親です。
+
+参照元が [m:IO::Buffer::Storage#free] や [m:IO::Buffer::Storage#transfer] で手放されたときや、縮小されて参照範囲が外に出たときは、スライスは無効になります。
+参照範囲が再び参照元の範囲内に収まれば、有効に戻ります。
+参照元のメモリ領域が別のアドレスに再確保されても、無効にはなりません。
 
 - **param** `offset` -- 参照を開始する位置をバッファの先頭からのバイト数で指定します。
            省略した場合は 0 になります。
@@ -33,5 +41,5 @@ part.set_string("Xy")
 p buf.get_string  # => "Xyby\x00\x00\x00\x00"
 ```
 
-- **SEE** [m:IO::Buffer#copy]
+- **SEE** [m:IO::Buffer#copy], [m:IO::Buffer::Slice.new], [m:IO::Buffer#source], [m:IO::Buffer#advance]
 

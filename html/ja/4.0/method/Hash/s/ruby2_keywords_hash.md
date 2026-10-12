@@ -12,6 +12,7 @@ ruby2_keywords フラグを立てたハッシュを返します。
 
 Ruby 2.7.1 で追加されたため、Ruby 2.7.0 では定義されていません。
 
+
 - **param** `hash` -- ruby2_keywords フラグを立てる [Hash](../../../class/Hash.md) を指定します。
 
 - **raise** `TypeError` -- hash が [Hash](../../../class/Hash.md) でない場合に発生します。

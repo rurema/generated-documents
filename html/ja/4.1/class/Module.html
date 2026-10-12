@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-11-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -757,6 +757,9 @@ alias との違いは以下の通りです。
 </ul>
 <p>
 また、クラスメソッドに対して使用することはできません。
+</p>
+<p>
+Ruby 4.1 から、モジュールの中で元のメソッドが <a href="../class/Object.html">Object</a> へのフォールバックでだけ見つかる場合と、元のメソッドが prepend したモジュールで定義されている場合に deprecation 警告が出ます。詳しくは <a href="../doc/spec=2fdef.html#alias">クラス／メソッドの定義/alias</a> を参照してください。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>new</code>:</dt>
@@ -2048,12 +2051,15 @@ false を指定するとそのモジュールで定義されているメソッ�
 </dd>
 
 
-<dt class="method-heading" id="I_METHOD_DEFINED--3F"><code>method_defined?(name, inherit=true) -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/method_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Module.html#method-i-method_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_METHOD_DEFINED--3F"><code>method_defined?(name, inherit=true, include_all=false) -&gt; bool</code><span class="permalink">[<a href="../method/Module/i/method_defined=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Module.html#method-i-method_defined-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Module.md">edit</a>]</span></dt>
 <dt class="rbs-signature"><code>(interned name, ?boolish inherit) &rarr; bool</code></dt>
 <dd class="method-description">
 <p>
 モジュールにインスタンスメソッド name が定義されており、かつその可視性が public または protected であるときに
 true を返します。
+</p>
+<p>
+<code>include_all</code> に真を指定すると private メソッドも対象になります。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>name</code>:</dt>
@@ -2063,6 +2069,10 @@ true を返します。
 <dt class='method-param'>[PARAM] <code>inherit</code>:</dt>
 <dd>
 真を指定するとスーパークラスや include したモジュールで定義されたメソッドも対象になります。
+</dd>
+<dt class='method-param'>[PARAM] <code>include_all</code>:</dt>
+<dd>
+真を指定すると private メソッドも対象になります。
 </dd>
 </dl>
 <p>
@@ -2093,6 +2103,8 @@ true を返します。
 </span><span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">method_defined?</span> <span class="s2">"</span><span class="s2">protected_method1</span><span class="s2">"</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">method_defined?</span> <span class="s2">"</span><span class="s2">method4</span><span class="s2">"</span>           <span class="c1"># =&gt; false
 </span><span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">method_defined?</span> <span class="s2">"</span><span class="s2">private_method2</span><span class="s2">"</span>   <span class="c1"># =&gt; false
+</span><span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">method_defined?</span> <span class="s2">"</span><span class="s2">private_method2</span><span class="s2">"</span>, <span class="k">true</span>, <span class="k">true</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">method_defined?</span> <span class="s2">"</span><span class="s2">private_method2</span><span class="s2">"</span>, <span class="k">false</span>, <span class="k">true</span> <span class="c1"># =&gt; false
 </span></code></pre>
 </dd>
 
@@ -3487,6 +3499,9 @@ name で指定した定数を取り除き、その定数に設定されていた
 </p>
 <p>
 このメソッドは後方互換性のためだけに存在するので、いずれ削除される可能性があります。Ruby 2.7 より前のバージョンには存在しないため、例のように呼び出す前にこのメソッドに応答するかを確認してください。また、このメソッドが削除されたときには、フラグを設定していたメソッドはキーワード引数を透過しない挙動に変わることに注意してください。
+</p>
+<p>
+Ruby 4.1 でこのメソッドは deprecated になり、Ruby 4.4 で削除される予定です。<a class="external" href="https://bugs.ruby-lang.org/issues/22205">[feature#22205]</a>
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>method_name</code>:</dt>

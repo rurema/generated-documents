@@ -8,6 +8,7 @@
 Ruby 2.7 より前との後方互換性のために用意されているメソッドです。
 詳細は [Module#ruby2_keywords](../../../method/Module/i/ruby2_keywords.md) を参照してください。
 
+
 - **param** `method_name` -- メソッド名を [String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) で指定します。複数指定できます。
 
 ```ruby title="例"

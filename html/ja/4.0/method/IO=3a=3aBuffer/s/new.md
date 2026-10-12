@@ -4,6 +4,7 @@
 
 size バイトの、0 で埋められた新しいバッファを作成して返します。
 
+
 既定では内部(internal)バッファ、すなわち Ruby が直接確保したメモリ領域になります。ただし size が OS 依存の [IO::Buffer::PAGE_SIZE](../../../method/IO=3a=3aBuffer/c/PAGE_SIZE.md) 以上の場合は、仮想メモリ機構(Unix では匿名 mmap、Windows では VirtualAlloc)を用いて確保されます。flags に [IO::Buffer::MAPPED](../../../method/IO=3a=3aBuffer/c/MAPPED.md) を指定すると、
 size によらず後者の方法で確保されます。
 

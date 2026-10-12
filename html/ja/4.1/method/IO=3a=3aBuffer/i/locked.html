@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-11-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -88,9 +88,10 @@
 ブロックを実行する間、バッファをロックします。ブロックの値を返します。
 </p>
 <p>
-ロックされている間、そのバッファに対して <a href="../../../method/IO=3a=3aBuffer/i/resize.html">IO::Buffer#resize</a> や
-<a href="../../../method/IO=3a=3aBuffer/i/free.html">IO::Buffer#free</a>、さらに <a href="../../../method/IO=3a=3aBuffer/i/locked.html">IO::Buffer#locked</a> を呼ぶと
-<a href="../../../class/IO=3a=3aBuffer=3a=3aLockedError.html">IO::Buffer::LockedError</a> が発生します。バッファへの読み書き自体はロック中も行えます。
+ロックされている間、そのバッファに対して <a href="../../../method/IO=3a=3aBuffer=3a=3aStorage/i/resize.html">IO::Buffer::Storage#resize</a> や
+<a href="../../../method/IO=3a=3aBuffer=3a=3aStorage/i/free.html">IO::Buffer::Storage#free</a>、<a href="../../../method/IO=3a=3aBuffer=3a=3aStorage/i/transfer.html">IO::Buffer::Storage#transfer</a> を呼ぶと
+<a href="../../../class/IO=3a=3aBuffer=3a=3aLockedError.html">IO::Buffer::LockedError</a> が発生します。
+<a href="../../../method/IO=3a=3aBuffer/i/locked.html">IO::Buffer#locked</a> は、ロック中のバッファに対しても呼べます。ロックは同じメモリ領域を参照する <a href="../../../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> と共有されるため、スライスをロックしている間は、参照元の <a href="../../../method/IO=3a=3aBuffer=3a=3aStorage/i/resize.html">IO::Buffer::Storage#resize</a> も <a href="../../../class/IO=3a=3aBuffer=3a=3aLockedError.html">IO::Buffer::LockedError</a> になります。ロック中でも、スライスの <a href="../../../method/IO=3a=3aBuffer=3a=3aSlice/i/resize.html">IO::Buffer::Slice#resize</a> と <a href="../../../method/IO=3a=3aBuffer/i/advance.html">IO::Buffer#advance</a> は呼べます。バッファへの読み書き自体はロック中も行えます。
 </p>
 <p>
 システムコールでバッファを使っている間に、そのバッファが移動したり解放されたりしないことを保証するための仕組みです。スレッド安全ではないため、複数のスレッドでバッファを共有する場合は別に同期の手段が必要です。
@@ -102,10 +103,6 @@
 <dt>[EXCEPTION] <code>LocalJumpError</code>:</dt>
 <dd>
 ブロックを渡さなかった場合に発生します。
-</dd>
-<dt>[EXCEPTION] <code>IO::Buffer::LockedError</code>:</dt>
-<dd>
-すでにロックされているバッファに対して呼び出した場合に発生します。
 </dd>
 </dl>
 <pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>

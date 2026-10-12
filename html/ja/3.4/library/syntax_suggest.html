@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/library/syntax_suggest.html">
+
+<title>library syntax_suggest (Ruby 3.4 リファレンスマニュアル)</title>
+<meta name="description" content="構文エラー(SyntaxError)が起きたときに、`end' の不足や余分な `end' など、エラーの原因と思われる箇所を探してエラーメッセージに追加して表示するライブラリです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-3.4.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.4 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/syntax_suggest.html","name":"syntax_suggestライブラリ","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.4 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        syntax_suggestライブラリ
+      </li>
+    </ol>
+  </nav>
+
+<h1>library syntax_suggest</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/syntax_suggest.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+<h2>要約</h2>
+<p>
+構文エラー(<a href="../class/SyntaxError.html">SyntaxError</a>)が起きたときに、<code>end</code> の不足や余分な <code>end</code> など、エラーの原因と思われる箇所を探してエラーメッセージに追加して表示するライブラリです。
+</p>
+<span class="caption">dog.rb</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Dog</span>
+  <span class="k">def</span> <span class="nf">bark</span>
+    <span class="nb">puts</span> <span class="s2">"Woof"</span>
+<span class="k">end</span>
+</code></pre>
+<pre class="highlight text"><code>$ ruby dog.rb
+dog.rb: --&gt; dog.rb
+
+Unmatched keyword, missing `end' ?
+
+&gt; 1  class Dog
+&gt; 2    def bark
+&gt; 4  end
+</code></pre>
+<p>
+この表示の後に、パーサーによる通常の構文エラーメッセージが続きます。
+</p>
+<p>
+デフォルトで有効になっており、無効にするにはコマンドラインオプションで
+<code>--disable=syntax_suggest</code> を指定します。
+</p>
+<p>
+<a href="../class/SyntaxError.html">SyntaxError</a> の <a href="../method/Exception/i/detailed_message.html">Exception#detailed_message</a> を上書きして、エラーメッセージにこの表示を追加しています。
+</p>
+<p>
+プログラムからは、<code>require &quot;syntax_suggest/api&quot;</code> で読み込んだうえで、ソースコードの構文が正しいかを調べる <code>SyntaxSuggest.valid?</code> や、捕捉した <a href="../class/SyntaxError.html">SyntaxError</a> について原因と思われる箇所を表示する <code>SyntaxSuggest.handle_error</code> が利用できます。
+</p>
+<p>
+Ruby 3.2 で、<code>dead_end</code> gem の機能が <code>syntax_suggest</code> として Ruby に統合されました(<a class="external" href="https://bugs.ruby-lang.org/issues/18159">[feature#18159]</a> を参照)。
+</p>
+<p>
+このライブラリはdefault gemです。詳しい内容は下記のページを参照してください。
+</p>
+<ul>
+<li>rubygems.org: <a class="external" href="https://rubygems.org/gems/syntax_suggest">https://rubygems.org/gems/syntax_suggest</a></li>
+<li>プロジェクトページ: <a class="external" href="https://github.com/ruby/syntax_suggest">https://github.com/ruby/syntax_suggest</a></li>
+<li>リファレンス: <a class="external" href="https://www.rubydoc.info/gems/syntax_suggest">https://www.rubydoc.info/gems/syntax_suggest</a></li>
+</ul>
+<p>
+[SEE_ALSO] <a href="../library/did_you_mean.html">did_you_mean</a>, <a href="../library/error_highlight.html">error_highlight</a>, <a href="../doc/glossary.html#default-gem">Ruby用語集</a>
+</p>
+
+
+
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/syntax_suggest.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

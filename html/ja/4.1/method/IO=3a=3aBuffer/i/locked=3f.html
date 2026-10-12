@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-11-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -88,7 +88,11 @@
 バッファがロックされている場合に true を返します。
 </p>
 <p>
-ロックされたバッファは大きさの変更や解放ができず、さらにロックを取得することもできません。システムコールでバッファを使っている間に、そのバッファが移動しないことを保証するための仕組みです。
+ロックされた <a href="../../../class/IO=3a=3aBuffer=3a=3aStorage.html">IO::Buffer::Storage</a> は、大きさの変更や解放、所有権の移動ができません。
+<a href="../../../method/IO=3a=3aBuffer/i/locked.html">IO::Buffer#locked</a> は入れ子にして呼べます。
+</p>
+<p>
+ロックは、同じメモリ領域を参照する <a href="../../../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> と共有されます。参照元がロックされている間は、スライスの <code>locked?</code> も true になります。スライスをロックすると、メモリ領域全体がロックされます。システムコールでバッファを使っている間に、そのバッファが移動しないことを保証するための仕組みです。
 </p>
 <p>
 [SEE_ALSO] <a href="../../../method/IO=3a=3aBuffer/i/locked.html">IO::Buffer#locked</a>

@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-11-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -760,6 +760,35 @@ alias 新グローバル変数名 旧グローバル変数名
 <p>
 メソッドの定義内で別名を付けるには<a href="../class/Module.html">Module</a>クラスのメソッド
 <a href="../method/Module/i/alias_method.html">Module#alias_method</a> を利用して下さい。
+</p>
+<p>
+Ruby 4.1 から、次の場合に deprecation 警告が出るようになりました(<code>Warning[:deprecated]</code> が真のとき、たとえば <code>-W:deprecated</code> を指定したときに表示されます)。どちらも Ruby 4.3 で挙動が変わる予定です。<a class="external" href="https://bugs.ruby-lang.org/issues/22276">[bug#22276]</a>、<a class="external" href="https://bugs.ruby-lang.org/issues/22273">[bug#22273]</a>
+</p>
+<ul>
+<li>モジュールの中で、元のメソッドがそのモジュールとその祖先には無く、<a href="../class/Object.html">Object</a> へのフォールバックでだけ見つかる場合。Ruby 4.3 でこのフォールバックは削除され、<a href="../class/NameError.html">NameError</a> が発生するようになる予定です</li>
+<li>元のメソッドが <code>prepend</code> したモジュールで定義されている場合。Ruby 4.3 で、別名を付けるメソッドの探索は origin クラス(prepend されたモジュールより後)から始まるようになる予定です</li>
+</ul>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">M</span>
+  <span class="k">alias</span> my_puts <span class="nb">puts</span>
+  <span class="c1"># warning: the fallback to Object for alias of 'puts' in module 'M' is deprecated and will be removed in Ruby 4.3
+</span><span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">P</span>
+  <span class="k">def</span> <span class="nf">foo</span> <span class="o">=</span> <span class="ss">:p</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">C</span>
+  <span class="k">def</span> <span class="nf">foo</span> <span class="o">=</span> <span class="ss">:c</span>
+  prepend <span class="no">P</span>
+  <span class="k">alias</span> bar foo
+  <span class="c1"># warning: aliasing C#foo defined in a prepended module P is deprecated and will be removed in Ruby 4.3
+</span><span class="k">end</span>
+
+<span class="nb">p</span> <span class="no">C</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">bar</span> <span class="c1"># =&gt; :p
+</span></code></pre>
+<p>
+<a href="../class/Module.html">Module</a> のメソッド <a href="../method/Module/i/alias_method.html">Module#alias_method</a> でも同様です。<a href="../class/Class.html">Class</a> は <a href="../class/Object.html">Object</a> を祖先に持つので、クラスの中では前者の警告は出ません。
 </p>
 <p>
 別名を付けられたメソッドは、その時点でのメソッド定義を引き継ぎ、元のメソッドが再定義されても、再定義前の古いメソッドと同じ働きをします。あるメソッドの動作を変え、再定義するメソッドで元のメソッドの結果を利用したいときなどに利用されます。

@@ -1,0 +1,44 @@
+names=resize
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer__Slice.md
+since_by_name=resize=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def resize(size) -> self
+
+スライスの大きさを `size` バイトに変更します。
+
+参照元の範囲内で、見える範囲の大きさを変えるだけです。
+メモリ領域の確保・解放・コピーは行わず、参照元も変更されません。
+大きくした場合は、参照元にある既存のバイトが見えるようになります。クリアはされません。
+入れ子のスライスでは、直接の親の範囲が上限になります。
+
+参照元がロックされていても呼べます。
+
+Ruby 4.0 までは、スライスも [c:IO::Buffer] のインスタンスで、その `resize` は新しいメモリ領域を確保して内容をコピーし、参照元から切り離していました。
+
+- **param** `size` -- 変更後の大きさをバイト数で指定します。
+- **raise** `ArgumentError` -- `size` が負の場合や、参照元の範囲を超える場合に発生します。無効になったスライスに対して呼び出した場合も、範囲外として扱われて発生します。
+- **raise** `FrozenError` -- 凍結済みのスライスに対して呼び出した場合に発生します。
+
+```ruby
+buf = IO::Buffer.new(8)
+buf.set_string("abcdefgh")
+
+part = buf.slice(2, 4)
+p part.get_string  # => "cdef"
+
+part.resize(2)
+p part.size        # => 2
+p part.get_string  # => "cd"
+
+part.resize(6)
+p part.get_string  # => "cdefgh"
+
+part.resize(7)     # ~> ArgumentError
+```
+
+- **SEE** [m:IO::Buffer#advance], [m:IO::Buffer::Storage#resize]
+

@@ -10,6 +10,7 @@ GC 内部の統計情報を [Hash](../../../class/Hash.md) で返します。
 - **param** `key` -- 得られる統計情報から特定の情報を取得したい場合にキーを
            [Symbol](../../../class/Symbol.md) で指定します。
 
+
 - **return** -- GC 内部の統計情報を[Hash](../../../class/Hash.md) で返します。
         引数 key を指定した場合は数値を返します。
 

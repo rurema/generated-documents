@@ -1,10 +1,10 @@
 names=free
 visibility=public
 kind=defined
-source_location=manual/api/_builtin/IO__Buffer.md
-since_by_name=free=3.1
+source_location=manual/api/_builtin/IO__Buffer__Storage.md
+since_by_name=free=4.1
 until_by_name=
-rbs_sig={"overloads":[{"segments":[["t","() -> self"]],"params":[],"arity":[0,0]}]}
+rbs_sig=(uninitialized)
 
 ### def free -> self
 
@@ -19,7 +19,12 @@ rbs_sig={"overloads":[{"segments":[["t","() -> self"]],"params":[],"arity":[0,0]
 解放後は、どのメモリ領域も指さない状態になります。
 この状態のバッファは大きさ 0 のバッファとして扱われます。
 
-解放したバッファでも [m:IO::Buffer#resize] を呼べば、あらためてメモリ領域を確保できます。
+解放したバッファでも [m:IO::Buffer::Storage#resize] を呼べば、あらためてメモリ領域を確保できます。
+
+[c:IO::Buffer::Slice] には、このメソッドはありません。
+
+- **raise** `FrozenError` -- 凍結済みのバッファに対して呼び出した場合に発生します。
+- **raise** `IO::Buffer::LockedError` -- ロックされているバッファに対して呼び出した場合に発生します。
 
 ```ruby
 buf = IO::Buffer.new(4)
@@ -34,5 +39,5 @@ buf.resize(4)
 p buf.size  # => 4
 ```
 
-- **SEE** [m:IO::Buffer#transfer], [m:IO::Buffer#null?]
+- **SEE** [m:IO::Buffer::Storage#transfer], [m:IO::Buffer#null?]
 

@@ -1,0 +1,37 @@
+names=clone,dup
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer__Slice.md
+since_by_name=clone=4.1,dup=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def dup -> IO::Buffer::Slice
+### def clone -> IO::Buffer::Slice
+
+スライスのビューをコピーして返します。
+
+バイトはコピーしません。
+複製は元と同じ参照元・位置・大きさを持ちます。
+複製に対する [m:IO::Buffer#advance] や [m:IO::Buffer::Slice#resize] は、元のスライスのビューに影響しません。
+どちらから書き込んでも、同じメモリに書かれます。
+
+凍結済みのスライスに対しては、`dup` の結果は凍結されず、`clone` の結果は凍結されます。
+
+```ruby
+buf = IO::Buffer.for("abcdef").dup
+slice = buf.slice(1, 3)
+
+# 複製の advance は、元のスライスのビューに影響しない
+copy = slice.dup
+copy.advance(1)
+p copy.get_string   # => "cd"
+p slice.get_string  # => "bcd"
+
+# どちらから書き込んでも、同じメモリに書かれる
+other = slice.dup
+other.set_string("XY")
+p buf.get_string    # => "aXYdef"
+```
+
+- **SEE** [m:IO::Buffer::Storage#dup]

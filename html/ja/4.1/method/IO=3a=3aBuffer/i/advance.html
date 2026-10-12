@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../syntax-highlight.css">
+<link rel="stylesheet" href="../../../search.css">
+<link rel="icon" type="image/png" href="../../../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/IO=3a=3aBuffer/i/advance.html">
+
+<title>IO::Buffer#advance (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="自身がメモリ領域を所有していないバッファの先頭を、`amount' バイト進めます。">
+<script src="../../../script.js"></script>
+<script>var index_rel_prefix = "../../../";</script>
+<script src="../../../js/search_data.js"></script>
+<script src="../../../js/search_navigation.js"></script>
+<script src="../../../js/search_ranker.js"></script>
+<script src="../../../js/search_controller.js"></script>
+<script src="../../../js/search_init.js"></script>
+<script defer src="../../../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-help" content="../../../doc/help.html#run">
+<script type="module" src="../../../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../../../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/IO=3a=3aBuffer.html","name":"IO::Bufferクラス","position":4},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/method/IO=3a=3aBuffer/i/advance.html","name":"advance","position":5}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../../../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../../../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../../../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        <a href="../../../class/IO=3a=3aBuffer.html">IO::Bufferクラス</a>
+      </li>
+      <li>
+        advance 
+      </li>
+    </ol>
+  </nav>
+
+<h1>instance method IO::Buffer#advance</h1>
+</header>
+
+<main>
+<dl class="methodlist">
+
+<dt class="method-heading" id="I_ADVANCE"><code>advance(amount) -&gt; self</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../../../method/IO=3a=3aBuffer/i/advance.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer.html#method-i-advance">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身がメモリ領域を所有していないバッファの先頭を、<code>amount</code> バイト進めます。
+</p>
+<p>
+進めた分だけ、バッファの大きさが減ります。メモリ領域の移動や変更は行われません。対象になるのは <a href="../../../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> と、<a href="../../../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a> で作った外部バッファです。
+<code>self</code> を返します。
+</p>
+<p>
+参照元とロックの状態は変わりません。バッファの見え方を変えるだけなので、読み取り専用のバッファやロック中のバッファに対しても呼べます。
+<code>amount</code> が現在の大きさと同じ場合は、大きさ 0 の空のバッファになります。
+</p>
+<p>
+親のスライスを進めると、そこから作った子のスライスの見える範囲も同じだけずれます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>amount</code>:</dt>
+<dd>
+進めるバイト数を指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>amount</code> が負の場合や、現在の大きさを超える場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::AccessError</code>:</dt>
+<dd>
+自身がメモリ領域を所有するバッファに対して呼び出した場合に発生します。
+<a href="../../../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> で作った内部バッファ、マップバッファ、<a href="../../../method/IO=3a=3aBuffer/s/map.html">IO::Buffer.map</a> で作ったバッファが該当します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::InvalidatedError</code>:</dt>
+<dd>
+無効になったスライスに対して呼び出した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>FrozenError</code>:</dt>
+<dd>
+凍結済みのバッファに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">abcdefgh</span><span class="s2">"</span><span class="p">)</span>
+
+part <span class="o">=</span> buf<span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">4</span><span class="p">)</span>
+<span class="nb">p</span> part<span class="p">.</span><span class="nf">get_string</span>   <span class="c1"># =&gt; &quot;cdef&quot;
+</span>
+part<span class="p">.</span><span class="nf">advance</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">p</span> part<span class="p">.</span><span class="nf">size</span>         <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> part<span class="p">.</span><span class="nf">get_string</span>   <span class="c1"># =&gt; &quot;def&quot;
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span>    <span class="c1"># =&gt; &quot;abcdefgh&quot;
+</span>
+<span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">advance</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="p">.</span><span class="nf">get_string</span> <span class="c1"># =&gt; &quot;est&quot;
+</span>
+buf<span class="p">.</span><span class="nf">advance</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># ~&gt; IO::Buffer::AccessError
+</span></code></pre>
+<span class="caption">例: 親のスライスを進める</span>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abcdef</span><span class="s2">"</span><span class="p">)</span>
+parent <span class="o">=</span> buf<span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">4</span><span class="p">)</span>
+child <span class="o">=</span> parent<span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span>
+<span class="nb">p</span> child<span class="p">.</span><span class="nf">get_string</span>  <span class="c1"># =&gt; &quot;cd&quot;
+</span>
+parent<span class="p">.</span><span class="nf">advance</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">p</span> child<span class="p">.</span><span class="nf">get_string</span>  <span class="c1"># =&gt; &quot;de&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/IO=3a=3aBuffer/i/slice.html">IO::Buffer#slice</a>, <a href="../../../method/IO=3a=3aBuffer/i/source.html">IO::Buffer#source</a>, <a href="../../../method/IO=3a=3aBuffer=3a=3aSlice/i/resize.html">IO::Buffer::Slice#resize</a>
+</p>
+</dd>
+
+
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

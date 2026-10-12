@@ -10,5 +10,20 @@ rbs_sig={"overloads":[{"segments":[["t","() -> bool"]],"params":[],"arity":[0,0]
 
 バッファがアクセス可能な場合に true を返します。
 
-別のバッファや文字列の一部を参照している([m:IO::Buffer#slice] で作った)バッファは、参照元が解放されたり別のアドレスに再確保されたりすると、アクセスできなくなります。
+別のバッファの一部を参照している([m:IO::Buffer#slice] で作った)[c:IO::Buffer::Slice] は、参照元が [m:IO::Buffer::Storage#free] や [m:IO::Buffer::Storage#transfer] で手放されたときや、縮小されて参照範囲が外に出たときに、アクセスできなくなります。
+参照範囲が再び参照元の範囲内に収まれば、有効に戻ります。
+参照元のメモリ領域が別のアドレスに再確保されても、無効にはなりません。
+
+```ruby
+buf = IO::Buffer.new(8)
+part = buf.slice(4, 4)
+p part.valid? # => true
+
+buf.resize(4)
+p part.valid? # => false
+
+buf.resize(8)
+p part.valid? # => true
+```
+
 

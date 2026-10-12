@@ -9,6 +9,8 @@ dup は、オブジェクトの内容をコピーします。
 
 浅いコピー・複製の詳細は [Object#clone](../../../method/Object/i/clone.md) を参照してください。
 
+[Class](../../../class/Class.md) や [Module](../../../class/Module.md) を複製したときの定数・クラス変数の扱いも [Object#clone](../../../method/Object/i/clone.md) を参照してください。
+
 ```ruby
 obj = "string"
 def obj.fuga

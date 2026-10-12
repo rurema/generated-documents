@@ -84,11 +84,28 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
 
   著作権表示をします。
 
+- **`--crash-report=template`**:
+
+  クラッシュレポートを書き出すファイル名のテンプレートを指定します。環境変数 `RUBY_CRASH_REPORT` でも指定できます。テンプレートの書式の詳細は ruby(1) の man ページを参照してください。
+
 - **`-d`**:
 - **`--debug`**:
 
   デバッグモードでスクリプトを実行します。[m:$DEBUG] と [m:$VERBOSE] を
   true にします。
+
+- **`--dump=items`**:
+
+  指定した項目のデバッグ情報を出力して終了します。items には以下のいずれかを指定できます。
+  ```text
+      * insns            命令列
+      * yydebug          yacc パーサの yydebug 出力
+      * parsetree        抽象構文木 (AST)
+      修飾子(項目名の後ろに付けます):
+      * -optimize        最適化を無効にする (insns に影響)
+      * +error-tolerant  エラー耐性のある構文解析を行う (yydebug, parsetree に影響)
+      * +comment         AST に注釈を付加する (--parser=parse.y の parsetree に影響)
+  ```
 
 - **`-E ex[:in]`**:
 - **`--encoding ex[:in]`**:
@@ -167,11 +184,11 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
       * gems            rubygems (無効にするのはデバッグ専用、default: enabled)
       * error_highlight error_highlight (default: enabled)
       * did_you_mean    did_you_mean (default: enabled)
+      * syntax_suggest  syntax_suggest (default: enabled)
       * rubyopt         RUBYOPT 環境変数 (default: enabled)
       * frozen-string-literal 全ての文字列リテラルを freeze (default: disabled)
-      * jit             JIT (default: disabled)
-      * mjit            MJIT (default: disabled)
       * yjit            YJIT (default: disabled)
+      * zjit            ZJIT (default: disabled)
   ```
 
 - **`--disable`**:
@@ -265,6 +282,12 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
       MATZ
   ```
 
+- **`--parser=parser`**:
+
+  Ruby スクリプトの構文解析に使うパーサを `parse.y` か `prism` から指定します。
+
+  Ruby 3.4 からデフォルトは `prism` です。従来のパーサを使うには `--parser=parse.y` を指定してください。
+
 - **`-r feature`**:
 
   スクリプト実行前に feature で指定されるライブラリを
@@ -311,7 +334,7 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
   [m:$VERBOSE]をtrueにセットします。この変数がtrueである時, いくつかのメソッドは実行時に冗長なメッセージを出力します。`-v`オプションが指定されて, それ以外の引数がない時にはバージョンを表示した後, 実行を終了します(標準入力からのスクリプトを待たない)。
 
 - **`--verbose`**:
-  冗長モード。 組み込み変数 [m:$VERBOSE] をtrueにセットします。この変数がtrueである時, いくつかのメソッドは実行時に冗長なメッセージを出力します。
+  冗長モード。 組み込み変数 [m:$VERBOSE] をtrueにセットします。この変数がtrueである時, いくつかのメソッドは実行時に冗長なメッセージを出力します。標準入力からのスクリプトは読み込みません。
 
 - **`--version`**:
 
@@ -366,77 +389,132 @@ Rubyインタプリタは以下のコマンドラインオプションを受け�
   る時の構文解析の過程を表示します。この表示は非常に冗長なので,
   コンパイラそのものをデバッグする人以外には必要ないと思います。
 
-#### JIT のオプション (実験的)
+#### JIT のオプション
 
 - **`--jit`**:
 
-  JITを有効にします。
-  YJITが有効な環境ではYJITを、それ以外の環境ではMJITを有効にします。
+  ビルドのデフォルトのJIT、すなわちYJIT(`--yjit` と同じ)を有効にします。ZJITは `--jit` では有効になりません。
 
-#### MJIT のオプション (実験的)
+  `--enable=jit` も `--jit` と同じ意味になります。
 
-- **`--mjit`**:
 
-  デフォルトの設定でMJITを有効にします。
 
-- **`--mjit-[option]`**:
-
-  指定した設定でMJITを有効にします。
-
-- **`--mjit-warnings`**:
-
-  JITの警告の出力を有効にします。
-
-- **`--mjit-debug`**:
-
-  JITのデバッグを有効にします。(非常に遅くなります。)
-  また、指定されていれば cflags を追加します。
-
-- **`--mjit-wait`**:
-
-  毎回JITコンパイルが終わるまで待ちます。(テスト用)
-
-- **`--mjit-save-temps`**:
-
-  一時ファイルを $TMP か /tmp の中に残します。(テスト用)
-
-- **`--mjit-verbose=num`**:
-
-  ログレベルがnum以下のログが標準エラー出力に出力されます。(デフォルト: 0)
-
-- **`--mjit-max-cache=num`**:
-
-  キャッシュに残すJITされたメソッドの最大個数を指定します。(デフォルト: 10000)
-
-- **`--mjit-min-calls=num`**:
-
-  JITが起動する呼び出し回数を指定します。(テスト用、デフォルト: 10000)
-
-#### YJIT のオプション (実験的)
+#### YJIT のオプション
 
 - **`--yjit`**:
 
-  デフォルトの設定でYJITを有効にします。
+  デフォルトの設定でYJITを有効にします。[c:RubyVM::YJIT] も参照してください。
 
 - **`--yjit-[option]`**:
 
   指定した設定でYJITを有効にします。
 
+- **`--yjit-mem-size=num`**:
+
+  YJITのメモリ使用量のソフトリミットをMiB単位で指定します。(デフォルト: 128)
+
 - **`--yjit-exec-mem-size=num`**:
 
-  MiB単位で実行可能メモリブロックのサイズを指定します。(デフォルト: 256)
+  実行可能メモリブロックのハードリミットをMiB単位で指定します。
 
 - **`--yjit-call-threshold=num`**:
 
-  JITが起動する呼び出し回数を指定します。(テスト用、デフォルト: 10)
+  JITが起動する呼び出し回数を指定します。
 
-- **`--yjit-max-versions=num`**:
+- **`--yjit-cold-threshold=num`**:
 
-  ベーシックブロックごとのバージョンの最大数を指定します。(デフォルト: 4)
+  この回数を超えた累計の呼び出し以降は、まだコンパイルされていないISEQをコンパイルしません。(デフォルト: 200K)
 
-- **`--yjit-greedy-versioning`**:
+- **`--yjit-stats`**:
 
-  貪欲なバージョニングモードを指定します。(デフォルト: disabled)
+  統計情報を収集します。
+
+- **`--yjit-log[=file|dir]`**:
+
+  YJITのコンパイル活動のログを出力します。
+
+- **`--yjit-disable`**:
+
+  YJITを無効のまま起動します。後から [m:RubyVM::YJIT.enable] で有効にするためのオプションです。
+
+- **`--yjit-code-gc`**:
+
+  コードサイズが上限に達したらコードGCを実行します。
+
+- **`--yjit-perf`**:
+
+  フレームポインタとperfによるプロファイリングを有効にします。
+
+- **`--yjit-trace-exits`**:
+
+  生成されたコードから抜けるときのRubyソースの位置を記録します。
+
+- **`--yjit-trace-exits-sample-rate=num`**:
+
+  N回に1回だけ、抜けるときの位置を記録します。
+
+YJITは、環境変数 `RUBY_YJIT_ENABLE` を設定しても有効にできます。
+
+#### ZJIT のオプション (実験的)
+
+- **`--zjit`**:
+
+  デフォルトの設定でZJITを有効にします。[c:RubyVM::ZJIT] も参照してください。YJITとZJITを同時に有効にすることはできません。
+
+- **`--zjit-[option]`**:
+
+  指定した設定でZJITを有効にします。
+
+- **`--zjit-mem-size=num`**:
+
+  ZJITが使えるメモリの上限をMiB単位で指定します。(デフォルト: 128)
+
+- **`--zjit-call-threshold=num`**:
+
+  JITが起動する呼び出し回数を指定します。(デフォルト: 30)
+
+- **`--zjit-num-profiles=num`**:
+
+  JITの前にプロファイルする呼び出し回数を指定します。(デフォルト: 5)
+
+- **`--zjit-stats-quiet`**:
+
+  統計情報を収集し、出力は抑制します。
+
+- **`--zjit-stats[=file]`**:
+
+  統計情報を収集します。`=file` を指定するとファイルに書き出します。ファイルの拡張子が `.json` ならJSON形式で出力します。
+
+- **`--zjit-disable`**:
+
+  ZJITを無効のまま起動します。後から [m:RubyVM::ZJIT.enable] で有効にするためのオプションです。
+
+- **`--zjit-perf[=iseq|hir]`**:
+
+  Linuxのperf用に、シンボルを /tmp/perf-{}.map に書き出します。(デフォルト: iseq)
+
+- **`--zjit-log-compiled-iseqs=path`**:
+
+  コンパイルしたISEQをpathのファイルに記録します。ファイルは切り詰められます。
+
+- **`--zjit-trace-exits[=counter]`**:
+
+  サイドエグジット時のソースを記録します。`counter` を指定すると特定のカウンタを選びます。
+
+- **`--zjit-trace-exits-sample-rate=num`**:
+
+  サイドエグジットを記録する頻度を指定します。
+
+- **`--zjit-trace-compiles`**:
+
+  コンパイルの各段階をPerfettoのトレースイベントとして記録します。
+
+- **`--zjit-trace-invalidation`**:
+
+  無効化イベントをPerfettoのトレースイベントとして記録します。
+
+ZJITは、環境変数 `RUBY_ZJIT_ENABLE` を設定しても有効にできます。
+
 
 ### インタプリタ行の解釈 {#shebang}
 

@@ -167,12 +167,34 @@ test.rb:1:in `f6': unhandled exception
 著作権表示をします。
 </p>
 </dd>
+<dt><code>--crash-report=template</code></dt>
+<dd>
+<p>
+クラッシュレポートを書き出すファイル名のテンプレートを指定します。環境変数 <code>RUBY_CRASH_REPORT</code> でも指定できます。テンプレートの書式の詳細は ruby(1) の man ページを参照してください。
+</p>
+</dd>
 <dt><code>-d</code></dt>
 <dt><code>--debug</code></dt>
 <dd>
 <p>
 デバッグモードでスクリプトを実行します。<a href="../method/Kernel/v/DEBUG.html">$DEBUG</a> と <a href="../method/Kernel/v/VERBOSE.html">$VERBOSE</a> を
 true にします。
+</p>
+</dd>
+<dt><code>--dump=items</code></dt>
+<dd>
+<p>
+指定した項目のデバッグ情報を出力して終了します。items には以下のいずれかを指定できます。
+</p>
+<pre class="highlight text"><code>    * insns                                    命令列
+    * insns_without_opt                        最適化なしでコンパイルした命令列
+    * yydebug(+error-tolerant)                 yacc パーサの yydebug 出力
+    * parsetree(+error-tolerant)               抽象構文木 (AST)
+    * parsetree_with_comment(+error-tolerant)  注釈付きの AST
+    * prism_parsetree                          注釈付きの Prism の AST
+</code></pre>
+<p>
+<code>+error-tolerant</code> を付けるとエラー耐性のある構文解析を行います。
 </p>
 </dd>
 <dt><code>-E ex[:in]</code></dt>
@@ -250,11 +272,11 @@ true にします。
 <pre class="highlight text"><code>    * gems            rubygems (無効にするのはデバッグ専用、default: enabled)
     * error_highlight error_highlight (default: enabled)
     * did_you_mean    did_you_mean (default: enabled)
+    * syntax_suggest  syntax_suggest (default: enabled)
     * rubyopt         RUBYOPT 環境変数 (default: enabled)
     * frozen-string-literal 全ての文字列リテラルを freeze (default: disabled)
-    * jit             JIT (default: disabled)
-    * mjit            MJIT (default: disabled)
     * yjit            YJIT (default: disabled)
+    * rjit            RJIT (実験的、default: disabled)
 </code></pre>
 </dd>
 <dt><code>--disable</code></dt>
@@ -359,6 +381,15 @@ sed -nやawk
 </span><span class="go">    MATZ
 </span></code></pre>
 </dd>
+<dt><code>--parser=parser</code></dt>
+<dd>
+<p>
+Ruby スクリプトの構文解析に使うパーサを <code>parse.y</code> か <code>prism</code> から指定します。
+</p>
+<p>
+Ruby 3.3 ではデフォルトは <code>parse.y</code> で、<code>prism</code> は実験的です。<code>--parser=prism</code> を指定すると警告が出力されます。
+</p>
+</dd>
 <dt><code>-r feature</code></dt>
 <dd>
 <p>
@@ -410,7 +441,7 @@ Rubyインタプリタは-x
 <dt><code>--verbose</code></dt>
 <dd>
 <p>
-冗長モード。 組み込み変数 <a href="../method/Kernel/v/VERBOSE.html">$VERBOSE</a> をtrueにセットします。この変数がtrueである時, いくつかのメソッドは実行時に冗長なメッセージを出力します。
+冗長モード。 組み込み変数 <a href="../method/Kernel/v/VERBOSE.html">$VERBOSE</a> をtrueにセットします。この変数がtrueである時, いくつかのメソッドは実行時に冗長なメッセージを出力します。標準入力からのスクリプトは読み込みません。
 </p>
 </dd>
 <dt><code>--version</code></dt>
@@ -474,80 +505,24 @@ NOTE: Ruby 2.7.2 からは <code>-W:no-deprecated</code> がデフォルトに�
 </p>
 </dd>
 </dl>
-<h3 >JIT のオプション (実験的)</h3>
+<h3 >JIT のオプション</h3>
 <dl>
 <dt><code>--jit</code></dt>
 <dd>
 <p>
-JITを有効にします。
-YJITが有効な環境ではYJITを、それ以外の環境ではMJITを有効にします。
+YJITを組み込んでビルドされたRubyではYJIT(<code>--yjit</code> と同じ)を、そうでなければRJIT(<code>--rjit</code> と同じ)を有効にします。
+</p>
+<p>
+<code>--enable=jit</code> も <code>--jit</code> と同じ意味になります。
 </p>
 </dd>
 </dl>
-<h3 >MJIT のオプション (実験的)</h3>
-<dl>
-<dt><code>--mjit</code></dt>
-<dd>
-<p>
-デフォルトの設定でMJITを有効にします。
-</p>
-</dd>
-<dt><code>--mjit-[option]</code></dt>
-<dd>
-<p>
-指定した設定でMJITを有効にします。
-</p>
-</dd>
-<dt><code>--mjit-warnings</code></dt>
-<dd>
-<p>
-JITの警告の出力を有効にします。
-</p>
-</dd>
-<dt><code>--mjit-debug</code></dt>
-<dd>
-<p>
-JITのデバッグを有効にします。(非常に遅くなります。)
-また、指定されていれば cflags を追加します。
-</p>
-</dd>
-<dt><code>--mjit-wait</code></dt>
-<dd>
-<p>
-毎回JITコンパイルが終わるまで待ちます。(テスト用)
-</p>
-</dd>
-<dt><code>--mjit-save-temps</code></dt>
-<dd>
-<p>
-一時ファイルを $TMP か /tmp の中に残します。(テスト用)
-</p>
-</dd>
-<dt><code>--mjit-verbose=num</code></dt>
-<dd>
-<p>
-ログレベルがnum以下のログが標準エラー出力に出力されます。(デフォルト: 0)
-</p>
-</dd>
-<dt><code>--mjit-max-cache=num</code></dt>
-<dd>
-<p>
-キャッシュに残すJITされたメソッドの最大個数を指定します。(デフォルト: 10000)
-</p>
-</dd>
-<dt><code>--mjit-min-calls=num</code></dt>
-<dd>
-<p>
-JITが起動する呼び出し回数を指定します。(テスト用、デフォルト: 10000)
-</p>
-</dd>
-</dl>
-<h3 >YJIT のオプション (実験的)</h3>
+<h3 >YJIT のオプション</h3>
 <dl>
 <dt><code>--yjit</code></dt>
 <dd>
 <p>
-デフォルトの設定でYJITを有効にします。
+デフォルトの設定でYJITを有効にします。<a href="../class/RubyVM=3a=3aYJIT.html">RubyVM::YJIT</a> も参照してください。
 </p>
 </dd>
 <dt><code>--yjit-[option]</code></dt>
@@ -559,25 +534,109 @@ JITが起動する呼び出し回数を指定します。(テスト用、デフ�
 <dt><code>--yjit-exec-mem-size=num</code></dt>
 <dd>
 <p>
-MiB単位で実行可能メモリブロックのサイズを指定します。(デフォルト: 256)
+MiB単位で実行可能メモリブロックのサイズを指定します。(デフォルト: 48。Ruby 3.3.0 のみ 64)
 </p>
 </dd>
 <dt><code>--yjit-call-threshold=num</code></dt>
 <dd>
 <p>
-JITが起動する呼び出し回数を指定します。(テスト用、デフォルト: 10)
+JITが起動する呼び出し回数を指定します。
 </p>
 </dd>
-<dt><code>--yjit-max-versions=num</code></dt>
+<dt><code>--yjit-cold-threshold=num</code></dt>
 <dd>
 <p>
-ベーシックブロックごとのバージョンの最大数を指定します。(デフォルト: 4)
+この回数を超えた累計の呼び出し以降は、まだコンパイルされていないISEQをコンパイルしません。(デフォルト: 200K)
 </p>
 </dd>
-<dt><code>--yjit-greedy-versioning</code></dt>
+<dt><code>--yjit-stats</code></dt>
 <dd>
 <p>
-貪欲なバージョニングモードを指定します。(デフォルト: disabled)
+統計情報を収集します。
+</p>
+</dd>
+<dt><code>--yjit-disable</code></dt>
+<dd>
+<p>
+YJITを無効のまま起動します。後から <a href="../method/RubyVM=3a=3aYJIT/s/enable.html">RubyVM::YJIT.enable</a> で有効にするためのオプションです。
+</p>
+</dd>
+<dt><code>--yjit-code-gc</code></dt>
+<dd>
+<p>
+コードサイズが上限に達したらコードGCを実行します。
+</p>
+</dd>
+<dt><code>--yjit-perf</code></dt>
+<dd>
+<p>
+フレームポインタとperfによるプロファイリングを有効にします。
+</p>
+</dd>
+<dt><code>--yjit-trace-exits</code></dt>
+<dd>
+<p>
+生成されたコードから抜けるときのRubyソースの位置を記録します。
+</p>
+</dd>
+<dt><code>--yjit-trace-exits-sample-rate=num</code></dt>
+<dd>
+<p>
+N回に1回だけ、抜けるときの位置を記録します。
+</p>
+</dd>
+</dl>
+<p>
+YJITは、環境変数 <code>RUBY_YJIT_ENABLE</code> を設定しても有効にできます。
+</p>
+<h3 >RJIT のオプション (実験的)</h3>
+<dl>
+<dt><code>--rjit</code></dt>
+<dd>
+<p>
+デフォルトの設定でRJITを有効にします。<a href="../class/RubyVM=3a=3aRJIT.html">RubyVM::RJIT</a> も参照してください。
+</p>
+</dd>
+<dt><code>--rjit-[option]</code></dt>
+<dd>
+<p>
+指定した設定でRJITを有効にします。
+</p>
+</dd>
+<dt><code>--rjit-exec-mem-size=num</code></dt>
+<dd>
+<p>
+MiB単位で実行可能メモリブロックのサイズを指定します。(デフォルト: 64)
+</p>
+</dd>
+<dt><code>--rjit-call-threshold=num</code></dt>
+<dd>
+<p>
+JITが起動する呼び出し回数を指定します。(デフォルト: 10)
+</p>
+</dd>
+<dt><code>--rjit-stats</code></dt>
+<dd>
+<p>
+RJITの統計情報を収集します。
+</p>
+</dd>
+<dt><code>--rjit-disable</code></dt>
+<dd>
+<p>
+RJITを無効のまま起動します。後から <a href="../method/RubyVM=3a=3aRJIT/s/enable.html">RubyVM::RJIT.enable</a> で有効にするためのオプションです。
+</p>
+</dd>
+<dt><code>--rjit-trace</code></dt>
+<dd>
+<p>
+JITコンパイル中の <a href="../class/TracePoint.html">TracePoint</a> を許可します。
+</p>
+</dd>
+<dt><code>--rjit-trace-exits</code></dt>
+<dd>
+<p>
+サイドエグジットの位置を記録します。
 </p>
 </dd>
 </dl>

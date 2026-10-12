@@ -1,0 +1,34 @@
+names=transfer
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer__Storage.md
+since_by_name=transfer=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def transfer -> IO::Buffer::Storage
+
+メモリ領域の所有権を新しい [c:IO::Buffer::Storage] へ移し、その新しいバッファを返します。
+
+所有権を手放した自身は、どのメモリ領域も指さない状態になります。
+この状態は [m:IO::Buffer#null?] で調べられます。
+自身から [m:IO::Buffer#slice] で作った [c:IO::Buffer::Slice] は、無効になります。
+
+[c:IO::Buffer::Slice] には、このメソッドはありません。
+
+- **raise** `FrozenError` -- 凍結済みのバッファに対して呼び出した場合に発生します。
+- **raise** `IO::Buffer::LockedError` -- ロックされているバッファに対して呼び出した場合に発生します。
+
+```ruby
+buf = IO::Buffer.new(4)
+buf.set_string("Ruby")
+
+other = buf.transfer
+p other.get_string # => "Ruby"
+
+p buf.null? # => true
+p buf.size  # => 0
+```
+
+- **SEE** [m:IO::Buffer::Storage#free], [m:IO::Buffer#null?]
+

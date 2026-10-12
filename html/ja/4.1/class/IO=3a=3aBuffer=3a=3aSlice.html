@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/IO=3a=3aBuffer=3a=3aSlice.html">
+
+<title>class IO::Buffer::Slice (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="別の IO::Buffer の一部を参照する IO::Buffer です。 Ruby 4.1 で導入されました。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/IO=3a=3aBuffer=3a=3aSlice.html","name":"IO::Buffer::Sliceクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        IO::Buffer::Sliceクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class IO::Buffer::Slice</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Slice.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Comparable.html">Comparable</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a>
+        </li>
+        
+      
+      <li>
+        IO::Buffer::Slice
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+別の <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> の一部を参照する <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> です。
+Ruby 4.1 で導入されました。
+</p>
+<p>
+<a href="../method/IO=3a=3aBuffer/i/slice.html">IO::Buffer#slice</a> か <a href="../method/IO=3a=3aBuffer=3a=3aSlice/s/new.html">IO::Buffer::Slice.new</a> で作ります。バイトのコピーはせず、参照元(<code>source</code>)への参照を保持します。参照元は <a href="../method/IO=3a=3aBuffer/i/source.html">IO::Buffer#source</a> で取得できます。スライスからさらにスライスを作った場合の参照元は、平坦化されずに直接の親になります。
+</p>
+<p>
+スライスは、参照範囲が参照元の範囲に収まっている間だけ有効です。参照元が <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/free.html">IO::Buffer::Storage#free</a> や <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/transfer.html">IO::Buffer::Storage#transfer</a> で手放されたときや、縮小されて参照範囲が外に出たときは、無効になります。無効なスライスの内容を読み出そうとすると <a href="../class/IO=3a=3aBuffer=3a=3aInvalidatedError.html">IO::Buffer::InvalidatedError</a> が発生します。無効かどうかは <a href="../method/IO=3a=3aBuffer/i/valid=3f.html">IO::Buffer#valid?</a> で調べられます。
+</p>
+<p>
+参照範囲が再び参照元の範囲内に収まれば、有効に戻ります。参照元のメモリ領域が別のアドレスに再確保されても、無効にはなりません。無効なスライスでも、<a href="../method/IO=3a=3aBuffer/i/source.html">IO::Buffer#source</a> は参照元を返します。
+</p>
+<p>
+書き込みは参照元のメモリに反映されます。読み取り専用かどうかなどの権限は、参照元に従います。読み取り専用のバッファのスライスに書き込もうとすると、<a href="../class/IO=3a=3aBuffer=3a=3aAccessError.html">IO::Buffer::AccessError</a> が発生します。
+</p>
+<p>
+参照元がロックされている間は、スライスの <a href="../method/IO=3a=3aBuffer/i/locked=3f.html">IO::Buffer#locked?</a> も true になります。スライスを <a href="../method/IO=3a=3aBuffer/i/locked.html">IO::Buffer#locked</a> でロックすると、メモリ領域全体がロックされ、参照元の <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/resize.html">IO::Buffer::Storage#resize</a> は <a href="../class/IO=3a=3aBuffer=3a=3aLockedError.html">IO::Buffer::LockedError</a> になります。ロック中でも、スライスの <a href="../method/IO=3a=3aBuffer=3a=3aSlice/i/resize.html">IO::Buffer::Slice#resize</a> と <a href="../method/IO=3a=3aBuffer/i/advance.html">IO::Buffer#advance</a> は呼べます。
+</p>
+<p>
+<a href="../method/IO=3a=3aBuffer=3a=3aSlice/i/resize.html">IO::Buffer::Slice#resize</a> と <a href="../method/IO=3a=3aBuffer/i/advance.html">IO::Buffer#advance</a> は、見える範囲を変えるだけです。メモリ領域の確保・解放・コピーは行いません。
+</p>
+<p>
+メモリ領域の確保と解放に関するメソッドは、このクラスにはありません。
+<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/free.html">IO::Buffer::Storage#free</a>・<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/transfer.html">IO::Buffer::Storage#transfer</a> と、<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/mapped=3f.html">IO::Buffer::Storage#mapped?</a>・<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/external=3f.html">IO::Buffer::Storage#external?</a>・<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/internal=3f.html">IO::Buffer::Storage#internal?</a>・<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/shared=3f.html">IO::Buffer::Storage#shared?</a>・<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/private=3f.html">IO::Buffer::Storage#private?</a> を呼ぶと、<a href="../class/NoMethodError.html">NoMethodError</a> が発生します。また <a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a>・<a href="../method/IO=3a=3aBuffer/s/map.html">IO::Buffer.map</a>・<a href="../method/IO=3a=3aBuffer/s/string.html">IO::Buffer.string</a> も、このクラスでは未定義です。
+</p>
+<p>
+<a href="../method/IO=3a=3aBuffer=3a=3aSlice/i/dup.html">IO::Buffer::Slice#dup</a> と <a href="../method/IO=3a=3aBuffer=3a=3aSlice/i/clone.html">IO::Buffer::Slice#clone</a> は、ビューをコピーします。バイトはコピーされません。複製は元と同じ参照元・位置・大きさを持ち、どちらから書き込んでも同じメモリに書かれます。
+</p>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abcdef</span><span class="s2">"</span><span class="p">)</span>
+parent <span class="o">=</span> buf<span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">4</span><span class="p">)</span>
+child <span class="o">=</span> parent<span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">p</span> child<span class="p">.</span><span class="nf">source</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>parent<span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> parent<span class="p">.</span><span class="nf">source</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>buf<span class="p">)</span>   <span class="c1"># =&gt; true
+</span><span class="nb">p</span> child<span class="p">.</span><span class="nf">get_string</span>            <span class="c1"># =&gt; &quot;cd&quot;
+</span>
+<span class="c1"># 親のスライスを進めると、子のスライスの見える範囲もずれる
+</span>parent<span class="p">.</span><span class="nf">advance</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">p</span> child<span class="p">.</span><span class="nf">get_string</span>            <span class="c1"># =&gt; &quot;de&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a>, <a href="../class/IO=3a=3aBuffer=3a=3aStorage.html">IO::Buffer::Storage</a>, <a href="../method/IO=3a=3aBuffer/i/slice.html">IO::Buffer#slice</a>
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_CLONE">clone</a></li>
+
+<li><a href="#I_CLONE">dup</a></li>
+
+<li><a href="#I_RESIZE">resize</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+  <h2>継承しているメソッド</h2>
+<dl>
+  
+  
+<dt>IO::Bufferから継承している特異メソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/IO=3a=3aBuffer/s/for.html">for</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/s/map.html">map</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/s/size_of.html">size_of</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/s/string.html">string</a></li>
+      
+    
+  </ul>
+</dd>
+  
+  
+<dt>IO::Bufferから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/=26.html">&amp;</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/=3c=3d=3e.html">&lt;=&gt;</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/=26.html">^</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/advance.html">advance</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/and=21.html">and!</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/bit_count.html">bit_count</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/clear.html">clear</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/copy.html">copy</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/each.html">each</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/each_byte.html">each_byte</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/empty=3f.html">empty?</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/get_string.html">get_string</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/get_value.html">get_value</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/get_values.html">get_values</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/hexdump.html">hexdump</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/inspect.html">inspect</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/locked.html">locked</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/locked=3f.html">locked?</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/not=21.html">not!</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/null=3f.html">null?</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/and=21.html">or!</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/pread.html">pread</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/pwrite.html">pwrite</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/read.html">read</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/readonly=3f.html">readonly?</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/set_string.html">set_string</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/set_value.html">set_value</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/set_values.html">set_values</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/size.html">size</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/slice.html">slice</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/source.html">source</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/to_s.html">to_s</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/valid=3f.html">valid?</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/values.html">values</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/write.html">write</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/and=21.html">xor!</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/=26.html">|</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/=7e.html">~</a></li>
+      
+    
+  </ul>
+</dd>
+
+<dt>Comparableから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Comparable/i/=3c.html">&lt;</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3c=3d.html">&lt;=</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3d=3d.html">==</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3e.html">&gt;</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3e=3d.html">&gt;=</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/between=3f.html">between?</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/clamp.html">clamp</a></li>
+      
+    
+  </ul>
+</dd>
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(source, offset = 0, length = nil) -&gt; IO::Buffer::Slice</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aSlice/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Slice.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Slice.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>source</code> の一部を参照するスライスを作って返します。
+</p>
+<p>
+バイトのコピーはせず、<code>source</code> への参照を保持します。
+<code>offset</code> と <code>length</code> を省略すると、<code>source</code> 全体を参照します。
+<code>length</code> だけを省略すると、<code>offset</code> から末尾までを参照します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>source</code>:</dt>
+<dd>
+参照元を <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> で指定します。<a href="../class/IO=3a=3aBuffer=3a=3aStorage.html">IO::Buffer::Storage</a> でも <a href="../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> でも指定できます。
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+参照を開始する位置を、<code>source</code> の先頭からのバイト数で指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>length</code>:</dt>
+<dd>
+参照するバイト数を指定します。省略すると、<code>offset</code> から末尾までになります。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+引数を渡さなかった場合、<code>offset</code> や <code>length</code> が負の場合、<code>offset</code> が <code>source</code> の大きさを超える場合、または <code>offset</code> と <code>length</code> の合計が <code>source</code> の大きさを超える場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+<code>source</code> が <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> でない場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abcdefgh</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">Slice</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>buf, <span class="mi">2</span>, <span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">get_string</span> <span class="c1"># =&gt; &quot;cdef&quot;
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">Slice</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>buf, <span class="mi">2</span><span class="p">)</span><span class="p">.</span><span class="nf">get_string</span>    <span class="c1"># =&gt; &quot;cdefgh&quot;
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">Slice</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>buf<span class="p">)</span><span class="p">.</span><span class="nf">get_string</span>       <span class="c1"># =&gt; &quot;abcdefgh&quot;
+</span>
+<span class="c1"># offset が source の大きさと同じ場合は、大きさ 0 のスライスになる
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">Slice</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>buf, <span class="mi">8</span><span class="p">)</span><span class="p">.</span><span class="nf">size</span>          <span class="c1"># =&gt; 0
+</span>
+<span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">Slice</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>buf, <span class="mi">9</span><span class="p">)</span>    <span class="c1"># ~&gt; ArgumentError
+</span><span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">Slice</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>buf, <span class="mi">6</span>, <span class="mi">4</span><span class="p">)</span> <span class="c1"># ~&gt; ArgumentError
+</span><span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="o">::</span><span class="no">Slice</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span>     <span class="c1"># ~&gt; TypeError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/slice.html">IO::Buffer#slice</a>
+</p>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_CLONE"><code>dup -&gt; IO::Buffer::Slice</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aSlice/i/clone.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Slice.html#method-i-clone">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Slice.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>clone -&gt; IO::Buffer::Slice</code></dt>
+<dd class="method-description">
+<p>
+スライスのビューをコピーして返します。
+</p>
+<p>
+バイトはコピーしません。複製は元と同じ参照元・位置・大きさを持ちます。複製に対する <a href="../method/IO=3a=3aBuffer/i/advance.html">IO::Buffer#advance</a> や <a href="../method/IO=3a=3aBuffer=3a=3aSlice/i/resize.html">IO::Buffer::Slice#resize</a> は、元のスライスのビューに影響しません。どちらから書き込んでも、同じメモリに書かれます。
+</p>
+<p>
+凍結済みのスライスに対しては、<code>dup</code> の結果は凍結されず、<code>clone</code> の結果は凍結されます。
+</p>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abcdef</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">dup</span>
+slice <span class="o">=</span> buf<span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">1</span>, <span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># 複製の advance は、元のスライスのビューに影響しない
+</span>copy <span class="o">=</span> slice<span class="p">.</span><span class="nf">dup</span>
+copy<span class="p">.</span><span class="nf">advance</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">p</span> copy<span class="p">.</span><span class="nf">get_string</span>   <span class="c1"># =&gt; &quot;cd&quot;
+</span><span class="nb">p</span> slice<span class="p">.</span><span class="nf">get_string</span>  <span class="c1"># =&gt; &quot;bcd&quot;
+</span>
+<span class="c1"># どちらから書き込んでも、同じメモリに書かれる
+</span>other <span class="o">=</span> slice<span class="p">.</span><span class="nf">dup</span>
+other<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">XY</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span>    <span class="c1"># =&gt; &quot;aXYdef&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/dup.html">IO::Buffer::Storage#dup</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_RESIZE"><code>resize(size) -&gt; self</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aSlice/i/resize.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Slice.html#method-i-resize">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Slice.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+スライスの大きさを <code>size</code> バイトに変更します。
+</p>
+<p>
+参照元の範囲内で、見える範囲の大きさを変えるだけです。メモリ領域の確保・解放・コピーは行わず、参照元も変更されません。大きくした場合は、参照元にある既存のバイトが見えるようになります。クリアはされません。入れ子のスライスでは、直接の親の範囲が上限になります。
+</p>
+<p>
+参照元がロックされていても呼べます。
+</p>
+<p>
+Ruby 4.0 までは、スライスも <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> のインスタンスで、その <code>resize</code> は新しいメモリ領域を確保して内容をコピーし、参照元から切り離していました。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>size</code>:</dt>
+<dd>
+変更後の大きさをバイト数で指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>size</code> が負の場合や、参照元の範囲を超える場合に発生します。無効になったスライスに対して呼び出した場合も、範囲外として扱われて発生します。
+</dd>
+<dt>[EXCEPTION] <code>FrozenError</code>:</dt>
+<dd>
+凍結済みのスライスに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">abcdefgh</span><span class="s2">"</span><span class="p">)</span>
+
+part <span class="o">=</span> buf<span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">2</span>, <span class="mi">4</span><span class="p">)</span>
+<span class="nb">p</span> part<span class="p">.</span><span class="nf">get_string</span>  <span class="c1"># =&gt; &quot;cdef&quot;
+</span>
+part<span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">p</span> part<span class="p">.</span><span class="nf">size</span>        <span class="c1"># =&gt; 2
+</span><span class="nb">p</span> part<span class="p">.</span><span class="nf">get_string</span>  <span class="c1"># =&gt; &quot;cd&quot;
+</span>
+part<span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="nb">p</span> part<span class="p">.</span><span class="nf">get_string</span>  <span class="c1"># =&gt; &quot;cdefgh&quot;
+</span>
+part<span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>     <span class="c1"># ~&gt; ArgumentError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer/i/advance.html">IO::Buffer#advance</a>, <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/resize.html">IO::Buffer::Storage#resize</a>
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Slice.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

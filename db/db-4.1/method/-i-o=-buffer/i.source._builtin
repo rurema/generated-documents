@@ -1,0 +1,46 @@
+names=source
+visibility=public
+kind=defined
+source_location=manual/api/_builtin/IO__Buffer.md
+since_by_name=source=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def source -> IO::Buffer | String | nil
+
+バッファの参照元を返します。
+
+返す値はバッファの作り方によって異なります。
+
+  - [m:IO::Buffer#slice] で作ったスライス -- [m:IO::Buffer#slice] を呼んだバッファ。スライスからさらに作った場合は、直接の親
+  - [m:IO::Buffer.for] にブロックを渡して作ったバッファ -- 渡した文字列そのもの
+  - [m:IO::Buffer.for] にブロックを渡さずに作ったバッファ -- 内部で作った凍結済みの複製。渡した文字列が凍結済みの場合は、その文字列そのもの
+  - [m:IO::Buffer.new] や [m:IO::Buffer.map] で作ったバッファ -- nil
+
+無効になったスライスでも、参照元を返します。
+[m:IO::Buffer::Storage#free] や [m:IO::Buffer::Storage#transfer] を呼んだあとのバッファと、[m:IO::Buffer.for] のブロックを抜けたあとのバッファでは nil を返します。
+
+```ruby
+buf = IO::Buffer.new(8)
+p buf.source                    # => nil
+
+part = buf.slice(2, 4)
+p part.source.equal?(buf)       # => true
+
+# スライスからさらに作った場合は、直接の親が参照元になる
+child = part.slice(1, 2)
+p child.source.equal?(part)     # => true
+p part.source.equal?(buf)       # => true
+```
+
+```ruby title="例: IO::Buffer.for で作ったバッファ"
+str = +"abc"
+p IO::Buffer.for(str) {|b| b.source.equal?(str) } # => true
+
+copy = IO::Buffer.for(str).source
+p copy.frozen?        # => true
+p copy.equal?(str)    # => false
+```
+
+- **SEE** [m:IO::Buffer#slice], [m:IO::Buffer#advance]
+

@@ -1,0 +1,41 @@
+type=class
+superclass=IO=Buffer
+included=
+extended=
+dynamically_included=
+dynamically_extended=
+library=_builtin
+aliases=
+aliasof=
+source_location=manual/api/_builtin/IO__Buffer__Storage.md
+
+メモリ領域を管理する [c:IO::Buffer] です。
+Ruby 4.1 で導入されました。
+
+[m:IO::Buffer.new]・[m:IO::Buffer.for]・[m:IO::Buffer.map] が返すのは、このクラスのインスタンスです。
+管理するメモリ領域は、Ruby が確保した内部(internal)のもの、仮想メモリ機構でマップされたもの、[c:String] など他のオブジェクトから借りた外部(external)のもののいずれかです。
+
+バイト単位の読み書きなどの基本的な操作は、[c:IO::Buffer] と共通です。
+このクラスに固有なのは、メモリ領域の確保と解放に関する次のメソッドです。
+
+  - 大きさと所有権: [m:IO::Buffer::Storage#resize]、[m:IO::Buffer::Storage#transfer]、[m:IO::Buffer::Storage#free]
+  - 種類の判定: [m:IO::Buffer::Storage#internal?]、[m:IO::Buffer::Storage#external?]、[m:IO::Buffer::Storage#mapped?]、[m:IO::Buffer::Storage#shared?]、[m:IO::Buffer::Storage#private?]
+
+このクラスのインスタンスが、必ずメモリ領域を所有しているわけではありません。
+[m:IO::Buffer.for] で作った外部バッファも、このクラスのインスタンスです。
+
+[m:IO::Buffer::Storage#dup] と [m:IO::Buffer::Storage#clone] は、バイトをコピーして独立した [c:IO::Buffer::Storage] を作ります。
+別のバッファの一部を参照する [c:IO::Buffer::Slice] とは、この点が異なります。
+
+```ruby
+buf = IO::Buffer.new(8)
+p buf.class             # => IO::Buffer::Storage
+
+# dup で作った複製は、元のバッファとは独立している
+copy = buf.dup
+copy.set_string("Ruby")
+p copy.get_string(0, 4) # => "Ruby"
+p buf.get_string(0, 4)  # => "\x00\x00\x00\x00"
+```
+
+- **SEE** [c:IO::Buffer], [c:IO::Buffer::Slice]

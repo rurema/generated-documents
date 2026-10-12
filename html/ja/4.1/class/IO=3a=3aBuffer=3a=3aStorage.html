@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/IO=3a=3aBuffer=3a=3aStorage.html">
+
+<title>class IO::Buffer::Storage (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="メモリ領域を管理する IO::Buffer です。 Ruby 4.1 で導入されました。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/_builtin.html","name":"組み込みライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/IO=3a=3aBuffer=3a=3aStorage.html","name":"IO::Buffer::Storageクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/_builtin.html">組み込みライブラリ</a>
+      </li>
+      <li>
+        IO::Buffer::Storageクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class IO::Buffer::Storage</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Comparable.html">Comparable</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a>
+        </li>
+        
+      
+      <li>
+        IO::Buffer::Storage
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+メモリ領域を管理する <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> です。
+Ruby 4.1 で導入されました。
+</p>
+<p>
+<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a>・<a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a>・<a href="../method/IO=3a=3aBuffer/s/map.html">IO::Buffer.map</a> が返すのは、このクラスのインスタンスです。管理するメモリ領域は、Ruby が確保した内部(internal)のもの、仮想メモリ機構でマップされたもの、<a href="../class/String.html">String</a> など他のオブジェクトから借りた外部(external)のもののいずれかです。
+</p>
+<p>
+バイト単位の読み書きなどの基本的な操作は、<a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a> と共通です。このクラスに固有なのは、メモリ領域の確保と解放に関する次のメソッドです。
+</p>
+<ul>
+<li>大きさと所有権: <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/resize.html">IO::Buffer::Storage#resize</a>、<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/transfer.html">IO::Buffer::Storage#transfer</a>、<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/free.html">IO::Buffer::Storage#free</a></li>
+<li>種類の判定: <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/internal=3f.html">IO::Buffer::Storage#internal?</a>、<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/external=3f.html">IO::Buffer::Storage#external?</a>、<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/mapped=3f.html">IO::Buffer::Storage#mapped?</a>、<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/shared=3f.html">IO::Buffer::Storage#shared?</a>、<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/private=3f.html">IO::Buffer::Storage#private?</a></li>
+</ul>
+<p>
+このクラスのインスタンスが、必ずメモリ領域を所有しているわけではありません。
+<a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a> で作った外部バッファも、このクラスのインスタンスです。
+</p>
+<p>
+<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/dup.html">IO::Buffer::Storage#dup</a> と <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/clone.html">IO::Buffer::Storage#clone</a> は、バイトをコピーして独立した <a href="../class/IO=3a=3aBuffer=3a=3aStorage.html">IO::Buffer::Storage</a> を作ります。別のバッファの一部を参照する <a href="../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> とは、この点が異なります。
+</p>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">class</span>             <span class="c1"># =&gt; IO::Buffer::Storage
+</span>
+<span class="c1"># dup で作った複製は、元のバッファとは独立している
+</span>copy <span class="o">=</span> buf<span class="p">.</span><span class="nf">dup</span>
+copy<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> copy<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span><span class="p">)</span> <span class="c1"># =&gt; &quot;Ruby&quot;
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span><span class="p">)</span>  <span class="c1"># =&gt; &quot;\x00\x00\x00\x00&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../class/IO=3a=3aBuffer.html">IO::Buffer</a>, <a href="../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a>
+</p>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_CLONE">clone</a></li>
+
+<li><a href="#I_CLONE">dup</a></li>
+
+<li><a href="#I_EXTERNAL--3F">external?</a></li>
+
+<li><a href="#I_FREE">free</a></li>
+
+<li><a href="#I_INTERNAL--3F">internal?</a></li>
+
+<li><a href="#I_MAPPED--3F">mapped?</a></li>
+
+<li><a href="#I_PRIVATE--3F">private?</a></li>
+
+<li><a href="#I_RESIZE">resize</a></li>
+
+<li><a href="#I_SHARED--3F">shared?</a></li>
+
+<li><a href="#I_TRANSFER">transfer</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+  <h2>継承しているメソッド</h2>
+<dl>
+  
+  
+<dt>IO::Bufferから継承している特異メソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/IO=3a=3aBuffer/s/for.html">for</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/s/map.html">map</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/s/new.html">new</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/s/size_of.html">size_of</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/s/string.html">string</a></li>
+      
+    
+  </ul>
+</dd>
+  
+  
+<dt>IO::Bufferから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/=26.html">&amp;</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/=3c=3d=3e.html">&lt;=&gt;</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/=26.html">^</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/advance.html">advance</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/and=21.html">and!</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/bit_count.html">bit_count</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/clear.html">clear</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/copy.html">copy</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/each.html">each</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/each_byte.html">each_byte</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/empty=3f.html">empty?</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/get_string.html">get_string</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/get_value.html">get_value</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/get_values.html">get_values</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/hexdump.html">hexdump</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/inspect.html">inspect</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/locked.html">locked</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/locked=3f.html">locked?</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/not=21.html">not!</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/null=3f.html">null?</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/and=21.html">or!</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/pread.html">pread</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/pwrite.html">pwrite</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/read.html">read</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/readonly=3f.html">readonly?</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/set_string.html">set_string</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/set_value.html">set_value</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/set_values.html">set_values</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/size.html">size</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/slice.html">slice</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/source.html">source</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/to_s.html">to_s</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/valid=3f.html">valid?</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/values.html">values</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/write.html">write</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/and=21.html">xor!</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/=26.html">|</a></li>
+      
+    
+      <li><a href="../method/IO=3a=3aBuffer/i/=7e.html">~</a></li>
+      
+    
+  </ul>
+</dd>
+
+<dt>Comparableから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Comparable/i/=3c.html">&lt;</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3c=3d.html">&lt;=</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3d=3d.html">==</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3e.html">&gt;</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/=3e=3d.html">&gt;=</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/between=3f.html">between?</a></li>
+      
+    
+      <li><a href="../method/Comparable/i/clamp.html">clamp</a></li>
+      
+    
+  </ul>
+</dd>
+
+</dl>
+
+
+
+
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_CLONE"><code>dup -&gt; IO::Buffer::Storage</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/clone.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Storage.html#method-i-clone">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>clone -&gt; IO::Buffer::Storage</code></dt>
+<dd class="method-description">
+<p>
+バッファの内容を、独立した内部バッファにコピーして返します。
+</p>
+<p>
+複製への変更は元のバッファに影響せず、元のバッファへの変更も複製に影響しません。元のバッファが外部バッファや読み取り専用でも、複製は内部バッファで、書き込みできます。
+</p>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">external?</span>  <span class="c1"># =&gt; true
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">readonly?</span>  <span class="c1"># =&gt; true
+</span>
+copy <span class="o">=</span> buf<span class="p">.</span><span class="nf">dup</span>
+<span class="nb">p</span> copy<span class="p">.</span><span class="nf">internal?</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> copy<span class="p">.</span><span class="nf">readonly?</span> <span class="c1"># =&gt; false
+</span><span class="nb">p</span> copy<span class="p">.</span><span class="nf">source</span>    <span class="c1"># =&gt; nil
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer=3a=3aSlice/i/dup.html">IO::Buffer::Slice#dup</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_EXTERNAL--3F"><code>external? -&gt; bool</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/external=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Storage.html#method-i-external-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが外部(external)バッファである場合に true を返します。
+</p>
+<p>
+外部バッファは、バッファ自身が確保・マップしたのではないメモリ領域を参照します。
+<a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a> で作ったバッファは、文字列のメモリを外部参照します。外部バッファは大きさを変更できません。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">external?</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">external?</span>      <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/internal=3f.html">IO::Buffer::Storage#internal?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_FREE"><code>free -&gt; self</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/free.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Storage.html#method-i-free">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが確保しているメモリ領域を解放します。
+</p>
+<p>
+解放の内容はバッファの種類によって異なります。
+</p>
+<ul>
+<li>内部(internal) -- 確保したメモリを解放します。</li>
+<li>外部(external) -- 元のオブジェクトとの関連を解消します。</li>
+<li>マップ(mapped) -- マッピングを解除します。</li>
+</ul>
+<p>
+解放後は、どのメモリ領域も指さない状態になります。この状態のバッファは大きさ 0 のバッファとして扱われます。
+</p>
+<p>
+解放したバッファでも <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/resize.html">IO::Buffer::Storage#resize</a> を呼べば、あらためてメモリ領域を確保できます。
+</p>
+<p>
+<a href="../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> には、このメソッドはありません。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>FrozenError</code>:</dt>
+<dd>
+凍結済みのバッファに対して呼び出した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::LockedError</code>:</dt>
+<dd>
+ロックされているバッファに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span><span class="p">)</span>
+
+buf<span class="p">.</span><span class="nf">free</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">null?</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">size</span>  <span class="c1"># =&gt; 0
+</span>
+<span class="c1"># resize すれば再び使える
+</span>buf<span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">size</span>  <span class="c1"># =&gt; 4
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/transfer.html">IO::Buffer::Storage#transfer</a>, <a href="../method/IO=3a=3aBuffer/i/null=3f.html">IO::Buffer#null?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_INTERNAL--3F"><code>internal? -&gt; bool</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/internal=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Storage.html#method-i-internal-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが内部(internal)バッファである場合に true を返します。
+</p>
+<p>
+内部バッファは、バッファ自身が確保したメモリ領域を参照します。文字列などの外部のメモリやファイルのマッピングとは結び付いていません。
+<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> で作られるバッファは既定で内部バッファです。
+</p>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="p">.</span><span class="nf">internal?</span> <span class="c1"># =&gt; true
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/external=3f.html">IO::Buffer::Storage#external?</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MAPPED--3F"><code>mapped? -&gt; bool</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/mapped=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Storage.html#method-i-mapped-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファがマップ(mapped)バッファである場合に true を返します。
+</p>
+<p>
+マップバッファは、仮想メモリ機構でマップされたメモリ領域を参照します。
+<a href="../method/IO=3a=3aBuffer/s/new.html">IO::Buffer.new</a> に <a href="../method/IO=3a=3aBuffer/c/MAPPED.html">IO::Buffer::MAPPED</a> を指定した場合や、大きさが <a href="../method/IO=3a=3aBuffer/c/PAGE_SIZE.html">IO::Buffer::PAGE_SIZE</a> 以上の場合は匿名のマップになります。
+<a href="../method/IO=3a=3aBuffer/s/map.html">IO::Buffer.map</a> で作った場合はファイルに紐づいたマップになります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_PRIVATE--3F"><code>private? -&gt; bool</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/private=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Storage.html#method-i-private-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファがプライベート(private)バッファである場合に true を返します。
+</p>
+<p>
+プライベートバッファに加えた変更は、元になったファイルのマッピングには反映されません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_RESIZE"><code>resize(size) -&gt; self</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/resize.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Storage.html#method-i-resize">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファの大きさを <code>size</code> バイトに変更します。
+</p>
+<p>
+変更前の内容は保持されます。変更後の大きさによっては、メモリ領域が別の場所に確保しなおされ、内容がそこへコピーされます。
+</p>
+<p>
+<a href="../method/IO=3a=3aBuffer/s/for.html">IO::Buffer.for</a> で作った外部バッファや、ロックされたバッファは大きさを変更できません。
+<a href="../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> の大きさは、<a href="../method/IO=3a=3aBuffer=3a=3aSlice/i/resize.html">IO::Buffer::Slice#resize</a> で変更します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>size</code>:</dt>
+<dd>
+変更後の大きさをバイト数で指定します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::AccessError</code>:</dt>
+<dd>
+大きさを変更できないバッファに対して呼び出した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>FrozenError</code>:</dt>
+<dd>
+凍結済みのバッファに対して呼び出した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::LockedError</code>:</dt>
+<dd>
+ロックされているバッファに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">test</span><span class="s2">"</span><span class="p">)</span>
+
+buf<span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">size</span>             <span class="c1"># =&gt; 8
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">get_string</span><span class="p">(</span><span class="mi">0</span>, <span class="mi">4</span><span class="p">)</span> <span class="c1"># =&gt; &quot;test&quot;
+</span>
+<span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">for</span><span class="p">(</span><span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># ~&gt; IO::Buffer::AccessError
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer=3a=3aSlice/i/resize.html">IO::Buffer::Slice#resize</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_SHARED--3F"><code>shared? -&gt; bool</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/shared=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Storage.html#method-i-shared-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+バッファが共有(shared)バッファである場合に true を返します。
+</p>
+<p>
+共有バッファは、他のプロセスと共有できるメモリ領域を参照します。そのため、このプロセスで変更しなくても内容が変わることがあります。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TRANSFER"><code>transfer -&gt; IO::Buffer::Storage</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/transfer.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IO/Buffer/Storage.html#method-i-transfer">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+メモリ領域の所有権を新しい <a href="../class/IO=3a=3aBuffer=3a=3aStorage.html">IO::Buffer::Storage</a> へ移し、その新しいバッファを返します。
+</p>
+<p>
+所有権を手放した自身は、どのメモリ領域も指さない状態になります。この状態は <a href="../method/IO=3a=3aBuffer/i/null=3f.html">IO::Buffer#null?</a> で調べられます。自身から <a href="../method/IO=3a=3aBuffer/i/slice.html">IO::Buffer#slice</a> で作った <a href="../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> は、無効になります。
+</p>
+<p>
+<a href="../class/IO=3a=3aBuffer=3a=3aSlice.html">IO::Buffer::Slice</a> には、このメソッドはありません。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>FrozenError</code>:</dt>
+<dd>
+凍結済みのバッファに対して呼び出した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>IO::Buffer::LockedError</code>:</dt>
+<dd>
+ロックされているバッファに対して呼び出した場合に発生します。
+</dd>
+</dl>
+<pre class="highlight ruby"><code>buf <span class="o">=</span> <span class="no">IO</span><span class="o">::</span><span class="no">Buffer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+buf<span class="p">.</span><span class="nf">set_string</span><span class="p">(</span><span class="s2">"</span><span class="s2">Ruby</span><span class="s2">"</span><span class="p">)</span>
+
+other <span class="o">=</span> buf<span class="p">.</span><span class="nf">transfer</span>
+<span class="nb">p</span> other<span class="p">.</span><span class="nf">get_string</span> <span class="c1"># =&gt; &quot;Ruby&quot;
+</span>
+<span class="nb">p</span> buf<span class="p">.</span><span class="nf">null?</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> buf<span class="p">.</span><span class="nf">size</span>  <span class="c1"># =&gt; 0
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IO=3a=3aBuffer=3a=3aStorage/i/free.html">IO::Buffer::Storage#free</a>, <a href="../method/IO=3a=3aBuffer/i/null=3f.html">IO::Buffer#null?</a>
+</p>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/IO__Buffer__Storage.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

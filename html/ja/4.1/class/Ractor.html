@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-11-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-12-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -118,6 +118,9 @@
 <h2>要約</h2>
 <p>
 並列プログラミングの仕組みを提供するクラスです。
+</p>
+<p>
+Ruby 4.1 から、クラスやモジュールを変更できるのは、それを作成した Ractor（owner）だけになりました。メソッドの定義・削除、<code>alias</code>、可視性の変更、<code>include</code> / <code>prepend</code>、定数の定義・削除、クラス自身のインスタンス変数・クラス変数への書き込みなどを他の Ractor から行うと、<a href="../class/Ractor=3a=3aIsolationError.html">Ractor::IsolationError</a> が発生します。読み取りは従来どおりできます。起動時や main Ractor で定義されたクラス（require したライブラリのものを含む）の owner は main Ractor なので、main 以外の Ractor からは変更できません。一方、Ractor が自分で作成したクラスは、shareable でない定数・インスタンス変数・クラス変数も含めて自由に使えます。<a class="external" href="https://bugs.ruby-lang.org/issues/22226">[feature#22226]</a>
 </p>
 
 
@@ -295,6 +298,10 @@ Shareable にしたいオブジェクトを指定します。
 <dd>
 true の場合、obj を変更する代わりに obj のコピーを作成し shareable にします。
 </dd>
+<dt>[EXCEPTION] <code>Ractor::Error</code>:</dt>
+<dd>
+obj が <a href="../class/IO.html">IO</a> のインスタンスである場合に発生します。
+</dd>
 </dl>
 </dd>
 
@@ -352,6 +359,9 @@ obj が shareable である場合、true を返します。
 Shareable であるか判定したいオブジェクトを指定します。
 </dd>
 </dl>
+<p>
+Ruby 4.1 から、<a href="../class/IO.html">IO</a> のインスタンスは freeze されていても shareable ではなく、false を返します。Ruby 4.0 までは、freeze された <a href="../class/IO.html">IO</a> は shareable でした。
+</p>
 </dd>
 
 
@@ -535,12 +545,12 @@ Ractor の実行が例外で終了した場合には、 <a href="../method/Racto
 <dd class="method-description">
 <p>
 port を self の監視ポートとして登録します。
-self が終了すると、port は :exited（例外なく終了した場合）または
-:aborted（未処理の例外で終了した場合）というシンボルを受信します。
+self が終了すると、port は <code>[self, :exited]</code>（例外なく終了した場合）または
+<code>[self, :aborted]</code>（未処理の例外で終了した場合）という配列を受信します。複数の Ractor を 1 つの port で監視しても、どの Ractor が終了したかを判別できます。
 </p>
 <p>
 監視を登録できた（self がまだ終了していない）場合は true を返します。
-self が既に終了していた場合は false を返し、port は直ちに終了を表すシンボルを受信します。
+self が既に終了していた場合は false を返し、port は直ちに終了を表す配列を受信します。
 </p>
 </dd>
 
@@ -573,6 +583,15 @@ self の名前を返します。
 self が終了するまで待ち、その Ractor のブロックが返した値を返します。
 Ractor の実行が例外で終了した場合には、その例外を再発生させます。
 </p>
+<p>
+値を取り出せるのは 1 回だけです。2 回目以降の呼び出しでは <a href="../class/Ractor=3a=3aError.html">Ractor::Error</a> が発生します。
+</p>
+<dl>
+<dt>[EXCEPTION] <code>Ractor::Error</code>:</dt>
+<dd>
+既に値を取り出している場合に発生します。
+</dd>
+</dl>
 </dd>
 
 
