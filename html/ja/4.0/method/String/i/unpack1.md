@@ -1,15 +1,26 @@
 # String#unpack1
 
-### def unpack1(format) -> object
+### def unpack1(format, offset: 0) -> object
 
 formatにしたがって文字列をデコードし、展開された1つ目の値を返します。
 unpackは配列を返しますがunpack1は配列の1つ目の要素のみを返します。
 
 未知のテンプレート文字を指定すると [ArgumentError](../../../class/ArgumentError.md) が発生します。
 
+- **param** `format` -- pack テンプレート文字列
+- **param** `offset` -- `format` に従った展開を始める位置を、文字列の先頭からのバイト数で指定します。デフォルトは 0 です。
+- **raise** `ArgumentError` -- `offset` が負の場合、または文字列の長さより大きい場合に発生します。
+
 ```ruby title="例"
 p "ABC".unpack1("C*") # => 65
 p "ABC".unpack("C*")  # => [65, 66, 67]
 ```
+
+
+```ruby title="例: offset を指定"
+p "\x01\x02\x03".unpack1("C", offset: 2)  # => 3
+p "abc".unpack1("a*", offset: 3)           # => ""
+```
+
 
 - **SEE** [String#unpack](../../../method/String/i/unpack.md), [Array#pack](../../../method/Array/i/pack.md)

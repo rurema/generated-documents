@@ -81,7 +81,7 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_SHAREABLE_PROC"><code>shareable_proc { ... } -&gt; Proc</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../../../method/Ractor/s/shareable_proc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Ractor.html#method-c-shareable_proc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_SHAREABLE_PROC"><code>shareable_proc(self: nil) { ... } -&gt; Proc</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../../../method/Ractor/s/shareable_proc.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Ractor.html#method-c-shareable_proc">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
 <dt class="rbs-signature"><code>[T] () { (?) [self: nil] &rarr; T } &rarr; ^(?) [self: nil] &rarr; T</code></dt>
 <dt class="rbs-signature"><code>[T, S] (self: S) { (?) [self: S] &rarr; T } &rarr; ^(?) [self: S] &rarr; T</code></dt>
 <dd class="method-description">
@@ -91,6 +91,19 @@
 <p>
 通常の <a href="../../../class/Proc.html">Proc</a> は shareable ではないため、他の Ractor に渡せません。このメソッドで作成した <a href="../../../class/Proc.html">Proc</a> は shareable になるため、複数の Ractor から利用できます。
 </p>
+<p>
+作成される <a href="../../../class/Proc.html">Proc</a> の <code>self</code> は、キーワード引数 <code>self</code> で指定したオブジェクトになります。ブロックが外側のローカル変数を参照している場合、その値も shareable でなければなりません。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>self</code>:</dt>
+<dd>
+作成する <a href="../../../class/Proc.html">Proc</a> の <code>self</code> にするオブジェクトを指定します。shareable でなければなりません。デフォルトは nil です。
+</dd>
+<dt>[EXCEPTION] <code>Ractor::IsolationError</code>:</dt>
+<dd>
+<code>self</code> が shareable でない場合や、ブロックが shareable でないオブジェクトを参照している場合に発生します。
+</dd>
+</dl>
 <pre class="highlight ruby"><code>pr <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable_proc</span> <span class="p">{</span> <span class="mi">42</span> <span class="p">}</span>
 <span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable?</span><span class="p">(</span>pr<span class="p">)</span> <span class="c1"># =&gt; true
 </span><span class="nb">p</span> pr<span class="p">.</span><span class="nf">lambda?</span>            <span class="c1"># =&gt; false
@@ -99,6 +112,15 @@
 </span>
 <span class="c1"># 他の Ractor に渡して呼び出せる
 </span><span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>pr<span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="nb">p</span><span class="p">.</span><span class="nf">call</span> <span class="p">}</span><span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; 42
+</span></code></pre>
+<span class="caption">例: self を指定</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable_proc</span> <span class="p">{</span> <span class="nc">self</span> <span class="p">}</span><span class="p">.</span><span class="nf">call</span>               <span class="c1"># =&gt; nil
+</span><span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable_proc</span><span class="p">(</span><span class="ss">self:</span> <span class="mi">42</span><span class="p">)</span> <span class="p">{</span> <span class="nc">self</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">}</span><span class="p">.</span><span class="nf">call</span> <span class="c1"># =&gt; 43
+</span>
+x <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable_proc</span> <span class="p">{</span> x <span class="p">}</span><span class="p">.</span><span class="nf">call</span> <span class="c1"># =&gt; 1
+</span>
+<span class="no">Ractor</span><span class="p">.</span><span class="nf">shareable_proc</span><span class="p">(</span><span class="ss">self:</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span> <span class="p">{</span> <span class="nc">self</span> <span class="p">}</span> <span class="c1"># ~&gt; Ractor::IsolationError
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/Ractor/s/shareable_lambda.html">Ractor.shareable_lambda</a>, <a href="../../../method/Ractor/s/make_shareable.html">Ractor.make_shareable</a>

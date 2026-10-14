@@ -6187,7 +6187,7 @@ self が Unicode 文字列ではない場合に発生します。
 </dd>
 
 
-<dt class="method-heading" id="I_UNPACK"><code>unpack(template) -&gt; Array</code><span class="permalink">[<a href="../method/String/i/unpack.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/String.html#method-i-unpack">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_UNPACK"><code>unpack(template, offset: 0) -&gt; Array</code><span class="permalink">[<a href="../method/String/i/unpack.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/String.html#method-i-unpack">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
 <dt class="rbs-signature"><code>(string template, ?offset: int) &rarr; <a href="../class/Array.html">Array</a>[<a href="../class/Integer.html">Integer</a> | <a href="../class/Float.html">Float</a> | <a href="../class/String.html">String</a> | nil]</code></dt>
 <dt class="rbs-signature"><code>(string template, ?offset: int) { (<a href="../class/Integer.html">Integer</a> | <a href="../class/Float.html">Float</a> | <a href="../class/String.html">String</a> | nil value) &rarr; void } &rarr; nil</code></dt>
 <dd class="method-description">
@@ -6199,11 +6199,24 @@ self が Unicode 文字列ではない場合に発生します。
 <dd>
 pack テンプレート文字列
 </dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+<code>template</code> に従った展開を始める位置を、文字列の先頭からのバイト数で指定します。デフォルトは 0 です。
+</dd>
 <dt>[RETURN]</dt>
 <dd>
 オブジェクトの配列
 </dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>offset</code> が負の場合、または文字列の長さより大きい場合に発生します。
+</dd>
 </dl>
+<span class="caption">例: offset を指定</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">\x01\x02\x03</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C</span><span class="s2">"</span>, <span class="ss">offset:</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># =&gt; [2]
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C*</span><span class="s2">"</span>, <span class="ss">offset:</span> <span class="mi">3</span><span class="p">)</span>           <span class="c1"># =&gt; []
+</span><span class="s2">"</span><span class="s2">\x01</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C</span><span class="s2">"</span>, <span class="ss">offset:</span> <span class="mi">5</span><span class="p">)</span>             <span class="c1"># ~&gt; ArgumentError: offset outside of string
+</span></code></pre>
 <p>
 以下にあげるものは、<a href="../method/Array/i/pack.html">Array#pack</a>、<a href="../method/String/i/unpack.html">String#unpack</a>、<a href="../method/String/i/unpack1.html">String#unpack1</a>
 のテンプレート文字の一覧です。テンプレート文字は後に「長さ」を表す数字を続けることができます。「長さ」の代わりに<code>*</code>とすることで「残り全て」を表すこともできます。
@@ -7251,7 +7264,7 @@ unpack(&quot;p&quot;), unpack(&quot;P&quot;) は、pack の結果からしか un
 </dd>
 
 
-<dt class="method-heading" id="I_UNPACK1"><code>unpack1(format) -&gt; object</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/String/i/unpack1.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/String.html#method-i-unpack1">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_UNPACK1"><code>unpack1(format, offset: 0) -&gt; object</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../method/String/i/unpack1.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/String.html#method-i-unpack1">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
 <dt class="rbs-signature"><code>(string template, ?offset: int) &rarr; (<a href="../class/Integer.html">Integer</a> | <a href="../class/Float.html">Float</a> | <a href="../class/String.html">String</a>)?</code></dt>
 <dd class="method-description">
 <p>
@@ -7261,9 +7274,27 @@ unpackは配列を返しますがunpack1は配列の1つ目の要素のみを返
 <p>
 未知のテンプレート文字を指定すると <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>format</code>:</dt>
+<dd>
+pack テンプレート文字列
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+<code>format</code> に従った展開を始める位置を、文字列の先頭からのバイト数で指定します。デフォルトは 0 です。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>offset</code> が負の場合、または文字列の長さより大きい場合に発生します。
+</dd>
+</dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">ABC</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack1</span><span class="p">(</span><span class="s2">"</span><span class="s2">C*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 65
 </span><span class="nb">p</span> <span class="s2">"</span><span class="s2">ABC</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C*</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; [65, 66, 67]
+</span></code></pre>
+<span class="caption">例: offset を指定</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">\x01\x02\x03</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack1</span><span class="p">(</span><span class="s2">"</span><span class="s2">C</span><span class="s2">"</span>, <span class="ss">offset:</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack1</span><span class="p">(</span><span class="s2">"</span><span class="s2">a*</span><span class="s2">"</span>, <span class="ss">offset:</span> <span class="mi">3</span><span class="p">)</span>           <span class="c1"># =&gt; &quot;&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/String/i/unpack.html">String#unpack</a>, <a href="../method/Array/i/pack.html">Array#pack</a>

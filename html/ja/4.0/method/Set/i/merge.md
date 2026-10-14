@@ -1,16 +1,18 @@
 # Set#merge
 
-### def merge(enum) -> self
+### def merge(*enums) -> self
 
-元の集合に enum で与えられた要素を追加します。
+元の集合に `enums` で与えられた要素を追加します。
 
-引数 enum には each メソッドが定義されている必要があります。
+`enums` に指定する各オブジェクトには `each` メソッドが定義されている必要があります。
 
-- **param** `enum` -- 追加対象の要素を格納したオブジェクトを指定します。
-- **raise** `ArgumentError` -- 引数 enum に each メソッドが定義されていない場合に発生します。
+- **param** `enums` -- 追加対象の要素を格納したオブジェクトを 1 つ以上指定します。
+- **raise** `ArgumentError` -- `enums` のいずれかに `each` メソッドが定義されていない場合に発生します。
 
 ```ruby
 set = Set[10, 20]
 set.merge([10, 30])
 p set # => Set[10, 20, 30]
+set.merge([30, 40], [50])
+p set # => Set[10, 20, 30, 40, 50]
 ```
