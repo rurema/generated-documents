@@ -27,7 +27,7 @@ end
 ```
 
 Ruby が捕捉されなかった例外を報告するときに、このメソッドの返り値が使われます。
-[did_you_mean](../../../library/did_you_mean.md) や error_highlight は、このメソッドを上書きして「もしかして」の候補やエラー箇所の指示を追加しています。
+[did_you_mean](../../../library/did_you_mean.md) や [error_highlight](../../../library/error_highlight.md) は、このメソッドを上書きして「もしかして」の候補やエラー箇所の指示を追加しています。
 そのため、実際に得られる文字列は読み込んでいるライブラリによって変わります。
 
 このメソッドを上書きする場合は、知らないキーワード引数を渡されてもエラーにならないようにしてください。`highlight` のほか、`did_you_mean`、

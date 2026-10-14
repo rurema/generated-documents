@@ -1,6 +1,6 @@
 # GC.verify_compaction_references
 
-### def GC.verify_compaction_references(toward: nil, double_heap: nil) -> Hash
+### def GC.verify_compaction_references(toward: nil, double_heap: false, expand_heap: false) -> Hash
 
 コンパクションの参照の一貫性を検証します。
 
@@ -13,7 +13,8 @@
 SEGV が起きるでしょう。
 
 - **param** `toward` -- nil か :empty を指定します。
-- **param** `double_heap` -- ヒープサイズを2倍にするかどうかを真偽値で指定します。
+- **param** `double_heap` -- ヒープサイズを2倍にするかどうかを真偽値で指定します。Ruby 3.2 から非推奨です。`expand_heap` を使ってください。
+- **param** `expand_heap` -- 全てのオブジェクトが移動できる余地を確保するためにヒープを拡張するかどうかを真偽値で指定します。
 
 - **return** -- [GC.compact](../../../method/GC/s/compact.md) の返り値と同じです。
 

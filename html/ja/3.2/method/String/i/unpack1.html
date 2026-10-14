@@ -86,15 +86,33 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_UNPACK1"><code>unpack1(format) -&gt; object</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../../../method/String/i/unpack1.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/String.html#method-i-unpack1">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_UNPACK1"><code>unpack1(format, offset: 0) -&gt; object</code><span class="method-since-badge">Ruby 2.4.0 から</span><span class="permalink">[<a href="../../../method/String/i/unpack1.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.2/String.html#method-i-unpack1">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 formatにしたがって文字列をデコードし、展開された1つ目の値を返します。
 unpackは配列を返しますがunpack1は配列の1つ目の要素のみを返します。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>format</code>:</dt>
+<dd>
+pack テンプレート文字列
+</dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+<code>format</code> に従った展開を始める位置を、文字列の先頭からのバイト数で指定します。デフォルトは 0 です。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>offset</code> が負の場合、または文字列の長さより大きい場合に発生します。
+</dd>
+</dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">ABC</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack1</span><span class="p">(</span><span class="s2">"</span><span class="s2">C*</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># =&gt; 65
 </span><span class="nb">p</span> <span class="s2">"</span><span class="s2">ABC</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C*</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># =&gt; [65, 66, 67]
+</span></code></pre>
+<span class="caption">例: offset を指定</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">\x01\x02\x03</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack1</span><span class="p">(</span><span class="s2">"</span><span class="s2">C</span><span class="s2">"</span>, <span class="ss">offset:</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack1</span><span class="p">(</span><span class="s2">"</span><span class="s2">a*</span><span class="s2">"</span>, <span class="ss">offset:</span> <span class="mi">3</span><span class="p">)</span>           <span class="c1"># =&gt; &quot;&quot;
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/String/i/unpack.html">String#unpack</a>, <a href="../../../method/Array/i/pack.html">Array#pack</a>

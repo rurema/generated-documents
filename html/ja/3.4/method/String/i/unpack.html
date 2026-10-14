@@ -81,7 +81,7 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_UNPACK"><code>unpack(template) -&gt; Array</code><span class="permalink">[<a href="../../../method/String/i/unpack.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/String.html#method-i-unpack">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_UNPACK"><code>unpack(template, offset: 0) -&gt; Array</code><span class="permalink">[<a href="../../../method/String/i/unpack.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/String.html#method-i-unpack">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/String.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 <a href="../../../method/Array/i/pack.html">Array#pack</a> で生成された文字列をテンプレート文字列 template にしたがってアンパックし、それらの要素を含む配列を返します。
@@ -91,11 +91,24 @@
 <dd>
 pack テンプレート文字列
 </dd>
+<dt class='method-param'>[PARAM] <code>offset</code>:</dt>
+<dd>
+<code>template</code> に従った展開を始める位置を、文字列の先頭からのバイト数で指定します。デフォルトは 0 です。
+</dd>
 <dt>[RETURN]</dt>
 <dd>
 オブジェクトの配列
 </dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>offset</code> が負の場合、または文字列の長さより大きい場合に発生します。
+</dd>
 </dl>
+<span class="caption">例: offset を指定</span>
+<pre class="highlight ruby"><code><span class="nb">p</span> <span class="s2">"</span><span class="s2">\x01\x02\x03</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C</span><span class="s2">"</span>, <span class="ss">offset:</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># =&gt; [2]
+</span><span class="nb">p</span> <span class="s2">"</span><span class="s2">abc</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C*</span><span class="s2">"</span>, <span class="ss">offset:</span> <span class="mi">3</span><span class="p">)</span>           <span class="c1"># =&gt; []
+</span><span class="s2">"</span><span class="s2">\x01</span><span class="s2">"</span><span class="p">.</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"</span><span class="s2">C</span><span class="s2">"</span>, <span class="ss">offset:</span> <span class="mi">5</span><span class="p">)</span>             <span class="c1"># ~&gt; ArgumentError: offset outside of string
+</span></code></pre>
 <p>
 以下にあげるものは、<a href="../../../method/Array/i/pack.html">Array#pack</a>、<a href="../../../method/String/i/unpack.html">String#unpack</a>、<a href="../../../method/String/i/unpack1.html">String#unpack1</a>
 のテンプレート文字の一覧です。テンプレート文字は後に「長さ」を表す数字を続けることができます。「長さ」の代わりに<code>*</code>とすることで「残り全て」を表すこともできます。

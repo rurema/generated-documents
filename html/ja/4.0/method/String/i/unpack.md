@@ -1,11 +1,20 @@
 # String#unpack
 
-### def unpack(template) -> Array
+### def unpack(template, offset: 0) -> Array
 
 [Array#pack](../../../method/Array/i/pack.md) で生成された文字列をテンプレート文字列 template にしたがってアンパックし、それらの要素を含む配列を返します。
 
 - **param** `template` --    pack テンプレート文字列
+- **param** `offset` --      `template` に従った展開を始める位置を、文字列の先頭からのバイト数で指定します。デフォルトは 0 です。
 - **return** --            オブジェクトの配列
+- **raise** `ArgumentError` -- `offset` が負の場合、または文字列の長さより大きい場合に発生します。
+
+```ruby title="例: offset を指定"
+p "\x01\x02\x03".unpack("C", offset: 1)  # => [2]
+p "abc".unpack("C*", offset: 3)           # => []
+"\x01".unpack("C", offset: 5)             # ~> ArgumentError: offset outside of string
+```
+
 
 
 以下にあげるものは、[Array#pack](../../../method/Array/i/pack.md)、[String#unpack](../../../method/String/i/unpack.md)、[String#unpack1](../../../method/String/i/unpack1.md)

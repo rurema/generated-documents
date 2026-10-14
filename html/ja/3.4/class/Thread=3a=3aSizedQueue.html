@@ -251,8 +251,8 @@ Thread::SizedQueue オブジェクトを生成します。
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_--3C--3C"><code>push(obj, non_block = false) -&gt; ()</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/Thread=3a=3aSizedQueue/i/=3c=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Thread/SizedQueue.html#method-i-3C-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/thread/SizedQueue.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>enq(obj, non_block = false) -&gt; ()</code></dt>
+<dt class="method-heading" id="I_--3C--3C"><code>push(obj, non_block = false, timeout: nil) -&gt; self | nil</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/Thread=3a=3aSizedQueue/i/=3c=3c.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Thread/SizedQueue.html#method-i-3C-3C">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/thread/SizedQueue.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>enq(obj, non_block = false, timeout: nil) -&gt; self | nil</code></dt>
 <dt class="method-heading"><code>self &lt;&lt; obj -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
@@ -263,6 +263,9 @@ Thread::SizedQueue オブジェクトを生成します。
 non_block が真でなければ、キューのサイズが <a href="../method/Thread=3a=3aSizedQueue/i/max.html">Thread::SizedQueue#max</a>
 より小さくなるまで他のスレッドに実行を譲ります。その後、キューに与えられたオブジェクトを追加します。
 </p>
+<p>
+<code>timeout</code> を指定した場合は、その秒数が経過してもキューが一杯のままであれば、オブジェクトを追加せずに <code>nil</code> を返します。追加できたときは <code>self</code> を返します。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>obj</code>:</dt>
 <dd>
@@ -271,6 +274,14 @@ non_block が真でなければ、キューのサイズが <a href="../method/Th
 <dt class='method-param'>[PARAM] <code>non_block</code>:</dt>
 <dd>
 true を与えると、キューが一杯の時に例外 <a href="../class/ThreadError.html">ThreadError</a> が発生します。
+</dd>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+待つ秒数を数値で指定します。<code>nil</code> の場合は無期限に待ちます。<code>non_block</code> が真のときに指定することはできません。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>non_block</code> が真のときに <code>timeout</code> を指定した場合に発生します。
 </dd>
 </dl>
 <p>
@@ -306,17 +317,28 @@ true を与えると、キューが一杯の時に例外 <a href="../class/Threa
 </dd>
 
 
-<dt class="method-heading" id="I_DEQ"><code>pop(non_block = false) -&gt; object</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/Thread=3a=3aSizedQueue/i/deq.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Thread/SizedQueue.html#method-i-deq">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/thread/SizedQueue.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>shift(non_block = false) -&gt; object</code></dt>
-<dt class="method-heading"><code>deq(non_block = false) -&gt; object</code></dt>
+<dt class="method-heading" id="I_DEQ"><code>pop(non_block = false, timeout: nil) -&gt; object | nil</code><span class="method-since-badge">Ruby 2.1.0 から</span><span class="permalink">[<a href="../method/Thread=3a=3aSizedQueue/i/deq.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Thread/SizedQueue.html#method-i-deq">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/thread/SizedQueue.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>shift(non_block = false, timeout: nil) -&gt; object | nil</code></dt>
+<dt class="method-heading"><code>deq(non_block = false, timeout: nil) -&gt; object | nil</code></dt>
 <dd class="method-description">
 <p>
 キューからひとつ値を取り出します。キューに push しようと待っているスレッドがあれば、実行を再開させます。
+</p>
+<p>
+<code>timeout</code> を指定した場合は、その秒数が経過してもキューが空のままであれば、<code>nil</code> を返します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>non_block</code>:</dt>
 <dd>
 true を与えると、キューが空の時に例外 <a href="../class/ThreadError.html">ThreadError</a> が発生します。
+</dd>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+待つ秒数を数値で指定します。<code>nil</code> の場合は無期限に待ちます。<code>non_block</code> が真のときに指定することはできません。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>non_block</code> が真のときに <code>timeout</code> を指定した場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
