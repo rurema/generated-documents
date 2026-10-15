@@ -2,6 +2,8 @@
 
 ### def Dir.glob(pattern, flags = 0, base: nil, sort: true)                -> [String]
 ### def Dir.glob(pattern, flags = 0, base: nil, sort: true) {|file| ...}   -> nil
+### def Dir.glob(pattern, flags: 0, base: nil, sort: true)                 -> [String]
+### def Dir.glob(pattern, flags: 0, base: nil, sort: true) {|file| ...}    -> nil
 
 ワイルドカードの展開を行い、パターンにマッチするファイル名を文字列の配列として返します。
 パターンにマッチするファイルがない場合は空の配列を返します。
@@ -13,6 +15,7 @@
 
 - **param** `flags` -- [File.fnmatch](../../../method/File/s/fnmatch.md) に指定できるフラグと同様のフラグを指定できます。
              このフラグを指定することでマッチの挙動を変更できます。
+             キーワード引数 `flags:` でも指定できます。両方を指定した場合はキーワード引数が優先されます。
 
 ```ruby
 p Dir.glob("*")                    #=> ["bar", "foo"]

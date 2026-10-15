@@ -81,12 +81,29 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_SELECT"><code>select(*ports) -&gt; [object, object]</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../../../method/Ractor/s/select.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ractor.html#method-c-select">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_SELECT"><code>select(*ports, timeout: nil) -&gt; [object, object] | nil</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../../../method/Ractor/s/select.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ractor.html#method-c-select">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
 <dt class="rbs-signature"><code>(?) &rarr; <a href="../../../class/Array.html">Array</a>[untyped]</code></dt>
 <dd class="method-description">
 <p>
 引数で指定した Ractor または <a href="../../../class/Ractor=3a=3aPort.html">Ractor::Port</a> のいずれかが受信可能になるまで待ち、受信可能になったものと受信した値の配列を返します。
 </p>
+<p>
+<code>timeout</code> を指定した場合、その秒数が経過しても受信可能になったものが無ければ nil を返します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+待つ秒数を数値で指定します。nil の場合は、受信可能になるまで待ち続けます。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>timeout</code> が負の場合や、待つ対象を 1 つも指定しなかった場合に発生します。
+</dd>
+</dl>
+<span class="caption">例: timeout を指定</span>
+<pre class="highlight ruby"><code>port <span class="o">=</span> <span class="no">Ractor</span><span class="o">::</span><span class="no">Port</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">select</span><span class="p">(</span>port, <span class="ss">timeout:</span> <span class="mf">0.1</span><span class="p">)</span> <span class="c1"># =&gt; nil
+</span></code></pre>
 </dd>
 
 

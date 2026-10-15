@@ -6,7 +6,18 @@ since_by_name=select=3.0
 until_by_name=
 rbs_sig={"overloads":[{"segments":[["t","(?) -> "],["c","Array"],["t","[untyped]"]]}]}
 
-### def Ractor.select(*ports) -> [object, object]
+### def Ractor.select(*ports, timeout: nil) -> [object, object] | nil
 
 引数で指定した Ractor または [c:Ractor::Port] のいずれかが受信可能になるまで待ち、受信可能になったものと受信した値の配列を返します。
+
+`timeout` を指定した場合、その秒数が経過しても受信可能になったものが無ければ nil を返します。
+
+- **param** `timeout` -- 待つ秒数を数値で指定します。nil の場合は、受信可能になるまで待ち続けます。
+- **raise** `ArgumentError` -- `timeout` が負の場合や、待つ対象を 1 つも指定しなかった場合に発生します。
+
+```ruby title="例: timeout を指定"
+port = Ractor::Port.new
+p Ractor.select(port, timeout: 0.1) # => nil
+```
+
 
