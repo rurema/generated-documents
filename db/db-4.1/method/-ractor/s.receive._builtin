@@ -6,10 +6,17 @@ since_by_name=receive=3.0,recv=3.0
 until_by_name=
 rbs_sig={"overloads":[{"segments":[["t","() -> untyped"]],"params":[],"arity":[0,0]}]}
 
-### def Ractor.receive -> object
-### def Ractor.recv -> object
+### def Ractor.receive(timeout: nil) -> object | nil
+### def Ractor.recv(timeout: nil) -> object | nil
 
 このメソッドを呼び出した Ractor の default port からメッセージを受信します。
+
+- **param** `timeout` -- メッセージを待つ秒数を数値で指定します。nil の場合は、メッセージが届くまで待ち続けます。指定した秒数が経過しても届かなかった場合は nil を返します。0 を指定した場合はブロックしません。
+- **raise** `ArgumentError` -- `timeout` が負の場合に発生します。
+
+```ruby title="例: timeout を指定"
+p Ractor.receive(timeout: 0.2) # => nil
+```
 
 - **SEE** [m:Ractor::Port#receive]
 

@@ -6,8 +6,18 @@ since_by_name=receive=4.0
 until_by_name=
 rbs_sig={"overloads":[{"segments":[["t","() -> "],["c","T"]],"params":[],"arity":[0,0]}]}
 
-### def receive -> object
+### def receive(timeout: nil) -> object | nil
 
 Port に送信されたメッセージを受信します。
 
 メッセージキューが空の場合はブロックします。
+
+- **param** `timeout` -- メッセージを待つ秒数を数値で指定します。nil の場合は、メッセージが届くまで待ち続けます。指定した秒数が経過しても届かなかった場合は nil を返します。0 を指定した場合はブロックしません。
+- **raise** `ArgumentError` -- `timeout` が負の場合に発生します。
+- **raise** `Ractor::ClosedError` -- Port が閉じられている場合に発生します。
+
+```ruby title="例: timeout を指定"
+port = Ractor::Port.new
+p port.receive(timeout: 0.1) # => nil
+```
+
