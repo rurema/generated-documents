@@ -6,15 +6,21 @@ since_by_name=
 until_by_name=
 rbs_sig={"overloads":[{"segments":[["t","(?"],["c","String"],["t"," message, ?cause: "],["c","Exception"],["t","?) -> nil"]],"params":["message","cause"],"arity":[0,1]},{"segments":[["t","(_Exception, ?_ToS message, ?"],["c","Array"],["t","["],["c","Thread::Backtrace::Location"],["t","] | "],["c","Array"],["t","["],["c","String"],["t","] | nil backtrace, ?cause: "],["c","Exception"],["t","?) -> nil"]],"params":["message","backtrace","cause"],"arity":[1,3]}]}
 
-### def raise(error_type, message, traceback)     -> ()
+### def raise                                                        -> ()
+### def raise(message, cause: $!)                                    -> ()
+### def raise(error_type, message = nil, traceback = nil, cause: $!) -> ()
 
 自身が表すスレッドで強制的に例外を発生させます。
+
+引数を渡さない場合は [c:RuntimeError] を発生させます。`message` だけを渡した場合は、`message` をメッセージとした [c:RuntimeError] を発生させます。引数の意味は [m:Kernel?.raise] と同じです。
 
 - **param** `error_type` -- [m:Kernel?.raise] を参照してください。
 
 - **param** `message` -- [m:Kernel?.raise] を参照してください。
 
-- **param** `traceback` -- [m:Kernel?.raise] を参照してください。
+- **param** `traceback` -- [m:Kernel?.raise] を参照してください。省略した場合は、例外が発生した時点でのそのスレッドのバックトレースになります。
+
+- **param** `cause` -- 現在の例外([m:$!])の代わりに [m:Exception#cause] に設定する例外を指定します。[c:Exception] オブジェクトまたは nil を指定できます。Ruby 4.0 から指定できます。
 
 ```text
 Thread.new {
@@ -31,4 +37,21 @@ end
 => #<RuntimeError: foobar>
    ["-:3"]
 ```
+
+
+```ruby title="例: cause: を指定する"
+th = Thread.new do
+  begin
+    sleep
+  rescue => e
+    e
+  end
+end
+sleep 0.1 until th.status == "sleep"
+th.raise(ArgumentError, "foo", cause: RuntimeError.new("bar"))
+e = th.value
+p e        # => #<ArgumentError: foo>
+p e.cause  # => #<RuntimeError: bar>
+```
+
 

@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-14-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -240,7 +240,23 @@ obj の回収時にブロックは obj の ID (<a href="../method/BasicObject/i/
 <dd>
 ファイナライザとして <a href="../class/Proc.html">Proc</a> オブジェクトを指定します。proc は obj の回収時に obj の ID を引数として実行されます。
 </dd>
+<dt>[EXCEPTION] <code>Ractor::IsolationError</code>:</dt>
+<dd>
+他の <a href="../class/Ractor.html">Ractor</a> が作成したオブジェクトを <code>obj</code> に指定した場合に発生します。Ruby 4.1 から、ファイナライザを登録できるのはそのオブジェクトを作成した Ractor だけです。
+</dd>
 </dl>
+<span class="caption">例: 他の Ractor のオブジェクト</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>; <span class="k">end</span>
+r <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="k">begin</span>
+    <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">define_finalizer</span><span class="p">(</span><span class="no">Foo</span>, <span class="nb">proc</span> <span class="p">{</span><span class="p">}</span><span class="p">)</span>
+  <span class="k">rescue</span> <span class="no">Ractor</span><span class="o">::</span><span class="no">IsolationError</span> <span class="o">=&gt;</span> e
+    e<span class="p">.</span><span class="nf">message</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">value</span>
+<span class="c1"># =&gt; &quot;can not define a finalizer for an object of another Ractor&quot;
+</span></code></pre>
 <h3 >使い方の注意</h3>
 <p>
 以下は、define_finalizer の使い方の悪い例です。
@@ -330,6 +346,15 @@ proc の呼び出しで発生した大域脱出(exitや例外)は無視されま
 <p>
 なお、<a href="../class/Symbol.html">Symbol</a> をすべて列挙するには、かわりに <a href="../method/Symbol/s/all_symbols.html">Symbol.all_symbols</a> が使用できます。
 </p>
+<p>
+Ruby 4.1 からオブジェクト空間は <a href="../class/Ractor.html">Ractor</a> ごとに分かれています。呼び出した Ractor が作成したオブジェクトと、他の Ractor の shareable なオブジェクト(クラスやモジュール、freeze された文字列など)だけを繰り返します。他の Ractor が作成した shareable でないオブジェクトは繰り返しません。
+</p>
+<p>
+Ruby 4.0 までは、main 以外の Ractor を作成したあとは、どの Ractor から呼び出しても shareable なオブジェクトだけを繰り返していました。
+</p>
+<p>
+すべての Ractor のオブジェクトを調べたい場合は、<a href="../library/objspace.html">objspace</a> の <code>ObjectSpace.dump_all</code> が使えます。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>klass</code>:</dt>
 <dd>
@@ -363,6 +388,14 @@ count <span class="o">=</span> <span class="no">ObjectSpace</span><span class="p
 <span class="c1"># =&gt; #&lt;struct Person name=&quot;sato&quot;&gt;
 </span><span class="c1"># =&gt; #&lt;struct Person name=&quot;tanaka&quot;&gt;
 </span><span class="c1"># =&gt; Total count: 2
+</span></code></pre>
+<span class="caption">例: 複数の Ractor がある場合</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>; <span class="k">end</span>
+objs <span class="o">=</span> <span class="mi">3</span><span class="p">.</span><span class="nf">times</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="no">Foo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
+r <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">each_object</span><span class="p">(</span><span class="no">Foo</span><span class="p">)</span><span class="p">.</span><span class="nf">count</span> <span class="p">}</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">value</span>                            <span class="c1"># =&gt; 0
+</span><span class="nb">p</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">each_object</span><span class="p">(</span><span class="no">Foo</span><span class="p">)</span><span class="p">.</span><span class="nf">count</span> <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> objs<span class="p">.</span><span class="nf">size</span>                          <span class="c1"># =&gt; 3
 </span></code></pre>
 </dd>
 
@@ -414,6 +447,10 @@ obj を返します。
 <dt class='method-param'>[PARAM] <code>obj</code>:</dt>
 <dd>
 ファイナライザを解除したいオブジェクトを指定します。
+</dd>
+<dt>[EXCEPTION] <code>Ractor::IsolationError</code>:</dt>
+<dd>
+他の <a href="../class/Ractor.html">Ractor</a> が作成したオブジェクトを <code>obj</code> に指定した場合に発生します。Ruby 4.1 から、ファイナライザを解除できるのはそのオブジェクトを作成した Ractor だけです。
 </dd>
 </dl>
 <span class="caption">例</span>

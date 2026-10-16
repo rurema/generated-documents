@@ -6,9 +6,9 @@ since_by_name=raise=2.7.0
 until_by_name=
 rbs_sig={"overloads":[{"segments":[["t","(?string msg, ?cause: "],["c","Exception"],["t","?) -> untyped"]],"params":["msg","cause"],"arity":[0,1]},{"segments":[["t","(_Exception, ?string msg, ?"],["c","Array"],["t","[string] | "],["c","Array"],["t","["],["c","Thread::Backtrace::Location"],["t","] | nil backtrace, ?cause: "],["c","Exception"],["t","?) -> untyped"]],"params":["msg","backtrace","cause"],"arity":[1,3]}]}
 
-### def raise                                            -> object
-### def raise(message)                                   -> object
-### def raise(exception, message = nil, backtrace = nil) -> object
+### def raise                                                       -> object
+### def raise(message, cause: $!)                                   -> object
+### def raise(exception, message = nil, backtrace = nil, cause: $!) -> object
 
 selfが表すファイバーが最後に [m:Fiber.yield] を呼んだ場所で例外を発生させます。
 
@@ -26,6 +26,7 @@ message 引数を渡した場合、message 引数をメッセージとした Run
 - **param** `message` -- 例外のメッセージとなる文字列です。
 - **param** `exception` -- 発生させる例外です。
 - **param** `backtrace` -- 例外発生時のスタックトレースです。文字列の配列、または [c:Thread::Backtrace::Location] の配列で指定します。
+- **param** `cause` -- 現在の例外([m:$!])の代わりに [m:Exception#cause] に設定する例外を指定します。[c:Exception] オブジェクトまたは nil を指定できます。Ruby 4.0 から指定できます。
 
 ```ruby title="例"
 f = Fiber.new { Fiber.yield }

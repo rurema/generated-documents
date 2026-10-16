@@ -28,6 +28,12 @@ rbs_sig={"overloads":[{"segments":[["t","(?"],["c","Module"],["t"," module) -> "
 
 なお、[c:Symbol] をすべて列挙するには、かわりに [m:Symbol.all_symbols] が使用できます。
 
+Ruby 4.1 からオブジェクト空間は [c:Ractor] ごとに分かれています。呼び出した Ractor が作成したオブジェクトと、他の Ractor の shareable なオブジェクト(クラスやモジュール、freeze された文字列など)だけを繰り返します。他の Ractor が作成した shareable でないオブジェクトは繰り返しません。
+
+Ruby 4.0 までは、main 以外の Ractor を作成したあとは、どの Ractor から呼び出しても shareable なオブジェクトだけを繰り返していました。
+
+すべての Ractor のオブジェクトを調べたい場合は、[lib:objspace] の `ObjectSpace.dump_all` が使えます。
+
 - **param** `klass` -- クラスかモジュールを指定します。
 
 ```ruby title="例: ブロックなし"
@@ -60,4 +66,15 @@ puts "Total count: #{count}"
 # => #<struct Person name="tanaka">
 # => Total count: 2
 ```
+
+
+```ruby title="例: 複数の Ractor がある場合"
+class Foo; end
+objs = 3.times.map { Foo.new }
+r = Ractor.new { ObjectSpace.each_object(Foo).count }
+p r.value                            # => 0
+p ObjectSpace.each_object(Foo).count # => 3
+p objs.size                          # => 3
+```
+
 

@@ -1,8 +1,8 @@
 # Fiber#raise
 
-### def raise                                            -> object
-### def raise(message)                                   -> object
-### def raise(exception, message = nil, backtrace = nil) -> object
+### def raise                                                       -> object
+### def raise(message, cause: $!)                                   -> object
+### def raise(exception, message = nil, backtrace = nil, cause: $!) -> object
 
 selfが表すファイバーが最後に [Fiber.yield](../../../method/Fiber/s/yield.md) を呼んだ場所で例外を発生させます。
 
@@ -20,6 +20,7 @@ message 引数を渡した場合、message 引数をメッセージとした Run
 - **param** `message` -- 例外のメッセージとなる文字列です。
 - **param** `exception` -- 発生させる例外です。
 - **param** `backtrace` -- 例外発生時のスタックトレースです。文字列の配列、または [Thread::Backtrace::Location](../../../class/Thread=3a=3aBacktrace=3a=3aLocation.md) の配列で指定します。
+- **param** `cause` -- 現在の例外([m:$!])の代わりに [Exception#cause](../../../method/Exception/i/cause.md) に設定する例外を指定します。[Exception](../../../class/Exception.md) オブジェクトまたは nil を指定できます。Ruby 4.0 から指定できます。
 
 ```ruby title="例"
 f = Fiber.new { Fiber.yield }

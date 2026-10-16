@@ -7,6 +7,7 @@ obj を返します。
 
 - **param** `obj` -- ファイナライザを解除したいオブジェクトを指定します。
 
+
 ```ruby title="例"
 class Sample
   def Sample.callback
