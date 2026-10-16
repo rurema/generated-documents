@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-14-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-16-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -102,7 +102,23 @@ obj の回収時にブロックは obj の ID (<a href="../../../method/BasicObj
 <dd>
 ファイナライザとして <a href="../../../class/Proc.html">Proc</a> オブジェクトを指定します。proc は obj の回収時に obj の ID を引数として実行されます。
 </dd>
+<dt>[EXCEPTION] <code>Ractor::IsolationError</code>:</dt>
+<dd>
+他の <a href="../../../class/Ractor.html">Ractor</a> が作成したオブジェクトを <code>obj</code> に指定した場合に発生します。Ruby 4.1 から、ファイナライザを登録できるのはそのオブジェクトを作成した Ractor だけです。
+</dd>
 </dl>
+<span class="caption">例: 他の Ractor のオブジェクト</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nn"></span><span class="o"></span><span class="nc">Foo</span>; <span class="k">end</span>
+r <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="k">begin</span>
+    <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">define_finalizer</span><span class="p">(</span><span class="no">Foo</span>, <span class="nb">proc</span> <span class="p">{</span><span class="p">}</span><span class="p">)</span>
+  <span class="k">rescue</span> <span class="no">Ractor</span><span class="o">::</span><span class="no">IsolationError</span> <span class="o">=&gt;</span> e
+    e<span class="p">.</span><span class="nf">message</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">value</span>
+<span class="c1"># =&gt; &quot;can not define a finalizer for an object of another Ractor&quot;
+</span></code></pre>
 <h2 >使い方の注意</h2>
 <p>
 以下は、define_finalizer の使い方の悪い例です。

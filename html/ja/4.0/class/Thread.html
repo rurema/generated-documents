@@ -1564,12 +1564,17 @@ count1 <span class="o">=</span> count2 <span class="o">=</span> <span class="mi"
 </dd>
 
 
-<dt class="method-heading" id="I_RAISE"><code>raise(error_type, message, traceback) -&gt; ()</code><span class="permalink">[<a href="../method/Thread/i/raise.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Thread.html#method-i-raise">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_RAISE"><code>raise -&gt; ()</code><span class="permalink">[<a href="../method/Thread/i/raise.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Thread.html#method-i-raise">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Thread.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>raise(message, cause: $!) -&gt; ()</code></dt>
+<dt class="method-heading"><code>raise(error_type, message = nil, traceback = nil, cause: $!) -&gt; ()</code></dt>
 <dt class="rbs-signature"><code>(?<a href="../class/String.html">String</a> message, ?cause: <a href="../class/Exception.html">Exception</a>?) &rarr; nil</code></dt>
 <dt class="rbs-signature"><code>(_Exception, ?_ToS message, ?<a href="../class/Array.html">Array</a>[<a href="../class/Thread=3a=3aBacktrace=3a=3aLocation.html">Thread::Backtrace::Location</a>] | <a href="../class/Array.html">Array</a>[<a href="../class/String.html">String</a>] | nil backtrace, ?cause: <a href="../class/Exception.html">Exception</a>?) &rarr; nil</code></dt>
 <dd class="method-description">
 <p>
 自身が表すスレッドで強制的に例外を発生させます。
+</p>
+<p>
+引数を渡さない場合は <a href="../class/RuntimeError.html">RuntimeError</a> を発生させます。<code>message</code> だけを渡した場合は、<code>message</code> をメッセージとした <a href="../class/RuntimeError.html">RuntimeError</a> を発生させます。引数の意味は <a href="../method/Kernel/m/raise.html">Kernel?.raise</a> と同じです。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>error_type</code>:</dt>
@@ -1582,7 +1587,11 @@ count1 <span class="o">=</span> count2 <span class="o">=</span> <span class="mi"
 </dd>
 <dt class='method-param'>[PARAM] <code>traceback</code>:</dt>
 <dd>
-<a href="../method/Kernel/m/raise.html">Kernel?.raise</a> を参照してください。
+<a href="../method/Kernel/m/raise.html">Kernel?.raise</a> を参照してください。省略した場合は、例外が発生した時点でのそのスレッドのバックトレースになります。
+</dd>
+<dt class='method-param'>[PARAM] <code>cause</code>:</dt>
+<dd>
+現在の例外(<a href="../method/Kernel/v/=21.html">$!</a>)の代わりに <a href="../method/Exception/i/cause.html">Exception#cause</a> に設定する例外を指定します。<a href="../class/Exception.html">Exception</a> オブジェクトまたは nil を指定できます。Ruby 4.0 から指定できます。
 </dd>
 </dl>
 <pre class="highlight text"><code>Thread.new {
@@ -1599,6 +1608,20 @@ end
 =&gt; #&lt;RuntimeError: foobar&gt;
    ["-:3"]
 </code></pre>
+<span class="caption">例: cause: を指定する</span>
+<pre class="highlight ruby"><code>th <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="k">begin</span>
+    <span class="nb">sleep</span>
+  <span class="k">rescue</span> <span class="o">=&gt;</span> e
+    e
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="nb">sleep</span> <span class="mf">0.1</span> <span class="k">until</span> th<span class="p">.</span><span class="nf">status</span> <span class="o">==</span> <span class="s2">"</span><span class="s2">sleep</span><span class="s2">"</span>
+th<span class="p">.</span><span class="nf">raise</span><span class="p">(</span><span class="no">ArgumentError</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="ss">cause:</span> <span class="no">RuntimeError</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">bar</span><span class="s2">"</span><span class="p">)</span><span class="p">)</span>
+e <span class="o">=</span> th<span class="p">.</span><span class="nf">value</span>
+<span class="nb">p</span> e        <span class="c1"># =&gt; #&lt;ArgumentError: foo&gt;
+</span><span class="nb">p</span> e<span class="p">.</span><span class="nf">cause</span>  <span class="c1"># =&gt; #&lt;RuntimeError: bar&gt;
+</span></code></pre>
 </dd>
 
 

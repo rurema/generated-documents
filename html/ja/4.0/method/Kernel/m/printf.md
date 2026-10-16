@@ -1,6 +1,7 @@
 # Kernel?.printf
 
-### module_function def printf(format, *arg) -> nil
+### module_function def printf                     -> nil
+### module_function def printf(format, *arg)       -> nil
 ### module_function def printf(port, format, *arg) -> nil
 
 C 言語の printf と同じように、format に従い引数を文字列に変換して port に出力します。

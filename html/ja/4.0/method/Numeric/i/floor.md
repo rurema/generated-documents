@@ -1,8 +1,10 @@
 # Numeric#floor
 
-### def floor(ndigits = 0) -> Integer
+### def floor(ndigits = 0) -> Integer | Float
 
 `self` と等しいかより小さな整数のうち最大のものを返します。
+
+`self` を `to_f` で [Float](../../../class/Float.md) に変換してから [Float#floor](../../../method/Float/i/floor.md) を呼び出すのと同じです。
 
 [Complex](../../../class/Complex.md) では未定義化されています。
 
@@ -14,6 +16,9 @@ p 1.floor      # => 1
 p 1.2.floor    # => 1
 p (-1.2).floor # => -2
 p (-1.5).floor # => -2
+
+p 1.234567.floor(2)   # => 1.23
+p 34567.89.floor(-2)  # => 34500
 ```
 
 - **SEE** [Numeric#ceil](../../../method/Numeric/i/ceil.md), [Numeric#round](../../../method/Numeric/i/round.md), [Numeric#truncate](../../../method/Numeric/i/truncate.md)

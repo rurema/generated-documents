@@ -22,6 +22,8 @@
 
 なお、[Symbol](../../../class/Symbol.md) をすべて列挙するには、かわりに [Symbol.all_symbols](../../../method/Symbol/s/all_symbols.md) が使用できます。
 
+main 以外の [Ractor](../../../class/Ractor.md) を作成したあとは、どの Ractor から呼び出しても shareable なオブジェクト(クラスやモジュール、freeze された文字列など)だけを繰り返します。
+
 - **param** `klass` -- クラスかモジュールを指定します。
 
 ```ruby title="例: ブロックなし"

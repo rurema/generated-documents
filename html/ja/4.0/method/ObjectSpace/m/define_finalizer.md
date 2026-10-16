@@ -13,6 +13,7 @@ obj の回収時にブロックは obj の ID ([BasicObject#__id__](../../../met
 
 - **param** `proc` -- ファイナライザとして [Proc](../../../class/Proc.md) オブジェクトを指定します。proc は obj の回収時に obj の ID を引数として実行されます。
 
+
 ### 使い方の注意
 
 以下は、define_finalizer の使い方の悪い例です。
