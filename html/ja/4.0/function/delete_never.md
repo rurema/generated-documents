@@ -1,5 +1,0 @@
-# delete_never
-
-### static int delete_never(char *key, char *value, char *never)
-
-st_cleanup_safe() のイテレータブロック。

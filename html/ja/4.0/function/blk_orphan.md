@@ -1,6 +1,0 @@
-# blk_orphan
-
-### static int blk_orphan(struct BLOCK *data)
-
-data が作成された SCOPE かまたはその子ではない
-SCOPE を評価しているとき真。

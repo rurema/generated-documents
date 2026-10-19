@@ -1,3 +1,0 @@
-# rb_thread_join_m
-
-### static VALUE rb_thread_join_m(int argc, VALUE *argv, VALUE thread)

@@ -18,3 +18,5 @@ my_i(VALUE self)
     return INT2NUM(m->i);
 }
 ```
+
+Ruby 4.1 で削除されました。[feature:21768]

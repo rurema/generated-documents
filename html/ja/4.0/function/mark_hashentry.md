@@ -1,3 +1,0 @@
-# mark_hashentry
-
-### static int mark_hashentry(VALUE key, VALUE value)

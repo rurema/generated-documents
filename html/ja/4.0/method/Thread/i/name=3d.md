@@ -6,6 +6,8 @@ self の名前を name に設定します。
 
 プラットフォームによっては pthread やカーネルにも設定を行う場合があります。
 
+Ruby のスレッドが専用のネイティブスレッドを持たない場合(M:N スレッド。[spec/envvars](../../../doc/spec=2fenvvars.md) の `RUBY_MN_THREADS` を参照)は、OS のスレッド名は設定しません。
+
 - **raise** `ArgumentError` -- 引数に ASCII 互換ではないエンコーディングのものを指定した場合に発生します。
 
 ```ruby title="例"

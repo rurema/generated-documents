@@ -2,6 +2,7 @@
 
 GC は Ruby インタプリタの「ゴミ集め(Garbage Collection)」を制御するモジュールです。
 
+
 ### GCのチューニングについて
 
 Ruby 2.1ではRGenGCと呼ばれる新たなGCメカニズムが導入されました。

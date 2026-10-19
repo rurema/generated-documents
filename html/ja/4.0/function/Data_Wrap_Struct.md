@@ -29,3 +29,5 @@ my_s_new(klass)
     return Data_Wrap_Struct(MyClass, 0, free_my, m);
 }
 ```
+
+Ruby 4.1 で削除されました。[feature:21768]

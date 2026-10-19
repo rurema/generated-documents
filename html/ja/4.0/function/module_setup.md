@@ -1,5 +1,0 @@
-# module_setup
-
-### static VALUE module_setup(VALUE module, NODE *n)
-
-module を定義するモジュール文の本体 n を評価します。

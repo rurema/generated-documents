@@ -1,3 +1,0 @@
-# mnew
-
-### static VALUE mnew(VALUE klass, VALUE obj, ID id, VALUE mklass)

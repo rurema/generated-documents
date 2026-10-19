@@ -1,3 +1,0 @@
-# autoload_i
-
-### static int autoload_i(ID key, const char *name, st_table *tbl)

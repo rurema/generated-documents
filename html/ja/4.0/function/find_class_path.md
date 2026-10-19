@@ -1,5 +1,0 @@
-# find_class_path
-
-### static VALUE find_class_path(VALUE klass)
-
-クラス klass のクラスパスを探索し、Ruby の文字列で返します。

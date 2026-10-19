@@ -1,3 +1,0 @@
-# match_gen
-
-### static NODE * match_gen(NODE *node1, NODE *node2)

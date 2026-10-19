@@ -1,3 +1,0 @@
-# massign
-
-### static VALUE massign(VALUE self, NODE *node, VALUE val, int pcall)

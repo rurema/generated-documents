@@ -1,3 +1,0 @@
-# intersect_fds
-
-### static int intersect_fds(fd_set *src, fd_set *dst, int max)

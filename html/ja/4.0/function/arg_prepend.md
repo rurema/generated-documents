@@ -1,3 +1,0 @@
-# arg_prepend
-
-### static NODE * arg_prepend(NODE *node1, NODE *node2)

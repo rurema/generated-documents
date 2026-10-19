@@ -9,6 +9,7 @@
 level, optname には Socket::SOL_SOCKET や Socket::SO_REUSEADDR
 といった整数値の他、文字列("SOL_SOCKET", prefixなしの "SOCKET")やシンボル(:SO_REUSEADDR, :REUSEADDR)を用いることができます。
 
+
 - **param** `level` --    [man:getsockopt(2)] の 第二引数のlevel 
 - **param** `optname` --  [man:getsockopt(2)] の 第三引数のoption_name 
 - **SEE** [BasicSocket#setsockopt](../../../method/BasicSocket/i/setsockopt.md)
