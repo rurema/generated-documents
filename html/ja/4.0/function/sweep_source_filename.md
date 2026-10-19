@@ -1,3 +1,0 @@
-# sweep_source_filename
-
-### static enum st_retval sweep_source_filename(char *key, char *value)

@@ -1,6 +1,0 @@
-# call_end_proc
-
-### static void call_end_proc(VALUE data)
-
-評価器プロセスが終了するとき、
-END 文で登録された Proc オブジェクト data を起動します。

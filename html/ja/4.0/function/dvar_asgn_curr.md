@@ -1,5 +1,0 @@
-# dvar_asgn_curr
-
-### static inline void dvar_asgn_curr(ID id, VALUE value)
-
-現在のブロックローカル変数スコープに存在するはずのブロックローカル変数 id に value を代入します。

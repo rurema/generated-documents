@@ -8,6 +8,7 @@
 [Psych](../class/Psych.md) を用いると YAML のパースと出力ができます。
 これらの機能は libyaml <https://pyyaml.org/wiki/LibYAML> を用いて実装されています。さらに Ruby の大半のオブジェクトと YAML フォーマットのデータの間を相互に変換できます。
 
+
 ### 基本的な使いかた
 
 ```ruby

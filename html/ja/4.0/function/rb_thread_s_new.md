@@ -1,3 +1,0 @@
-# rb_thread_s_new
-
-### static VALUE rb_thread_s_new(int argc, VALUE *argv, VALUE klass)

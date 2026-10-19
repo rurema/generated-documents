@@ -1,5 +1,0 @@
-# rb_gc_mark_threads
-
-### void rb_gc_mark_threads(void)
-
-存在するスレッド全てをマークします。

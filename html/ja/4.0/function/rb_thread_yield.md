@@ -1,3 +1,0 @@
-# rb_thread_yield
-
-### static VALUE rb_thread_yield(VALUE arg, rb_thread_t th)

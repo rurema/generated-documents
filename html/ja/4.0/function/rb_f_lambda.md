@@ -1,5 +1,0 @@
-# rb_f_lambda
-
-### VALUE rb_f_lambda(void)
-
-ruby_block 先端の BLOCK から Proc オブジェクトを作成し、返します。

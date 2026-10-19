@@ -1,3 +1,0 @@
-# match_fds
-
-### static int match_fds(fd_set *dst, fd_set *src, int max)

@@ -1,5 +1,0 @@
-# rb_mod_dup
-
-### VALUE rb_mod_dup(VALUE mod)
-
-モジュール mod を dup して返します。

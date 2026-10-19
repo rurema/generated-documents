@@ -1,5 +1,0 @@
-# dvar_asgn_internal
-
-### static void dvar_asgn_internal(ID id, VALUE value, int curr)
-
-dvar_asgn と dvar_asgn_curr の補助関数です。

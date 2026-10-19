@@ -1,6 +1,0 @@
-# rb_parser_while_loop
-
-### void rb_parser_while_loop(int chop, int split)
-
-ruby の -n オプションの実装。
-ループと print のノードを ruby_eval_tree に加えます。

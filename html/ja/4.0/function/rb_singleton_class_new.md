@@ -1,5 +1,0 @@
-# rb_singleton_class_new
-
-### VALUE rb_singleton_class_new(VALUE super)
-
-super をスーパークラスとする特異クラスを生成し、返します。

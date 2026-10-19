@@ -1,6 +1,0 @@
-# rb_parser_append_print
-
-### void rb_parser_append_print(void)
-
-ruby の -p オプションの実装。
-ループと print のノードを ruby_eval_tree に加えます。

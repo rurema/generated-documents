@@ -1,3 +1,0 @@
-# rb_gc_call_finalizer_at_exit
-
-### void rb_gc_call_finalizer_at_exit(void)

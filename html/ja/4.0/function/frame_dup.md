@@ -1,5 +1,0 @@
-# frame_dup
-
-### static void frame_dup(struct FRAME *frame)
-
-frame とその親 FRAME 全てをスタックからヒープに割り当てなおします。

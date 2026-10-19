@@ -1,5 +1,0 @@
-# numcmp
-
-### static int numcmp(long x, long y)
-
-int用の比較関数。

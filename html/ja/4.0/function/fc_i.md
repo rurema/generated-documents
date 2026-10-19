@@ -1,3 +1,0 @@
-# fc_i
-
-### static int fc_i(ID key, VALUE value, struct fc_result *res)

@@ -1,8 +1,0 @@
-# eval
-
-### static VALUE eval(VALUE self, VALUE src, VALUE scope, char *file, int line)
-
-eval の実体。文字列 src を評価します。
-そのとき第三引数 scope が nil でなければそのコンテキストの元で評価します。
-
-また src をコンパイルするとき、ファイル file の line 行目に配置されていると仮定します。

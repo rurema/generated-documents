@@ -1,3 +1,0 @@
-# new_fcall
-
-### static NODE * new_fcall(ID m, NODE *a)

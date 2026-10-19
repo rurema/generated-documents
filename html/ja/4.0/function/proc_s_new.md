@@ -1,5 +1,0 @@
-# proc_s_new
-
-### static VALUE proc_s_new(int argc, VALUE *argv, VALUE klass)
-
-Proc.new の実体。

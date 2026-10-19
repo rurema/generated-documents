@@ -1,3 +1,0 @@
-# method_call
-
-### static VALUE method_call(int argc, VALUE *argv, VALUE method)

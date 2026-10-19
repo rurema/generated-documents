@@ -1,3 +1,0 @@
-# localjump_error
-
-### static void localjump_error(const char *mesg, VALUE status)

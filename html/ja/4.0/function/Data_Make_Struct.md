@@ -31,3 +31,5 @@ my_s_new(klass)
                             mark_my, free_my, dummy);
 }
 ```
+
+Ruby 4.1 で削除されました。[feature:21768]
