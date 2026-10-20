@@ -10,3 +10,11 @@ source_location=manual/capi/gc.c.md
 
 ポインタ addr が指す変数を GC の対象にします。
 
+`addr` は呼び出した [c:Ractor] に登録され、その [c:Ractor] の GC だけが格納されたオブジェクトをマークします。
+どの [c:Ractor] からでも登録できますが、`*addr` に格納できる値は、特別な定数、shareable なオブジェクト、登録した [c:Ractor] が所有する unshareable なオブジェクトに限ります。
+他の [c:Ractor] の unshareable なオブジェクトを格納すると、`addr` が参照したままオブジェクトが解放され、use-after-free になることがあります。
+プロセスと同じ寿命のアドレス (static な `VALUE`) は、main [c:Ractor] から登録するか、shareable な値だけを格納してください。
+登録した [c:Ractor] が [m:Ractor#value] で join されると、残りの登録は join した [c:Ractor] に移ります。
+そうでなければ、その [c:Ractor] が回収されたときに main [c:Ractor] に移ります。
+[feature:22277]
+

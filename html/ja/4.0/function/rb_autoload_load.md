@@ -1,3 +1,3 @@
 # rb_autoload_load
 
-### void rb_autoload_load(ID id)
+### VALUE rb_autoload_load(VALUE space, ID name)

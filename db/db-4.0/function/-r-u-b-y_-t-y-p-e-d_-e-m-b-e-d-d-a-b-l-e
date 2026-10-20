@@ -1,0 +1,25 @@
+filename=ruby.h
+macro=false
+private=false
+type=MACRO
+name=RUBY_TYPED_EMBEDDABLE
+params=
+source_location=manual/capi/ruby.h.md
+
+
+`rb_data_type_t` の `flags` に指定するフラグです。
+Ruby 3.3 で追加され、4.1 で公開 API として文書化されました。
+[feature:21853]
+Ruby は C の構造体を `malloc` で別に確保せず、オブジェクトのスロットに直接埋め込むことがあります。
+ポインタをたどる回数や `malloc` の負荷が減り、場合によってはメモリ使用量も減ります。
+ただし保証ではなく、構造体がスロットに収まらないときなどは埋め込まれません。
+
+埋め込み可能にするには次の制限を守る必要があります。
+
+- 構造体へのポインタや構造体の内部を指すポインタを保持してはいけません。GC のコンパクションで無効になります。オブジェクトがスタック上にある間だけ、渡して使えます。C 側で生成したオブジェクトは `RB_GC_GUARD` で保護してください (Ruby から引数として渡されたオブジェクトなら不要です)。
+- [f:DATA_PTR]、`RTYPEDDATA_DATA`、`TypedData_Wrap_Struct` は使えません (`TypedData_Wrap_Struct` は `TypeError` になります)。`RTYPEDDATA_GET_DATA` か `TypedData_Get_Struct` を使います。
+- `dfree` で構造体そのものを free してはいけません。`RUBY_DEFAULT_FREE` は指定できます。
+- `RUBY_TYPED_FREE_IMMEDIATELY` も指定する必要があります (指定がないと `TypeError` になります)。
+
+構造体の大きさが可変のときは、`TypedData_Make_Struct` の代わりに `rb_data_typed_object_zalloc` を使えます。
+

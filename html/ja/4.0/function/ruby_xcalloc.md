@@ -1,6 +1,6 @@
 # ruby_xcalloc
 
-### void * ruby_xcalloc(long n, long size)
+### void * ruby_xcalloc(size_t n, size_t size)
 
 引数と返り値は calloc() と同じです。
 ただしメモリ割り当てに失敗したときは

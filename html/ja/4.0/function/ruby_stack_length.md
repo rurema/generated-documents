@@ -1,3 +1,3 @@
 # ruby_stack_length
 
-### int ruby_stack_length(VALUE **p)
+### size_t ruby_stack_length(VALUE **p)

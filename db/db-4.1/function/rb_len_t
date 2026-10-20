@@ -1,0 +1,24 @@
+filename=ruby.h
+macro=false
+private=false
+type=typedef long
+name=rb_len_t
+params=
+source_location=manual/capi/ruby.h.md
+
+
+`String` や `Array`、`MatchData` の長さや添字を表す符号付き整数型です。
+`long` ですが、64 ビットの mswin (Visual C++ でビルドした 64 ビット Windows 版) では `long` が 32 ビットのままポインタが 64 ビットなので、`int64_t` として定義されます。
+32 ビットの mswin と MinGW 版では `long` です。
+[f:RSTRING_LEN] や `rb_range_beg_len` など、長さを受け渡す C API はこの型を使います。
+拡張ライブラリはこれらの長さを `long` ではなく `rb_len_t` で保持してください。
+64 ビットの mswin では、長さを `long` で保持すると 2GiB で切り詰められ、`rb_range_beg_len` などの出力引数に `long *` を渡すとコンパイルエラーになります。
+`long` が必要なときは [f:rb_len2long] で変換してください。
+また 64 ビットの mswin では ABI も変わるため、拡張ライブラリの再ビルドが必要です。
+古い版もサポートする拡張ライブラリは、[f:HAVE_RB_LEN_T] が未定義のときに `typedef long rb_len_t;` などで代用できます。
+extconf.rb からは `RbConfig::SIZEOF["rb_len_t"]` で大きさを取得できます。
+なお 64 ビットの mswin でも Fixnum の範囲 ([f:FIXNUM_MAX]) は 31 ビットのままなので、[f:LEN2NUM] の結果は `2**30` 以上で Bignum になります。
+[feature:22400]
+
+- **SEE** [f:rb_ulen_t], [f:SIZEOF_RB_LEN_T], [f:HAVE_RB_LEN_T], [f:LEN2NUM], [f:NUM2LEN]
+

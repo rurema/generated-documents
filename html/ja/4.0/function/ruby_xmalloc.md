@@ -1,6 +1,6 @@
 # ruby_xmalloc
 
-### void * ruby_xmalloc(long size)
+### void * ruby_xmalloc(size_t size)
 
 引数と返り値は malloc() と同じ。
 ただしメモリ割り当てに失敗したときは
