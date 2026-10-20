@@ -1,6 +1,6 @@
 # rb_rescue2
 
-### VALUE rb_rescue2(VALUE (*b_proc)(), VALUE data1, VALUE (*r_proc)(), VALUE data2, ...)
+### VALUE rb_rescue2(VALUE (*b_proc)(VALUE), VALUE data1, VALUE (*r_proc)(VALUE, VALUE), VALUE data2, ...)
 
 まず b_proc(data1) を実行し、その途中で例外が発生したら r_proc(data2) を実行します。
 第五引数以降の可変長引数に捕捉したい例外クラスのリストを指定します。

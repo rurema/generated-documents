@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-19-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-20-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -82,6 +82,10 @@
 <dd class="function-description">
 <p>
 ポインタ addr が指す変数を GC の対象にします。
+</p>
+<p>
+<code>addr</code> は呼び出した <a href="../class/Ractor.html">Ractor</a> に登録され、その <a href="../class/Ractor.html">Ractor</a> の GC だけが格納されたオブジェクトをマークします。どの <a href="../class/Ractor.html">Ractor</a> からでも登録できますが、<code>*addr</code> に格納できる値は、特別な定数、shareable なオブジェクト、登録した <a href="../class/Ractor.html">Ractor</a> が所有する unshareable なオブジェクトに限ります。他の <a href="../class/Ractor.html">Ractor</a> の unshareable なオブジェクトを格納すると、<code>addr</code> が参照したままオブジェクトが解放され、use-after-free になることがあります。プロセスと同じ寿命のアドレス (static な <code>VALUE</code>) は、main <a href="../class/Ractor.html">Ractor</a> から登録するか、shareable な値だけを格納してください。登録した <a href="../class/Ractor.html">Ractor</a> が <a href="../method/Ractor/i/value.html">Ractor#value</a> で join されると、残りの登録は join した <a href="../class/Ractor.html">Ractor</a> に移ります。そうでなければ、その <a href="../class/Ractor.html">Ractor</a> が回収されたときに main <a href="../class/Ractor.html">Ractor</a> に移ります。
+<a class="external" href="https://bugs.ruby-lang.org/issues/22277">[feature#22277]</a>
 </p>
 </dd>
 

@@ -1,6 +1,6 @@
 # ruby_xrealloc
 
-### void * ruby_xrealloc(void *ptr, long size)
+### void * ruby_xrealloc(void *ptr, size_t size)
 
 引数と返り値の意味は realloc() と同じ。
 ただしメモリ割り当てに失敗したときは

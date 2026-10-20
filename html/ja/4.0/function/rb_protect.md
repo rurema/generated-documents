@@ -1,6 +1,6 @@
 # rb_protect
 
-### VALUE rb_protect(VALUE (*proc)(), VALUE data, int *state)
+### VALUE rb_protect(VALUE (*proc)(VALUE), VALUE data, int *state)
 
 初出: [ruby-dev:4064]
 

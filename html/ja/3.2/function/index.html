@@ -2202,14 +2202,6 @@ v をマークします。
 </tr>
 
 <tr>
-<td class="signature"><a href="../function/rb_gc_mark_children.html">rb_gc_mark_children</a></td>
-<td class="description"><p>
-v から指されているオブジェクトを全てマークします。
-</p>
-</td>
-</tr>
-
-<tr>
 <td class="signature"><a href="../function/rb_gc_mark_global_tbl.html">rb_gc_mark_global_tbl</a></td>
 <td class="description"></td>
 </tr>
@@ -2902,6 +2894,36 @@ Module#remove_method の実体。
 </tr>
 
 <tr>
+<td class="signature"><a href="../function/rb_nogvl.html">rb_nogvl</a></td>
+<td class="description"><p>
+<code>func</code> を GVL を解放して呼び出します。
+<code>rb_thread_call_without_gvl</code> と同じですが、動作を変える <code>flags</code> を追加で受け取ります。
+<code>func</code> を呼ぶ前に保留中の割り込みを処理し、<code>func</code> から戻って GVL を再取得したあとで、その間に発生した割り込みを処理します。他のスレッドから <code>Thread#kill</code> などで割り込まれたときは <code>ubf</code> が呼ばれます。
+<code>func</code> の中では、メソッド呼び出しや例外の発生など、ほとんどの Ruby の C API は使えません。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../function/RB_NOGVL_INTR_FAIL.html">RB_NOGVL_INTR_FAIL</a></td>
+<td class="description"><p>
+<a href="../function/rb_nogvl.html">rb_nogvl</a> の <code>flags</code> に指定するフラグです。
+<code>func</code> から戻ったあとで割り込みを処理しなくなります。代わりに、ブロッキング領域に入る前に割り込みを検出したときは、<code>func</code> を呼ばずに戻ります。
+<code>func</code> の副作用を考慮したうえで、あとから呼び出し側で割り込みを確認できます。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../function/RB_NOGVL_UBF_ASYNC_SAFE.html">RB_NOGVL_UBF_ASYNC_SAFE</a></td>
+<td class="description"><p>
+<a href="../function/rb_nogvl.html">rb_nogvl</a> の <code>flags</code> に指定するフラグです。渡した <code>ubf</code> がシグナルハンドラから呼べる (async-signal-safe な) 関数であることを示します。
+async-signal-safe でない <code>ubf</code> でも問題ないため、よく分からなければ指定しなくて構いません。
+</p>
+</td>
+</tr>
+
+<tr>
 <td class="signature"><a href="../function/rb_num2dbl.html">rb_num2dbl</a></td>
 <td class="description"><p>
 任意の Numeric のオブジェクトを double に変換します。
@@ -3069,7 +3091,11 @@ proc が Proc のインスタンスであれば真。
 
 <tr>
 <td class="signature"><a href="../function/rb_obj_respond_to.html">rb_obj_respond_to</a></td>
-<td class="description"></td>
+<td class="description"><p>
+<code>obj</code> がメソッド <code>mid</code> に応答するなら 1、そうでなければ 0 を返します。
+<code>private_p</code> が真のときはプライベートメソッドも対象にします。
+</p>
+</td>
 </tr>
 
 <tr>
@@ -3095,11 +3121,7 @@ p の実体。obj を見やすく出力します。
 
 <tr>
 <td class="signature"><a href="../function/rb_proc_new.html">rb_proc_new</a></td>
-<td class="description"><p>
-VALUE (*func)(ANYARGS);
-VALUE val;
-</p>
-</td>
+<td class="description"></td>
 </tr>
 
 <tr>
@@ -3362,11 +3384,7 @@ val を文字列に変換します。
 
 <tr>
 <td class="signature"><a href="../function/rb_thread_create.html">rb_thread_create</a></td>
-<td class="description"><p>
-VALUE (*fn)();
-void *arg;
-</p>
-</td>
+<td class="description"></td>
 </tr>
 
 <tr>
@@ -3696,6 +3714,15 @@ type 型のメモリ領域 var のサイズを n 個に変更する。
 <tr>
 <td class="signature"><a href="../function/RHASH.html">RHASH</a></td>
 <td class="description"></td>
+</tr>
+
+<tr>
+<td class="signature"><a href="../function/RHASH_TBL.html">RHASH_TBL</a></td>
+<td class="description"><p>
+<code>h</code> の内容を持つ <code>st_table</code> を返します。
+<code>h</code> の実装が <code>st_table</code> であるとは限らないため、必要なときに作成されます。
+</p>
+</td>
 </tr>
 
 <tr>

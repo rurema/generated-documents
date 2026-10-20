@@ -1,6 +1,6 @@
 # rb_catch
 
-### VALUE rb_catch(const char *tag, VALUE (*proc)(), VALUE data)
+### VALUE rb_catch(const char *tag, rb_block_call_func_t proc, VALUE data)
 
 catch と同等の動作を実行します。
 

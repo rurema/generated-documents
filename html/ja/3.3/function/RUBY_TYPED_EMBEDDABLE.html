@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/function/RUBY_TYPED_EMBEDDABLE.html">
+
+<title>function RUBY_TYPED_EMBEDDABLE (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="`rb_data_type_t' の `flags' に指定するフラグです。 Ruby 3.3 で追加され、4.1 で公開 API として文書化されました。 21853 Ruby は C の構造体を `malloc' で別に確保せず、オブジェクトのスロットに直接埋め込むことがあります。ポインタをたどる回数や `malloc' の負荷が減り、場合によってはメモリ使用量も減ります。ただし保証ではなく、構造体がスロットに収まらないときなどは埋め込まれません。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-3.3.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/index.html","name":"C API 関数一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/RUBY_TYPED_EMBEDDABLE.html","name":"RUBY_TYPED_EMBEDDABLE","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../function/index.html">C API 関数一覧</a>
+      </li>
+      <li>
+        RUBY_TYPED_EMBEDDABLE 
+      </li>
+    </ol>
+  </nav>
+
+<h1>function RUBY_TYPED_EMBEDDABLE</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/capi/ruby.h.md">edit</a>]</span>
+
+</header>
+
+<main>
+<dl class="functionlist">
+<dt>
+  <code>MACRO RUBY_TYPED_EMBEDDABLE</code>
+</dt>
+<dd>
+<dd class="function-description">
+<p>
+<code>rb_data_type_t</code> の <code>flags</code> に指定するフラグです。
+Ruby 3.3 で追加され、4.1 で公開 API として文書化されました。
+<a class="external" href="https://bugs.ruby-lang.org/issues/21853">[feature#21853]</a>
+Ruby は C の構造体を <code>malloc</code> で別に確保せず、オブジェクトのスロットに直接埋め込むことがあります。ポインタをたどる回数や <code>malloc</code> の負荷が減り、場合によってはメモリ使用量も減ります。ただし保証ではなく、構造体がスロットに収まらないときなどは埋め込まれません。
+</p>
+<p>
+埋め込み可能にするには次の制限を守る必要があります。
+</p>
+<ul>
+<li>構造体へのポインタや構造体の内部を指すポインタを保持してはいけません。GC のコンパクションで無効になります。オブジェクトがスタック上にある間だけ、渡して使えます。C 側で生成したオブジェクトは <code>RB_GC_GUARD</code> で保護してください (Ruby から引数として渡されたオブジェクトなら不要です)。</li>
+<li><a href="../function/DATA_PTR.html">DATA_PTR</a>、<code>RTYPEDDATA_DATA</code>、<code>TypedData_Wrap_Struct</code> は使えません (<code>TypedData_Wrap_Struct</code> は <code>TypeError</code> になります)。<code>RTYPEDDATA_GET_DATA</code> か <code>TypedData_Get_Struct</code> を使います。</li>
+<li><code>dfree</code> で構造体そのものを free してはいけません。<code>RUBY_DEFAULT_FREE</code> は指定できます。</li>
+<li><code>RUBY_TYPED_FREE_IMMEDIATELY</code> も指定する必要があります (指定がないと <code>TypeError</code> になります)。</li>
+</ul>
+<p>
+構造体の大きさが可変のときは、<code>TypedData_Make_Struct</code> の代わりに <code>rb_data_typed_object_zalloc</code> を使えます。
+</p>
+</dd>
+
+</dd>
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/capi/ruby.h.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>
