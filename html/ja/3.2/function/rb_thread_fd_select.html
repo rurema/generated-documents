@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/function/rb_thread_fd_select.html">
+
+<title>function rb_thread_fd_select (Ruby 3.2 リファレンスマニュアル)</title>
+<meta name="description" content="複数のファイルディスクリプタを同時に待ちます。 `select(2)' を呼ぶ関数ですが、GVL を解放して待つので、ほかの Ruby のスレッドが並行して動けます。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-3.2.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<p class="eol-warning">
+このマニュアルは既にメンテナンスが終了したバージョンの Ruby を対象としています。
+<a href="https://docs.ruby-lang.org/ja/latest/">最新版のマニュアルへ</a>
+</p>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.2 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.2 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/index.html","name":"C API 関数一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/rb_thread_fd_select.html","name":"rb_thread_fd_select","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.2 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../function/index.html">C API 関数一覧</a>
+      </li>
+      <li>
+        rb_thread_fd_select 
+      </li>
+    </ol>
+  </nav>
+
+<h1>function rb_thread_fd_select</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/capi/thread.c.md">edit</a>]</span>
+
+</header>
+
+<main>
+<dl class="functionlist">
+<dt>
+  <code>int rb_thread_fd_select(int nfds, rb_fdset_t *rfds, rb_fdset_t *wfds, rb_fdset_t *efds, struct timeval *timeout)</code>
+</dt>
+<dd>
+<dd class="function-description">
+<p>
+複数のファイルディスクリプタを同時に待ちます。
+<code>select(2)</code> を呼ぶ関数ですが、GVL を解放して待つので、ほかの Ruby のスレッドが並行して動けます。
+</p>
+<p>
+1 つのファイルディスクリプタだけを待つときは、<a href="../function/rb_io_wait_readable.html">rb_io_wait_readable</a>、<a href="../function/rb_io_wait_writable.html">rb_io_wait_writable</a>、<a href="../function/rb_wait_for_single_fd.html">rb_wait_for_single_fd</a> を使ってください。環境によっては(現在は Linux だけ)最適化されているためです。
+</p>
+<p>
+すべてのポインタに <code>NULL</code> を指定できます。待っている間にほかのスレッドが同じファイルディスクリプタを操作すると、問題が起きることがあります。たとえば、別のスレッドが <code>select</code> 中のファイルディスクリプタを閉じたときの動作は、OS によって大きく異なります。同じファイルディスクリプタを複数のスレッドから操作するのは避けてください。
+</p>
+<dl>
+<dt class='function-param'>[PARAM] <code>nfds</code>:</dt>
+<dd>
+渡したファイルディスクリプタの最大値に 1 を足した値です。
+</dd>
+<dt class='function-param'>[PARAM] <code>rfds</code>:</dt>
+<dd>
+読み込みを待つファイルディスクリプタの集合です。戻ったときは、読み込み可能なものだけになります。
+</dd>
+<dt class='function-param'>[PARAM] <code>wfds</code>:</dt>
+<dd>
+書き込みを待つファイルディスクリプタの集合です。戻ったときは、書き込み可能なものだけになります。
+</dd>
+<dt class='function-param'>[PARAM] <code>efds</code>:</dt>
+<dd>
+例外状態(OOB)を待つファイルディスクリプタの集合です。戻ったときは、例外状態のものだけになります。
+</dd>
+<dt class='function-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+最大で待つ時間です。戻ったときは、残りの時間になります。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+失敗したときは <code>-1</code> で、<code>errno</code> が設定されます。タイムアウトしたときは <code>0</code> です。それ以外は、返ってきたファイルディスクリプタの総数です。
+</dd>
+</dl>
+</dd>
+
+</dd>
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/capi/thread.c.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

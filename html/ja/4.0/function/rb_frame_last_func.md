@@ -1,5 +1,0 @@
-# rb_frame_last_func
-
-### ID rb_frame_last_func(void)
-
-現在呼び出し中の (Rubyで実装された) メソッドの呼び出し名を返します。

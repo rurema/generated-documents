@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/function/rb_sprintf.html">
+
+<title>function rb_sprintf (Ruby 4.1 リファレンスマニュアル)</title>
+<meta name="description" content="`fmt' に従って整形した文字列を、新しい String として作成します。 Ruby 独自の `sprintf(3)' で、ロケールに依存しません。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-22-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.1 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/index.html","name":"C API 関数一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/rb_sprintf.html","name":"rb_sprintf","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.1 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../function/index.html">C API 関数一覧</a>
+      </li>
+      <li>
+        rb_sprintf 
+      </li>
+    </ol>
+  </nav>
+
+<h1>function rb_sprintf</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/capi/sprintf.c.md">edit</a>]</span>
+
+</header>
+
+<main>
+<dl class="functionlist">
+<dt>
+  <code>VALUE rb_sprintf(const char *fmt, ...)</code>
+</dt>
+<dd>
+<dd class="function-description">
+<p>
+<code>fmt</code> に従って整形した文字列を、新しい <a href="../class/String.html">String</a> として作成します。
+Ruby 独自の <code>sprintf(3)</code> で、ロケールに依存しません。
+</p>
+<p>
+書式は <code>%[flags][width][.precision][length]conversion</code> の形で、次のものが使えます。
+</p>
+<ul>
+<li>フラグ -- 空白、<code>#</code>、<code>+</code>、<code>-</code>、<code>0</code></li>
+<li>幅 -- 0 以上の 10 進整数と <code>*</code></li>
+<li>精度 -- 0 以上の 10 進整数と <code>*</code></li>
+<li>長さ修飾子 -- <code>L</code>、<code>h</code>、<code>t</code>、<code>z</code>、<code>l</code>、<code>ll</code>、<code>q</code>(<code>_WIN32</code> では <code>I</code> も使えます)</li>
+<li>変換指定 -- <code>A</code>、<code>D</code>、<code>E</code>、<code>G</code>、<code>O</code>、<code>U</code>、<code>X</code>、<code>a</code>、<code>c</code>、<code>d</code>、<code>e</code>、<code>f</code>、<code>g</code>、<code>i</code>、<code>n</code>、<code>o</code>、<code>p</code>、<code>s</code>、<code>u</code>、<code>x</code>、<code>%</code></li>
+</ul>
+<p>
+さらに、任意の Ruby のオブジェクトを文字列にできる <code>PRIsVALUE</code> マクロが使えます。
+<code>&quot;%&quot;PRIsVALUE</code> は <code>to_s</code> の結果を出力し、<code>+</code> フラグを付けた <code>&quot;%+&quot;PRIsVALUE</code> は <code>inspect</code> の結果を出力します。
+<code>&quot;%i&quot;</code> と衝突するので、整数には <code>&quot;%d&quot;</code> を使ってください。
+</p>
+<span class="caption">使用例</span>
+<pre class="highlight c"><code><span class="n">rb_sprintf</span><span class="p">(</span><span class="s">"|%"</span><span class="n">PRIsVALUE</span><span class="s">"|"</span><span class="p">,</span> <span class="n">Qtrue</span><span class="p">);</span> <span class="c1">// =&gt; "|true|"</span>
+<span class="n">rb_sprintf</span><span class="p">(</span><span class="s">"%+"</span><span class="n">PRIsVALUE</span><span class="p">,</span> <span class="n">rb_stdin</span><span class="p">);</span>  <span class="c1">// =&gt; "#&lt;IO:&lt;STDIN&gt;&gt;"</span>
+</code></pre>
+<dl>
+<dt class='function-param'>[PARAM] <code>fmt</code>:</dt>
+<dd>
+<code>printf</code> のような書式文字列です。
+</dd>
+<dt class='function-param'>[PARAM] <code>...</code>:</dt>
+<dd>
+書式に埋め込む値です。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+整形した結果の新しい <a href="../class/String.html">String</a> です。
+</dd>
+</dl>
+</dd>
+
+</dd>
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/capi/sprintf.c.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

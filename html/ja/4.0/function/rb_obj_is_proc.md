@@ -1,5 +1,5 @@
 # rb_obj_is_proc
 
-### static VALUE rb_obj_is_proc(VALUE proc)
+### VALUE rb_obj_is_proc(VALUE recv)
 
-proc が Proc のインスタンスであれば真。
+`recv` が [Proc](../class/Proc.md) のインスタンスであれば真を返します。

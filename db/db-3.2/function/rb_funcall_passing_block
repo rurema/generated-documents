@@ -1,0 +1,34 @@
+filename=eval.c
+macro=false
+private=false
+type=VALUE
+name=rb_funcall_passing_block
+params=(VALUE recv, ID mid, int argc, const VALUE *argv)
+source_location=manual/capi/eval.c.md
+
+
+[f:rb_funcallv_public] と同じですが、現在のメソッドが受け取ったブロックを、呼び出すメソッドのブロックとして渡します。
+`foo(x, y, &z)` のようなメソッドが、受け取ったブロックをそのまま別のメソッドへ渡したいときに使います。
+
+```c title="使用例"
+/* def foo(x, y, &z)
+ *   x.open(y, &z)
+ * end
+ * に相当する C の関数 */
+VALUE
+foo_translated_into_C(VALUE self, VALUE x, VALUE y)
+{
+    ID open = rb_intern("open");
+
+    return rb_funcall_passing_block(x, open, 1, &y);
+}
+```
+
+- **param** `recv` -- メソッドのレシーバです。
+- **param** `mid` -- 呼び出すメソッドの名前です。
+- **param** `argc` -- `argv` の要素数です。
+- **param** `argv` -- メソッドに渡す引数の配列です。
+- **return** -- 呼び出したメソッドの返り値です。
+- **raise** `NoMethodError` -- メソッドがないとき、またはメソッドが private か protected のとき。
+- **raise** `Exception` -- 呼び出したメソッドの中で例外が発生したとき。
+

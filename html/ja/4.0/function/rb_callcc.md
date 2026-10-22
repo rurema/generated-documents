@@ -1,5 +1,0 @@
-# rb_callcc
-
-### static VALUE rb_callcc(VALUE self)
-
-Continuation オブジェクトを生成します。

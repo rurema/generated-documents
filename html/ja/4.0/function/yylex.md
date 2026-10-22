@@ -1,6 +1,0 @@
-# yylex
-
-### static int yylex(void)
-
-yyparse から呼び出されるスキャンルーチンです。
-次のトークンを読み込み、そのシンボルを返します。

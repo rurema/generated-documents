@@ -1,3 +1,0 @@
-# rb_mod_private_method
-
-### static VALUE rb_mod_private_method(int argc, VALUE *argv, VALUE obj)

@@ -1,6 +1,0 @@
-# yield_under
-
-### static VALUE yield_under(VALUE under, VALUE self)
-
-モジュール under の元のコンテキストで
-ruby_block を評価します。

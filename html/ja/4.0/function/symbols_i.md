@@ -1,5 +1,0 @@
-# symbols_i
-
-### static int symbols_i(char *key, ID value, VALUE ary)
-
-rb_sym_all_symbols() のイテレータブロック。

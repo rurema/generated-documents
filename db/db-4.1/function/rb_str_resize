@@ -1,0 +1,24 @@
+filename=string.c
+macro=false
+private=false
+type=VALUE
+name=rb_str_resize
+params=(VALUE str, rb_len_t len)
+source_location=manual/capi/string.c.md
+
+
+文字列 `str` の長さを `len` バイトにします。
+[f:rb_str_set_len] と異なり、文字列を伸ばすこともできます。
+`len` が元の長さより小さければ、`len` バイトより後ろの内容は捨てられます。
+大きければ、元の長さより後ろの内容は保証されず、ごみになります。
+
+この関数を呼ぶと `RSTRING_PTR(str)` が変わることがあります。
+`str` は [c:String] でなければいけません。
+
+- **param** `str` -- 長さを変える [c:String] です。
+- **param** `len` -- 新しい長さです。
+- **return** -- 引数の `str` です。
+- **raise** `ArgumentError` -- `len` が負のとき。
+- **raise** `RuntimeError` -- `str` が `locktmp` されているとき。
+- **raise** `FrozenError` -- `str` が凍結されているとき。
+

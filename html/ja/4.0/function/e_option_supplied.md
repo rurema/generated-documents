@@ -1,5 +1,0 @@
-# e_option_supplied
-
-### static int e_option_supplied(void)
-
-ruby -e で与えたプログラムを実行中なら真。

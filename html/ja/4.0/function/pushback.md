@@ -1,6 +1,0 @@
-# pushback
-
-### static void pushback(int c)
-
-入力に一文字戻します。
-c が EOF (-1) のときはなにもしません。

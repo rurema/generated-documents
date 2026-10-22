@@ -1,3 +1,0 @@
-# tokadd_string
-
-### static int tokadd_string(int func, int term, int paren)

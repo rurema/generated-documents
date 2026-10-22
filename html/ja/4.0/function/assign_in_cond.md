@@ -1,5 +1,0 @@
-# assign_in_cond
-
-### static int assign_in_cond(NODE *node)
-
-条件式中の代入に警告を出します。

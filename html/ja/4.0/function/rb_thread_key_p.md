@@ -1,3 +1,0 @@
-# rb_thread_key_p
-
-### static VALUE rb_thread_key_p(VALUE thread, VALUE id)

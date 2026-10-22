@@ -1,5 +1,0 @@
-# arg_ambiguous
-
-### static void arg_ambiguous(void)
-
-メソッド引数の括弧が省略され、最初の引数の一文字目が演算子とも解釈できる場合に警告を出します。

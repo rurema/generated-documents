@@ -1,3 +1,0 @@
-# rb_f_caller
-
-### static VALUE rb_f_caller(int argc, VALUE *argv)

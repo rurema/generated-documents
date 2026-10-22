@@ -1,0 +1,35 @@
+# rb_block_call
+
+### VALUE rb_block_call(VALUE obj, ID mid, int argc, const VALUE *argv, rb_block_call_func_t proc, VALUE data2)
+
+`obj` のメソッド `mid` を、C の関数 `proc` をブロックとして渡して呼び出します。
+[rb_funcallv](../function/rb_funcallv.md) にブロックとして関数を渡せるようにしたものです。
+
+メソッドが `yield` すると、`proc` が呼ばれます。
+`proc` は第 1 引数に `yield` された値を、第 2 引数に `data2` を受け取ります。
+複数の値が `yield` されたとき、第 1 引数にはそれらを集めた [Array](../class/Array.md) が渡されます。
+個々の値は、`proc` の第 3 引数 `argc` と第 4 引数 `argv` から取り出せます。
+
+```c title="使用例"
+VALUE
+my_own_iterator(RB_BLOCK_CALL_FUNC_ARGLIST(y, c))
+{
+    ID plus = rb_intern("+");
+    return rb_funcall(c, plus, 1, y);
+}
+
+VALUE
+my_own_method(VALUE self)
+{
+    ID each = rb_intern("each");
+    return rb_block_call(self, each, 0, 0, my_own_iterator, self);
+}
+```
+
+- **param** `obj` -- メソッドのレシーバです。
+- **param** `mid` -- 呼び出すメソッドの名前です。
+- **param** `argc` -- `argv` の要素数です。
+- **param** `argv` -- メソッドに渡す引数の配列です。
+- **param** `proc` -- ブロックとして働く関数です。
+- **param** `data2` -- `proc` の第 2 引数として渡される値です。
+- **return** -- `obj` のメソッド `mid` の返り値です。

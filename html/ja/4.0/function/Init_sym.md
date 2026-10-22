@@ -1,5 +1,0 @@
-# Init_sym
-
-### void Init_sym(void)
-
-シンボル関係の変数を初期化します。

@@ -1,0 +1,24 @@
+# rb_get_kwargs
+
+### int rb_get_kwargs(VALUE keyword_hash, const ID *table, int required, int optional, VALUE *values)
+
+キーワード引数のハッシュ `keyword_hash` から、`table` に並べたキーワードに対応する値を取り出して `values` に格納します。
+取り出した要素は `keyword_hash` から削除されます。
+
+`table` の先頭の `required` 個のキーワードは必須です。
+続く `optional` 個のキーワードは省略できます。
+`optional` が負のときは、省略できるキーワードは `-optional-1` 個で、`table` にない残りのキーワードは無視されます。
+`optional` が負でなければ、`table` にないキーワードがあると例外が発生します。
+省略できるキーワードが `keyword_hash` になければ、`values` の対応する要素には `Qundef` が設定されます。
+
+C API でキーワード引数を扱うのは Ruby で扱うよりも効率が悪くなります。
+Ruby でラッパーメソッドを書き、キーワード引数を取らない C の関数を呼び出すことも検討してください。
+
+- **param** `keyword_hash` -- 分解するキーワード引数のハッシュです。
+- **param** `table` -- 取り出したいキーワードの ID の配列です。
+- **param** `required` -- 必須のキーワードの個数です。
+- **param** `optional` -- 省略できるキーワードの個数です。負の数も指定できます。
+- **param** `values` -- 取り出した値を格納するバッファです。
+- **return** -- `values` に格納した値の個数です。
+- **raise** `ArgumentError` -- 必須のキーワードがないとき。
+- **raise** `ArgumentError` -- 未知のキーワードがあったとき。

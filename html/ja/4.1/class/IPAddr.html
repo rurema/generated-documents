@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-20-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-22-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -232,6 +232,10 @@ ipaddr3 <span class="o">=</span> <span class="no">IPAddr</span><span class="p">.
 <li><a href="#I_REVERSE">reverse</a></li>
 
 <li><a href="#I_SUCC">succ</a></li>
+
+<li><a href="#I_TO_BITS">to_bits</a></li>
+
+<li><a href="#I_TO_HEX">to_hex</a></li>
 
 <li><a href="#I_TO_I">to_i</a></li>
 
@@ -825,6 +829,48 @@ IPv6 なら <a class="external" href="https://tools.ietf.org/html/rfc3172">[RFC3
 ipaddr <span class="o">=</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'192.168.1.1'</span><span class="p">)</span>
 <span class="nb">p</span> ipaddr<span class="p">.</span><span class="nf">succ</span><span class="p">.</span><span class="nf">to_s</span> <span class="c1"># =&gt; &quot;192.168.1.2&quot;
 </span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_BITS"><code>to_bits -&gt; String</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IPAddr/i/to_bits.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IPAddr.html#method-i-to_bits">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ipaddr.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+IP アドレスの値を 2 進数表記の文字列で返します。
+</p>
+<p>
+返り値は <code>&quot;0&quot;</code> と <code>&quot;1&quot;</code> のみからなり、IPv4 アドレスは 32 桁、IPv6 アドレスは 128 桁になるように、上位桁を <code>0</code> で埋めます。プリフィックス長(サブネットマスク)は結果に含まれません。プリフィックス長を指定して生成した場合は、マスクされた後のアドレスの値が対象になります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'ipaddr'</span>
+<span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">192.168.1.1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_bits</span>   <span class="c1"># =&gt; &quot;11000000101010000000000100000001&quot;
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.0.0.1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_bits</span>       <span class="c1"># =&gt; &quot;00000000000000000000000000000001&quot;
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">3ffe:505:2::1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_bits</span> <span class="c1"># =&gt; &quot;00111111111111100000010100000101000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000001&quot;
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">::1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_bits</span>           <span class="c1"># =&gt; &quot;00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IPAddr/i/to_hex.html">IPAddr#to_hex</a>, <a href="../method/IPAddr/i/to_i.html">IPAddr#to_i</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_HEX"><code>to_hex -&gt; String</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/IPAddr/i/to_hex.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/IPAddr.html#method-i-to_hex">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/ipaddr.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+IP アドレスの値を 16 進数表記の文字列で返します。
+</p>
+<p>
+IPv4 アドレスは 8 桁、IPv6 アドレスは 32 桁になるように、上位桁を <code>0</code> で埋めます。英字は小文字です。プリフィックス長(サブネットマスク)は結果に含まれません。プリフィックス長を指定して生成した場合は、マスクされた後のアドレスの値が対象になります。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'ipaddr'</span>
+<span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">192.168.1.1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_hex</span>   <span class="c1"># =&gt; &quot;c0a80101&quot;
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">0.0.0.1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_hex</span>       <span class="c1"># =&gt; &quot;00000001&quot;
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">3ffe:505:2::1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_hex</span> <span class="c1"># =&gt; &quot;3ffe0505000200000000000000000001&quot;
+</span><span class="nb">p</span> <span class="no">IPAddr</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">::1</span><span class="s2">"</span><span class="p">)</span><span class="p">.</span><span class="nf">to_hex</span>           <span class="c1"># =&gt; &quot;00000000000000000000000000000001&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/IPAddr/i/hton.html">IPAddr#hton</a>, <a href="../method/IPAddr/i/to_bits.html">IPAddr#to_bits</a>, <a href="../method/IPAddr/i/to_i.html">IPAddr#to_i</a>
+</p>
 </dd>
 
 

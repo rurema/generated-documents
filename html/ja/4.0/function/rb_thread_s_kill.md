@@ -1,3 +1,0 @@
-# rb_thread_s_kill
-
-### static VALUE rb_thread_s_kill(VALUE obj, VALUE th)

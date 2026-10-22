@@ -1,3 +1,0 @@
-# method_unbind
-
-### static VALUE method_unbind(VALUE obj)
