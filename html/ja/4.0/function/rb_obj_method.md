@@ -1,3 +1,3 @@
 # rb_obj_method
 
-### static VALUE rb_obj_method(VALUE obj, VALUE vid)
+### VALUE rb_obj_method(VALUE recv, VALUE mid)

@@ -1,6 +1,0 @@
-# strhash
-
-### static int strhash(register char *string)
-
-文字列用のハッシュ関数。
-string に対するハッシュ値を計算する。

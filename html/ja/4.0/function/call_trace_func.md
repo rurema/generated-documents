@@ -1,5 +1,0 @@
-# call_trace_func
-
-### static void call_trace_func(char *event, NODE *pos, VALUE self, ID id, VALUE klass)
-
-評価器の動作をフックする手続き trace_func を評価します。

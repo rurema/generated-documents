@@ -1,3 +1,0 @@
-# top_private
-
-### static VALUE top_private(int argc, VALUE *argv)

@@ -1,3 +1,0 @@
-# rb_mod_private
-
-### static VALUE rb_mod_private(int argc, VALUE *argv, VALUE module)

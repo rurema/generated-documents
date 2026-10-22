@@ -1,3 +1,0 @@
-# rb_thread_abort_exc_set
-
-### static VALUE rb_thread_abort_exc_set(VALUE thread, VALUE val)

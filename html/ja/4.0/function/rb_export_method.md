@@ -1,3 +1,0 @@
-# rb_export_method
-
-### static void rb_export_method(VALUE klass, ID name, ID noex)

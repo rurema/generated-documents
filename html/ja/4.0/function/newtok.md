@@ -1,5 +1,0 @@
-# newtok
-
-### static char * newtok(void)
-
-トークンバッファを初期化またはクリアし、次のトークンを開始する。

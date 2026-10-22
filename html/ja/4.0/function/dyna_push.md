@@ -1,5 +1,0 @@
-# dyna_push
-
-### static struct RVarmap * dyna_push(void)
-
-ブロックローカル変数テーブルをプッシュします。

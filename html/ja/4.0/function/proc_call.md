@@ -1,3 +1,0 @@
-# proc_call
-
-### static VALUE proc_call(VALUE proc, VALUE args)

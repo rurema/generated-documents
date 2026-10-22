@@ -1,3 +1,0 @@
-# rb_mod_attr_writer
-
-### static VALUE rb_mod_attr_writer(int argc, VALUE *argv, VALUE klass)

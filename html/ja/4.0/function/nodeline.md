@@ -1,6 +1,0 @@
-# nodeline
-
-### static int nodeline(NODE *node)
-
-node に埋め込まれている行番号を返します。
-デバッグ用です。

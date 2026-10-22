@@ -1,3 +1,0 @@
-# rb_mod_protected
-
-### static VALUE rb_mod_protected(int argc, VALUE *argv, VALUE module)

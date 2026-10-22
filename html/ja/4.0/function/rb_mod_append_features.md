@@ -1,3 +1,0 @@
-# rb_mod_append_features
-
-### static VALUE rb_mod_append_features(VALUE module, VALUE include)

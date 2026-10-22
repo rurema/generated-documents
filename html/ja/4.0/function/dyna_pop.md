@@ -1,5 +1,0 @@
-# dyna_pop
-
-### static void dyna_pop(struct RVarmap *vars)
-
-ブロックローカル変数テーブルをポップします。

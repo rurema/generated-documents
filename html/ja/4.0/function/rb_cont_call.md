@@ -1,5 +1,0 @@
-# rb_cont_call
-
-### static VALUE rb_cont_call(int argc, VALUE *argv, VALUE cont)
-
-Continuation#call の実体。

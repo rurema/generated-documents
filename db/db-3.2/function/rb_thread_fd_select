@@ -1,0 +1,26 @@
+filename=thread.c
+macro=false
+private=false
+type=int
+name=rb_thread_fd_select
+params=(int nfds, rb_fdset_t *rfds, rb_fdset_t *wfds, rb_fdset_t *efds, struct timeval *timeout)
+source_location=manual/capi/thread.c.md
+
+
+複数のファイルディスクリプタを同時に待ちます。
+`select(2)` を呼ぶ関数ですが、GVL を解放して待つので、ほかの Ruby のスレッドが並行して動けます。
+
+1 つのファイルディスクリプタだけを待つときは、[f:rb_io_wait_readable]、[f:rb_io_wait_writable]、[f:rb_wait_for_single_fd] を使ってください。
+環境によっては(現在は Linux だけ)最適化されているためです。
+
+すべてのポインタに `NULL` を指定できます。
+待っている間にほかのスレッドが同じファイルディスクリプタを操作すると、問題が起きることがあります。
+たとえば、別のスレッドが `select` 中のファイルディスクリプタを閉じたときの動作は、OS によって大きく異なります。
+同じファイルディスクリプタを複数のスレッドから操作するのは避けてください。
+
+- **param** `nfds` -- 渡したファイルディスクリプタの最大値に 1 を足した値です。
+- **param** `rfds` -- 読み込みを待つファイルディスクリプタの集合です。戻ったときは、読み込み可能なものだけになります。
+- **param** `wfds` -- 書き込みを待つファイルディスクリプタの集合です。戻ったときは、書き込み可能なものだけになります。
+- **param** `efds` -- 例外状態(OOB)を待つファイルディスクリプタの集合です。戻ったときは、例外状態のものだけになります。
+- **param** `timeout` -- 最大で待つ時間です。戻ったときは、残りの時間になります。
+- **return** -- 失敗したときは `-1` で、`errno` が設定されます。タイムアウトしたときは `0` です。それ以外は、返ってきたファイルディスクリプタの総数です。

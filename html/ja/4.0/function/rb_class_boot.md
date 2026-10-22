@@ -1,5 +1,0 @@
-# rb_class_boot
-
-### VALUE rb_class_boot(VALUE super)
-
-スーパークラスを super とするクラスオブジェクトを作成し、返します。

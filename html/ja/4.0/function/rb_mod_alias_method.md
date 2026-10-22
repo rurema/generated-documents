@@ -1,3 +1,0 @@
-# rb_mod_alias_method
-
-### static VALUE rb_mod_alias_method(VALUE mod, VALUE newname, VALUE oldname)

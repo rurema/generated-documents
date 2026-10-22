@@ -1,3 +1,3 @@
 # rb_f_abort
 
-### static VALUE rb_f_abort(int argc, VALUE *argv)
+### VALUE rb_f_abort(int argc, const VALUE *argv)

@@ -1,5 +1,0 @@
-# internal_id
-
-### static ID internal_id(void)
-
-インタプリタ内部でだけ使う、他のものとは重複しない ID を返します。

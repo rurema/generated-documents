@@ -1,3 +1,0 @@
-# rb_mod_cmp
-
-### static VALUE rb_mod_cmp(VALUE mod, VALUE arg)

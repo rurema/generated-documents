@@ -1,6 +1,0 @@
-# clone_method
-
-### static int clone_method(ID mid, NODE *body, st_table *tbl)
-
-m_tbl 格納形式のメソッド (構文木) をコピーして返します。
-ST_CONTINUE を返します。

@@ -1,3 +1,0 @@
-# rb_mod_extend_object
-
-### static VALUE rb_mod_extend_object(VALUE mod, VALUE obj)

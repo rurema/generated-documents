@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/function/rb_get_kwargs.html">
+
+<title>function rb_get_kwargs (Ruby 3.3 リファレンスマニュアル)</title>
+<meta name="description" content="キーワード引数のハッシュ `keyword_hash' から、`table' に並べたキーワードに対応する値を取り出して `values' に格納します。取り出した要素は `keyword_hash' から削除されます。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-3.3.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 3.3 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/index.html","name":"C API 関数一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/function/rb_get_kwargs.html","name":"rb_get_kwargs","position":3}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 3.3 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../function/index.html">C API 関数一覧</a>
+      </li>
+      <li>
+        rb_get_kwargs 
+      </li>
+    </ol>
+  </nav>
+
+<h1>function rb_get_kwargs</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/capi/class.c.md">edit</a>]</span>
+
+</header>
+
+<main>
+<dl class="functionlist">
+<dt>
+  <code>int rb_get_kwargs(VALUE keyword_hash, const ID *table, int required, int optional, VALUE *values)</code>
+</dt>
+<dd>
+<dd class="function-description">
+<p>
+キーワード引数のハッシュ <code>keyword_hash</code> から、<code>table</code> に並べたキーワードに対応する値を取り出して <code>values</code> に格納します。取り出した要素は <code>keyword_hash</code> から削除されます。
+</p>
+<p>
+<code>table</code> の先頭の <code>required</code> 個のキーワードは必須です。続く <code>optional</code> 個のキーワードは省略できます。
+<code>optional</code> が負のときは、省略できるキーワードは <code>-optional-1</code> 個で、<code>table</code> にない残りのキーワードは無視されます。
+<code>optional</code> が負でなければ、<code>table</code> にないキーワードがあると例外が発生します。省略できるキーワードが <code>keyword_hash</code> になければ、<code>values</code> の対応する要素には <code>Qundef</code> が設定されます。
+</p>
+<p>
+C API でキーワード引数を扱うのは Ruby で扱うよりも効率が悪くなります。
+Ruby でラッパーメソッドを書き、キーワード引数を取らない C の関数を呼び出すことも検討してください。
+</p>
+<dl>
+<dt class='function-param'>[PARAM] <code>keyword_hash</code>:</dt>
+<dd>
+分解するキーワード引数のハッシュです。
+</dd>
+<dt class='function-param'>[PARAM] <code>table</code>:</dt>
+<dd>
+取り出したいキーワードの ID の配列です。
+</dd>
+<dt class='function-param'>[PARAM] <code>required</code>:</dt>
+<dd>
+必須のキーワードの個数です。
+</dd>
+<dt class='function-param'>[PARAM] <code>optional</code>:</dt>
+<dd>
+省略できるキーワードの個数です。負の数も指定できます。
+</dd>
+<dt class='function-param'>[PARAM] <code>values</code>:</dt>
+<dd>
+取り出した値を格納するバッファです。
+</dd>
+<dt>[RETURN]</dt>
+<dd>
+<code>values</code> に格納した値の個数です。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+必須のキーワードがないとき。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+未知のキーワードがあったとき。
+</dd>
+</dl>
+</dd>
+
+</dd>
+</dl>
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/capi/class.c.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

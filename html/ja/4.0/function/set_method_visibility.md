@@ -1,3 +1,0 @@
-# set_method_visibility
-
-### static void set_method_visibility(VALUE self, int argc, VALUE *argv, ID ex)

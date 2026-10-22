@@ -1,3 +1,0 @@
-# rb_longjmp
-
-### static void rb_longjmp(int tag, VALUE mesg)

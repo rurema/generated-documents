@@ -1,3 +1,0 @@
-# method_eq
-
-### static VALUE method_eq(VALUE method, VALUE other)

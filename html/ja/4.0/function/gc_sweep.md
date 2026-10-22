@@ -1,5 +1,0 @@
-# gc_sweep
-
-### static void gc_sweep(void)
-
-GC のスイープフェイズを実行します。
