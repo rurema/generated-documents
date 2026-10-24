@@ -41,6 +41,7 @@ host, port に関しては [socket#host_format](../../../library/socket.md#host_
 
 - **param** `mesg` -- 送るデータを文字列で与えます。
 - **param** `flags` -- フラグを指定します。
+- **param** `dest_sockaddr` -- データを送る先のアドレスを指定します。
 - **param** `host` -- データを送る先のホストを指定します。
 - **param** `port` -- データを送る先のポートを指定します。
 - **raise** `SocketError` -- 名前解決に失敗した場合に発生します。

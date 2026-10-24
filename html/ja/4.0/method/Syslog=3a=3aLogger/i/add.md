@@ -13,4 +13,6 @@
 
 - **param** `progname` -- 無視されます。
 
+- **param** `block` -- ログに記録するメッセージを返すブロックを指定します。
+
 - **SEE** [Logger#add](../../../method/Logger/i/add.md)

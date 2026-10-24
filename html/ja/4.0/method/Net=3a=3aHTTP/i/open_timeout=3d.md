@@ -12,5 +12,5 @@ nilを設定するとタイムアウトしなくなります。
   - [Net::HTTP.start](../../../method/Net=3a=3aHTTP/s/start.md)
   - [Net::HTTP#start](../../../method/Net=3a=3aHTTP/i/start.md)
 
-- **param** `second` -- 待つ秒数を指定します。
+- **param** `seconds` -- 待つ秒数を指定します。
 - **SEE** [Net::HTTP#read_timeout](../../../method/Net=3a=3aHTTP/i/read_timeout.md), [Net::HTTP#open_timeout](../../../method/Net=3a=3aHTTP/i/open_timeout.md)

@@ -7,6 +7,7 @@
 
 ブロックが偽を返した場合、インストールされたファイルは削除され、インストールは中止されます。
 
-- **param** `installer` -- インストールを行っている [Gem::Installer](../../../class/Gem=3a=3aInstaller.md) のインスタンスです。
+ブロックには、インストールを行っている [Gem::Installer](../../../class/Gem=3a=3aInstaller.md) のインスタンスが渡されます。
+
 - **return** -- 登録済みのフック(`Proc`)の配列です。
 - **SEE** [Gem::Installer#install](../../../method/Gem=3a=3aInstaller/i/install.md), [Gem?.post_build_hooks](../../../method/Gem/m/post_build_hooks.md)

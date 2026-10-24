@@ -1,7 +1,7 @@
 # Enumerable#to_set
 
 ### def to_set(klass = Set, *args) -> Set
-### def to_set(klass = Set, *args) {|o| ... } -> Set
+### def to_set(klass = Set, *args, &block) -> Set
 
 Enumerable オブジェクトの要素から、新しい集合オブジェクトを作ります。
 

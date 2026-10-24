@@ -76,6 +76,7 @@ p yaml["aaa"]["bbb"].frozen?          # = true
 p yaml["aaa"]["bbb"].first.frozen?    # = true
 ```
 
+- **param** `yaml` -- YAML ドキュメント(文字列 or [IO](../../../class/IO.md) オブジェクト)
 - **param** `permitted_classes` -- 追加で読み込みを許可するクラスの配列。
 - **param** `permitted_symbols` -- 引数 `permitted_classes` に [Symbol](../../../class/Symbol.md) を含む場合に読み込みを許可する [Symbol](../../../class/Symbol.md) の配列。
                          省略した場合は全ての [Symbol](../../../class/Symbol.md) を許可します。

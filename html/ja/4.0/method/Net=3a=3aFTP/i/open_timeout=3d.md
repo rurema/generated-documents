@@ -23,5 +23,5 @@
   - [Net::FTP#storbinary](../../../method/Net=3a=3aFTP/i/storbinary.md)
   - [Net::FTP#storlines](../../../method/Net=3a=3aFTP/i/storlines.md)
 
-- **param** `second` -- 待つ秒数を指定します。
+- **param** `seconds` -- 待つ秒数を指定します。
 - **SEE** [Net::HTTP#read_timeout](../../../method/Net=3a=3aHTTP/i/read_timeout.md), [Net::HTTP#open_timeout](../../../method/Net=3a=3aHTTP/i/open_timeout.md)

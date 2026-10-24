@@ -1,6 +1,6 @@
 # OpenSSL::X509::ExtensionFactory#subject_certificate=
 
-### def subject_certificate=(name)
+### def subject_certificate=(cert)
 
 自身に所有者(subject)の証明書オブジェクトを設定します。
 

@@ -1,6 +1,6 @@
 # DRb::DRbServer.new
 
-### def DRb::DRbServer.new(uri=nil, front=nil, config_or_acl=nil) -> DRb::DRbServer
+### def DRb::DRbServer.new(uri=nil, front=nil, config=nil) -> DRb::DRbServer
 
 dRuby サーバを起動し、DRbServerのインスタンスを返します。
 

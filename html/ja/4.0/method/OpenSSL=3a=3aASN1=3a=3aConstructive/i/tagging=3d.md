@@ -1,6 +1,6 @@
 # OpenSSL::ASN1::Constructive#tagging=
 
-### def tagging=(tag)
+### def tagging=(tagging)
 
 タグ付けの方式を設定します。
 

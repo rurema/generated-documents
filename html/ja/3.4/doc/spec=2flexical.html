@@ -99,14 +99,25 @@ ruby_is_simple
 _x1
 </code></pre>
 <p>
-Rubyの識別子は英字またはアンダースコア('_')から始まり、英字、アンダースコア('_')または数字からなります。識別子の長さに制限はありません。
+Ruby の識別子は英字またはアンダースコア(<code>_</code>)から始まり、英字、アンダースコア(<code>_</code>)または数字からなります。識別子の長さに制限はありません。大文字と小文字は区別されます。
 </p>
 <p>
-ソースコードのエンコーディングが ASCII 以外の場合は、英字に加えて日本語などの ASCII の範囲外の文字も識別子に使えます(ソースコードのエンコーディングについては <a href="../doc/spec=2fm17n.html">多言語化</a> を参照してください)。アルファベット大文字([A-Z])で始まる識別子、および
-(ソースコードのエンコーディングが Unicode の場合)Unicode の大文字またはタイトルケース文字で始まる識別子は定数と解釈されます(詳細は <a href="../doc/spec=2fvariables.html#const">変数と定数/定数</a> を参照してください)。
+ソースコードのエンコーディングが ASCII 以外の場合、ASCII の範囲外の文字は文字の種類を問わずすべて識別子を構成する文字として扱われ、識別子の先頭にも使えます(ソースコードのエンコーディングについては <a href="../doc/spec=2fm17n.html">多言語化</a> を参照してください)。漢字・仮名のような文字だけでなく、全角数字や <code>→</code> のような記号、全角スペース(U+3000)も識別子の一部になります。見た目では空白や記号に見える文字が識別子に含まれてしまうことがあるので注意してください(全角スペースの例は <a href="../doc/spec=2fvariables.html">変数と定数</a> を参照してください)。
+</p>
+<span class="caption">ASCII の範囲外の文字を含む識別子</span>
+<pre class="highlight ruby"><code>ねこ <span class="o">=</span> <span class="mi">1</span>
+→ <span class="o">=</span> <span class="mi">2</span>              <span class="c1"># 記号も識別子になる
+</span>１２ <span class="o">=</span> <span class="mi">3</span>            <span class="c1"># 全角数字から始まる識別子
+</span><span class="nb">p</span> <span class="nb">local_variables</span>  <span class="c1"># =&gt; [:ねこ, :→, :１２]
+</span></code></pre>
+<p>
+アルファベット大文字(<code>A</code>〜<code>Z</code>)で始まる識別子、および(ソースコードのエンコーディングが Unicode の場合)Unicode の大文字またはタイトルケース文字で始まる識別子は定数と解釈されます。それ以外の識別子はローカル変数またはメソッド名と解釈されます(詳細は <a href="../doc/spec=2fvariables.html#const">変数と定数/定数</a> を参照してください)。
 </p>
 <p>
-メソッド名にはこの識別子の他に、識別子の末尾に <code>?</code> や <code>!</code> を付けたものや、<code>==</code> や <code>+</code> のような再定義可能な演算子も使えます
+インスタンス変数・クラス変数・グローバル変数を表す接頭辞 <code>@</code>、<code>@@</code>、<code>$</code> は識別子には含まれません。例えば <code>@foo</code> の識別子の部分は <code>foo</code> で、変数名としては接頭辞を含めた <code>@foo</code> 全体を使います(<a href="../doc/spec=2fvariables.html">変数と定数</a> を参照してください)。予約語は変数名などの識別子としては使えません(接頭辞付きの変数名やメソッド名として使える場合については <a href="#reserved">予約語</a> を参照してください)。
+</p>
+<p>
+メソッド名にはこの識別子の他に、識別子の末尾に <code>?</code> や <code>!</code> を付けたもの、末尾に <code>=</code> を付けた代入形式のメソッド名(<code>foo=</code>)、<code>==</code> や <code>+</code> のような再定義可能な演算子も使えます
 (<a href="../doc/spec=2fcall.html">メソッド呼び出し</a>、<a href="../doc/spec=2fdef.html#method">クラス／メソッドの定義/メソッド定義</a> を参照してください)。
 </p>
 <h2 id='comment'>コメント</h2>
