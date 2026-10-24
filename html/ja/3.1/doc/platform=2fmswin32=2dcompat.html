@@ -84,31 +84,26 @@ OS自体の制限などにより、いくつかの非互換性があります。
 </p>
 <h1 >プロセスの扱い</h1>
 <p>
-最も重要な違いとして、fork が動作しないことがあげられます。Unix向けに書かれているデーモン系のアプリケーションが動かないのはこれが原因であることが多いでしょう。
+最も重要な違いとして、fork が動作しないことがあげられます。<a href="../method/Process/s/fork.html">Process.fork</a> は <a href="../class/NotImplementedError.html">NotImplementedError</a> を発生させます。Unix向けに書かれているデーモン系のアプリケーションが動かないのはこれが原因であることが多いでしょう。
 </p>
 <h1 >実行権限の扱い</h1>
 <p>
-setuid などのプロセスの実行権限に関するメソッドは、(NT環境であっても)期待した動作はしません。
+setuid などのプロセスの実行権限を変更するメソッドは、Windows に対応する機能が無いため <a href="../class/NotImplementedError.html">NotImplementedError</a> を発生させます。
 </p>
 <h1 >ファイルシステムの問題</h1>
 <p>
-Win32のファイルストリームにはテキストモードとバイナリモードの区別が存在します。何も考えずに &quot;w&quot; などのモードでファイルに出力すると、\n → \r\n 変換が起きるために、バイナリデータが破壊されるという問題が起きます。
+Win32のファイルストリームにはテキストモードとバイナリモードの区別が存在します。何も考えずに &quot;w&quot; などのモードでファイルに出力すると、<code>\n</code> → <code>\r\n</code> 変換が起きるために、バイナリデータが破壊されるという問題が起きます。バイナリデータを扱うときは <code>&quot;wb&quot;</code> のようにバイナリモードで開くか、<a href="../method/IO/i/binmode.html">IO#binmode</a> を呼んでください。
 </p>
 <p>
-File.chmod は読み出し許可・書き込み許可属性のみ操作できます。group/other に対する操作や実行許可の操作は無視されます。File.chownはエラーを返しませんが実際には何も行いません。
+<a href="../method/File/s/chmod.html">File.chmod</a> は読み出し許可・書き込み許可属性のみ操作できます。group/other に対する操作や実行許可の操作は無視されます。<a href="../method/File/s/chown.html">File.chown</a> や <a href="../method/File/s/lchown.html">File.lchown</a> はエラーを返しませんが実際には何も行いません。
 </p>
 <p>
-ドライブレター絡みで未だに幾つかの実装上の漏れがあります--<a href="../doc/platform=2fDOSISH=2dsupport.html">DOSISH 対応</a>。また、同様に、-Ksを指定してあっても、日本語ファイル名の扱いで問題が発生することがあります。
+ドライブレターの扱いについては <a href="../doc/platform=2fDOSISH=2dsupport.html">DOSISH 対応</a> (歴史的資料)も参照してください。
 </p>
 <h1 >シェルの違いによる問題</h1>
 <p>
-Win32 ネイティブ版では、通常は外部シェルとして command.com / cmd.exe が使われます。そのため、Kernel#system メソッドなどでシェル経由で外部コマンドを起動した場合、プロセス制御などの操作を利用することはできません。
+Win32 ネイティブ版では、<a href="../method/Kernel/m/system.html">Kernel.#system</a> などでシェル経由で外部コマンドを起動するときのシェルは <code>cmd.exe</code> です。シェルの文法や組み込みコマンドは Unix のシェルとは異なります。
 </p>
-<h1 >IOとRubyスレッド併用時の問題</h1>
-<p>
-Win32ネイティブ版ではIO待ちはスレッドをブロックします。現時点では適当な解決策もありません。
-</p>
-<h1 >その他</h1>
 
 </main>
 

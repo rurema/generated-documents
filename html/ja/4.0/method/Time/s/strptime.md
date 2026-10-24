@@ -36,3 +36,4 @@ Time.strptime('01/5/18 4:13:00', '%Y/%m/%d %T'){|y|
 
 - **param** `date` -- 時刻を表す文字列
 - **param** `format` -- 書式文字列
+- **param** `now` -- 現在時刻を表す [Time](../../../class/Time.md) オブジェクト

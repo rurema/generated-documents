@@ -13,5 +13,6 @@ freeze キーワード引数を受け取り、super へそのまま渡すよう�
 
 initialize_clone という名前のメソッドは自動的に private に設定されます。
 
+- **param** `obj` -- 複製元のオブジェクトが渡されます。
 - **param** `freeze` -- [Object#clone](../../../method/Object/i/clone.md) に渡された freeze の値(true, false, nil のいずれか)が渡されます。
 - **SEE** [Object#clone](../../../method/Object/i/clone.md), [Object#initialize_copy](../../../method/Object/i/initialize_copy.md), [Object#initialize_dup](../../../method/Object/i/initialize_dup.md)

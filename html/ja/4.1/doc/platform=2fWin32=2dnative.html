@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/doc/platform=2fWin32=2dnative.html">
 
 <title>Win32ネイティブ版 (Ruby 4.1 リファレンスマニュアル)</title>
-<meta name="description" content="Win32 版 Ruby を Cygwin 版と比較すると以下の利点があります。">
+<meta name="description" content="Win32 ネイティブ版 Ruby を platform/Cygwin 版と比較すると以下の利点があります。">
 <script src="../script.js"></script>
 <script>var index_rel_prefix = "../";</script>
 <script src="../js/search_data.js"></script>
@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-22-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-24-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -75,31 +75,48 @@
 <main>
 
 <p>
-Win32 版 Ruby を Cygwin 版と比較すると以下の利点があります。
+Win32 ネイティブ版 Ruby を <a href="../doc/platform=2fCygwin.html">Cygwin</a> 版と比較すると以下の利点があります。
 </p>
 <ul>
 <li>Cygwin DLL が必要ない</li>
-<li>微妙に高速 (特に I/O は速い)</li>
-<li>安定している</li>
 </ul>
 <p>
 欠点は以下の通りです。
 </p>
 <ul>
-<li>Unix 版との互換性が非常に低い (ある意味、当然)</li>
+<li>Unix 版との互換性が低い</li>
 </ul>
 <p>
 この点については <a href="../doc/platform=2fmswin32=2dcompat.html">Win32ネイティブ版Rubyの互換性問題</a> も参照してください。
 </p>
 <p>
-現在 Win32 ネイティブな Ruby で広く配布されているものには、
-Visual C++ で構築した <a href="../doc/platform=2fmswin32.html">mswin32</a> 版と
-gcc でコンパイルした <a href="../doc/platform=2fMinGW.html">MinGW</a> 版の 2 種類があります。また Ruby 1.7 からは Borland C++ (bcc) もサポートされました。これを bccwin32 版と言います。
+ネイティブビルドは、使うコンパイラと C ランタイムによって次の 3 種類に分かれます。
+</p>
+<ul>
+<li><a href="../doc/platform=2fmswin32.html">mswin32</a> 版: Visual C++ でビルドしたもの</li>
+<li><a href="../doc/platform=2fMinGW.html">MinGW</a> 版(mingw-msvcrt): MinGW で <code>msvcrt.dll</code> 系の C ランタイムを使うもの</li>
+<li><a href="../doc/platform=2fMinGW.html">MinGW</a> 版(mingw-ucrt): MinGW で Windows Universal CRT を使うもの</li>
+</ul>
+<p>
+これらの版の間に大きな違いはなく、Ruby レベルで違いがわかることはまずありません。ただし Ruby 1.6 まではそれぞれで DLL 名が違うため、拡張ライブラリは流用できませんでした。この点は Ruby 1.8 以降では改善されています。
 </p>
 <p>
-これらのバージョン間に大きな違いはなく、
-Ruby レベルで違いがわかることはまずありません。ただし Ruby 1.6 まではそれぞれで DLL 名が違うので、拡張ライブラリは流用できません。つまり VC++ でコンパイルした拡張ライブラリは
-mswin32 版の ruby でしか使えないということです。この点は Ruby 1.8 以降では改善されました。
+Borland C++ (bcc32) のサポートは Ruby 1.9.1 で終了しました。
+</p>
+<p>
+Ruby 4.0 から、MSVC でビルドするには MSVC 14.0 (Visual Studio 2015) 以降が必要です。
+</p>
+<p>
+Ruby 4.1 では次の変更があります。
+</p>
+<ul>
+<li>Windows 10 1703 以降では、260 文字を超えるパスを扱うために <code>LongPathsEnabled</code> レジストリ値を設定する必要がなくなりました。<a class="external" href="https://bugs.ruby-lang.org/issues/18947">[bug#18947]</a></li>
+<li>64 ビットの mswin 版で、<a href="../class/String.html">String</a>、<a href="../class/Array.html">Array</a>、<a href="../class/MatchData.html">MatchData</a> の長さが 2 GiB 以上になれるようになりました。それまでは長さが 32 ビットの <code>long</code> でした。<a class="external" href="https://bugs.ruby-lang.org/issues/22400">[feature#22400]</a></li>
+<li>MSVC でビルドする場合は Visual Studio 2017 version 15.8 以降が必要です。</li>
+<li>MSVC でビルドした Ruby は Windows 10 version 1809 (build 17763) または Windows Server 2019 以降が必要です。それより前の Windows 10 と Windows Server 2016 は対象外です。</li>
+</ul>
+<p>
+削除されたプラットフォームの一覧は <a href="../doc/platform=2findex.html">Ruby が動作するプラットフォーム</a> を参照してください。
 </p>
 
 </main>

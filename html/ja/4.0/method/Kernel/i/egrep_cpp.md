@@ -18,4 +18,6 @@ CPP $CFLAGS opt | egrep pat
 
 - **param** `src` -- C 言語のソースコードを文字列で記述します。
 
+- **param** `opt` -- プリプロセッサにコマンドライン引数として渡す値を指定します。
+
 - **SEE** [man:egrep(1)]

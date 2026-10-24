@@ -15,7 +15,7 @@ XPathインジェクション攻撃を避けるため、適切なエスケープ
 
 - **param** `element` -- 要素([REXML::Element](../../../class/REXML=3a=3aElement.md))
 - **param** `path` -- XPath文字列
-- **param** `namespace` -- 名前空間とURLの対応付け
+- **param** `namespaces` -- 名前空間とURLの対応付け
 - **param** `variables` -- 変数名とその値の対応付け
 
 ```ruby

@@ -9,7 +9,7 @@ self を指定したエンコーディングに変換した文字列を作成し
 
 - **param** `encoding` --       変換先のエンコーディングを表す文字列か [Encoding](../../../class/Encoding.md) オブジェクトを指定します。
 - **param** `from_encoding` --  変換元のエンコーディングを表す文字列か [Encoding](../../../class/Encoding.md) オブジェクトを指定します。
-- **param** `option` --         変換オプションをキーワード引数で与えます。
+- **param** `options` --        変換オプションをキーワード引数で与えます。
 - **return** --               変換された文字列
 
 変換オプション

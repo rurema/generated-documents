@@ -1,7 +1,7 @@
 # Kernel#try_link
 
-### def try_link(src, opt = "", *options) -> bool
-### def try_link(src, opt = "", *options){ ... } -> bool
+### def try_link(src, opt = "", *opts) -> bool
+### def try_link(src, opt = "", *opts){ ... } -> bool
 
 C プログラムのソースコード src をコンパイル、リンクします。
 
@@ -13,6 +13,8 @@ C プログラムのソースコード src をコンパイル、リンクしま�
 - **param** `src` -- C プログラムのソースコードを指定します。
 
 - **param** `opt` -- リンカにコマンド引数として渡す値を指定します。
+
+- **param** `opts` -- コマンドを実行する際のオプションを指定します。
 
 ```ruby title="例"
 require 'mkmf'

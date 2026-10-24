@@ -6,11 +6,11 @@
 
 引数にはイベントのメソッド名を指定します。引数を省略した場合は、すべてのイベントを対象とするブロックの登録となります。
 
-- **param** `event` -- イベント名を文字列かシンボルで指定します。イベント名は大文字小文字を区別します。省略時にはすべてのイベントが対象となります。
+ブロックには、サーバがイベント通知時に指定した引数が渡されます。
+`event` パラメータを省略した場合、第1引数にはイベントのメソッド名が文字列で与えられます。引数の変更が必要な場合は、
+[WIN32OLE_EVENT#on_event_with_outargs](../../../method/WIN32OLE_EVENT/i/on_event_with_outargs.md)を利用してください。
 
-- **param** `args` -- サーバがイベント通知時に指定した引数です。
-            eventパラメータを省略した場合、第1引数にはイベントのメソッド名が文字列で与えられます。引数の変更が必要な場合は、
-            [WIN32OLE_EVENT#on_event_with_outargs](../../../method/WIN32OLE_EVENT/i/on_event_with_outargs.md)を利用してください。
+- **param** `event` -- イベント名を文字列かシンボルで指定します。イベント名は大文字小文字を区別します。省略時にはすべてのイベントが対象となります。
 
 - **raise** `WIN32OLERuntimeError` -- [WIN32OLE_EVENT#unadvise](../../../method/WIN32OLE_EVENT/i/unadvise.md)によってイベントソースと切断済みです。
 

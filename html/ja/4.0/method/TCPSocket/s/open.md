@@ -23,7 +23,7 @@ host で指定したホストの service で指定したポートと接続した
 の名前解決に [resolv](../../../library/resolv.md) ライブラリを使います。
 
 - **param** `host` --           ホスト名、またはインターネットアドレスを示す文字列を指定します。
-- **param** `service` --        /etc/services (または NIS) に登録されているサービス名かポート番号を指定します。
+- **param** `serv` --           /etc/services (または NIS) に登録されているサービス名かポート番号を指定します。
 - **param** `local_host` --     ホスト名、またはインターネットアドレスを示す文字列を指定します。
 - **param** `local_service` --  /etc/services (または NIS) に登録されているサービス名かポート番号を指定します。
 - **raise** `SocketError` -- 名前解決に失敗した場合に発生します。

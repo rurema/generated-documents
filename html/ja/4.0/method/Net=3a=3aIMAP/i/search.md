@@ -21,6 +21,6 @@ p imap.search('SUBJECT "hello"')
 # => [1, 6, 7, 8]
 ```
 
-- **param** `key` -- 検索キー(文字列の配列もしくは文字列)
+- **param** `keys` -- 検索キー(文字列の配列もしくは文字列)
 - **param** `charset` -- 検索に用いるcharset
 - **SEE** [Net::IMAP#search](../../../method/Net=3a=3aIMAP/i/search.md)

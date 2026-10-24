@@ -1,6 +1,6 @@
 # OpenSSL::PKCS7#add_signer
 
-### def add_signer(singer) -> self
+### def add_signer(signer) -> self
 
 署名者を追加します。
 

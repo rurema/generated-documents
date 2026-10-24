@@ -16,6 +16,7 @@ str_index と str_length もしくは str_range が与えられたとき、self 
 
 - **param** `index` -- 置換したい文字列の範囲の始端
 - **param** `length` -- 置換したい文字列の範囲の長さ
+- **param** `str` -- 置き換える文字列
 - **param** `str_index` -- str の範囲の始端
 - **param** `str_length` -- str の範囲の長さ
 - **param** `range` -- 置換したい文字列の範囲を示す Range オブジェクト

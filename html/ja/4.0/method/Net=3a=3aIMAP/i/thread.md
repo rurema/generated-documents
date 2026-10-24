@@ -18,6 +18,6 @@ search_key には検索条件を渡します。
 [Net::IMAP#search](../../../method/Net=3a=3aIMAP/i/search.md) と同等です。
 
 - **param** `algorithm` -- スレッド構造構築アルゴリズム名(文字列)
-- **param** `search_key` -- 検索条件(文字列配列)
+- **param** `search_keys` -- 検索条件(文字列配列)
 - **param** `charset` -- 検索条件の解釈に用いるCHARSET名(文字列)
 - **SEE** [Net::IMAP::ThreadMember](../../../class/Net=3a=3aIMAP=3a=3aThreadMember.md), [Net::IMAP#uid_thread](../../../method/Net=3a=3aIMAP/i/uid_thread.md)

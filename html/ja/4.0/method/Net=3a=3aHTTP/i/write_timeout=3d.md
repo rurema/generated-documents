@@ -13,5 +13,5 @@ Windows では Net::WriteTimeout は発生しません。
 
 デフォルトは 60 (秒)です。
 
-- **param** `second` -- 待つ秒数を指定します。
+- **param** `seconds` -- 待つ秒数を指定します。
 - **SEE** [Net::HTTP#open_timeout](../../../method/Net=3a=3aHTTP/i/open_timeout.md), [Net::HTTP#read_timeout](../../../method/Net=3a=3aHTTP/i/read_timeout.md), [Net::HTTP#write_timeout](../../../method/Net=3a=3aHTTP/i/write_timeout.md)

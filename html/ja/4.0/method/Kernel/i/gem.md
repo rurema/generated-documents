@@ -23,7 +23,7 @@ gem メソッドは全ての require メソッドよりも前に実行されま�
 GEM_SKIP=libA:libB ruby-I../libA -I../libB ./mycode.rb
 ```
 
-- **param** `gem` -- Gem の名前の文字列か、Gem の依存関係を [Gem::Dependency](../../../class/Gem=3a=3aDependency.md) のインスタンスで指定します。
+- **param** `gem_name` -- Gem の名前の文字列か、Gem の依存関係を [Gem::Dependency](../../../class/Gem=3a=3aDependency.md) のインスタンスで指定します。
 
 - **param** `version_requirements` -- 必要とする gem のバージョンを指定します。
 

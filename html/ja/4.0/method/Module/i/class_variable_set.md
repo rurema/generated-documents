@@ -6,6 +6,7 @@
 val をセットします。val を返します。
 
 - **param** `name` -- [String](../../../class/String.md) または [Symbol](../../../class/Symbol.md) を指定します。
+- **param** `val` -- クラス変数に設定する値を指定します。
 
 ```ruby title="例"
 class Fred

@@ -1,6 +1,6 @@
 # DRb?.start_service
 
-### module_function def start_service(uri=nil, front=nil, config_or_acl=nil) -> ()
+### module_function def start_service(uri=nil, front=nil, config=nil) -> ()
 
 dRuby のサービス(サーバ)を起動します。
 
