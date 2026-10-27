@@ -14,6 +14,7 @@ pretty_unparse は将来削除される予定です。
 - **param** `options` -- [JSON::State](../../../class/JSON=3a=3aState.md) または、to_hash や to_h メソッドでハッシュに変換可能なオブジェクトを指定できます。
        ハッシュを使用する場合指定可能なオプションは [JSON?.generate](../../../method/JSON/m/generate.md) を参照してください。
 
+
 ```ruby title="例"
 require "json"
 

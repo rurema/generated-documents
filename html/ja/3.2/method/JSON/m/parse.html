@@ -105,7 +105,7 @@ JSON 形式の文字列を指定します。
 <dt><code>:max_nesting</code></dt>
 <dd>
 <p>
-入れ子になっているデータの最大の深さを指定します。偽を指定すると深さのチェックを行いません。デフォルトは 19 です。
+入れ子になっているデータの最大の深さを指定します。偽を指定すると深さのチェックを行いません。デフォルトは 100 です。
 </p>
 </dd>
 <dt><code>:allow_nan</code></dt>
@@ -121,11 +121,37 @@ JSON 形式の文字列を指定します。
 偽を指定するとマッチするクラスや <a href="../../../method/JSON/s/create_id.html">JSON.create_id</a> が見つかっても付加情報を生成しません。デフォルトは偽です。
 </p>
 </dd>
+<dt><code>:object_class</code></dt>
+<dd>
+<p>
+JSON のオブジェクトを変換するクラスを指定します。デフォルトは <a href="../../../class/Hash.html">Hash</a> です。
+</p>
+</dd>
+<dt><code>:array_class</code></dt>
+<dd>
+<p>
+JSON の配列を変換するクラスを指定します。デフォルトは <a href="../../../class/Array.html">Array</a> です。
+</p>
+</dd>
 <dt><code>:symbolize_names</code></dt>
 <dd>
 <p>
 真を指定するとハッシュのキーを文字列ではなくシンボルにします。デフォルトは偽です。
 </p>
+</dd>
+<dt><code>:freeze</code></dt>
+<dd>
+<p>
+真を指定すると、パースした結果のすべてのオブジェクト(文字列・配列・ハッシュ)を凍結して返します。同じ内容の文字列は同一のオブジェクトになります。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:decimal_class</code></dt>
+<dd>
+<p>
+JSON の小数を変換するクラスを指定します。デフォルトは nil で、<a href="../../../class/Float.html">Float</a> に変換します。
+</p>
+</dd>
+</dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
 
@@ -135,8 +161,17 @@ JSON 形式の文字列を指定します。
 <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[1,2,{&quot;name&quot;:&quot;tanaka&quot;,&quot;age&quot;:19}]'</span>, <span class="ss">symbolize_names:</span> <span class="k">true</span><span class="p">)</span>
 <span class="c1"># =&gt; [1, 2, {:name=&gt;&quot;tanaka&quot;, :age=&gt;19}]
 </span></code></pre>
-</dd>
-</dl>
+<span class="caption">例 パースのオプション</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">bigdecimal</span><span class="s2">"</span>
+
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[1.5]'</span>, <span class="ss">decimal_class:</span> <span class="no">BigDecimal</span><span class="p">)</span> <span class="c1"># =&gt; [0.15e1]
+</span>
+a <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[&quot;x&quot;,&quot;x&quot;]'</span>, <span class="ss">freeze:</span> <span class="k">true</span><span class="p">)</span>
+a<span class="p">.</span><span class="nf">frozen?</span>         <span class="c1"># =&gt; true
+</span>a<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">frozen?</span>      <span class="c1"># =&gt; true
+</span>a<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>a<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/JSON=3a=3aParser/i/parse.html">JSON::Parser#parse</a>
 </p>

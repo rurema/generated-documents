@@ -42,12 +42,26 @@ unparse は将来削除される予定です。
   デフォルトは偽です。
 - **`:max_nesting`**:
   入れ子になっているデータの最大の深さを指定します。
-  偽を指定すると深さのチェックを行いません。デフォルトは 19 です。
+  偽を指定すると深さのチェックを行いません。デフォルトは 100 です。
+- **`:ascii_only`**:
+  真を指定すると、ASCII 以外の文字を `\uXXXX` の形式にエスケープします。デフォルトは偽です。
+- **`:script_safe`**:
+  真を指定すると、`/` を `\/` に、U+2028・U+2029 を `\u2028`・`\u2029` にエスケープし、
+  JavaScript に埋め込んでも安全な JSON 形式の文字列を生成します。デフォルトは偽です。
+- **`:escape_slash`**:
+  `:script_safe` の別名です。
+- **`:strict`**:
+  真を指定すると、nil・true・false・[c:Integer]・[c:Float]・[c:String]・[c:Array]・[c:Hash] 以外のオブジェクトを
+  `to_json` や `to_s` で変換せず、[c:JSON::GeneratorError] を発生させます。
+  [c:Symbol] の値も [c:JSON::GeneratorError] になります(ハッシュのキーの [c:Symbol] は文字列に変換します)。デフォルトは偽です。
 
 - **raise** `JSON::GeneratorError` -- [m:JSON::NaN], [m:JSON::Infinity],[m:JSON::MinusInfinity]
        を生成しようとした場合に発生します。
 
 - **raise** `JSON::CircularDatastructure` -- 与えられたオブジェクトが循環参照を持つ場合に発生します。
+
+ASCII 以外のバイトを含む BINARY(ASCII-8BIT)エンコーディングの文字列は UTF-8 として扱い、非推奨の警告を出します。
+
 
 ```ruby title="例"
 require "json"

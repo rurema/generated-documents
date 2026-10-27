@@ -6,7 +6,7 @@ since_by_name=unsafe_load=3.4
 until_by_name=
 rbs_sig=(uninitialized)
 
-### module_function def unsafe_load(source, proc = nil, options = nil) -> object
+### module_function def unsafe_load(source, proc = nil, **options) -> object
 
 与えられた JSON 形式の文字列を Ruby オブジェクトとしてロードして返します。
 
@@ -20,9 +20,13 @@ rbs_sig=(uninitialized)
 `proc` として手続きオブジェクトが与えられた場合は、読み込んだ結果を引数にその手続きを呼び出し、
 その返り値を最終的な結果とします。
 
+オプションはキーワード引数で指定します。
+`proc` の位置にハッシュを渡してもオプションとしては扱われず、[m:Hash#to_proc] で変換した手続きとして各値に適用されます。
+
 - **param** `source` -- JSON 形式の文字列を指定します。他には、`to_str`, `to_io`, `read` メソッドを持つオブジェクトも指定可能です。
 - **param** `proc` -- [c:Proc] オブジェクトを指定します。
-- **param** `options` -- オプションをハッシュで指定します。指定可能なオプションは [m:JSON?.parse] と同様です。
+- **param** `options` -- オプションをキーワード引数で指定します。指定可能なオプションは [m:JSON?.parse] と同様です。
+- **raise** `ArgumentError` -- オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
 
 
 ```ruby title="例"

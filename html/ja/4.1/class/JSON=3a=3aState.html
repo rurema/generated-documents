@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-27-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -196,6 +196,10 @@ JSON 形式の文字列を生成するための設定を保持しておくため
 <li><a href="#I_OBJECT_NL">object_nl</a></li>
 
 <li><a href="#I_OBJECT_NL--3D">object_nl=</a></li>
+
+<li><a href="#I_RFC8785--3D">rfc8785=</a></li>
+
+<li><a href="#I_RFC8785--3D">rfc8785?</a></li>
 
 <li><a href="#I_SCRIPT_SAFE">script_safe</a></li>
 
@@ -405,6 +409,48 @@ JSON 形式の文字列中に現れる JavaScript の配列の行末に挿入す
 <dd>
 <p>
 真を指定した場合、ASCII 文字列のみを用いて JSON 形式の文字列を生成します。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:max_nesting</code></dt>
+<dd>
+<p>
+入れ子になっているデータの最大の深さを指定します。
+0 を指定すると深さのチェックを行いません。デフォルトは 100 です。
+</p>
+</dd>
+<dt><code>:script_safe</code></dt>
+<dd>
+<p>
+真を指定すると、<code>/</code> を <code>\/</code> に、U+2028・U+2029 を <code>\u2028</code>・<code>\u2029</code> にエスケープし、
+JavaScript に埋め込んでも安全な JSON 形式の文字列を生成します。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:strict</code></dt>
+<dd>
+<p>
+真を指定すると、nil・true・false・<a href="../class/Integer.html">Integer</a>・<a href="../class/Float.html">Float</a>・<a href="../class/String.html">String</a>・<a href="../class/Array.html">Array</a>・<a href="../class/Hash.html">Hash</a> 以外のオブジェクトを
+<code>to_json</code> や <code>to_s</code> で変換せず、<a href="../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> を発生させます。
+<a href="../class/Symbol.html">Symbol</a> は文字列として変換します。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:allow_duplicate_key</code></dt>
+<dd>
+<p>
+真を指定すると、キーを文字列に変換した結果が重複するハッシュ(<code>{foo: 1, &quot;foo&quot; =&gt; 2}</code> など)をそのまま出力します。デフォルトは偽で、この場合は <a href="../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します。
+</p>
+</dd>
+<dt><code>:sort_keys</code></dt>
+<dd>
+<p>
+真を指定すると、オブジェクト(ハッシュ)のキーを昇順に並べ替えます。
+<code>Proc</code> を指定すると、その <code>Proc</code> で並べ替えます。詳しくは <a href="../method/JSON=3a=3aState/i/sort_keys=3d.html">JSON::State#sort_keys=</a> を参照してください。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:rfc8785</code></dt>
+<dd>
+<p>
+真を指定すると、<a class="external" href="https://tools.ietf.org/html/rfc8785">[RFC8785]</a> の JSON Canonicalization Scheme に従って正規化した
+JSON 形式の文字列を生成します。詳しくは <a href="../method/JSON=3a=3aState/i/rfc8785=3d.html">JSON::State#rfc8785=</a> を参照してください。デフォルトは偽です。
 </p>
 </dd>
 <dt><code>:buffer_initial_length</code></dt>
@@ -805,6 +851,76 @@ json_state<span class="p">.</span><span class="nf">object_nl</span>             
 </dd>
 
 
+<dt class="method-heading" id="I_RFC8785--3D"><code>rfc8785? -&gt; bool</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/rfc8785=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON/State.html#method-i-rfc8785-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>rfc8785=(enable)</code></dt>
+<dd class="method-description">
+<p>
+JSON 形式の文字列を <a class="external" href="https://tools.ietf.org/html/rfc8785">[RFC8785]</a> の JSON Canonicalization Scheme に従って正規化して生成するかどうかを取得・設定します。
+</p>
+<p>
+真を設定すると、次のように JSON 形式の文字列を生成します。
+</p>
+<ul>
+<li>オブジェクト(ハッシュ)のキーを UTF-16 のコード単位の順に並べ替えます。入れ子のハッシュのキーも並べ替えます。</li>
+<li>数値を ECMAScript の Number の文字列表現と同じ形式で出力します。
+整数も <a href="../class/Float.html">Float</a> に変換してから出力するため、丸められることがあります。</li>
+<li>トークンの間に空白を入れません。</li>
+</ul>
+<p>
+<code>JSON::Fragment</code> の内容は、そのまま挿入されます。正規形にするのは呼び出し側の責任です。
+</p>
+<p>
+キーの並べ替えはこの設定自体が行うため、<code>rfc8785?</code> が真でも <a href="../method/JSON=3a=3aState/i/sort_keys.html">JSON::State#sort_keys</a> は偽のままです。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>enable</code>:</dt>
+<dd>
+真を指定すると正規化した JSON 形式の文字列を生成するようにします。偽を指定すると正規化しないようにします。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>indent</code>, <code>space</code>, <code>space_before</code>, <code>object_nl</code>, <code>array_nl</code> のいずれかが空文字列でない場合や、
+<code>ascii_only</code>, <code>script_safe</code>, <code>allow_nan</code> のいずれかが真の場合に、JSON 形式の文字列を生成するときに発生します。
+<a href="../method/JSON=3a=3aState/s/new.html">JSON::State.new</a> や <a href="../method/JSON=3a=3aState/i/configure.html">JSON::State#configure</a> でこれらと同時に指定した場合は、そのときに発生します。
+</dd>
+<dt>[EXCEPTION] <code>JSON::GeneratorError</code>:</dt>
+<dd>
+NaN, Infinity, -Infinity を生成しようとした場合や、
+<a href="../class/Float.html">Float</a> で表せない大きさの整数を生成しようとした場合に発生します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="nb">p</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">rfc8785:</span> <span class="k">true</span><span class="p">)</span><span class="p">.</span><span class="nf">rfc8785?</span> <span class="c1"># =&gt; true
+</span>
+state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">State</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">p</span> state<span class="p">.</span><span class="nf">rfc8785?</span>                         <span class="c1"># =&gt; false
+</span>state<span class="p">.</span><span class="nf">rfc8785</span> <span class="o">=</span> <span class="k">true</span>
+<span class="nb">p</span> state<span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">b</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">1</span>, <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mf">2.0</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; &quot;{\&quot;a\&quot;:2,\&quot;b\&quot;:1}&quot;
+</span>state<span class="p">.</span><span class="nf">rfc8785</span> <span class="o">=</span> <span class="k">false</span>
+<span class="nb">p</span> state<span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">b</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">1</span>, <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mf">2.0</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; &quot;{\&quot;b\&quot;:1,\&quot;a\&quot;:2.0}&quot;
+</span></code></pre>
+<span class="caption">例 キーの並べ替えと数値の形式</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">{</span><span class="ss">b:</span> <span class="mi">1</span>, <span class="s2">"</span><span class="s2">a</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">2</span>, <span class="s2">"</span><span class="s2">B</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">3</span>, <span class="s2">"</span><span class="s2">あ</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">4</span>, <span class="s2">"</span><span class="s2">ab</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">}</span>, <span class="ss">rfc8785:</span> <span class="k">true</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;{\&quot;B\&quot;:3,\&quot;a\&quot;:2,\&quot;ab\&quot;:5,\&quot;b\&quot;:1,\&quot;あ\&quot;:4}&quot;
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="mf">1.0</span>, <span class="o">-</span><span class="mf">0.0</span>, <span class="mf">1.0e100</span>, <span class="mf">1e-5</span>, <span class="mf">1e-7</span>, <span class="mf">1e21</span>, <span class="mf">1e20</span>, <span class="mi">123456789012345678</span>, <span class="mf">0.1</span><span class="o">+</span><span class="mf">0.2</span>, <span class="mf">2.5e-8</span>, <span class="mf">1.5e300</span><span class="p">]</span>, <span class="ss">rfc8785:</span> <span class="k">true</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;[1,0,1e+100,0.00001,1e-7,1e+21,100000000000000000000,123456789012345680,0.30000000000000004,2.5e-8,1.5e+300]&quot;
+</span></code></pre>
+<span class="caption">例 例外が発生する場合</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="mi">10</span><span class="o">**</span><span class="mi">400</span><span class="p">]</span>, <span class="ss">rfc8785:</span> <span class="k">true</span><span class="p">)</span>         <span class="c1"># ~&gt; Integer out of range for RFC 8785 (JSON::GeneratorError)
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">pretty_generate</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">a</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}</span>, <span class="ss">rfc8785:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># ~&gt; indent cannot be used with rfc8785 (ArgumentError)
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/JSON=3a=3aState/i/sort_keys=3d.html">JSON::State#sort_keys=</a>, <a href="../method/JSON/m/generate.html">JSON?.generate</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_SCRIPT_SAFE"><code>script_safe -&gt; bool</code><span class="method-since-badge">Ruby 3.3 から</span><span class="permalink">[<a href="../method/JSON=3a=3aState/i/script_safe.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON/State.html#method-i-script_safe">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__State.md">edit</a>]</span></dt>
 <dt class="method-heading"><code>script_safe? -&gt; bool</code></dt>
 <dt class="method-heading"><code>script_safe=(enable)</code></dt>
@@ -1017,11 +1133,17 @@ pp json_state<span class="p">.</span><span class="nf">to_h</span>
 </span><span class="c1">#     space_before: &quot;&quot;,
 </span><span class="c1">#     object_nl: &quot;&quot;,
 </span><span class="c1">#     array_nl: &quot;&quot;,
+</span><span class="c1">#     as_json: false,
 </span><span class="c1">#     allow_nan: false,
 </span><span class="c1">#     ascii_only: false,
 </span><span class="c1">#     max_nesting: 100,
+</span><span class="c1">#     script_safe: false,
+</span><span class="c1">#     strict: false,
 </span><span class="c1">#     depth: 0,
-</span><span class="c1">#     buffer_initial_length: 1024}
+</span><span class="c1">#     buffer_initial_length: 1024,
+</span><span class="c1">#     sort_keys: false,
+</span><span class="c1">#     rfc8785: false,
+</span><span class="c1">#     allow_duplicate_key: false}
 </span></code></pre>
 </dd>
 

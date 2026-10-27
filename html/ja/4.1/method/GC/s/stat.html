@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-27-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -81,8 +81,8 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_STAT"><code>stat(result_hash = {}, scope: :ractor) -&gt; {Symbol =&gt; Integer}</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/GC/s/stat.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-stat">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>stat(key, scope: :ractor) -&gt; Numeric</code></dt>
+<dt class="method-heading" id="S_STAT"><code>stat(result_hash = {}, process: false) -&gt; {Symbol =&gt; Integer}</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/GC/s/stat.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/GC.html#method-c-stat">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/GC.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>stat(key, process: false) -&gt; Numeric</code></dt>
 <dt class="rbs-signature"><code>(?<a href="../../../class/Hash.html">Hash</a>[<a href="../../../class/Symbol.html">Symbol</a>, untyped]? hash) &rarr; <a href="../../../class/Hash.html">Hash</a>[<a href="../../../class/Symbol.html">Symbol</a>, untyped]</code></dt>
 <dt class="rbs-signature"><code>(<a href="../../../class/Symbol.html">Symbol</a> key) &rarr; <a href="../../../class/Integer.html">Integer</a></code></dt>
 <dd class="method-description">
@@ -92,40 +92,67 @@ GC 内部の統計情報を <a href="../../../class/Hash.html">Hash</a> で返�
 <dl>
 <dt class='method-param'>[PARAM] <code>result_hash</code>:</dt>
 <dd>
-戻り値のためのハッシュを指定します。省略した場合は新しくハッシュを作成します。result_hash の内容は上書きされます。
+戻り値のためのハッシュを指定します。省略した場合は新しくハッシュを作成します。<code>result_hash</code> の内容は上書きされます。
 </dd>
 <dt class='method-param'>[PARAM] <code>key</code>:</dt>
 <dd>
 得られる統計情報から特定の情報を取得したい場合にキーを
 <a href="../../../class/Symbol.html">Symbol</a> で指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>scope</code>:</dt>
+<dt class='method-param'>[PARAM] <code>process</code>:</dt>
 <dd>
-統計情報の対象範囲を <a href="../../../class/Symbol.html">Symbol</a> で指定します。<code>:ractor</code>(デフォルト)は現在の <a href="../../../class/Ractor.html">Ractor</a> の値を返します。<code>:local</code> は <code>:ractor</code> の別名です。<code>:global</code> は、終了した Ractor の分も含む全 Ractor の累積の GC 回数と mark / sweep の CPU 時間を、stop-the-world の snapshot を取らずに返します。
+統計情報の対象を指定します。偽(デフォルト)のときは現在の <a href="../../../class/Ractor.html">Ractor</a> のオブジェクト空間の統計情報を、真のときはプロセス全体の統計情報を返します。
 </dd>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
-<code>scope</code> に未知の値を指定した場合に発生します。
+<code>key</code> に未知のキーや、<code>process</code> で選んだ統計情報に含まれないキーを指定した場合に発生します。
+</dd>
+<dt>[EXCEPTION] <code>NotImplementedError</code>:</dt>
+<dd>
+デフォルト以外の GC 実装(MMTk など)で <code>process</code> に真を指定した場合に発生します。
 </dd>
 </dl>
 <p>
-Ruby 4.1 から、キー <code>:global_gc_count</code> が加わりました。グローバル GC(全 Ractor を対象とする stop-the-world の GC)のうち、その Ractor が開始したものの回数です。各グローバル GC は、それを開始した 1 つの Ractor にだけ数えられるので、全 Ractor の <code>:global_gc_count</code> を足すとプロセス全体の回数になります。<code>scope: :global</code> では、終了した Ractor の分も含めたその合計を返します。グローバル GC は <code>:major_gc_count</code> には数えず、どちらのスコープでも <code>:count</code> は <code>:minor_gc_count</code>、<code>:major_gc_count</code>、<code>:global_gc_count</code> の合計になります。
+<code>process</code> が偽のときの統計情報には、グローバル GC(全 <a href="../../../class/Ractor.html">Ractor</a> を止める stop-the-world の GC)の回数を表すキーが 2 つ含まれます。
+<code>:global_gc_count</code> は、その Ractor のヒープを回収したグローバル GC の回数です。どの Ractor が開始したかは問いません。
+<code>:global_gc_invocation_count</code> は、その Ractor が開始したグローバル GC の回数です。各グローバル GC を開始した Ractor はちょうど 1 つです。
+<code>:minor_gc_count</code> と <code>:major_gc_count</code> はその Ractor のヒープに対するローカルな GC の回数で、グローバル GC は含みません。
+<code>:count</code> は <code>:minor_gc_count</code>、<code>:major_gc_count</code>、<code>:global_gc_count</code> の合計です。
 </p>
 <p>
-<code>scope: :global</code> のときに返るキーは <code>:count</code>、<code>:time</code>、<code>:marking_time</code>、<code>:sweeping_time</code>、<code>:minor_gc_count</code>、<code>:major_gc_count</code>、<code>:global_gc_count</code> の 7 つだけです。
-<code>scope</code> を指定しない場合は、従来どおり現在の Ractor の値を返します。<a href="../../../method/GC/s/count.html">GC.count</a> と <a href="../../../method/GC/s/total_time.html">GC.total_time</a> も同様です。
+<code>process</code> が真のとき、デフォルトの GC では、全 Ractor にわたる累積の GC 回数と計測した CPU 時間、全オブジェクト空間が共有するページプールの状態を返します。
+GC 回数と CPU 時間には、終了した Ractor のオブジェクト空間の分も含みます。返るキーは <code>:count</code>、<code>:time</code>、<code>:marking_time</code>、<code>:sweeping_time</code>、<code>:minor_gc_count</code>、<code>:major_gc_count</code>、<code>:global_gc_count</code>、<code>:page_pool_arenas</code>、<code>:page_pool_arenas_freed</code>、<code>:page_pool_total_pages</code>、<code>:page_pool_discarded_pages</code> の 11 個だけです。
+</p>
+<p>
+<code>process</code> が真のときの <code>:global_gc_count</code> はプロセス内のグローバル GC の回数で、止めた Ractor の数によらず 1 回ずつ数えます。
+<code>:count</code> は各ローカル GC と各グローバル GC を 1 回ずつ数えるので、<code>:minor_gc_count</code>、<code>:major_gc_count</code>、<code>:global_gc_count</code> の合計になります。
+1 回のグローバル GC は全ヒープを回収するので、この <code>:count</code> は Ractor ごとの <code>:count</code> の合計とは一致しません。
+</p>
+<p>
+<code>:page_pool_arenas</code> は現在マップされているページプールのアリーナの数、<code>:page_pool_arenas_freed</code> はページプールがアンマップしたアリーナの数です。
+<code>:page_pool_total_pages</code> はマップされているアリーナ内のページ本体の数、<code>:page_pool_discarded_pages</code> はメモリを OS に返した空きページ本体の数です。
+</p>
+<p>
+このときの <code>:time</code> はナノ秒単位の値を合計してからミリ秒に変換するので、<code>:marking_time</code> と <code>:sweeping_time</code> の和より 1 ミリ秒大きくなることがあります。これらの時間は GC が使った CPU 時間で、プログラムの停止時間ではありません。時間が累積されるかどうかは <a href="../../../method/GC/s/measure_total_time.html">GC.measure_total_time</a> の設定に従います。読み出しは各オブジェクト空間が公開している値を合算するだけで、stop-the-world を要求しません。
+<a href="../../../method/Process/s/fork.html">Process.fork</a> で作った子プロセスは、親プロセスの累積値を引き継ぎます。
+</p>
+<p>
+<a href="../../../method/GC/s/count.html">GC.count</a> と <a href="../../../method/GC/s/total_time.html">GC.total_time</a> は、常に現在の Ractor の値を返します。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code>r <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">GC</span><span class="p">.</span><span class="nf">start</span>; <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">:count</span><span class="p">)</span> <span class="p">}</span>
-<span class="nb">p</span> r<span class="p">.</span><span class="nf">value</span>                         <span class="c1"># =&gt; 1
-</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">:count</span><span class="p">)</span>                 <span class="c1"># =&gt; 0 (main Ractor の値)
-</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">:count</span>, <span class="ss">scope:</span> <span class="ss">:global</span><span class="p">)</span> <span class="c1"># =&gt; 2
-</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">:global_gc_count</span>, <span class="ss">scope:</span> <span class="ss">:global</span><span class="p">)</span> <span class="c1"># =&gt; 1
+<pre class="highlight ruby"><code><span class="c1"># 他の Ractor のオブジェクト空間があるので、子 Ractor の GC.start はグローバル GC になる
+</span>r <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">GC</span><span class="p">.</span><span class="nf">start</span>; <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">:global_gc_invocation_count</span><span class="p">)</span> <span class="p">}</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">value</span>                                  <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">:global_gc_count</span><span class="p">)</span>                <span class="c1"># =&gt; 1 (main Ractor のヒープも回収された)
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">:global_gc_invocation_count</span><span class="p">)</span>     <span class="c1"># =&gt; 0 (main Ractor は開始していない)
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">:global_gc_count</span>, <span class="ss">process:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; 1
+</span><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">process:</span> <span class="k">true</span><span class="p">)</span><span class="p">.</span><span class="nf">key?</span><span class="p">(</span><span class="ss">:page_pool_arenas</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="no">GC</span><span class="p">.</span><span class="nf">stat</span><span class="p">(</span><span class="ss">:page_pool_arenas</span><span class="p">)</span> <span class="c1"># ~&gt; unknown key: page_pool_arenas (ArgumentError)
 </span></code></pre>
 <dl>
 <dt>[RETURN]</dt>
 <dd>
-GC 内部の統計情報を<a href="../../../class/Hash.html">Hash</a> で返します。引数 key を指定した場合は数値を返します。
+GC 内部の統計情報を <a href="../../../class/Hash.html">Hash</a> で返します。引数 <code>key</code> を指定した場合は数値を返します。
 </dd>
 </dl>
 <pre class="highlight ruby"><code><span class="nb">p</span> <span class="no">GC</span><span class="p">.</span><span class="nf">stat</span>

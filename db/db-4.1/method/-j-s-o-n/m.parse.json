@@ -6,33 +6,104 @@ since_by_name=parse=1.9.3
 until_by_name=
 rbs_sig=(uninitialized)
 
-### module_function def parse(source, options = {}) -> object
+### module_function def parse(source, on_load: nil, object_class: nil, array_class: nil, **options) -> object
 
 与えられた JSON 形式の文字列を Ruby オブジェクトに変換して返します。
 
+オプションはキーワード引数で指定します。
+
 - **param** `source` -- JSON 形式の文字列を指定します。
 
-- **param** `options` -- オプションをハッシュで指定します。
+- **param** `on_load` -- パースで生成した値ごとに呼び出す手続きオブジェクトを指定します。下記の `:on_load` を参照してください。
+
+- **param** `object_class` -- JSON のオブジェクトを変換するクラスを指定します。下記の `:object_class` を参照してください。
+
+- **param** `array_class` -- JSON の配列を変換するクラスを指定します。下記の `:array_class` を参照してください。
+
+- **param** `options` -- その他のオプションをキーワード引数で指定します。
        指定可能なオプションは以下の通りです。
 
 - **`:max_nesting`**:
   入れ子になっているデータの最大の深さを指定します。
-  偽を指定すると深さのチェックを行いません。デフォルトは 19 です。
+  偽を指定すると深さのチェックを行いません。デフォルトは 100 です。
 - **`:allow_nan`**:
   真を指定すると [rfc:4627] を無視してパース時に [m:JSON::NaN], [m:JSON::Infinity],
   [m:JSON::MinusInfinity] を許可するようになります。デフォルトは偽です。
+- **`:object_class`**:
+  JSON のオブジェクトを変換するクラスを指定します。デフォルトは [c:Hash] です。
+- **`:array_class`**:
+  JSON の配列を変換するクラスを指定します。デフォルトは [c:Array] です。
+- **`:on_load`**:
+  パースで生成したすべての値(文字列・数値・true・false・nil・配列・ハッシュ。オブジェクトのキーの文字列も含みます)ごとに
+  呼び出す手続きオブジェクトを指定します。手続きの返り値が、その値の代わりに使われます。
+  デフォルトは nil です。
 - **`:symbolize_names`**:
   真を指定するとハッシュのキーを文字列ではなくシンボルにします。デフォルトは偽です。
+- **`:freeze`**:
+  真を指定すると、パースした結果のすべてのオブジェクト(文字列・配列・ハッシュ)を凍結して返します。
+  同じ内容の文字列は同一のオブジェクトになります。デフォルトは偽です。
+- **`:decimal_class`**:
+  JSON の小数を変換するクラスを指定します。デフォルトは nil で、[c:Float] に変換します。
+- **`:allow_trailing_comma`**:
+  真を指定すると、配列やオブジェクトの末尾の余分なカンマを許可します。デフォルトは偽です。
+- **`:allow_control_characters`**:
+  真を指定すると、文字列中のエスケープされていない ASCII 制御文字(改行など)を許可します。デフォルトは偽です。
+- **`:allow_duplicate_key`**:
+  真を指定すると、オブジェクト内でキーが重複している場合に後の値を採用します。
+  デフォルトは偽で、この場合はキーが重複していると [c:JSON::ParserError] が発生します。
+- **`:allow_comments`**:
+  真を指定すると、JavaScript 形式のコメント(`/* ... */` と `// ...`)を許可します。デフォルトは偽です。
+  4.0 までは常に許可していました。
+- **`:allow_invalid_escape`**:
+  真を指定すると、文字列中の不正なエスケープ(`\q` など)をエラーにせず、バックスラッシュを取り除いた文字として扱います。
+  デフォルトは偽です。
 
-  ```ruby title="例"
-  require "json"
+```ruby title="例"
+require "json"
 
-  JSON.parse('[1,2,{"name":"tanaka","age":19}]')
-  # => [1, 2, {"name" => "tanaka", "age" => 19}]
+JSON.parse('[1,2,{"name":"tanaka","age":19}]')
+# => [1, 2, {"name" => "tanaka", "age" => 19}]
 
-  JSON.parse('[1,2,{"name":"tanaka","age":19}]', symbolize_names: true)
-  # => [1, 2, {name: "tanaka", age: 19}]
-  ```
+JSON.parse('[1,2,{"name":"tanaka","age":19}]', symbolize_names: true)
+# => [1, 2, {name: "tanaka", age: 19}]
+```
+
+```ruby title="例 パースのオプション"
+require "json"
+require "bigdecimal"
+
+JSON.parse('[1.5]', decimal_class: BigDecimal) # => [0.15e1]
+
+a = JSON.parse('["x","x"]', freeze: true)
+a.frozen?         # => true
+a[0].frozen?      # => true
+a[0].equal?(a[1]) # => true
+
+JSON.parse('[1, 2,]', allow_trailing_comma: true)   # => [1, 2]
+JSON.parse('{"a": 1,}', allow_trailing_comma: true) # => {"a" => 1}
+
+JSON.parse("\"a\nb\"", allow_control_characters: true) # => "a\nb"
+JSON.parse('{"a":1,"a":2}', allow_duplicate_key: true)  # => {"a" => 2}
+
+JSON.parse('{"a":1,"a":2}')                     # ~> duplicate key "a" at line 1 column 1 (JSON::ParserError)
+JSON.parse('/* c */ [1]', allow_comments: true) # => [1]
+JSON.parse('"\\q"', allow_invalid_escape: true) # => "q"
+```
+
+- **raise** `ArgumentError` -- オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
+
+```ruby title="例 on_load を指定する"
+require "json"
+
+JSON.parse('[1,2]', on_load: ->(o) { o.is_a?(Integer) ? o * 10 : o }) # => [10, 20]
+```
+
+```ruby title="例 オプションをハッシュで渡した場合と未知のキーワードを指定した場合"
+require "json"
+
+JSON.parse('{"a":1}', {symbolize_names: true}) # ~> wrong number of arguments (given 2, expected 1) (ArgumentError)
+JSON.parse('{"a":1}', foo: 1)                  # ~> unknown keyword: foo (ArgumentError)
+```
 
 - **SEE** [m:JSON::Parser#parse]
 

@@ -30,6 +30,22 @@
 - **`:ascii_only`**:
   真を指定した場合、ASCII 文字列のみを用いて JSON 形式の文字列を生成します。
   デフォルトは偽です。
+- **`:max_nesting`**:
+  入れ子になっているデータの最大の深さを指定します。
+  0 を指定すると深さのチェックを行いません。デフォルトは 100 です。
+- **`:script_safe`**:
+  真を指定すると、`/` を `\/` に、U+2028・U+2029 を `\u2028`・`\u2029` にエスケープし、
+  JavaScript に埋め込んでも安全な JSON 形式の文字列を生成します。デフォルトは偽です。
+- **`:escape_slash`**:
+  `:script_safe` の別名です。
+- **`:strict`**:
+  真を指定すると、nil・true・false・[Integer](../../../class/Integer.md)・[Float](../../../class/Float.md)・[String](../../../class/String.md)・[Array](../../../class/Array.md)・[Hash](../../../class/Hash.md) 以外のオブジェクトを
+  `to_json` や `to_s` で変換せず、[JSON::GeneratorError](../../../class/JSON=3a=3aGeneratorError.md) を発生させます。
+  [Symbol](../../../class/Symbol.md) は文字列として変換します。デフォルトは偽です。
+- **`:allow_duplicate_key`**:
+  真を指定すると、キーを文字列に変換した結果が重複するハッシュ(`{foo: 1, "foo" => 2}` など)をそのまま出力します。
+  偽を指定すると [JSON::GeneratorError](../../../class/JSON=3a=3aGeneratorError.md) が発生します。
+  デフォルトでは警告を出してそのまま出力します。
 - **`:buffer_initial_length`**:
   JSON 形式の文字列を生成する際に使用する内部バッファの初期の長さを指定します。デフォルトは 1024 です。
 

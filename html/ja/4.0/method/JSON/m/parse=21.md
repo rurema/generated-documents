@@ -22,6 +22,8 @@
   偽を指定するとマッチするクラスや [JSON.create_id](../../../method/JSON/s/create_id.md) が見つかっても付加情報を生成しません。
   デフォルトは偽です。
 
+このほかに [JSON?.parse](../../../method/JSON/m/parse.md) と同じオプションを指定できます。
+
   ```ruby title="例"
   require "json"
 

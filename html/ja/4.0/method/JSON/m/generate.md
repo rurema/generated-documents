@@ -36,12 +36,30 @@ unparse は将来削除される予定です。
   デフォルトは偽です。
 - **`:max_nesting`**:
   入れ子になっているデータの最大の深さを指定します。
-  偽を指定すると深さのチェックを行いません。デフォルトは 19 です。
+  偽を指定すると深さのチェックを行いません。デフォルトは 100 です。
+- **`:ascii_only`**:
+  真を指定すると、ASCII 以外の文字を `\uXXXX` の形式にエスケープします。デフォルトは偽です。
+- **`:script_safe`**:
+  真を指定すると、`/` を `\/` に、U+2028・U+2029 を `\u2028`・`\u2029` にエスケープし、
+  JavaScript に埋め込んでも安全な JSON 形式の文字列を生成します。デフォルトは偽です。
+- **`:escape_slash`**:
+  `:script_safe` の別名です。
+- **`:strict`**:
+  真を指定すると、nil・true・false・[Integer](../../../class/Integer.md)・[Float](../../../class/Float.md)・[String](../../../class/String.md)・[Array](../../../class/Array.md)・[Hash](../../../class/Hash.md) 以外のオブジェクトを
+  `to_json` や `to_s` で変換せず、[JSON::GeneratorError](../../../class/JSON=3a=3aGeneratorError.md) を発生させます。
+  [Symbol](../../../class/Symbol.md) は文字列として変換します。デフォルトは偽です。
+- **`:allow_duplicate_key`**:
+  真を指定すると、キーを文字列に変換した結果が重複するハッシュ(`{foo: 1, "foo" => 2}` など)をそのまま出力します。
+  偽を指定すると [JSON::GeneratorError](../../../class/JSON=3a=3aGeneratorError.md) が発生します。
+  デフォルトでは警告を出してそのまま出力します。
 
 - **raise** `JSON::GeneratorError` -- [JSON::NaN](../../../method/JSON/c/NaN.md), [JSON::Infinity](../../../method/JSON/c/Infinity.md),[JSON::MinusInfinity](../../../method/JSON/c/MinusInfinity.md)
        を生成しようとした場合に発生します。
 
 - **raise** `JSON::CircularDatastructure` -- 与えられたオブジェクトが循環参照を持つ場合に発生します。
+
+ASCII 以外のバイトを含む BINARY(ASCII-8BIT)エンコーディングの文字列は UTF-8 として扱い、非推奨の警告を出します。
+
 
 ```ruby title="例"
 require "json"

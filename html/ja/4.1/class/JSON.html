@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-27-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -254,7 +254,7 @@ JSON ライブラリがジェネレータの状態を表すクラスとして使
 <h2>モジュール関数</h2>
 <dl>
 
-<dt class="method-heading" id="M_DUMP"><code>dump(object, io = nil, limit = nil) -&gt; String | IO</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON/m/dump.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-dump">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_DUMP"><code>dump(object, io = nil, limit = nil, options = nil) -&gt; String | IO</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON/m/dump.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-dump">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられたオブジェクトを JSON 形式の文字列に変換してダンプします。
@@ -274,10 +274,16 @@ JSON ライブラリがジェネレータの状態を表すクラスとして使
 <dt class='method-param'>[PARAM] <code>limit</code>:</dt>
 <dd>
 指定した場合、limit 段以上深くリンクしたオブジェクトをダンプできません。
+<code>limit</code> は非推奨です。代わりに <code>options</code> の <code>:max_nesting</code> を指定してください。
 </dd>
-<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-オブジェクトのネストの深さが limit を越えた場合に発生します。
+<a href="../method/JSON/m/generate.html">JSON?.generate</a> と同じオプションをハッシュで指定します。キーワード引数の形でも指定できます。
+<code>rfc8785: true</code> を指定した場合は、<code>allow_nan</code> を偽として扱います。
+</dd>
+<dt>[EXCEPTION] <code>JSON::NestingError</code>:</dt>
+<dd>
+オブジェクトのネストの深さが <code>limit</code> または <code>:max_nesting</code> を越えた場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -290,7 +296,7 @@ JSON ライブラリがジェネレータの状態を表すクラスとして使
 
 <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"</span><span class="s2">test.txt</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">w</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span>f<span class="o">|</span>
   <span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span>, f, <span class="mi">10</span><span class="p">)</span> <span class="c1"># =&gt; #&lt;File:test.txt&gt;
-</span>  <span class="no">JSON</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span>, f, <span class="mi">10</span><span class="p">)</span> <span class="c1"># =&gt; exceed depth limit (ArgumentError)
+</span>  <span class="no">JSON</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">[</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span>, f, <span class="mi">10</span><span class="p">)</span> <span class="c1"># ~&gt; nesting of 11 is too deep. Did you try to serialize objects with circular references? (JSON::NestingError)
 </span><span class="k">end</span>
 </code></pre>
 <p>
@@ -365,7 +371,48 @@ a string that is put at the end of a JSON array (default: '')
 <dt><code>:max_nesting</code></dt>
 <dd>
 <p>
-入れ子になっているデータの最大の深さを指定します。偽を指定すると深さのチェックを行いません。デフォルトは 19 です。
+入れ子になっているデータの最大の深さを指定します。偽を指定すると深さのチェックを行いません。デフォルトは 100 です。
+</p>
+</dd>
+<dt><code>:ascii_only</code></dt>
+<dd>
+<p>
+真を指定すると、ASCII 以外の文字を <code>\uXXXX</code> の形式にエスケープします。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:script_safe</code></dt>
+<dd>
+<p>
+真を指定すると、<code>/</code> を <code>\/</code> に、U+2028・U+2029 を <code>\u2028</code>・<code>\u2029</code> にエスケープし、
+JavaScript に埋め込んでも安全な JSON 形式の文字列を生成します。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:strict</code></dt>
+<dd>
+<p>
+真を指定すると、nil・true・false・<a href="../class/Integer.html">Integer</a>・<a href="../class/Float.html">Float</a>・<a href="../class/String.html">String</a>・<a href="../class/Array.html">Array</a>・<a href="../class/Hash.html">Hash</a> 以外のオブジェクトを
+<code>to_json</code> や <code>to_s</code> で変換せず、<a href="../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> を発生させます。
+<a href="../class/Symbol.html">Symbol</a> は文字列として変換します。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:allow_duplicate_key</code></dt>
+<dd>
+<p>
+真を指定すると、キーを文字列に変換した結果が重複するハッシュ(<code>{foo: 1, &quot;foo&quot; =&gt; 2}</code> など)をそのまま出力します。デフォルトは偽で、この場合は <a href="../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します。
+</p>
+</dd>
+<dt><code>:sort_keys</code></dt>
+<dd>
+<p>
+真を指定すると、オブジェクト(ハッシュ)のキーを昇順に並べ替えます。
+<code>Proc</code> を指定すると、その <code>Proc</code> で並べ替えます。詳しくは <a href="../method/JSON=3a=3aState/i/sort_keys=3d.html">JSON::State#sort_keys=</a> を参照してください。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:rfc8785</code></dt>
+<dd>
+<p>
+真を指定すると、<a class="external" href="https://tools.ietf.org/html/rfc8785">[RFC8785]</a> の JSON Canonicalization Scheme に従って正規化した
+JSON 形式の文字列を生成します。詳しくは <a href="../method/JSON=3a=3aState/i/rfc8785=3d.html">JSON::State#rfc8785=</a> を参照してください。デフォルトは偽です。
 </p>
 </dd>
 </dl>
@@ -379,6 +426,14 @@ a string that is put at the end of a JSON array (default: '')
 <dd>
 与えられたオブジェクトが循環参照を持つ場合に発生します。
 </dd>
+<dt>[EXCEPTION] <code>JSON::GeneratorError</code>:</dt>
+<dd>
+<code>:allow_duplicate_key</code> が偽の場合(デフォルト)に、キーを文字列に変換した結果が重複するハッシュを変換しようとすると発生します。
+</dd>
+<dt>[EXCEPTION] <code>JSON::GeneratorError</code>:</dt>
+<dd>
+ASCII 以外のバイトを含む BINARY(ASCII-8BIT)エンコーディングの文字列を変換しようとすると発生します。
+</dd>
 </dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
@@ -389,13 +444,20 @@ a string that is put at the end of a JSON array (default: '')
 <span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="p">{</span> <span class="ss">name:</span> <span class="s2">"</span><span class="s2">tanaka</span><span class="s2">"</span>, <span class="ss">age:</span> <span class="mi">19</span> <span class="p">}</span><span class="p">]</span>, json_state<span class="p">)</span>
 <span class="c1"># =&gt; &quot;[1,2,{\&quot;name\&quot;: \&quot;tanaka\&quot;,\&quot;age\&quot;: 19}]&quot;
 </span></code></pre>
+<span class="caption">例 キーの重複と BINARY 文字列</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">{</span><span class="ss">foo:</span> <span class="mi">1</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">}</span><span class="p">)</span>                            <span class="c1"># ~&gt; detected duplicate key &quot;foo&quot; in {foo: 1, &quot;foo&quot; =&gt; 2} (JSON::GeneratorError)
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">{</span><span class="ss">foo:</span> <span class="mi">1</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">}</span>, <span class="ss">allow_duplicate_key:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; &quot;{\&quot;foo\&quot;:1,\&quot;foo\&quot;:2}&quot;
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="s2">"</span><span class="s2">é</span><span class="s2">"</span><span class="p">.</span><span class="nf">b</span><span class="p">]</span><span class="p">)</span>                                         <span class="c1"># ~&gt; &quot;\xC3&quot; from ASCII-8BIT to UTF-8 (JSON::GeneratorError)
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../class/JSON=3a=3aState.html">JSON::State</a>, <a href="../method/JSON/m/pretty_generate.html">JSON?.pretty_generate</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="M_LOAD"><code>load(source, proc = nil, options = {}) -&gt; object</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON/m/load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_LOAD"><code>load(source, proc = nil, allow_blank: true, **options) -&gt; object</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON/m/load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられた JSON 形式の文字列を Ruby オブジェクトとしてロードして返します。
@@ -407,6 +469,10 @@ source には JSON 形式の文字列だけでなく、to_str, to_io, read の�
 </p>
 <p>
 proc として手続きオブジェクトが与えられた場合は、読み込んだオブジェクトを引数にその手続きを呼び出します。
+</p>
+<p>
+オプションはキーワード引数で指定します。
+<code>proc</code> の位置にハッシュを渡してもオプションとしては扱われず、<a href="../method/Hash/i/to_proc.html">Hash#to_proc</a> で変換した手続きとして各値に適用されます。
 </p>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'json'</span>
   
@@ -446,16 +512,20 @@ JSON 形式の文字列を指定します。他には、to_str, to_io, read メ�
 <dd>
 <a href="../class/Proc.html">Proc</a> オブジェクトを指定します。
 </dd>
+<dt class='method-param'>[PARAM] <code>allow_blank</code>:</dt>
+<dd>
+真を指定すると、<code>source</code> が nil または空文字列の場合に nil を返します。偽を指定すると、<code>source</code> が nil の場合は <a href="../class/TypeError.html">TypeError</a> が、空文字列の場合は <a href="../class/JSON=3a=3aParserError.html">JSON::ParserError</a> が発生します。デフォルトは真です。
+</dd>
 <dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-オプションをハッシュで指定します。指定可能なオプションは以下の通りです。
+その他のオプションをキーワード引数で指定します。指定可能なオプションは以下の通りです。
 </dd>
 </dl>
 <dl>
 <dt><code>:max_nesting</code></dt>
 <dd>
 <p>
-入れ子になっているデータの最大の深さを指定します。偽を指定すると深さのチェックを行いません。デフォルトは偽です。
+入れ子になっているデータの最大の深さを指定します。偽を指定すると深さのチェックを行いません。デフォルトは 100 です。
 </p>
 </dd>
 <dt><code>:allow_nan</code></dt>
@@ -465,12 +535,6 @@ JSON 形式の文字列を指定します。他には、to_str, to_io, read メ�
 <a href="../method/JSON/c/MinusInfinity.html">JSON::MinusInfinity</a> を生成することを許すようになります。偽を指定した場合、これらの値を生成しようとすると例外が発生します。デフォルトは真です。
 </p>
 </dd>
-<dt><code>:allow_blank</code></dt>
-<dd>
-<p>
-真を指定すると、sourceがnilの場合にnilを返します。デフォルトは真です。
-</p>
-</dd>
 <dt><code>:symbolize_names</code></dt>
 <dd>
 <p>
@@ -478,22 +542,35 @@ JSON 形式の文字列を指定します。他には、to_str, to_io, read メ�
 </p>
 </dd>
 </dl>
+<dl>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
+</dd>
+</dl>
 </dd>
 
 
-<dt class="method-heading" id="M_LOAD_FILE"><code>load_file(filespec, opts = {}) -&gt; object</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/JSON/m/load_file.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-load_file">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_LOAD_FILE"><code>load_file(filespec, **options) -&gt; object</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/JSON/m/load_file.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-load_file">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 filespec で指定した JSON 形式のファイルを Ruby オブジェクトとしてロードして返します。
+</p>
+<p>
+オプションはキーワード引数で指定します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>filespec</code>:</dt>
 <dd>
 ファイル名を指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>opts</code>:</dt>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-オプションをハッシュで指定します。指定可能なオプションは <a href="../method/JSON/m/parse.html">JSON?.parse</a> と同様です。
+オプションをキーワード引数で指定します。指定可能なオプションは <a href="../method/JSON/m/parse.html">JSON?.parse</a> と同様です。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
 </dd>
 </dl>
 <p>
@@ -502,19 +579,26 @@ filespec で指定した JSON 形式のファイルを Ruby オブジェクト�
 </dd>
 
 
-<dt class="method-heading" id="M_LOAD_FILE--21"><code>load_file!(filespec, opts = {}) -&gt; object</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/JSON/m/load_file=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-load_file-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_LOAD_FILE--21"><code>load_file!(filespec, **options) -&gt; object</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/JSON/m/load_file=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-load_file-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 filespec で指定した JSON 形式のファイルを Ruby オブジェクトとしてロードして返します。
+</p>
+<p>
+オプションはキーワード引数で指定します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>filespec</code>:</dt>
 <dd>
 ファイル名を指定します。
 </dd>
-<dt class='method-param'>[PARAM] <code>opts</code>:</dt>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-オプションをハッシュで指定します。指定可能なオプションは <a href="../method/JSON/m/parse=21.html">JSON?.parse!</a> と同様です。
+オプションをキーワード引数で指定します。指定可能なオプションは <a href="../method/JSON/m/parse=21.html">JSON?.parse!</a> と同様です。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
 </dd>
 </dl>
 <p>
@@ -523,26 +607,41 @@ filespec で指定した JSON 形式のファイルを Ruby オブジェクト�
 </dd>
 
 
-<dt class="method-heading" id="M_PARSE"><code>parse(source, options = {}) -&gt; object</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON/m/parse.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-parse">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_PARSE"><code>parse(source, on_load: nil, object_class: nil, array_class: nil, **options) -&gt; object</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON/m/parse.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-parse">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられた JSON 形式の文字列を Ruby オブジェクトに変換して返します。
+</p>
+<p>
+オプションはキーワード引数で指定します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>source</code>:</dt>
 <dd>
 JSON 形式の文字列を指定します。
 </dd>
+<dt class='method-param'>[PARAM] <code>on_load</code>:</dt>
+<dd>
+パースで生成した値ごとに呼び出す手続きオブジェクトを指定します。下記の <code>:on_load</code> を参照してください。
+</dd>
+<dt class='method-param'>[PARAM] <code>object_class</code>:</dt>
+<dd>
+JSON のオブジェクトを変換するクラスを指定します。下記の <code>:object_class</code> を参照してください。
+</dd>
+<dt class='method-param'>[PARAM] <code>array_class</code>:</dt>
+<dd>
+JSON の配列を変換するクラスを指定します。下記の <code>:array_class</code> を参照してください。
+</dd>
 <dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-オプションをハッシュで指定します。指定可能なオプションは以下の通りです。
+その他のオプションをキーワード引数で指定します。指定可能なオプションは以下の通りです。
 </dd>
 </dl>
 <dl>
 <dt><code>:max_nesting</code></dt>
 <dd>
 <p>
-入れ子になっているデータの最大の深さを指定します。偽を指定すると深さのチェックを行いません。デフォルトは 19 です。
+入れ子になっているデータの最大の深さを指定します。偽を指定すると深さのチェックを行いません。デフォルトは 100 です。
 </p>
 </dd>
 <dt><code>:allow_nan</code></dt>
@@ -552,11 +651,74 @@ JSON 形式の文字列を指定します。
 <a href="../method/JSON/c/MinusInfinity.html">JSON::MinusInfinity</a> を許可するようになります。デフォルトは偽です。
 </p>
 </dd>
+<dt><code>:object_class</code></dt>
+<dd>
+<p>
+JSON のオブジェクトを変換するクラスを指定します。デフォルトは <a href="../class/Hash.html">Hash</a> です。
+</p>
+</dd>
+<dt><code>:array_class</code></dt>
+<dd>
+<p>
+JSON の配列を変換するクラスを指定します。デフォルトは <a href="../class/Array.html">Array</a> です。
+</p>
+</dd>
+<dt><code>:on_load</code></dt>
+<dd>
+<p>
+パースで生成したすべての値(文字列・数値・true・false・nil・配列・ハッシュ。オブジェクトのキーの文字列も含みます)ごとに呼び出す手続きオブジェクトを指定します。手続きの返り値が、その値の代わりに使われます。デフォルトは nil です。
+</p>
+</dd>
 <dt><code>:symbolize_names</code></dt>
 <dd>
 <p>
 真を指定するとハッシュのキーを文字列ではなくシンボルにします。デフォルトは偽です。
 </p>
+</dd>
+<dt><code>:freeze</code></dt>
+<dd>
+<p>
+真を指定すると、パースした結果のすべてのオブジェクト(文字列・配列・ハッシュ)を凍結して返します。同じ内容の文字列は同一のオブジェクトになります。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:decimal_class</code></dt>
+<dd>
+<p>
+JSON の小数を変換するクラスを指定します。デフォルトは nil で、<a href="../class/Float.html">Float</a> に変換します。
+</p>
+</dd>
+<dt><code>:allow_trailing_comma</code></dt>
+<dd>
+<p>
+真を指定すると、配列やオブジェクトの末尾の余分なカンマを許可します。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:allow_control_characters</code></dt>
+<dd>
+<p>
+真を指定すると、文字列中のエスケープされていない ASCII 制御文字(改行など)を許可します。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:allow_duplicate_key</code></dt>
+<dd>
+<p>
+真を指定すると、オブジェクト内でキーが重複している場合に後の値を採用します。デフォルトは偽で、この場合はキーが重複していると <a href="../class/JSON=3a=3aParserError.html">JSON::ParserError</a> が発生します。
+</p>
+</dd>
+<dt><code>:allow_comments</code></dt>
+<dd>
+<p>
+真を指定すると、JavaScript 形式のコメント(<code>/* ... */</code> と <code>// ...</code>)を許可します。デフォルトは偽です。
+4.0 までは常に許可していました。
+</p>
+</dd>
+<dt><code>:allow_invalid_escape</code></dt>
+<dd>
+<p>
+真を指定すると、文字列中の不正なエスケープ(<code>\q</code> など)をエラーにせず、バックスラッシュを取り除いた文字として扱います。デフォルトは偽です。
+</p>
+</dd>
+</dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
 
@@ -566,21 +728,60 @@ JSON 形式の文字列を指定します。
 <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[1,2,{&quot;name&quot;:&quot;tanaka&quot;,&quot;age&quot;:19}]'</span>, <span class="ss">symbolize_names:</span> <span class="k">true</span><span class="p">)</span>
 <span class="c1"># =&gt; [1, 2, {name: &quot;tanaka&quot;, age: 19}]
 </span></code></pre>
+<span class="caption">例 パースのオプション</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">bigdecimal</span><span class="s2">"</span>
+
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[1.5]'</span>, <span class="ss">decimal_class:</span> <span class="no">BigDecimal</span><span class="p">)</span> <span class="c1"># =&gt; [0.15e1]
+</span>
+a <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[&quot;x&quot;,&quot;x&quot;]'</span>, <span class="ss">freeze:</span> <span class="k">true</span><span class="p">)</span>
+a<span class="p">.</span><span class="nf">frozen?</span>         <span class="c1"># =&gt; true
+</span>a<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">frozen?</span>      <span class="c1"># =&gt; true
+</span>a<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>a<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span>
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[1, 2,]'</span>, <span class="ss">allow_trailing_comma:</span> <span class="k">true</span><span class="p">)</span>   <span class="c1"># =&gt; [1, 2]
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{&quot;a&quot;: 1,}'</span>, <span class="ss">allow_trailing_comma:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; {&quot;a&quot; =&gt; 1}
+</span>
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">\&quot;a\nb\&quot;</span><span class="s2">"</span>, <span class="ss">allow_control_characters:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; &quot;a\nb&quot;
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{&quot;a&quot;:1,&quot;a&quot;:2}'</span>, <span class="ss">allow_duplicate_key:</span> <span class="k">true</span><span class="p">)</span>  <span class="c1"># =&gt; {&quot;a&quot; =&gt; 2}
+</span>
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{&quot;a&quot;:1,&quot;a&quot;:2}'</span><span class="p">)</span>                     <span class="c1"># ~&gt; duplicate key &quot;a&quot; at line 1 column 1 (JSON::ParserError)
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'/* c */ [1]'</span>, <span class="ss">allow_comments:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; [1]
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'&quot;\\q&quot;'</span>, <span class="ss">allow_invalid_escape:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; &quot;q&quot;
+</span></code></pre>
+<dl>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
 </dd>
 </dl>
+<span class="caption">例 on_load を指定する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[1,2]'</span>, <span class="ss">on_load:</span> <span class="o">-&gt;</span><span class="p">(</span>o<span class="p">)</span> <span class="p">{</span> o<span class="p">.</span><span class="nf">is_a?</span><span class="p">(</span><span class="no">Integer</span><span class="p">)</span> <span class="o">?</span> o <span class="o">*</span> <span class="mi">10</span> <span class="o">:</span> o <span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; [10, 20]
+</span></code></pre>
+<span class="caption">例 オプションをハッシュで渡した場合と未知のキーワードを指定した場合</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{&quot;a&quot;:1}'</span>, <span class="p">{</span><span class="ss">symbolize_names:</span> <span class="k">true</span><span class="p">}</span><span class="p">)</span> <span class="c1"># ~&gt; wrong number of arguments (given 2, expected 1) (ArgumentError)
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{&quot;a&quot;:1}'</span>, <span class="ss">foo:</span> <span class="mi">1</span><span class="p">)</span>                  <span class="c1"># ~&gt; unknown keyword: foo (ArgumentError)
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/JSON=3a=3aParser/i/parse.html">JSON::Parser#parse</a>
 </p>
 </dd>
 
 
-<dt class="method-heading" id="M_PARSE--21"><code>parse!(source, options = {}) -&gt; object</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON/m/parse=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-parse-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_PARSE--21"><code>parse!(source, **options) -&gt; object</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/JSON/m/parse=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-parse-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられた JSON 形式の文字列を Ruby オブジェクトに変換して返します。
 </p>
 <p>
 <a href="../method/JSON/m/parse.html">JSON?.parse</a> よりも危険なデフォルト値が指定されているので信頼できる文字列のみを入力として使用するようにしてください。
+</p>
+<p>
+オプションはキーワード引数で指定します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>source</code>:</dt>
@@ -589,7 +790,7 @@ JSON 形式の文字列を指定します。
 </dd>
 <dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-オプションをハッシュで指定します。指定可能なオプションは以下の通りです。
+オプションをキーワード引数で指定します。指定可能なオプションは以下の通りです。
 </dd>
 </dl>
 <dl>
@@ -605,6 +806,11 @@ JSON 形式の文字列を指定します。
 真を指定すると <a class="external" href="https://tools.ietf.org/html/rfc4627">[RFC4627]</a> を無視してパース時に <a href="../method/JSON/c/NaN.html">JSON::NaN</a>, <a href="../method/JSON/c/Infinity.html">JSON::Infinity</a>,
 <a href="../method/JSON/c/MinusInfinity.html">JSON::MinusInfinity</a> を許可するようになります。デフォルトは真です。
 </p>
+</dd>
+</dl>
+<p>
+このほかに <a href="../method/JSON/m/parse.html">JSON?.parse</a> と同じオプションを指定できます。
+</p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
 
@@ -617,6 +823,10 @@ json_text <span class="o">=</span> <span class="s2">"</span><span class="s2">[1,
 </span>
 <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>json_text<span class="p">)</span> <span class="c1"># =&gt; unexpected token at 'NaN]' (JSON::ParserError)
 </span></code></pre>
+<dl>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
 </dd>
 </dl>
 <p>
@@ -641,6 +851,10 @@ JSON 形式の文字列に変換するオブジェクトを指定します。
 <dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
 <a href="../class/JSON=3a=3aState.html">JSON::State</a> または、to_hash や to_h メソッドでハッシュに変換可能なオブジェクトを指定できます。ハッシュを使用する場合指定可能なオプションは <a href="../method/JSON/m/generate.html">JSON?.generate</a> を参照してください。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>:rfc8785</code> オプションに真を指定した場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -668,7 +882,7 @@ JSON 形式の文字列に変換するオブジェクトを指定します。
 </dd>
 
 
-<dt class="method-heading" id="M_UNSAFE_LOAD"><code>unsafe_load(source, proc = nil, options = nil) -&gt; object</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/JSON/m/unsafe_load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-unsafe_load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_UNSAFE_LOAD"><code>unsafe_load(source, proc = nil, **options) -&gt; object</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/JSON/m/unsafe_load.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-unsafe_load">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられた JSON 形式の文字列を Ruby オブジェクトとしてロードして返します。
@@ -683,6 +897,10 @@ JSON 形式の文字列に変換するオブジェクトを指定します。
 <p>
 <code>proc</code> として手続きオブジェクトが与えられた場合は、読み込んだ結果を引数にその手続きを呼び出し、その返り値を最終的な結果とします。
 </p>
+<p>
+オプションはキーワード引数で指定します。
+<code>proc</code> の位置にハッシュを渡してもオプションとしては扱われず、<a href="../method/Hash/i/to_proc.html">Hash#to_proc</a> で変換した手続きとして各値に適用されます。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>source</code>:</dt>
 <dd>
@@ -694,7 +912,11 @@ JSON 形式の文字列を指定します。他には、<code>to_str</code>, <co
 </dd>
 <dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-オプションをハッシュで指定します。指定可能なオプションは <a href="../method/JSON/m/parse.html">JSON?.parse</a> と同様です。
+オプションをキーワード引数で指定します。指定可能なオプションは <a href="../method/JSON/m/parse.html">JSON?.parse</a> と同様です。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>

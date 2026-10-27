@@ -17,25 +17,46 @@ rbs_sig=(uninitialized)
 
 - **`:max_nesting`**:
   入れ子になっているデータの最大の深さを指定します。
-  偽を指定すると深さのチェックを行いません。デフォルトは 19 です。
+  偽を指定すると深さのチェックを行いません。デフォルトは 100 です。
 - **`:allow_nan`**:
   真を指定すると [rfc:4627] を無視してパース時に [m:JSON::NaN], [m:JSON::Infinity],
   [m:JSON::MinusInfinity] を許可するようになります。デフォルトは偽です。
 - **`:create_additions`**:
   偽を指定するとマッチするクラスや [m:JSON.create_id] が見つかっても付加情報を生成しません。
   デフォルトは偽です。
+- **`:object_class`**:
+  JSON のオブジェクトを変換するクラスを指定します。デフォルトは [c:Hash] です。
+- **`:array_class`**:
+  JSON の配列を変換するクラスを指定します。デフォルトは [c:Array] です。
 - **`:symbolize_names`**:
   真を指定するとハッシュのキーを文字列ではなくシンボルにします。デフォルトは偽です。
+- **`:freeze`**:
+  真を指定すると、パースした結果のすべてのオブジェクト(文字列・配列・ハッシュ)を凍結して返します。
+  同じ内容の文字列は同一のオブジェクトになります。デフォルトは偽です。
+- **`:decimal_class`**:
+  JSON の小数を変換するクラスを指定します。デフォルトは nil で、[c:Float] に変換します。
 
-  ```ruby title="例"
-  require "json"
+```ruby title="例"
+require "json"
 
-  JSON.parse('[1,2,{"name":"tanaka","age":19}]')
-  # => [1, 2, {"name"=>"tanaka", "age"=>19}]
+JSON.parse('[1,2,{"name":"tanaka","age":19}]')
+# => [1, 2, {"name"=>"tanaka", "age"=>19}]
 
-  JSON.parse('[1,2,{"name":"tanaka","age":19}]', symbolize_names: true)
-  # => [1, 2, {:name=>"tanaka", :age=>19}]
-  ```
+JSON.parse('[1,2,{"name":"tanaka","age":19}]', symbolize_names: true)
+# => [1, 2, {:name=>"tanaka", :age=>19}]
+```
+
+```ruby title="例 パースのオプション"
+require "json"
+require "bigdecimal"
+
+JSON.parse('[1.5]', decimal_class: BigDecimal) # => [0.15e1]
+
+a = JSON.parse('["x","x"]', freeze: true)
+a.frozen?         # => true
+a[0].frozen?      # => true
+a[0].equal?(a[1]) # => true
+```
 
 - **SEE** [m:JSON::Parser#parse]
 
