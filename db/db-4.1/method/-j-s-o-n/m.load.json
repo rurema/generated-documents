@@ -6,7 +6,7 @@ since_by_name=load=1.9.3
 until_by_name=
 rbs_sig=(uninitialized)
 
-### module_function def load(source, proc = nil, options = {}) -> object
+### module_function def load(source, proc = nil, allow_blank: true, **options) -> object
 
 与えられた JSON 形式の文字列を Ruby オブジェクトとしてロードして返します。
 
@@ -15,6 +15,9 @@ source には JSON 形式の文字列だけでなく、to_str, to_io, read の�
 (File などの IO や、パスを表すオブジェクトなど) も指定でき、その内容を読み込んだ上で内部的に [m:JSON?.parse] を呼び出します。
 
 proc として手続きオブジェクトが与えられた場合は、読み込んだオブジェクトを引数にその手続きを呼び出します。
+
+オプションはキーワード引数で指定します。
+`proc` の位置にハッシュを渡してもオプションとしては扱われず、[m:Hash#to_proc] で変換した手続きとして各値に適用されます。
 
 ```ruby
 require 'json'
@@ -51,17 +54,22 @@ p JSON.load(str, proc{|v| p v }) # => {"a" => 1, "b" => 2, "c" => 3}
 
 - **param** `proc` -- [c:Proc] オブジェクトを指定します。
 
-- **param** `options` -- オプションをハッシュで指定します。指定可能なオプションは以下の通りです。
+- **param** `allow_blank` -- 真を指定すると、`source` が nil または空文字列の場合に nil を返します。
+           偽を指定すると、`source` が nil の場合は [c:TypeError] が、
+           空文字列の場合は [c:JSON::ParserError] が発生します。デフォルトは真です。
+
+- **param** `options` -- その他のオプションをキーワード引数で指定します。指定可能なオプションは以下の通りです。
 
 - **`:max_nesting`**:
   入れ子になっているデータの最大の深さを指定します。
-  偽を指定すると深さのチェックを行いません。デフォルトは偽です。
+  偽を指定すると深さのチェックを行いません。
+  デフォルトは 100 です。
 - **`:allow_nan`**:
   真を指定した場合、[m:JSON::NaN], [m:JSON::Infinity],
   [m:JSON::MinusInfinity] を生成することを許すようになります。
   偽を指定した場合、これらの値を生成しようとすると例外が発生します。デフォルトは真です。
-- **`:allow_blank`**:
-  真を指定すると、sourceがnilの場合にnilを返します。デフォルトは真です。
 - **`:symbolize_names`**:
   真を指定するとハッシュのキーを文字列ではなくシンボルにします。デフォルトは偽です。
+
+- **raise** `ArgumentError` -- オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
 

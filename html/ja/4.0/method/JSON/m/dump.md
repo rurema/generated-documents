@@ -1,6 +1,6 @@
 # JSON?.dump
 
-### module_function def dump(object, io = nil, limit = nil) -> String | IO
+### module_function def dump(object, io = nil, limit = nil, options = nil) -> String | IO
 
 与えられたオブジェクトを JSON 形式の文字列に変換してダンプします。
 
@@ -11,6 +11,9 @@
 - **param** `io` --  [IO](../../../class/IO.md) のように write メソッドを実装しているオブジェクトを指定します。
 
 - **param** `limit` -- 指定した場合、limit 段以上深くリンクしたオブジェクトをダンプできません。
+
+- **param** `options` -- [JSON?.generate](../../../method/JSON/m/generate.md) と同じオプションをハッシュで指定します。
+           キーワード引数の形でも指定できます。
 
 - **raise** `ArgumentError` -- オブジェクトのネストの深さが limit を越えた場合に発生します。
 

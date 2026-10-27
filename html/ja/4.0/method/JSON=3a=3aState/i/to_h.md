@@ -17,9 +17,12 @@ pp json_state.to_h
 #     space_before: "",
 #     object_nl: "",
 #     array_nl: "",
+#     as_json: false,
 #     allow_nan: false,
 #     ascii_only: false,
 #     max_nesting: 100,
+#     script_safe: false,
+#     strict: false,
 #     depth: 0,
 #     buffer_initial_length: 1024}
 ```

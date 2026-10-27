@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-27-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -81,13 +81,13 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_NEW"><code>new(options = nil) {|object| ... } -&gt; JSON::Coder</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../../../method/JSON=3a=3aCoder/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON/Coder.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Coder.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new(object_class: nil, array_class: nil, on_load: nil, strict: true, **options) {|object| ... } -&gt; JSON::Coder</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../../../method/JSON=3a=3aCoder/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON/Coder.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Coder.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を初期化します。
 </p>
 <p>
-options には、JSON 形式の文字列を生成する際(<a href="../../../method/JSON/m/generate.html">JSON?.generate</a>)とパースする際(<a href="../../../method/JSON/m/parse.html">JSON?.parse</a>)の両方に使われるオプションをハッシュで指定します。ただし、生成に関しては常に <code>strict: true</code> を指定した場合と同様に扱われます。すなわち、文字列・シンボル・整数・浮動小数点数・配列・ハッシュ・true・false・nil
+<code>options</code> には、JSON 形式の文字列を生成する際(<a href="../../../method/JSON/m/generate.html">JSON?.generate</a>)とパースする際(<a href="../../../method/JSON/m/parse.html">JSON?.parse</a>)の両方に使われるオプションをキーワード引数で指定します。ただし、生成に関しては常に <code>strict: true</code> を指定した場合と同様に扱われます。すなわち、文字列・シンボル・整数・浮動小数点数・配列・ハッシュ・true・false・nil
 以外のオブジェクトを変換しようとすると、ブロックが指定されていない限り
 <a href="../../../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します。
 </p>
@@ -95,11 +95,34 @@ options には、JSON 形式の文字列を生成する際(<a href="../../../met
 ブロックを指定すると、上記のような JSON にネイティブ対応していない型のオブジェクトを生成しようとしたときにそのブロックが呼び出されます。ブロックには対象のオブジェクトが渡され、
 JSON にネイティブ対応した値(文字列など)を返す必要があります。ブロックの戻り値もネイティブ対応していない型であった場合はエラーになります。
 </p>
+<p>
+<code>strict</code> に true 以外を指定すると <a href="../../../class/ArgumentError.html">ArgumentError</a> が発生します。オプションのハッシュを位置引数で渡した場合も <a href="../../../class/ArgumentError.html">ArgumentError</a> が発生します。
+</p>
 <dl>
+<dt class='method-param'>[PARAM] <code>object_class</code>:</dt>
+<dd>
+JSON のオブジェクトを変換するクラスを指定します。<a href="../../../method/JSON/m/parse.html">JSON?.parse</a> の <code>object_class</code> と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>array_class</code>:</dt>
+<dd>
+JSON の配列を変換するクラスを指定します。<a href="../../../method/JSON/m/parse.html">JSON?.parse</a> の <code>array_class</code> と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>on_load</code>:</dt>
+<dd>
+パースで生成した値ごとに呼び出す手続きオブジェクトを指定します。<a href="../../../method/JSON/m/parse.html">JSON?.parse</a> の <code>on_load</code> と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>strict</code>:</dt>
+<dd>
+true のみ指定できます。
+</dd>
 <dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-ハッシュを指定します。指定可能なオプションは
+その他のオプションをキーワード引数で指定します。指定可能なオプションは
 <a href="../../../method/JSON/m/generate.html">JSON?.generate</a>, <a href="../../../method/JSON/m/parse.html">JSON?.parse</a> を参照してください。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>strict</code> に true 以外を指定した場合や、オプションのハッシュを位置引数で渡した場合に発生します。
 </dd>
 </dl>
 <span class="caption">例 options はパースと生成の両方に適用される</span>

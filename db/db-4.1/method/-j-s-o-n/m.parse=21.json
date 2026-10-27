@@ -6,15 +6,17 @@ since_by_name=parse=21=1.9.3
 until_by_name=
 rbs_sig=(uninitialized)
 
-### module_function def parse!(source, options = {}) -> object
+### module_function def parse!(source, **options) -> object
 
 与えられた JSON 形式の文字列を Ruby オブジェクトに変換して返します。
 
 [m:JSON?.parse] よりも危険なデフォルト値が指定されているので信頼できる文字列のみを入力として使用するようにしてください。
 
+オプションはキーワード引数で指定します。
+
 - **param** `source` -- JSON 形式の文字列を指定します。
 
-- **param** `options` -- オプションをハッシュで指定します。
+- **param** `options` -- オプションをキーワード引数で指定します。
        指定可能なオプションは以下の通りです。
 
 - **`:max_nesting`**:
@@ -24,6 +26,8 @@ rbs_sig=(uninitialized)
 - **`:allow_nan`**:
   真を指定すると [rfc:4627] を無視してパース時に [m:JSON::NaN], [m:JSON::Infinity],
   [m:JSON::MinusInfinity] を許可するようになります。デフォルトは真です。
+
+このほかに [m:JSON?.parse] と同じオプションを指定できます。
 
   ```ruby title="例"
   require "json"
@@ -37,6 +41,8 @@ rbs_sig=(uninitialized)
 
   JSON.parse(json_text) # => unexpected token at 'NaN]' (JSON::ParserError)
   ```
+
+- **raise** `ArgumentError` -- オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
 
 - **SEE** [m:JSON::Parser#parse]
 

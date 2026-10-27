@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-27-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -177,6 +177,8 @@ Ruby 4.1 から、クラスやモジュールを変更できるのは、それ�
 <li><a href="#I_--5B--5D">[]</a></li>
 
 <li><a href="#I_--5B--5D--3D">[]=</a></li>
+
+<li><a href="#I_ALIVE--3F">alive?</a></li>
 
 <li><a href="#I_CLOSE">close</a></li>
 
@@ -575,6 +577,27 @@ self がカレント Ractor でない場合に発生します。
 </dl>
 <p>
 [SEE_ALSO] <a href="../method/Ractor/s/=5b=5d=3d.html">Ractor.[]=</a>, <a href="../method/Ractor/s/store_if_absent.html">Ractor.store_if_absent</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_ALIVE--3F"><code>alive? -&gt; bool</code><span class="method-since-badge">Ruby 4.1 から</span><span class="permalink">[<a href="../method/Ractor/i/alive=3f.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Ractor.html#method-i-alive-3F">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/_builtin/Ractor.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+self がまだ終了していなければ true を返します。
+</p>
+<p>
+正常に終了した場合も、捕捉されなかった例外で終了した場合も、実行を終えた後は false を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code>r <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">receive</span> <span class="p">}</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; true
+</span>r <span class="o">&lt;&lt;</span> <span class="ss">:done</span>
+r<span class="p">.</span><span class="nf">join</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">alive?</span> <span class="c1"># =&gt; false
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../method/Ractor/i/join.html">Ractor#join</a>, <a href="../method/Ractor/i/value.html">Ractor#value</a>
 </p>
 </dd>
 

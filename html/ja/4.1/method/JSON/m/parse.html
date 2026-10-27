@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-26-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-27-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -81,26 +81,41 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="M_PARSE"><code>parse(source, options = {}) -&gt; object</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/JSON/m/parse.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-parse">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
+<dt class="method-heading" id="M_PARSE"><code>parse(source, on_load: nil, object_class: nil, array_class: nil, **options) -&gt; object</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/JSON/m/parse.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON.html#method-c-parse">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 与えられた JSON 形式の文字列を Ruby オブジェクトに変換して返します。
+</p>
+<p>
+オプションはキーワード引数で指定します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>source</code>:</dt>
 <dd>
 JSON 形式の文字列を指定します。
 </dd>
+<dt class='method-param'>[PARAM] <code>on_load</code>:</dt>
+<dd>
+パースで生成した値ごとに呼び出す手続きオブジェクトを指定します。下記の <code>:on_load</code> を参照してください。
+</dd>
+<dt class='method-param'>[PARAM] <code>object_class</code>:</dt>
+<dd>
+JSON のオブジェクトを変換するクラスを指定します。下記の <code>:object_class</code> を参照してください。
+</dd>
+<dt class='method-param'>[PARAM] <code>array_class</code>:</dt>
+<dd>
+JSON の配列を変換するクラスを指定します。下記の <code>:array_class</code> を参照してください。
+</dd>
 <dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-オプションをハッシュで指定します。指定可能なオプションは以下の通りです。
+その他のオプションをキーワード引数で指定します。指定可能なオプションは以下の通りです。
 </dd>
 </dl>
 <dl>
 <dt><code>:max_nesting</code></dt>
 <dd>
 <p>
-入れ子になっているデータの最大の深さを指定します。偽を指定すると深さのチェックを行いません。デフォルトは 19 です。
+入れ子になっているデータの最大の深さを指定します。偽を指定すると深さのチェックを行いません。デフォルトは 100 です。
 </p>
 </dd>
 <dt><code>:allow_nan</code></dt>
@@ -110,11 +125,74 @@ JSON 形式の文字列を指定します。
 <a href="../../../method/JSON/c/MinusInfinity.html">JSON::MinusInfinity</a> を許可するようになります。デフォルトは偽です。
 </p>
 </dd>
+<dt><code>:object_class</code></dt>
+<dd>
+<p>
+JSON のオブジェクトを変換するクラスを指定します。デフォルトは <a href="../../../class/Hash.html">Hash</a> です。
+</p>
+</dd>
+<dt><code>:array_class</code></dt>
+<dd>
+<p>
+JSON の配列を変換するクラスを指定します。デフォルトは <a href="../../../class/Array.html">Array</a> です。
+</p>
+</dd>
+<dt><code>:on_load</code></dt>
+<dd>
+<p>
+パースで生成したすべての値(文字列・数値・true・false・nil・配列・ハッシュ。オブジェクトのキーの文字列も含みます)ごとに呼び出す手続きオブジェクトを指定します。手続きの返り値が、その値の代わりに使われます。デフォルトは nil です。
+</p>
+</dd>
 <dt><code>:symbolize_names</code></dt>
 <dd>
 <p>
 真を指定するとハッシュのキーを文字列ではなくシンボルにします。デフォルトは偽です。
 </p>
+</dd>
+<dt><code>:freeze</code></dt>
+<dd>
+<p>
+真を指定すると、パースした結果のすべてのオブジェクト(文字列・配列・ハッシュ)を凍結して返します。同じ内容の文字列は同一のオブジェクトになります。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:decimal_class</code></dt>
+<dd>
+<p>
+JSON の小数を変換するクラスを指定します。デフォルトは nil で、<a href="../../../class/Float.html">Float</a> に変換します。
+</p>
+</dd>
+<dt><code>:allow_trailing_comma</code></dt>
+<dd>
+<p>
+真を指定すると、配列やオブジェクトの末尾の余分なカンマを許可します。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:allow_control_characters</code></dt>
+<dd>
+<p>
+真を指定すると、文字列中のエスケープされていない ASCII 制御文字(改行など)を許可します。デフォルトは偽です。
+</p>
+</dd>
+<dt><code>:allow_duplicate_key</code></dt>
+<dd>
+<p>
+真を指定すると、オブジェクト内でキーが重複している場合に後の値を採用します。デフォルトは偽で、この場合はキーが重複していると <a href="../../../class/JSON=3a=3aParserError.html">JSON::ParserError</a> が発生します。
+</p>
+</dd>
+<dt><code>:allow_comments</code></dt>
+<dd>
+<p>
+真を指定すると、JavaScript 形式のコメント(<code>/* ... */</code> と <code>// ...</code>)を許可します。デフォルトは偽です。
+4.0 までは常に許可していました。
+</p>
+</dd>
+<dt><code>:allow_invalid_escape</code></dt>
+<dd>
+<p>
+真を指定すると、文字列中の不正なエスケープ(<code>\q</code> など)をエラーにせず、バックスラッシュを取り除いた文字として扱います。デフォルトは偽です。
+</p>
+</dd>
+</dl>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
 
@@ -124,8 +202,44 @@ JSON 形式の文字列を指定します。
 <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[1,2,{&quot;name&quot;:&quot;tanaka&quot;,&quot;age&quot;:19}]'</span>, <span class="ss">symbolize_names:</span> <span class="k">true</span><span class="p">)</span>
 <span class="c1"># =&gt; [1, 2, {name: &quot;tanaka&quot;, age: 19}]
 </span></code></pre>
+<span class="caption">例 パースのオプション</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+<span class="nb">require</span> <span class="s2">"</span><span class="s2">bigdecimal</span><span class="s2">"</span>
+
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[1.5]'</span>, <span class="ss">decimal_class:</span> <span class="no">BigDecimal</span><span class="p">)</span> <span class="c1"># =&gt; [0.15e1]
+</span>
+a <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[&quot;x&quot;,&quot;x&quot;]'</span>, <span class="ss">freeze:</span> <span class="k">true</span><span class="p">)</span>
+a<span class="p">.</span><span class="nf">frozen?</span>         <span class="c1"># =&gt; true
+</span>a<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">frozen?</span>      <span class="c1"># =&gt; true
+</span>a<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span>a<span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span>
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[1, 2,]'</span>, <span class="ss">allow_trailing_comma:</span> <span class="k">true</span><span class="p">)</span>   <span class="c1"># =&gt; [1, 2]
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{&quot;a&quot;: 1,}'</span>, <span class="ss">allow_trailing_comma:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; {&quot;a&quot; =&gt; 1}
+</span>
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">\&quot;a\nb\&quot;</span><span class="s2">"</span>, <span class="ss">allow_control_characters:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; &quot;a\nb&quot;
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{&quot;a&quot;:1,&quot;a&quot;:2}'</span>, <span class="ss">allow_duplicate_key:</span> <span class="k">true</span><span class="p">)</span>  <span class="c1"># =&gt; {&quot;a&quot; =&gt; 2}
+</span>
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{&quot;a&quot;:1,&quot;a&quot;:2}'</span><span class="p">)</span>                     <span class="c1"># ~&gt; duplicate key &quot;a&quot; at line 1 column 1 (JSON::ParserError)
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'/* c */ [1]'</span>, <span class="ss">allow_comments:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; [1]
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'&quot;\\q&quot;'</span>, <span class="ss">allow_invalid_escape:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; &quot;q&quot;
+</span></code></pre>
+<dl>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+オプションのハッシュを位置引数で渡した場合や、未知のキーワードを指定した場合に発生します。
 </dd>
 </dl>
+<span class="caption">例 on_load を指定する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'[1,2]'</span>, <span class="ss">on_load:</span> <span class="o">-&gt;</span><span class="p">(</span>o<span class="p">)</span> <span class="p">{</span> o<span class="p">.</span><span class="nf">is_a?</span><span class="p">(</span><span class="no">Integer</span><span class="p">)</span> <span class="o">?</span> o <span class="o">*</span> <span class="mi">10</span> <span class="o">:</span> o <span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; [10, 20]
+</span></code></pre>
+<span class="caption">例 オプションをハッシュで渡した場合と未知のキーワードを指定した場合</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{&quot;a&quot;:1}'</span>, <span class="p">{</span><span class="ss">symbolize_names:</span> <span class="k">true</span><span class="p">}</span><span class="p">)</span> <span class="c1"># ~&gt; wrong number of arguments (given 2, expected 1) (ArgumentError)
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'{&quot;a&quot;:1}'</span>, <span class="ss">foo:</span> <span class="mi">1</span><span class="p">)</span>                  <span class="c1"># ~&gt; unknown keyword: foo (ArgumentError)
+</span></code></pre>
 <p>
 [SEE_ALSO] <a href="../../../method/JSON=3a=3aParser/i/parse.html">JSON::Parser#parse</a>
 </p>
