@@ -1,6 +1,6 @@
 # JSON::Coder.new
 
-### def JSON::Coder.new(options = nil) {|object| ... } -> JSON::Coder
+### def JSON::Coder.new(options = nil) {|object, is_key| ... } -> JSON::Coder
 
 自身を初期化します。
 
@@ -10,8 +10,13 @@ options には、JSON 形式の文字列を生成する際([JSON?.generate](../.
 以外のオブジェクトを変換しようとすると、ブロックが指定されていない限り
 [JSON::GeneratorError](../../../class/JSON=3a=3aGeneratorError.md) が発生します。
 
-ブロックを指定すると、上記のような JSON にネイティブ対応していない型のオブジェクトを生成しようとしたときにそのブロックが呼び出されます。ブロックには対象のオブジェクトが渡され、
-JSON にネイティブ対応した値(文字列など)を返す必要があります。ブロックの戻り値もネイティブ対応していない型であった場合はエラーになります。
+ブロックを指定すると、上記のような JSON にネイティブ対応していない型のオブジェクトを生成しようとしたときにそのブロックが呼び出されます。
+ブロックには対象のオブジェクトと、それがハッシュのキーとして使われているかどうかを表す真偽値が渡されます。
+ブロックの返り値が、そのオブジェクトの代わりに変換されます。
+返り値の中にさらにネイティブ対応していないオブジェクトが含まれていれば、それに対してもブロックが呼び出されます。[JSON::Fragment](../../../class/JSON=3a=3aFragment.md) を返すと、その内容がそのまま挿入されます。
+ハッシュのキーに対する返り値は [String](../../../class/String.md) か [Symbol](../../../class/Symbol.md) でなければなりません。
+不正なエンコーディングの文字列や、ASCII 以外のバイトを含む BINARY(ASCII-8BIT)エンコーディングの文字列に対してもブロックが呼び出されます。
+ブロックの返り値もネイティブ対応していない型であった場合は [JSON::GeneratorError](../../../class/JSON=3a=3aGeneratorError.md) が発生します。
 
 - **param** `options` -- ハッシュを指定します。指定可能なオプションは
   [JSON?.generate](../../../method/JSON/m/generate.md), [JSON?.parse](../../../method/JSON/m/parse.md) を参照してください。
@@ -34,3 +39,22 @@ rescue JSON::GeneratorError => e
   p e.message # => "Range not allowed in JSON"
 end
 ```
+
+```ruby title="例 ハッシュのキーと値でブロックの引数が異なる"
+require "json"
+
+coder = JSON::Coder.new do |object, is_key|
+  is_key ? object.to_s : object.to_a
+end
+p coder.dump({1..2 => 3..4, "k" => 5..6}) # => "{\"1..2\":[3,4],\"k\":[5,6]}"
+```
+
+```ruby title="例 JSON::Fragment で生成済みの JSON を埋め込む"
+require "json"
+
+cached = '{"id":1,"name":"Ruby"}'
+coder = JSON::Coder.new { |object| JSON::Fragment.new(cached) }
+p coder.dump({"item" => Object.new}) # => "{\"item\":{\"id\":1,\"name\":\"Ruby\"}}"
+```
+
+- **SEE** [JSON::State#as_json=](../../../method/JSON=3a=3aState/i/as_json=3d.md), [JSON::State#strict=](../../../method/JSON=3a=3aState/i/strict=3d.md)

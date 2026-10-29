@@ -10,15 +10,19 @@ rbs_sig=(uninitialized)
 ### def strict? -> bool
 ### def strict=(enable)
 
-JSON 形式で表現できない型のオブジェクトが現れたときの挙動を取得・設定します。
+JSON にネイティブ対応していない型のオブジェクトが現れたときの挙動を取得・設定します。
 
-偽の場合(デフォルト)、JSON 形式で表現できない型のオブジェクトは文字列に変換されて出力されます。
-真の場合、そのようなオブジェクトが現れると [c:JSON::GeneratorError] が発生します。
+偽の場合(デフォルト)、nil・true・false・[c:Integer]・[c:Float]・[c:String]・[c:Symbol]・[c:Array]・[c:Hash] 以外のオブジェクトは `to_json` メソッドを呼び出して変換します
+([m:JSON::Ext::Generator::GeneratorMethods::Object#to_json] は `to_s` の結果の文字列にします)。
+真の場合、そのようなオブジェクトが現れると [c:JSON::GeneratorError] が発生します(`to_json` メソッドを定義していても呼び出されません)。
 
-- **param** `enable` -- 真を指定すると、JSON 形式で表現できない型のオブジェクトが現れたときに
+真の場合、[c:Symbol] はハッシュのキーとしてのみ許可され、値に現れると [c:JSON::GeneratorError] が発生します。
+ハッシュのキーは `to_s` で文字列に変換します。
+
+- **param** `enable` -- 真を指定すると、JSON にネイティブ対応していない型のオブジェクトが現れたときに
            例外を発生させるようになります。
 
-- **raise** `JSON::GeneratorError` -- `strict?` が真の状態で、JSON 形式で表現できない
+- **raise** `JSON::GeneratorError` -- `strict?` が真の状態で、JSON にネイティブ対応していない
            型のオブジェクトを変換しようとした場合に発生します。
 
 ```ruby title="例"
@@ -33,7 +37,6 @@ rescue JSON::GeneratorError => e
 end
 ```
 
-- **SEE** `JSON::State#as_json=`
 
 
 

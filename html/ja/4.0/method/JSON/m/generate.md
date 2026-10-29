@@ -48,6 +48,9 @@ unparse は将来削除される予定です。
   真を指定すると、nil・true・false・[Integer](../../../class/Integer.md)・[Float](../../../class/Float.md)・[String](../../../class/String.md)・[Array](../../../class/Array.md)・[Hash](../../../class/Hash.md) 以外のオブジェクトを
   `to_json` や `to_s` で変換せず、[JSON::GeneratorError](../../../class/JSON=3a=3aGeneratorError.md) を発生させます。
   [Symbol](../../../class/Symbol.md) は文字列として変換します。デフォルトは偽です。
+- **`:as_json`**:
+  `:strict` が真のときに、JSON にネイティブ対応していないオブジェクトを変換するための `Proc` を指定します。
+  詳しくは [JSON::State#as_json=](../../../method/JSON=3a=3aState/i/as_json=3d.md) を参照してください。デフォルトは偽です。
 - **`:allow_duplicate_key`**:
   真を指定すると、キーを文字列に変換した結果が重複するハッシュ(`{foo: 1, "foo" => 2}` など)をそのまま出力します。
   偽を指定すると [JSON::GeneratorError](../../../class/JSON=3a=3aGeneratorError.md) が発生します。

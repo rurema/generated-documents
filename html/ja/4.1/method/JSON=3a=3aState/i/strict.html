@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/JSON=3a=3aState/i/strict.html">
 
 <title>JSON::State#strict, JSON::State#strict=, JSON::State#strict? (Ruby 4.1 リファレンスマニュアル)</title>
-<meta name="description" content="JSON 形式で表現できない型のオブジェクトが現れたときの挙動を取得・設定します。">
+<meta name="description" content="JSON にネイティブ対応していない型のオブジェクトが現れたときの挙動を取得・設定します。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-27-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-29-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -86,19 +86,24 @@
 <dt class="method-heading"><code>strict=(enable)</code></dt>
 <dd class="method-description">
 <p>
-JSON 形式で表現できない型のオブジェクトが現れたときの挙動を取得・設定します。
+JSON にネイティブ対応していない型のオブジェクトが現れたときの挙動を取得・設定します。
 </p>
 <p>
-偽の場合(デフォルト)、JSON 形式で表現できない型のオブジェクトは文字列に変換されて出力されます。真の場合、そのようなオブジェクトが現れると <a href="../../../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します。
+偽の場合(デフォルト)、nil・true・false・<a href="../../../class/Integer.html">Integer</a>・<a href="../../../class/Float.html">Float</a>・<a href="../../../class/String.html">String</a>・<a href="../../../class/Symbol.html">Symbol</a>・<a href="../../../class/Array.html">Array</a>・<a href="../../../class/Hash.html">Hash</a> 以外のオブジェクトは <code>to_json</code> メソッドを呼び出して変換します
+(<a href="../../../method/JSON=3a=3aGeneratorMethods/i/to_json.html">JSON::GeneratorMethods#to_json</a> は <code>to_s</code> の結果の文字列にします)。真の場合、そのようなオブジェクトが現れると <a href="../../../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します(<code>to_json</code> メソッドを定義していても呼び出されません)。
+</p>
+<p>
+真の場合、<a href="../../../class/Symbol.html">Symbol</a> は値としても許可されます。ハッシュのキーは <a href="../../../class/String.html">String</a> と <a href="../../../class/Symbol.html">Symbol</a> 以外だと <a href="../../../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します。
+<a href="../../../method/JSON=3a=3aState/i/as_json=3d.html">JSON::State#as_json=</a> で <code>Proc</code> を設定していれば、例外を発生させる代わりにそれで変換します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>enable</code>:</dt>
 <dd>
-真を指定すると、JSON 形式で表現できない型のオブジェクトが現れたときに例外を発生させるようになります。
+真を指定すると、JSON にネイティブ対応していない型のオブジェクトが現れたときに例外を発生させるようになります。
 </dd>
 <dt>[EXCEPTION] <code>JSON::GeneratorError</code>:</dt>
 <dd>
-<code>strict?</code> が真の状態で、JSON 形式で表現できない型のオブジェクトを変換しようとした場合に発生します。
+<code>strict?</code> が真の状態で、JSON にネイティブ対応していない型のオブジェクトを変換しようとした場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -112,8 +117,14 @@ state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</s
   <span class="nb">p</span> e<span class="p">.</span><span class="nf">message</span> <span class="c1"># =&gt; &quot;Object not allowed in JSON&quot;
 </span><span class="k">end</span>
 </code></pre>
+<span class="caption">例 ハッシュのキー</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">{</span><span class="mi">1</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">}</span>, <span class="ss">strict:</span> <span class="k">true</span><span class="p">)</span>                                        <span class="c1"># ~&gt; Integer not allowed as object key in JSON (JSON::GeneratorError)
+</span><span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">{</span><span class="mi">1</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">}</span>, <span class="ss">strict:</span> <span class="k">true</span>, <span class="ss">as_json:</span> <span class="o">-&gt;</span><span class="p">(</span>obj, is_key<span class="p">)</span> <span class="p">{</span> obj<span class="p">.</span><span class="nf">to_s</span> <span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; &quot;{\&quot;1\&quot;:2}&quot;
+</span></code></pre>
 <p>
-[SEE_ALSO] <code>JSON::State#as_json=</code>
+[SEE_ALSO] <a href="../../../method/JSON=3a=3aState/i/as_json=3d.html">JSON::State#as_json=</a>, <a href="../../../class/JSON=3a=3aCoder.html">JSON::Coder</a>
 </p>
 </dd>
 

@@ -923,19 +923,23 @@ json_state<span class="p">.</span><span class="nf">space_before</span>          
 <dt class="method-heading"><code>strict=(enable)</code></dt>
 <dd class="method-description">
 <p>
-JSON 形式で表現できない型のオブジェクトが現れたときの挙動を取得・設定します。
+JSON にネイティブ対応していない型のオブジェクトが現れたときの挙動を取得・設定します。
 </p>
 <p>
-偽の場合(デフォルト)、JSON 形式で表現できない型のオブジェクトは文字列に変換されて出力されます。真の場合、そのようなオブジェクトが現れると <a href="../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します。
+偽の場合(デフォルト)、nil・true・false・<a href="../class/Integer.html">Integer</a>・<a href="../class/Float.html">Float</a>・<a href="../class/String.html">String</a>・<a href="../class/Symbol.html">Symbol</a>・<a href="../class/Array.html">Array</a>・<a href="../class/Hash.html">Hash</a> 以外のオブジェクトは <code>to_json</code> メソッドを呼び出して変換します
+(<a href="../method/JSON=3a=3aExt=3a=3aGenerator=3a=3aGeneratorMethods=3a=3aObject/i/to_json.html">JSON::Ext::Generator::GeneratorMethods::Object#to_json</a> は <code>to_s</code> の結果の文字列にします)。真の場合、そのようなオブジェクトが現れると <a href="../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します(<code>to_json</code> メソッドを定義していても呼び出されません)。
+</p>
+<p>
+真の場合、<a href="../class/Symbol.html">Symbol</a> はハッシュのキーとしてのみ許可され、値に現れると <a href="../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します。ハッシュのキーは <code>to_s</code> で文字列に変換します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>enable</code>:</dt>
 <dd>
-真を指定すると、JSON 形式で表現できない型のオブジェクトが現れたときに例外を発生させるようになります。
+真を指定すると、JSON にネイティブ対応していない型のオブジェクトが現れたときに例外を発生させるようになります。
 </dd>
 <dt>[EXCEPTION] <code>JSON::GeneratorError</code>:</dt>
 <dd>
-<code>strict?</code> が真の状態で、JSON 形式で表現できない型のオブジェクトを変換しようとした場合に発生します。
+<code>strict?</code> が真の状態で、JSON にネイティブ対応していない型のオブジェクトを変換しようとした場合に発生します。
 </dd>
 </dl>
 <span class="caption">例</span>
@@ -949,9 +953,6 @@ state <span class="o">=</span> <span class="no">JSON</span><span class="o">::</s
   <span class="nb">p</span> e<span class="p">.</span><span class="nf">message</span> <span class="c1"># =&gt; &quot;Object not allowed in JSON&quot;
 </span><span class="k">end</span>
 </code></pre>
-<p>
-[SEE_ALSO] <code>JSON::State#as_json=</code>
-</p>
 </dd>
 
 
