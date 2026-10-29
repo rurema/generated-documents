@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HBG2MP4NRL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'G-HBG2MP4NRL');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../syntax-highlight.css">
+<link rel="stylesheet" href="../search.css">
+<link rel="icon" type="image/png" href="../rurema.png">
+
+<link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/class/JSON=3a=3aFragment.html">
+
+<title>class JSON::Fragment (Ruby 4.0 リファレンスマニュアル)</title>
+<meta name="description" content="既に JSON 形式になっている文字列を、変換せずにそのまま出力に埋め込むためのクラスです。">
+<script src="../script.js"></script>
+<script>var index_rel_prefix = "../";</script>
+<script src="../js/search_data.js"></script>
+<script src="../js/search_navigation.js"></script>
+<script src="../js/search_ranker.js"></script>
+<script src="../js/search_controller.js"></script>
+<script src="../js/search_init.js"></script>
+<script defer src="../js/version_switcher.js"></script>
+
+<meta name="rurema-run-ruby-wasm" content="https://docs.ruby-lang.org/wasm/2.9.3-2.9.4-1/ruby-4.0.wasm">
+<meta name="rurema-run-help" content="../doc/help.html#run">
+<script type="module" src="../js/run.js"></script>
+
+</head>
+<body>
+
+<div id="rurema-topbar">
+  <div id="rurema-brand"><a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a></div>
+  <div id="version-switcher"></div>
+  <div id="search-section" role="search">
+    <input id="search-field" type="text" autocomplete="off" spellcheck="false"
+           placeholder="クラス・メソッドを検索 (/)"
+           aria-label="検索" aria-autocomplete="list" aria-controls="search-results">
+    <ul id="search-results" class="search-results" aria-expanded="false"></ul>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/doc/index.html","name":"Ruby 4.0 リファレンスマニュアル","position":1},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/index.html","name":"ライブラリ一覧","position":2},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/library/json.html","name":"jsonライブラリ","position":3},{"@type":"ListItem","item":"https://docs.ruby-lang.org/ja/latest/class/JSON=3a=3aFragment.html","name":"JSON::Fragmentクラス","position":4}]}
+</script>
+
+<header>
+  <nav>
+    <ol class="inline-breadcrumb-list">
+      <li>
+        <a href="../doc/index.html">Ruby 4.0 リファレンスマニュアル</a>
+      </li>
+      <li>
+        <a href="../library/index.html">ライブラリ一覧</a>
+      </li>
+      <li>
+        <a href="../library/json.html">jsonライブラリ</a>
+      </li>
+      <li>
+        JSON::Fragmentクラス
+      </li>
+    </ol>
+  </nav>
+
+<h1>class JSON::Fragment</h1><span class="permalink">[<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Fragment.md">edit</a>]</span>
+
+</header>
+
+<main>
+
+
+
+  <nav>
+    クラス・モジュールの継承リスト:
+    <ol class="inline-ancestors-list">
+      
+        <li>
+          <a href="../class/BasicObject.html">BasicObject</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Kernel.html">Kernel</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Object.html">Object</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Enumerable.html">Enumerable</a>
+        </li>
+        
+      
+        <li>
+          <a href="../class/Struct.html">Struct</a>
+        </li>
+        
+      
+      <li>
+        JSON::Fragment
+      </li>
+    </ol>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+<h2>要約</h2>
+<p>
+既に JSON 形式になっている文字列を、変換せずにそのまま出力に埋め込むためのクラスです。
+</p>
+<p>
+<a href="../method/JSON/m/generate.html">JSON?.generate</a> や <a href="../method/JSON=3a=3aCoder/i/dump.html">JSON::Coder#dump</a> で変換するオブジェクトの中にこのクラスのインスタンスがあると、<code>json</code> の内容がそのまま挿入されます。生成済みの JSON 形式の文字列をキャッシュしておき、組み合わせて出力するような用途に使います。
+</p>
+<p>
+内容の検証やエスケープは行いません。<code>ascii_only</code> や <code>script_safe</code> などの生成オプションは内容には適用されず、<a href="../method/JSON/m/pretty_generate.html">JSON?.pretty_generate</a> でもインデントされません。<code>strict</code> が真のときも使用できます。<a href="../method/JSON=3a=3aState/i/as_json=3d.html">JSON::State#as_json=</a> に設定した <code>Proc</code> や <a href="../method/JSON=3a=3aCoder/s/new.html">JSON::Coder.new</a> のブロックの返り値としても使用できます。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+cached <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">Fragment</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'{&quot;a&quot;:1}'</span><span class="p">)</span>
+<span class="nb">p</span> cached<span class="p">.</span><span class="nf">json</span>                              <span class="c1"># =&gt; &quot;{\&quot;a\&quot;:1}&quot;
+</span><span class="nb">p</span> cached<span class="p">.</span><span class="nf">to_json</span>                           <span class="c1"># =&gt; &quot;{\&quot;a\&quot;:1}&quot;
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">x</span><span class="s2">"</span> <span class="o">=&gt;</span> cached, <span class="s2">"</span><span class="s2">y</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; &quot;{\&quot;x\&quot;:{\&quot;a\&quot;:1},\&quot;y\&quot;:2}&quot;
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span>cached<span class="p">]</span>, <span class="ss">strict:</span> <span class="k">true</span><span class="p">)</span>    <span class="c1"># =&gt; &quot;[{\&quot;a\&quot;:1}]&quot;
+</span><span class="nb">puts</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">pretty_generate</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">x</span><span class="s2">"</span> <span class="o">=&gt;</span> cached, <span class="s2">"</span><span class="s2">y</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">}</span><span class="p">)</span>
+<span class="c1"># =&gt; {
+</span><span class="c1">#      &quot;x&quot;: {&quot;a&quot;:1},
+</span><span class="c1">#      &quot;y&quot;: 2
+</span><span class="c1">#    }
+</span></code></pre>
+<span class="caption">例 内容は検証もエスケープもされない</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+<span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="no">JSON</span><span class="o">::</span><span class="no">Fragment</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'&quot;é&quot;'</span><span class="p">)</span>, <span class="s2">"</span><span class="s2">é</span><span class="s2">"</span><span class="p">]</span>, <span class="ss">ascii_only:</span> <span class="k">true</span><span class="p">)</span>      <span class="c1"># =&gt; &quot;[\&quot;é\&quot;,\&quot;\\u00e9\&quot;]&quot;
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="no">JSON</span><span class="o">::</span><span class="no">Fragment</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'&quot;a/b&quot;'</span><span class="p">)</span>, <span class="s2">"</span><span class="s2">a/b</span><span class="s2">"</span><span class="p">]</span>, <span class="ss">script_safe:</span> <span class="k">true</span><span class="p">)</span> <span class="c1"># =&gt; &quot;[\&quot;a/b\&quot;,\&quot;a\\/b\&quot;]&quot;
+</span><span class="nb">p</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="p">[</span><span class="no">JSON</span><span class="o">::</span><span class="no">Fragment</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">not json</span><span class="s2">"</span><span class="p">)</span><span class="p">]</span><span class="p">)</span>                        <span class="c1"># =&gt; &quot;[not json]&quot;
+</span></code></pre>
+
+
+
+<h2>目次</h2>
+<dl>
+
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_JSON">json</a></li>
+
+<li><a href="#I_JSON--3D">json=</a></li>
+
+<li><a href="#I_TO_JSON">to_json</a></li>
+
+</ul>
+</dd>
+
+</dl>
+
+
+
+
+  <h2>継承しているメソッド</h2>
+<dl>
+  
+  
+<dt>Structから継承している特異メソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Struct/s/=5b=5d.html">[]</a></li>
+      
+    
+      <li><a href="../method/Struct/s/keyword_init=3f.html">keyword_init?</a></li>
+      
+    
+      <li><a href="../method/Struct/s/members.html">members</a></li>
+      
+    
+  </ul>
+</dd>
+  
+  
+<dt>Structから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Struct/i/=3d=3d.html">==</a></li>
+      
+    
+      <li><a href="../method/Struct/i/=5b=5d.html">[]</a></li>
+      
+    
+      <li><a href="../method/Struct/i/=5b=5d=3d.html">[]=</a></li>
+      
+    
+      <li><a href="../method/Struct/i/deconstruct.html">deconstruct</a></li>
+      
+    
+      <li><a href="../method/Struct/i/deconstruct_keys.html">deconstruct_keys</a></li>
+      
+    
+      <li><a href="../method/Struct/i/dig.html">dig</a></li>
+      
+    
+      <li><a href="../method/Struct/i/each.html">each</a></li>
+      
+    
+      <li><a href="../method/Struct/i/each_pair.html">each_pair</a></li>
+      
+    
+      <li><a href="../method/Struct/i/eql=3f.html">eql?</a></li>
+      
+    
+      <li><a href="../method/Struct/i/equal=3f.html">equal?</a></li>
+      
+    
+      <li><a href="../method/Struct/i/filter.html">filter</a></li>
+      
+    
+      <li><a href="../method/Struct/i/hash.html">hash</a></li>
+      
+    
+      <li><a href="../method/Struct/i/inspect.html">inspect</a></li>
+      
+    
+      <li><a href="../method/Struct/i/length.html">length</a></li>
+      
+    
+      <li><a href="../method/Struct/i/members.html">members</a></li>
+      
+    
+      <li><a href="../method/Struct/i/filter.html">select</a></li>
+      
+    
+      <li><a href="../method/Struct/i/length.html">size</a></li>
+      
+    
+      <li><a href="../method/Struct/i/deconstruct.html">to_a</a></li>
+      
+    
+      <li><a href="../method/Struct/i/to_h.html">to_h</a></li>
+      
+    
+      <li><a href="../method/Struct/i/inspect.html">to_s</a></li>
+      
+    
+      <li><a href="../method/Struct/i/deconstruct.html">values</a></li>
+      
+    
+      <li><a href="../method/Struct/i/values_at.html">values_at</a></li>
+      
+    
+  </ul>
+</dd>
+
+<dt>Enumerableから継承しているメソッド</dt>
+<dd>
+  <ul class="class-toc">
+    
+      <li><a href="../method/Enumerable/i/all=3f.html">all?</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/any=3f.html">any?</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/chain.html">chain</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/chunk.html">chunk</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/chunk_while.html">chunk_while</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/collect.html">collect</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/collect_concat.html">collect_concat</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/compact.html">compact</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/count.html">count</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/cycle.html">cycle</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/detect.html">detect</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/drop.html">drop</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/drop_while.html">drop_while</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/each_cons.html">each_cons</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/each_entry.html">each_entry</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/each_slice.html">each_slice</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/each_with_index.html">each_with_index</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/each_with_object.html">each_with_object</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/entries.html">entries</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/filter_map.html">filter_map</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/detect.html">find</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/filter.html">find_all</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/find_index.html">find_index</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/first.html">first</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/collect_concat.html">flat_map</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/grep.html">grep</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/grep_v.html">grep_v</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/group_by.html">group_by</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/include=3f.html">include?</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/inject.html">inject</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/lazy.html">lazy</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/collect.html">map</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/max.html">max</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/max_by.html">max_by</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/include=3f.html">member?</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/min.html">min</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/min_by.html">min_by</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/minmax.html">minmax</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/minmax_by.html">minmax_by</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/none=3f.html">none?</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/one=3f.html">one?</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/partition.html">partition</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/inject.html">reduce</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/reject.html">reject</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/reverse_each.html">reverse_each</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/slice_after.html">slice_after</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/slice_before.html">slice_before</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/slice_when.html">slice_when</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/sort.html">sort</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/sort_by.html">sort_by</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/sum.html">sum</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/take.html">take</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/take_while.html">take_while</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/tally.html">tally</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/to_set.html">to_set</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/uniq.html">uniq</a></li>
+      
+    
+      <li><a href="../method/Enumerable/i/zip.html">zip</a></li>
+      
+    
+  </ul>
+</dd>
+
+</dl>
+
+
+
+
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(json) -&gt; JSON::Fragment</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aFragment/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/Fragment.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Fragment.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+自身を初期化します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>json</code>:</dt>
+<dd>
+埋め込む JSON 形式の文字列を指定します。内容は検証されません。
+</dd>
+<dt>[EXCEPTION] <code>TypeError</code>:</dt>
+<dd>
+<code>json</code> が文字列でない場合に発生します。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_JSON"><code>json -&gt; String</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aFragment/i/json.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/Fragment.html#method-i-json">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Fragment.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+埋め込む JSON 形式の文字列を返します。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_JSON--3D"><code>json=(string)</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aFragment/i/json=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/Fragment.html#method-i-json-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Fragment.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+埋め込む JSON 形式の文字列を設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>string</code>:</dt>
+<dd>
+埋め込む JSON 形式の文字列を指定します。
+</dd>
+</dl>
+</dd>
+
+
+<dt class="method-heading" id="I_TO_JSON"><code>to_json(state = nil, *args) -&gt; String</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/JSON=3a=3aFragment/i/to_json.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/JSON/Fragment.html#method-i-to_json">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Fragment.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+<code>json</code> の内容をそのまま返します。
+</p>
+<p>
+<a href="../method/JSON/m/generate.html">JSON?.generate</a> などから呼び出されます。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>state</code>:</dt>
+<dd>
+<a href="../class/JSON=3a=3aState.html">JSON::State</a> を指定しますが使用しません。
+</dd>
+<dt class='method-param'>[PARAM] <code>args</code>:</dt>
+<dd>
+無視されます。
+</dd>
+</dl>
+</dd>
+
+
+</dl>
+
+</main>
+
+<footer id="footer">
+  <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
+
+  <a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">フィードバックを送る</a>
+  
+    / <a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Fragment.md">このマニュアルを編集する</a>
+  
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
+</body>
+</html>

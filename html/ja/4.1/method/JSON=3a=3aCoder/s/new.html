@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-27-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-29-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -81,7 +81,7 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_NEW"><code>new(object_class: nil, array_class: nil, on_load: nil, strict: true, **options) {|object| ... } -&gt; JSON::Coder</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../../../method/JSON=3a=3aCoder/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON/Coder.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Coder.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new(object_class: nil, array_class: nil, on_load: nil, strict: true, **options) {|object, is_key| ... } -&gt; JSON::Coder</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../../../method/JSON=3a=3aCoder/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/JSON/Coder.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/json/JSON__Coder.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を初期化します。
@@ -92,8 +92,7 @@
 <a href="../../../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します。
 </p>
 <p>
-ブロックを指定すると、上記のような JSON にネイティブ対応していない型のオブジェクトを生成しようとしたときにそのブロックが呼び出されます。ブロックには対象のオブジェクトが渡され、
-JSON にネイティブ対応した値(文字列など)を返す必要があります。ブロックの戻り値もネイティブ対応していない型であった場合はエラーになります。
+ブロックを指定すると、上記のような JSON にネイティブ対応していない型のオブジェクトを生成しようとしたときにそのブロックが呼び出されます。ブロックには対象のオブジェクトと、それがハッシュのキーとして使われているかどうかを表す真偽値が渡されます。ブロックの返り値が、そのオブジェクトの代わりに変換されます。返り値の中にさらにネイティブ対応していないオブジェクトが含まれていれば、それに対してもブロックが呼び出されます。<a href="../../../class/JSON=3a=3aFragment.html">JSON::Fragment</a> を返すと、その内容がそのまま挿入されます。ハッシュのキーに対する返り値は <a href="../../../class/String.html">String</a> か <a href="../../../class/Symbol.html">Symbol</a> でなければなりません。不正なエンコーディングの文字列や、ASCII 以外のバイトを含む BINARY(ASCII-8BIT)エンコーディングの文字列に対してもブロックが呼び出されます。ブロックの返り値もネイティブ対応していない型であった場合は <a href="../../../class/JSON=3a=3aGeneratorError.html">JSON::GeneratorError</a> が発生します。
 </p>
 <p>
 <code>strict</code> に true 以外を指定すると <a href="../../../class/ArgumentError.html">ArgumentError</a> が発生します。オプションのハッシュを位置引数で渡した場合も <a href="../../../class/ArgumentError.html">ArgumentError</a> が発生します。
@@ -122,7 +121,7 @@ true のみ指定できます。
 </dd>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
-<code>strict</code> に true 以外を指定した場合や、オプションのハッシュを位置引数で渡した場合に発生します。
+<code>strict</code> に true 以外を指定した場合や、オプションのハッシュを位置引数で渡した場合、未知のキーワードを指定した場合に発生します。
 </dd>
 </dl>
 <span class="caption">例 options はパースと生成の両方に適用される</span>
@@ -142,6 +141,24 @@ coder <span class="o">=</span> <span class="no">JSON</span><span class="o">::</s
   <span class="nb">p</span> e<span class="p">.</span><span class="nf">message</span> <span class="c1"># =&gt; &quot;Range not allowed in JSON&quot;
 </span><span class="k">end</span>
 </code></pre>
+<span class="caption">例 ハッシュのキーと値でブロックの引数が異なる</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+coder <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">Coder</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span>object, is_key<span class="o">|</span>
+  is_key <span class="o">?</span> object<span class="p">.</span><span class="nf">to_s</span> <span class="o">:</span> object<span class="p">.</span><span class="nf">to_a</span>
+<span class="k">end</span>
+<span class="nb">p</span> coder<span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="p">{</span><span class="mi">1</span><span class="o">..</span><span class="mi">2</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="o">..</span><span class="mi">4</span>, <span class="s2">"</span><span class="s2">k</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="o">..</span><span class="mi">6</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; &quot;{\&quot;1..2\&quot;:[3,4],\&quot;k\&quot;:[5,6]}&quot;
+</span></code></pre>
+<span class="caption">例 JSON::Fragment で生成済みの JSON を埋め込む</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">json</span><span class="s2">"</span>
+
+cached <span class="o">=</span> <span class="s1">'{&quot;id&quot;:1,&quot;name&quot;:&quot;Ruby&quot;}'</span>
+coder <span class="o">=</span> <span class="no">JSON</span><span class="o">::</span><span class="no">Coder</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span>object<span class="o">|</span> <span class="no">JSON</span><span class="o">::</span><span class="no">Fragment</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>cached<span class="p">)</span> <span class="p">}</span>
+<span class="nb">p</span> coder<span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="p">{</span><span class="s2">"</span><span class="s2">item</span><span class="s2">"</span> <span class="o">=&gt;</span> <span class="no">Object</span><span class="p">.</span><span class="nf">new</span><span class="p">}</span><span class="p">)</span> <span class="c1"># =&gt; &quot;{\&quot;item\&quot;:{\&quot;id\&quot;:1,\&quot;name\&quot;:\&quot;Ruby\&quot;}}&quot;
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../../../method/JSON=3a=3aState/i/as_json=3d.html">JSON::State#as_json=</a>, <a href="../../../method/JSON=3a=3aState/i/strict=3d.html">JSON::State#strict=</a>
+</p>
 </dd>
 
 
