@@ -1,7 +1,7 @@
 # Psych.parse_stream
 
-### def Psych.parse_stream(yaml) -> Psych::Nodes::Stream
-### def Psych.parse_stream(yaml){|node| ... } -> ()
+### def Psych.parse_stream(yaml, filename: nil) -> Psych::Nodes::Stream
+### def Psych.parse_stream(yaml, filename: nil){|node| ... } -> ()
 
 YAML ドキュメントをパースします。
 `yaml` が 複数の YAML ドキュメントを含む場合を取り扱うことができます。
@@ -11,6 +11,11 @@ YAML ドキュメントをパースします。
 ブロック付きの場合は、そのブロックに最初の YAML ドキュメントの [Psych::Nodes::Document](../../../class/Psych=3a=3aNodes=3a=3aDocument.md) オブジェクトが渡されます。
 この場合の返り値には意味がありません。
 
+`filename` はパース中に発生した例外のメッセージに用います。
+
+- **param** `yaml` -- YAML ドキュメント(文字列 or [IO](../../../class/IO.md) オブジェクト)
+- **param** `filename` -- [Psych::SyntaxError](../../../class/Psych=3a=3aSyntaxError.md) 発生時にファイル名として表示する文字列。
+- **raise** `Psych::SyntaxError` -- YAMLドキュメントに文法エラーが発見されたときに発生します
 - **SEE** [Psych::Nodes](../../../class/Psych=3a=3aNodes.md)
 
 ```ruby title="例"

@@ -82,8 +82,8 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_LOAD_STREAM"><code>load_stream(yaml, filename=nil) -&gt; [object]</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/Psych/s/load_stream.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Psych.html#method-c-load_stream">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>load_stream(yaml, filename=nil) {|obj| ... } -&gt; ()</code></dt>
+<dt class="method-heading" id="S_LOAD_STREAM"><code>load_stream(yaml, filename: nil, fallback: [], **kwargs) -&gt; [object]</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/Psych/s/load_stream.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Psych.html#method-c-load_stream">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/psych.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>load_stream(yaml, filename: nil, fallback: [], **kwargs) {|obj| ... } -&gt; ()</code></dt>
 <dd class="method-description">
 <p>
 複数の YAML ドキュメントを含むデータを
@@ -110,7 +110,18 @@ list <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
 <span class="nb">p</span> list <span class="c1"># =&gt; ['foo', 'bar']
 </span></code></pre>
 <p>
+ブロックなしの場合に <code>yaml</code> がドキュメントを 1 つも含まないときは、<code>fallback</code> を返します。
+</p>
+<span class="caption">fallback の例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'psych'</span>
+
+<span class="nb">p</span> <span class="no">Psych</span><span class="p">.</span><span class="nf">load_stream</span><span class="p">(</span><span class="s2">"</span><span class="s2">"</span>, <span class="ss">fallback:</span> <span class="p">[</span><span class="ss">:none</span><span class="p">]</span><span class="p">)</span> <span class="c1"># =&gt; [:none]
+</span></code></pre>
+<p>
 <code>filename</code> はパース中に発生した例外のメッセージに用います。
+</p>
+<p>
+その他のキーワード引数 <code>kwargs</code> は、各ドキュメントを変換する <a href="../../../method/Psych=3a=3aNodes=3a=3aNode/i/to_ruby.html">Psych::Nodes::Node#to_ruby</a> にそのまま渡します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>yaml</code>:</dt>
@@ -120,6 +131,14 @@ YAML ドキュメント(文字列 or <a href="../../../class/IO.html">IO</a> オ
 <dt class='method-param'>[PARAM] <code>filename</code>:</dt>
 <dd>
 <a href="../../../class/Psych=3a=3aSyntaxError.html">Psych::SyntaxError</a> 発生時にファイル名として表示する文字列。
+</dd>
+<dt class='method-param'>[PARAM] <code>fallback</code>:</dt>
+<dd>
+ブロックなしの場合に、<code>yaml</code> がドキュメントを 1 つも含まないときの返り値を指定します。デフォルトは <code>[]</code> です。
+</dd>
+<dt class='method-param'>[PARAM] <code>kwargs</code>:</dt>
+<dd>
+<a href="../../../method/Psych=3a=3aNodes=3a=3aNode/i/to_ruby.html">Psych::Nodes::Node#to_ruby</a> に渡すキーワード引数(<code>symbolize_names</code> や <code>freeze</code> など)を指定します。
 </dd>
 <dt>[EXCEPTION] <code>Psych::SyntaxError</code>:</dt>
 <dd>
