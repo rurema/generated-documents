@@ -1,8 +1,16 @@
 # Pathname#rmtree
 
-### def rmtree -> nil
+### def rmtree(noop: nil, verbose: nil, secure: nil) -> self
 
-FileUtils.rm_r(self.to_s) と同じです。
+`FileUtils.rm_rf(self.to_s, noop: noop, verbose: verbose, secure: secure)` と同じです。
+
+`self` を返します。
 
 
-- **SEE** [FileUtils?.rm_r](../../../method/FileUtils/m/rm_r.md)
+- **param** `noop` -- 真を指定すると実際の処理は行いません。
+
+- **param** `verbose` -- 真を指定すると詳細を出力します。
+
+- **param** `secure` -- 真を指定するとファイルの削除に [FileUtils?.remove_entry_secure](../../../method/FileUtils/m/remove_entry_secure.md) を使用します。
+
+- **SEE** [FileUtils?.rm_rf](../../../method/FileUtils/m/rm_rf.md)
