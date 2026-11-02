@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-10-31-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-02-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -81,8 +81,8 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_START"><code>start(address, port = Net::SMTP.default_port, tls_verify: true, tls_hostname: nil, helo: 'localhost', user: nil, password: nil, authtype: DEFAULT_AUTH_TYPE) -&gt; Net::SMTP</code><span class="permalink">[<a href="../../../method/Net=3a=3aSMTP/s/start.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Net/SMTP.html#method-c-start">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/smtp/Net__SMTP.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>start(address, port = Net::SMTP.default_port, tls_verify: true, tls_hostname: nil, helo: 'localhost', user: nil, password: nil, authtype: DEFAULT_AUTH_TYPE) {|smtp| ... } -&gt; object</code></dt>
+<dt class="method-heading" id="S_START"><code>start(address, port = Net::SMTP.default_port, tls: false, starttls: :auto, tls_verify: true, tls_hostname: nil, ssl_context_params: nil, helo: 'localhost', user: nil, password: nil, authtype: DEFAULT_AUTH_TYPE) -&gt; Net::SMTP</code><span class="permalink">[<a href="../../../method/Net=3a=3aSMTP/s/start.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Net/SMTP.html#method-c-start">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/smtp/Net__SMTP.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>start(address, port = Net::SMTP.default_port, tls: false, starttls: :auto, tls_verify: true, tls_hostname: nil, ssl_context_params: nil, helo: 'localhost', user: nil, password: nil, authtype: DEFAULT_AUTH_TYPE) {|smtp| ... } -&gt; object</code></dt>
 <dt class="method-heading"><code>start(address, port = Net::SMTP.default_port, helo = 'localhost', user = nil, password = nil, authtype = DEFAULT_AUTH_TYPE) -&gt; Net::SMTP</code></dt>
 <dt class="method-heading"><code>start(address, port = Net::SMTP.default_port, helo = 'localhost', user = nil, password = nil, authtype = DEFAULT_AUTH_TYPE) {|smtp| .... } -&gt; object</code></dt>
 <dd class="method-description">
@@ -119,6 +119,14 @@ authtype は使用する認証のタイプで、シンボルで :plain, :login, 
 <dd>
 ポート番号、デフォルトは 25 です
 </dd>
+<dt class='method-param'>[PARAM] <code>tls</code>:</dt>
+<dd>
+真を指定すると、接続した時点から TLS を使います(SMTPS)
+</dd>
+<dt class='method-param'>[PARAM] <code>starttls</code>:</dt>
+<dd>
+STARTTLS を使うかどうか(<code>:always</code>, <code>:auto</code>, false のいずれか)。<a href="../../../method/Net=3a=3aSMTP/s/new.html">Net::SMTP.new</a> を参照してください
+</dd>
 <dt class='method-param'>[PARAM] <code>tls_verify</code>:</dt>
 <dd>
 サーバー証明書を検証するか否か
@@ -126,6 +134,10 @@ authtype は使用する認証のタイプで、シンボルで :plain, :login, 
 <dt class='method-param'>[PARAM] <code>tls_hostname</code>:</dt>
 <dd>
 サーバー証明書のホスト名
+</dd>
+<dt class='method-param'>[PARAM] <code>ssl_context_params</code>:</dt>
+<dd>
+<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡す追加のパラメータの <a href="../../../class/Hash.html">Hash</a>
 </dd>
 <dt class='method-param'>[PARAM] <code>helo</code>:</dt>
 <dd>

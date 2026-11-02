@@ -1,7 +1,7 @@
 # Net::SMTP.start
 
-### def Net::SMTP.start(address, port = Net::SMTP.default_port, tls_verify: true, tls_hostname: nil, helo: 'localhost', user: nil, password: nil, authtype: DEFAULT_AUTH_TYPE) -> Net::SMTP
-### def Net::SMTP.start(address, port = Net::SMTP.default_port, tls_verify: true, tls_hostname: nil, helo: 'localhost', user: nil, password: nil, authtype: DEFAULT_AUTH_TYPE) {|smtp| ... } -> object
+### def Net::SMTP.start(address, port = Net::SMTP.default_port, tls: false, starttls: :auto, tls_verify: true, tls_hostname: nil, ssl_context_params: nil, helo: 'localhost', user: nil, password: nil, authtype: DEFAULT_AUTH_TYPE) -> Net::SMTP
+### def Net::SMTP.start(address, port = Net::SMTP.default_port, tls: false, starttls: :auto, tls_verify: true, tls_hostname: nil, ssl_context_params: nil, helo: 'localhost', user: nil, password: nil, authtype: DEFAULT_AUTH_TYPE) {|smtp| ... } -> object
 ### def Net::SMTP.start(address, port = Net::SMTP.default_port, helo = 'localhost', user = nil, password = nil, authtype = DEFAULT_AUTH_TYPE) -> Net::SMTP
 ### def Net::SMTP.start(address, port = Net::SMTP.default_port, helo = 'localhost', user = nil, password = nil, authtype = DEFAULT_AUTH_TYPE) {|smtp| .... } -> object
 
@@ -31,8 +31,11 @@ Net::SMTP.start('smtp.example.com') {|smtp|
 
 - **param** `address` -- 接続するサーバをホスト名もしくはIPアドレスで指定します
 - **param** `port` -- ポート番号、デフォルトは 25 です
+- **param** `tls` -- 真を指定すると、接続した時点から TLS を使います(SMTPS)
+- **param** `starttls` -- STARTTLS を使うかどうか(`:always`, `:auto`, false のいずれか)。[Net::SMTP.new](../../../method/Net=3a=3aSMTP/s/new.md) を参照してください
 - **param** `tls_verify` -- サーバー証明書を検証するか否か
 - **param** `tls_hostname` -- サーバー証明書のホスト名
+- **param** `ssl_context_params` -- [OpenSSL::SSL::SSLContext#set_params](../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.md) に渡す追加のパラメータの [Hash](../../../class/Hash.md)
 - **param** `helo` -- HELO で名乗るドメイン名です
 - **param** `user` -- 認証で使うアカウント名
 - **param** `password` -- 認証で使うパスワード
