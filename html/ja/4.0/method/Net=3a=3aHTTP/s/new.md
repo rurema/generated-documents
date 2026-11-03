@@ -1,6 +1,6 @@
 # Net::HTTP.new
 
-### def Net::HTTP.new(address, port = 80, proxy_addr = :ENV, proxy_port = nil, proxy_user=nil, proxy_pass=nil, no_proxy=nil) -> Net::HTTP
+### def Net::HTTP.new(address, port = 80, proxy_addr = :ENV, proxy_port = nil, proxy_user=nil, proxy_pass=nil, no_proxy=nil, proxy_use_ssl=nil) -> Net::HTTP
 
 新しい [Net::HTTP](../../../class/Net=3a=3aHTTP.md) オブジェクトを生成します。
 
@@ -21,3 +21,4 @@ no_proxy の文字列に address のホスト名やIPアドレスが含まれて
 - **param** `proxy_user` -- プロクシの認証のユーザ名を指定します。省略した場合には認証はなされません。
 - **param** `proxy_pass` -- プロクシの認証のパスワードを指定します。
 - **param** `no_proxy` -- プロクシを経由せずに接続するホストの名前/IPアドレスを文字列で指定します。
+- **param** `proxy_use_ssl` -- プロクシとの接続に SSL/TLS を使うかどうかを指定します。接続先に SSL/TLS を使う場合([Net::HTTP#use_ssl=](../../../method/Net=3a=3aHTTP/i/use_ssl=3d.md))にだけ効きます。`proxy_addr` に `:ENV` を指定した場合は無視されます。[Net::HTTP#proxy_use_ssl=](../../../method/Net=3a=3aHTTP/i/proxy_use_ssl=3d.md) も参照してください。
