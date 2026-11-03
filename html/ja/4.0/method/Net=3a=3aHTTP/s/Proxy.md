@@ -1,6 +1,6 @@
 # Net::HTTP.Proxy
 
-### def Net::HTTP.Proxy(address, port = 80) -> Class
+### def Net::HTTP.Proxy(address, port = 80, user = nil, pass = nil, use_ssl = nil) -> Class
 
 Proxy 経由で http サーバに接続するためのクラスを作成し返します。
 
@@ -27,3 +27,8 @@ proxy_class.start('www.example.org') {|h|
 
 - **param** `address` -- プロクシのホスト名を文字列で与えます。
 - **param** `port` -- プロクシのポート番号を与えます。
+- **param** `user` -- プロクシの認証のユーザ名を与えます。省略した場合には認証はなされません。
+- **param** `pass` -- プロクシの認証のパスワードを与えます。
+- **param** `use_ssl` -- プロクシとの接続に SSL/TLS を使うかどうかを与えます。接続先に SSL/TLS を使う場合([Net::HTTP#use_ssl=](../../../method/Net=3a=3aHTTP/i/use_ssl=3d.md))にだけ効きます。
+
+- **SEE** [Net::HTTP.proxy_use_ssl](../../../method/Net=3a=3aHTTP/s/proxy_use_ssl.md)
