@@ -6,11 +6,18 @@ since_by_name=
 until_by_name=
 rbs_sig=(uninitialized)
 
-### def Resolv.new(resolvers = [Hosts.new, DNS.new]) -> Resolv
+### def Resolv.new(resolvers = nil, use_ipv6: nil) -> Resolv
 
 resolvers に与えたリゾルバの配列を先頭から順に名前解決を試すような、新しいリゾルバオブジェクトを返します。
 
 resolvers の各要素は each_address と each_name というメソッドを持っていなければなりません。
 
+`resolvers` が nil の場合は、[c:Resolv::Hosts] と [c:Resolv::DNS] のリゾルバをこの順に使います。
+
+`use_ipv6` は `resolvers` が nil の場合だけ使われ、DNS のリゾルバが IPv6 のアドレス(AAAA レコード)も引くかどうかを指定します。
+true なら A レコードと AAAA レコードを、false なら A レコードだけを引きます。
+nil の場合は、ループバックアドレスとリンクローカルアドレス以外の IPv6 のアドレスがこのホストにあるときだけ AAAA レコードも引きます。
+
 - **param** `resolvers` -- リゾルバの配列
+- **param** `use_ipv6` -- DNS のリゾルバで AAAA レコードを引くかどうか
 
