@@ -81,7 +81,7 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_NEW"><code>new(resolvers = [Hosts.new, DNS.new]) -&gt; Resolv</code><span class="permalink">[<a href="../../../method/Resolv/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Resolv.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/resolv.md">edit</a>]</span></dt>
+<dt class="method-heading" id="S_NEW"><code>new(resolvers = nil, use_ipv6: nil) -&gt; Resolv</code><span class="permalink">[<a href="../../../method/Resolv/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Resolv.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/resolv.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 resolvers に与えたリゾルバの配列を先頭から順に名前解決を試すような、新しいリゾルバオブジェクトを返します。
@@ -89,10 +89,24 @@ resolvers に与えたリゾルバの配列を先頭から順に名前解決を�
 <p>
 resolvers の各要素は each_address と each_name というメソッドを持っていなければなりません。
 </p>
+<p>
+<code>resolvers</code> が nil もしくは <a href="../../../class/Hash.html">Hash</a> の場合は、<a href="../../../class/Resolv=3a=3aHosts.html">Resolv::Hosts</a> と <a href="../../../class/Resolv=3a=3aDNS.html">Resolv::DNS</a> のリゾルバをこの順に使います。
+<a href="../../../class/Hash.html">Hash</a> の場合は、システムの既定の DNS の設定にその内容をマージしたものを DNS のリゾルバの設定に使います(指定できるキーは <a href="../../../method/Resolv=3a=3aDNS/s/new.html">Resolv::DNS.new</a> を参照してください)。
+</p>
+<p>
+<code>use_ipv6</code> の値は無視されます。
+DNS のリゾルバで IPv6 のアドレス(AAAA レコード)も引くかどうかは、<code>resolvers</code> に <code>{use_ipv6: false}</code> のような <a href="../../../class/Hash.html">Hash</a> を渡して指定します。
+<code>:use_ipv6</code> が true なら A レコードと AAAA レコードを、false なら A レコードだけを引きます。指定しないか nil の場合は、ループバックアドレスとリンクローカルアドレス以外の IPv6 のアドレスがこのホストにあるときだけ AAAA レコードも引きます。
+<code>resolvers</code> と <code>use_ipv6</code> を両方指定すると、非推奨である旨の警告が出ます。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>resolvers</code>:</dt>
 <dd>
-リゾルバの配列
+リゾルバの配列もしくは DNS のリゾルバの設定の <a href="../../../class/Hash.html">Hash</a>
+</dd>
+<dt class='method-param'>[PARAM] <code>use_ipv6</code>:</dt>
+<dd>
+無視されます
 </dd>
 </dl>
 </dd>
