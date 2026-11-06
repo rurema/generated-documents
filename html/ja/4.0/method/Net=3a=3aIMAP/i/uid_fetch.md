@@ -1,6 +1,6 @@
 # Net::IMAP#uid_fetch
 
-### def uid_fetch(set, attr) -> [Net::IMAP::FetchData]
+### def uid_fetch(set, attr, changedsince: nil, partial: nil) -> [Net::IMAP::FetchData]
 
 UID FETCH コマンドを送り、メールボックス内のメッセージに関するデータを取得します。
 
@@ -15,4 +15,6 @@ attr には取得するアトリビュートを文字列の配列で渡してく
 
 - **param** `set` -- 処理対象のメッセージの UID
 - **param** `attr` -- アトリビュート(文字列配列)
+- **param** `changedsince` -- mod-sequence を整数で指定すると、mod-sequence がそれより大きいメッセージだけを対象にします。指定すると CONDSTORE 拡張([RFC:7162])を暗黙に有効にします。
+- **param** `partial` -- 返す結果の範囲を [Range](../../../class/Range.md) で指定し、件数を制限します。`1..500` で `set` のうち最初の 500 件、`-500..-1` で最後の 500 件です。サーバが PARTIAL 拡張([RFC:9394])に対応している必要があります。
 - **SEE** [Net::IMAP#fetch](../../../method/Net=3a=3aIMAP/i/fetch.md)

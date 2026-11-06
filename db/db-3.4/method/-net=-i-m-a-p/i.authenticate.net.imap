@@ -6,24 +6,31 @@ since_by_name=
 until_by_name=
 rbs_sig=(uninitialized)
 
-### def authenticate(auth_type, user, password) -> Net::IMAP::TaggedResponse
+### def authenticate(mechanism, *creds, sasl_ir: true, **props) -> Net::IMAP::TaggedResponse
 
 AUTHENTICATE コマンドを送り、クライアントを認証します。
 
-auth_type で利用する認証方式を文字列で指定します。
+`mechanism` で利用する SASL の認証方式を文字列で指定します。
+残りの引数とブロックはその認証方式の実装にそのまま渡されます。
+渡す認証情報(ユーザ名、パスワード、アクセストークンなど)は認証方式ごとに異なります。
 
 ```ruby title="例"
 imap.authenticate('LOGIN', user, password)
 ```
 
-auth_type としては以下がサポートされています。
+`mechanism` としては以下がサポートされています。
   - "LOGIN"
   - "PLAIN"
   - "CRAM-MD5"
   - "DIGEST-MD5"
 
-- **param** `auth_type` -- 認証方式を表す文字列
-- **param** `user` -- ユーザ名文字列
-- **param** `password` -- パスワード文字列
+サーバが SASL-IR 拡張([RFC:4959])と指定した認証方式に対応していて、認証方式がクライアントから先に応答するものであれば、`sasl_ir` が真のときは最初の応答を AUTHENTICATE コマンドの引数として送り、往復を 1 回省きます。
+
+`sasl_ir` の既定値は接続の設定 `sasl_ir`(`Net::IMAP::Config#sasl_ir`)の値で、その既定値は true です。
+
+- **param** `mechanism` -- 認証方式を表す文字列
+- **param** `creds` -- 認証方式の実装に渡す認証情報。認証方式ごとに異なります
+- **param** `sasl_ir` -- 偽を指定すると最初の応答を AUTHENTICATE コマンドの引数として送りません
+- **param** `props` -- 認証方式の実装に渡すキーワード引数。認証方式ごとに異なります
 - **SEE** [m:Net::IMAP#login]
 

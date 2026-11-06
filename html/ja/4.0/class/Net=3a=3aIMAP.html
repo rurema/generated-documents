@@ -617,19 +617,19 @@ hello world
 </dd>
 
 
-<dt class="method-heading" id="I_AUTHENTICATE"><code>authenticate(auth_type, user, password) -&gt; Net::IMAP::TaggedResponse</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/authenticate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-authenticate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_AUTHENTICATE"><code>authenticate(mechanism, *creds, sasl_ir: true, **props) -&gt; Net::IMAP::TaggedResponse</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/authenticate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-authenticate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 AUTHENTICATE コマンドを送り、クライアントを認証します。
 </p>
 <p>
-auth_type で利用する認証方式を文字列で指定します。
+<code>mechanism</code> で利用する SASL の認証方式を文字列で指定します。残りの引数とブロックはその認証方式の実装にそのまま渡されます。渡す認証情報(ユーザ名、パスワード、アクセストークンなど)は認証方式ごとに異なります。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'LOGIN'</span>, user, password<span class="p">)</span>
 </code></pre>
 <p>
-auth_type としては以下がサポートされています。
+<code>mechanism</code> としては以下がサポートされています。
 </p>
 <ul>
 <li>&quot;LOGIN&quot;</li>
@@ -637,18 +637,28 @@ auth_type としては以下がサポートされています。
 <li>&quot;CRAM-MD5&quot;</li>
 <li>&quot;DIGEST-MD5&quot;</li>
 </ul>
+<p>
+サーバが SASL-IR 拡張(<a class="external" href="https://tools.ietf.org/html/rfc4959">[RFC4959]</a>)と指定した認証方式に対応していて、認証方式がクライアントから先に応答するものであれば、<code>sasl_ir</code> が真のときは最初の応答を AUTHENTICATE コマンドの引数として送り、往復を 1 回省きます。
+</p>
+<p>
+<code>sasl_ir</code> の既定値は接続の設定 <code>sasl_ir</code>(<code>Net::IMAP::Config#sasl_ir</code>)の値で、その既定値は true です。
+</p>
 <dl>
-<dt class='method-param'>[PARAM] <code>auth_type</code>:</dt>
+<dt class='method-param'>[PARAM] <code>mechanism</code>:</dt>
 <dd>
 認証方式を表す文字列
 </dd>
-<dt class='method-param'>[PARAM] <code>user</code>:</dt>
+<dt class='method-param'>[PARAM] <code>creds</code>:</dt>
 <dd>
-ユーザ名文字列
+認証方式の実装に渡す認証情報。認証方式ごとに異なります
 </dd>
-<dt class='method-param'>[PARAM] <code>password</code>:</dt>
+<dt class='method-param'>[PARAM] <code>sasl_ir</code>:</dt>
 <dd>
-パスワード文字列
+偽を指定すると最初の応答を AUTHENTICATE コマンドの引数として送りません
+</dd>
+<dt class='method-param'>[PARAM] <code>props</code>:</dt>
+<dd>
+認証方式の実装に渡すキーワード引数。認証方式ごとに異なります
 </dd>
 </dl>
 <p>
@@ -779,7 +789,7 @@ DELETE コマンドを送り、指定したメールボックスを削除しま�
 </dd>
 
 
-<dt class="method-heading" id="I_EXAMINE"><code>examine(mailbox) -&gt; Net::IMAP::TaggedResponse</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/examine.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-examine">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_EXAMINE"><code>examine(mailbox, condstore: false) -&gt; Net::IMAP::TaggedResponse</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/examine.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-examine">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 EXAMINE コマンドを送り、指定したメールボックスを処理対象のメールボックスにします。
@@ -791,6 +801,10 @@ EXAMINE コマンドを送り、指定したメールボックスを処理対象
 <dt class='method-param'>[PARAM] <code>mailbox</code>:</dt>
 <dd>
 処理対象としたいメールボックスの名前(文字列)
+</dd>
+<dt class='method-param'>[PARAM] <code>condstore</code>:</dt>
+<dd>
+真を指定すると CONDSTORE 拡張(<a class="external" href="https://tools.ietf.org/html/rfc7162">[RFC7162]</a>)を有効にします。メールボックスが mod-sequence の保持に対応していれば HIGHESTMODSEQ 応答コードが untagged な応答として送られ、以後の FETCH の応答に mod-sequence が含まれます。
 </dd>
 <dt>[EXCEPTION] <code>Net::IMAP::NoResponseError</code>:</dt>
 <dd>
@@ -817,7 +831,7 @@ EXPUNGEコマンドを送り、:Deletedフラグをセットしたメッセー�
 </dd>
 
 
-<dt class="method-heading" id="I_FETCH"><code>fetch(set, attr) -&gt; [Net::IMAP::FetchData]</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/fetch.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-fetch">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_FETCH"><code>fetch(set, attr, changedsince: nil) -&gt; [Net::IMAP::FetchData]</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/fetch.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-fetch">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 FETCH コマンドを送り、メールボックス内のメッセージに関するデータを取得します。
@@ -854,6 +868,10 @@ attr には取得するアトリビュートを文字列の配列で渡してく
 <dt class='method-param'>[PARAM] <code>attr</code>:</dt>
 <dd>
 アトリビュート(文字列配列)
+</dd>
+<dt class='method-param'>[PARAM] <code>changedsince</code>:</dt>
+<dd>
+mod-sequence を整数で指定すると、mod-sequence がそれより大きいメッセージだけを対象にします。指定すると CONDSTORE 拡張(<a class="external" href="https://tools.ietf.org/html/rfc7162">[RFC7162]</a>)を暗黙に有効にします。
 </dd>
 </dl>
 <p>
@@ -1164,12 +1182,24 @@ RENAME コマンドを送り、指定したメールボックスをリネーム�
 
 
 <dt class="method-heading" id="I_RESPONSES"><code>responses -&gt; { String =&gt; [object] }</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/responses.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-responses">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>responses(type) -&gt; [object]</code></dt>
+<dt class="method-heading"><code>responses {|hash| ... } -&gt; object</code></dt>
+<dt class="method-heading"><code>responses(type) {|array| ... } -&gt; object</code></dt>
 <dd class="method-description">
 <p>
 サーバから送られてきた untagged な応答の記録を返します。
 </p>
 <p>
 untagged な応答は種類ごとに記録されます。応答の種類には &quot;FLAGS&quot;, &quot;OK&quot;, &quot;UIDVALIDITY&quot;, &quot;EXISTS&quot; などがあり、この文字列がハッシュテーブルのキーとなります。そして各種類ごとに配列が用意され、untagged な応答を受信するたびにその配列の末尾にその内容が記録されます。
+</p>
+<p>
+ブロックを渡すと、記録をブロックに渡してブロックの値を返します。
+<code>type</code> を指定するとその種類の応答の配列だけを渡します(<code>type</code> は大文字に変換して探します)。ブロックの実行中は受信スレッドなどが記録を更新しないよう同期されます。
+</p>
+<p>
+ブロックを渡さないときは、<code>type</code> を指定するとその種類の応答の配列を凍結した複製を返します。
+<code>type</code> を指定しないときの動作は接続の設定 <code>responses_without_block</code>(<code>Net::IMAP::Config#responses_without_block</code>)で決まり、既定値の <code>:frozen_dup</code> では記録のハッシュを凍結した複製(値の配列も凍結したもの)を返します。
+<code>:raise</code> を設定すると <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>imap<span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="s2">"</span><span class="s2">inbox</span><span class="s2">"</span><span class="p">)</span>
@@ -1178,6 +1208,16 @@ untagged な応答は種類ごとに記録されます。応答の種類には &
 </span><span class="nb">p</span> imap<span class="p">.</span><span class="nf">responses</span><span class="p">[</span><span class="s2">"</span><span class="s2">UIDVALIDITY</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">last</span>
 <span class="c1"># =&gt; 968263756
 </span></code></pre>
+<dl>
+<dt class='method-param'>[PARAM] <code>type</code>:</dt>
+<dd>
+応答の種類(&quot;EXISTS&quot; など)を文字列で指定します。
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+ブロックも <code>type</code> も渡さず、設定 <code>responses_without_block</code> が <code>:raise</code> の場合に発生します。
+</dd>
+</dl>
 </dd>
 
 
@@ -1220,7 +1260,7 @@ SEARCH コマンドを送り、条件に合うメッセージの message sequenc
 </dd>
 
 
-<dt class="method-heading" id="I_SELECT"><code>select(mailbox) -&gt; Net::IMAP::TaggedResponse</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/select.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-select">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_SELECT"><code>select(mailbox, condstore: false) -&gt; Net::IMAP::TaggedResponse</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/select.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-select">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 SELECT コマンドを送り、指定したメールボックスを処理対象のメールボックスにします。
@@ -1237,6 +1277,10 @@ SELECT コマンドを送り、指定したメールボックスを処理対象�
 <dt class='method-param'>[PARAM] <code>mailbox</code>:</dt>
 <dd>
 処理対象としたいメールボックスの名前(文字列)
+</dd>
+<dt class='method-param'>[PARAM] <code>condstore</code>:</dt>
+<dd>
+真を指定すると CONDSTORE 拡張(<a class="external" href="https://tools.ietf.org/html/rfc7162">[RFC7162]</a>)を有効にします。メールボックスが mod-sequence の保持に対応していれば HIGHESTMODSEQ 応答コードが untagged な応答として送られ、以後の FETCH の応答に mod-sequence が含まれます。
 </dd>
 <dt>[EXCEPTION] <code>Net::IMAP::NoResponseError</code>:</dt>
 <dd>
@@ -1416,7 +1460,7 @@ STATUS コマンドを送り、mailbox のステータスを得ます。
 </dd>
 
 
-<dt class="method-heading" id="I_STORE"><code>store(set, attr, flags) -&gt; [Net::IMAP::FetchData] | nil</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/store.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-store">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_STORE"><code>store(set, attr, flags, unchangedsince: nil) -&gt; [Net::IMAP::FetchData] | nil</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/store.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-store">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 STORE コマンドを送り、メールボックス内のメッセージを更新します。
@@ -1461,6 +1505,10 @@ flags には シンボルの配列で置き換え、追加もしくは削除さ�
 <dt class='method-param'>[PARAM] <code>flags</code>:</dt>
 <dd>
 更新内容(<a href="../class/Symbol.html">Symbol</a> の配列)
+</dd>
+<dt class='method-param'>[PARAM] <code>unchangedsince</code>:</dt>
+<dd>
+mod-sequence を整数で指定すると、mod-sequence がそれより大きいメッセージは更新しません。更新しなかったメッセージは MODIFIED 応答コードで返されます。指定すると CONDSTORE 拡張(<a class="external" href="https://tools.ietf.org/html/rfc7162">[RFC7162]</a>)を暗黙に有効にします。
 </dd>
 </dl>
 <p>
@@ -1558,7 +1606,7 @@ mailbox はコピー先のメールボックスです。
 </dd>
 
 
-<dt class="method-heading" id="I_UID_FETCH"><code>uid_fetch(set, attr) -&gt; [Net::IMAP::FetchData]</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/uid_fetch.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-uid_fetch">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_UID_FETCH"><code>uid_fetch(set, attr, changedsince: nil, partial: nil) -&gt; [Net::IMAP::FetchData]</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/uid_fetch.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-uid_fetch">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 UID FETCH コマンドを送り、メールボックス内のメッセージに関するデータを取得します。
@@ -1580,6 +1628,14 @@ attr には取得するアトリビュートを文字列の配列で渡してく
 <dt class='method-param'>[PARAM] <code>attr</code>:</dt>
 <dd>
 アトリビュート(文字列配列)
+</dd>
+<dt class='method-param'>[PARAM] <code>changedsince</code>:</dt>
+<dd>
+mod-sequence を整数で指定すると、mod-sequence がそれより大きいメッセージだけを対象にします。指定すると CONDSTORE 拡張(<a class="external" href="https://tools.ietf.org/html/rfc7162">[RFC7162]</a>)を暗黙に有効にします。
+</dd>
+<dt class='method-param'>[PARAM] <code>partial</code>:</dt>
+<dd>
+返す結果の範囲を <a href="../class/Range.html">Range</a> で指定し、件数を制限します。<code>1..500</code> で <code>set</code> のうち最初の 500 件、<code>-500..-1</code> で最後の 500 件です。サーバが PARTIAL 拡張(<a class="external" href="https://tools.ietf.org/html/rfc9394">[RFC9394]</a>)に対応している必要があります。
 </dd>
 </dl>
 <p>
@@ -1656,7 +1712,7 @@ UID SEARCH コマンドを送り、条件に合うメッセージの UID
 </dd>
 
 
-<dt class="method-heading" id="I_UID_STORE"><code>uid_store(set, attr, flags) -&gt; [Net::IMAP::FetchData] | nil</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/uid_store.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-uid_store">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_UID_STORE"><code>uid_store(set, attr, flags, unchangedsince: nil) -&gt; [Net::IMAP::FetchData] | nil</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/uid_store.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-uid_store">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 UID STORE コマンドを送り、メールボックス内のメッセージを更新します。
@@ -1694,6 +1750,10 @@ attr で何をどのように変化させるかを指定します。以下を指
 <dt class='method-param'>[PARAM] <code>flags</code>:</dt>
 <dd>
 更新内容(<a href="../class/Symbol.html">Symbol</a> の配列)
+</dd>
+<dt class='method-param'>[PARAM] <code>unchangedsince</code>:</dt>
+<dd>
+mod-sequence を整数で指定すると、mod-sequence がそれより大きいメッセージは更新しません。更新しなかったメッセージは MODIFIED 応答コードで返されます。指定すると CONDSTORE 拡張(<a class="external" href="https://tools.ietf.org/html/rfc7162">[RFC7162]</a>)を暗黙に有効にします。
 </dd>
 </dl>
 <p>

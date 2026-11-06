@@ -1,6 +1,6 @@
 # Net::IMAP#select
 
-### def select(mailbox) -> Net::IMAP::TaggedResponse
+### def select(mailbox, condstore: false) -> Net::IMAP::TaggedResponse
 
 SELECT コマンドを送り、指定したメールボックスを処理対象のメールボックスにします。
 
@@ -13,4 +13,5 @@ SELECT コマンドを送り、指定したメールボックスを処理対象�
 [Net::IMAP#add_response_handler](../../../method/Net=3a=3aIMAP/i/add_response_handler.md) を使うとそのような更新情報を即座に取得できます。
 
 - **param** `mailbox` -- 処理対象としたいメールボックスの名前(文字列)
+- **param** `condstore` -- 真を指定すると CONDSTORE 拡張([RFC:7162])を有効にします。メールボックスが mod-sequence の保持に対応していれば HIGHESTMODSEQ 応答コードが untagged な応答として送られ、以後の FETCH の応答に mod-sequence が含まれます。
 - **raise** `Net::IMAP::NoResponseError` -- mailboxが存在しない等の理由でコマンドの実行に失敗した場合に発生します。

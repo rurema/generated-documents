@@ -6,7 +6,7 @@ since_by_name=
 until_by_name=
 rbs_sig=(uninitialized)
 
-### def gets(eol=$/, limit=nil) -> String | nil
+### def gets(eol=$/, limit=nil, chomp: false) -> String | nil
 
 通信路から一行読み込んで、それを返します。
 
@@ -17,9 +17,11 @@ eol に到達するまで読み込みます。
 
 読み込みが終端に到達した場合は nil を返します。
 
-[m:IO#gets] と同様ですが、区切り文字列に
-"" を渡した場合や、nil を渡したときの意味が異なり、これらの場合は正しく動作しません。
+[m:IO#gets] と同様に、`eol` に nil を渡すと残りすべてを 1 行として読み込み、`""` を渡すと空行を区切りとして(パラグラフモード)読み込みます。
+`eol` を省略して `limit` だけを渡すこともできます。
 
 - **param** `eol` -- 行区切り文字列/正規表現
 - **param** `limit` -- 最大の読み込みバイト数
+- **param** `chomp` -- 真を指定すると読み込んだ行の末尾の行区切り文字列を取り除きます
+- **raise** `ArgumentError` -- `eol` に正規表現を指定し、`chomp` に真を指定した場合に発生します。
 

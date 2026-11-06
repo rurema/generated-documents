@@ -1,6 +1,6 @@
 # OptionParser#load
 
-### def load(filename = nil)     -> bool
+### def load(filename = nil, into: nil)     -> bool
 
 指定された filename を読み込んで各行をまとめたものに対して [OptionParser#parse](../../../method/OptionParser/i/parse.md) を行ないます。
 
@@ -9,6 +9,8 @@
 
 - **param** `filename` -- 各行をパースしたいファイルの名前を文字列で指定します。
                 指定されないか nil である場合、~/.options/ にプログラムのサフィックスを付けた '~/.options/コマンド名' というファイルをパースします。
+
+- **param** `into` -- オプションを格納するハッシュを指定します。[OptionParser#parse](../../../method/OptionParser/i/parse.md) の `into` と同じです。
 
 ```ruby title="例"
 require "optparse"

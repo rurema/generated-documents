@@ -6,12 +6,18 @@ since_by_name=
 until_by_name=
 rbs_sig=(uninitialized)
 
-### def accept -> self
+### def accept(timeout: self.timeout) -> self
 
 TLS/SSL 通信をサーバモードとして開始し、クライアントからのハンドシェイク開始を待ち、クライアントとのハンドシェイクを実行します。
 
+`timeout` 秒以内にハンドシェイクが完了しない場合は例外 [c:IO::TimeoutError] が発生します。
+`timeout` を省略した場合はラップされているソケットのタイムアウト
+([m:OpenSSL::SSL::SocketForwarder#timeout])を使います。
+
+- **param** `timeout` -- ハンドシェイクのタイムアウトの秒数。nil を指定するとタイムアウトしません
 - **raise** `OpenSSL::SSL::SSLError` -- ハンドシェイクに失敗した(VERIFY_PEER で証明書の検証に失敗した場合や、プロトコル合意に失敗したなど)
        場合に発生します
+- **raise** `IO::TimeoutError` -- `timeout` 秒以内にハンドシェイクが完了しなかった場合に発生します
 - **SEE** [m:OpenSSL::SSL::SSLSocket#connect],
      [m:OpenSSL::SSL::SSLSocket#accept_nonblock]
 

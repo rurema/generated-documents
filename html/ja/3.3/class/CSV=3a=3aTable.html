@@ -1035,8 +1035,8 @@ table <span class="o">=</span> <span class="no">CSV</span><span class="o">::</sp
 </dd>
 
 
-<dt class="method-heading" id="I_TO_CSV"><code>to_csv(options = Hash.new) -&gt; String</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/CSV=3a=3aTable/i/to_csv.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CSV/Table.html#method-i-to_csv">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/csv/CSV__Table.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>to_s(options = Hash.new) -&gt; String</code></dt>
+<dt class="method-heading" id="I_TO_CSV"><code>to_csv(write_headers: true, limit: nil, **options) -&gt; String</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/CSV=3a=3aTable/i/to_csv.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/CSV/Table.html#method-i-to_csv">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/csv/CSV__Table.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>to_s(write_headers: true, limit: nil, **options) -&gt; String</code></dt>
 <dd class="method-description">
 <p>
 CSV の文字列に変換して返します。
@@ -1048,11 +1048,32 @@ CSV の文字列に変換して返します。
 デフォルトでは、ヘッダを出力します。オプションに :write_headers =&gt;
 false を指定するとヘッダを出力しません。
 </p>
+<dl>
+<dt class='method-param'>[PARAM] <code>write_headers</code>:</dt>
+<dd>
+偽を指定するとヘッダを出力しません。
+</dd>
+<dt class='method-param'>[PARAM] <code>limit</code>:</dt>
+<dd>
+出力するデータの行数を指定します。正の値を指定すると先頭から <code>limit</code> 行を出力し、負の値を指定すると末尾の <code>-limit - 1</code> 行を除いて出力します(-1 ならすべての行を出力します)。nil を指定するとすべての行を出力します。<code>write_headers</code> で出力するヘッダはこの行数に含みません。
+</dd>
+<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dd>
+各行を CSV の文字列に変換する <a href="../method/CSV/s/generate_line.html">CSV.generate_line</a> に渡すオプションを指定します。
+</dd>
+</dl>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'csv'</span>
 csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">a,b,c\n1,2,3</span><span class="s2">"</span>, <span class="ss">headers:</span> <span class="k">true</span><span class="p">)</span>
 table <span class="o">=</span> csv<span class="p">.</span><span class="nf">read</span>
 <span class="nb">p</span> table<span class="p">.</span><span class="nf">to_csv</span>                       <span class="c1"># =&gt; &quot;a,b,c\n1,2,3\n&quot;
 </span><span class="nb">p</span> table<span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="ss">write_headers:</span> <span class="k">false</span><span class="p">)</span> <span class="c1"># =&gt; &quot;1,2,3\n&quot;
+</span></code></pre>
+<span class="caption">例 limit の指定</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
+table <span class="o">=</span> <span class="no">CSV</span><span class="o">::</span><span class="no">Table</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="p">[</span><span class="no">CSV</span><span class="o">::</span><span class="no">Row</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="sx">%w[a b]</span>, <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span><span class="p">)</span>, <span class="no">CSV</span><span class="o">::</span><span class="no">Row</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="sx">%w[a b]</span>, <span class="p">[</span><span class="mi">3</span>, <span class="mi">4</span><span class="p">]</span><span class="p">)</span><span class="p">]</span><span class="p">)</span>
+<span class="nb">p</span> table<span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="ss">limit:</span> <span class="mi">1</span><span class="p">)</span>                     <span class="c1"># =&gt; &quot;a,b\n1,2\n&quot;
+</span><span class="nb">p</span> table<span class="p">.</span><span class="nf">to_s</span><span class="p">(</span><span class="ss">limit:</span> <span class="mi">1</span>, <span class="ss">write_headers:</span> <span class="k">false</span><span class="p">)</span> <span class="c1"># =&gt; &quot;1,2\n&quot;
+</span><span class="nb">p</span> table<span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="ss">limit:</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>                    <span class="c1"># =&gt; &quot;a,b\n1,2\n3,4\n&quot;
 </span></code></pre>
 </dd>
 

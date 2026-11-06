@@ -62,6 +62,7 @@
 - [mkmf](../method/Kernel/i/mkmf.md)
 - [modified?](../method/Kernel/i/modified=3f.md)
 - [mv](../method/Kernel/i/mv.md)
+- [require](../method/Kernel/i/require.md)
 - [rm](../method/Kernel/i/rm.md)
 - [rm_f](../method/Kernel/i/rm_f.md)
 - [rm_rf](../method/Kernel/i/rm_rf.md)

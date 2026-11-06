@@ -1,6 +1,6 @@
 # Net::IMAP#uid_store
 
-### def uid_store(set, attr, flags) -> [Net::IMAP::FetchData] | nil
+### def uid_store(set, attr, flags, unchangedsince: nil) -> [Net::IMAP::FetchData] | nil
 
 UID STORE コマンドを送り、メールボックス内のメッセージを更新します。
 
@@ -23,5 +23,6 @@ attr で何をどのように変化させるかを指定します。
 - **param** `set` -- 更新するメッセージの UID
 - **param** `attr` -- 更新方式(文字列)
 - **param** `flags` -- 更新内容([Symbol](../../../class/Symbol.md) の配列)
+- **param** `unchangedsince` -- mod-sequence を整数で指定すると、mod-sequence がそれより大きいメッセージは更新しません。更新しなかったメッセージは MODIFIED 応答コードで返されます。指定すると CONDSTORE 拡張([RFC:7162])を暗黙に有効にします。
 
 - **SEE** [Net::IMAP#store](../../../method/Net=3a=3aIMAP/i/store.md), [Net::IMAP#uid_fetch](../../../method/Net=3a=3aIMAP/i/uid_fetch.md)

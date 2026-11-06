@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-05-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-06-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -1967,9 +1967,9 @@ t <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><
 </dd>
 
 
-<dt class="method-heading" id="S_PARSE"><code>parse(date, now = Time.now) -&gt; Time</code><span class="permalink">[<a href="../method/Time/s/parse.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Time.html#method-c-parse">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/time.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+<dt class="method-heading" id="S_PARSE"><code>parse(date, now = Time.now, zone: nil) -&gt; Time</code><span class="permalink">[<a href="../method/Time/s/parse.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/Time.html#method-c-parse">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/time.md">edit</a>]</span> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
 </dt>
-<dt class="method-heading"><code>parse(date, now = Time.now) {|year| year } -&gt; Time</code> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
+<dt class="method-heading"><code>parse(date, now = Time.now, zone: nil) {|year| year } -&gt; Time</code> <span class="kindinfo">[added by <a href="../library/time.html">time</a>]</span>
 </dt>
 <dd class="method-description">
 <p>
@@ -1999,6 +1999,12 @@ time <span class="o">=</span> <span class="no">Time</span><span class="p">.</spa
 <dt class='method-param'>[PARAM] <code>now</code>:</dt>
 <dd>
 現在時刻を<a href="../class/Time.html">Time</a> オブジェクトで指定します。デフォルトは<a href="../method/Time/s/now.html">Time.now</a>となります。
+</dd>
+<dt class='method-param'>[PARAM] <code>zone</code>:</dt>
+<dd>
+<code>date</code> にタイムゾーンやオフセットが含まれていない場合に使うタイムゾーンを文字列で指定します。
+<code>&quot;+09:00&quot;</code>・<code>&quot;+0900&quot;</code>・<code>&quot;+09&quot;</code> のようなオフセットか、<code>&quot;UTC&quot;</code>・<code>&quot;Z&quot;</code>、<code>&quot;GMT&quot;</code>・<code>&quot;EST&quot;</code> などの <a class="external" href="https://tools.ietf.org/html/rfc822">[RFC822]</a> で定義された略称、システムのタイムゾーンの略称を指定できます(<a href="../method/Time/s/zone_offset.html">Time.zone_offset</a> が解釈できる文字列)。これら以外の文字列(<code>&quot;Asia/Tokyo&quot;</code> など)は解釈されず、<code>zone</code> を省略した場合と同じくローカル時刻として扱います。
+<code>date</code> にタイムゾーンやオフセットが含まれている場合はそちらが優先されます。省略した場合は nil です。
 </dd>
 <dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
@@ -2030,6 +2036,13 @@ Time のインスタンスを返していました。
 <p>
 従って <a href="../method/Time/s/parse.html">Time.parse</a> の失敗はチェックすべきです。
 </p>
+<span class="caption">zone を指定する例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'time'</span>
+
+<span class="nb">p</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2000-01-01 12:00:00</span><span class="s2">"</span>, <span class="ss">zone:</span> <span class="s2">"</span><span class="s2">+09:00</span><span class="s2">"</span><span class="p">)</span>        <span class="c1"># =&gt; 2000-01-01 12:00:00 +0900
+</span><span class="nb">p</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2000-01-01 12:00:00</span><span class="s2">"</span>, <span class="ss">zone:</span> <span class="s2">"</span><span class="s2">UTC</span><span class="s2">"</span><span class="p">)</span>           <span class="c1"># =&gt; 2000-01-01 12:00:00 UTC
+</span><span class="nb">p</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">2000-01-01 12:00:00 +01:00</span><span class="s2">"</span>, <span class="ss">zone:</span> <span class="s2">"</span><span class="s2">UTC</span><span class="s2">"</span><span class="p">)</span>    <span class="c1"># =&gt; 2000-01-01 12:00:00 +0100
+</span></code></pre>
 </dd>
 
 
