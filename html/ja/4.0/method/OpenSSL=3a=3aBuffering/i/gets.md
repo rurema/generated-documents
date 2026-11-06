@@ -1,6 +1,6 @@
 # OpenSSL::Buffering#gets
 
-### def gets(eol=$/, limit=nil) -> String | nil
+### def gets(eol=$/, limit=nil, chomp: false) -> String | nil
 
 通信路から一行読み込んで、それを返します。
 
@@ -16,3 +16,4 @@ eol に到達するまで読み込みます。
 
 - **param** `eol` -- 行区切り文字列/正規表現
 - **param** `limit` -- 最大の読み込みバイト数
+- **param** `chomp` -- 真を指定すると読み込んだ行の末尾の行区切り文字列を取り除きます

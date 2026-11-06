@@ -4,6 +4,6 @@
 ### def eql?(other) -> bool
 {: since=""}
 
-自身と other のシーケンス番号を比較した結果を返します。
+`other` が [RDoc::Context::Section](../../../class/RDoc=3a=3aContext=3a=3aSection.md) オブジェクトで、タイトルが自身と同じ場合に真を返します。
 
 - **param** `other` -- [RDoc::Context::Section](../../../class/RDoc=3a=3aContext=3a=3aSection.md) オブジェクトを指定します。

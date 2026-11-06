@@ -1,7 +1,7 @@
 # OptionParser#getopts
 
-### def getopts(argv, *opts)   -> Hash
-### def getopts(*opts)         -> Hash
+### def getopts(argv, *opts, symbolize_names: false)   -> Hash
+### def getopts(*opts, symbolize_names: false)         -> Hash
 
 引数をパースした結果を、Hash として返します。
 
@@ -20,6 +20,8 @@ params = opt.getopts(ARGV, "ab:", "foo", "bar:")
 - **param** `argv` -- パースしたい配列を指定します。
 
 - **param** `opts` -- 引数を文字列で指定します。
+
+- **param** `symbolize_names` -- true を指定すると、戻り値の [Hash](../../../class/Hash.md) はキーがシンボルになります。false を指定した場合、戻り値の [Hash](../../../class/Hash.md) はキーが文字列になります。
 
 - **raise** `OptionParser::ParseError` -- パースに失敗した場合、発生します。
                                 実際は OptionParser::ParseError のサブクラスになります。

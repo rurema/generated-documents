@@ -6,13 +6,18 @@ since_by_name=
 until_by_name=
 rbs_sig=(uninitialized)
 
-### def each(eol=$/){|line| ... } -> ()
-### def each_line(eol=$/){|line| ... } -> ()
+### def each(eol = $/, limit = nil, chomp: false){|line| ... } -> ()
+### def each(eol = $/, limit = nil, chomp: false) -> Enumerator
+### def each_line(eol = $/, limit = nil, chomp: false){|line| ... } -> ()
+### def each_line(eol = $/, limit = nil, chomp: false) -> Enumerator
 
 現在の読み込み位置から1行ずつ文字列として読み込み、それを引数としてブロックを呼び出します。
+ブロックを省略した場合は [c:Enumerator] を返します。
 
-[m:IO#each] と同様ですが、区切り文字列に
-"" を渡した場合や、nil を渡したときの意味が異なり、これらの場合は正しく動作しません。
+[m:IO#each] と同様に、`eol` に nil を渡すと残りすべてを 1 行として読み込み、`""` を渡すと空行を区切りとして(パラグラフモード)読み込みます。
+`eol` を省略して `limit` だけを渡すこともできます。
 
 - **param** `eol` -- 行区切り文字列/正規表現
+- **param** `limit` -- 1 行の最大の読み込みバイト数
+- **param** `chomp` -- 真を指定すると各行の末尾の行区切り文字列を取り除きます
 

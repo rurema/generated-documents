@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-05-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-06-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -81,16 +81,29 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_CONNECT"><code>connect -&gt; self</code><span class="permalink">[<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/connect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/SSL/SSLSocket.html#method-i-connect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_CONNECT"><code>connect(timeout: self.timeout) -&gt; self</code><span class="permalink">[<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLSocket/i/connect.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/SSL/SSLSocket.html#method-i-connect">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__SSL__SSLSocket.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 TLS/SSl 通信をクライアントモードとして開始し、サーバとのハンドシェイクを実行します。
 </p>
+<p>
+<code>timeout</code> 秒以内にハンドシェイクが完了しない場合は例外 <a href="../../../class/IO=3a=3aTimeoutError.html">IO::TimeoutError</a> が発生します。
+<code>timeout</code> を省略した場合はラップされているソケットのタイムアウト
+(<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSocketForwarder/i/timeout.html">OpenSSL::SSL::SocketForwarder#timeout</a>)を使います。
+</p>
 <dl>
+<dt class='method-param'>[PARAM] <code>timeout</code>:</dt>
+<dd>
+ハンドシェイクのタイムアウトの秒数。nil を指定するとタイムアウトしません
+</dd>
 <dt>[EXCEPTION] <code>OpenSSL::SSL::SSLError</code>:</dt>
 <dd>
 ハンドシェイクに失敗した(VERIFY_PEER で証明書の検証に失敗した場合や、プロトコル合意に失敗したなど)
 場合に発生します
+</dd>
+<dt>[EXCEPTION] <code>IO::TimeoutError</code>:</dt>
+<dd>
+<code>timeout</code> 秒以内にハンドシェイクが完了しなかった場合に発生します
 </dd>
 </dl>
 <p>

@@ -7,12 +7,22 @@ until_by_name=
 rbs_sig=(uninitialized)
 
 ### def responses -> { String => [object] }
+### def responses {|hash| ... } -> object
+### def responses(type) {|array| ... } -> object
 
 サーバから送られてきた untagged な応答の記録を返します。
 
 untagged な応答は種類ごとに記録されます。
 応答の種類には "FLAGS", "OK", "UIDVALIDITY", "EXISTS" などがあり、この文字列がハッシュテーブルのキーとなります。
 そして各種類ごとに配列が用意され、untagged な応答を受信するたびにその配列の末尾にその内容が記録されます。
+
+ブロックを渡すと、記録をブロックに渡してブロックの値を返します。
+`type` を指定するとその種類の応答の配列だけを渡します(`type` は大文字に変換して探します)。
+ブロックの実行中は受信スレッドなどが記録を更新しないよう同期されます。
+
+ブロックを渡さずに `type` を指定すると [c:ArgumentError] が発生します。
+ブロックも `type` も渡さないときは記録のハッシュそのものを返します。
+
 
 ```ruby title="例"
 imap.select("inbox")
@@ -21,4 +31,7 @@ p imap.responses["EXISTS"].last
 p imap.responses["UIDVALIDITY"].last
 # => 968263756
 ```
+
+- **param** `type` -- 応答の種類("EXISTS" など)を文字列で指定します。
+- **raise** `ArgumentError` -- ブロックを渡さずに `type` を指定した場合に発生します。
 

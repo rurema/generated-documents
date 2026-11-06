@@ -1,6 +1,6 @@
 # Net::IMAP#store
 
-### def store(set, attr, flags) -> [Net::IMAP::FetchData] | nil
+### def store(set, attr, flags, unchangedsince: nil) -> [Net::IMAP::FetchData] | nil
 
 STORE コマンドを送り、メールボックス内のメッセージを更新します。
 
@@ -30,4 +30,5 @@ p imap.store(6..8, "+FLAGS", [:Deleted])
 - **param** `set` -- 更新するメッセージのsequence number
 - **param** `attr` -- 更新方式(文字列)
 - **param** `flags` -- 更新内容([Symbol](../../../class/Symbol.md) の配列)
+- **param** `unchangedsince` -- mod-sequence を整数で指定すると、mod-sequence がそれより大きいメッセージは更新しません。更新しなかったメッセージは MODIFIED 応答コードで返されます。指定すると CONDSTORE 拡張([RFC:7162])を暗黙に有効にします。
 - **SEE** [Net::IMAP#uid_store](../../../method/Net=3a=3aIMAP/i/uid_store.md), [Net::IMAP#fetch](../../../method/Net=3a=3aIMAP/i/fetch.md)

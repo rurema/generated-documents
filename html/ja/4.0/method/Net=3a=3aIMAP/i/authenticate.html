@@ -81,19 +81,19 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_AUTHENTICATE"><code>authenticate(auth_type, user, password) -&gt; Net::IMAP::TaggedResponse</code><span class="permalink">[<a href="../../../method/Net=3a=3aIMAP/i/authenticate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-authenticate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_AUTHENTICATE"><code>authenticate(mechanism, *creds, sasl_ir: true, **props) -&gt; Net::IMAP::TaggedResponse</code><span class="permalink">[<a href="../../../method/Net=3a=3aIMAP/i/authenticate.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-authenticate">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 AUTHENTICATE コマンドを送り、クライアントを認証します。
 </p>
 <p>
-auth_type で利用する認証方式を文字列で指定します。
+<code>mechanism</code> で利用する SASL の認証方式を文字列で指定します。残りの引数とブロックはその認証方式の実装にそのまま渡されます。渡す認証情報(ユーザ名、パスワード、アクセストークンなど)は認証方式ごとに異なります。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'LOGIN'</span>, user, password<span class="p">)</span>
 </code></pre>
 <p>
-auth_type としては以下がサポートされています。
+<code>mechanism</code> としては以下がサポートされています。
 </p>
 <ul>
 <li>&quot;LOGIN&quot;</li>
@@ -101,18 +101,28 @@ auth_type としては以下がサポートされています。
 <li>&quot;CRAM-MD5&quot;</li>
 <li>&quot;DIGEST-MD5&quot;</li>
 </ul>
+<p>
+サーバが SASL-IR 拡張(<a class="external" href="https://tools.ietf.org/html/rfc4959">[RFC4959]</a>)と指定した認証方式に対応していて、認証方式がクライアントから先に応答するものであれば、<code>sasl_ir</code> が真のときは最初の応答を AUTHENTICATE コマンドの引数として送り、往復を 1 回省きます。
+</p>
+<p>
+<code>sasl_ir</code> の既定値は接続の設定 <code>sasl_ir</code>(<code>Net::IMAP::Config#sasl_ir</code>)の値で、その既定値は true です。
+</p>
 <dl>
-<dt class='method-param'>[PARAM] <code>auth_type</code>:</dt>
+<dt class='method-param'>[PARAM] <code>mechanism</code>:</dt>
 <dd>
 認証方式を表す文字列
 </dd>
-<dt class='method-param'>[PARAM] <code>user</code>:</dt>
+<dt class='method-param'>[PARAM] <code>creds</code>:</dt>
 <dd>
-ユーザ名文字列
+認証方式の実装に渡す認証情報。認証方式ごとに異なります
 </dd>
-<dt class='method-param'>[PARAM] <code>password</code>:</dt>
+<dt class='method-param'>[PARAM] <code>sasl_ir</code>:</dt>
 <dd>
-パスワード文字列
+偽を指定すると最初の応答を AUTHENTICATE コマンドの引数として送りません
+</dd>
+<dt class='method-param'>[PARAM] <code>props</code>:</dt>
+<dd>
+認証方式の実装に渡すキーワード引数。認証方式ごとに異なります
 </dd>
 </dl>
 <p>

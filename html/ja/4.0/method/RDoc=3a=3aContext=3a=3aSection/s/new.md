@@ -8,6 +8,6 @@
 
 - **param** `title` -- section のタイトルを文字列で指定します。
 
-- **param** `comment` -- section のコメントを文字列で指定します。
+- **param** `comment` -- section のコメントを `RDoc::Comment` オブジェクト(またはその配列)で指定します。nil も指定できます。
 
-また、section のシーケンス番号を新しく作成します。
+- **raise** `TypeError` -- `comment` に文字列など受け付けない型のオブジェクトを指定した場合に発生します。

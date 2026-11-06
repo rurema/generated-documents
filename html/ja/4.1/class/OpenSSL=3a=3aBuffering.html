@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-05-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-06-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -243,20 +243,30 @@ write_nonblock が読み込み不可能で例外を発生させたりします�
 </dd>
 
 
-<dt class="method-heading" id="I_EACH"><code>each(eol=$/) {|line| ... } -&gt; ()</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aBuffering/i/each.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/Buffering.html#method-i-each">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__Buffering.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>each_line(eol=$/) {|line| ... } -&gt; ()</code></dt>
+<dt class="method-heading" id="I_EACH"><code>each(eol = $/, limit = nil, chomp: false) {|line| ... } -&gt; ()</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aBuffering/i/each.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/Buffering.html#method-i-each">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__Buffering.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>each(eol = $/, limit = nil, chomp: false) -&gt; Enumerator</code></dt>
+<dt class="method-heading"><code>each_line(eol = $/, limit = nil, chomp: false) {|line| ... } -&gt; ()</code></dt>
+<dt class="method-heading"><code>each_line(eol = $/, limit = nil, chomp: false) -&gt; Enumerator</code></dt>
 <dd class="method-description">
 <p>
-現在の読み込み位置から1行ずつ文字列として読み込み、それを引数としてブロックを呼び出します。
+現在の読み込み位置から1行ずつ文字列として読み込み、それを引数としてブロックを呼び出します。ブロックを省略した場合は <a href="../class/Enumerator.html">Enumerator</a> を返します。
 </p>
 <p>
-<a href="../method/IO/i/each.html">IO#each</a> と同様ですが、区切り文字列に
-&quot;&quot; を渡した場合や、nil を渡したときの意味が異なり、これらの場合は正しく動作しません。
+<a href="../method/IO/i/each.html">IO#each</a> と同様に、<code>eol</code> に nil を渡すと残りすべてを 1 行として読み込み、<code>&quot;&quot;</code> を渡すと空行を区切りとして(パラグラフモード)読み込みます。
+<code>eol</code> を省略して <code>limit</code> だけを渡すこともできます。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>eol</code>:</dt>
 <dd>
 行区切り文字列/正規表現
+</dd>
+<dt class='method-param'>[PARAM] <code>limit</code>:</dt>
+<dd>
+1 行の最大の読み込みバイト数
+</dd>
+<dt class='method-param'>[PARAM] <code>chomp</code>:</dt>
+<dd>
+真を指定すると各行の末尾の行区切り文字列を取り除きます
 </dd>
 </dl>
 </dd>
@@ -327,7 +337,7 @@ write_nonblock が読み込み不可能で例外を発生させたりします�
 </dd>
 
 
-<dt class="method-heading" id="I_GETS"><code>gets(eol=$/, limit=nil) -&gt; String | nil</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aBuffering/i/gets.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/Buffering.html#method-i-gets">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__Buffering.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_GETS"><code>gets(eol=$/, limit=nil, chomp: false) -&gt; String | nil</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aBuffering/i/gets.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/Buffering.html#method-i-gets">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__Buffering.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 通信路から一行読み込んで、それを返します。
@@ -343,8 +353,8 @@ eol に到達するまで読み込みます。
 読み込みが終端に到達した場合は nil を返します。
 </p>
 <p>
-<a href="../method/IO/i/gets.html">IO#gets</a> と同様ですが、区切り文字列に
-&quot;&quot; を渡した場合や、nil を渡したときの意味が異なり、これらの場合は正しく動作しません。
+<a href="../method/IO/i/gets.html">IO#gets</a> と同様に、<code>eol</code> に nil を渡すと残りすべてを 1 行として読み込み、<code>&quot;&quot;</code> を渡すと空行を区切りとして(パラグラフモード)読み込みます。
+<code>eol</code> を省略して <code>limit</code> だけを渡すこともできます。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>eol</code>:</dt>
@@ -354,6 +364,14 @@ eol に到達するまで読み込みます。
 <dt class='method-param'>[PARAM] <code>limit</code>:</dt>
 <dd>
 最大の読み込みバイト数
+</dd>
+<dt class='method-param'>[PARAM] <code>chomp</code>:</dt>
+<dd>
+真を指定すると読み込んだ行の末尾の行区切り文字列を取り除きます
+</dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+<code>eol</code> に正規表現を指定し、<code>chomp</code> に真を指定した場合に発生します。
 </dd>
 </dl>
 </dd>
@@ -529,7 +547,7 @@ bufに文字列を渡した場合はその領域が出力用のバッファと�
 </dd>
 
 
-<dt class="method-heading" id="I_READLINE"><code>readline(eol=$/) -&gt; String</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aBuffering/i/readline.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/Buffering.html#method-i-readline">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__Buffering.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_READLINE"><code>readline(eol = $/, limit = nil, chomp: false) -&gt; String</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aBuffering/i/readline.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/Buffering.html#method-i-readline">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__Buffering.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 通信路から一行読み込んで、それを返します。
@@ -541,13 +559,21 @@ bufに文字列を渡した場合はその領域が出力用のバッファと�
 読み込みが終端に到達した場合は例外 EOFError を発生します。
 </p>
 <p>
-<a href="../method/IO/i/readline.html">IO#readline</a> と同様ですが、区切り文字列に
-&quot;&quot; を渡した場合や、nil を渡したときの意味が異なり、これらの場合は正しく動作しません。
+<a href="../method/IO/i/readline.html">IO#readline</a> と同様に、<code>eol</code> に nil を渡すと残りすべてを 1 行として読み込み、<code>&quot;&quot;</code> を渡すと空行を区切りとして(パラグラフモード)読み込みます。
+<code>eol</code> を省略して <code>limit</code> だけを渡すこともできます。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>eol</code>:</dt>
 <dd>
 行区切り文字列/正規表現
+</dd>
+<dt class='method-param'>[PARAM] <code>limit</code>:</dt>
+<dd>
+最大の読み込みバイト数
+</dd>
+<dt class='method-param'>[PARAM] <code>chomp</code>:</dt>
+<dd>
+真を指定すると読み込んだ行の末尾の行区切り文字列を取り除きます
 </dd>
 <dt>[EXCEPTION] <code>EOFError</code>:</dt>
 <dd>
@@ -557,7 +583,7 @@ bufに文字列を渡した場合はその領域が出力用のバッファと�
 </dd>
 
 
-<dt class="method-heading" id="I_READLINES"><code>readlines(eol=$/) -&gt; [String]</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aBuffering/i/readlines.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/Buffering.html#method-i-readlines">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__Buffering.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_READLINES"><code>readlines(eol = $/, limit = nil, chomp: false) -&gt; [String]</code><span class="permalink">[<a href="../method/OpenSSL=3a=3aBuffering/i/readlines.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OpenSSL/Buffering.html#method-i-readlines">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/openssl/OpenSSL__Buffering.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 データを通信路から末端まで全て読み込んで、各行を要素として持つ配列を返します。
@@ -566,13 +592,21 @@ bufに文字列を渡した場合はその領域が出力用のバッファと�
 行区切りは eol で指定した文字列/正規表現になります。
 </p>
 <p>
-<a href="../method/IO/i/readlines.html">IO#readlines</a> と同様ですが、区切り文字列に
-&quot;&quot; を渡した場合や、nil を渡したときの意味が異なり、これらの場合は正しく動作しません。
+<a href="../method/IO/i/readlines.html">IO#readlines</a> と同様に、<code>eol</code> に nil を渡すと残りすべてを 1 つの要素とし、<code>&quot;&quot;</code> を渡すと空行を区切りとして(パラグラフモード)各行に分けます。
+<code>eol</code> を省略して <code>limit</code> だけを渡すこともできます。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>eol</code>:</dt>
 <dd>
 行区切り文字列/正規表現
+</dd>
+<dt class='method-param'>[PARAM] <code>limit</code>:</dt>
+<dd>
+1 行の最大の読み込みバイト数
+</dd>
+<dt class='method-param'>[PARAM] <code>chomp</code>:</dt>
+<dd>
+真を指定すると各行の末尾の行区切り文字列を取り除きます
 </dd>
 </dl>
 </dd>
