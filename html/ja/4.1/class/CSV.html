@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-06-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-07-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -334,6 +334,8 @@ row of output though, when using CSV::generate_line() or Array#to_csv().
 <li><a href="#I_ISATTY">isatty</a></li>
 
 <li><a href="#I_LINENO">lineno</a></li>
+
+<li><a href="#I_MAX_FIELD_SIZE">max_field_size</a></li>
 
 <li><a href="#I_PATH">path</a></li>
 
@@ -1633,29 +1635,32 @@ csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span>
 </dd>
 
 
-<dt class="method-heading" id="I_FIELD_SIZE_LIMIT"><code>field_size_limit -&gt; Integer</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/CSV/i/field_size_limit.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/CSV.html#method-i-field_size_limit">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/csv/CSV.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_FIELD_SIZE_LIMIT"><code>field_size_limit -&gt; Integer | nil</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/CSV/i/field_size_limit.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/CSV.html#method-i-field_size_limit">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/csv/CSV.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 フィールドサイズの最大値を返します。
 </p>
+<p>
+3.2 以降は <a href="../method/CSV/i/max_field_size.html">CSV#max_field_size</a> に 1 を足した値(<code>:max_field_size</code> が nil なら nil)を返します。
+</p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
 
-csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">DATA</span><span class="p">)</span>
+text <span class="o">=</span> <span class="no">&lt;&lt;~CSV</span>
+  <span class="sh">&quot;a&quot;,&quot;b&quot;
+</span>  <span class="sh">&quot;
+</span>  <span class="sh">2
+</span>  <span class="sh">2
+</span>  <span class="sh">&quot;,&quot;&quot;
+</span><span class="no">CSV
+</span>
+csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>text<span class="p">)</span>
 <span class="nb">p</span> csv<span class="p">.</span><span class="nf">field_size_limit</span> <span class="c1"># =&gt; nil
 </span><span class="nb">p</span> csv<span class="p">.</span><span class="nf">read</span> <span class="c1"># =&gt; [[&quot;a&quot;, &quot;b&quot;], [&quot;\n2\n2\n&quot;, &quot;&quot;]]
 </span>
-<span class="no">DATA</span><span class="p">.</span><span class="nf">rewind</span>
-csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">DATA</span>, <span class="ss">field_size_limit:</span> <span class="mi">4</span><span class="p">)</span>
+csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>text, <span class="ss">field_size_limit:</span> <span class="mi">4</span><span class="p">)</span>
 <span class="nb">p</span> csv<span class="p">.</span><span class="nf">field_size_limit</span> <span class="c1"># =&gt; 4
-</span>csv<span class="p">.</span><span class="nf">read</span> <span class="c1"># =&gt; #&lt;CSV::MalformedCSVError: Field size exceeded on line 2.&gt;
-</span>
-<span class="k">__END__
-</span><span class="c1">&quot;a&quot;,&quot;b&quot;
-&quot;
-2
-2
-&quot;,&quot;&quot;
+</span>csv<span class="p">.</span><span class="nf">read</span> <span class="c1"># ~&gt; CSV::MalformedCSVError: Field size exceeded: 5 &gt; 3 in line 2.
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/CSV/s/new.html">CSV.new</a>
@@ -1920,6 +1925,33 @@ csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span>
 <span class="nb">p</span> csv<span class="p">.</span><span class="nf">lineno</span> <span class="c1"># =&gt; 0
 </span>csv<span class="p">.</span><span class="nf">readline</span>
 <span class="nb">p</span> csv<span class="p">.</span><span class="nf">lineno</span> <span class="c1"># =&gt; 1
+</span></code></pre>
+</dd>
+
+
+<dt class="method-heading" id="I_MAX_FIELD_SIZE"><code>max_field_size -&gt; Integer | nil</code><span class="method-since-badge">Ruby 3.2 から</span><span class="permalink">[<a href="../method/CSV/i/max_field_size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/CSV.html#method-i-max_field_size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/csv/CSV.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+フィールドの長さ(文字数)の上限を返します。制限していない場合は nil を返します。
+</p>
+<p>
+<a href="../method/CSV/s/new.html">CSV.new</a> の <code>:max_field_size</code> オプション、または <code>:field_size_limit</code> オプション(この場合は指定した値から 1 を引いた値)で設定します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/CSV/i/field_size_limit.html">CSV#field_size_limit</a>
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
+
+csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">a,b\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">p</span> csv<span class="p">.</span><span class="nf">max_field_size</span> <span class="c1"># =&gt; nil
+</span>
+csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">a,b\n</span><span class="s2">"</span>, <span class="ss">max_field_size:</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">p</span> csv<span class="p">.</span><span class="nf">max_field_size</span> <span class="c1"># =&gt; 3
+</span><span class="nb">p</span> csv<span class="p">.</span><span class="nf">field_size_limit</span> <span class="c1"># =&gt; 4
+</span>
+csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">a,b\n</span><span class="s2">"</span>, <span class="ss">field_size_limit:</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nb">p</span> csv<span class="p">.</span><span class="nf">max_field_size</span> <span class="c1"># =&gt; 3
 </span></code></pre>
 </dd>
 
@@ -2350,6 +2382,12 @@ result <span class="o">=</span> <span class="no">CSV</span><span class="p">.</sp
 nil
 </p>
 </dd>
+<dt><code>:max_field_size</code></dt>
+<dd>
+<p>
+nil
+</p>
+</dd>
 <dt><code>:converters</code></dt>
 <dd>
 <p>
@@ -2386,16 +2424,70 @@ nil
 false
 </p>
 </dd>
+<dt><code>:skip_lines</code></dt>
+<dd>
+<p>
+nil
+</p>
+</dd>
+<dt><code>:liberal_parsing</code></dt>
+<dd>
+<p>
+false
+</p>
+</dd>
+<dt><code>:nil_value</code></dt>
+<dd>
+<p>
+nil
+</p>
+</dd>
+<dt><code>:empty_value</code></dt>
+<dd>
+<p>
+&quot;&quot;
+</p>
+</dd>
+<dt><code>:strip</code></dt>
+<dd>
+<p>
+false
+</p>
+</dd>
+<dt><code>:write_headers</code></dt>
+<dd>
+<p>
+nil
+</p>
+</dd>
+<dt><code>:quote_empty</code></dt>
+<dd>
+<p>
+true
+</p>
+</dd>
 <dt><code>:force_quotes</code></dt>
 <dd>
 <p>
 false
 </p>
 </dd>
-<dt><code>:skip_lines</code></dt>
+<dt><code>:write_converters</code></dt>
 <dd>
 <p>
 nil
+</p>
+</dd>
+<dt><code>:write_nil_value</code></dt>
+<dd>
+<p>
+nil
+</p>
+</dd>
+<dt><code>:write_empty_value</code></dt>
+<dd>
+<p>
+&quot;&quot;
 </p>
 </dd>
 </dl>

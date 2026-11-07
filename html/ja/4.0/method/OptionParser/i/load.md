@@ -1,6 +1,6 @@
 # OptionParser#load
 
-### def load(filename = nil, into: nil)     -> bool
+### def load(filename = nil, into: nil, exact: self.require_exact)     -> bool
 
 指定された filename を読み込んで各行をまとめたものに対して [OptionParser#parse](../../../method/OptionParser/i/parse.md) を行ないます。
 
@@ -11,6 +11,8 @@
                 指定されないか nil である場合、~/.options/ にプログラムのサフィックスを付けた '~/.options/コマンド名' というファイルをパースします。
 
 - **param** `into` -- オプションを格納するハッシュを指定します。[OptionParser#parse](../../../method/OptionParser/i/parse.md) の `into` と同じです。
+
+- **param** `exact` -- 真を指定すると、ロングオプションを省略した形([OptionParser#require_exact](../../../method/OptionParser/i/require_exact.md) を参照)を受け付けなくなります。省略時は [OptionParser#require_exact](../../../method/OptionParser/i/require_exact.md) の値です。
 
 ```ruby title="例"
 require "optparse"

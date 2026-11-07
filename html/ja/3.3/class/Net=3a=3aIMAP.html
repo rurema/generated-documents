@@ -476,39 +476,34 @@ UTF-7 を修正したものです。
 </dd>
 
 
-<dt class="method-heading" id="S_NEW"><code>new(host, port = 143, usessl = false, certs = nil, verify = true) -&gt; Net::IMAP</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Net/IMAP.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>new(host, options) -&gt; Net::IMAP</code></dt>
+<dt class="method-heading" id="S_NEW"><code>new(host, port: nil, ssl: nil, open_timeout: 30, idle_response_timeout: 5) -&gt; Net::IMAP</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Net/IMAP.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-新たな Net::IMAP オブジェクトを生成し、指定したホストの指定したポートに接続し、接続語の IMAP オブジェクトを返します。
+新たな Net::IMAP オブジェクトを生成し、指定したホストの指定したポートに接続し、接続後の IMAP オブジェクトを返します。
 </p>
 <p>
-usessl が真ならば、サーバに繋ぐのに SSL/TLS を用います。
+<code>ssl</code> に真を渡すと、サーバに繋ぐのに SSL/TLS を用います。
+<code>ssl</code> がハッシュならば、それを <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡して SSL/TLS のパラメータを設定します。
+true ならば、<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> の既定のパラメータを使います。
 SSL/TLS での接続には OpenSSL と <a href="../library/openssl.html">openssl</a> が使える必要があります。
-certs は利用する証明書のファイル名もしくは証明書があるディレクトリ名を文字列で渡します。
-certs に nil を渡すと、OpenSSL のデフォルトの証明書を使います。
-verify は接続先を検証するかを真偽値で設定します。真が <a href="../method/OpenSSL=3a=3aSSL/c/VERIFY_PEER.html">OpenSSL::SSL::VERIFY_PEER</a> に、偽が <a href="../method/OpenSSL=3a=3aSSL/c/VERIFY_NONE.html">OpenSSL::SSL::VERIFY_NONE</a> に対応します。
+<code>port</code> を省略すると、SSL/TLS を使うときは 993、使わないときは 143 に接続します。
 </p>
 <p>
-パラメータは Hash で渡すこともできます。以下のキーを使うことができます。
+<code>open_timeout</code> で接続が確立するまで待つ秒数を、<code>idle_response_timeout</code> で IDLE の応答を待つ秒数を指定します。
 </p>
-<ul>
-<li>:port ポート番号
-省略時は SSL/TLS 使用時→993 不使用時→143 となります。</li>
-<li>:ssl OpenSSL に渡すパラメータをハッシュで指定します。
-省略時は SSL/TLS を使わず接続します。
-これで渡せるパラメータは
-<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> と同じです。</li>
-</ul>
 <p>
-これの :ssl パラメータを使うことで、OpenSSL のパラメータを詳細に調整できます。
+互換性のため、<code>Net::IMAP.new(host, port)</code> と <code>Net::IMAP.new(host, options)</code>(<code>options</code> はハッシュ)の形も受け付けます。それぞれ <code>port</code> を <code>port:</code> のキーワード引数に、<code>options</code> をキーワード引数に変換し、警告は出ません。
+<code>Net::IMAP.new(host, port, usessl, certs, verify)</code> の形は非推奨で、警告を出します。
+<code>usessl</code> が偽ならば <code>certs</code> と <code>verify</code> は無視され、SSL/TLS を使いません。
+<code>usessl</code> が真ならば <code>certs</code> と <code>verify</code> を <code>ssl</code> のハッシュに変換します。
+<code>certs</code> がファイルならば <code>ca_file</code> に、ディレクトリならば <code>ca_path</code> に変換し、<code>verify</code> が真ならば <code>verify_mode</code> に <a href="../method/OpenSSL=3a=3aSSL/c/VERIFY_PEER.html">OpenSSL::SSL::VERIFY_PEER</a> を、偽ならば <a href="../method/OpenSSL=3a=3aSSL/c/VERIFY_NONE.html">OpenSSL::SSL::VERIFY_NONE</a> を設定します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/imap'</span>
 
-imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">IMAP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'imap.example.com'</span>, <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">993</span>,
-                     <span class="ss">:ssl</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:verify_mode</span> <span class="o">=&gt;</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">VERIFY_PEER</span>,
-                               <span class="ss">:timeout</span> <span class="o">=&gt;</span> <span class="mi">600</span> <span class="p">}</span> <span class="p">)</span>
+imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">IMAP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'imap.example.com'</span>, <span class="ss">port:</span> <span class="mi">993</span>,
+                     <span class="ss">ssl:</span> <span class="p">{</span> <span class="ss">verify_mode:</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">VERIFY_PEER</span>,
+                            <span class="ss">timeout:</span> <span class="mi">600</span> <span class="p">}</span><span class="p">)</span>
 </code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>host</code>:</dt>
@@ -519,21 +514,21 @@ imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</spa
 <dd>
 接続するポート番号
 </dd>
-<dt class='method-param'>[PARAM] <code>usessl</code>:</dt>
+<dt class='method-param'>[PARAM] <code>ssl</code>:</dt>
 <dd>
-真でSSL/TLSを使う
+真で SSL/TLS を使う。ハッシュなら <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡すパラメータ
 </dd>
-<dt class='method-param'>[PARAM] <code>certs</code>:</dt>
+<dt class='method-param'>[PARAM] <code>open_timeout</code>:</dt>
 <dd>
-証明書のファイル名/ディレクトリ名の文字列
+接続が確立するまで待つ秒数
 </dd>
-<dt class='method-param'>[PARAM] <code>verify</code>:</dt>
+<dt class='method-param'>[PARAM] <code>idle_response_timeout</code>:</dt>
 <dd>
-真で接続先を検証する
+IDLE の応答を待つ秒数
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
-各種接続パラメータのハッシュ
+互換のための形の引数とキーワード引数を同時に渡した場合や、<code>options</code> のハッシュと <code>usessl</code> などを同時に渡した場合に発生します
 </dd>
 </dl>
 </dd>
@@ -628,17 +623,28 @@ AUTHENTICATE コマンドを送り、クライアントを認証します。
 <code>mechanism</code> で利用する SASL の認証方式を文字列で指定します。残りの引数とブロックはその認証方式の実装にそのまま渡されます。渡す認証情報(ユーザ名、パスワード、アクセストークンなど)は認証方式ごとに異なります。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code>imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'LOGIN'</span>, user, password<span class="p">)</span>
+<pre class="highlight ruby"><code>imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'PLAIN'</span>, user, password<span class="p">)</span>
 </code></pre>
 <p>
 <code>mechanism</code> としては以下がサポートされています。
 </p>
 <ul>
-<li>&quot;LOGIN&quot;</li>
+<li>&quot;ANONYMOUS&quot;</li>
+<li>&quot;EXTERNAL&quot;</li>
+<li>&quot;OAUTHBEARER&quot;</li>
 <li>&quot;PLAIN&quot;</li>
-<li>&quot;CRAM-MD5&quot;</li>
-<li>&quot;DIGEST-MD5&quot;</li>
+<li>&quot;SCRAM-SHA-1&quot;</li>
+<li>&quot;SCRAM-SHA-256&quot;</li>
+<li>&quot;XOAUTH2&quot;</li>
+<li>&quot;LOGIN&quot;(非推奨)</li>
+<li>&quot;CRAM-MD5&quot;(非推奨)</li>
+<li>&quot;DIGEST-MD5&quot;(非推奨)</li>
 </ul>
+<p>
+非推奨の認証方式は互換性のために残されているもので、使うと警告を出します。
+<code>&quot;LOGIN&quot;</code> の代わりには <code>&quot;PLAIN&quot;</code> を使います。
+<code>&quot;XOAUTH2&quot;</code> は非標準で <code>&quot;OAUTHBEARER&quot;</code> に置き換えられたものですが、広く使われています。
+</p>
 <p>
 サーバが SASL-IR 拡張(<a class="external" href="https://tools.ietf.org/html/rfc4959">[RFC4959]</a>)と指定した認証方式に対応していて、認証方式がクライアントから先に応答するものであれば、<code>sasl_ir</code> が真のときは最初の応答を AUTHENTICATE コマンドの引数として送り、往復を 1 回省きます。
 </p>
@@ -1200,16 +1206,16 @@ untagged な応答は種類ごとに記録されます。応答の種類には &
 </p>
 <p>
 ブロックを渡すと、記録をブロックに渡してブロックの値を返します。
-<code>type</code> を指定するとその種類の応答の配列だけを渡します(<code>type</code> は大文字に変換して探します)。ブロックの実行中は受信スレッドなどが記録を更新しないよう同期されます。
+<code>type</code> を指定するとその種類の応答の配列だけを渡します(<code>type</code> は大文字に変換して探します)。ブロックの実行中は受信スレッドなどが記録を更新しないよう同期されます。ブロックの外で記録のハッシュやその配列を扱うのはスレッド安全ではないため、下の例のようにブロックを渡して使います。
 </p>
 <p>
-ブロックを渡さずに <code>type</code> を指定すると <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。ブロックも <code>type</code> も渡さないときは記録のハッシュそのものを返します。
+ブロックを渡さずに <code>type</code> を指定すると <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。ブロックも <code>type</code> も渡さないときは記録のハッシュそのものを返します。ブロックを渡さずに呼ぶ形は非推奨ですが、警告は出ません。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>imap<span class="p">.</span><span class="nf">select</span><span class="p">(</span><span class="s2">"</span><span class="s2">inbox</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">p</span> imap<span class="p">.</span><span class="nf">responses</span><span class="p">[</span><span class="s2">"</span><span class="s2">EXISTS</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">last</span>
+<span class="nb">p</span> imap<span class="p">.</span><span class="nf">responses</span><span class="p">(</span><span class="s2">"</span><span class="s2">EXISTS</span><span class="s2">"</span>, <span class="o">&amp;</span><span class="ss">:last</span><span class="p">)</span>
 <span class="c1"># =&gt; 2
-</span><span class="nb">p</span> imap<span class="p">.</span><span class="nf">responses</span><span class="p">[</span><span class="s2">"</span><span class="s2">UIDVALIDITY</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">last</span>
+</span><span class="nb">p</span> imap<span class="p">.</span><span class="nf">responses</span><span class="p">(</span><span class="s2">"</span><span class="s2">UIDVALIDITY</span><span class="s2">"</span>, <span class="o">&amp;</span><span class="ss">:last</span><span class="p">)</span>
 <span class="c1"># =&gt; 968263756
 </span></code></pre>
 <dl>
@@ -1397,33 +1403,29 @@ search_key には検索条件を渡します。<a href="../method/Net=3a=3aIMAP/
 </dd>
 
 
-<dt class="method-heading" id="I_STARTTLS"><code>starttls(options) -&gt; Net::IMAP::TaggedResponse</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/starttls.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Net/IMAP.html#method-i-starttls">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>starttls(certs, verify) -&gt; Net::IMAP::TaggedResponse</code></dt>
+<dt class="method-heading" id="I_STARTTLS"><code>starttls(**options) -&gt; Net::IMAP::TaggedResponse</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/starttls.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Net/IMAP.html#method-i-starttls">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 STARTTLS コマンドを送って TLS のセッションを開始します。
 </p>
 <p>
-options で <a href="../library/openssl.html">openssl</a> に渡すオプションを指定します。
-<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> の引数と同じ意味です。
+キーワード引数 <code>options</code> は <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> にそのまま渡されます。キーは <a href="../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.html">OpenSSL::SSL::SSLContext</a> の属性の代入メソッドの名前です。
+TLS の交渉とホスト名の検証が両方成功してから返ります。
 </p>
 <p>
-互換性のため、certs で証明書or証明書ディレクトリのファイル名(文字列)、
-verify で検証するかどうか(<a href="../method/OpenSSL=3a=3aSSL/c/VERIFY_PEER.html">OpenSSL::SSL::VERIFY_PEER</a>、
-<a href="../method/OpenSSL=3a=3aSSL/c/VERIFY_NONE.html">OpenSSL::SSL::VERIFY_NONE</a>に対応します)を指定できます。
+互換性のため、<code>starttls(options)</code>(<code>options</code> はハッシュ)と <code>starttls(certs, verify)</code> の形も受け付けます。
+<code>starttls(options)</code> はハッシュをキーワード引数に変換します。
+<code>starttls(certs, verify)</code> の形は非推奨で、警告を出します。
+<code>certs</code> と <code>verify</code> は <a href="../method/Net=3a=3aIMAP/s/new.html">Net::IMAP.new</a> の <code>certs</code> と <code>verify</code> と同じように変換します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-SSL/TLS のオプション(<a href="../class/Hash.html">Hash</a> オブジェクト)
+<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡す SSL/TLS のパラメータ
 </dd>
-<dt class='method-param'>[PARAM] <code>certs</code>:</dt>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
-証明書ファイル名、もしくは証明書ディレクトリ名(文字列)
-</dd>
-<dt class='method-param'>[PARAM] <code>verify</code>:</dt>
-<dd>
-真なら SSL/TLS 接続時に証明書を検証します
+互換のための形の引数とキーワード引数を同時に渡した場合や、<code>options</code> のハッシュと <code>verify</code> を同時に渡した場合に発生します
 </dd>
 </dl>
 </dd>

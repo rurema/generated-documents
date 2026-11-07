@@ -19,16 +19,18 @@ untagged な応答は種類ごとに記録されます。
 ブロックを渡すと、記録をブロックに渡してブロックの値を返します。
 `type` を指定するとその種類の応答の配列だけを渡します(`type` は大文字に変換して探します)。
 ブロックの実行中は受信スレッドなどが記録を更新しないよう同期されます。
+ブロックの外で記録のハッシュやその配列を扱うのはスレッド安全ではないため、下の例のようにブロックを渡して使います。
 
 ブロックを渡さずに `type` を指定すると [c:ArgumentError] が発生します。
 ブロックも `type` も渡さないときは記録のハッシュそのものを返します。
+ブロックを渡さずに呼ぶ形は非推奨ですが、警告は出ません。
 
 
 ```ruby title="例"
 imap.select("inbox")
-p imap.responses["EXISTS"].last
+p imap.responses("EXISTS", &:last)
 # => 2
-p imap.responses["UIDVALIDITY"].last
+p imap.responses("UIDVALIDITY", &:last)
 # => 968263756
 ```
 
