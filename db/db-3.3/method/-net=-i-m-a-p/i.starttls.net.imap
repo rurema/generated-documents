@@ -6,19 +6,19 @@ since_by_name=starttls=1.9.3
 until_by_name=
 rbs_sig=(uninitialized)
 
-### def starttls(options) -> Net::IMAP::TaggedResponse
-### def starttls(certs, verify) -> Net::IMAP::TaggedResponse
+### def starttls(**options) -> Net::IMAP::TaggedResponse
 
 STARTTLS コマンドを送って TLS のセッションを開始します。
 
-options で [lib:openssl] に渡すオプションを指定します。
-[m:OpenSSL::SSL::SSLContext#set_params] の引数と同じ意味です。
+キーワード引数 `options` は [m:OpenSSL::SSL::SSLContext#set_params] にそのまま渡されます。
+キーは [c:OpenSSL::SSL::SSLContext] の属性の代入メソッドの名前です。
+TLS の交渉とホスト名の検証が両方成功してから返ります。
 
-互換性のため、certs で証明書or証明書ディレクトリのファイル名(文字列)、
-verify で検証するかどうか([m:OpenSSL::SSL::VERIFY_PEER]、
-[m:OpenSSL::SSL::VERIFY_NONE]に対応します)を指定できます。
+互換性のため、`starttls(options)`(`options` はハッシュ)と `starttls(certs, verify)` の形も受け付けます。
+`starttls(options)` はハッシュをキーワード引数に変換します。
+`starttls(certs, verify)` の形は非推奨で、警告を出します。
+`certs` と `verify` は [m:Net::IMAP.new] の `certs` と `verify` と同じように変換します。
 
-- **param** `options` -- SSL/TLS のオプション([c:Hash] オブジェクト)
-- **param** `certs` -- 証明書ファイル名、もしくは証明書ディレクトリ名(文字列)
-- **param** `verify` -- 真なら SSL/TLS 接続時に証明書を検証します
+- **param** `options` -- [m:OpenSSL::SSL::SSLContext#set_params] に渡す SSL/TLS のパラメータ
+- **raise** `ArgumentError` -- 互換のための形の引数とキーワード引数を同時に渡した場合や、`options` のハッシュと `verify` を同時に渡した場合に発生します
 

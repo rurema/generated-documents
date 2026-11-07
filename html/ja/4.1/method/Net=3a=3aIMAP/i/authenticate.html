@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-06-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-07-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -90,17 +90,28 @@ AUTHENTICATE コマンドを送り、クライアントを認証します。
 <code>mechanism</code> で利用する SASL の認証方式を文字列で指定します。残りの引数とブロックはその認証方式の実装にそのまま渡されます。渡す認証情報(ユーザ名、パスワード、アクセストークンなど)は認証方式ごとに異なります。
 </p>
 <span class="caption">例</span>
-<pre class="highlight ruby"><code>imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'LOGIN'</span>, user, password<span class="p">)</span>
+<pre class="highlight ruby"><code>imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'PLAIN'</span>, user, password<span class="p">)</span>
 </code></pre>
 <p>
 <code>mechanism</code> としては以下がサポートされています。
 </p>
 <ul>
-<li>&quot;LOGIN&quot;</li>
+<li>&quot;ANONYMOUS&quot;</li>
+<li>&quot;EXTERNAL&quot;</li>
+<li>&quot;OAUTHBEARER&quot;</li>
 <li>&quot;PLAIN&quot;</li>
-<li>&quot;CRAM-MD5&quot;</li>
-<li>&quot;DIGEST-MD5&quot;</li>
+<li>&quot;SCRAM-SHA-1&quot;</li>
+<li>&quot;SCRAM-SHA-256&quot;</li>
+<li>&quot;XOAUTH2&quot;</li>
+<li>&quot;LOGIN&quot;(非推奨)</li>
+<li>&quot;CRAM-MD5&quot;(非推奨)</li>
+<li>&quot;DIGEST-MD5&quot;(非推奨)</li>
 </ul>
+<p>
+非推奨の認証方式は互換性のために残されているもので、使うと警告を出します。
+<code>&quot;LOGIN&quot;</code> の代わりには <code>&quot;PLAIN&quot;</code> を使います。
+<code>&quot;XOAUTH2&quot;</code> は非標準で <code>&quot;OAUTHBEARER&quot;</code> に置き換えられたものですが、広く使われています。
+</p>
 <p>
 サーバが SASL-IR 拡張(<a class="external" href="https://tools.ietf.org/html/rfc4959">[RFC4959]</a>)と指定した認証方式に対応していて、認証方式がクライアントから先に応答するものであれば、<code>sasl_ir</code> が真のときは最初の応答を AUTHENTICATE コマンドの引数として送り、往復を 1 回省きます。
 </p>

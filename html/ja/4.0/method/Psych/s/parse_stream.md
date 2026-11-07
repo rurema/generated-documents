@@ -8,7 +8,7 @@ YAML ドキュメントをパースします。
 
 ブロックなしの場合は YAML の AST (すべての YAML ドキュメントを保持した [Psych::Nodes::Stream](../../../class/Psych=3a=3aNodes=3a=3aStream.md) オブジェクト)を返します。
 
-ブロック付きの場合は、そのブロックに最初の YAML ドキュメントの [Psych::Nodes::Document](../../../class/Psych=3a=3aNodes=3a=3aDocument.md) オブジェクトが渡されます。
+ブロック付きの場合は、パースした各 YAML ドキュメントの [Psych::Nodes::Document](../../../class/Psych=3a=3aNodes=3a=3aDocument.md) オブジェクトが順にブロックに渡されます。
 この場合の返り値には意味がありません。
 
 `filename` はパース中に発生した例外のメッセージに用います。
@@ -22,4 +22,14 @@ YAML ドキュメントをパースします。
 require 'psych'
 
 p Psych.parse_stream("---\n - a\n - b") # => #<Psych::Nodes::Stream:0x00>
+```
+
+```ruby title="例 ブロック付き"
+require 'psych'
+
+Psych.parse_stream("--- a\n--- b\n") do |doc|
+  p doc.children.first.value
+end
+# => "a"
+#    "b"
 ```

@@ -21,7 +21,7 @@
 <link rel="canonical" href="https://docs.ruby-lang.org/ja/latest/method/Net=3a=3aIMAP/s/new.html">
 
 <title>Net::IMAP.new (Ruby 3.4 リファレンスマニュアル)</title>
-<meta name="description" content="新たな Net::IMAP オブジェクトを生成し、指定したホストの指定したポートに接続し、接続語の IMAP オブジェクトを返します。">
+<meta name="description" content="新たな Net::IMAP オブジェクトを生成し、指定したホストの指定したポートに接続し、接続後の IMAP オブジェクトを返します。">
 <script src="../../../script.js"></script>
 <script>var index_rel_prefix = "../../../";</script>
 <script src="../../../js/search_data.js"></script>
@@ -81,40 +81,38 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="S_NEW"><code>new(host, port = 143, usessl = false, certs = nil, verify = true) -&gt; Net::IMAP</code><span class="permalink">[<a href="../../../method/Net=3a=3aIMAP/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Net/IMAP.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>new(host, options) -&gt; Net::IMAP</code></dt>
+<dt class="method-heading" id="S_NEW"><code>new(host, port: nil, ssl: nil, config: Net::IMAP::Config.global, **config_options) -&gt; Net::IMAP</code><span class="permalink">[<a href="../../../method/Net=3a=3aIMAP/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.4/Net/IMAP.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
-新たな Net::IMAP オブジェクトを生成し、指定したホストの指定したポートに接続し、接続語の IMAP オブジェクトを返します。
+新たな Net::IMAP オブジェクトを生成し、指定したホストの指定したポートに接続し、接続後の IMAP オブジェクトを返します。
 </p>
 <p>
-usessl が真ならば、サーバに繋ぐのに SSL/TLS を用います。
+<code>ssl</code> に真を渡すと、サーバに繋ぐのに SSL/TLS を用います。
+<code>ssl</code> がハッシュならば、それを <a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡して SSL/TLS のパラメータを設定します。
+true ならば、<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> の既定のパラメータを使います。
 SSL/TLS での接続には OpenSSL と <a href="../../../library/openssl.html">openssl</a> が使える必要があります。
-certs は利用する証明書のファイル名もしくは証明書があるディレクトリ名を文字列で渡します。
-certs に nil を渡すと、OpenSSL のデフォルトの証明書を使います。
-verify は接続先を検証するかを真偽値で設定します。真が <a href="../../../method/OpenSSL=3a=3aSSL/c/VERIFY_PEER.html">OpenSSL::SSL::VERIFY_PEER</a> に、偽が <a href="../../../method/OpenSSL=3a=3aSSL/c/VERIFY_NONE.html">OpenSSL::SSL::VERIFY_NONE</a> に対応します。
+<code>port</code> を省略すると、SSL/TLS を使うときは 993、使わないときは 143 に接続します。
 </p>
 <p>
-パラメータは Hash で渡すこともできます。以下のキーを使うことができます。
+<code>config</code> には接続の設定(<code>Net::IMAP::Config</code> オブジェクト)を指定します。これは接続ごとに作られる設定(<code>Net::IMAP#config</code>)を直接置き換えるのではなく、その継承元になります。省略時は全体の設定 <code>Net::IMAP::Config.global</code> が継承元になります。残りのキーワード引数 <code>config_options</code> は <code>Net::IMAP::Config.new</code> に渡され、接続ごとの設定の初期値になります。たとえば <code>open_timeout</code>(接続が確立するまで待つ秒数。既定値は 30)や <code>idle_response_timeout</code>(IDLE の応答を待つ秒数。既定値は 5)を指定できます。
 </p>
-<ul>
-<li>:port ポート番号
-省略時は SSL/TLS 使用時→993 不使用時→143 となります。</li>
-<li>:ssl OpenSSL に渡すパラメータをハッシュで指定します。
-省略時は SSL/TLS を使わず接続します。
-これで渡せるパラメータは
-<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> と同じです。</li>
-</ul>
 <p>
-これの :ssl パラメータを使うことで、OpenSSL のパラメータを詳細に調整できます。
+互換性のため、<code>Net::IMAP.new(host, port)</code> と <code>Net::IMAP.new(host, options)</code>(<code>options</code> はハッシュ)の形も受け付けます。それぞれ <code>port</code> を <code>port:</code> のキーワード引数に、<code>options</code> をキーワード引数に変換し、警告は出ません。
+<code>Net::IMAP.new(host, port, usessl, certs, verify)</code> の形は非推奨で、警告を出します。
+<code>usessl</code> が偽ならば <code>certs</code> と <code>verify</code> は無視され、SSL/TLS を使いません。
+<code>usessl</code> が真ならば <code>certs</code> と <code>verify</code> を <code>ssl</code> のハッシュに変換します。
+<code>certs</code> がファイルならば <code>ca_file</code> に、ディレクトリならば <code>ca_path</code> に変換し、<code>verify</code> が真ならば <code>verify_mode</code> に <a href="../../../method/OpenSSL=3a=3aSSL/c/VERIFY_PEER.html">OpenSSL::SSL::VERIFY_PEER</a> を、偽ならば <a href="../../../method/OpenSSL=3a=3aSSL/c/VERIFY_NONE.html">OpenSSL::SSL::VERIFY_NONE</a> を設定します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/imap'</span>
 
-imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">IMAP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'imap.example.com'</span>, <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">993</span>,
-                     <span class="ss">:ssl</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:verify_mode</span> <span class="o">=&gt;</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">VERIFY_PEER</span>,
-                               <span class="ss">:timeout</span> <span class="o">=&gt;</span> <span class="mi">600</span> <span class="p">}</span> <span class="p">)</span>
+imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">IMAP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'imap.example.com'</span>, <span class="ss">port:</span> <span class="mi">993</span>,
+                     <span class="ss">ssl:</span> <span class="p">{</span> <span class="ss">verify_mode:</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">VERIFY_PEER</span>,
+                            <span class="ss">timeout:</span> <span class="mi">600</span> <span class="p">}</span><span class="p">)</span>
 </code></pre>
+<p>
+この警告は <code>Warning[:deprecated]</code> が真のとき(<code>-W:deprecated</code> を指定したときなど)だけ表示されます。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>host</code>:</dt>
 <dd>
@@ -124,21 +122,21 @@ imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</spa
 <dd>
 接続するポート番号
 </dd>
-<dt class='method-param'>[PARAM] <code>usessl</code>:</dt>
+<dt class='method-param'>[PARAM] <code>ssl</code>:</dt>
 <dd>
-真でSSL/TLSを使う
+真で SSL/TLS を使う。ハッシュなら <a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡すパラメータ
 </dd>
-<dt class='method-param'>[PARAM] <code>certs</code>:</dt>
+<dt class='method-param'>[PARAM] <code>config</code>:</dt>
 <dd>
-証明書のファイル名/ディレクトリ名の文字列
+接続ごとの設定の継承元とする <code>Net::IMAP::Config</code> オブジェクト
 </dd>
-<dt class='method-param'>[PARAM] <code>verify</code>:</dt>
+<dt class='method-param'>[PARAM] <code>config_options</code>:</dt>
 <dd>
-真で接続先を検証する
+接続ごとの設定の初期値(<code>open_timeout</code> など)
 </dd>
-<dt class='method-param'>[PARAM] <code>options</code>:</dt>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
-各種接続パラメータのハッシュ
+互換のための形の引数とキーワード引数を同時に渡した場合や、<code>options</code> のハッシュと <code>usessl</code> などを同時に渡した場合に発生します
 </dd>
 </dl>
 </dd>

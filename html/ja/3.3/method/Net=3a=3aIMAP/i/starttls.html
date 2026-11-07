@@ -81,33 +81,29 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_STARTTLS"><code>starttls(options) -&gt; Net::IMAP::TaggedResponse</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/Net=3a=3aIMAP/i/starttls.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Net/IMAP.html#method-i-starttls">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>starttls(certs, verify) -&gt; Net::IMAP::TaggedResponse</code></dt>
+<dt class="method-heading" id="I_STARTTLS"><code>starttls(**options) -&gt; Net::IMAP::TaggedResponse</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../../../method/Net=3a=3aIMAP/i/starttls.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.3/Net/IMAP.html#method-i-starttls">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 STARTTLS コマンドを送って TLS のセッションを開始します。
 </p>
 <p>
-options で <a href="../../../library/openssl.html">openssl</a> に渡すオプションを指定します。
-<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> の引数と同じ意味です。
+キーワード引数 <code>options</code> は <a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> にそのまま渡されます。キーは <a href="../../../class/OpenSSL=3a=3aSSL=3a=3aSSLContext.html">OpenSSL::SSL::SSLContext</a> の属性の代入メソッドの名前です。
+TLS の交渉とホスト名の検証が両方成功してから返ります。
 </p>
 <p>
-互換性のため、certs で証明書or証明書ディレクトリのファイル名(文字列)、
-verify で検証するかどうか(<a href="../../../method/OpenSSL=3a=3aSSL/c/VERIFY_PEER.html">OpenSSL::SSL::VERIFY_PEER</a>、
-<a href="../../../method/OpenSSL=3a=3aSSL/c/VERIFY_NONE.html">OpenSSL::SSL::VERIFY_NONE</a>に対応します)を指定できます。
+互換性のため、<code>starttls(options)</code>(<code>options</code> はハッシュ)と <code>starttls(certs, verify)</code> の形も受け付けます。
+<code>starttls(options)</code> はハッシュをキーワード引数に変換します。
+<code>starttls(certs, verify)</code> の形は非推奨で、警告を出します。
+<code>certs</code> と <code>verify</code> は <a href="../../../method/Net=3a=3aIMAP/s/new.html">Net::IMAP.new</a> の <code>certs</code> と <code>verify</code> と同じように変換します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>options</code>:</dt>
 <dd>
-SSL/TLS のオプション(<a href="../../../class/Hash.html">Hash</a> オブジェクト)
+<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡す SSL/TLS のパラメータ
 </dd>
-<dt class='method-param'>[PARAM] <code>certs</code>:</dt>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
 <dd>
-証明書ファイル名、もしくは証明書ディレクトリ名(文字列)
-</dd>
-<dt class='method-param'>[PARAM] <code>verify</code>:</dt>
-<dd>
-真なら SSL/TLS 接続時に証明書を検証します
+互換のための形の引数とキーワード引数を同時に渡した場合や、<code>options</code> のハッシュと <code>verify</code> を同時に渡した場合に発生します
 </dd>
 </dl>
 </dd>

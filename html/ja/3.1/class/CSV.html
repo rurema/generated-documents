@@ -1625,7 +1625,7 @@ csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span>
 </dd>
 
 
-<dt class="method-heading" id="I_FIELD_SIZE_LIMIT"><code>field_size_limit -&gt; Integer</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/CSV/i/field_size_limit.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/CSV.html#method-i-field_size_limit">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/csv/CSV.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_FIELD_SIZE_LIMIT"><code>field_size_limit -&gt; Integer | nil</code><span class="method-since-badge">Ruby 1.9.3 から</span><span class="permalink">[<a href="../method/CSV/i/field_size_limit.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/CSV.html#method-i-field_size_limit">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/csv/CSV.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 フィールドサイズの最大値を返します。
@@ -1633,21 +1633,21 @@ csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
 
-csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">DATA</span><span class="p">)</span>
+text <span class="o">=</span> <span class="no">&lt;&lt;~CSV</span>
+  <span class="sh">&quot;a&quot;,&quot;b&quot;
+</span>  <span class="sh">&quot;
+</span>  <span class="sh">2
+</span>  <span class="sh">2
+</span>  <span class="sh">&quot;,&quot;&quot;
+</span><span class="no">CSV
+</span>
+csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>text<span class="p">)</span>
 <span class="nb">p</span> csv<span class="p">.</span><span class="nf">field_size_limit</span> <span class="c1"># =&gt; nil
 </span><span class="nb">p</span> csv<span class="p">.</span><span class="nf">read</span> <span class="c1"># =&gt; [[&quot;a&quot;, &quot;b&quot;], [&quot;\n2\n2\n&quot;, &quot;&quot;]]
 </span>
-<span class="no">DATA</span><span class="p">.</span><span class="nf">rewind</span>
-csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">DATA</span>, <span class="ss">field_size_limit:</span> <span class="mi">4</span><span class="p">)</span>
+csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>text, <span class="ss">field_size_limit:</span> <span class="mi">4</span><span class="p">)</span>
 <span class="nb">p</span> csv<span class="p">.</span><span class="nf">field_size_limit</span> <span class="c1"># =&gt; 4
-</span>csv<span class="p">.</span><span class="nf">read</span> <span class="c1"># =&gt; #&lt;CSV::MalformedCSVError: Field size exceeded on line 2.&gt;
-</span>
-<span class="k">__END__
-</span><span class="c1">&quot;a&quot;,&quot;b&quot;
-&quot;
-2
-2
-&quot;,&quot;&quot;
+</span>csv<span class="p">.</span><span class="nf">read</span> <span class="c1"># ~&gt; CSV::MalformedCSVError: Field size exceeded in line 2.
 </span></code></pre>
 <p>
 [SEE_ALSO] <a href="../method/CSV/s/new.html">CSV.new</a>
@@ -2375,16 +2375,70 @@ nil
 false
 </p>
 </dd>
+<dt><code>:skip_lines</code></dt>
+<dd>
+<p>
+nil
+</p>
+</dd>
+<dt><code>:liberal_parsing</code></dt>
+<dd>
+<p>
+false
+</p>
+</dd>
+<dt><code>:nil_value</code></dt>
+<dd>
+<p>
+nil
+</p>
+</dd>
+<dt><code>:empty_value</code></dt>
+<dd>
+<p>
+&quot;&quot;
+</p>
+</dd>
+<dt><code>:strip</code></dt>
+<dd>
+<p>
+false
+</p>
+</dd>
+<dt><code>:write_headers</code></dt>
+<dd>
+<p>
+nil
+</p>
+</dd>
+<dt><code>:quote_empty</code></dt>
+<dd>
+<p>
+true
+</p>
+</dd>
 <dt><code>:force_quotes</code></dt>
 <dd>
 <p>
 false
 </p>
 </dd>
-<dt><code>:skip_lines</code></dt>
+<dt><code>:write_converters</code></dt>
 <dd>
 <p>
 nil
+</p>
+</dd>
+<dt><code>:write_nil_value</code></dt>
+<dd>
+<p>
+nil
+</p>
+</dd>
+<dt><code>:write_empty_value</code></dt>
+<dd>
+<p>
+&quot;&quot;
 </p>
 </dd>
 </dl>

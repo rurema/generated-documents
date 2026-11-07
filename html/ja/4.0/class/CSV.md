@@ -165,6 +165,7 @@ row of output though, when using CSV::generate_line() or Array#to_csv().
 - [isatty](../method/CSV/i/isatty.md)
 - [tty?](../method/CSV/i/tty=3f.md)
 - [lineno](../method/CSV/i/lineno.md)
+- [max_field_size](../method/CSV/i/max_field_size.md)
 - [path](../method/CSV/i/path.md)
 - [pid](../method/CSV/i/pid.md)
 - [pos](../method/CSV/i/pos.md)

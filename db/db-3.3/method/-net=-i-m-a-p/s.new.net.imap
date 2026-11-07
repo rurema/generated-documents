@@ -6,39 +6,37 @@ since_by_name=
 until_by_name=
 rbs_sig=(uninitialized)
 
-### def Net::IMAP.new(host, port = 143, usessl = false, certs = nil, verify = true) -> Net::IMAP
-### def Net::IMAP.new(host, options) -> Net::IMAP
+### def Net::IMAP.new(host, port: nil, ssl: nil, open_timeout: 30, idle_response_timeout: 5) -> Net::IMAP
 
-新たな Net::IMAP オブジェクトを生成し、指定したホストの指定したポートに接続し、接続語の IMAP オブジェクトを返します。
+新たな Net::IMAP オブジェクトを生成し、指定したホストの指定したポートに接続し、接続後の IMAP オブジェクトを返します。
 
-usessl が真ならば、サーバに繋ぐのに SSL/TLS を用います。
+`ssl` に真を渡すと、サーバに繋ぐのに SSL/TLS を用います。
+`ssl` がハッシュならば、それを [m:OpenSSL::SSL::SSLContext#set_params] に渡して SSL/TLS のパラメータを設定します。
+true ならば、[m:OpenSSL::SSL::SSLContext#set_params] の既定のパラメータを使います。
 SSL/TLS での接続には OpenSSL と [lib:openssl] が使える必要があります。
-certs は利用する証明書のファイル名もしくは証明書があるディレクトリ名を文字列で渡します。
-certs に nil を渡すと、OpenSSL のデフォルトの証明書を使います。
-verify は接続先を検証するかを真偽値で設定します。
-真が [m:OpenSSL::SSL::VERIFY_PEER] に、偽が [m:OpenSSL::SSL::VERIFY_NONE] に対応します。
+`port` を省略すると、SSL/TLS を使うときは 993、使わないときは 143 に接続します。
 
-パラメータは Hash で渡すこともできます。以下のキーを使うことができます。
-  - :port ポート番号
-    省略時は SSL/TLS 使用時→993 不使用時→143 となります。
-  - :ssl OpenSSL に渡すパラメータをハッシュで指定します。
-    省略時は SSL/TLS を使わず接続します。
-    これで渡せるパラメータは
-    [m:OpenSSL::SSL::SSLContext#set_params] と同じです。
-これの :ssl パラメータを使うことで、OpenSSL のパラメータを詳細に調整できます。
+`open_timeout` で接続が確立するまで待つ秒数を、`idle_response_timeout` で IDLE の応答を待つ秒数を指定します。
+
+互換性のため、`Net::IMAP.new(host, port)` と `Net::IMAP.new(host, options)`(`options` はハッシュ)の形も受け付けます。
+それぞれ `port` を `port:` のキーワード引数に、`options` をキーワード引数に変換し、警告は出ません。
+`Net::IMAP.new(host, port, usessl, certs, verify)` の形は非推奨で、警告を出します。
+`usessl` が偽ならば `certs` と `verify` は無視され、SSL/TLS を使いません。
+`usessl` が真ならば `certs` と `verify` を `ssl` のハッシュに変換します。
+`certs` がファイルならば `ca_file` に、ディレクトリならば `ca_path` に変換し、`verify` が真ならば `verify_mode` に [m:OpenSSL::SSL::VERIFY_PEER] を、偽ならば [m:OpenSSL::SSL::VERIFY_NONE] を設定します。
 
 ```ruby title="例"
 require 'net/imap'
 
-imap = Net::IMAP.new('imap.example.com', :port => 993,
-                     :ssl => { :verify_mode => OpenSSL::SSL::VERIFY_PEER,
-                               :timeout => 600 } )
+imap = Net::IMAP.new('imap.example.com', port: 993,
+                     ssl: { verify_mode: OpenSSL::SSL::VERIFY_PEER,
+                            timeout: 600 })
 ```
 
 - **param** `host` -- 接続するホスト名の文字列
 - **param** `port` -- 接続するポート番号
-- **param** `usessl` -- 真でSSL/TLSを使う
-- **param** `certs` -- 証明書のファイル名/ディレクトリ名の文字列
-- **param** `verify` -- 真で接続先を検証する
-- **param** `options` -- 各種接続パラメータのハッシュ
+- **param** `ssl` -- 真で SSL/TLS を使う。ハッシュなら [m:OpenSSL::SSL::SSLContext#set_params] に渡すパラメータ
+- **param** `open_timeout` -- 接続が確立するまで待つ秒数
+- **param** `idle_response_timeout` -- IDLE の応答を待つ秒数
+- **raise** `ArgumentError` -- 互換のための形の引数とキーワード引数を同時に渡した場合や、`options` のハッシュと `usessl` などを同時に渡した場合に発生します
 

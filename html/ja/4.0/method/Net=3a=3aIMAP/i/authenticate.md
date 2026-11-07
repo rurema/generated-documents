@@ -9,14 +9,24 @@ AUTHENTICATE コマンドを送り、クライアントを認証します。
 渡す認証情報(ユーザ名、パスワード、アクセストークンなど)は認証方式ごとに異なります。
 
 ```ruby title="例"
-imap.authenticate('LOGIN', user, password)
+imap.authenticate('PLAIN', user, password)
 ```
 
 `mechanism` としては以下がサポートされています。
-  - "LOGIN"
+  - "ANONYMOUS"
+  - "EXTERNAL"
+  - "OAUTHBEARER"
   - "PLAIN"
-  - "CRAM-MD5"
-  - "DIGEST-MD5"
+  - "SCRAM-SHA-1"
+  - "SCRAM-SHA-256"
+  - "XOAUTH2"
+  - "LOGIN"(非推奨)
+  - "CRAM-MD5"(非推奨)
+  - "DIGEST-MD5"(非推奨)
+
+非推奨の認証方式は互換性のために残されているもので、使うと警告を出します。
+`"LOGIN"` の代わりには `"PLAIN"` を使います。
+`"XOAUTH2"` は非標準で `"OAUTHBEARER"` に置き換えられたものですが、広く使われています。
 
 サーバが SASL-IR 拡張([RFC:4959])と指定した認証方式に対応していて、認証方式がクライアントから先に応答するものであれば、`sasl_ir` が真のときは最初の応答を AUTHENTICATE コマンドの引数として送り、往復を 1 回省きます。
 
