@@ -18,6 +18,7 @@ section に関する情報を保持するクラスです。
 - [==](../method/RDoc=3a=3aContext=3a=3aSection/i/=3d=3d.md)
 - [eql?](../method/RDoc=3a=3aContext=3a=3aSection/i/eql=3f.md)
 - [comment](../method/RDoc=3a=3aContext=3a=3aSection/i/comment.md)
+- [comments](../method/RDoc=3a=3aContext=3a=3aSection/i/comments.md)
 - [inspect](../method/RDoc=3a=3aContext=3a=3aSection/i/inspect.md)
 - [parent](../method/RDoc=3a=3aContext=3a=3aSection/i/parent.md)
 - [title](../method/RDoc=3a=3aContext=3a=3aSection/i/title.md)
