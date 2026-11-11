@@ -1,0 +1,28 @@
+names=inherits_defaults?
+visibility=public
+kind=defined
+source_location=manual/api/net/imap.md
+since_by_name=inherits_defaults=3f=4.1
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def inherits_defaults?(*attrs) -> bool | Rational | nil
+
+`attrs` の属性がすべて既定値の設定から継承されているかどうかを返します。
+
+`attrs` を省略すると、すべての属性を調べます。
+すべて [m:Net::IMAP::Config.default] から継承していれば true を、版ごとの既定値の設定から継承していればその版の数値([c:Rational])を返します。
+全体の設定で値を設定した属性を継承していれば nil を、`self` やほかの継承元で値を設定した属性があれば false を返します。
+
+- **param** `attrs` -- 属性の名前のシンボル
+
+```ruby title="例"
+require 'net/imap'
+
+p Net::IMAP::Config.new.inherits_defaults?                  # => true
+p Net::IMAP::Config.new(open_timeout: 1).inherits_defaults? # => false
+p Net::IMAP::Config[0.4].inherits_defaults?                 # => (2/5)
+```
+
+- **SEE** [m:Net::IMAP::Config#overrides?]
+

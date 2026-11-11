@@ -13,4 +13,5 @@ LOGIN コマンドを送り、平文でパスワードを送りクライアン�
 - **param** `user` -- ユーザ名文字列
 - **param** `password` -- パスワード文字列
 - **raise** `Net::IMAP::NoResponseError` -- 認証に失敗した場合に発生します
+- **raise** `Net::IMAP::LoginDisabledError` -- サーバの機能一覧に LOGINDISABLED があり、[Net::IMAP::Config#enforce_logindisabled](../../../method/Net=3a=3aIMAP=3a=3aConfig/i/enforce_logindisabled.md) の設定で確認する場合に発生します。LOGIN コマンドは送られません
 - **SEE** [Net::IMAP#authenticate](../../../method/Net=3a=3aIMAP/i/authenticate.md)

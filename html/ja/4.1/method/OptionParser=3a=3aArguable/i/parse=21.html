@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-10-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-11-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -81,13 +81,24 @@
 <main>
 <dl class="methodlist">
 
-<dt class="method-heading" id="I_PARSE--21"><code>parse! -&gt; [String]</code><span class="permalink">[<a href="../../../method/OptionParser=3a=3aArguable/i/parse=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OptionParser/Arguable.html#method-i-parse-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/Arguable.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PARSE--21"><code>parse!(into: nil, exact: options.require_exact) -&gt; [String]</code><span class="permalink">[<a href="../../../method/OptionParser=3a=3aArguable/i/parse=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.1/OptionParser/Arguable.html#method-i-parse-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/Arguable.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を破壊的にパースし、パースされずに残った引数を文字列の配列として返します。
 <a href="../../../method/OptionParser/i/parse=21.html">OptionParser#parse!</a> を参照して下さい。
 </p>
+<p>
+<code>into</code> と <code>exact</code> のキーワード引数は <a href="../../../method/OptionParser/i/parse=21.html">OptionParser#parse!</a> にそのまま渡します。それ以外のキーワード引数を渡しても無視されます(<a href="../../../class/ArgumentError.html">ArgumentError</a> は発生しません)。
+</p>
 <dl>
+<dt class='method-param'>[PARAM] <code>into</code>:</dt>
+<dd>
+オプションを格納するハッシュを指定します。<a href="../../../method/OptionParser/i/parse=21.html">OptionParser#parse!</a> の <code>into</code> と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>exact</code>:</dt>
+<dd>
+真を指定すると、ロングオプションを省略した形(<a href="../../../method/OptionParser/i/require_exact.html">OptionParser#require_exact</a> を参照)を受け付けなくなります。省略時は <a href="../../../method/OptionParser/i/require_exact.html">OptionParser#require_exact</a> の値です。
+</dd>
 <dt>[EXCEPTION] <code>OptionParser::ParseError</code>:</dt>
 <dd>
 自身のパースに失敗した場合、発生します。実際は OptionParser::ParseError のサブクラスの例外になります。
@@ -99,6 +110,17 @@ o <span class="o">=</span> <span class="k">nil</span>
 <span class="no">ARGV</span><span class="p">.</span><span class="nf">options</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="s1">'-a'</span><span class="p">)</span><span class="p">{</span> o <span class="o">=</span> <span class="k">true</span> <span class="p">}</span>
 <span class="no">ARGV</span><span class="p">.</span><span class="nf">parse!</span>
 <span class="nb">p</span> o                                <span class="c1"># =&gt; true
+</span></code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'optparse'</span>
+
+argv <span class="o">=</span> <span class="p">[</span><span class="s2">"</span><span class="s2">--verbose</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">--name</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">file.txt</span><span class="s2">"</span><span class="p">]</span>
+argv<span class="p">.</span><span class="nf">extend</span><span class="p">(</span><span class="no">OptionParser</span><span class="o">::</span><span class="no">Arguable</span><span class="p">)</span>
+argv<span class="p">.</span><span class="nf">options</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="s2">"</span><span class="s2">-v</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">--verbose</span><span class="s2">"</span><span class="p">)</span>
+argv<span class="p">.</span><span class="nf">options</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="s2">"</span><span class="s2">--name NAME</span><span class="s2">"</span><span class="p">)</span>
+h <span class="o">=</span> <span class="p">{</span><span class="p">}</span>
+argv<span class="p">.</span><span class="nf">parse!</span><span class="p">(</span><span class="ss">into:</span> h<span class="p">)</span>
+<span class="nb">p</span> argv                             <span class="c1"># =&gt; [&quot;file.txt&quot;]
+</span><span class="nb">p</span> h                                <span class="c1"># =&gt; {verbose: true, name: &quot;foo&quot;}
 </span></code></pre>
 </dd>
 

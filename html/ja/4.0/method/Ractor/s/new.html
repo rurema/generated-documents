@@ -87,6 +87,9 @@
 <p>
 Ractor を生成して、ブロックの評価を開始します。生成した Ractor を返します。
 </p>
+<p>
+ブロックは外側のスコープから隔離されます。ブロックの中の <code>self</code> は生成した Ractor です。ブロックは外側のローカル変数を参照できません。外側のオブジェクトをブロックで使うには <code>args</code> で渡します。また、<code>&amp;</code> で渡した <a href="../../../class/Proc.html">Proc</a> は隔離のために変更され、shareable になります。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>args</code>:</dt>
 <dd>
@@ -96,7 +99,20 @@ Ractor を生成して、ブロックの評価を開始します。生成した 
 <dd>
 Ractor の名前を指定します。
 </dd>
+<dt>[EXCEPTION] <code>ArgumentError</code>:</dt>
+<dd>
+ブロックが外側のローカル変数を参照している場合や、<code>yield</code> を使っている場合に発生します。
+</dd>
 </dl>
+<span class="caption">例: 外側のローカル変数の参照</span>
+<pre class="highlight ruby"><code>a <span class="o">=</span> <span class="mi">1</span>
+<span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> a <span class="p">}</span> <span class="c1"># ~&gt; ArgumentError
+</span></code></pre>
+<span class="caption">例: 外側のオブジェクトを引数で渡す</span>
+<pre class="highlight ruby"><code>a <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
+r <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>a<span class="p">)</span> <span class="p">{</span><span class="o">|</span>x<span class="o">|</span> x<span class="p">.</span><span class="nf">sum</span> <span class="p">}</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; 3
+</span></code></pre>
 </dd>
 
 

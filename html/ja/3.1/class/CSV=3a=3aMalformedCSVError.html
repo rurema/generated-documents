@@ -141,6 +141,26 @@
 <h2>目次</h2>
 <dl>
 
+<dt>特異メソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#S_NEW">new</a></li>
+
+</ul>
+</dd>
+
+<dt>インスタンスメソッド</dt>
+<dd>
+<ul class="class-toc">
+
+<li><a href="#I_LINE_NUMBER">line_number</a></li>
+
+<li><a href="#I_LINE_NUMBER">lineno</a></li>
+
+</ul>
+</dd>
+
 </dl>
 
 
@@ -155,9 +175,6 @@
   <ul class="class-toc">
     
       <li><a href="../method/Exception/s/exception.html">exception</a></li>
-      
-    
-      <li><a href="../method/Exception/s/new.html">new</a></li>
       
     
       <li><a href="../method/Exception/s/to_tty=3f.html">to_tty?</a></li>
@@ -209,6 +226,64 @@
 
 
 
+
+<h2>特異メソッド</h2>
+<dl>
+
+<dt class="method-heading" id="S_NEW"><code>new(message, line_number) -&gt; CSV::MalformedCSVError</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/CSV=3a=3aMalformedCSVError/s/new.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/CSV/MalformedCSVError.html#method-c-new">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/csv/CSV__MalformedCSVError.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+例外オブジェクトを生成して返します。
+</p>
+<p>
+例外のメッセージは <code>message</code> の後ろに <code>&quot; in line #{line_number}.&quot;</code> を付けたものになります。<code>line_number</code> は <a href="../method/CSV=3a=3aMalformedCSVError/i/line_number.html">CSV::MalformedCSVError#line_number</a> の戻り値になります。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>message</code>:</dt>
+<dd>
+エラーメッセージを表す文字列を指定します。
+</dd>
+<dt class='method-param'>[PARAM] <code>line_number</code>:</dt>
+<dd>
+例外が発生した行の行番号を指定します。
+</dd>
+</dl>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
+
+e <span class="o">=</span> <span class="no">CSV</span><span class="o">::</span><span class="no">MalformedCSVError</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">Illegal quoting</span><span class="s2">"</span>, <span class="mi">3</span><span class="p">)</span>
+<span class="nb">p</span> e<span class="p">.</span><span class="nf">message</span>     <span class="c1"># =&gt; &quot;Illegal quoting in line 3.&quot;
+</span><span class="nb">p</span> e<span class="p">.</span><span class="nf">line_number</span> <span class="c1"># =&gt; 3
+</span></code></pre>
+</dd>
+
+
+</dl>
+
+<h2>インスタンスメソッド</h2>
+<dl>
+
+<dt class="method-heading" id="I_LINE_NUMBER"><code>line_number -&gt; Integer</code><span class="method-since-badge">Ruby 2.6.0 から</span><span class="permalink">[<a href="../method/CSV=3a=3aMalformedCSVError/i/line_number.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/CSV/MalformedCSVError.html#method-i-line_number">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/csv/CSV__MalformedCSVError.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>lineno -&gt; Integer</code></dt>
+<dd class="method-description">
+<p>
+例外が発生した行の行番号を返します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
+
+<span class="k">begin</span>
+  <span class="no">CSV</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"</span><span class="s2">a,b\n\&quot;c,d\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">rescue</span> <span class="no">CSV</span><span class="o">::</span><span class="no">MalformedCSVError</span> <span class="o">=&gt;</span> e
+  <span class="nb">p</span> e<span class="p">.</span><span class="nf">line_number</span> <span class="c1"># =&gt; 2
+</span>  <span class="nb">p</span> e<span class="p">.</span><span class="nf">lineno</span>      <span class="c1"># =&gt; 2
+</span>  <span class="nb">p</span> e<span class="p">.</span><span class="nf">message</span>     <span class="c1"># =&gt; &quot;Unclosed quoted field in line 2.&quot;
+</span><span class="k">end</span>
+</code></pre>
+</dd>
+
+
+</dl>
 
 </main>
 

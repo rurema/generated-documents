@@ -10,6 +10,7 @@ AUTHENTICATE コマンドを送り、クライアントを認証します。
 
 ```ruby title="例"
 imap.authenticate('PLAIN', user, password)
+
 ```
 
 `mechanism` としては以下がサポートされています。
@@ -30,7 +31,7 @@ imap.authenticate('PLAIN', user, password)
 
 サーバが SASL-IR 拡張([RFC:4959])と指定した認証方式に対応していて、認証方式がクライアントから先に応答するものであれば、`sasl_ir` が真のときは最初の応答を AUTHENTICATE コマンドの引数として送り、往復を 1 回省きます。
 
-`sasl_ir` の既定値は接続の設定 `sasl_ir`(`Net::IMAP::Config#sasl_ir`)の値で、その既定値は true です。
+`sasl_ir` の既定値は接続の設定 [Net::IMAP::Config#sasl_ir](../../../method/Net=3a=3aIMAP=3a=3aConfig/i/sasl_ir.md) の値で、その既定値は true です。
 
 - **param** `mechanism` -- 認証方式を表す文字列
 - **param** `creds` -- 認証方式の実装に渡す認証情報。認証方式ごとに異なります

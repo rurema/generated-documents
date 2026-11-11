@@ -131,6 +131,8 @@ IMAP 接続を表現するクラスです。
 
 <li><a href="#S_ADD_AUTHENTICATOR">add_authenticator</a></li>
 
+<li><a href="#S_CONFIG">config</a></li>
+
 <li><a href="#S_DEBUG">debug</a></li>
 
 <li><a href="#S_DEBUG--3D">debug=</a></li>
@@ -174,6 +176,8 @@ IMAP 接続を表現するクラスです。
 
 <li><a href="#I_CLOSE">close</a></li>
 
+<li><a href="#I_CONFIG">config</a></li>
+
 <li><a href="#I_COPY">copy</a></li>
 
 <li><a href="#I_CREATE">create</a></li>
@@ -202,6 +206,8 @@ IMAP 接続を表現するクラスです。
 
 <li><a href="#I_IDLE_DONE">idle_done</a></li>
 
+<li><a href="#I_IDLE_RESPONSE_TIMEOUT">idle_response_timeout</a></li>
+
 <li><a href="#I_LIST">list</a></li>
 
 <li><a href="#I_LOGIN">login</a></li>
@@ -210,9 +216,15 @@ IMAP 接続を表現するクラスです。
 
 <li><a href="#I_LSUB">lsub</a></li>
 
+<li><a href="#I_MAX_RESPONSE_SIZE">max_response_size</a></li>
+
+<li><a href="#I_MAX_RESPONSE_SIZE--3D">max_response_size=</a></li>
+
 <li><a href="#I_MOVE">move</a></li>
 
 <li><a href="#I_NOOP">noop</a></li>
+
+<li><a href="#I_OPEN_TIMEOUT">open_timeout</a></li>
 
 <li><a href="#I_REMOVE_RESPONSE_HANDLER">remove_response_handler</a></li>
 
@@ -329,10 +341,33 @@ Net::IMAP::LoginAuthenticator などを参考にしてください。
 </dd>
 
 
+<dt class="method-heading" id="S_CONFIG"><code>config -&gt; Net::IMAP::Config</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/s/config.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-c-config">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+全体の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/s/global.html">Net::IMAP::Config.global</a> を返します。
+</p>
+<p>
+<a href="../method/Net=3a=3aIMAP/s/new.html">Net::IMAP.new</a> で <code>config</code> を省略すると、接続ごとの設定 <a href="../method/Net=3a=3aIMAP/i/config.html">Net::IMAP#config</a> はこの設定を継承します。
+</p>
+<span class="caption">例</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/imap'</span>
+
+<span class="nb">p</span> <span class="no">Net</span><span class="o">::</span><span class="no">IMAP</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">equal?</span><span class="p">(</span><span class="no">Net</span><span class="o">::</span><span class="no">IMAP</span><span class="o">::</span><span class="no">Config</span><span class="p">.</span><span class="nf">global</span><span class="p">)</span> <span class="c1"># =&gt; true
+</span><span class="nb">p</span> <span class="no">Net</span><span class="o">::</span><span class="no">IMAP</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">open_timeout</span>                     <span class="c1"># =&gt; 30
+</span></code></pre>
+<p>
+[SEE_ALSO] <a href="../class/Net=3a=3aIMAP=3a=3aConfig.html">Net::IMAP::Config</a>, <a href="../method/Net=3a=3aIMAP/i/config.html">Net::IMAP#config</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="S_DEBUG"><code>debug -&gt; bool</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/s/debug.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-c-debug">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 デバッグモードが on になっていれば真を返します。
+</p>
+<p>
+全体の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/i/debug.html">Net::IMAP::Config#debug</a> の値を返します。
 </p>
 <p>
 [SEE_ALSO] <a href="../method/Net=3a=3aIMAP/s/debug=3d.html">Net::IMAP.debug=</a>
@@ -347,6 +382,9 @@ Net::IMAP::LoginAuthenticator などを参考にしてください。
 </p>
 <p>
 真を渡すと on になります。
+</p>
+<p>
+全体の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/i/debug=3d.html">Net::IMAP::Config#debug=</a> に設定します。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>val</code>:</dt>
@@ -481,8 +519,7 @@ UTF-7 を修正したものです。
 </p>
 <p>
 <code>ssl</code> に真を渡すと、サーバに繋ぐのに SSL/TLS を用います。
-<code>ssl</code> がハッシュならば、それを <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡して SSL/TLS のパラメータを設定します。
-true ならば、<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> の既定のパラメータを使います。
+<code>ssl</code> がハッシュならば、それを <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡して SSL/TLS のパラメータを設定します。ハッシュでない真の値(true など)ならば、空のハッシュを渡したのと同じで、<a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> の既定のパラメータを使います。ハッシュへの変換は <a href="../method/Hash/s/try_convert.html">Hash.try_convert</a> で行うので、<code>to_hash</code> を持つオブジェクトもハッシュとして扱います。
 SSL/TLS での接続には OpenSSL と <a href="../library/openssl.html">openssl</a> が使える必要があります。
 <code>port</code> を省略すると、SSL/TLS を使うときは 993、使わないときは 143 に接続します。
 </p>
@@ -490,7 +527,7 @@ SSL/TLS での接続には OpenSSL と <a href="../library/openssl.html">openssl
 <code>response_handlers</code> には受信スレッドを開始する前に追加する応答ハンドラのリストを指定します。こうすると最初の応答(<a href="../method/Net=3a=3aIMAP/i/greeting.html">Net::IMAP#greeting</a>)も含めて、サーバからのすべての応答がハンドラで処理されます。
 </p>
 <p>
-<code>config</code> には接続の設定(<code>Net::IMAP::Config</code> オブジェクト)を指定します。これは接続ごとに作られる設定(<code>Net::IMAP#config</code>)を直接置き換えるのではなく、その継承元になります。省略時は全体の設定 <code>Net::IMAP::Config.global</code> が継承元になります。残りのキーワード引数 <code>config_options</code> は <code>Net::IMAP::Config.new</code> に渡され、接続ごとの設定の初期値になります。たとえば <code>open_timeout</code>(接続が確立するまで待つ秒数。既定値は 30)や <code>idle_response_timeout</code>(IDLE の応答を待つ秒数。既定値は 5)を指定できます。
+<code>config</code> には接続の設定(<a href="../class/Net=3a=3aIMAP=3a=3aConfig.html">Net::IMAP::Config</a> オブジェクト)を指定します。設定のほかに、版の数値(<code>0.4</code> など)や名前(<code>:current</code> など)やハッシュも <a href="../method/Net=3a=3aIMAP=3a=3aConfig/s/=5b=5d.html">Net::IMAP::Config.[]</a> と同じように指定できます。これは接続ごとに作られる設定(<a href="../method/Net=3a=3aIMAP/i/config.html">Net::IMAP#config</a>)を直接置き換えるのではなく、その継承元になります。省略時は全体の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/s/global.html">Net::IMAP::Config.global</a> が継承元になります。残りのキーワード引数 <code>config_options</code> は <a href="../method/Net=3a=3aIMAP=3a=3aConfig/s/new.html">Net::IMAP::Config.new</a> に渡され、接続ごとの設定の初期値になります。たとえば <code>open_timeout</code>(接続が確立するまで待つ秒数。既定値は 30)や <code>idle_response_timeout</code>(IDLE の応答を待つ秒数。既定値は 5)を指定できます。
 </p>
 <p>
 互換性のため、<code>Net::IMAP.new(host, port)</code> と <code>Net::IMAP.new(host, options)</code>(<code>options</code> はハッシュ)の形も受け付けます。それぞれ <code>port</code> を <code>port:</code> のキーワード引数に、<code>options</code> をキーワード引数に変換し、警告は出ません。
@@ -520,7 +557,7 @@ imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</spa
 </dd>
 <dt class='method-param'>[PARAM] <code>ssl</code>:</dt>
 <dd>
-真で SSL/TLS を使う。ハッシュなら <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡すパラメータ
+真で SSL/TLS を使う。ハッシュなら <a href="../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡すパラメータ(ハッシュでない真の値は既定のパラメータ)
 </dd>
 <dt class='method-param'>[PARAM] <code>response_handlers</code>:</dt>
 <dd>
@@ -528,7 +565,7 @@ imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</spa
 </dd>
 <dt class='method-param'>[PARAM] <code>config</code>:</dt>
 <dd>
-接続ごとの設定の継承元とする <code>Net::IMAP::Config</code> オブジェクト
+接続ごとの設定の継承元とする <a href="../class/Net=3a=3aIMAP=3a=3aConfig.html">Net::IMAP::Config</a> オブジェクト。版の数値や名前やハッシュも指定できます
 </dd>
 <dt class='method-param'>[PARAM] <code>config_options</code>:</dt>
 <dd>
@@ -632,6 +669,7 @@ AUTHENTICATE コマンドを送り、クライアントを認証します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'PLAIN'</span>, user, password<span class="p">)</span>
+
 </code></pre>
 <p>
 <code>mechanism</code> としては以下がサポートされています。
@@ -657,7 +695,7 @@ AUTHENTICATE コマンドを送り、クライアントを認証します。
 サーバが SASL-IR 拡張(<a class="external" href="https://tools.ietf.org/html/rfc4959">[RFC4959]</a>)と指定した認証方式に対応していて、認証方式がクライアントから先に応答するものであれば、<code>sasl_ir</code> が真のときは最初の応答を AUTHENTICATE コマンドの引数として送り、往復を 1 回省きます。
 </p>
 <p>
-<code>sasl_ir</code> の既定値は接続の設定 <code>sasl_ir</code>(<code>Net::IMAP::Config#sasl_ir</code>)の値で、その既定値は true です。
+<code>sasl_ir</code> の既定値は接続の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/i/sasl_ir.html">Net::IMAP::Config#sasl_ir</a> の値で、その既定値は true です。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>mechanism</code>:</dt>
@@ -715,6 +753,21 @@ CLOSE コマンドを送り、処理中のメールボックスを閉じます�
 </p>
 <p>
 このコマンドによって、どのメールボックスも選択されていない状態に移行します。そして \Deleted フラグが付けられたメールがすべて削除されます。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_CONFIG"><code>config -&gt; Net::IMAP::Config</code><span class="method-since-badge">Ruby 3.4 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/config.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-config">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+接続ごとの設定を返します。
+</p>
+<p>
+この設定は <a href="../method/Net=3a=3aIMAP/s/new.html">Net::IMAP.new</a> で接続ごとに作られ、<code>config</code> で指定した設定(省略時は全体の設定 <a href="../method/Net=3a=3aIMAP/s/config.html">Net::IMAP.config</a>)を継承します。
+<a href="../method/Net=3a=3aIMAP/s/new.html">Net::IMAP.new</a> の残りのキーワード引数が、この設定の初期値になります。
+</p>
+<p>
+[SEE_ALSO] <a href="../class/Net=3a=3aIMAP=3a=3aConfig.html">Net::IMAP::Config</a>, <a href="../method/Net=3a=3aIMAP/s/config.html">Net::IMAP.config</a>
 </p>
 </dd>
 
@@ -1011,6 +1064,20 @@ IDLE 命令を送り、メールボックスの非同期的変化を待ち受け
 </dd>
 
 
+<dt class="method-heading" id="I_IDLE_RESPONSE_TIMEOUT"><code>idle_response_timeout -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/idle_response_timeout.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-idle_response_timeout">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+IDLE の応答を待つ秒数を返します。
+</p>
+<p>
+接続の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/i/idle_response_timeout.html">Net::IMAP::Config#idle_response_timeout</a> の値を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aIMAP/i/idle.html">Net::IMAP#idle</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_LIST"><code>list(refname, mailbox) -&gt; [Net::IMAP::MailboxList] | nil</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/list.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-list">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -1068,6 +1135,10 @@ LOGIN コマンドを送り、平文でパスワードを送りクライアン�
 <dd>
 認証に失敗した場合に発生します
 </dd>
+<dt>[EXCEPTION] <code>Net::IMAP::LoginDisabledError</code>:</dt>
+<dd>
+サーバの機能一覧に LOGINDISABLED があり、<a href="../method/Net=3a=3aIMAP=3a=3aConfig/i/enforce_logindisabled.html">Net::IMAP::Config#enforce_logindisabled</a> の設定で確認する場合に発生します。LOGIN コマンドは送られません
+</dd>
 </dl>
 <p>
 [SEE_ALSO] <a href="../method/Net=3a=3aIMAP/i/authenticate.html">Net::IMAP#authenticate</a>
@@ -1107,6 +1178,41 @@ LIST コマンドを送り、active/subscribed なメールボックス名の集
 </dd>
 
 
+<dt class="method-heading" id="I_MAX_RESPONSE_SIZE"><code>max_response_size -&gt; Integer | nil</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/max_response_size.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-max_response_size">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+サーバの応答 1 つの大きさの上限(バイト数)を返します。
+</p>
+<p>
+接続の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/i/max_response_size.html">Net::IMAP::Config#max_response_size</a> の値を返します。
+nil は上限がないことを表します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aIMAP/i/max_response_size=3d.html">Net::IMAP#max_response_size=</a>
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_MAX_RESPONSE_SIZE--3D"><code>max_response_size=(val)</code><span class="method-since-badge">Ruby 4.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/max_response_size=3d.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-max_response_size-3D">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+サーバの応答 1 つの大きさの上限(バイト数)を設定します。
+</p>
+<p>
+接続の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/i/max_response_size=3d.html">Net::IMAP::Config#max_response_size=</a> に設定します。
+</p>
+<dl>
+<dt class='method-param'>[PARAM] <code>val</code>:</dt>
+<dd>
+上限のバイト数。nil で上限をなくします。
+</dd>
+</dl>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aIMAP/i/max_response_size.html">Net::IMAP#max_response_size</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_MOVE"><code>move(set, mailbox) -&gt; Net::IMAP::TaggedResponse</code><span class="method-since-badge">Ruby 2.3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/move.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-move">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -1143,6 +1249,20 @@ NOOP コマンドを送ります。
 </p>
 <p>
 このコマンドは何もしません。
+</p>
+</dd>
+
+
+<dt class="method-heading" id="I_OPEN_TIMEOUT"><code>open_timeout -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/open_timeout.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/Net/IMAP.html#method-i-open_timeout">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+接続が確立するまで待つ秒数を返します。
+</p>
+<p>
+接続の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/i/open_timeout.html">Net::IMAP::Config#open_timeout</a> の値を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aIMAP/s/new.html">Net::IMAP.new</a>
 </p>
 </dd>
 
@@ -1214,7 +1334,7 @@ untagged な応答は種類ごとに記録されます。応答の種類には &
 </p>
 <p>
 ブロックを渡さないときは、<code>type</code> を指定するとその種類の応答の配列を凍結した複製を返します。
-<code>type</code> を指定しないときの動作は接続の設定 <code>responses_without_block</code>(<code>Net::IMAP::Config#responses_without_block</code>)で決まり、既定値の <code>:frozen_dup</code> では記録のハッシュを凍結した複製(値の配列も凍結したもの)を返します。
+<code>type</code> を指定しないときの動作は接続の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/i/responses_without_block.html">Net::IMAP::Config#responses_without_block</a> で決まり、既定値の <code>:frozen_dup</code> では記録のハッシュを凍結した複製(値の配列も凍結したもの)を返します。
 <code>:raise</code> を設定すると <a href="../class/ArgumentError.html">ArgumentError</a> が発生します。
 </p>
 <span class="caption">例</span>
@@ -1223,7 +1343,8 @@ untagged な応答は種類ごとに記録されます。応答の種類には &
 <span class="c1"># =&gt; 2
 </span><span class="nb">p</span> imap<span class="p">.</span><span class="nf">responses</span><span class="p">(</span><span class="s2">"</span><span class="s2">UIDVALIDITY</span><span class="s2">"</span>, <span class="o">&amp;</span><span class="ss">:last</span><span class="p">)</span>
 <span class="c1"># =&gt; 968263756
-</span></code></pre>
+</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>type</code>:</dt>
 <dd>
@@ -1419,7 +1540,7 @@ STARTTLS コマンドを送って TLS のセッションを開始します。
 TLS の交渉とホスト名の検証が両方成功してから返ります。
 </p>
 <p>
-サーバが TLS の開始に同意した後、接続の設定 <code>open_timeout</code>(<code>Net::IMAP::Config#open_timeout</code>)の秒数まで待ち、それを超えると <a href="../class/Net=3a=3aOpenTimeout.html">Net::OpenTimeout</a> が発生します。
+サーバが TLS の開始に同意した後、接続の設定 <a href="../method/Net=3a=3aIMAP=3a=3aConfig/i/open_timeout.html">Net::IMAP::Config#open_timeout</a> の秒数まで待ち、それを超えると <a href="../class/Net=3a=3aOpenTimeout.html">Net::OpenTimeout</a> が発生します。
 </p>
 <p>
 互換性のため、<code>starttls(options)</code>(<code>options</code> はハッシュ)と <code>starttls(certs, verify)</code> の形も受け付けます。
@@ -1457,7 +1578,8 @@ STATUS コマンドを送り、mailbox のステータスを得ます。
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> imap<span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="s2">"</span><span class="s2">inbox</span><span class="s2">"</span>, <span class="p">[</span><span class="s2">"</span><span class="s2">MESSAGES</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">RECENT</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
 <span class="c1"># =&gt; {&quot;RECENT&quot; =&gt; 0, &quot;MESSAGES&quot; =&gt; 44}
-</span></code></pre>
+</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>mailbox</code>:</dt>
 <dd>
@@ -1507,7 +1629,8 @@ flags には シンボルの配列で置き換え、追加もしくは削除さ�
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> imap<span class="p">.</span><span class="nf">store</span><span class="p">(</span><span class="mi">6</span><span class="o">..</span><span class="mi">8</span>, <span class="s2">"</span><span class="s2">+FLAGS</span><span class="s2">"</span>, <span class="p">[</span><span class="ss">:Deleted</span><span class="p">]</span><span class="p">)</span>
 <span class="c1"># =&gt; [#&lt;Net::IMAP::FetchData seqno=6, attr={&quot;FLAGS&quot; =&gt; [:Seen, :Deleted]}&gt;, #&lt;Net::IMAP::FetchData seqno=7, attr={&quot;FLAGS&quot; =&gt; [:Seen, :Deleted]}&gt;, #&lt;Net::IMAP::FetchData seqno=8, attr={&quot;FLAGS&quot; =&gt; [:Seen, :Deleted]}&gt;]
-</span></code></pre>
+</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>set</code>:</dt>
 <dd>

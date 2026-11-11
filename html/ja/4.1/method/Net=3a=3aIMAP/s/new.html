@@ -31,7 +31,7 @@
 <script src="../../../js/search_init.js"></script>
 <script defer src="../../../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-10-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-11-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../../../doc/help.html#run">
 <script type="module" src="../../../js/run.js"></script>
 
@@ -88,8 +88,7 @@
 </p>
 <p>
 <code>ssl</code> に真を渡すと、サーバに繋ぐのに SSL/TLS を用います。
-<code>ssl</code> がハッシュならば、それを <a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡して SSL/TLS のパラメータを設定します。
-true ならば、<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> の既定のパラメータを使います。
+<code>ssl</code> がハッシュならば、それを <a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡して SSL/TLS のパラメータを設定します。ハッシュでない真の値(true など)ならば、空のハッシュを渡したのと同じで、<a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> の既定のパラメータを使います。ハッシュへの変換は <a href="../../../method/Hash/s/try_convert.html">Hash.try_convert</a> で行うので、<code>to_hash</code> を持つオブジェクトもハッシュとして扱います。
 SSL/TLS での接続には OpenSSL と <a href="../../../library/openssl.html">openssl</a> が使える必要があります。
 <code>port</code> を省略すると、SSL/TLS を使うときは 993、使わないときは 143 に接続します。
 </p>
@@ -97,7 +96,7 @@ SSL/TLS での接続には OpenSSL と <a href="../../../library/openssl.html">o
 <code>response_handlers</code> には受信スレッドを開始する前に追加する応答ハンドラのリストを指定します。こうすると最初の応答(<a href="../../../method/Net=3a=3aIMAP/i/greeting.html">Net::IMAP#greeting</a>)も含めて、サーバからのすべての応答がハンドラで処理されます。
 </p>
 <p>
-<code>config</code> には接続の設定(<code>Net::IMAP::Config</code> オブジェクト)を指定します。これは接続ごとに作られる設定(<code>Net::IMAP#config</code>)を直接置き換えるのではなく、その継承元になります。省略時は全体の設定 <code>Net::IMAP::Config.global</code> が継承元になります。残りのキーワード引数 <code>config_options</code> は <code>Net::IMAP::Config.new</code> に渡され、接続ごとの設定の初期値になります。たとえば <code>open_timeout</code>(接続が確立するまで待つ秒数。既定値は 30)や <code>idle_response_timeout</code>(IDLE の応答を待つ秒数。既定値は 5)を指定できます。
+<code>config</code> には接続の設定(<a href="../../../class/Net=3a=3aIMAP=3a=3aConfig.html">Net::IMAP::Config</a> オブジェクト)を指定します。設定のほかに、版の数値(<code>0.4</code> など)や名前(<code>:current</code> など)やハッシュも <a href="../../../method/Net=3a=3aIMAP=3a=3aConfig/s/=5b=5d.html">Net::IMAP::Config.[]</a> と同じように指定できます。これは接続ごとに作られる設定(<a href="../../../method/Net=3a=3aIMAP/i/config.html">Net::IMAP#config</a>)を直接置き換えるのではなく、その継承元になります。省略時は全体の設定 <a href="../../../method/Net=3a=3aIMAP=3a=3aConfig/s/global.html">Net::IMAP::Config.global</a> が継承元になります。残りのキーワード引数 <code>config_options</code> は <a href="../../../method/Net=3a=3aIMAP=3a=3aConfig/s/new.html">Net::IMAP::Config.new</a> に渡され、接続ごとの設定の初期値になります。たとえば <code>open_timeout</code>(接続が確立するまで待つ秒数。既定値は 30)や <code>idle_response_timeout</code>(IDLE の応答を待つ秒数。既定値は 5)を指定できます。
 </p>
 <p>
 互換性のため、<code>Net::IMAP.new(host, port)</code> と <code>Net::IMAP.new(host, options)</code>(<code>options</code> はハッシュ)の形も受け付けます。それぞれ <code>port</code> を <code>port:</code> のキーワード引数に、<code>options</code> をキーワード引数に変換し、警告は出ません。
@@ -127,7 +126,7 @@ imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</spa
 </dd>
 <dt class='method-param'>[PARAM] <code>ssl</code>:</dt>
 <dd>
-真で SSL/TLS を使う。ハッシュなら <a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡すパラメータ
+真で SSL/TLS を使う。ハッシュなら <a href="../../../method/OpenSSL=3a=3aSSL=3a=3aSSLContext/i/set_params.html">OpenSSL::SSL::SSLContext#set_params</a> に渡すパラメータ(ハッシュでない真の値は既定のパラメータ)
 </dd>
 <dt class='method-param'>[PARAM] <code>response_handlers</code>:</dt>
 <dd>
@@ -135,7 +134,7 @@ imap <span class="o">=</span> <span class="no">Net</span><span class="o">::</spa
 </dd>
 <dt class='method-param'>[PARAM] <code>config</code>:</dt>
 <dd>
-接続ごとの設定の継承元とする <code>Net::IMAP::Config</code> オブジェクト
+接続ごとの設定の継承元とする <a href="../../../class/Net=3a=3aIMAP=3a=3aConfig.html">Net::IMAP::Config</a> オブジェクト。版の数値や名前やハッシュも指定できます
 </dd>
 <dt class='method-param'>[PARAM] <code>config_options</code>:</dt>
 <dd>

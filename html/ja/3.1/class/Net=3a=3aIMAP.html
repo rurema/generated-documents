@@ -207,6 +207,8 @@ IMAP 接続を表現するクラスです。
 
 <li><a href="#I_IDLE_DONE">idle_done</a></li>
 
+<li><a href="#I_IDLE_RESPONSE_TIMEOUT">idle_response_timeout</a></li>
+
 <li><a href="#I_LIST">list</a></li>
 
 <li><a href="#I_LOGIN">login</a></li>
@@ -218,6 +220,8 @@ IMAP 接続を表現するクラスです。
 <li><a href="#I_MOVE">move</a></li>
 
 <li><a href="#I_NOOP">noop</a></li>
+
+<li><a href="#I_OPEN_TIMEOUT">open_timeout</a></li>
 
 <li><a href="#I_REMOVE_RESPONSE_HANDLER">remove_response_handler</a></li>
 
@@ -632,6 +636,7 @@ auth_type で利用する認証方式を文字列で指定します。
 </p>
 <span class="caption">例</span>
 <pre class="highlight ruby"><code>imap<span class="p">.</span><span class="nf">authenticate</span><span class="p">(</span><span class="s1">'LOGIN'</span>, user, password<span class="p">)</span>
+
 </code></pre>
 <p>
 auth_type としては以下がサポートされています。
@@ -998,6 +1003,17 @@ IDLE 命令を送り、メールボックスの非同期的変化を待ち受け
 </dd>
 
 
+<dt class="method-heading" id="I_IDLE_RESPONSE_TIMEOUT"><code>idle_response_timeout -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/idle_response_timeout.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Net/IMAP.html#method-i-idle_response_timeout">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+IDLE の応答を待つ秒数を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aIMAP/i/idle.html">Net::IMAP#idle</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_LIST"><code>list(refname, mailbox) -&gt; [Net::IMAP::MailboxList] | nil</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/list.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Net/IMAP.html#method-i-list">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -1134,6 +1150,17 @@ NOOP コマンドを送ります。
 </dd>
 
 
+<dt class="method-heading" id="I_OPEN_TIMEOUT"><code>open_timeout -&gt; Integer</code><span class="method-since-badge">Ruby 3.0 から</span><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/open_timeout.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Net/IMAP.html#method-i-open_timeout">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
+<dd class="method-description">
+<p>
+接続が確立するまで待つ秒数を返します。
+</p>
+<p>
+[SEE_ALSO] <a href="../method/Net=3a=3aIMAP/s/new.html">Net::IMAP.new</a>
+</p>
+</dd>
+
+
 <dt class="method-heading" id="I_REMOVE_RESPONSE_HANDLER"><code>remove_response_handler(handler) -&gt; ()</code><span class="permalink">[<a href="../method/Net=3a=3aIMAP/i/remove_response_handler.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/3.1/Net/IMAP.html#method-i-remove_response_handler">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/net/imap.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
@@ -1198,7 +1225,8 @@ untagged な応答は種類ごとに記録されます。応答の種類には &
 <span class="c1"># =&gt; 2
 </span><span class="nb">p</span> imap<span class="p">.</span><span class="nf">responses</span><span class="p">[</span><span class="s2">"</span><span class="s2">UIDVALIDITY</span><span class="s2">"</span><span class="p">]</span><span class="p">.</span><span class="nf">last</span>
 <span class="c1"># =&gt; 968263756
-</span></code></pre>
+</span>
+</code></pre>
 </dd>
 
 
@@ -1419,7 +1447,8 @@ STATUS コマンドを送り、mailbox のステータスを得ます。
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> imap<span class="p">.</span><span class="nf">status</span><span class="p">(</span><span class="s2">"</span><span class="s2">inbox</span><span class="s2">"</span>, <span class="p">[</span><span class="s2">"</span><span class="s2">MESSAGES</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">RECENT</span><span class="s2">"</span><span class="p">]</span><span class="p">)</span>
 <span class="c1"># =&gt; {&quot;RECENT&quot;=&gt;0, &quot;MESSAGES&quot;=&gt;44}
-</span></code></pre>
+</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>mailbox</code>:</dt>
 <dd>
@@ -1469,7 +1498,8 @@ flags には シンボルの配列で置き換え、追加もしくは削除さ�
 <span class="caption">例</span>
 <pre class="highlight ruby"><code><span class="nb">p</span> imap<span class="p">.</span><span class="nf">store</span><span class="p">(</span><span class="mi">6</span><span class="o">..</span><span class="mi">8</span>, <span class="s2">"</span><span class="s2">+FLAGS</span><span class="s2">"</span>, <span class="p">[</span><span class="ss">:Deleted</span><span class="p">]</span><span class="p">)</span>
 <span class="c1"># =&gt; [#&lt;Net::IMAP::FetchData seqno=6, attr={&quot;FLAGS&quot;=&gt;[:Seen, :Deleted]}&gt;, #&lt;Net::IMAP::FetchData seqno=7, attr={&quot;FLAGS&quot;=&gt;[:Seen, :Deleted]}&gt;, #&lt;Net::IMAP::FetchData seqno=8, attr={&quot;FLAGS&quot;=&gt;[:Seen, :Deleted]}&gt;]
-</span></code></pre>
+</span>
+</code></pre>
 <dl>
 <dt class='method-param'>[PARAM] <code>set</code>:</dt>
 <dd>
