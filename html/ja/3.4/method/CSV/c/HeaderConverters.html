@@ -99,13 +99,37 @@
 <dt><code>:symbol</code></dt>
 <dd>
 <p>
-ヘッダの文字列を小文字に変換してから、空白文字列 (\s) をアンダースコアに置換し、非英数字 (\W) を削除します。最後に <a href="../../../method/String/i/to_sym.html">String#to_sym</a> を呼び出します。
+ヘッダの文字列を小文字に変換してから、英数字・アンダースコア・空白文字 (<code>\s</code>) 以外の文字を削除し、前後の空白文字を取り除いて、残った空白文字の並びをアンダースコアに置換します。最後に <a href="../../../method/String/i/to_sym.html">String#to_sym</a> を呼び出します。英数字は ASCII の範囲の文字だけなので、日本語などの文字は削除されます。
+</p>
+</dd>
+<dt><code>:symbol_raw</code></dt>
+<dd>
+<p>
+ヘッダの文字列に対して <a href="../../../method/String/i/to_sym.html">String#to_sym</a> を呼び出します。<code>:symbol</code> と違い、小文字への変換や文字の削除はしません。
 </p>
 </dd>
 </dl>
 <p>
-全ての組み込みのヘッダ用変換器は、実際に変換する前にヘッダのデータの文字エンコーディングを UTF-8 に変換します。そのヘッダの文字エンコーディングを UTF-8 に変換できなかった場合は、変換には失敗しますが、データは変更されません。
+日本語だけのヘッダは <code>:symbol</code> では <code>:&quot;&quot;</code> になります。そのようなヘッダには <code>:symbol_raw</code> を使ってください。
 </p>
+<span class="caption">例 日本語のヘッダをシンボルに変換する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
+
+data <span class="o">=</span> <span class="s2">"</span><span class="s2">名前,First Name!\n太郎,1\n</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>data, <span class="ss">headers:</span> <span class="k">true</span>, <span class="ss">header_converters:</span> <span class="ss">:symbol</span><span class="p">)</span><span class="p">.</span><span class="nf">headers</span>     <span class="c1"># =&gt; [:&quot;&quot;, :first_name]
+</span><span class="nb">p</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>data, <span class="ss">headers:</span> <span class="k">true</span>, <span class="ss">header_converters:</span> <span class="ss">:symbol_raw</span><span class="p">)</span><span class="p">.</span><span class="nf">headers</span> <span class="c1"># =&gt; [:名前, :&quot;First Name!&quot;]
+</span></code></pre>
+<p>
+全ての組み込みのヘッダ用変換器は、実際に変換する前にヘッダのデータの文字エンコーディングを UTF-8 に変換します。<code>:downcase</code> が返すヘッダは UTF-8 に変換した文字列のままで、元の文字エンコーディングには戻しません。ヘッダの文字エンコーディングを UTF-8 に変換できなかった場合は、<a href="../../../method/String/i/encode.html">String#encode</a> の例外(<a href="../../../class/Encoding=3a=3aUndefinedConversionError.html">Encoding::UndefinedConversionError</a> など)が発生します。
+</p>
+<span class="caption">例 Shift_JIS のヘッダを変換する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
+
+data <span class="o">=</span> <span class="s2">"</span><span class="s2">名前,Count\n太郎,1\n</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">Shift_JIS</span><span class="s2">"</span><span class="p">)</span>
+table <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>data, <span class="ss">headers:</span> <span class="k">true</span>, <span class="ss">header_converters:</span> <span class="ss">:downcase</span><span class="p">)</span>
+<span class="nb">p</span> table<span class="p">.</span><span class="nf">headers</span>                 <span class="c1"># =&gt; [&quot;名前&quot;, &quot;count&quot;]
+</span><span class="nb">p</span> table<span class="p">.</span><span class="nf">headers</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:encoding</span><span class="p">)</span> <span class="c1"># =&gt; [#&lt;Encoding:UTF-8&gt;, #&lt;Encoding:UTF-8&gt;]
+</span></code></pre>
 <p>
 このハッシュは <a href="../../../method/Object/i/freeze.html">Object#freeze</a> されていないので、ユーザは自由に値を追加することが出来ます。
 </p>

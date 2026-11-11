@@ -17,6 +17,9 @@ params = opt.getopts(ARGV, "ab:", "foo", "bar:")
 # params["bar"] = "x"  # --bar x
 ```
 
+`symbolize_names` と `exact` 以外のキーワード引数を渡しても無視されます([ArgumentError](../../../class/ArgumentError.md) は発生しません)。
+
+
 - **param** `argv` -- パースしたい配列を指定します。
 
 - **param** `opts` -- 引数を文字列で指定します。

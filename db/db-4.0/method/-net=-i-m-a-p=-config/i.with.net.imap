@@ -1,0 +1,32 @@
+names=with
+visibility=public
+kind=defined
+source_location=manual/api/net/imap.md
+since_by_name=with=3.4
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def with(**attrs) -> Net::IMAP::Config
+### def with(**attrs) {|config| ... } -> object
+
+`self` を継承元とする新しい設定を作り、`attrs` で属性の値を設定して返します。
+
+`self` が凍結されているときは、新しい設定も凍結します。
+ブロックを渡すと、新しい設定をブロックに渡し、ブロックの値を返します。
+
+- **param** `attrs` -- 設定する属性の名前と値
+- **raise** `ArgumentError` -- `attrs` を 1 つも指定しなかった場合や、未知の属性名がある場合、属性に不正な値を指定した場合に発生します。
+
+```ruby title="例"
+require 'net/imap'
+
+base = Net::IMAP::Config.new.freeze
+config = base.with(open_timeout: 3)
+p config.open_timeout        # => 3
+p config.parent.equal?(base) # => true
+p config.frozen?             # => true
+p base.with(open_timeout: 3) {|c| c.open_timeout * 2 } # => 6
+```
+
+- **SEE** [m:Net::IMAP::Config#new]
+

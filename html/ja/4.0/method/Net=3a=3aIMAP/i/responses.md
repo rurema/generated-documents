@@ -17,7 +17,7 @@ untagged な応答は種類ごとに記録されます。
 ブロックの外で記録のハッシュやその配列を扱うのはスレッド安全ではないため、下の例のようにブロックを渡して使います。
 
 ブロックを渡さないときは、`type` を指定するとその種類の応答の配列を凍結した複製を返します。
-`type` を指定しないときの動作は接続の設定 `responses_without_block`(`Net::IMAP::Config#responses_without_block`)で決まり、既定値の `:frozen_dup` では記録のハッシュを凍結した複製(値の配列も凍結したもの)を返します。
+`type` を指定しないときの動作は接続の設定 [Net::IMAP::Config#responses_without_block](../../../method/Net=3a=3aIMAP=3a=3aConfig/i/responses_without_block.md) で決まり、既定値の `:frozen_dup` では記録のハッシュを凍結した複製(値の配列も凍結したもの)を返します。
 `:raise` を設定すると [ArgumentError](../../../class/ArgumentError.md) が発生します。
 
 
@@ -27,6 +27,7 @@ p imap.responses("EXISTS", &:last)
 # => 2
 p imap.responses("UIDVALIDITY", &:last)
 # => 968263756
+
 ```
 
 - **param** `type` -- 応答の種類("EXISTS" など)を文字列で指定します。

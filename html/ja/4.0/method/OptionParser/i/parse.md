@@ -9,6 +9,9 @@ argv からオプションを取り除いたものを返します。
 [OptionParser#permute](../../../method/OptionParser/i/permute.md) と同様に振舞います。しかし、環境変数に POSIXLY_CORRECT が設定されている場合は、
 [OptionParser#order](../../../method/OptionParser/i/order.md) と同様に振舞います。
 
+`into` と `exact` 以外のキーワード引数を渡しても無視されます([ArgumentError](../../../class/ArgumentError.md) は発生しません)。
+
+
 - **param** `argv` -- パースしたい引数を文字列の配列で指定します。
 
 - **param** `args` -- パースしたい引数を順に文字列として与えます。

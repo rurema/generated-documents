@@ -1,0 +1,25 @@
+names=enforce_logindisabled
+visibility=public
+kind=defined
+source_location=manual/api/net/imap.md
+since_by_name=enforce_logindisabled=3.4
+until_by_name=
+rbs_sig=(uninitialized)
+
+### def enforce_logindisabled -> Symbol | bool
+
+[m:Net::IMAP#login] の前に、サーバの機能一覧に LOGINDISABLED があるかを確認するかどうかを返します。
+
+確認して LOGINDISABLED があったときは、LOGIN コマンドを送らずに [c:Net::IMAP::LoginDisabledError] が発生します。
+値の意味は次のとおりです。
+
+- false のときは、確認せずに LOGIN コマンドを送ります。
+- `:when_capabilities_cached` のときは、サーバの機能一覧を取得済みのときだけ確認し、機能一覧を調べるための CAPABILITY コマンドは送りません。
+- true のときは、確認します。機能一覧が未取得なら、LOGIN コマンドの前に CAPABILITY コマンドを送ります。
+
+既定値は true です。
+版ごとの既定値は、`0.4` 以前が false、`0.5` 以降が true です。
+
+
+- **SEE** [m:Net::IMAP::Config#enforce_logindisabled=], [m:Net::IMAP#login]
+

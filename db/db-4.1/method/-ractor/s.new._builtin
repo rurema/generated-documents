@@ -11,8 +11,34 @@ rbs_sig={"overloads":[{"segments":[["t","(*untyped args, ?name: string) { (?) ->
 Ractor を生成して、ブロックの評価を開始します。
 生成した Ractor を返します。
 
+ブロックは外側のスコープから隔離されます。ブロックの中の `self` は生成した Ractor です。
+隔離の規則は [m:Ractor.shareable_proc] と同じです。
+ブロックは、外側のローカル変数のうち、再代入されず、かつ shareable なオブジェクトを参照しているものだけを読めます。
+再代入されるローカル変数は、再代入がブロックより後にあっても参照できません。
+外側のローカル変数への代入、shareable でないオブジェクトを参照している外側のローカル変数の参照、`yield` があると [c:Ractor::IsolationError] が発生します。
+隔離はブロックの複製に対して行われるので、`&` で渡した [c:Proc] 自体は変更されません。
+
 - **param** `args` -- ブロックの引数として渡されます。
             値が shareable である場合はそのインスタンスが、そうでない場合はコピーが試みられた値が渡されます。
             コピーできない値であった場合は例外が発生します。
 - **param** `name` -- Ractor の名前を指定します。
+- **raise** `Ractor::IsolationError` -- ブロックが外側のローカル変数に代入している場合、再代入される外側のローカル変数や shareable でないオブジェクトを参照している外側のローカル変数を参照している場合、`yield` を使っている場合に発生します。
+
+```ruby title="例: 外側のローカル変数の参照"
+a = 1
+p Ractor.new { a }.value # => 1
+
+b = []
+Ractor.new { b } # ~> Ractor::IsolationError
+
+c = 1
+Ractor.new { c } # ~> Ractor::IsolationError
+c = 2
+```
+
+```ruby title="例: 外側のオブジェクトを引数で渡す"
+a = [1, 2]
+r = Ractor.new(a) {|x| x.sum }
+p r.value # => 3
+```
 

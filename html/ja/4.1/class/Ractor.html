@@ -31,7 +31,7 @@
 <script src="../js/search_init.js"></script>
 <script defer src="../js/version_switcher.js"></script>
 
-<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-10-a/dist/ruby+stdlib.wasm">
+<meta name="rurema-run-ruby-wasm" content="https://cdn.jsdelivr.net/npm/@ruby/head-wasm-wasi@2.10.1-2026-11-11-a/dist/ruby+stdlib.wasm">
 <meta name="rurema-run-help" content="../doc/help.html#run">
 <script type="module" src="../js/run.js"></script>
 
@@ -124,6 +124,9 @@ Ruby 4.1 から、クラスやモジュールを変更できるのは、それ�
 </p>
 <p>
 また、Ruby 4.1 から、デフォルトの GC は Ractor ごとに動作します。各 Ractor は自分のヒープを自分のスレッドで、他の Ractor を止めずに回収します。全 Ractor を止めるグローバル GC は、明示的な <a href="../method/GC/s/start.html">GC.start</a>、共有可能オブジェクトの増加、終了した Ractor のヒープの回収のときだけ行われます。詳しくは <a href="../class/GC.html">GC</a> を参照してください。
+</p>
+<p>
+また、Ruby 4.1 から、<a href="../method/Ractor/s/new.html">Ractor.new</a> のブロックは <a href="../method/Ractor/s/shareable_proc.html">Ractor.shareable_proc</a> と同じ規則で隔離されます。再代入されない外側のローカル変数を通して shareable なオブジェクトを参照できます。<a class="external" href="https://bugs.ruby-lang.org/issues/22444">[feature#22444]</a>
 </p>
 
 
@@ -317,6 +320,9 @@ obj が <a href="../class/IO.html">IO</a> のインスタンスである場合�
 <p>
 Ractor を生成して、ブロックの評価を開始します。生成した Ractor を返します。
 </p>
+<p>
+ブロックは外側のスコープから隔離されます。ブロックの中の <code>self</code> は生成した Ractor です。隔離の規則は <a href="../method/Ractor/s/shareable_proc.html">Ractor.shareable_proc</a> と同じです。ブロックは、外側のローカル変数のうち、再代入されず、かつ shareable なオブジェクトを参照しているものだけを読めます。再代入されるローカル変数は、再代入がブロックより後にあっても参照できません。外側のローカル変数への代入、shareable でないオブジェクトを参照している外側のローカル変数の参照、<code>yield</code> があると <a href="../class/Ractor=3a=3aIsolationError.html">Ractor::IsolationError</a> が発生します。隔離はブロックの複製に対して行われるので、<code>&amp;</code> で渡した <a href="../class/Proc.html">Proc</a> 自体は変更されません。
+</p>
 <dl>
 <dt class='method-param'>[PARAM] <code>args</code>:</dt>
 <dd>
@@ -326,7 +332,27 @@ Ractor を生成して、ブロックの評価を開始します。生成した 
 <dd>
 Ractor の名前を指定します。
 </dd>
+<dt>[EXCEPTION] <code>Ractor::IsolationError</code>:</dt>
+<dd>
+ブロックが外側のローカル変数に代入している場合、再代入される外側のローカル変数や shareable でないオブジェクトを参照している外側のローカル変数を参照している場合、<code>yield</code> を使っている場合に発生します。
+</dd>
 </dl>
+<span class="caption">例: 外側のローカル変数の参照</span>
+<pre class="highlight ruby"><code>a <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">p</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> a <span class="p">}</span><span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; 1
+</span>
+b <span class="o">=</span> <span class="p">[</span><span class="p">]</span>
+<span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> b <span class="p">}</span> <span class="c1"># ~&gt; Ractor::IsolationError
+</span>
+c <span class="o">=</span> <span class="mi">1</span>
+<span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> c <span class="p">}</span> <span class="c1"># ~&gt; Ractor::IsolationError
+</span>c <span class="o">=</span> <span class="mi">2</span>
+</code></pre>
+<span class="caption">例: 外側のオブジェクトを引数で渡す</span>
+<pre class="highlight ruby"><code>a <span class="o">=</span> <span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
+r <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>a<span class="p">)</span> <span class="p">{</span><span class="o">|</span>x<span class="o">|</span> x<span class="p">.</span><span class="nf">sum</span> <span class="p">}</span>
+<span class="nb">p</span> r<span class="p">.</span><span class="nf">value</span> <span class="c1"># =&gt; 3
+</span></code></pre>
 </dd>
 
 

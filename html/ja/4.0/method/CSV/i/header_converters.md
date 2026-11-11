@@ -10,7 +10,7 @@
 require "csv"
 
 csv = CSV.new("HEADER1,HEADER2\nrow1_1,row1_2", headers: true, header_converters: CSV::HeaderConverters.keys)
-p csv.header_converters # => [:downcase, :symbol]
+p csv.header_converters # => [:downcase, :symbol, :symbol_raw]
 p csv.read.to_a       # => [[:header1, :header2], ["row1_1", "row1_2"]]
 ```
 

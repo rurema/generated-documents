@@ -8,6 +8,9 @@
 環境変数に POSIXLY_CORRECT が設定されている場合は、
 [OptionParser#order!](../../../method/OptionParser/i/order=21.md) と同様に振舞います。
 
+`into` と `exact` 以外のキーワード引数を渡しても無視されます([ArgumentError](../../../class/ArgumentError.md) は発生しません)。
+
+
 - **param** `argv` -- パースしたい引数を文字列の配列で指定します。
 
 - **param** `into` -- オプションを格納するハッシュを指定します。

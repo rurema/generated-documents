@@ -192,41 +192,20 @@ csv_string <span class="o">=</span> <span class="p">[</span><span class="s2">"</
 </span></code></pre>
 <h2 >CSV と文字エンコーディング (M17n or Multilingualization)</h2>
 <p>
-This new CSV parser is m17n savvy.  The parser works in the Encoding of the IO
-or String object being read from or written to.  Your data is never transcoded
-(unless you ask Ruby to transcode it for you) and will literally be parsed in
-the Encoding it is in.  Thus CSV will return Arrays or Rows of Strings in the
-Encoding of your data.  This is accomplished by transcoding the parser itself
-into your Encoding.
+CSV のパーサは、読み込み元または書き込み先の <a href="../class/IO.html">IO</a> や <a href="../class/String.html">String</a> のエンコーディングのまま動作します。データは (Ruby にエンコーディングを変換させない限り) エンコーディングを変換されず、そのエンコーディングのままパースされます。そのため、CSV が返す <a href="../class/Array.html">Array</a> や <a href="../class/CSV=3a=3aRow.html">CSV::Row</a> の文字列は、データと同じエンコーディングになります。これは、パーサ自身をデータのエンコーディングに変換することで実現しています。
 </p>
 <p>
-Some transcoding must take place, of course, to accomplish this multiencoding
-support.  For example, &lt;tt&gt;:col_sep&lt;/tt&gt;, &lt;tt&gt;:row_sep&lt;/tt&gt;, and
-&lt;tt&gt;:quote_char&lt;/tt&gt; must be transcoded to match your data.  Hopefully this
-makes the entire process feel transparent, since CSV's defaults should just
-magically work for you data.  However, you can set these values manually in
-the target Encoding to avoid the translation.
+複数のエンコーディングに対応するために、いくつかの値はエンコーディングの変換が必要です。たとえば <code>:col_sep</code>、<code>:row_sep</code>、<code>:quote_char</code> は、データのエンコーディングに合わせて変換されます。このため、CSV のデフォルト値はデータのエンコーディングを意識せずにそのまま使えます。この変換を避けたい場合は、これらの値を対象のエンコーディングで直接指定してください。
 </p>
 <p>
-It's also important to note that while all of CSV's core parser is now
-Encoding agnostic, some features are not.  For example, the built-in
-converters will try to transcode data to UTF-8 before making conversions.
-Again, you can provide custom converters that are aware of your Encodings to
-avoid this translation.  It's just too hard for me to support native
-conversions in all of Ruby's Encodings.
+CSV のパーサの中核部分はエンコーディングに依存しませんが、一部の機能は依存します。たとえば、組み込みの変換器は、すべてのエンコーディングでネイティブに変換するのは難しいため、変換の前にデータを UTF-8 に変換しようとします。この変換を避けたい場合は、使用するエンコーディングに対応した独自の変換器を指定してください。
 </p>
 <p>
-Anyway, the practical side of this is simple:  make sure IO and String objects
-passed into CSV have the proper Encoding set and everything should just work.
-CSV methods that allow you to open IO objects (CSV::foreach(), CSV::open(),
-CSV::read(), and CSV::readlines()) do allow you to specify the Encoding.
+実際に必要な作業は単純で、CSV に渡す <a href="../class/IO.html">IO</a> や <a href="../class/String.html">String</a> に正しいエンコーディングが設定されていれば、そのまま動作します。
+<a href="../class/IO.html">IO</a> を開く CSV のメソッド (<a href="../method/CSV/s/foreach.html">CSV.foreach</a>、<a href="../method/CSV/s/open.html">CSV.open</a>、<a href="../method/CSV/s/read.html">CSV.read</a>、<a href="../method/CSV/s/readlines.html">CSV.readlines</a>) では、エンコーディングを指定できます。
 </p>
 <p>
-One minor exception comes when generating CSV into a String with an Encoding
-that is not ASCII compatible.  There's no existing data for CSV to use to
-prepare itself and thus you will probably need to manually specify the desired
-Encoding for most of those cases.  It will try to guess using the fields in a
-row of output though, when using CSV::generate_line() or Array#to_csv().
+ただし、ASCII 互換でないエンコーディングの <a href="../class/String.html">String</a> に CSV を生成するときは少し事情が異なります。この場合は CSV が準備のために参照できるデータがないため、ほとんどの場合は目的のエンコーディングを明示的に指定する必要があります。なお、<a href="../method/CSV/s/generate_line.html">CSV.generate_line</a> や <a href="../method/Array/i/to_csv.html">Array#to_csv</a> では、出力する行のフィールドからエンコーディングを推測します。
 </p>
 
 
@@ -951,7 +930,7 @@ CSV をパースするためのオプションをハッシュで指定します�
 <dt><code>:header_converters</code></dt>
 <dd>
 <p>
-:converters オプションに似ていますが、ヘッダ専用の変換器を定義します。全ての組み込みの変換器は、値を変換する前に UTF-8 にエンコーディング変換を試みます。エンコーディング変換に失敗した場合はヘッダは変換されません。
+:converters オプションに似ていますが、ヘッダ専用の変換器を定義します。全ての組み込みの変換器は、値を変換する前に UTF-8 にエンコーディング変換を試みます。変換後のヘッダの文字エンコーディングと、UTF-8 に変換できなかった場合の例外については <a href="../method/CSV/c/HeaderConverters.html">CSV::HeaderConverters</a> を参照してください。
 </p>
 </dd>
 <dt><code>:skip_blanks</code></dt>
@@ -977,6 +956,10 @@ CSV をパースするためのオプションをハッシュで指定します�
 <dt>[EXCEPTION] <code>CSV::MalformedCSVError</code>:</dt>
 <dd>
 不正な CSV をパースしようとしたときに発生します。
+</dd>
+<dt>[EXCEPTION] <code>CSV::InvalidEncodingError</code>:</dt>
+<dd>
+入力に不正なバイト列が含まれていたときに発生します。<a href="../class/CSV=3a=3aMalformedCSVError.html">CSV::MalformedCSVError</a> のサブクラスです。
 </dd>
 </dl>
 <span class="caption">例: ファイルの読み込み</span>
@@ -1819,7 +1802,7 @@ csv<span class="p">.</span><span class="nf">header_convert</span> <span class="k
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
 
 csv <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"</span><span class="s2">HEADER1,HEADER2\nrow1_1,row1_2</span><span class="s2">"</span>, <span class="ss">headers:</span> <span class="k">true</span>, <span class="ss">header_converters:</span> <span class="no">CSV</span><span class="o">::</span><span class="no">HeaderConverters</span><span class="p">.</span><span class="nf">keys</span><span class="p">)</span>
-<span class="nb">p</span> csv<span class="p">.</span><span class="nf">header_converters</span> <span class="c1"># =&gt; [:downcase, :symbol]
+<span class="nb">p</span> csv<span class="p">.</span><span class="nf">header_converters</span> <span class="c1"># =&gt; [:downcase, :symbol, :symbol_raw]
 </span><span class="nb">p</span> csv<span class="p">.</span><span class="nf">read</span><span class="p">.</span><span class="nf">to_a</span>       <span class="c1"># =&gt; [[:header1, :header2], [&quot;row1_1&quot;, &quot;row1_2&quot;]]
 </span></code></pre>
 <p>
@@ -2528,13 +2511,37 @@ nil
 <dt><code>:symbol</code></dt>
 <dd>
 <p>
-ヘッダの文字列を小文字に変換してから、空白文字列 (\s) をアンダースコアに置換し、非英数字 (\W) を削除します。最後に <a href="../method/String/i/to_sym.html">String#to_sym</a> を呼び出します。
+ヘッダの文字列を小文字に変換してから、英数字・アンダースコア・空白文字 (<code>\s</code>) 以外の文字を削除し、前後の空白文字を取り除いて、残った空白文字の並びをアンダースコアに置換します。最後に <a href="../method/String/i/to_sym.html">String#to_sym</a> を呼び出します。英数字は ASCII の範囲の文字だけなので、日本語などの文字は削除されます。
+</p>
+</dd>
+<dt><code>:symbol_raw</code></dt>
+<dd>
+<p>
+ヘッダの文字列に対して <a href="../method/String/i/to_sym.html">String#to_sym</a> を呼び出します。<code>:symbol</code> と違い、小文字への変換や文字の削除はしません。
 </p>
 </dd>
 </dl>
 <p>
-全ての組み込みのヘッダ用変換器は、実際に変換する前にヘッダのデータの文字エンコーディングを UTF-8 に変換します。そのヘッダの文字エンコーディングを UTF-8 に変換できなかった場合は、変換には失敗しますが、データは変更されません。
+日本語だけのヘッダは <code>:symbol</code> では <code>:&quot;&quot;</code> になります。そのようなヘッダには <code>:symbol_raw</code> を使ってください。
 </p>
+<span class="caption">例 日本語のヘッダをシンボルに変換する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
+
+data <span class="o">=</span> <span class="s2">"</span><span class="s2">名前,First Name!\n太郎,1\n</span><span class="s2">"</span>
+<span class="nb">p</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>data, <span class="ss">headers:</span> <span class="k">true</span>, <span class="ss">header_converters:</span> <span class="ss">:symbol</span><span class="p">)</span><span class="p">.</span><span class="nf">headers</span>     <span class="c1"># =&gt; [:&quot;&quot;, :first_name]
+</span><span class="nb">p</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>data, <span class="ss">headers:</span> <span class="k">true</span>, <span class="ss">header_converters:</span> <span class="ss">:symbol_raw</span><span class="p">)</span><span class="p">.</span><span class="nf">headers</span> <span class="c1"># =&gt; [:名前, :&quot;First Name!&quot;]
+</span></code></pre>
+<p>
+全ての組み込みのヘッダ用変換器は、実際に変換する前にヘッダのデータの文字エンコーディングを UTF-8 に変換します。<code>:downcase</code> が返すヘッダは UTF-8 に変換した文字列のままで、元の文字エンコーディングには戻しません。ヘッダの文字エンコーディングを UTF-8 に変換できなかった場合は、<a href="../method/String/i/encode.html">String#encode</a> の例外(<a href="../class/Encoding=3a=3aUndefinedConversionError.html">Encoding::UndefinedConversionError</a> など)が発生します。
+</p>
+<span class="caption">例 Shift_JIS のヘッダを変換する</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"</span><span class="s2">csv</span><span class="s2">"</span>
+
+data <span class="o">=</span> <span class="s2">"</span><span class="s2">名前,Count\n太郎,1\n</span><span class="s2">"</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"</span><span class="s2">Shift_JIS</span><span class="s2">"</span><span class="p">)</span>
+table <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>data, <span class="ss">headers:</span> <span class="k">true</span>, <span class="ss">header_converters:</span> <span class="ss">:downcase</span><span class="p">)</span>
+<span class="nb">p</span> table<span class="p">.</span><span class="nf">headers</span>                 <span class="c1"># =&gt; [&quot;名前&quot;, &quot;count&quot;]
+</span><span class="nb">p</span> table<span class="p">.</span><span class="nf">headers</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:encoding</span><span class="p">)</span> <span class="c1"># =&gt; [#&lt;Encoding:UTF-8&gt;, #&lt;Encoding:UTF-8&gt;]
+</span></code></pre>
 <p>
 このハッシュは <a href="../method/Object/i/freeze.html">Object#freeze</a> されていないので、ユーザは自由に値を追加することが出来ます。
 </p>

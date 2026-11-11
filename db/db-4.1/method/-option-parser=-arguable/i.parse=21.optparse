@@ -6,10 +6,16 @@ since_by_name=
 until_by_name=
 rbs_sig=(uninitialized)
 
-### def parse!               -> [String]
+### def parse!(into: nil, exact: options.require_exact)     -> [String]
 
 自身を破壊的にパースし、パースされずに残った引数を文字列の配列として返します。
 [m:OptionParser#parse!] を参照して下さい。
+
+`into` と `exact` のキーワード引数は [m:OptionParser#parse!] にそのまま渡します。それ以外のキーワード引数を渡しても無視されます([c:ArgumentError] は発生しません)。
+
+- **param** `into` -- オプションを格納するハッシュを指定します。[m:OptionParser#parse!] の `into` と同じです。
+
+- **param** `exact` -- 真を指定すると、ロングオプションを省略した形([m:OptionParser#require_exact] を参照)を受け付けなくなります。省略時は [m:OptionParser#require_exact] の値です。
 
 - **raise** `OptionParser::ParseError` -- 自身のパースに失敗した場合、発生します。
                                 実際は OptionParser::ParseError のサブクラスの例外になります。
@@ -22,4 +28,19 @@ ARGV.options.on('-a'){ o = true }
 ARGV.parse!
 p o                                # => true
 ```
+
+
+```ruby
+require 'optparse'
+
+argv = ["--verbose", "--name", "foo", "file.txt"]
+argv.extend(OptionParser::Arguable)
+argv.options.on("-v", "--verbose")
+argv.options.on("--name NAME")
+h = {}
+argv.parse!(into: h)
+p argv                             # => ["file.txt"]
+p h                                # => {verbose: true, name: "foo"}
+```
+
 

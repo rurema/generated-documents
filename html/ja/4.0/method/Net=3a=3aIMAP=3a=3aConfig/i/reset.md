@@ -1,0 +1,23 @@
+# Net::IMAP::Config#reset
+
+### def reset(attr) -> object
+### def reset -> self
+
+属性を継承元から継承するように戻します。
+
+`attr` を指定すると、その属性を戻し、`self` で設定していた値を返します。
+その属性が既に継承されていれば nil を返します。
+`attr` を省略するか nil を指定すると、すべての属性を戻して `self` を返します。
+
+- **param** `attr` -- 属性の名前のシンボル
+
+```ruby title="例"
+require 'net/imap'
+
+config = Net::IMAP::Config.new(open_timeout: 1)
+p config.reset(:open_timeout) # => 1
+p config.open_timeout         # => 30
+p config.reset(:open_timeout) # => nil
+```
+
+- **SEE** [Net::IMAP::Config#inherited?](../../../method/Net=3a=3aIMAP=3a=3aConfig/i/inherited=3f.md)

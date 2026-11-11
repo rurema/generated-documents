@@ -148,13 +148,16 @@ OptionParser::Arguable を <a href="../method/Object/i/extend.html">Object#exten
 <h2>インスタンスメソッド</h2>
 <dl>
 
-<dt class="method-heading" id="I_GETOPTS"><code>getopts(short_opt, *long_opt, symbolize_names: false) -&gt; Hash</code><span class="permalink">[<a href="../method/OptionParser=3a=3aArguable/i/getopts.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/OptionParser/Arguable.html#method-i-getopts">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/Arguable.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_GETOPTS"><code>getopts(short_opt, *long_opt, symbolize_names: false, exact: options.require_exact) -&gt; Hash</code><span class="permalink">[<a href="../method/OptionParser=3a=3aArguable/i/getopts.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/OptionParser/Arguable.html#method-i-getopts">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/Arguable.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 指定された short_opt や long_opt に応じて自身をパースし、結果を Hash として返します。
 </p>
 <p>
 コマンドラインに - もしくは -- を指定した場合、それ以降の解析を行ないません。
+</p>
+<p>
+<code>symbolize_names</code> と <code>exact</code> 以外のキーワード引数を渡しても無視されます(<a href="../class/ArgumentError.html">ArgumentError</a> は発生しません)。
 </p>
 <dl>
 <dt class='method-param'>[PARAM] <code>short_opt</code>:</dt>
@@ -169,6 +172,10 @@ OptionParser::Arguable を <a href="../method/Object/i/extend.html">Object#exten
 <dt class='method-param'>[PARAM] <code>symbolize_names</code>:</dt>
 <dd>
 true を指定すると、戻り値の Hash はキーがシンボルになります。false を指定した場合、戻り値の Hash はキーが文字列になります。
+</dd>
+<dt class='method-param'>[PARAM] <code>exact</code>:</dt>
+<dd>
+真を指定すると、ロングオプションを省略した形(<a href="../method/OptionParser/i/require_exact.html">OptionParser#require_exact</a> を参照)を受け付けなくなります。省略時は <a href="../method/OptionParser/i/require_exact.html">OptionParser#require_exact</a> の値です。
 </dd>
 <dt>[EXCEPTION] <code>OptionParser::ParseError</code>:</dt>
 <dd>
@@ -226,14 +233,25 @@ undef します。
 </dd>
 
 
-<dt class="method-heading" id="I_ORDER--21"><code>order! -&gt; [String]</code><span class="permalink">[<a href="../method/OptionParser=3a=3aArguable/i/order=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/OptionParser/Arguable.html#method-i-order-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/Arguable.md">edit</a>]</span></dt>
-<dt class="method-heading"><code>order! {|s| ... } -&gt; [String]</code></dt>
+<dt class="method-heading" id="I_ORDER--21"><code>order!(into: nil, exact: options.require_exact) -&gt; [String]</code><span class="permalink">[<a href="../method/OptionParser=3a=3aArguable/i/order=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/OptionParser/Arguable.html#method-i-order-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/Arguable.md">edit</a>]</span></dt>
+<dt class="method-heading"><code>order!(into: nil, exact: options.require_exact) {|s| ... } -&gt; [String]</code></dt>
 <dd class="method-description">
 <p>
 自身を破壊的にパースし、パースされずに残った引数を文字列の配列として返します。
 <a href="../method/OptionParser/i/order=21.html">OptionParser#order!</a> を参照して下さい。
 </p>
+<p>
+<code>into</code> と <code>exact</code> のキーワード引数は <a href="../method/OptionParser/i/order=21.html">OptionParser#order!</a> にそのまま渡します。それ以外のキーワード引数を渡しても無視されます(<a href="../class/ArgumentError.html">ArgumentError</a> は発生しません)。
+</p>
 <dl>
+<dt class='method-param'>[PARAM] <code>into</code>:</dt>
+<dd>
+オプションを格納するハッシュを指定します。<a href="../method/OptionParser/i/order=21.html">OptionParser#order!</a> の <code>into</code> と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>exact</code>:</dt>
+<dd>
+真を指定すると、ロングオプションを省略した形(<a href="../method/OptionParser/i/require_exact.html">OptionParser#require_exact</a> を参照)を受け付けなくなります。省略時は <a href="../method/OptionParser/i/require_exact.html">OptionParser#require_exact</a> の値です。
+</dd>
 <dt>[EXCEPTION] <code>OptionParser::ParseError</code>:</dt>
 <dd>
 自身のパースに失敗した場合、発生します。実際は OptionParser::ParseError のサブクラスの例外になります。
@@ -249,13 +267,24 @@ o <span class="o">=</span> <span class="k">nil</span>
 </dd>
 
 
-<dt class="method-heading" id="I_PARSE--21"><code>parse! -&gt; [String]</code><span class="permalink">[<a href="../method/OptionParser=3a=3aArguable/i/parse=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/OptionParser/Arguable.html#method-i-parse-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/Arguable.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PARSE--21"><code>parse!(into: nil, exact: options.require_exact) -&gt; [String]</code><span class="permalink">[<a href="../method/OptionParser=3a=3aArguable/i/parse=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/OptionParser/Arguable.html#method-i-parse-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/Arguable.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を破壊的にパースし、パースされずに残った引数を文字列の配列として返します。
 <a href="../method/OptionParser/i/parse=21.html">OptionParser#parse!</a> を参照して下さい。
 </p>
+<p>
+<code>into</code> と <code>exact</code> のキーワード引数は <a href="../method/OptionParser/i/parse=21.html">OptionParser#parse!</a> にそのまま渡します。それ以外のキーワード引数を渡しても無視されます(<a href="../class/ArgumentError.html">ArgumentError</a> は発生しません)。
+</p>
 <dl>
+<dt class='method-param'>[PARAM] <code>into</code>:</dt>
+<dd>
+オプションを格納するハッシュを指定します。<a href="../method/OptionParser/i/parse=21.html">OptionParser#parse!</a> の <code>into</code> と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>exact</code>:</dt>
+<dd>
+真を指定すると、ロングオプションを省略した形(<a href="../method/OptionParser/i/require_exact.html">OptionParser#require_exact</a> を参照)を受け付けなくなります。省略時は <a href="../method/OptionParser/i/require_exact.html">OptionParser#require_exact</a> の値です。
+</dd>
 <dt>[EXCEPTION] <code>OptionParser::ParseError</code>:</dt>
 <dd>
 自身のパースに失敗した場合、発生します。実際は OptionParser::ParseError のサブクラスの例外になります。
@@ -268,16 +297,38 @@ o <span class="o">=</span> <span class="k">nil</span>
 <span class="no">ARGV</span><span class="p">.</span><span class="nf">parse!</span>
 <span class="nb">p</span> o                                <span class="c1"># =&gt; true
 </span></code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'optparse'</span>
+
+argv <span class="o">=</span> <span class="p">[</span><span class="s2">"</span><span class="s2">--verbose</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">--name</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">foo</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">file.txt</span><span class="s2">"</span><span class="p">]</span>
+argv<span class="p">.</span><span class="nf">extend</span><span class="p">(</span><span class="no">OptionParser</span><span class="o">::</span><span class="no">Arguable</span><span class="p">)</span>
+argv<span class="p">.</span><span class="nf">options</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="s2">"</span><span class="s2">-v</span><span class="s2">"</span>, <span class="s2">"</span><span class="s2">--verbose</span><span class="s2">"</span><span class="p">)</span>
+argv<span class="p">.</span><span class="nf">options</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="s2">"</span><span class="s2">--name NAME</span><span class="s2">"</span><span class="p">)</span>
+h <span class="o">=</span> <span class="p">{</span><span class="p">}</span>
+argv<span class="p">.</span><span class="nf">parse!</span><span class="p">(</span><span class="ss">into:</span> h<span class="p">)</span>
+<span class="nb">p</span> argv                             <span class="c1"># =&gt; [&quot;file.txt&quot;]
+</span><span class="nb">p</span> h                                <span class="c1"># =&gt; {verbose: true, name: &quot;foo&quot;}
+</span></code></pre>
 </dd>
 
 
-<dt class="method-heading" id="I_PERMUTE--21"><code>permute! -&gt; [String]</code><span class="permalink">[<a href="../method/OptionParser=3a=3aArguable/i/permute=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/OptionParser/Arguable.html#method-i-permute-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/Arguable.md">edit</a>]</span></dt>
+<dt class="method-heading" id="I_PERMUTE--21"><code>permute!(into: nil, exact: options.require_exact) -&gt; [String]</code><span class="permalink">[<a href="../method/OptionParser=3a=3aArguable/i/permute=21.html">permalink</a>][<a href="https://docs.ruby-lang.org/en/4.0/OptionParser/Arguable.html#method-i-permute-21">rdoc</a>][<a href="https://github.com/rurema/doctree/edit/master/manual/api/optparse/Arguable.md">edit</a>]</span></dt>
 <dd class="method-description">
 <p>
 自身を破壊的にパースし、パースされずに残った引数を文字列の配列として返します。
 <a href="../method/OptionParser/i/permute=21.html">OptionParser#permute!</a> を参照して下さい。
 </p>
+<p>
+<code>into</code> と <code>exact</code> のキーワード引数は <a href="../method/OptionParser/i/permute=21.html">OptionParser#permute!</a> にそのまま渡します。それ以外のキーワード引数を渡しても無視されます(<a href="../class/ArgumentError.html">ArgumentError</a> は発生しません)。
+</p>
 <dl>
+<dt class='method-param'>[PARAM] <code>into</code>:</dt>
+<dd>
+オプションを格納するハッシュを指定します。<a href="../method/OptionParser/i/permute=21.html">OptionParser#permute!</a> の <code>into</code> と同じです。
+</dd>
+<dt class='method-param'>[PARAM] <code>exact</code>:</dt>
+<dd>
+真を指定すると、ロングオプションを省略した形(<a href="../method/OptionParser/i/require_exact.html">OptionParser#require_exact</a> を参照)を受け付けなくなります。省略時は <a href="../method/OptionParser/i/require_exact.html">OptionParser#require_exact</a> の値です。
+</dd>
 <dt>[EXCEPTION] <code>OptionParser::ParseError</code>:</dt>
 <dd>
 自身のパースに失敗した場合、発生します。実際は OptionParser::ParseError のサブクラスの例外になります。
