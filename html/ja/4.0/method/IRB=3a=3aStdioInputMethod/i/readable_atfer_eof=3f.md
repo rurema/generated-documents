@@ -1,5 +1,0 @@
-# IRB::StdioInputMethod#readable_atfer_eof?
-
-### def readable_atfer_eof? -> true
-
-入力が EOF(End Of File)に達した後も読み込みが行えるかどうかを返します。

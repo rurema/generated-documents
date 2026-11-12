@@ -53,8 +53,26 @@ options:
 --noverbose       これから実行する行を表示しない (デフォルト)
 --echo            実行結果を表示する (デフォルト)
 --noecho          実行結果を表示しない
+--echo-on-assignment
+                  代入式の結果を表示する
+--noecho-on-assignment
+                  代入式の結果を表示しない
+--truncate-echo-on-assignment
+                  代入式の結果を切り詰めて表示する (デフォルト)
 --inspect         結果出力にinspectを用いる
 --noinspect       結果出力にinspectを用いない
+--no-pager        ページャを使わない
+--multiline       マルチラインエディタを利用する
+--nomultiline     マルチラインエディタを利用しない
+--singleline      シングルラインエディタを利用する
+--nosingleline    シングルラインエディタを利用しない
+--colorize        色付けを利用する
+--nocolorize      色付けを利用しない
+--autocomplete    オートコンプリートを利用する
+--noautocomplete  オートコンプリートを利用しない
+--regexp-completor
+                  補完に正規表現を利用する
+--type-completor  補完に型情報を利用する
 --readline        readlineライブラリを利用する
 --noreadline      readlineライブラリを利用しない。デフォルトでは
                   inf-ruby-mode 以外で readline ライブラリを利用する。
@@ -68,17 +86,20 @@ options:
 --simple-prompt
                   非常にシンプルなプロンプトを用いるモード。
 --noprompt        プロンプトを表示しない。
+--script          最初の引数をスクリプトファイルとして扱う (デフォルト)
+--noscript        引数をスクリプトファイルとして扱わず、ARGV に残す
 --tracer          コマンド実行時にトレースする。
 --back-trace-limit n
                   バックトレース表示をバックトレースの頭から n、
                   うしろから n だけ行なう。デフォルト値は 16。
 --context-mode n  新しいワークスペースを作成した時に関連する Binding
-                  オブジェクトの作成方法を 0 から 3 で設定する。
+                  オブジェクトの作成方法を 0 から 4 で設定する。
                   (IRB::Context 参照)
+--extra-doc-dir dir
+                  ドキュメント表示 (doc dialog) で参照する RI ドキュメントの
+                  ディレクトリを追加する
 --single-irb      irb 中で self を実行して得られるオブジェクトをサブ irb と共
                   有する
---irb_debug n     irb のデバッグレベルを n に設定する
-                  (ユーザは利用すべきではない)
 -v, --version     irb のバージョンを表示する
 -h, --help        irb のヘルプを表示する
 --                以降のコマンドライン引数をオプションとして扱わない
@@ -91,7 +112,7 @@ irb コマンドは起動時に以下のパスを上から順番に探索し、�
   - $IRBRC (もし環境変数 IRBRC が設定されていれば)
   - $XDG_CONFIG_HOME/irb/irbrc (もし環境変数 XDG_CONFIG_HOME が設定されていれば)
   - $HOME/.irbrc (もし環境変数 HOME が設定されていれば)
-  - ./.config/irb/irbrc
+  - $HOME/.config/irb/irbrc (もし環境変数 HOME が設定されていれば)
   - ./.irbrc
   - ./irb.rc
   - ./_irbrc
@@ -105,7 +126,6 @@ irb コマンドのオプションを指定したのと同じ効果が得られ�
 ```ruby
 IRB.conf[:AUTO_INDENT] = false
 IRB.conf[:BACK_TRACE_LIMIT] = 16
-IRB.conf[:DEBUG_LEVEL] = 1
 IRB.conf[:ECHO] = nil
 IRB.conf[:EVAL_HISTORY] = nil
 IRB.conf[:HISTORY_FILE] = nil
@@ -127,6 +147,130 @@ IRB.conf[:VERBOSE] = true
 ```
 
 それぞれの設定値の詳細については、[c:IRB::Context] を参照してください。
+
+上記以外にも、[m:IRB.conf] には以下のキーがあります。
+
+- **`:AP_NAME`**:
+
+  アプリケーション名です。初期値は `"irb"` です。[m:IRB::Context#ap_name] で参照できます。
+
+- **`:AT_EXIT`**:
+
+  irb の終了時に呼び出す [c:Proc] の配列です。初期値は `[]` です。
+
+- **`:COMMAND_ALIASES`**:
+
+  コマンドの別名を `{ 別名のシンボル => コマンド名のシンボル }` の [c:Hash] で指定します。
+  `$`(`show_source`)と `@`(`whereami`)が初期値として定義されています。
+
+- **`:COMPLETOR`**:
+
+  補完の方式です。`:regexp`(正規表現)または `:type`(型情報。gem の `repl_type_completor` が必要)を指定します。
+  環境変数 `IRB_COMPLETOR` を設定していない場合の初期値は `:regexp` です。
+
+- **`:CONTEXT_MODE`**:
+
+  新しいワークスペースを作成した時の [c:Binding] オブジェクトの作成方法です。
+  コマンドラインオプション `--context-mode` と同じ意味で、初期値は `4` です。
+
+- **`:ECHO_ON_ASSIGNMENT`**:
+
+  代入式の結果の表示方法です。`true`(表示する)・`false`(表示しない)・`:truncate`(切り詰めて表示する)のいずれかを指定します。
+  初期値は `nil` で、`:truncate` として扱われます。
+
+- **`:EXTRA_DOC_DIRS`**:
+
+  ドキュメント表示 (doc dialog) で参照する RI ドキュメントのディレクトリの配列です。初期値は `[]` です。
+  コマンドラインオプション `--extra-doc-dir` で追加できます。
+
+- **`:IRB_LIB_PATH`**:
+
+  irb のライブラリが置かれているディレクトリのパスです。
+
+- **`:LC_MESSAGES`**:
+
+  メッセージのロケールを表す `IRB::Locale` のオブジェクトです。
+
+- **`:LOAD_MODULES`**:
+
+  起動時に require するライブラリ名の配列です。初期値は `[]` で、`-r` オプションで追加されます。
+
+- **`:MAIN_CONTEXT`**:
+
+  メインの irb の [c:IRB::Context] オブジェクトです。
+
+- **`:MEASURE`**:
+
+  `measure` コマンドによる実行時間の計測が有効かどうかです。初期値は `false` です。
+
+- **`:MEASURE_CALLBACKS`**:
+
+  有効になっている計測のコールバックの配列です。初期値は `[]` です。
+
+- **`:MEASURE_PROC`**:
+
+  `measure` コマンドで選べる計測方法を、名前をキー、[c:Proc] を値として保持する [c:Hash] です。
+  初期値として `:TIME` と `:STACKPROF` が定義されています。
+
+- **`:RC`**:
+
+  設定ファイルの読み込みを行うかどうかです。初期値は `true` で、`-f` オプションを指定すると `false` になります。
+  [m:IRB::Context#rc?] でも参照できます。
+
+- **`:USE_AUTOCOMPLETE`**:
+
+  オートコンプリートを使うかどうかです。初期値は `true` で、`--noautocomplete` オプションを指定すると `false` になります。
+  環境変数 `IRB_USE_AUTOCOMPLETE` に `false` を設定した場合も、初期値は `false` になります。
+
+- **`:USE_COLORIZE`**:
+
+  色付けを使うかどうかです。コマンドラインオプション `--colorize`・`--nocolorize` で指定できます。
+
+- **`:USE_PAGER`**:
+
+  長い出力をページャで表示するかどうかです。初期値は `true` で、`--no-pager` オプションを指定すると `false` になります。
+
+- **`:__MAIN__`**:
+
+  irb の main オブジェクト (self) です。
+
+#### 環境変数 {#environment_variables}
+
+irb は以下の環境変数を参照します。
+
+- **`IRBRC`**:
+- **`XDG_CONFIG_HOME`**:
+
+  設定ファイルの探索に使います。前述の「irb のカスタマイズ」を参照してください。
+
+- **`NO_COLOR`**:
+
+  空でない値が設定されている場合、`:USE_COLORIZE` の初期値が `false` になります。
+
+- **`IRB_USE_AUTOCOMPLETE`**:
+
+  `false` を設定すると、`:USE_AUTOCOMPLETE` の初期値が `false` になります。
+
+- **`IRB_COMPLETOR`**:
+
+  `:COMPLETOR` の初期値を指定します。`regexp` または `type` を設定します。
+
+- **`VISUAL`**:
+- **`EDITOR`**:
+
+  `edit` コマンドが起動するエディタを指定します。`VISUAL` が設定されていれば `VISUAL` が優先されます。
+
+- **`RI_PAGER`**:
+- **`PAGER`**:
+
+  長い出力を表示するページャを指定します。`RI_PAGER`・`PAGER` の順に参照します。
+
+- **`IRB_LANG`**:
+- **`LC_MESSAGES`**:
+- **`LC_ALL`**:
+- **`LANG`**:
+
+  メッセージのロケールの決定に使います。この順に参照し、最初に見つかったものを使います。
 
 #### プロンプトのカスタマイズ {#customize_prompt}
 
@@ -185,11 +329,11 @@ PROMPT_I, PROMPT_S, PROMPT_C にはフォーマット文字列を指定します
 例えば、デフォルトのプロンプトモードである「default」プロンプトモードは以下のように設定されています。
 
 ```ruby
-IRB.conf[:PROMPT_MODE][:DEFAULT] = {
-  :PROMPT_I => "%N(%m):%03n:%i> ",
-  :PROMPT_S => "%N(%m):%03n:%i%l ",
-  :PROMPT_C => "%N(%m):%03n:%i* ",
-  :RETURN => "%s\n"
+IRB.conf[:PROMPT][:DEFAULT] = {
+  :PROMPT_I => "%N(%m):%03n> ",
+  :PROMPT_S => "%N(%m):%03n%l ",
+  :PROMPT_C => "%N(%m):%03n* ",
+  :RETURN => "=> %s\n"
 }
 ```
 
@@ -470,6 +614,7 @@ irb のコマンドは、簡単な名前と頭に「irb_」をつけた名前と
 - **`irb_help(*names)`**:
 
   RI から Ruby のドキュメントを参照します。
+  このコマンドは非推奨で、実行すると `show_doc` コマンドを使うようにという警告が表示されます。
 
   ```irb
     irb(main):001:0> help String#match
@@ -497,6 +642,94 @@ irb のコマンドは、簡単な名前と頭に「irb_」をつけた名前と
       str.match(pattern, pos)   -> matchdata or nil
     ...
   ```
+
+- **`show_doc(*names)`**:
+- **`irb_show_doc(*names)`**:
+
+  RI から Ruby のドキュメントを参照します。
+  `show_doc String#match` のようにメソッド名などを指定します。
+  指定しなかった場合は、RI を対話的なモードで起動します。
+
+- **`show_cmds`**:
+- **`irb_show_cmds`**:
+
+  使用できるコマンドの一覧を表示します。
+
+- **`ls`**:
+- **`irb_ls`**:
+
+  オブジェクトのメソッド・定数・変数を一覧表示します。
+  `ls obj` のようにオブジェクトを指定します。省略した場合は `self` が対象です。
+  `ls obj -g パターン` のように `-g` を指定すると、出力をパターンで絞り込めます。
+
+- **`show_source`**:
+- **`irb_show_source`**:
+- **`$`**:
+
+  メソッド・クラス・モジュール・定数のソースコードを表示します。
+  `show_source Foo#bar` や `show_source Foo` のように指定します。
+  `-s` を付けるとスーパークラス側の定義を表示し、`-ss` のように重ねるとさらに上位の定義を表示します。
+
+- **`whereami`**:
+- **`irb_whereami`**:
+- **`@`**:
+
+  `binding.irb` を呼び出した位置の周辺のソースコードをもう一度表示します。
+
+- **`edit`**:
+- **`irb_edit`**:
+
+  ファイルをエディタで開きます。
+  `edit foo.rb` のようにファイル名を指定するほか、`edit Foo#bar` のようにメソッドや定数を指定すると、その定義があるファイルを開きます。
+  省略した場合は、現在のコンテキストが定義されているファイルを開きます。
+  エディタは環境変数 `EDITOR` で指定します。
+  `VISUAL` が設定されている場合は、`VISUAL` が優先されます。
+
+- **`history`**:
+- **`irb_history`**:
+- **`hist`**:
+
+  入力履歴を表示します。`history -g パターン` のように `-g` を指定すると、パターンに一致する履歴だけを表示します。
+
+- **`measure`**:
+- **`irb_measure`**:
+
+  式の実行時間を計測するモードを有効にします。`measure :off` で無効にします。
+  計測方法は `IRB.conf[:MEASURE_PROC]` で追加できます。
+
+- **`irb_info`**:
+
+  Ruby と irb のバージョンなど、irb の情報を表示します。
+
+- **`debug`**:
+- **`irb_debug`**:
+
+  [lib:debug] (debug gem) のデバッガを起動します。
+  `binding.irb` から起動した irb でのみ使え、debug gem がインストールされている必要があります。
+
+- **`break`**:
+- **`irb_break`**:
+- **`catch`**:
+- **`irb_catch`**:
+- **`next`**:
+- **`irb_next`**:
+- **`delete`**:
+- **`irb_delete`**:
+- **`step`**:
+- **`irb_step`**:
+- **`continue`**:
+- **`irb_continue`**:
+- **`finish`**:
+- **`irb_finish`**:
+- **`backtrace`**:
+- **`bt`**:
+- **`irb_backtrace`**:
+- **`info`**:
+- **`irb_debug_info`**:
+
+  デバッガを起動し、debug gem の同名のコマンドを実行します。
+  `debug` コマンドと同様、`binding.irb` から起動した irb でのみ使えます。
+
 
 ### システム変数
 

@@ -122,8 +122,26 @@ options:
 --noverbose       これから実行する行を表示しない (デフォルト)
 --echo            実行結果を表示する (デフォルト)
 --noecho          実行結果を表示しない
+--echo-on-assignment
+                  代入式の結果を表示する
+--noecho-on-assignment
+                  代入式の結果を表示しない
+--truncate-echo-on-assignment
+                  代入式の結果を切り詰めて表示する (デフォルト)
 --inspect         結果出力にinspectを用いる
 --noinspect       結果出力にinspectを用いない
+--no-pager        ページャを使わない
+--multiline       マルチラインエディタを利用する
+--nomultiline     マルチラインエディタを利用しない
+--singleline      シングルラインエディタを利用する
+--nosingleline    シングルラインエディタを利用しない
+--colorize        色付けを利用する
+--nocolorize      色付けを利用しない
+--autocomplete    オートコンプリートを利用する
+--noautocomplete  オートコンプリートを利用しない
+--regexp-completor
+                  補完に正規表現を利用する
+--type-completor  補完に型情報を利用する
 --readline        readlineライブラリを利用する
 --noreadline      readlineライブラリを利用しない。デフォルトでは
                   inf-ruby-mode 以外で readline ライブラリを利用する。
@@ -137,17 +155,20 @@ options:
 --simple-prompt
                   非常にシンプルなプロンプトを用いるモード。
 --noprompt        プロンプトを表示しない。
+--script          最初の引数をスクリプトファイルとして扱う (デフォルト)
+--noscript        引数をスクリプトファイルとして扱わず、ARGV に残す
 --tracer          コマンド実行時にトレースする。
 --back-trace-limit n
                   バックトレース表示をバックトレースの頭から n、
                   うしろから n だけ行なう。デフォルト値は 16。
 --context-mode n  新しいワークスペースを作成した時に関連する Binding
-                  オブジェクトの作成方法を 0 から 3 で設定する。
+                  オブジェクトの作成方法を 0 から 4 で設定する。
                   (IRB::Context 参照)
+--extra-doc-dir dir
+                  ドキュメント表示 (doc dialog) で参照する RI ドキュメントの
+                  ディレクトリを追加する
 --single-irb      irb 中で self を実行して得られるオブジェクトをサブ irb と共
                   有する
---irb_debug n     irb のデバッグレベルを n に設定する
-                  (ユーザは利用すべきではない)
 -v, --version     irb のバージョンを表示する
 -h, --help        irb のヘルプを表示する
 --                以降のコマンドライン引数をオプションとして扱わない
@@ -160,7 +181,7 @@ irb コマンドは起動時に以下のパスを上から順番に探索し、�
 <li>$IRBRC (もし環境変数 IRBRC が設定されていれば)</li>
 <li>$XDG_CONFIG_HOME/irb/irbrc (もし環境変数 XDG_CONFIG_HOME が設定されていれば)</li>
 <li>$HOME/.irbrc (もし環境変数 HOME が設定されていれば)</li>
-<li>./.config/irb/irbrc</li>
+<li>$HOME/.config/irb/irbrc (もし環境変数 HOME が設定されていれば)</li>
 <li>./.irbrc</li>
 <li>./irb.rc</li>
 <li>./_irbrc</li>
@@ -175,7 +196,6 @@ irb コマンドのオプションを指定したのと同じ効果が得られ�
 </p>
 <pre class="highlight ruby"><code><span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:AUTO_INDENT</span><span class="p">]</span> <span class="o">=</span> <span class="k">false</span>
 <span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:BACK_TRACE_LIMIT</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:DEBUG_LEVEL</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:ECHO</span><span class="p">]</span> <span class="o">=</span> <span class="k">nil</span>
 <span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:EVAL_HISTORY</span><span class="p">]</span> <span class="o">=</span> <span class="k">nil</span>
 <span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:HISTORY_FILE</span><span class="p">]</span> <span class="o">=</span> <span class="k">nil</span>
@@ -198,6 +218,181 @@ irb コマンドのオプションを指定したのと同じ効果が得られ�
 <p>
 それぞれの設定値の詳細については、<a href="../class/IRB=3a=3aContext.html">IRB::Context</a> を参照してください。
 </p>
+<p>
+上記以外にも、<a href="../method/IRB/s/conf.html">IRB.conf</a> には以下のキーがあります。
+</p>
+<dl>
+<dt><code>:AP_NAME</code></dt>
+<dd>
+<p>
+アプリケーション名です。初期値は <code>&quot;irb&quot;</code> です。<a href="../method/IRB=3a=3aContext/i/ap_name.html">IRB::Context#ap_name</a> で参照できます。
+</p>
+</dd>
+<dt><code>:AT_EXIT</code></dt>
+<dd>
+<p>
+irb の終了時に呼び出す <a href="../class/Proc.html">Proc</a> の配列です。初期値は <code>[]</code> です。
+</p>
+</dd>
+<dt><code>:COMMAND_ALIASES</code></dt>
+<dd>
+<p>
+コマンドの別名を <code>{ 別名のシンボル =&gt; コマンド名のシンボル }</code> の <a href="../class/Hash.html">Hash</a> で指定します。
+<code>$</code>(<code>show_source</code>)と <code>@</code>(<code>whereami</code>)が初期値として定義されています。
+</p>
+</dd>
+<dt><code>:COMPLETOR</code></dt>
+<dd>
+<p>
+補完の方式です。<code>:regexp</code>(正規表現)または <code>:type</code>(型情報。gem の <code>repl_type_completor</code> が必要)を指定します。環境変数 <code>IRB_COMPLETOR</code> を設定していない場合の初期値は <code>:regexp</code> です。
+</p>
+</dd>
+<dt><code>:CONTEXT_MODE</code></dt>
+<dd>
+<p>
+新しいワークスペースを作成した時の <a href="../class/Binding.html">Binding</a> オブジェクトの作成方法です。コマンドラインオプション <code>--context-mode</code> と同じ意味で、初期値は <code>4</code> です。
+</p>
+</dd>
+<dt><code>:ECHO_ON_ASSIGNMENT</code></dt>
+<dd>
+<p>
+代入式の結果の表示方法です。<code>true</code>(表示する)・<code>false</code>(表示しない)・<code>:truncate</code>(切り詰めて表示する)のいずれかを指定します。初期値は <code>nil</code> で、<code>:truncate</code> として扱われます。
+</p>
+</dd>
+<dt><code>:EXTRA_DOC_DIRS</code></dt>
+<dd>
+<p>
+ドキュメント表示 (doc dialog) で参照する RI ドキュメントのディレクトリの配列です。初期値は <code>[]</code> です。コマンドラインオプション <code>--extra-doc-dir</code> で追加できます。
+</p>
+</dd>
+<dt><code>:IRB_LIB_PATH</code></dt>
+<dd>
+<p>
+irb のライブラリが置かれているディレクトリのパスです。
+</p>
+</dd>
+<dt><code>:LC_MESSAGES</code></dt>
+<dd>
+<p>
+メッセージのロケールを表す <code>IRB::Locale</code> のオブジェクトです。
+</p>
+</dd>
+<dt><code>:LOAD_MODULES</code></dt>
+<dd>
+<p>
+起動時に require するライブラリ名の配列です。初期値は <code>[]</code> で、<code>-r</code> オプションで追加されます。
+</p>
+</dd>
+<dt><code>:MAIN_CONTEXT</code></dt>
+<dd>
+<p>
+メインの irb の <a href="../class/IRB=3a=3aContext.html">IRB::Context</a> オブジェクトです。
+</p>
+</dd>
+<dt><code>:MEASURE</code></dt>
+<dd>
+<p>
+<code>measure</code> コマンドによる実行時間の計測が有効かどうかです。初期値は <code>false</code> です。
+</p>
+</dd>
+<dt><code>:MEASURE_CALLBACKS</code></dt>
+<dd>
+<p>
+有効になっている計測のコールバックの配列です。初期値は <code>[]</code> です。
+</p>
+</dd>
+<dt><code>:MEASURE_PROC</code></dt>
+<dd>
+<p>
+<code>measure</code> コマンドで選べる計測方法を、名前をキー、<a href="../class/Proc.html">Proc</a> を値として保持する <a href="../class/Hash.html">Hash</a> です。初期値として <code>:TIME</code> と <code>:STACKPROF</code> が定義されています。
+</p>
+</dd>
+<dt><code>:RC</code></dt>
+<dd>
+<p>
+設定ファイルの読み込みを行うかどうかです。初期値は <code>true</code> で、<code>-f</code> オプションを指定すると <code>false</code> になります。
+<a href="../method/IRB=3a=3aContext/i/rc=3f.html">IRB::Context#rc?</a> でも参照できます。
+</p>
+</dd>
+<dt><code>:USE_AUTOCOMPLETE</code></dt>
+<dd>
+<p>
+オートコンプリートを使うかどうかです。初期値は <code>true</code> で、<code>--noautocomplete</code> オプションを指定すると <code>false</code> になります。環境変数 <code>IRB_USE_AUTOCOMPLETE</code> に <code>false</code> を設定した場合も、初期値は <code>false</code> になります。
+</p>
+</dd>
+<dt><code>:USE_COLORIZE</code></dt>
+<dd>
+<p>
+色付けを使うかどうかです。コマンドラインオプション <code>--colorize</code>・<code>--nocolorize</code> で指定できます。
+</p>
+</dd>
+<dt><code>:USE_PAGER</code></dt>
+<dd>
+<p>
+長い出力をページャで表示するかどうかです。初期値は <code>true</code> で、<code>--no-pager</code> オプションを指定すると <code>false</code> になります。
+</p>
+</dd>
+<dt><code>:__MAIN__</code></dt>
+<dd>
+<p>
+irb の main オブジェクト (self) です。
+</p>
+</dd>
+</dl>
+<h3 id='environment_variables'>環境変数</h3>
+<p>
+irb は以下の環境変数を参照します。
+</p>
+<dl>
+<dt><code>IRBRC</code></dt>
+<dt><code>XDG_CONFIG_HOME</code></dt>
+<dd>
+<p>
+設定ファイルの探索に使います。前述の「irb のカスタマイズ」を参照してください。
+</p>
+</dd>
+<dt><code>NO_COLOR</code></dt>
+<dd>
+<p>
+空でない値が設定されている場合、<code>:USE_COLORIZE</code> の初期値が <code>false</code> になります。
+</p>
+</dd>
+<dt><code>IRB_USE_AUTOCOMPLETE</code></dt>
+<dd>
+<p>
+<code>false</code> を設定すると、<code>:USE_AUTOCOMPLETE</code> の初期値が <code>false</code> になります。
+</p>
+</dd>
+<dt><code>IRB_COMPLETOR</code></dt>
+<dd>
+<p>
+<code>:COMPLETOR</code> の初期値を指定します。<code>regexp</code> または <code>type</code> を設定します。
+</p>
+</dd>
+<dt><code>VISUAL</code></dt>
+<dt><code>EDITOR</code></dt>
+<dd>
+<p>
+<code>edit</code> コマンドが起動するエディタを指定します。<code>VISUAL</code> が設定されていれば <code>VISUAL</code> が優先されます。
+</p>
+</dd>
+<dt><code>RI_PAGER</code></dt>
+<dt><code>PAGER</code></dt>
+<dd>
+<p>
+長い出力を表示するページャを指定します。<code>RI_PAGER</code>・<code>PAGER</code> の順に参照します。
+</p>
+</dd>
+<dt><code>IRB_LANG</code></dt>
+<dt><code>LC_MESSAGES</code></dt>
+<dt><code>LC_ALL</code></dt>
+<dt><code>LANG</code></dt>
+<dd>
+<p>
+メッセージのロケールの決定に使います。この順に参照し、最初に見つかったものを使います。
+</p>
+</dd>
+</dl>
 <h3 id='customize_prompt'>プロンプトのカスタマイズ</h3>
 <p>
 irb のプロンプトをカスタマイズしたい時は、まず独自のプロンプトモードを作成し、それをコマンドラインや .irbrc に指定します。
@@ -280,11 +475,11 @@ NN は省略可能。
 <p>
 例えば、デフォルトのプロンプトモードである「default」プロンプトモードは以下のように設定されています。
 </p>
-<pre class="highlight ruby"><code><span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:PROMPT_MODE</span><span class="p">]</span><span class="p">[</span><span class="ss">:DEFAULT</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">:PROMPT_I</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">%N(%m):%03n:%i&gt; </span><span class="s2">"</span>,
-  <span class="ss">:PROMPT_S</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">%N(%m):%03n:%i%l </span><span class="s2">"</span>,
-  <span class="ss">:PROMPT_C</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">%N(%m):%03n:%i* </span><span class="s2">"</span>,
-  <span class="ss">:RETURN</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">%s\n</span><span class="s2">"</span>
+<pre class="highlight ruby"><code><span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:PROMPT</span><span class="p">]</span><span class="p">[</span><span class="ss">:DEFAULT</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:PROMPT_I</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">%N(%m):%03n&gt; </span><span class="s2">"</span>,
+  <span class="ss">:PROMPT_S</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">%N(%m):%03n%l </span><span class="s2">"</span>,
+  <span class="ss">:PROMPT_C</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">%N(%m):%03n* </span><span class="s2">"</span>,
+  <span class="ss">:RETURN</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="s2">=&gt; %s\n</span><span class="s2">"</span>
 <span class="p">}</span>
 </code></pre>
 <p>
@@ -574,7 +769,7 @@ false を返します。
 <dt><code>irb_help(*names)</code></dt>
 <dd>
 <p>
-RI から Ruby のドキュメントを参照します。
+RI から Ruby のドキュメントを参照します。このコマンドは非推奨で、実行すると <code>show_doc</code> コマンドを使うようにという警告が表示されます。
 </p>
 <pre class="highlight irb"><code><span class="gp">  irb(main):001:0&gt;</span><span class="w"> </span><span class="n">help</span> <span class="no">String</span><span class="c1">#match</span>
 <span class="c">  ...
@@ -597,6 +792,111 @@ names を指定しなかった場合は、RI を対話的なモードで起動�
     str.match(pattern, pos)   -&gt; matchdata or nil
 </span><span class="c">  ...
 </span></code></pre>
+</dd>
+<dt><code>show_doc(*names)</code></dt>
+<dt><code>irb_show_doc(*names)</code></dt>
+<dd>
+<p>
+RI から Ruby のドキュメントを参照します。
+<code>show_doc String#match</code> のようにメソッド名などを指定します。指定しなかった場合は、RI を対話的なモードで起動します。
+</p>
+</dd>
+<dt><code>show_cmds</code></dt>
+<dt><code>irb_show_cmds</code></dt>
+<dd>
+<p>
+使用できるコマンドの一覧を表示します。
+</p>
+</dd>
+<dt><code>ls</code></dt>
+<dt><code>irb_ls</code></dt>
+<dd>
+<p>
+オブジェクトのメソッド・定数・変数を一覧表示します。
+<code>ls obj</code> のようにオブジェクトを指定します。省略した場合は <code>self</code> が対象です。
+<code>ls obj -g パターン</code> のように <code>-g</code> を指定すると、出力をパターンで絞り込めます。
+</p>
+</dd>
+<dt><code>show_source</code></dt>
+<dt><code>irb_show_source</code></dt>
+<dt><code>$</code></dt>
+<dd>
+<p>
+メソッド・クラス・モジュール・定数のソースコードを表示します。
+<code>show_source Foo#bar</code> や <code>show_source Foo</code> のように指定します。
+<code>-s</code> を付けるとスーパークラス側の定義を表示し、<code>-ss</code> のように重ねるとさらに上位の定義を表示します。
+</p>
+</dd>
+<dt><code>whereami</code></dt>
+<dt><code>irb_whereami</code></dt>
+<dt><code>@</code></dt>
+<dd>
+<p>
+<code>binding.irb</code> を呼び出した位置の周辺のソースコードをもう一度表示します。
+</p>
+</dd>
+<dt><code>edit</code></dt>
+<dt><code>irb_edit</code></dt>
+<dd>
+<p>
+ファイルをエディタで開きます。
+<code>edit foo.rb</code> のようにファイル名を指定するほか、<code>edit Foo#bar</code> のようにメソッドや定数を指定すると、その定義があるファイルを開きます。省略した場合は、現在のコンテキストが定義されているファイルを開きます。エディタは環境変数 <code>EDITOR</code> で指定します。
+<code>VISUAL</code> が設定されている場合は、<code>VISUAL</code> が優先されます。
+</p>
+</dd>
+<dt><code>history</code></dt>
+<dt><code>irb_history</code></dt>
+<dt><code>hist</code></dt>
+<dd>
+<p>
+入力履歴を表示します。<code>history -g パターン</code> のように <code>-g</code> を指定すると、パターンに一致する履歴だけを表示します。
+</p>
+</dd>
+<dt><code>measure</code></dt>
+<dt><code>irb_measure</code></dt>
+<dd>
+<p>
+式の実行時間を計測するモードを有効にします。<code>measure :off</code> で無効にします。計測方法は <code>IRB.conf[:MEASURE_PROC]</code> で追加できます。
+</p>
+</dd>
+<dt><code>irb_info</code></dt>
+<dd>
+<p>
+Ruby と irb のバージョンなど、irb の情報を表示します。
+</p>
+</dd>
+<dt><code>debug</code></dt>
+<dt><code>irb_debug</code></dt>
+<dd>
+<p>
+<a href="../library/debug.html">debug</a> (debug gem) のデバッガを起動します。
+<code>binding.irb</code> から起動した irb でのみ使え、debug gem がインストールされている必要があります。
+</p>
+</dd>
+<dt><code>break</code></dt>
+<dt><code>irb_break</code></dt>
+<dt><code>catch</code></dt>
+<dt><code>irb_catch</code></dt>
+<dt><code>next</code></dt>
+<dt><code>irb_next</code></dt>
+<dt><code>delete</code></dt>
+<dt><code>irb_delete</code></dt>
+<dt><code>step</code></dt>
+<dt><code>irb_step</code></dt>
+<dt><code>continue</code></dt>
+<dt><code>irb_continue</code></dt>
+<dt><code>finish</code></dt>
+<dt><code>irb_finish</code></dt>
+<dt><code>backtrace</code></dt>
+<dt><code>bt</code></dt>
+<dt><code>irb_backtrace</code></dt>
+<dt><code>info</code></dt>
+<dt><code>irb_debug_info</code></dt>
+<dd>
+<p>
+デバッガを起動し、debug gem の同名のコマンドを実行します。
+<code>debug</code> コマンドと同様、<code>binding.irb</code> から起動した irb でのみ使えます。
+</p>
 </dd>
 </dl>
 <h2 >システム変数</h2>
@@ -954,22 +1254,22 @@ irb 中の irb_workspaces コマンドのための拡張を定義したクラス
 <tr>
 <td class="signature" style="text-indent: 1.0em;">
 <span style="display:none">&nbsp;</span>
-<a href="../class/IRB=3a=3aReadlineInputMethod.html">IRB::ReadlineInputMethod</a>
+<a href="../class/IRB=3a=3aStdioInputMethod.html">IRB::StdioInputMethod</a>
 </td>
 <td class="description"><p>
-readline を用いた標準入力からの入力を表すクラスです。ライブラリ内部で使用します。
-<a href="../library/readline.html">readline</a> の require に失敗した場合は定義されません。
+標準入力を表すクラスです。ライブラリ内部で使用します。
 </p>
 </td>
 </tr>
 
 <tr>
-<td class="signature" style="text-indent: 1.0em;">
-<span style="display:none">&nbsp;</span>
-<a href="../class/IRB=3a=3aStdioInputMethod.html">IRB::StdioInputMethod</a>
+<td class="signature" style="text-indent: 2.0em;">
+<span style="display:none">&nbsp;&nbsp;</span>
+<a href="../class/IRB=3a=3aReadlineInputMethod.html">IRB::ReadlineInputMethod</a>
 </td>
 <td class="description"><p>
-標準入力を表すクラスです。ライブラリ内部で使用します。
+readline を用いた標準入力からの入力を表すクラスです。ライブラリ内部で使用します。
+<a href="../library/readline.html">readline</a> の require に失敗した場合は定義されません。
 </p>
 </td>
 </tr>
@@ -1026,17 +1326,6 @@ irb のメインモジュールです。
 <tr>
 <td class="signature" style="text-indent: 0.0em;">
 <span style="display:none"></span>
-<a href="../class/IRB=3a=3aCompletor.html">IRB::Completor</a>
-</td>
-<td class="description"><p>
-irb の completion 機能を提供するモジュールです。ユーザがこのモジュールを直接使用することはありません。
-</p>
-</td>
-</tr>
-
-<tr>
-<td class="signature" style="text-indent: 0.0em;">
-<span style="display:none"></span>
 <a href="../class/IRB=3a=3aContextExtender.html">IRB::ContextExtender</a>
 </td>
 <td class="description"><p>
@@ -1052,6 +1341,17 @@ irb の completion 機能を提供するモジュールです。ユーザがこ�
 </td>
 <td class="description"><p>
 irb のコマンドを拡張するためのモジュールです。
+</p>
+</td>
+</tr>
+
+<tr>
+<td class="signature" style="text-indent: 0.0em;">
+<span style="display:none"></span>
+<a href="../class/IRB=3a=3aInputCompletor.html">IRB::InputCompletor</a>
+</td>
+<td class="description"><p>
+irb の completion 機能を提供するモジュールです。ユーザがこのモジュールを直接使用することはありません。
 </p>
 </td>
 </tr>
