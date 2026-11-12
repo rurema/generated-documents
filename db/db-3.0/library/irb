@@ -53,8 +53,20 @@ options:
 --noverbose       これから実行する行を表示しない (デフォルト)
 --echo            実行結果を表示する (デフォルト)
 --noecho          実行結果を表示しない
+--echo-on-assignment
+                  代入式の結果を表示する
+--noecho-on-assignment
+                  代入式の結果を表示しない
+--truncate-echo-on-assignment
+                  代入式の結果を切り詰めて表示する (デフォルト)
 --inspect         結果出力にinspectを用いる
 --noinspect       結果出力にinspectを用いない
+--multiline       マルチラインエディタを利用する
+--nomultiline     マルチラインエディタを利用しない
+--singleline      シングルラインエディタを利用する
+--nosingleline    シングルラインエディタを利用しない
+--colorize        色付けを利用する
+--nocolorize      色付けを利用しない
 --readline        readlineライブラリを利用する
 --noreadline      readlineライブラリを利用しない。デフォルトでは
                   inf-ruby-mode 以外で readline ライブラリを利用する。
@@ -73,12 +85,10 @@ options:
                   バックトレース表示をバックトレースの頭から n、
                   うしろから n だけ行なう。デフォルト値は 16。
 --context-mode n  新しいワークスペースを作成した時に関連する Binding
-                  オブジェクトの作成方法を 0 から 3 で設定する。
+                  オブジェクトの作成方法を 0 から 4 で設定する。
                   (IRB::Context 参照)
 --single-irb      irb 中で self を実行して得られるオブジェクトをサブ irb と共
                   有する
---irb_debug n     irb のデバッグレベルを n に設定する
-                  (ユーザは利用すべきではない)
 -v, --version     irb のバージョンを表示する
 -h, --help        irb のヘルプを表示する
 --                以降のコマンドライン引数をオプションとして扱わない
@@ -105,7 +115,6 @@ irb コマンドのオプションを指定したのと同じ効果が得られ�
 ```ruby
 IRB.conf[:AUTO_INDENT] = false
 IRB.conf[:BACK_TRACE_LIMIT] = 16
-IRB.conf[:DEBUG_LEVEL] = 1
 IRB.conf[:ECHO] = nil
 IRB.conf[:EVAL_HISTORY] = nil
 IRB.conf[:HISTORY_FILE] = nil
@@ -127,6 +136,84 @@ IRB.conf[:VERBOSE] = true
 ```
 
 それぞれの設定値の詳細については、[c:IRB::Context] を参照してください。
+
+上記以外にも、[m:IRB.conf] には以下のキーがあります。
+
+- **`:AP_NAME`**:
+
+  アプリケーション名です。初期値は `"irb"` です。[m:IRB::Context#ap_name] で参照できます。
+
+- **`:AT_EXIT`**:
+
+  irb の終了時に呼び出す [c:Proc] の配列です。初期値は `[]` です。
+
+- **`:CONTEXT_MODE`**:
+
+  新しいワークスペースを作成した時の [c:Binding] オブジェクトの作成方法です。
+  コマンドラインオプション `--context-mode` と同じ意味で、初期値は `4` です。
+
+- **`:ECHO_ON_ASSIGNMENT`**:
+
+  代入式の結果の表示方法です。`true`(表示する)・`false`(表示しない)・`:truncate`(切り詰めて表示する)のいずれかを指定します。
+  初期値は `nil` で、`:truncate` として扱われます。
+
+- **`:IRB_LIB_PATH`**:
+
+  irb のライブラリが置かれているディレクトリのパスです。
+
+- **`:LC_MESSAGES`**:
+
+  メッセージのロケールを表す `IRB::Locale` のオブジェクトです。
+
+- **`:LOAD_MODULES`**:
+
+  起動時に require するライブラリ名の配列です。初期値は `[]` で、`-r` オプションで追加されます。
+
+- **`:MAIN_CONTEXT`**:
+
+  メインの irb の [c:IRB::Context] オブジェクトです。
+
+- **`:MEASURE`**:
+
+  `measure` コマンドによる実行時間の計測が有効かどうかです。初期値は `false` です。
+
+- **`:MEASURE_CALLBACKS`**:
+
+  有効になっている計測のコールバックの配列です。初期値は `[]` です。
+
+- **`:MEASURE_PROC`**:
+
+  `measure` コマンドで選べる計測方法を、名前をキー、[c:Proc] を値として保持する [c:Hash] です。
+  初期値として `:TIME` と `:STACKPROF` が定義されています。
+
+- **`:RC`**:
+
+  設定ファイルの読み込みを行うかどうかです。初期値は `true` で、`-f` オプションを指定すると `false` になります。
+  [m:IRB::Context#rc?] でも参照できます。
+
+- **`:USE_COLORIZE`**:
+
+  色付けを使うかどうかです。コマンドラインオプション `--colorize`・`--nocolorize` で指定できます。
+
+- **`:__MAIN__`**:
+
+  irb の main オブジェクト (self) です。
+
+#### 環境変数 {#environment_variables}
+
+irb は以下の環境変数を参照します。
+
+- **`IRBRC`**:
+- **`XDG_CONFIG_HOME`**:
+
+  設定ファイルの探索に使います。前述の「irb のカスタマイズ」を参照してください。
+
+- **`IRB_LANG`**:
+- **`LC_MESSAGES`**:
+- **`LC_ALL`**:
+- **`LANG`**:
+
+  メッセージのロケールの決定に使います。この順に参照し、最初に見つかったものを使います。
 
 #### プロンプトのカスタマイズ {#customize_prompt}
 
@@ -185,11 +272,11 @@ PROMPT_I, PROMPT_S, PROMPT_C にはフォーマット文字列を指定します
 例えば、デフォルトのプロンプトモードである「default」プロンプトモードは以下のように設定されています。
 
 ```ruby
-IRB.conf[:PROMPT_MODE][:DEFAULT] = {
+IRB.conf[:PROMPT][:DEFAULT] = {
   :PROMPT_I => "%N(%m):%03n:%i> ",
   :PROMPT_S => "%N(%m):%03n:%i%l ",
   :PROMPT_C => "%N(%m):%03n:%i* ",
-  :RETURN => "%s\n"
+  :RETURN => "=> %s\n"
 }
 ```
 
@@ -209,8 +296,6 @@ irb(main):004:0> x = "OK"          # ローカル変数 x を定義
 irb(main):005:0> x                 # x を表示
 => "OK"
 irb(main):006:0> irb               # サブ irb を起動
-Multi-irb commands are deprecated and will be removed in IRB 2.0.0. Please use workspace commands instead.
-If you have any use case for multi-irb, please leave a comment at https://github.com/ruby/irb/issues/653
 irb#1(main):001:0> x               # x を表示
 (irb#1):1:in `<top (required)>': undefined local variable or method `x' for main (NameError)
         from <internal:kernel>:187:in `loop'
@@ -219,9 +304,6 @@ irb#1(main):001:0> x               # x を表示
 起動時のインタプリタでローカル変数 x を定義しましたが、「irb」でサブ irb を起動すると、ローカル変数 x が見えなくなっています。
 これが「独立した環境」の意味です。
 
-なお、「irb」コマンドによるサブ irb の起動(multi-irb)は非推奨となっており、将来の IRB 2.0.0 で削除される予定です。
-今後は後述の「irb で使用可能なコマンド一覧」にある workspace 関連のコマンド
-(`cws`、`pushws` など)の利用が推奨されています。
 
 ### サブ irb の設定 {#configure_sub_irb}
 
@@ -497,6 +579,16 @@ irb のコマンドは、簡単な名前と頭に「irb_」をつけた名前と
       str.match(pattern, pos)   -> matchdata or nil
     ...
   ```
+
+- **`measure`**:
+
+  式の実行時間を計測するモードを有効にします。`measure :off` で無効にします。
+  計測方法は `IRB.conf[:MEASURE_PROC]` で追加できます。
+
+- **`irb_info`**:
+
+  Ruby と irb のバージョンなど、irb の情報を表示します。
+
 
 ### システム変数
 

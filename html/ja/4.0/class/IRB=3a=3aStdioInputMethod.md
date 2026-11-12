@@ -12,4 +12,4 @@
 - [eof?](../method/IRB=3a=3aStdioInputMethod/i/eof=3f.md)
 - [gets](../method/IRB=3a=3aStdioInputMethod/i/gets.md)
 - [line](../method/IRB=3a=3aStdioInputMethod/i/line.md)
-- [readable_atfer_eof?](../method/IRB=3a=3aStdioInputMethod/i/readable_atfer_eof=3f.md)
+- [readable_after_eof?](../method/IRB=3a=3aStdioInputMethod/i/readable_after_eof=3f.md)
